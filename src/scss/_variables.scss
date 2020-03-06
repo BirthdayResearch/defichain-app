@@ -1,0 +1,20 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+
+// Color system
+
+$dfi-purple:  #5B10FF;
+$dfi-green:   #02B31B;
+$dfi-orange:  #FF9629;
+$dfi-red:     #FF0000;
+$dfi-scent:   #F4F3F6;
+
+
+$dfi-colors: (
+  "dfi-purple":   $dfi-purple,
+  "dfi-green":    $dfi-green,
+  "dfi-orange":   $dfi-orange,
+  "dfi-red":      $dfi-red,
+  "dfi-scent":    $dfi-scent
+);

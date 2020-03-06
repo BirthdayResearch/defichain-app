@@ -1,0 +1,22 @@
+//
+// APPLICATION + BOOTSTRAP STYLES
+//
+
+// Import app variables
+@import './scss/variables';
+
+// Import custom Bootstrap variables (which uses app variables)
+@import './scss/bootstrap/variables';
+
+// Import individual bootstrap overrides
+
+// Import Bootstrap and its default variables
+// Note: Bootstrap must be imported AFTER customizations
+@import '~bootstrap/scss/bootstrap.scss';
+
+
+//
+// APPLICATION-ONLY STYLES
+//
+
+// Import layout, typography, etc
