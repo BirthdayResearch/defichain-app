@@ -49,6 +49,7 @@ class ReceivePage extends Component {
                     type="text" inputMode="numeric" placeholder="Amount to Receive"
                     name="amountToReceive" id="amountToReceive"
                     onChange={this.updateAmountToReceive}
+                    autoFocus
                   />
                   <Label for="amountToReceive">Amount</Label>
                   <InputGroupAddon addonType="append">
