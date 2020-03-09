@@ -17,15 +17,14 @@
     }
   }
 
-  .modal-body {
-    padding: 0;
+  &.flashed .modal-content {
+    &:before {
+      animation: flashed 0.6s;
+    }
   }
 
-  &.flashed {
-    &:before {
-      animation-name: flashed;
-      animation-duration: 0.3s;
-    }
+  .modal-body {
+    padding: 0;
   }
 }
 
