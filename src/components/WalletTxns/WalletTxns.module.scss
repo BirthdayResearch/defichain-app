@@ -1,0 +1,52 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.table {
+  margin-bottom: 0;
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr:first-child td {
+    border-top: none;
+  }
+}
+
+.typeIcon {
+  width: 24px;
+  height: 24px;
+  color: $gray-600;
+}
+
+.type,
+.time {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  letter-spacing: .25px;
+  white-space: nowrap;
+}
+
+.time {
+  color: $gray-600;
+}
+
+.hash {
+  font-size: .75rem;
+  line-height: 1rem;
+  letter-spacing: .21px;
+  color: $gray-600;
+}
+
+.value {
+  text-align: right;
+  letter-spacing: .44px;
+}
+
+.unit {
+  color: $gray-600;
+}

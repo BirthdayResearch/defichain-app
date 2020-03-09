@@ -1,0 +1,71 @@
+body {
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+
+  > main {
+    flex-grow: 1;
+
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header-bar {
+      position: relative;
+      height: 112px;
+      border-bottom: 1px solid $gray-200;
+      padding: 24px 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-shrink: 0;
+
+      h1 {
+        margin-bottom: 0;
+      }
+
+      .btn-group {
+        margin-right: -16px;
+        margin-bottom: -12px;
+      }
+
+      .header-bar-back {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+      }
+      
+      @include media-breakpoint-down(sm) {
+        .btn span {
+          display: none;
+        }
+
+        .btn svg {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .content {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 32px;
+
+      section {
+        margin-bottom: 8px;
+      }
+    }
+
+    .footer-bar {
+      height: 80px;
+      padding: 16px 32px;
+      border-top: 1px solid $gray-200;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+
+.sidebar {
+  width: 224px;
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  height: 112px;
+  border-bottom: 1px solid $gray-200;
+  padding: 24px 20px;
+  display: flex;
+  flex-shrink: 0;
+
+  img {
+    align-self: flex-end;
+  }
+}
+
+.navs {
+  flex-grow: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.navMain,
+.navSub {
+  margin-top: 12px;
+  margin-bottom: 16px;
+
+  .navItem {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .navLink {
+    color: $gray-600;
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+    }
+  }
+
+  .active {
+    background-color: $dfi-scent;
+    color: $body-color;
+
+    svg {
+      color: $primary;
+    }
+  }
+}

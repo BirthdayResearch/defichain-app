@@ -1,0 +1,55 @@
+//
+// Base styles
+//
+
+.btn {
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  appearance: none;
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled {
+    background-color: $gray-300;
+    border-color: transparent;
+    color: rgba($white, 0.6);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+    &:last-child {
+      display: block;
+    }
+  }
+}
+
+
+//
+// Link buttons
+//
+
+// Make a button look and behave like a link
+.btn-link {
+  font-weight: $font-weight-medium;
+  
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+
+//
+// Alternate buttons
+//
+
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+    background-color: $input-bg;
+    border-color: $input-border-color;
+  }
+}
