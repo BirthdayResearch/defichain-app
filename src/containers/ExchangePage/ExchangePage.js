@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 class ExchangePage extends Component {
   render() {
     return (
-      <div>
+      <div className="main-wrapper">
         <Helmet>
           <title>Exchange – DeFi Blockchain Client</title>
         </Helmet>

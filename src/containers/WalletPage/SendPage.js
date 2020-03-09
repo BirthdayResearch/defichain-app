@@ -16,24 +16,31 @@ import {
 } from 'reactstrap';
 import {
   MdArrowBack,
-  MdCropFree
+  MdCropFree,
+  MdCheckCircle
 } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
-import QrReader from 'react-qr-reader'
+import QrReader from 'react-qr-reader';
+import styles from './SendPage.module.scss';
 
 class SendPage extends Component {
   state = {
     walletBalance: 100,
     amountToSend: '',
+    amountToSendDisplayed: 0,
     toAddress: '',
     scannerOpen: false,
-    flashed: ''
+    flashed: '',
+    showBackdrop: '',
+    sendStep: 'default'
   };
 
   updateAmountToSend = (e) => {
-    let amountToSend = e.target.value;
+    let amountToSend = !isNaN(e.target.value) && e.target.value.length ? e.target.value : ''
+    let amountToSendDisplayed = !isNaN(amountToSend) && amountToSend.length ? amountToSend : '0'
     this.setState({
-      amountToSend: amountToSend
+      amountToSend: amountToSend,
+      amountToSendDisplayed: amountToSendDisplayed
     });
   }
 
@@ -46,7 +53,8 @@ class SendPage extends Component {
 
   maxAmountToSend = () => {
     this.setState({
-      amountToSend: this.state.walletBalance
+      amountToSend: this.state.walletBalance,
+      amountToSendDisplayed: this.state.walletBalance
     });
   }
 
@@ -77,8 +85,29 @@ class SendPage extends Component {
     }
   }
 
-  handleError = err => {
+  handleScanError = err => {
     console.error(err)
+  }
+
+  sendStepDefault = () => {
+    this.setState({
+      sendStep: 'default',
+      showBackdrop: ''
+    });
+  }
+
+  sendStepConfirm = () => {
+    this.setState({
+      sendStep: 'confirm',
+      showBackdrop: 'show-backdrop'
+    });
+  }
+
+  sendTransaction = () => {
+    this.setState({
+      sendStep: 'success',
+      showBackdrop: 'show-backdrop'
+    });
   }
 
   render() {
@@ -149,7 +178,7 @@ class SendPage extends Component {
               <ModalBody>
                 <QrReader
                   delay={1000}
-                  onError={this.handleError}
+                  onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
                   style={{ width: '100%' }}
@@ -160,28 +189,87 @@ class SendPage extends Component {
           </section>
         </div>
         <footer className="footer-bar">
-          <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">
-              <div className="caption-secondary">Wallet balance</div>
-              <div>{this.state.walletBalance} DFI</div>
-            </Col>
-            <Col className="col-auto">
-              <div className="caption-secondary">Amount to send</div>
-              <div>
-                {!isNaN(this.state.amountToSend) && this.state.amountToSend.length ? this.state.amountToSend : '0'} DFI
+          <div className={`footer-bar-step ${this.state.sendStep === 'default' ? 'footer-bar-step-show' : ''}`}>
+            <Row className="justify-content-between align-items-center">
+              <Col className="col-auto">
+                <div className="caption-secondary">Wallet balance</div>
+                <div>{this.state.walletBalance} DFI</div>
+              </Col>
+              <Col className="col-auto">
+                <div className="caption-secondary">Amount to send</div>
+                <div>
+                  {this.state.amountToSendDisplayed} DFI
+                </div>
+              </Col>
+              <Col className="d-flex justify-content-end">
+                <Button
+                  to="/wallet" tag={NavLink}
+                  color="link" className="mr-3"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  disabled={
+                    (!this.state.amountToSend || !this.state.toAddress) ? true : false
+                  }
+                  onClick={this.sendStepConfirm}> Continue
+              </Button>
+              </Col>
+            </Row>
+          </div>
+          <div className={`footer-bar-step ${this.state.sendStep === 'confirm' ? 'footer-bar-step-show' : ''}`}>
+            <div className="footer-sheet">
+              <dl class="row">
+                <dt class="col-sm-3 text-right">Amount</dt>
+                <dd class="col-sm-9">
+                  <span className="h2 mb-0">{this.state.amountToSend} DFI</span>
+                </dd>
+                <dt class="col-sm-3 text-right">To</dt>
+                <dd class="col-sm-9">{this.state.toAddress}</dd>
+              </dl>
+            </div>
+            <Row className="justify-content-between align-items-center">
+              <Col className="col-auto">
+                Please verify amount and recipient and press SEND.
+              </Col>
+              <Col className="d-flex justify-content-end">
+                <Button
+                  color="link" className="mr-3"
+                  onClick={this.sendStepDefault}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={this.sendTransaction}
+                >
+                  Send
+                </Button>
+              </Col>
+            </Row>
+          </div>
+          <div className={`footer-bar-step ${this.state.sendStep === 'success' ? 'footer-bar-step-show' : ''}`}>
+            <div className="footer-sheet">
+              <div className="text-center">
+                <MdCheckCircle className="footer-sheet-icon" />
+                <p>The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.</p>
               </div>
-            </Col>
-            <Col className="d-flex justify-content-end">
-              <Button to="/wallet" tag={NavLink} color="link" className="mr-3">Cancel</Button>
+            </div>
+            <div className="d-flex align-items-center justify-content-end">
               <Button
                 color="primary"
-                disabled={
-                  (!this.state.amountToSend.length || !this.state.toAddress.length) ? true : false
-                }> Continue
+                to="/wallet" tag={NavLink}
+              >
+                  Back to wallet
               </Button>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </footer>
+        <div
+          className={`footer-backdrop ${this.state.showBackdrop}`}
+          onClick={this.sendStepDefault}
+        />
       </div>
     );
   }

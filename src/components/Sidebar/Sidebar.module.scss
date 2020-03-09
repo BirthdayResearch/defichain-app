@@ -11,11 +11,13 @@
   background-color: $white;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
+  border-right: $border-width solid $border-color;
 }
 
 .brand {
   height: 112px;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: $border-width solid $border-color;
   padding: 24px 20px;
   display: flex;
   flex-shrink: 0;

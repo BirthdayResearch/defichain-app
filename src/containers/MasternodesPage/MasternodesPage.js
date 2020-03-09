@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 class MasternodesPage extends Component {
   render() {
     return (
-      <div>
+      <div className="main-wrapper">
         <Helmet>
           <title>Masternodes – DeFi Blockchain Client</title>
         </Helmet>
