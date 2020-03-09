@@ -226,8 +226,8 @@ $border-width:                1px;
 $border-color:                $gray-200;
 
 $border-radius:               .25rem;
-$border-radius-lg:            1rem;
-$border-radius-sm:            .25rem;
+$border-radius-lg:            .5rem;
+$border-radius-sm:            .125rem;
 
 $rounded-pill:                50rem;
 
@@ -928,7 +928,7 @@ $modal-title-line-height:           $line-height-base;
 
 $modal-content-color:               null;
 $modal-content-bg:                  $white;
-$modal-content-border-color:        rgba($black, .2);
+$modal-content-border-color:        $gray-200;
 $modal-content-border-width:        $border-width;
 $modal-content-border-radius:       $border-radius-lg;
 $modal-content-inner-border-radius: subtract($modal-content-border-radius, $modal-content-border-width);
@@ -936,7 +936,7 @@ $modal-content-box-shadow-xs:       0 .25rem .5rem rgba($black, .5);
 $modal-content-box-shadow-sm-up:    0 .5rem 1rem rgba($black, .5);
 
 $modal-backdrop-bg:                 $black;
-$modal-backdrop-opacity:            .5;
+$modal-backdrop-opacity:            .2;
 $modal-header-border-color:         $border-color;
 $modal-footer-border-color:         $modal-header-border-color;
 $modal-header-border-width:         $modal-content-border-width;
