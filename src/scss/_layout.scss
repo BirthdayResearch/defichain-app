@@ -13,12 +13,13 @@ body {
       display: flex;
       flex-direction: column;
       height: 100vh;
+      position: relative;
     }
 
     .header-bar {
       position: relative;
       height: 112px;
-      border-bottom: 1px solid $gray-200;
+      border-bottom: $border-width solid $border-color;
       padding: 24px 32px;
       display: flex;
       align-items: flex-end;
@@ -62,10 +63,52 @@ body {
     }
 
     .footer-bar {
-      height: 80px;
+      position: relative;
+      z-index: $zindex-modal;
       padding: 16px 32px;
-      border-top: 1px solid $gray-200;
+      background-color: $body-bg;
+      border-top: $border-width solid $border-color;
       width: 100%;
+    }
+
+    .footer-sheet {
+      min-height: 192px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-sheet-icon {
+      width: 48px;
+      height: 48px;
+      color: $green;
+      margin-bottom: 1rem;
+    }
+
+    .footer-bar-step {
+      display: none;
+
+      &.footer-bar-step-show {
+        display: block;
+      }
+    }
+  }
+
+  .footer-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: $zindex-modal-backdrop;
+    width: 100%;
+    height: 100%;
+    background-color: $modal-backdrop-bg;
+    opacity: $modal-backdrop-opacity;
+    display: none;
+
+    &.show-backdrop {
+      display: block;
     }
   }
 }
