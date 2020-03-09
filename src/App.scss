@@ -5,14 +5,19 @@
 // Google fonts IBM Plex Sans
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
-// Import app and bootstrap dependencies
+//
+// Import app and Bootstrap dependencies
+//
 @import './scss/variables';
 @import '~bootstrap/scss/functions';
 @import "~bootstrap/scss/variables";
 @import './scss/bootstrap/variables';
 @import "~bootstrap/scss/mixins";
 
-// Import Bootstrap and its default variables
+//
+// Import Bootstrap piecemeal
+//
+
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
@@ -48,9 +53,10 @@
 @import "~bootstrap/scss/utilities";
 // @import "~bootstrap/scss/print";
 
-// Import individual bootstrap overrides
-// Then customize Bootstrap styles/components as necessary
+//
+// Customize Bootstrap as necessary
 // These files don't exist yet. To customize, copy from Bootstrap, edit, then uncomment.
+
 // @import './scss/bootstrap/root';
 // @import './scss/bootstrap/reboot';
 @import './scss/bootstrap/type';
@@ -83,7 +89,7 @@
 
 //
 // APPLICATION-ONLY STYLES
-//
+// This is where non-Bootstrap-related styles go
 
 @import './scss/type';
 @import './scss/layout';
