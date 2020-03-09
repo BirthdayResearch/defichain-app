@@ -70,7 +70,10 @@ class SendPage extends Component {
       });
       setTimeout(() => {
         this.toggleScanner();
-      }, 300);
+        this.setState({
+          flashed: ''
+        });
+      }, 600);
     }
   }
 
@@ -140,12 +143,12 @@ class SendPage extends Component {
             <Modal
               isOpen={this.state.scannerOpen}
               toggle={this.toggleScanner}
-              centered="true"
-              className={`qr-scanner #{this.state.flashed}`}
+              centered={true}
+              className={`qr-scanner ${this.state.flashed}`}
             >
               <ModalBody>
                 <QrReader
-                  delay={300}
+                  delay={1000}
                   onError={this.handleError}
                   onScan={this.handleScan}
                   showViewFinder={false}
