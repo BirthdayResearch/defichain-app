@@ -11,6 +11,8 @@
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "bootstrap": "^4.4.1",
+    "d3-fetch": "^1.1.2",
+    "d3-scale": "^3.2.1",
     "electron": "^8.0.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
