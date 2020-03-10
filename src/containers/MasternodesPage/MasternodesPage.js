@@ -12,6 +12,7 @@ import {
 import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
 import classnames from 'classnames';
 import StatCard from '../../components/StatCard/StatCard';
+import MasternodesList from './MasternodesList';
 
 class MasternodesPage extends Component {
   state = {
@@ -96,13 +97,16 @@ class MasternodesPage extends Component {
                   </Col>
                 </Row>
               </section>
-              <section>
+              {/* <section>
                 <h2>Masternodes map</h2>
-              </section>
+                <Card>
+                  <MapChart />
+                </Card>
+              </section> */}
             </TabPane>
             <TabPane tabId="list">
               <section>
-                List
+                <MasternodesList />
               </section>
             </TabPane>
           </TabContent>

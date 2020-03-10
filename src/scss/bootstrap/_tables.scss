@@ -1,0 +1,11 @@
+//
+// Basic Bootstrap table
+//
+
+.table {
+  thead th {
+    border-bottom-width: $table-border-width;
+    white-space: nowrap;
+    font-weight: $font-weight-medium;
+  }
+}
