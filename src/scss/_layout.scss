@@ -26,8 +26,18 @@ body {
       justify-content: space-between;
       flex-shrink: 0;
 
+      > h1,
+      > .nav,
+      > .spacer {
+        flex-grow: 1;
+      }
+
       h1 {
         margin-bottom: 0;
+      }
+
+      .nav {
+        margin-bottom: -4px;
       }
 
       .btn-group {

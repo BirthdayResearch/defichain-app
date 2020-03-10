@@ -135,7 +135,8 @@ $spacers: map-merge(
     2: ($spacer * .5),
     3: $spacer,
     4: ($spacer * 1.5),
-    5: ($spacer * 3)
+    5: ($spacer * 2),
+    6: ($spacer * 3)
   ),
   $spacers
 );
@@ -328,7 +329,9 @@ $hr-margin-y:                 $spacer;
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-cell-padding:          .75rem 1rem;
+$table-cell-padding-x:        1rem;
+$table-cell-padding-y:        .75rem;
+$table-cell-padding:          $table-cell-padding-y $table-cell-padding-x;
 $table-cell-padding-sm:       .25rem;
 
 $table-color:                 $body-color;
@@ -673,7 +676,7 @@ $zindex-tooltip:                    1070;
 
 // Navs
 
-$nav-link-padding-y:                .75rem;
+$nav-link-padding-y:                .5rem;
 $nav-link-padding-x:                1rem;
 $nav-link-disabled-color:           $gray-600;
 
