@@ -40,7 +40,8 @@ body {
 
       > h1,
       > .nav,
-      > .spacer {
+      > .btn-group,
+      > .btn {
         flex-grow: 1;
       }
 
@@ -49,12 +50,18 @@ body {
       }
 
       .nav {
-        margin-bottom: -4px;
+        margin-bottom: -8px;
       }
 
-      .btn-group {
+      > .btn-group {
+        display: flex;
+        justify-content: flex-end;
         margin-right: -16px;
-        margin-bottom: -12px;
+        margin-bottom: -8px;
+
+        .btn {
+          flex-grow: 0;
+        }
       }
 
       .header-bar-back {
@@ -107,14 +114,6 @@ body {
       height: 48px;
       color: $green;
       margin-bottom: 1rem;
-    }
-
-    .footer-bar-step {
-      display: none;
-
-      &.footer-bar-step-show {
-        display: block;
-      }
     }
   }
 

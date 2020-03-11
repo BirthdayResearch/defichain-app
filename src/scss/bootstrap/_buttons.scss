@@ -19,9 +19,12 @@
   svg {
     width: 24px;
     height: 24px;
+    vertical-align: top;
+
     &:not(:last-child) {
       margin-right: 8px;
     }
+
     &:last-child {
       display: block;
     }
@@ -51,5 +54,12 @@
   .btn-outline-#{$color} {
     background-color: $input-bg;
     border-color: $input-border-color;
+
+    &:not(:disabled):not(.disabled):hover,
+    &:not(:disabled):not(.disabled):active {
+      color: $value;
+      background-color: $dfi-scent;
+      border-color: $input-border-color;
+    }
   }
 }
