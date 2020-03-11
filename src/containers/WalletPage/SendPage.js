@@ -21,6 +21,7 @@ import {
 } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import QrReader from 'react-qr-reader';
+import classnames from 'classnames';
 
 class SendPage extends Component {
   state = {
@@ -188,7 +189,7 @@ class SendPage extends Component {
           </section>
         </div>
         <footer className="footer-bar">
-          <div className={`footer-bar-step ${this.state.sendStep === 'default' ? 'footer-bar-step-show' : ''}`}>
+          <div className={classnames({ 'd-none': this.state.sendStep !== 'default' })}>
             <Row className="justify-content-between align-items-center">
               <Col className="col-auto">
                 <div className="caption-secondary">Wallet balance</div>
@@ -217,7 +218,7 @@ class SendPage extends Component {
               </Col>
             </Row>
           </div>
-          <div className={`footer-bar-step ${this.state.sendStep === 'confirm' ? 'footer-bar-step-show' : ''}`}>
+          <div className={classnames({ 'd-none': this.state.sendStep !== 'confirm' })}>
             <div className="footer-sheet">
               <dl class="row">
                 <dt class="col-sm-3 text-right">Amount</dt>
@@ -248,7 +249,7 @@ class SendPage extends Component {
               </Col>
             </Row>
           </div>
-          <div className={`footer-bar-step ${this.state.sendStep === 'success' ? 'footer-bar-step-show' : ''}`}>
+          <div className={classnames({ 'd-none': this.state.sendStep !== 'success' })}>
             <div className="footer-sheet">
               <div className="text-center">
                 <MdCheckCircle className="footer-sheet-icon" />
