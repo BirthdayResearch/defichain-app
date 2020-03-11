@@ -12,7 +12,7 @@ import {
 } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import StatCard from '../../components/StatCard/StatCard';
-import WalletTxns from '../../components/WalletTxns/WalletTxns';
+import WalletTxns from './WalletTxns';
 
 class WalletPage extends Component {
   render() {
