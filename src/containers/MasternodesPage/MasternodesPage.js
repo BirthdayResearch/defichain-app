@@ -7,16 +7,23 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col
+  Col,
+  Button,
+  ButtonGroup
 } from 'reactstrap';
+import {
+  MdSearch
+} from "react-icons/md";
 import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
 import classnames from 'classnames';
 import StatCard from '../../components/StatCard/StatCard';
+import SearchBar from '../../components/SearchBar/SearchBar';
 import MasternodesList from './MasternodesList';
 
 class MasternodesPage extends Component {
   state = {
-    activeTab: 'statistics'
+    activeTab: 'statistics',
+    searching: false
   }
 
   setActiveTab = tab => {
@@ -27,6 +34,12 @@ class MasternodesPage extends Component {
     }
   }
 
+  toggleSearch = () => {
+    this.setState({
+      searching: !this.state.searching
+    });
+  }
+
   render() {
     return (
       <div className="main-wrapper">
@@ -34,8 +47,11 @@ class MasternodesPage extends Component {
           <title>Masternodes – DeFi Blockchain Client</title>
         </Helmet>
         <header className="header-bar">
-          <h1>Masternodes</h1>
-          <Nav pills>
+          <h1 className={classnames({ 'd-none': this.state.searching })}>Masternodes</h1>
+          <Nav
+            pills
+            className={classnames({ 'd-none': this.state.searching })}
+          >
             <NavItem>
               <NavLink
                 className={classnames({ active: this.state.activeTab === 'statistics' })}
@@ -53,7 +69,19 @@ class MasternodesPage extends Component {
               </NavLink>
             </NavItem>
           </Nav>
-          <div className="spacer"></div>
+          <ButtonGroup className={classnames({ 'd-none': this.state.searching })}>
+            <Button
+              color="link" size="sm"
+              className={classnames({ 'invisible': this.state.activeTab === 'statistics' })}
+              onClick={this.toggleSearch}
+            >
+              <MdSearch />
+            </Button>
+          </ButtonGroup>
+          <SearchBar
+            searching={this.state.searching}
+            toggleSearch={this.toggleSearch}
+          />
         </header>
         <div className="content">
           <TabContent activeTab={this.state.activeTab}>
