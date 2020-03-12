@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
+import BlockchainTable from './BlockchainTable';
 
 class BlockchainPage extends Component {
   render() {
@@ -12,13 +13,10 @@ class BlockchainPage extends Component {
           <h1>Blockchain</h1>
         </header>
         <div className="content">
-          <section>
-            Section
+          <section className="mb-0">
+            <BlockchainTable />
           </section>
         </div>
-        <footer className="footer-bar">
-          Footer Bar
-        </footer>
       </div>
     );
   }

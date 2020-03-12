@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   MdClose,
   MdSearch
@@ -6,7 +6,6 @@ import {
 import {
   Col,
   FormGroup,
-  Label,
   Input,
   InputGroup,
   InputGroupAddon,

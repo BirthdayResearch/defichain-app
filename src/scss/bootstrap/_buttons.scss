@@ -25,10 +25,28 @@
       margin-right: 8px;
     }
 
-    &:last-child {
+    &:not(:first-child) {
+      margin-left: 8px;
+    }
+
+    &:first-child:last-child {
       display: block;
     }
   }
+
+  &.padless {
+    padding: 0;
+    border: 0;
+  }
+}
+
+
+//
+// Button variants
+//
+
+.btn-light {
+  color: $body-color;
 }
 
 
@@ -40,8 +58,16 @@
 .btn-link {
   font-weight: $font-weight-medium;
   
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: none;
+  }
+
+  &:focus,
+  &:active {
+    svg {
+      color: $primary;
+    }
   }
 }
 
@@ -57,8 +83,8 @@
 
     &:not(:disabled):not(.disabled):hover,
     &:not(:disabled):not(.disabled):active {
-      color: $value;
-      background-color: $dfi-scent;
+      color: $link-hover-color;
+      background-color: $input-bg;
       border-color: $input-border-color;
     }
   }

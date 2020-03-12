@@ -36,7 +36,7 @@ class MasternodesList extends Component {
   render() {
     return (
       <Card className={styles.card}>
-        <div className="table-responsive-xl">
+        <div className={`${styles.tableResponsive} table-responsive-xl`}>
           <Table className={styles.table}>
             <thead>
               <tr>
