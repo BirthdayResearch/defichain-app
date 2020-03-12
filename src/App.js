@@ -13,6 +13,7 @@ import BlockPage from './containers/BlockchainPage/BlockPage';
 import MinerPage from './containers/BlockchainPage/MinerPage';
 import ExchangePage from './containers/ExchangePage/ExchangePage';
 import HelpPage from './containers/HelpPage/HelpPage';
+import Error404Page from './containers/Errors/Error404Page';
 import SettingsPage from './containers/SettingsPage/SettingsPage';
 
 class App extends Component {
@@ -36,6 +37,7 @@ class App extends Component {
             <Route path="/exchange" component={ExchangePage} />
             <Route path="/help" component={HelpPage} />
             <Route path="/settings" component={SettingsPage} />
+            <Route component={Error404Page} />
           </Switch>
         </main>
       </div>
