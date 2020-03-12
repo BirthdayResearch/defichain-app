@@ -117,7 +117,7 @@ class SendPage extends Component {
           <title>Send DFI – DeFi Blockchain Client</title>
         </Helmet>
         <header className="header-bar">
-          <Button to="/wallet" tag={NavLink} color="link" className="header-bar-back">
+          <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
             <span className="d-lg-inline">Wallet</span>
           </Button>
@@ -259,7 +259,7 @@ class SendPage extends Component {
             <div className="d-flex align-items-center justify-content-end">
               <Button
                 color="primary"
-                to="/wallet" tag={NavLink}
+                to="/" tag={NavLink}
               >
                   Back to wallet
               </Button>
