@@ -41,7 +41,7 @@ class WalletTxns extends Component {
           <tbody>
             {this.state.txns.map((txn) => (
               <tr key={txn.id}>
-                <td>
+                <td className={styles.typeIcon}>
                   {TxnTypeIcon(txn.type)}
                 </td>
                 <td>
