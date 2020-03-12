@@ -21,6 +21,7 @@
     "eslint-plugin-react": "^7.18.3",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
     "react-icons": "^3.9.0",

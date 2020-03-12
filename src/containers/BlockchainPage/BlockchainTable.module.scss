@@ -10,7 +10,7 @@
 }
 
 .tableResponsive {
-  height: calc(100vh - 186px);
+  height: calc(100vh - 236px);
   min-height: 400px;
   overflow: auto;
 }
@@ -35,8 +35,8 @@
   }
 }
 
-.status {
-  width: 24px;
-  height: 24px;
-  color: $gray-600;
+.pagination {
+  ul {
+    margin-bottom: 0;
+  }
 }

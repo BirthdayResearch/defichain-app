@@ -5,7 +5,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, withRouter } from 'react-router-dom';
 import {
   MdAccountBalanceWallet,
   MdDns,
@@ -24,7 +24,12 @@ class Sidebar extends Component {
         <div className={styles.navs}>
           <Nav className={`${styles.navMain} flex-column nav-pills`}>
             <NavItem className={styles.navItem}>
-              <NavLink to="/wallet" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/" exact
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 <MdAccountBalanceWallet />
                 Wallet
               </NavLink>
@@ -66,4 +71,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

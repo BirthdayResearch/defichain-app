@@ -7,8 +7,35 @@
 
 .keyValueLi {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
   padding: $table-cell-padding-y 0;
   border-bottom: $table-border-width solid $table-border-color;
+}
+
+.label {
+  padding-right: 1rem;
+}
+
+.value {
+  position: relative;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-align: right;
+
+  svg {
+    display: block;
+    color: $gray-600;
+  }
+}
+
+.copiedIndicator {
+  position: absolute;
+  top: 0; left: 0;
+  width: calc(100% - 32px);
+  height: 100%;
+  background-color: $body-bg;
+  text-align: center;
+  display: none;
 }
