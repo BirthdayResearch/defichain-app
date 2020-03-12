@@ -34,7 +34,7 @@ class ReceivePage extends Component {
           <title>Receive DFI – DeFi Blockchain Client</title>
         </Helmet>
         <header className="header-bar">
-          <Button to="/wallet" tag={NavLink} color="link" className="header-bar-back">
+          <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
             <span className="d-lg-inline">Wallet</span>
           </Button>
@@ -71,7 +71,7 @@ class ReceivePage extends Component {
               <div>{this.state.amountToReceive} DFI</div>
             </div>
             <div>
-              <Button to="/wallet" tag={NavLink} color="link" className="mr-3">Cancel</Button>
+              <Button to="/" tag={NavLink} color="link" className="mr-3">Cancel</Button>
               <Button color="primary" disabled={true}>Continue</Button>
             </div>
           </div>
