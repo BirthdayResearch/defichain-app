@@ -31,7 +31,8 @@
     "react-simple-maps": "^1.0.0-beta.0",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.4.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "uifx": "^2.0.7"
   },
   "scripts": {
     "start": "nf start -p 3000",
