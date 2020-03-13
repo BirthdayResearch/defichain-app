@@ -29,6 +29,9 @@ class Sidebar extends Component {
                 tag={RRNavLink}
                 className={styles.navLink}
                 activeClassName={styles.active}
+                isActive={(match, location) => {
+                  return location.pathname.startsWith("/wallet") || location.pathname === "/";
+                }}
               >
                 <MdAccountBalanceWallet />
                 Wallet

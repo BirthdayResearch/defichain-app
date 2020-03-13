@@ -1,0 +1,85 @@
+// Transitions
+
+#app > main .main-wrapper {
+  position: absolute;
+}
+
+.transition-group {
+  position: relative;
+
+  > div {
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
+}
+
+// Push
+
+.transit-push-enter {
+  z-index: 1;
+  opacity: 0;
+  left: 20%;
+  transition: all 300ms ease;
+}
+
+.transit-push-enter.transit-push-enter-active {
+  opacity: 1;
+  left: 0;
+}
+
+.transit-push-exit {
+  z-index: 0;
+  opacity: 1;
+  left: 0;
+  transition: all 300ms ease;
+}
+
+.transit-push-exit.transit-push-exit-active {
+  opacity: 0;
+  left: -20%;
+}
+
+// Pop
+
+.transit-pop-enter {
+  z-index: 1;
+  opacity: 0;
+  left: -20%;
+  transition: all 300ms ease;
+}
+
+.transit-pop-enter.transit-pop-enter-active {
+  opacity: 1;
+  left: 0;
+}
+
+.transit-pop-exit {
+  z-index: 0;
+  opacity: 1;
+  left: 0;
+  transition: all 300ms ease;
+}
+
+.transit-pop-exit.transit-pop-exit-active {
+  opacity: 0;
+  left: 20%;
+}
+
+// Fade
+
+.transit-fade-enter {
+  z-index: 1;
+  opacity: 0;
+  transition: all 300ms ease;
+}
+
+.transit-fade-enter.transit-fade-enter-active {
+  opacity: 1;
+}
+
+.transit-fade-exit {
+  z-index: 0;
+  opacity: 1;
+  transition: all 300ms ease;
+}
