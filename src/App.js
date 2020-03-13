@@ -31,7 +31,6 @@ class App extends Component {
 
   determineTransition = () => {
     const depth = getPathDepth(this.props.location) - this.state.prevDepth;
-    console.log(depth);
     if (depth < 0) {
       return ['transit-pop', 300];
     } else if (depth > 0) {
@@ -65,7 +64,10 @@ class App extends Component {
               })
             }
           >
-            <CSSTransition key={this.props.location.key}>
+            <CSSTransition
+              timeout={300}
+              key={this.props.location.key}
+            >
               <Switch location={this.props.location}>
                 <Route path="/" exact component={WalletPage} />
                 <Route path="/wallet/send" component={SendPage} />

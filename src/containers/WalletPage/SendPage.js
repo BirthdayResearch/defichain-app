@@ -20,8 +20,12 @@ import {
   MdCheckCircle
 } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
+import UIfx from 'uifx';
+import shutterSound from '../../assets/audio/shutter.mp3'
 import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
+
+const shutterSnap = new UIfx(shutterSound);
 
 class SendPage extends Component {
   state = {
@@ -72,6 +76,7 @@ class SendPage extends Component {
 
   handleScan = data => {
     if (data) {
+      shutterSnap.play();
       this.setState({
         toAddress: data,
         flashed: 'flashed'
@@ -86,7 +91,7 @@ class SendPage extends Component {
   }
 
   handleScanError = err => {
-    console.error(err)
+    console.error(err);
   }
 
   sendStepDefault = () => {
@@ -178,6 +183,7 @@ class SendPage extends Component {
               <ModalBody>
                 <QrReader
                   delay={1000}
+                  onLoad={this.prepareSound}
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
