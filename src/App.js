@@ -69,17 +69,17 @@ class App extends Component {
               key={this.props.location.key}
             >
               <Switch location={this.props.location}>
-                <Route path="/" exact component={WalletPage} />
-                <Route path="/wallet/send" component={SendPage} />
-                <Route path="/wallet/receive" component={ReceivePage} />
-                <Route path="/masternodes" component={MasternodesPage} />
-                <Route path="/blockchain" exact component={BlockchainPage} />
-                <Route path="/blockchain/block/:height" exact component={BlockPage} />
-                <Route path="/blockchain/miner/:id" exact component={MinerPage} />
-                <Route path="/exchange" component={ExchangePage} />
-                <Route path="/help" component={HelpPage} />
-                <Route path="/settings" component={SettingsPage} />
-                <Route component={Error404Page} />
+                <Route exact path="/" component={WalletPage} />
+                <Route exact path="/wallet/send" component={SendPage} />
+                <Route exact path="/wallet/receive" component={ReceivePage} />
+                <Route exact path="/masternodes" component={MasternodesPage} />
+                <Route exact path="/blockchain" exact component={BlockchainPage} />
+                <Route exact path="/blockchain/block/:height" exact component={BlockPage} />
+                <Route exact path="/blockchain/miner/:id" exact component={MinerPage} />
+                <Route exact path="/exchange" component={ExchangePage} />
+                <Route exact path="/help" component={HelpPage} />
+                <Route exact path="/settings" component={SettingsPage} />
+                <Route exact component={Error404Page} />
               </Switch>
             </CSSTransition>
           </TransitionGroup>
