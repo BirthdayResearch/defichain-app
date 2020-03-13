@@ -220,13 +220,13 @@ class SendPage extends Component {
           </div>
           <div className={classnames({ 'd-none': this.state.sendStep !== 'confirm' })}>
             <div className="footer-sheet">
-              <dl class="row">
-                <dt class="col-sm-3 text-right">Amount</dt>
-                <dd class="col-sm-9">
+              <dl className="row">
+                <dt className="col-sm-3 text-right">Amount</dt>
+                <dd className="col-sm-9">
                   <span className="h2 mb-0">{this.state.amountToSend} DFI</span>
                 </dd>
-                <dt class="col-sm-3 text-right">To</dt>
-                <dd class="col-sm-9">{this.state.toAddress}</dd>
+                <dt className="col-sm-3 text-right">To</dt>
+                <dd className="col-sm-9">{this.state.toAddress}</dd>
               </dl>
             </div>
             <Row className="justify-content-between align-items-center">

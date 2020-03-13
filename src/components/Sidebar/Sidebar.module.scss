@@ -13,6 +13,7 @@
   flex-direction: column;
   flex: 0 0 224px;
   border-right: $border-width solid $border-color;
+  z-index: 2;
 }
 
 .brand {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 import SyncStatus from './components/SyncStatus/SyncStatus';
@@ -16,7 +17,36 @@ import HelpPage from './containers/HelpPage/HelpPage';
 import Error404Page from './containers/Errors/Error404Page';
 import SettingsPage from './containers/SettingsPage/SettingsPage';
 
+function getPathDepth(location) {
+  return (location || {}).pathname.split('/').length
+}
+
 class App extends Component {
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+      prevDepth: getPathDepth(props.location),
+    }
+  }
+
+  determineTransition = () => {
+    const depth = getPathDepth(this.props.location) - this.state.prevDepth;
+    console.log(depth);
+    if (depth < 0) {
+      return ['transit-pop', 300];
+    } else if (depth > 0) {
+      return ['transit-push', 300];
+    } else {
+      return ['transit-fade', 30];
+    }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      prevDepth: getPathDepth(this.props.location),
+    });
+  }
+
   render() {
     return (
       <div id="app">
@@ -26,23 +56,35 @@ class App extends Component {
         <Sidebar />
         <main>
           <SyncStatus />
-          <Switch>
-            <Route path="/" exact component={WalletPage} />
-            <Route path="/wallet/send" component={SendPage} />
-            <Route path="/wallet/receive" component={ReceivePage} />
-            <Route path="/masternodes" component={MasternodesPage} />
-            <Route path="/blockchain" exact component={BlockchainPage} />
-            <Route path="/blockchain/block/:height" exact component={BlockPage} />
-            <Route path="/blockchain/miner/:id" exact component={MinerPage} />
-            <Route path="/exchange" component={ExchangePage} />
-            <Route path="/help" component={HelpPage} />
-            <Route path="/settings" component={SettingsPage} />
-            <Route component={Error404Page} />
-          </Switch>
+          <TransitionGroup
+            className="transition-group"
+            childFactory={child =>
+              React.cloneElement(child, {
+                classNames: this.determineTransition()[0],
+                timeout: this.determineTransition()[1]
+              })
+            }
+          >
+            <CSSTransition key={this.props.location.key}>
+              <Switch location={this.props.location}>
+                <Route path="/" exact component={WalletPage} />
+                <Route path="/wallet/send" component={SendPage} />
+                <Route path="/wallet/receive" component={ReceivePage} />
+                <Route path="/masternodes" component={MasternodesPage} />
+                <Route path="/blockchain" exact component={BlockchainPage} />
+                <Route path="/blockchain/block/:height" exact component={BlockPage} />
+                <Route path="/blockchain/miner/:id" exact component={MinerPage} />
+                <Route path="/exchange" component={ExchangePage} />
+                <Route path="/help" component={HelpPage} />
+                <Route path="/settings" component={SettingsPage} />
+                <Route component={Error404Page} />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
         </main>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
