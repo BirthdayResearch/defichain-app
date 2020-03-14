@@ -17,14 +17,20 @@ import { NavLink } from 'react-router-dom';
 
 class ReceivePage extends Component {
   state = {
-    amountToReceive: 0
+    amountToReceive: '',
+    amountToReceiveDisplayed: 0,
+    receiveMessage: '',
+    showBackdrop: '',
+    receiveStep: 'default'
   };
 
   updateAmountToReceive = (e) => {
-    let amountToReceive = e.target.value && !isNaN(e.target.value)  ? e.target.value : 0;
+    let amountToReceive = !isNaN(e.target.value) && e.target.value.length ? e.target.value : ''
+    let amountToReceiveDisplayed = !isNaN(amountToReceive) && amountToReceive.length ? amountToReceive : '0'
     this.setState({
-      amountToReceive: amountToReceive
-    })
+      amountToReceive: amountToReceive,
+      amountToReceiveDisplayed: amountToReceiveDisplayed
+    });
   }
 
   render() {
@@ -68,11 +74,24 @@ class ReceivePage extends Component {
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <div className="caption-secondary">Amount to Receive</div>
-              <div>{this.state.amountToReceive} DFI</div>
+              <div>
+                {this.state.amountToReceiveDisplayed} DFI
+              </div>
             </div>
             <div>
-              <Button to="/" tag={NavLink} color="link" className="mr-3">Cancel</Button>
-              <Button color="primary" disabled={true}>Continue</Button>
+              <Button
+                to="/wallet" tag={NavLink}
+                color="link" className="mr-3"
+              >
+                Cancel
+              </Button>
+              <Button
+                color="primary"
+                disabled={
+                  (!this.state.amountToReceive || !this.state.receiveMessage) ? true : false
+                }
+                onClick={this.receiveStepConfirm}> Continue
+              </Button>
             </div>
           </div>
         </footer>

@@ -1,0 +1,33 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+
+.table {
+  margin-bottom: 0;
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr:first-child td,
+  tr:first-child th {
+    border-top: none;
+  }
+}
+
+.time {
+  white-space: nowrap;
+}
+
+.amount {
+  text-align: right;
+  letter-spacing: .44px;
+}
+
+.unit {
+  color: $gray-600;
+}
