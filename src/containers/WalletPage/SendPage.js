@@ -220,7 +220,7 @@ class SendPage extends Component {
                     (!this.state.amountToSend || !this.state.toAddress) ? true : false
                   }
                   onClick={this.sendStepConfirm}> Continue
-              </Button>
+                </Button>
               </Col>
             </Row>
           </div>
