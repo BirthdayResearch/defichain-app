@@ -1,3 +1,7 @@
+.dropdown-toggle {
+  text-transform: none;
+}
+
 // Links, buttons, and more within the dropdown menu
 //
 // `<button>`-specific styles are denoted with `// For <button>s`
@@ -6,7 +10,7 @@
     width: 24px;
     height: 24px;
     vertical-align: top;
-    color: $gray-600;
+    color: $secondary;
 
     &:not(:last-child) {
       margin-right: 8px;

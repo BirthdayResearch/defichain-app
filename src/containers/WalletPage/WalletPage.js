@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
 import {
-  Badge,
   Button,
   ButtonGroup,
   Row,
