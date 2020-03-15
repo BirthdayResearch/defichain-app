@@ -19,6 +19,12 @@
   }
 }
 
+.icon {
+  width: 24px;
+  height: 24px;
+  color: $gray-600;
+}
+
 .time {
   white-space: nowrap;
 }
@@ -29,5 +35,11 @@
 }
 
 .unit {
+  color: $gray-600;
+}
+
+.actionCell {
+  width: 24px;
+  height: 24px;
   color: $gray-600;
 }

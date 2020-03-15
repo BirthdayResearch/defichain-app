@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
 import {
   Card,
-  Table
+  Table,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
+import {
+  MdMoreHoriz,
+  MdDelete,
+  MdAccessTime
+} from "react-icons/md";
 import styles from './PaymentRequests.module.scss';
 
 class PaymentRequests extends Component {
@@ -19,14 +28,19 @@ class PaymentRequests extends Component {
         <Table className={styles.table}>
           <thead>
             <tr>
+              <th></th>
               <th>Time</th>
               <th className={styles.amount}>Amount</th>
               <th>Message</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {this.state.requests.map((request) => (
               <tr key={request.id}>
+                <td className={styles.icon}>
+                  <MdAccessTime className={styles.icon} />
+                </td>
                 <td>
                   <div className={styles.time}>
                     {request.time}
@@ -41,6 +55,19 @@ class PaymentRequests extends Component {
                   <div className={styles.message}>
                     {request.message}
                   </div>
+                </td>
+                <td className={styles.actionCell}>
+                  <UncontrolledDropdown>
+                    <DropdownToggle className="padless" color="link">
+                      <MdMoreHoriz />
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <MdDelete />
+                        <span>Cancel request</span>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
                 </td>
               </tr>
             ))}

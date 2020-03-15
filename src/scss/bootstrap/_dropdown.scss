@@ -1,0 +1,23 @@
+// Links, buttons, and more within the dropdown menu
+//
+// `<button>`-specific styles are denoted with `// For <button>s`
+.dropdown-item {
+  svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    color: $gray-600;
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    &:not(:first-child) {
+      margin-left: 8px;
+    }
+
+    &:first-child:last-child {
+      display: block;
+    }
+  }
+}

@@ -60,7 +60,7 @@ class WalletPage extends Component {
             </Row>
           </section>
           <section>
-            <h2>Payment Requests</h2>
+            <h2>Payment requests</h2>
             <PaymentRequests />
           </section>
           <section>

@@ -12,7 +12,8 @@
     vertical-align: middle;
   }
 
-  tr:first-child td {
+  tr:first-child td,
+  tr:first-child th {
     border-top: none;
   }
 }
@@ -28,16 +29,12 @@
   white-space: nowrap;
 }
 
-.time {
-  color: $gray-600;
-}
-
 .hash {
   font-size: .875rem;
   letter-spacing: .25px;
 }
 
-.value {
+.amount {
   text-align: right;
   letter-spacing: .44px;
 }

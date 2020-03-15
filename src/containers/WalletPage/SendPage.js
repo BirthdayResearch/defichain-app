@@ -36,7 +36,8 @@ class SendPage extends Component {
     scannerOpen: false,
     flashed: '',
     showBackdrop: '',
-    sendStep: 'default'
+    sendStep: 'default',
+    waitToSend: 5
   };
 
   updateAmountToSend = (e) => {
@@ -90,6 +91,17 @@ class SendPage extends Component {
     }
   }
 
+  countDownWaitToSend = () => {
+    this.waitToSendInterval = setInterval(() => {
+      this.setState({
+        waitToSend: this.state.waitToSend-1
+      });
+      if (this.state.waitToSend === 0) {
+        clearInterval(this.waitToSendInterval);
+      }
+    }, 1000);
+  }
+
   handleScanError = err => {
     console.error(err);
   }
@@ -97,11 +109,13 @@ class SendPage extends Component {
   sendStepDefault = () => {
     this.setState({
       sendStep: 'default',
-      showBackdrop: ''
+      showBackdrop: '',
+      waitToSend: 5
     });
   }
 
   sendStepConfirm = () => {
+    this.countDownWaitToSend();
     this.setState({
       sendStep: 'confirm',
       showBackdrop: 'show-backdrop'
@@ -236,8 +250,8 @@ class SendPage extends Component {
               </dl>
             </div>
             <Row className="justify-content-between align-items-center">
-              <Col className="col-auto">
-                Please verify amount and recipient and press SEND.
+              <Col className="col">
+                Please verify the amount and recipient.
               </Col>
               <Col className="d-flex justify-content-end">
                 <Button
@@ -249,8 +263,11 @@ class SendPage extends Component {
                 <Button
                   color="primary"
                   onClick={this.sendTransaction}
+                  disabled={
+                    this.state.waitToSend > 0 ? true : false
+                  }
                 >
-                  Send
+                  Complete Send <span className="timer">{this.state.waitToSend > 0 ? this.state.waitToSend : ''}</span>
                 </Button>
               </Col>
             </Row>
@@ -262,7 +279,7 @@ class SendPage extends Component {
                 <p>The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.</p>
               </div>
             </div>
-            <div className="d-flex align-items-center justify-content-end">
+            <div className="d-flex align-items-center justify-content-center">
               <Button
                 color="primary"
                 to="/" tag={NavLink}
