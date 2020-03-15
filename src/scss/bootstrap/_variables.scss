@@ -750,7 +750,7 @@ $dropdown-border-width:             $border-width;
 $dropdown-inner-border-radius:      subtract($dropdown-border-radius, $dropdown-border-width);
 $dropdown-divider-bg:               $gray-200;
 $dropdown-divider-margin-y:         $nav-divider-margin-y;
-$dropdown-box-shadow:               0 .5rem 1rem rgba($black, .175);
+$dropdown-box-shadow:               $box-shadow;
 
 $dropdown-link-color:               $gray-900;
 $dropdown-link-hover-color:         darken($gray-900, 5%);
@@ -762,7 +762,7 @@ $dropdown-link-active-bg:           $component-active-bg;
 $dropdown-link-disabled-color:      $gray-600;
 
 $dropdown-item-padding-y:           .25rem;
-$dropdown-item-padding-x:           1.5rem;
+$dropdown-item-padding-x:           1rem;
 
 $dropdown-header-color:             $gray-600;
 
