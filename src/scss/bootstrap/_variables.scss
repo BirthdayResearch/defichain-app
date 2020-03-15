@@ -241,7 +241,7 @@ $component-active-bg:         theme-color("primary");
 
 $caret-width:                 .3em;
 $caret-vertical-align:        $caret-width * .85;
-$caret-spacing:               $caret-width * .85;
+$caret-spacing:               .5rem;
 
 $transition-base:             all .2s ease-in-out;
 $transition-fade:             opacity .15s linear;
@@ -304,7 +304,7 @@ $small-font-size:             .875em;
 
 $text-muted:                  $gray-600;
 
-$blockquote-small-color:      $gray-600;
+$blockquote-small-color:      $secondary;
 $blockquote-small-font-size:  $small-font-size;
 $blockquote-font-size:        $font-size-base * 1.25;
 

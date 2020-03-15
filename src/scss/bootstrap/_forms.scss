@@ -41,7 +41,7 @@
     padding-bottom: .25rem;
     font-size: .75rem;
     font-weight: $font-weight-medium;
-    color: $gray-600;
+    color: $secondary;
   }
 
   &:focus ~ label {
@@ -57,7 +57,7 @@
     display: none;
   }
   .form-label-group input::-ms-input-placeholder {
-    color: $gray-600;
+    color: $secondary;
   }
 }
 
@@ -68,6 +68,6 @@
     display: none;
   }
   .form-label-group input:-ms-input-placeholder {
-    color: $gray-600;
+    color: $secondary;
   }
 }

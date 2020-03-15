@@ -1,3 +1,7 @@
 .nav-pills .nav-link {
   cursor: pointer;
+  color: $secondary;
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+  font-weight: $btn-font-weight;
 }

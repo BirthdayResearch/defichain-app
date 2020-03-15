@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 class HelpPage extends Component {
   render() {
     return (
-      <div>
+      <div className="main-wrapper">
         <Helmet>
           <title>Help – DeFi Blockchain Client</title>
         </Helmet>

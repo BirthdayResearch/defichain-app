@@ -73,9 +73,9 @@ class App extends Component {
                 <Route exact path="/wallet/send" component={SendPage} />
                 <Route exact path="/wallet/receive" component={ReceivePage} />
                 <Route exact path="/masternodes" component={MasternodesPage} />
-                <Route exact path="/blockchain" exact component={BlockchainPage} />
-                <Route exact path="/blockchain/block/:height" exact component={BlockPage} />
-                <Route exact path="/blockchain/miner/:id" exact component={MinerPage} />
+                <Route exact path="/blockchain" component={BlockchainPage} />
+                <Route exact path="/blockchain/block/:height" component={BlockPage} />
+                <Route exact path="/blockchain/miner/:id" component={MinerPage} />
                 <Route exact path="/exchange" component={ExchangePage} />
                 <Route exact path="/help" component={HelpPage} />
                 <Route exact path="/settings" component={SettingsPage} />

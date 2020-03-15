@@ -59,11 +59,13 @@
   }
 
   .navLink {
-    color: $gray-600;
+    color: $secondary;
     display: flex;
     align-items: center;
     padding-top: .75rem;
     padding-bottom: .75rem;
+    text-transform: none;
+    font-weight: $font-weight-normal;
 
     svg {
       width: 24px;

@@ -91,5 +91,11 @@
       background-color: $input-bg;
       border-color: $input-border-color;
     }
+
+    .show > &.dropdown-toggle {
+    color: $input-color;
+    background-color: $input-bg;
+    border-color: $input-border-color;
+  }
   }
 }
