@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { ReactSVG } from 'react-svg'
 import logo from '../../assets/svg/logo-defi.svg';
 import {
   Nav,
@@ -19,7 +20,7 @@ class Sidebar extends Component {
     return (
       <div className={styles.sidebar}>
         <div className={styles.brand}>
-          <img src={logo} alt="DeFi Blockchain" />
+          <ReactSVG src={logo} />
         </div>
         <div className={styles.navs}>
           <Nav className={`${styles.navMain} flex-column nav-pills`}>
