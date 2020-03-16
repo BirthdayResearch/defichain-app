@@ -223,7 +223,7 @@ class SendPage extends Component {
               </Col>
               <Col className="d-flex justify-content-end">
                 <Button
-                  to="/wallet" tag={NavLink}
+                  to="/" tag={NavLink}
                   color="link" className="mr-3"
                 >
                   Cancel
