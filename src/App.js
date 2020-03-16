@@ -17,20 +17,17 @@ import HelpPage from './containers/HelpPage/HelpPage';
 import Error404Page from './containers/Errors/Error404Page';
 import SettingsPage from './containers/SettingsPage/SettingsPage';
 
-function getPathDepth(location) {
-  return (location || {}).pathname.split('/').length
-}
-
 class App extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      prevDepth: getPathDepth(props.location),
-    }
+  getPathDepth = (location) => {
+    return (location || {}).pathname.split('/').length
+  }
+
+  state = {
+    prevDepth: this.getPathDepth(this.props.location)
   }
 
   determineTransition = () => {
-    const depth = getPathDepth(this.props.location) - this.state.prevDepth;
+    const depth = this.getPathDepth(this.props.location) - this.state.prevDepth;
     if (depth < 0) {
       return ['transit-pop', 300];
     } else if (depth > 0) {
@@ -42,7 +39,7 @@ class App extends Component {
 
   componentWillReceiveProps() {
     this.setState({
-      prevDepth: getPathDepth(this.props.location),
+      prevDepth: this.getPathDepth(this.props.location)
     });
   }
 

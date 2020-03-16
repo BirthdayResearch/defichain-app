@@ -9,6 +9,10 @@ body {
 
   > main {
     width: calc(100% - 224px);
+    border-left: $border-width solid $border-color;
+    border-top-left-radius: $border-radius * 1.5;
+    border-bottom-left-radius: $border-radius * 1.5;
+    background-color: $dfi-scent;
 
     .main-wrapper {
       display: flex;
