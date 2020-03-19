@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { ReactSVG } from 'react-svg'
-import logo from '../../assets/svg/logo-defi.svg';
 import {
   Nav,
   NavItem,
@@ -16,11 +15,22 @@ import {
 import styles from './Sidebar.module.scss';
 
 class Sidebar extends Component {
+  state = {
+    balance: {
+      available: '1,000'
+    }
+  };
+
   render() {
     return (
       <div className={styles.sidebar}>
-        <div className={styles.brand}>
-          <ReactSVG src={logo} />
+        <div className={styles.balance}>
+          <div className={styles.balanceLabel}>
+            Balance
+          </div>
+          <div className={styles.balanceValue}>
+            {this.state.balance.available} DFI
+          </div>
         </div>
         <div className={styles.navs}>
           <Nav className={`${styles.navMain} flex-column nav-pills`}>
