@@ -44,6 +44,8 @@
 }
 
 .qr-scanner-preview {
+  transform: scaleX(-1);
+
   &:before,
   &:after {
     position: absolute;
