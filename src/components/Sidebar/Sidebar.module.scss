@@ -15,14 +15,16 @@
   z-index: 2;
 }
 
-.brand {
+.balance {
   position: relative;
   height: 112px;
-  // border-bottom: $border-width solid $border-color;
+  border-bottom: $border-width solid $border-color;
   padding: 28px 32px;
   display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
   align-items: flex-end;
+  align-content: flex-end;
 
   &:before {
     content: "";
@@ -34,10 +36,21 @@
     z-index: -1;
     -webkit-app-region: drag;
   }
+}
 
-  svg {
-    color: $primary;
-  }
+.balanceLabel,
+.balanceValue {
+  flex-basis: 100%;
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+
+.balanceLabel {
+  font-weight: $font-weight-semibold;
+}
+
+.balanceValue {
+  color: $secondary;
 }
 
 .navs {
