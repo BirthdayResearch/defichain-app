@@ -8,6 +8,7 @@ import SyncStatus from './components/SyncStatus/SyncStatus';
 import WalletPage from './containers/WalletPage/WalletPage';
 import SendPage from './containers/WalletPage/SendPage';
 import ReceivePage from './containers/WalletPage/ReceivePage';
+import PaymentRequestPage from './containers/WalletPage/PaymentRequestPage';
 import MasternodesPage from './containers/MasternodesPage/MasternodesPage';
 import BlockchainPage from './containers/BlockchainPage/BlockchainPage';
 import BlockPage from './containers/BlockchainPage/BlockPage';
@@ -69,6 +70,7 @@ class App extends Component {
                 <Route exact path="/" component={WalletPage} />
                 <Route exact path="/wallet/send" component={SendPage} />
                 <Route exact path="/wallet/receive" component={ReceivePage} />
+                <Route exact path="/wallet/paymentrequest/:id" component={PaymentRequestPage} />
                 <Route exact path="/masternodes" component={MasternodesPage} />
                 <Route exact path="/blockchain" component={BlockchainPage} />
                 <Route exact path="/blockchain/block/:height" component={BlockPage} />

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -43,7 +44,7 @@ class PaymentRequests extends Component {
                 </td>
                 <td>
                   <div className={styles.time}>
-                    {request.time}
+                    <Link to={`/wallet/paymentrequest/${request.id}`}>{request.time}</Link>
                   </div>
                 </td>
                 <td>

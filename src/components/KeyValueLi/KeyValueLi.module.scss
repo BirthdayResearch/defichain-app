@@ -23,6 +23,8 @@
   overflow: hidden;
   overflow-wrap: break-word;
   text-align: right;
+  display: flex;
+  align-items: center;
 
   svg {
     display: block;
@@ -35,7 +37,21 @@
   top: 0; left: 0;
   width: calc(100% - 32px);
   height: 100%;
-  background-color: $body-bg;
-  text-align: center;
+  background-color: $dfi-scent;
+  align-items: center;
+  justify-content: center;
   display: none;
+}
+
+.card {
+  .copiedIndicator {
+    background-color: $body-bg;
+  }
+}
+
+.qr {
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 8px;
 }

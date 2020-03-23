@@ -49,7 +49,7 @@ class BlockPage extends Component {
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>{`Block ${this.props.match.params.height} – DeFi Blockchain Client`}</title>
+          <title>Block {this.props.match.params.height} – DeFi Blockchain Client</title>
         </Helmet>
         <header className="header-bar">
           <Button to="/blockchain" tag={NavLink} color="link" className="header-bar-back">
