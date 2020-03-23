@@ -57,7 +57,7 @@ class SettingsPage extends Component {
 
   adjustScriptVerificationThreads = (e) => {
     this.setState({
-      settingsScriptVerificationThreads: e.target.value
+      settingsScriptVerificationThreads: parseInt(e.target.value)
     });
   }
 
@@ -184,7 +184,7 @@ class SettingsPage extends Component {
                                 id="scriptVerificationThreads"
                               />
                             </Col>
-                            {this.state.settingsScriptVerificationThreads == 0 ? 'Auto' : this.state.settingsScriptVerificationThreads}
+                            {this.state.settingsScriptVerificationThreads === 0 ? 'Auto' : this.state.settingsScriptVerificationThreads}
                           </Row>
                         </Col>
                       </FormGroup>
