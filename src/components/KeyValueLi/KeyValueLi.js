@@ -61,7 +61,6 @@ class KeyValueLi extends Component {
           <Button
             color="link" size="sm"
             className="padless ml-2"
-            onClick={this.toggleQR}
             id={this.props.uid}
           >
             <AiOutlineQrcode />
