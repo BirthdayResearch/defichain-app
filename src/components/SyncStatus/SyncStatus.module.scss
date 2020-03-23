@@ -11,13 +11,14 @@
   right: 32px;
   font-size: .75rem;
   font-weight: $font-weight-medium;
-  line-height: 18px;
+  line-height: 24px;
   letter-spacing: .21px;
   color: $secondary;
+  z-index: $zindex-dropdown;
 
   svg {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     margin-left: 8px;
     color: $green;
   }
