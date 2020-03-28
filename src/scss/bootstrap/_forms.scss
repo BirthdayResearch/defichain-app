@@ -71,3 +71,53 @@
     color: $secondary;
   }
 }
+
+
+//
+// Switches
+//
+
+.form-check-label.switch {
+  display: flex;
+  align-items: center;
+
+  input[type="checkbox"] {
+    position: relative;
+    display: inline-block;
+    appearance: none;
+    width: 48px;
+    height: 32px;
+    border: $input-border-width solid $input-border-color;
+    border-radius: 24px;
+    background-color: $dfi-scent;
+    box-shadow: $input-box-shadow;
+    margin-top: 0;
+    margin-right: 16px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 32px;
+      border: $input-border-width solid $input-border-color;
+      border-radius: 24px;
+      background-color: $white;
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      transition: all 0.2s ease;
+    }
+
+    &:checked {
+      background-color: $green;
+      box-shadow: none;
+
+      &:before {
+        left: 16px;
+      }
+    }
+  }
+}
+

@@ -38,7 +38,8 @@ class SettingsPage extends Component {
     languages: [
       { english: 'English' },
       { german: 'German' }
-    ]
+    ],
+    displayMode: 'Same as system'
   }
 
   setActiveTab = tab => {
@@ -64,6 +65,12 @@ class SettingsPage extends Component {
   adjustLanguage = (e) => {
     this.setState({
       settingsLanguage: e.target.value
+    });
+  }
+
+  changeDisplayMode = (e) => {
+    this.setState({
+      displayMode: e.target.value
     });
   }
 
@@ -113,14 +120,14 @@ class SettingsPage extends Component {
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
-                          <Label check>
+                          <Label check className="switch">
                             <Input type="checkbox" /> Launch at login
                           </Label>
                         </FormGroup>
                       </FormGroup>
                       <FormGroup>
                         <FormGroup check>
-                          <Label check>
+                          <Label check className="switch">
                             <Input type="checkbox" /> Minimized at launch
                           </Label>
                         </FormGroup>
@@ -134,7 +141,7 @@ class SettingsPage extends Component {
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
-                          <Label check>
+                          <Label check className="switch">
                             <Input
                               type="checkbox"
                               checked={this.state.settingsPruneBlockStorage}
@@ -208,10 +215,10 @@ class SettingsPage extends Component {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem className="d-flex justify-content-between" onClick={this.adjustLanguage} value="English">
-                            English {this.state.settingsLanguage === "English" ? <MdCheck /> : ''}
+                            <span>English</span> {this.state.settingsLanguage === "English" ? <MdCheck /> : ''}
                           </DropdownItem>
                           <DropdownItem className="d-flex justify-content-between" onClick={this.adjustLanguage} value="German">
-                            German {this.state.settingsLanguage === "German" ? <MdCheck /> : ''}
+                            <span>German</span> {this.state.settingsLanguage === "German" ? <MdCheck /> : ''}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
@@ -228,10 +235,33 @@ class SettingsPage extends Component {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem className="d-flex justify-content-between" onClick={this.adjustAmountsUnit} value="DFI">
-                            DFI {this.state.settingsAmountsUnit === "DFI" ? <MdCheck /> : ''}
+                            <span>DFI</span> {this.state.settingsAmountsUnit === "DFI" ? <MdCheck /> : ''}
                           </DropdownItem>
                           <DropdownItem className="d-flex justify-content-between" onClick={this.adjustAmountsUnit} value="µDFI">
-                            µDFI {this.state.settingsAmountsUnit === "µDFI" ? <MdCheck /> : ''}
+                            <span>µDFI</span> {this.state.settingsAmountsUnit === "µDFI" ? <MdCheck /> : ''}
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup className="form-row align-items-center">
+                    <Col md="4">
+                      Display mode
+                    </Col>
+                    <Col md="8">
+                      <UncontrolledDropdown>
+                        <DropdownToggle caret color="outline-secondary">
+                          {this.state.displayMode}
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Same as system">
+                            <span>Same as system</span> {this.state.displayMode === "Same as system" ? <MdCheck /> : ''}
+                          </DropdownItem>
+                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Light">
+                            <span>Light</span> {this.state.displayMode === "Light" ? <MdCheck /> : ''}
+                          </DropdownItem>
+                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Dark">
+                            <span>Dark</span> {this.state.displayMode === "Dark" ? <MdCheck /> : ''}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
