@@ -62,10 +62,17 @@ class KeyValueLi extends Component {
             color="link" size="sm"
             className="padless ml-2"
             id={this.props.uid}
+            onClick={(e) => e.currentTarget.focus()} // Need for Popover trigger="focus" to work
           >
             <AiOutlineQrcode />
           </Button>
-          <Popover placement="auto" isOpen={this.state.qrOpen} target={this.props.uid} toggle={this.toggleQR}>
+          <Popover
+            placement="auto"
+            isOpen={this.state.qrOpen}
+            target={this.props.uid}
+            toggle={this.toggleQR}
+            trigger="focus"
+          >
             <PopoverBody>
               <QRCode
                 value={this.props.value}
