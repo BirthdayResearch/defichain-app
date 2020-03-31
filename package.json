@@ -19,6 +19,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
+    "foreman": "^3.0.1",
     "node-sass": "^4.13.1",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.0",
