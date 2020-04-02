@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, protocol } = require('electron')
 
 const path = require('path')
 const url = require('url')
@@ -21,19 +21,30 @@ function createWindow() {
 
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
-      url.format({
-        pathname: path.join(__dirname, '/../public/index.html'),
-        protocol: 'file:',
-        slashes: true
-      })
+    url.format({
+      pathname: './index.html',
+      protocol: 'file:',
+      slashes: true
+    })
   )
+
+  mainWindow.webContents.openDevTools()
+
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
+app.allowRendererProcessReuse = false;
+app.on('ready', () => {
+  protocol.interceptFileProtocol('file', (request, callback) => {
+    const url = request.url.substr(7) /* all urls start with 'file://' */
 
-app.on('ready', createWindow)
+    callback({ path: path.normalize(`${__dirname}/build/release/${url}`) })
+  },
+    (err) => { if (err) console.error('Failed to register protocol') })
+  createWindow() /* callback function */
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
