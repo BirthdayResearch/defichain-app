@@ -2,6 +2,7 @@ const { app, BrowserWindow, protocol } = require('electron')
 
 const path = require('path')
 const url = require('url')
+const debug = /--debug/.test(process.argv[2]);
 
 let mainWindow
 
@@ -28,7 +29,9 @@ function createWindow() {
     })
   )
 
-  mainWindow.webContents.openDevTools()
+  if (debug) {
+    mainWindow.webContents.openDevTools()
+  }
 
 
   mainWindow.on('closed', () => {
