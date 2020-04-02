@@ -1,0 +1,105 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.txn {
+  margin-bottom: 1.5rem;
+  padding-left: $table-cell-padding-x;
+}
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: $table-cell-padding-y $table-cell-padding-x $table-cell-padding-y 0;
+  border-bottom: $table-border-width solid $table-border-color;
+  font-size: .875rem;
+  line-height: 1.5rem;
+}
+
+.hash {
+  position: relative;
+  max-width: 60%;
+  padding-right: $table-cell-padding-x;
+  white-space: nowrap;
+  display: flex;
+}
+
+.hashSpan,
+.timeSpan {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.time {
+  max-width: 40%;
+  white-space: nowrap;
+  display: flex;
+}
+
+.copiedIndicator {
+  position: absolute;
+  top: 0; left: 0;
+  width: calc(100% - 48px);
+  height: 100%;
+  background-color: $card-bg;
+  text-align: center;
+  display: none;
+}
+
+.addresses {
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding-top: $table-cell-padding-y / 2;
+  padding-bottom: $table-cell-padding-y;
+}
+
+.froms,
+.tos {
+  flex-grow: 1;
+  width: calc(50% - 12px);
+}
+
+.froms {
+  padding-right: $table-cell-padding-x;
+}
+
+.tos {
+  padding-left: $table-cell-padding-x;
+  padding-right: $table-cell-padding-x;
+}
+
+.arrow {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    color: $secondary;
+  }
+}
+
+.from,
+.to {
+  padding-top: $table-cell-padding-y / 2;
+  padding-bottom: $table-cell-padding-y / 2;
+}
+
+.address {
+  display: block;
+}
+
+.amount {
+  color: $secondary;
+}
+

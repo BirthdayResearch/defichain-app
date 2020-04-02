@@ -29,8 +29,6 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.9.0",
     "bootstrap": "^4.4.1",
-    "d3-fetch": "^1.1.2",
-    "d3-scale": "^3.2.1",
     "foreman": "^3.0.1",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
@@ -66,6 +64,8 @@
     "@types/react-transition-group": "^4.2.4",
     "@types/reactstrap": "^8.4.2",
     "autoprefixer": "^9.7.5",
+    "d3-fetch": "^1.1.2",
+    "d3-scale": "^3.2.1",
     "electron": "^8.2.0",
     "electron-builder": "^22.4.1",
     "eslint": "^6.8.0",
