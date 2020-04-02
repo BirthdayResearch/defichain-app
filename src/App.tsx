@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { Provider } from "react-redux";
+import store from "./app/rootStore";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./App.scss";
@@ -47,53 +49,59 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app">
-        <Helmet>
-          <title>DeFi Blockchain Client</title>
-        </Helmet>
-        <Sidebar />
-        <main>
-          <SyncStatus />
-          <TransitionGroup
-            className="transition-group"
-            childFactory={child =>
-              React.cloneElement(child, {
-                classNames: this.determineTransition()[0],
-                timeout: this.determineTransition()[1]
-              })
-            }
-          >
-            <CSSTransition timeout={300} key={this.props.location.key}>
-              <Switch location={this.props.location}>
-                <Route exact path="/" component={WalletPage} />
-                <Route exact path="/wallet/send" component={SendPage} />
-                <Route exact path="/wallet/receive" component={ReceivePage} />
-                <Route
-                  exact
-                  path="/wallet/paymentrequest/:id"
-                  component={PaymentRequestPage}
-                />
-                <Route exact path="/masternodes" component={MasternodesPage} />
-                <Route exact path="/blockchain" component={BlockchainPage} />
-                <Route
-                  exact
-                  path="/blockchain/block/:height"
-                  component={BlockPage}
-                />
-                <Route
-                  exact
-                  path="/blockchain/miner/:id"
-                  component={MinerPage}
-                />
-                <Route exact path="/exchange" component={ExchangePage} />
-                <Route exact path="/help" component={HelpPage} />
-                <Route exact path="/settings" component={SettingsPage} />
-                <Route exact component={Error404Page} />
-              </Switch>
-            </CSSTransition>
-          </TransitionGroup>
-        </main>
-      </div>
+      <Provider store={store}>
+        <div id="app">
+          <Helmet>
+            <title>DeFi Blockchain Client</title>
+          </Helmet>
+          <Sidebar />
+          <main>
+            <SyncStatus />
+            <TransitionGroup
+              className="transition-group"
+              childFactory={child =>
+                React.cloneElement(child, {
+                  classNames: this.determineTransition()[0],
+                  timeout: this.determineTransition()[1]
+                })
+              }
+            >
+              <CSSTransition timeout={300} key={this.props.location.key}>
+                <Switch location={this.props.location}>
+                  <Route exact path="/" component={WalletPage} />
+                  <Route exact path="/wallet/send" component={SendPage} />
+                  <Route exact path="/wallet/receive" component={ReceivePage} />
+                  <Route
+                    exact
+                    path="/wallet/paymentrequest/:id"
+                    component={PaymentRequestPage}
+                  />
+                  <Route
+                    exact
+                    path="/masternodes"
+                    component={MasternodesPage}
+                  />
+                  <Route exact path="/blockchain" component={BlockchainPage} />
+                  <Route
+                    exact
+                    path="/blockchain/block/:height"
+                    component={BlockPage}
+                  />
+                  <Route
+                    exact
+                    path="/blockchain/miner/:id"
+                    component={MinerPage}
+                  />
+                  <Route exact path="/exchange" component={ExchangePage} />
+                  <Route exact path="/help" component={HelpPage} />
+                  <Route exact path="/settings" component={SettingsPage} />
+                  <Route exact component={Error404Page} />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
+        </div>
+      </Provider>
     );
   }
 }
