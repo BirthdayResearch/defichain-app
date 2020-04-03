@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   Table,
@@ -7,19 +7,27 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from 'reactstrap';
-import {
-  MdMoreHoriz,
-  MdDelete,
-  MdAccessTime
-} from "react-icons/md";
-import styles from './PaymentRequests.module.scss';
+} from "reactstrap";
+import { MdMoreHoriz, MdDelete, MdAccessTime } from "react-icons/md";
+import styles from "./PaymentRequests.module.scss";
 
-class PaymentRequests extends Component<any,any> {
+class PaymentRequests extends Component<any, any> {
   state = {
     requests: [
-      { id: 0, time: 'Feb 19, 2:03 pm', amount: 0.123, message: 'I need money!', unit: 'DFI' },
-      { id: 1, time: 'Feb 19, 2:03 pm', amount: 0.123, message: 'I need money!', unit: 'DFI' }
+      {
+        id: 0,
+        time: "Feb 19, 2:03 pm",
+        amount: 0.123,
+        message: "I need money!",
+        unit: "DFI"
+      },
+      {
+        id: 1,
+        time: "Feb 19, 2:03 pm",
+        amount: 0.123,
+        message: "I need money!",
+        unit: "DFI"
+      }
     ]
   };
 
@@ -37,25 +45,26 @@ class PaymentRequests extends Component<any,any> {
             </tr>
           </thead>
           <tbody>
-            {this.state.requests.map((request) => (
+            {this.state.requests.map(request => (
               <tr key={request.id}>
                 <td className={styles.icon}>
                   <MdAccessTime className={styles.icon} />
                 </td>
                 <td>
                   <div className={styles.time}>
-                    <Link to={`/wallet/paymentrequest/${request.id}`}>{request.time}</Link>
+                    <Link to={`/wallet/paymentrequest/${request.id}`}>
+                      {request.time}
+                    </Link>
                   </div>
                 </td>
                 <td>
                   <div className={styles.amount}>
-                    {request.amount} <span className={styles.unit}>{request.unit}</span>
+                    {request.amount}{" "}
+                    <span className={styles.unit}>{request.unit}</span>
                   </div>
                 </td>
                 <td>
-                  <div className={styles.message}>
-                    {request.message}
-                  </div>
+                  <div className={styles.message}>{request.message}</div>
                 </td>
                 <td className={styles.actionCell}>
                   <UncontrolledDropdown>
@@ -75,13 +84,8 @@ class PaymentRequests extends Component<any,any> {
           </tbody>
         </Table>
       </Card>
-    )
+    );
   }
 }
 
 export default PaymentRequests;
-
-
-
-
-

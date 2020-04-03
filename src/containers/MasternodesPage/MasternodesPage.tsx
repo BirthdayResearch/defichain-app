@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import {
   Nav,
@@ -10,21 +10,26 @@ import {
   Col,
   Button,
   ButtonGroup
-} from 'reactstrap';
+} from "reactstrap";
+import { MdSearch } from "react-icons/md";
+import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
+import classnames from "classnames";
+import StatCard from "../../components/StatCard/StatCard";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import MasternodesList from "./MasternodesList";
 import {
-  MdSearch
-} from "react-icons/md";
-import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
-import classnames from 'classnames';
-import StatCard from '../../components/StatCard/StatCard';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import MasternodesList from './MasternodesList';
+  MasternodesPageProps,
+  MasternodesPageState
+} from "./MasternodesPage.interface";
 
-class MasternodesPage extends Component<any,any> {
+class MasternodesPage extends Component<
+  MasternodesPageProps,
+  MasternodesPageState
+> {
   state = {
-    activeTab: 'statistics',
+    activeTab: "statistics",
     searching: false
-  }
+  };
 
   setActiveTab = tab => {
     if (this.state.activeTab !== tab) {
@@ -32,13 +37,13 @@ class MasternodesPage extends Component<any,any> {
         activeTab: tab
       });
     }
-  }
+  };
 
   toggleSearch = () => {
     this.setState({
       searching: !this.state.searching
     });
-  }
+  };
 
   render() {
     return (
@@ -47,32 +52,44 @@ class MasternodesPage extends Component<any,any> {
           <title>Masternodes – DeFi Blockchain Client</title>
         </Helmet>
         <header className="header-bar">
-          <h1 className={classnames({ 'd-none': this.state.searching })}>Masternodes</h1>
-          <Nav
-            pills
-            className={classnames({ 'd-none': this.state.searching })}
-          >
+          <h1 className={classnames({ "d-none": this.state.searching })}>
+            Masternodes
+          </h1>
+          <Nav pills className={classnames({ "d-none": this.state.searching })}>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === 'statistics' })}
-                onClick={() => {this.setActiveTab('statistics') }}
+                className={classnames({
+                  active: this.state.activeTab === "statistics"
+                })}
+                onClick={() => {
+                  this.setActiveTab("statistics");
+                }}
               >
                 Statistics
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === 'list' })}
-                onClick={() => {this.setActiveTab('list')}}
+                className={classnames({
+                  active: this.state.activeTab === "list"
+                })}
+                onClick={() => {
+                  this.setActiveTab("list");
+                }}
               >
                 List
               </NavLink>
             </NavItem>
           </Nav>
-          <ButtonGroup className={classnames({ 'd-none': this.state.searching })}>
+          <ButtonGroup
+            className={classnames({ "d-none": this.state.searching })}
+          >
             <Button
-              color="link" size="sm"
-              className={classnames({ 'invisible': this.state.activeTab === 'statistics' })}
+              color="link"
+              size="sm"
+              className={classnames({
+                invisible: this.state.activeTab === "statistics"
+              })}
               onClick={this.toggleSearch}
             >
               <MdSearch />
@@ -106,7 +123,10 @@ class MasternodesPage extends Component<any,any> {
                     <KeyValueLi label="Paid rewards" value="8651.0125 DFI" />
                   </Col>
                   <Col md="6">
-                    <KeyValueLi label="Reward frequency" value="8d 11h 27m 20s" />
+                    <KeyValueLi
+                      label="Reward frequency"
+                      value="8d 11h 27m 20s"
+                    />
                   </Col>
                   <Col md="6">
                     <KeyValueLi label="Active masternodes" value="4,671" />
@@ -115,13 +135,19 @@ class MasternodesPage extends Component<any,any> {
                     <KeyValueLi label="Supply" value="9,281,315 DFI" />
                   </Col>
                   <Col md="6">
-                    <KeyValueLi label="Locked in collateral" value="4,671,000 DFI" />
+                    <KeyValueLi
+                      label="Locked in collateral"
+                      value="4,671,000 DFI"
+                    />
                   </Col>
                   <Col md="6">
                     <KeyValueLi label="Cost per masternode" value="1,000 DFI" />
                   </Col>
                   <Col md="6">
-                    <KeyValueLi label="Masternode worth" value="65,733.63 USD" />
+                    <KeyValueLi
+                      label="Masternode worth"
+                      value="65,733.63 USD"
+                    />
                   </Col>
                 </Row>
               </section>

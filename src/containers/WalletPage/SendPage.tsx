@@ -19,11 +19,13 @@ import { NavLink } from "react-router-dom";
 import UIfx from "uifx";
 import QrReader from "react-qr-reader";
 import classnames from "classnames";
+import { SendPageProps, SendPageState } from "./WalletPage.interface";
 // TODO add sound
 // const shutterSound = require("./../../assets/audio/shutter.mp3");
-const shutterSnap = {}; //new UIfx(shutterSound);
+const shutterSnap = { play: Function }; //new UIfx(shutterSound);
 
-class SendPage extends Component<any, any> {
+class SendPage extends Component<SendPageProps, SendPageState> {
+  waitToSendInterval;
   state = {
     walletBalance: 100,
     amountToSend: "",
@@ -127,6 +129,7 @@ class SendPage extends Component<any, any> {
     });
   };
 
+  prepareSound = () => {};
   render() {
     return (
       <div className="main-wrapper">

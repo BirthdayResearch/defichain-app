@@ -1,22 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { Nav, NavItem, NavLink } from "reactstrap";
 import {
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
-import { NavLink as RRNavLink, withRouter } from 'react-router-dom';
+  NavLink as RRNavLink,
+  withRouter,
+  RouteComponentProps
+} from "react-router-dom";
 import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
   MdCompareArrows
 } from "react-icons/md";
-import styles from './Sidebar.module.scss';
+import styles from "./Sidebar.module.scss";
+import { SidebarProps, SidebarState } from "./Sidebar.interface";
 
-class Sidebar extends Component<any,any> {
+class Sidebar extends Component<
+  SidebarProps & RouteComponentProps,
+  SidebarState
+> {
   state = {
     balance: {
-      available: '1,000'
+      available: "1,000"
     }
   };
 
@@ -24,9 +28,7 @@ class Sidebar extends Component<any,any> {
     return (
       <div className={styles.sidebar}>
         <div className={styles.balance}>
-          <div className={styles.balanceLabel}>
-            Balance
-          </div>
+          <div className={styles.balanceLabel}>Balance</div>
           <div className={styles.balanceValue}>
             {this.state.balance.available} DFI
           </div>
@@ -35,12 +37,16 @@ class Sidebar extends Component<any,any> {
           <Nav className={`${styles.navMain} flex-column nav-pills`}>
             <NavItem className={styles.navItem}>
               <NavLink
-                to="/" exact
+                to="/"
+                exact
                 tag={RRNavLink}
                 className={styles.navLink}
                 activeClassName={styles.active}
                 isActive={(match, location) => {
-                  return location.pathname.startsWith("/wallet") || location.pathname === "/";
+                  return (
+                    location.pathname.startsWith("/wallet") ||
+                    location.pathname === "/"
+                  );
                 }}
               >
                 <MdAccountBalanceWallet />
@@ -48,19 +54,34 @@ class Sidebar extends Component<any,any> {
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
-              <NavLink to="/masternodes" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/masternodes"
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 <MdDns />
                 Masternodes
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
-              <NavLink to="/blockchain" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/blockchain"
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 <MdViewWeek />
                 Blockchain
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
-              <NavLink to="/exchange" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/exchange"
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 <MdCompareArrows />
                 Exchange
               </NavLink>
@@ -68,12 +89,22 @@ class Sidebar extends Component<any,any> {
           </Nav>
           <Nav className={`${styles.navSub} flex-column nav-pills`}>
             <NavItem className={styles.navItem}>
-              <NavLink to="/help" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/help"
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 Help
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
-              <NavLink to="/settings" tag={RRNavLink} className={styles.navLink} activeClassName={styles.active}>
+              <NavLink
+                to="/settings"
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
                 Settings
               </NavLink>
             </NavItem>

@@ -8,10 +8,10 @@
 //
 // Import app and Bootstrap dependencies
 //
-@import "./scss/variables";
+@import "../scss/variables";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-@import "./scss/bootstrap/variables";
+@import "../scss/bootstrap/variables";
 @import "~bootstrap/scss/mixins";
 
 //
@@ -59,19 +59,19 @@
 
 // @import './scss/bootstrap/root';
 // @import './scss/bootstrap/reboot';
-@import "./scss/bootstrap/type";
+@import "../scss/bootstrap/type";
 // @import './scss/bootstrap/images';
 // @import './scss/bootstrap/containers';
 // @import './scss/bootstrap/grid';
-@import "./scss/bootstrap/tables";
-@import "./scss/bootstrap/forms";
-@import "./scss/bootstrap/buttons";
+@import "../scss/bootstrap/tables";
+@import "../scss/bootstrap/forms";
+@import "../scss/bootstrap/buttons";
 // @import './scss/bootstrap/transitions';
-@import "./scss/bootstrap/dropdown";
+@import "../scss/bootstrap/dropdown";
 // @import './scss/bootstrap/button-group';
-@import "./scss/bootstrap/nav";
+@import "../scss/bootstrap/nav";
 // @import './scss/bootstrap/navbar';
-@import "./scss/bootstrap/card";
+@import "../scss/bootstrap/card";
 // @import './scss/bootstrap/breadcrumb';
 // @import './scss/bootstrap/pagination';
 // @import './scss/bootstrap/badge';
@@ -95,7 +95,7 @@
 // APPLICATION-ONLY STYLES
 // This is where non-Bootstrap-related styles go
 
-@import "./scss/type";
-@import "./scss/layout";
-@import "./scss/transitions";
-@import "./scss/qr-scanner";
+@import "../scss/type";
+@import "../scss/layout";
+@import "../scss/transitions";
+@import "../scss/qr-scanner";

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { ExchangePageProps, ExchangePageState } from "./ExchangePage.interface";
 
-class ExchangePage extends Component<any,any> {
+class ExchangePage extends Component<ExchangePageProps, ExchangePageState> {
   render() {
     return (
       <div className="main-wrapper">
@@ -12,13 +13,9 @@ class ExchangePage extends Component<any,any> {
           <h1>Exchange</h1>
         </header>
         <div className="content">
-          <section>
-            Section
-          </section>
+          <section>Section</section>
         </div>
-        <footer className="footer-bar">
-          Footer Bar
-        </footer>
+        <footer className="footer-bar">Footer Bar</footer>
       </div>
     );
   }

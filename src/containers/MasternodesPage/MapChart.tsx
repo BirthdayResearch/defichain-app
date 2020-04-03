@@ -33,7 +33,9 @@ const MapChart = () => {
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map(geo => {
-              const d = data.find(s => s.ISO3 === geo.properties.ISO_A3);
+              const d = data.find(
+                (s: { ISO3: string }) => s.ISO3 === geo.properties.ISO_A3
+              );
               return (
                 <Geography
                   key={geo.rsmKey}

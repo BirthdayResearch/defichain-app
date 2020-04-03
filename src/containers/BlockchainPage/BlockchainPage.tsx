@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
-import BlockchainTable from './BlockchainTable';
+import React, { Component } from "react";
+import { Helmet } from "react-helmet";
+import BlockchainTable from "./BlockchainTable";
+import {
+  BlockchainPageProps,
+  BlockchainPageState
+} from "./BlockchainPage.interface";
 
-class BlockchainPage extends Component<any,any> {
+class BlockchainPage extends Component<
+  BlockchainPageProps,
+  BlockchainPageState
+> {
   render() {
     return (
       <div className="main-wrapper">

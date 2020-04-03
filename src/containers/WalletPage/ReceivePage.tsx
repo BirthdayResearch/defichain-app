@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import {
   Button,
@@ -9,32 +9,31 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from 'reactstrap';
-import {
-  MdArrowBack,
-} from "react-icons/md";
-import { NavLink } from 'react-router-dom';
+} from "reactstrap";
+import { MdArrowBack } from "react-icons/md";
+import { NavLink } from "react-router-dom";
+import { ReceivePageProps, ReceivePageState } from "./WalletPage.interface";
 
-class ReceivePage extends Component<any, any> {
+class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   state = {
-    amountToReceive: '',
+    amountToReceive: "",
     amountToReceiveDisplayed: 0,
-    receiveMessage: '',
-    showBackdrop: '',
-    receiveStep: 'default'
+    receiveMessage: "",
+    showBackdrop: "",
+    receiveStep: "default"
   };
 
-  updateAmountToReceive = (e) => {
-    let amountToReceive = !isNaN(e.target.value) && e.target.value.length ? e.target.value : ''
-    let amountToReceiveDisplayed = !isNaN(amountToReceive) && amountToReceive.length ? amountToReceive : '0'
+  updateAmountToReceive = e => {
+    let amountToReceive =
+      !isNaN(e.target.value) && e.target.value.length ? e.target.value : "";
+    let amountToReceiveDisplayed =
+      !isNaN(amountToReceive) && amountToReceive.length ? amountToReceive : "0";
     this.setState({
       amountToReceive: amountToReceive,
       amountToReceiveDisplayed: amountToReceiveDisplayed
     });
-  }
-  receiveStepConfirm = () => {
-
-  }
+  };
+  receiveStepConfirm = () => {};
   render() {
     return (
       <div className="main-wrapper">
@@ -54,8 +53,11 @@ class ReceivePage extends Component<any, any> {
               <FormGroup className="form-label-group">
                 <InputGroup>
                   <Input
-                    type="text" inputMode="numeric" placeholder="Amount to Receive"
-                    name="amountToReceive" id="amountToReceive"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="Amount to Receive"
+                    name="amountToReceive"
+                    id="amountToReceive"
                     onChange={this.updateAmountToReceive}
                     autoFocus
                   />
@@ -66,7 +68,13 @@ class ReceivePage extends Component<any, any> {
                 </InputGroup>
               </FormGroup>
               <FormGroup className="form-label-group">
-                <Input type="textarea" name="message" id="message" placeholder="Message" rows="3" />
+                <Input
+                  type="textarea"
+                  name="message"
+                  id="message"
+                  placeholder="Message"
+                  rows="3"
+                />
                 <Label for="message">Message</Label>
               </FormGroup>
             </Form>
@@ -76,23 +84,23 @@ class ReceivePage extends Component<any, any> {
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <div className="caption-secondary">Amount to Receive</div>
-              <div>
-                {this.state.amountToReceiveDisplayed} DFI
-              </div>
+              <div>{this.state.amountToReceiveDisplayed} DFI</div>
             </div>
             <div>
-              <Button
-                to="/wallet" tag={NavLink}
-                color="link" className="mr-3"
-              >
+              <Button to="/wallet" tag={NavLink} color="link" className="mr-3">
                 Cancel
               </Button>
               <Button
                 color="primary"
                 disabled={
-                  (!this.state.amountToReceive || !this.state.receiveMessage) ? true : false
+                  !this.state.amountToReceive || !this.state.receiveMessage
+                    ? true
+                    : false
                 }
-                onClick={this.receiveStepConfirm}> Continue
+                onClick={this.receiveStepConfirm}
+              >
+                {" "}
+                Continue
               </Button>
             </div>
           </div>

@@ -20,20 +20,10 @@
     "no-unused-vars": "warn",
     "constructor-super": "warn",
     "valid-typeof": "warn",
-    "quotes": [
-      2,
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ]
+    "quotes": [2, "single"],
+    "semi": ["error", "never"]
   },
   "parser": "babel-eslint",
   "extends": "airbnb",
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "import"
-  ]
+  "plugins": ["react", "jsx-a11y", "import"]
 }

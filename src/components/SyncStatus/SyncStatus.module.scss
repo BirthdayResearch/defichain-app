@@ -1,18 +1,18 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import "../../scss/variables";
+@import "../../scss/bootstrap/variables";
 
 .syncStatus {
   position: absolute;
   top: 24px;
   right: 32px;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: $font-weight-medium;
   line-height: 24px;
-  letter-spacing: .21px;
+  letter-spacing: 0.21px;
   color: $secondary;
   z-index: $zindex-dropdown;
 

@@ -1,35 +1,237 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { Card, Table } from "reactstrap";
+import styles from "./MasternodesList.module.scss";
 import {
-  Card,
-  Table
-} from 'reactstrap';
-import styles from './MasternodesList.module.scss';
+  MasternodesListProps,
+  MasternodesListState
+} from "./MasternodesPage.interface";
 
-class MasternodesList extends Component<any,any> {
+class MasternodesList extends Component<
+  MasternodesListProps,
+  MasternodesListState
+> {
   state = {
     masternodes: [
-      { id: 0, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 1, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 2, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 3, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 4, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 5, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 6, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 7, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 8, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 9, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 10, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 11, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 12, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 13, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 14, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 15, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 16, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 17, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 18, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 19, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 20, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' },
-      { id: 21, status: 'confirmed', address: 'c9a59be5d9f453229f519ab3c5289c', pose: '0', registered: '1201065', lastPaid: '1201065', nextPayment: '1201065', payee: 'XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG' }
+      {
+        id: 0,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 1,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 2,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 3,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 4,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 5,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 6,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 7,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 8,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 9,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 10,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 11,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 12,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 13,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 14,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 15,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 16,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 17,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 18,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 19,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 20,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      },
+      {
+        id: 21,
+        status: "confirmed",
+        address: "c9a59be5d9f453229f519ab3c5289c",
+        pose: "0",
+        registered: "1201065",
+        lastPaid: "1201065",
+        nextPayment: "1201065",
+        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
+      }
     ]
   };
 
@@ -50,20 +252,18 @@ class MasternodesList extends Component<any,any> {
               </tr>
             </thead>
             <tbody>
-              {this.state.masternodes.map((masternode) => (
+              {this.state.masternodes.map(masternode => (
                 <tr key={masternode.id}>
                   <td className={styles.status}>
-                    <span className={`txn-status-${masternode.status}`}>{masternode.status}</span>
+                    <span className={`txn-status-${masternode.status}`}>
+                      {masternode.status}
+                    </span>
                   </td>
                   <td>
-                    <div className={styles.address}>
-                      {masternode.address}
-                    </div>
+                    <div className={styles.address}>{masternode.address}</div>
                   </td>
                   <td>
-                    <div className={styles.pose}>
-                      {masternode.pose}
-                    </div>
+                    <div className={styles.pose}>{masternode.pose}</div>
                   </td>
                   <td>
                     <div className={styles.registered}>
@@ -71,9 +271,7 @@ class MasternodesList extends Component<any,any> {
                     </div>
                   </td>
                   <td>
-                    <div className={styles.lastPaid}>
-                      {masternode.lastPaid}
-                    </div>
+                    <div className={styles.lastPaid}>{masternode.lastPaid}</div>
                   </td>
                   <td>
                     <div className={styles.nextPayment}>
@@ -81,9 +279,7 @@ class MasternodesList extends Component<any,any> {
                     </div>
                   </td>
                   <td>
-                    <div className={styles.payee}>
-                      {masternode.payee}
-                    </div>
+                    <div className={styles.payee}>{masternode.payee}</div>
                   </td>
                 </tr>
               ))}
@@ -91,7 +287,7 @@ class MasternodesList extends Component<any,any> {
           </Table>
         </div>
       </Card>
-    )
+    );
   }
 }
 

@@ -1,9 +1,9 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import "../../scss/variables";
+@import "../../scss/bootstrap/variables";
 
 .table {
   margin-bottom: 0;
@@ -30,13 +30,13 @@
 }
 
 .hash {
-  font-size: .875rem;
-  letter-spacing: .25px;
+  font-size: 0.875rem;
+  letter-spacing: 0.25px;
 }
 
 .amount {
   text-align: right;
-  letter-spacing: .44px;
+  letter-spacing: 0.44px;
 }
 
 .unit {

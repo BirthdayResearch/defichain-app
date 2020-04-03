@@ -1,35 +1,126 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   Table,
   Pagination,
   PaginationItem,
   PaginationLink
-} from 'reactstrap';
+} from "reactstrap";
 import {
   MdChevronLeft,
   MdChevronRight,
   MdFirstPage,
   MdLastPage
-} from 'react-icons/md';
-import styles from './BlockchainTable.module.scss';
+} from "react-icons/md";
+import styles from "./BlockchainTable.module.scss";
+import {
+  BlockchainTableProps,
+  BlockchainTableState
+} from "./BlockchainPage.interface";
 
-class BlockchainTable extends Component<any,any> {
+class BlockchainTable extends Component<
+  BlockchainTableProps,
+  BlockchainTableState
+> {
   state = {
     blocks: [
-      { height: 612138, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' },
-      { height: 612137, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' },
-      { height: 612136, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner B', minerID: 2, size: '93770' },
-      { height: 612135, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner C', minerID: 3, size: '93770' },
-      { height: 612134, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' },
-      { height: 612133, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner B', minerID: 2, size: '93770' },
-      { height: 612132, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner B', minerID: 2, size: '93770' },
-      { height: 612131, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' },
-      { height: 612130, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' },
-      { height: 612129, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner C', minerID: 3, size: '93770' },
-      { height: 612128, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner C', minerID: 3, size: '93770' },
-      { height: 612127, age: 'Jan 10, 2020 11:12:25 AM', txns: '2851', minerName: 'Miner A', minerID: 1, size: '93770' }
+      {
+        height: 612138,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      },
+      {
+        height: 612137,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      },
+      {
+        height: 612136,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner B",
+        minerID: 2,
+        size: "93770"
+      },
+      {
+        height: 612135,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner C",
+        minerID: 3,
+        size: "93770"
+      },
+      {
+        height: 612134,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      },
+      {
+        height: 612133,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner B",
+        minerID: 2,
+        size: "93770"
+      },
+      {
+        height: 612132,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner B",
+        minerID: 2,
+        size: "93770"
+      },
+      {
+        height: 612131,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      },
+      {
+        height: 612130,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      },
+      {
+        height: 612129,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner C",
+        minerID: 3,
+        size: "93770"
+      },
+      {
+        height: 612128,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner C",
+        minerID: 3,
+        size: "93770"
+      },
+      {
+        height: 612127,
+        age: "Jan 10, 2020 11:12:25 AM",
+        txns: "2851",
+        minerName: "Miner A",
+        minerID: 1,
+        size: "93770"
+      }
     ]
   };
 
@@ -49,30 +140,28 @@ class BlockchainTable extends Component<any,any> {
                 </tr>
               </thead>
               <tbody>
-                {this.state.blocks.map((block) => (
+                {this.state.blocks.map(block => (
                   <tr key={block.height}>
                     <td>
-                      <Link to={`/blockchain/block/${block.height}`}>{block.height}</Link>
+                      <Link to={`/blockchain/block/${block.height}`}>
+                        {block.height}
+                      </Link>
+                    </td>
+                    <td>
+                      <div>{block.age}</div>
+                    </td>
+                    <td>
+                      <div>{block.txns}</div>
                     </td>
                     <td>
                       <div>
-                        {block.age}
+                        <Link to={`/blockchain/miner/${block.minerID}`}>
+                          {block.minerName}
+                        </Link>
                       </div>
                     </td>
                     <td>
-                      <div>
-                        {block.txns}
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <Link to={`/blockchain/miner/${block.minerID}`}>{block.minerName}</Link>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        {block.size}
-                      </div>
+                      <div>{block.size}</div>
                     </td>
                   </tr>
                 ))}
@@ -81,9 +170,7 @@ class BlockchainTable extends Component<any,any> {
           </div>
         </Card>
         <div className="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            612127 – 612138 of 999,999,999 blocks
-          </div>
+          <div>612127 – 612138 of 999,999,999 blocks</div>
           <Pagination className={styles.pagination}>
             <PaginationItem>
               <PaginationLink first href="#">
@@ -117,7 +204,7 @@ class BlockchainTable extends Component<any,any> {
           </Pagination>
         </div>
       </>
-    )
+    );
   }
 }
 

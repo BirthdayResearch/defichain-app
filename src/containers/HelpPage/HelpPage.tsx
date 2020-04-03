@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { HelpPageProps, HelpPageState } from "./HelpPage.interface";
 
-class HelpPage extends Component<any,any> {
+class HelpPage extends Component<HelpPageProps, HelpPageState> {
   render() {
     return (
       <div className="main-wrapper">
@@ -12,9 +13,7 @@ class HelpPage extends Component<any,any> {
           <h1>Help</h1>
         </header>
         <div className="content">
-          <section>
-            Section
-          </section>
+          <section>Section</section>
         </div>
       </div>
     );

@@ -1,30 +1,19 @@
-import React, { Component } from 'react';
-import {
-  Button,
-  Popover,
-  PopoverBody
-} from 'reactstrap';
-import {
-  MdContentCopy
-} from "react-icons/md";
-import {
-  AiOutlineQrcode
-} from "react-icons/ai";
-import styles from './KeyValueLi.module.scss';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import classnames from 'classnames';
-import {
-  KeyValueLiProps,
-  KeyValueLiState
-} from './KeyValueLi.interface';
+import React, { Component } from "react";
+import { Button, Popover, PopoverBody } from "reactstrap";
+import { MdContentCopy } from "react-icons/md";
+import { AiOutlineQrcode } from "react-icons/ai";
+import styles from "./KeyValueLi.module.scss";
+import CopyToClipboard from "react-copy-to-clipboard";
+import classnames from "classnames";
+import { KeyValueLiProps, KeyValueLiState } from "./KeyValueLi.interface";
 
-const QRCode = require('qrcode.react');
+const QRCode = require("qrcode.react");
 
-class KeyValueLi extends Component<any,any> {
+class KeyValueLi extends Component<KeyValueLiProps, KeyValueLiState> {
   state = {
     copied: false,
     qrOpen: false
-  }
+  };
 
   handleCopy = () => {
     this.setState({
@@ -35,21 +24,22 @@ class KeyValueLi extends Component<any,any> {
         copied: false
       });
     }, 600);
-  }
+  };
 
   toggleQR = () => {
     this.setState({
       qrOpen: !this.state.qrOpen
-    })
-  }
+    });
+  };
 
   render() {
     let copyButton, qrButton;
     if (this.props.copyable) {
       copyButton = (
-        <CopyToClipboard text={this.props.value}>
+        <CopyToClipboard text={this.props.value!}>
           <Button
-            color="link" size="sm"
+            color="link"
+            size="sm"
             className="padless ml-2"
             onClick={this.handleCopy}
           >
@@ -63,10 +53,11 @@ class KeyValueLi extends Component<any,any> {
       qrButton = (
         <>
           <Button
-            color="link" size="sm"
+            color="link"
+            size="sm"
             className="padless ml-2"
             id={this.props.uid}
-            onClick={(e) => e.currentTarget.focus()} // Need for Popover trigger="focus" to work
+            onClick={e => e.currentTarget.focus()} // Need for Popover trigger="focus" to work
           >
             <AiOutlineQrcode />
           </Button>
@@ -91,14 +82,17 @@ class KeyValueLi extends Component<any,any> {
 
     return (
       <div className={styles.keyValueLi}>
-        <div className={styles.label}>
-          {this.props.label}
-        </div>
+        <div className={styles.label}>{this.props.label}</div>
         <div className={styles.value}>
-          <div className={classnames({ 'd-flex': this.state.copied }, styles.copiedIndicator)}>Copied!</div>
-          <div>
-            {this.props.value}
+          <div
+            className={classnames(
+              { "d-flex": this.state.copied },
+              styles.copiedIndicator
+            )}
+          >
+            Copied!
           </div>
+          <div>{this.props.value}</div>
           {qrButton}
           {copyButton}
         </div>
