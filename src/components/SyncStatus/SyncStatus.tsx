@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import {
-  MdDone
-} from "react-icons/md";
-import styles from './SyncStatus.module.scss';
-import Spinner from '../../components/Spinner/Spinner';
+import React, { Component } from "react";
+import { MdDone } from "react-icons/md";
+import styles from "./SyncStatus.module.scss";
+import Spinner from "../../components/Spinner/Spinner";
+import { SyncStatusProps, SyncStatusState } from "./SyncStatus.interface";
 
-function StatusIcon(icon) {
+function StatusIcon(icon: any) {
   const StatusIcon = icon;
   return <StatusIcon />;
 }
 
-class SyncStatus extends Component<any,any> {
+class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
   state = {
     status: "Synced",
     syncedAgo: "a minute ago",
@@ -26,9 +25,12 @@ class SyncStatus extends Component<any,any> {
       syncedAgo: "just now",
       statusAssets: {
         icon: this.state.statusAssets.icon === MdDone ? Spinner : MdDone,
-        label: this.state.statusAssets.label === "Synchronized" ? "Syncing" : "Synchronized"
+        label:
+          this.state.statusAssets.label === "Synchronized"
+            ? "Syncing"
+            : "Synchronized"
       }
-    });
+    } as SyncStatusState);
   };
 
   render() {

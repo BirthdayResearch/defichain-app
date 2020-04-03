@@ -1,26 +1,31 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
-import store from "./app/rootStore";
-import { Route, Switch, withRouter } from "react-router-dom";
+import store from "./rootStore";
+import {
+  Route,
+  Switch,
+  withRouter,
+  RouteComponentProps
+} from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./App.scss";
-import Sidebar from "./components/Sidebar/Sidebar";
-import SyncStatus from "./components/SyncStatus/SyncStatus";
-import WalletPage from "./containers/WalletPage/WalletPage";
-import SendPage from "./containers/WalletPage/SendPage";
-import ReceivePage from "./containers/WalletPage/ReceivePage";
-import PaymentRequestPage from "./containers/WalletPage/PaymentRequestPage";
-import MasternodesPage from "./containers/MasternodesPage/MasternodesPage";
-import BlockchainPage from "./containers/BlockchainPage/BlockchainPage";
-import BlockPage from "./containers/BlockchainPage/BlockPage";
-import MinerPage from "./containers/BlockchainPage/MinerPage";
-import ExchangePage from "./containers/ExchangePage/ExchangePage";
-import HelpPage from "./containers/HelpPage/HelpPage";
-import Error404Page from "./containers/Errors/Error404Page";
-import SettingsPage from "./containers/SettingsPage/SettingsPage";
+import Sidebar from "../components/Sidebar/Sidebar";
+import SyncStatus from "../components/SyncStatus/SyncStatus";
+import WalletPage from "../containers/WalletPage/WalletPage";
+import SendPage from "../containers/WalletPage/SendPage";
+import ReceivePage from "../containers/WalletPage/ReceivePage";
+import PaymentRequestPage from "../containers/WalletPage/PaymentRequestPage";
+import MasternodesPage from "../containers/MasternodesPage/MasternodesPage";
+import BlockchainPage from "../containers/BlockchainPage/BlockchainPage";
+import BlockPage from "../containers/BlockchainPage/BlockPage";
+import MinerPage from "../containers/BlockchainPage/MinerPage";
+import ExchangePage from "../containers/ExchangePage/ExchangePage";
+import HelpPage from "../containers/HelpPage/HelpPage";
+import Error404Page from "../containers/Errors/Error404Page";
+import SettingsPage from "../containers/SettingsPage/SettingsPage";
 
-class App extends Component {
+class App extends Component<RouteComponentProps, { prevDepth: Function }> {
   getPathDepth = (location: any) => {
     return (location || {}).pathname.split("/").length;
   };

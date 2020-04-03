@@ -1,24 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import {
-  Button,
-  ButtonGroup,
-  Row,
-  Col,
-} from 'reactstrap';
-import {
-  MdArrowUpward,
-  MdArrowDownward
-} from "react-icons/md";
-import { NavLink as RRNavLink } from 'react-router-dom';
-import StatCard from '../../components/StatCard/StatCard';
-import WalletTxns from './WalletTxns';
-import PaymentRequests from './PaymentRequests';
+import { Button, ButtonGroup, Row, Col } from "reactstrap";
+import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
+import { NavLink as RRNavLink } from "react-router-dom";
+import StatCard from "../../components/StatCard/StatCard";
+import WalletTxns from "./WalletTxns";
+import PaymentRequests from "./PaymentRequests";
+import { WalletPageProps, WalletPageState } from "./WalletPage.interface";
 
-class WalletPage extends Component<any,any> {
+class WalletPage extends Component<WalletPageProps, WalletPageState> {
   state = {
-    activeTab: 'txns'
-  }
+    activeTab: "txns"
+  };
 
   setActiveTab = tab => {
     if (this.state.activeTab !== tab) {
@@ -26,7 +19,7 @@ class WalletPage extends Component<any,any> {
         activeTab: tab
       });
     }
-  }
+  };
 
   render() {
     return (

@@ -1,9 +1,12 @@
-export interface KeyValueLiState {}
+export interface KeyValueLiState {
+  copied: Boolean;
+  qrOpen: Boolean;
+}
 
 export interface KeyValueLiProps {
-  copyable: any;
-  value: any;
-  popsQR: any;
-  uid: any;
-  label: any;
+  copyable?: boolean | string;
+  value?: string;
+  popsQR?: any;
+  uid?: any;
+  label?: string;
 }

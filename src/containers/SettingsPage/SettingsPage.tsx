@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import {
   Button,
@@ -20,27 +20,23 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from 'reactstrap';
-import {
-  MdCheck
-} from 'react-icons/md';
-import classnames from 'classnames';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-import RangeSlider from 'react-bootstrap-range-slider';
+} from "reactstrap";
+import { MdCheck } from "react-icons/md";
+import classnames from "classnames";
+import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
+import RangeSlider from "react-bootstrap-range-slider";
+import { SettingsPageProps, SettingsPageState } from "./SettingsPage.interface";
 
-class SettingsPage extends Component<any,any> {
+class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   state = {
-    activeTab: 'general',
+    activeTab: "general",
     settingsPruneBlockStorage: false,
     settingsScriptVerificationThreads: 0,
-    settingsLanguage: 'English',
-    settingsAmountsUnit: 'DFI',
-    languages: [
-      { english: 'English' },
-      { german: 'German' }
-    ],
-    displayMode: 'Same as system'
-  }
+    settingsLanguage: "English",
+    settingsAmountsUnit: "DFI",
+    languages: [{ english: "English" }, { german: "German" }],
+    displayMode: "Same as system"
+  };
 
   setActiveTab = tab => {
     if (this.state.activeTab !== tab) {
@@ -48,37 +44,37 @@ class SettingsPage extends Component<any,any> {
         activeTab: tab
       });
     }
-  }
+  };
 
   toggleSettingsPruneBlockStorage = () => {
     this.setState({
       settingsPruneBlockStorage: !this.state.settingsPruneBlockStorage
     });
-  }
+  };
 
-  adjustScriptVerificationThreads = (e) => {
+  adjustScriptVerificationThreads = e => {
     this.setState({
       settingsScriptVerificationThreads: parseInt(e.target.value)
     });
-  }
+  };
 
-  adjustLanguage = (e) => {
+  adjustLanguage = e => {
     this.setState({
       settingsLanguage: e.target.value
     });
-  }
+  };
 
-  changeDisplayMode = (e) => {
+  changeDisplayMode = e => {
     this.setState({
       displayMode: e.target.value
     });
-  }
+  };
 
-  adjustAmountsUnit = (e) => {
+  adjustAmountsUnit = e => {
     this.setState({
       settingsAmountsUnit: e.target.value
     });
-  }
+  };
 
   render() {
     return (
@@ -91,16 +87,24 @@ class SettingsPage extends Component<any,any> {
           <Nav pills>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === 'general' })}
-                onClick={() => { this.setActiveTab('general') }}
+                className={classnames({
+                  active: this.state.activeTab === "general"
+                })}
+                onClick={() => {
+                  this.setActiveTab("general");
+                }}
               >
                 General
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === 'display' })}
-                onClick={() => { this.setActiveTab('display') }}
+                className={classnames({
+                  active: this.state.activeTab === "display"
+                })}
+                onClick={() => {
+                  this.setActiveTab("display");
+                }}
               >
                 Display
               </NavLink>
@@ -114,9 +118,7 @@ class SettingsPage extends Component<any,any> {
               <section>
                 <Form>
                   <Row className="mb-5">
-                    <Col md="4">
-                      Launch options
-                    </Col>
+                    <Col md="4">Launch options</Col>
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
@@ -135,9 +137,7 @@ class SettingsPage extends Component<any,any> {
                     </Col>
                   </Row>
                   <Row className="mb-5">
-                    <Col md="4">
-                      Storage
-                    </Col>
+                    <Col md="4">Storage</Col>
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
@@ -151,9 +151,18 @@ class SettingsPage extends Component<any,any> {
                           </Label>
                         </FormGroup>
                       </FormGroup>
-                      <FormGroup className={`form-label-group ${classnames({ 'd-none': !this.state.settingsPruneBlockStorage })}`}>
+                      <FormGroup
+                        className={`form-label-group ${classnames({
+                          "d-none": !this.state.settingsPruneBlockStorage
+                        })}`}
+                      >
                         <InputGroup>
-                          <Input type="text" name="pruneTo" id="pruneTo" placeholder="Number" />
+                          <Input
+                            type="text"
+                            name="pruneTo"
+                            id="pruneTo"
+                            placeholder="Number"
+                          />
                           <Label for="pruneTo">Block storage to prune</Label>
                           <InputGroupAddon addonType="append">
                             <InputGroupText>GB</InputGroupText>
@@ -162,8 +171,15 @@ class SettingsPage extends Component<any,any> {
                       </FormGroup>
                       <FormGroup className="form-label-group mb-5">
                         <InputGroup>
-                          <Input type="text" name="dbCacheSize" id="dbCacheSize" placeholder="Number" />
-                          <Label for="dbCacheSize">Size of database cache</Label>
+                          <Input
+                            type="text"
+                            name="dbCacheSize"
+                            id="dbCacheSize"
+                            placeholder="Number"
+                          />
+                          <Label for="dbCacheSize">
+                            Size of database cache
+                          </Label>
                           <InputGroupAddon addonType="append">
                             <InputGroupText>MiB</InputGroupText>
                           </InputGroupAddon>
@@ -172,17 +188,19 @@ class SettingsPage extends Component<any,any> {
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="4">
-                      Script verification
-                    </Col>
+                    <Col md="4">Script verification</Col>
                     <Col md="8">
                       <FormGroup className="form-row">
                         <Col md="8">
-                          <Label for="scriptVerificationThreads">Number of threads</Label>
+                          <Label for="scriptVerificationThreads">
+                            Number of threads
+                          </Label>
                           <Row className="align-items-center">
                             <Col className="col-auto">
                               <RangeSlider
-                                value={this.state.settingsScriptVerificationThreads}
+                                value={
+                                  this.state.settingsScriptVerificationThreads
+                                }
                                 onChange={this.adjustScriptVerificationThreads}
                                 min={-2}
                                 max={16}
@@ -191,13 +209,14 @@ class SettingsPage extends Component<any,any> {
                                 id="scriptVerificationThreads"
                               />
                             </Col>
-                            {this.state.settingsScriptVerificationThreads === 0 ? 'Auto' : this.state.settingsScriptVerificationThreads}
+                            {this.state.settingsScriptVerificationThreads === 0
+                              ? "Auto"
+                              : this.state.settingsScriptVerificationThreads}
                           </Row>
                         </Col>
                       </FormGroup>
                     </Col>
                   </Row>
-                  
                 </Form>
               </section>
             </TabPane>
@@ -205,63 +224,120 @@ class SettingsPage extends Component<any,any> {
               <section>
                 <Form>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      App language
-                    </Col>
+                    <Col md="4">App language</Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
                           {this.state.settingsLanguage}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.adjustLanguage} value="English">
-                            <span>English</span> {this.state.settingsLanguage === "English" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.adjustLanguage}
+                            value="English"
+                          >
+                            <span>English</span>{" "}
+                            {this.state.settingsLanguage === "English" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.adjustLanguage} value="German">
-                            <span>German</span> {this.state.settingsLanguage === "German" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.adjustLanguage}
+                            value="German"
+                          >
+                            <span>German</span>{" "}
+                            {this.state.settingsLanguage === "German" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Col>
                   </FormGroup>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      Display amounts in unit
-                    </Col>
+                    <Col md="4">Display amounts in unit</Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
                           {this.state.settingsAmountsUnit}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.adjustAmountsUnit} value="DFI">
-                            <span>DFI</span> {this.state.settingsAmountsUnit === "DFI" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.adjustAmountsUnit}
+                            value="DFI"
+                          >
+                            <span>DFI</span>{" "}
+                            {this.state.settingsAmountsUnit === "DFI" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.adjustAmountsUnit} value="µDFI">
-                            <span>µDFI</span> {this.state.settingsAmountsUnit === "µDFI" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.adjustAmountsUnit}
+                            value="µDFI"
+                          >
+                            <span>µDFI</span>{" "}
+                            {this.state.settingsAmountsUnit === "µDFI" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Col>
                   </FormGroup>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      Display mode
-                    </Col>
+                    <Col md="4">Display mode</Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
                           {this.state.displayMode}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Same as system">
-                            <span>Same as system</span> {this.state.displayMode === "Same as system" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.changeDisplayMode}
+                            value="Same as system"
+                          >
+                            <span>Same as system</span>{" "}
+                            {this.state.displayMode === "Same as system" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Light">
-                            <span>Light</span> {this.state.displayMode === "Light" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.changeDisplayMode}
+                            value="Light"
+                          >
+                            <span>Light</span>{" "}
+                            {this.state.displayMode === "Light" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
-                          <DropdownItem className="d-flex justify-content-between" onClick={this.changeDisplayMode} value="Dark">
-                            <span>Dark</span> {this.state.displayMode === "Dark" ? <MdCheck /> : ''}
+                          <DropdownItem
+                            className="d-flex justify-content-between"
+                            onClick={this.changeDisplayMode}
+                            value="Dark"
+                          >
+                            <span>Dark</span>{" "}
+                            {this.state.displayMode === "Dark" ? (
+                              <MdCheck />
+                            ) : (
+                              ""
+                            )}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
@@ -270,19 +346,13 @@ class SettingsPage extends Component<any,any> {
                 </Form>
               </section>
             </TabPane>
-          </TabContent>  
+          </TabContent>
         </div>
         <footer className="footer-bar">
           <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">
-              You have unsaved changes
-            </Col>
+            <Col className="col-auto">You have unsaved changes</Col>
             <Col className="d-flex justify-content-end">
-              <Button
-                color="primary"
-              >
-                Save setttings
-              </Button>
+              <Button color="primary">Save setttings</Button>
             </Col>
           </Row>
         </footer>

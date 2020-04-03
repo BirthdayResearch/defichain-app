@@ -4,10 +4,8 @@ import reducer from "./rootReducer";
 import sagaMiddleware, { startSaga } from "./rootSaga";
 
 const isProduction = process.env.NODE_ENV === "production";
-const middleware = [sagaMiddleware];
-if (!isProduction) {
-  middleware.push(logger);
-}
+const middleware = isProduction ? [sagaMiddleware] : [sagaMiddleware, logger];
+
 const store = configureStore({
   reducer,
   middleware
