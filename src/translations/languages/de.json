@@ -1,0 +1,171 @@
+{
+  "components": {
+    "keyValueLi": {
+      "copied!": "Copied!"
+    },
+    "searchBar": {},
+    "sideBar": {
+      "balance": "Balance",
+      "dfi": "DFI",
+      "wallet": "Wallet",
+      "masterNodes": "Masternodes",
+      "blockchain": "Blockchain",
+      "exchange": "Exchange",
+      "help": "Help",
+      "settings": "Settings"
+    },
+    "spinner": {},
+    "statCard": {},
+    "syncStatus": {}
+  },
+  "containers": {
+    "blockChainPage": {
+      "blockChainPage": {
+        "title": "Blockchain – DeFi Blockchain Client",
+        "blockchain": "Blockchain"
+      },
+      "blockChainTable": {
+        "height": "Height",
+        "age": "Age",
+        "transactions": "Transactions",
+        "minedBy": "Mined by",
+        "size": "Size",
+        "count": "612127 – 612138 of 999,999,999 blocks"
+      },
+      "blockPage": {
+        "block": "Block",
+        "title": "– DeFi Blockchain Client",
+        "blockchain": "Blockchain",
+        "transactions": "Transactions"
+      },
+      "blockTxn": {
+        "noInputs": "No Inputs (Newly Generated Coins)",
+        "copied!": "Copied!",
+        "dFI": "dFI"
+      },
+      "minerPage": {
+        "blockchain": "Blockchain",
+        "miner": "Miner"
+      }
+    },
+    "errors": {
+      "title": "dFI Block Processing Center – DeFi Blockchain Client",
+      "header": "dFI Block Processing Center",
+      "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
+      "goBack": "Go back"
+    },
+    "exchangePage": {
+      "title": "Exchange – DeFi Blockchain Client",
+      "exchange": "Exchange",
+      "section": "Section",
+      "footerBar": "Footer Bar"
+    },
+    "helpPage": {
+      "title": "Help – DeFi Blockchain Client",
+      "help": "Help",
+      "section": "Section"
+    },
+    "masterNodes": {
+      "masterNodesPage": {
+        "title": "Masternodes – DeFi Blockchain Client",
+        "masterNodes": "Masternodes",
+        "statistics": "Statistics",
+        "list": "List"
+      },
+      "masterNodesList": {
+        "address": "Address",
+        "poseSore": "PoSe score",
+        "registered": "Registered",
+        "lastPaid": "Last paid",
+        "nextPayment": "Next payment",
+        "payee": "Payee"
+      }
+    },
+    "settings": {
+      "title": "Settings – DeFi Blockchain Client",
+      "settings": "Settings",
+      "general": "General",
+      "display": "display",
+      "launchOptions": "Launch options",
+      "launchAtLogin": "Launch at login",
+      "minimizedAtLaunch": "Minimized at launch",
+      "storage": "Storage",
+      "pruneBlockStorage": "Prune block storage",
+      "blockPruneStorage": "Block storage to prune",
+      "gb": "GB",
+      "databaseSize": "Size of database cache",
+      "mib": "MiB",
+      "scripteVerification": "Script verification",
+      "noOfThreads": "Number of threads",
+      "appLanguage": "App language",
+      "english": "English",
+      "german": "German",
+      "displayAmount": "display amounts in unit",
+      "dFI": "dFI",
+      "µDFI": "µDFI",
+      "displayModea": "display mode",
+      "sameAsSystem": "Same as system",
+      "light": "Light",
+      "dark": "dark",
+      "unsavedChanges": "You have unsaved changes",
+      "saveSettings": "Save setttings"
+    },
+    "wallet": {
+      "sendPage": {
+        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
+        "wallet": "Wallet",
+        "sendDFI": "Send DFI",
+        "amount": "Amount",
+        "dFI": "dFI",
+        "MAX": "MAX",
+        "toAddress": "To address",
+        "walletBalance": "Wallet balance",
+        "amountToSend": "Amount to send",
+        "cancel": "Cancel",
+        "continue": "Continue",
+        "to": "To",
+        "pleaseVerifyAmount": "Please verify the amount and recipient",
+        "completeSend": "Complete Send",
+        "transactionSuccessMssg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "backToWallet": "Back to wallet"
+      },
+      "receivePage": {
+        "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
+        "qallet": "Wallet",
+        "receiveDFI": "Receive DFI",
+        "amount": "Amount",
+        "dFI": "dFI",
+        "message": "Message",
+        "amountToReceive": "Amount to Receive",
+        "cancel": "Cancel",
+        "continue": "Continue"
+      },
+      "paymentRequests": {
+        "time": "Time",
+        "amount": "Amount",
+        "message": "Message",
+        "cancelRequest": "Cancel request"
+      },
+      "paymentRequestPage": {
+        "paymentRequest": "Payment request",
+        "defiBlockChainClient": "deFi Blockchain Client",
+        "wallet": "Wallet",
+        "delete": "delete"
+      },
+      "walletPage": {
+        "walletDefiClient": "Wallet – DeFi Blockchain Client",
+        "wallet": "Wallet",
+        "delete": "delete",
+        "send": "Send",
+        "receive": "Receive",
+        "paymentRequests": "Payment requests",
+        "transactions": "Transactions"
+      },
+      "walletTxns": {
+        "time": "Time",
+        "amount": "Amount",
+        "hash": "Hash"
+      }
+    }
+  }
+}
