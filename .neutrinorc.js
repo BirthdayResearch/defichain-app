@@ -69,7 +69,7 @@ module.exports = {
               loader: 'sass-loader',
               useId: 'sass',
 
-            }
+            },
           ],
           extract: {
             plugin: {
@@ -94,6 +94,14 @@ module.exports = {
         .test(neutrino.regexFromExtensions(["txt"]))
         .use("raw")
         .loader("raw-loader");
+        config.module
+        .rule("file")
+        .test(neutrino.regexFromExtensions(["mp3"]))
+        .use("file")
+        .loader("file-loader")
+        .options({
+          name: '[path][name].[ext]',
+        });
       config.module
         .rule("worker")
         .test(/\.worker\.js$/)
