@@ -5,6 +5,7 @@ import {
   withRouter,
   RouteComponentProps
 } from "react-router-dom";
+import { I18n } from "react-redux-i18n";
 import {
   MdAccountBalanceWallet,
   MdDns,
@@ -28,9 +29,11 @@ class Sidebar extends Component<
     return (
       <div className={styles.sidebar}>
         <div className={styles.balance}>
-          <div className={styles.balanceLabel}>Balance</div>
+          <div className={styles.balanceLabel}>
+            {I18n.t("components.sideBar.balance")}
+          </div>
           <div className={styles.balanceValue}>
-            {this.state.balance.available} DFI
+            {this.state.balance.available} {I18n.t("components.sideBar.dfi")}
           </div>
         </div>
         <div className={styles.navs}>
@@ -50,7 +53,7 @@ class Sidebar extends Component<
                 }}
               >
                 <MdAccountBalanceWallet />
-                Wallet
+                {I18n.t("components.sideBar.wallet")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -61,7 +64,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdDns />
-                Masternodes
+                {I18n.t("components.sideBar.masterNodes")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -72,7 +75,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdViewWeek />
-                Blockchain
+                {I18n.t("components.sideBar.blockchain")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -83,7 +86,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdCompareArrows />
-                Exchange
+                {I18n.t("components.sideBar.exchange")}
               </NavLink>
             </NavItem>
           </Nav>
@@ -95,7 +98,7 @@ class Sidebar extends Component<
                 className={styles.navLink}
                 activeClassName={styles.active}
               >
-                Help
+                {I18n.t("components.sideBar.help")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -105,7 +108,7 @@ class Sidebar extends Component<
                 className={styles.navLink}
                 activeClassName={styles.active}
               >
-                Settings
+                {I18n.t("components.sideBar.settings")}
               </NavLink>
             </NavItem>
           </Nav>
