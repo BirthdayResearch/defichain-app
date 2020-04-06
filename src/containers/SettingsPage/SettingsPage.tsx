@@ -19,8 +19,9 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
+import { I18n } from "react-redux-i18n";
 import { MdCheck } from "react-icons/md";
 import classnames from "classnames";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
@@ -32,81 +33,113 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     activeTab: "general",
     settingsPruneBlockStorage: false,
     settingsScriptVerificationThreads: 0,
-    settingsLanguage: "English",
-    settingsAmountsUnit: "DFI",
-    languages: [{ english: "English" }, { german: "German" }],
-    displayMode: "Same as system"
+    languages: [
+      { label: I18n.t("containers.settings.english"), value: "en" },
+      { label: I18n.t("containers.settings.german"), value: "de" },
+    ],
+    amountUnits: [
+      { label: I18n.t("containers.settings.dFI"), value: "DFI" },
+      { label: I18n.t("containers.settings.µDFI"), value: "µDFI" },
+    ],
+    displayModes: [
+      {
+        label: I18n.t("containers.settings.sameAsSystem"),
+        value: "same_as_system",
+      },
+      { label: I18n.t("containers.settings.light"), value: "light" },
+      { label: I18n.t("containers.settings.dark"), value: "dark" },
+    ],
+    settingsLanguage: {
+      label: I18n.t("containers.settings.english"),
+      value: "en",
+    },
+    settingsAmountsUnit: {
+      label: I18n.t("containers.settings.dFI"),
+      value: "DFI",
+    },
+    settingDisplayMode: {
+      label: I18n.t("containers.settings.sameAsSystem"),
+      value: "same_as_system",
+    },
   };
 
-  setActiveTab = tab => {
+  setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   toggleSettingsPruneBlockStorage = () => {
     this.setState({
-      settingsPruneBlockStorage: !this.state.settingsPruneBlockStorage
+      settingsPruneBlockStorage: !this.state.settingsPruneBlockStorage,
     });
   };
 
-  adjustScriptVerificationThreads = e => {
+  adjustScriptVerificationThreads = (e) => {
     this.setState({
-      settingsScriptVerificationThreads: parseInt(e.target.value)
+      settingsScriptVerificationThreads: parseInt(e.target.value),
     });
   };
 
-  adjustLanguage = e => {
+  adjustLanguage = (langObj) => {
     this.setState({
-      settingsLanguage: e.target.value
+      settingsLanguage: langObj,
     });
   };
 
-  changeDisplayMode = e => {
+  changeDisplayMode = (displayObj) => {
     this.setState({
-      displayMode: e.target.value
+      settingDisplayMode: displayObj,
     });
   };
 
-  adjustAmountsUnit = e => {
+  adjustAmountsUnit = (unitObj) => {
     this.setState({
-      settingsAmountsUnit: e.target.value
+      settingsAmountsUnit: unitObj,
     });
   };
 
   render() {
+    const {
+      languages,
+      settingsLanguage,
+      amountUnits,
+      settingsAmountsUnit,
+      displayModes,
+      settingDisplayMode,
+    } = this.state;
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Settings – DeFi Blockchain Client</title>
+          <title>{I18n.t("containers.settings.title")}</title>
         </Helmet>
         <header className="header-bar">
-          <h1>Settings</h1>
+          <h1>{I18n.t("containers.settings.settings")}</h1>
           <Nav pills>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "general"
+                  active: this.state.activeTab === "general",
                 })}
                 onClick={() => {
                   this.setActiveTab("general");
                 }}
               >
-                General
+                {I18n.t("containers.settings.general")}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "display"
+                  active: this.state.activeTab === "display",
                 })}
                 onClick={() => {
                   this.setActiveTab("display");
                 }}
               >
-                Display
+                {I18n.t("containers.settings.display")}
               </NavLink>
             </NavItem>
           </Nav>
@@ -118,26 +151,30 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
               <section>
                 <Form>
                   <Row className="mb-5">
-                    <Col md="4">Launch options</Col>
+                    <Col md="4">
+                      {I18n.t("containers.settings.launchOptions")}
+                    </Col>
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
                           <Label check className="switch">
-                            <Input type="checkbox" /> Launch at login
+                            <Input type="checkbox" />{" "}
+                            {I18n.t("containers.settings.launchAtLogin")}
                           </Label>
                         </FormGroup>
                       </FormGroup>
                       <FormGroup>
                         <FormGroup check>
                           <Label check className="switch">
-                            <Input type="checkbox" /> Minimized at launch
+                            <Input type="checkbox" />{" "}
+                            {I18n.t("containers.settings.minimizedAtLaunch")}
                           </Label>
                         </FormGroup>
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row className="mb-5">
-                    <Col md="4">Storage</Col>
+                    <Col md="4">{I18n.t("containers.settings.storage")}</Col>
                     <Col md="8">
                       <FormGroup>
                         <FormGroup check>
@@ -147,13 +184,13 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                               checked={this.state.settingsPruneBlockStorage}
                               onChange={this.toggleSettingsPruneBlockStorage}
                             />
-                            Prune block storage
+                            {I18n.t("containers.settings.pruneBlockStorage")}
                           </Label>
                         </FormGroup>
                       </FormGroup>
                       <FormGroup
                         className={`form-label-group ${classnames({
-                          "d-none": !this.state.settingsPruneBlockStorage
+                          "d-none": !this.state.settingsPruneBlockStorage,
                         })}`}
                       >
                         <InputGroup>
@@ -163,7 +200,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                             id="pruneTo"
                             placeholder="Number"
                           />
-                          <Label for="pruneTo">Block storage to prune</Label>
+                          <Label for="pruneTo">
+                            {I18n.t("containers.settings.blockPruneStorage")}
+                          </Label>
                           <InputGroupAddon addonType="append">
                             <InputGroupText>GB</InputGroupText>
                           </InputGroupAddon>
@@ -178,22 +217,26 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                             placeholder="Number"
                           />
                           <Label for="dbCacheSize">
-                            Size of database cache
+                            {I18n.t("containers.settings.databaseSize")}
                           </Label>
                           <InputGroupAddon addonType="append">
-                            <InputGroupText>MiB</InputGroupText>
+                            <InputGroupText>
+                              {I18n.t("containers.settings.mib")}
+                            </InputGroupText>
                           </InputGroupAddon>
                         </InputGroup>
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="4">Script verification</Col>
+                    <Col md="4">
+                      {I18n.t("containers.settings.scriptVerification")}
+                    </Col>
                     <Col md="8">
                       <FormGroup className="form-row">
                         <Col md="8">
                           <Label for="scriptVerificationThreads">
-                            Number of threads
+                            {I18n.t("containers.settings.noOfThreads")}
                           </Label>
                           <Row className="align-items-center">
                             <Col className="col-auto">
@@ -224,121 +267,88 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
               <section>
                 <Form>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">App language</Col>
+                    <Col md="4">
+                      {I18n.t("containers.settings.appLanguage")}
+                    </Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
-                          {this.state.settingsLanguage}
+                          {settingsLanguage.label}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.adjustLanguage}
-                            value="English"
-                          >
-                            <span>English</span>{" "}
-                            {this.state.settingsLanguage === "English" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.adjustLanguage}
-                            value="German"
-                          >
-                            <span>German</span>{" "}
-                            {this.state.settingsLanguage === "German" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
+                          {languages.map((language) => {
+                            return (
+                              <DropdownItem
+                                className="d-flex justify-content-between"
+                                key={language.value}
+                                onClick={() => this.adjustLanguage(language)}
+                                value={language.value}
+                              >
+                                <span>{language.label}</span>{" "}
+                                {settingsLanguage.value === language.value && (
+                                  <MdCheck />
+                                )}
+                              </DropdownItem>
+                            );
+                          })}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Col>
                   </FormGroup>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">Display amounts in unit</Col>
+                    <Col md="4">
+                      {I18n.t("containers.settings.displayAmount")}
+                    </Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
-                          {this.state.settingsAmountsUnit}
+                          {settingsAmountsUnit.label}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.adjustAmountsUnit}
-                            value="DFI"
-                          >
-                            <span>DFI</span>{" "}
-                            {this.state.settingsAmountsUnit === "DFI" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.adjustAmountsUnit}
-                            value="µDFI"
-                          >
-                            <span>µDFI</span>{" "}
-                            {this.state.settingsAmountsUnit === "µDFI" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
+                          {amountUnits.map((eachUnit) => {
+                            return (
+                              <DropdownItem
+                                className="d-flex justify-content-between"
+                                onClick={() => this.adjustAmountsUnit(eachUnit)}
+                                key={eachUnit.value}
+                                value={eachUnit.value}
+                              >
+                                <span>{eachUnit.label}</span>{" "}
+                                {settingsAmountsUnit.value ===
+                                  eachUnit.value && <MdCheck />}
+                              </DropdownItem>
+                            );
+                          })}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Col>
                   </FormGroup>
                   <FormGroup className="form-row align-items-center">
-                    <Col md="4">Display mode</Col>
+                    <Col md="4">
+                      {I18n.t("containers.settings.displayMode")}
+                    </Col>
                     <Col md="8">
                       <UncontrolledDropdown>
                         <DropdownToggle caret color="outline-secondary">
-                          {this.state.displayMode}
+                          {settingDisplayMode.label}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.changeDisplayMode}
-                            value="Same as system"
-                          >
-                            <span>Same as system</span>{" "}
-                            {this.state.displayMode === "Same as system" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.changeDisplayMode}
-                            value="Light"
-                          >
-                            <span>Light</span>{" "}
-                            {this.state.displayMode === "Light" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
-                          <DropdownItem
-                            className="d-flex justify-content-between"
-                            onClick={this.changeDisplayMode}
-                            value="Dark"
-                          >
-                            <span>Dark</span>{" "}
-                            {this.state.displayMode === "Dark" ? (
-                              <MdCheck />
-                            ) : (
-                              ""
-                            )}
-                          </DropdownItem>
+                          {displayModes.map((displayMode) => {
+                            return (
+                              <DropdownItem
+                                className="d-flex justify-content-between"
+                                key={displayMode.value}
+                                onClick={() =>
+                                  this.changeDisplayMode(displayMode)
+                                }
+                                value={displayMode.value}
+                              >
+                                <span>{displayMode.label}</span>{" "}
+                                {settingDisplayMode.value ===
+                                  displayMode.value && <MdCheck />}
+                              </DropdownItem>
+                            );
+                          })}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Col>
@@ -350,9 +360,13 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
         </div>
         <footer className="footer-bar">
           <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">You have unsaved changes</Col>
+            <Col className="col-auto">
+              {I18n.t("containers.settings.unsavedChanges")}
+            </Col>
             <Col className="d-flex justify-content-end">
-              <Button color="primary">Save setttings</Button>
+              <Button color="primary">
+                {I18n.t("containers.settings.saveSettings")}
+              </Button>
             </Col>
           </Row>
         </footer>

@@ -3,11 +3,10 @@ export interface SettingsPageState {
   activeTab: string;
   settingsPruneBlockStorage: boolean;
   settingsScriptVerificationThreads: number;
-  settingsLanguage: string;
-  settingsAmountsUnit: string;
-  languages: Array<
-    | { english: string; german?: undefined }
-    | { german: string; english?: undefined }
-  >;
-  displayMode: string;
+  languages: Array<{ label: string; value: string }>;
+  amountUnits: Array<{ label: string; value: string }>;
+  displayModes: Array<{ label: string; value: string }>;
+  settingsLanguage: { label?: string; value?: string };
+  settingsAmountsUnit: { label?: string; value?: string };
+  settingDisplayMode: { label?: string; value?: string };
 }
