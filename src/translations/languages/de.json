@@ -1,7 +1,7 @@
 {
   "components": {
     "keyValueLi": {
-      "copied!": "Copied!"
+      "copied": "Copied!"
     },
     "searchBar": {},
     "sideBar": {
@@ -85,7 +85,7 @@
       "title": "Settings – DeFi Blockchain Client",
       "settings": "Settings",
       "general": "General",
-      "display": "display",
+      "display": "Display",
       "launchOptions": "Launch options",
       "launchAtLogin": "Launch at login",
       "minimizedAtLaunch": "Minimized at launch",
@@ -95,20 +95,20 @@
       "gb": "GB",
       "databaseSize": "Size of database cache",
       "mib": "MiB",
-      "scripteVerification": "Script verification",
+      "scriptVerification": "Script verification",
       "noOfThreads": "Number of threads",
       "appLanguage": "App language",
       "english": "English",
       "german": "German",
-      "displayAmount": "display amounts in unit",
-      "dFI": "dFI",
+      "displayAmount": "Display amounts in unit",
+      "dFI": "DFI",
       "µDFI": "µDFI",
-      "displayModea": "display mode",
+      "displayMode": "Display mode",
       "sameAsSystem": "Same as system",
       "light": "Light",
-      "dark": "dark",
+      "dark": "Dark",
       "unsavedChanges": "You have unsaved changes",
-      "saveSettings": "Save setttings"
+      "saveSettings": "Save settings"
     },
     "wallet": {
       "sendPage": {
@@ -117,7 +117,7 @@
         "sendDFI": "Send DFI",
         "amount": "Amount",
         "dFI": "dFI",
-        "MAX": "MAX",
+        "max": "MAX",
         "toAddress": "To address",
         "walletBalance": "Wallet balance",
         "amountToSend": "Amount to send",
@@ -126,15 +126,15 @@
         "to": "To",
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
-        "transactionSuccessMssg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
-        "qallet": "Wallet",
+        "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "amount": "Amount",
-        "dFI": "dFI",
+        "dFI": "DFI",
         "message": "Message",
         "amountToReceive": "Amount to Receive",
         "cancel": "Cancel",
@@ -161,7 +161,7 @@
         "paymentRequests": "Payment requests",
         "transactions": "Transactions"
       },
-      "walletTxns": {
+      "walletTans": {
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash"
