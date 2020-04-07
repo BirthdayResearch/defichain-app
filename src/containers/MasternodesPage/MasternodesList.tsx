@@ -1,239 +1,21 @@
 import React, { Component } from "react";
 import { Card, Table } from "reactstrap";
+import { connect } from "react-redux";
 import styles from "./MasternodesList.module.scss";
 import {
   MasternodesListProps,
-  MasternodesListState
+  MasternodesListState,
 } from "./MasternodesPage.interface";
+import { I18n } from "react-redux-i18n";
+import { fetchMasternodesRequest } from "./reducer";
 
 class MasternodesList extends Component<
   MasternodesListProps,
   MasternodesListState
 > {
-  state = {
-    masternodes: [
-      {
-        id: 0,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 1,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 2,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 3,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 4,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 5,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 6,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 7,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 8,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 9,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 10,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 11,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 12,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 13,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 14,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 15,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 16,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 17,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 18,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 19,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 20,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      },
-      {
-        id: 21,
-        status: "confirmed",
-        address: "c9a59be5d9f453229f519ab3c5289c",
-        pose: "0",
-        registered: "1201065",
-        lastPaid: "1201065",
-        nextPayment: "1201065",
-        payee: "XitNe4kuhgmvn7eKn6orLrnbg6h6JUaSvG"
-      }
-    ]
-  };
+  componentDidMount() {
+    this.props.fetchMasterNodes();
+  }
 
   render() {
     return (
@@ -243,16 +25,28 @@ class MasternodesList extends Component<
             <thead>
               <tr>
                 <th></th>
-                <th>Address</th>
-                <th>PoSe score</th>
-                <th>Registered</th>
-                <th>Last paid</th>
-                <th>Next payment</th>
-                <th>Payee</th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.address")}
+                </th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.poseSore")}
+                </th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.registered")}
+                </th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.lastPaid")}
+                </th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.nextPayment")}
+                </th>
+                <th>
+                  {I18n.t("containers.masterNodes.masterNodesList.payee")}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {this.state.masternodes.map(masternode => (
+              {this.props.masternodes.map((masternode) => (
                 <tr key={masternode.id}>
                   <td className={styles.status}>
                     <span className={`txn-status-${masternode.status}`}>
@@ -291,4 +85,25 @@ class MasternodesList extends Component<
   }
 }
 
-export default MasternodesList;
+const mapStateToProps = (state) => {
+  const {
+    masternodes,
+    isMasternodesLoaded,
+    isLoadingMasternodes,
+    masternodesLoadError,
+  } = state.masterNodes;
+  return {
+    masternodes,
+    isMasternodesLoaded,
+    isLoadingMasternodes,
+    masternodesLoadError,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchMasterNodes: () => dispatch(fetchMasternodesRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MasternodesList);

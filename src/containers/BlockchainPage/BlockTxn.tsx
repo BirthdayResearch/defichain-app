@@ -5,19 +5,20 @@ import styles from "./BlockTxn.module.scss";
 import CopyToClipboard from "react-copy-to-clipboard";
 import classnames from "classnames";
 import { BlockTxnProps, BlockTxnState } from "./BlockchainPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
   state = {
-    copied: false
+    copied: false,
   };
 
   handleCopy = () => {
     this.setState({
-      copied: true
+      copied: true,
     });
     setTimeout(() => {
       this.setState({
-        copied: false
+        copied: false,
       });
     }, 600);
   };
@@ -28,18 +29,20 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
     let fromsRender;
 
     if (froms.length) {
-      fromsRender = froms.map(from => (
+      fromsRender = froms.map((from) => (
         <div className={styles.from}>
           <span className={styles.address}>
             {from.address ? from.address : "Unparsed address"}
           </span>
-          <span className={styles.amount}>{from.amount} DFI</span>
+          <span className={styles.amount}>
+            {from.amount} {I18n.t("containers.blockChainPage.blockTxn.dFI")}
+          </span>
         </div>
       ));
     } else {
       fromsRender = (
         <div className={styles.fromsEmpty}>
-          No Inputs (Newly Generated Coins)
+          {I18n.t("containers.blockChainPage.blockTxn.noInputs")}
         </div>
       );
     }
@@ -54,7 +57,7 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
                 styles.copiedIndicator
               )}
             >
-              Copied!
+              {I18n.t("containers.blockChainPage.blockTxn.copied")}
             </div>
             <span className={styles.hashSpan}>{txn.hash}</span>
             <CopyToClipboard text={txn.hash}>
@@ -81,12 +84,14 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
             <MdArrowForward />
           </div>
           <div className={styles.tos}>
-            {txn.tos.map(to => (
+            {txn.tos.map((to) => (
               <div className={styles.to}>
                 <span className={styles.address}>
                   {to.address ? to.address : "Unparsed address"}
                 </span>
-                <span className={styles.amount}>{to.amount} DFI</span>
+                <span className={styles.amount}>
+                  {to.amount} {I18n.t("containers.blockChainPage.blockTxn.dFI")}
+                </span>
               </div>
             ))}
           </div>

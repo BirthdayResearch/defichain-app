@@ -6,8 +6,9 @@ import { NavLink, RouteComponentProps } from "react-router-dom";
 import {
   MinerPageProps,
   MinerPageState,
-  RouteParams
+  RouteParams,
 } from "./BlockchainPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class MinerPage extends Component<
   MinerPageProps & RouteComponentProps<RouteParams>,
@@ -27,12 +28,19 @@ class MinerPage extends Component<
             className="header-bar-back"
           >
             <MdArrowBack />
-            <span className="d-lg-inline">Blockchain</span>
+            <span className="d-lg-inline">
+              {I18n.t("containers.blockChainPage.minerPage.blockchain")}
+            </span>
           </Button>
-          <h1>Miner {this.props.match.params.id}</h1>
+          <h1>
+            {I18n.t("containers.blockChainPage.minerPage.miner")}&nbsp;
+            {this.props.match.params.id}
+          </h1>
         </header>
         <div className="content">
-          <section>Miner</section>
+          <section>
+            {I18n.t("containers.blockChainPage.minerPage.miner")}
+          </section>
         </div>
       </div>
     );

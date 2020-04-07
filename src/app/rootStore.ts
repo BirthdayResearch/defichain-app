@@ -13,7 +13,7 @@ if (!isProduction) {
 
 const store = configureStore({
   reducer,
-  middleware
+  middleware,
 });
 startSaga();
 setupI18n(store);

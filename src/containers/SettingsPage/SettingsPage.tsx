@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
 import {
   Button,
   Nav,
@@ -27,6 +28,7 @@ import classnames from "classnames";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import RangeSlider from "react-bootstrap-range-slider";
 import { SettingsPageProps, SettingsPageState } from "./SettingsPage.interface";
+import { setLanguageRequest } from "./reducer";
 
 class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   state = {
@@ -158,7 +160,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                       <FormGroup>
                         <FormGroup check>
                           <Label check className="switch">
-                            <Input type="checkbox" />{" "}
+                            <Input type="checkbox" />
+                            &nbsp;
                             {I18n.t("containers.settings.launchAtLogin")}
                           </Label>
                         </FormGroup>
@@ -166,7 +169,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                       <FormGroup>
                         <FormGroup check>
                           <Label check className="switch">
-                            <Input type="checkbox" />{" "}
+                            <Input type="checkbox" />
+                            &nbsp;
                             {I18n.t("containers.settings.minimizedAtLaunch")}
                           </Label>
                         </FormGroup>
@@ -284,7 +288,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                                 onClick={() => this.adjustLanguage(language)}
                                 value={language.value}
                               >
-                                <span>{language.label}</span>{" "}
+                                <span>{language.label}</span>&nbsp;
                                 {settingsLanguage.value === language.value && (
                                   <MdCheck />
                                 )}
@@ -313,7 +317,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                                 key={eachUnit.value}
                                 value={eachUnit.value}
                               >
-                                <span>{eachUnit.label}</span>{" "}
+                                <span>{eachUnit.label}</span>&nbsp;
                                 {settingsAmountsUnit.value ===
                                   eachUnit.value && <MdCheck />}
                               </DropdownItem>
@@ -343,7 +347,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
                                 }
                                 value={displayMode.value}
                               >
-                                <span>{displayMode.label}</span>{" "}
+                                <span>{displayMode.label}</span>&nbsp;
                                 {settingDisplayMode.value ===
                                   displayMode.value && <MdCheck />}
                               </DropdownItem>
@@ -375,4 +379,19 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   }
 }
 
-export default SettingsPage;
+const mapStateToProps = (state) => {
+  const { isLanguageSet, languageSetError, language } = state.settings;
+  return {
+    isLanguageSet,
+    languageSetError,
+    language,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLanguage: () => dispatch(setLanguageRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

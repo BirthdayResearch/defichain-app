@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
 import {
   Row,
   Col,
@@ -12,7 +13,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Modal,
-  ModalBody
+  ModalBody,
 } from "reactstrap";
 import { MdArrowBack, MdCropFree, MdCheckCircle } from "react-icons/md";
 import { NavLink } from "react-router-dom";
@@ -20,12 +21,14 @@ import UIfx from "uifx";
 import QrReader from "react-qr-reader";
 import classnames from "classnames";
 import { SendPageProps, SendPageState } from "./WalletPage.interface";
-
+import { I18n } from "react-redux-i18n";
 const shutterSound = require("./../../assets/audio/shutter.mp3");
 const shutterSnap = new UIfx(shutterSound);
+import { fetchSendDataRequest } from "./reducer";
 
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
+
   state = {
     walletBalance: 100,
     amountToSend: "",
@@ -35,57 +38,59 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     flashed: "",
     showBackdrop: "",
     sendStep: "default",
-    waitToSend: 5
+    waitToSend: 5,
   };
-
-  updateAmountToSend = e => {
+  componentDidMount() {
+    this.props.fetchSendData();
+  }
+  updateAmountToSend = (e) => {
     let amountToSend =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : "";
     let amountToSendDisplayed =
       !isNaN(amountToSend) && amountToSend.length ? amountToSend : "0";
     this.setState({
       amountToSend: amountToSend,
-      amountToSendDisplayed: amountToSendDisplayed
+      amountToSendDisplayed: amountToSendDisplayed,
     });
   };
 
-  updateToAddress = e => {
+  updateToAddress = (e) => {
     let toAddress = e.target.value;
     this.setState({
-      toAddress: toAddress
+      toAddress: toAddress,
     });
   };
 
   maxAmountToSend = () => {
     this.setState({
       amountToSend: this.state.walletBalance,
-      amountToSendDisplayed: this.state.walletBalance
+      amountToSendDisplayed: this.state.walletBalance,
     });
   };
 
   openScanner = () => {
     this.setState({
-      scannerOpen: true
+      scannerOpen: true,
     });
   };
 
   toggleScanner = () => {
     this.setState({
-      scannerOpen: !this.state.scannerOpen
+      scannerOpen: !this.state.scannerOpen,
     });
   };
 
-  handleScan = data => {
+  handleScan = (data) => {
     if (data) {
       shutterSnap.play();
       this.setState({
         toAddress: data,
-        flashed: "flashed"
+        flashed: "flashed",
       });
       setTimeout(() => {
         this.toggleScanner();
         this.setState({
-          flashed: ""
+          flashed: "",
         });
       }, 600);
     }
@@ -94,7 +99,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   countDownWaitToSend = () => {
     this.waitToSendInterval = setInterval(() => {
       this.setState({
-        waitToSend: this.state.waitToSend - 1
+        waitToSend: this.state.waitToSend - 1,
       });
       if (this.state.waitToSend === 0) {
         clearInterval(this.waitToSendInterval);
@@ -102,7 +107,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     }, 1000);
   };
 
-  handleScanError = err => {
+  handleScanError = (err) => {
     console.error(err);
   };
 
@@ -110,7 +115,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: "default",
       showBackdrop: "",
-      waitToSend: 5
+      waitToSend: 5,
     });
   };
 
@@ -118,14 +123,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.countDownWaitToSend();
     this.setState({
       sendStep: "confirm",
-      showBackdrop: "show-backdrop"
+      showBackdrop: "show-backdrop",
     });
   };
 
   sendTransaction = () => {
     this.setState({
       sendStep: "success",
-      showBackdrop: "show-backdrop"
+      showBackdrop: "show-backdrop",
     });
   };
 
@@ -134,14 +139,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Send DFI – DeFi Blockchain Client</title>
+          <title>{I18n.t("containers.wallet.sendPage.sendDFITitle")}</title>
         </Helmet>
         <header className="header-bar">
           <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
-            <span className="d-lg-inline">Wallet</span>
+            <span className="d-lg-inline">
+              {I18n.t("containers.wallet.sendPage.wallet")}
+            </span>
           </Button>
-          <h1>Send DFI</h1>
+          <h1>{I18n.t("containers.wallet.sendPage.sendDFI")}</h1>
         </header>
         <div className="content">
           <section>
@@ -159,9 +166,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       onChange={this.updateAmountToSend}
                       autoFocus
                     />
-                    <Label for="amountToSend">Amount</Label>
+                    <Label for="amountToSend">
+                      {I18n.t("containers.wallet.sendPage.amount")}
+                    </Label>
                     <InputGroupAddon addonType="append">
-                      <InputGroupText>DFI</InputGroupText>
+                      <InputGroupText>
+                        {I18n.t("containers.wallet.sendPage.dFI")}
+                      </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -170,7 +181,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     color="outline-primary"
                     onClick={this.maxAmountToSend}
                   >
-                    MAX
+                    {I18n.t("containers.wallet.sendPage.MAX")}
                   </Button>
                 </Col>
               </FormGroup>
@@ -184,7 +195,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     value={this.state.toAddress}
                     onChange={this.updateToAddress}
                   />
-                  <Label for="toAddress">To address</Label>
+                  <Label for="toAddress">
+                    {I18n.t("containers.wallet.sendPage.toAddress")}
+                  </Label>
                   <InputGroupAddon addonType="append">
                     <Button color="outline-primary" onClick={this.openScanner}>
                       <MdCropFree />
@@ -216,17 +229,27 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         <footer className="footer-bar">
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "default"
+              "d-none": this.state.sendStep !== "default",
             })}
           >
             <Row className="justify-content-between align-items-center">
               <Col className="col-auto">
-                <div className="caption-secondary">Wallet balance</div>
-                <div>{this.state.walletBalance} DFI</div>
+                <div className="caption-secondary">
+                  {I18n.t("containers.wallet.sendPage.walletBalance")}
+                </div>
+                <div>
+                  {this.state.walletBalance}&nbsp;
+                  {I18n.t("containers.wallet.sendPage.dFI")}
+                </div>
               </Col>
               <Col className="col-auto">
-                <div className="caption-secondary">Amount to send</div>
-                <div>{this.state.amountToSendDisplayed} DFI</div>
+                <div className="caption-secondary">
+                  {I18n.t("containers.wallet.sendPage.amountToSend")}
+                </div>
+                <div>
+                  {this.state.amountToSendDisplayed}&nbsp;
+                  {I18n.t("containers.wallet.sendPage.dFI")}
+                </div>
               </Col>
               <Col className="d-flex justify-content-end">
                 <Button to="/" tag={NavLink} color="link" className="mr-3">
@@ -241,43 +264,51 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   }
                   onClick={this.sendStepConfirm}
                 >
-                  {" "}
-                  Continue
+                  {I18n.t("containers.wallet.sendPage.continue")}
                 </Button>
               </Col>
             </Row>
           </div>
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "confirm"
+              "d-none": this.state.sendStep !== "confirm",
             })}
           >
             <div className="footer-sheet">
               <dl className="row">
-                <dt className="col-sm-3 text-right">Amount</dt>
+                <dt className="col-sm-3 text-right">
+                  {I18n.t("containers.wallet.sendPage.amount")}
+                </dt>
                 <dd className="col-sm-9">
-                  <span className="h2 mb-0">{this.state.amountToSend} DFI</span>
+                  <span className="h2 mb-0">
+                    {this.state.amountToSend}&nbsp;
+                    {I18n.t("containers.wallet.sendPage.dFI")}
+                  </span>
                 </dd>
-                <dt className="col-sm-3 text-right">To</dt>
+                <dt className="col-sm-3 text-right">
+                  {I18n.t("containers.wallet.sendPage.to")}
+                </dt>
                 <dd className="col-sm-9">{this.state.toAddress}</dd>
               </dl>
             </div>
             <Row className="justify-content-between align-items-center">
-              <Col className="col">Please verify the amount and recipient.</Col>
+              <Col className="col">
+                {I18n.t("containers.wallet.sendPage.pleaseVerifyAmount")}
+              </Col>
               <Col className="d-flex justify-content-end">
                 <Button
                   color="link"
                   className="mr-3"
                   onClick={this.sendStepDefault}
                 >
-                  Cancel
+                  {I18n.t("containers.wallet.sendPage.cancel")}
                 </Button>
                 <Button
                   color="primary"
                   onClick={this.sendTransaction}
                   disabled={this.state.waitToSend > 0 ? true : false}
                 >
-                  Complete Send{" "}
+                  {I18n.t("containers.wallet.sendPage.completeSend")}&nbsp;
                   <span className="timer">
                     {this.state.waitToSend > 0 ? this.state.waitToSend : ""}
                   </span>
@@ -287,22 +318,20 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </div>
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "success"
+              "d-none": this.state.sendStep !== "success",
             })}
           >
             <div className="footer-sheet">
               <div className="text-center">
                 <MdCheckCircle className="footer-sheet-icon" />
                 <p>
-                  The transaction was a success. Your wallet balance will update
-                  once the transaction has been confirmed by the DeFi
-                  Blockchain.
+                  {I18n.t("containers.wallet.sendPage.transactionSuccessMssg")}
                 </p>
               </div>
             </div>
             <div className="d-flex align-items-center justify-content-center">
               <Button color="primary" to="/" tag={NavLink}>
-                Back to wallet
+                {I18n.t("containers.wallet.sendPage.backToWallet")}
               </Button>
             </div>
           </div>
@@ -316,4 +345,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 }
 
-export default SendPage;
+const mapStateToProps = (state) => {
+  const { sendData } = state.wallet;
+  return {
+    sendData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSendData: () => dispatch(fetchSendDataRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendPage);

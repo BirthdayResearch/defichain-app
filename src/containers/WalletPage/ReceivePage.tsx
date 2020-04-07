@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
 import {
   Button,
   Form,
@@ -8,29 +9,34 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 import { MdArrowBack } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { ReceivePageProps, ReceivePageState } from "./WalletPage.interface";
-
+import { I18n } from "react-redux-i18n";
+import { fetchReceivedDataRequest } from "./reducer";
 class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   state = {
     amountToReceive: "",
     amountToReceiveDisplayed: 0,
     receiveMessage: "",
     showBackdrop: "",
-    receiveStep: "default"
+    receiveStep: "default",
   };
 
-  updateAmountToReceive = e => {
+  componentDidMount() {
+    this.props.fetchReceivedData();
+  }
+
+  updateAmountToReceive = (e) => {
     let amountToReceive =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : "";
     let amountToReceiveDisplayed =
       !isNaN(amountToReceive) && amountToReceive.length ? amountToReceive : "0";
     this.setState({
       amountToReceive: amountToReceive,
-      amountToReceiveDisplayed: amountToReceiveDisplayed
+      amountToReceiveDisplayed: amountToReceiveDisplayed,
     });
   };
   receiveStepConfirm = () => {};
@@ -38,14 +44,18 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Receive DFI – DeFi Blockchain Client</title>
+          <title>
+            {I18n.t("containers.wallet.receivePage.receiveDFITitle")}
+          </title>
         </Helmet>
         <header className="header-bar">
           <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
-            <span className="d-lg-inline">Wallet</span>
+            <span className="d-lg-inline">
+              {I18n.t("containers.wallet.receivePage.wallet")}
+            </span>
           </Button>
-          <h1>Receive DFI</h1>
+          <h1>{I18n.t("containers.wallet.receivePage.receiveDFI")}</h1>
         </header>
         <div className="content">
           <section>
@@ -61,9 +71,13 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                     onChange={this.updateAmountToReceive}
                     autoFocus
                   />
-                  <Label for="amountToReceive">Amount</Label>
+                  <Label for="amountToReceive">
+                    {I18n.t("containers.wallet.receivePage.amount")}
+                  </Label>
                   <InputGroupAddon addonType="append">
-                    <InputGroupText>DFI</InputGroupText>
+                    <InputGroupText>
+                      {I18n.t("containers.wallet.receivePage.dFI")}
+                    </InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
@@ -75,7 +89,9 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                   placeholder="Message"
                   rows="3"
                 />
-                <Label for="message">Message</Label>
+                <Label for="message">
+                  {I18n.t("containers.wallet.receivePage.message")}
+                </Label>
               </FormGroup>
             </Form>
           </section>
@@ -83,12 +99,17 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
         <footer className="footer-bar">
           <div className="d-flex justify-content-between align-items-center">
             <div>
-              <div className="caption-secondary">Amount to Receive</div>
-              <div>{this.state.amountToReceiveDisplayed} DFI</div>
+              <div className="caption-secondary">
+                {I18n.t("containers.wallet.receivePage.amountToReceive")}
+              </div>
+              <div>
+                {this.state.amountToReceiveDisplayed}&nbsp;
+                {I18n.t("containers.wallet.receivePage.dFI")}
+              </div>
             </div>
             <div>
               <Button to="/wallet" tag={NavLink} color="link" className="mr-3">
-                Cancel
+                {I18n.t("containers.wallet.receivePage.cancel")}
               </Button>
               <Button
                 color="primary"
@@ -99,8 +120,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                 }
                 onClick={this.receiveStepConfirm}
               >
-                {" "}
-                Continue
+                {I18n.t("containers.wallet.receivePage.continue")}
               </Button>
             </div>
           </div>
@@ -110,4 +130,17 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   }
 }
 
-export default ReceivePage;
+const mapStateToProps = (state) => {
+  const { receivedData } = state.wallet;
+  return {
+    receivedData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchReceivedData: () => dispatch(fetchReceivedDataRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReceivePage);

@@ -2,11 +2,38 @@ export interface BlockchainPageProps {}
 
 export interface BlockchainPageState {}
 
-export interface BlockchainTableProps {}
+export interface BlockchainTableProps {
+  blocks: Array<{
+    height: number;
+    age: string;
+    txns: string;
+    minerName: string;
+    minerID: number;
+    size: string;
+  }>;
+  isLoadingBlocks: boolean;
+  isBlocksLoaded: Boolean;
+  blocksLoadError: string;
+  fetchBlocks: Function;
+}
 
 export interface BlockchainTableState {}
 
-export interface BlockPageProps {}
+export interface BlockPageProps {
+  txns: Array<{
+    hash: string;
+    time: string;
+    froms: Array<{
+      address: string;
+      amount: number;
+    }>;
+    tos: Array<{
+      address: string;
+      amount: number;
+    }>;
+  }>;
+  fetchTxns: Function;
+}
 
 export interface BlockPageState {
   txns: Array<{
