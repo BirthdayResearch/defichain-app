@@ -65,7 +65,9 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                   <Input
                     type="text"
                     inputMode="numeric"
-                    placeholder="Amount to Receive"
+                    placeholder={I18n.t(
+                      "containers.wallet.receivePage.amountToReceive"
+                    )}
                     name="amountToReceive"
                     id="amountToReceive"
                     onChange={this.updateAmountToReceive}
@@ -86,7 +88,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                   type="textarea"
                   name="message"
                   id="message"
-                  placeholder="Message"
+                  placeholder={I18n.t("containers.wallet.receivePage.message")}
                   rows="3"
                 />
                 <Label for="message">

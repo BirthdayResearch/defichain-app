@@ -109,46 +109,95 @@ class MasternodesPage extends Component<
               <section>
                 <Row>
                   <Col>
-                    <StatCard label="Weekly income" value="100" unit="DFI" />
+                    <StatCard
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.weeklyIncome"
+                      )}
+                      value="100"
+                      unit="DFI"
+                    />
                   </Col>
                   <Col>
-                    <StatCard label="Volume" value="10m" unit="DFI" />
+                    <StatCard
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.volume"
+                      )}
+                      value="10m"
+                      unit="DFI"
+                    />
                   </Col>
                   <Col>
-                    <StatCard label="Market cap" value="100m" unit="DFI" />
+                    <StatCard
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.marketCap"
+                      )}
+                      value="100m"
+                      unit="DFI"
+                    />
                   </Col>
                 </Row>
                 <Row className="mb-5">
                   <Col md="6">
-                    <KeyValueLi label="Return per annum" value="6.69%" />
-                  </Col>
-                  <Col md="6">
-                    <KeyValueLi label="Paid rewards" value="8651.0125 DFI" />
+                    <KeyValueLi
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.returnPerAnnum"
+                      )}
+                      value="6.69%"
+                    />
                   </Col>
                   <Col md="6">
                     <KeyValueLi
-                      label="Reward frequency"
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.paidRewards"
+                      )}
+                      value="8651.0125 DFI"
+                    />
+                  </Col>
+                  <Col md="6">
+                    <KeyValueLi
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.rewardFrequency"
+                      )}
                       value="8d 11h 27m 20s"
                     />
                   </Col>
                   <Col md="6">
-                    <KeyValueLi label="Active masternodes" value="4,671" />
-                  </Col>
-                  <Col md="6">
-                    <KeyValueLi label="Supply" value="9,281,315 DFI" />
+                    <KeyValueLi
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.activeMasterNodes"
+                      )}
+                      value="4,671"
+                    />
                   </Col>
                   <Col md="6">
                     <KeyValueLi
-                      label="Locked in collateral"
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.supply"
+                      )}
+                      value="9,281,315 DFI"
+                    />
+                  </Col>
+                  <Col md="6">
+                    <KeyValueLi
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.lockedInCollateral"
+                      )}
                       value="4,671,000 DFI"
                     />
                   </Col>
                   <Col md="6">
-                    <KeyValueLi label="Cost per masternode" value="1,000 DFI" />
+                    <KeyValueLi
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.costPerMasterNode"
+                      )}
+                      value="1,000 DFI"
+                    />
                   </Col>
                   <Col md="6">
                     <KeyValueLi
-                      label="Masternode worth"
+                      label={I18n.t(
+                        "containers.masterNodes.masterNodesPage.masternodeWorth"
+                      )}
                       value="65,733.63 USD"
                     />
                   </Col>

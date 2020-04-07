@@ -53,19 +53,31 @@ class PaymentRequestPage extends Component<
         </header>
         <div className="content">
           <section className="mb-5">
-            <KeyValueLi label="Label" value={this.state.label} />
-            <KeyValueLi label="Amount" value={this.state.amount} />
-            <KeyValueLi label="Time" value={this.state.time} />
-            <KeyValueLi label="Message" value={this.state.message} />
             <KeyValueLi
-              label="Address"
+              label={I18n.t("containers.wallet.paymentRequests.label")}
+              value={this.state.label}
+            />
+            <KeyValueLi
+              label={I18n.t("containers.wallet.paymentRequests.amount")}
+              value={this.state.amount}
+            />
+            <KeyValueLi
+              label={I18n.t("containers.wallet.paymentRequests.time")}
+              value={this.state.time}
+            />
+            <KeyValueLi
+              label={I18n.t("containers.wallet.paymentRequests.message")}
+              value={this.state.message}
+            />
+            <KeyValueLi
+              label={I18n.t("containers.wallet.paymentRequests.address")}
               value={this.state.address}
               popsQR={true}
               copyable={true!}
               uid="address"
             />
             <KeyValueLi
-              label="URI"
+              label={I18n.t("containers.wallet.paymentRequests.uRI")}
               value={`
               bitcoin:${this.state.address}?amount=${this.state.amount}&label=${this.state.label}&message=${this.state.message}
             `}

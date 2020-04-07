@@ -22,8 +22,8 @@ import QrReader from "react-qr-reader";
 import classnames from "classnames";
 import { SendPageProps, SendPageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
-const shutterSound = require("./../../assets/audio/shutter.mp3");
-const shutterSnap = new UIfx(shutterSound);
+// const shutterSound = require("./../../assets/audio/shutter.mp3");
+const shutterSnap = { play: Function }; //new UIfx(shutterSound);
 import { fetchSendDataRequest } from "./reducer";
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -159,7 +159,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     <Input
                       type="text"
                       inputMode="numeric"
-                      placeholder="Amount to Send"
+                      placeholder={I18n.t(
+                        "containers.wallet.sendPage.amountToSend"
+                      )}
                       name="amountToSend"
                       id="amountToSend"
                       value={this.state.amountToSend}
@@ -189,7 +191,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <InputGroup>
                   <Input
                     type="text"
-                    placeholder="DFI address"
+                    placeholder={I18n.t(
+                      "containers.wallet.sendPage.dfiAddress"
+                    )}
                     name="toAddress"
                     id="toAddress"
                     value={this.state.toAddress}
@@ -253,7 +257,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </Col>
               <Col className="d-flex justify-content-end">
                 <Button to="/" tag={NavLink} color="link" className="mr-3">
-                  Cancel
+                  {I18n.t("containers.wallet.sendPage.cancel")}
                 </Button>
                 <Button
                   color="primary"

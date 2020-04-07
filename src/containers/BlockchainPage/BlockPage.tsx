@@ -52,42 +52,73 @@ class BlockPage extends Component<
           <section className="mb-5">
             <Row className="mb-4">
               <Col md="6">
-                <KeyValueLi label="Number of transactions" value="2851" />
-              </Col>
-              <Col md="6">
-                <KeyValueLi label="Difficulty" value="13798783827516.416" />
+                <KeyValueLi
+                  label={I18n.t(
+                    "containers.blockChainPage.blockPage.noOfTransactions"
+                  )}
+                  value="2851"
+                />
               </Col>
               <Col md="6">
                 <KeyValueLi
-                  label="Height"
+                  label={I18n.t(
+                    "containers.blockChainPage.blockPage.difficulty"
+                  )}
+                  value="13798783827516.416"
+                />
+              </Col>
+              <Col md="6">
+                <KeyValueLi
+                  label={I18n.t("containers.blockChainPage.blockPage.height")}
                   value={this.props.match.params.height}
                 />
               </Col>
               <Col md="6">
-                <KeyValueLi label="Bits" value="171465f2" />
+                <KeyValueLi
+                  label={I18n.t("containers.blockChainPage.blockPage.bits")}
+                  value="171465f2"
+                />
               </Col>
               <Col md="6">
-                <KeyValueLi label="Block reward" value="12.5 DFI" />
+                <KeyValueLi
+                  label={I18n.t(
+                    "containers.blockChainPage.blockPage.blockReward"
+                  )}
+                  value="12.5 DFI"
+                />
               </Col>
               <Col md="6">
-                <KeyValueLi label="Version" value="21073676288" />
+                <KeyValueLi
+                  label={I18n.t("containers.blockChainPage.blockPage.version")}
+                  value="21073676288"
+                />
               </Col>
               <Col md="6">
-                <KeyValueLi label="Mined by" value="Miner A" />
+                <KeyValueLi
+                  label={I18n.t("containers.blockChainPage.blockPage.minedBy")}
+                  value="Miner A"
+                />
               </Col>
               <Col md="6">
-                <KeyValueLi label="Nonce" value="353942907" />
+                <KeyValueLi
+                  label={I18n.t("containers.blockChainPage.blockPage.nonce")}
+                  value="353942907"
+                />
               </Col>
               <Col>
                 <KeyValueLi
-                  label="Block hash"
+                  label={I18n.t(
+                    "containers.blockChainPage.blockPage.blockHash"
+                  )}
                   value="00000000000000000003e1bee7555dd5ecfb2d54eaca0650d426e10f640b7f89"
                   copyable="true"
                 />
               </Col>
               <Col>
                 <KeyValueLi
-                  label="Merkle root"
+                  label={I18n.t(
+                    "containers.blockChainPage.blockPage.merkleRoot"
+                  )}
                   value="2c5030ae78f6201d76f20baf77a3e3"
                   copyable="true"
                 />

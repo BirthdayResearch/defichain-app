@@ -18,7 +18,11 @@ class MinerPage extends Component<
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>{`Miner ${this.props.match.params.id} – DeFi Blockchain Client`}</title>
+          <title>
+            {I18n.t("containers.blockChainPage.minerPage.miner")}
+            {`${this.props.match.params.id} –`}
+            {I18n.t("containers.blockChainPage.minerPage.defiBlockChainClient")}
+          </title>
         </Helmet>
         <header className="header-bar">
           <Button

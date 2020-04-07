@@ -51,10 +51,20 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
           <section>
             <Row>
               <Col>
-                <StatCard label="Available balance" value="1,000" unit="DFI" />
+                <StatCard
+                  label={I18n.t(
+                    "containers.wallet.walletPage.availableBalance"
+                  )}
+                  value="1,000"
+                  unit="DFI"
+                />
               </Col>
               <Col>
-                <StatCard label="Pending" value="1,000" unit="DFI" />
+                <StatCard
+                  label={I18n.t("containers.wallet.walletPage.pending")}
+                  value="1,000"
+                  unit="DFI"
+                />
               </Col>
             </Row>
           </section>
