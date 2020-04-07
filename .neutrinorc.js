@@ -32,7 +32,6 @@ module.exports = {
         },
         publicPath,
         html: {
-          // title: 'Defichain',
           template: "./src/index.html",
         },
         image: {
@@ -196,6 +195,7 @@ function createWasmAsFilePreset(options = {}) {
       });
   }
 }
+
 function getIsProduction() {
   return process.env.NODE_ENV === "production";
 }
