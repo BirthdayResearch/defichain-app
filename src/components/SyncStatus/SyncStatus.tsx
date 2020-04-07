@@ -3,6 +3,7 @@ import { MdDone } from "react-icons/md";
 import styles from "./SyncStatus.module.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import { SyncStatusProps, SyncStatusState } from "./SyncStatus.interface";
+import { I18n } from "react-redux-i18n";
 
 function StatusIcon(icon: any) {
   const StatusIcon = icon;
@@ -11,25 +12,25 @@ function StatusIcon(icon: any) {
 
 class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
   state = {
-    status: "Synced",
-    syncedAgo: "a minute ago",
+    status: "synced",
+    syncedAgo: "aMinuteAgo",
     statusAssets: {
       icon: MdDone,
-      label: "Synchronized"
-    }
+      label: "synchronized",
+    },
   };
 
   toggleStatus = () => {
     this.setState({
-      status: this.state.status === "Synced" ? "Syncing" : "Synced",
-      syncedAgo: "just now",
+      status: this.state.status === "synced" ? "syncing" : "synced",
+      syncedAgo: "justNow",
       statusAssets: {
         icon: this.state.statusAssets.icon === MdDone ? Spinner : MdDone,
         label:
-          this.state.statusAssets.label === "Synchronized"
-            ? "Syncing"
-            : "Synchronized"
-      }
+          this.state.statusAssets.label === "synchronized"
+            ? "syncing"
+            : "synchronized",
+      },
     } as SyncStatusState);
   };
 
@@ -37,8 +38,14 @@ class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
     return (
       <div className={styles.syncStatus}>
         <span onClick={this.toggleStatus}>
-          {this.state.statusAssets.label}
-          {this.state.status === "Synced" ? ` ${this.state.syncedAgo}` : ``}
+          {I18n.t(
+            `containers.blockChainPage.blockPage.${this.state.statusAssets.label}`
+          )}
+          {this.state.status === "synced"
+            ? I18n.t(
+                `containers.blockChainPage.blockPage.${this.state.syncedAgo}`
+              )
+            : ``}
         </span>
         {StatusIcon(this.state.statusAssets.icon)}
       </div>

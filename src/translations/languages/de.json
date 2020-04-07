@@ -16,7 +16,13 @@
     },
     "spinner": {},
     "statCard": {},
-    "syncStatus": {}
+    "syncStatus": {
+      "synchronized": "Synchronized",
+      "syncing": "Syncing",
+      "synced": "Synced",
+      "justNow": "just now",
+      "aMinuteAgo": "a minute ago"
+    }
   },
   "containers": {
     "blockChainPage": {
@@ -36,16 +42,28 @@
         "block": "Block",
         "title": "– DeFi Blockchain Client",
         "blockchain": "Blockchain",
-        "transactions": "Transactions"
+        "transactions": "Transactions",
+        "noOfTransactions": "Number of transactions",
+        "difficulty": "Difficulty",
+        "height": "Height",
+        "bits": "Bits",
+        "blockReward": "Block reward",
+        "version": "Version",
+        "minedBy": "Mined by",
+        "nonce": "Nonce",
+        "blockHash": "Block hash",
+        "merkleRoot": "Merkle root"
       },
       "blockTxn": {
         "noInputs": "No Inputs (Newly Generated Coins)",
-        "copied!": "Copied!",
-        "dFI": "dFI"
+        "copied": "Copied!",
+        "dFI": "dFI",
+        "unparsedAddress": "Unparsed address"
       },
       "minerPage": {
-        "blockchain": "Blockchain",
-        "miner": "Miner"
+        "miner": "Miner",
+        "defiBlockChainClient": "DeFi Blockchain Client",
+        "blockchain": "Blockchain"
       }
     },
     "errors": {
@@ -70,7 +88,18 @@
         "title": "Masternodes – DeFi Blockchain Client",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
-        "list": "List"
+        "list": "List",
+        "weeklyIncome": "Weekly income",
+        "volume": "Volume",
+        "marketCap": "Market cap",
+        "returnPerAnnum": "Return per annum",
+        "paidRewards": "Paid rewards",
+        "rewardFrequency": "Reward frequency",
+        "activeMasterNodes": "Active masternodes",
+        "supply": "Supply",
+        "lockedInCollateral": "Locked in collateral",
+        "costPerMasterNode": "Cost per masternode",
+        "masternodeWorth": "Masternode worth"
       },
       "masterNodesList": {
         "address": "Address",
@@ -127,7 +156,8 @@
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
         "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
-        "backToWallet": "Back to wallet"
+        "backToWallet": "Back to wallet",
+        "dfiAddress": "DFI Address"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
@@ -150,7 +180,13 @@
         "paymentRequest": "Payment request",
         "defiBlockChainClient": "deFi Blockchain Client",
         "wallet": "Wallet",
-        "delete": "delete"
+        "delete": "delete",
+        "label": "Label",
+        "amount": "Amount",
+        "time": "Time",
+        "message": "Message",
+        "address": "Address",
+        "uRI": "URI"
       },
       "walletPage": {
         "walletDefiClient": "Wallet – DeFi Blockchain Client",
@@ -159,7 +195,9 @@
         "send": "Send",
         "receive": "Receive",
         "paymentRequests": "Payment requests",
-        "transactions": "Transactions"
+        "transactions": "Transactions",
+        "availableBalance": "Available balance",
+        "pending": "Pending"
       },
       "walletTans": {
         "time": "Time",

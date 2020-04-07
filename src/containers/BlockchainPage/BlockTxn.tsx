@@ -32,7 +32,10 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
       fromsRender = froms.map((from) => (
         <div className={styles.from}>
           <span className={styles.address}>
-            {from.address ? from.address : "Unparsed address"}
+            {from.address
+              ? from.address
+              : I18n.t("containers.blockChainPage.blockTxn.unparsedAddress")}
+            }
           </span>
           <span className={styles.amount}>
             {from.amount} {I18n.t("containers.blockChainPage.blockTxn.dFI")}
@@ -87,7 +90,11 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
             {txn.tos.map((to) => (
               <div className={styles.to}>
                 <span className={styles.address}>
-                  {to.address ? to.address : "Unparsed address"}
+                  {to.address
+                    ? to.address
+                    : I18n.t(
+                        "containers.blockChainPage.blockTxn.unparsedAddress"
+                      )}
                 </span>
                 <span className={styles.amount}>
                   {to.amount} {I18n.t("containers.blockChainPage.blockTxn.dFI")}
