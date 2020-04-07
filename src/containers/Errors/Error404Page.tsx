@@ -3,35 +3,31 @@ import { Helmet } from "react-helmet";
 import ChaplinGif from "../../assets/gif/chaplin.gif";
 import { Row, Col, Button } from "reactstrap";
 import styles from "./ErrorPage.module.scss";
+import { I18n } from "react-redux-i18n";
 
 class Error404Page extends Component<any, any> {
   render() {
     const chaplinStyle = {
       backgroundImage: "url(" + ChaplinGif + ")",
-      backgroundSize: "cover"
+      backgroundSize: "cover",
     };
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>DFI Block Processing Center – DeFi Blockchain Client</title>
+          <title>{I18n.t("containers.errors.title")}</title>
         </Helmet>
         <header className="header-bar">
-          <h1>DFI Block Processing Center</h1>
+          <h1>{I18n.t("containers.errors.header")}</h1>
         </header>
         <div className="content" style={chaplinStyle}></div>
         <footer className={`footer-bar ${styles.dark}`}>
           <Row className="justify-content-between align-items-center">
             <Col>
-              <p>
-                It seems you have stumbled here by accident. This is where our
-                workers make sure every DFI block is properly fastened to the
-                chain. As this is a restricted area, we kindly ask that you turn
-                around.
-              </p>
+              <p>{I18n.t("containers.errors.detail")}</p>
             </Col>
             <Col className="col-auto">
               <Button color="primary" onClick={this.props.history.goBack}>
-                Go back
+                {I18n.t("containers.errors.goBack")}
               </Button>
             </Col>
           </Row>

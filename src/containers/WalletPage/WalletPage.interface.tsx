@@ -4,7 +4,20 @@ export interface WalletPageState {
   activeTab: string;
 }
 
-export interface SendPageProps {}
+export interface SendPageProps {
+  sendData: {
+    walletBalance: number;
+    amountToSend: string | number;
+    amountToSendDisplayed: number | string;
+    toAddress: string;
+    scannerOpen: boolean;
+    flashed: string;
+    showBackdrop: string;
+    sendStep: string;
+    waitToSend: number;
+  };
+  fetchSendData: Function;
+}
 
 export interface SendPageState {
   walletBalance: number;
@@ -18,10 +31,21 @@ export interface SendPageState {
   waitToSend: number;
 }
 
-export interface WalletTxnsProps {}
+export interface PaymentRequestsProps {
+  paymentRequests: Array<{
+    id: number;
+    time: string;
+    amount: number;
+    message: string;
+    unit: string;
+  }>;
+  fetchPaymentRequests: Function;
+}
 
-export interface WalletTxnsState {
-  txns: Array<{
+export interface PaymentRequestsState {}
+
+export interface WalletTxnsProps {
+  walletTxns: Array<{
     id: number;
     type: string;
     time: string;
@@ -29,9 +53,21 @@ export interface WalletTxnsState {
     amount: number;
     unit: string;
   }>;
+  fetchWalletTxns: Function;
 }
 
-export interface ReceivePageProps {}
+export interface WalletTxnsState {}
+
+export interface ReceivePageProps {
+  receivedData: {
+    amountToReceive: string;
+    amountToReceiveDisplayed: number;
+    receiveMessage: string;
+    showBackdrop: string;
+    receiveStep: string;
+  };
+  fetchReceivedData: Function;
+}
 export interface ReceivePageState {
   amountToReceive: string;
   amountToReceiveDisplayed: number;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
 import { Button, Row, Col } from "reactstrap";
 import { MdArrowBack, MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { NavLink, RouteComponentProps } from "react-router-dom";
@@ -8,65 +9,16 @@ import BlockTxn from "./BlockTxn";
 import {
   BlockPageProps,
   BlockPageState,
-  RouteParams
+  RouteParams,
 } from "./BlockchainPage.interface";
-
+import { I18n } from "react-redux-i18n";
+import { fetchTxnsRequest } from "./reducer";
 class BlockPage extends Component<
   BlockPageProps & RouteComponentProps<RouteParams>,
   BlockPageState
 > {
-  state = {
-    txns: [
-      {
-        hash: "70d75e773250f89fc8167b2f32721eec18ccad1a5c05e42ab125bd94a3",
-        time: "Jan 10, 2020 11:12:25 AM",
-        froms: [
-          { address: "1AEgdWjJrEbroURgWmPrXkFdzxGxdF7c4G", amount: 12.58383704 }
-        ],
-        tos: [
-          {
-            address: "1Hi5j26jwQhT55eFbzepcyabVX1fmF4uRT",
-            amount: 12.58383704
-          },
-          { address: "", amount: 12.58383704 }
-        ]
-      },
-      {
-        hash: "05addda8e12b59cf5d2038e5353388405c889a89bdbcd6e99449a33",
-        time: "Jan 10, 2020 11:12:25 AM",
-        froms: [
-          {
-            address: "3DWHAR3zqKmbLdNNUnhuSVhWcBtaAWu65K",
-            amount: 12.58383704
-          },
-          { address: "32wL2qQzrci5fBPcMoBHFQDgJ8wR9f6jb3", amount: 12.58383704 }
-        ],
-        tos: [
-          {
-            address: "bc1qfhglnk45c7hyfqc5rf9x02zge37zyjxa9pksn5",
-            amount: 12.58383704
-          },
-          {
-            address: "bc1qmdzlupyqd5ceh5yucdqglx3pn6jjluy8860llh",
-            amount: 12.58383704
-          }
-        ]
-      },
-      {
-        hash: "99ca03cf717513ca6ff52baabf29dfe1628a785ad396df80208d47dfce",
-        time: "Jan 10, 2020 11:12:25 AM",
-        froms: [
-          { address: "3EKD7BBU6XFzRa95MHzoziK2BaRQ1t4Lcb", amount: 12.58383704 }
-        ],
-        tos: [
-          {
-            address: "3MzZGbux4SpGsu42H5epfhVzceibZLD3hX",
-            amount: 12.58383704
-          },
-          { address: "32XmnAW5fc5tuh5A8DQh2ArPHUHQzdjwsK", amount: 12.58383704 }
-        ]
-      }
-    ]
+  componentDidMount = () => {
+    this.props.fetchTxns();
   };
 
   render() {
@@ -74,7 +26,9 @@ class BlockPage extends Component<
       <div className="main-wrapper">
         <Helmet>
           <title>
-            Block {this.props.match.params.height} – DeFi Blockchain Client
+            {I18n.t("containers.blockChainPage.blockPage.block")}&nbsp;
+            {this.props.match.params.height} –&nbsp;
+            {I18n.t("containers.blockChainPage.blockPage.title")}
           </title>
         </Helmet>
         <header className="header-bar">
@@ -85,9 +39,14 @@ class BlockPage extends Component<
             className="header-bar-back"
           >
             <MdArrowBack />
-            <span className="d-lg-inline">Blockchain</span>
+            <span className="d-lg-inline">
+              {I18n.t("containers.blockChainPage.blockPage.blockchain")}
+            </span>
           </Button>
-          <h1>Block {this.props.match.params.height}</h1>
+          <h1>
+            {I18n.t("containers.blockChainPage.blockPage.block")}&nbsp;
+            {this.props.match.params.height}
+          </h1>
         </header>
         <div className="content">
           <section className="mb-5">
@@ -136,9 +95,9 @@ class BlockPage extends Component<
             </Row>
             <div className="d-flex justify-content-between">
               <Button
-                to={`/blockchain/block/${Number.parseInt(
-                  this.props.match.params.height!
-                ) - 1}`}
+                to={`/blockchain/block/${
+                  Number.parseInt(this.props.match.params.height!) - 1
+                }`}
                 tag={NavLink}
                 color="outline-primary"
                 className="header-bar-back"
@@ -149,9 +108,9 @@ class BlockPage extends Component<
                 </span>
               </Button>
               <Button
-                to={`/blockchain/block/${Number.parseInt(
-                  this.props.match.params.height!
-                ) + 1}`}
+                to={`/blockchain/block/${
+                  Number.parseInt(this.props.match.params.height!) + 1
+                }`}
                 tag={NavLink}
                 color="outline-primary"
                 className="header-bar-back"
@@ -164,9 +123,11 @@ class BlockPage extends Component<
             </div>
           </section>
           <section>
-            <h2>Transactions</h2>
+            <h2>
+              {I18n.t("containers.blockChainPage.blockPage.transactions")}
+            </h2>
             <div>
-              {this.state.txns.map(txn => (
+              {this.props.txns.map((txn) => (
                 <BlockTxn txn={txn} />
               ))}
             </div>
@@ -177,4 +138,20 @@ class BlockPage extends Component<
   }
 }
 
-export default BlockPage;
+const mapStateToProps = (state) => {
+  const { txns, isTxnsLoaded, isLoadingTxns, TxnsLoadError } = state.blockchain;
+  return {
+    txns,
+    isTxnsLoaded,
+    isLoadingTxns,
+    TxnsLoadError,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchTxns: () => dispatch(fetchTxnsRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlockPage);

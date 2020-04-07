@@ -40,7 +40,7 @@
       },
       "blockTxn": {
         "noInputs": "No Inputs (Newly Generated Coins)",
-        "copied!": "Copied!",
+        "copied": "Copied!",
         "dFI": "dFI"
       },
       "minerPage": {

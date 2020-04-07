@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet";
 import BlockchainTable from "./BlockchainTable";
 import {
   BlockchainPageProps,
-  BlockchainPageState
+  BlockchainPageState,
 } from "./BlockchainPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class BlockchainPage extends Component<
   BlockchainPageProps,
@@ -14,10 +15,14 @@ class BlockchainPage extends Component<
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Blockchain – DeFi Blockchain Client</title>
+          <title>
+            {I18n.t("containers.blockChainPage.blockChainPage.title")}
+          </title>
         </Helmet>
         <header className="header-bar">
-          <h1>Blockchain</h1>
+          <h1>
+            {I18n.t("containers.blockChainPage.blockChainPage.blockchain")}
+          </h1>
         </header>
         <div className="content">
           <section className="mb-0">

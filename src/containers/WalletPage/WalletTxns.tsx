@@ -1,80 +1,18 @@
 import React, { Component } from "react";
 import { Card, Table } from "reactstrap";
+import { connect } from "react-redux";
 import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
 import styles from "./WalletTxns.module.scss";
 import { WalletTxnsProps, WalletTxnsState } from "./WalletPage.interface";
+import { I18n } from "react-redux-i18n";
+import { fetchWalletTxnsRequest } from "./reducer";
 
 class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
-  state = {
-    txns: [
-      {
-        id: 0,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 1,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 2,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 3,
-        type: "Sent",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 4,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 5,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 6,
-        type: "Sent",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      },
-      {
-        id: 7,
-        type: "Received",
-        time: "Feb 19, 2:03 pm",
-        hash: "c9a59be5d9f453229f519ab3c5289c",
-        amount: 100,
-        unit: "DFI"
-      }
-    ]
-  };
+  componentDidMount() {
+    this.props.fetchWalletTxns();
+  }
 
-  TxnTypeIcon = type => {
+  TxnTypeIcon = (type) => {
     let Icon;
     if (type === "Received") {
       Icon = MdArrowDownward;
@@ -92,13 +30,15 @@ class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
           <thead>
             <tr>
               <th></th>
-              <th>Time</th>
-              <th className={styles.amount}>Amount</th>
-              <th>Hash</th>
+              <th>{I18n.t("containers.wallet.walletTxns.time")}</th>
+              <th className={styles.amount}>
+                {I18n.t("containers.wallet.walletTxns.amount")}
+              </th>
+              <th>{I18n.t("containers.wallet.walletTxns.hash")}</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.txns.map(txn => (
+            {this.props.walletTxns.map((txn) => (
               <tr key={txn.id}>
                 <td className={styles.typeIcon}>
                   {this.TxnTypeIcon(txn.type)}
@@ -123,4 +63,17 @@ class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
   }
 }
 
-export default WalletTxns;
+const mapStateToProps = (state) => {
+  const { walletTxns } = state.wallet;
+  return {
+    walletTxns,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchWalletTxns: () => dispatch(fetchWalletTxnsRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

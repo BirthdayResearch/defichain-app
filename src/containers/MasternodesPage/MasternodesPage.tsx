@@ -9,7 +9,7 @@ import {
   Row,
   Col,
   Button,
-  ButtonGroup
+  ButtonGroup,
 } from "reactstrap";
 import { MdSearch } from "react-icons/md";
 import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
@@ -19,8 +19,9 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import MasternodesList from "./MasternodesList";
 import {
   MasternodesPageProps,
-  MasternodesPageState
+  MasternodesPageState,
 } from "./MasternodesPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class MasternodesPage extends Component<
   MasternodesPageProps,
@@ -28,20 +29,20 @@ class MasternodesPage extends Component<
 > {
   state = {
     activeTab: "statistics",
-    searching: false
+    searching: false,
   };
 
-  setActiveTab = tab => {
+  setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   toggleSearch = () => {
     this.setState({
-      searching: !this.state.searching
+      searching: !this.state.searching,
     });
   };
 
@@ -49,35 +50,37 @@ class MasternodesPage extends Component<
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Masternodes – DeFi Blockchain Client</title>
+          <title>
+            {I18n.t("containers.masterNodes.masterNodesPage.title")}
+          </title>
         </Helmet>
         <header className="header-bar">
           <h1 className={classnames({ "d-none": this.state.searching })}>
-            Masternodes
+            {I18n.t("containers.masterNodes.masterNodesPage.masterNodes")}
           </h1>
           <Nav pills className={classnames({ "d-none": this.state.searching })}>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "statistics"
+                  active: this.state.activeTab === "statistics",
                 })}
                 onClick={() => {
                   this.setActiveTab("statistics");
                 }}
               >
-                Statistics
+                {I18n.t("containers.masterNodes.masterNodesPage.statistics")}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "list"
+                  active: this.state.activeTab === "list",
                 })}
                 onClick={() => {
                   this.setActiveTab("list");
                 }}
               >
-                List
+                {I18n.t("containers.masterNodes.masterNodesPage.list")}
               </NavLink>
             </NavItem>
           </Nav>
@@ -88,7 +91,7 @@ class MasternodesPage extends Component<
               color="link"
               size="sm"
               className={classnames({
-                invisible: this.state.activeTab === "statistics"
+                invisible: this.state.activeTab === "statistics",
               })}
               onClick={this.toggleSearch}
             >

@@ -6,30 +6,25 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
+import { connect } from "react-redux";
 import { MdMoreHoriz, MdDelete, MdAccessTime } from "react-icons/md";
 import styles from "./PaymentRequests.module.scss";
+import { I18n } from "react-redux-i18n";
+import { fetchPaymentRequestsRequest } from "./reducer";
+import {
+  PaymentRequestsProps,
+  PaymentRequestsState,
+} from "./WalletPage.interface";
 
-class PaymentRequests extends Component<any, any> {
-  state = {
-    requests: [
-      {
-        id: 0,
-        time: "Feb 19, 2:03 pm",
-        amount: 0.123,
-        message: "I need money!",
-        unit: "DFI"
-      },
-      {
-        id: 1,
-        time: "Feb 19, 2:03 pm",
-        amount: 0.123,
-        message: "I need money!",
-        unit: "DFI"
-      }
-    ]
-  };
+class PaymentRequests extends Component<
+  PaymentRequestsProps,
+  PaymentRequestsState
+> {
+  componentDidMount() {
+    this.props.fetchPaymentRequests();
+  }
 
   render() {
     return (
@@ -38,14 +33,16 @@ class PaymentRequests extends Component<any, any> {
           <thead>
             <tr>
               <th></th>
-              <th>Time</th>
-              <th className={styles.amount}>Amount</th>
-              <th>Message</th>
+              <th>{I18n.t("containers.wallet.paymentRequests.time")}</th>
+              <th className={styles.amount}>
+                {I18n.t("containers.wallet.paymentRequests.amount")}
+              </th>
+              <th>{I18n.t("containers.wallet.paymentRequests.message")}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {this.state.requests.map(request => (
+            {this.props.paymentRequests.map((request) => (
               <tr key={request.id}>
                 <td className={styles.icon}>
                   <MdAccessTime className={styles.icon} />
@@ -59,7 +56,7 @@ class PaymentRequests extends Component<any, any> {
                 </td>
                 <td>
                   <div className={styles.amount}>
-                    {request.amount}{" "}
+                    {request.amount}&nbsp;
                     <span className={styles.unit}>{request.unit}</span>
                   </div>
                 </td>
@@ -74,7 +71,11 @@ class PaymentRequests extends Component<any, any> {
                     <DropdownMenu right>
                       <DropdownItem>
                         <MdDelete />
-                        <span>Cancel request</span>
+                        <span>
+                          {I18n.t(
+                            "containers.wallet.paymentRequests.cancelRequest"
+                          )}
+                        </span>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -88,4 +89,17 @@ class PaymentRequests extends Component<any, any> {
   }
 }
 
-export default PaymentRequests;
+const mapStateToProps = (state) => {
+  const { paymentRequests } = state.wallet;
+  return {
+    paymentRequests,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchPaymentRequests: () => dispatch(fetchPaymentRequestsRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequests);

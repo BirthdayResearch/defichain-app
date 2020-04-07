@@ -7,16 +7,17 @@ import StatCard from "../../components/StatCard/StatCard";
 import WalletTxns from "./WalletTxns";
 import PaymentRequests from "./PaymentRequests";
 import { WalletPageProps, WalletPageState } from "./WalletPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class WalletPage extends Component<WalletPageProps, WalletPageState> {
   state = {
-    activeTab: "txns"
+    activeTab: "txns",
   };
 
-  setActiveTab = tab => {
+  setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -25,18 +26,24 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Wallet – DeFi Blockchain Client</title>
+          <title>
+            {I18n.t("containers.wallet.walletPage.walletDefiClient")}
+          </title>
         </Helmet>
         <header className="header-bar">
-          <h1>Wallet</h1>
+          <h1>{I18n.t("containers.wallet.walletPage.wallet")}</h1>
           <ButtonGroup>
             <Button to="/wallet/send" tag={RRNavLink} color="link" size="sm">
               <MdArrowUpward />
-              <span className="d-md-inline">Send</span>
+              <span className="d-md-inline">
+                {I18n.t("containers.wallet.walletPage.send")}
+              </span>
             </Button>
             <Button to="/wallet/receive" tag={RRNavLink} color="link" size="sm">
               <MdArrowDownward />
-              <span className="d-md-inline">Receive</span>
+              <span className="d-md-inline">
+                {I18n.t("containers.wallet.walletPage.receive")}
+              </span>
             </Button>
           </ButtonGroup>
         </header>
@@ -52,11 +59,11 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
             </Row>
           </section>
           <section>
-            <h2>Payment requests</h2>
+            <h2>{I18n.t("containers.wallet.walletPage.paymentRequests")}</h2>
             <PaymentRequests />
           </section>
           <section>
-            <h2>Transactions</h2>
+            <h2>{I18n.t("containers.wallet.walletPage.transactions")}</h2>
             <WalletTxns />
           </section>
         </div>

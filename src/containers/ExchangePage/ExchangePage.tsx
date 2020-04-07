@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { ExchangePageProps, ExchangePageState } from "./ExchangePage.interface";
+import { I18n } from "react-redux-i18n";
 
 class ExchangePage extends Component<ExchangePageProps, ExchangePageState> {
   render() {
     return (
       <div className="main-wrapper">
         <Helmet>
-          <title>Exchange – DeFi Blockchain Client</title>
+          <title>{I18n.t("containers.exchangePage.title")}</title>
         </Helmet>
         <header className="header-bar">
-          <h1>Exchange</h1>
+          <h1>{I18n.t("containers.exchangePage.exchange")}</h1>
         </header>
         <div className="content">
-          <section>Section</section>
+          <section>{I18n.t("containers.exchangePage.section")}</section>
         </div>
-        <footer className="footer-bar">Footer Bar</footer>
+        <footer className="footer-bar">
+          {I18n.t("containers.exchangePage.footerBar")}
+        </footer>
       </div>
     );
   }

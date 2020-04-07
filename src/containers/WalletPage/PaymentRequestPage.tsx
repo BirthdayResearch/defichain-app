@@ -7,8 +7,9 @@ import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
 import {
   PaymentRequestPageProps,
   PaymentRequestPageState,
-  RouteProps
+  RouteProps,
 } from "./WalletPage.interface";
+import { I18n } from "react-redux-i18n";
 
 class PaymentRequestPage extends Component<
   PaymentRequestPageProps & RouteComponentProps<RouteProps>,
@@ -19,7 +20,7 @@ class PaymentRequestPage extends Component<
     amount: "1.5",
     time: "Feb 19, 2:03 pm",
     message: "Ref ID REQ456789",
-    address: "bc1qnckyj0jxrcgtu4j90r0efcae750rfx6555rhaq"
+    address: "bc1qnckyj0jxrcgtu4j90r0efcae750rfx6555rhaq",
   };
 
   render() {
@@ -27,20 +28,26 @@ class PaymentRequestPage extends Component<
       <div className="main-wrapper">
         <Helmet>
           <title>
-            Payment request {this.props.match.params.id} – DeFi Blockchain
-            Client
+            {I18n.t("containers.wallet.paymentRequests.paymentRequest")}&nbsp;
+            {this.props.match.params.id} –
+            {I18n.t("containers.wallet.paymentRequests.defiBlockChainClient")}
           </title>
         </Helmet>
         <header className="header-bar">
           <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
-            <span className="d-lg-inline">Wallet</span>
+            <span className="d-lg-inline">
+              {I18n.t("containers.wallet.paymentRequests.wallet")}
+            </span>
           </Button>
-          <h1>Payment request {this.props.match.params.id}</h1>
+          <h1>
+            {I18n.t("containers.wallet.paymentRequests.paymentRequest")}&nbsp;
+            {this.props.match.params.id}
+          </h1>
           <ButtonGroup>
             <Button color="link">
               <MdDelete />
-              <span>Delete</span>
+              <span>{I18n.t("containers.wallet.paymentRequests.delete")}</span>
             </Button>
           </ButtonGroup>
         </header>
