@@ -26,9 +26,9 @@ class BlockPage extends Component<
       <div className="main-wrapper">
         <Helmet>
           <title>
-            {I18n.t("containers.blockChainPage.blockPage.block")}&nbsp;
-            {this.props.match.params.height} –&nbsp;
-            {I18n.t("containers.blockChainPage.blockPage.title")}
+            {I18n.t("containers.blockChainPage.blockPage.title", {
+              blockNo: this.props.match.params.height,
+            })}
           </title>
         </Helmet>
         <header className="header-bar">

@@ -28,56 +28,62 @@ class PaymentRequestPage extends Component<
       <div className="main-wrapper">
         <Helmet>
           <title>
-            {I18n.t("containers.wallet.paymentRequests.paymentRequest")}&nbsp;
-            {this.props.match.params.id} –
-            {I18n.t("containers.wallet.paymentRequests.defiBlockChainClient")}
+            {I18n.t(
+              "containers.wallet.paymentRequestPage.paymentRequestTitle",
+              {
+                id: this.props.match.params.id,
+              }
+            )}
           </title>
         </Helmet>
         <header className="header-bar">
           <Button to="/" tag={NavLink} color="link" className="header-bar-back">
             <MdArrowBack />
             <span className="d-lg-inline">
-              {I18n.t("containers.wallet.paymentRequests.wallet")}
+              {I18n.t("containers.wallet.paymentRequestPage.wallet")}
             </span>
           </Button>
           <h1>
-            {I18n.t("containers.wallet.paymentRequests.paymentRequest")}&nbsp;
+            {I18n.t("containers.wallet.paymentRequestPage.paymentRequest")}
+            &nbsp;
             {this.props.match.params.id}
           </h1>
           <ButtonGroup>
             <Button color="link">
               <MdDelete />
-              <span>{I18n.t("containers.wallet.paymentRequests.delete")}</span>
+              <span>
+                {I18n.t("containers.wallet.paymentRequestPage.delete")}
+              </span>
             </Button>
           </ButtonGroup>
         </header>
         <div className="content">
           <section className="mb-5">
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.label")}
+              label={I18n.t("containers.wallet.paymentRequestPage.label")}
               value={this.state.label}
             />
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.amount")}
+              label={I18n.t("containers.wallet.paymentRequestPage.amount")}
               value={this.state.amount}
             />
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.time")}
+              label={I18n.t("containers.wallet.paymentRequestPage.time")}
               value={this.state.time}
             />
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.message")}
+              label={I18n.t("containers.wallet.paymentRequestPage.message")}
               value={this.state.message}
             />
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.address")}
+              label={I18n.t("containers.wallet.paymentRequestPage.address")}
               value={this.state.address}
               popsQR={true}
               copyable={true!}
               uid="address"
             />
             <KeyValueLi
-              label={I18n.t("containers.wallet.paymentRequests.uRI")}
+              label={I18n.t("containers.wallet.paymentRequestPage.uRI")}
               value={`
               bitcoin:${this.state.address}?amount=${this.state.amount}&label=${this.state.label}&message=${this.state.message}
             `}

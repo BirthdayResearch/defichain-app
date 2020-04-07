@@ -329,7 +329,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               <div className="text-center">
                 <MdCheckCircle className="footer-sheet-icon" />
                 <p>
-                  {I18n.t("containers.wallet.sendPage.transactionSuccessMssg")}
+                  {I18n.t("containers.wallet.sendPage.transactionSuccessMsg")}
                 </p>
               </div>
             </div>

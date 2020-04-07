@@ -38,13 +38,9 @@ class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
     return (
       <div className={styles.syncStatus}>
         <span onClick={this.toggleStatus}>
-          {I18n.t(
-            `containers.blockChainPage.blockPage.${this.state.statusAssets.label}`
-          )}
+          {I18n.t(`components.syncStatus.${this.state.statusAssets.label}`)}
           {this.state.status === "synced"
-            ? I18n.t(
-                `containers.blockChainPage.blockPage.${this.state.syncedAgo}`
-              )
+            ? I18n.t(`components.syncStatus.${this.state.syncedAgo}`)
             : ``}
         </span>
         {StatusIcon(this.state.statusAssets.icon)}
