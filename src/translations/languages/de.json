@@ -57,7 +57,7 @@
       "blockTxn": {
         "noInputs": "No Inputs (Newly Generated Coins)",
         "copied": "Copied!",
-        "dFI": "dFI",
+        "dFI": "DFI",
         "unparsedAddress": "Unparsed address"
       },
       "minerPage": {
@@ -67,8 +67,8 @@
       }
     },
     "errors": {
-      "title": "dFI Block Processing Center – DeFi Blockchain Client",
-      "header": "dFI Block Processing Center",
+      "title": "DFI Block Processing Center – DeFi Blockchain Client",
+      "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
@@ -145,7 +145,7 @@
         "wallet": "Wallet",
         "sendDFI": "Send DFI",
         "amount": "Amount",
-        "dFI": "dFI",
+        "dFI": "DFI",
         "max": "MAX",
         "toAddress": "To address",
         "walletBalance": "Wallet balance",
@@ -177,10 +177,10 @@
         "cancelRequest": "Cancel request"
       },
       "paymentRequestPage": {
+        "paymentRequestTitle": "Payment request %{id} – DeFi Blockchain Client",
         "paymentRequest": "Payment request",
-        "defiBlockChainClient": "deFi Blockchain Client",
         "wallet": "Wallet",
-        "delete": "delete",
+        "delete": "Delete",
         "label": "Label",
         "amount": "Amount",
         "time": "Time",
@@ -191,7 +191,7 @@
       "walletPage": {
         "walletDefiClient": "Wallet – DeFi Blockchain Client",
         "wallet": "Wallet",
-        "delete": "delete",
+        "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
         "paymentRequests": "Payment requests",
