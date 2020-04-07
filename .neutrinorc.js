@@ -31,10 +31,10 @@ module.exports = {
           DEBUG: process.env.DEBUG || true,
         },
         publicPath,
-        // html: {
-        //   title: 'Defichain',
-        //   template: "./src/index.html",
-        // },
+        html: {
+          // title: 'Defichain',
+          template: "./src/index.html",
+        },
         image: {
           name: isProduction ?
             "img/[name].[contenthash:8].[ext]"
@@ -94,7 +94,7 @@ module.exports = {
         .test(neutrino.regexFromExtensions(["txt"]))
         .use("raw")
         .loader("raw-loader");
-        config.module
+      config.module
         .rule("file")
         .test(neutrino.regexFromExtensions(["mp3"]))
         .use("file")
@@ -125,7 +125,7 @@ module.exports = {
 
     copy({
       patterns: [
-        { from: "**/*", context: "./src/static", to: "." }
+        { from: "favicon.ico", context: "./src/assets/img", to: "." }
       ],
     })
   ]
