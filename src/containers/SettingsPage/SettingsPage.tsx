@@ -29,6 +29,7 @@ import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import RangeSlider from "react-bootstrap-range-slider";
 import { SettingsPageProps, SettingsPageState } from "./SettingsPage.interface";
 import { setLanguageRequest } from "./reducer";
+import { getPreLaunchStatus } from "./setting";
 
 class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   state = {
@@ -64,6 +65,10 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       value: "same_as_system",
     },
   };
+
+  componentDidMount() {
+    console.log(getPreLaunchStatus());
+  }
 
   setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {

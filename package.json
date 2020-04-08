@@ -1,7 +1,7 @@
 {
   "name": "defi-blockchain-client-ui",
   "version": "1.0.0",
-  "description": "",
+  "description": "Defi blockchain client ui",
   "main": "./electron-start.js",
   "author": {
     "name": "Cake",
@@ -28,11 +28,14 @@
   "license": "ISC",
   "dependencies": {
     "@babel/preset-typescript": "^7.9.0",
+    "auto-launch": "^5.0.5",
     "autoprefixer": "^9.7.5",
     "bootstrap": "^4.4.1",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",
     "foreman": "^3.0.1",
+    "glob": "^7.1.6",
+    "is-electron": "^2.2.0",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
@@ -95,14 +98,17 @@
   },
   "build": {
     "appId": "enupal-electronv1",
+    "copyright": "Copyright © year ${author}",
     "asar": true,
     "files": [
       "./electron-start.js",
+      "./constants.js",
       "build/release/**/*",
-      "!node_modules"
+      "electron-setting"
     ],
-    "icon": "assets/app-icon/png/512.png",
+    "icon": "electron-setting/app-icon/icon-512.png",
     "dmg": {
+      "icon": "electron-setting/app-icon/mac/app.icns",
       "contents": [
         {
           "x": 40,
