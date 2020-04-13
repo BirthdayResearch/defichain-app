@@ -1,34 +1,64 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
-  setLanguageRequest,
-  setLanguageSuccess,
-  setLanguageFailure,
+  getInitialSettingsRequest,
+  getInitialSettingsSuccess,
+  getInitialSettingsFailure,
+  updateSettingsRequest,
+  updateSettingsSuccess,
+  updateSettingsFailure,
 } from "./reducer";
+import { updateSettingsData, initialData } from "./settings.service";
+import store from "../../app/rootStore";
+import { setupI18n } from "../../translations/i18n";
+import { LANG_VARIABLE } from "../../constants";
 
-function* connect() {
+function* getSettings() {
   try {
-    const data = yield call(handelAccountChanged);
-    if (data && data.address && data.network) {
-      yield put({ type: setLanguageSuccess.type, payload: { ...data } });
+    const data = yield call(initialData);
+    if (data) {
+      yield put({ type: getInitialSettingsSuccess.type, payload: { ...data } });
     } else {
       yield put({
-        type: setLanguageFailure.type,
+        type: getInitialSettingsFailure.type,
         payload: "No data found",
       });
     }
   } catch (e) {
-    yield put({ type: setLanguageFailure.type, payload: e.message });
+    yield put({ type: getInitialSettingsFailure.type, payload: e.message });
     console.log(e);
   }
 }
 
-function handelAccountChanged() {
-  return function (d) {
-    console.log(d);
-  };
+function* updateSettings(action) {
+  try {
+    let updateLanguage = false;
+    if (
+      localStorage.getItem(LANG_VARIABLE) !==
+      action.payload.settings.settingsLanguage
+    ) {
+      updateLanguage = true;
+    }
+    const data = yield call(updateSettingsData, action.payload.settings);
+    if (data && data.settings) {
+      if (updateLanguage) {
+        setupI18n(store);
+      }
+      yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
+    } else {
+      yield put({
+        type: updateSettingsFailure.type,
+        payload: "No data found",
+      });
+    }
+  } catch (e) {
+    yield put({ type: updateSettingsFailure.type, payload: e.message });
+    console.log(e);
+  }
 }
+
 function* mySaga() {
-  yield takeLatest(setLanguageRequest.type, connect);
+  yield takeLatest(getInitialSettingsRequest.type, getSettings);
+  yield takeLatest(updateSettingsRequest.type, updateSettings);
 }
 
 export default mySaga;

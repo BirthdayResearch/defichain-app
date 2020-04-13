@@ -3,17 +3,18 @@ import { Nav, NavItem, NavLink } from "reactstrap";
 import {
   NavLink as RRNavLink,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
 } from "react-router-dom";
 import { I18n } from "react-redux-i18n";
 import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
-  MdCompareArrows
+  MdCompareArrows,
 } from "react-icons/md";
 import styles from "./Sidebar.module.scss";
 import { SidebarProps, SidebarState } from "./Sidebar.interface";
+import { connect } from "react-redux";
 
 class Sidebar extends Component<
   SidebarProps & RouteComponentProps,
@@ -21,8 +22,8 @@ class Sidebar extends Component<
 > {
   state = {
     balance: {
-      available: "1,000"
-    }
+      available: "1,000",
+    },
   };
 
   render() {
@@ -118,4 +119,11 @@ class Sidebar extends Component<
   }
 }
 
-export default withRouter(Sidebar);
+const mapStateToProps = (state) => {
+  const { locale } = state.i18n;
+  return {
+    locale,
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(Sidebar));

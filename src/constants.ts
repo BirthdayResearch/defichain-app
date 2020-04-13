@@ -1,1 +1,9 @@
 export const LANG_VARIABLE = "lang";
+export const AMOUNTS_UNIT = "amountsUnit";
+export const DISPLAY_MODE = "displayMode";
+export const LAUNCH_AT_LOGIN = "launchAtLogin";
+export const LAUNCH_MINIMIZED = "minimizedAtLaunch";
+export const PRUNE_BLOCK_STORAGE = "pruneBlockStorage";
+export const BLOCK_STORAGE = "blockStorage";
+export const DATABASE_CACHE = "databaseCache";
+export const SCRIPT_VERIFICATION = "scriptVerification";
