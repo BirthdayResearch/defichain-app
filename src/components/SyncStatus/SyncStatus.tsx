@@ -4,6 +4,7 @@ import styles from "./SyncStatus.module.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import { SyncStatusProps, SyncStatusState } from "./SyncStatus.interface";
 import { I18n } from "react-redux-i18n";
+import { connect } from "react-redux";
 
 function StatusIcon(icon: any) {
   const StatusIcon = icon;
@@ -49,4 +50,10 @@ class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
   }
 }
 
-export default SyncStatus;
+const mapStateToProps = (state) => {
+  const { locale } = state.i18n;
+  return {
+    locale,
+  };
+};
+export default connect(mapStateToProps)(SyncStatus);

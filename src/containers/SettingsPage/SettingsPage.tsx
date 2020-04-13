@@ -1,74 +1,38 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import {
-  Button,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import { TabContent } from "reactstrap";
 import { I18n } from "react-redux-i18n";
-import { MdCheck } from "react-icons/md";
-import classnames from "classnames";
-import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
-import RangeSlider from "react-bootstrap-range-slider";
+import isEqual from "lodash/isEqual";
 import { SettingsPageProps, SettingsPageState } from "./SettingsPage.interface";
-import { setLanguageRequest } from "./reducer";
-import { getPreLaunchStatus } from "./setting";
+import { getInitialSettingsRequest, updateSettingsRequest } from "./reducer";
+import SettingsTabsHeader from "./SettingsTabsHeader";
+import SettingsTabsFooter from "./SettingsTabsFooter";
+import SettingsTabGeneral from "./SettingsTabGeneral";
+import SettingsTabDisplay from "./SettingsTabDisplay";
 
 class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
-  state = {
-    activeTab: "general",
-    settingsPruneBlockStorage: false,
-    settingsScriptVerificationThreads: 0,
-    languages: [
-      { label: I18n.t("containers.settings.english"), value: "en" },
-      { label: I18n.t("containers.settings.german"), value: "de" },
-    ],
-    amountUnits: [
-      { label: I18n.t("containers.settings.dFI"), value: "DFI" },
-      { label: I18n.t("containers.settings.µDFI"), value: "µDFI" },
-    ],
-    displayModes: [
-      {
-        label: I18n.t("containers.settings.sameAsSystem"),
-        value: "same_as_system",
-      },
-      { label: I18n.t("containers.settings.light"), value: "light" },
-      { label: I18n.t("containers.settings.dark"), value: "dark" },
-    ],
-    settingsLanguage: {
-      label: I18n.t("containers.settings.english"),
-      value: "en",
-    },
-    settingsAmountsUnit: {
-      label: I18n.t("containers.settings.dFI"),
-      value: "DFI",
-    },
-    settingDisplayMode: {
-      label: I18n.t("containers.settings.sameAsSystem"),
-      value: "same_as_system",
-    },
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeTab: "general",
+      isUnsavedChanges: false,
+    };
+  }
 
   componentDidMount() {
-    console.log(getPreLaunchStatus());
+    this.props.loadSettings();
   }
+
+  componentDidUpdate = (prevProps) => {
+    if (!isEqual(this.props.settings, prevProps.settings)) {
+      this.setState({
+        ...this.props.settings,
+        isUnsavedChanges: false,
+      });
+    }
+  };
 
   setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {
@@ -78,324 +42,191 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     }
   };
 
-  toggleSettingsPruneBlockStorage = () => {
+  handleDropDowns = (data, field) => {
+    this.setState(
+      {
+        [field]: data,
+      } as SettingsPageState,
+      () => this.checkForChanges()
+    );
+  };
+
+  handleToggles = (field: string) => {
+    this.setState(
+      {
+        [field]: !this.state[field],
+      } as {
+        settingsPruneBlockStorage: boolean;
+        settingsMinimizedAtLaunch: boolean;
+        settingsLaunchAtLogin: boolean;
+      },
+      () => this.checkForChanges()
+    );
+  };
+
+  handleInputs = (event, field: string) => {
+    this.setState(
+      {
+        [field]: /^-?[0-9]+$/.test(event.target.value)
+          ? parseInt(event.target.value)
+          : "",
+      } as {
+        settingsScriptVerificationThreads: number;
+        settingBlockStorage: number;
+        settingsDatabaseCache: number;
+      },
+      () => this.checkForChanges()
+    );
+  };
+
+  checkForChanges = () => {
+    const keys = [
+      "settingsLanguage",
+      "settingsAmountsUnit",
+      "settingDisplayMode",
+      "settingsLaunchAtLogin",
+      "settingsMinimizedAtLaunch",
+      "settingsPruneBlockStorage",
+      "settingsScriptVerificationThreads",
+      "settingBlockStorage",
+      "settingsDatabaseCache",
+    ];
+
+    let isUnsavedChanges = false;
+
+    keys.forEach((key) => {
+      if (!isUnsavedChanges && this.props.settings[key] !== this.state[key]) {
+        isUnsavedChanges = true;
+      }
+    });
+
+    const { settingsLaunchAtLogin, settingsMinimizedAtLaunch } = this.state;
+
     this.setState({
-      settingsPruneBlockStorage: !this.state.settingsPruneBlockStorage,
+      isUnsavedChanges: isUnsavedChanges,
+      settingsMinimizedAtLaunch: !settingsLaunchAtLogin
+        ? false
+        : settingsMinimizedAtLaunch,
     });
   };
 
-  adjustScriptVerificationThreads = (e) => {
-    this.setState({
-      settingsScriptVerificationThreads: parseInt(e.target.value),
-    });
+  saveChanges = () => {
+    const {
+      settingsLanguage,
+      settingsAmountsUnit,
+      settingDisplayMode,
+      settingsLaunchAtLogin,
+      settingsMinimizedAtLaunch,
+      settingsPruneBlockStorage,
+      settingsScriptVerificationThreads,
+      settingBlockStorage,
+      settingsDatabaseCache,
+    } = this.state;
+
+    const settings = {
+      settingsLanguage,
+      settingsAmountsUnit,
+      settingDisplayMode,
+      settingsLaunchAtLogin,
+      settingsMinimizedAtLaunch,
+      settingsPruneBlockStorage,
+      settingsScriptVerificationThreads,
+      settingBlockStorage,
+      settingsDatabaseCache,
+    };
+    this.props.updateSettings(settings);
   };
 
-  adjustLanguage = (langObj) => {
-    this.setState({
-      settingsLanguage: langObj,
-    });
-  };
+  getLabel = (list: any[], value: any) => {
+    let index = list.findIndex((obj) => obj.value === value);
 
-  changeDisplayMode = (displayObj) => {
-    this.setState({
-      settingDisplayMode: displayObj,
-    });
-  };
-
-  adjustAmountsUnit = (unitObj) => {
-    this.setState({
-      settingsAmountsUnit: unitObj,
-    });
+    if (index == -1) {
+      return list[0].label;
+    } else {
+      return list[index].label;
+    }
   };
 
   render() {
     const {
-      languages,
+      activeTab,
+      isUnsavedChanges,
+      settingsLaunchAtLogin,
+      settingsMinimizedAtLaunch,
+      settingsPruneBlockStorage,
+      settingBlockStorage,
+      settingsDatabaseCache,
+      settingsScriptVerificationThreads,
       settingsLanguage,
-      amountUnits,
       settingsAmountsUnit,
-      displayModes,
       settingDisplayMode,
     } = this.state;
+
     return (
       <div className="main-wrapper">
         <Helmet>
           <title>{I18n.t("containers.settings.title")}</title>
         </Helmet>
-        <header className="header-bar">
-          <h1>{I18n.t("containers.settings.settings")}</h1>
-          <Nav pills>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "general",
-                })}
-                onClick={() => {
-                  this.setActiveTab("general");
-                }}
-              >
-                {I18n.t("containers.settings.general")}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "display",
-                })}
-                onClick={() => {
-                  this.setActiveTab("display");
-                }}
-              >
-                {I18n.t("containers.settings.display")}
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <div></div>
-        </header>
+        <SettingsTabsHeader
+          activeTab={activeTab}
+          setActiveTab={this.setActiveTab}
+        />
         <div className="content">
           <TabContent activeTab={this.state.activeTab}>
-            <TabPane tabId="general">
-              <section>
-                <Form>
-                  <Row className="mb-5">
-                    <Col md="4">
-                      {I18n.t("containers.settings.launchOptions")}
-                    </Col>
-                    <Col md="8">
-                      <FormGroup>
-                        <FormGroup check>
-                          <Label check className="switch">
-                            <Input type="checkbox" />
-                            &nbsp;
-                            {I18n.t("containers.settings.launchAtLogin")}
-                          </Label>
-                        </FormGroup>
-                      </FormGroup>
-                      <FormGroup>
-                        <FormGroup check>
-                          <Label check className="switch">
-                            <Input type="checkbox" />
-                            &nbsp;
-                            {I18n.t("containers.settings.minimizedAtLaunch")}
-                          </Label>
-                        </FormGroup>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row className="mb-5">
-                    <Col md="4">{I18n.t("containers.settings.storage")}</Col>
-                    <Col md="8">
-                      <FormGroup>
-                        <FormGroup check>
-                          <Label check className="switch">
-                            <Input
-                              type="checkbox"
-                              checked={this.state.settingsPruneBlockStorage}
-                              onChange={this.toggleSettingsPruneBlockStorage}
-                            />
-                            {I18n.t("containers.settings.pruneBlockStorage")}
-                          </Label>
-                        </FormGroup>
-                      </FormGroup>
-                      <FormGroup
-                        className={`form-label-group ${classnames({
-                          "d-none": !this.state.settingsPruneBlockStorage,
-                        })}`}
-                      >
-                        <InputGroup>
-                          <Input
-                            type="text"
-                            name="pruneTo"
-                            id="pruneTo"
-                            placeholder="Number"
-                          />
-                          <Label for="pruneTo">
-                            {I18n.t("containers.settings.blockPruneStorage")}
-                          </Label>
-                          <InputGroupAddon addonType="append">
-                            <InputGroupText>GB</InputGroupText>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FormGroup>
-                      <FormGroup className="form-label-group mb-5">
-                        <InputGroup>
-                          <Input
-                            type="text"
-                            name="dbCacheSize"
-                            id="dbCacheSize"
-                            placeholder="Number"
-                          />
-                          <Label for="dbCacheSize">
-                            {I18n.t("containers.settings.databaseSize")}
-                          </Label>
-                          <InputGroupAddon addonType="append">
-                            <InputGroupText>
-                              {I18n.t("containers.settings.mib")}
-                            </InputGroupText>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="4">
-                      {I18n.t("containers.settings.scriptVerification")}
-                    </Col>
-                    <Col md="8">
-                      <FormGroup className="form-row">
-                        <Col md="8">
-                          <Label for="scriptVerificationThreads">
-                            {I18n.t("containers.settings.noOfThreads")}
-                          </Label>
-                          <Row className="align-items-center">
-                            <Col className="col-auto">
-                              <RangeSlider
-                                value={
-                                  this.state.settingsScriptVerificationThreads
-                                }
-                                onChange={this.adjustScriptVerificationThreads}
-                                min={-2}
-                                max={16}
-                                step={1}
-                                tooltip="off"
-                                id="scriptVerificationThreads"
-                              />
-                            </Col>
-                            {this.state.settingsScriptVerificationThreads === 0
-                              ? "Auto"
-                              : this.state.settingsScriptVerificationThreads}
-                          </Row>
-                        </Col>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                </Form>
-              </section>
-            </TabPane>
-            <TabPane tabId="display">
-              <section>
-                <Form>
-                  <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      {I18n.t("containers.settings.appLanguage")}
-                    </Col>
-                    <Col md="8">
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret color="outline-secondary">
-                          {settingsLanguage.label}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          {languages.map((language) => {
-                            return (
-                              <DropdownItem
-                                className="d-flex justify-content-between"
-                                key={language.value}
-                                onClick={() => this.adjustLanguage(language)}
-                                value={language.value}
-                              >
-                                <span>{language.label}</span>&nbsp;
-                                {settingsLanguage.value === language.value && (
-                                  <MdCheck />
-                                )}
-                              </DropdownItem>
-                            );
-                          })}
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      {I18n.t("containers.settings.displayAmount")}
-                    </Col>
-                    <Col md="8">
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret color="outline-secondary">
-                          {settingsAmountsUnit.label}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          {amountUnits.map((eachUnit) => {
-                            return (
-                              <DropdownItem
-                                className="d-flex justify-content-between"
-                                onClick={() => this.adjustAmountsUnit(eachUnit)}
-                                key={eachUnit.value}
-                                value={eachUnit.value}
-                              >
-                                <span>{eachUnit.label}</span>&nbsp;
-                                {settingsAmountsUnit.value ===
-                                  eachUnit.value && <MdCheck />}
-                              </DropdownItem>
-                            );
-                          })}
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup className="form-row align-items-center">
-                    <Col md="4">
-                      {I18n.t("containers.settings.displayMode")}
-                    </Col>
-                    <Col md="8">
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret color="outline-secondary">
-                          {settingDisplayMode.label}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          {displayModes.map((displayMode) => {
-                            return (
-                              <DropdownItem
-                                className="d-flex justify-content-between"
-                                key={displayMode.value}
-                                onClick={() =>
-                                  this.changeDisplayMode(displayMode)
-                                }
-                                value={displayMode.value}
-                              >
-                                <span>{displayMode.label}</span>&nbsp;
-                                {settingDisplayMode.value ===
-                                  displayMode.value && <MdCheck />}
-                              </DropdownItem>
-                            );
-                          })}
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </Col>
-                  </FormGroup>
-                </Form>
-              </section>
-            </TabPane>
+            <SettingsTabGeneral
+              settingsLaunchAtLogin={settingsLaunchAtLogin!}
+              settingsMinimizedAtLaunch={settingsMinimizedAtLaunch!}
+              settingsPruneBlockStorage={settingsPruneBlockStorage!}
+              settingBlockStorage={settingBlockStorage!}
+              settingsDatabaseCache={settingsDatabaseCache!}
+              settingsScriptVerificationThreads={
+                settingsScriptVerificationThreads!
+              }
+              handleInputs={this.handleInputs}
+              handleToggles={this.handleToggles}
+            />
+            <SettingsTabDisplay
+              settingsLanguage={settingsLanguage!}
+              getLabel={this.getLabel}
+              settingsAmountsUnit={settingsAmountsUnit!}
+              settingDisplayMode={settingDisplayMode!}
+              handleDropDowns={this.handleDropDowns}
+            />
           </TabContent>
         </div>
-        <footer className="footer-bar">
-          <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">
-              {I18n.t("containers.settings.unsavedChanges")}
-            </Col>
-            <Col className="d-flex justify-content-end">
-              <Button color="primary">
-                {I18n.t("containers.settings.saveSettings")}
-              </Button>
-            </Col>
-          </Row>
-        </footer>
+        <SettingsTabsFooter
+          isUnsavedChanges={isUnsavedChanges}
+          saveChanges={this.saveChanges}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { isLanguageSet, languageSetError, language } = state.settings;
+  const {
+    isFetching,
+    settingsError,
+    settings,
+    isUpdating,
+    isUpdated,
+  } = state.settings;
+  const { locale } = state.i18n;
   return {
-    isLanguageSet,
-    languageSetError,
-    language,
+    isFetching,
+    settingsError,
+    settings,
+    isUpdating,
+    isUpdated,
+    locale,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLanguage: () => dispatch(setLanguageRequest()),
+    loadSettings: () => dispatch(getInitialSettingsRequest()),
+    updateSettings: (settings) =>
+      dispatch({ type: updateSettingsRequest.type, payload: { settings } }),
   };
 };
 

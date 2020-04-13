@@ -1,7 +1,7 @@
 import {
   loadTranslations,
   setLocale,
-  syncTranslationWithStore
+  syncTranslationWithStore,
 } from "react-redux-i18n";
 import enTranslationMessages from "./languages/en.json";
 import deTranslationMessages from "./languages/de.json";
@@ -17,10 +17,10 @@ const formatTranslationMessages = (locale, messages) => {
 
 const translationsObject = {
   en: formatTranslationMessages("en", enTranslationMessages),
-  de: formatTranslationMessages("de", deTranslationMessages)
+  de: formatTranslationMessages("de", deTranslationMessages),
 };
 
-export const setupI18n = store => {
+export const setupI18n = (store) => {
   syncTranslationWithStore(store);
   store.dispatch(loadTranslations(translationsObject));
   const storage_lang = localStorage.getItem(LANG_VARIABLE);
