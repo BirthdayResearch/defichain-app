@@ -12,20 +12,17 @@ import SettingsTabGeneral from "./SettingsTabGeneral";
 import SettingsTabDisplay from "./SettingsTabDisplay";
 
 class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
-  constructor(props) {
+  constructor(props: Readonly<SettingsPageProps>) {
     super(props);
-
     this.state = {
       activeTab: "general",
+      ...props.settings,
       isUnsavedChanges: false,
     };
+    props.loadSettings();
   }
 
-  componentDidMount() {
-    this.props.loadSettings();
-  }
-
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: { settings: any; isFetching: boolean }) => {
     if (!isEqual(this.props.settings, prevProps.settings)) {
       this.setState({
         ...this.props.settings,
@@ -34,7 +31,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     }
   };
 
-  setActiveTab = (tab) => {
+  setActiveTab = (tab: string) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab,
@@ -42,7 +39,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     }
   };
 
-  handleDropDowns = (data, field) => {
+  handleDropDowns = (data: any, field: any) => {
     this.setState(
       {
         [field]: data,
@@ -64,7 +61,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     );
   };
 
-  handleInputs = (event, field: string) => {
+  handleInputs = (event: { target: { value: string } }, field: string) => {
     this.setState(
       {
         [field]: /^-?[0-9]+$/.test(event.target.value)
@@ -222,7 +219,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (
+  dispatch: (arg0: {
+    payload: { settings: any } | undefined;
+    type: string;
+  }) => any
+) => {
   return {
     loadSettings: () => dispatch(getInitialSettingsRequest()),
     updateSettings: (settings) =>
