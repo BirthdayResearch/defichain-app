@@ -199,7 +199,7 @@
         "availableBalance": "Available balance",
         "pending": "Pending"
       },
-      "walletTans": {
+      "walletTxns": {
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash"

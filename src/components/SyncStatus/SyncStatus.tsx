@@ -40,6 +40,7 @@ class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
       <div className={styles.syncStatus}>
         <span onClick={this.toggleStatus}>
           {I18n.t(`components.syncStatus.${this.state.statusAssets.label}`)}
+          &nbsp;
           {this.state.status === "synced"
             ? I18n.t(`components.syncStatus.${this.state.syncedAgo}`)
             : ``}
