@@ -22,8 +22,8 @@ import QrReader from "react-qr-reader";
 import classnames from "classnames";
 import { SendPageProps, SendPageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
-// const shutterSound = require("./../../assets/audio/shutter.mp3");
-const shutterSnap = { play: Function }; //new UIfx(shutterSound);
+import shutterSound from "./../../assets/audio/shutter.mp3";
+const shutterSnap = new UIfx(shutterSound);
 import { fetchSendDataRequest } from "./reducer";
 
 class SendPage extends Component<SendPageProps, SendPageState> {
