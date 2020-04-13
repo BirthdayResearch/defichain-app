@@ -6,7 +6,8 @@ import {
   Route,
   Switch,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
+  Redirect,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./App.scss";
@@ -31,7 +32,7 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
   };
 
   state = {
-    prevDepth: this.getPathDepth(this.props.location)
+    prevDepth: this.getPathDepth(this.props.location),
   };
 
   determineTransition = () => {
@@ -48,7 +49,7 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
   componentWillReceiveProps() {
     console.log(this.props.location);
     this.setState({
-      prevDepth: this.getPathDepth(this.props.location)
+      prevDepth: this.getPathDepth(this.props.location),
     });
   }
 
@@ -64,15 +65,16 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
             <SyncStatus />
             <TransitionGroup
               className="transition-group"
-              childFactory={child =>
+              childFactory={(child) =>
                 React.cloneElement(child, {
                   classNames: this.determineTransition()[0],
-                  timeout: this.determineTransition()[1]
+                  timeout: this.determineTransition()[1],
                 })
               }
             >
               <CSSTransition timeout={300} key={this.props.location.key}>
                 <Switch location={this.props.location}>
+                  <Redirect from="/index.html" to="/" />
                   <Route exact path="/" component={WalletPage} />
                   <Route exact path="/wallet/send" component={SendPage} />
                   <Route exact path="/wallet/receive" component={ReceivePage} />
