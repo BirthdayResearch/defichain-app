@@ -1,5 +1,5 @@
 {
-  "name": "defi-blockchain-client-ui",
+  "name": "DeFi",
   "version": "1.0.0",
   "description": "Defi blockchain client ui",
   "main": "./electron-start.js",
@@ -35,6 +35,7 @@
     "d3-scale": "^3.2.1",
     "foreman": "^3.0.1",
     "glob": "^7.1.6",
+    "ini": "^1.3.5",
     "is-electron": "^2.2.0",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
@@ -108,11 +109,11 @@
       "./electron-start.js",
       "./constants.js",
       "build/release/**/*",
-      "electron-setting"
+      "electron-app"
     ],
-    "icon": "electron-setting/app-icon/icon-512.png",
+    "icon": "electron-app/assets/icon/icon-512.png",
     "dmg": {
-      "icon": "electron-setting/app-icon/mac/app.icns",
+      "icon": "electron-app/assets/icon/mac/app.icns",
       "contents": [
         {
           "x": 40,

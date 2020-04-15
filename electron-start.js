@@ -19,7 +19,7 @@ function createWindow() {
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#F4F3F6',
     movable: true,
-    icon: path.join(__dirname, "/electron-setting/app-icon/icon-512.png"),
+    icon: path.join(__dirname, "/electron-app/assets/icon/icon-512.png"),
     webPreferences: {
       nodeIntegration: true,
     }
@@ -66,7 +66,7 @@ app.on('activate', () => {
   }
 })
 function loadDemos() {
-  const files = glob.sync(path.join(__dirname, "electron-setting/**/*.js"));
+  const files = glob.sync(path.join(__dirname, "electron-app/**/*.js"));
   files.forEach(file => {
     require(file);
   });
