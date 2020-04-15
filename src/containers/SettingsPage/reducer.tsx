@@ -1,8 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  enablePreLaunchStatus,
-  disablePreLaunchStatus,
-} from "./settings.service";
 
 const configSlice = createSlice({
   name: "settings",
@@ -56,20 +52,6 @@ const configSlice = createSlice({
       state.isUpdating = true;
     },
     updateSettingsSuccess(state, action) {
-      const {
-        settingsLaunchAtLogin,
-        settingsMinimizedAtLaunch,
-      } = action.payload.settings;
-      if (
-        state.settings.settingsLaunchAtLogin !== settingsLaunchAtLogin ||
-        state.settings.settingsMinimizedAtLaunch !== settingsMinimizedAtLaunch
-      ) {
-        if (settingsLaunchAtLogin) {
-          enablePreLaunchStatus(settingsMinimizedAtLaunch);
-        } else {
-          disablePreLaunchStatus();
-        }
-      }
       state.settings = action.payload.settings;
       state.isUpdating = false;
       state.settingsError = "";

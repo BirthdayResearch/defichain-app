@@ -4,16 +4,6 @@
       "copied": "Copied!"
     },
     "searchBar": {},
-    "sideBar": {
-      "balance": "Balance",
-      "dfi": "DFI",
-      "wallet": "Wallet",
-      "masterNodes": "Masternodes",
-      "blockchain": "Blockchain",
-      "exchange": "Exchange",
-      "help": "Help",
-      "settings": "Settings"
-    },
     "spinner": {},
     "statCard": {},
     "syncStatus": {
@@ -25,6 +15,16 @@
     }
   },
   "containers": {
+    "sideBar": {
+      "balance": "Balance",
+      "dfi": "DFI",
+      "wallet": "Wallet",
+      "masterNodes": "Masternodes",
+      "blockchain": "Blockchain",
+      "exchange": "Exchange",
+      "help": "Help",
+      "settings": "Settings"
+    },
     "blockChainPage": {
       "blockChainPage": {
         "title": "Blockchain – DeFi Blockchain Client",

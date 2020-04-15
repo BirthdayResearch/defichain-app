@@ -7,7 +7,12 @@ import {
   updateSettingsSuccess,
   updateSettingsFailure,
 } from "./reducer";
-import { updateSettingsData, initialData } from "./settings.service";
+import {
+  updateSettingsData,
+  initialData,
+  enablePreLaunchStatus,
+  disablePreLaunchStatus,
+} from "./settings.service";
 import store from "../../app/rootStore";
 import { setupI18n } from "../../translations/i18n";
 import { LANG_VARIABLE } from "../../constants";
@@ -42,6 +47,11 @@ function* updateSettings(action) {
     if (data && data.settings) {
       if (updateLanguage) {
         setupI18n(store);
+      }
+      if (data.settings.settingsLaunchAtLogin) {
+        enablePreLaunchStatus(data.settings.settingsMinimizedAtLaunch);
+      } else {
+        disablePreLaunchStatus();
       }
       yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
     } else {

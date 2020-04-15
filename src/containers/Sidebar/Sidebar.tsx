@@ -31,10 +31,10 @@ class Sidebar extends Component<
       <div className={styles.sidebar}>
         <div className={styles.balance}>
           <div className={styles.balanceLabel}>
-            {I18n.t("components.sideBar.balance")}
+            {I18n.t("containers.sideBar.balance")}
           </div>
           <div className={styles.balanceValue}>
-            {this.state.balance.available} {I18n.t("components.sideBar.dfi")}
+            {this.state.balance.available} {I18n.t("containers.sideBar.dfi")}
           </div>
         </div>
         <div className={styles.navs}>
@@ -54,7 +54,7 @@ class Sidebar extends Component<
                 }}
               >
                 <MdAccountBalanceWallet />
-                {I18n.t("components.sideBar.wallet")}
+                {I18n.t("containers.sideBar.wallet")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -65,7 +65,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdDns />
-                {I18n.t("components.sideBar.masterNodes")}
+                {I18n.t("containers.sideBar.masterNodes")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -76,7 +76,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdViewWeek />
-                {I18n.t("components.sideBar.blockchain")}
+                {I18n.t("containers.sideBar.blockchain")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -87,7 +87,7 @@ class Sidebar extends Component<
                 activeClassName={styles.active}
               >
                 <MdCompareArrows />
-                {I18n.t("components.sideBar.exchange")}
+                {I18n.t("containers.sideBar.exchange")}
               </NavLink>
             </NavItem>
           </Nav>
@@ -99,7 +99,7 @@ class Sidebar extends Component<
                 className={styles.navLink}
                 activeClassName={styles.active}
               >
-                {I18n.t("components.sideBar.help")}
+                {I18n.t("containers.sideBar.help")}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
@@ -109,7 +109,7 @@ class Sidebar extends Component<
                 className={styles.navLink}
                 activeClassName={styles.active}
               >
-                {I18n.t("components.sideBar.settings")}
+                {I18n.t("containers.sideBar.settings")}
               </NavLink>
             </NavItem>
           </Nav>
