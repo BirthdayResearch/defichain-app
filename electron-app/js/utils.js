@@ -2,6 +2,29 @@ const fs = require("fs");
 const base64 = require("base-64");
 const utf8 = require("utf8");
 const cryptoJs = require("crypto-js");
+const { platform } = require("os");
+const ps = require('ps-node');
+
+const getPlatform = () => {
+  switch (platform()) {
+    case "aix":
+    case "freebsd":
+    case "linux":
+    case "openbsd":
+    case "android":
+      return "linux";
+    case "darwin":
+    case "sunos":
+      return "mac";
+    case "win32":
+      return "win";
+  }
+};
+
+const getBinaryParameter = (obj = {}) => {
+  const keys = Object.keys(obj);
+  return keys.map(key => `-${key}=${obj[key]}`)
+}
 
 const responseMessage = (success, res) => {
   if (success) {
@@ -11,26 +34,26 @@ const responseMessage = (success, res) => {
 }
 
 // Check file exists or not 
-const checkFileExists = (path) => {
-  return path && fs.existsSync(path);
+const checkFileExists = (filePath) => {
+  return filePath && fs.existsSync(filePath);
 }
 
 // Get file data
-const getFileData = (path, format) => {
+const getFileData = (filePath, format) => {
   try {
-    return fs.readFileSync(path, format);
+    return fs.readFileSync(filePath, format);
   } catch (err) {
     throw err;
   }
 }
 
 // write / append on UI config file
-const writeFile = (path, data, append) => {
+const writeFile = (filePath, data, append) => {
   try {
-    if (append && checkFileExists(path)) {
-      return fs.appendFileSync(path, data);
+    if (append && checkFileExists(filePath)) {
+      return fs.appendFileSync(filePath, data);
     } else {
-      return fs.writeFileSync(path, data, 'utf8');
+      return fs.writeFileSync(filePath, data, "utf8");
     }
   } catch (err) {
     throw err;
@@ -39,7 +62,7 @@ const writeFile = (path, data, append) => {
 
 
 const generatePassword = () => {
-  //  Create 32 byte b64 password
+  //  Create 32 byte password
   const encoded = base64.encode(cryptoJs.lib.WordArray.random(32));
   const bytes = base64.decode(encoded);
   return utf8.decode(bytes);
@@ -54,10 +77,32 @@ const getRpcAuth = (username) => {
   return `${username}:${salt}$${passwordHmac}`;
 };
 
+const getProcesses = (args) => {
+  return new Promise((resolve, reject) => {
+    ps.lookup(args, (err, result) => {
+      if (err) return reject(err);
+      return resolve(result);
+    });
+  });
+}
+
+const stopProcesses = (processId) => {
+  return new Promise((resolve, reject) => {
+    ps.kill(processId, 'SIGTERM', (err, result) => {
+      if (err) return reject(err);
+      return resolve(result);
+    });
+  });
+}
+
 module.exports = {
+  getPlatform,
+  getBinaryParameter,
   responseMessage,
   checkFileExists,
   getFileData,
   writeFile,
-  getRpcAuth
-}
+  getRpcAuth,
+  getProcesses,
+  stopProcesses
+};

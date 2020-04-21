@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { Provider, connect } from "react-redux";
-import store from "./rootStore";
+import { connect } from "react-redux";
 import {
   Route,
   Switch,
@@ -26,6 +25,7 @@ import HelpPage from "../containers/HelpPage/HelpPage";
 import Error404Page from "../containers/Errors/Error404Page";
 import SettingsPage from "../containers/SettingsPage/SettingsPage";
 import { getRpcConfigsRequest } from "./reducer";
+import { startBinary, stopBinary } from "./app.service";
 
 class App extends Component<RouteComponentProps, { prevDepth: Function }> {
   constructor(props) {
@@ -66,6 +66,20 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
           <title>DeFi Blockchain Client</title>
         </Helmet>
         <Sidebar />
+        <button
+          onClick={() => {
+            return startBinary();
+          }}
+        >
+          Start
+        </button>
+        <button
+          onClick={() => {
+            return stopBinary();
+          }}
+        >
+          Stop
+        </button>
         <main>
           <SyncStatus />
           <TransitionGroup
