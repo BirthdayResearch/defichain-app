@@ -1,6 +1,6 @@
 const ini = require("ini");
 const yaml = require("js-yaml");
-const randomString = require('random-string');
+const randomString = require("random-string");
 const {
   responseMessage,
   getFileData,

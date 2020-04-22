@@ -1,10 +1,12 @@
-const { app, BrowserWindow, protocol } = require('electron')
-const path = require('path')
-const url = require('url')
+const { app, BrowserWindow, protocol } = require("electron")
+const path = require("path")
+const url = require("url")
 const debug = /--debug/.test(process.argv[2]);
 const glob = require("glob");
+const DefiNode = require("./electron-app/js/services/defiNode");
 
-let mainWindow
+let mainWindow;
+let allowQuit = false;
 if (process.mas) app.setName(process.env.npm_package_name);
 
 function createWindow() {
@@ -16,8 +18,8 @@ function createWindow() {
     minWidth: 640,
     minHeight: 480,
     title: app.getName(),
-    titleBarStyle: 'hiddenInset',
-    backgroundColor: '#F4F3F6',
+    titleBarStyle: "hiddenInset",
+    backgroundColor: "#F4F3F6",
     movable: true,
     icon: path.join(__dirname, "/electron-app/assets/icon/icon-512.png"),
     webPreferences: {
@@ -28,43 +30,51 @@ function createWindow() {
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
     url.format({
-      pathname: './index.html',
-      protocol: 'file:',
+      pathname: "./index.html",
+      protocol: "file:",
       slashes: true
     })
   )
 
   if (debug) {
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
   }
 
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
+  mainWindow.on("closed", () => {
+    mainWindow = null;
   })
 }
 app.allowRendererProcessReuse = false;
-app.on('ready', () => {
-  protocol.interceptFileProtocol('file', (request, callback) => {
-    const url = request.url.substr(7) /* all urls start with 'file://' */
+
+app.on("ready", () => {
+  protocol.interceptFileProtocol("file", (request, callback) => {
+    const url = request.url.substr(7) /* all urls start with "file://" */
 
     callback({ path: path.normalize(`${__dirname}/build/release/${url}`) })
   },
-    (err) => { if (err) console.error('Failed to register protocol') })
+    (err) => { if (err) console.error("Failed to register protocol") })
   createWindow() /* callback function */
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
+app.on("window-all-closed", async (event) => {
+  if (allowQuit) {
+    return app.quit();
   }
+  // Stop all process before quit 
+  event.preventDefault();
+  const defiNode = new DefiNode();
+  await defiNode.stop();
+  allowQuit = true;
+  app.quit();
 })
 
-app.on('activate', () => {
+app.on("activate", () => {
   if (mainWindow === null) {
     createWindow()
   }
 })
+
 function loadApp() {
   require(path.join(__dirname, "electron-app/js/index.js"));
   // const files = glob.sync(path.join(__dirname, "electron-app/**/*.js"));

@@ -14,15 +14,14 @@ export const getRpcConfig = () => {
   return {};
 };
 
-export const startBinary = () => {
+export const startBinary = (config) => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("start-defi-chain", {});
-    console.log(res);
-    // if (res.success) {
-    //   return res.data;
-    // }
-    // throw new Error(res.message);
+    const res = ipcRenderer.sendSync("start-defi-chain", config);
+    if (res.success) {
+      return res.data;
+    }
+    throw new Error(res.message);
   }
   return {};
 };
