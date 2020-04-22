@@ -3,24 +3,24 @@ const { APP_NAME } = require("./../constant");
 const { responseMessage } = require("./../utils");
 
 class PreferenceStatus {
-  get = async () => {
+  async get() {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME });
-      const data = await autoLauncher.isEnabled();
-      return responseMessage(true, data);
+      const enabled = await autoLauncher.isEnabled();
+      return responseMessage(true, { enabled });
     } catch (err) {
       return responseMessage(false, err);
     }
   }
-  set = async (enable, isHidden) => {
+  async set(enabled, isHidden) {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
-      if (enable) {
-        const data = await autoLauncher.enable();
-        return responseMessage(true, data);
+      if (enabled) {
+        await autoLauncher.enable();
+        return responseMessage(true, { enabled });
       }
-      const data = await autoLauncher.disable();
-      return responseMessage(true, data);
+      await autoLauncher.disable();
+      return responseMessage(true, { enabled });
     } catch (err) {
       return responseMessage(false, err);
     }

@@ -6,7 +6,7 @@ const {
   getFileData,
   checkFileExists,
   writeFile,
-  getRpcAuth
+  getRpcAuth,
 } = require("./../utils");
 const {
   CONFIG_FILE_NAME,

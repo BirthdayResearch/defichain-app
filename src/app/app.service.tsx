@@ -3,38 +3,26 @@ import isElectron from "is-electron";
 export const getRpcConfig = () => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("get-config-details", {});
-    console.log(res);
-
-    if (res.success) {
-      return res.data;
-    }
-    throw new Error(res.message);
+    return ipcRenderer.sendSync("get-config-details", {});
   }
-  return {};
+  // For webapp
+  return { success: true, data: {} };
 };
 
 export const startBinary = (config) => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("start-defi-chain", config);
-    if (res.success) {
-      return res.data;
-    }
-    throw new Error(res.message);
+    return ipcRenderer.sendSync("start-defi-chain", config);
   }
-  return {};
+  // For webapp
+  return { success: true, data: {} };
 };
 
 export const stopBinary = () => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("stop-defi-chain", {});
-    console.log(res);
-    // if (res.success) {
-    //   return res.data;
-    // }
-    // throw new Error(res.message);
+    return ipcRenderer.sendSync("stop-defi-chain", {});
   }
-  return {};
+  // For webapp
+  return { success: true, data: {} };
 };

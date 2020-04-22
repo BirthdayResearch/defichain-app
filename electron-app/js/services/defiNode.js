@@ -2,7 +2,14 @@ const path = require("path");
 const { spawn } = require("child_process");
 const { dialog } = require("electron")
 const { CONFIG_FILE_NAME, BINARY_FILE_NAME, BINARY_FILE_PATH } = require("../constant")
-const { getBinaryParameter, responseMessage, getProcesses, stopProcesses, checkFileExists } = require("../utils");
+const {
+  getBinaryParameter,
+  responseMessage,
+  getProcesses,
+  stopProcesses,
+  checkFileExists,
+} = require("../utils");
+
 const execPath = path.resolve(path.join(BINARY_FILE_PATH, BINARY_FILE_NAME));
 
 class DefiNode {
@@ -10,12 +17,6 @@ class DefiNode {
     try {
       const processLists = await getProcesses({ command: execPath });
       if (processLists.length) {
-        dialog.showMessageBox({
-          type: "info",
-          message: "Success",
-          detail: "Node already running",
-          buttons: ["OK"]
-        });
         return responseMessage(true, { message: "Node already running" });
       }
       if (!checkFileExists(execPath)) {
@@ -23,12 +24,6 @@ class DefiNode {
       }
       const config = getBinaryParameter(params);
       const child = spawn(execPath, [`-conf=${CONFIG_FILE_NAME}`]);
-      // dialog.showMessageBox({
-      //   type: "info",
-      //   message: "Success!",
-      //   detail: "Node started",
-      //   buttons: ["OK"]
-      // });
       child.stdout.on("data", data => {
         console.log(`stdout: ${data}`);
       })
@@ -36,7 +31,7 @@ class DefiNode {
         dialog.showMessageBox({
           type: "info",
           message: "error!",
-          detail: data,
+          detail: JSON.stringify(data),
           buttons: ["OK"]
         });
       })
@@ -57,7 +52,6 @@ class DefiNode {
   async stop() {
     try {
       const processLists = await getProcesses({ command: execPath });
-      console.log(processLists)
       for (let i = 0; i < processLists.length; i++) {
         const eachProcess = processLists[i];
         if (eachProcess.pid) {

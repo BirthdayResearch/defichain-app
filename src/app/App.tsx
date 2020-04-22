@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import {
-  Route,
-  Switch,
-  withRouter,
-  RouteComponentProps,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import "./App.scss";
 import SyncStatus from "../components/SyncStatus/SyncStatus";
 import Sidebar from "../containers/Sidebar/Sidebar";
 import WalletPage from "../containers/WalletPage/WalletPage";
@@ -25,9 +18,11 @@ import HelpPage from "../containers/HelpPage/HelpPage";
 import Error404Page from "../containers/Errors/Error404Page";
 import SettingsPage from "../containers/SettingsPage/SettingsPage";
 import { getRpcConfigsRequest } from "./reducer";
+import { AppState, AppProps } from "./App.interface";
+import "./App.scss";
 
-class App extends Component<RouteComponentProps, { prevDepth: Function }> {
-  constructor(props) {
+class App extends Component<AppProps, AppState> {
+  constructor(props: Readonly<AppProps>) {
     super(props);
     props.loadSettings();
   }
@@ -52,13 +47,17 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
   };
 
   componentWillReceiveProps() {
-    console.log(this.props.location);
     this.setState({
       prevDepth: this.getPathDepth(this.props.location),
     });
   }
 
   render() {
+    const { isNodeRunning } = this.props;
+
+    if (!isNodeRunning) {
+      return <div>Wait for loading node</div>;
+    }
     return (
       <div id="app">
         <Helmet>
@@ -113,7 +112,10 @@ class App extends Component<RouteComponentProps, { prevDepth: Function }> {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  const { app } = state;
+  return {
+    isNodeRunning: app.isNodeRunning,
+  };
 };
 
 const mapDispatchToProps = (

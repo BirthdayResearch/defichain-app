@@ -35,7 +35,6 @@ export const setupI18n = (store) => {
     locale = lang;
   }
   localStorage.setItem(LANG_VARIABLE, locale);
-  console.log(getLocales(locale));
   store.dispatch(setLocale(getLocales(locale)));
 };
 

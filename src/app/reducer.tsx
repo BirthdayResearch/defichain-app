@@ -5,7 +5,9 @@ const configSlice = createSlice({
   initialState: {
     isFetching: false,
     rpcConfig: {},
+    isNodeRunning: false,
     rpcConfigError: "",
+    nodeError: "",
   },
   reducers: {
     getRpcConfigsRequest(state) {
@@ -21,6 +23,19 @@ const configSlice = createSlice({
       state.rpcConfig = {};
       state.rpcConfigError = action.payload;
     },
+    startNodeRequest(state) {
+      state.isFetching = true;
+    },
+    startNodeSuccess(state) {
+      state.isNodeRunning = true;
+      state.isFetching = false;
+      state.rpcConfigError = "";
+    },
+    startNodeFailure(state, action) {
+      state.isFetching = false;
+      state.isNodeRunning = false;
+      state.nodeError = action.payload;
+    },
   },
 });
 
@@ -30,6 +45,9 @@ export const {
   getRpcConfigsRequest,
   getRpcConfigsSuccess,
   getRpcConfigsFailure,
+  startNodeRequest,
+  startNodeSuccess,
+  startNodeFailure,
 } = actions;
 
 export default reducer;
