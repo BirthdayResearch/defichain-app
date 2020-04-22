@@ -60,14 +60,12 @@ const writeFile = (filePath, data, append) => {
   }
 }
 
-
 const generatePassword = () => {
   //  Create 32 byte password
   const encoded = base64.encode(cryptoJs.lib.WordArray.random(32));
   const bytes = base64.decode(encoded);
   return utf8.decode(bytes);
 };
-
 
 //  get default RPC auth
 const getRpcAuth = (username) => {

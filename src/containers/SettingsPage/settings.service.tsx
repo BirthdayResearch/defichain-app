@@ -13,7 +13,6 @@ import {
 
 export const initialData = () => {
   const launchStat = getPreLaunchStatus();
-  console.log(launchStat, typeof launchStat);
   let settings = {
     settingsLanguage: localStorage.getItem(LANG_VARIABLE) || "en",
     settingsAmountsUnit: localStorage.getItem(AMOUNTS_UNIT) || "DFI",
@@ -30,9 +29,6 @@ export const initialData = () => {
     settingsDatabaseCache:
       parseInt(localStorage.getItem(DATABASE_CACHE) + "") || "",
   };
-  if (isElectron()) {
-    settings.settingsLaunchAtLogin = getPreLaunchStatus();
-  }
   return { settings };
 };
 
@@ -58,15 +54,15 @@ export const updateSettingsData = (settingsData) => {
   return { settings: settingsData };
 };
 
-export const getPreLaunchStatus = () => {
+const getPreLaunchStatus = () => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
     const res = ipcRenderer.sendSync("prelaunch-preference-status", {});
-    if (res.success) {
-      return res.data;
+    if (res.success && res.data) {
+      return res.data.enabled;
     }
+    alert(res.message);
     return false;
-    // throw new Error(res.message);
   }
   return false;
 };
@@ -77,10 +73,11 @@ export const enablePreLaunchStatus = (minimize = false) => {
     const res = ipcRenderer.sendSync("prelaunch-preference-enable", {
       minimize,
     });
-    if (res.success) {
-      return res.data;
+    if (res.success && res.data) {
+      return res.data.enabled;
     }
-    throw new Error(res.message);
+    alert(res.message);
+    return false;
   }
   return false;
 };
@@ -89,10 +86,11 @@ export const disablePreLaunchStatus = () => {
   if (isElectron()) {
     const { ipcRenderer } = window.require("electron");
     const res = ipcRenderer.sendSync("prelaunch-preference-disable", {});
-    if (res.success) {
-      return res.data;
+    if (res.success && res.data) {
+      return res.data.enabled;
     }
-    throw new Error(res.message);
+    alert(res.message);
+    return false;
   }
   return false;
 };
