@@ -4,11 +4,12 @@ import {
   getRpcConfigsSuccess,
   getRpcConfigsFailure,
 } from "./reducer";
-import { getRpcConfig } from "./app.service";
+import { getRpcConfig, startBinary } from "./app.service";
 
 function* getConfig() {
   try {
     const data = yield call(getRpcConfig);
+    const node = yield call(startBinary(data));
     if (data) {
       yield put({ type: getRpcConfigsSuccess.type, payload: { ...data } });
     } else {

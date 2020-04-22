@@ -3,7 +3,7 @@ const base64 = require("base-64");
 const utf8 = require("utf8");
 const cryptoJs = require("crypto-js");
 const { platform } = require("os");
-const ps = require('ps-node');
+const ps = require("ps-node");
 
 const getPlatform = () => {
   switch (platform()) {
@@ -88,7 +88,7 @@ const getProcesses = (args) => {
 
 const stopProcesses = (processId) => {
   return new Promise((resolve, reject) => {
-    ps.kill(processId, 'SIGTERM', (err, result) => {
+    ps.kill(processId, "SIGTERM", (err, result) => {
       if (err) return reject(err);
       return resolve(result);
     });
