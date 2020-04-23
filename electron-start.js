@@ -26,7 +26,7 @@ function createWindow() {
       nodeIntegration: true,
     }
   })
-  loadApp()
+  loadApp();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
     url.format({
@@ -77,10 +77,6 @@ app.on("activate", () => {
 
 function loadApp() {
   require(path.join(__dirname, "electron-app/js/index.js"));
-  // const files = glob.sync(path.join(__dirname, "electron-app/**/*.js"));
-  // files.forEach(file => {
-  //   require(file);
-  // });
 }
 
 // Make this app a single instance app.

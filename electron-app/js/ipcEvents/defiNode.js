@@ -5,7 +5,7 @@ const DefiNode = require("../services/defiNode");
 const initiateDefiNode = () => {
   ipcMain.on(START_DEFI_CHAIN, async (event, arg) => {
     const defiNode = new DefiNode();
-    event.returnValue = await defiNode.start(arg);;
+    await defiNode.start(arg, event);
   })
 
   ipcMain.on(STOP_DEFI_CHAIN, async (event, arg) => {
