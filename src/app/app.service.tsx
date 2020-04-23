@@ -17,7 +17,7 @@ export const startBinary = (config: any) => {
     if (isElectron()) {
       const { ipcRenderer } = window.require("electron");
       ipcRenderer.send("start-defi-chain", config);
-      ipcRenderer.on("start-defi-chain-reply", (_e: any, res: any) => {
+      return ipcRenderer.on("start-defi-chain-reply", (_e: any, res: any) => {
         if (res.success) {
           store.dispatch({ type: startNodeSuccess.type, payload: res.data });
           return resolve(res);
@@ -26,6 +26,8 @@ export const startBinary = (config: any) => {
         return reject(res);
       });
     }
+    // For webapp
+    store.dispatch({ type: startNodeSuccess.type, payload: {} });
     return resolve({ success: true, data: {} });
   });
 };
