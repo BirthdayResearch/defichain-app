@@ -1,7 +1,6 @@
 const path = require("path");
 const { spawn } = require("child_process");
-const { dialog } = require("electron")
-const { CONFIG_FILE_NAME, BINARY_FILE_NAME, BINARY_FILE_PATH } = require("../constant")
+const { CONFIG_FILE_NAME, BINARY_FILE_NAME, BINARY_FILE_PATH, START_DEFI_CHAIN_REPLY } = require("../constant")
 const {
   getBinaryParameter,
   responseMessage,
@@ -13,39 +12,41 @@ const {
 const execPath = path.resolve(path.join(BINARY_FILE_PATH, BINARY_FILE_NAME));
 
 class DefiNode {
-  async start(params) {
+  async start(params, event) {
     try {
       const processLists = await getProcesses({ command: execPath });
       if (processLists.length) {
+        event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(true, { message: "Node already running" }));
         return responseMessage(true, { message: "Node already running" });
       }
       if (!checkFileExists(execPath)) {
         throw new Error("Binary file is not available");
       }
+      let nodeStarted = false;
+      // TODO run binary with config data ;
       const config = getBinaryParameter(params);
       const child = spawn(execPath, [`-conf=${CONFIG_FILE_NAME}`]);
       child.stdout.on("data", data => {
-        console.log(`stdout: ${data}`);
+        if (!nodeStarted) {
+          nodeStarted = true;
+          console.log("Node started");
+          return event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(true, { message: "Node started" }));
+        }
       })
-      child.stderr.on("data", data => {
-        dialog.showMessageBox({
-          type: "info",
-          message: "error!",
-          detail: JSON.stringify(data),
-          buttons: ["OK"]
-        });
+      child.stderr.on("data", err => {
+        console.log("stderr=>>", err);
+        return event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
       })
       child.on("close", code => {
-        dialog.showMessageBox({
-          type: "info",
-          message: "closed!",
-          detail: `child process exited with code ${code}`,
-          buttons: ["OK"]
-        });
+        console.log(`child process exited with code ${code}`)
+        return event.sender.send(
+          START_DEFI_CHAIN_REPLY,
+          responseMessage(false, new Error(`child process exited with code ${code}`))
+        );
       })
-      return responseMessage(true, { message: "Node started" });
     } catch (err) {
       console.log(err);
+      event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
       return responseMessage(false, err);
     }
   }

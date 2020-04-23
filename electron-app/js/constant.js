@@ -13,6 +13,7 @@ const PRELAUNCH_PREFERENCE_DISABLE = "prelaunch-preference-disable";
 const GET_CONFIG_DETAILS = "get-config-details";
 
 const START_DEFI_CHAIN = "start-defi-chain";
+const START_DEFI_CHAIN_REPLY = "start-defi-chain-reply";
 const STOP_DEFI_CHAIN = "stop-defi-chain";
 
 const HOME_PATH = app.getPath("home");
@@ -35,6 +36,7 @@ module.exports = {
   PRELAUNCH_PREFERENCE_DISABLE,
   GET_CONFIG_DETAILS,
   START_DEFI_CHAIN,
+  START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
   CONFIG_FILE_NAME,
   UI_CONFIG_FILE_NAME,
