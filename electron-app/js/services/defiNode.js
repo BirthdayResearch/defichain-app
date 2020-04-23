@@ -30,19 +30,25 @@ class DefiNode {
         if (!nodeStarted) {
           nodeStarted = true;
           console.log("Node started");
-          return event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(true, { message: "Node started" }));
+          if (event)
+            return event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(true, { message: "Node started" }));
         }
       })
       child.stderr.on("data", err => {
-        console.log("stderr=>>", err);
-        return event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
+        console.log(err.toString('utf8').trim());
+        if (event)
+          return event.sender.send(
+            START_DEFI_CHAIN_REPLY,
+            responseMessage(false, { message: err.toString('utf8').trim() })
+          );
       })
       child.on("close", code => {
         console.log(`child process exited with code ${code}`)
-        return event.sender.send(
-          START_DEFI_CHAIN_REPLY,
-          responseMessage(false, new Error(`child process exited with code ${code}`))
-        );
+        if (event)
+          return event.sender.send(
+            START_DEFI_CHAIN_REPLY,
+            responseMessage(false, new Error(`child process exited with code ${code}`))
+          );
       })
     } catch (err) {
       console.log(err);
