@@ -40,9 +40,18 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-
-  mainWindow.on("closed", () => {
-    mainWindow = null;
+  mainWindow.on("close", async (event) => {
+    if (allowQuit) {
+      app.quit();
+      return mainWindow = null;
+    }
+    // Stop all process before quit 
+    mainWindow.hide();
+    event.preventDefault();
+    const defiNode = new DefiNode();
+    await defiNode.stop();
+    allowQuit = true
+    app.quit();
   })
 }
 app.allowRendererProcessReuse = false;
@@ -58,15 +67,9 @@ app.on("ready", () => {
 })
 
 app.on("window-all-closed", async (event) => {
-  if (allowQuit) {
-    return app.quit();
+  if (process.platform !== "darwin") {
+    app.quit();
   }
-  // Stop all process before quit 
-  event.preventDefault();
-  const defiNode = new DefiNode();
-  await defiNode.stop();
-  allowQuit = true;
-  app.quit();
 })
 
 app.on("activate", () => {
