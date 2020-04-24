@@ -1,11 +1,11 @@
-const fs = require("fs");
-const base64 = require("base-64");
-const utf8 = require("utf8");
-const cryptoJs = require("crypto-js");
-const { platform } = require("os");
-const ps = require("ps-node");
+import * as fs from "fs";
+import * as base64 from "base-64";
+import * as utf8 from "utf8";
+import cryptoJs from "crypto-js";
+import { platform } from "os";
+import * as ps from "ps-node";
 
-const getPlatform = () => {
+export const getPlatform = () => {
   switch (platform()) {
     case "aix":
     case "freebsd":
@@ -21,34 +21,34 @@ const getPlatform = () => {
   }
 };
 
-const getBinaryParameter = (obj = {}) => {
+export const getBinaryParameter = (obj: any = {}) => {
   const keys = Object.keys(obj);
-  return keys.map(key => `-${key}=${obj[key]}`)
-}
+  return keys.map((key: string) => `-${key}=${obj[key]}`);
+};
 
-const responseMessage = (success, res) => {
+export const responseMessage = (success: boolean, res: any) => {
   if (success) {
     return { success: true, data: res };
   }
   return { success: false, message: res.message };
-}
+};
 
-// Check file exists or not 
-const checkFileExists = (filePath) => {
+// Check file exists or not
+export const checkFileExists = (filePath: string) => {
   return filePath && fs.existsSync(filePath);
-}
+};
 
 // Get file data
-const getFileData = (filePath, format) => {
+export const getFileData = (filePath: string, format: string) => {
   try {
     return fs.readFileSync(filePath, format);
   } catch (err) {
     throw err;
   }
-}
+};
 
 // write / append on UI config file
-const writeFile = (filePath, data, append) => {
+export const writeFile = (filePath: string, data: any, append?: boolean) => {
   try {
     if (append && checkFileExists(filePath)) {
       return fs.appendFileSync(filePath, data);
@@ -58,49 +58,50 @@ const writeFile = (filePath, data, append) => {
   } catch (err) {
     throw err;
   }
-}
+};
 
-const generatePassword = () => {
+export const generatePassword = () => {
   //  Create 32 byte password
-  const encoded = base64.encode(cryptoJs.lib.WordArray.random(32));
+  const salt = cryptoJs.lib.WordArray.random(32);
+  const encoded = base64.encode(salt.toString());
   const bytes = base64.decode(encoded);
   return utf8.decode(bytes);
 };
 
 //  get default RPC auth
-const getRpcAuth = (username) => {
+export const getRpcAuth = (username: string) => {
   const password = generatePassword();
   const salt = cryptoJs.lib.WordArray.random(16);
   const passwordHmac = cryptoJs.HmacSHA256(password, salt);
   return `${username}:${salt}$${passwordHmac}`;
 };
 
-const getProcesses = (args) => {
+export const getProcesses = (args: any) => {
   return new Promise((resolve, reject) => {
-    ps.lookup(args, (err, result) => {
+    ps.lookup(args, (err: any, result: unknown) => {
       if (err) return reject(err);
       return resolve(result);
     });
   });
-}
-
-const stopProcesses = (processId) => {
-  return new Promise((resolve, reject) => {
-    ps.kill(processId, "SIGTERM", (err, result) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
-  });
-}
-
-module.exports = {
-  getPlatform,
-  getBinaryParameter,
-  responseMessage,
-  checkFileExists,
-  getFileData,
-  writeFile,
-  getRpcAuth,
-  getProcesses,
-  stopProcesses
 };
+
+export const stopProcesses = (processId: number | string) => {
+  return new Promise((resolve, reject) => {
+    ps.kill(processId, "SIGTERM", (err: any, result: unknown) => {
+      if (err) return reject(err);
+      return resolve(result);
+    });
+  });
+};
+
+// module.exports = {
+//   getPlatform,
+//   getBinaryParameter,
+//   responseMessage,
+//   checkFileExists,
+//   getFileData,
+//   writeFile,
+//   getRpcAuth,
+//   getProcesses,
+//   stopProcesses,
+// };

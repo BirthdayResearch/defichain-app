@@ -1,8 +1,8 @@
-const AutoLaunch = require("auto-launch");
-const { APP_NAME } = require("./../constant");
-const { responseMessage } = require("./../utils");
+import AutoLaunch from "auto-launch";
+import { APP_NAME } from "../constant";
+import { responseMessage } from "../utils";
 
-class PreferenceStatus {
+export default class PreferenceStatus {
   async get() {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME });
@@ -12,7 +12,7 @@ class PreferenceStatus {
       return responseMessage(false, err);
     }
   }
-  async set(enabled, isHidden) {
+  async set(enabled: boolean, isHidden?: boolean) {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
       if (enabled) {
@@ -26,5 +26,3 @@ class PreferenceStatus {
     }
   }
 }
-
-module.exports = PreferenceStatus;
