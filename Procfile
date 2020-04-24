@@ -1,2 +1,2 @@
-react: npm run react-start
+react: cd webapp && npm run start
 electron: npm run electron-start
