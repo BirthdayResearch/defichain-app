@@ -3,4 +3,7 @@
 // Neutrino's inspect feature can be used to view/export the generated configuration.
 const neutrino = require('neutrino');
 
-module.exports = neutrino().webpack();
+module.exports = (storybookConfig = {}) => {
+  const neutrinoConfig = neutrino().webpack();
+  return { ...neutrinoConfig, ...storybookConfig.config };
+}
