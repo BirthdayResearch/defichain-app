@@ -1,8 +1,9 @@
-const copy = require('@neutrinojs/copy');
-const react = require('@neutrinojs/react');
-const web = require('@neutrinojs/web');
-const jest = require('@neutrinojs/jest');
-const airbnb = require('@neutrinojs/airbnb');
+const copy = require("@neutrinojs/copy");
+const react = require("@neutrinojs/react");
+const web = require("@neutrinojs/web");
+const jest = require("@neutrinojs/jest");
+const airbnb = require("@neutrinojs/airbnb");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const path = require("path");
 module.exports = {
@@ -21,73 +22,91 @@ module.exports = {
       let opts = neutrino.options;
       opts.root = __dirname;
       opts.output = outputPath;
-      neutrino.use(web({
-        clean: true,
-        devtool: {
-          production: "nosources-source-map",
-          development: "cheap-module-eval-source-map"
-        },
-        env: {
-          DEBUG: process.env.DEBUG || true,
-        },
-        publicPath,
-        html: {
-          template: "./src/index.html",
-        },
-        image: {
-          name: isProduction ?
-            "img/[name].[contenthash:8].[ext]"
-            : "img/[name].[ext]",
-        },
-        font: {
-          name: isProduction ?
-            "fonts/[name].[contenthash:8].[ext]"
-            : "fonts/[name].[ext]",
-        },
-        babel: {
-          presets: [],
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { "legacy": true }],
-            ["@babel/plugin-proposal-class-properties", { "loose": true }],
-            '@babel/plugin-proposal-object-rest-spread'],
-        },
-        style: {
-          test: /\.(css|sass|scss)$/,
-          modulesTest: /\.module\.(css|sass|scss)$/,
-          loaders: [
-            // Define loaders as objects. Note: loaders must be specified in reverse order.
-            // ie: for the loaders below the actual execution order would be:
-            // input file -> sass-loader -> postcss-loader -> css-loader -> style-loader/mini-css-extract-plugin
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: [require('autoprefixer')]
-              }
-            },
-            {
-              loader: 'sass-loader',
-              useId: 'sass',
+      neutrino.use(
+        web({
+          clean: true,
+          devtool: {
+            production: "nosources-source-map",
+            development: "cheap-module-eval-source-map",
+          },
+          env: {
+            DEBUG: process.env.DEBUG || true,
+          },
+          publicPath,
+          html: {
+            template: "./src/index.html",
+          },
+          image: {
+            name: isProduction
+              ? "img/[name].[contenthash:8].[ext]"
+              : "img/[name].[ext]",
+          },
+          font: {
+            name: isProduction
+              ? "fonts/[name].[contenthash:8].[ext]"
+              : "fonts/[name].[ext]",
+          },
+          babel: {
+            presets: [],
+            plugins: [
+              ["@babel/plugin-proposal-decorators", { legacy: true }],
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "@babel/plugin-proposal-object-rest-spread",
+            ],
+          },
+          style: {
+            test: /\.(css|sass|scss)$/,
+            modulesTest: /\.module\.(css|sass|scss)$/,
+            loaders: [
+              // Define loaders as objects. Note: loaders must be specified in reverse order.
+              // ie: for the loaders below the actual execution order would be:
+              // input file -> sass-loader -> postcss-loader -> css-loader -> style-loader/mini-css-extract-plugin
+              {
+                loader: "postcss-loader",
+                options: {
+                  plugins: [require("autoprefixer")],
+                },
+              },
+              {
+                loader: "sass-loader",
+                useId: "sass",
+              },
 
+              // {
+              //   loader: "css-loader",
+              //   options: { sourceMap: true },
+              // },
+              // {
+              //   loader: MiniCssExtractPlugin.loader,
+              // },
+            ],
+            extract: {
+              plugin: {
+                filename: isProduction
+                  ? "css/[name].[contenthash:8].css"
+                  : "css/[name].css",
+              },
             },
-          ],
-          extract: {
-            plugin: {
-              filename: isProduction ?
-                "css/[name].[contenthash:8].css"
-                : "css/[name].css",
-            }
-          }
-        },
-        targets: {
-          browsers: require('browserslist')(),
-        }
-      }));
+          },
+          targets: {
+            browsers: require("browserslist")(),
+          },
+        })
+      );
       const config = neutrino.config;
       config.output
         .sourceMapFilename("[file].map")
-        .filename(isProduction ? "js/[name].[contenthash:8].js" : "js/[name].js")
-        .chunkFilename(isProduction ? "js/zchunk-[name].[contenthash:8].js" : "js/zchunk-[name].js")
-        .webassemblyModuleFilename(isProduction ? "wasm/[modulehash].wasm" : "wasm/[modulehash].wasm");
+        .filename(
+          isProduction ? "js/[name].[contenthash:8].js" : "js/[name].js"
+        )
+        .chunkFilename(
+          isProduction
+            ? "js/zchunk-[name].[contenthash:8].js"
+            : "js/zchunk-[name].js"
+        )
+        .webassemblyModuleFilename(
+          isProduction ? "wasm/[modulehash].wasm" : "wasm/[modulehash].wasm"
+        );
       config.module
         .rule("raw")
         .test(neutrino.regexFromExtensions(["txt"]))
@@ -99,7 +118,7 @@ module.exports = {
         .use("file")
         .loader("file-loader")
         .options({
-          name: '[path][name].[ext]',
+          name: "[path][name].[ext]",
         });
       config.module
         .rule("worker")
@@ -107,63 +126,69 @@ module.exports = {
         .use("worker")
         .loader("workerize-loader")
         .options({
-          name: isProduction ?
-            "js/workers/[name].[id].[contenthash:8].js"
-            : "js/workers/[name].[id].js"
+          name: isProduction
+            ? "js/workers/[name].[id].[contenthash:8].js"
+            : "js/workers/[name].[id].js",
         });
       enableOptimizeCssAssets(config);
       if (process.env.WEBPACK_ANALYZE) {
         enableBundleAnalyzer(config);
       }
-      config.plugin("image-min")
-        .use(require("imagemin-webpack-plugin").default,
-          [{ test: /\.(jpe?g|png|gif|svg)$/i, disable: !isProduction }]);
+      config
+        .plugin("image-min")
+        .use(require("imagemin-webpack-plugin").default, [
+          { test: /\.(jpe?g|png|gif|svg)$/i, disable: !isProduction },
+        ]);
     },
     createTypeScriptPreset(),
     jest(),
 
     copy({
-      patterns: [
-        { from: "favicon.ico", context: "./src/assets/img", to: "." }
-      ],
-    })
-  ]
-}
+      patterns: [{ from: "favicon.ico", context: "./src/assets/img", to: "." }],
+    }),
+  ],
+};
 function enableOptimizeCssAssets(config) {
-  config.plugin("optimize-css-assets")
-    .use(require('optimize-css-assets-webpack-plugin'), [{
-      assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano'),
-      cssProcessorPluginOptions: {
-        preset: ['default', { discardComments: { removeAll: true } }],
+  config
+    .plugin("optimize-css-assets")
+    .use(require("optimize-css-assets-webpack-plugin"), [
+      {
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require("cssnano"),
+        cssProcessorPluginOptions: {
+          preset: ["default", { discardComments: { removeAll: true } }],
+        },
+        canPrint: true,
       },
-      canPrint: true
-    }]);
+    ]);
 }
 function enableBundleAnalyzer(config) {
-  config.plugin("bundle-analyzer")
-    .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+  config
+    .plugin("bundle-analyzer")
+    .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
 }
 function createTypeScriptPreset(options = {}) {
   return ({ config }) => {
     if (options.fork !== false) {
-      config.plugin('fork-ts-checker').
-        use(require("fork-ts-checker-webpack-plugin"), [
+      config
+        .plugin("fork-ts-checker")
+        .use(require("fork-ts-checker-webpack-plugin"), [
           {
             checkSyntacticErrors: true,
             tslint: false,
-            ...options.forkChecker
+            ...options.forkChecker,
           },
         ]);
     }
     let ext = config.resolve.extensions;
-    ext.prepend('.ts');
-    ext.prepend('.tsx');
+    ext.prepend(".ts");
+    ext.prepend(".tsx");
     let babelOpts = config.module
       .rule("compile")
       .use("babel")
       .get("options");
-    config.module.rule("ts")
+    config.module
+      .rule("ts")
       .test(/\.tsx?$/)
       .use("babel")
       .loader(require.resolve("babel-loader"))
@@ -176,24 +201,26 @@ function createTypeScriptPreset(options = {}) {
   };
 }
 function createWasmAsFilePreset(options = {}) {
-  return neutrino => {
+  return (neutrino) => {
     const ruleId = options.ruleId || "wasm";
     const useId = options.useId || "file";
     neutrino.config.module
       .rule(ruleId)
       .test(options.test || neutrino.regexFromExtensions(["wasm"]))
       .type("javascript/auto")
-      .when(options.include, rule => rule.include.merge(options.include))
-      .when(options.exclude, rule => rule.exclude.merge(options.exclude))
+      .when(options.include, (rule) => rule.include.merge(options.include))
+      .when(options.exclude, (rule) => rule.exclude.merge(options.exclude))
       .use(useId)
-      .loader(require.resolve('file-loader'))
+      .loader(require.resolve("file-loader"))
       .options({
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
         exclude: /node_modules/,
-        name: getIsProduction() ? "wasm/[name].[contenthash:8].wasm" : "wasm/[name].wasm",
-        ...options
+        name: getIsProduction()
+          ? "wasm/[name].[contenthash:8].wasm"
+          : "wasm/[name].wasm",
+        ...options,
       });
-  }
+  };
 }
 
 function getIsProduction() {
