@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import PreferenceStatus from "../services/autostart";
+import PreferenceStatus from "../services/auto-start";
 import { responseMessage } from "../utils";
 import {
   PRELAUNCH_PREFERENCE_STATUS,

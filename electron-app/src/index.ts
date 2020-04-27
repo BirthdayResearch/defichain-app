@@ -1,4 +1,4 @@
-import autoStart from "./ipc-events/autostart";
+import autoStart from "./ipc-events/auto-start";
 import uiconfig from "./ipc-events/uiconfig";
 import processmanager from "./ipc-events/processmanager";
 
