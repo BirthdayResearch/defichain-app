@@ -1,11 +1,11 @@
-import autoStart from "./ipcEvents/autoStart";
-import configDetails from "./ipcEvents/configDetails";
-import defiNode from "./ipcEvents/defiNode";
+import autoStart from "./ipc-events/autostart";
+import uiconfig from "./ipc-events/uiconfig";
+import processmanager from "./ipc-events/processmanager";
 
 const initiateIpcEvents = () => {
   autoStart();
-  configDetails();
-  defiNode();
+  uiconfig();
+  processmanager();
 };
 
 initiateIpcEvents();

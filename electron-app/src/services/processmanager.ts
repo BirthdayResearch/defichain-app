@@ -1,3 +1,4 @@
+import log from "loglevel";
 import * as path from "path";
 import { spawn } from "child_process";
 import {
@@ -5,6 +6,7 @@ import {
   BINARY_FILE_NAME,
   BINARY_FILE_PATH,
   START_DEFI_CHAIN_REPLY,
+  PID_FILE_NAME,
 } from "../constant";
 import {
   getBinaryParameter,
@@ -12,11 +14,15 @@ import {
   getProcesses,
   stopProcesses,
   checkFileExists,
+  writeFile,
+  deleteFile,
+  getFileData,
 } from "../utils";
+log.warn("unreasonably simple");
 
 const execPath = path.resolve(path.join(BINARY_FILE_PATH, BINARY_FILE_NAME));
 
-export default class DefiNode {
+export default class ProcessManager {
   async start(
     params: any,
     event: {
@@ -31,14 +37,18 @@ export default class DefiNode {
     }
   ) {
     try {
-      const processLists: any = await getProcesses({ command: execPath });
-      if (processLists.length) {
-        event.sender.send(
-          START_DEFI_CHAIN_REPLY,
-          responseMessage(true, { message: "Node already running" })
-        );
-        return responseMessage(true, { message: "Node already running" });
+      if (checkFileExists(PID_FILE_NAME)) {
+        const pid = getFileData(PID_FILE_NAME);
+        const processLists: any = await getProcesses({ pid });
+        if (processLists.length) {
+          event.sender.send(
+            START_DEFI_CHAIN_REPLY,
+            responseMessage(true, { message: "Node already running" })
+          );
+          return responseMessage(true, { message: "Node already running" });
+        }
       }
+
       if (!checkFileExists(execPath)) {
         throw new Error(execPath);
       }
@@ -46,10 +56,14 @@ export default class DefiNode {
       // TODO run binary with config data ;
       const config = getBinaryParameter(params);
       const child = spawn(execPath, [`-conf=${CONFIG_FILE_NAME}`]);
+      log.info("Node start initiated");
+
+      // on STDOUT
       child.stdout.on("data", (data) => {
         if (!nodeStarted) {
           nodeStarted = true;
-          console.log("Node started");
+          writeFile(PID_FILE_NAME, child.pid);
+          log.info("Node started");
           if (event)
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
@@ -57,16 +71,21 @@ export default class DefiNode {
             );
         }
       });
+
+      // on STDERR
       child.stderr.on("data", (err) => {
-        console.log(err.toString("utf8").trim());
+        log.error(err.toString("utf8").trim());
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
             responseMessage(false, { message: err.toString("utf8").trim() })
           );
       });
+
+      // on close
       child.on("close", (code) => {
-        console.log(`child process exited with code ${code}`);
+        log.info(`child process exited with code ${code}`);
+        deleteFile(PID_FILE_NAME);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
@@ -77,25 +96,28 @@ export default class DefiNode {
           );
       });
     } catch (err) {
-      console.log(err);
-      event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
+      log.error(err);
+      if (event)
+        event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
       return responseMessage(false, err);
     }
   }
   async stop() {
     try {
-      const processLists: any = await getProcesses({ command: execPath });
+      const pid = getFileData(PID_FILE_NAME);
+      const processLists: any = await getProcesses({ pid });
       for (let i = 0; i < processLists.length; i++) {
         const eachProcess = processLists[i];
         if (eachProcess.pid) {
           await stopProcesses(eachProcess.pid);
+          log.info(`Process killed with pid: ${eachProcess.pid}`);
         }
       }
       return responseMessage(true, {
         message: "Initiated termination of node",
       });
     } catch (err) {
-      console.log(err);
+      log.error(err);
       return responseMessage(false, err);
     }
   }

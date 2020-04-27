@@ -1,8 +1,10 @@
+import log from "loglevel";
 import { app, BrowserWindow, protocol } from "electron";
 import * as path from "path";
 import * as url from "url";
-import DefiNode from "./src/services/defiNode";
+import ProcessManager from "./src/services/processmanager";
 import "./src/index";
+log.setDefaultLevel(5);
 
 declare var process: {
   argv: any;
@@ -51,6 +53,7 @@ function createWindow() {
 
   if (debug) {
     mainWindow.webContents.openDevTools();
+    log.setLevel(0);
   }
 
   mainWindow.on("close", async (event: { preventDefault: () => void }) => {
@@ -61,8 +64,8 @@ function createWindow() {
     // Stop all process before quit
     mainWindow.hide();
     event.preventDefault();
-    const defiNode = new DefiNode();
-    await defiNode.stop();
+    const processManager = new ProcessManager();
+    await processManager.stop();
     allowQuit = true;
     return app.quit();
   });
@@ -84,7 +87,7 @@ app.on("ready", () => {
       }
     },
     (err: any) => {
-      if (err) console.error("Failed to register protocol");
+      if (err) log.error("Failed to register protocol");
     }
   );
   createWindow(); /* callback function */

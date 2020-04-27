@@ -68,6 +68,7 @@
     "file-loader": "^6.0.0",
     "install": "^0.13.0",
     "jest": "^25.2.4",
+    "loglevel": "^1.6.8",
     "neutrino": "^9.1.0",
     "node-sass": "^4.13.1",
     "npm": "^6.14.4",
