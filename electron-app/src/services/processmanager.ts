@@ -18,7 +18,6 @@ import {
   deleteFile,
   getFileData,
 } from "../utils";
-log.warn("unreasonably simple");
 
 const execPath = path.resolve(path.join(BINARY_FILE_PATH, BINARY_FILE_NAME));
 
