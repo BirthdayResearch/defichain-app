@@ -1,10 +1,9 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
-
+@import "../../scss/variables";
+@import "../../scss/bootstrap/variables";
 
 .sidebar {
   width: 224px;
@@ -41,7 +40,7 @@
 .balanceLabel,
 .balanceValue {
   flex-basis: 100%;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
@@ -75,8 +74,8 @@
     color: $secondary;
     display: flex;
     align-items: center;
-    padding-top: .75rem;
-    padding-bottom: .75rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
     text-transform: none;
     font-weight: $font-weight-normal;
 
