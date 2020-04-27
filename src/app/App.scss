@@ -1,0 +1,101 @@
+//
+// APPLICATION + BOOTSTRAP STYLES
+//
+
+// Google fonts IBM Plex Sans
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap");
+
+//
+// Import app and Bootstrap dependencies
+//
+@import "../scss/variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "../scss/bootstrap/variables";
+@import "~bootstrap/scss/mixins";
+
+//
+// Import Bootstrap piecemeal
+//
+
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+// @import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+// @import "~bootstrap/scss/jumbotron";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/media";
+// @import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+// @import "~bootstrap/scss/toasts";
+@import "~bootstrap/scss/modal";
+// @import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+// @import "~bootstrap/scss/carousel";
+// @import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/utilities";
+// @import "~bootstrap/scss/print";
+
+//
+// Customize Bootstrap as necessary
+// These files don't exist yet. To customize, copy from Bootstrap, edit, then uncomment.
+
+// @import './scss/bootstrap/root';
+// @import './scss/bootstrap/reboot';
+@import "../scss/bootstrap/type";
+// @import './scss/bootstrap/images';
+// @import './scss/bootstrap/containers';
+// @import './scss/bootstrap/grid';
+@import "../scss/bootstrap/tables";
+@import "../scss/bootstrap/forms";
+@import "../scss/bootstrap/buttons";
+// @import './scss/bootstrap/transitions';
+@import "../scss/bootstrap/dropdown";
+// @import './scss/bootstrap/button-group';
+@import "../scss/bootstrap/nav";
+// @import './scss/bootstrap/navbar';
+@import "../scss/bootstrap/card";
+// @import './scss/bootstrap/breadcrumb';
+// @import './scss/bootstrap/pagination';
+// @import './scss/bootstrap/badge';
+// @import './scss/bootstrap/alert';
+// @import './scss/bootstrap/progress';
+// @import './scss/bootstrap/list-group';
+// @import './scss/bootstrap/close';
+// @import './scss/bootstrap/toasts';
+// @import './scss/bootstrap/modal';
+// @import './scss/bootstrap/tooltip';
+// @import './scss/bootstrap/popover';
+// @import './scss/bootstrap/carousel';
+// @import './scss/bootstrap/spinners';
+
+//
+// Unofficial bootstrap compoennts and mods
+//
+@import "~react-bootstrap-range-slider/dist/react-bootstrap-range-slider";
+
+//
+// APPLICATION-ONLY STYLES
+// This is where non-Bootstrap-related styles go
+
+@import "../scss/type";
+@import "../scss/layout";
+@import "../scss/transitions";
+@import "../scss/qr-scanner";

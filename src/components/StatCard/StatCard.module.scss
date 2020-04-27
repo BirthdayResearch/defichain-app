@@ -1,9 +1,9 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import "../../scss/variables";
+@import "../../scss/bootstrap/variables";
 
 .statCard {
   margin-bottom: 24px;
@@ -18,7 +18,7 @@
 
 .label {
   font-weight: $font-weight-medium;
-  letter-spacing: .15px;
+  letter-spacing: 0.15px;
   width: 100%;
   margin-bottom: 0.5rem;
 }
@@ -31,6 +31,6 @@
 
 .unit {
   font-weight: $font-weight-medium;
-  letter-spacing: .15px;
+  letter-spacing: 0.15px;
   color: $secondary;
 }
