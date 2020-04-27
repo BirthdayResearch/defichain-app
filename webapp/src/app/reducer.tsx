@@ -5,7 +5,7 @@ const configSlice = createSlice({
   initialState: {
     isFetching: false,
     rpcConfig: {},
-    isNodeRunning: false,
+    isRunning: false,
     rpcConfigError: "",
     nodeError: "",
   },
@@ -27,13 +27,13 @@ const configSlice = createSlice({
       state.isFetching = true;
     },
     startNodeSuccess(state) {
-      state.isNodeRunning = true;
+      state.isRunning = true;
       state.isFetching = false;
       state.rpcConfigError = "";
     },
     startNodeFailure(state, action) {
       state.isFetching = false;
-      state.isNodeRunning = false;
+      state.isRunning = false;
       state.nodeError = action.payload;
     },
   },
