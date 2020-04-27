@@ -53,9 +53,9 @@ class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    const { isNodeRunning } = this.props;
+    const { isRunning } = this.props;
 
-    if (!isNodeRunning) {
+    if (!isRunning) {
       return <div>Wait for loading node</div>;
     }
     return (
@@ -114,7 +114,7 @@ class App extends Component<AppProps, AppState> {
 const mapStateToProps = (state) => {
   const { app } = state;
   return {
-    isNodeRunning: app.isNodeRunning,
+    isRunning: app.isRunning,
   };
 };
 

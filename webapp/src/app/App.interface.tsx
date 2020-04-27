@@ -5,6 +5,6 @@ export interface AppState {
 }
 
 export interface AppProps extends RouteComponentProps {
-  isNodeRunning: boolean;
+  isRunning: boolean;
   loadSettings: Function;
 }
