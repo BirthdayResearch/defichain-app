@@ -1,13 +1,8 @@
+import log from "loglevel";
 import ini from "ini";
 import yaml from "js-yaml";
 import randomString from "random-string";
-import {
-  responseMessage,
-  getFileData,
-  checkFileExists,
-  writeFile,
-  getRpcAuth,
-} from "../utils";
+import { getFileData, checkFileExists, writeFile, getRpcAuth } from "../utils";
 import {
   CONFIG_FILE_NAME,
   UI_CONFIG_FILE_NAME,
@@ -16,23 +11,23 @@ import {
   RANDOM_USERNAME_LENGTH,
 } from "../constant";
 
-export default class UiConfigFlow {
-  getUiConfigDetails = async () => {
+export default class UiConfig {
+  get = async () => {
     try {
       // check for UI config file
       if (checkFileExists(UI_CONFIG_FILE_NAME)) {
-        const configData = this.getUiConfig(UI_CONFIG_FILE_NAME);
-        return responseMessage(true, configData);
+        const configData = this.getUiDetails(UI_CONFIG_FILE_NAME);
+        return configData;
       }
 
       // check for default defi config paths
       if (checkFileExists(CONFIG_FILE_NAME)) {
-        const defaultConfigData = this.getDefaultConfig(CONFIG_FILE_NAME);
-        const configData = this.saveUiConfigData(
+        const defaultConfigData = this.getDefault(CONFIG_FILE_NAME);
+        const configData = this.saveUiDetails(
           UI_CONFIG_FILE_NAME,
           defaultConfigData
         );
-        return responseMessage(true, configData);
+        return configData;
       }
 
       // If default conf is not available
@@ -49,18 +44,15 @@ export default class UiConfigFlow {
       };
       const defaultConfigData = ini.encode(defaultConfig);
       writeFile(CONFIG_FILE_NAME, defaultConfigData);
-      const configData = this.saveUiConfigData(
-        UI_CONFIG_FILE_NAME,
-        defaultConfig
-      );
-      return responseMessage(true, configData);
+      const configData = this.saveUiDetails(UI_CONFIG_FILE_NAME, defaultConfig);
+      return configData;
     } catch (err) {
-      console.log(err);
-      return responseMessage(false, err);
+      log.error(err);
+      throw err;
     }
   };
 
-  getUiConfig = (path: string) => {
+  getUiDetails = (path: string) => {
     const uiFileData = getFileData(path, "utf-8");
     // TODO add UI yaml specific error message to inform user about corrupt yaml file -HARSH
     const configData = yaml.safeLoad(uiFileData);
@@ -72,7 +64,7 @@ export default class UiConfigFlow {
     throw new Error("Inconsistent data in UI config");
   };
 
-  getDefaultConfig = (path: string) => {
+  getDefault = (path: string) => {
     const fileData = getFileData(path, "utf-8");
     // TODO add config specific error message to inform user about corrupt config file -HARSH
     const configData = ini.parse(fileData);
@@ -91,7 +83,7 @@ export default class UiConfigFlow {
     throw new Error("Inconsistent data in default config");
   };
 
-  saveUiConfigData = (path: string, configData: any) => {
+  saveUiDetails = (path: string, configData: any) => {
     const { rpcauth, rpcbind, rpcport, testnet, regnet } = configData;
     const remotes = [];
     const uiConfigData = {

@@ -1,15 +1,16 @@
+import log from "loglevel";
 import AutoLaunch from "auto-launch";
 import { APP_NAME } from "../constant";
-import { responseMessage } from "../utils";
 
 export default class PreferenceStatus {
   async get() {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME });
       const enabled = await autoLauncher.isEnabled();
-      return responseMessage(true, { enabled });
+      return { enabled };
     } catch (err) {
-      return responseMessage(false, err);
+      log.error(err);
+      throw err;
     }
   }
   async set(enabled: boolean, isHidden?: boolean) {
@@ -17,12 +18,13 @@ export default class PreferenceStatus {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
       if (enabled) {
         await autoLauncher.enable();
-        return responseMessage(true, { enabled });
+        return { enabled };
       }
       await autoLauncher.disable();
-      return responseMessage(true, { enabled });
+      return { enabled };
     } catch (err) {
-      return responseMessage(false, err);
+      log.error(err);
+      throw err;
     }
   }
 }
