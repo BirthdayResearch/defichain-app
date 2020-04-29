@@ -39,6 +39,7 @@ function createWindow() {
     icon: path.join(__dirname, "/electron-app/assets/icon/icon-512.png"),
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
   // loadApp();
