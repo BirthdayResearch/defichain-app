@@ -4,7 +4,12 @@ const configSlice = createSlice({
   name: "app",
   initialState: {
     isFetching: false,
-    rpcConfig: {},
+    rpcConfig: {
+      remotes: [{ rpcauth: "", rpcconnect: "", rpcport: "" }],
+    },
+    rpcAuth: "",
+    rpcConnect: "",
+    rpcPort: "",
     isRunning: false,
     rpcConfigError: "",
     nodeError: "",
@@ -15,12 +20,22 @@ const configSlice = createSlice({
     },
     getRpcConfigsSuccess(state, action) {
       state.rpcConfig = action.payload;
+      if (state.rpcConfig && state.rpcConfig.remotes) {
+        let rpcAuth = state.rpcConfig.remotes[0].rpcauth;
+        state.rpcAuth = `${rpcAuth.split(":")[0]}:${
+          rpcAuth.split(":")[1].split("$")[1]
+        }`;
+        state.rpcConnect = state.rpcConfig.remotes[0].rpcconnect;
+        state.rpcPort = state.rpcConfig.remotes[0].rpcport;
+      }
       state.isFetching = false;
       state.rpcConfigError = "";
     },
     getRpcConfigsFailure(state, action) {
       state.isFetching = false;
-      state.rpcConfig = {};
+      state.rpcConfig = {
+        remotes: [{ rpcauth: "", rpcconnect: "", rpcport: "" }],
+      };
       state.rpcConfigError = action.payload;
     },
     startNodeRequest(state) {
