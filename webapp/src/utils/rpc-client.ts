@@ -1,12 +1,14 @@
 import axios from "axios";
 import store from "../app/rootStore";
+import { RPC_V } from "./../constants";
 
 export default class RpcClient {
   client: any;
   constructor() {
     const state = store.getState();
+    const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
     this.client = axios.create({
-      baseURL: `http://${state.app.rpcAuth}@${state.app.rpcConnect}:${state.app.rpcPort}`,
+      baseURL: `http://${rpcauth}@${rpcconnect}:${rpcport}`,
       headers: {
         "cache-control": "no-cache",
       },
@@ -15,7 +17,7 @@ export default class RpcClient {
 
   call = async (path: string, method: string, params: Array<any> = []) => {
     return await this.client.post(path, {
-      jsonrpc: "1.0",
+      jsonrpc: RPC_V,
       id: Math.random()
         .toString()
         .substr(2),
@@ -23,9 +25,4 @@ export default class RpcClient {
       params,
     });
   };
-
-  // Common calls
-  // getinfo = async () => {
-  //   return this.call("getblockcount");
-  // };
 }
