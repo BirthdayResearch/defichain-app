@@ -1,3 +1,4 @@
+export const RPC_V = "1.0";
 export const LANG_VARIABLE = "lang";
 export const AMOUNTS_UNIT = "amountsUnit";
 export const DISPLAY_MODE = "displayMode";

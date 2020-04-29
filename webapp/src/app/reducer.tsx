@@ -4,12 +4,8 @@ const configSlice = createSlice({
   name: "app",
   initialState: {
     isFetching: false,
-    rpcConfig: {
-      remotes: [],
-    },
-    rpcAuth: "",
-    rpcConnect: "",
-    rpcPort: "",
+    rpcRemotes: [],
+    rpcConfig: { rpcauth: "", rpcconnect: "", rpcport: "" },
     isRunning: false,
     rpcConfigError: "",
     nodeError: "",
@@ -19,25 +15,22 @@ const configSlice = createSlice({
       state.isFetching = true;
     },
     getRpcConfigsSuccess(state, action) {
-      state.rpcConfig = action.payload;
-      if (
-        state.rpcConfig &&
-        state.rpcConfig.remotes &&
-        state.rpcConfig.remotes.length
-      ) {
-        const { rpcconnect, rpcport } = state.rpcConfig.remotes[0];
-        state.rpcAuth = "defi:x64656669"; /*TODO : decode password using hash*/
-        state.rpcConnect = rpcconnect;
-        state.rpcPort = rpcport;
+      state.rpcRemotes = action.payload.remotes;
+      if (state.rpcRemotes && state.rpcRemotes.length) {
+        const { rpcauth, rpcconnect, rpcport } = state.rpcRemotes[0];
+        state.rpcConfig = {
+          rpcauth: "defi:x64656669" /*TODO : decode password using hash*/,
+          rpcconnect,
+          rpcport,
+        };
       }
       state.isFetching = false;
       state.rpcConfigError = "";
     },
     getRpcConfigsFailure(state, action) {
       state.isFetching = false;
-      state.rpcConfig = {
-        remotes: [],
-      };
+      state.rpcRemotes = [];
+      state.rpcConfig = { rpcauth: "", rpcconnect: "", rpcport: "" };
       state.rpcConfigError = action.payload;
     },
     startNodeRequest(state) {
