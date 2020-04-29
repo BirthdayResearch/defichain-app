@@ -5,7 +5,7 @@ const configSlice = createSlice({
   initialState: {
     isFetching: false,
     rpcConfig: {
-      remotes: [{ rpcauth: "", rpcconnect: "", rpcport: "" }],
+      remotes: [],
     },
     rpcAuth: "",
     rpcConnect: "",
@@ -20,13 +20,15 @@ const configSlice = createSlice({
     },
     getRpcConfigsSuccess(state, action) {
       state.rpcConfig = action.payload;
-      if (state.rpcConfig && state.rpcConfig.remotes) {
-        let rpcAuth = state.rpcConfig.remotes[0].rpcauth;
-        state.rpcAuth = `${rpcAuth.split(":")[0]}:${
-          rpcAuth.split(":")[1].split("$")[1]
-        }`;
-        state.rpcConnect = state.rpcConfig.remotes[0].rpcconnect;
-        state.rpcPort = state.rpcConfig.remotes[0].rpcport;
+      if (
+        state.rpcConfig &&
+        state.rpcConfig.remotes &&
+        state.rpcConfig.remotes.length
+      ) {
+        const { rpcconnect, rpcport } = state.rpcConfig.remotes[0];
+        state.rpcAuth = "defi:x64656669"; /*TODO : decode password using hash*/
+        state.rpcConnect = rpcconnect;
+        state.rpcPort = rpcport;
       }
       state.isFetching = false;
       state.rpcConfigError = "";
@@ -34,7 +36,7 @@ const configSlice = createSlice({
     getRpcConfigsFailure(state, action) {
       state.isFetching = false;
       state.rpcConfig = {
-        remotes: [{ rpcauth: "", rpcconnect: "", rpcport: "" }],
+        remotes: [],
       };
       state.rpcConfigError = action.payload;
     },
