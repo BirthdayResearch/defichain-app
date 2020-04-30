@@ -13,6 +13,7 @@ export default class PreferenceStatus {
       throw err;
     }
   }
+
   async set(enabled: boolean, isHidden?: boolean) {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });

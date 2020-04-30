@@ -9,6 +9,7 @@ import {
   DEFAULT_RPC_BIND,
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
+  YAML_COMMENT,
 } from "../constant";
 
 export default class UiConfig {
@@ -37,8 +38,11 @@ export default class UiConfig {
         letters: true,
         special: false,
       });
+      const { rpcauth, rpcuser, rpcpassword } = getRpcAuth(username);
       const defaultConfig = {
-        rpcauth: getRpcAuth(username),
+        rpcauth,
+        rpcuser,
+        rpcpassword,
         rpcbind: DEFAULT_RPC_BIND,
         rpcport: DEFAULT_RPC_PORT,
       };
@@ -56,9 +60,15 @@ export default class UiConfig {
     const uiFileData = getFileData(path, "utf-8");
     // TODO add UI yaml specific error message to inform user about corrupt yaml file -HARSH
     const configData = yaml.safeLoad(uiFileData);
-    const { rpcauth, rpcport, rpcconnect } = configData.remotes[0];
+    const {
+      rpcauth,
+      rpcport,
+      rpcconnect,
+      rpcuser,
+      rpcpassword,
+    } = configData.remotes[0];
 
-    if (rpcauth && rpcport && rpcconnect) {
+    if (rpcauth && rpcport && rpcconnect && rpcuser && rpcpassword) {
       return configData;
     }
     throw new Error("Inconsistent data in UI config");
@@ -69,28 +79,48 @@ export default class UiConfig {
     // TODO add config specific error message to inform user about corrupt config file -HARSH
     const configData = ini.parse(fileData);
     // check for required data in default config
-    const { rpcauth, rpcbind, rpcport, testnet, regnet } = configData;
+    const {
+      rpcauth,
+      rpcbind,
+      rpcport,
+      testnet,
+      regnet,
+      rpcuser,
+      rpcpassword,
+    } = configData;
 
-    if (rpcauth && rpcbind && rpcport) {
+    if (rpcauth && rpcbind && rpcport && rpcuser && rpcpassword) {
       return {
         rpcauth,
         rpcbind,
         rpcport,
         testnet,
         regnet,
+        rpcuser,
+        rpcpassword,
       };
     }
     throw new Error("Inconsistent data in default config");
   };
 
   saveUiDetails = (path: string, configData: any) => {
-    const { rpcauth, rpcbind, rpcport, testnet, regnet } = configData;
+    const {
+      rpcauth,
+      rpcbind,
+      rpcport,
+      testnet,
+      regnet,
+      rpcuser,
+      rpcpassword,
+    } = configData;
     const remotes = [];
     const uiConfigData = {
       rpcauth,
       rpcport,
       testnet,
       regnet,
+      rpcuser,
+      rpcpassword,
       rpcconnect: rpcbind,
     };
     remotes.push(uiConfigData);
@@ -103,8 +133,10 @@ export default class UiConfig {
         skipInvalid: true,
       }
     );
+    const comment = `# ${YAML_COMMENT}\n`;
+    const dataToWrite = `${comment}${yamlData}`;
     // write to ui config file
-    writeFile(path, yamlData);
-    return uiConfigData;
+    writeFile(path, dataToWrite);
+    return remotes;
   };
 }

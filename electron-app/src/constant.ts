@@ -8,6 +8,7 @@ export const IS_PACKAGED =
   process.mainModule.filename.indexOf("app.asar") !== -1;
 
 export const APP_NAME = "DeFi";
+export const YAML_COMMENT = "managed by DeFi Blockchain UI";
 export const PRELAUNCH_PREFERENCE_STATUS = "prelaunch-preference-status";
 export const PRELAUNCH_PREFERENCE_ENABLE = "prelaunch-preference-enable";
 export const PRELAUNCH_PREFERENCE_DISABLE = "prelaunch-preference-disable";
