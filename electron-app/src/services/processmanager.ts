@@ -101,6 +101,7 @@ export default class ProcessManager {
       return responseMessage(false, err);
     }
   }
+
   async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);

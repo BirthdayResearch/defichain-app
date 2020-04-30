@@ -17,9 +17,14 @@ const configSlice = createSlice({
     getRpcConfigsSuccess(state, action) {
       state.rpcRemotes = action.payload.remotes;
       if (state.rpcRemotes && state.rpcRemotes.length) {
-        const { rpcauth, rpcconnect, rpcport } = state.rpcRemotes[0];
+        const {
+          rpcuser,
+          rpcpassword,
+          rpcconnect,
+          rpcport,
+        } = state.rpcRemotes[0];
         state.rpcConfig = {
-          rpcauth: "defi:x64656669" /*TODO : decode password using hash*/,
+          rpcauth: `${rpcuser}:${rpcpassword}`,
           rpcconnect,
           rpcport,
         };
