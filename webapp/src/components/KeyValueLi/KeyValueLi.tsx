@@ -5,10 +5,22 @@ import { AiOutlineQrcode } from "react-icons/ai";
 import styles from "./KeyValueLi.module.scss";
 import CopyToClipboard from "react-copy-to-clipboard";
 import classnames from "classnames";
-import { KeyValueLiProps, KeyValueLiState } from "./KeyValueLi.interface";
 import { I18n } from "react-redux-i18n";
 
 const QRCode = require("qrcode.react");
+
+interface KeyValueLiState {
+  copied: Boolean;
+  qrOpen: Boolean;
+}
+
+interface KeyValueLiProps {
+  copyable?: boolean | string;
+  value?: string;
+  popsQR?: any;
+  uid?: any;
+  label?: string;
+}
 
 class KeyValueLi extends Component<KeyValueLiProps, KeyValueLiState> {
   state = {

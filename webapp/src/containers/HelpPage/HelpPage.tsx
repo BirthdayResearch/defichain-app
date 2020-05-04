@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { HelpPageProps, HelpPageState } from "./HelpPage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface HelpPageProps {}
+interface HelpPageState {}
 
 class HelpPage extends Component<HelpPageProps, HelpPageState> {
   render() {

@@ -2,12 +2,35 @@ import React, { Component } from "react";
 import { Card, Table } from "reactstrap";
 import { connect } from "react-redux";
 import styles from "./MasternodesList.module.scss";
-import {
-  MasternodesListProps,
-  MasternodesListState,
-} from "./MasternodesPage.interface";
 import { I18n } from "react-redux-i18n";
 import { fetchMasternodesRequest } from "./reducer";
+
+interface MasternodesListProps {
+  masternodes: Array<{
+    id: number;
+    status: String;
+    address: String;
+    pose: String;
+    registered: String;
+    lastPaid: String;
+    nextPayment: String;
+    payee: String;
+  }>;
+  fetchMasterNodes: Function;
+}
+
+interface MasternodesListState {
+  masternodes: Array<{
+    id: number;
+    status: String;
+    address: String;
+    pose: String;
+    registered: String;
+    lastPaid: String;
+    nextPayment: String;
+    payee: String;
+  }>;
+}
 
 class MasternodesList extends Component<
   MasternodesListProps,

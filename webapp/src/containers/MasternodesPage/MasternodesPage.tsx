@@ -17,11 +17,14 @@ import classnames from "classnames";
 import StatCard from "../../components/StatCard/StatCard";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import MasternodesList from "./MasternodesList";
-import {
-  MasternodesPageProps,
-  MasternodesPageState,
-} from "./MasternodesPage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface MasternodesPageProps {}
+
+interface MasternodesPageState {
+  activeTab: string;
+  searching: boolean;
+}
 
 class MasternodesPage extends Component<
   MasternodesPageProps,

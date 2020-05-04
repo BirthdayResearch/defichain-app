@@ -20,11 +20,37 @@ import { NavLink } from "react-router-dom";
 import UIfx from "uifx";
 import QrReader from "react-qr-reader";
 import classnames from "classnames";
-import { SendPageProps, SendPageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
 import shutterSound from "./../../assets/audio/shutter.mp3";
 const shutterSnap = new UIfx(shutterSound);
 import { fetchSendDataRequest } from "./reducer";
+
+interface SendPageProps {
+  sendData: {
+    walletBalance: number;
+    amountToSend: string | number;
+    amountToSendDisplayed: number | string;
+    toAddress: string;
+    scannerOpen: boolean;
+    flashed: string;
+    showBackdrop: string;
+    sendStep: string;
+    waitToSend: number;
+  };
+  fetchSendData: Function;
+}
+
+interface SendPageState {
+  walletBalance: number;
+  amountToSend: string | number;
+  amountToSendDisplayed: number | string;
+  toAddress: string;
+  scannerOpen: boolean;
+  flashed: string;
+  showBackdrop: string;
+  sendStep: string;
+  waitToSend: number;
+}
 
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;

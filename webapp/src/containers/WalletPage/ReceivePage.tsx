@@ -13,9 +13,28 @@ import {
 } from "reactstrap";
 import { MdArrowBack } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { ReceivePageProps, ReceivePageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
 import { fetchReceivedDataRequest } from "./reducer";
+
+interface ReceivePageProps {
+  receivedData: {
+    amountToReceive: string;
+    amountToReceiveDisplayed: number;
+    receiveMessage: string;
+    showBackdrop: string;
+    receiveStep: string;
+  };
+  fetchReceivedData: Function;
+}
+
+interface ReceivePageState {
+  amountToReceive: string;
+  amountToReceiveDisplayed: number;
+  receiveMessage: string;
+  showBackdrop: string;
+  receiveStep: string;
+}
+
 class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   state = {
     amountToReceive: "",

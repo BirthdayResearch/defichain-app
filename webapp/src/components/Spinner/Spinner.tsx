@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styles from "./Spinner.module.scss";
-import { SpinnerProps, SpinnerState } from "./Spinner.interface";
+
+interface SpinnerProps {}
+interface SpinnerState {}
 
 class Spinner extends Component<SpinnerProps, SpinnerState> {
   render() {
