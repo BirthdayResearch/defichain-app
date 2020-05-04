@@ -6,13 +6,45 @@ import { MdArrowBack, MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
 import BlockTxn from "./BlockTxn";
-import {
-  BlockPageProps,
-  BlockPageState,
-  RouteParams,
-} from "./BlockchainPage.interface";
 import { I18n } from "react-redux-i18n";
 import { fetchTxnsRequest } from "./reducer";
+
+interface BlockPageProps {
+  txns: Array<{
+    hash: string;
+    time: string;
+    froms: Array<{
+      address: string;
+      amount: number;
+    }>;
+    tos: Array<{
+      address: string;
+      amount: number;
+    }>;
+  }>;
+  fetchTxns: Function;
+}
+
+interface BlockPageState {
+  txns: Array<{
+    hash: string;
+    time: string;
+    froms: Array<{
+      address: string;
+      amount: number | string;
+    }>;
+    tos: Array<{
+      address: String;
+      amount: number | string;
+    }>;
+  }>;
+}
+
+interface RouteParams {
+  id?: string;
+  height?: string;
+}
+
 class BlockPage extends Component<
   BlockPageProps & RouteComponentProps<RouteParams>,
   BlockPageState

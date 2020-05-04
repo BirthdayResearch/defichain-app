@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { ExchangePageProps, ExchangePageState } from "./ExchangePage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface ExchangePageProps {}
+interface ExchangePageState {}
 
 class ExchangePage extends Component<ExchangePageProps, ExchangePageState> {
   render() {

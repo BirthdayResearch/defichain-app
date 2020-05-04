@@ -13,8 +13,15 @@ import {
   MdCompareArrows,
 } from "react-icons/md";
 import styles from "./Sidebar.module.scss";
-import { SidebarProps, SidebarState } from "./Sidebar.interface";
 import { connect } from "react-redux";
+
+export interface SidebarProps {}
+
+export interface SidebarState {
+  balance: {
+    available: string;
+  };
+}
 
 class Sidebar extends Component<
   SidebarProps & RouteComponentProps,

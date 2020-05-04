@@ -4,8 +4,26 @@ import { MdContentCopy, MdInfo, MdArrowForward } from "react-icons/md";
 import styles from "./BlockTxn.module.scss";
 import CopyToClipboard from "react-copy-to-clipboard";
 import classnames from "classnames";
-import { BlockTxnProps, BlockTxnState } from "./BlockchainPage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface BlockTxnProps {
+  txn: {
+    hash: string;
+    time: string;
+    froms: Array<{
+      address: string;
+      amount: number | string;
+    }>;
+    tos: Array<{
+      address: String;
+      amount: number | string;
+    }>;
+  };
+}
+
+interface BlockTxnState {
+  copied: boolean;
+}
 
 class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
   state = {

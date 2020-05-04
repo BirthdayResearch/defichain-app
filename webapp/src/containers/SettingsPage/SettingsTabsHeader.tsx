@@ -2,7 +2,11 @@ import React from "react";
 import { Nav, NavItem, NavLink } from "reactstrap";
 import { I18n } from "react-redux-i18n";
 import classnames from "classnames";
-import { SettingsTabsHeaderProps } from "./SettingsPage.interface";
+
+interface SettingsTabsHeaderProps {
+  setActiveTab: Function;
+  activeTab: string;
+}
 
 const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   const { setActiveTab, activeTab } = props;

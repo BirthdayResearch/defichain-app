@@ -3,9 +3,22 @@ import { Card, Table } from "reactstrap";
 import { connect } from "react-redux";
 import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
 import styles from "./WalletTxns.module.scss";
-import { WalletTxnsProps, WalletTxnsState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
 import { fetchWalletTxnsRequest } from "./reducer";
+
+interface WalletTxnsProps {
+  walletTxns: Array<{
+    id: number;
+    type: string;
+    time: string;
+    hash: string;
+    amount: number;
+    unit: string;
+  }>;
+  fetchWalletTxns: Function;
+}
+
+interface WalletTxnsState {}
 
 class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
   componentDidMount() {
