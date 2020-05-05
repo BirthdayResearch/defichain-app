@@ -4,12 +4,21 @@ import { Button, ButtonGroup } from "reactstrap";
 import { MdArrowBack, MdDelete } from "react-icons/md";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
-import {
-  PaymentRequestPageProps,
-  PaymentRequestPageState,
-  RouteProps,
-} from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface PaymentRequestPageProps {}
+
+interface PaymentRequestPageState {
+  label: string;
+  amount: string;
+  time: string;
+  message: string;
+  address: string;
+}
+
+interface RouteProps {
+  id: string;
+}
 
 class PaymentRequestPage extends Component<
   PaymentRequestPageProps & RouteComponentProps<RouteProps>,

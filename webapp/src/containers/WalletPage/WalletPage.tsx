@@ -6,10 +6,18 @@ import { NavLink as RRNavLink } from "react-router-dom";
 import StatCard from "../../components/StatCard/StatCard";
 import WalletTxns from "./WalletTxns";
 import PaymentRequests from "./PaymentRequests";
-import { WalletPageProps, WalletPageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
 import { connect } from "react-redux";
 import { fetchWalletBalanceRequest } from "./reducer";
+
+interface WalletPageProps {
+  walletBalance: string;
+  fetchWalletBalance: Function;
+}
+
+interface WalletPageState {
+  activeTab: string;
+}
 
 class WalletPage extends Component<WalletPageProps, WalletPageState> {
   state = {
@@ -20,7 +28,7 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
     this.props.fetchWalletBalance();
   }
 
-  setActiveTab = (tab) => {
+  setActiveTab = (tab: string) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab,
