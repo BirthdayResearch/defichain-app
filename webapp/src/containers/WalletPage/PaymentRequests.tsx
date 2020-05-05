@@ -13,10 +13,19 @@ import { MdMoreHoriz, MdDelete, MdAccessTime } from "react-icons/md";
 import styles from "./PaymentRequests.module.scss";
 import { I18n } from "react-redux-i18n";
 import { fetchPaymentRequestsRequest } from "./reducer";
-import {
-  PaymentRequestsProps,
-  PaymentRequestsState,
-} from "./WalletPage.interface";
+
+interface PaymentRequestsProps {
+  paymentRequests: Array<{
+    id: number;
+    time: string;
+    amount: number;
+    message: string;
+    unit: string;
+  }>;
+  fetchPaymentRequests: Function;
+}
+
+interface PaymentRequestsState {}
 
 class PaymentRequests extends Component<
   PaymentRequestsProps,

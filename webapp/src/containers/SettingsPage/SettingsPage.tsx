@@ -4,12 +4,51 @@ import { connect } from "react-redux";
 import { TabContent } from "reactstrap";
 import { I18n } from "react-redux-i18n";
 import isEqual from "lodash/isEqual";
-import { SettingsPageProps, SettingsPageState } from "./SettingsPage.interface";
 import { getInitialSettingsRequest, updateSettingsRequest } from "./reducer";
 import SettingsTabsHeader from "./SettingsTabsHeader";
 import SettingsTabsFooter from "./SettingsTabsFooter";
 import SettingsTabGeneral from "./SettingsTabGeneral";
 import SettingsTabDisplay from "./SettingsTabDisplay";
+
+interface SettingsPageProps {
+  isFetching: false;
+  settingsError: string;
+  languages: Array<{ label: string; value: string }>;
+  amountUnits: Array<{ label: string; value: string }>;
+  displayModes: Array<{ label: string; value: string }>;
+  settings: {
+    settingsLanguage: string;
+    settingsAmountsUnit: string;
+    settingDisplayMode: string;
+    settingsLaunchAtLogin: boolean;
+    settingsMinimizedAtLaunch: boolean;
+    settingsPruneBlockStorage: boolean;
+    settingsScriptVerificationThreads: number;
+    settingBlockStorage: number;
+    settingsDatabaseCache: number;
+  };
+  isUpdating: boolean;
+  isUpdated: boolean;
+  settingsLaunchAtLogin: boolean;
+  settingsMinimizedAtLaunch: boolean;
+  loadSettings: Function;
+  updateSettings: Function;
+  changeLanguage: Function;
+}
+
+interface SettingsPageState {
+  activeTab: string;
+  settingsLanguage?: string;
+  settingsAmountsUnit?: string;
+  settingDisplayMode?: string;
+  settingsLaunchAtLogin?: boolean;
+  settingsMinimizedAtLaunch?: boolean;
+  settingsPruneBlockStorage?: boolean;
+  settingsScriptVerificationThreads?: number;
+  settingBlockStorage?: number;
+  settingsDatabaseCache?: number;
+  isUnsavedChanges: boolean;
+}
 
 class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   constructor(props: Readonly<SettingsPageProps>) {

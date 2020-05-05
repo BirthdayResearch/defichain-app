@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { Card, CardBody } from "reactstrap";
 import styles from "./StatCard.module.scss";
-import { StatCardProps, StatCardState } from "./StatCard.interface";
+
+interface StatCardProps {
+  label: string;
+  value: string;
+  unit: string;
+}
+interface StatCardState {}
 
 class StatCard extends Component<StatCardProps, StatCardState> {
   render() {

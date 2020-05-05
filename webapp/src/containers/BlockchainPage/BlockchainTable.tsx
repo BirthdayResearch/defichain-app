@@ -15,12 +15,25 @@ import {
   MdLastPage,
 } from "react-icons/md";
 import styles from "./BlockchainTable.module.scss";
-import {
-  BlockchainTableProps,
-  BlockchainTableState,
-} from "./BlockchainPage.interface";
 import { I18n } from "react-redux-i18n";
 import { fetchBlocksRequest } from "./reducer";
+
+interface BlockchainTableProps {
+  blocks: Array<{
+    height: number;
+    age: string;
+    txns: string;
+    minerName: string;
+    minerID: number;
+    size: string;
+  }>;
+  isLoadingBlocks: boolean;
+  isBlocksLoaded: Boolean;
+  blocksLoadError: string;
+  fetchBlocks: Function;
+}
+
+interface BlockchainTableState {}
 
 class BlockchainTable extends Component<
   BlockchainTableProps,

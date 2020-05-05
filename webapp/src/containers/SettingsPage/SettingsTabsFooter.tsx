@@ -1,7 +1,11 @@
 import React from "react";
 import { I18n } from "react-redux-i18n";
-import { SettingsTabsFooterProps } from "./SettingsPage.interface";
 import { Button, Row, Col } from "reactstrap";
+
+interface SettingsTabsFooterProps {
+  saveChanges: Function;
+  isUnsavedChanges: boolean;
+}
 
 const SettingsTabsFooter = (props: SettingsTabsFooterProps) => {
   const { saveChanges, isUnsavedChanges } = props;
