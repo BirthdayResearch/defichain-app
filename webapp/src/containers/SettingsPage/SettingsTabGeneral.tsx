@@ -1,5 +1,4 @@
 import React from "react";
-import { SettingsTabGeneralProps } from "./SettingsPage.interface";
 import { TabPane, Row, Col, Form, FormGroup, Label } from "reactstrap";
 import { I18n } from "react-redux-i18n";
 import classnames from "classnames";
@@ -7,6 +6,17 @@ import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import RangeSlider from "react-bootstrap-range-slider";
 import SettingsRowToggle from "./SettingsRowToggle";
 import SettingsRowInput from "./SettingsRowInput";
+
+interface SettingsTabGeneralProps {
+  settingsLaunchAtLogin: boolean;
+  settingsMinimizedAtLaunch: boolean;
+  settingsPruneBlockStorage: boolean;
+  settingBlockStorage: number;
+  settingsDatabaseCache: number;
+  settingsScriptVerificationThreads: number;
+  handleInputs: any;
+  handleToggles: any;
+}
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   const {

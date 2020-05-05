@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import BlockchainTable from "./BlockchainTable";
-import {
-  BlockchainPageProps,
-  BlockchainPageState,
-} from "./BlockchainPage.interface";
 import { I18n } from "react-redux-i18n";
+
+interface BlockchainPageProps {}
+
+interface BlockchainPageState {}
 
 class BlockchainPage extends Component<
   BlockchainPageProps,

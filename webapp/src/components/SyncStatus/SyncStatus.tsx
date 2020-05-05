@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import { MdDone } from "react-icons/md";
 import styles from "./SyncStatus.module.scss";
 import Spinner from "../../components/Spinner/Spinner";
-import { SyncStatusProps, SyncStatusState } from "./SyncStatus.interface";
 import { I18n } from "react-redux-i18n";
 import { connect } from "react-redux";
+
+interface SyncStatusProps {}
+
+interface SyncStatusState {
+  status: string;
+  syncedAgo: string;
+  statusAssets: {
+    icon: typeof MdDone;
+    label: string;
+  };
+}
 
 function StatusIcon(icon: any) {
   const StatusIcon = icon;

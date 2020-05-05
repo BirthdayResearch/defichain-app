@@ -1,8 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SettingsTabDisplayProps } from "./SettingsPage.interface";
 import { TabPane, Form } from "reactstrap";
 import SettingsRowDropDown from "./SettingsRowDropDown";
+
+interface SettingsTabDisplayProps {
+  languages: Array<{ label: string; value: string }>;
+  settingsLanguage: string;
+  getLabel: Function;
+  amountUnits: Array<{ label: string; value: string }>;
+  settingsAmountsUnit: string;
+  displayModes: Array<{ label: string; value: string }>;
+  settingDisplayMode: string;
+  handleDropDowns: Function;
+}
 
 const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   const {
