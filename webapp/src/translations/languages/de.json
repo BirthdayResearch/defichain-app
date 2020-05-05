@@ -205,5 +205,9 @@
         "hash": "Hash"
       }
     }
+  },
+  "alerts": {
+    "configurationFailure": "Configuration Failure",
+    "errorOccurred": "Error occurred"
   }
 }
