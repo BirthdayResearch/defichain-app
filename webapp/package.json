@@ -26,6 +26,7 @@
     "@storybook/addons": "^5.3.9",
     "@storybook/react": "^5.3.9",
     "autoprefixer": "^9.7.5",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",
