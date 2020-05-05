@@ -8,11 +8,17 @@ import WalletTxns from "./WalletTxns";
 import PaymentRequests from "./PaymentRequests";
 import { WalletPageProps, WalletPageState } from "./WalletPage.interface";
 import { I18n } from "react-redux-i18n";
+import { connect } from "react-redux";
+import { fetchWalletBalanceRequest } from "./reducer";
 
 class WalletPage extends Component<WalletPageProps, WalletPageState> {
   state = {
     activeTab: "txns",
   };
+
+  componentDidMount() {
+    this.props.fetchWalletBalance();
+  }
 
   setActiveTab = (tab) => {
     if (this.state.activeTab !== tab) {
@@ -23,6 +29,7 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
   };
 
   render() {
+    const { walletBalance } = this.props;
     return (
       <div className="main-wrapper">
         <Helmet>
@@ -55,7 +62,7 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
                   label={I18n.t(
                     "containers.wallet.walletPage.availableBalance"
                   )}
-                  value="1,000"
+                  value={walletBalance}
                   unit="DFI"
                 />
               </Col>
@@ -82,4 +89,16 @@ class WalletPage extends Component<WalletPageProps, WalletPageState> {
   }
 }
 
-export default WalletPage;
+const mapStateToProps = (state) => {
+  const { walletBalance } = state.wallet;
+  return {
+    walletBalance,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(WalletPage);

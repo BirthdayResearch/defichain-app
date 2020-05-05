@@ -1,4 +1,7 @@
-export interface WalletPageProps {}
+export interface WalletPageProps {
+  walletBalance: string;
+  fetchWalletBalance: Function;
+}
 
 export interface WalletPageState {
   activeTab: string;

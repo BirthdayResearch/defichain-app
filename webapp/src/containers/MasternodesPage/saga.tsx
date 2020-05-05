@@ -6,8 +6,6 @@ import {
 } from "./reducer";
 import { handelFetchMasterNodes } from "./MasterNodesPage.service";
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
 function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);

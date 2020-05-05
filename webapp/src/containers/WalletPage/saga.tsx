@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import * as HttpStatus from "http-status-codes";
 import {
   fetchPaymentRequestsRequest,
   fetchPaymentRequestsSuccess,
@@ -12,15 +13,38 @@ import {
   fetchSendDataFailure,
   fetchSendDataRequest,
   fetchSendDataSuccess,
+  fetchWalletBalanceRequest,
+  fetchWalletBalanceSuccess,
+  fetchWalletBalanceFailure,
 } from "./reducer";
 import {
   handelFetchMasterNodes,
   handelFetchWalletTxns,
   handelReceivedData,
   handelSendData,
+  handleFetchWalletBalance,
 } from "./Wallet.service";
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+function* fetchWalletBalance() {
+  try {
+    const res = yield call(handleFetchWalletBalance);
+    const { status, data } = res;
+    if (status === HttpStatus.OK) {
+      yield put({
+        type: fetchWalletBalanceSuccess.type,
+        payload: { ...data },
+      });
+    } else {
+      yield put({
+        type: fetchWalletBalanceFailure.type,
+        payload: data.error || "No data found",
+      });
+    }
+  } catch (e) {
+    yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
+    console.log(e);
+  }
+}
 
 function* fetchMasterNodes() {
   try {
@@ -107,6 +131,7 @@ function* mySaga() {
   yield takeLatest(fetchWalletTxnsRequest.type, fetchWalletTxns);
   yield takeLatest(fetchReceivedDataRequest.type, fetchReceivedData);
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
+  yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
 }
 
 export default mySaga;
