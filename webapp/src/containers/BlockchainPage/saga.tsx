@@ -9,8 +9,6 @@ import {
 } from "./reducer";
 import { handelFetchTxns, handelFetchBlocks } from "./blockChainPage.service";
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
 function* fetchBlocks() {
   try {
     const data = yield call(handelFetchBlocks);

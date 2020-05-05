@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const configSlice = createSlice({
   name: "wallet",
   initialState: {
+    walletBalance: 0,
+    isBalanceFetching: false,
+    isBalanceError: "",
     paymentRequests: [],
     walletTxns: [],
     receivedData: {
@@ -53,6 +56,19 @@ const configSlice = createSlice({
       state.sendData = action.payload.data;
     },
     fetchSendDataFailure(state, action) {},
+    fetchWalletBalanceRequest(state) {
+      state.isBalanceFetching = true;
+      state.isBalanceError = "";
+    },
+    fetchWalletBalanceSuccess(state, action) {
+      state.walletBalance = action.payload.result;
+      state.isBalanceFetching = false;
+    },
+    fetchWalletBalanceFailure(state, action) {
+      state.walletBalance = 0;
+      state.isBalanceFetching = false;
+      state.isBalanceError = action.payload;
+    },
   },
 });
 
@@ -71,6 +87,9 @@ export const {
   fetchSendDataRequest,
   fetchSendDataSuccess,
   fetchSendDataFailure,
+  fetchWalletBalanceRequest,
+  fetchWalletBalanceSuccess,
+  fetchWalletBalanceFailure,
 } = actions;
 
 export default reducer;

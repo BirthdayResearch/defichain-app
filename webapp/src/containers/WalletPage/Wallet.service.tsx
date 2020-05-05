@@ -1,3 +1,5 @@
+import RpcClient from "../../utils/rpc-client";
+
 export const handelFetchMasterNodes = () => {
   const data = {
     requests: [
@@ -116,4 +118,9 @@ export const handelSendData = () => {
     waitToSend: 5,
   };
   return data;
+};
+
+export const handleFetchWalletBalance = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.call("", "getbalance", ["*"]);
 };
