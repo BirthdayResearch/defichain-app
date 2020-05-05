@@ -19,9 +19,10 @@ export const START_DEFI_CHAIN_REPLY = "start-defi-chain-reply";
 export const STOP_DEFI_CHAIN = "stop-defi-chain";
 
 export const HOME_PATH = app.getPath("home");
-export const CONFIG_FILE_NAME = path.join(HOME_PATH, "./.defi/defi.conf");
-export const UI_CONFIG_FILE_NAME = path.join(HOME_PATH, "./.defi/defi.ui.yaml");
-export const PID_FILE_NAME = path.join(HOME_PATH, "./.defi/pid");
+export const APP_DIR = path.join(HOME_PATH, "./.defi");
+export const CONFIG_FILE_NAME = path.join(APP_DIR, "/defi.conf");
+export const UI_CONFIG_FILE_NAME = path.join(APP_DIR, "/defi.ui.yaml");
+export const PID_FILE_NAME = path.join(APP_DIR, "/defi.pid");
 
 export const BINARY_FILE_NAME = "bitcoind";
 export const BINARY_FILE_PATH = IS_DEV

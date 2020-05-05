@@ -2,8 +2,15 @@ import log from "loglevel";
 import ini from "ini";
 import yaml from "js-yaml";
 import randomString from "random-string";
-import { getFileData, checkFileExists, writeFile, getRpcAuth } from "../utils";
 import {
+  getFileData,
+  checkFileExists,
+  writeFile,
+  getRpcAuth,
+  createDir,
+} from "../utils";
+import {
+  APP_DIR,
   CONFIG_FILE_NAME,
   UI_CONFIG_FILE_NAME,
   DEFAULT_RPC_BIND,
@@ -14,6 +21,10 @@ import {
 export default class UiConfig {
   get = async () => {
     try {
+      // check app dir exists
+      if (!checkFileExists(APP_DIR)) {
+        createDir(APP_DIR);
+      }
       // check for UI config file
       if (checkFileExists(UI_CONFIG_FILE_NAME)) {
         const configData = this.getUiDetails(UI_CONFIG_FILE_NAME);
