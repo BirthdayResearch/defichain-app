@@ -19,6 +19,9 @@ export const START_DEFI_CHAIN = "start-defi-chain";
 export const START_DEFI_CHAIN_REPLY = "start-defi-chain-reply";
 export const STOP_DEFI_CHAIN = "stop-defi-chain";
 
+export const MENU_BACKUP_WALLET = "menu-backup-wallet";
+export const MENU_IMPORT_WALLET = "menu-import-wallet";
+
 export const HOME_PATH = app.getPath("home");
 export const CONFIG_FILE_NAME = path.join(HOME_PATH, "./.defi/defi.conf");
 export const UI_CONFIG_FILE_NAME = path.join(HOME_PATH, "./.defi/defi.ui.yaml");

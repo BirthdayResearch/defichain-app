@@ -19,12 +19,14 @@ import Error404Page from "../containers/Errors/Error404Page";
 import SettingsPage from "../containers/SettingsPage/SettingsPage";
 import { getRpcConfigsRequest } from "./reducer";
 import { AppState, AppProps } from "./App.interface";
+import initMenuIpcRenderers from "./menu.ipcRenderer";
 import "./App.scss";
 
 class App extends Component<AppProps, AppState> {
   constructor(props: Readonly<AppProps>) {
     super(props);
     props.loadSettings();
+    initMenuIpcRenderers();
   }
 
   getPathDepth = (location: any) => {

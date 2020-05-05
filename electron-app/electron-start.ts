@@ -1,9 +1,10 @@
 import log from "loglevel";
-import { app, BrowserWindow, protocol } from "electron";
+import { app, BrowserWindow, protocol, Menu } from "electron";
 import * as path from "path";
 import * as url from "url";
 import ProcessManager from "./src/services/processmanager";
 import "./src/index";
+import applicationMenu from "./src/menus/application-menu";
 log.setDefaultLevel(5);
 
 declare var process: {
@@ -42,7 +43,7 @@ function createWindow() {
       webSecurity: false,
     },
   });
-  // loadApp();
+
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -92,6 +93,9 @@ app.on("ready", () => {
     }
   );
   createWindow(); /* callback function */
+  // Create menu
+  const menu = Menu.buildFromTemplate(applicationMenu);
+  Menu.setApplicationMenu(menu);
 });
 
 app.on("window-all-closed", () => {
@@ -105,10 +109,6 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-// function loadApp() {
-//   require(path.join(__dirname, "electron-app/js/index.js"));
-// }
 
 // Make this app a single instance app.
 //

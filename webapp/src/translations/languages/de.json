@@ -205,5 +205,12 @@
         "hash": "Hash"
       }
     }
+  },
+  "alerts": {
+    "configurationFailure": "Configuration Failure",
+    "errorOccurred": "Error occurred",
+    "success": "Success",
+    "backupSuccess": "Wallet backup done successfully",
+    "importSuccess": "Import wallet done successfully"
   }
 }
