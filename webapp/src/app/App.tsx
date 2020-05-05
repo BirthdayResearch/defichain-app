@@ -20,6 +20,7 @@ import Error404Page from "../containers/Errors/Error404Page";
 import SettingsPage from "../containers/SettingsPage/SettingsPage";
 import { getRpcConfigsRequest } from "./reducer";
 import initMenuIpcRenderers from "./menu.ipcRenderer";
+import isElectron from "is-electron";
 import "./App.scss";
 
 interface AppState {
@@ -35,7 +36,9 @@ class App extends Component<AppProps, AppState> {
   constructor(props: Readonly<AppProps>) {
     super(props);
     props.loadSettings();
-    initMenuIpcRenderers();
+    if (isElectron()) {
+      initMenuIpcRenderers();
+    }
   }
 
   getPathDepth = (location: any) => {
