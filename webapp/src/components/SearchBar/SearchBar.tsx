@@ -10,7 +10,11 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import styles from "./SearchBar.module.scss";
-import { SearchBarProps } from "./SearchBar.interface";
+
+interface SearchBarProps {
+  searching: any;
+  toggleSearch: any;
+}
 
 const SearchBar = (props: SearchBarProps) => {
   return (

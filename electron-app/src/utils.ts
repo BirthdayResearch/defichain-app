@@ -43,6 +43,11 @@ export const deleteFile = (filePath: string) => {
   return fs.unlinkSync(filePath);
 };
 
+// Check file exists or not
+export const createDir = (dirPath: string) => {
+  return fs.mkdirSync(dirPath);
+};
+
 // Get file data
 export const getFileData = (filePath: string, format: string = "utf-8") => {
   try {

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { RouteComponentProps } from "react-router-dom";
 import SyncStatus from "../components/SyncStatus/SyncStatus";
 import Sidebar from "../containers/Sidebar/Sidebar";
 import WalletPage from "../containers/WalletPage/WalletPage";
@@ -18,9 +19,17 @@ import HelpPage from "../containers/HelpPage/HelpPage";
 import Error404Page from "../containers/Errors/Error404Page";
 import SettingsPage from "../containers/SettingsPage/SettingsPage";
 import { getRpcConfigsRequest } from "./reducer";
-import { AppState, AppProps } from "./App.interface";
 import initMenuIpcRenderers from "./menu.ipcRenderer";
 import "./App.scss";
+
+interface AppState {
+  prevDepth: Function;
+}
+
+interface AppProps extends RouteComponentProps {
+  isRunning: boolean;
+  loadSettings: Function;
+}
 
 class App extends Component<AppProps, AppState> {
   constructor(props: Readonly<AppProps>) {
