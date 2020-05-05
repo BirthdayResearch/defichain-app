@@ -10,6 +10,8 @@ import {
   BLOCK_STORAGE,
   DATABASE_CACHE,
 } from "../../constants";
+import showNotification from "../../utils/notifications";
+import { I18n } from "react-redux-i18n";
 
 export const initialData = () => {
   const launchStat = getPreLaunchStatus();
@@ -61,7 +63,7 @@ const getPreLaunchStatus = () => {
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    alert(res.message);
+    showNotification(I18n.t("alerts.errorOccurred"), res.message);
     return false;
   }
   return false;
@@ -76,7 +78,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    alert(res.message);
+    showNotification(I18n.t("alerts.errorOccurred"), res.message);
     return false;
   }
   return false;
@@ -89,7 +91,7 @@ export const disablePreLaunchStatus = () => {
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    alert(res.message);
+    showNotification(I18n.t("alerts.errorOccurred"), res.message);
     return false;
   }
   return false;

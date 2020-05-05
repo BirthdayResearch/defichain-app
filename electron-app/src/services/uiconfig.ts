@@ -13,7 +13,7 @@ import {
 } from "../constant";
 
 export default class UiConfig {
-  get = async () => {
+  async get() {
     try {
       // check for UI config file
       if (checkFileExists(UI_CONFIG_FILE_NAME)) {
@@ -54,9 +54,9 @@ export default class UiConfig {
       log.error(err);
       throw err;
     }
-  };
+  }
 
-  getUiDetails = (path: string) => {
+  getUiDetails(path: string) {
     const uiFileData = getFileData(path, "utf-8");
     // TODO add UI yaml specific error message to inform user about corrupt yaml file -HARSH
     const configData = yaml.safeLoad(uiFileData);
@@ -72,9 +72,9 @@ export default class UiConfig {
       return configData;
     }
     throw new Error("Inconsistent data in UI config");
-  };
+  }
 
-  getDefault = (path: string) => {
+  getDefault(path: string) {
     const fileData = getFileData(path, "utf-8");
     // TODO add config specific error message to inform user about corrupt config file -HARSH
     const configData = ini.parse(fileData);
@@ -101,7 +101,7 @@ export default class UiConfig {
       };
     }
     throw new Error("Inconsistent data in default config");
-  };
+  }
 
   saveUiDetails = (path: string, configData: any) => {
     const {
