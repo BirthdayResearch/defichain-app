@@ -8,13 +8,17 @@
 
 `npm start`
 
+### Run Electron desktop app with webapp in dev mode
+
+`npm run start:dev`
+
 ### Run webapp
 
-`npm run start-react`
+`npm run start:react`
 
 ### Build react app
 
-`npm run build-react`
+`npm run build:react`
 
 ### Build electron app for native platform
 
@@ -22,8 +26,8 @@
 
 ### Build electron app for all platform
 
-`npm run build-all`
+`npm run build:all`
 
 ## Electron configuration
 
-Electron config is in [electron-app/electron-start.ts](electron-app/electron-start.ts)
+Electron config is in [electron-app/main.ts](electron-app/main.ts)
