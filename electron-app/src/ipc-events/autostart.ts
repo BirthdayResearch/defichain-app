@@ -5,7 +5,7 @@ import {
   PRELAUNCH_PREFERENCE_DISABLE,
   PRELAUNCH_PREFERENCE_ENABLE,
   PRELAUNCH_PREFERENCE_STATUS,
-} from '../constant'
+} from '../constants'
 
 export default function initiateAutoStart() {
   ipcMain.on(PRELAUNCH_PREFERENCE_STATUS, async (event) => {

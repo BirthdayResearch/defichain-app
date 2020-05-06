@@ -1,6 +1,6 @@
 import log from 'loglevel'
 import DialogManager from '../services/dialogmanager'
-import { MENU_BACKUP_WALLET, MENU_IMPORT_WALLET } from '../constant'
+import { MENU_BACKUP_WALLET, MENU_IMPORT_WALLET } from '../constants'
 
 export default class Wallet {
   async load(bw: Electron.BrowserWindow) {

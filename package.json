@@ -86,7 +86,7 @@
   },
   "build": {
     "appId": "defi-electron-v1",
-    "copyright": "Copyright © year ${author}",
+    "copyright": "Copyright © 2020 ${author}",
     "asar": true,
     "files": [
       "./electron-app/build",

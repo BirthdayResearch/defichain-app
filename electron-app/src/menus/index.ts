@@ -1,7 +1,8 @@
 import { app, shell } from 'electron'
 import Wallet from '../controllers/wallets'
+import { DARWIN, WIN_32, LINUX, SITE_URL } from '../constants'
 
-export default class ApplicationMenu {
+export default class AppMenu {
   getTemplate() {
     const template: Electron.MenuItemConstructorOptions[] = [
       {
@@ -30,14 +31,14 @@ export default class ApplicationMenu {
           {
             label: 'Visit our site',
             click: async () => {
-              await shell.openExternal('https://cakedefi.com')
+              await shell.openExternal(SITE_URL)
             },
           },
         ],
       },
     ]
 
-    if (process.platform === 'darwin') {
+    if (process.platform === DARWIN) {
       const label = app.name
       const submenu: Electron.MenuItemConstructorOptions[] = [
         {
@@ -85,7 +86,7 @@ export default class ApplicationMenu {
       this.addUpdateMenuItems(template[0].submenu, 1)
     }
 
-    if (process.platform === 'win32' || process.platform === 'linux') {
+    if (process.platform === WIN_32 || process.platform === LINUX) {
       const helpMenu = template[template.length - 1].submenu
       this.addUpdateMenuItems(helpMenu, 0)
     }
