@@ -10,11 +10,13 @@
   "homepage": "./",
   "publicPath": "./",
   "scripts": {
+    "init": "npm i",
     "test": "jest",
-    "start": "webpack-dev-server --mode development --open",
-    "build-react": "webpack --mode production",
+    "start": "npm run init && webpack-dev-server --mode development --open",
+    "start:dev": "webpack-dev-server --mode development --open",
+    "build:react": "webpack --mode production",
     "storybook": "start-storybook -p 9009",
-    "build-storybook": "build-storybook"
+    "build:storybook": "build-storybook"
   },
   "keywords": [],
   "license": "ISC",

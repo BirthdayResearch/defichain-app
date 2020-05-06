@@ -1,18 +1,16 @@
-import { ipcMain } from "electron";
-import UiConfig from "../services/uiconfig";
-import { GET_CONFIG_DETAILS } from "../constant";
-import { responseMessage } from "../utils";
+import { ipcMain } from 'electron'
+import Uiconfig from '../services/uiconfig'
+import { GET_CONFIG_DETAILS } from '../constant'
+import { responseMessage } from '../utils'
 
-const initiateConfigDetails = () => {
-  ipcMain.on(GET_CONFIG_DETAILS, async (event, arg) => {
+export default function initiateUiConfig() {
+  ipcMain.on(GET_CONFIG_DETAILS, async (event) => {
     try {
-      const uiConfig = new UiConfig();
-      const res = await uiConfig.get();
-      event.returnValue = responseMessage(true, res);
+      const uiConfig = new Uiconfig()
+      const res = await uiConfig.get()
+      event.returnValue = responseMessage(true, res)
     } catch (err) {
-      event.returnValue = responseMessage(false, err);
+      event.returnValue = responseMessage(false, err)
     }
-  });
-};
-
-export default initiateConfigDetails;
+  })
+}

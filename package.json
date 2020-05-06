@@ -2,7 +2,7 @@
   "name": "DeFi",
   "version": "1.0.0",
   "description": "Defi blockchain client ui",
-  "main": "./electron-app/build/electron-start.js",
+  "main": "./electron-app/build/index.js",
   "author": {
     "name": "Cake",
     "email": "cake@cakedefi.com",
@@ -11,19 +11,22 @@
   "homepage": "./",
   "publicPath": "./",
   "scripts": {
-    "init": "npm i && cd webapp && npm i",
+    "init": "npm i && cd webapp && npm run init",
     "transpile": "tsc",
-    "start": "nf start -p 5000",
-    "start-react": "cd webapp && npm run start",
-    "start-electron": "node initiate-electron",
-    "electron": "npm run transpile && NODE_ENV=development electron . --debug",
-    "electron-url-start": "export ELECTRON_START_URL=http://localhost:5000 && electron .",
-    "build-react": "cd webapp && npm run build-react",
-    "pack": "npm run build-react && npm run transpile && NODE_ENV=production electron-builder --dir",
-    "build": "npm run build-react && npm run transpile && NODE_ENV=production electron-builder",
-    "build-all": "npm run build-react && npm run transpile && NODE_ENV=production electron-builder -mwl",
-    "lint": "eslint --cache --format codeframe --ext mjs,jsx,js electron-app",
-    "postinstall": "electron-builder install-app-deps"
+    "watch": "tsc -w",
+    "start": "npm run init && npm run start:dev",
+    "start:dev": "nf start",
+    "start:react": "cd webapp && npm run start:dev",
+    "start:electron": "node initiate-electron",
+    "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron .",
+    "electron": "npm run transpile && NODE_ENV=development electron . -d true",
+    "build:react": "cd webapp && npm run build:react",
+    "build": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder",
+    "build:all": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder -mwl",
+    "pack": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder --dir",
+    "lint": "tslint --project tsconfig.json --config tslint.json",
+    "postinstall": "electron-builder install-app-deps",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "license": "ISC",
@@ -34,6 +37,7 @@
     "axios": "^0.19.2",
     "base-64": "^0.1.0",
     "bootstrap": "^4.4.1",
+    "commander": "^5.1.0",
     "crypto-js": "^4.0.0",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",
@@ -77,6 +81,7 @@
     "node-sass": "^4.13.1",
     "npm": "^6.14.4",
     "ts-loader": "^6.2.2",
+    "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
   "build": {
@@ -84,7 +89,6 @@
     "copyright": "Copyright © year ${author}",
     "asar": true,
     "files": [
-      "./electron-app",
       "./electron-app/build",
       {
         "from": "./webapp/build/release/",
