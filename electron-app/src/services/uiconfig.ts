@@ -17,7 +17,7 @@ import {
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
   YAML_COMMENT,
-} from '../constant'
+} from '../constants'
 
 export default class UiConfig {
   async get() {

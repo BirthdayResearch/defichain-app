@@ -4,19 +4,29 @@ import * as ps from 'ps-node'
 import * as utf8 from 'utf8'
 import cryptoJs from 'crypto-js'
 import { platform } from 'os'
+import {
+  DARWIN,
+  WIN_32,
+  LINUX,
+  AIX,
+  FREEBSD,
+  OPENBSD,
+  ANDROID,
+  SUNOS,
+} from './constants'
 
 export const getPlatform = () => {
   switch (platform()) {
-    case 'aix':
-    case 'freebsd':
-    case 'linux':
-    case 'openbsd':
-    case 'android':
+    case AIX:
+    case FREEBSD:
+    case LINUX:
+    case OPENBSD:
+    case ANDROID:
       return 'linux'
-    case 'darwin':
-    case 'sunos':
+    case DARWIN:
+    case SUNOS:
       return 'mac'
-    case 'win32':
+    case WIN_32:
       return 'win'
   }
 }

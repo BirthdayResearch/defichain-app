@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import DefiProcessManager from '../services/defiprocessmanager'
-import { START_DEFI_CHAIN, STOP_DEFI_CHAIN } from '../constant'
+import { START_DEFI_CHAIN, STOP_DEFI_CHAIN } from '../constants'
 
 export default function initiateDefiProcessManager() {
   ipcMain.on(START_DEFI_CHAIN, async (event, arg) => {

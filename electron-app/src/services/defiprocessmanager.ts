@@ -7,7 +7,7 @@ import {
   CONFIG_FILE_NAME,
   START_DEFI_CHAIN_REPLY,
   PID_FILE_NAME,
-} from '../constant'
+} from '../constants'
 import {
   checkFileExists,
   deleteFile,

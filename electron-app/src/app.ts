@@ -3,9 +3,20 @@ import * as path from 'path'
 import * as url from 'url'
 import { app, BrowserWindow, Menu, protocol } from 'electron'
 import DefiProcessManager from './services/defiprocessmanager'
-import ApplicationMenu from './menus/application'
+import AppMenu from './menus'
 import { Options, parseOptions } from './clioptions'
 import { initiateIpcEvents } from './ipc-events/index'
+import {
+  ICON,
+  DARWIN,
+  TITLE_BAR_STYLE,
+  BACKGROUND_COLOR,
+  READY,
+  WINDOW_ALL_CLOSED,
+  ACTIVATE,
+  CLOSE,
+  SECOND_INSTANCE,
+} from './constants'
 
 declare var process: {
   argv: any
@@ -33,32 +44,29 @@ export default class App {
   // REMOVE MAGIC STRING
   run() {
     app.allowRendererProcessReuse = false
-    app.on('ready', this.handleAppReady)
-    app.on('window-all-closed', this.handleAllAppWindowClose)
-    app.on('activate', this.handleAppActivate)
+    app.on(READY, this.onAppReady)
+    app.on(WINDOW_ALL_CLOSED, this.onAllAppWindowClose)
+    app.on(ACTIVATE, this.onAppActivate)
     this.makeSingleInstance()
   }
 
-  handleAppReady = () => {
-    this.interceptFileProtocol()
+  onAppReady = () => {
+    this.initiateInterceptFileProtocol()
     this.createWindow()
     this.createMenu()
     // initiate ipcMain events
     initiateIpcEvents()
   }
 
-  interceptFileProtocol() {
+  initiateInterceptFileProtocol() {
     protocol.interceptFileProtocol('file', (request, callback) => {
       /* all urls start with 'file://' */
       const fileUrl = request.url.substr(7)
+      const basePath = path.normalize(`${__dirname}/../../../webapp`)
       if (process.env.NODE_ENV === 'development') {
-        callback(
-          path.normalize(
-            `${__dirname}/../../../webapp/build/release/${fileUrl}`
-          )
-        )
+        callback(path.normalize(`${basePath}/build/release/${fileUrl}`))
       } else {
-        callback(path.normalize(`${__dirname}/../../../webapp/${fileUrl}`))
+        callback(path.normalize(`${basePath}/${fileUrl}`))
       }
     })
   }
@@ -70,10 +78,10 @@ export default class App {
       minWidth: 640,
       minHeight: 480,
       title: app.name,
-      titleBarStyle: 'hiddenInset',
-      backgroundColor: '#F4F3F6',
+      titleBarStyle: TITLE_BAR_STYLE,
+      backgroundColor: BACKGROUND_COLOR,
       movable: true,
-      icon: path.join(__dirname, '/electron-app/assets/icon/icon-512.png'),
+      icon: ICON,
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
@@ -94,25 +102,25 @@ export default class App {
       this.mainWindow.webContents.openDevTools()
     }
 
-    this.mainWindow.on('close', this.handleMainWindowClose)
+    this.mainWindow.on(CLOSE, this.onMainWindowClose)
   }
 
   // Create menu
   createMenu() {
-    const applicationMenu = new ApplicationMenu()
-    const template = applicationMenu.getTemplate()
+    const appMenu = new AppMenu()
+    const template = appMenu.getTemplate()
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
   }
 
   // When app will close
-  handleAllAppWindowClose = () => {
-    if (process.platform !== 'darwin') {
+  onAllAppWindowClose = () => {
+    if (process.platform !== DARWIN) {
       app.quit()
     }
   }
 
-  handleAppActivate = () => {
+  onAppActivate = () => {
     if (this.mainWindow === null) {
       this.createWindow()
     }
@@ -121,7 +129,7 @@ export default class App {
   makeSingleInstance() {
     if (process.mas) return
     app.requestSingleInstanceLock()
-    app.on('second-instance', () => {
+    app.on(SECOND_INSTANCE, () => {
       if (this.mainWindow) {
         if (this.mainWindow.isMinimized()) this.mainWindow.restore()
         this.mainWindow.focus()
@@ -129,7 +137,7 @@ export default class App {
     })
   }
 
-  handleMainWindowClose = async (event: Electron.Event) => {
+  onMainWindowClose = async (event: Electron.Event) => {
     if (this.allowQuit) {
       app.quit()
       return (this.mainWindow = null)

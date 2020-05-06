@@ -1,6 +1,6 @@
 import log from 'loglevel'
 import AutoLaunch from 'auto-launch'
-import { APP_NAME } from '../constant'
+import { APP_NAME } from '../constants'
 
 export default class AutoStart {
   // get app autostart status

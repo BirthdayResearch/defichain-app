@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import Uiconfig from '../services/uiconfig'
-import { GET_CONFIG_DETAILS } from '../constant'
+import { GET_CONFIG_DETAILS } from '../constants'
 import { responseMessage } from '../utils'
 
 export default function initiateUiConfig() {
