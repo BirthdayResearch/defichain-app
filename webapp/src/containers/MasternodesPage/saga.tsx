@@ -1,10 +1,10 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
   fetchMasternodesFailure,
-} from "./reducer";
-import { handelFetchMasterNodes } from "./MasterNodesPage.service";
+} from './reducer';
+import { handelFetchMasterNodes } from './MasterNodesPage.service';
 
 function* fetchMasterNodes() {
   try {
@@ -14,7 +14,7 @@ function* fetchMasterNodes() {
     } else {
       yield put({
         type: fetchMasternodesFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {

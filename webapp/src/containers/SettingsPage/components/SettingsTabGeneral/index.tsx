@@ -4,8 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
-import SettingsRowToggle from '../SettingsRowToggle/SettingsRowToggle';
-import SettingsRowInput from '../SettingsRowInput/SettingsRowInput';
+import SettingsRowToggle from '../SettingsRowToggle';
+import SettingsRowInput from '../SettingsRowInput';
 
 interface SettingsTabGeneralProps {
   settingsLaunchAtLogin: boolean;
