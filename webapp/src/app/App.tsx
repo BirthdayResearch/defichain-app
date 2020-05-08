@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
+import './App.scss'; // INFO: do not move down, placed on purpose
 import SyncStatus from '../containers/SyncStatus';
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import initMenuIpcRenderers from './menu.ipcRenderer';
 import isElectron from 'is-electron';
 import routes from '../routes';
-import './App.scss';
 
 interface AppState {
   prevDepth: number;

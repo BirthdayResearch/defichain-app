@@ -14,6 +14,7 @@ const geoUrl =
 
 const colorScale = scaleLinear()
   .domain([0.29, 0.68])
+  // @ts-ignore
   .range(['#F4F3F6', '#5B10FF']);
 
 const MapChart = () => {
