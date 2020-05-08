@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { Helmet } from "react-helmet";
-import { connect } from "react-redux";
-import { TabContent } from "reactstrap";
-import { I18n } from "react-redux-i18n";
-import isEqual from "lodash/isEqual";
-import { getInitialSettingsRequest, updateSettingsRequest } from "./reducer";
-import SettingsTabsHeader from "./SettingsTabsHeader";
-import SettingsTabsFooter from "./SettingsTabsFooter";
-import SettingsTabGeneral from "./SettingsTabGeneral";
-import SettingsTabDisplay from "./SettingsTabDisplay";
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { TabContent } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
+import isEqual from 'lodash/isEqual';
+import { getInitialSettingsRequest, updateSettingsRequest } from './reducer';
+import SettingsTabsHeader from './components/SettingsTabHeader/SettingsTabsHeader';
+import SettingsTabsFooter from './components/SettingsTabFooter/SettingsTabsFooter';
+import SettingsTabGeneral from './components/SettingsTabGeneral/SettingsTabGeneral';
+import SettingsTabDisplay from './components/SettingsTabDisplay/SettingsTabDisplay';
 
 interface SettingsPageProps {
   isFetching: false;
   settingsError: string;
-  languages: Array<{ label: string; value: string }>;
-  amountUnits: Array<{ label: string; value: string }>;
-  displayModes: Array<{ label: string; value: string }>;
+  languages: { label: string; value: string }[];
+  amountUnits: { label: string; value: string }[];
+  displayModes: { label: string; value: string }[];
   settings: {
     settingsLanguage: string;
     settingsAmountsUnit: string;
@@ -31,9 +31,9 @@ interface SettingsPageProps {
   isUpdated: boolean;
   settingsLaunchAtLogin: boolean;
   settingsMinimizedAtLaunch: boolean;
-  loadSettings: Function;
-  updateSettings: Function;
-  changeLanguage: Function;
+  loadSettings: () => void;
+  updateSettings: (settings: any) => void;
+  changeLanguage: () => void;
 }
 
 interface SettingsPageState {
@@ -54,7 +54,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   constructor(props: Readonly<SettingsPageProps>) {
     super(props);
     this.state = {
-      activeTab: "general",
+      activeTab: 'general',
       ...props.settings,
       isUnsavedChanges: false,
     };
@@ -104,8 +104,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     this.setState(
       {
         [field]: /^-?[0-9]+$/.test(event.target.value)
-          ? parseInt(event.target.value)
-          : "",
+          ? parseInt(event.target.value, 10)
+          : '',
       } as {
         settingsScriptVerificationThreads: number;
         settingBlockStorage: number;
@@ -117,15 +117,15 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
 
   checkForChanges = () => {
     const keys = [
-      "settingsLanguage",
-      "settingsAmountsUnit",
-      "settingDisplayMode",
-      "settingsLaunchAtLogin",
-      "settingsMinimizedAtLaunch",
-      "settingsPruneBlockStorage",
-      "settingsScriptVerificationThreads",
-      "settingBlockStorage",
-      "settingsDatabaseCache",
+      'settingsLanguage',
+      'settingsAmountsUnit',
+      'settingDisplayMode',
+      'settingsLaunchAtLogin',
+      'settingsMinimizedAtLaunch',
+      'settingsPruneBlockStorage',
+      'settingsScriptVerificationThreads',
+      'settingBlockStorage',
+      'settingsDatabaseCache',
     ];
 
     let isUnsavedChanges = false;
@@ -139,7 +139,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     const { settingsLaunchAtLogin, settingsMinimizedAtLaunch } = this.state;
 
     this.setState({
-      isUnsavedChanges: isUnsavedChanges,
+      isUnsavedChanges,
       settingsMinimizedAtLaunch: !settingsLaunchAtLogin
         ? false
         : settingsMinimizedAtLaunch,
@@ -174,9 +174,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   };
 
   getLabel = (list: any[], value: any) => {
-    let index = list.findIndex((obj) => obj.value === value);
+    const index = list.findIndex((obj) => obj.value === value);
 
-    if (index == -1) {
+    if (index === -1) {
       return list[0].label;
     } else {
       return list[index].label;
@@ -199,15 +199,15 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     } = this.state;
 
     return (
-      <div className="main-wrapper">
+      <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t("containers.settings.title")}</title>
+          <title>{I18n.t('containers.settings.title')}</title>
         </Helmet>
         <SettingsTabsHeader
           activeTab={activeTab}
           setActiveTab={this.setActiveTab}
         />
-        <div className="content">
+        <div className='content'>
           <TabContent activeTab={this.state.activeTab}>
             <SettingsTabGeneral
               settingsLaunchAtLogin={settingsLaunchAtLogin!}

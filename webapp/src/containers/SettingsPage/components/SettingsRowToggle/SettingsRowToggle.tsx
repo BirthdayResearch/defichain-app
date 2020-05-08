@@ -1,8 +1,8 @@
-import React from "react";
-import { FormGroup, Label, Input } from "reactstrap";
-import classnames from "classnames";
-import { I18n } from "react-redux-i18n";
-import { connect } from "react-redux";
+import React from 'react';
+import { FormGroup, Label, Input } from 'reactstrap';
+import classnames from 'classnames';
+import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 
 const SettingsRowToggle = (props) => {
   const { field, fieldName, label, handleToggles, hideMinimized } = props;
@@ -10,13 +10,13 @@ const SettingsRowToggle = (props) => {
   return (
     <FormGroup
       className={`${classnames({
-        "d-none": hideMinimized,
+        'd-none': hideMinimized,
       })}`}
     >
       <FormGroup check>
-        <Label check className="switch">
+        <Label check className='switch'>
           <Input
-            type="checkbox"
+            type='checkbox'
             checked={field || false}
             onChange={() => handleToggles(`${fieldName}`)}
           />

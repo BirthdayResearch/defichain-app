@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
 import SyncStatus from '../components/SyncStatus/SyncStatus';
-import Sidebar from '../containers/Sidebar/Sidebar';
+import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import initMenuIpcRenderers from './menu.ipcRenderer';
 import isElectron from 'is-electron';

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   getInitialSettingsRequest,
   getInitialSettingsSuccess,
@@ -6,16 +6,16 @@ import {
   updateSettingsRequest,
   updateSettingsSuccess,
   updateSettingsFailure,
-} from "./reducer";
+} from './reducer';
 import {
   updateSettingsData,
   initialData,
   enablePreLaunchStatus,
   disablePreLaunchStatus,
-} from "./settings.service";
-import store from "../../app/rootStore";
-import { setupI18n } from "../../translations/i18n";
-import { LANG_VARIABLE } from "../../constants";
+} from './settings.service';
+import store from '../../app/rootStore';
+import { setupI18n } from '../../translations/i18n';
+import { LANG_VARIABLE } from '../../constants';
 
 function* getSettings() {
   try {
@@ -25,7 +25,7 @@ function* getSettings() {
     } else {
       yield put({
         type: getInitialSettingsFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
@@ -57,7 +57,7 @@ function* updateSettings(action) {
     } else {
       yield put({
         type: updateSettingsFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {

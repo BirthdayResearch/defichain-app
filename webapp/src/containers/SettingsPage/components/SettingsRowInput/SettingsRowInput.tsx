@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   Label,
   Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap";
-import { I18n } from "react-redux-i18n";
-import { connect } from "react-redux";
+} from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 
 const SettingsRowInput = (props) => {
   const {
@@ -24,15 +24,15 @@ const SettingsRowInput = (props) => {
   return (
     <InputGroup>
       <Input
-        type="text"
+        type='text'
         name={`${name}`}
         id={`${id}`}
         placeholder={`${placeholder}`}
-        value={field || ""}
+        value={field || ''}
         onChange={(event) => handleInputs(event, `${fieldName}`)}
       />
-      <Label for="pruneTo">{I18n.t(`containers.settings.${label}`)}</Label>
-      <InputGroupAddon addonType="append">
+      <Label for='pruneTo'>{I18n.t(`containers.settings.${label}`)}</Label>
+      <InputGroupAddon addonType='append'>
         <InputGroupText>{I18n.t(`containers.settings.${text}`)}</InputGroupText>
       </InputGroupAddon>
     </InputGroup>
