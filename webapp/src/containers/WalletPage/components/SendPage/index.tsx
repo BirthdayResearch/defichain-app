@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Helmet } from "react-helmet";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 import {
   Row,
   Col,
@@ -14,16 +14,16 @@ import {
   InputGroupText,
   Modal,
   ModalBody,
-} from "reactstrap";
-import { MdArrowBack, MdCropFree, MdCheckCircle } from "react-icons/md";
-import { NavLink } from "react-router-dom";
-import UIfx from "uifx";
-import QrReader from "react-qr-reader";
-import classnames from "classnames";
-import { I18n } from "react-redux-i18n";
-import shutterSound from "./../../assets/audio/shutter.mp3";
+} from 'reactstrap';
+import { MdArrowBack, MdCropFree, MdCheckCircle } from 'react-icons/md';
+import { NavLink } from 'react-router-dom';
+import UIfx from 'uifx';
+import QrReader from 'react-qr-reader';
+import classnames from 'classnames';
+import { I18n } from 'react-redux-i18n';
+import shutterSound from './../../../../assets/audio/shutter.mp3';
 const shutterSnap = new UIfx(shutterSound);
-import { fetchSendDataRequest } from "./reducer";
+import { fetchSendDataRequest } from '../../reducer';
 
 interface SendPageProps {
   sendData: {
@@ -37,7 +37,7 @@ interface SendPageProps {
     sendStep: string;
     waitToSend: number;
   };
-  fetchSendData: Function;
+  fetchSendData: () => void;
 }
 
 interface SendPageState {
@@ -57,33 +57,33 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   state = {
     walletBalance: 100,
-    amountToSend: "",
+    amountToSend: '',
     amountToSendDisplayed: 0,
-    toAddress: "",
+    toAddress: '',
     scannerOpen: false,
-    flashed: "",
-    showBackdrop: "",
-    sendStep: "default",
+    flashed: '',
+    showBackdrop: '',
+    sendStep: 'default',
     waitToSend: 5,
   };
   componentDidMount() {
     this.props.fetchSendData();
   }
   updateAmountToSend = (e) => {
-    let amountToSend =
-      !isNaN(e.target.value) && e.target.value.length ? e.target.value : "";
-    let amountToSendDisplayed =
-      !isNaN(amountToSend) && amountToSend.length ? amountToSend : "0";
+    const amountToSend =
+      !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
+    const amountToSendDisplayed =
+      !isNaN(amountToSend) && amountToSend.length ? amountToSend : '0';
     this.setState({
-      amountToSend: amountToSend,
-      amountToSendDisplayed: amountToSendDisplayed,
+      amountToSend,
+      amountToSendDisplayed,
     });
   };
 
   updateToAddress = (e) => {
-    let toAddress = e.target.value;
+    const toAddress = e.target.value;
     this.setState({
-      toAddress: toAddress,
+      toAddress,
     });
   };
 
@@ -111,12 +111,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       shutterSnap.play();
       this.setState({
         toAddress: data,
-        flashed: "flashed",
+        flashed: 'flashed',
       });
       setTimeout(() => {
         this.toggleScanner();
         this.setState({
-          flashed: "",
+          flashed: '',
         });
       }, 600);
     }
@@ -139,8 +139,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   sendStepDefault = () => {
     this.setState({
-      sendStep: "default",
-      showBackdrop: "",
+      sendStep: 'default',
+      showBackdrop: '',
       waitToSend: 5,
     });
   };
@@ -148,88 +148,88 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   sendStepConfirm = () => {
     this.countDownWaitToSend();
     this.setState({
-      sendStep: "confirm",
-      showBackdrop: "show-backdrop",
+      sendStep: 'confirm',
+      showBackdrop: 'show-backdrop',
     });
   };
 
   sendTransaction = () => {
     this.setState({
-      sendStep: "success",
-      showBackdrop: "show-backdrop",
+      sendStep: 'success',
+      showBackdrop: 'show-backdrop',
     });
   };
 
   prepareSound = () => {};
   render() {
     return (
-      <div className="main-wrapper">
+      <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t("containers.wallet.sendPage.sendDFITitle")}</title>
+          <title>{I18n.t('containers.wallet.sendPage.sendDFITitle')}</title>
         </Helmet>
-        <header className="header-bar">
-          <Button to="/" tag={NavLink} color="link" className="header-bar-back">
+        <header className='header-bar'>
+          <Button to='/' tag={NavLink} color='link' className='header-bar-back'>
             <MdArrowBack />
-            <span className="d-lg-inline">
-              {I18n.t("containers.wallet.sendPage.wallet")}
+            <span className='d-lg-inline'>
+              {I18n.t('containers.wallet.sendPage.wallet')}
             </span>
           </Button>
-          <h1>{I18n.t("containers.wallet.sendPage.sendDFI")}</h1>
+          <h1>{I18n.t('containers.wallet.sendPage.sendDFI')}</h1>
         </header>
-        <div className="content">
+        <div className='content'>
           <section>
             <Form>
-              <FormGroup className="form-label-group form-row">
+              <FormGroup className='form-label-group form-row'>
                 <Col>
                   <InputGroup>
                     <Input
-                      type="text"
-                      inputMode="numeric"
+                      type='text'
+                      inputMode='numeric'
                       placeholder={I18n.t(
-                        "containers.wallet.sendPage.amountToSend"
+                        'containers.wallet.sendPage.amountToSend'
                       )}
-                      name="amountToSend"
-                      id="amountToSend"
+                      name='amountToSend'
+                      id='amountToSend'
                       value={this.state.amountToSend}
                       onChange={this.updateAmountToSend}
                       autoFocus
                     />
-                    <Label for="amountToSend">
-                      {I18n.t("containers.wallet.sendPage.amount")}
+                    <Label for='amountToSend'>
+                      {I18n.t('containers.wallet.sendPage.amount')}
                     </Label>
-                    <InputGroupAddon addonType="append">
+                    <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {I18n.t("containers.wallet.sendPage.dFI")}
+                        {I18n.t('containers.wallet.sendPage.dFI')}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
-                <Col className="col-auto">
+                <Col className='col-auto'>
                   <Button
-                    color="outline-primary"
+                    color='outline-primary'
                     onClick={this.maxAmountToSend}
                   >
-                    {I18n.t("containers.wallet.sendPage.MAX")}
+                    {I18n.t('containers.wallet.sendPage.MAX')}
                   </Button>
                 </Col>
               </FormGroup>
-              <FormGroup className="form-label-group">
+              <FormGroup className='form-label-group'>
                 <InputGroup>
                   <Input
-                    type="text"
+                    type='text'
                     placeholder={I18n.t(
-                      "containers.wallet.sendPage.dfiAddress"
+                      'containers.wallet.sendPage.dfiAddress'
                     )}
-                    name="toAddress"
-                    id="toAddress"
+                    name='toAddress'
+                    id='toAddress'
                     value={this.state.toAddress}
                     onChange={this.updateToAddress}
                   />
-                  <Label for="toAddress">
-                    {I18n.t("containers.wallet.sendPage.toAddress")}
+                  <Label for='toAddress'>
+                    {I18n.t('containers.wallet.sendPage.toAddress')}
                   </Label>
-                  <InputGroupAddon addonType="append">
-                    <Button color="outline-primary" onClick={this.openScanner}>
+                  <InputGroupAddon addonType='append'>
+                    <Button color='outline-primary' onClick={this.openScanner}>
                       <MdCropFree />
                     </Button>
                   </InputGroupAddon>
@@ -249,44 +249,44 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
-                  style={{ width: "100%" }}
-                  className="qr-scanner-preview"
+                  style={{ width: '100%' }}
+                  className='qr-scanner-preview'
                 />
               </ModalBody>
             </Modal>
           </section>
         </div>
-        <footer className="footer-bar">
+        <footer className='footer-bar'>
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "default",
+              'd-none': this.state.sendStep !== 'default',
             })}
           >
-            <Row className="justify-content-between align-items-center">
-              <Col className="col-auto">
-                <div className="caption-secondary">
-                  {I18n.t("containers.wallet.sendPage.walletBalance")}
+            <Row className='justify-content-between align-items-center'>
+              <Col className='col-auto'>
+                <div className='caption-secondary'>
+                  {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
                   {this.state.walletBalance}&nbsp;
-                  {I18n.t("containers.wallet.sendPage.dFI")}
+                  {I18n.t('containers.wallet.sendPage.dFI')}
                 </div>
               </Col>
-              <Col className="col-auto">
-                <div className="caption-secondary">
-                  {I18n.t("containers.wallet.sendPage.amountToSend")}
+              <Col className='col-auto'>
+                <div className='caption-secondary'>
+                  {I18n.t('containers.wallet.sendPage.amountToSend')}
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {I18n.t("containers.wallet.sendPage.dFI")}
+                  {I18n.t('containers.wallet.sendPage.dFI')}
                 </div>
               </Col>
-              <Col className="d-flex justify-content-end">
-                <Button to="/" tag={NavLink} color="link" className="mr-3">
-                  {I18n.t("containers.wallet.sendPage.cancel")}
+              <Col className='d-flex justify-content-end'>
+                <Button to='/' tag={NavLink} color='link' className='mr-3'>
+                  {I18n.t('containers.wallet.sendPage.cancel')}
                 </Button>
                 <Button
-                  color="primary"
+                  color='primary'
                   disabled={
                     !this.state.amountToSend || !this.state.toAddress
                       ? true
@@ -294,53 +294,53 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   }
                   onClick={this.sendStepConfirm}
                 >
-                  {I18n.t("containers.wallet.sendPage.continue")}
+                  {I18n.t('containers.wallet.sendPage.continue')}
                 </Button>
               </Col>
             </Row>
           </div>
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "confirm",
+              'd-none': this.state.sendStep !== 'confirm',
             })}
           >
-            <div className="footer-sheet">
-              <dl className="row">
-                <dt className="col-sm-3 text-right">
-                  {I18n.t("containers.wallet.sendPage.amount")}
+            <div className='footer-sheet'>
+              <dl className='row'>
+                <dt className='col-sm-3 text-right'>
+                  {I18n.t('containers.wallet.sendPage.amount')}
                 </dt>
-                <dd className="col-sm-9">
-                  <span className="h2 mb-0">
+                <dd className='col-sm-9'>
+                  <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {I18n.t("containers.wallet.sendPage.dFI")}
+                    {I18n.t('containers.wallet.sendPage.dFI')}
                   </span>
                 </dd>
-                <dt className="col-sm-3 text-right">
-                  {I18n.t("containers.wallet.sendPage.to")}
+                <dt className='col-sm-3 text-right'>
+                  {I18n.t('containers.wallet.sendPage.to')}
                 </dt>
-                <dd className="col-sm-9">{this.state.toAddress}</dd>
+                <dd className='col-sm-9'>{this.state.toAddress}</dd>
               </dl>
             </div>
-            <Row className="justify-content-between align-items-center">
-              <Col className="col">
-                {I18n.t("containers.wallet.sendPage.pleaseVerifyAmount")}
+            <Row className='justify-content-between align-items-center'>
+              <Col className='col'>
+                {I18n.t('containers.wallet.sendPage.pleaseVerifyAmount')}
               </Col>
-              <Col className="d-flex justify-content-end">
+              <Col className='d-flex justify-content-end'>
                 <Button
-                  color="link"
-                  className="mr-3"
+                  color='link'
+                  className='mr-3'
                   onClick={this.sendStepDefault}
                 >
-                  {I18n.t("containers.wallet.sendPage.cancel")}
+                  {I18n.t('containers.wallet.sendPage.cancel')}
                 </Button>
                 <Button
-                  color="primary"
+                  color='primary'
                   onClick={this.sendTransaction}
                   disabled={this.state.waitToSend > 0 ? true : false}
                 >
-                  {I18n.t("containers.wallet.sendPage.completeSend")}&nbsp;
-                  <span className="timer">
-                    {this.state.waitToSend > 0 ? this.state.waitToSend : ""}
+                  {I18n.t('containers.wallet.sendPage.completeSend')}&nbsp;
+                  <span className='timer'>
+                    {this.state.waitToSend > 0 ? this.state.waitToSend : ''}
                   </span>
                 </Button>
               </Col>
@@ -348,20 +348,20 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </div>
           <div
             className={classnames({
-              "d-none": this.state.sendStep !== "success",
+              'd-none': this.state.sendStep !== 'success',
             })}
           >
-            <div className="footer-sheet">
-              <div className="text-center">
-                <MdCheckCircle className="footer-sheet-icon" />
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdCheckCircle className='footer-sheet-icon' />
                 <p>
-                  {I18n.t("containers.wallet.sendPage.transactionSuccessMsg")}
+                  {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
               </div>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
-              <Button color="primary" to="/" tag={NavLink}>
-                {I18n.t("containers.wallet.sendPage.backToWallet")}
+            <div className='d-flex align-items-center justify-content-center'>
+              <Button color='primary' to='/' tag={NavLink}>
+                {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>
           </div>

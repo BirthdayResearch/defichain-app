@@ -1,11 +1,9 @@
-import React, { Component } from "react";
-import { MdDone } from "react-icons/md";
-import styles from "./SyncStatus.module.scss";
-import Spinner from "../../components/Spinner/Spinner";
-import { I18n } from "react-redux-i18n";
-import { connect } from "react-redux";
-
-interface SyncStatusProps {}
+import React, { Component } from 'react';
+import { MdDone } from 'react-icons/md';
+import styles from './SyncStatus.module.scss';
+import Spinner from '../../components/Spinner/Spinner';
+import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 
 interface SyncStatusState {
   status: string;
@@ -21,26 +19,26 @@ function StatusIcon(icon: any) {
   return <StatusIcon />;
 }
 
-class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
+class SyncStatus extends Component<{}, SyncStatusState> {
   state = {
-    status: "synced",
-    syncedAgo: "aMinuteAgo",
+    status: 'synced',
+    syncedAgo: 'aMinuteAgo',
     statusAssets: {
       icon: MdDone,
-      label: "synchronized",
+      label: 'synchronized',
     },
   };
 
   toggleStatus = () => {
     this.setState({
-      status: this.state.status === "synced" ? "syncing" : "synced",
-      syncedAgo: "justNow",
+      status: this.state.status === 'synced' ? 'syncing' : 'synced',
+      syncedAgo: 'justNow',
       statusAssets: {
         icon: this.state.statusAssets.icon === MdDone ? Spinner : MdDone,
         label:
-          this.state.statusAssets.label === "synchronized"
-            ? "syncing"
-            : "synchronized",
+          this.state.statusAssets.label === 'synchronized'
+            ? 'syncing'
+            : 'synchronized',
       },
     } as SyncStatusState);
   };
@@ -51,7 +49,7 @@ class SyncStatus extends Component<SyncStatusProps, SyncStatusState> {
         <span onClick={this.toggleStatus}>
           {I18n.t(`components.syncStatus.${this.state.statusAssets.label}`)}
           &nbsp;
-          {this.state.status === "synced"
+          {this.state.status === 'synced'
             ? I18n.t(`components.syncStatus.${this.state.syncedAgo}`)
             : ``}
         </span>

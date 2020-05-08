@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -7,46 +7,41 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
-import { connect } from "react-redux";
-import { MdMoreHoriz, MdDelete, MdAccessTime } from "react-icons/md";
-import styles from "./PaymentRequests.module.scss";
-import { I18n } from "react-redux-i18n";
-import { fetchPaymentRequestsRequest } from "./reducer";
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import { MdMoreHoriz, MdDelete, MdAccessTime } from 'react-icons/md';
+import styles from './PaymentRequests.module.scss';
+import { I18n } from 'react-redux-i18n';
+import { fetchPaymentRequestsRequest } from '../../reducer';
 
 interface PaymentRequestsProps {
-  paymentRequests: Array<{
+  paymentRequests: {
     id: number;
     time: string;
     amount: number;
     message: string;
     unit: string;
-  }>;
-  fetchPaymentRequests: Function;
+  }[];
+  fetchPaymentRequests: () => void;
 }
 
-interface PaymentRequestsState {}
-
-class PaymentRequests extends Component<
-  PaymentRequestsProps,
-  PaymentRequestsState
-> {
+class PaymentRequests extends Component<PaymentRequestsProps,{}> {
   componentDidMount() {
     this.props.fetchPaymentRequests();
   }
 
   render() {
     return (
-      <Card className="table-responsive-md mb-5">
+      <Card className='table-responsive-md mb-5'>
         <Table className={styles.table}>
           <thead>
             <tr>
               <th></th>
-              <th>{I18n.t("containers.wallet.paymentRequests.time")}</th>
+              <th>{I18n.t('containers.wallet.paymentRequests.time')}</th>
               <th className={styles.amount}>
-                {I18n.t("containers.wallet.paymentRequests.amount")}
+                {I18n.t('containers.wallet.paymentRequests.amount')}
               </th>
-              <th>{I18n.t("containers.wallet.paymentRequests.message")}</th>
+              <th>{I18n.t('containers.wallet.paymentRequests.message')}</th>
               <th></th>
             </tr>
           </thead>
@@ -74,7 +69,7 @@ class PaymentRequests extends Component<
                 </td>
                 <td className={styles.actionCell}>
                   <UncontrolledDropdown>
-                    <DropdownToggle className="padless" color="link">
+                    <DropdownToggle className='padless' color='link'>
                       <MdMoreHoriz />
                     </DropdownToggle>
                     <DropdownMenu right>
@@ -82,7 +77,7 @@ class PaymentRequests extends Component<
                         <MdDelete />
                         <span>
                           {I18n.t(
-                            "containers.wallet.paymentRequests.cancelRequest"
+                            'containers.wallet.paymentRequests.cancelRequest'
                           )}
                         </span>
                       </DropdownItem>
