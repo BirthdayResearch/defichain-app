@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   NavLink as RRNavLink,
@@ -14,16 +14,26 @@ import {
 } from 'react-icons/md';
 import styles from './Sidebar.module.scss';
 import { connect } from 'react-redux';
+import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import {
+  BLOCKCHAIN_BASE_PATH,
+  WALLET_PAGE_PATH,
+  WALLET_BASE_PATH,
+  MASTER_NODES_PATH,
+  EXCHANGE_PATH,
+  HELP_PATH,
+  SETTING_PATH,
+} from '../../constants';
 
-export interface SidebarState {
-  balance: {
-    available: string;
-  };
+export interface SidebarProps extends RouteComponentProps {
+  fetchWalletBalance: () => void;
+  walletBalance: string;
 }
 
-const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
-
-  const [balance, updateBalance] = useState({ available: '1,000' })
+const Sidebar: React.FunctionComponent<SidebarProps> = props => {
+  useEffect(() => {
+    props.fetchWalletBalance();
+  }, []);
 
   return (
     <div className={styles.sidebar}>
@@ -32,22 +42,22 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
           {I18n.t('containers.sideBar.balance')}
         </div>
         <div className={styles.balanceValue}>
-          {balance.available} {I18n.t('containers.sideBar.dfi')}
+          {props.walletBalance} {I18n.t('containers.sideBar.dfi')}
         </div>
       </div>
       <div className={styles.navs}>
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/'
+              to={WALLET_PAGE_PATH}
               exact
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
               isActive={(match, location) => {
                 return (
-                  location.pathname.startsWith('/wallet') ||
-                  location.pathname === '/'
+                  location.pathname.startsWith(WALLET_BASE_PATH) ||
+                  location.pathname === WALLET_PAGE_PATH
                 );
               }}
             >
@@ -57,7 +67,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/masternodes'
+              to={MASTER_NODES_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
@@ -68,7 +78,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/blockchain'
+              to={BLOCKCHAIN_BASE_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
@@ -79,7 +89,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/exchange'
+              to={EXCHANGE_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
@@ -92,7 +102,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
         <Nav className={`${styles.navSub} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/help'
+              to={HELP_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
@@ -102,7 +112,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to='/settings'
+              to={SETTING_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
@@ -114,13 +124,22 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
-const mapStateToProps = (state) => {
-  const { locale } = state.i18n;
+const mapStateToProps = ({ i18n, wallet }) => {
+  const { locale } = i18n;
   return {
     locale,
+    walletBalance: wallet.walletBalance,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Sidebar));
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+);

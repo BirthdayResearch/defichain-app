@@ -9,36 +9,41 @@ import PaymentRequests from './components/PaymentRequests';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { fetchWalletBalanceRequest } from './reducer';
+import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 
 interface WalletPageProps {
   walletBalance: string;
   fetchWalletBalance: () => void;
 }
 
-const WalletPage: React.FunctionComponent<WalletPageProps> = (props: WalletPageProps) => {
-
+const WalletPage: React.FunctionComponent<WalletPageProps> = (
+  props: WalletPageProps
+) => {
   useEffect(() => {
-    props.fetchWalletBalance()
-  }, [])
+    props.fetchWalletBalance();
+  }, []);
 
   const { walletBalance } = props;
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>
-          {I18n.t('containers.wallet.walletPage.walletDefiClient')}
-        </title>
+        <title>{I18n.t('containers.wallet.walletPage.walletDefiClient')}</title>
       </Helmet>
       <header className='header-bar'>
         <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
         <ButtonGroup>
-          <Button to='/wallet/send' tag={RRNavLink} color='link' size='sm'>
+          <Button to={WALLET_SEND_PATH} tag={RRNavLink} color='link' size='sm'>
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.wallet.walletPage.send')}
             </span>
           </Button>
-          <Button to='/wallet/receive' tag={RRNavLink} color='link' size='sm'>
+          <Button
+            to={WALLET_RECEIVE_PATH}
+            tag={RRNavLink}
+            color='link'
+            size='sm'
+          >
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.wallet.walletPage.receive')}
@@ -51,9 +56,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (props: WalletPageP
           <Row>
             <Col>
               <StatCard
-                label={I18n.t(
-                  'containers.wallet.walletPage.availableBalance'
-                )}
+                label={I18n.t('containers.wallet.walletPage.availableBalance')}
                 value={walletBalance}
                 unit='DFI'
               />
@@ -78,13 +81,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (props: WalletPageP
       </div>
     </div>
   );
-}
+};
 
-const mapStateToProps = ({ wallet}) => ({
+const mapStateToProps = ({ wallet }) => ({
   walletBalance: wallet.walletBalance,
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
   };

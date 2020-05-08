@@ -46,7 +46,7 @@ function* fetchMasterNodes() {
     if (data && data.requests) {
       yield put(fetchPaymentRequestsSuccess({ ...data }));
     } else {
-      yield put(fetchPaymentRequestsFailure('No data found'))
+      yield put(fetchPaymentRequestsFailure('No data found'));
     }
   } catch (e) {
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -58,9 +58,9 @@ function* fetchWalletTxns() {
   try {
     const data = yield call(handelFetchWalletTxns);
     if (data && data.walletTxns) {
-      yield put(fetchWalletTxnsSuccess({ ...data }))
+      yield put(fetchWalletTxnsSuccess({ ...data }));
     } else {
-      yield put(fetchWalletTxnsFailure('No data found'))
+      yield put(fetchWalletTxnsFailure('No data found'));
     }
   } catch (e) {
     yield put({ type: fetchWalletTxnsFailure.type, payload: e.message });

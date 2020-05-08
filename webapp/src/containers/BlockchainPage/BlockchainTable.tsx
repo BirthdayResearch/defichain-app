@@ -1,44 +1,43 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   Card,
   Table,
   Pagination,
   PaginationItem,
   PaginationLink,
-} from "reactstrap";
+} from 'reactstrap';
 import {
   MdChevronLeft,
   MdChevronRight,
   MdFirstPage,
   MdLastPage,
-} from "react-icons/md";
-import styles from "./BlockchainTable.module.scss";
-import { I18n } from "react-redux-i18n";
-import { fetchBlocksRequest } from "./reducer";
+} from 'react-icons/md';
+import styles from './BlockchainTable.module.scss';
+import { I18n } from 'react-redux-i18n';
+import { fetchBlocksRequest } from './reducer';
+import {
+  BLOCKCHAIN_BLOCK_BASE_PATH,
+  BLOCKCHAIN_MINER_BASE_PATH,
+} from '../../constants';
 
 interface BlockchainTableProps {
-  blocks: Array<{
+  blocks: {
     height: number;
     age: string;
     txns: string;
     minerName: string;
     minerID: number;
     size: string;
-  }>;
+  }[];
   isLoadingBlocks: boolean;
-  isBlocksLoaded: Boolean;
+  isBlocksLoaded: boolean;
   blocksLoadError: string;
-  fetchBlocks: Function;
+  fetchBlocks: () => void;
 }
 
-interface BlockchainTableState {}
-
-class BlockchainTable extends Component<
-  BlockchainTableProps,
-  BlockchainTableState
-> {
+class BlockchainTable extends Component<BlockchainTableProps> {
   componentDidMount() {
     this.props.fetchBlocks();
   }
@@ -52,31 +51,33 @@ class BlockchainTable extends Component<
               <thead>
                 <tr>
                   <th>
-                    {I18n.t("containers.blockChainPage.blockChainTable.height")}
+                    {I18n.t('containers.blockChainPage.blockChainTable.height')}
                   </th>
                   <th>
-                    {I18n.t("containers.blockChainPage.blockChainTable.age")}
+                    {I18n.t('containers.blockChainPage.blockChainTable.age')}
                   </th>
                   <th>
                     {I18n.t(
-                      "containers.blockChainPage.blockChainTable.transactions"
+                      'containers.blockChainPage.blockChainTable.transactions'
                     )}
                   </th>
                   <th>
                     {I18n.t(
-                      "containers.blockChainPage.blockChainTable.minedBy"
+                      'containers.blockChainPage.blockChainTable.minedBy'
                     )}
                   </th>
                   <th>
-                    {I18n.t("containers.blockChainPage.blockChainTable.size")}
+                    {I18n.t('containers.blockChainPage.blockChainTable.size')}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {this.props.blocks.map((block) => (
+                {this.props.blocks.map(block => (
                   <tr key={block.height}>
                     <td>
-                      <Link to={`/blockchain/block/${block.height}`}>
+                      <Link
+                        to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${block.height}`}
+                      >
                         {block.height}
                       </Link>
                     </td>
@@ -88,7 +89,9 @@ class BlockchainTable extends Component<
                     </td>
                     <td>
                       <div>
-                        <Link to={`/blockchain/miner/${block.minerID}`}>
+                        <Link
+                          to={`${BLOCKCHAIN_MINER_BASE_PATH}/${block.minerID}`}
+                        >
                           {block.minerName}
                         </Link>
                       </div>
@@ -102,35 +105,35 @@ class BlockchainTable extends Component<
             </Table>
           </div>
         </Card>
-        <div className="d-flex justify-content-between align-items-center mt-3">
-          <div>{I18n.t("containers.blockChainPage.blockChainTable.count")}</div>
+        <div className='d-flex justify-content-between align-items-center mt-3'>
+          <div>{I18n.t('containers.blockChainPage.blockChainTable.count')}</div>
           <Pagination className={styles.pagination}>
             <PaginationItem>
-              <PaginationLink first href="#">
+              <PaginationLink first href='#'>
                 <MdFirstPage />
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink previous href="#">
+              <PaginationLink previous href='#'>
                 <MdChevronLeft />
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
+              <PaginationLink href='#'>1</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">2</PaginationLink>
+              <PaginationLink href='#'>2</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
+              <PaginationLink href='#'>3</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink next href="#">
+              <PaginationLink next href='#'>
                 <MdChevronRight />
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink last href="#">
+              <PaginationLink last href='#'>
                 <MdLastPage />
               </PaginationLink>
             </PaginationItem>
@@ -141,7 +144,7 @@ class BlockchainTable extends Component<
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     blocks,
     isBlocksLoaded,
@@ -156,7 +159,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchBlocks: () => dispatch(fetchBlocksRequest()),
   };

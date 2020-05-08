@@ -15,6 +15,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { fetchReceivedDataRequest } from '../../reducer';
+import { WALLET_BASE_PATH } from '../../../../constants';
 
 interface ReceivePageProps {
   receivedData: {
@@ -24,7 +25,7 @@ interface ReceivePageProps {
     showBackdrop: string;
     receiveStep: string;
   };
-  fetchReceivedData: Function;
+  fetchReceivedData: () => void;
 }
 
 interface ReceivePageState {
@@ -48,7 +49,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
     this.props.fetchReceivedData();
   }
 
-  updateAmountToReceive = (e) => {
+  updateAmountToReceive = e => {
     const amountToReceive =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
     const amountToReceiveDisplayed =
@@ -58,6 +59,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
       amountToReceiveDisplayed,
     });
   };
+  // tslint:disable-next-line:no-empty
   receiveStepConfirm = () => {};
   render() {
     return (
@@ -129,7 +131,12 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               </div>
             </div>
             <div>
-              <Button to='/wallet' tag={NavLink} color='link' className='mr-3'>
+              <Button
+                to={WALLET_BASE_PATH}
+                tag={NavLink}
+                color='link'
+                className='mr-3'
+              >
                 {I18n.t('containers.wallet.receivePage.cancel')}
               </Button>
               <Button
@@ -151,14 +158,14 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { receivedData } = state.wallet;
   return {
     receivedData,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchReceivedData: () => dispatch(fetchReceivedDataRequest()),
   };
