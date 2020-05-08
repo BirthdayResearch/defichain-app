@@ -8,7 +8,7 @@ import {
   fetchTxnsSuccess,
   fetchTxnsFailure,
 } from './reducer';
-import { handelFetchTxns, handelFetchBlocks } from './blockChainPage.service';
+import { handelFetchTxns, handelFetchBlocks } from './service';
 
 function* fetchBlocks() {
   try {

@@ -25,16 +25,16 @@ export const initialData = () => {
     settingsPruneBlockStorage:
       localStorage.getItem(PRUNE_BLOCK_STORAGE) === 'true',
     settingsScriptVerificationThreads:
-      parseInt(localStorage.getItem(SCRIPT_VERIFICATION) + '') || 0,
+      parseInt(`${localStorage.getItem(SCRIPT_VERIFICATION)}`, 10) || 0,
     settingBlockStorage:
-      parseInt(localStorage.getItem(BLOCK_STORAGE) + '') || '',
+      parseInt(`${localStorage.getItem(BLOCK_STORAGE)}`, 10) || '',
     settingsDatabaseCache:
-      parseInt(localStorage.getItem(DATABASE_CACHE) + '') || '',
+      parseInt(`${localStorage.getItem(DATABASE_CACHE)}`, 10) || '',
   };
   return { settings };
 };
 
-export const updateSettingsData = (settingsData) => {
+export const updateSettingsData = settingsData => {
   localStorage.setItem(LANG_VARIABLE, settingsData.settingsLanguage);
   localStorage.setItem(AMOUNTS_UNIT, settingsData.settingsAmountsUnit);
   localStorage.setItem(DISPLAY_MODE, settingsData.settingDisplayMode);

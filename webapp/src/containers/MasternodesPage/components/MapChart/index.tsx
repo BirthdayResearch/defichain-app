@@ -6,7 +6,7 @@ import {
   Geographies,
   Geography,
   Sphere,
-  Graticule
+  Graticule,
 } from 'react-simple-maps';
 
 const geoUrl =

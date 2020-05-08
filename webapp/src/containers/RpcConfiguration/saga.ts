@@ -6,7 +6,7 @@ import {
   getRpcConfigsFailure,
   startNodeRequest,
 } from './reducer';
-import { getRpcConfig, startBinary } from '../../app/app.service';
+import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 

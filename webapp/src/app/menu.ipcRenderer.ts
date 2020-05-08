@@ -1,4 +1,4 @@
-import { backupWallet, importWallet } from './app.service';
+import { backupWallet, importWallet } from './service';
 
 const initMenuIpcRenderers = () => {
   const { ipcRenderer } = window.require('electron');
