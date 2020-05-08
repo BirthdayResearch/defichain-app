@@ -13,6 +13,7 @@ import { MdMoreHoriz, MdDelete, MdAccessTime } from 'react-icons/md';
 import styles from './PaymentRequests.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchPaymentRequestsRequest } from '../../reducer';
+import { WALLET_PAYMENT_REQ_BASE_PATH } from '../../../../constants';
 
 interface PaymentRequestsProps {
   paymentRequests: {
@@ -25,7 +26,7 @@ interface PaymentRequestsProps {
   fetchPaymentRequests: () => void;
 }
 
-class PaymentRequests extends Component<PaymentRequestsProps,{}> {
+class PaymentRequests extends Component<PaymentRequestsProps, {}> {
   componentDidMount() {
     this.props.fetchPaymentRequests();
   }
@@ -46,14 +47,14 @@ class PaymentRequests extends Component<PaymentRequestsProps,{}> {
             </tr>
           </thead>
           <tbody>
-            {this.props.paymentRequests.map((request) => (
+            {this.props.paymentRequests.map(request => (
               <tr key={request.id}>
                 <td className={styles.icon}>
                   <MdAccessTime className={styles.icon} />
                 </td>
                 <td>
                   <div className={styles.time}>
-                    <Link to={`/wallet/paymentrequest/${request.id}`}>
+                    <Link to={`${WALLET_PAYMENT_REQ_BASE_PATH}/${request.id}`}>
                       {request.time}
                     </Link>
                   </div>
@@ -93,14 +94,14 @@ class PaymentRequests extends Component<PaymentRequestsProps,{}> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { paymentRequests } = state.wallet;
   return {
     paymentRequests,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchPaymentRequests: () => dispatch(fetchPaymentRequestsRequest()),
   };

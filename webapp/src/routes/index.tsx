@@ -12,33 +12,39 @@ import ExchangePage from '../containers/ExchangePage';
 import HelpPage from '../containers/HelpPage';
 import Error404Page from '../containers/Errors';
 import SettingsPage from '../containers/SettingsPage';
+import {
+  BLOCKCHAIN_BASE_PATH,
+  EXCHANGE_PATH,
+  HELP_PATH,
+  INDEX_PATH,
+  MASTER_NODES_PATH,
+  SETTING_PATH,
+  WALLET_PAGE_PATH,
+  WALLET_SEND_PATH,
+  WALLET_RECEIVE_PATH,
+  BLOCKCHAIN_BLOCK_PARAM_PATH,
+  BLOCKCHAIN_MINER_PARAM_PATH,
+  WALLET_PAYMENT_REQ_PARAMS_PATH,
+} from '../constants';
 
-const routes = (location) => (
+const routes = location => (
   <Switch location={location}>
-    <Redirect from='/index.html' to='/' />
-    <Route exact path='/' component={WalletPage} />
-    <Route exact path='/wallet/send' component={SendPage} />
-    <Route exact path='/wallet/receive' component={ReceivePage} />
+    <Redirect from={INDEX_PATH} to={WALLET_PAGE_PATH} />
+    <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
+    <Route exact path={WALLET_SEND_PATH} component={SendPage} />
+    <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
     <Route
       exact
-      path='/wallet/paymentrequest/:id'
+      path={WALLET_PAYMENT_REQ_PARAMS_PATH}
       component={PaymentRequestPage}
     />
-    <Route exact path='/masternodes' component={MasternodesPage} />
-    <Route exact path='/blockchain' component={BlockchainPage} />
-    <Route
-      exact
-      path='/blockchain/block/:height'
-      component={BlockPage}
-    />
-    <Route
-      exact
-      path='/blockchain/miner/:id'
-      component={MinerPage}
-    />
-    <Route exact path='/exchange' component={ExchangePage} />
-    <Route exact path='/help' component={HelpPage} />
-    <Route exact path='/settings' component={SettingsPage} />
+    <Route exact path={MASTER_NODES_PATH} component={MasternodesPage} />
+    <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
+    <Route exact path={BLOCKCHAIN_BLOCK_PARAM_PATH} component={BlockPage} />
+    <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
+    <Route exact path={EXCHANGE_PATH} component={ExchangePage} />
+    <Route exact path={HELP_PATH} component={HelpPage} />
+    <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact component={Error404Page} />
   </Switch>
 );
