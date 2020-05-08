@@ -16,7 +16,7 @@ interface MasternodesListProps {
     nextPayment: string;
     payee: string;
   }[];
-  fetchMasterNodes: Function;
+  fetchMasterNodes: () => void;
 }
 
 interface MasternodesListState {
@@ -69,7 +69,7 @@ class MasternodesList extends Component<
               </tr>
             </thead>
             <tbody>
-              {this.props.masternodes.map((masternode) => (
+              {this.props.masternodes.map(masternode => (
                 <tr key={masternode.id}>
                   <td className={styles.status}>
                     <span className={`txn-status-${masternode.status}`}>
@@ -108,7 +108,7 @@ class MasternodesList extends Component<
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     masternodes,
     isMasternodesLoaded,
@@ -123,7 +123,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchMasterNodes: () => dispatch(fetchMasternodesRequest()),
   };
