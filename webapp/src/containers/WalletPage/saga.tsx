@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as HttpStatus from 'http-status-codes';
+import log from 'loglevel';
 import {
   fetchPaymentRequestsRequest,
   fetchPaymentRequestsSuccess,
@@ -36,7 +37,7 @@ function* fetchWalletBalance() {
     }
   } catch (e) {
     yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -50,7 +51,7 @@ function* fetchMasterNodes() {
     }
   } catch (e) {
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -64,7 +65,7 @@ function* fetchWalletTxns() {
     }
   } catch (e) {
     yield put({ type: fetchWalletTxnsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -81,7 +82,7 @@ function* fetchReceivedData() {
     }
   } catch (e) {
     yield put({ type: fetchReceivedDataFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -95,7 +96,7 @@ function* fetchSendData() {
     }
   } catch (e) {
     yield put({ type: fetchSendDataFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 

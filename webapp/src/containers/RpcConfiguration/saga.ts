@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import log from 'loglevel';
 import {
   getRpcConfigsRequest,
   getRpcConfigsSuccess,
@@ -26,7 +27,7 @@ function* getConfig() {
   } catch (e) {
     showNotification(I18n.t('alerts.configurationFailure'), e.message);
     yield put({ type: getRpcConfigsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
