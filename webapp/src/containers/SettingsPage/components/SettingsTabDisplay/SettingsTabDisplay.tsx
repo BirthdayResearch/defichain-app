@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { TabPane, Form } from "reactstrap";
-import SettingsRowDropDown from "./SettingsRowDropDown";
+import React from 'react';
+import { connect } from 'react-redux';
+import { TabPane, Form } from 'reactstrap';
+import SettingsRowDropDown from '../SettingsRowDropDown/SettingsRowDropDown';
 
 interface SettingsTabDisplayProps {
-  languages: Array<{ label: string; value: string }>;
+  languages: { label: string; value: string }[];
   settingsLanguage: string;
   getLabel: Function;
-  amountUnits: Array<{ label: string; value: string }>;
+  amountUnits: { label: string; value: string }[];
   settingsAmountsUnit: string;
-  displayModes: Array<{ label: string; value: string }>;
+  displayModes: { label: string; value: string }[];
   settingDisplayMode: string;
   handleDropDowns: Function;
 }
@@ -27,32 +27,32 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   } = props;
 
   return (
-    <TabPane tabId="display">
+    <TabPane tabId='display'>
       <section>
         <Form>
           <SettingsRowDropDown
-            label={"appLanguage"}
+            label={'appLanguage'}
             data={languages}
             field={settingsLanguage}
             handleDropDowns={handleDropDowns}
             getLabel={getLabel}
-            fieldName={"settingsLanguage"}
+            fieldName={'settingsLanguage'}
           />
           <SettingsRowDropDown
-            label={"displayAmount"}
+            label={'displayAmount'}
             data={amountUnits}
             field={settingsAmountsUnit}
             handleDropDowns={handleDropDowns}
             getLabel={getLabel}
-            fieldName={"settingsAmountsUnit"}
+            fieldName={'settingsAmountsUnit'}
           />
           <SettingsRowDropDown
-            label={"displayMode"}
+            label={'displayMode'}
             data={displayModes}
             field={settingDisplayMode}
             handleDropDowns={handleDropDowns}
             getLabel={getLabel}
-            fieldName={"settingDisplayMode"}
+            fieldName={'settingDisplayMode'}
           />
         </Form>
       </section>

@@ -1,38 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: "settings",
+  name: 'settings',
   initialState: {
     isFetching: false,
-    settingsError: "Unsupported language.",
+    settingsError: 'Unsupported language.',
     settings: {
-      settingsLanguage: "",
-      settingsAmountsUnit: "",
-      settingDisplayMode: "",
+      settingsLanguage: '',
+      settingsAmountsUnit: '',
+      settingDisplayMode: '',
       settingsLaunchAtLogin: false,
       settingsMinimizedAtLaunch: false,
       settingsPruneBlockStorage: false,
       settingsScriptVerificationThreads: 0,
-      settingBlockStorage: "",
-      settingsDatabaseCache: "",
+      settingBlockStorage: '',
+      settingsDatabaseCache: '',
     },
     isUpdating: false,
     isUpdated: false,
     languages: [
-      { label: "english", value: "en" },
-      { label: "german", value: "de" },
+      { label: 'english', value: 'en' },
+      { label: 'german', value: 'de' },
     ],
     amountUnits: [
-      { label: "dFI", value: "DFI" },
-      { label: "µDFI", value: "µDFI" },
+      { label: 'dFI', value: 'DFI' },
+      { label: 'µDFI', value: 'µDFI' },
     ],
     displayModes: [
       {
-        label: "sameAsSystem",
-        value: "same_as_system",
+        label: 'sameAsSystem',
+        value: 'same_as_system',
       },
-      { label: "light", value: "light" },
-      { label: "dark", value: "dark" },
+      { label: 'light', value: 'light' },
+      { label: 'dark', value: 'dark' },
     ],
   },
   reducers: {
@@ -42,7 +42,7 @@ const configSlice = createSlice({
     getInitialSettingsSuccess(state, action) {
       state.settings = action.payload.settings;
       state.isFetching = false;
-      state.settingsError = "";
+      state.settingsError = '';
     },
     getInitialSettingsFailure(state, action) {
       state.isFetching = false;
@@ -54,7 +54,7 @@ const configSlice = createSlice({
     updateSettingsSuccess(state, action) {
       state.settings = action.payload.settings;
       state.isUpdating = false;
-      state.settingsError = "";
+      state.settingsError = '';
     },
     updateSettingsFailure(state, action) {
       state.isUpdating = false;

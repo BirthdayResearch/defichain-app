@@ -1,4 +1,4 @@
-import isElectron from "is-electron";
+import isElectron from 'is-electron';
 import {
   LANG_VARIABLE,
   AMOUNTS_UNIT,
@@ -9,27 +9,27 @@ import {
   SCRIPT_VERIFICATION,
   BLOCK_STORAGE,
   DATABASE_CACHE,
-} from "../../constants";
-import showNotification from "../../utils/notifications";
-import { I18n } from "react-redux-i18n";
+} from '../../constants';
+import showNotification from '../../utils/notifications';
+import { I18n } from 'react-redux-i18n';
 
 export const initialData = () => {
   const launchStat = getPreLaunchStatus();
-  let settings = {
-    settingsLanguage: localStorage.getItem(LANG_VARIABLE) || "en",
-    settingsAmountsUnit: localStorage.getItem(AMOUNTS_UNIT) || "DFI",
-    settingDisplayMode: localStorage.getItem(DISPLAY_MODE) || "same_as_system",
+  const settings = {
+    settingsLanguage: localStorage.getItem(LANG_VARIABLE) || 'en',
+    settingsAmountsUnit: localStorage.getItem(AMOUNTS_UNIT) || 'DFI',
+    settingDisplayMode: localStorage.getItem(DISPLAY_MODE) || 'same_as_system',
     settingsLaunchAtLogin: launchStat,
     settingsMinimizedAtLaunch:
-      launchStat && localStorage.getItem(LAUNCH_MINIMIZED) === "true",
+      launchStat && localStorage.getItem(LAUNCH_MINIMIZED) === 'true',
     settingsPruneBlockStorage:
-      localStorage.getItem(PRUNE_BLOCK_STORAGE) === "true",
+      localStorage.getItem(PRUNE_BLOCK_STORAGE) === 'true',
     settingsScriptVerificationThreads:
-      parseInt(localStorage.getItem(SCRIPT_VERIFICATION) + "") || 0,
+      parseInt(localStorage.getItem(SCRIPT_VERIFICATION) + '') || 0,
     settingBlockStorage:
-      parseInt(localStorage.getItem(BLOCK_STORAGE) + "") || "",
+      parseInt(localStorage.getItem(BLOCK_STORAGE) + '') || '',
     settingsDatabaseCache:
-      parseInt(localStorage.getItem(DATABASE_CACHE) + "") || "",
+      parseInt(localStorage.getItem(DATABASE_CACHE) + '') || '',
   };
   return { settings };
 };
@@ -58,12 +58,12 @@ export const updateSettingsData = (settingsData) => {
 
 const getPreLaunchStatus = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("prelaunch-preference-status", {});
+    const { ipcRenderer } = window.require('electron');
+    const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    showNotification(I18n.t("alerts.errorOccurred"), res.message);
+    showNotification(I18n.t('alerts.errorOccurred'), res.message);
     return false;
   }
   return false;
@@ -71,14 +71,14 @@ const getPreLaunchStatus = () => {
 
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("prelaunch-preference-enable", {
+    const { ipcRenderer } = window.require('electron');
+    const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
       minimize,
     });
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    showNotification(I18n.t("alerts.errorOccurred"), res.message);
+    showNotification(I18n.t('alerts.errorOccurred'), res.message);
     return false;
   }
   return false;
@@ -86,12 +86,12 @@ export const enablePreLaunchStatus = (minimize = false) => {
 
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require("electron");
-    const res = ipcRenderer.sendSync("prelaunch-preference-disable", {});
+    const { ipcRenderer } = window.require('electron');
+    const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
-    showNotification(I18n.t("alerts.errorOccurred"), res.message);
+    showNotification(I18n.t('alerts.errorOccurred'), res.message);
     return false;
   }
   return false;
