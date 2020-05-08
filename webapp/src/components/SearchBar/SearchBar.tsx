@@ -1,5 +1,5 @@
-import React from "react";
-import { MdClose, MdSearch } from "react-icons/md";
+import React from 'react';
+import { MdClose, MdSearch } from 'react-icons/md';
 import {
   Col,
   FormGroup,
@@ -7,9 +7,9 @@ import {
   InputGroup,
   InputGroupAddon,
   Button
-} from "reactstrap";
-import classnames from "classnames";
-import styles from "./SearchBar.module.scss";
+} from 'reactstrap';
+import classnames from 'classnames';
+import styles from './SearchBar.module.scss';
 
 interface SearchBarProps {
   searching: any;
@@ -19,20 +19,20 @@ interface SearchBarProps {
 const SearchBar = (props: SearchBarProps) => {
   return (
     <div
-      className={classnames({ "d-block": props.searching }, styles.searchBar)}
+      className={classnames({ 'd-block': props.searching }, styles.searchBar)}
     >
       <FormGroup className={`row ${styles.formGroup}`}>
         <Col>
           <InputGroup>
             <Input
-              type="text"
-              placeholder="Search masternodes"
-              name="searchInput"
-              id="searchInput"
+              type='text'
+              placeholder='Search masternodes'
+              name='searchInput'
+              id='searchInput'
             />
             <MdSearch className={styles.searchIndicator} />
-            <InputGroupAddon addonType="append">
-              <Button color="outline-primary" onClick={props.toggleSearch}>
+            <InputGroupAddon addonType='append'>
+              <Button color='outline-primary' onClick={props.toggleSearch}>
                 <MdClose />
               </Button>
             </InputGroupAddon>

@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { Card, Table } from "reactstrap";
-import { connect } from "react-redux";
-import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
-import styles from "./WalletTxns.module.scss";
-import { I18n } from "react-redux-i18n";
-import { fetchWalletTxnsRequest } from "./reducer";
+import React, { Component } from 'react';
+import { Card, Table } from 'reactstrap';
+import { connect } from 'react-redux';
+import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import styles from './WalletTxns.module.scss';
+import { I18n } from 'react-redux-i18n';
+import { fetchWalletTxnsRequest } from '../../reducer';
 
 interface WalletTxnsProps {
-  walletTxns: Array<{
+  walletTxns: {
     id: number;
     type: string;
     time: string;
     hash: string;
     amount: number;
     unit: string;
-  }>;
+  }[];
   fetchWalletTxns: Function;
 }
 
@@ -27,7 +27,7 @@ class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
 
   TxnTypeIcon = (type) => {
     let Icon;
-    if (type === "Received") {
+    if (type === 'Received') {
       Icon = MdArrowDownward;
     } else {
       Icon = MdArrowUpward;
@@ -38,16 +38,16 @@ class WalletTxns extends Component<WalletTxnsProps, WalletTxnsState> {
 
   render() {
     return (
-      <Card className="table-responsive-md">
+      <Card className='table-responsive-md'>
         <Table className={styles.table}>
           <thead>
             <tr>
               <th></th>
-              <th>{I18n.t("containers.wallet.walletTxns.time")}</th>
+              <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
               <th className={styles.amount}>
-                {I18n.t("containers.wallet.walletTxns.amount")}
+                {I18n.t('containers.wallet.walletTxns.amount')}
               </th>
-              <th>{I18n.t("containers.wallet.walletTxns.hash")}</th>
+              <th>{I18n.t('containers.wallet.walletTxns.hash')}</th>
             </tr>
           </thead>
           <tbody>

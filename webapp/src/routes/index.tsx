@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import WalletPage from '../containers/WalletPage/WalletPage';
-import SendPage from '../containers/WalletPage/SendPage';
-import ReceivePage from '../containers/WalletPage/ReceivePage';
-import PaymentRequestPage from '../containers/WalletPage/PaymentRequestPage';
+import WalletPage from '../containers/WalletPage';
+import SendPage from '../containers/WalletPage/components/SendPage';
+import ReceivePage from '../containers/WalletPage/components/ReceivePage';
+import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
 import MasternodesPage from '../containers/MasternodesPage/MasternodesPage';
 import BlockchainPage from '../containers/BlockchainPage/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/BlockPage';

@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import * as HttpStatus from "http-status-codes";
+import { call, put, takeLatest } from 'redux-saga/effects';
+import * as HttpStatus from 'http-status-codes';
 import {
   fetchPaymentRequestsRequest,
   fetchPaymentRequestsSuccess,
@@ -16,29 +16,23 @@ import {
   fetchWalletBalanceRequest,
   fetchWalletBalanceSuccess,
   fetchWalletBalanceFailure,
-} from "./reducer";
+} from './reducer';
 import {
   handelFetchMasterNodes,
   handelFetchWalletTxns,
   handelReceivedData,
   handelSendData,
   handleFetchWalletBalance,
-} from "./Wallet.service";
+} from './Wallet.service';
 
 function* fetchWalletBalance() {
   try {
     const res = yield call(handleFetchWalletBalance);
     const { status, data } = res;
     if (status === HttpStatus.OK) {
-      yield put({
-        type: fetchWalletBalanceSuccess.type,
-        payload: { ...data },
-      });
+      yield put(fetchWalletBalanceSuccess({ ...data }));
     } else {
-      yield put({
-        type: fetchWalletBalanceFailure.type,
-        payload: data.error || "No data found",
-      });
+      yield put(fetchWalletBalanceFailure(data.error || 'No data found'));
     }
   } catch (e) {
     yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
@@ -50,15 +44,9 @@ function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
     if (data && data.requests) {
-      yield put({
-        type: fetchPaymentRequestsSuccess.type,
-        payload: { ...data },
-      });
+      yield put(fetchPaymentRequestsSuccess({ ...data }));
     } else {
-      yield put({
-        type: fetchPaymentRequestsFailure.type,
-        payload: "No data found",
-      });
+      yield put(fetchPaymentRequestsFailure('No data found'))
     }
   } catch (e) {
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -70,15 +58,9 @@ function* fetchWalletTxns() {
   try {
     const data = yield call(handelFetchWalletTxns);
     if (data && data.walletTxns) {
-      yield put({
-        type: fetchWalletTxnsSuccess.type,
-        payload: { ...data },
-      });
+      yield put(fetchWalletTxnsSuccess({ ...data }))
     } else {
-      yield put({
-        type: fetchWalletTxnsFailure.type,
-        payload: "No data found",
-      });
+      yield put(fetchWalletTxnsFailure('No data found'))
     }
   } catch (e) {
     yield put({ type: fetchWalletTxnsFailure.type, payload: e.message });
@@ -90,14 +72,11 @@ function* fetchReceivedData() {
   try {
     const data = yield call(handelReceivedData);
     if (data) {
-      yield put({
-        type: fetchReceivedDataSuccess.type,
-        payload: { ...data },
-      });
+      yield put(fetchReceivedDataSuccess({ ...data }));
     } else {
       yield put({
         type: fetchReceivedDataFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
@@ -110,15 +89,9 @@ function* fetchSendData() {
   try {
     const data = yield call(handelSendData);
     if (data) {
-      yield put({
-        type: fetchSendDataSuccess.type,
-        payload: { ...data },
-      });
+      yield put(fetchSendDataSuccess({ ...data }));
     } else {
-      yield put({
-        type: fetchSendDataFailure.type,
-        payload: "No data found",
-      });
+      yield put(fetchSendDataFailure('No data found'));
     }
   } catch (e) {
     yield put({ type: fetchSendDataFailure.type, payload: e.message });

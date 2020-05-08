@@ -2,8 +2,8 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import "../../../../scss/variables";
+@import "../../../../scss/bootstrap/variables";
 
 .table {
   margin-bottom: 0;
@@ -18,14 +18,20 @@
   }
 }
 
-.icon {
+.typeIcon {
   width: 24px;
   height: 24px;
   color: $secondary;
 }
 
+.type,
 .time {
   white-space: nowrap;
+}
+
+.hash {
+  font-size: 0.875rem;
+  letter-spacing: 0.25px;
 }
 
 .amount {
@@ -34,11 +40,5 @@
 }
 
 .unit {
-  color: $secondary;
-}
-
-.actionCell {
-  width: 24px;
-  height: 24px;
   color: $secondary;
 }

@@ -1,29 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: "wallet",
+  name: 'wallet',
   initialState: {
     walletBalance: 0,
     isBalanceFetching: false,
-    isBalanceError: "",
+    isBalanceError: '',
     paymentRequests: [],
     walletTxns: [],
     receivedData: {
-      amountToReceive: "",
+      amountToReceive: '',
       amountToReceiveDisplayed: 0,
-      receiveMessage: "",
-      showBackdrop: "",
-      receiveStep: "default",
+      receiveMessage: '',
+      showBackdrop: '',
+      receiveStep: 'default',
     },
     sendData: {
       walletBalance: 100,
-      amountToSend: "",
+      amountToSend: '',
       amountToSendDisplayed: 0,
-      toAddress: "",
+      toAddress: '',
       scannerOpen: false,
-      flashed: "",
-      showBackdrop: "",
-      sendStep: "default",
+      flashed: '',
+      showBackdrop: '',
+      sendStep: 'default',
       waitToSend: 5,
     },
   },
@@ -58,7 +58,7 @@ const configSlice = createSlice({
     fetchSendDataFailure(state, action) {},
     fetchWalletBalanceRequest(state) {
       state.isBalanceFetching = true;
-      state.isBalanceError = "";
+      state.isBalanceError = '';
     },
     fetchWalletBalanceSuccess(state, action) {
       state.walletBalance = action.payload.result;

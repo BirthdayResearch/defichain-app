@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Helmet } from "react-helmet";
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import {
   Nav,
   NavItem,
@@ -10,14 +10,14 @@ import {
   Col,
   Button,
   ButtonGroup,
-} from "reactstrap";
-import { MdSearch } from "react-icons/md";
-import KeyValueLi from "../../components/KeyValueLi/KeyValueLi";
-import classnames from "classnames";
-import StatCard from "../../components/StatCard/StatCard";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import MasternodesList from "./MasternodesList";
-import { I18n } from "react-redux-i18n";
+} from 'reactstrap';
+import { MdSearch } from 'react-icons/md';
+import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
+import classnames from 'classnames';
+import StatCard from '../../components/StatCard/StatCard';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import MasternodesList from './MasternodesList';
+import { I18n } from 'react-redux-i18n';
 
 interface MasternodesPageProps {}
 
@@ -31,7 +31,7 @@ class MasternodesPage extends Component<
   MasternodesPageState
 > {
   state = {
-    activeTab: "statistics",
+    activeTab: 'statistics',
     searching: false,
   };
 
@@ -51,50 +51,50 @@ class MasternodesPage extends Component<
 
   render() {
     return (
-      <div className="main-wrapper">
+      <div className='main-wrapper'>
         <Helmet>
           <title>
-            {I18n.t("containers.masterNodes.masterNodesPage.title")}
+            {I18n.t('containers.masterNodes.masterNodesPage.title')}
           </title>
         </Helmet>
-        <header className="header-bar">
-          <h1 className={classnames({ "d-none": this.state.searching })}>
-            {I18n.t("containers.masterNodes.masterNodesPage.masterNodes")}
+        <header className='header-bar'>
+          <h1 className={classnames({ 'd-none': this.state.searching })}>
+            {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
           </h1>
-          <Nav pills className={classnames({ "d-none": this.state.searching })}>
+          <Nav pills className={classnames({ 'd-none': this.state.searching })}>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "statistics",
+                  active: this.state.activeTab === 'statistics',
                 })}
                 onClick={() => {
-                  this.setActiveTab("statistics");
+                  this.setActiveTab('statistics');
                 }}
               >
-                {I18n.t("containers.masterNodes.masterNodesPage.statistics")}
+                {I18n.t('containers.masterNodes.masterNodesPage.statistics')}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: this.state.activeTab === "list",
+                  active: this.state.activeTab === 'list',
                 })}
                 onClick={() => {
-                  this.setActiveTab("list");
+                  this.setActiveTab('list');
                 }}
               >
-                {I18n.t("containers.masterNodes.masterNodesPage.list")}
+                {I18n.t('containers.masterNodes.masterNodesPage.list')}
               </NavLink>
             </NavItem>
           </Nav>
           <ButtonGroup
-            className={classnames({ "d-none": this.state.searching })}
+            className={classnames({ 'd-none': this.state.searching })}
           >
             <Button
-              color="link"
-              size="sm"
+              color='link'
+              size='sm'
               className={classnames({
-                invisible: this.state.activeTab === "statistics",
+                invisible: this.state.activeTab === 'statistics',
               })}
               onClick={this.toggleSearch}
             >
@@ -106,102 +106,102 @@ class MasternodesPage extends Component<
             toggleSearch={this.toggleSearch}
           />
         </header>
-        <div className="content">
+        <div className='content'>
           <TabContent activeTab={this.state.activeTab}>
-            <TabPane tabId="statistics">
+            <TabPane tabId='statistics'>
               <section>
                 <Row>
                   <Col>
                     <StatCard
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.weeklyIncome"
+                        'containers.masterNodes.masterNodesPage.weeklyIncome'
                       )}
-                      value="100"
-                      unit="DFI"
+                      value='100'
+                      unit='DFI'
                     />
                   </Col>
                   <Col>
                     <StatCard
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.volume"
+                        'containers.masterNodes.masterNodesPage.volume'
                       )}
-                      value="10m"
-                      unit="DFI"
+                      value='10m'
+                      unit='DFI'
                     />
                   </Col>
                   <Col>
                     <StatCard
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.marketCap"
+                        'containers.masterNodes.masterNodesPage.marketCap'
                       )}
-                      value="100m"
-                      unit="DFI"
+                      value='100m'
+                      unit='DFI'
                     />
                   </Col>
                 </Row>
-                <Row className="mb-5">
-                  <Col md="6">
+                <Row className='mb-5'>
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.returnPerAnnum"
+                        'containers.masterNodes.masterNodesPage.returnPerAnnum'
                       )}
-                      value="6.69%"
+                      value='6.69%'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.paidRewards"
+                        'containers.masterNodes.masterNodesPage.paidRewards'
                       )}
-                      value="8651.0125 DFI"
+                      value='8651.0125 DFI'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.rewardFrequency"
+                        'containers.masterNodes.masterNodesPage.rewardFrequency'
                       )}
-                      value="8d 11h 27m 20s"
+                      value='8d 11h 27m 20s'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.activeMasterNodes"
+                        'containers.masterNodes.masterNodesPage.activeMasterNodes'
                       )}
-                      value="4,671"
+                      value='4,671'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.supply"
+                        'containers.masterNodes.masterNodesPage.supply'
                       )}
-                      value="9,281,315 DFI"
+                      value='9,281,315 DFI'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.lockedInCollateral"
+                        'containers.masterNodes.masterNodesPage.lockedInCollateral'
                       )}
-                      value="4,671,000 DFI"
+                      value='4,671,000 DFI'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.costPerMasterNode"
+                        'containers.masterNodes.masterNodesPage.costPerMasterNode'
                       )}
-                      value="1,000 DFI"
+                      value='1,000 DFI'
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md='6'>
                     <KeyValueLi
                       label={I18n.t(
-                        "containers.masterNodes.masterNodesPage.masternodeWorth"
+                        'containers.masterNodes.masterNodesPage.masternodeWorth'
                       )}
-                      value="65,733.63 USD"
+                      value='65,733.63 USD'
                     />
                   </Col>
                 </Row>
@@ -213,7 +213,7 @@ class MasternodesPage extends Component<
                 </Card>
               </section> */}
             </TabPane>
-            <TabPane tabId="list">
+            <TabPane tabId='list'>
               <section>
                 <MasternodesList />
               </section>

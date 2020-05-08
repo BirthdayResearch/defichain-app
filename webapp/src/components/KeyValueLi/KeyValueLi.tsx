@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Button, Popover, PopoverBody } from "reactstrap";
-import { MdContentCopy } from "react-icons/md";
-import { AiOutlineQrcode } from "react-icons/ai";
-import styles from "./KeyValueLi.module.scss";
-import CopyToClipboard from "react-copy-to-clipboard";
-import classnames from "classnames";
-import { I18n } from "react-redux-i18n";
+import React, { Component } from 'react';
+import { Button, Popover, PopoverBody } from 'reactstrap';
+import { MdContentCopy } from 'react-icons/md';
+import { AiOutlineQrcode } from 'react-icons/ai';
+import styles from './KeyValueLi.module.scss';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import classnames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 
-const QRCode = require("qrcode.react");
+const QRCode = require('qrcode.react');
 
 interface KeyValueLiState {
   copied: Boolean;
@@ -51,9 +51,9 @@ class KeyValueLi extends Component<KeyValueLiProps, KeyValueLiState> {
       copyButton = (
         <CopyToClipboard text={this.props.value!}>
           <Button
-            color="link"
-            size="sm"
-            className="padless ml-2"
+            color='link'
+            size='sm'
+            className='padless ml-2'
             onClick={this.handleCopy}
           >
             <MdContentCopy />
@@ -66,20 +66,20 @@ class KeyValueLi extends Component<KeyValueLiProps, KeyValueLiState> {
       qrButton = (
         <>
           <Button
-            color="link"
-            size="sm"
-            className="padless ml-2"
+            color='link'
+            size='sm'
+            className='padless ml-2'
             id={this.props.uid}
             onClick={(e) => e.currentTarget.focus()} // Need for Popover trigger="focus" to work
           >
             <AiOutlineQrcode />
           </Button>
           <Popover
-            placement="auto"
+            placement='auto'
             isOpen={this.state.qrOpen}
             target={this.props.uid}
             toggle={this.toggleQR}
-            trigger="focus"
+            trigger='focus'
           >
             <PopoverBody>
               <QRCode
@@ -99,11 +99,11 @@ class KeyValueLi extends Component<KeyValueLiProps, KeyValueLiState> {
         <div className={styles.value}>
           <div
             className={classnames(
-              { "d-flex": this.state.copied },
+              { 'd-flex': this.state.copied },
               styles.copiedIndicator
             )}
           >
-            {I18n.t("components.keyValueLi.copied")}
+            {I18n.t('components.keyValueLi.copied')}
           </div>
           <div>{this.props.value}</div>
           {qrButton}
