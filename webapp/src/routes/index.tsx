@@ -8,8 +8,8 @@ import MasternodesPage from '../containers/MasternodesPage';
 import BlockchainPage from '../containers/BlockchainPage/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/BlockPage';
 import MinerPage from '../containers/BlockchainPage/MinerPage';
-import ExchangePage from '../containers/ExchangePage/ExchangePage';
-import HelpPage from '../containers/HelpPage/HelpPage';
+import ExchangePage from '../containers/ExchangePage';
+import HelpPage from '../containers/HelpPage';
 import Error404Page from '../containers/Errors/Error404Page';
 import SettingsPage from '../containers/SettingsPage';
 
