@@ -73,7 +73,7 @@ class App extends Component<AppProps, AppState> {
           <SyncStatus />
           <TransitionGroup
             className='transition-group'
-            childFactory={(child) =>
+            childFactory={child =>
               React.cloneElement(child, {
                 classNames: this.determineTransition()[0],
                 timeout: this.determineTransition()[1],

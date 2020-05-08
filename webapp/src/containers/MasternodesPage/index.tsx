@@ -12,7 +12,7 @@ import {
   ButtonGroup,
 } from 'reactstrap';
 import { MdSearch } from 'react-icons/md';
-import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
+import KeyValueLi from '../../components/KeyValueLi';
 import classnames from 'classnames';
 import StatCard from '../../components/StatCard/StatCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -24,13 +24,13 @@ interface MasternodesPageState {
   searching: boolean;
 }
 
-class MasternodesPage extends Component<{},MasternodesPageState> {
+class MasternodesPage extends Component<{}, MasternodesPageState> {
   state = {
     activeTab: 'statistics',
     searching: false,
   };
 
-  setActiveTab = (tab) => {
+  setActiveTab = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab,

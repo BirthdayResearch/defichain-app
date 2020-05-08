@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdArrowBack, MdDelete } from 'react-icons/md';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
-import KeyValueLi from '../../../../components/KeyValueLi/KeyValueLi';
+import KeyValueLi from '../../../../components/KeyValueLi';
 import { I18n } from 'react-redux-i18n';
 
 interface PaymentRequestPageState {

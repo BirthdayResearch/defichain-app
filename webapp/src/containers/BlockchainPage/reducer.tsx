@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: "blockchain",
+  name: 'blockchain',
   initialState: {
     blocks: [],
     txns: [],
     isBlocksLoaded: false,
     isLoadingBlocks: false,
-    blocksLoadError: "",
+    blocksLoadError: '',
     isTxnsLoaded: false,
     isLoadingTxns: false,
-    TxnsLoadError: "",
+    TxnsLoadError: '',
   },
   reducers: {
     fetchBlocksRequest(state) {
