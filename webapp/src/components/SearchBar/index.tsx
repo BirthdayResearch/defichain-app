@@ -6,7 +6,7 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  Button
+  Button,
 } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './SearchBar.module.scss';
@@ -16,7 +16,9 @@ interface SearchBarProps {
   toggleSearch: any;
 }
 
-const SearchBar = (props: SearchBarProps) => {
+const SearchBar: React.FunctionComponent<SearchBarProps> = (
+  props: SearchBarProps
+) => {
   return (
     <div
       className={classnames({ 'd-block': props.searching }, styles.searchBar)}

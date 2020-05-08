@@ -13,7 +13,7 @@ import {
   initialData,
   enablePreLaunchStatus,
   disablePreLaunchStatus,
-} from './settings.service';
+} from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
 import { LANG_VARIABLE } from '../../constants';

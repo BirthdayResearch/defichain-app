@@ -14,8 +14,8 @@ import {
 import { MdSearch } from 'react-icons/md';
 import KeyValueLi from '../../components/KeyValueLi';
 import classnames from 'classnames';
-import StatCard from '../../components/StatCard/StatCard';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import StatCard from '../../components/StatCard';
+import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
 

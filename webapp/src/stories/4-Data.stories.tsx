@@ -1,7 +1,7 @@
 import React from 'react';
 import '../app/App.scss';
 import { Row, Col, Card, Table } from 'reactstrap';
-import StatCard from '../components/StatCard/StatCard';
+import StatCard from '../components/StatCard';
 import KeyValueLi from '../components/KeyValueLi';
 
 export default {
