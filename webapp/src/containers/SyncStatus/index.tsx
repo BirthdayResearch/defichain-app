@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MdDone } from 'react-icons/md';
 import styles from './SyncStatus.module.scss';
-import Spinner from '../../components/Spinner/Spinner';
+import Spinner from '../../components/Spinner';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 
@@ -59,7 +59,7 @@ class SyncStatus extends Component<{}, SyncStatusState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { locale } = state.i18n;
   return {
     locale,

@@ -2,10 +2,10 @@ import {
   loadTranslations,
   setLocale,
   syncTranslationWithStore,
-} from "react-redux-i18n";
-import enTranslationMessages from "./languages/en.json";
-import deTranslationMessages from "./languages/de.json";
-import { LANG_VARIABLE } from "../constants";
+} from 'react-redux-i18n';
+import enTranslationMessages from './languages/en.json';
+import deTranslationMessages from './languages/de.json';
+import { LANG_VARIABLE } from '../constants';
 
 const formatTranslationMessages = (locale, messages) => {
   const flattenFormattedMessages = (formattedMessages, key) => {
@@ -16,15 +16,15 @@ const formatTranslationMessages = (locale, messages) => {
 };
 
 const translationsObject = {
-  en: formatTranslationMessages("en", enTranslationMessages),
-  de: formatTranslationMessages("de", deTranslationMessages),
+  en: formatTranslationMessages('en', enTranslationMessages),
+  de: formatTranslationMessages('de', deTranslationMessages),
 };
 
-export const setupI18n = (store) => {
+export const setupI18n = store => {
   syncTranslationWithStore(store);
   store.dispatch(loadTranslations(translationsObject));
   const storage_lang = localStorage.getItem(LANG_VARIABLE);
-  let locale = "";
+  let locale = '';
   if (storage_lang) {
     locale = storage_lang;
   } else if (navigator.language) {
@@ -40,12 +40,12 @@ export const setupI18n = (store) => {
 
 export const getLocales = (lang: string) => {
   switch (lang) {
-    case "en":
-    case "en-GB":
-      return "en";
-    case "de":
-      return "de";
+    case 'en':
+    case 'en-GB':
+      return 'en';
+    case 'de':
+      return 'de';
     default:
-      return "en";
+      return 'en';
   }
 };

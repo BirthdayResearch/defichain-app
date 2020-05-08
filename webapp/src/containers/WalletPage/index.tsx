@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
 import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import StatCard from '../../components/StatCard/StatCard';
+import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
 import PaymentRequests from './components/PaymentRequests';
 import { I18n } from 'react-redux-i18n';

@@ -5,7 +5,7 @@ import {
   fetchMasternodesSuccess,
   fetchMasternodesFailure,
 } from './reducer';
-import { handelFetchMasterNodes } from './MasterNodesPage.service';
+import { handelFetchMasterNodes } from './service';
 
 function* fetchMasterNodes() {
   try {

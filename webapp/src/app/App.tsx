@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
-import SyncStatus from '../components/SyncStatus/SyncStatus';
+import SyncStatus from '../containers/SyncStatus';
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import initMenuIpcRenderers from './menu.ipcRenderer';

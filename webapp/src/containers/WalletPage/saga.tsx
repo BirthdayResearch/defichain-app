@@ -24,7 +24,7 @@ import {
   handelReceivedData,
   handelSendData,
   handleFetchWalletBalance,
-} from './Wallet.service';
+} from './service';
 
 function* fetchWalletBalance() {
   try {
