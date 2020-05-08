@@ -10,7 +10,7 @@ import BlockPage from '../containers/BlockchainPage/BlockPage';
 import MinerPage from '../containers/BlockchainPage/MinerPage';
 import ExchangePage from '../containers/ExchangePage';
 import HelpPage from '../containers/HelpPage';
-import Error404Page from '../containers/Errors/Error404Page';
+import Error404Page from '../containers/Errors';
 import SettingsPage from '../containers/SettingsPage';
 
 const routes = (location) => (
