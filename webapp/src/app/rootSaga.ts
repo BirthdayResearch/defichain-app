@@ -1,10 +1,10 @@
-import createSagaMiddleware from "redux-saga";
-import { all, fork } from "redux-saga/effects";
-import appSaga from "./saga";
-import blockchainSaga from "../containers/BlockchainPage/saga";
-import masterNodesSaga from "../containers/MasternodesPage/saga";
-import walletSaga from "../containers/WalletPage/saga";
-import settingsSaga from "../containers/SettingsPage/saga";
+import createSagaMiddleware from 'redux-saga';
+import { all, fork } from 'redux-saga/effects';
+import appSaga from '../containers/RpcConfiguration/saga';
+import blockchainSaga from '../containers/BlockchainPage/saga';
+import masterNodesSaga from '../containers/MasternodesPage/saga';
+import walletSaga from '../containers/WalletPage/saga';
+import settingsSaga from '../containers/SettingsPage/saga';
 
 function* rootSaga() {
   yield all([

@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: "app",
+  name: 'app',
   initialState: {
     isFetching: false,
     rpcRemotes: [],
-    rpcConfig: { rpcauth: "", rpcconnect: "", rpcport: "" },
+    rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
     isRunning: false,
-    rpcConfigError: "",
-    nodeError: "",
+    rpcConfigError: '',
+    nodeError: '',
   },
   reducers: {
     getRpcConfigsRequest(state) {
@@ -30,12 +30,12 @@ const configSlice = createSlice({
         };
       }
       state.isFetching = false;
-      state.rpcConfigError = "";
+      state.rpcConfigError = '';
     },
     getRpcConfigsFailure(state, action) {
       state.isFetching = false;
       state.rpcRemotes = [];
-      state.rpcConfig = { rpcauth: "", rpcconnect: "", rpcport: "" };
+      state.rpcConfig = { rpcauth: '', rpcconnect: '', rpcport: '' };
       state.rpcConfigError = action.payload;
     },
     startNodeRequest(state) {
@@ -44,7 +44,7 @@ const configSlice = createSlice({
     startNodeSuccess(state) {
       state.isRunning = true;
       state.isFetching = false;
-      state.rpcConfigError = "";
+      state.rpcConfigError = '';
     },
     startNodeFailure(state, action) {
       state.isFetching = false;

@@ -2,7 +2,7 @@ import isElectron from "is-electron";
 import HttpStatus from "http-status-codes";
 import store from "./rootStore";
 import RpcClient from "../utils/rpc-client";
-import { startNodeSuccess, startNodeFailure } from "./reducer";
+import { startNodeSuccess, startNodeFailure } from "../containers/RpcConfiguration/reducer";
 import showNotification from "../utils/notifications";
 import { I18n } from "react-redux-i18n";
 

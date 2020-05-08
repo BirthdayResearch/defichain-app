@@ -1,9 +1,9 @@
-import { backupWallet, importWallet } from "./app.service";
+import { backupWallet, importWallet } from './app.service';
 
 const initMenuIpcRenderers = () => {
-  const { ipcRenderer } = window.require("electron");
+  const { ipcRenderer } = window.require('electron');
   ipcRenderer.on(
-    "menu-backup-wallet",
+    'menu-backup-wallet',
     async (event: any, arg: { paths: string[] }) => {
       const { paths } = arg;
       await backupWallet(paths);
@@ -11,7 +11,7 @@ const initMenuIpcRenderers = () => {
   );
 
   ipcRenderer.on(
-    "menu-import-wallet",
+    'menu-import-wallet',
     async (event: any, arg: { paths: string[] }) => {
       const { paths } = arg;
       await importWallet(paths);
