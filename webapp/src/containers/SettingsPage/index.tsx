@@ -5,10 +5,10 @@ import { TabContent } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import isEqual from 'lodash/isEqual';
 import { getInitialSettingsRequest, updateSettingsRequest } from './reducer';
-import SettingsTabsHeader from './components/SettingsTabHeader/SettingsTabsHeader';
-import SettingsTabsFooter from './components/SettingsTabFooter/SettingsTabsFooter';
-import SettingsTabGeneral from './components/SettingsTabGeneral/SettingsTabGeneral';
-import SettingsTabDisplay from './components/SettingsTabDisplay/SettingsTabDisplay';
+import SettingsTabsHeader from './components/SettingsTabHeader';
+import SettingsTabsFooter from './components/SettingsTabFooter';
+import SettingsTabGeneral from './components/SettingsTabGeneral';
+import SettingsTabDisplay from './components/SettingsTabDisplay';
 
 interface SettingsPageProps {
   isFetching: false;

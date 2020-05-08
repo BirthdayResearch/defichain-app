@@ -4,7 +4,7 @@ import WalletPage from '../containers/WalletPage';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
 import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
-import MasternodesPage from '../containers/MasternodesPage/MasternodesPage';
+import MasternodesPage from '../containers/MasternodesPage';
 import BlockchainPage from '../containers/BlockchainPage/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/BlockPage';
 import MinerPage from '../containers/BlockchainPage/MinerPage';

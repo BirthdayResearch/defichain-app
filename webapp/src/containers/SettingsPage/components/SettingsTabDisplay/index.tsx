@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { TabPane, Form } from 'reactstrap';
-import SettingsRowDropDown from '../SettingsRowDropDown/SettingsRowDropDown';
+import SettingsRowDropDown from '../SettingsRowDropDown';
 
 interface SettingsTabDisplayProps {
   languages: { label: string; value: string }[];

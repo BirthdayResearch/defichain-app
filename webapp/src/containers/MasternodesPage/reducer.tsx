@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: "masternode",
+  name: 'masternode',
   initialState: {
     masternodes: [],
     isMasternodesLoaded: false,
     isLoadingMasternodes: false,
-    masternodesLoadError: "",
+    masternodesLoadError: '',
   },
   reducers: {
     fetchMasternodesRequest(state) {

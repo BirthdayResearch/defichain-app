@@ -1,35 +1,35 @@
-import React, { Component } from "react";
-import { Card, Table } from "reactstrap";
-import { connect } from "react-redux";
-import styles from "./MasternodesList.module.scss";
-import { I18n } from "react-redux-i18n";
-import { fetchMasternodesRequest } from "./reducer";
+import React, { Component } from 'react';
+import { Card, Table } from 'reactstrap';
+import { connect } from 'react-redux';
+import styles from './MasternodesList.module.scss';
+import { I18n } from 'react-redux-i18n';
+import { fetchMasternodesRequest } from '../../reducer';
 
 interface MasternodesListProps {
-  masternodes: Array<{
+  masternodes: {
     id: number;
-    status: String;
-    address: String;
-    pose: String;
-    registered: String;
-    lastPaid: String;
-    nextPayment: String;
-    payee: String;
-  }>;
+    status: string;
+    address: string;
+    pose: string;
+    registered: string;
+    lastPaid: string;
+    nextPayment: string;
+    payee: string;
+  }[];
   fetchMasterNodes: Function;
 }
 
 interface MasternodesListState {
-  masternodes: Array<{
+  masternodes: {
     id: number;
-    status: String;
-    address: String;
-    pose: String;
-    registered: String;
-    lastPaid: String;
-    nextPayment: String;
-    payee: String;
-  }>;
+    status: string;
+    address: string;
+    pose: string;
+    registered: string;
+    lastPaid: string;
+    nextPayment: string;
+    payee: string;
+  }[];
 }
 
 class MasternodesList extends Component<
@@ -49,22 +49,22 @@ class MasternodesList extends Component<
               <tr>
                 <th></th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.address")}
+                  {I18n.t('containers.masterNodes.masterNodesList.address')}
                 </th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.poseSore")}
+                  {I18n.t('containers.masterNodes.masterNodesList.poseSore')}
                 </th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.registered")}
+                  {I18n.t('containers.masterNodes.masterNodesList.registered')}
                 </th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.lastPaid")}
+                  {I18n.t('containers.masterNodes.masterNodesList.lastPaid')}
                 </th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.nextPayment")}
+                  {I18n.t('containers.masterNodes.masterNodesList.nextPayment')}
                 </th>
                 <th>
-                  {I18n.t("containers.masterNodes.masterNodesList.payee")}
+                  {I18n.t('containers.masterNodes.masterNodesList.payee')}
                 </th>
               </tr>
             </thead>

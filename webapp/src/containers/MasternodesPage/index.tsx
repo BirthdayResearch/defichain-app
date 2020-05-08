@@ -16,20 +16,15 @@ import KeyValueLi from '../../components/KeyValueLi/KeyValueLi';
 import classnames from 'classnames';
 import StatCard from '../../components/StatCard/StatCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import MasternodesList from './MasternodesList';
+import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
-
-interface MasternodesPageProps {}
 
 interface MasternodesPageState {
   activeTab: string;
   searching: boolean;
 }
 
-class MasternodesPage extends Component<
-  MasternodesPageProps,
-  MasternodesPageState
-> {
+class MasternodesPage extends Component<{},MasternodesPageState> {
   state = {
     activeTab: 'statistics',
     searching: false,
