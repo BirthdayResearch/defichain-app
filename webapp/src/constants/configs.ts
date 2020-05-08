@@ -8,3 +8,5 @@ export const LAUNCH_MINIMIZED = 'minimizedAtLaunch';
 export const PRUNE_BLOCK_STORAGE = 'pruneBlockStorage';
 export const RPC_V = '1.0';
 export const SCRIPT_VERIFICATION = 'scriptVerification';
+export const DEFAULT_LOG_LEVEL = 'info';
+export const DEBUG_LOG_LEVEL = 'trace';

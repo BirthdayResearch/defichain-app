@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import log from 'loglevel';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -19,7 +20,7 @@ function* fetchMasterNodes() {
     }
   } catch (e) {
     yield put({ type: fetchMasternodesFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 

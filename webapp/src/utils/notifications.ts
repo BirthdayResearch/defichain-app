@@ -1,4 +1,5 @@
 import isElectron from 'is-electron';
+import log from 'loglevel';
 import icon from '../assets/svg/logo-defi.svg';
 
 interface Window {
@@ -23,7 +24,7 @@ const showNotification = (content: string, description: string) => {
 
       new window.Notification(content, options);
     } else {
-      console.log('Your browser doesn\'t support Notifications');
+      log.error("Your browser doesn't support Notifications");
     }
   }
 };

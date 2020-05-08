@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import log from 'loglevel';
 import {
   getInitialSettingsRequest,
   getInitialSettingsSuccess,
@@ -30,7 +31,7 @@ function* getSettings() {
     }
   } catch (e) {
     yield put({ type: getInitialSettingsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -62,7 +63,7 @@ function* updateSettings(action) {
     }
   } catch (e) {
     yield put({ type: updateSettingsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 

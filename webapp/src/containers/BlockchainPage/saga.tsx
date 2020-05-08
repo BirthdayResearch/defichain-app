@@ -1,4 +1,5 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from 'redux-saga/effects';
+import log from 'loglevel';
 import {
   fetchBlocksRequest,
   fetchBlocksSuccess,
@@ -6,8 +7,8 @@ import {
   fetchTxnsRequest,
   fetchTxnsSuccess,
   fetchTxnsFailure,
-} from "./reducer";
-import { handelFetchTxns, handelFetchBlocks } from "./blockChainPage.service";
+} from './reducer';
+import { handelFetchTxns, handelFetchBlocks } from './blockChainPage.service';
 
 function* fetchBlocks() {
   try {
@@ -17,12 +18,12 @@ function* fetchBlocks() {
     } else {
       yield put({
         type: fetchBlocksFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
     yield put({ type: fetchBlocksFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -34,12 +35,12 @@ function* fetchTxns() {
     } else {
       yield put({
         type: fetchTxnsFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
     yield put({ type: fetchTxnsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
