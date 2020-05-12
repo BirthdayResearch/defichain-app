@@ -30,4 +30,4 @@
 
 ## Electron configuration
 
-Electron config is in [electron-app/main.ts](electron-app/main.ts)
+Electron config is in [electron-app/index.ts](electron-app/index.ts)
