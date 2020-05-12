@@ -18,20 +18,35 @@ export const getRpcConfig = () => {
   return { success: true, data: {} };
 };
 
+export const startChain = (config: any) => {
+  return new Promise((resolve, reject) => {
+    if (isElectron()) {
+      const { ipcRenderer } = window.require('electron');
+      ipcRenderer.send('start-defi-chain', config);
+      return resolve();
+    }
+    //For webapp
+    return resolve();
+  });
+};
+
 export const startBinary = (config: any) => {
   // async operation;
   return new Promise((resolve, reject) => {
     if (isElectron()) {
       const { ipcRenderer } = window.require('electron');
       ipcRenderer.send('start-defi-chain', config);
-      return ipcRenderer.on('start-defi-chain-reply', (_e: any, res: any) => {
-        if (res.success) {
-          store.dispatch({ type: startNodeSuccess.type, payload: res.data });
-          return resolve(res);
+      return ipcRenderer.on(
+        'start-defi-chain-reply',
+        async (_e: any, res: any) => {
+          if (res.success) {
+            store.dispatch({ type: startNodeSuccess.type, payload: res.data });
+            return resolve(res);
+          }
+          store.dispatch({ type: startNodeFailure.type, payload: res.data });
+          return reject(res);
         }
-        store.dispatch({ type: startNodeFailure.type, payload: res.data });
-        return reject(res);
-      });
+      );
     }
     // For webapp
     store.dispatch({ type: startNodeSuccess.type, payload: {} });

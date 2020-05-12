@@ -1,4 +1,6 @@
 import axios from 'axios';
+import _ from 'lodash';
+
 import store from '../app/rootStore';
 import { RPC_V } from './../constants';
 
@@ -24,5 +26,10 @@ export default class RpcClient {
       method,
       params,
     });
+  };
+
+  isInitialBlockDownload = async (): Promise<boolean> => {
+    const { data } = await this.call('/', 'getblockchaininfo', []);
+    return data.result.initialblockdownload;
   };
 }
