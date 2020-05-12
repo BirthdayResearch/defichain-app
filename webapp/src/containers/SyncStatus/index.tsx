@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MdDone } from 'react-icons/md';
 import styles from './SyncStatus.module.scss';
-import Spinner from '../../components/Spinner';
+import Spinner from '../../components/Svg/Spinner';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 

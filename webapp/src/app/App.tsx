@@ -11,6 +11,7 @@ import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import initMenuIpcRenderers from './menu.ipcRenderer';
 import isElectron from 'is-electron';
 import routes from '../routes';
+import LaunchScreen from '../components/LaunchScreen';
 
 interface AppState {
   prevDepth: number;
@@ -60,7 +61,7 @@ class App extends Component<AppProps, AppState> {
     const { isRunning } = this.props;
 
     if (!isRunning) {
-      return <div>Wait for loading node</div>;
+      return <LaunchScreen />;
     }
 
     return (
