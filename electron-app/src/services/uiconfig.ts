@@ -1,14 +1,14 @@
-import log from 'loglevel'
-import ini from 'ini'
-import yaml from 'js-yaml'
-import randomString from 'random-string'
+import log from 'loglevel';
+import ini from 'ini';
+import yaml from 'js-yaml';
+import randomString from 'random-string';
 import {
   getFileData,
   checkFileExists,
   writeFile,
   getRpcAuth,
   createDir,
-} from '../utils'
+} from '../utils';
 import {
   APP_DIR,
   CONFIG_FILE_NAME,
@@ -17,29 +17,29 @@ import {
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
   YAML_COMMENT,
-} from '../constants'
+} from '../constants';
 
 export default class UiConfig {
   async get() {
     try {
       // check app dir exists
       if (!checkFileExists(APP_DIR)) {
-        createDir(APP_DIR)
+        createDir(APP_DIR);
       }
       // check for UI config file
       if (checkFileExists(UI_CONFIG_FILE_NAME)) {
-        const configData = this.getUiDetails(UI_CONFIG_FILE_NAME)
-        return configData
+        const configData = this.getUiDetails(UI_CONFIG_FILE_NAME);
+        return configData;
       }
 
       // check for default defi config paths
       if (checkFileExists(CONFIG_FILE_NAME)) {
-        const defaultConfigData = this.getDefault(CONFIG_FILE_NAME)
+        const defaultConfigData = this.getDefault(CONFIG_FILE_NAME);
         const configData = this.saveUiDetails(
           UI_CONFIG_FILE_NAME,
           defaultConfigData
-        )
-        return configData
+        );
+        return configData;
       }
 
       // If default conf is not available
@@ -48,47 +48,47 @@ export default class UiConfig {
         numeric: false,
         letters: true,
         special: false,
-      })
-      const { rpcauth, rpcuser, rpcpassword } = getRpcAuth(username)
+      });
+      const { rpcauth, rpcuser, rpcpassword } = getRpcAuth(username);
       const defaultConfig = {
         rpcauth,
         rpcuser,
         rpcpassword,
         rpcbind: DEFAULT_RPC_BIND,
         rpcport: DEFAULT_RPC_PORT,
-      }
-      const defaultConfigData = ini.encode(defaultConfig)
-      writeFile(CONFIG_FILE_NAME, defaultConfigData)
-      const configData = this.saveUiDetails(UI_CONFIG_FILE_NAME, defaultConfig)
-      return configData
+      };
+      const defaultConfigData = ini.encode(defaultConfig);
+      writeFile(CONFIG_FILE_NAME, defaultConfigData);
+      const configData = this.saveUiDetails(UI_CONFIG_FILE_NAME, defaultConfig);
+      return configData;
     } catch (err) {
-      log.error(err)
-      throw err
+      log.error(err);
+      throw err;
     }
   }
 
   getUiDetails(path: string) {
-    const uiFileData = getFileData(path, 'utf-8')
+    const uiFileData = getFileData(path, 'utf-8');
     // TODO add UI yaml specific error message to inform user about corrupt yaml file -HARSH
-    const configData = yaml.safeLoad(uiFileData)
+    const configData = yaml.safeLoad(uiFileData);
     const {
       rpcauth,
       rpcport,
       rpcconnect,
       rpcuser,
       rpcpassword,
-    } = configData.remotes[0]
+    } = configData.remotes[0];
 
     if (rpcauth && rpcport && rpcconnect && rpcuser && rpcpassword) {
-      return configData
+      return configData;
     }
-    throw new Error('Inconsistent data in UI config')
+    throw new Error('Inconsistent data in UI config');
   }
 
   getDefault(path: string) {
-    const fileData = getFileData(path, 'utf-8')
+    const fileData = getFileData(path, 'utf-8');
     // TODO add config specific error message to inform user about corrupt config file -HARSH
-    const configData = ini.parse(fileData)
+    const configData = ini.parse(fileData);
     // check for required data in default config
     const {
       rpcauth,
@@ -98,7 +98,7 @@ export default class UiConfig {
       regnet,
       rpcuser,
       rpcpassword,
-    } = configData
+    } = configData;
 
     if (rpcauth && rpcbind && rpcport && rpcuser && rpcpassword) {
       return {
@@ -109,9 +109,9 @@ export default class UiConfig {
         regnet,
         rpcuser,
         rpcpassword,
-      }
+      };
     }
-    throw new Error('Inconsistent data in default config')
+    throw new Error('Inconsistent data in default config');
   }
 
   saveUiDetails = (path: string, configData: any) => {
@@ -123,8 +123,8 @@ export default class UiConfig {
       regnet,
       rpcuser,
       rpcpassword,
-    } = configData
-    const remotes = []
+    } = configData;
+    const remotes = [];
     const uiConfigData = {
       rpcauth,
       rpcport,
@@ -133,8 +133,8 @@ export default class UiConfig {
       rpcuser,
       rpcpassword,
       rpcconnect: rpcbind,
-    }
-    remotes.push(uiConfigData)
+    };
+    remotes.push(uiConfigData);
     const yamlData = yaml.safeDump(
       { remotes },
       {
@@ -143,11 +143,11 @@ export default class UiConfig {
         },
         skipInvalid: true,
       }
-    )
-    const comment = `# ${YAML_COMMENT}\n`
-    const dataToWrite = `${comment}${yamlData}`
+    );
+    const comment = `# ${YAML_COMMENT}\n`;
+    const dataToWrite = `${comment}${yamlData}`;
     // write to ui config file
-    writeFile(path, dataToWrite)
-    return remotes
-  }
+    writeFile(path, dataToWrite);
+    return remotes;
+  };
 }

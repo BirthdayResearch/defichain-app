@@ -1,5 +1,5 @@
-import { dialog } from 'electron'
-import log from 'loglevel'
+import { dialog } from 'electron';
+import log from 'loglevel';
 
 export default class DialogManager {
   // open directory model and allow to select directory
@@ -7,14 +7,14 @@ export default class DialogManager {
     try {
       const res = await dialog.showOpenDialog(null, {
         properties: ['openDirectory'],
-      })
+      });
       if (res.canceled || !res.filePaths.length) {
-        throw new Error('Directory not selected')
+        throw new Error('Directory not selected');
       }
-      return res.filePaths
+      return res.filePaths;
     } catch (err) {
-      log.error(err)
-      throw err
+      log.error(err);
+      throw err;
     }
   }
 
@@ -24,14 +24,14 @@ export default class DialogManager {
       const res = await dialog.showOpenDialog(null, {
         properties: ['openFile', 'openDirectory'],
         filters,
-      })
+      });
       if (res.canceled || !res.filePaths.length) {
-        throw new Error('File not selected')
+        throw new Error('File not selected');
       }
-      return res.filePaths
+      return res.filePaths;
     } catch (err) {
-      log.error(err)
-      throw err
+      log.error(err);
+      throw err;
     }
   }
 }

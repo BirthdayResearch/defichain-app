@@ -1,6 +1,6 @@
-import { app, shell } from 'electron'
-import Wallet from '../controllers/wallets'
-import { DARWIN, WIN_32, LINUX, SITE_URL } from '../constants'
+import { app, shell } from 'electron';
+import Wallet from '../controllers/wallets';
+import { DARWIN, WIN_32, LINUX, SITE_URL } from '../constants';
 
 export default class AppMenu {
   getTemplate() {
@@ -11,15 +11,15 @@ export default class AppMenu {
           {
             label: 'Import Wallet',
             click(item, bw) {
-              const wallet = new Wallet()
-              wallet.load(bw)
+              const wallet = new Wallet();
+              wallet.load(bw);
             },
           },
           {
             label: 'Backup Wallet',
             click(item, bw) {
-              const wallet = new Wallet()
-              wallet.backup(bw)
+              const wallet = new Wallet();
+              wallet.backup(bw);
             },
           },
         ],
@@ -31,15 +31,15 @@ export default class AppMenu {
           {
             label: 'Visit our site',
             click: async () => {
-              await shell.openExternal(SITE_URL)
+              await shell.openExternal(SITE_URL);
             },
           },
         ],
       },
-    ]
+    ];
 
     if (process.platform === DARWIN) {
-      const label = app.name
+      const label = app.name;
       const submenu: Electron.MenuItemConstructorOptions[] = [
         {
           label: `About ${label}`,
@@ -73,37 +73,37 @@ export default class AppMenu {
           label: 'Quit',
           accelerator: 'Command+Q',
           click: () => {
-            app.quit()
+            app.quit();
           },
         },
-      ]
+      ];
 
       template.unshift({
         label,
         submenu,
-      })
+      });
 
-      this.addUpdateMenuItems(template[0].submenu, 1)
+      this.addUpdateMenuItems(template[0].submenu, 1);
     }
 
     if (process.platform === WIN_32 || process.platform === LINUX) {
-      const helpMenu = template[template.length - 1].submenu
-      this.addUpdateMenuItems(helpMenu, 0)
+      const helpMenu = template[template.length - 1].submenu;
+      this.addUpdateMenuItems(helpMenu, 0);
     }
 
-    return template
+    return template;
   }
 
   addUpdateMenuItems(items: any, position: any) {
-    if (process.mas) return
+    if (process.mas) return;
 
-    const version = app.getVersion()
+    const version = app.getVersion();
     const updateItems = [
       {
         label: `Version ${version}`,
         enabled: false,
       },
-    ]
-    if (items) items.splice.apply(items, [position, 0].concat(updateItems))
+    ];
+    if (items) items.splice.apply(items, [position, 0].concat(updateItems));
   }
 }
