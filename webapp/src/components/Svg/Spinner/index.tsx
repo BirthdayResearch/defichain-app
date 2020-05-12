@@ -10,7 +10,7 @@ const Spinner = () => {
         cy='24'
         r='16'
         fill='none'
-        stroke-width='6'
+        strokeWidth='6'
       ></circle>
     </svg>
   );
