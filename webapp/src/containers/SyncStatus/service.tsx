@@ -16,8 +16,8 @@ export const getBlockSyncInfo = async () => {
     : 0;
   const latestBlockInfo = peerRes.data.result[0];
   const latestBlock = latestBlockInfo ? latestBlockInfo.startingheight : 0;
-  const syncedPercentage = Number(
-    (latestSyncedBlock / latestBlock) * 100
-  ).toFixed(2);
+  const percentage = (latestSyncedBlock / latestBlock) * 100;
+
+  const syncedPercentage = Math.max(0, percentage).toFixed(2);
   return { latestSyncedBlock, latestBlock, syncedPercentage };
 };
