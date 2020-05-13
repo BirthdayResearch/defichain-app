@@ -8,10 +8,11 @@
     "statCard": {},
     "syncStatus": {
       "synchronized": "Synchronized",
-      "syncing": "Syncing",
+      "syncing": "Synchronizing",
       "synced": "Synced",
-      "justNow": "just now",
-      "aMinuteAgo": "a minute ago"
+      "justNow": "Synchronized just now",
+      "aMinuteAgo": "Synchronized a minute ago",
+      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}"
     }
   },
   "containers": {

@@ -10,5 +10,6 @@ export const RPC_V = '1.0';
 export const SCRIPT_VERIFICATION = 'scriptVerification';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
+export const SYNC_TIMEOUT = 30000;
 export const DIFF = 2000;
 export const RETRY_ATTEMPT = 50;

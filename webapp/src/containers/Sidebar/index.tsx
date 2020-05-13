@@ -15,6 +15,7 @@ import {
 import styles from './Sidebar.module.scss';
 import { connect } from 'react-redux';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import SyncStatus from '../SyncStatus';
 import {
   BLOCKCHAIN_BASE_PATH,
   WALLET_PAGE_PATH,
@@ -122,6 +123,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
           </NavItem>
         </Nav>
       </div>
+      <SyncStatus />
     </div>
   );
 };
