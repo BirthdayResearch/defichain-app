@@ -148,6 +148,6 @@ export default class UiConfig {
     const dataToWrite = `${comment}${yamlData}`;
     // write to ui config file
     writeFile(path, dataToWrite);
-    return remotes;
+    return { remotes };
   };
 }

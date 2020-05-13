@@ -10,7 +10,6 @@ import {
 } from '../constants';
 import {
   checkFileExists,
-  deleteFile,
   getFileData,
   getProcesses,
   responseMessage,
@@ -24,7 +23,9 @@ export default class DefiProcessManager {
     try {
       if (checkFileExists(PID_FILE_NAME)) {
         const pid = getFileData(PID_FILE_NAME);
-        const processLists: any = await getProcesses({ pid });
+        const processLists: any = await getProcesses({
+          pid: parseInt(pid, 10),
+        });
         if (processLists.length) {
           if (event)
             event.sender.send(
@@ -46,14 +47,16 @@ export default class DefiProcessManager {
       let nodeStarted = false;
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
-      const child = spawn(execPath, [`-conf=${CONFIG_FILE_NAME}`]);
+      const child = spawn(execPath, [
+        `-conf=${CONFIG_FILE_NAME}`,
+        `-pid=${PID_FILE_NAME}`,
+      ]);
       log.info('Node start initiated');
 
       // on STDOUT
       child.stdout.on('data', () => {
         if (!nodeStarted) {
           nodeStarted = true;
-          writeFile(PID_FILE_NAME, child.pid);
           log.info('Node started');
           if (event)
             return event.sender.send(
@@ -76,7 +79,6 @@ export default class DefiProcessManager {
       // on close
       child.on('close', (code) => {
         log.info(`child process exited with code ${code}`);
-        deleteFile(PID_FILE_NAME);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
@@ -97,7 +99,7 @@ export default class DefiProcessManager {
   async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);
-      const processLists: any = await getProcesses({ pid });
+      const processLists: any = await getProcesses({ pid: parseInt(pid, 10) });
       for (const eachProcess of processLists) {
         if (eachProcess.pid) {
           await stopProcesses(eachProcess.pid);

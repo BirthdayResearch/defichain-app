@@ -11,13 +11,19 @@ export const getBlockSyncInfo = async () => {
   if (peerRes.status !== HttpStatus.OK) {
     throw new Error(peerRes.data.error);
   }
-  const latestSyncedBlock = latestBlockRes.data
-    ? latestBlockRes.data.result
-    : 0;
+  let latestSyncedBlock = latestBlockRes.data ? latestBlockRes.data.result : 0;
   const latestBlockInfo = peerRes.data.result[0];
-  const latestBlock = latestBlockInfo ? latestBlockInfo.startingheight : 0;
+  let latestBlock = latestBlockInfo ? latestBlockInfo.startingheight : 0;
+  // Avoid negative and positive infinity
+  if (latestSyncedBlock <= 0 || latestBlock <= 0) {
+    latestSyncedBlock = 0;
+    latestBlock = 0;
+  }
   const percentage = (latestSyncedBlock / latestBlock) * 100;
 
-  const syncedPercentage = Math.max(0, percentage).toFixed(2);
+  const syncedPercentage =
+    percentage > 100
+      ? Math.min(100, percentage).toFixed(2)
+      : Math.max(0, percentage).toFixed(2);
   return { latestSyncedBlock, latestBlock, syncedPercentage };
 };
