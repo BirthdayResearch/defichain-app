@@ -979,9 +979,9 @@ $alert-color-level:                 6;
 
 $progress-height:                   1rem;
 $progress-font-size:                $font-size-base * .75;
-$progress-bg:                       $gray-200;
+$progress-bg:                       $dfi-scent;
 $progress-border-radius:            $border-radius;
-$progress-box-shadow:               inset 0 .1rem .1rem rgba($black, .1);
+$progress-box-shadow:               inset 0 0 0 1px $border-color;
 $progress-bar-color:                $white;
 $progress-bar-bg:                   theme-color("primary");
 $progress-bar-animation-timing:     1s linear infinite;

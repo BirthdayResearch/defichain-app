@@ -24,16 +24,16 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   const { latestSyncedBlock, latestBlock, syncedPercentage } = props;
   return (
     <div className={styles.syncStatusWrapper}>
-      {latestSyncedBlock === latestBlock ? (
+      {latestSyncedBlock !== latestBlock ? (
         <>
-          <span className={styles.synchronizing}>
+          <span className={styles.syncHeading}>
             {I18n.t(`components.syncStatus.synchronized`)}
           </span>
           <MdDone />
         </>
       ) : (
         <>
-          <div className={styles.synchronizing}>
+          <div className={styles.syncHeading}>
             {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
           </div>
           <div className={styles.blockStatus}>
@@ -44,7 +44,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
           </div>
           <Progress
             animated
-            className={styles.customProgressBar}
+            className={styles.syncProgress}
             value={syncedPercentage}
           />
         </>

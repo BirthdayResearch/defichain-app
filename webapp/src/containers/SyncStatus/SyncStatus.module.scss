@@ -6,34 +6,33 @@
 @import '../../scss/bootstrap/variables';
 
 .syncStatusWrapper {
-  background-color: $white;
-  border-top: 1px solid $gray-200;
-  height: 96px;
+  border-top: 1px solid $border-color;
+  min-height: 96px;
   padding: 24px 32px;
-  .synchronizing {
-    color: $black;
-    font-size: 12px;
-    font-weight: 400;
+
+  .syncHeading {
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
     letter-spacing: 0.21px;
-    line-height: 16px;
-    text-align: left;
+    line-height: 1rem;
   }
+
   .blockStatus {
-    color: $gray-600;
-    font-size: 12px;
-    font-weight: 400;
+    color: $secondary;
+    font-size: 0.75rem;
     letter-spacing: 0.21px;
-    line-height: 16px;
-    text-align: left;
+    line-height: 1rem;
   }
+
   svg {
     width: 18px;
     height: 18px;
     margin-left: 2px;
     color: $green;
   }
-  .customProgressBar {
-    margin-top: 5px;
+
+  .syncProgress {
+    margin-top: 8px;
     height: 8px;
   }
 }
