@@ -5,6 +5,7 @@ import blockchainSaga from '../containers/BlockchainPage/saga';
 import masterNodesSaga from '../containers/MasternodesPage/saga';
 import walletSaga from '../containers/WalletPage/saga';
 import settingsSaga from '../containers/SettingsPage/saga';
+import syncStatusSaga from '../containers/SyncStatus/saga';
 
 function* rootSaga() {
   yield all([
@@ -13,6 +14,7 @@ function* rootSaga() {
     fork(masterNodesSaga),
     fork(walletSaga),
     fork(settingsSaga),
+    fork(syncStatusSaga),
   ]);
 }
 

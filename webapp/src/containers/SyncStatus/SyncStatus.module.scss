@@ -1,25 +1,39 @@
 // App and Bootstrap variables required
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
 
-.syncStatus {
-  position: absolute;
-  top: 24px;
-  right: 32px;
-  font-size: 0.75rem;
-  font-weight: $font-weight-medium;
-  line-height: 24px;
-  letter-spacing: 0.21px;
-  color: $secondary;
-  z-index: $zindex-dropdown;
-
+.syncStatusWrapper {
+  background-color: $white;
+  border-top: 1px solid $gray-200;
+  height: 96px;
+  padding: 24px 32px;
+  .synchronizing {
+    color: $black;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.21px;
+    line-height: 16px;
+    text-align: left;
+  }
+  .blockStatus {
+    color: $gray-600;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.21px;
+    line-height: 16px;
+    text-align: left;
+  }
   svg {
-    width: 24px;
-    height: 24px;
-    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+    margin-left: 2px;
     color: $green;
+  }
+  .customProgressBar {
+    margin-top: 5px;
+    height: 8px;
   }
 }

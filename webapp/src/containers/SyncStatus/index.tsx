@@ -1,68 +1,79 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { MdDone } from 'react-icons/md';
 import styles from './SyncStatus.module.scss';
-import Spinner from '../../components/Svg/Spinner';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
+import { syncStatusRequest } from './reducer';
+import { Progress } from 'reactstrap';
 
-interface SyncStatusState {
-  status: string;
-  syncedAgo: string;
-  statusAssets: {
-    icon: typeof MdDone;
-    label: string;
-  };
+interface SyncStatusProps {
+  syncedPercentage: number;
+  latestSyncedBlock: number;
+  latestBlock: number;
+  isLoading: boolean;
+  syncStatusRequest: () => void;
 }
 
-function StatusIcon(icon: any) {
-  const StatusIcon = icon;
-  return <StatusIcon />;
-}
+const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
+  props: SyncStatusProps
+) => {
+  useEffect(() => {
+    props.syncStatusRequest();
+  }, []);
 
-class SyncStatus extends Component<{}, SyncStatusState> {
-  state = {
-    status: 'synced',
-    syncedAgo: 'aMinuteAgo',
-    statusAssets: {
-      icon: MdDone,
-      label: 'synchronized',
-    },
-  };
-
-  toggleStatus = () => {
-    this.setState({
-      status: this.state.status === 'synced' ? 'syncing' : 'synced',
-      syncedAgo: 'justNow',
-      statusAssets: {
-        icon: this.state.statusAssets.icon === MdDone ? Spinner : MdDone,
-        label:
-          this.state.statusAssets.label === 'synchronized'
-            ? 'syncing'
-            : 'synchronized',
-      },
-    } as SyncStatusState);
-  };
-
-  render() {
-    return (
-      <div className={styles.syncStatus}>
-        <span onClick={this.toggleStatus}>
-          {I18n.t(`components.syncStatus.${this.state.statusAssets.label}`)}
-          &nbsp;
-          {this.state.status === 'synced'
-            ? I18n.t(`components.syncStatus.${this.state.syncedAgo}`)
-            : ``}
-        </span>
-        {StatusIcon(this.state.statusAssets.icon)}
-      </div>
-    );
-  }
-}
+  const { latestSyncedBlock, latestBlock, syncedPercentage } = props;
+  return (
+    <div className={styles.syncStatusWrapper}>
+      {latestSyncedBlock === latestBlock ? (
+        <>
+          <span className={styles.synchronizing}>
+            {I18n.t(`components.syncStatus.synchronized`)}
+          </span>
+          <MdDone />
+        </>
+      ) : (
+        <>
+          <div className={styles.synchronizing}>
+            {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
+          </div>
+          <div className={styles.blockStatus}>
+            {I18n.t('components.syncStatus.blockInfo', {
+              latestSyncedBlock,
+              latestBlock,
+            })}
+          </div>
+          <Progress
+            animated
+            className={styles.customProgressBar}
+            value={syncedPercentage}
+          />
+        </>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   const { locale } = state.i18n;
+  const {
+    syncedPercentage,
+    latestSyncedBlock,
+    latestBlock,
+    isLoading,
+  } = state.syncstatus;
   return {
     locale,
+    isLoading,
+    latestBlock,
+    syncedPercentage,
+    latestSyncedBlock,
   };
 };
-export default connect(mapStateToProps)(SyncStatus);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    syncStatusRequest: () => dispatch(syncStatusRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SyncStatus);
