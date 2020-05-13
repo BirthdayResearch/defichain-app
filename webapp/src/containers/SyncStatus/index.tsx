@@ -24,7 +24,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   const { latestSyncedBlock, latestBlock, syncedPercentage } = props;
   return (
     <div className={styles.syncStatusWrapper}>
-      {latestSyncedBlock !== latestBlock ? (
+      {latestSyncedBlock === latestBlock ? (
         <>
           <span className={styles.syncHeading}>
             {I18n.t(`components.syncStatus.synchronized`)}
