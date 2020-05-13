@@ -9,6 +9,9 @@ export default class RpcClient {
   constructor() {
     const state = store.getState();
     const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
+    if (!rpcauth || !rpcconnect || !rpcport) {
+      throw new Error('Invalid configuration');
+    }
     this.client = axios.create({
       baseURL: `http://${rpcauth}@${rpcconnect}:${rpcport}`,
       headers: {
