@@ -3,6 +3,11 @@ import _ from 'lodash';
 
 import store from '../app/rootStore';
 import { RPC_V } from './../constants';
+import * as methodNames from '../constants/rpcMethods';
+import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
+
+import { IAddressAndAmount } from './interfaces';
+import { getAddressAndAmount, validateSchema } from './utility';
 
 export default class RpcClient {
   client: any;
@@ -31,8 +36,72 @@ export default class RpcClient {
     });
   };
 
+  getBalance = async (): Promise<number> => {
+    const { data } = await this.call('/', methodNames.GET_BALANCE, ['*']);
+    return data.result;
+  };
+
+  getNewAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, []);
+    return data.result;
+  };
+
+  // include addresses that haven't received any payments.
+  getReceivingAddressAndAmountList = async (): Promise<IAddressAndAmount[]> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.LIST_RECEIVED_BY_ADDRESS,
+      [1, true]
+    );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
+      data.result
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.LIST_RECEIVED_BY_ADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    const addressAndAmountList: IAddressAndAmount[] = await getAddressAndAmount(
+      data.result
+    );
+    return addressAndAmountList;
+  };
+
+  isValidAddress = async (address: string): Promise<boolean> => {
+    const { data } = await this.call('/', methodNames.VALIDATE_ADDRESS, [
+      address,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.VALIDATE_ADDRESS),
+      data.result
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.VALIDATE_ADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result.isvalid;
+  };
+
   isInitialBlockDownload = async (): Promise<boolean> => {
-    const { data } = await this.call('/', 'getblockchaininfo', []);
+    const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
+      data.result
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_BLOCKCHAIN_INFO
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
     return data.result.initialblockdownload;
   };
 }

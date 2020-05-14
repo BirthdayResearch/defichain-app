@@ -21,7 +21,9 @@ import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import log from 'loglevel';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
+
 const shutterSnap = new UIfx(shutterSound);
 import { fetchSendDataRequest } from '../../reducer';
 
@@ -69,7 +71,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   componentDidMount() {
     this.props.fetchSendData();
   }
-  updateAmountToSend = (e) => {
+  updateAmountToSend = e => {
     const amountToSend =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
     const amountToSendDisplayed =
@@ -80,7 +82,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  updateToAddress = (e) => {
+  updateToAddress = e => {
     const toAddress = e.target.value;
     this.setState({
       toAddress,
@@ -106,7 +108,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  handleScan = (data) => {
+  handleScan = data => {
     if (data) {
       shutterSnap.play();
       this.setState({
@@ -133,8 +135,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     }, 1000);
   };
 
-  handleScanError = (err) => {
-    console.error(err);
+  handleScanError = err => {
+    log.error(err);
   };
 
   sendStepDefault = () => {
@@ -375,14 +377,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { sendData } = state.wallet;
   return {
     sendData,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchSendData: () => dispatch(fetchSendDataRequest()),
   };
