@@ -61,7 +61,7 @@ const configSlice = createSlice({
       state.isBalanceError = '';
     },
     fetchWalletBalanceSuccess(state, action) {
-      state.walletBalance = action.payload.result;
+      state.walletBalance = action.payload;
       state.isBalanceFetching = false;
     },
     fetchWalletBalanceFailure(state, action) {

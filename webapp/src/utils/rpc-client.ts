@@ -1,11 +1,9 @@
 import axios from 'axios';
 import _ from 'lodash';
-
 import store from '../app/rootStore';
 import { RPC_V } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
-
 import { IAddressAndAmount } from './interfaces';
 import { getAddressAndAmount, validateSchema } from './utility';
 
@@ -38,6 +36,17 @@ export default class RpcClient {
 
   getBalance = async (): Promise<number> => {
     const { data } = await this.call('/', methodNames.GET_BALANCE, ['*']);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_BALANCE),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_BALANCE
+        }: ${JSON.stringify(data)}`
+      );
+    }
     return data.result;
   };
 
@@ -55,7 +64,7 @@ export default class RpcClient {
     );
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
-      data.result
+      data
     );
     if (!isValid) {
       throw new Error(
@@ -77,7 +86,7 @@ export default class RpcClient {
 
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.VALIDATE_ADDRESS),
-      data.result
+      data
     );
     if (!isValid) {
       throw new Error(
@@ -93,7 +102,7 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
-      data.result
+      data
     );
     if (!isValid) {
       throw new Error(

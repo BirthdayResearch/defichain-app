@@ -122,5 +122,5 @@ export const handelSendData = () => {
 
 export const handleFetchWalletBalance = async () => {
   const rpcClient = new RpcClient();
-  return await rpcClient.call('', 'getbalance', ['*']);
+  return await rpcClient.getBalance();
 };
