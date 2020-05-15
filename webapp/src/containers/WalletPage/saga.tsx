@@ -28,13 +28,8 @@ import {
 
 function* fetchWalletBalance() {
   try {
-    const res = yield call(handleFetchWalletBalance);
-    const { status, data } = res;
-    if (status === HttpStatus.OK) {
-      yield put(fetchWalletBalanceSuccess({ ...data }));
-    } else {
-      yield put(fetchWalletBalanceFailure(data.error || 'No data found'));
-    }
+    const result = yield call(handleFetchWalletBalance);
+    yield put(fetchWalletBalanceSuccess(result));
   } catch (e) {
     yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
     log.error(e);

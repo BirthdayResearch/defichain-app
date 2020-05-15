@@ -4,6 +4,11 @@ import * as rpcResponseSchemas from './rpcResponseSchema';
 export const rpcResponseSchemaMap = new Map<string, object>();
 
 rpcResponseSchemaMap.set(
+  methodNames.GET_BALANCE,
+  rpcResponseSchemas.getBalanceSchema
+);
+
+rpcResponseSchemaMap.set(
   methodNames.GET_BLOCKCHAIN_INFO,
   rpcResponseSchemas.blockchainInfoSchema
 );

@@ -1,6 +1,51 @@
+export const errorSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'string',
+      nullable: true,
+    },
+    error: {
+      type: 'object',
+      properties: {
+        code: {
+          type: 'number',
+        },
+        message: {
+          type: 'string',
+        },
+      },
+      required: ['message'],
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['error'],
+};
+
+export const getBalanceSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'number',
+      nullable: false,
+    },
+    error: {
+      type: 'object',
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
 export const blockchainInfoSchema = {
-  oneOf: [
-    {
+  type: 'object',
+  properties: {
+    result: {
       type: 'object',
       properties: {
         chain: {
@@ -57,37 +102,19 @@ export const blockchainInfoSchema = {
       },
       required: ['initialblockdownload'],
     },
-    {
-      type: 'object',
-      properties: {
-        result: {
-          type: 'string',
-          nullable: true,
-        },
-        error: {
-          type: 'object',
-          properties: {
-            code: {
-              type: 'number',
-            },
-            message: {
-              type: 'string',
-            },
-          },
-          required: ['message'],
-        },
-        id: {
-          type: 'string',
-        },
-      },
-      required: ['error'],
+    error: {
+      nullable: true,
     },
-  ],
+    id: {
+      type: 'string',
+    },
+  },
 };
 
 export const validAddressSchema = {
-  oneOf: [
-    {
+  type: 'object',
+  properties: {
+    result: {
       type: 'object',
       properties: {
         isvalid: {
@@ -114,37 +141,19 @@ export const validAddressSchema = {
       },
       required: ['isvalid'],
     },
-    {
-      type: 'object',
-      properties: {
-        result: {
-          type: 'string',
-          nullable: true,
-        },
-        error: {
-          type: 'object',
-          properties: {
-            code: {
-              type: 'number',
-            },
-            message: {
-              type: 'string',
-            },
-          },
-          required: ['message'],
-        },
-        id: {
-          type: 'string',
-        },
-      },
-      required: ['error'],
+    error: {
+      nullable: true,
     },
-  ],
+    id: {
+      type: 'string',
+    },
+  },
 };
 
 export const receiveAddressListSchema = {
-  oneOf: [
-    {
+  type: 'object',
+  properties: {
+    result: {
       type: 'array',
       items: {
         type: 'object',
@@ -160,30 +169,11 @@ export const receiveAddressListSchema = {
         required: ['address', 'amount'],
       },
     },
-    {
-      type: 'object',
-      properties: {
-        result: {
-          type: 'string',
-          nullable: true,
-        },
-        error: {
-          type: 'object',
-          properties: {
-            code: {
-              type: 'number',
-            },
-            message: {
-              type: 'string',
-            },
-          },
-          required: ['message'],
-        },
-        id: {
-          type: 'string',
-        },
-      },
-      required: ['error'],
+    error: {
+      nullable: true,
     },
-  ],
+    id: {
+      type: 'string',
+    },
+  },
 };
