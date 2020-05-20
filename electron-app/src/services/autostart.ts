@@ -19,6 +19,11 @@ export default class AutoStart {
   async set(enabled: boolean, isHidden?: boolean) {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
+      const isEnabled = await autoLauncher.isEnabled();
+
+      if (isEnabled === enabled) {
+        return { enabled };
+      }
       if (enabled) {
         await autoLauncher.enable();
         return { enabled };
