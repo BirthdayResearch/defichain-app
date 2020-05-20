@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
 
 interface SettingsTabsHeaderProps {
-  setActiveTab: Function;
+  setActiveTab: (tab: string) => void;
   activeTab: string;
 }
 
@@ -13,7 +13,8 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   return (
     <header className='header-bar'>
       <h1>{I18n.t('containers.settings.settings')}</h1>
-      <Nav pills>
+      {/* NOTE: Do not remove, for future purpose */}
+      {/* <Nav pills>
         <NavItem>
           <NavLink
             className={classnames({
@@ -38,7 +39,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             {I18n.t('containers.settings.display')}
           </NavLink>
         </NavItem>
-      </Nav>
+      </Nav> */}
       <div></div>
     </header>
   );

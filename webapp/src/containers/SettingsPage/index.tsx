@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { TabContent } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import isEqual from 'lodash/isEqual';
 import {
@@ -11,8 +10,11 @@ import {
 } from './reducer';
 import SettingsTabsHeader from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
-import SettingsTabGeneral from './components/SettingsTabGeneral';
-import SettingsTabDisplay from './components/SettingsTabDisplay';
+import SettingsTab from './components/SettingsTab';
+// NOTE: Do not remove, for future purpose
+// import { TabContent } from 'reactstrap';
+// import SettingsTabGeneral from './components/SettingsTabGeneral';
+// import SettingsTabDisplay from './components/SettingsTabDisplay';
 
 interface SettingsPageProps {
   isFetching: false;
@@ -202,7 +204,17 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
           setActiveTab={this.setActiveTab}
         />
         <div className='content'>
-          <TabContent activeTab={this.state.activeTab}>
+          <SettingsTab
+            launchAtLogin={launchAtLogin!}
+            minimizedAtLaunch={minimizedAtLaunch!}
+            language={language!}
+            unit={unit!}
+            displayMode={displayMode!}
+            handleDropDowns={this.handleDropDowns}
+            handleToggles={this.handleToggles}
+          />
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <TabContent activeTab={this.state.activeTab}>
             <SettingsTabGeneral
               launchAtLogin={launchAtLogin!}
               minimizedAtLaunch={minimizedAtLaunch!}
@@ -220,6 +232,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
               handleDropDowns={this.handleDropDowns}
             />
           </TabContent>
+         */}
         </div>
         <SettingsTabsFooter
           isUnsavedChanges={isUnsavedChanges}
