@@ -6,8 +6,12 @@ const configSlice = createSlice({
     walletBalance: 0,
     isBalanceFetching: false,
     isBalanceError: '',
+    pendingBalance: 0,
+    isPendingBalanceFetching: false,
+    isPendingBalanceError: '',
     paymentRequests: [],
     walletTxns: [],
+    walletTxnCount: 0,
     receivedData: {
       amountToReceive: '',
       amountToReceiveDisplayed: 0,
@@ -16,7 +20,7 @@ const configSlice = createSlice({
       receiveStep: 'default',
     },
     sendData: {
-      walletBalance: 100,
+      walletBalance: 0,
       amountToSend: '',
       amountToSendDisplayed: 0,
       toAddress: '',
@@ -28,29 +32,36 @@ const configSlice = createSlice({
     },
   },
   reducers: {
-    fetchPaymentRequestsRequest(state) {
+    fetchPaymentRequest(state) {
       state.paymentRequests = [];
     },
     fetchPaymentRequestsSuccess(state, action) {
-      state.paymentRequests = action.payload.requests;
+      state.paymentRequests = action.payload;
     },
     fetchPaymentRequestsFailure(state, action) {
       state.paymentRequests = [];
     },
-    fetchWalletTxnsRequest(state) {
+    fetchWalletTxnsRequest(state, action) {
       state.walletTxns = [];
+      state.walletTxnCount = 0;
     },
     fetchWalletTxnsSuccess(state, action) {
       state.walletTxns = action.payload.walletTxns;
+      state.walletTxnCount = action.payload.walletTxnCount;
     },
     fetchWalletTxnsFailure(state, action) {
       state.walletTxns = [];
     },
-    fetchReceivedDataRequest(state) {},
-    fetchReceivedDataSuccess(state, action) {
-      state.receivedData = action.payload.data;
+    removeReceiveTxnsRequest(state, action) {},
+    removeReceiveTxnsSuccess(state, action) {
+      state.paymentRequests = action.payload;
     },
-    fetchReceivedDataFailure(state, action) {},
+    removeReceiveTxnsFailure(state, action) {},
+    addReceiveTxnsRequest(state, action) {},
+    addReceiveTxnsSuccess(state, action) {
+      state.paymentRequests = action.payload;
+    },
+    addReceiveTxnsFailure(state, action) {},
     fetchSendDataRequest(state) {},
     fetchSendDataSuccess(state, action) {
       state.sendData = action.payload.data;
@@ -69,27 +80,46 @@ const configSlice = createSlice({
       state.isBalanceFetching = false;
       state.isBalanceError = action.payload;
     },
+    fetchPendingBalanceRequest(state) {
+      state.isPendingBalanceFetching = true;
+      state.isPendingBalanceError = '';
+    },
+    fetchPendingBalanceSuccess(state, action) {
+      state.pendingBalance = action.payload;
+      state.isPendingBalanceFetching = false;
+    },
+    fetchPendingBalanceFailure(state, action) {
+      state.walletBalance = 0;
+      state.isPendingBalanceFetching = false;
+      state.isPendingBalanceError = action.payload;
+    },
   },
 });
 
 const { actions, reducer } = configSlice;
 
 export const {
-  fetchPaymentRequestsRequest,
+  fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
   fetchWalletTxnsRequest,
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
-  fetchReceivedDataRequest,
-  fetchReceivedDataSuccess,
-  fetchReceivedDataFailure,
+  removeReceiveTxnsRequest,
+  removeReceiveTxnsSuccess,
+  removeReceiveTxnsFailure,
+  addReceiveTxnsRequest,
+  addReceiveTxnsSuccess,
+  addReceiveTxnsFailure,
   fetchSendDataRequest,
   fetchSendDataSuccess,
   fetchSendDataFailure,
   fetchWalletBalanceRequest,
   fetchWalletBalanceSuccess,
   fetchWalletBalanceFailure,
+  fetchPendingBalanceRequest,
+  fetchPendingBalanceSuccess,
+  fetchPendingBalanceFailure,
 } = actions;
 
 export default reducer;

@@ -49,11 +49,13 @@
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "loglevel": "^1.6.8",
+    "moment": "^2.25.3",
     "os": "^0.1.1",
     "prop-types": "^15.7.2",
     "ps-node": "^0.1.6",
     "qrcode.react": "^1.0.0",
     "random-string": "^0.2.0",
+    "uid": "^1.0.0",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
   },

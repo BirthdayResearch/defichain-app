@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import {
   Card,
+  CardBody,
   Table,
   UncontrolledDropdown,
   DropdownToggle,
@@ -12,8 +14,13 @@ import { connect } from 'react-redux';
 import { MdMoreHoriz, MdDelete, MdAccessTime } from 'react-icons/md';
 import styles from './PaymentRequests.module.scss';
 import { I18n } from 'react-redux-i18n';
-import { fetchPaymentRequestsRequest } from '../../reducer';
-import { WALLET_PAYMENT_REQ_BASE_PATH } from '../../../../constants';
+import { fetchPaymentRequest, removeReceiveTxnsRequest } from '../../reducer';
+import {
+  DATE_FORMAT,
+  WALLET_PAYMENT_REQ_BASE_PATH,
+  PAYMENT_REQ_PAGE_SIZE,
+} from '../../../../constants';
+import Pagination from '../../../../components/Pagination';
 
 interface PaymentRequestsProps {
   paymentRequests: {
@@ -24,75 +31,111 @@ interface PaymentRequestsProps {
     unit: string;
   }[];
   fetchPaymentRequests: () => void;
+  removeReceiveTxns: (id: string | number) => void;
 }
 
-class PaymentRequests extends Component<PaymentRequestsProps, {}> {
-  componentDidMount() {
-    this.props.fetchPaymentRequests();
-  }
+const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
+  props: PaymentRequestsProps
+) => {
+  useEffect(() => {
+    props.fetchPaymentRequests();
+  }, []);
 
-  render() {
-    return (
-      <Card className='table-responsive-md mb-5'>
-        <Table className={styles.table}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>{I18n.t('containers.wallet.paymentRequests.time')}</th>
-              <th className={styles.amount}>
-                {I18n.t('containers.wallet.paymentRequests.amount')}
-              </th>
-              <th>{I18n.t('containers.wallet.paymentRequests.message')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.paymentRequests.map(request => (
-              <tr key={request.id}>
-                <td className={styles.icon}>
-                  <MdAccessTime className={styles.icon} />
-                </td>
-                <td>
-                  <div className={styles.time}>
-                    <Link to={`${WALLET_PAYMENT_REQ_BASE_PATH}/${request.id}`}>
-                      {request.time}
-                    </Link>
-                  </div>
-                </td>
-                <td>
-                  <div className={styles.amount}>
-                    {request.amount}&nbsp;
-                    <span className={styles.unit}>{request.unit}</span>
-                  </div>
-                </td>
-                <td>
-                  <div className={styles.message}>{request.message}</div>
-                </td>
-                <td className={styles.actionCell}>
-                  <UncontrolledDropdown>
-                    <DropdownToggle className='padless' color='link'>
-                      <MdMoreHoriz />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <MdDelete />
-                        <span>
-                          {I18n.t(
-                            'containers.wallet.paymentRequests.cancelRequest'
-                          )}
-                        </span>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Card>
-    );
-  }
-}
+  const [currentPage, handlePageClick] = useState(1);
+  const pageSize = PAYMENT_REQ_PAGE_SIZE;
+  const total = props.paymentRequests.length;
+  const pagesCount = Math.ceil(total / pageSize);
+  const from = (currentPage - 1) * pageSize;
+  const to = Math.min(total, currentPage * pageSize);
+  const data = props.paymentRequests.slice(from, to);
+
+  return (
+    <section className='mb-5'>
+      <h2>{I18n.t('containers.wallet.walletPage.paymentRequests')}</h2>
+      {total ? (
+        <>
+          <Card className='table-responsive-md'>
+            <Table className={styles.table}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>{I18n.t('containers.wallet.paymentRequests.time')}</th>
+                  <th className={styles.amount}>
+                    {I18n.t('containers.wallet.paymentRequests.amount')}
+                  </th>
+                  <th>{I18n.t('containers.wallet.paymentRequests.message')}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map(request => (
+                  <tr key={request.id}>
+                    <td className={styles.icon}>
+                      <MdAccessTime className={styles.icon} />
+                    </td>
+                    <td>
+                      <div className={styles.time}>
+                        <Link
+                          to={`${WALLET_PAYMENT_REQ_BASE_PATH}/${request.id}`}
+                        >
+                          {moment(request.time).format(DATE_FORMAT)}
+                        </Link>
+                      </div>
+                    </td>
+                    <td>
+                      <div className={styles.amount}>
+                        {request.amount}&nbsp;
+                        <span className={styles.unit}>{request.unit}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className={styles.message}>{request.message}</div>
+                    </td>
+                    <td className={styles.actionCell}>
+                      <UncontrolledDropdown>
+                        <DropdownToggle className='padless' color='link'>
+                          <MdMoreHoriz />
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                          <DropdownItem
+                            onClick={() => props.removeReceiveTxns(request.id)}
+                          >
+                            <MdDelete />
+                            <span>
+                              {I18n.t(
+                                'containers.wallet.paymentRequests.cancelRequest'
+                              )}
+                            </span>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card>
+          <Pagination
+            label={I18n.t('containers.wallet.walletPage.paginationRange', {
+              to,
+              total,
+              from: from + 1,
+            })}
+            currentPage={currentPage}
+            pagesCount={pagesCount}
+            handlePageClick={handlePageClick}
+          />
+        </>
+      ) : (
+        <Card className='table-responsive-md'>
+          <CardBody>
+            {I18n.t('containers.wallet.walletPage.noPaymentRequests')}
+          </CardBody>
+        </Card>
+      )}
+    </section>
+  );
+};
 
 const mapStateToProps = state => {
   const { paymentRequests } = state.wallet;
@@ -103,7 +146,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPaymentRequests: () => dispatch(fetchPaymentRequestsRequest()),
+    fetchPaymentRequests: () => dispatch(fetchPaymentRequest()),
+    removeReceiveTxns: (id: string | number) =>
+      dispatch(removeReceiveTxnsRequest(id)),
   };
 };
 

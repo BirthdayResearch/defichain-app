@@ -41,7 +41,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "Block %{blockNo} – DeFi Blockchain Client",
+        "title": "– DeFi Blockchain Client",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -167,7 +167,9 @@
         "amount": "Amount",
         "dFI": "DFI",
         "message": "Message",
+        "label": "Label",
         "amountToReceive": "Amount to Receive",
+        "addressNotAvailable": "Address not available",
         "cancel": "Cancel",
         "continue": "Continue"
       },
@@ -196,6 +198,8 @@
         "send": "Send",
         "receive": "Receive",
         "paymentRequests": "Payment requests",
+        "noPaymentRequests": "No payment requests available",
+        "paginationRange": "%{from} – %{to} of %{total} payment request",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending"
@@ -203,7 +207,9 @@
       "walletTxns": {
         "time": "Time",
         "amount": "Amount",
-        "hash": "Hash"
+        "hash": "Hash",
+        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "noTransactions": "No transactions available"
       }
     }
   },

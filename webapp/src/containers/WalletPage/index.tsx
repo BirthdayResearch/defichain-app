@@ -8,12 +8,17 @@ import WalletTxns from './components/WalletTxns';
 import PaymentRequests from './components/PaymentRequests';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
-import { fetchWalletBalanceRequest } from './reducer';
+import {
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
+} from './reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 
 interface WalletPageProps {
   walletBalance: string;
+  pendingBalance: string;
   fetchWalletBalance: () => void;
+  fetchPendingBalance: () => void;
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
@@ -21,9 +26,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
 ) => {
   useEffect(() => {
     props.fetchWalletBalance();
+    props.fetchPendingBalance();
   }, []);
 
-  const { walletBalance } = props;
+  const { walletBalance, pendingBalance } = props;
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -64,20 +70,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
-                value='1,000'
+                value={pendingBalance}
                 unit='DFI'
               />
             </Col>
           </Row>
         </section>
-        <section>
-          <h2>{I18n.t('containers.wallet.walletPage.paymentRequests')}</h2>
-          <PaymentRequests />
-        </section>
-        <section>
-          <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
-          <WalletTxns />
-        </section>
+        <PaymentRequests />
+        <WalletTxns />
       </div>
     </div>
   );
@@ -85,11 +85,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
 
 const mapStateToProps = ({ wallet }) => ({
   walletBalance: wallet.walletBalance,
+  pendingBalance: wallet.pendingBalance,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
+    fetchPendingBalance: () => dispatch(fetchPendingBalanceRequest()),
   };
 };
 
