@@ -12,47 +12,45 @@ import {
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
+import PersistentStore from '../../utils/persistentStore';
 
 export const initialData = () => {
   const launchStat = getPreLaunchStatus();
   const settings = {
-    settingsLanguage: localStorage.getItem(LANG_VARIABLE) || 'en',
-    settingsAmountsUnit: localStorage.getItem(AMOUNTS_UNIT) || 'DFI',
-    settingDisplayMode: localStorage.getItem(DISPLAY_MODE) || 'same_as_system',
+    settingsLanguage: PersistentStore.get(LANG_VARIABLE) || 'en',
+    settingsAmountsUnit: PersistentStore.get(AMOUNTS_UNIT) || 'DFI',
+    settingDisplayMode: PersistentStore.get(DISPLAY_MODE) || 'same_as_system',
     settingsLaunchAtLogin: launchStat,
     settingsMinimizedAtLaunch:
-      launchStat && localStorage.getItem(LAUNCH_MINIMIZED) === 'true',
+      launchStat && PersistentStore.get(LAUNCH_MINIMIZED) === 'true',
     settingsPruneBlockStorage:
-      localStorage.getItem(PRUNE_BLOCK_STORAGE) === 'true',
+      PersistentStore.get(PRUNE_BLOCK_STORAGE) === 'true',
     settingsScriptVerificationThreads:
-      parseInt(`${localStorage.getItem(SCRIPT_VERIFICATION)}`, 10) || 0,
+      parseInt(`${PersistentStore.get(SCRIPT_VERIFICATION)}`, 10) || 0,
     settingBlockStorage:
-      parseInt(`${localStorage.getItem(BLOCK_STORAGE)}`, 10) || '',
+      parseInt(`${PersistentStore.get(BLOCK_STORAGE)}`, 10) || '',
     settingsDatabaseCache:
-      parseInt(`${localStorage.getItem(DATABASE_CACHE)}`, 10) || '',
+      parseInt(`${PersistentStore.get(DATABASE_CACHE)}`, 10) || '',
   };
   return { settings };
 };
 
 export const updateSettingsData = settingsData => {
-  localStorage.setItem(LANG_VARIABLE, settingsData.settingsLanguage);
-  localStorage.setItem(AMOUNTS_UNIT, settingsData.settingsAmountsUnit);
-  localStorage.setItem(DISPLAY_MODE, settingsData.settingDisplayMode);
-  localStorage.setItem(LAUNCH_AT_LOGIN, settingsData.settingsLaunchAtLogin);
-  localStorage.setItem(
-    LAUNCH_MINIMIZED,
-    settingsData.settingsMinimizedAtLaunch
-  );
-  localStorage.setItem(
+  PersistentStore.set(LANG_VARIABLE, settingsData.settingsLanguage);
+  PersistentStore.set(AMOUNTS_UNIT, settingsData.settingsAmountsUnit);
+  PersistentStore.set(DISPLAY_MODE, settingsData.settingDisplayMode);
+  PersistentStore.set(LAUNCH_AT_LOGIN, settingsData.settingsLaunchAtLogin);
+  PersistentStore.set(LAUNCH_MINIMIZED, settingsData.settingsMinimizedAtLaunch);
+  PersistentStore.set(
     PRUNE_BLOCK_STORAGE,
     settingsData.settingsPruneBlockStorage
   );
-  localStorage.setItem(
+  PersistentStore.set(
     SCRIPT_VERIFICATION,
     settingsData.settingsScriptVerificationThreads
   );
-  localStorage.setItem(BLOCK_STORAGE, settingsData.settingBlockStorage);
-  localStorage.setItem(DATABASE_CACHE, settingsData.settingsDatabaseCache);
+  PersistentStore.set(BLOCK_STORAGE, settingsData.settingBlockStorage);
+  PersistentStore.set(DATABASE_CACHE, settingsData.settingsDatabaseCache);
   return { settings: settingsData };
 };
 

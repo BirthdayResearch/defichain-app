@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import uid from 'uid';
 import {
   Button,
   Form,
@@ -14,54 +15,78 @@ import {
 import { MdArrowBack } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
-import { fetchReceivedDataRequest } from '../../reducer';
-import { WALLET_BASE_PATH } from '../../../../constants';
+import log from 'loglevel';
+import { addReceiveTxnsRequest } from '../../reducer';
+import {
+  WALLET_PAGE_PATH,
+  DEFAULT_UNIT,
+  WALLET_PAYMENT_REQ_BASE_PATH,
+} from '../../../../constants';
+import { isValidNumber } from '../../../../utils/validation';
+import { getNewAddress } from '../../service';
 
 interface ReceivePageProps {
-  receivedData: {
-    amountToReceive: string;
-    amountToReceiveDisplayed: number;
-    receiveMessage: string;
-    showBackdrop: string;
-    receiveStep: string;
+  history: {
+    push(url: string): void;
   };
-  fetchReceivedData: () => void;
+  paymentRequests: [];
+  addReceiveTxns: (...args: any[]) => void;
 }
 
 interface ReceivePageState {
-  amountToReceive: string;
-  amountToReceiveDisplayed: number;
-  receiveMessage: string;
-  showBackdrop: string;
-  receiveStep: string;
+  amount: number | string;
+  label: string;
+  message: string;
+  address: string | undefined;
 }
 
 class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   state = {
-    amountToReceive: '',
-    amountToReceiveDisplayed: 0,
-    receiveMessage: '',
-    showBackdrop: '',
-    receiveStep: 'default',
+    amount: '',
+    label: '',
+    message: '',
+    address: '',
   };
 
-  componentDidMount() {
-    this.props.fetchReceivedData();
-  }
-
-  updateAmountToReceive = e => {
-    const amountToReceive =
-      !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
-    const amountToReceiveDisplayed =
-      !isNaN(amountToReceive) && amountToReceive.length ? amountToReceive : '0';
-    this.setState({
-      amountToReceive,
-      amountToReceiveDisplayed,
-    });
+  onSubmit = async () => {
+    try {
+      const { amount, label, message } = this.state;
+      const newAddress = await getNewAddress(label);
+      if (!newAddress) {
+        throw new Error(
+          I18n.t('containers.wallet.receivePage.addressNotAvailable')
+        );
+      }
+      const data = {
+        amount,
+        label,
+        message,
+        id: uid(),
+        time: new Date().toString(),
+        unit: DEFAULT_UNIT,
+        address: newAddress,
+      };
+      this.props.addReceiveTxns(data);
+      this.props.history.push(`${WALLET_PAYMENT_REQ_BASE_PATH}/${data.id}`);
+    } catch (err) {
+      log.error(err);
+    }
   };
-  // tslint:disable-next-line:no-empty
-  receiveStepConfirm = () => {};
+
+  handelChange = event => {
+    const { name, value, type } = event.target;
+    if (type === 'number' && !isValidNumber(value) && value !== '') {
+      return false;
+    }
+    const newState = { [name]: value } as Pick<
+      ReceivePageState,
+      keyof ReceivePageState
+    >;
+    this.setState(newState);
+  };
+
   render() {
+    const { amount, label, message, address } = this.state;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -70,7 +95,12 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
           </title>
         </Helmet>
         <header className='header-bar'>
-          <Button to='/' tag={NavLink} color='link' className='header-bar-back'>
+          <Button
+            to={WALLET_PAGE_PATH}
+            tag={NavLink}
+            color='link'
+            className='header-bar-back'
+          >
             <MdArrowBack />
             <span className='d-lg-inline'>
               {I18n.t('containers.wallet.receivePage.wallet')}
@@ -84,17 +114,19 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               <FormGroup className='form-label-group'>
                 <InputGroup>
                   <Input
-                    type='text'
+                    type='number'
+                    pattern='[0-9]*'
                     inputMode='numeric'
                     placeholder={I18n.t(
                       'containers.wallet.receivePage.amountToReceive'
                     )}
-                    name='amountToReceive'
-                    id='amountToReceive'
-                    onChange={this.updateAmountToReceive}
+                    value={amount}
+                    name='amount'
+                    id='amount'
+                    onChange={this.handelChange}
                     autoFocus
                   />
-                  <Label for='amountToReceive'>
+                  <Label for='amount'>
                     {I18n.t('containers.wallet.receivePage.amount')}
                   </Label>
                   <InputGroupAddon addonType='append'>
@@ -106,9 +138,24 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               </FormGroup>
               <FormGroup className='form-label-group'>
                 <Input
+                  type='text'
+                  value={label}
+                  name='label'
+                  id='label'
+                  onChange={this.handelChange}
+                  placeholder={I18n.t('containers.wallet.receivePage.label')}
+                />
+                <Label for='message'>
+                  {I18n.t('containers.wallet.receivePage.label')}
+                </Label>
+              </FormGroup>
+              <FormGroup className='form-label-group'>
+                <Input
+                  value={message}
                   type='textarea'
                   name='message'
                   id='message'
+                  onChange={this.handelChange}
                   placeholder={I18n.t('containers.wallet.receivePage.message')}
                   rows='3'
                 />
@@ -126,13 +173,13 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                 {I18n.t('containers.wallet.receivePage.amountToReceive')}
               </div>
               <div>
-                {this.state.amountToReceiveDisplayed}&nbsp;
+                {amount || '-'}&nbsp;
                 {I18n.t('containers.wallet.receivePage.dFI')}
               </div>
             </div>
             <div>
               <Button
-                to={WALLET_BASE_PATH}
+                to={WALLET_PAGE_PATH}
                 tag={NavLink}
                 color='link'
                 className='mr-3'
@@ -141,12 +188,8 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               </Button>
               <Button
                 color='primary'
-                disabled={
-                  !this.state.amountToReceive || !this.state.receiveMessage
-                    ? true
-                    : false
-                }
-                onClick={this.receiveStepConfirm}
+                // disabled={!amount || !message ? true : false}
+                onClick={this.onSubmit}
               >
                 {I18n.t('containers.wallet.receivePage.continue')}
               </Button>
@@ -159,15 +202,15 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
 }
 
 const mapStateToProps = state => {
-  const { receivedData } = state.wallet;
+  const { paymentRequests } = state.wallet;
   return {
-    receivedData,
+    paymentRequests,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchReceivedData: () => dispatch(fetchReceivedDataRequest()),
+    addReceiveTxns: (data: any) => dispatch(addReceiveTxnsRequest(data)),
   };
 };
 

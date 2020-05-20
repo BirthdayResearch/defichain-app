@@ -1,29 +1,36 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as HttpStatus from 'http-status-codes';
 import log from 'loglevel';
 import {
-  fetchPaymentRequestsRequest,
+  fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
   fetchWalletTxnsRequest,
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
-  fetchReceivedDataRequest,
-  fetchReceivedDataFailure,
-  fetchReceivedDataSuccess,
+  addReceiveTxnsRequest,
+  addReceiveTxnsSuccess,
+  addReceiveTxnsFailure,
   fetchSendDataFailure,
   fetchSendDataRequest,
   fetchSendDataSuccess,
   fetchWalletBalanceRequest,
   fetchWalletBalanceSuccess,
   fetchWalletBalanceFailure,
+  removeReceiveTxnsRequest,
+  removeReceiveTxnsSuccess,
+  removeReceiveTxnsFailure,
+  fetchPendingBalanceRequest,
+  fetchPendingBalanceSuccess,
+  fetchPendingBalanceFailure,
 } from './reducer';
 import {
-  handelFetchMasterNodes,
+  handelGetPaymentRequest,
+  handelAddReceiveTxns,
   handelFetchWalletTxns,
-  handelReceivedData,
-  handelSendData,
+  handleSendData,
   handleFetchWalletBalance,
+  handelRemoveReceiveTxns,
+  handleFetchPendingBalance,
 } from './service';
 
 function* fetchWalletBalance() {
@@ -36,23 +43,50 @@ function* fetchWalletBalance() {
   }
 }
 
-function* fetchMasterNodes() {
+function* fetchPendingBalance() {
   try {
-    const data = yield call(handelFetchMasterNodes);
-    if (data && data.requests) {
-      yield put(fetchPaymentRequestsSuccess({ ...data }));
-    } else {
-      yield put(fetchPaymentRequestsFailure('No data found'));
-    }
+    const result = yield call(handleFetchPendingBalance);
+    yield put(fetchPendingBalanceSuccess(result));
+  } catch (e) {
+    yield put({ type: fetchPendingBalanceFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+function* addReceiveTxns(action: any) {
+  try {
+    const result = yield call(handelAddReceiveTxns, action.payload);
+    yield put(addReceiveTxnsSuccess(result));
+  } catch (e) {
+    yield put(addReceiveTxnsFailure(e.message));
+    log.error(e);
+  }
+}
+
+function* removeReceiveTxns(action: any) {
+  try {
+    const result = yield call(handelRemoveReceiveTxns, action.payload);
+    yield put(removeReceiveTxnsSuccess(result));
+  } catch (e) {
+    yield put(removeReceiveTxnsFailure(e.message));
+    log.error(e);
+  }
+}
+
+function* fetchPayments() {
+  try {
+    const data = yield call(handelGetPaymentRequest);
+    yield put(fetchPaymentRequestsSuccess(data));
   } catch (e) {
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
     log.error(e);
   }
 }
 
-function* fetchWalletTxns() {
+function* fetchWalletTxns(action) {
   try {
-    const data = yield call(handelFetchWalletTxns);
+    const { currentPage: pageNo, pageSize } = action.payload;
+    const data = yield call(handelFetchWalletTxns, pageNo, pageSize);
     if (data && data.walletTxns) {
       yield put(fetchWalletTxnsSuccess({ ...data }));
     } else {
@@ -64,28 +98,11 @@ function* fetchWalletTxns() {
   }
 }
 
-function* fetchReceivedData() {
-  try {
-    const data = yield call(handelReceivedData);
-    if (data) {
-      yield put(fetchReceivedDataSuccess({ ...data }));
-    } else {
-      yield put({
-        type: fetchReceivedDataFailure.type,
-        payload: 'No data found',
-      });
-    }
-  } catch (e) {
-    yield put({ type: fetchReceivedDataFailure.type, payload: e.message });
-    log.error(e);
-  }
-}
-
 function* fetchSendData() {
   try {
-    const data = yield call(handelSendData);
+    const data = yield call(handleSendData);
     if (data) {
-      yield put(fetchSendDataSuccess({ ...data }));
+      yield put(fetchSendDataSuccess({ data }));
     } else {
       yield put(fetchSendDataFailure('No data found'));
     }
@@ -96,11 +113,13 @@ function* fetchSendData() {
 }
 
 function* mySaga() {
-  yield takeLatest(fetchPaymentRequestsRequest.type, fetchMasterNodes);
+  yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
+  yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
+  yield takeLatest(fetchPaymentRequest.type, fetchPayments);
   yield takeLatest(fetchWalletTxnsRequest.type, fetchWalletTxns);
-  yield takeLatest(fetchReceivedDataRequest.type, fetchReceivedData);
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
+  yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
 }
 
 export default mySaga;

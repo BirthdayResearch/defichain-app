@@ -1,113 +1,44 @@
+import log from 'loglevel';
 import RpcClient from '../../utils/rpc-client';
+import { PAYMENT_REQUEST } from '../../constants';
+import PersistentStore from '../../utils/persistentStore';
 
-export const handelFetchMasterNodes = () => {
-  const data = {
-    requests: [
-      {
-        id: 0,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 1,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 2,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 3,
-        type: 'Sent',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 4,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 5,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 6,
-        type: 'Sent',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-      {
-        id: 7,
-        type: 'Received',
-        time: 'Feb 19, 2:03 pm',
-        hash: 'c9a59be5d9f453229f519ab3c5289c',
-        amount: 100,
-        unit: 'DFI',
-      },
-    ],
-  };
+export const handelGetPaymentRequest = () => {
+  return JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+};
+
+export const handelAddReceiveTxns = data => {
+  const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+  const paymentData = [data, ...initialData];
+  PersistentStore.set(PAYMENT_REQUEST, paymentData);
+  return paymentData;
+};
+
+export const handelRemoveReceiveTxns = id => {
+  const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+  const paymentData = initialData.filter(
+    ele => ele.id.toString() !== id.toString()
+  );
+  PersistentStore.set(PAYMENT_REQUEST, paymentData);
+  return paymentData;
+};
+
+export const handelFetchWalletTxns = async (
+  pageNo: number,
+  pageSize: number
+) => {
+  const rpcClient = new RpcClient();
+  const walletTxns = await rpcClient.getWalletTxns(pageNo - 1, pageSize);
+  const walletTxnCount = await rpcClient.getWalletTxnCount();
+  const data = { walletTxns, walletTxnCount };
   return data;
 };
 
-export const handelFetchWalletTxns = () => {
+export const handleSendData = async () => {
+  const rpcClient = new RpcClient();
+  const walletBalance = await rpcClient.getBalance();
   const data = {
-    walletTxns: [
-      {
-        id: 0,
-        time: 'Feb 19, 2:03 pm',
-        amount: 0.123,
-        message: 'I need money!',
-        unit: 'DFI',
-      },
-      {
-        id: 1,
-        time: 'Feb 19, 2:03 pm',
-        amount: 0.123,
-        message: 'I need money!',
-        unit: 'DFI',
-      },
-    ],
-  };
-  return data;
-};
-
-export const handelReceivedData = () => {
-  const data = {
-    amountToReceive: '',
-    amountToReceiveDisplayed: 0,
-    receiveMessage: '',
-    showBackdrop: '',
-    receiveStep: 'default',
-  };
-  return data;
-};
-
-export const handelSendData = () => {
-  const data = {
-    walletBalance: 100,
+    walletBalance,
     amountToSend: '',
     amountToSendDisplayed: 0,
     toAddress: '',
@@ -123,4 +54,38 @@ export const handelSendData = () => {
 export const handleFetchWalletBalance = async () => {
   const rpcClient = new RpcClient();
   return await rpcClient.getBalance();
+};
+
+export const handleFetchPendingBalance = async (): Promise<number> => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getPendingBalance();
+};
+
+export const isValidAddress = async (toAddress: string) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.isValidAddress(toAddress);
+  } catch (err) {
+    log.error(`Got error in isValidAddress: ${err}`);
+    return false;
+  }
+};
+
+export const sendToAddress = async (toAddress: string, amount: number) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.sendToAddress(toAddress, amount);
+  } catch (err) {
+    log.error(`Got error in sendToAddress: ${err}`);
+  }
+};
+
+export const getNewAddress = async label => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.getNewAddress(label);
+  } catch (err) {
+    log.error(`Got error in getNewAddress: ${err}`);
+    throw err;
+  }
 };

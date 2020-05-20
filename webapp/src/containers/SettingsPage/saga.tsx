@@ -17,6 +17,7 @@ import {
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
 import { LANG_VARIABLE } from '../../constants';
+import PersistentStore from '../../utils/persistentStore';
 
 function* getSettings() {
   try {
@@ -39,7 +40,7 @@ function* updateSettings(action) {
   try {
     let updateLanguage = false;
     if (
-      localStorage.getItem(LANG_VARIABLE) !==
+      PersistentStore.get(LANG_VARIABLE) !==
       action.payload.settings.settingsLanguage
     ) {
       updateLanguage = true;

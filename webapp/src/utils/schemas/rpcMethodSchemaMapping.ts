@@ -9,6 +9,21 @@ rpcResponseSchemaMap.set(
 );
 
 rpcResponseSchemaMap.set(
+  methodNames.GET_BLOCK_COUNT,
+  rpcResponseSchemas.getBlockCountSchema
+);
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_PEER_INFO,
+  rpcResponseSchemas.getPeerInfoSchema
+);
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_NEW_ADDRESS,
+  rpcResponseSchemas.getNewAddressSchema
+);
+
+rpcResponseSchemaMap.set(
   methodNames.GET_BLOCKCHAIN_INFO,
   rpcResponseSchemas.blockchainInfoSchema
 );
@@ -21,4 +36,19 @@ rpcResponseSchemaMap.set(
 rpcResponseSchemaMap.set(
   methodNames.LIST_RECEIVED_BY_ADDRESS,
   rpcResponseSchemas.receiveAddressListSchema
+);
+
+rpcResponseSchemaMap.set(
+  methodNames.LIST_TRANSACTIONS,
+  rpcResponseSchemas.txnListSchema
+);
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_WALLET_INFO,
+  rpcResponseSchemas.walletInfoSchema
+);
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_BALANCES,
+  rpcResponseSchemas.getBalancesSchema
 );

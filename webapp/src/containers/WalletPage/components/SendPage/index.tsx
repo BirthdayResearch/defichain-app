@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import log from 'loglevel';
 import {
   Row,
   Col,
@@ -21,11 +22,11 @@ import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import log from 'loglevel';
-import shutterSound from './../../../../assets/audio/shutter.mp3';
-
-const shutterSnap = new UIfx(shutterSound);
 import { fetchSendDataRequest } from '../../reducer';
+import { isValidAddress, sendToAddress } from '../../service';
+import { WALLET_PAGE_PATH } from '../../../../constants';
+import shutterSound from './../../../../assets/audio/shutter.mp3';
+const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
   sendData: {
@@ -52,6 +53,8 @@ interface SendPageState {
   showBackdrop: string;
   sendStep: string;
   waitToSend: number;
+  isAmountValid: boolean | string;
+  isAddressValid: boolean | string;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -67,10 +70,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     showBackdrop: '',
     sendStep: 'default',
     waitToSend: 5,
+    isAmountValid: false,
+    isAddressValid: false,
   };
+
   componentDidMount() {
     this.props.fetchSendData();
   }
+
   updateAmountToSend = e => {
     const amountToSend =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
@@ -91,8 +98,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   maxAmountToSend = () => {
     this.setState({
-      amountToSend: this.state.walletBalance,
-      amountToSendDisplayed: this.state.walletBalance,
+      amountToSend: this.props.sendData.walletBalance,
+      amountToSendDisplayed: this.props.sendData.walletBalance,
     });
   };
 
@@ -155,11 +162,25 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  sendTransaction = () => {
+  sendTransaction = async () => {
+    await sendToAddress(this.state.toAddress, this.state.amountToSendDisplayed);
+
     this.setState({
       sendStep: 'success',
       showBackdrop: 'show-backdrop',
     });
+  };
+
+  isAmountValid = async () => {
+    const isAmountValid =
+      this.state.amountToSend &&
+      this.state.amountToSendDisplayed < this.props.sendData.walletBalance;
+    this.setState({ isAmountValid });
+  };
+
+  isAddressValid = async () => {
+    const isAddressValid = await isValidAddress(this.state.toAddress);
+    this.setState({ isAddressValid });
   };
 
   prepareSound = () => {};
@@ -170,7 +191,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <title>{I18n.t('containers.wallet.sendPage.sendDFITitle')}</title>
         </Helmet>
         <header className='header-bar'>
-          <Button to='/' tag={NavLink} color='link' className='header-bar-back'>
+          <Button
+            to={WALLET_PAGE_PATH}
+            tag={NavLink}
+            color='link'
+            className='header-bar-back'
+          >
             <MdArrowBack />
             <span className='d-lg-inline'>
               {I18n.t('containers.wallet.sendPage.wallet')}
@@ -194,6 +220,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       id='amountToSend'
                       value={this.state.amountToSend}
                       onChange={this.updateAmountToSend}
+                      onBlur={this.isAmountValid}
                       autoFocus
                     />
                     <Label for='amountToSend'>
@@ -226,6 +253,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     id='toAddress'
                     value={this.state.toAddress}
                     onChange={this.updateToAddress}
+                    onBlur={this.isAddressValid}
                   />
                   <Label for='toAddress'>
                     {I18n.t('containers.wallet.sendPage.toAddress')}
@@ -270,7 +298,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {this.state.walletBalance}&nbsp;
+                  {this.props.sendData.walletBalance}&nbsp;
                   {I18n.t('containers.wallet.sendPage.dFI')}
                 </div>
               </Col>
@@ -284,15 +312,18 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
-                <Button to='/' tag={NavLink} color='link' className='mr-3'>
+                <Button
+                  to={WALLET_PAGE_PATH}
+                  tag={NavLink}
+                  color='link'
+                  className='mr-3'
+                >
                   {I18n.t('containers.wallet.sendPage.cancel')}
                 </Button>
                 <Button
                   color='primary'
                   disabled={
-                    !this.state.amountToSend || !this.state.toAddress
-                      ? true
-                      : false
+                    !this.state.isAmountValid || !this.state.isAddressValid
                   }
                   onClick={this.sendStepConfirm}
                 >
@@ -362,7 +393,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to='/' tag={NavLink}>
+              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

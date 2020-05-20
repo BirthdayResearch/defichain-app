@@ -6,6 +6,7 @@ import {
 import enTranslationMessages from './languages/en.json';
 import deTranslationMessages from './languages/de.json';
 import { LANG_VARIABLE } from '../constants';
+import PersistentStore from '../utils/persistentStore';
 
 const formatTranslationMessages = (locale, messages) => {
   const flattenFormattedMessages = (formattedMessages, key) => {
@@ -23,10 +24,10 @@ const translationsObject = {
 export const setupI18n = store => {
   syncTranslationWithStore(store);
   store.dispatch(loadTranslations(translationsObject));
-  const storage_lang = localStorage.getItem(LANG_VARIABLE);
+  const storageLang = PersistentStore.get(LANG_VARIABLE);
   let locale = '';
-  if (storage_lang) {
-    locale = storage_lang;
+  if (storageLang) {
+    locale = storageLang;
   } else if (navigator.language) {
     const lang = navigator.language;
     locale = lang;
@@ -34,7 +35,7 @@ export const setupI18n = store => {
     const lang = navigator.languages[0];
     locale = lang;
   }
-  localStorage.setItem(LANG_VARIABLE, locale);
+  PersistentStore.set(LANG_VARIABLE, locale);
   store.dispatch(setLocale(getLocales(locale)));
 };
 

@@ -21,10 +21,15 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     props.syncStatusRequest();
   }, []);
 
-  const { latestSyncedBlock, latestBlock, syncedPercentage } = props;
+  const { latestSyncedBlock, latestBlock, syncedPercentage, isLoading } = props;
+
+  if (isLoading) {
+    return <div className={styles.syncStatusWrapper}>&nbsp;</div>;
+  }
+
   return (
     <div className={styles.syncStatusWrapper}>
-      {latestSyncedBlock === latestBlock ? (
+      {latestSyncedBlock >= latestBlock ? (
         <>
           <span className={styles.syncHeading}>
             {I18n.t(`components.syncStatus.synchronized`)}
