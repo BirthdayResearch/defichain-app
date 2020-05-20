@@ -70,7 +70,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               {I18n.t('containers.sideBar.wallet')}
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <NavItem className={styles.navItem}>
             <NavLink
               to={MASTER_NODES_PATH}
               tag={RRNavLink}
@@ -80,7 +81,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               <MdDns />
               {I18n.t('containers.sideBar.masterNodes')}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
           <NavItem className={styles.navItem}>
             <NavLink
               to={BLOCKCHAIN_BASE_PATH}
@@ -92,7 +93,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <NavItem className={styles.navItem}>
             <NavLink
               to={EXCHANGE_PATH}
               tag={RRNavLink}
@@ -102,7 +104,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               <MdCompareArrows />
               {I18n.t('containers.sideBar.exchange')}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <Nav className={`${styles.navSub} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
