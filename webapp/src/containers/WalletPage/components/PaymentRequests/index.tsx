@@ -84,7 +84,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                     </td>
                     <td>
                       <div className={styles.amount}>
-                        {request.amount}&nbsp;
+                        {request.amount || '-'}&nbsp;
                         <span className={styles.unit}>{request.unit}</span>
                       </div>
                     </td>
