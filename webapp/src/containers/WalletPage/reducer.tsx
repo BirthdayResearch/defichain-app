@@ -12,6 +12,7 @@ const configSlice = createSlice({
     paymentRequests: [],
     walletTxns: [],
     walletTxnCount: 0,
+    isWalletTxnsLoading: false,
     receivedData: {
       amountToReceive: '',
       amountToReceiveDisplayed: 0,
@@ -42,15 +43,16 @@ const configSlice = createSlice({
       state.paymentRequests = [];
     },
     fetchWalletTxnsRequest(state, action) {
-      state.walletTxns = [];
-      state.walletTxnCount = 0;
+      state.isWalletTxnsLoading = true;
     },
     fetchWalletTxnsSuccess(state, action) {
       state.walletTxns = action.payload.walletTxns;
       state.walletTxnCount = action.payload.walletTxnCount;
+      state.isWalletTxnsLoading = false;
     },
     fetchWalletTxnsFailure(state, action) {
       state.walletTxns = [];
+      state.isWalletTxnsLoading = false;
     },
     removeReceiveTxnsRequest(state, action) {},
     removeReceiveTxnsSuccess(state, action) {

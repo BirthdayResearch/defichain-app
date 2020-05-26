@@ -21,9 +21,11 @@ export default class AutoStart {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
       const isEnabled = await autoLauncher.isEnabled();
 
-      if (isEnabled === enabled) {
+      // Handel do not disable autostart when already disabled
+      if (!enabled && isEnabled === enabled) {
         return { enabled };
       }
+
       if (enabled) {
         await autoLauncher.enable();
         return { enabled };

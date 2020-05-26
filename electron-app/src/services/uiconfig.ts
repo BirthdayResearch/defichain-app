@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import randomString from 'random-string';
 import {
   getFileData,
-  checkFileExists,
+  checkPathExists,
   writeFile,
   getRpcAuth,
   createDir,
@@ -23,19 +23,19 @@ export default class UiConfig {
   async get() {
     try {
       // check app dir exists
-      if (!checkFileExists(APP_DIR)) {
+      if (!checkPathExists(APP_DIR)) {
         createDir(APP_DIR);
       }
       // check for UI config file
-      if (checkFileExists(UI_CONFIG_FILE_NAME)) {
+      if (checkPathExists(UI_CONFIG_FILE_NAME)) {
         const configData = this.getUiDetails(UI_CONFIG_FILE_NAME);
         return configData;
       }
 
       // check for default defi config paths
-      if (checkFileExists(CONFIG_FILE_NAME)) {
+      if (checkPathExists(CONFIG_FILE_NAME)) {
         const defaultConfigData = this.getDefault(CONFIG_FILE_NAME);
-        const configData = this.saveUiDetails(
+        const configData = this.saveUiConfig(
           UI_CONFIG_FILE_NAME,
           defaultConfigData
         );
@@ -59,7 +59,7 @@ export default class UiConfig {
       };
       const defaultConfigData = ini.encode(defaultConfig);
       writeFile(CONFIG_FILE_NAME, defaultConfigData);
-      const configData = this.saveUiDetails(UI_CONFIG_FILE_NAME, defaultConfig);
+      const configData = this.saveUiConfig(UI_CONFIG_FILE_NAME, defaultConfig);
       return configData;
     } catch (err) {
       log.error(err);
@@ -114,7 +114,7 @@ export default class UiConfig {
     throw new Error('Inconsistent data in default config');
   }
 
-  saveUiDetails = (path: string, configData: any) => {
+  saveUiConfig = (path: string, configData: any) => {
     const {
       rpcauth,
       rpcbind,

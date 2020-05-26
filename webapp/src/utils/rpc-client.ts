@@ -1,7 +1,6 @@
 import axios from 'axios';
-import _ from 'lodash';
 import store from '../app/rootStore';
-import { RPC_V } from './../constants';
+import { RPC_V, REGTEST } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import { IAddressAndAmount, ITxn } from './interfaces';
@@ -84,7 +83,7 @@ export default class RpcClient {
   };
 
   getPendingBalance = async (): Promise<number> => {
-    const {data} = await this.call("/", methodNames.GET_BALANCES, []);
+    const { data } = await this.call('/', methodNames.GET_BALANCES, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BALANCES),
       data
@@ -97,7 +96,7 @@ export default class RpcClient {
       );
     }
     return data.result.mine.untrusted_pending;
-  }
+  };
 
   getNewAddress = async (label): Promise<string> => {
     const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, [label]);
@@ -141,11 +140,15 @@ export default class RpcClient {
 
   sendToAddress = async (
     toAddress: string,
-    amount: number
+    amount: number,
+    subtractfeefromamount: boolean = false
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.SEND_TO_ADDRESS, [
       toAddress,
       amount,
+      '',
+      '',
+      subtractfeefromamount,
     ]);
     return data.result;
   };
@@ -228,6 +231,10 @@ export default class RpcClient {
           methodNames.GET_BLOCKCHAIN_INFO
         }: ${JSON.stringify(data.result)}`
       );
+    }
+    // return true for initial block downloaded in regtest network
+    if (data.result.chain === REGTEST) {
+      return true;
     }
     return data.result.initialblockdownload;
   };

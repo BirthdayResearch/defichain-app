@@ -1,3 +1,4 @@
+export const REGTEST = 'regtest';
 export const AMOUNTS_UNIT = 'amountsUnit';
 export const BLOCK_STORAGE = 'blockStorage';
 export const DATABASE_CACHE = 'databaseCache';
