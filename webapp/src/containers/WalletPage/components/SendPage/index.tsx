@@ -83,10 +83,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
     const amountToSendDisplayed =
       !isNaN(amountToSend) && amountToSend.length ? amountToSend : '0';
-    this.setState({
-      amountToSend,
-      amountToSendDisplayed,
-    });
+    this.setState(
+      () => {
+        return { amountToSend, amountToSendDisplayed };
+      },
+      () => {
+        this.isAmountValid();
+      }
+    );
   };
 
   updateToAddress = e => {
@@ -97,10 +101,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   maxAmountToSend = () => {
-    this.setState({
-      amountToSend: this.props.sendData.walletBalance,
-      amountToSendDisplayed: this.props.sendData.walletBalance,
-    });
+    this.setState(
+      () => {
+        return {
+          amountToSend: this.props.sendData.walletBalance,
+          amountToSendDisplayed: this.props.sendData.walletBalance,
+        };
+      },
+      () => {
+        this.isAmountValid();
+      }
+    );
   };
 
   openScanner = () => {
@@ -123,6 +134,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         flashed: 'flashed',
       });
       setTimeout(() => {
+        this.isAddressValid();
         this.toggleScanner();
         this.setState({
           flashed: '',
@@ -152,6 +164,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       showBackdrop: '',
       waitToSend: 5,
     });
+    clearInterval(this.waitToSendInterval);
   };
 
   sendStepConfirm = () => {
@@ -163,8 +176,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   sendTransaction = async () => {
-    await sendToAddress(this.state.toAddress, this.state.amountToSendDisplayed);
-
+    // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+    if (this.state.amountToSendDisplayed === this.props.sendData.walletBalance)
+      await sendToAddress(
+        this.state.toAddress,
+        this.state.amountToSendDisplayed,
+        true
+      );
+    else
+      await sendToAddress(
+        this.state.toAddress,
+        this.state.amountToSendDisplayed,
+        false
+      );
     this.setState({
       sendStep: 'success',
       showBackdrop: 'show-backdrop',
@@ -174,7 +198,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   isAmountValid = async () => {
     const isAmountValid =
       this.state.amountToSend &&
-      this.state.amountToSendDisplayed < this.props.sendData.walletBalance;
+      this.state.amountToSendDisplayed > 0 &&
+      this.state.amountToSendDisplayed <= this.props.sendData.walletBalance;
     this.setState({ isAmountValid });
   };
 
@@ -220,7 +245,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       id='amountToSend'
                       value={this.state.amountToSend}
                       onChange={this.updateAmountToSend}
-                      onBlur={this.isAmountValid}
                       autoFocus
                     />
                     <Label for='amountToSend'>

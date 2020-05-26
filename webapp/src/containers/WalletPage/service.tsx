@@ -30,7 +30,7 @@ export const handelFetchWalletTxns = async (
   const rpcClient = new RpcClient();
   const walletTxns = await rpcClient.getWalletTxns(pageNo - 1, pageSize);
   const walletTxnCount = await rpcClient.getWalletTxnCount();
-  const data = { walletTxns, walletTxnCount };
+  const data = { walletTxns: walletTxns.reverse(), walletTxnCount };
   return data;
 };
 
@@ -71,10 +71,14 @@ export const isValidAddress = async (toAddress: string) => {
   }
 };
 
-export const sendToAddress = async (toAddress: string, amount: number) => {
+export const sendToAddress = async (
+  toAddress: string,
+  amount: number,
+  subtractfeefromamount: boolean = false
+) => {
   const rpcClient = new RpcClient();
   try {
-    return rpcClient.sendToAddress(toAddress, amount);
+    return rpcClient.sendToAddress(toAddress, amount, subtractfeefromamount);
   } catch (err) {
     log.error(`Got error in sendToAddress: ${err}`);
   }

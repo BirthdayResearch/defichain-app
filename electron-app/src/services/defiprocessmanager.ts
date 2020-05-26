@@ -9,7 +9,7 @@ import {
   PID_FILE_NAME,
 } from '../constants';
 import {
-  checkFileExists,
+  checkPathExists,
   getFileData,
   getProcesses,
   responseMessage,
@@ -18,10 +18,11 @@ import {
 } from '../utils';
 
 // EXCEPTION handling event response inside service
+// TODO restructure DefiProcessManager
 export default class DefiProcessManager {
   async start(params: any, event: Electron.IpcMainEvent) {
     try {
-      if (checkFileExists(PID_FILE_NAME)) {
+      if (checkPathExists(PID_FILE_NAME)) {
         const pid = getFileData(PID_FILE_NAME);
         const processLists: any = await getProcesses({
           pid: parseInt(pid, 10),
@@ -40,7 +41,7 @@ export default class DefiProcessManager {
         path.join(BINARY_FILE_PATH, BINARY_FILE_NAME)
       );
 
-      if (!checkFileExists(execPath)) {
+      if (!checkPathExists(execPath)) {
         throw new Error(`${execPath} file not available`);
       }
 

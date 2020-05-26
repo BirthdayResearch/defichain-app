@@ -22,7 +22,6 @@ import {
   DEFAULT_UNIT,
   WALLET_PAYMENT_REQ_BASE_PATH,
 } from '../../../../constants';
-import { isValidNumber } from '../../../../utils/validation';
 import { getNewAddress } from '../../service';
 
 interface ReceivePageProps {
@@ -73,9 +72,9 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
     }
   };
 
-  handelChange = event => {
+  handleChange = event => {
     const { name, value, type } = event.target;
-    if (type === 'number' && !isValidNumber(value) && value !== '') {
+    if (type === 'number' && isNaN(value) && value !== '') {
       return false;
     }
     const newState = { [name]: value } as Pick<
@@ -123,7 +122,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                     value={amount}
                     name='amount'
                     id='amount'
-                    onChange={this.handelChange}
+                    onChange={this.handleChange}
                     autoFocus
                   />
                   <Label for='amount'>
@@ -142,7 +141,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                   value={label}
                   name='label'
                   id='label'
-                  onChange={this.handelChange}
+                  onChange={this.handleChange}
                   placeholder={I18n.t('containers.wallet.receivePage.label')}
                 />
                 <Label for='message'>
@@ -155,7 +154,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                   type='textarea'
                   name='message'
                   id='message'
-                  onChange={this.handelChange}
+                  onChange={this.handleChange}
                   placeholder={I18n.t('containers.wallet.receivePage.message')}
                   rows='3'
                 />
@@ -188,7 +187,6 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               </Button>
               <Button
                 color='primary'
-                // disabled={!amount || !message ? true : false}
                 onClick={this.onSubmit}
               >
                 {I18n.t('containers.wallet.receivePage.continue')}

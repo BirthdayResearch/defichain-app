@@ -44,7 +44,7 @@ export const responseMessage = (success: boolean, res: any) => {
 };
 
 // Check file exists or not
-export const checkFileExists = (filePath: string) => {
+export const checkPathExists = (filePath: string) => {
   return fs.existsSync(filePath);
 };
 
@@ -65,7 +65,7 @@ export const getFileData = (filePath: string, format: string = 'utf-8') => {
 
 // write / append on UI config file
 export const writeFile = (filePath: string, data: any, append?: boolean) => {
-  if (append && checkFileExists(filePath)) {
+  if (append && checkPathExists(filePath)) {
     return fs.appendFileSync(filePath, data);
   } else {
     return fs.writeFileSync(filePath, data, 'utf8');
