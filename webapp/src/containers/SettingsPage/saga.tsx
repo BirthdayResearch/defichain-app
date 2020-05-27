@@ -1,6 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import log from 'loglevel';
 import {
+  getSettingOptionsRequest,
+  getSettingOptionsSuccess,
+  getSettingOptionsFailure,
   getInitialSettingsRequest,
   getInitialSettingsSuccess,
   getInitialSettingsFailure,
@@ -13,11 +16,28 @@ import {
   initialData,
   enablePreLaunchStatus,
   disablePreLaunchStatus,
+  getLanguage,
+  getAmountUnits,
+  getDisplayModes,
 } from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
 import { LANG_VARIABLE } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
+
+function* getSettingsOptions() {
+  try {
+    const languages = yield call(getLanguage);
+    const amountUnits = yield call(getAmountUnits);
+    const displayModes = yield call(getDisplayModes);
+    yield put(
+      getSettingOptionsSuccess({ languages, amountUnits, displayModes })
+    );
+  } catch (e) {
+    yield put(getSettingOptionsFailure(e.message));
+    log.error(e);
+  }
+}
 
 function* getSettings() {
   try {
@@ -39,19 +59,16 @@ function* getSettings() {
 function* updateSettings(action) {
   try {
     let updateLanguage = false;
-    if (
-      PersistentStore.get(LANG_VARIABLE) !==
-      action.payload.settings.settingsLanguage
-    ) {
+    if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {
       updateLanguage = true;
     }
-    const data = yield call(updateSettingsData, action.payload.settings);
-    if (data && data.settings) {
+    const data = yield call(updateSettingsData, action.payload);
+    if (data) {
       if (updateLanguage) {
         setupI18n(store);
       }
-      if (data.settings.settingsLaunchAtLogin) {
-        enablePreLaunchStatus(data.settings.settingsMinimizedAtLaunch);
+      if (data.launchAtLogin) {
+        enablePreLaunchStatus(data.minimizedAtLaunch);
       } else {
         disablePreLaunchStatus();
       }
@@ -69,6 +86,7 @@ function* updateSettings(action) {
 }
 
 function* mySaga() {
+  yield takeLatest(getSettingOptionsRequest.type, getSettingsOptions);
   yield takeLatest(getInitialSettingsRequest.type, getSettings);
   yield takeLatest(updateSettingsRequest.type, updateSettings);
 }

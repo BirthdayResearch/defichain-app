@@ -17,7 +17,7 @@ export const handelAddReceiveTxns = data => {
 export const handelRemoveReceiveTxns = id => {
   const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
   const paymentData = initialData.filter(
-    ele => ele.id.toString() !== id.toString()
+    ele => ele.id && ele.id.toString() !== id.toString()
   );
   PersistentStore.set(PAYMENT_REQUEST, paymentData);
   return paymentData;
@@ -73,7 +73,7 @@ export const isValidAddress = async (toAddress: string) => {
 
 export const sendToAddress = async (
   toAddress: string,
-  amount: number,
+  amount: number | string,
   subtractfeefromamount: boolean = false
 ) => {
   const rpcClient = new RpcClient();

@@ -5,10 +5,12 @@ import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchWalletTxnsRequest } from '../../reducer';
-import { WALLET_TXN_PAGE_SIZE } from '../../../../constants/configs';
+import { WALLET_TXN_PAGE_SIZE } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface WalletTxnsProps {
+  unit: string;
   walletTxns: {
     txnId: string;
     category: string;
@@ -80,8 +82,12 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     </td>
                     <td>
                       <div className={styles.amount}>
-                        {txn.amount}{' '}
-                        <span className={styles.unit}>{txn.unit}</span>
+                        {getAmountInSelectedUnit(
+                          txn.amount,
+                          props.unit,
+                          txn.unit
+                        )}{' '}
+                        <span className={styles.unit}>{props.unit}</span>
                       </div>
                     </td>
                     <td>
@@ -115,10 +121,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 };
 
 const mapStateToProps = state => {
-  const { walletTxns, walletTxnCount } = state.wallet;
+  const { settings, wallet } = state;
   return {
-    walletTxns,
-    walletTxnCount,
+    unit: settings.appConfig.unit,
+    walletTxns: wallet.walletTxns,
+    walletTxnCount: wallet.walletTxnCount,
   };
 };
 

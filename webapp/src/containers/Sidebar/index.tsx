@@ -6,16 +6,16 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
   MdCompareArrows,
 } from 'react-icons/md';
-import styles from './Sidebar.module.scss';
-import { connect } from 'react-redux';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
+import { getAmountInSelectedUnit } from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
   WALLET_PAGE_PATH,
@@ -25,10 +25,12 @@ import {
   HELP_PATH,
   SETTING_PATH,
 } from '../../constants';
+import styles from './Sidebar.module.scss';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalance: () => void;
   walletBalance: string;
+  unit: string;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = props => {
@@ -43,7 +45,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
           {I18n.t('containers.sideBar.balance')}
         </div>
         <div className={styles.balanceValue}>
-          {props.walletBalance} {I18n.t('containers.sideBar.dfi')}
+          {getAmountInSelectedUnit(props.walletBalance, props.unit)}
+          &nbsp;
+          {props.unit}
         </div>
       </div>
       <div className={styles.navs}>
@@ -55,7 +59,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
-              isActive={(match, location) => {
+              isActive={(_match: any, location: { pathname: string }) => {
                 return (
                   location.pathname.startsWith(WALLET_BASE_PATH) ||
                   location.pathname === WALLET_PAGE_PATH
@@ -128,10 +132,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
   );
 };
 
-const mapStateToProps = ({ i18n, wallet }) => {
-  const { locale } = i18n;
+const mapStateToProps = state => {
+  const { i18n, wallet, settings } = state;
   return {
-    locale,
+    locale: i18n.locale,
+    unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
   };
 };

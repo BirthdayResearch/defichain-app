@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { TabContent } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import isEqual from 'lodash/isEqual';
-import { getInitialSettingsRequest, updateSettingsRequest } from './reducer';
+import {
+  getInitialSettingsRequest,
+  updateSettingsRequest,
+  getSettingOptionsRequest,
+} from './reducer';
 import SettingsTabsHeader from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
@@ -16,37 +20,38 @@ interface SettingsPageProps {
   languages: { label: string; value: string }[];
   amountUnits: { label: string; value: string }[];
   displayModes: { label: string; value: string }[];
-  settings: {
-    settingsLanguage: string;
-    settingsAmountsUnit: string;
-    settingDisplayMode: string;
-    settingsLaunchAtLogin: boolean;
-    settingsMinimizedAtLaunch: boolean;
-    settingsPruneBlockStorage: boolean;
-    settingsScriptVerificationThreads: number;
-    settingBlockStorage: number;
-    settingsDatabaseCache: number;
+  appConfig: {
+    language: string;
+    unit: string;
+    displayMode: string;
+    launchAtLogin: boolean;
+    minimizedAtLaunch: boolean;
+    pruneBlockStorage: boolean;
+    scriptVerificationThreads: number;
+    blockStorage: number;
+    databaseCache: number;
   };
   isUpdating: boolean;
   isUpdated: boolean;
-  settingsLaunchAtLogin: boolean;
-  settingsMinimizedAtLaunch: boolean;
+  launchAtLogin: boolean;
+  minimizedAtLaunch: boolean;
   loadSettings: () => void;
-  updateSettings: (settings: any) => void;
+  loadSettingsOptions: () => void;
+  updateSettings: (data: any) => void;
   changeLanguage: () => void;
 }
 
 interface SettingsPageState {
   activeTab: string;
-  settingsLanguage?: string;
-  settingsAmountsUnit?: string;
-  settingDisplayMode?: string;
-  settingsLaunchAtLogin?: boolean;
-  settingsMinimizedAtLaunch?: boolean;
-  settingsPruneBlockStorage?: boolean;
-  settingsScriptVerificationThreads?: number;
-  settingBlockStorage?: number;
-  settingsDatabaseCache?: number;
+  language?: string;
+  unit?: string;
+  displayMode?: string;
+  launchAtLogin?: boolean;
+  minimizedAtLaunch?: boolean;
+  pruneBlockStorage?: boolean;
+  scriptVerificationThreads?: number;
+  blockStorage?: number;
+  databaseCache?: number;
   isUnsavedChanges: boolean;
 }
 
@@ -55,16 +60,17 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     super(props);
     this.state = {
       activeTab: 'general',
-      ...props.settings,
+      ...props.appConfig,
       isUnsavedChanges: false,
     };
+    props.loadSettingsOptions();
     props.loadSettings();
   }
 
-  componentDidUpdate = (prevProps: { settings: any; isFetching: boolean }) => {
-    if (!isEqual(this.props.settings, prevProps.settings)) {
+  componentDidUpdate = (prevProps: { appConfig: any; isFetching: boolean }) => {
+    if (!isEqual(this.props.appConfig, prevProps.appConfig)) {
       this.setState({
-        ...this.props.settings,
+        ...this.props.appConfig,
         isUnsavedChanges: false,
       });
     }
@@ -92,9 +98,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       {
         [field]: !this.state[field],
       } as {
-        settingsPruneBlockStorage: boolean;
-        settingsMinimizedAtLaunch: boolean;
-        settingsLaunchAtLogin: boolean;
+        pruneBlockStorage: boolean;
+        minimizedAtLaunch: boolean;
+        launchAtLogin: boolean;
       },
       () => this.checkForChanges()
     );
@@ -107,9 +113,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
           ? parseInt(event.target.value, 10)
           : '',
       } as {
-        settingsScriptVerificationThreads: number;
-        settingBlockStorage: number;
-        settingsDatabaseCache: number;
+        scriptVerificationThreads: number;
+        blockStorage: number;
+        databaseCache: number;
       },
       () => this.checkForChanges()
     );
@@ -117,85 +123,73 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
 
   checkForChanges = () => {
     const keys = [
-      'settingsLanguage',
-      'settingsAmountsUnit',
-      'settingDisplayMode',
-      'settingsLaunchAtLogin',
-      'settingsMinimizedAtLaunch',
-      'settingsPruneBlockStorage',
-      'settingsScriptVerificationThreads',
-      'settingBlockStorage',
-      'settingsDatabaseCache',
+      'language',
+      'unit',
+      'displayMode',
+      'launchAtLogin',
+      'minimizedAtLaunch',
+      'pruneBlockStorage',
+      'scriptVerificationThreads',
+      'blockStorage',
+      'databaseCache',
     ];
 
     let isUnsavedChanges = false;
 
-    keys.forEach((key) => {
-      if (!isUnsavedChanges && this.props.settings[key] !== this.state[key]) {
+    keys.forEach(key => {
+      if (!isUnsavedChanges && this.props.appConfig[key] !== this.state[key]) {
         isUnsavedChanges = true;
       }
     });
 
-    const { settingsLaunchAtLogin, settingsMinimizedAtLaunch } = this.state;
+    const { launchAtLogin, minimizedAtLaunch } = this.state;
 
     this.setState({
       isUnsavedChanges,
-      settingsMinimizedAtLaunch: !settingsLaunchAtLogin
-        ? false
-        : settingsMinimizedAtLaunch,
+      minimizedAtLaunch: !launchAtLogin ? false : minimizedAtLaunch,
     });
   };
 
   saveChanges = () => {
     const {
-      settingsLanguage,
-      settingsAmountsUnit,
-      settingDisplayMode,
-      settingsLaunchAtLogin,
-      settingsMinimizedAtLaunch,
-      settingsPruneBlockStorage,
-      settingsScriptVerificationThreads,
-      settingBlockStorage,
-      settingsDatabaseCache,
+      language,
+      unit,
+      displayMode,
+      launchAtLogin,
+      minimizedAtLaunch,
+      pruneBlockStorage,
+      scriptVerificationThreads,
+      blockStorage,
+      databaseCache,
     } = this.state;
 
     const settings = {
-      settingsLanguage,
-      settingsAmountsUnit,
-      settingDisplayMode,
-      settingsLaunchAtLogin,
-      settingsMinimizedAtLaunch,
-      settingsPruneBlockStorage,
-      settingsScriptVerificationThreads,
-      settingBlockStorage,
-      settingsDatabaseCache,
+      language,
+      unit,
+      displayMode,
+      launchAtLogin,
+      minimizedAtLaunch,
+      pruneBlockStorage,
+      scriptVerificationThreads,
+      blockStorage,
+      databaseCache,
     };
     this.props.updateSettings(settings);
-  };
-
-  getLabel = (list: any[], value: any) => {
-    const index = list.findIndex((obj) => obj.value === value);
-
-    if (index === -1) {
-      return list[0].label;
-    } else {
-      return list[index].label;
-    }
   };
 
   render() {
     const {
       activeTab,
       isUnsavedChanges,
-      settingsLaunchAtLogin,
-      settingsMinimizedAtLaunch,
-      settingsPruneBlockStorage,
-      settingBlockStorage,
-      settingsDatabaseCache,
-      settingsScriptVerificationThreads,
-      settingsLanguage,
-      settingsAmountsUnit,
-      settingDisplayMode,
+      launchAtLogin,
+      minimizedAtLaunch,
+      pruneBlockStorage,
+      blockStorage,
+      databaseCache,
+      scriptVerificationThreads,
+      language,
+      unit,
+      displayMode,
     } = this.state;
 
     return (
@@ -210,22 +204,19 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
         <div className='content'>
           <TabContent activeTab={this.state.activeTab}>
             <SettingsTabGeneral
-              settingsLaunchAtLogin={settingsLaunchAtLogin!}
-              settingsMinimizedAtLaunch={settingsMinimizedAtLaunch!}
-              settingsPruneBlockStorage={settingsPruneBlockStorage!}
-              settingBlockStorage={settingBlockStorage!}
-              settingsDatabaseCache={settingsDatabaseCache!}
-              settingsScriptVerificationThreads={
-                settingsScriptVerificationThreads!
-              }
+              launchAtLogin={launchAtLogin!}
+              minimizedAtLaunch={minimizedAtLaunch!}
+              pruneBlockStorage={pruneBlockStorage!}
+              blockStorage={blockStorage!}
+              databaseCache={databaseCache!}
+              scriptVerificationThreads={scriptVerificationThreads!}
               handleInputs={this.handleInputs}
               handleToggles={this.handleToggles}
             />
             <SettingsTabDisplay
-              settingsLanguage={settingsLanguage!}
-              getLabel={this.getLabel}
-              settingsAmountsUnit={settingsAmountsUnit!}
-              settingDisplayMode={settingDisplayMode!}
+              language={language!}
+              unit={unit!}
+              displayMode={displayMode!}
               handleDropDowns={this.handleDropDowns}
             />
           </TabContent>
@@ -239,11 +230,11 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     isFetching,
     settingsError,
-    settings,
+    appConfig,
     isUpdating,
     isUpdated,
   } = state.settings;
@@ -251,23 +242,19 @@ const mapStateToProps = (state) => {
   return {
     isFetching,
     settingsError,
-    settings,
+    appConfig,
     isUpdating,
     isUpdated,
     locale,
   };
 };
 
-const mapDispatchToProps = (
-  dispatch: (arg0: {
-    payload: { settings: any } | undefined;
-    type: string;
-  }) => any
-) => {
+const mapDispatchToProps = dispatch => {
   return {
+    loadSettingsOptions: () => dispatch(getSettingOptionsRequest()),
     loadSettings: () => dispatch(getInitialSettingsRequest()),
-    updateSettings: (settings) =>
-      dispatch({ type: updateSettingsRequest.type, payload: { settings } }),
+    updateSettings: settings =>
+      dispatch({ type: updateSettingsRequest.type, payload: settings }),
   };
 };
 

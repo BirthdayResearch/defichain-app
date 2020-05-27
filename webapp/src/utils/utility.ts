@@ -1,8 +1,16 @@
 import Ajv from 'ajv';
 import log from 'loglevel';
 import moment from 'moment';
-import { DATE_FORMAT } from '../constants';
+import {
+  DATE_FORMAT,
+  DEFAULT_UNIT,
+  DFI,
+  DUST_VALUE_DFI,
+  DUST_VALUE_FI,
+} from '../constants';
 import { IAddressAndAmount, ITxn } from './interfaces';
+import { unitConversion } from './unitConversion';
+import BigNumber from 'bignumber.js';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -58,6 +66,7 @@ export const setToPersistentStorage = (path, data) => {
   return data;
 };
 
+// UNIT_CONVERSION
 export const getTxnDetails = async txns => {
   const txnList: ITxn[] = [];
   for (const txn of txns) {
@@ -73,7 +82,7 @@ export const getTxnDetails = async txns => {
       txnId: txn.txid,
       time: convertEpochToDate(txn.time),
       timeReceived: convertEpochToDate(txn.timereceived),
-      unit: 'DFI',
+      unit: DEFAULT_UNIT,
     });
   }
   return txnList;
@@ -116,4 +125,20 @@ export const fetchPageNumbers = (
     return range(startPage, endPage);
   }
   return range(1, totalPages);
+};
+
+// Handle case where user will change the local storage manually
+export const getAmountInSelectedUnit = (
+  amount: number | string,
+  toUnit: string,
+  from: string = DEFAULT_UNIT
+) => {
+  const to = toUnit;
+  return unitConversion(from, to, amount);
+};
+
+export const isDustAmount = (amount: number | string, unit: string) => {
+  return unit === DFI
+    ? new BigNumber(amount).lte(DUST_VALUE_DFI)
+    : new BigNumber(amount).lte(DUST_VALUE_FI);
 };

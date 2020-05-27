@@ -8,24 +8,24 @@ import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
 
 interface SettingsTabGeneralProps {
-  settingsLaunchAtLogin: boolean;
-  settingsMinimizedAtLaunch: boolean;
-  settingsPruneBlockStorage: boolean;
-  settingBlockStorage: number;
-  settingsDatabaseCache: number;
-  settingsScriptVerificationThreads: number;
+  launchAtLogin: boolean;
+  minimizedAtLaunch: boolean;
+  pruneBlockStorage: boolean;
+  blockStorage: number;
+  databaseCache: number;
+  scriptVerificationThreads: number;
   handleInputs: any;
   handleToggles: any;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   const {
-    settingsLaunchAtLogin,
-    settingsMinimizedAtLaunch,
-    settingsPruneBlockStorage,
-    settingBlockStorage,
-    settingsDatabaseCache,
-    settingsScriptVerificationThreads,
+    launchAtLogin,
+    minimizedAtLaunch,
+    pruneBlockStorage,
+    blockStorage,
+    databaseCache,
+    scriptVerificationThreads,
     handleInputs,
     handleToggles,
   } = props;
@@ -40,15 +40,15 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'launchAtLogin'}
-                field={settingsLaunchAtLogin}
-                fieldName={'settingsLaunchAtLogin'}
+                field={launchAtLogin}
+                fieldName={'launchAtLogin'}
               />
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'minimizedAtLaunch'}
-                field={settingsMinimizedAtLaunch}
-                fieldName={'settingsMinimizedAtLaunch'}
-                hideMinimized={!settingsLaunchAtLogin}
+                field={minimizedAtLaunch}
+                fieldName={'minimizedAtLaunch'}
+                hideMinimized={!launchAtLogin}
               />
             </Col>
           </Row>
@@ -58,18 +58,18 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'pruneBlockStorage'}
-                field={settingsPruneBlockStorage}
-                fieldName={'settingsPruneBlockStorage'}
+                field={pruneBlockStorage}
+                fieldName={'pruneBlockStorage'}
               />
 
               <FormGroup
                 className={`form-label-group ${classnames({
-                  'd-none': !settingsPruneBlockStorage,
+                  'd-none': !pruneBlockStorage,
                 })}`}
               >
                 <SettingsRowInput
-                  field={settingBlockStorage}
-                  fieldName={'settingBlockStorage'}
+                  field={blockStorage}
+                  fieldName={'blockStorage'}
                   label={'blockPruneStorage'}
                   text={'gb'}
                   name={'pruneTo'}
@@ -80,8 +80,8 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </FormGroup>
               <FormGroup className='form-label-group mb-5'>
                 <SettingsRowInput
-                  field={settingsDatabaseCache}
-                  fieldName={'settingsDatabaseCache'}
+                  field={databaseCache}
+                  fieldName={'databaseCache'}
                   label={'databaseSize'}
                   text={'mib'}
                   name={'dbCacheSize'}
@@ -103,12 +103,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                   <Row className='align-items-center'>
                     <Col className='col-auto'>
                       <RangeSlider
-                        value={settingsScriptVerificationThreads || 0}
-                        onChange={(event) =>
-                          handleInputs(
-                            event,
-                            'settingsScriptVerificationThreads'
-                          )
+                        value={scriptVerificationThreads || 0}
+                        onChange={event =>
+                          handleInputs(event, 'scriptVerificationThreads')
                         }
                         min={-2}
                         max={16}
@@ -117,9 +114,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                         id='scriptVerificationThreads'
                       />
                     </Col>
-                    {settingsScriptVerificationThreads === 0
+                    {scriptVerificationThreads === 0
                       ? 'Auto'
-                      : settingsScriptVerificationThreads}
+                      : scriptVerificationThreads}
                   </Row>
                 </Col>
               </FormGroup>

@@ -21,7 +21,7 @@ export const isBlockchainStarted = async (): Promise<boolean> => {
   return false;
 };
 
-const sleep = ms => {
+const sleep = (ms: number) => {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
   });

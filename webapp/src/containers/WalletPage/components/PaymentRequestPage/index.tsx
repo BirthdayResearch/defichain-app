@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdArrowBack, MdDelete } from 'react-icons/md';
-import { NavLink, RouteComponentProps } from 'react-router-dom';
+import { NavLink, RouteComponentProps, Redirect } from 'react-router-dom';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import {
   WALLET_PAGE_PATH,
@@ -13,12 +13,14 @@ import {
 } from '../../../../constants';
 import { removeReceiveTxnsRequest } from '../../reducer';
 import { getTransactionURI } from '../../../../utils/utility';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface RouteProps {
   id: string;
 }
 
 interface PaymentRequestPageProps extends RouteComponentProps<RouteProps> {
+  unit: string;
   paymentRequests: [];
   removeReceiveTxns: (id: string | number) => void;
 }
@@ -29,7 +31,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   const { match, paymentRequests = [] } = props;
   const id = match.params.id;
   const txns: any = paymentRequests.find((ele: any) => {
-    return ele.id.toString() === id;
+    return ele.id && ele.id.toString() === id;
   });
 
   const removeReceiveTrans = (transId: string | number) => {
@@ -40,12 +42,17 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   };
 
   const { label, amount, time, message, address, unit } = txns || {};
+
+  if (!address) {
+    return <Redirect to={WALLET_PAGE_PATH} />;
+  }
+
   return (
     <div className='main-wrapper'>
       <Helmet>
         <title>
           {I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
-            id: label || address,
+            id: label || '',
           })}
         </title>
       </Helmet>
@@ -81,7 +88,13 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
           />
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.amount')}
-            value={amount}
+            value={
+              amount
+                ? `${getAmountInSelectedUnit(amount, props.unit, unit)} ${
+                    props.unit
+                  }`
+                : ''
+            }
           />
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.time')}
@@ -116,9 +129,10 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
 };
 
 const mapStateToProps = state => {
-  const { paymentRequests } = state.wallet;
+  const { wallet, settings } = state;
   return {
-    paymentRequests,
+    unit: settings.appConfig.unit,
+    paymentRequests: wallet.paymentRequests,
   };
 };
 

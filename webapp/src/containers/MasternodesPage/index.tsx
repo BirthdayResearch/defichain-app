@@ -18,13 +18,22 @@ import StatCard from '../../components/StatCard';
 import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
+import { getAmountInSelectedUnit } from '../../utils/utility';
+
+interface MasternodesPageProps {
+  unit: string;
+}
 
 interface MasternodesPageState {
   activeTab: string;
   searching: boolean;
 }
 
-class MasternodesPage extends Component<{}, MasternodesPageState> {
+class MasternodesPage extends Component<
+  MasternodesPageProps,
+  MasternodesPageState
+> {
   state = {
     activeTab: 'statistics',
     searching: false,
@@ -111,8 +120,8 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.weeklyIncome'
                       )}
-                      value='100'
-                      unit='DFI'
+                      value={getAmountInSelectedUnit('100', this.props.unit)}
+                      unit={this.props.unit}
                     />
                   </Col>
                   <Col>
@@ -120,8 +129,11 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.volume'
                       )}
-                      value='10m'
-                      unit='DFI'
+                      value={getAmountInSelectedUnit(
+                        '10000000',
+                        this.props.unit
+                      )}
+                      unit={this.props.unit}
                     />
                   </Col>
                   <Col>
@@ -129,8 +141,11 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.marketCap'
                       )}
-                      value='100m'
-                      unit='DFI'
+                      value={getAmountInSelectedUnit(
+                        '100000000',
+                        this.props.unit
+                      )}
+                      unit={this.props.unit}
                     />
                   </Col>
                 </Row>
@@ -148,7 +163,10 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.paidRewards'
                       )}
-                      value='8651.0125 DFI'
+                      value={`${getAmountInSelectedUnit(
+                        '8651.0125',
+                        this.props.unit
+                      )} ${this.props.unit}`}
                     />
                   </Col>
                   <Col md='6'>
@@ -172,7 +190,10 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.supply'
                       )}
-                      value='9,281,315 DFI'
+                      value={`${getAmountInSelectedUnit(
+                        '9281315',
+                        this.props.unit
+                      )} ${this.props.unit}`}
                     />
                   </Col>
                   <Col md='6'>
@@ -180,7 +201,10 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.lockedInCollateral'
                       )}
-                      value='4,671,000 DFI'
+                      value={`${getAmountInSelectedUnit(
+                        '4671000',
+                        this.props.unit
+                      )} ${this.props.unit}`}
                     />
                   </Col>
                   <Col md='6'>
@@ -188,7 +212,10 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
                       label={I18n.t(
                         'containers.masterNodes.masterNodesPage.costPerMasterNode'
                       )}
-                      value='1,000 DFI'
+                      value={`${getAmountInSelectedUnit(
+                        '1000',
+                        this.props.unit
+                      )} ${this.props.unit}`}
                     />
                   </Col>
                   <Col md='6'>
@@ -220,4 +247,11 @@ class MasternodesPage extends Component<{}, MasternodesPageState> {
   }
 }
 
-export default MasternodesPage;
+const mapStateToProps = state => {
+  const { appConfig } = state.settings;
+  return {
+    unit: appConfig.unit,
+  };
+};
+
+export default connect(mapStateToProps)(MasternodesPage);

@@ -1,46 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getAppConfigUnit } from './service';
 
 const configSlice = createSlice({
   name: 'settings',
   initialState: {
     isFetching: false,
     settingsError: 'Unsupported language.',
-    settings: {
-      settingsLanguage: '',
-      settingsAmountsUnit: '',
-      settingDisplayMode: '',
-      settingsLaunchAtLogin: false,
-      settingsMinimizedAtLaunch: false,
-      settingsPruneBlockStorage: false,
-      settingsScriptVerificationThreads: 0,
-      settingBlockStorage: '',
-      settingsDatabaseCache: '',
+    appConfig: {
+      language: '',
+      unit: getAppConfigUnit(),
+      displayMode: '',
+      launchAtLogin: false,
+      minimizedAtLaunch: false,
+      pruneBlockStorage: false,
+      scriptVerificationThreads: 0,
+      blockStorage: '',
+      databaseCache: '',
     },
     isUpdating: false,
     isUpdated: false,
-    languages: [
-      { label: 'english', value: 'en' },
-      { label: 'german', value: 'de' },
-    ],
-    amountUnits: [
-      { label: 'dFI', value: 'DFI' },
-      { label: 'µDFI', value: 'µDFI' },
-    ],
-    displayModes: [
-      {
-        label: 'sameAsSystem',
-        value: 'same_as_system',
-      },
-      { label: 'light', value: 'light' },
-      { label: 'dark', value: 'dark' },
-    ],
+    languages: [],
+    amountUnits: [],
+    displayModes: [],
   },
   reducers: {
+    getSettingOptionsRequest(state) {},
+    getSettingOptionsSuccess(state, action) {
+      state.languages = action.payload.languages;
+      state.amountUnits = action.payload.amountUnits;
+      state.displayModes = action.payload.displayModes;
+    },
+    getSettingOptionsFailure(state, action) {
+      state.languages = [];
+      state.amountUnits = [];
+      state.displayModes = [];
+    },
     getInitialSettingsRequest(state) {
       state.isFetching = true;
     },
     getInitialSettingsSuccess(state, action) {
-      state.settings = action.payload.settings;
+      state.appConfig = action.payload;
       state.isFetching = false;
       state.settingsError = '';
     },
@@ -52,7 +51,7 @@ const configSlice = createSlice({
       state.isUpdating = true;
     },
     updateSettingsSuccess(state, action) {
-      state.settings = action.payload.settings;
+      state.appConfig = action.payload;
       state.isUpdating = false;
       state.settingsError = '';
     },
@@ -66,6 +65,9 @@ const configSlice = createSlice({
 const { actions, reducer } = configSlice;
 
 export const {
+  getSettingOptionsRequest,
+  getSettingOptionsSuccess,
+  getSettingOptionsFailure,
   getInitialSettingsRequest,
   getInitialSettingsSuccess,
   getInitialSettingsFailure,
