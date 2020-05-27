@@ -12,6 +12,7 @@ import {
   BLOCKCHAIN_BASE_PATH,
   BLOCKCHAIN_BLOCK_BASE_PATH,
 } from '../../../../constants';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface Txns {
   hash: string;
@@ -32,6 +33,7 @@ interface RouteParams {
 }
 
 interface BlockPageProps extends RouteComponentProps<RouteParams> {
+  unit: string;
   txns: Txns[];
   fetchTxns: () => void;
 }
@@ -104,7 +106,9 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
                 label={I18n.t(
                   'containers.blockChainPage.blockPage.blockReward'
                 )}
-                value='12.5 DFI'
+                value={`${getAmountInSelectedUnit('12.5', props.unit)} ${
+                  props.unit
+                }`}
               />
             </Col>
             <Col md='6'>
@@ -185,8 +189,11 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
 };
 
 const mapStateToProps = state => {
-  const { txns, isTxnsLoaded, isLoadingTxns, TxnsLoadError } = state.blockchain;
+  const { blockchain, settings } = state;
+  const { unit } = settings.appConfig;
+  const { txns, isTxnsLoaded, isLoadingTxns, TxnsLoadError } = blockchain;
   return {
+    unit,
     txns,
     isTxnsLoaded,
     isLoadingTxns,

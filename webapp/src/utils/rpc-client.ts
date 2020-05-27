@@ -140,7 +140,7 @@ export default class RpcClient {
 
   sendToAddress = async (
     toAddress: string,
-    amount: number,
+    amount: number | string,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.SEND_TO_ADDRESS, [

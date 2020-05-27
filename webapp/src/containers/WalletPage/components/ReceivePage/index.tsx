@@ -19,15 +19,20 @@ import log from 'loglevel';
 import { addReceiveTxnsRequest } from '../../reducer';
 import {
   WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
   WALLET_PAYMENT_REQ_BASE_PATH,
+  DEFAULT_UNIT,
 } from '../../../../constants';
 import { getNewAddress } from '../../service';
+import {
+  getAmountInSelectedUnit,
+  isDustAmount,
+} from '../../../../utils/utility';
 
 interface ReceivePageProps {
   history: {
     push(url: string): void;
   };
+  unit: string;
   paymentRequests: [];
   addReceiveTxns: (...args: any[]) => void;
 }
@@ -56,14 +61,17 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
           I18n.t('containers.wallet.receivePage.addressNotAvailable')
         );
       }
+
       const data = {
-        amount,
         label,
         message,
         id: uid(),
         time: new Date().toString(),
         unit: DEFAULT_UNIT,
         address: newAddress,
+        amount: amount
+          ? getAmountInSelectedUnit(amount, DEFAULT_UNIT, this.props.unit)
+          : null,
       };
       this.props.addReceiveTxns(data);
       this.props.history.push(`${WALLET_PAYMENT_REQ_BASE_PATH}/${data.id}`);
@@ -73,8 +81,8 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   };
 
   handleChange = event => {
-    const { name, value, type } = event.target;
-    if (type === 'number' && isNaN(value) && value !== '') {
+    const { name, value, inputMode } = event.target;
+    if (inputMode === 'numeric' && isNaN(value) && value !== '') {
       return false;
     }
     const newState = { [name]: value } as Pick<
@@ -85,7 +93,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
   };
 
   render() {
-    const { amount, label, message, address } = this.state;
+    const { amount, label, message } = this.state;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -113,8 +121,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               <FormGroup className='form-label-group'>
                 <InputGroup>
                   <Input
-                    type='number'
-                    pattern='[0-9]*'
+                    type='text'
                     inputMode='numeric'
                     placeholder={I18n.t(
                       'containers.wallet.receivePage.amountToReceive'
@@ -129,9 +136,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
                     {I18n.t('containers.wallet.receivePage.amount')}
                   </Label>
                   <InputGroupAddon addonType='append'>
-                    <InputGroupText>
-                      {I18n.t('containers.wallet.receivePage.dFI')}
-                    </InputGroupText>
+                    <InputGroupText>{this.props.unit}</InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
@@ -173,7 +178,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               </div>
               <div>
                 {amount || '-'}&nbsp;
-                {I18n.t('containers.wallet.receivePage.dFI')}
+                {this.props.unit}
               </div>
             </div>
             <div>
@@ -188,6 +193,9 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               <Button
                 color='primary'
                 onClick={this.onSubmit}
+                disabled={
+                  amount === '' ? false : isDustAmount(amount, this.props.unit)
+                }
               >
                 {I18n.t('containers.wallet.receivePage.continue')}
               </Button>
@@ -200,9 +208,10 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
 }
 
 const mapStateToProps = state => {
-  const { paymentRequests } = state.wallet;
+  const { wallet, settings } = state;
   return {
-    paymentRequests,
+    paymentRequests: wallet.paymentRequests,
+    unit: settings.appConfig.unit,
   };
 };
 

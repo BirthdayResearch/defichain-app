@@ -32,12 +32,15 @@ import {
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
 } from './service';
+import showNotification from '../../utils/notifications';
+import { I18n } from 'react-redux-i18n';
 
 function* fetchWalletBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
     yield put(fetchWalletBalanceSuccess(result));
   } catch (e) {
+    showNotification(I18n.t('alerts.walletBalanceFailure'), e.message);
     yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
     log.error(e);
   }
@@ -48,6 +51,7 @@ function* fetchPendingBalance() {
     const result = yield call(handleFetchPendingBalance);
     yield put(fetchPendingBalanceSuccess(result));
   } catch (e) {
+    showNotification(I18n.t('alerts.pendingBalanceFailure'), e.message);
     yield put({ type: fetchPendingBalanceFailure.type, payload: e.message });
     log.error(e);
   }
@@ -58,6 +62,7 @@ function* addReceiveTxns(action: any) {
     const result = yield call(handelAddReceiveTxns, action.payload);
     yield put(addReceiveTxnsSuccess(result));
   } catch (e) {
+    showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
     log.error(e);
   }
@@ -68,6 +73,7 @@ function* removeReceiveTxns(action: any) {
     const result = yield call(handelRemoveReceiveTxns, action.payload);
     yield put(removeReceiveTxnsSuccess(result));
   } catch (e) {
+    showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
     yield put(removeReceiveTxnsFailure(e.message));
     log.error(e);
   }
@@ -78,6 +84,7 @@ function* fetchPayments() {
     const data = yield call(handelGetPaymentRequest);
     yield put(fetchPaymentRequestsSuccess(data));
   } catch (e) {
+    showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
     log.error(e);
   }
@@ -90,9 +97,11 @@ function* fetchWalletTxns(action) {
     if (data && data.walletTxns) {
       yield put(fetchWalletTxnsSuccess({ ...data }));
     } else {
+      showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
       yield put(fetchWalletTxnsFailure('No data found'));
     }
   } catch (e) {
+    showNotification(I18n.t('alerts.walletTxnsFailure'), e.message);
     yield put({ type: fetchWalletTxnsFailure.type, payload: e.message });
     log.error(e);
   }
@@ -104,9 +113,11 @@ function* fetchSendData() {
     if (data) {
       yield put(fetchSendDataSuccess({ data }));
     } else {
+      showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
       yield put(fetchSendDataFailure('No data found'));
     }
   } catch (e) {
+    showNotification(I18n.t('alerts.sendDataFailure'), e.message);
     yield put({ type: fetchSendDataFailure.type, payload: e.message });
     log.error(e);
   }

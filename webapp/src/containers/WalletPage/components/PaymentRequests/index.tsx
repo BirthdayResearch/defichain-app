@@ -11,9 +11,9 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import { MdMoreHoriz, MdDelete, MdAccessTime } from 'react-icons/md';
 import styles from './PaymentRequests.module.scss';
-import { I18n } from 'react-redux-i18n';
 import { fetchPaymentRequest, removeReceiveTxnsRequest } from '../../reducer';
 import {
   DATE_FORMAT,
@@ -21,8 +21,10 @@ import {
   PAYMENT_REQ_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface PaymentRequestsProps {
+  unit: string;
   paymentRequests: {
     id: number;
     time: string;
@@ -84,8 +86,18 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                     </td>
                     <td>
                       <div className={styles.amount}>
-                        {request.amount || '-'}&nbsp;
-                        <span className={styles.unit}>{request.unit}</span>
+                        {request.amount ? (
+                          <>
+                            {getAmountInSelectedUnit(
+                              request.amount,
+                              props.unit,
+                              request.unit
+                            )}
+                            <span className={styles.unit}>{props.unit}</span>
+                          </>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </td>
                     <td>
@@ -138,9 +150,10 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
 };
 
 const mapStateToProps = state => {
-  const { paymentRequests } = state.wallet;
+  const { wallet, settings } = state;
   return {
-    paymentRequests,
+    unit: settings.appConfig.unit,
+    paymentRequests: wallet.paymentRequests,
   };
 };
 

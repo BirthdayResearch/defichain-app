@@ -1,58 +1,75 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TabPane, Form } from 'reactstrap';
+import { TabPane, Form, FormText } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
+import commaNumber from 'comma-number';
 import SettingsRowDropDown from '../SettingsRowDropDown';
+import { DFI_UNIT_MAP, DEFAULT_UNIT } from '../../../../constants';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface SettingsTabDisplayProps {
   languages: { label: string; value: string }[];
-  settingsLanguage: string;
-  getLabel: Function;
+  language: string;
   amountUnits: { label: string; value: string }[];
-  settingsAmountsUnit: string;
+  unit: string;
   displayModes: { label: string; value: string }[];
-  settingDisplayMode: string;
-  handleDropDowns: Function;
+  displayMode: string;
+  handleDropDowns: (data: any, field: any) => any;
 }
 
 const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   const {
     languages,
-    settingsLanguage,
-    getLabel,
+    language,
     amountUnits,
-    settingsAmountsUnit,
+    unit,
     displayModes,
-    settingDisplayMode,
+    displayMode,
     handleDropDowns,
   } = props;
+
+  const getUnitDescription = () => {
+    return Object.keys(DFI_UNIT_MAP).map(eachUnit => {
+      if (eachUnit === DEFAULT_UNIT) return null;
+      const conversion = getAmountInSelectedUnit(1, eachUnit);
+      return (
+        <FormText key={eachUnit}>
+          {I18n.t('containers.settings.conversionLabel', {
+            to: eachUnit,
+            from: DEFAULT_UNIT,
+            conversion: commaNumber(conversion),
+          })}
+        </FormText>
+      );
+    });
+  };
 
   return (
     <TabPane tabId='display'>
       <section>
         <Form>
           <SettingsRowDropDown
-            label={'appLanguage'}
+            label={'containers.settings.appLanguage'}
             data={languages}
-            field={settingsLanguage}
+            field={language}
             handleDropDowns={handleDropDowns}
-            getLabel={getLabel}
-            fieldName={'settingsLanguage'}
+            fieldName={'language'}
           />
           <SettingsRowDropDown
-            label={'displayAmount'}
+            label={'containers.settings.displayAmount'}
             data={amountUnits}
-            field={settingsAmountsUnit}
+            field={unit}
             handleDropDowns={handleDropDowns}
-            getLabel={getLabel}
-            fieldName={'settingsAmountsUnit'}
-          />
+            fieldName={'unit'}
+          >
+            {getUnitDescription()}
+          </SettingsRowDropDown>
           <SettingsRowDropDown
-            label={'displayMode'}
+            label={'containers.settings.displayMode'}
             data={displayModes}
-            field={settingDisplayMode}
+            field={displayMode}
             handleDropDowns={handleDropDowns}
-            getLabel={getLabel}
-            fieldName={'settingDisplayMode'}
+            fieldName={'displayMode'}
           />
         </Form>
       </section>
@@ -60,7 +77,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { languages, amountUnits, displayModes } = state.settings;
 
   return {

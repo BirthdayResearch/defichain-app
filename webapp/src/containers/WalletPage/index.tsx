@@ -13,8 +13,10 @@ import {
   fetchPendingBalanceRequest,
 } from './reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
+import { getAmountInSelectedUnit } from '../../utils/utility';
 
 interface WalletPageProps {
+  unit: string;
   walletBalance: string;
   pendingBalance: string;
   fetchWalletBalance: () => void;
@@ -63,15 +65,15 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={walletBalance}
-                unit='DFI'
+                value={getAmountInSelectedUnit(walletBalance, props.unit)}
+                unit={props.unit}
               />
             </Col>
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
-                value={pendingBalance}
-                unit='DFI'
+                value={getAmountInSelectedUnit(pendingBalance, props.unit)}
+                unit={props.unit}
               />
             </Col>
           </Row>
@@ -83,10 +85,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   );
 };
 
-const mapStateToProps = ({ wallet }) => ({
-  walletBalance: wallet.walletBalance,
-  pendingBalance: wallet.pendingBalance,
-});
+const mapStateToProps = state => {
+  const { wallet, settings } = state;
+  return {
+    unit: settings.appConfig.unit,
+    walletBalance: wallet.walletBalance,
+    pendingBalance: wallet.pendingBalance,
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {

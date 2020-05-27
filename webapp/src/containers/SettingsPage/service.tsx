@@ -1,7 +1,9 @@
 import isElectron from 'is-electron';
+import { I18n } from 'react-redux-i18n';
+import log from 'loglevel';
 import {
   LANG_VARIABLE,
-  AMOUNTS_UNIT,
+  UNIT,
   DISPLAY_MODE,
   LAUNCH_AT_LOGIN,
   LAUNCH_MINIMIZED,
@@ -9,49 +11,73 @@ import {
   SCRIPT_VERIFICATION,
   BLOCK_STORAGE,
   DATABASE_CACHE,
+  ENGLISH,
+  GERMAN,
+  SAME_AS_SYSTEM_DISPLAY,
+  LIGHT_DISPLAY,
+  DARK_DISPLAY,
+  DEFAULT_UNIT,
+  DFI_UNIT_MAP,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
-import { I18n } from 'react-redux-i18n';
 import PersistentStore from '../../utils/persistentStore';
+
+export const getLanguage = () => {
+  return [
+    { label: 'containers.settings.english', value: ENGLISH },
+    { label: 'containers.settings.german', value: GERMAN },
+  ];
+};
+
+export const getAmountUnits = () => {
+  return Object.keys(DFI_UNIT_MAP).map(eachUnit => {
+    return { label: eachUnit, value: eachUnit };
+  });
+};
+
+export const getDisplayModes = () => {
+  return [
+    {
+      label: 'containers.settings.sameAsSystem',
+      value: SAME_AS_SYSTEM_DISPLAY,
+    },
+    { label: 'containers.settings.light', value: LIGHT_DISPLAY },
+    { label: 'containers.settings.dark', value: DARK_DISPLAY },
+  ];
+};
 
 export const initialData = () => {
   const launchStat = getPreLaunchStatus();
   const settings = {
-    settingsLanguage: PersistentStore.get(LANG_VARIABLE) || 'en',
-    settingsAmountsUnit: PersistentStore.get(AMOUNTS_UNIT) || 'DFI',
-    settingDisplayMode: PersistentStore.get(DISPLAY_MODE) || 'same_as_system',
-    settingsLaunchAtLogin: launchStat,
-    settingsMinimizedAtLaunch:
+    language: PersistentStore.get(LANG_VARIABLE) || ENGLISH,
+    unit: getAppConfigUnit(),
+    displayMode: PersistentStore.get(DISPLAY_MODE) || SAME_AS_SYSTEM_DISPLAY,
+    launchAtLogin: launchStat,
+    minimizedAtLaunch:
       launchStat && PersistentStore.get(LAUNCH_MINIMIZED) === 'true',
-    settingsPruneBlockStorage:
-      PersistentStore.get(PRUNE_BLOCK_STORAGE) === 'true',
-    settingsScriptVerificationThreads:
+    pruneBlockStorage: PersistentStore.get(PRUNE_BLOCK_STORAGE) === 'true',
+    scriptVerificationThreads:
       parseInt(`${PersistentStore.get(SCRIPT_VERIFICATION)}`, 10) || 0,
-    settingBlockStorage:
-      parseInt(`${PersistentStore.get(BLOCK_STORAGE)}`, 10) || '',
-    settingsDatabaseCache:
-      parseInt(`${PersistentStore.get(DATABASE_CACHE)}`, 10) || '',
+    blockStorage: parseInt(`${PersistentStore.get(BLOCK_STORAGE)}`, 10) || '',
+    databaseCache: parseInt(`${PersistentStore.get(DATABASE_CACHE)}`, 10) || '',
   };
-  return { settings };
+  return settings;
 };
 
 export const updateSettingsData = settingsData => {
-  PersistentStore.set(LANG_VARIABLE, settingsData.settingsLanguage);
-  PersistentStore.set(AMOUNTS_UNIT, settingsData.settingsAmountsUnit);
-  PersistentStore.set(DISPLAY_MODE, settingsData.settingDisplayMode);
-  PersistentStore.set(LAUNCH_AT_LOGIN, settingsData.settingsLaunchAtLogin);
-  PersistentStore.set(LAUNCH_MINIMIZED, settingsData.settingsMinimizedAtLaunch);
-  PersistentStore.set(
-    PRUNE_BLOCK_STORAGE,
-    settingsData.settingsPruneBlockStorage
-  );
+  PersistentStore.set(LANG_VARIABLE, settingsData.language);
+  PersistentStore.set(UNIT, settingsData.unit);
+  PersistentStore.set(DISPLAY_MODE, settingsData.displayMode);
+  PersistentStore.set(LAUNCH_AT_LOGIN, settingsData.launchAtLogin);
+  PersistentStore.set(LAUNCH_MINIMIZED, settingsData.minimizedAtLaunch);
+  PersistentStore.set(PRUNE_BLOCK_STORAGE, settingsData.pruneBlockStorage);
   PersistentStore.set(
     SCRIPT_VERIFICATION,
-    settingsData.settingsScriptVerificationThreads
+    settingsData.scriptVerificationThreads
   );
-  PersistentStore.set(BLOCK_STORAGE, settingsData.settingBlockStorage);
-  PersistentStore.set(DATABASE_CACHE, settingsData.settingsDatabaseCache);
-  return { settings: settingsData };
+  PersistentStore.set(BLOCK_STORAGE, settingsData.blockStorage);
+  PersistentStore.set(DATABASE_CACHE, settingsData.databaseCache);
+  return settingsData;
 };
 
 const getPreLaunchStatus = () => {
@@ -93,4 +119,14 @@ export const disablePreLaunchStatus = () => {
     return false;
   }
   return false;
+};
+
+export const getAppConfigUnit = () => {
+  const unit = PersistentStore.get(UNIT);
+  if (unit && Object.keys(DFI_UNIT_MAP).indexOf(unit) > -1) {
+    return unit;
+  }
+  log.error(new Error('Error in selected unit, setting it to default one'));
+  PersistentStore.set(UNIT, DEFAULT_UNIT);
+  return DEFAULT_UNIT;
 };

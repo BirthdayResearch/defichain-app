@@ -22,13 +22,19 @@ import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import { isValidAddress, sendToAddress } from '../../service';
-import { WALLET_PAGE_PATH } from '../../../../constants';
+import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
+import {
+  getAmountInSelectedUnit,
+  isDustAmount,
+} from '../../../../utils/utility';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
+  unit: string;
   sendData: {
     walletBalance: number;
     amountToSend: string | number;
@@ -61,7 +67,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
 
   state = {
-    walletBalance: 100,
+    walletBalance: 0,
     amountToSend: '',
     amountToSendDisplayed: 0,
     toAddress: '',
@@ -79,18 +85,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 
   updateAmountToSend = e => {
+    const { value } = e.target;
+    if (isNaN(value) && value.length) return false;
+
     const amountToSend =
       !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
     const amountToSendDisplayed =
       !isNaN(amountToSend) && amountToSend.length ? amountToSend : '0';
-    this.setState(
-      () => {
-        return { amountToSend, amountToSendDisplayed };
-      },
-      () => {
-        this.isAmountValid();
-      }
-    );
+    this.setState({ amountToSend, amountToSendDisplayed }, () => {
+      this.isAmountValid();
+    });
   };
 
   updateToAddress = e => {
@@ -101,12 +105,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   maxAmountToSend = () => {
+    const amount = getAmountInSelectedUnit(
+      this.props.sendData.walletBalance,
+      this.props.unit
+    );
     this.setState(
-      () => {
-        return {
-          amountToSend: this.props.sendData.walletBalance,
-          amountToSendDisplayed: this.props.sendData.walletBalance,
-        };
+      {
+        amountToSend: amount,
+        amountToSendDisplayed: amount,
       },
       () => {
         this.isAmountValid();
@@ -176,30 +182,44 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   sendTransaction = async () => {
-    // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-    if (this.state.amountToSendDisplayed === this.props.sendData.walletBalance)
-      await sendToAddress(
-        this.state.toAddress,
+    const { isAmountValid, isAddressValid } = this.state;
+    if (isAmountValid && isAddressValid) {
+      // Convert to base unit
+      const amount = getAmountInSelectedUnit(
         this.state.amountToSendDisplayed,
-        true
+        DEFAULT_UNIT,
+        this.props.unit
       );
-    else
-      await sendToAddress(
-        this.state.toAddress,
-        this.state.amountToSendDisplayed,
-        false
-      );
-    this.setState({
-      sendStep: 'success',
-      showBackdrop: 'show-backdrop',
-    });
+      // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+      if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
+        await sendToAddress(this.state.toAddress, amount, true);
+      else await sendToAddress(this.state.toAddress, amount, false);
+      this.setState({
+        sendStep: 'success',
+        showBackdrop: 'show-backdrop',
+      });
+    }
   };
 
   isAmountValid = async () => {
+    const amount = getAmountInSelectedUnit(
+      this.props.sendData.walletBalance,
+      this.props.unit
+    );
+    const isLessThanDustAmount = isDustAmount(
+      this.state.amountToSendDisplayed,
+      this.props.unit
+    );
+
+    const isLessThanBalance = new BigNumber(
+      this.state.amountToSendDisplayed
+    ).lte(amount);
+
     const isAmountValid =
       this.state.amountToSend &&
       this.state.amountToSendDisplayed > 0 &&
-      this.state.amountToSendDisplayed <= this.props.sendData.walletBalance;
+      isLessThanBalance &&
+      !isLessThanDustAmount;
     this.setState({ isAmountValid });
   };
 
@@ -208,7 +228,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({ isAddressValid });
   };
 
-  prepareSound = () => {};
   render() {
     return (
       <div className='main-wrapper'>
@@ -251,9 +270,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       {I18n.t('containers.wallet.sendPage.amount')}
                     </Label>
                     <InputGroupAddon addonType='append'>
-                      <InputGroupText>
-                        {I18n.t('containers.wallet.sendPage.dFI')}
-                      </InputGroupText>
+                      <InputGroupText>{this.props.unit}</InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -299,7 +316,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               <ModalBody>
                 <QrReader
                   delay={1000}
-                  onLoad={this.prepareSound}
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
@@ -322,8 +338,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {this.props.sendData.walletBalance}&nbsp;
-                  {I18n.t('containers.wallet.sendPage.dFI')}
+                  {getAmountInSelectedUnit(
+                    this.props.sendData.walletBalance,
+                    this.props.unit
+                  )}
+                  &nbsp;
+                  {this.props.unit}
                 </div>
               </Col>
               <Col className='col-auto'>
@@ -332,7 +352,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {I18n.t('containers.wallet.sendPage.dFI')}
+                  {this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -369,7 +389,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {I18n.t('containers.wallet.sendPage.dFI')}
+                    {this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -433,9 +453,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 }
 
 const mapStateToProps = state => {
-  const { sendData } = state.wallet;
+  const { wallet, settings } = state;
   return {
-    sendData,
+    unit: settings.appConfig.unit,
+    sendData: wallet.sendData,
   };
 };
 

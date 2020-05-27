@@ -11,19 +11,42 @@ import { I18n } from 'react-redux-i18n';
 import { MdCheck } from 'react-icons/md';
 import { connect } from 'react-redux';
 
-const SettingsRowDropDown = (props) => {
-  const { label, data, field, fieldName, getLabel, handleDropDowns } = props;
+interface SettingsRowDropDownProps {
+  label: string;
+  data: {
+    value: number | string;
+    label: string;
+  }[];
+  field: number | string;
+  fieldName: string;
+  children?: React.ReactNode;
+  handleDropDowns: (data: any, field: any) => any;
+}
 
+const getLabel = (
+  list: { value: string | number; label: string }[],
+  value: string | number
+) => {
+  const index = list.findIndex(obj => obj.value === value);
+  if (index === -1) {
+    return list[0].label;
+  } else {
+    return list[index].label;
+  }
+};
+
+const SettingsRowDropDown = (props: SettingsRowDropDownProps) => {
+  const { label, data, field, fieldName, handleDropDowns } = props;
   return (
     <FormGroup className='form-row align-items-center'>
-      <Col md='4'>{I18n.t(`containers.settings.${label}`)}</Col>
+      <Col md='4'>{I18n.t(label)}</Col>
       <Col md='8'>
         <UncontrolledDropdown>
           <DropdownToggle caret color='outline-secondary'>
-            {I18n.t(`containers.settings.${getLabel(data, field)}`)}
+            {I18n.t(getLabel(data, field))}
           </DropdownToggle>
           <DropdownMenu>
-            {data.map((object) => {
+            {data.map(object => {
               return (
                 <DropdownItem
                   className='d-flex justify-content-between'
@@ -31,7 +54,7 @@ const SettingsRowDropDown = (props) => {
                   onClick={() => handleDropDowns(object.value, `${fieldName}`)}
                   value={object.value}
                 >
-                  <span>{I18n.t(`containers.settings.${object.label}`)}</span>
+                  <span>{I18n.t(object.label)}</span>
                   &nbsp;
                   {field === object.value && <MdCheck />}
                 </DropdownItem>
@@ -39,12 +62,13 @@ const SettingsRowDropDown = (props) => {
             })}
           </DropdownMenu>
         </UncontrolledDropdown>
+        {props.children}
       </Col>
     </FormGroup>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { locale } = state.i18n;
   return {
     locale,
