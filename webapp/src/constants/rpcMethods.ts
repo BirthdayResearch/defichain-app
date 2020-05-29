@@ -11,3 +11,4 @@ export const GET_PEER_INFO = 'getpeerinfo';
 export const LIST_TRANSACTIONS = 'listtransactions';
 export const GET_WALLET_INFO = 'getwalletinfo';
 export const GET_BALANCES = 'getbalances';
+export const GET_RAW_TRANSACTION = 'getrawtransaction';

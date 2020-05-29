@@ -36,6 +36,7 @@
     "autoprefixer": "^9.7.5",
     "axios": "^0.19.2",
     "base-64": "^0.1.0",
+    "bignumber.js": "^9.0.0",
     "bootstrap": "^4.4.1",
     "commander": "^5.1.0",
     "crypto-js": "^4.0.0",

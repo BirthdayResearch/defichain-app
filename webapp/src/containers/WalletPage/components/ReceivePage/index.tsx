@@ -25,7 +25,7 @@ import {
 import { getNewAddress } from '../../service';
 import {
   getAmountInSelectedUnit,
-  isDustAmount,
+  isLessThanDustAmount,
 } from '../../../../utils/utility';
 
 interface ReceivePageProps {
@@ -92,6 +92,13 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
     this.setState(newState);
   };
 
+  isValidAmount = () => {
+    const { amount } = this.state;
+    return amount === ''
+      ? true
+      : !isLessThanDustAmount(amount, this.props.unit);
+  };
+
   render() {
     const { amount, label, message } = this.state;
     return (
@@ -120,6 +127,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
             <Form>
               <FormGroup className='form-label-group'>
                 <InputGroup>
+                  {/* TODO: show inline error for failed vaildation */}
                   <Input
                     type='text'
                     inputMode='numeric'
@@ -193,9 +201,7 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
               <Button
                 color='primary'
                 onClick={this.onSubmit}
-                disabled={
-                  amount === '' ? false : isDustAmount(amount, this.props.unit)
-                }
+                disabled={!this.isValidAmount()}
               >
                 {I18n.t('containers.wallet.receivePage.continue')}
               </Button>
@@ -215,10 +221,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addReceiveTxns: (data: any) => dispatch(addReceiveTxnsRequest(data)),
-  };
+const mapDispatchToProps = {
+  addReceiveTxns: (data: any) => addReceiveTxnsRequest(data),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReceivePage);

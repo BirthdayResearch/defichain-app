@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Card } from 'reactstrap';
-import { MdContentCopy, MdInfo, MdArrowForward } from 'react-icons/md';
+import { MdInfo, MdArrowForward } from 'react-icons/md';
 import styles from './BlockTxn.module.scss';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import { ITxn } from '../../interfaces';
 
 interface BlockTxnProps {
-  txn: {
-    hash: string;
-    time: string;
-    froms: {
-      address: string;
-      amount: number | string;
-    }[];
-    tos: {
-      address: string;
-      amount: number | string;
-    }[];
-  };
+  txn: ITxn;
+  unit: string;
 }
 
 interface BlockTxnState {
@@ -43,29 +35,6 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
 
   render() {
     const txn = this.props.txn;
-    const froms = txn.froms;
-    let fromsRender;
-    if (froms.length) {
-      fromsRender = froms.map(from => (
-        <div className={styles.from} key={from.address}>
-          <span className={styles.address}>
-            {from.address
-              ? from.address
-              : I18n.t('containers.blockChainPage.blockTxn.unparsedAddress')}
-            }
-          </span>
-          <span className={styles.amount}>
-            {from.amount} {I18n.t('containers.blockChainPage.blockTxn.dFI')}
-          </span>
-        </div>
-      ));
-    } else {
-      fromsRender = (
-        <div className={styles.fromsEmpty}>
-          {I18n.t('containers.blockChainPage.blockTxn.noInputs')}
-        </div>
-      );
-    }
 
     return (
       <Card className={`${styles.txn} styles.txn`}>
@@ -90,13 +59,13 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
           </span>
         </div>
         <div className={styles.addresses}>
-          <div className={styles.froms}>{fromsRender}</div>
+          <div className={styles.froms}></div>
           <div className={styles.arrow}>
             <MdArrowForward />
           </div>
           <div className={styles.tos}>
-            {txn.tos.map(to => (
-              <div className={styles.to} key={to.address}>
+            {txn.tos.map((to, index) => (
+              <div className={styles.to} key={`${to.address}${index}`}>
                 <span className={styles.address}>
                   {to.address
                     ? to.address
@@ -105,7 +74,12 @@ class BlockTxn extends Component<BlockTxnProps, BlockTxnState> {
                       )}
                 </span>
                 <span className={styles.amount}>
-                  {to.amount} {I18n.t('containers.blockChainPage.blockTxn.dFI')}
+                  {getAmountInSelectedUnit(
+                    to.amount,
+                    this.props.unit,
+                    txn.unit
+                  )}&nbsp;
+                  <span className={styles.unit}>{this.props.unit}</span>
                 </span>
               </div>
             ))}

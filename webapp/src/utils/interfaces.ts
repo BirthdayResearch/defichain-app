@@ -1,8 +1,17 @@
+import BigNumber from 'bignumber.js';
+
 export interface IBlock {
+  hash: string;
+  size: number;
   height: number;
-  age: string;
-  txns: number;
-  size?: number;
+  version: number;
+  merkleRoot: string;
+  txnIds: string[];
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  time: string;
+  nTxns: number;
 }
 
 export interface ITxn {
@@ -18,7 +27,33 @@ export interface ITxn {
   unit: string;
 }
 
+export interface IParseTxn {
+  hash: string;
+  time: string;
+  tos: IAddressAndAmount[];
+  unit: string;
+}
+
+export interface IRawTxn {
+  txid: string;
+  hash: string;
+  vin: IVin[];
+  vout: IVout[];
+  blockhash: string;
+  blocktime: string;
+}
+
 export interface IAddressAndAmount {
   address: string;
   amount: string;
+}
+export interface IVin {
+  txid: string;
+  vout: number;
+}
+
+export interface IVout {
+  value: BigNumber;
+  n: number;
+  scriptPubKey: object;
 }

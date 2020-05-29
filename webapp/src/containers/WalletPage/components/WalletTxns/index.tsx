@@ -22,11 +22,6 @@ interface WalletTxnsProps {
   fetchWalletTxns: (currentPage: number, pageSize: number) => void;
 }
 
-interface WalletTxnsState {
-  currentPage: number;
-  pageSize: number;
-}
-
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   props: WalletTxnsProps
 ) => {
@@ -44,9 +39,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     return <MdArrowDownward className={styles.typeIcon} />;
   };
 
-  const fetchData = (index: number) => {
-    props.fetchWalletTxns(index, pageSize);
-    handlePageChange(index);
+  const fetchData = (pageNumber: number) => {
+    props.fetchWalletTxns(pageNumber, pageSize);
+    handlePageChange(pageNumber);
   };
 
   const { walletTxnCount: total, walletTxns } = props;
@@ -86,7 +81,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                           txn.amount,
                           props.unit,
                           txn.unit
-                        )}{' '}
+                        )}
+                        &nbsp;
                         <span className={styles.unit}>{props.unit}</span>
                       </div>
                     </td>
@@ -129,11 +125,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchWalletTxns: (currentPage, pageSize) =>
-      dispatch(fetchWalletTxnsRequest({ currentPage, pageSize })),
-  };
+const mapDispatchToProps = {
+  fetchWalletTxns: (currentPage, pageSize) =>
+    fetchWalletTxnsRequest({ currentPage, pageSize }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

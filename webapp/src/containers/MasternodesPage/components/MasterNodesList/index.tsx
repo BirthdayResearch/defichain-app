@@ -16,7 +16,7 @@ interface MasternodesListProps {
     nextPayment: string;
     payee: string;
   }[];
-  fetchMasterNodes: () => void;
+  fetchMasternodesRequest: () => void;
 }
 
 interface MasternodesListState {
@@ -37,7 +37,7 @@ class MasternodesList extends Component<
   MasternodesListState
 > {
   componentDidMount() {
-    this.props.fetchMasterNodes();
+    this.props.fetchMasternodesRequest();
   }
 
   render() {
@@ -123,10 +123,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchMasterNodes: () => dispatch(fetchMasternodesRequest()),
-  };
+const mapDispatchToProps = {
+  fetchMasternodesRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MasternodesList);

@@ -136,11 +136,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    removeReceiveTxns: (id: string | number) =>
-      dispatch(removeReceiveTxnsRequest(id)),
-  };
+const mapDispatchToProps = {
+  removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestPage);

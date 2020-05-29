@@ -47,7 +47,7 @@ const configSlice = createSlice({
       state.isFetching = false;
       state.settingsError = action.payload;
     },
-    updateSettingsRequest(state) {
+    updateSettingsRequest(state, action) {
       state.isUpdating = true;
     },
     updateSettingsSuccess(state, action) {
