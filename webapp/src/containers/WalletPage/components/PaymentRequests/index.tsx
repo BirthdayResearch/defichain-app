@@ -32,7 +32,7 @@ interface PaymentRequestsProps {
     message: string;
     unit: string;
   }[];
-  fetchPaymentRequests: () => void;
+  fetchPaymentRequest: () => void;
   removeReceiveTxns: (id: string | number) => void;
 }
 
@@ -40,7 +40,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   props: PaymentRequestsProps
 ) => {
   useEffect(() => {
-    props.fetchPaymentRequests();
+    props.fetchPaymentRequest();
   }, []);
 
   const [currentPage, handlePageClick] = useState(1);
@@ -157,12 +157,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchPaymentRequests: () => dispatch(fetchPaymentRequest()),
-    removeReceiveTxns: (id: string | number) =>
-      dispatch(removeReceiveTxnsRequest(id)),
-  };
+const mapDispatchToProps = {
+  fetchPaymentRequest,
+  removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequests);

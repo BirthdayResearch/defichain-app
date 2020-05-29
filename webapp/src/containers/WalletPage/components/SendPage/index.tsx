@@ -29,7 +29,7 @@ import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
-  isDustAmount,
+  isLessThanDustAmount,
 } from '../../../../utils/utility';
 const shutterSnap = new UIfx(shutterSound);
 
@@ -46,7 +46,7 @@ interface SendPageProps {
     sendStep: string;
     waitToSend: number;
   };
-  fetchSendData: () => void;
+  fetchSendDataRequest: () => void;
 }
 
 interface SendPageState {
@@ -81,7 +81,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   componentDidMount() {
-    this.props.fetchSendData();
+    this.props.fetchSendDataRequest();
   }
 
   updateAmountToSend = e => {
@@ -206,10 +206,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       this.props.sendData.walletBalance,
       this.props.unit
     );
-    const isLessThanDustAmount = isDustAmount(
-      this.state.amountToSendDisplayed,
-      this.props.unit
-    );
 
     const isLessThanBalance = new BigNumber(
       this.state.amountToSendDisplayed
@@ -219,7 +215,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       this.state.amountToSend &&
       this.state.amountToSendDisplayed > 0 &&
       isLessThanBalance &&
-      !isLessThanDustAmount;
+      !isLessThanDustAmount(this.state.amountToSendDisplayed, this.props.unit);
     this.setState({ isAmountValid });
   };
 
@@ -254,6 +250,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               <FormGroup className='form-label-group form-row'>
                 <Col>
                   <InputGroup>
+                    {/* TODO: show inline error for failed vaildation */}
                     <Input
                       type='text'
                       inputMode='numeric'
@@ -460,10 +457,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchSendData: () => dispatch(fetchSendDataRequest()),
-  };
+const mapDispatchToProps = {
+  fetchSendDataRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendPage);

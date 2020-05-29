@@ -28,14 +28,14 @@ import {
 import styles from './Sidebar.module.scss';
 
 export interface SidebarProps extends RouteComponentProps {
-  fetchWalletBalance: () => void;
+  fetchWalletBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = props => {
   useEffect(() => {
-    props.fetchWalletBalance();
+    props.fetchWalletBalanceRequest();
   }, []);
 
   return (
@@ -143,10 +143,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
-  };
+const mapDispatchToProps = {
+  fetchWalletBalanceRequest,
 };
 
 export default withRouter(

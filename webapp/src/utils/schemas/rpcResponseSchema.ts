@@ -24,6 +24,83 @@ export const errorSchema = {
   required: ['error'],
 };
 
+export const blockSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        nonce: {
+          type: 'number',
+        },
+        hash: {
+          type: 'string',
+        },
+        confirmations: {
+          type: 'number',
+        },
+        previousblockhash: {
+          type: 'string',
+        },
+        height: {
+          type: 'number',
+        },
+        strippedsize: {
+          type: 'number',
+        },
+        version: {
+          type: 'number',
+        },
+        time: {
+          type: 'number',
+        },
+        difficulty: {
+          type: 'number',
+        },
+        nTx: {
+          type: 'number',
+        },
+        merkleroot: {
+          type: 'string',
+        },
+        chainwork: {
+          type: 'string',
+        },
+        size: {
+          type: 'number',
+        },
+        nextblockhash: {
+          type: 'string',
+        },
+        bits: {
+          type: 'string',
+        },
+        weight: {
+          type: 'number',
+        },
+        mediantime: {
+          type: 'number',
+        },
+        versionHex: {
+          type: 'string',
+        },
+        tx: {
+          type: 'array',
+          items: [{ type: 'string' }],
+        },
+      },
+      required: ['hash', 'confirmations', 'time', 'height', 'tx', 'nTx'],
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
 export const getBalanceSchema = {
   type: 'object',
   properties: {
@@ -401,4 +478,171 @@ export const walletInfoSchema = {
     },
   },
   required: ['result'],
+};
+
+const scriptSigSchema = {
+  type: 'object',
+  properties: {
+    hex: {
+      type: 'string',
+    },
+    asm: {
+      type: 'string',
+    },
+  },
+};
+
+const vinInnerSchema = {
+  type: 'object',
+  properties: {
+    coinbase: {
+      type: 'string',
+    },
+    sequence: {
+      type: 'number',
+    },
+    txid: {
+      type: 'string',
+    },
+    txinwitness: {
+      type: 'array',
+      items: [{ type: 'string' }],
+    },
+    vout: {
+      type: 'number',
+    },
+    scriptSig: scriptSigSchema,
+  },
+};
+
+const scriptPubKeySchema1 = {
+  type: 'object',
+  properties: {
+    hex: {
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+    },
+    addresses: {
+      type: 'array',
+      items: [{ type: 'string' }],
+    },
+    asm: {
+      type: 'string',
+    },
+    reqSigs: {
+      type: 'number',
+    },
+  },
+};
+
+const scriptPubKeySchema2 = {
+  type: 'object',
+  properties: {
+    asm: {
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+    },
+    hex: {
+      type: 'string',
+    },
+  },
+};
+
+const voutSchema = {
+  type: 'array',
+  items: {
+    anyOf: [
+      {
+        properties: {
+          value: {
+            type: 'number',
+          },
+          n: {
+            type: 'number',
+          },
+          scriptPubKey: scriptPubKeySchema1,
+        },
+        required: [],
+      },
+      {
+        properties: {
+          n: {
+            type: 'number',
+          },
+          scriptPubKey: scriptPubKeySchema2,
+          value: {
+            type: 'number',
+          },
+        },
+        required: [],
+      },
+    ],
+  },
+};
+
+export const txSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        hex: {
+          type: 'string',
+        },
+        locktime: {
+          type: 'number',
+        },
+        vsize: {
+          type: 'number',
+        },
+        confirmations: {
+          type: 'number',
+        },
+        blocktime: {
+          type: 'number',
+        },
+        vin: {
+          type: 'array',
+          items: vinInnerSchema,
+        },
+        hash: {
+          type: 'string',
+        },
+        blockhash: {
+          type: 'string',
+        },
+        vout: voutSchema,
+        version: {
+          type: 'number',
+        },
+        size: {
+          type: 'number',
+        },
+        in_active_chain: {
+          type: 'boolean',
+        },
+        txid: {
+          type: 'string',
+        },
+        time: {
+          type: 'number',
+        },
+        weight: {
+          type: 'number',
+        },
+      },
+      required: ['txid', 'hash'],
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  require: ['result'],
 };

@@ -52,3 +52,13 @@ rpcResponseSchemaMap.set(
   methodNames.GET_BALANCES,
   rpcResponseSchemas.getBalancesSchema
 );
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_BLOCK,
+  rpcResponseSchemas.blockSchema
+)
+
+rpcResponseSchemaMap.set(
+  methodNames.GET_RAW_TRANSACTION,
+  rpcResponseSchemas.txSchema
+)

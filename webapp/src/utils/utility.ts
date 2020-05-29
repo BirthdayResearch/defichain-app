@@ -1,14 +1,13 @@
 import Ajv from 'ajv';
 import log from 'loglevel';
 import moment from 'moment';
+import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
   DATE_FORMAT,
   DEFAULT_UNIT,
-  DFI,
+  UNPARSED_ADDRESS,
   DUST_VALUE_DFI,
-  DUST_VALUE_FI,
 } from '../constants';
-import { IAddressAndAmount, ITxn } from './interfaces';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 
@@ -23,15 +22,11 @@ export const validateSchema = (schema, data) => {
   return valid;
 };
 
-export const getAddressAndAmount = async addresses => {
-  const addressAndAmount: IAddressAndAmount[] = [];
-  for (const addressObj of addresses) {
-    addressAndAmount.push({
-      address: addressObj.address,
-      amount: addressObj.amount,
-    });
-  }
-  return addressAndAmount;
+export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
+  return addresses.map(addressObj => {
+    const { address, amount } = addressObj;
+    return { address, amount };
+  });
 };
 
 export const getTransactionURI = (
@@ -66,13 +61,29 @@ export const setToPersistentStorage = (path, data) => {
   return data;
 };
 
+export const getBlockDetails = block => {
+  const blockDetails: IBlock = {
+    hash: block.hash,
+    size: block.size,
+    height: block.height,
+    version: block.version,
+    merkleRoot: block.merkleroot,
+    txnIds: block.tx,
+    nonce: block.nonce,
+    bits: block.bits,
+    difficulty: block.difficulty,
+    time: convertEpochToDate(block.time),
+    nTxns: block.nTx,
+  };
+  return blockDetails;
+};
+
 // UNIT_CONVERSION
-export const getTxnDetails = async txns => {
-  const txnList: ITxn[] = [];
-  for (const txn of txns) {
+export const getTxnDetails = (txns): ITxn[] => {
+  return txns.map(txn => {
     const fee = txn.category === 'send' ? txn.fee : 0;
     const blockHash = txn.category === 'orphan' ? '' : txn.blockhash;
-    txnList.push({
+    return {
       address: txn.address,
       category: txn.category,
       amount: txn.amount,
@@ -83,9 +94,59 @@ export const getTxnDetails = async txns => {
       time: convertEpochToDate(txn.time),
       timeReceived: convertEpochToDate(txn.timereceived),
       unit: DEFAULT_UNIT,
-    });
+    };
+  });
+};
+
+const getToAddressAmountMap = vouts => {
+  const addressAmountMap = new Map<string, string>();
+  for (const vout of vouts) {
+    if (vout.scriptPubKey.type !== 'nulldata') {
+      const address = vout.scriptPubKey.addresses[0];
+      if (addressAmountMap.has(address)) {
+        const oldAmount = addressAmountMap.get(address) || 0;
+        addressAmountMap.set(
+          address,
+          new BigNumber(oldAmount).plus(new BigNumber(vout.value)).toString()
+        );
+      } else {
+        addressAmountMap.set(address, vout.value.toString());
+      }
+    }
   }
-  return txnList;
+
+  const tos: IAddressAndAmount[] = vouts.reduce((tos, vout) => {
+    if (vout.scriptPubKey.type === 'nulldata') {
+      tos.push({ address: UNPARSED_ADDRESS, amount: vout.value.toString() });
+    }
+    return tos;
+  }, []);
+
+  return { addressAmountMap, tos };
+};
+
+const getToList = (vouts): IAddressAndAmount[] => {
+  const { addressAmountMap, tos } = getToAddressAmountMap(vouts);
+  const toList: IAddressAndAmount[] = [];
+  addressAmountMap.forEach((amount: string, address: string) => {
+    toList.push({ address, amount });
+  });
+  const unparsedAddressList: IAddressAndAmount[] = tos.map(to => {
+    return { address: to.address, amount: to.amount };
+  });
+
+  return toList.concat(unparsedAddressList);
+};
+
+export const parseTxn = (fullRawTx): IParseTxn => {
+  const toList: IAddressAndAmount[] = getToList(fullRawTx.vout);
+
+  return {
+    hash: fullRawTx.hash,
+    time: convertEpochToDate(fullRawTx.blocktime),
+    tos: toList,
+    unit: DEFAULT_UNIT,
+  };
 };
 
 export const convertEpochToDate = epoch => {
@@ -137,8 +198,10 @@ export const getAmountInSelectedUnit = (
   return unitConversion(from, to, amount);
 };
 
-export const isDustAmount = (amount: number | string, unit: string) => {
-  return unit === DFI
-    ? new BigNumber(amount).lte(DUST_VALUE_DFI)
-    : new BigNumber(amount).lte(DUST_VALUE_FI);
+export const isLessThanDustAmount = (
+  amount: number | string,
+  unit: string
+): boolean => {
+  const convertedAmount = getAmountInSelectedUnit(amount, DEFAULT_UNIT, unit);
+  return new BigNumber(convertedAmount).lte(DUST_VALUE_DFI);
 };

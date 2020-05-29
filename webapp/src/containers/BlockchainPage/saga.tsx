@@ -7,12 +7,24 @@ import {
   fetchTxnsRequest,
   fetchTxnsSuccess,
   fetchTxnsFailure,
+  fetchBlockDataRequest,
+  fetchBlockDataFailure,
+  fetchBlockDataSuccess,
+  fetchBlockCountRequest,
+  fetchBlockCountSuccess,
+  fetchBlockCountFailure,
 } from './reducer';
-import { handelFetchTxns, handelFetchBlocks } from './service';
+import {
+  handelFetchTxns,
+  handelFetchBlocks,
+  handleFetchBlockData,
+  handleFetchBlockCount,
+} from './service';
 
-function* fetchBlocks() {
+function* fetchBlocks(action) {
+  const { currentPage: pageNo, pageSize } = action.payload;
   try {
-    const data = yield call(handelFetchBlocks);
+    const data = yield call(handelFetchBlocks, pageNo, pageSize);
     if (data && data.blocks) {
       yield put({ type: fetchBlocksSuccess.type, payload: { ...data } });
     } else {
@@ -27,9 +39,45 @@ function* fetchBlocks() {
   }
 }
 
-function* fetchTxns() {
+function* fetchBlockData(action) {
+  const { blockNumber } = action.payload;
   try {
-    const data = yield call(handelFetchTxns);
+    const data = yield call(handleFetchBlockData, blockNumber);
+    if (data && data.blockData) {
+      yield put({ type: fetchBlockDataSuccess.type, payload: { ...data } });
+    } else {
+      yield put({
+        type: fetchBlockDataFailure.type,
+        payload: 'No data found',
+      });
+    }
+  } catch (e) {
+    yield put({ type: fetchBlockDataFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+function* fetchBlockCount() {
+  try {
+    const data = yield call(handleFetchBlockCount);
+    if (data && data.blockCount) {
+      yield put({ type: fetchBlockCountSuccess.type, payload: { ...data } });
+    } else {
+      yield put({
+        type: fetchBlockCountFailure.type,
+        payload: 'No data found',
+      });
+    }
+  } catch (e) {
+    yield put({ type: fetchBlockCountFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+function* fetchTxns(action) {
+  const { blockNumber, pageNo, pageSize } = action.payload;
+  try {
+    const data = yield call(handelFetchTxns, blockNumber, pageNo, pageSize);
     if (data && data.txns) {
       yield put({ type: fetchTxnsSuccess.type, payload: { ...data } });
     } else {
@@ -46,6 +94,8 @@ function* fetchTxns() {
 
 function* mySaga() {
   yield takeLatest(fetchBlocksRequest.type, fetchBlocks);
+  yield takeLatest(fetchBlockCountRequest.type, fetchBlockCount);
+  yield takeLatest(fetchBlockDataRequest.type, fetchBlockData);
   yield takeLatest(fetchTxnsRequest.type, fetchTxns);
 }
 

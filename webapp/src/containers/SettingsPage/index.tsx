@@ -37,8 +37,8 @@ interface SettingsPageProps {
   isUpdated: boolean;
   launchAtLogin: boolean;
   minimizedAtLaunch: boolean;
-  loadSettings: () => void;
-  loadSettingsOptions: () => void;
+  getInitialSettingsRequest: () => void;
+  getSettingOptionsRequest: () => void;
   updateSettings: (data: any) => void;
   changeLanguage: () => void;
 }
@@ -65,8 +65,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       ...props.appConfig,
       isUnsavedChanges: false,
     };
-    props.loadSettingsOptions();
-    props.loadSettings();
+    props.getSettingOptionsRequest();
+    props.getInitialSettingsRequest();
   }
 
   componentDidUpdate = (prevProps: { appConfig: any; isFetching: boolean }) => {
@@ -262,13 +262,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadSettingsOptions: () => dispatch(getSettingOptionsRequest()),
-    loadSettings: () => dispatch(getInitialSettingsRequest()),
-    updateSettings: settings =>
-      dispatch({ type: updateSettingsRequest.type, payload: settings }),
-  };
+const mapDispatchToProps = {
+  getSettingOptionsRequest,
+  getInitialSettingsRequest,
+  updateSettings: settings => updateSettingsRequest(settings),
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

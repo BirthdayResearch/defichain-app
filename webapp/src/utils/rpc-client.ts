@@ -3,8 +3,21 @@ import store from '../app/rootStore';
 import { RPC_V, REGTEST } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
-import { IAddressAndAmount, ITxn } from './interfaces';
-import { getAddressAndAmount, validateSchema, getTxnDetails } from './utility';
+import {
+  IAddressAndAmount,
+  ITxn,
+  IBlock,
+  IParseTxn,
+  IRawTxn,
+} from './interfaces';
+import {
+  getAddressAndAmount,
+  validateSchema,
+  getTxnDetails,
+  getBlockDetails,
+  parseTxn,
+} from './utility';
+import { getFullRawTxInfo } from './transactionProcessor';
 
 export default class RpcClient {
   client: any;
@@ -32,6 +45,90 @@ export default class RpcClient {
       method,
       params,
     });
+  };
+
+  getBlockHash = async (blockNumber: number): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_BLOCK_HASH, [
+      blockNumber,
+    ]);
+    return data.result;
+  };
+
+  getBlock = async (blockHash: string, verbose: number): Promise<IBlock> => {
+    const { data } = await this.call('/', methodNames.GET_BLOCK, [
+      blockHash,
+      verbose,
+    ]);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_BLOCK),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${methodNames.GET_BLOCK}: ${JSON.stringify(
+          data
+        )}`
+      );
+    }
+    return getBlockDetails(data.result);
+  };
+
+  getBlockCount = async (): Promise<number> => {
+    const { data } = await this.call('/', methodNames.GET_BLOCK_COUNT, []);
+    return data.result;
+  };
+
+  getRawTransactionOfBlock = async (
+    txid: string,
+    verbose: boolean,
+    blockHash: string
+  ): Promise<IParseTxn> => {
+    const { data } = await this.call('/', methodNames.GET_RAW_TRANSACTION, [
+      txid,
+      verbose,
+      blockHash,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_RAW_TRANSACTION
+        }: ${JSON.stringify(data)}`
+      );
+    }
+
+    const fullRawTx = await getFullRawTxInfo(data.result);
+    const parsedTxn = await parseTxn(fullRawTx);
+
+    return parsedTxn;
+  };
+
+  getRawTransaction = async (
+    txid: string,
+    verbose: boolean
+  ): Promise<IRawTxn> => {
+    const { data } = await this.call('/', methodNames.GET_RAW_TRANSACTION, [
+      txid,
+      verbose,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_RAW_TRANSACTION
+        }: ${JSON.stringify(data)}`
+      );
+    }
+
+    return data.result;
   };
 
   getLatestSyncedBlock = async (): Promise<number> => {
@@ -132,7 +229,7 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
-    const addressAndAmountList: IAddressAndAmount[] = await getAddressAndAmount(
+    const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
       data.result
     );
     return addressAndAmountList;
@@ -215,7 +312,7 @@ export default class RpcClient {
       );
     }
 
-    const txnList: ITxn[] = await getTxnDetails(data.result);
+    const txnList: ITxn[] = getTxnDetails(data.result);
     return txnList;
   };
 

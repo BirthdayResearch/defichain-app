@@ -19,16 +19,16 @@ interface WalletPageProps {
   unit: string;
   walletBalance: string;
   pendingBalance: string;
-  fetchWalletBalance: () => void;
-  fetchPendingBalance: () => void;
+  fetchWalletBalanceRequest: () => void;
+  fetchPendingBalanceRequest: () => void;
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
   useEffect(() => {
-    props.fetchWalletBalance();
-    props.fetchPendingBalance();
+    props.fetchWalletBalanceRequest();
+    props.fetchPendingBalanceRequest();
   }, []);
 
   const { walletBalance, pendingBalance } = props;
@@ -94,11 +94,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchWalletBalance: () => dispatch(fetchWalletBalanceRequest()),
-    fetchPendingBalance: () => dispatch(fetchPendingBalanceRequest()),
-  };
+const mapDispatchToProps = {
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletPage);

@@ -75,10 +75,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    syncStatusRequest: () => dispatch(syncStatusRequest()),
-  };
+const mapDispatchToProps = {
+  syncStatusRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SyncStatus);

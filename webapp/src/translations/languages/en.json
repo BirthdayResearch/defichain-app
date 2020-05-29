@@ -37,7 +37,9 @@
         "transactions": "Transactions",
         "minedBy": "Mined by",
         "size": "Size",
-        "count": "612127 – 612138 of 999,999,999 blocks"
+        "paginationRange": "%{from} – %{to} of %{total} blocks",
+        "noBlocks": "No blocks available",
+        "loading": "Loading..."
       },
       "blockPage": {
         "block": "Block",
@@ -59,7 +61,10 @@
         "noInputs": "No Inputs (Newly Generated Coins)",
         "copied": "Copied!",
         "dFI": "DFI",
-        "unparsedAddress": "Unparsed address"
+        "unparsedAddress": "Unparsed address",
+        "paginationRange": "%{from} – %{to} of %{total} transactions",
+        "noTransactions": "No transactions available",
+        "loading": "Loading..."
       },
       "minerPage": {
         "miner": "Miner",

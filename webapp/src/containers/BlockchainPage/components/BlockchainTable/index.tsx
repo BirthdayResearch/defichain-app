@@ -1,141 +1,127 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  Card,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from 'reactstrap';
-import {
-  MdChevronLeft,
-  MdChevronRight,
-  MdFirstPage,
-  MdLastPage,
-} from 'react-icons/md';
+import { Card, Table, CardBody } from 'reactstrap';
 import styles from './BlockchainTable.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchBlocksRequest } from '../../reducer';
-import {
-  BLOCKCHAIN_BLOCK_BASE_PATH,
-  BLOCKCHAIN_MINER_BASE_PATH,
-} from '../../../../constants';
+import { BLOCKCHAIN_BLOCK_BASE_PATH } from '../../../../constants';
+import { BLOCK_PAGE_SIZE } from '../../../../constants/configs';
+import Pagination from '../../../../components/Pagination';
 
 interface BlockchainTableProps {
   blocks: {
     height: number;
-    age: string;
-    txns: string;
-    minerName: string;
-    minerID: number;
+    time: string;
+    nTxns: string;
     size: string;
   }[];
+  blockCount: number;
   isLoadingBlocks: boolean;
   isBlocksLoaded: boolean;
   blocksLoadError: string;
-  fetchBlocks: () => void;
+  fetchBlocks: (currentPage: number, pageSize: number) => void;
 }
 
 const BlockchainTable: React.FunctionComponent<BlockchainTableProps> = (
   props: BlockchainTableProps
 ) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = BLOCK_PAGE_SIZE;
+
+  const { blockCount: total } = props;
+  const pagesCount = Math.ceil(total / pageSize);
+  const to = total - (currentPage - 1) * pageSize;
+  const from = Math.max(to - pageSize, 0);
+
   useEffect(() => {
-    props.fetchBlocks();
+    props.fetchBlocks(currentPage, pageSize);
   }, []);
+
+  const fetchData = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    props.fetchBlocks(pageNumber, pageSize);
+  };
+
+  if (props.isLoadingBlocks) {
+    return (
+      <div>{I18n.t('containers.blockChainPage.blockChainTable.loading')}</div>
+    );
+  }
 
   return (
     <>
-      <Card className={styles.card}>
-        <div className={`${styles.tableResponsive} table-responsive-xl`}>
-          <Table className={styles.table}>
-            <thead>
-              <tr>
-                <th>
-                  {I18n.t('containers.blockChainPage.blockChainTable.height')}
-                </th>
-                <th>
-                  {I18n.t('containers.blockChainPage.blockChainTable.age')}
-                </th>
-                <th>
-                  {I18n.t(
-                    'containers.blockChainPage.blockChainTable.transactions'
-                  )}
-                </th>
-                <th>
-                  {I18n.t('containers.blockChainPage.blockChainTable.minedBy')}
-                </th>
-                <th>
-                  {I18n.t('containers.blockChainPage.blockChainTable.size')}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.blocks.map(block => (
-                <tr key={block.height}>
-                  <td>
-                    <Link to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${block.height}`}>
-                      {block.height}
-                    </Link>
-                  </td>
-                  <td>
-                    <div>{block.age}</div>
-                  </td>
-                  <td>
-                    <div>{block.txns}</div>
-                  </td>
-                  <td>
-                    <div>
-                      <Link
-                        to={`${BLOCKCHAIN_MINER_BASE_PATH}/${block.minerID}`}
-                      >
-                        {block.minerName}
-                      </Link>
-                    </div>
-                  </td>
-                  <td>
-                    <div>{block.size}</div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      </Card>
-      <div className='d-flex justify-content-between align-items-center mt-3'>
-        <div>{I18n.t('containers.blockChainPage.blockChainTable.count')}</div>
-        <Pagination className={styles.pagination}>
-          <PaginationItem>
-            <PaginationLink first href='#'>
-              <MdFirstPage />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink previous href='#'>
-              <MdChevronLeft />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink next href='#'>
-              <MdChevronRight />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink last href='#'>
-              <MdLastPage />
-            </PaginationLink>
-          </PaginationItem>
-        </Pagination>
-      </div>
+      {total ? (
+        <>
+          <Card className={styles.card}>
+            <div className={`${styles.tableResponsive} table-responsive-xl`}>
+              <Table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>
+                      {I18n.t(
+                        'containers.blockChainPage.blockChainTable.height'
+                      )}
+                    </th>
+                    <th>
+                      {I18n.t('containers.blockChainPage.blockChainTable.age')}
+                    </th>
+                    <th>
+                      {I18n.t(
+                        'containers.blockChainPage.blockChainTable.transactions'
+                      )}
+                    </th>
+                    <th>
+                      {I18n.t('containers.blockChainPage.blockChainTable.size')}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {props.blocks.map(block => (
+                    <tr key={block.height}>
+                      <td>
+                        <Link
+                          to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${block.height}`}
+                        >
+                          {block.height}
+                        </Link>
+                      </td>
+                      <td>
+                        <div>{block.time}</div>
+                      </td>
+                      <td>
+                        <div>{block.nTxns}</div>
+                      </td>
+                      <td>
+                        <div>{block.size}</div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </Card>
+          <Pagination
+            label={I18n.t(
+              'containers.blockChainPage.blockChainTable.paginationRange',
+              {
+                to,
+                total,
+                from: from + 1,
+              }
+            )}
+            currentPage={currentPage}
+            pagesCount={pagesCount}
+            handlePageClick={fetchData}
+          />
+        </>
+      ) : (
+        <Card className='table-responsive-md'>
+          <CardBody>
+            {I18n.t('containers.blockChainPage.blockChainTable.noBlocks')}
+          </CardBody>
+        </Card>
+      )}
     </>
   );
 };
@@ -143,22 +129,23 @@ const BlockchainTable: React.FunctionComponent<BlockchainTableProps> = (
 const mapStateToProps = state => {
   const {
     blocks,
+    blockCount,
     isBlocksLoaded,
     isLoadingBlocks,
     blocksLoadError,
   } = state.blockchain;
   return {
     blocks,
+    blockCount,
     isBlocksLoaded,
     isLoadingBlocks,
     blocksLoadError,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchBlocks: () => dispatch(fetchBlocksRequest()),
-  };
+const mapDispatchToProps = {
+  fetchBlocks: (currentPage, pageSize) =>
+    fetchBlocksRequest({ currentPage, pageSize }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlockchainTable);
