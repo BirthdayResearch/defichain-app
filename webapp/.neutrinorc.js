@@ -4,6 +4,7 @@ const web = require("@neutrinojs/web");
 const jest = require("@neutrinojs/jest");
 const airbnb = require("@neutrinojs/airbnb");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { defaults } = require('jest-config');
 
 const path = require("path");
 module.exports = {
@@ -141,7 +142,22 @@ module.exports = {
         ]);
     },
     createTypeScriptPreset(),
-    jest(),
+    jest({
+      testEnvironment: 'jsdom',
+      roots: [
+        "<rootDir>/src"
+      ],
+      preset: "ts-jest",
+      setupFilesAfterEnv: ["<rootDir>/test/setupTests.ts", "<rootDir>/test/setupRpcInitialData.ts"],
+      setupFiles: ["<rootDir>/test/mockLocalStorage.js"],
+      transform: {
+        "^.+\\.[ts|tsx]?$": "ts-jest"
+      },
+      testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+      testPathIgnorePatterns: ["<rootDir>/node_modules/"],
+      snapshotSerializers: ["enzyme-to-json/serializer"],
+      moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
+    }),
 
     copy({
       patterns: [{ from: "favicon.ico", context: "./src/assets/img", to: "." }],
