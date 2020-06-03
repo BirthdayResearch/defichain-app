@@ -14,6 +14,12 @@ import {
 } from './reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import { getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  updateWalletBalanceSchedular,
+  updatePendingBalanceSchedular,
+  walletBalanceTimerID,
+  pendingBalanceTimerID,
+} from '../../worker/schedular';
 
 interface WalletPageProps {
   unit: string;
@@ -29,6 +35,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   useEffect(() => {
     props.fetchWalletBalanceRequest();
     props.fetchPendingBalanceRequest();
+
+    updateWalletBalanceSchedular();
+    updatePendingBalanceSchedular();
+    
+    return () => {
+      clearInterval(walletBalanceTimerID);
+      clearInterval(pendingBalanceTimerID);
+    };
   }, []);
 
   const { walletBalance, pendingBalance } = props;
