@@ -1,0 +1,10 @@
+{
+  "configJson": {
+    "wallet": {
+      "txnPageSize": 5
+    },
+    "block": {
+      "pageSize": 10
+    }
+  }
+}
