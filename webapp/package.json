@@ -33,6 +33,7 @@
     "bignumber.js": "^9.0.0",
     "bootstrap": "^4.4.1",
     "comma-number": "^2.0.1",
+    "crypto-js": "^4.0.0",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",
     "foreman": "^3.0.1",
