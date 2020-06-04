@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
@@ -81,6 +81,12 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
                 value={getAmountInSelectedUnit(walletBalance, props.unit)}
                 unit={props.unit}
+                icon={
+                  <MdRefresh
+                    size={30}
+                    onClick={props.fetchWalletBalanceRequest}
+                  />
+                }
               />
             </Col>
             <Col>
@@ -88,6 +94,12 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 label={I18n.t('containers.wallet.walletPage.pending')}
                 value={getAmountInSelectedUnit(pendingBalance, props.unit)}
                 unit={props.unit}
+                icon={
+                  <MdRefresh
+                    size={30}
+                    onClick={props.fetchPendingBalanceRequest}
+                  />
+                }
               />
             </Col>
           </Row>
