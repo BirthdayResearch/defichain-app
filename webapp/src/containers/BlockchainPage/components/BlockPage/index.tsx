@@ -19,6 +19,8 @@ import {
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { ITxn, IBlockData } from '../../interfaces';
+import { toSha256 } from '../../../../utils/utility';
+import LruCache from '../../../../utils/lruCache';
 
 interface RouteParams {
   id?: string;
@@ -63,7 +65,9 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
 
   const fetchData = pageNumber => {
     setCurrentPage(pageNumber);
-    props.fetchTxns(blockNumber, pageNumber, pageSize);
+    props.fetchBlockCountRequest();
+    const key = toSha256(`${blockNumber} ${pageNumber} ${pageSize}`);
+    if (!LruCache.get(key)) props.fetchTxns(blockNumber, pageNumber, pageSize);
   };
 
   useEffect(() => {
@@ -71,6 +75,9 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
     props.fetchBlockData(blockNumber);
     props.fetchTxns(blockNumber, currentPage, pageSize);
   }, []);
+
+  const key = toSha256(`${blockNumber} ${currentPage} ${pageSize}`);
+  const txns: ITxn[] = LruCache.get(key) || props.txns;
 
   return (
     <div className='main-wrapper'>
@@ -187,7 +194,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
             <>{I18n.t('containers.blockChainPage.blockTxn.loading')}</>
           ) : total ? (
             <>
-              {props.txns.map((txn, index) => (
+              {txns.map((txn, index) => (
                 <BlockTxn
                   txn={txn}
                   key={`${txn.hash}${index}`}
