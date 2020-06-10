@@ -1,5 +1,5 @@
 import { isElectron } from './isElectron';
-import log from 'loglevel';
+import * as log from './electronLogger';
 import icon from '../assets/svg/logo-defi.svg';
 
 interface Window {

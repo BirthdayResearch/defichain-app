@@ -21,3 +21,5 @@ export const FREEBSD = 'freebsd';
 export const OPENBSD = 'openbsd';
 export const ANDROID = 'android';
 export const SUNOS = 'sunos';
+export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
+export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;

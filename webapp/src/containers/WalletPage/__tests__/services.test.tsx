@@ -11,7 +11,7 @@ import {
   handelRemoveReceiveTxns,
   handelAddReceiveTxns,
 } from './testData.json';
-import log from 'loglevel';
+import * as log from '../../../utils/electronLogger';
 import {
   mockPersistentStore,
   mockAxios,

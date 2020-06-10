@@ -1,4 +1,4 @@
-import log from 'loglevel';
+import * as log from './electronLogger';
 import * as path from 'path';
 import { spawn } from 'child_process';
 import {
@@ -68,7 +68,7 @@ export default class DefiProcessManager {
       });
 
       // on STDERR
-      child.stderr.on('data', (err) => {
+      child.stderr.on('data', err => {
         log.error(err.toString('utf8').trim());
         if (event)
           return event.sender.send(
@@ -78,7 +78,7 @@ export default class DefiProcessManager {
       });
 
       // on close
-      child.on('close', (code) => {
+      child.on('close', code => {
         log.info(`child process exited with code ${code}`);
         if (event)
           return event.sender.send(

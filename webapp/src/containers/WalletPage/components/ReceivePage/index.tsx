@@ -15,7 +15,7 @@ import {
 import { MdArrowBack } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
-import log from 'loglevel';
+import * as log from '../../../../utils/electronLogger';
 import { addReceiveTxnsRequest } from '../../reducer';
 import {
   WALLET_PAGE_PATH,

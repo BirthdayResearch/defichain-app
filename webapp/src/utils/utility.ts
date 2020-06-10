@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import log from 'loglevel';
+import * as log from './electronLogger';
 import moment from 'moment';
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {

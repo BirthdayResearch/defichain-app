@@ -1,6 +1,6 @@
 import { isElectron, ipcRendererFunc } from '../../utils/isElectron';
 import { I18n } from 'react-redux-i18n';
-import log from 'loglevel';
+import * as  log from '../../utils/electronLogger';
 import {
   LANG_VARIABLE,
   UNIT,
