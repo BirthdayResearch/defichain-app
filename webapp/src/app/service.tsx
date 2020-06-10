@@ -18,6 +18,15 @@ const getStatus = () => {
   return isRunning;
 };
 
+const blockChainNotStarted = message => {
+  let action;
+  const isRunning = getStatus();
+  if (!isRunning) action = { type: startNodeFailure.type, payload: message };
+  else action = { type: openErrorModal.type };
+
+  store.dispatch(action);
+};
+
 export const getRpcConfig = () => {
   if (isElectron()) {
     const { ipcRenderer } = window.require('electron');
@@ -38,21 +47,18 @@ export const startBinary = (config: any) => {
         async (_e: any, res: any) => {
           if (res.success) {
             const blockchainStatus = await isBlockchainStarted();
-            if (blockchainStatus) {
+            if (blockchainStatus.status) {
               store.dispatch({
                 type: startNodeSuccess.type,
                 payload: res.data,
               });
               return resolve(res);
+            } else {
+              blockChainNotStarted(blockchainStatus.message);
+              return reject(blockchainStatus);
             }
           }
-          let action;
-          const isRunning = getStatus();
-          if (!isRunning)
-            action = { type: startNodeFailure.type, payload: res.data };
-          else action = { type: openErrorModal.type };
-
-          store.dispatch(action);
+          blockChainNotStarted(res.message);
           return reject(res);
         }
       );
