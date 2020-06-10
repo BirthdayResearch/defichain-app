@@ -1,4 +1,4 @@
-import isElectron from 'is-electron';
+import { isElectron } from './isElectron';
 import log from 'loglevel';
 import icon from '../assets/svg/logo-defi.svg';
 

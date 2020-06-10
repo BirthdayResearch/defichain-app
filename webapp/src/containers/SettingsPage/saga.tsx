@@ -25,7 +25,7 @@ import { setupI18n } from '../../translations/i18n';
 import { LANG_VARIABLE } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 
-function* getSettingsOptions() {
+export function* getSettingsOptions() {
   try {
     const languages = yield call(getLanguage);
     const amountUnits = yield call(getAmountUnits);
@@ -39,7 +39,7 @@ function* getSettingsOptions() {
   }
 }
 
-function* getSettings() {
+export function* getSettings() {
   try {
     const data = yield call(initialData);
     if (data) {
@@ -56,7 +56,7 @@ function* getSettings() {
   }
 }
 
-function* updateSettings(action) {
+export function* updateSettings(action) {
   try {
     let updateLanguage = false;
     if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {

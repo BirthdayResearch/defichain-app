@@ -1,4 +1,7 @@
 import PersistentStore from '../persistentStore';
+import * as isElectron from '../isElectron';
+import * as Notifications from '../notifications';
+import log from 'loglevel';
 import { runSaga } from 'redux-saga';
 import axios from 'axios';
 
@@ -26,4 +29,32 @@ const dispatchedFunc = async (method, payload = {}) => {
   );
   return dispatched;
 };
-export { mockPersistentStore, mockAxios, dispatchedFunc };
+
+const mockisElectron = () => {
+  return jest.spyOn(isElectron, 'isElectron');
+};
+const mockIpcRenderer = () => {
+  return jest.spyOn(isElectron, 'ipcRendererFunc');
+};
+
+const spyLogger = () => {
+  return jest.spyOn(log, 'error');
+};
+
+const mockNotification = () => {
+  return (
+    jest
+      .spyOn(Notifications, 'default')
+      // tslint:disable-next-line: no-empty
+      .mockImplementation(() => {})
+  );
+};
+export {
+  mockPersistentStore,
+  mockAxios,
+  dispatchedFunc,
+  mockisElectron,
+  mockIpcRenderer,
+  spyLogger,
+  mockNotification,
+};
