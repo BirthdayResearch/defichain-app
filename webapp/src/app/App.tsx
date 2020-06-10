@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
+import errorModelStyles from '../containers/ErrorModal/errorModal.module.scss';
 import './App.scss'; // INFO: do not move down, placed on purpose
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
+import ErrorModal from '../containers/ErrorModal';
+import { Modal, ModalBody } from 'reactstrap';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 
@@ -17,6 +20,7 @@ interface AppState {
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
   getRpcConfigsRequest: () => void;
+  isErrorModalOpen: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -36,7 +40,6 @@ const determineTransition = (location, prevDepth) => {
 };
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
-
   const prevDepth = useRef(getPathDepth(props.location));
 
   useEffect(() => {
@@ -45,41 +48,52 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   useEffect(() => {
     prevDepth.current = getPathDepth(props.location);
-  })
+  });
 
-  const transition = determineTransition(props.location, prevDepth.current)
+  const transition = determineTransition(props.location, prevDepth.current);
 
-  return props.isRunning ?
-    (
-      <div id='app'>
-        <Helmet>
-          <title>DeFi Blockchain Client</title>
-        </Helmet>
-        <Sidebar />
-        <main>
-          <TransitionGroup
-            className='transition-group'
-            childFactory={child =>
-              React.cloneElement(child, {
-                classNames: transition[0],
-                timeout: transition[1],
-              })
-            }
-          >
+  return props.isRunning ? (
+    <div
+      id='app'
+      className={props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''}
+    >
+      <Helmet>
+        <title>DeFi Blockchain Client</title>
+      </Helmet>
+      <Sidebar />
+      <main>
+        <TransitionGroup
+          className='transition-group'
+          childFactory={child =>
+            React.cloneElement(child, {
+              classNames: transition[0],
+              timeout: transition[1],
+            })
+          }
+        >
           <CSSTransition timeout={300} key={props.location.key}>
-              {routes(props.location)}
-            </CSSTransition>
-          </TransitionGroup>
-        </main>
-      </div>
-    ) :
-    (
-      <LaunchScreen />
-    )
-}
+            {routes(props.location)}
+          </CSSTransition>
+        </TransitionGroup>
+      </main>
+      <Modal
+        isOpen={props.isErrorModalOpen}
+        centered
+        contentClassName={errorModelStyles.onContentModal}
+      >
+        <ModalBody>
+          <ErrorModal />
+        </ModalBody>
+      </Modal>
+    </div>
+  ) : (
+    <LaunchScreen />
+  );
+};
 
-const mapStateToProps = ({ app }) => ({
+const mapStateToProps = ({ app, errorModal }) => ({
   isRunning: app.isRunning,
+  isErrorModalOpen: errorModal.isOpen,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };
