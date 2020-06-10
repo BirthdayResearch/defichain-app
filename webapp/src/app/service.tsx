@@ -6,9 +6,17 @@ import {
   startNodeSuccess,
   startNodeFailure,
 } from '../containers/RpcConfiguration/reducer';
+import { openErrorModal } from '../containers/ErrorModal/reducer';
 import showNotification from '../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
+
+const getStatus = () => {
+  const {
+    app: { isRunning },
+  } = store.getState();
+  return isRunning;
+};
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -38,7 +46,13 @@ export const startBinary = (config: any) => {
               return resolve(res);
             }
           }
-          store.dispatch({ type: startNodeFailure.type, payload: res.data });
+          let action;
+          const isRunning = getStatus();
+          if (!isRunning)
+            action = { type: startNodeFailure.type, payload: res.data };
+          else action = { type: openErrorModal.type };
+
+          store.dispatch(action);
           return reject(res);
         }
       );
