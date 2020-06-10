@@ -7,6 +7,7 @@ import masterNodesSaga from '../containers/MasternodesPage/saga';
 import walletSaga from '../containers/WalletPage/saga';
 import settingsSaga from '../containers/SettingsPage/saga';
 import syncStatusSaga from '../containers/SyncStatus/saga';
+import consoleSaga from '../containers/ConsolePage/saga';
 
 function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ function* rootSaga() {
     fork(walletSaga),
     fork(settingsSaga),
     fork(syncStatusSaga),
+    fork(consoleSaga),
   ]);
 }
 

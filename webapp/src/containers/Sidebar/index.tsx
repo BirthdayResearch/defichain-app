@@ -9,19 +9,20 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
   MdAccountBalanceWallet,
-  MdDns,
+  // MdDns,
   MdViewWeek,
-  MdCompareArrows,
+  // MdCompareArrows,
 } from 'react-icons/md';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
+  CONSOLE_RPC_CALL_BASE_PATH,
   WALLET_PAGE_PATH,
   WALLET_BASE_PATH,
-  MASTER_NODES_PATH,
-  EXCHANGE_PATH,
+  // MASTER_NODES_PATH,
+  // EXCHANGE_PATH,
   HELP_PATH,
   SETTING_PATH,
 } from '../../constants';
@@ -107,6 +108,16 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
           </NavItem> */}
         </Nav>
         <Nav className={`${styles.navSub} flex-column nav-pills`}>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={CONSOLE_RPC_CALL_BASE_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              {I18n.t('containers.sideBar.console')}
+            </NavLink>
+          </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
               to={HELP_PATH}

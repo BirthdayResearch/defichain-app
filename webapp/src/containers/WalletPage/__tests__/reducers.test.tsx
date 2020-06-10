@@ -82,12 +82,14 @@ describe('wallet slice', () => {
   });
 
   describe('fetchWalletBalanceRequest reducers and actions', () => {
+    // tslint:disable-next-line: max-line-length
     it('should properly set isBalanceFetching and isBalanceError information when fetchWalletBalanceRequest is made', () => {
       const nextState = reducer(initialState, fetchWalletBalanceRequest());
       const rootState = { wallet: nextState };
       expect(rootState.wallet.isBalanceError).toEqual('');
       expect(rootState.wallet.isBalanceFetching).toEqual(true);
     });
+    // tslint:disable-next-line: max-line-length
     it('should properly set isBalanceFetching and walletBalance information when fetchWalletBalanceSuccess is made', () => {
       const nextState = reducer(
         initialState,
