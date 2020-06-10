@@ -95,6 +95,7 @@ export default class RpcClient {
       rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
       data
     );
+
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
@@ -103,8 +104,8 @@ export default class RpcClient {
       );
     }
 
-    const fullRawTx = await getFullRawTxInfo(data.result);
-    const parsedTxn = await parseTxn(fullRawTx);
+    const fullRawTx = getFullRawTxInfo(data.result);
+    const parsedTxn = parseTxn(fullRawTx);
 
     return parsedTxn;
   };
@@ -122,6 +123,7 @@ export default class RpcClient {
       rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
       data
     );
+
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${

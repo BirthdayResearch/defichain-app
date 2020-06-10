@@ -1,32 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  blocks: [],
+  blockCount: 0,
+  blockData: {
+    nTxns: 0,
+    difficulty: 0,
+    height: 0,
+    bits: '',
+    version: 0,
+    nonce: 0,
+    hash: '',
+    merkleRoot: '',
+  },
+  txns: Array(),
+  txnCount: 0,
+  isBlocksLoaded: false,
+  isLoadingBlocks: false,
+  blocksLoadError: '',
+  isLoadingBlockData: false,
+  blockDataError: '',
+  blockCountError: '',
+  isTxnsLoaded: false,
+  isLoadingTxns: false,
+  txnsLoadError: '',
+};
+
 const configSlice = createSlice({
   name: 'blockchain',
-  initialState: {
-    blocks: [],
-    blockCount: 0,
-    blockData: {
-      nTxns: 0,
-      difficulty: 0,
-      height: 0,
-      bits: '',
-      version: 0,
-      nonce: 0,
-      hash: '',
-      merkleRoot: '',
-    },
-    txns: Array(),
-    txnCount: 0,
-    isBlocksLoaded: false,
-    isLoadingBlocks: false,
-    blocksLoadError: '',
-    isLoadingBlockData: false,
-    blockDataError: '',
-    blockCountError: '',
-    isTxnsLoaded: false,
-    isLoadingTxns: false,
-    txnsLoadError: '',
-  },
+  initialState,
   reducers: {
     fetchBlocksRequest(state, action) {
       state.isLoadingBlocks = true;
