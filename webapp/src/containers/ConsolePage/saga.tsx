@@ -5,7 +5,7 @@ import {
   fetchDataForQueryFailure,
 } from './reducer';
 import { handleDataForQuery } from './service';
-import log from 'loglevel';
+import * as log from '../../utils/electronLogger';
 
 export function* fetchDataForQuery(action) {
   const { query } = action.payload;

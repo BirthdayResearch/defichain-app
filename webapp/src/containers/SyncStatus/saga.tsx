@@ -1,5 +1,5 @@
 import { call, put, takeLatest, take, cancelled } from 'redux-saga/effects';
-import log from 'loglevel';
+import * as log from '../../utils/electronLogger';
 import { syncStatusRequest, syncStatusSuccess } from './reducer';
 import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';

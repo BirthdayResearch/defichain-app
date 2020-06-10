@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import log from 'loglevel';
+import * as  log from '../../utils/electronLogger';
 import {
   getRpcConfigsRequest,
   getRpcConfigsSuccess,

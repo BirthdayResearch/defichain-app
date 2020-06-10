@@ -1,9 +1,9 @@
-import log from 'loglevel';
+import * as log from '../../utils/electronLogger';
 
 import { DIFF, RETRY_ATTEMPT } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 
-//TODO: need to be done through event channel
+// TODO: need to be done through event channel
 export const isBlockchainStarted = async (): Promise<boolean> => {
   let retryCount = 0;
   const rpcClient = new RpcClient();

@@ -1,4 +1,4 @@
-import log from 'loglevel';
+import * as log from './electronLogger';
 import AutoLaunch from 'auto-launch';
 import { APP_NAME } from '../constants';
 

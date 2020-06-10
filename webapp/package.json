@@ -38,6 +38,7 @@
     "comma-number": "^2.0.1",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",
+    "electron-log": "^4.2.1",
     "foreman": "^3.0.1",
     "http-status-codes": "^1.4.0",
     "is-electron": "^2.2.0",

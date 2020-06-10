@@ -1,5 +1,5 @@
 import { dialog } from 'electron';
-import log from 'loglevel';
+import * as log from './electronLogger';
 
 export default class DialogManager {
   // open directory model and allow to select directory

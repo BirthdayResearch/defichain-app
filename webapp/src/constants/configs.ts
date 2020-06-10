@@ -14,3 +14,6 @@ export const WALLET_TXN_PAGE_SIZE = 5;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const BITCOIN_CLI_REGEX = /bitcoin-cli/g;
 export const DEFI_CLI_TEXT = 'defi-cli';
+export const DEFAULT_ELECTRON_LOG_FORMAT =
+  '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}] {text}';
+export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
