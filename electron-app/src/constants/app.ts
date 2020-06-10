@@ -23,3 +23,5 @@ export const ANDROID = 'android';
 export const SUNOS = 'sunos';
 export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;
+export const DEFAULT_ELECTRON_FORMAT =
+  '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
