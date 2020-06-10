@@ -1,4 +1,4 @@
-import isElectron from 'is-electron';
+import { isElectron, ipcRendererFunc } from '../../utils/isElectron';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 import {
@@ -82,7 +82,7 @@ export const updateSettingsData = settingsData => {
 
 const getPreLaunchStatus = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require('electron');
+    const ipcRenderer = ipcRendererFunc();
     const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
     if (res.success && res.data) {
       return res.data.enabled;
@@ -95,7 +95,7 @@ const getPreLaunchStatus = () => {
 
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require('electron');
+    const ipcRenderer = ipcRendererFunc();
     const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
       minimize,
     });
@@ -110,7 +110,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
 
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require('electron');
+    const ipcRenderer = ipcRendererFunc();
     const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
     if (res.success && res.data) {
       return res.data.enabled;

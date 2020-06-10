@@ -1,4 +1,4 @@
-import isElectron from 'is-electron';
+import { isElectron } from '../utils/isElectron';
 import HttpStatus from 'http-status-codes';
 import store from './rootStore';
 import RpcClient from '../utils/rpc-client';
