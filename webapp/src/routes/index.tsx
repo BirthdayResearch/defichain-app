@@ -7,6 +7,7 @@ import PaymentRequestPage from '../containers/WalletPage/components/PaymentReque
 import BlockchainPage from '../containers/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/components/BlockPage';
 import MinerPage from '../containers/BlockchainPage/components/MinerPage';
+import ConsolePage from '../containers/ConsolePage';
 // import MasternodesPage from '../containers/MasternodesPage'; //  NOTE: Do not remove, for future purpose
 // import ExchangePage from '../containers/ExchangePage'; //  NOTE: Do not remove, for future purpose
 import HelpPage from '../containers/HelpPage';
@@ -25,6 +26,7 @@ import {
   BLOCKCHAIN_BLOCK_PARAM_PATH,
   BLOCKCHAIN_MINER_PARAM_PATH,
   WALLET_PAYMENT_REQ_PARAMS_PATH,
+  CONSOLE_RPC_CALL_BASE_PATH,
 } from '../constants';
 
 const routes = location => (
@@ -46,6 +48,7 @@ const routes = location => (
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
+    <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact component={Error404Page} />
   </Switch>
 );

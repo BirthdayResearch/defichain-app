@@ -12,7 +12,6 @@ import {
   handelAddReceiveTxns,
 } from './testData.json';
 import log from 'loglevel';
-import axios from 'axios';
 import {
   mockPersistentStore,
   mockAxios,

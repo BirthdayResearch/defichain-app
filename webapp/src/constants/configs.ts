@@ -12,3 +12,5 @@ export const BLOCK_PAGE_SIZE = 10;
 export const BLOCK_TXN_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 5;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
+export const BITCOIN_CLI_REGEX = /bitcoin-cli/g;
+export const DEFI_CLI_TEXT = 'defi-cli';
