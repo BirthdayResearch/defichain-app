@@ -141,6 +141,11 @@
     },
     "win": {
       "target": "NSIS"
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "defi-ui",
+      "owner": "cakedefi"
     }
   },
   "lint-staged": {
