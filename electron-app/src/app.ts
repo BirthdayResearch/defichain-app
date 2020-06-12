@@ -2,6 +2,7 @@ import log from 'loglevel';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import DefiProcessManager from './services/defiprocessmanager';
 import AppMenu from './menus';
 import { Options, parseOptions } from './clioptions';
@@ -17,6 +18,7 @@ import {
   CLOSE,
   SECOND_INSTANCE,
 } from './constants';
+import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
 declare var process: {
   argv: any;
@@ -39,6 +41,8 @@ export default class App {
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
+
+    initiateElectronUpdateManager();
   }
 
   run() {
@@ -55,6 +59,8 @@ export default class App {
     this.createMenu();
     // initiate ipcMain events
     initiateIpcEvents();
+
+    autoUpdater.checkForUpdatesAndNotify();
   };
 
   initiateInterceptFileProtocol() {
