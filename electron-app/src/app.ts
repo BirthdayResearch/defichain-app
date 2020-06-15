@@ -41,8 +41,8 @@ export default class App {
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
-
-    initiateElectronUpdateManager();
+    autoUpdater.autoDownload = false;
+    initiateElectronUpdateManager(autoUpdater);
   }
 
   // REMOVE MAGIC STRING
