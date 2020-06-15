@@ -1,11 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as  log from '../../utils/electronLogger';
+import * as log from '../../utils/electronLogger';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
   fetchMasternodesFailure,
+  createMasterNode,
+  createMasterNodeFailure,
+  createMasterNodeSuccess,
 } from './reducer';
-import { handelFetchMasterNodes } from './service';
+import { handelFetchMasterNodes, handelCreateMasterNodes } from './service';
 
 function* fetchMasterNodes() {
   try {
@@ -24,8 +27,22 @@ function* fetchMasterNodes() {
   }
 }
 
+function* createMasterNodes(action) {
+  try {
+    const {
+      payload: { masterNodeName },
+    } = action;
+    const data = yield call(handelCreateMasterNodes, masterNodeName);
+    yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
+  } catch (e) {
+    yield put({ type: createMasterNodeFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
+  yield takeLatest(createMasterNode.type, createMasterNodes);
 }
 
 export default mySaga;

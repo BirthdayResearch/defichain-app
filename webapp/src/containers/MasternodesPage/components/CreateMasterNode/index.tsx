@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
@@ -12,39 +13,49 @@ import {
   Label,
   Input,
   InputGroup,
-  Modal,
-  ModalHeader,
-  ModalBody,
 } from 'reactstrap';
-import { NavLink, RouteComponentProps } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { fetchWalletBalanceRequest } from '../../../WalletPage/reducer';
-import { MdArrowBack } from 'react-icons/md';
-import { MASTER_NODES_PATH } from '../../../../constants';
-import styles from '../../masternode.module.scss';
+import { createMasterNode } from '../../reducer';
+import {
+  MASTER_NODES_PATH,
+  MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+} from '../../../../constants';
+import BigNumber from 'bignumber.js';
+import { MdArrowBack, MdCheckCircle } from 'react-icons/md';
 
-interface CreateMasterNodeProps extends RouteComponentProps {
+interface CreateMasterNodeProps {
   unit: string;
   walletBalance: string | number;
   fetchWalletBalanceRequest: () => void;
   isBalanceFetching: boolean;
   isBalanceError: any;
+  createMasterNode: (masterNodeName: string) => void;
+  isMasterNodeCreating: boolean;
+  createdMasterNodeData: any;
+  isErrorCreatingMasterNode: string;
 }
 const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   props: CreateMasterNodeProps
 ) => {
   const {
-    unit,
     walletBalance,
     fetchWalletBalanceRequest,
     isBalanceFetching,
     isBalanceError,
+    createMasterNode,
+    isMasterNodeCreating,
+    createdMasterNodeData,
+    isErrorCreatingMasterNode,
   } = props;
   const [masterNodeName, setMasterNodeName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPage, setIsPage] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    boolean
-  >(false);
+    string
+  >('default');
+  const [wait, setWait] = useState<number>(5);
+  const [allowCalls, setAllowCalls] = useState<boolean>(false);
 
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -52,10 +63,52 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   }, []);
 
   useEffect(() => {
+    if (
+      allowCalls &&
+      !isMasterNodeCreating &&
+      !isErrorCreatingMasterNode &&
+      !isEmpty(createdMasterNodeData)
+    ) {
+      setIsConfirmationModalOpen('success');
+    }
+  }, [
+    isMasterNodeCreating,
+    createdMasterNodeData,
+    isErrorCreatingMasterNode,
+    allowCalls,
+  ]);
+
+  useEffect(() => {
+    let waitToSendInterval;
+    if (isConfirmationModalOpen === 'confirm') {
+      let counter = 5;
+      waitToSendInterval = setInterval(() => {
+        counter -= 1;
+        setWait(counter);
+        if (counter === 0) {
+          clearInterval(waitToSendInterval);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(waitToSendInterval);
+    };
+  }, [isConfirmationModalOpen]);
+
+  useEffect(() => {
     if (!isBalanceError && !isBalanceError && isPage) {
       setIsLoading(false);
     }
   }, [isBalanceFetching, isBalanceError, isPage]);
+
+  const cancelConfirmation = () => {
+    setWait(5);
+    setIsConfirmationModalOpen('default');
+  };
+
+  const showForm = new BigNumber(walletBalance).gte(
+    MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
+  );
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -79,111 +132,166 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
       </header>
       <div className='content'>
         {!isLoading && (
-          <Form>
-            <FormGroup className='form-label-group form-row'>
-              <Col>
-                {walletBalance >= 1000000 ? (
-                  <div>
-                    <InputGroup>
-                      <Input
-                        type='text'
-                        placeholder={I18n.t(
-                          'containers.masterNodes.createMasterNode.masterNodeName'
-                        )}
-                        name='masterNodeName'
-                        id='masterNodeName'
-                        value={masterNodeName}
-                        onChange={e => setMasterNodeName(e.target.value)}
-                        autoFocus
-                      />
-                      <Label for='masterNodeName'>
+          <section>
+            <Form onSubmit={e => e.preventDefault()}>
+              <FormGroup className='form-label-group form-row'>
+                <Col>
+                  {showForm ? (
+                    <div>
+                      <InputGroup>
+                        <Input
+                          type='text'
+                          placeholder={I18n.t(
+                            'containers.masterNodes.createMasterNode.masterNodeName'
+                          )}
+                          name='masterNodeName'
+                          id='masterNodeName'
+                          value={masterNodeName}
+                          onChange={e => setMasterNodeName(e.target.value)}
+                          autoFocus
+                        />
+                        <Label for='masterNodeName'>
+                          {I18n.t(
+                            'containers.masterNodes.createMasterNode.masterNodeName'
+                          )}
+                        </Label>
+                      </InputGroup>
+                    </div>
+                  ) : (
+                    <div>
+                      <Label>
                         {I18n.t(
-                          'containers.masterNodes.createMasterNode.masterNodeName'
+                          'containers.masterNodes.createMasterNode.lackOfBalanceMsg'
                         )}
                       </Label>
-                    </InputGroup>
-                    <div className='text-center mt-5'>
-                      <Button
-                        color='primary'
-                        disabled={!masterNodeName}
-                        onClick={() => setIsConfirmationModalOpen(true)}
-                      >
-                        {I18n.t(
-                          'containers.masterNodes.createMasterNode.createNodeButton'
-                        )}
-                      </Button>
                     </div>
-                  </div>
-                ) : (
-                  <div>
-                    <Label>
-                      {I18n.t(
-                        'containers.masterNodes.createMasterNode.lackOfBalanceMsg'
-                      )}
-                    </Label>
-                  </div>
-                )}
-              </Col>
-            </FormGroup>
-          </Form>
+                  )}
+                </Col>
+              </FormGroup>
+            </Form>
+          </section>
         )}
-        <Modal
-          isOpen={isConfirmationModalOpen}
-          toggle={() => setIsConfirmationModalOpen(!isConfirmationModalOpen)}
-          centered
+      </div>
+      <footer className='footer-bar'>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'default',
+          })}
         >
-          <ModalHeader>Confirmation</ModalHeader>
-          <ModalBody className={styles.modalBody}>
-            <Row>
-              <Col md={12} className={styles.confirmationalModal}>
-                <Label>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                to={MASTER_NODES_PATH}
+                tag={NavLink}
+                color='link'
+                className='mr-3'
+              >
+                {I18n.t('containers.wallet.sendPage.cancel')}
+              </Button>
+              <Button
+                color='primary'
+                disabled={!masterNodeName}
+                onClick={() => setIsConfirmationModalOpen('confirm')}
+              >
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.createNodeButton'
+                )}
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'confirm',
+          })}
+        >
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dd className='col-12'>
+                <span className='h2 mb-0'>
                   {I18n.t(
                     'containers.masterNodes.createMasterNode.confirmationText'
                   )}
-                </Label>
-              </Col>
-              <Col md={{ offset: 8, size: 2 }}>
-                <Button
-                  color='primary'
-                  disabled={!masterNodeName}
-                  // onClick={() => setIsConfirmationModalOpen(true)}
-                >
-                  {I18n.t(
-                    'containers.masterNodes.createMasterNode.yesButtonText'
-                  )}
-                </Button>
-              </Col>
-              <Col md={2}>
-                <Button
-                  color='danger'
-                  disabled={!masterNodeName}
-                  onClick={() => setIsConfirmationModalOpen(false)}
-                >
-                  {I18n.t(
-                    'containers.masterNodes.createMasterNode.noButtonText'
-                  )}
-                </Button>
-              </Col>
-            </Row>
-          </ModalBody>
-        </Modal>
-      </div>
+                </span>
+              </dd>
+            </dl>
+          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                color='link'
+                className='mr-3'
+                onClick={() => cancelConfirmation()}
+              >
+                {I18n.t('containers.masterNodes.createMasterNode.noButtonText')}
+              </Button>
+              <Button
+                color='primary'
+                onClick={() => {
+                  setAllowCalls(true);
+                  createMasterNode(masterNodeName);
+                }}
+                disabled={wait > 0 ? true : false}
+              >
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.yesButtonText'
+                )}
+                &nbsp;
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'success',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
+              <p>
+                {`${I18n.t(
+                  'containers.masterNodes.createMasterNode.masternodeOperator'
+                )}: ${createdMasterNodeData.masternodeOperator}`}
+              </p>
+              <p>
+                {`${I18n.t(
+                  'containers.masterNodes.createMasterNode.masternodeOwner'
+                )}: ${createdMasterNodeData.masternodeOwner}`}
+              </p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
+              {I18n.t(
+                'containers.masterNodes.createMasterNode.backToMasternodePage'
+              )}
+            </Button>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  const { wallet, settings } = state;
+  const { wallet, settings, masterNodes } = state;
   return {
     unit: settings.appConfig.unit,
-    walletBalance: 1000000, // wallet.walletBalance,
+    walletBalance: wallet.walletBalance,
     isBalanceFetching: wallet.isBalanceFetching,
     isBalanceError: wallet.isBalanceFetching,
+    isMasterNodeCreating: masterNodes.isMasterNodeCreating,
+    createdMasterNodeData: masterNodes.createdMasterNodeData,
+    isErrorCreatingMasterNode: masterNodes.isErrorCreatingMasterNode,
   };
 };
 
 const mapDispatchToProps = {
   fetchWalletBalanceRequest,
+  createMasterNode: (masterNodeName: string) =>
+    createMasterNode({ masterNodeName }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMasterNode);

@@ -1,3 +1,5 @@
+import RpcClient from '../../utils/rpc-client';
+
 export const handelFetchMasterNodes = () => {
   const data = {
     masternodes: [
@@ -224,4 +226,18 @@ export const handelFetchMasterNodes = () => {
     ],
   };
   return data;
+};
+
+export const handelCreateMasterNodes = async masterNodeName => {
+  const rpcClient = new RpcClient();
+  const masternodeOwner = await rpcClient.getNewAddress(
+    `masternode_owner_${masterNodeName}`
+  );
+  const masternodeOperator = await rpcClient.getNewAddress(
+    `masternode_operator_${masterNodeName}`
+  );
+  return {
+    masternodeOperator,
+    masternodeOwner,
+  };
 };

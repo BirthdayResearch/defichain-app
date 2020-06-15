@@ -124,7 +124,10 @@
         "confirmationText": "Are you sure you want to create a master node?",
         "createNodeButton": "Create Master Node",
         "yesButtonText": "Yes",
-        "noButtonText": "No"
+        "noButtonText": "No",
+        "masternodeOperator": "Masternode Operator",
+        "masternodeOwner": "Masternode Owner",
+        "backToMasternodePage": "Back to Masternode Page"
       }
     },
     "settings": {
