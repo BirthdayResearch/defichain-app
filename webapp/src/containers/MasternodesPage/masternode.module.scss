@@ -1,0 +1,14 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "../../scss/variables";
+@import "../../scss/bootstrap/variables";
+
+.confirmationalModal {
+  height: 6rem;
+  text-align: center;
+}
+
+.modalBody {
+  background: $dfi-scent;
+}
