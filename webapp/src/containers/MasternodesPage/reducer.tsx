@@ -7,6 +7,9 @@ const configSlice = createSlice({
     isMasternodesLoaded: false,
     isLoadingMasternodes: false,
     masternodesLoadError: '',
+    isMasterNodeCreating: false,
+    createdMasterNodeData: {},
+    isErrorCreatingMasterNode: '',
   },
   reducers: {
     fetchMasternodesRequest(state) {
@@ -23,6 +26,21 @@ const configSlice = createSlice({
       state.isLoadingMasternodes = false;
       state.isMasternodesLoaded = true;
     },
+    createMasterNode(state, action) {
+      state.isMasterNodeCreating = true;
+      state.createdMasterNodeData = {};
+      state.isErrorCreatingMasterNode = '';
+    },
+    createMasterNodeSuccess(state, action) {
+      state.isMasterNodeCreating = false;
+      state.createdMasterNodeData = action.payload;
+      state.isErrorCreatingMasterNode = '';
+    },
+    createMasterNodeFailure(state, action) {
+      state.isMasterNodeCreating = false;
+      state.createdMasterNodeData = {};
+      state.isErrorCreatingMasterNode = action.payload;
+    },
   },
 });
 
@@ -32,6 +50,9 @@ export const {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
   fetchMasternodesFailure,
+  createMasterNode,
+  createMasterNodeSuccess,
+  createMasterNodeFailure,
 } = actions;
 
 export default reducer;
