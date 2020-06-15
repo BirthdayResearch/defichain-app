@@ -93,6 +93,7 @@
     "masterNodes": {
       "masterNodesPage": {
         "title": "Masternodes – DeFi Blockchain Client",
+        "createMasterNode": "Create Master Node",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
         "list": "List",
@@ -115,6 +116,15 @@
         "lastPaid": "Last paid",
         "nextPayment": "Next payment",
         "payee": "Payee"
+      },
+      "createMasterNode": {
+        "title": "Create Master Node",
+        "masterNodeName": "MasterNode Name",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create master node",
+        "confirmationText": "Are you sure you want to create a master node?",
+        "createNodeButton": "Create Master Node",
+        "yesButtonText": "Yes",
+        "noButtonText": "No"
       }
     },
     "settings": {

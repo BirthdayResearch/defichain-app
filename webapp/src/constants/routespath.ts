@@ -7,6 +7,7 @@ export const EXCHANGE_PATH = '/exchange';
 export const HELP_PATH = '/help';
 export const INDEX_PATH = '/index.html';
 export const MASTER_NODES_PATH = '/masternodes';
+export const CREATE_MASTER_NODES_PATH = `${MASTER_NODES_PATH}/create`;
 export const SETTING_PATH = '/settings';
 export const WALLET_PAGE_PATH = '/';
 export const WALLET_BASE_PATH = '/wallet';
