@@ -7,8 +7,15 @@ import {
   createMasterNode,
   createMasterNodeFailure,
   createMasterNodeSuccess,
+  resignMasterNode,
+  resignMasterNodeFailure,
+  resignMasterNodeSuccess,
 } from './reducer';
-import { handelFetchMasterNodes, handelCreateMasterNodes } from './service';
+import {
+  handelFetchMasterNodes,
+  handelCreateMasterNodes,
+  handleResignMasterNode,
+} from './service';
 
 function* fetchMasterNodes() {
   try {
@@ -40,9 +47,23 @@ function* createMasterNodes(action) {
   }
 }
 
+function* masterNodeResign(action) {
+  try {
+    const {
+      payload: { masterNodeHash },
+    } = action;
+    const data = yield call(handleResignMasterNode, masterNodeHash);
+    yield put({ type: resignMasterNodeSuccess.type, payload: data });
+  } catch (e) {
+    yield put({ type: resignMasterNodeFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
   yield takeLatest(createMasterNode.type, createMasterNodes);
+  yield takeLatest(resignMasterNode.type, masterNodeResign);
 }
 
 export default mySaga;

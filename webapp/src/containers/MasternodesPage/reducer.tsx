@@ -10,6 +10,9 @@ const configSlice = createSlice({
     isMasterNodeCreating: false,
     createdMasterNodeData: {},
     isErrorCreatingMasterNode: '',
+    isMasterNodeResigning: false,
+    resignedMasterNodeData: '',
+    isErrorResigningMasterNode: '',
   },
   reducers: {
     fetchMasternodesRequest(state) {
@@ -41,6 +44,21 @@ const configSlice = createSlice({
       state.createdMasterNodeData = {};
       state.isErrorCreatingMasterNode = action.payload;
     },
+    resignMasterNode(state, action) {
+      state.isMasterNodeResigning = true;
+      state.resignedMasterNodeData = '';
+      state.isErrorResigningMasterNode = '';
+    },
+    resignMasterNodeSuccess(state, action) {
+      state.isMasterNodeResigning = false;
+      state.resignedMasterNodeData = action.payload;
+      state.isErrorResigningMasterNode = '';
+    },
+    resignMasterNodeFailure(state, action) {
+      state.isMasterNodeResigning = false;
+      state.resignedMasterNodeData = '';
+      state.isErrorResigningMasterNode = action.payload;
+    },
   },
 });
 
@@ -53,6 +71,9 @@ export const {
   createMasterNode,
   createMasterNodeSuccess,
   createMasterNodeFailure,
+  resignMasterNode,
+  resignMasterNodeSuccess,
+  resignMasterNodeFailure,
 } = actions;
 
 export default reducer;

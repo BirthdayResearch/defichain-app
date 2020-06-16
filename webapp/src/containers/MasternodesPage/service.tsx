@@ -236,8 +236,18 @@ export const handelCreateMasterNodes = async masterNodeName => {
   const masternodeOperator = await rpcClient.getNewAddress(
     `masternode_operator_${masterNodeName}`
   );
+  const masterNodeHash = await rpcClient.createMasterNode({
+    operatorAuthAddress: masternodeOperator,
+    collateralAddress: masternodeOwner,
+  });
   return {
     masternodeOperator,
     masternodeOwner,
+    masterNodeHash,
   };
+};
+
+export const handleResignMasterNode = masterNodeId => {
+  const rpcClient = new RpcClient();
+  return rpcClient.resignMasterNode(masterNodeId);
 };
