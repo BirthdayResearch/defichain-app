@@ -9,6 +9,7 @@ import {
   IBlock,
   IParseTxn,
   IRawTxn,
+  IMasternodeCreatorInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -356,5 +357,31 @@ export default class RpcClient {
           'Bad Request'
       );
     }
+  };
+  createMasterNode = async (
+    masternodeCreatorInfo: IMasternodeCreatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_MASTER_NODE, [
+      tx,
+      masternodeCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  resignMasterNode = async (
+    masternodeCreatorInfo: string,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.RESIGN_MASTER_NODE, [
+      tx,
+      masternodeCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  listMasterNodes = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    return data.result;
   };
 }
