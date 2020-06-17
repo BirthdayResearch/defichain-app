@@ -7,10 +7,10 @@ import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { CREATE_MASTER_NODES_PATH } from '../../constants';
 
-interface MasternodesPageProps {
+interface MasternodesPageProps extends RouteComponentProps {
   unit: string;
 }
 
@@ -85,7 +85,10 @@ class MasternodesPage extends Component<
         </header>
         <div className='content'>
           <section>
-            <MasternodesList searchQuery={this.state.searchQuery} />
+            <MasternodesList
+              searchQuery={this.state.searchQuery}
+              history={this.props.history}
+            />
           </section>
         </div>
       </div>
