@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, EventHandler } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdSearch, MdAdd } from 'react-icons/md';
@@ -16,19 +16,37 @@ interface MasternodesPageProps {
 
 interface MasternodesPageState {
   searching: boolean;
+  searchQuery: string;
 }
 
 class MasternodesPage extends Component<
   MasternodesPageProps,
   MasternodesPageState
 > {
-  state = {
-    searching: false,
-  };
+  constructor(props: MasternodesPageProps) {
+    super(props);
+    this.state = {
+      searching: false,
+      searchQuery: '',
+    };
+    this.setSearchQuery = this.setSearchQuery.bind(this);
+  }
 
   toggleSearch = () => {
-    this.setState({
+    const updatedState: MasternodesPageState = {
       searching: !this.state.searching,
+      searchQuery: this.state.searchQuery,
+    };
+    if (this.state.searching) {
+      updatedState.searchQuery = '';
+    }
+
+    this.setState(updatedState);
+  };
+
+  setSearchQuery = e => {
+    this.setState({
+      searchQuery: e.target.value,
     });
   };
 
@@ -60,13 +78,14 @@ class MasternodesPage extends Component<
             </Button>
           </ButtonGroup>
           <SearchBar
+            onChange={this.setSearchQuery}
             searching={this.state.searching}
             toggleSearch={this.toggleSearch}
           />
         </header>
         <div className='content'>
           <section>
-            <MasternodesList />
+            <MasternodesList searchQuery={this.state.searchQuery} />
           </section>
         </div>
       </div>

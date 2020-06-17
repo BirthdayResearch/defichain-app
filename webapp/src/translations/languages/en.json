@@ -93,7 +93,7 @@
     "masterNodes": {
       "masterNodesPage": {
         "title": "Masternodes – DeFi Blockchain Client",
-        "createMasterNode": "Create Master Node",
+        "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
         "list": "List",
