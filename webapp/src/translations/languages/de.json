@@ -110,12 +110,10 @@
         "masternodeWorth": "Masternode worth"
       },
       "masterNodesList": {
-        "address": "Address",
-        "poseSore": "PoSe score",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "lastPaid": "Last paid",
-        "nextPayment": "Next payment",
-        "payee": "Payee"
+        "mintedBlocks": "Minted Blocks"
       },
       "createMasterNode": {
         "title": "Create Master Node",
@@ -128,6 +126,19 @@
         "masternodeOperator": "Masternode Operator",
         "masternodeOwner": "Masternode Owner",
         "backToMasternodePage": "Back to Masternode Page"
+      },
+      "masternodeDetailPage": {
+        "masternodeDetailTitle": "Masternode Detail Page",
+        "masternode": "Masternode",
+        "masternodeDetail": "Masternode Details",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
+        "registered": "Registered",
+        "mintedBlocks": "Minted Blocks",
+        "resignHeight": "Resign Height",
+        "resignTx": "Resign Tx",
+        "banHeight": "Ban Height",
+        "banTx": "Ban Tx"
       }
     },
     "settings": {

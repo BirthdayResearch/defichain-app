@@ -5,35 +5,15 @@ import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchMasternodesRequest } from '../../reducer';
 import { filterByValue } from '../../../../utils/utility';
+import { History } from 'history';
+import { MASTER_NODES_PATH } from '../../../../constants';
+import { MasterNodeObject } from '../../masterNodeInterface';
 
 interface MasternodesListProps {
-  masternodes: {
-    hash: string;
-    ownerAuthAddress: string;
-    operatorAuthAddress: string;
-    creationHeight: number;
-    resignHeight: number;
-    resignTx: string;
-    banHeight: number;
-    banTx: string;
-    state: string;
-    mintedBlocks: number;
-  }[];
+  masternodes: MasterNodeObject[];
   searchQuery: string;
+  history: History;
   fetchMasternodesRequest: () => void;
-}
-
-interface MasterNodeObject {
-  hash: string;
-  ownerAuthAddress: string;
-  operatorAuthAddress: string;
-  creationHeight: number;
-  resignHeight: number;
-  resignTx: string;
-  banHeight: number;
-  banTx: string;
-  state: string;
-  mintedBlocks: number;
 }
 
 interface MasternodesListState {
@@ -47,8 +27,8 @@ class MasternodesList extends Component<
   componentDidMount() {
     this.props.fetchMasternodesRequest();
   }
-
   render() {
+    const { history } = this.props;
     let tableData: MasterNodeObject[] = [];
     if (!this.props.searchQuery) {
       tableData = this.props.masternodes;
@@ -84,7 +64,12 @@ class MasternodesList extends Component<
             </thead>
             <tbody>
               {tableData.map(masternode => (
-                <tr key={masternode.hash}>
+                <tr
+                  key={masternode.hash}
+                  onClick={() =>
+                    history.push(`${MASTER_NODES_PATH}/${masternode.hash}`)
+                  }
+                >
                   <td className={styles.status}>
                     <span
                       className={`txn-status-${masternode.state.toLowerCase()}`}
