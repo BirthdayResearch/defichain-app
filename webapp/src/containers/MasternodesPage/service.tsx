@@ -1,4 +1,5 @@
 import RpcClient from '../../utils/rpc-client';
+import { GET_NEW_ADDRESS_TYPE } from '../../constants';
 
 export const handelFetchMasterNodes = () => {
   const data = {
@@ -93,10 +94,12 @@ export const handelFetchMasterNodes = () => {
 export const handelCreateMasterNodes = async masterNodeName => {
   const rpcClient = new RpcClient();
   const masternodeOwner = await rpcClient.getNewAddress(
-    `masternode_owner_${masterNodeName}`
+    `masternode_owner_${masterNodeName}`,
+    GET_NEW_ADDRESS_TYPE
   );
   const masternodeOperator = await rpcClient.getNewAddress(
-    `masternode_operator_${masterNodeName}`
+    `masternode_operator_${masterNodeName}`,
+    GET_NEW_ADDRESS_TYPE
   );
   const masterNodeHash = await rpcClient.createMasterNode({
     operatorAuthAddress: masternodeOperator,

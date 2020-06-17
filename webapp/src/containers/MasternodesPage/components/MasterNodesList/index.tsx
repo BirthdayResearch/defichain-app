@@ -69,6 +69,7 @@ class MasternodesList extends Component<
                   onClick={() =>
                     history.push(`${MASTER_NODES_PATH}/${masternode.hash}`)
                   }
+                  className={styles.masternodeRow}
                 >
                   <td className={styles.status}>
                     <span
