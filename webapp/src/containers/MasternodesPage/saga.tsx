@@ -20,8 +20,11 @@ import {
 function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
-    if (data && data.masternodes) {
-      yield put({ type: fetchMasternodesSuccess.type, payload: { ...data } });
+    if (data && Array.isArray(data)) {
+      yield put({
+        type: fetchMasternodesSuccess.type,
+        payload: { masternodes: data },
+      });
     } else {
       yield put({
         type: fetchMasternodesFailure.type,

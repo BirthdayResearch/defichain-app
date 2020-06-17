@@ -234,3 +234,12 @@ export const getParams = (query: string) => {
   });
   return parsedParams;
 };
+
+export const filterByValue = (array, query) => {
+  return array.filter(o =>
+    Object.keys(o).some(k => {
+      const stringer = JSON.stringify(o[k]);
+      return stringer.toLowerCase().includes(query.toLowerCase());
+    })
+  );
+};
