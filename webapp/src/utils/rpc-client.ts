@@ -200,8 +200,12 @@ export default class RpcClient {
     return data.result.mine.untrusted_pending;
   };
 
-  getNewAddress = async (label): Promise<string> => {
-    const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, [label]);
+  getNewAddress = async (label, addressType = ''): Promise<string> => {
+    const params = [label];
+    if (!!addressType && addressType.length > 0) {
+      params.push(addressType);
+    }
+    const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, params);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_NEW_ADDRESS),
       data
