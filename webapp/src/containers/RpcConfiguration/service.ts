@@ -16,7 +16,7 @@ const setRetryAttempt = val => (retryAttempt = val);
 export const isBlockchainStarted = async emitter => {
   const rpcClient = new RpcClient();
   const intervalRef = setInterval(
-    () => blockChainStartEmitFunction(rpcClient, emitter, intervalRef),
+    () => blockChainStartEmitFunction(rpcClient, emitter),
     DIFF
   );
   return () => {

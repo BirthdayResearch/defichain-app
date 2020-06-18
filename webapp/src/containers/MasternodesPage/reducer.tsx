@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  masternodes: [],
+  isMasternodesLoaded: false,
+  isLoadingMasternodes: false,
+  masternodesLoadError: '',
+  isMasterNodeCreating: false,
+  createdMasterNodeData: {},
+  isErrorCreatingMasterNode: '',
+  isMasterNodeResigning: false,
+  resignedMasterNodeData: '',
+  isErrorResigningMasterNode: '',
+};
+
 const configSlice = createSlice({
   name: 'masternode',
-  initialState: {
-    masternodes: [],
-    isMasternodesLoaded: false,
-    isLoadingMasternodes: false,
-    masternodesLoadError: '',
-    isMasterNodeCreating: false,
-    createdMasterNodeData: {},
-    isErrorCreatingMasterNode: '',
-    isMasterNodeResigning: false,
-    resignedMasterNodeData: '',
-    isErrorResigningMasterNode: '',
-  },
+  initialState,
   reducers: {
     fetchMasternodesRequest(state) {
       state.masternodes = [];
