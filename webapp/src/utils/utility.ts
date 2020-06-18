@@ -8,9 +8,11 @@ import {
   UNPARSED_ADDRESS,
   DUST_VALUE_DFI,
   DEFI_CLI,
+  MAX_MONEY,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
+import RpcClient from './rpc-client';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -21,6 +23,15 @@ export const validateSchema = (schema, data) => {
     log.error(validate.errors);
   }
   return valid;
+};
+
+export const getTxnSize = async (): Promise<number> => {
+  const rpcClient = new RpcClient();
+  const unspent = await rpcClient.listUnspent(MAX_MONEY);
+
+  const inputs = unspent.length;
+  const outputs = 2;
+  return inputs * 180 + outputs * 34 + 10 + inputs;
 };
 
 export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {

@@ -10,8 +10,12 @@ describe('SettingsTabGeneralComponent', () => {
       pruneBlockStorage: true,
       blockStorage: 12,
       databaseCache: 12,
+      maximumAmount: 1000,
+      maximumCount: 650,
+      feeRate: 0.1,
       scriptVerificationThreads: 12,
-      handleInputs: () => {},
+      handleRegularNumInputs: () => {},
+      handleFractionalInputs: () => {},
       handleToggles: () => {},
     };
     const wrapper = shallow(<SettingsTabGeneralComponent {...props} />);
