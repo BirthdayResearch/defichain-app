@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Card, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import styles from './MasternodesList.module.scss';
@@ -16,97 +16,86 @@ interface MasternodesListProps {
   fetchMasternodesRequest: () => void;
 }
 
-interface MasternodesListState {
-  masternodes: MasterNodeObject[];
-}
-
-class MasternodesList extends Component<
-  MasternodesListProps,
-  MasternodesListState
-> {
-  componentDidMount() {
-    this.props.fetchMasternodesRequest();
+const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
+  props: MasternodesListProps
+) => {
+  const { masternodes, fetchMasternodesRequest, history, searchQuery } = props;
+  let tableData: MasterNodeObject[] = [];
+  if (!searchQuery) {
+    tableData = masternodes;
+  } else {
+    tableData = filterByValue(masternodes, searchQuery);
   }
-  render() {
-    const { history } = this.props;
-    let tableData: MasterNodeObject[] = [];
-    if (!this.props.searchQuery) {
-      tableData = this.props.masternodes;
-    } else {
-      tableData = filterByValue(this.props.masternodes, this.props.searchQuery);
-    }
-    return (
-      <Card className={styles.card}>
-        <div className={`${styles.tableResponsive} table-responsive-xl`}>
-          <Table className={styles.table}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>
-                  {I18n.t(
-                    'containers.masterNodes.masterNodesList.ownerAddress'
-                  )}
-                </th>
-                <th>
-                  {I18n.t(
-                    'containers.masterNodes.masterNodesList.operatorAddress'
-                  )}
-                </th>
-                <th>
-                  {I18n.t('containers.masterNodes.masterNodesList.registered')}
-                </th>
-                <th>
-                  {I18n.t(
-                    'containers.masterNodes.masterNodesList.mintedBlocks'
-                  )}
-                </th>
+  useEffect(() => {
+    fetchMasternodesRequest();
+  }, []);
+  return (
+    <Card className={styles.card}>
+      <div className={`${styles.tableResponsive} table-responsive-xl`}>
+        <Table className={styles.table}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                {I18n.t('containers.masterNodes.masterNodesList.ownerAddress')}
+              </th>
+              <th>
+                {I18n.t(
+                  'containers.masterNodes.masterNodesList.operatorAddress'
+                )}
+              </th>
+              <th>
+                {I18n.t('containers.masterNodes.masterNodesList.registered')}
+              </th>
+              <th>
+                {I18n.t('containers.masterNodes.masterNodesList.mintedBlocks')}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map(masternode => (
+              <tr
+                key={masternode.hash}
+                onClick={() =>
+                  history.push(`${MASTER_NODES_PATH}/${masternode.hash}`)
+                }
+                className={styles.masternodeRow}
+              >
+                <td className={styles.status}>
+                  <span
+                    className={`txn-status-${masternode.state.toLowerCase()}`}
+                  >
+                    {masternode.state}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.address}>
+                    {masternode.ownerAuthAddress}
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.pose}>
+                    {masternode.operatorAuthAddress}
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.registered}>
+                    {masternode.creationHeight}
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.lastPaid}>
+                    {masternode.mintedBlocks}
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {tableData.map(masternode => (
-                <tr
-                  key={masternode.hash}
-                  onClick={() =>
-                    history.push(`${MASTER_NODES_PATH}/${masternode.hash}`)
-                  }
-                  className={styles.masternodeRow}
-                >
-                  <td className={styles.status}>
-                    <span
-                      className={`txn-status-${masternode.state.toLowerCase()}`}
-                    >
-                      {masternode.state}
-                    </span>
-                  </td>
-                  <td>
-                    <div className={styles.address}>
-                      {masternode.ownerAuthAddress}
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.pose}>
-                      {masternode.operatorAuthAddress}
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.registered}>
-                      {masternode.creationHeight}
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.lastPaid}>
-                      {masternode.mintedBlocks}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      </Card>
-    );
-  }
-}
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </Card>
+  );
+};
 
 const mapStateToProps = state => {
   const {

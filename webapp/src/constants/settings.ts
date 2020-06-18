@@ -15,4 +15,4 @@ export const GERMAN = 'de';
 export const LIGHT_DISPLAY = 'LIGHT';
 export const DARK_DISPLAY = 'DARK';
 export const SAME_AS_SYSTEM_DISPLAY = 'SAME_AS_SYSTEM';
-export const CONSOLE_PROMPT_LABEL = `${name}_v${version}` + '\n >';
+export const CONSOLE_PROMPT_LABEL = `${name}_v${version}`;
