@@ -22,7 +22,8 @@ import {
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
 } from '../../../../constants';
 import BigNumber from 'bignumber.js';
-import { MdArrowBack, MdCheckCircle } from 'react-icons/md';
+import { MdArrowBack, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+import styles from '../../masternode.module.scss';
 
 interface CreateMasterNodeProps {
   unit: string;
@@ -63,13 +64,13 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   }, []);
 
   useEffect(() => {
-    if (
-      allowCalls &&
-      !isMasterNodeCreating &&
-      !isErrorCreatingMasterNode &&
-      !isEmpty(createdMasterNodeData)
-    ) {
-      setIsConfirmationModalOpen('success');
+    if (allowCalls && !isMasterNodeCreating) {
+      if (!isErrorCreatingMasterNode && !isEmpty(createdMasterNodeData)) {
+        setIsConfirmationModalOpen('success');
+      }
+      if (isErrorCreatingMasterNode && isEmpty(createdMasterNodeData)) {
+        setIsConfirmationModalOpen('failure');
+      }
     }
   }, [
     isMasterNodeCreating,
@@ -260,6 +261,30 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                   'containers.masterNodes.createMasterNode.masternodeOwner'
                 )}: ${createdMasterNodeData.masternodeOwner}`}
               </p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
+              {I18n.t(
+                'containers.masterNodes.createMasterNode.backToMasternodePage'
+              )}
+            </Button>
+          </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'failure',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdErrorOutline
+                className={classnames({
+                  'footer-sheet-icon': true,
+                  [styles[`error-dailog`]]: true,
+                })}
+              />
+              <p>{isErrorCreatingMasterNode}</p>
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
