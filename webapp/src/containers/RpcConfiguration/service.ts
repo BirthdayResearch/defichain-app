@@ -16,7 +16,7 @@ const setRetryAttempt = val => (retryAttempt = val);
 export const isBlockchainStarted = async emitter => {
   const rpcClient = new RpcClient();
   const intervalRef = setInterval(
-    () => blockChainStartEmitFunction(rpcClient, emitter),
+    () => blockChainStartEmitFunction(rpcClient, emitter, intervalRef),
     DIFF
   );
   return () => {
@@ -24,7 +24,11 @@ export const isBlockchainStarted = async emitter => {
   };
 };
 
-export const blockChainStartEmitFunction = async (rpcClient, emitter) => {
+export const blockChainStartEmitFunction = async (
+  rpcClient,
+  emitter,
+  intervalRef
+) => {
   try {
     const res = await rpcClient.isInitialBlockDownload();
     if (res) {
@@ -32,6 +36,7 @@ export const blockChainStartEmitFunction = async (rpcClient, emitter) => {
         status: res,
         message: BLOCKCHAIN_START_SUCCESS,
       });
+      clearInterval(intervalRef);
     }
   } catch (err) {
     setRetryAttempt(getRetryAttempt() - 1);
@@ -42,6 +47,7 @@ export const blockChainStartEmitFunction = async (rpcClient, emitter) => {
         status: false,
         message: BLOCKCHAIN_START_ERROR,
       });
+      clearInterval(intervalRef);
     }
   }
 };
