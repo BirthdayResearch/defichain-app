@@ -25,6 +25,7 @@
     "build:all": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder -mwl",
     "pack": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder --dir",
     "lint": "tslint --project tsconfig.json --config tslint.json",
+    "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
     "postinstall": "electron-builder install-app-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -53,6 +54,7 @@
     "loglevel": "^1.6.8",
     "moment": "^2.25.3",
     "os": "^0.1.1",
+    "pretty-quick": "^2.0.1",
     "prop-types": "^15.7.2",
     "ps-node": "^0.1.6",
     "qrcode.react": "^1.0.0",
@@ -79,11 +81,14 @@
     "electron-builder": "^22.4.1",
     "eslint": "^6.8.0",
     "file-loader": "^6.0.0",
+    "husky": "^4.2.5",
     "install": "^0.13.0",
     "jest": "^25.2.4",
+    "lint-staged": "^10.2.9",
     "neutrino": "^9.1.0",
     "node-sass": "^4.13.1",
     "npm": "^6.14.4",
+    "prettier": "^2.0.5",
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
@@ -135,6 +140,17 @@
     },
     "win": {
       "target": "NSIS"
+    }
+  },
+  "lint-staged": {
+    "webapp/**/*.ts": "npm run lint:webapp",
+    "webapp/**/*.tsx": "npm run lint:webapp",
+    "electron-app/**/*.ts": "npm run lint",
+    "electron-app/**/*.tsx": "npm run lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && lint-staged"
     }
   }
 }
