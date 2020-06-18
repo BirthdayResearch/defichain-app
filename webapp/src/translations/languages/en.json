@@ -128,7 +128,7 @@
         "backToMasternodePage": "Back to Masternode Page"
       },
       "masternodeDetailPage": {
-        "masternodeDetailTitle": "Masternode Detail Page",
+        "masternodeDetailTitle": "Masternode Detail Page %{hash}",
         "masternode": "Masternode",
         "masternodeDetail": "Masternode Details",
         "ownerAddress": "Owner Address",

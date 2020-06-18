@@ -15,9 +15,7 @@ interface RouteProps {
 }
 
 interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
-  unit: string;
   masternodes: MasterNodeObject[];
-  removeReceiveTxns: (id: string | number) => void;
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
@@ -51,7 +49,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           {I18n.t(
             'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
             {
-              id: '',
+              hash,
             }
           )}
         </title>
