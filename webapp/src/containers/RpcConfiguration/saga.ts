@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import * as  log from '../../utils/electronLogger';
+import * as log from '../../utils/electronLogger';
 import {
   getRpcConfigsRequest,
   getRpcConfigsSuccess,
@@ -11,12 +11,12 @@ import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 
-function* getConfig() {
+export function* getConfig() {
   try {
     const res = yield call(getRpcConfig);
     if (res.success) {
       yield put({ type: getRpcConfigsSuccess.type, payload: res.data });
-      yield put({ type: startNodeRequest.type, payload: res.data });
+      yield put({ type: startNodeRequest.type });
       yield call(startBinary, res.data);
     } else {
       showNotification(I18n.t('alerts.configurationFailure'), res.message);
