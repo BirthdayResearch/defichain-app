@@ -57,29 +57,3 @@
     }
   }
 }
-
-.consoleComponentLight>div {
-  height: 70vh !important;
-  width: 100% !important;
-  background: #f4f3f6 !important;
-}
-
-.consoleComponentLight>div>div>span:nth-child(3) {
-  color: $dfi-purple !important;
-}
-
-.consoleComponentLight>div>div>span:nth-child(3)>span {
-  background: none;
-  outline: 0.1em solid $dfi-purple !important;
-  outline-offset: -0.1em;
-}
-
-.consoleComponentDark>div {
-  height: 70vh !important;
-  width: 100% !important;
-  background: #000 !important;
-}
-
-.consoleComponentDark>div>div {
-  color: #ffffff !important;
-}
