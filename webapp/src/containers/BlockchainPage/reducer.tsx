@@ -56,6 +56,7 @@ const configSlice = createSlice({
       state.blockDataError = action.payload;
       state.isLoadingBlockData = false;
     },
+    // tslint:disable-next-line: no-empty
     fetchBlockCountRequest(state) {},
     fetchBlockCountSuccess(state, action) {
       state.blockCount = action.payload.blockCount;

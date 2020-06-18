@@ -5,6 +5,7 @@ import {
   getRpcConfigsSuccess,
   getRpcConfigsFailure,
   startNodeRequest,
+  startNodeSuccess,
 } from '../reducer';
 import * as appService from '../../../app/service';
 import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
@@ -21,14 +22,17 @@ describe('RPC configuration saga unit test', () => {
   describe('getConfig method', () => {
     let getRpcConfig;
     let startBinary;
+
     beforeEach(() => {
       getRpcConfig = jest.spyOn(appService, 'getRpcConfig');
       startBinary = jest.spyOn(appService, 'startBinary');
     });
+
     afterEach(() => {
       getRpcConfig.mockRestore();
       startBinary.mockRestore();
     });
+
     afterAll(jest.clearAllMocks);
     it('should call api and dispatch success action', async () => {
       getRpcConfig.mockImplementation(() =>
@@ -43,6 +47,7 @@ describe('RPC configuration saga unit test', () => {
       expect(dispatched).toEqual([
         getRpcConfigsSuccess({}),
         startNodeRequest(),
+        startNodeSuccess(),
       ]);
     });
 

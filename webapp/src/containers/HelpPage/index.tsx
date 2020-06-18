@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 

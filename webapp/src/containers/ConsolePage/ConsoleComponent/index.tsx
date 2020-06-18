@@ -68,8 +68,12 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     }
   }, [isLoading, result, isError]);
 
+  const onFocusHandler = () => {
+    return !!currentRef && currentRef.focus();
+  };
+
   return (
-    <div onPaste={onPasteHandler}>
+    <div onPaste={onPasteHandler} onFocus={onFocusHandler}>
       <Console
         ref={(ref: Console) => {
           return (currentRef = ref);
