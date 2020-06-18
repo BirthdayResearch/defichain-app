@@ -7,32 +7,41 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 
+let retryAttempt = RETRY_ATTEMPT;
+
+const getRetryAttempt = () => retryAttempt;
+
+const setRetryAttempt = val => (retryAttempt = val);
+
 export const isBlockchainStarted = async emitter => {
-  let retryAttempt = RETRY_ATTEMPT;
   const rpcClient = new RpcClient();
-  const intervalRef = setInterval(async () => {
-    try {
-      const res = await rpcClient.isInitialBlockDownload();
-      if (res) {
-        emitter({
-          status: res,
-          message: BLOCKCHAIN_START_SUCCESS,
-        });
-        clearInterval(intervalRef);
-      }
-    } catch (err) {
-      retryAttempt -= 1;
-      log.error(`Got error in isBlockchainStarted: ${err}`);
-      // this causes the channel to close
-      if (!retryAttempt) {
-        emitter({
-          status: false,
-          message: BLOCKCHAIN_START_ERROR,
-        });
-      }
-    }
-  }, DIFF);
+  const intervalRef = setInterval(
+    () => blockChainStartEmitFunction(rpcClient, emitter, intervalRef),
+    DIFF
+  );
   return () => {
     clearInterval(intervalRef);
   };
+};
+
+export const blockChainStartEmitFunction = async (rpcClient, emitter) => {
+  try {
+    const res = await rpcClient.isInitialBlockDownload();
+    if (res) {
+      emitter({
+        status: res,
+        message: BLOCKCHAIN_START_SUCCESS,
+      });
+    }
+  } catch (err) {
+    setRetryAttempt(getRetryAttempt() - 1);
+    log.error(`Got error in isBlockchainStarted: ${err}`);
+    // this causes the channel to close
+    if (!getRetryAttempt()) {
+      emitter({
+        status: false,
+        message: BLOCKCHAIN_START_ERROR,
+      });
+    }
+  }
 };

@@ -1,36 +1,27 @@
 import * as services from '../service';
-import { isBlockchainStarted } from './testData.json';
-import { mockAxios } from '../../../utils/testUtils/mockUtils';
-import {
-  BLOCKCHAIN_START_ERROR,
-  BLOCKCHAIN_START_SUCCESS,
-} from '../../../constants';
+import log from 'loglevel';
 
 describe('RPC configuration unit test', () => {
-  it('should test for isBlockchainStarted', async () => {
-    const post = jest.fn().mockResolvedValueOnce({
-      data: isBlockchainStarted,
-    });
-    mockAxios(post);
-    const test = await services.isBlockchainStarted();
-    expect(test).toEqual({
-      status: true,
-      message: BLOCKCHAIN_START_SUCCESS,
-    });
-    expect(post).toBeCalledTimes(1);
+  it('should test for blockChainStartEmitFunction', async () => {
+    const isInitialBlockDownloadMock = jest.fn().mockResolvedValue(true);
+    const rpcClient = {
+      isInitialBlockDownload: isInitialBlockDownloadMock,
+    };
+    const emitter = jest.fn();
+    await services.blockChainStartEmitFunction(rpcClient, emitter);
+    expect(isInitialBlockDownloadMock).toBeCalledTimes(1);
+    expect(emitter).toBeCalledTimes(1);
   });
 
-  it('should test for isBlockchainStarted', async () => {
-    const post = jest.fn().mockRejectedValue({});
-    const spy = jest.spyOn(services, 'sleep').mockResolvedValue({});
-    mockAxios(post);
-    const test = await services.isBlockchainStarted();
-    expect(test).toEqual({
-      message: BLOCKCHAIN_START_ERROR,
-      status: false,
-    });
-    expect(post).toBeCalledTimes(51);
-    expect(spy).toBeCalledTimes(51);
-    spy.mockClear();
+  it('should test for blockChainStartEmitFunction if failed attempts is reached', async () => {
+    const spy = jest.spyOn(log, 'error');
+    const isInitialBlockDownloadMock = jest.fn().mockRejectedValue('error');
+    const rpcClient = {
+      isInitialBlockDownload: isInitialBlockDownloadMock,
+    };
+    const emitter = jest.fn();
+    await services.blockChainStartEmitFunction(rpcClient, emitter);
+    expect(isInitialBlockDownloadMock).toBeCalledTimes(1);
+    expect(spy).toBeCalledTimes(1);
   });
 });
