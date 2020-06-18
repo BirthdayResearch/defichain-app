@@ -21,6 +21,7 @@ exports[`Console component snapshot test of console component 1`] = `
       result={Object {}}
     >
       <div
+        onFocus={[Function]}
         onPaste={[Function]}
       >
         <default_1
