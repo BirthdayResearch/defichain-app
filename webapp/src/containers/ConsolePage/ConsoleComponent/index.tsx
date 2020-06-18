@@ -8,8 +8,7 @@ import {
   BITCOIN_CLI_REGEX,
   DEFI_CLI_TEXT,
 } from '../../../constants';
-import styles from '../Console.module.scss';
-import 'react-console-component/main.css';
+import './console.scss';
 
 interface EchoConsoleProps {
   fetchDataForQueryRequest: (query: string) => void;
@@ -70,13 +69,14 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   }, [isLoading, result, isError]);
 
   return (
-    <div className={styles.consoleComponentLight} onPaste={onPasteHandler}>
+    <div onPaste={onPasteHandler}>
       <Console
         ref={(ref: Console) => {
           return (currentRef = ref);
         }}
         handler={echo}
-        promptLabel={CONSOLE_PROMPT_LABEL}
+        promptLabel=''
+        welcomeMessage={CONSOLE_PROMPT_LABEL}
         autofocus={true}
       />
     </div>
