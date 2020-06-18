@@ -138,7 +138,11 @@
         "resignHeight": "Resign Height",
         "resignTx": "Resign Tx",
         "banHeight": "Ban Height",
-        "banTx": "Ban Tx"
+        "banTx": "Ban Tx",
+        "resignMasterNode": "Resign",
+        "confirmation": "Are you sure you want to resign a master node?",
+        "noButtonText": "No",
+        "yesButtonText": "Yes"
       }
     },
     "settings": {
