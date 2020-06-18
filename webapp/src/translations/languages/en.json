@@ -142,7 +142,9 @@
         "resignMasterNode": "Resign",
         "confirmation": "Are you sure you want to resign a master node?",
         "noButtonText": "No",
-        "yesButtonText": "Yes"
+        "yesButtonText": "Yes",
+        "successText": "Success",
+        "backToMasternodePage": "Back to Masternode Page"
       }
     },
     "settings": {
