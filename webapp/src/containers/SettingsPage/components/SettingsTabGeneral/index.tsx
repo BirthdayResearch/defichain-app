@@ -1,9 +1,7 @@
 import React from 'react';
 import { TabPane, Row, Col, Form, FormGroup, Label } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import classnames from 'classnames';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-import RangeSlider from 'react-bootstrap-range-slider';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
 
@@ -13,8 +11,12 @@ interface SettingsTabGeneralProps {
   pruneBlockStorage: boolean;
   blockStorage: number;
   databaseCache: number;
+  maximumAmount: number;
+  maximumCount: number;
+  feeRate: number | string;
   scriptVerificationThreads: number;
-  handleInputs: any;
+  handleRegularNumInputs: any;
+  handleFractionalInputs: any
   handleToggles: any;
 }
 
@@ -25,8 +27,12 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     pruneBlockStorage,
     blockStorage,
     databaseCache,
+    maximumAmount,
+    maximumCount,
+    feeRate,
     scriptVerificationThreads,
-    handleInputs,
+    handleRegularNumInputs,
+    handleFractionalInputs,
     handleToggles,
   } = props;
 
@@ -53,6 +59,47 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
             </Col>
           </Row>
           <Row className='mb-5'>
+            <Col md='4'>{I18n.t('containers.settings.utxoConsolidator')}</Col>
+          </Row>
+          <Row className='mb-5'>
+            <Col md='8'>
+              <FormGroup className='form-label-group mb-5'>
+                <SettingsRowInput
+                  field={maximumAmount}
+                  fieldName={'maximumAmount'}
+                  label={'maximumAmount'}
+                  name={'maximumAmount'}
+                  id={'maximumAmount'}
+                  placeholder={'Number'}
+                  handleInputs={handleRegularNumInputs}
+                />
+              </FormGroup>
+              <FormGroup className='form-label-group mb-5'>
+                <SettingsRowInput
+                  field={maximumCount}
+                  fieldName={'maximumCount'}
+                  label={'maximumCount'}
+                  name={'maximumCount'}
+                  id={'maximumCount'}
+                  placeholder={'Number'}
+                  handleInputs={handleRegularNumInputs}
+                />
+              </FormGroup>
+              <FormGroup className='form-label-group mb-5'>
+                <SettingsRowInput
+                  field={feeRate}
+                  fieldName={'feeRate'}
+                  label={'feeRate'}
+                  name={'feeRate'}
+                  id={'feeRate'}
+                  placeholder={'Number'}
+                  handleInputs={handleFractionalInputs}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.storage')}</Col>
             <Col md='8'>
               <SettingsRowToggle
@@ -121,7 +168,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                 </Col>
               </FormGroup>
             </Col>
-          </Row>
+          </Row> */}
         </Form>
       </section>
     </TabPane>

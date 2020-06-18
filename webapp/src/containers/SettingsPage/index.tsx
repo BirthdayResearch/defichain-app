@@ -10,11 +10,9 @@ import {
 } from './reducer';
 import SettingsTabsHeader from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
-import SettingsTab from './components/SettingsTab';
-// NOTE: Do not remove, for future purpose
-// import { TabContent } from 'reactstrap';
-// import SettingsTabGeneral from './components/SettingsTabGeneral';
-// import SettingsTabDisplay from './components/SettingsTabDisplay';
+import { TabContent } from 'reactstrap';
+import SettingsTabGeneral from './components/SettingsTabGeneral';
+import SettingsTabDisplay from './components/SettingsTabDisplay';
 
 interface SettingsPageProps {
   isFetching: false;
@@ -32,6 +30,9 @@ interface SettingsPageProps {
     scriptVerificationThreads: number;
     blockStorage: number;
     databaseCache: number;
+    maximumAmount: number;
+    maximumCount: number;
+    feeRate: number;
   };
   isUpdating: boolean;
   isUpdated: boolean;
@@ -54,6 +55,9 @@ interface SettingsPageState {
   scriptVerificationThreads?: number;
   blockStorage?: number;
   databaseCache?: number;
+  maximumAmount?: number;
+  maximumCount?: number;
+  feeRate?: number | string;
   isUnsavedChanges: boolean;
 }
 
@@ -108,7 +112,27 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     );
   };
 
-  handleInputs = (event: { target: { value: string } }, field: string) => {
+  handleFractionalNumInputs = (
+    event: { target: { name: string; value: string } },
+    field: string
+  ) => {
+    if (isNaN(Number(event.target.value)) && event.target.value !== '') {
+      return false;
+    }
+
+    this.setState(
+      { [field]: event.target.value } as {
+        feeRate: number | string;
+      },
+      () => this.checkForChanges()
+    );
+  };
+
+  handleRegularNumInputs = (
+    event: { target: { name: string; value: string } },
+    field: string
+  ) => {
+
     this.setState(
       {
         [field]: /^-?[0-9]+$/.test(event.target.value)
@@ -118,6 +142,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
         scriptVerificationThreads: number;
         blockStorage: number;
         databaseCache: number;
+        maximumAmount: number;
+        maximumCount: number;
       },
       () => this.checkForChanges()
     );
@@ -134,6 +160,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       'scriptVerificationThreads',
       'blockStorage',
       'databaseCache',
+      'maximumAmount',
+      'maximumCount',
+      'feeRate',
     ];
 
     let isUnsavedChanges = false;
@@ -163,6 +192,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       scriptVerificationThreads,
       blockStorage,
       databaseCache,
+      maximumAmount,
+      maximumCount,
+      feeRate,
     } = this.state;
 
     const settings = {
@@ -175,6 +207,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       scriptVerificationThreads,
       blockStorage,
       databaseCache,
+      maximumAmount,
+      maximumCount,
+      feeRate,
     };
     this.props.updateSettings(settings);
   };
@@ -188,6 +223,9 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       pruneBlockStorage,
       blockStorage,
       databaseCache,
+      maximumAmount,
+      maximumCount,
+      feeRate,
       scriptVerificationThreads,
       language,
       unit,
@@ -204,7 +242,8 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
           setActiveTab={this.setActiveTab}
         />
         <div className='content'>
-          <SettingsTab
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <SettingsTab
             launchAtLogin={launchAtLogin!}
             minimizedAtLaunch={minimizedAtLaunch!}
             language={language!}
@@ -212,17 +251,20 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
             displayMode={displayMode!}
             handleDropDowns={this.handleDropDowns}
             handleToggles={this.handleToggles}
-          />
-          {/* NOTE: Do not remove, for future purpose */}
-          {/* <TabContent activeTab={this.state.activeTab}>
+          /> */}
+          <TabContent activeTab={this.state.activeTab}>
             <SettingsTabGeneral
               launchAtLogin={launchAtLogin!}
               minimizedAtLaunch={minimizedAtLaunch!}
               pruneBlockStorage={pruneBlockStorage!}
               blockStorage={blockStorage!}
               databaseCache={databaseCache!}
+              maximumAmount={maximumAmount!}
+              maximumCount={maximumCount!}
+              feeRate={feeRate!}
               scriptVerificationThreads={scriptVerificationThreads!}
-              handleInputs={this.handleInputs}
+              handleRegularNumInputs={this.handleRegularNumInputs}
+              handleFractionalInputs={this.handleFractionalNumInputs}
               handleToggles={this.handleToggles}
             />
             <SettingsTabDisplay
@@ -232,7 +274,6 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
               handleDropDowns={this.handleDropDowns}
             />
           </TabContent>
-         */}
         </div>
         <SettingsTabsFooter
           isUnsavedChanges={isUnsavedChanges}
