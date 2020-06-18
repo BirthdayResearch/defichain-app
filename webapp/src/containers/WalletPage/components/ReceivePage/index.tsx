@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import uid from 'uid';
@@ -44,17 +44,24 @@ interface ReceivePageState {
   address: string | undefined;
 }
 
-class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
-  state = {
+const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
+  props: ReceivePageProps
+) => {
+  const [state, setState] = useState<ReceivePageState>({
     amount: '',
     label: '',
     message: '',
     address: '',
+  });
+
+  const setReceivePageState = (updateObj: any) => {
+    const updatedState = Object.assign({}, state, updateObj);
+    setState(updatedState);
   };
 
-  onSubmit = async () => {
+  const onSubmit = async () => {
     try {
-      const { amount, label, message } = this.state;
+      const { amount, label, message } = state;
       const newAddress = await getNewAddress(label);
       if (!newAddress) {
         throw new Error(
@@ -70,17 +77,17 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
         unit: DEFAULT_UNIT,
         address: newAddress,
         amount: amount
-          ? getAmountInSelectedUnit(amount, DEFAULT_UNIT, this.props.unit)
+          ? getAmountInSelectedUnit(amount, DEFAULT_UNIT, props.unit)
           : null,
       };
-      this.props.addReceiveTxns(data);
-      this.props.history.push(`${WALLET_PAYMENT_REQ_BASE_PATH}/${data.id}`);
+      props.addReceiveTxns(data);
+      props.history.push(`${WALLET_PAYMENT_REQ_BASE_PATH}/${data.id}`);
     } catch (err) {
       log.error(err);
     }
   };
 
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value, inputMode } = event.target;
     if (inputMode === 'numeric' && isNaN(value) && value !== '') {
       return false;
@@ -89,129 +96,123 @@ class ReceivePage extends Component<ReceivePageProps, ReceivePageState> {
       ReceivePageState,
       keyof ReceivePageState
     >;
-    this.setState(newState);
+    setReceivePageState(newState);
   };
 
-  isValidAmount = () => {
-    const { amount } = this.state;
-    return amount === ''
-      ? true
-      : !isLessThanDustAmount(amount, this.props.unit);
+  const isValidAmount = () => {
+    const { amount } = state;
+    return amount === '' ? true : !isLessThanDustAmount(amount, props.unit);
   };
 
-  render() {
-    const { amount, label, message } = this.state;
-    return (
-      <div className='main-wrapper'>
-        <Helmet>
-          <title>
-            {I18n.t('containers.wallet.receivePage.receiveDFITitle')}
-          </title>
-        </Helmet>
-        <header className='header-bar'>
-          <Button
-            to={WALLET_PAGE_PATH}
-            tag={NavLink}
-            color='link'
-            className='header-bar-back'
-          >
-            <MdArrowBack />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.receivePage.wallet')}
-            </span>
-          </Button>
-          <h1>{I18n.t('containers.wallet.receivePage.receiveDFI')}</h1>
-        </header>
-        <div className='content'>
-          <section>
-            <Form>
-              <FormGroup className='form-label-group'>
-                <InputGroup>
-                  {/* TODO: show inline error for failed vaildation */}
-                  <Input
-                    type='text'
-                    inputMode='numeric'
-                    placeholder={I18n.t(
-                      'containers.wallet.receivePage.amountToReceive'
-                    )}
-                    value={amount}
-                    name='amount'
-                    id='amount'
-                    onChange={this.handleChange}
-                    autoFocus
-                  />
-                  <Label for='amount'>
-                    {I18n.t('containers.wallet.receivePage.amount')}
-                  </Label>
-                  <InputGroupAddon addonType='append'>
-                    <InputGroupText>{this.props.unit}</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
-              <FormGroup className='form-label-group'>
+  const { amount, label, message } = state;
+  return (
+    <div className='main-wrapper'>
+      <Helmet>
+        <title>{I18n.t('containers.wallet.receivePage.receiveDFITitle')}</title>
+      </Helmet>
+      <header className='header-bar'>
+        <Button
+          to={WALLET_PAGE_PATH}
+          tag={NavLink}
+          color='link'
+          className='header-bar-back'
+        >
+          <MdArrowBack />
+          <span className='d-lg-inline'>
+            {I18n.t('containers.wallet.receivePage.wallet')}
+          </span>
+        </Button>
+        <h1>{I18n.t('containers.wallet.receivePage.receiveDFI')}</h1>
+      </header>
+      <div className='content'>
+        <section>
+          <Form>
+            <FormGroup className='form-label-group'>
+              <InputGroup>
+                {/* TODO: show inline error for failed vaildation */}
                 <Input
                   type='text'
-                  value={label}
-                  name='label'
-                  id='label'
-                  onChange={this.handleChange}
-                  placeholder={I18n.t('containers.wallet.receivePage.label')}
+                  inputMode='numeric'
+                  placeholder={I18n.t(
+                    'containers.wallet.receivePage.amountToReceive'
+                  )}
+                  value={amount}
+                  name='amount'
+                  id='amount'
+                  onChange={handleChange}
+                  autoFocus
                 />
-                <Label for='message'>
-                  {I18n.t('containers.wallet.receivePage.label')}
+                <Label for='amount'>
+                  {I18n.t('containers.wallet.receivePage.amount')}
                 </Label>
-              </FormGroup>
-              <FormGroup className='form-label-group'>
-                <Input
-                  value={message}
-                  type='textarea'
-                  name='message'
-                  id='message'
-                  onChange={this.handleChange}
-                  placeholder={I18n.t('containers.wallet.receivePage.message')}
-                  rows='3'
-                />
-                <Label for='message'>
-                  {I18n.t('containers.wallet.receivePage.message')}
-                </Label>
-              </FormGroup>
-            </Form>
-          </section>
-        </div>
-        <footer className='footer-bar'>
-          <div className='d-flex justify-content-between align-items-center'>
-            <div>
-              <div className='caption-secondary'>
-                {I18n.t('containers.wallet.receivePage.amountToReceive')}
-              </div>
-              <div>
-                {amount || '-'}&nbsp;
-                {this.props.unit}
-              </div>
+                <InputGroupAddon addonType='append'>
+                  <InputGroupText>{props.unit}</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            </FormGroup>
+            <FormGroup className='form-label-group'>
+              <Input
+                type='text'
+                value={label}
+                name='label'
+                id='label'
+                onChange={handleChange}
+                placeholder={I18n.t('containers.wallet.receivePage.label')}
+              />
+              <Label for='message'>
+                {I18n.t('containers.wallet.receivePage.label')}
+              </Label>
+            </FormGroup>
+            <FormGroup className='form-label-group'>
+              <Input
+                value={message}
+                type='textarea'
+                name='message'
+                id='message'
+                onChange={handleChange}
+                placeholder={I18n.t('containers.wallet.receivePage.message')}
+                rows='3'
+              />
+              <Label for='message'>
+                {I18n.t('containers.wallet.receivePage.message')}
+              </Label>
+            </FormGroup>
+          </Form>
+        </section>
+      </div>
+      <footer className='footer-bar'>
+        <div className='d-flex justify-content-between align-items-center'>
+          <div>
+            <div className='caption-secondary'>
+              {I18n.t('containers.wallet.receivePage.amountToReceive')}
             </div>
             <div>
-              <Button
-                to={WALLET_PAGE_PATH}
-                tag={NavLink}
-                color='link'
-                className='mr-3'
-              >
-                {I18n.t('containers.wallet.receivePage.cancel')}
-              </Button>
-              <Button
-                color='primary'
-                onClick={this.onSubmit}
-                disabled={!this.isValidAmount()}
-              >
-                {I18n.t('containers.wallet.receivePage.continue')}
-              </Button>
+              {amount || '-'}&nbsp;
+              {props.unit}
             </div>
           </div>
-        </footer>
-      </div>
-    );
-  }
-}
+          <div>
+            <Button
+              to={WALLET_PAGE_PATH}
+              tag={NavLink}
+              color='link'
+              className='mr-3'
+            >
+              {I18n.t('containers.wallet.receivePage.cancel')}
+            </Button>
+            <Button
+              color='primary'
+              onClick={onSubmit}
+              disabled={!isValidAmount()}
+            >
+              {I18n.t('containers.wallet.receivePage.continue')}
+            </Button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   const { wallet, settings } = state;
