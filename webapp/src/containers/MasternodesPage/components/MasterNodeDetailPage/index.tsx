@@ -5,12 +5,18 @@ import { Helmet } from 'react-helmet';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdArrowBack, MdDelete } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdDelete,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import { NavLink, RouteComponentProps, Redirect } from 'react-router-dom';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { resignMasterNode } from '../../reducer';
+import styles from '../../masternode.module.scss';
 
 interface RouteProps {
   hash: string;
@@ -24,7 +30,14 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
   props: MasterNodeDetailPageProps
 ) => {
-  const { match, masternodes = [], resignMasterNode } = props;
+  const {
+    match,
+    masternodes = [],
+    resignMasterNode,
+    isMasterNodeResigning,
+    resignedMasterNodeData,
+    isErrorResigningMasterNode,
+  } = props;
   const hash = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
     return ele.hash && ele.hash.toString() === hash;
@@ -34,10 +47,34 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     return <Redirect to={MASTER_NODES_PATH} />;
   }
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    boolean
-  >(false);
+    string
+  >('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
+
+  useEffect(() => {
+    if (allowCalls) {
+      if (
+        resignedMasterNodeData &&
+        !isMasterNodeResigning &&
+        !isErrorResigningMasterNode
+      ) {
+        setIsConfirmationModalOpen('success');
+      }
+      if (
+        !resignedMasterNodeData &&
+        !isMasterNodeResigning &&
+        isErrorResigningMasterNode
+      ) {
+        setIsConfirmationModalOpen('failure');
+      }
+    }
+  }, [
+    isMasterNodeResigning,
+    resignedMasterNodeData,
+    isErrorResigningMasterNode,
+    allowCalls,
+  ]);
 
   const {
     ownerAuthAddress,
@@ -52,7 +89,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
 
   useEffect(() => {
     let waitToSendInterval;
-    if (isConfirmationModalOpen) {
+    if (isConfirmationModalOpen === 'confirm') {
       let counter = 5;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
@@ -98,7 +135,10 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           &nbsp;
         </h1>
         <ButtonGroup>
-          <Button color='link' onClick={() => setIsConfirmationModalOpen(true)}>
+          <Button
+            color='link'
+            onClick={() => setIsConfirmationModalOpen('confirm')}
+          >
             <MdDelete />
             <span>
               {I18n.t(
@@ -167,7 +207,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
       <footer className='footer-bar'>
         <div
           className={classnames({
-            'd-none': !isConfirmationModalOpen,
+            'd-none': isConfirmationModalOpen !== 'confirm',
           })}
         >
           <div className='footer-sheet'>
@@ -186,7 +226,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <Button
                 color='link'
                 className='mr-3'
-                onClick={() => setIsConfirmationModalOpen(false)}
+                onClick={() => setIsConfirmationModalOpen('default')}
               >
                 {I18n.t(
                   'containers.masterNodes.masternodeDetailPage.noButtonText'
@@ -209,6 +249,54 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             </Col>
           </Row>
         </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'success',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
+              <p>
+                {`${I18n.t(
+                  'containers.masterNodes.masternodeDetailPage.successText'
+                )}`}
+              </p>
+              <p>{resignedMasterNodeData}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
+              {I18n.t(
+                'containers.masterNodes.masternodeDetailPage.backToMasternodePage'
+              )}
+            </Button>
+          </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'failure',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdErrorOutline
+                className={classnames({
+                  'footer-sheet-icon': true,
+                  [styles[`error-dailog`]]: true,
+                })}
+              />
+              <p>{isErrorResigningMasterNode}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
+              {I18n.t(
+                'containers.masterNodes.masternodeDetailPage.backToMasternodePage'
+              )}
+            </Button>
+          </div>
+        </div>
       </footer>
     </div>
   );
@@ -216,10 +304,18 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
 
 const mapStateToProps = state => {
   const {
-    masterNodes: { masternodes },
+    masterNodes: {
+      masternodes,
+      isMasterNodeResigning,
+      resignedMasterNodeData,
+      isErrorResigningMasterNode,
+    },
   } = state;
   return {
     masternodes,
+    isMasterNodeResigning,
+    resignedMasterNodeData,
+    isErrorResigningMasterNode,
   };
 };
 
