@@ -5,21 +5,20 @@ import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchMasternodesRequest } from '../../reducer';
 import { filterByValue } from '../../../../utils/utility';
-import { History } from 'history';
 import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
+import { Link } from 'react-router-dom';
 
 interface MasternodesListProps {
   masternodes: MasterNodeObject[];
   searchQuery: string;
-  history: History;
   fetchMasternodesRequest: () => void;
 }
 
 const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
-  const { masternodes, fetchMasternodesRequest, history, searchQuery } = props;
+  const { masternodes, fetchMasternodesRequest, searchQuery } = props;
   let tableData: MasterNodeObject[] = [];
   if (!searchQuery) {
     tableData = masternodes;
@@ -53,14 +52,8 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
             </tr>
           </thead>
           <tbody>
-            {tableData.map(masternode => (
-              <tr
-                key={masternode.hash}
-                onClick={() =>
-                  history.push(`${MASTER_NODES_PATH}/${masternode.hash}`)
-                }
-                className={styles.masternodeRow}
-              >
+            {tableData.map((masternode) => (
+              <tr key={masternode.hash} className={styles.masternodeRow}>
                 <td className={styles.status}>
                   <span
                     className={`txn-status-${masternode.state.toLowerCase()}`}
@@ -69,9 +62,12 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
                   </span>
                 </td>
                 <td>
-                  <div className={styles.address}>
+                  <Link
+                    className={styles.address}
+                    to={`${MASTER_NODES_PATH}/${masternode.hash}`}
+                  >
                     {masternode.ownerAuthAddress}
-                  </div>
+                  </Link>
                 </td>
                 <td>
                   <div className={styles.pose}>
@@ -97,7 +93,7 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     masternodes,
     isMasternodesLoaded,

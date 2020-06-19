@@ -121,8 +121,8 @@
         "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create master node",
         "confirmationText": "Are you sure you want to create a master node?",
         "createNodeButton": "Create Master Node",
-        "yesButtonText": "Yes",
-        "noButtonText": "No",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
         "masternodeOperator": "Masternode Operator",
         "masternodeOwner": "Masternode Owner",
         "backToMasternodePage": "Back to Masternode Page"
@@ -133,6 +133,8 @@
         "masternodeDetail": "Masternode Details",
         "ownerAddress": "Owner Address",
         "operatorAddress": "Operator Address",
+        "state": "State",
+        "hash": "Hash",
         "registered": "Registered",
         "mintedBlocks": "Minted Blocks",
         "resignHeight": "Resign Height",
@@ -141,8 +143,8 @@
         "banTx": "Ban Tx",
         "resignMasterNode": "Resign",
         "confirmation": "Are you sure you want to resign a master node?",
-        "noButtonText": "No",
-        "yesButtonText": "Yes",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
         "successText": "Success",
         "backToMasternodePage": "Back to Masternode Page"
       }

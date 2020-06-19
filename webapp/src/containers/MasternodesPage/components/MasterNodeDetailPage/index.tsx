@@ -24,6 +24,9 @@ interface RouteProps {
 
 interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   masternodes: MasterNodeObject[];
+  isMasterNodeResigning: boolean;
+  resignedMasterNodeData: string;
+  isErrorResigningMasterNode: string;
   resignMasterNode: (masterNodeHash: string) => void;
 }
 
@@ -80,10 +83,12 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     ownerAuthAddress,
     operatorAuthAddress,
     creationHeight,
+    state,
     resignHeight,
     resignTx,
     banHeight,
     banTx,
+    hash,
     mintedBlocks,
   } = masternode || {};
 
@@ -151,22 +156,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi
-            label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.ownerAddress'
-            )}
-            value={ownerAuthAddress}
-            popsQR={true}
-            copyable={true!}
-            uid='address'
-          />
-          <KeyValueLi
-            label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.operatorAddress'
-            )}
-            value={operatorAuthAddress}
-            popsQR={true}
-            copyable={true!}
-            uid='address'
+            label={I18n.t('containers.masterNodes.masternodeDetailPage.state')}
+            value={state}
           />
           <KeyValueLi
             label={I18n.t(
@@ -188,19 +179,43 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.resignTx'
-            )}
-            value={resignTx}
-          />
-          <KeyValueLi
-            label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.banHeight'
             )}
             value={banHeight}
           />
           <KeyValueLi
+            label={I18n.t(
+              'containers.masterNodes.masternodeDetailPage.ownerAddress'
+            )}
+            value={ownerAuthAddress}
+            copyable={true!}
+            uid='address'
+          />
+          <KeyValueLi
+            label={I18n.t(
+              'containers.masterNodes.masternodeDetailPage.operatorAddress'
+            )}
+            value={operatorAuthAddress}
+            copyable={true!}
+            uid='address'
+          />
+          <KeyValueLi
+            label={I18n.t(
+              'containers.masterNodes.masternodeDetailPage.resignTx'
+            )}
+            copyable={true!}
+            value={resignTx}
+          />
+
+          <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.banTx')}
+            copyable={true!}
             value={banTx}
+          />
+          <KeyValueLi
+            label={I18n.t('containers.masterNodes.masternodeDetailPage.hash')}
+            copyable={true!}
+            value={hash}
           />
         </section>
       </div>
@@ -302,7 +317,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     masterNodes: {
       masternodes,
@@ -319,12 +334,12 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDisptachToProps = {
+const mapDispatchToProps = {
   resignMasterNode: (masterNodeHash: string) =>
     resignMasterNode({ masterNodeHash }),
 };
 
 export default connect(
   mapStateToProps,
-  mapDisptachToProps
+  mapDispatchToProps
 )(MasterNodeDetailPage);

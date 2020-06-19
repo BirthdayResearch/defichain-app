@@ -18,7 +18,6 @@ const configSlice = createSlice({
   initialState,
   reducers: {
     fetchMasternodesRequest(state) {
-      state.masternodes = [];
       state.isLoadingMasternodes = true;
     },
     fetchMasternodesSuccess(state, action) {
