@@ -1,8 +1,15 @@
 import * as utility from '../utility';
 import { rpcResponseSchemaMap } from '../schemas/rpcMethodSchemaMapping';
 import * as methodNames from '../../constants/rpcMethods';
-import { validateSchema, getTxnDetails, expected } from './testData.json';
+import {
+  validateSchema,
+  getTxnDetails,
+  expected,
+  listUnspentTwo,
+} from './testData.json';
 import log from 'loglevel';
+import { mockAxios } from '../testUtils/mockUtils';
+
 const DUST_VALUE_DFI = '0.00000546';
 const DUST_VALUE_FI = '546';
 
@@ -58,7 +65,7 @@ describe('utility', () => {
       '1GteSB8ayQSuDVsoMCaCeBR5CbEKsbsDVM',
       '1DPYMWDzvSHYw2wW17cemB2XQc4jPfYegw',
     ];
-    const testData = address.map(item => ({
+    const testData = address.map((item) => ({
       address: item,
       amount: Math.random() * 100,
     }));
@@ -186,6 +193,17 @@ describe('utility', () => {
   it('should test isDustAmount when equal to DUST_VALUE_DFI and unit is DFI', () => {
     const data = utility.getAmountInSelectedUnit(1000, 'DFI');
     expect(data).toBe('1000');
+  });
+
+  it('should test getTxnSize with two inputs', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: listUnspentTwo,
+    });
+    mockAxios(post);
+
+    const test = await utility.getTxnSize();
+    expect(test).toEqual(expected.getTxnSize);
+    expect(post).toBeCalledTimes(1);
   });
 
   it('validateSchema valid object', () => {
