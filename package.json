@@ -21,13 +21,22 @@
     "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron .",
     "electron": "npm run transpile && NODE_ENV=development electron . -d true",
     "build:react": "cd webapp && npm run build:react",
+    "pre:build:linux": "sh pre-build-linux.sh",
+    "pre:build:mac": "sh pre-build-mac.sh",
+    "pre:build:win": "sh pre-build-win.sh",
     "build": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder",
     "build:all": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder -mwl",
+    "build:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --linux",
+    "build:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --mac",
+    "build:win": "npm run pre:build:win && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --win",
     "pack": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder --dir",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:win": "npm run pre:build:win && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -138,8 +147,7 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "AppImage"
       ]
     },
     "win": {
