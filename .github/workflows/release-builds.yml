@@ -1,0 +1,24 @@
+on:
+  # Trigger the workflow on push,
+  # but only for the master branch
+  push:
+    # branches:
+    #   - master
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install dependecies
+      run: npm run init
+      
+    # - name: Build app
+    #   run: npm i && npm run build
+
+    - name: Publish app
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+      run: npm run publish:linux
