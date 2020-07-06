@@ -6,19 +6,36 @@ on:
     #   - master
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+  # linux:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependecies
+  #       run: npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:linux
+
+  #     - name: Publish app
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+  #       run: npm run publish:linux
+
+  mac:
+    runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: install dependecies
-      run: npm run init
-      
-    # - name: Build app
-    #   run: npm i && npm run build
+      - name: install dependecies
+        run: npm run init
 
-    - name: Publish app
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-      run: npm run publish:linux
+      - name: Build app
+        run: npm run pre:build:mac
+
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        run: npm run publish:mac
