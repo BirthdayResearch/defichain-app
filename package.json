@@ -34,9 +34,9 @@
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
-    "publish:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
-    "publish:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
-    "publish:win": "npm run pre:build:win && npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:linux": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:mac": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
+    "publish:win": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder build -p always",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -157,7 +157,8 @@
       "provider": "github",
       "repo": "defi-ui",
       "owner": "cakedefi",
-      "private": true
+      "private": true,
+      "releaseType": "release"
     }
   },
   "lint-staged": {
