@@ -51,6 +51,7 @@ jobs:
 
       - name: Build app
         run: npm run pre:build:win
+        shell: powershell
 
       - name: Publish app
         env:
