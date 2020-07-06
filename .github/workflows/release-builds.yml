@@ -6,7 +6,7 @@ on:
     #   - master
 
 jobs:
-  # publish linux version:
+  # publish_linux_version:
   #   runs-on: ubuntu-latest
 
   #   steps:
@@ -23,7 +23,7 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
   #       run: npm run publish:linux
 
-  # publish mac version:
+  # publish_mac_version:
   #   runs-on: macos-latest
 
   #   steps:
@@ -40,7 +40,7 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
   #       run: npm run publish:mac
 
-  publish windows version:
+  publish_windows_version:
     runs-on: windows-latest
 
     steps:
