@@ -6,7 +6,7 @@ on:
     #   - master
 
 jobs:
-  # linux:
+  # publish linux version:
   #   runs-on: ubuntu-latest
 
   #   steps:
@@ -23,8 +23,25 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
   #       run: npm run publish:linux
 
-  mac:
-    runs-on: macos-latest
+  # publish mac version:
+  #   runs-on: macos-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependecies
+  #       run: npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:mac
+
+  #     - name: Publish app
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+  #       run: npm run publish:mac
+
+  publish windows version:
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -33,9 +50,9 @@ jobs:
         run: npm run init
 
       - name: Build app
-        run: npm run pre:build:mac
+        run: npm run pre:build:win
 
       - name: Publish app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        run: npm run publish:mac
+        run: npm run publish:win
