@@ -9,4 +9,4 @@ wget https://github.com/DeFiCh/ain/releases/download/v1.0.0-rc1/defichain-1.0.0-
 unzip defichain-1.0.0-rc1-x86_64-w64-mingw32.zip
 cp defichain-1.0.0-rc1/bin/defid.exe .
 cd ../.. && cp temp/win/defid.exe binary/win/defid.exe
-chmod 777 binary/linux/defid.exe
+chmod 777 binary/win/defid.exe
