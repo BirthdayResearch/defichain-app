@@ -23,10 +23,12 @@ import {
   WALLET_BASE_PATH,
   // MASTER_NODES_PATH,
   // EXCHANGE_PATH,
-  HELP_PATH,
+  // HELP_PATH,
   SETTING_PATH,
+  DEFI_CHAIN_HOMEPAGE,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
+import OpenNewTab from '../../utils/openNewTab';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
@@ -34,7 +36,7 @@ export interface SidebarProps extends RouteComponentProps {
   unit: string;
 }
 
-const Sidebar: React.FunctionComponent<SidebarProps> = props => {
+const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   useEffect(() => {
     props.fetchWalletBalanceRequest();
   }, []);
@@ -120,8 +122,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={HELP_PATH}
-              tag={RRNavLink}
+              onClick={() => OpenNewTab(DEFI_CHAIN_HOMEPAGE)}
               className={styles.navLink}
               activeClassName={styles.active}
             >
@@ -145,7 +146,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { i18n, wallet, settings } = state;
   return {
     locale: i18n.locale,

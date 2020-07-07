@@ -14,9 +14,9 @@ export const CONFIG_FILE_NAME = path.join(APP_DIR, '/defi.conf');
 export const UI_CONFIG_FILE_NAME = path.join(APP_DIR, '/defi.ui.yaml');
 export const PID_FILE_NAME = path.join(APP_DIR, '/defi.pid');
 
-export const BINARY_FILE_NAME = 'bitcoind';
+export const BINARY_FILE_NAME = 'defid';
 export const BINARY_FILE_PATH = IS_DEV
   ? path.join(rootPath, './binary', getPlatform())
   : IS_PACKAGED
-  ? path.join(rootPath, 'Contents', 'Resources', 'binary', getPlatform())
+  ? path.join(__dirname, '../../../../..', 'binary', getPlatform())
   : path.join(rootPath, '../', 'binary', getPlatform());
