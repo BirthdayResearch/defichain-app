@@ -9,39 +9,39 @@ on:
       - develop
 
 jobs:
-  # publish_linux_version:
-  #   runs-on: ubuntu-latest
+  publish_linux_version:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: install dependecies
-  #       run: npm run init
+      - name: install dependecies
+        run: npm run init
 
-  #     - name: Build app
-  #       run: npm run pre:build:linux
+      - name: Build app
+        run: npm run pre:build:linux
 
-  #     - name: Publish app
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-  #       run: npm run publish:linux
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        run: npm run publish:linux
 
-  # publish_mac_version:
-  #   runs-on: macos-latest
+  publish_mac_version:
+    runs-on: macos-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: install dependecies
-  #       run: npm run init
+      - name: install dependecies
+        run: npm run init
 
-  #     - name: Build app
-  #       run: npm run pre:build:mac
+      - name: Build app
+        run: npm run pre:build:mac
 
-  #     - name: Publish app
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-  #       run: npm run publish:mac
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        run: npm run publish:mac
 
   publish_windows_version:
     runs-on: windows-latest
