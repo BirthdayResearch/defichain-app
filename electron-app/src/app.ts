@@ -18,6 +18,7 @@ import {
   CLOSE,
   SECOND_INSTANCE,
 } from './constants';
+/* For future purpose */
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
 declare var process: {
@@ -42,6 +43,7 @@ export default class App {
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
     autoUpdater.autoDownload = false;
+    /* For future purpose */
     // initiateElectronUpdateManager(autoUpdater);
   }
 
@@ -61,6 +63,7 @@ export default class App {
     // initiate ipcMain events
     initiateIpcEvents();
 
+    /* For future purpose */
     // autoUpdater.checkForUpdatesAndNotify();
   };
 
