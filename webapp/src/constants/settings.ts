@@ -16,3 +16,4 @@ export const LIGHT_DISPLAY = 'LIGHT';
 export const DARK_DISPLAY = 'DARK';
 export const SAME_AS_SYSTEM_DISPLAY = 'SAME_AS_SYSTEM';
 export const CONSOLE_PROMPT_LABEL = `${name}_v${version}`;
+export const DEFI_CHAIN_HOMEPAGE = `https://www.defichain.io/`;
