@@ -42,7 +42,7 @@ export default class App {
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
     autoUpdater.autoDownload = false;
-    initiateElectronUpdateManager(autoUpdater);
+    // initiateElectronUpdateManager(autoUpdater);
   }
 
   // REMOVE MAGIC STRING
@@ -61,7 +61,7 @@ export default class App {
     // initiate ipcMain events
     initiateIpcEvents();
 
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
   };
 
   initiateInterceptFileProtocol() {
