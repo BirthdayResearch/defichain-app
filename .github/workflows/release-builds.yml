@@ -9,42 +9,8 @@ on:
       - develop
 
 jobs:
-  publish_linux_version:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: install dependecies
-        run: npm run init
-
-      - name: Build app
-        run: npm run pre:build:linux
-
-      - name: Publish app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        run: npm run publish:linux
-
-  publish_mac_version:
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: install dependecies
-        run: npm run init
-
-      - name: Build app
-        run: npm run pre:build:mac
-
-      - name: Publish app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        run: npm run publish:mac
-
-  # publish_windows_version:
-  #   runs-on: windows-latest
+  # publish_linux_version:
+  #   runs-on: ubuntu-latest
 
   #   steps:
   #     - uses: actions/checkout@v2
@@ -53,10 +19,60 @@ jobs:
   #       run: npm run init
 
   #     - name: Build app
-  #       run: npm run pre:build:win
-  #       shell: powershell
+  #       run: npm run pre:build:linux
 
   #     - name: Publish app
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-  #       run: npm run publish:win
+  #       run: npm run publish:linux
+
+  # publish_mac_version:
+  #   runs-on: macos-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependecies
+  #       run: npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:mac
+
+  #     - name: Publish app
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+  #       run: npm run publish:mac
+
+  publish_windows_version:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependecies
+        run: npm run init
+
+      - name: Build app
+        run: |
+          mkdir binary -ea 0
+          cd binary 
+          rm -r -fo win, mac, linux -ErrorAction Ignore
+          mkdir win
+          cd ..
+          mkdir temp -ea 0
+          cd temp 
+          rm -r -fo win -ErrorAction Ignore
+          mkdir win 
+          cd win
+          curl https://github.com/DeFiCh/ain/releases/download/v1.0.0-rc1/defichain-1.0.0-rc1-x86_64-w64-mingw32.zip -O defichain-1.0.0-rc1-x86_64-w64-mingw32.zip
+          Expand-Archive -LiteralPath .\defichain-1.0.0-rc1-x86_64-w64-mingw32.zip -DestinationPath .
+          Copy-Item .\defichain-1.0.0-rc1\bin\defid.exe .
+          cd ..\.. 
+          Copy-Item temp\win\defid.exe binary\win\defid.exe
+          icacls binary\win\defid.exe /grant everyone:F
+        shell: powershell
+
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        run: npm run publish:win
