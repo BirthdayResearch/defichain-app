@@ -1,47 +1,16 @@
 on:
-  # Trigger the workflow on push,
-  # but only for the master branch
   push:
-    # branches:
-    #   - master
+    branches:
+      - master
+      - electron-app-update-flow
+  pull_request:
+    branches:
+      - master
+      - develop
 
 jobs:
-  # publish_linux_version:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: install dependecies
-  #       run: npm run init
-
-  #     - name: Build app
-  #       run: npm run pre:build:linux
-
-  #     - name: Publish app
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-  #       run: npm run publish:linux
-
-  # publish_mac_version:
-  #   runs-on: macos-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: install dependecies
-  #       run: npm run init
-
-  #     - name: Build app
-  #       run: npm run pre:build:mac
-
-  #     - name: Publish app
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-  #       run: npm run publish:mac
-
-  publish_windows_version:
-    runs-on: windows-latest
+  publish_linux_version:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -50,10 +19,44 @@ jobs:
         run: npm run init
 
       - name: Build app
-        run: npm run pre:build:win
-        shell: powershell
+        run: npm run pre:build:linux
 
       - name: Publish app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        run: npm run publish:win
+        run: npm run publish:linux
+
+  publish_mac_version:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependecies
+        run: npm run init
+
+      - name: Build app
+        run: npm run pre:build:mac
+
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        run: npm run publish:mac
+
+  # publish_windows_version:
+  #   runs-on: windows-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependecies
+  #       run: npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:win
+  #       shell: powershell
+
+  #     - name: Publish app
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+  #       run: npm run publish:win
