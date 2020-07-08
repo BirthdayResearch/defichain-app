@@ -9,23 +9,26 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
   MdAccountBalanceWallet,
-  MdDns,
+  // MdDns,
   MdViewWeek,
-  MdCompareArrows,
+  // MdCompareArrows,
 } from 'react-icons/md';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
+  CONSOLE_RPC_CALL_BASE_PATH,
   WALLET_PAGE_PATH,
   WALLET_BASE_PATH,
-  MASTER_NODES_PATH,
-  EXCHANGE_PATH,
-  HELP_PATH,
+  // MASTER_NODES_PATH,
+  // EXCHANGE_PATH,
+  // HELP_PATH,
   SETTING_PATH,
+  DEFI_CHAIN_HOMEPAGE,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
+import OpenNewTab from '../../utils/openNewTab';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
@@ -33,7 +36,7 @@ export interface SidebarProps extends RouteComponentProps {
   unit: string;
 }
 
-const Sidebar: React.FunctionComponent<SidebarProps> = props => {
+const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   useEffect(() => {
     props.fetchWalletBalanceRequest();
   }, []);
@@ -109,8 +112,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
         <Nav className={`${styles.navSub} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={HELP_PATH}
+              to={CONSOLE_RPC_CALL_BASE_PATH}
               tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              {I18n.t('containers.sideBar.console')}
+            </NavLink>
+          </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              onClick={() => OpenNewTab(DEFI_CHAIN_HOMEPAGE)}
               className={styles.navLink}
               activeClassName={styles.active}
             >
@@ -134,7 +146,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { i18n, wallet, settings } = state;
   return {
     locale: i18n.locale,

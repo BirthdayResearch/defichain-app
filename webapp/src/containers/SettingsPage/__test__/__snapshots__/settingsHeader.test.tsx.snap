@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTabHeader should check for snapshot if isUnsaved is true 1`] = `
+<header
+  className="header-bar"
+>
+  <h1>
+    Settings
+  </h1>
+  <div />
+</header>
+`;

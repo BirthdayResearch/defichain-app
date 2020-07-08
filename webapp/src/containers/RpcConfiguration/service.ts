@@ -1,28 +1,36 @@
-import log from 'loglevel';
-
-import { DIFF, RETRY_ATTEMPT } from '../../constants';
+import * as log from '../../utils/electronLogger';
+import {
+  DIFF,
+  RETRY_ATTEMPT,
+  BLOCKCHAIN_START_ERROR,
+  BLOCKCHAIN_START_SUCCESS,
+} from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 
-//TODO: need to be done through event channel
-export const isBlockchainStarted = async (): Promise<boolean> => {
-  let retryCount = 0;
+export const isBlockchainStarted = async (emitter) => {
+  let retryAttempt = RETRY_ATTEMPT;
   const rpcClient = new RpcClient();
-
-  while (true && retryCount <= RETRY_ATTEMPT) {
+  const intervalRef = setInterval(async () => {
     try {
-      const isStarted = await rpcClient.isInitialBlockDownload();
-      if (isStarted) return isStarted;
-    } catch (e) {
-      log.error(`Got error in isBlockchainStarted: ${e}`);
-      retryCount++;
-      await sleep(DIFF);
+      const res = await rpcClient.isInitialBlockDownload();
+      if (res) {
+        emitter({
+          status: res,
+          message: BLOCKCHAIN_START_SUCCESS,
+        });
+        clearInterval(intervalRef);
+      }
+    } catch (err) {
+      retryAttempt -= 1;
+      log.error(`Got error in isBlockchainStarted: ${err}`);
+      // this causes the channel to close
+      if (!retryAttempt) {
+        emitter({
+          status: false,
+          message: BLOCKCHAIN_START_ERROR,
+        });
+        clearInterval(intervalRef);
+      }
     }
-  }
-  return false;
-};
-
-const sleep = (ms: number) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
+  }, DIFF);
 };

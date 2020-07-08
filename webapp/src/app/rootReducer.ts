@@ -5,6 +5,8 @@ import settingsReducer from '../containers/SettingsPage/reducer';
 import blockchainReducer from '../containers/BlockchainPage/reducer';
 import masterNodesReducer from '../containers/MasternodesPage/reducer';
 import syncStatusReducer from '../containers/SyncStatus/reducer';
+import cliReducer from '../containers/ConsolePage/reducer';
+import errorModalReducer from '../containers/ErrorModal/reducer';
 import { i18nReducer } from 'react-redux-i18n';
 
 export default combineReducers({
@@ -15,4 +17,6 @@ export default combineReducers({
   masterNodes: masterNodesReducer,
   syncstatus: syncStatusReducer,
   i18n: i18nReducer,
+  cli: cliReducer,
+  errorModal: errorModalReducer,
 });

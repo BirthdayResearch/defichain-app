@@ -24,7 +24,8 @@
       "blockchain": "Blockchain",
       "exchange": "Exchange",
       "help": "Help",
-      "settings": "Settings"
+      "settings": "Settings",
+      "console": "Console"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -217,6 +218,31 @@
         "hash": "Hash",
         "paginationRange": "%{from} – %{to} of %{total} transaction",
         "noTransactions": "No transactions available"
+      }
+    },
+    "console": {
+      "consolePage": {
+        "consoleDefiClient": "Console – DeFi Blockchain Client",
+        "defiCliCommand": "Enter Defi-cli command",
+        "console": "Console",
+        "submit": "Submit",
+        "forRef": "For Reference",
+        "example": [
+          {
+            "title": "sendtoaddress",
+            "highlightText": "sendtoaddress \"address\" amount ( \"comment\" \"comment_to\" subtractfeefromamount replaceable conf_target \"estimate_mode\" )",
+            "cmdText": "defi-cli sendtoaddress \"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"donation\" \"seans outpost\""
+          },
+          {
+            "title": "getblock",
+            "highlightText": "getblock \"blockhash\" ( verbosity )",
+            "cmdText": "defi-cli getblock \"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\""
+          }
+        ]
+      },
+      "consoleResultPage": {
+        "resultPage": "CLI Result",
+        "back": "Back"
       }
     }
   },

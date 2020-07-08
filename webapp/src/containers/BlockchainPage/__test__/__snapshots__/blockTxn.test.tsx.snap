@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlockTxn component should check for snapshot 1`] = `
+<Card
+  className="undefined styles.txn"
+  tag="div"
+>
+  <div>
+    <span>
+      <div
+        className=""
+      >
+        Copied!
+      </div>
+      <span>
+        2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c
+      </span>
+      <CopyToClipboard
+        handleCopy={[Function]}
+        value="2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c"
+      />
+    </span>
+    <span>
+      <span>
+        1591108054
+      </span>
+      <Button
+        className="padless ml-2"
+        color="link"
+        size="sm"
+        tag="button"
+      >
+        <MdInfo />
+      </Button>
+    </span>
+  </div>
+  <div>
+    <div />
+    <div>
+      <MdArrowForward />
+    </div>
+    <div>
+      <div
+        key="bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf28k0"
+      >
+        <span>
+          bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf28k
+        </span>
+        <span>
+          1
+           
+          <span>
+            DFI
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</Card>
+`;

@@ -1,57 +1,41 @@
-import isElectron from 'is-electron';
+import { isElectron, ipcRendererFunc } from '../utils/isElectron';
 import HttpStatus from 'http-status-codes';
-import store from './rootStore';
 import RpcClient from '../utils/rpc-client';
-import {
-  startNodeSuccess,
-  startNodeFailure,
-} from '../containers/RpcConfiguration/reducer';
 import showNotification from '../utils/notifications';
+import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
+import { eventChannel, END } from 'redux-saga';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require('electron');
+    const ipcRenderer = ipcRendererFunc();
     return ipcRenderer.sendSync('get-config-details', {});
   }
   // For webapp
   return { success: true, data: {} };
 };
 
-export const startBinary = (config: any) => {
-  // async operation;
-  return new Promise((resolve, reject) => {
-    if (isElectron()) {
-      const { ipcRenderer } = window.require('electron');
-      ipcRenderer.send('start-defi-chain', config);
-      return ipcRenderer.on(
-        'start-defi-chain-reply',
-        async (_e: any, res: any) => {
-          if (res.success) {
-            const blockchainStatus = await isBlockchainStarted();
-            if (blockchainStatus) {
-              store.dispatch({
-                type: startNodeSuccess.type,
-                payload: res.data,
-              });
-              return resolve(res);
-            }
-          }
-          store.dispatch({ type: startNodeFailure.type, payload: res.data });
-          return reject(res);
-        }
-      );
-    }
-    // For webapp
-    store.dispatch({ type: startNodeSuccess.type, payload: {} });
-    return resolve({ success: true, data: {} });
+export function startBinary(config: any) {
+  return eventChannel(emit => {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send('start-defi-chain', config);
+    ipcRenderer.on('start-defi-chain-reply', async (_e: any, res: any) => {
+      if (res.success) {
+        isBlockchainStarted(emit);
+      } else {
+        emit(res);
+      }
+    });
+    return () => {
+      log.info('Unsubscribe startBinary');
+    };
   });
-};
+}
 
 export const stopBinary = () => {
   if (isElectron()) {
-    const { ipcRenderer } = window.require('electron');
+    const ipcRenderer = ipcRendererFunc();
     return ipcRenderer.sendSync('stop-defi-chain', {});
   }
   // For webapp

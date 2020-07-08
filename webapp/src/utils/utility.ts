@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import log from 'loglevel';
+import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
@@ -8,6 +8,7 @@ import {
   DEFAULT_UNIT,
   UNPARSED_ADDRESS,
   DUST_VALUE_DFI,
+  DEFI_CLI,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -209,4 +210,32 @@ export const isLessThanDustAmount = (
 ): boolean => {
   const convertedAmount = getAmountInSelectedUnit(amount, DEFAULT_UNIT, unit);
   return new BigNumber(convertedAmount).lte(DUST_VALUE_DFI);
+};
+
+export const getRpcMethodName = (query: string) => {
+  if (!query.trim().length) throw new Error('Invalid command');
+
+  const splitQuery = query.trim().split(' ');
+  if (splitQuery[0] !== DEFI_CLI)
+    throw new Error(`${splitQuery[0]}: command not found`);
+
+  return splitQuery[1];
+};
+
+export const getParams = (query: string) => {
+  const splitQuery = query.trim().split(' ');
+  const params = splitQuery.slice(2);
+
+  const parsedParams = params.map(param => {
+    if (
+      (param.startsWith('"') && param.endsWith('"')) ||
+      (param.startsWith("'") && param.endsWith("'"))
+    ) {
+      return param.replace(/"/g, '').replace(/'/g, '');
+    } else if (param === 'true' || param === 'false') {
+      return param === 'true' ? true : false;
+    }
+    return isNaN(Number(param)) ? param : Number(param);
+  });
+  return parsedParams;
 };

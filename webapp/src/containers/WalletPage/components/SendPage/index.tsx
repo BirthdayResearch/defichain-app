@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import log from 'loglevel';
+import * as log from '../../../../utils/electronLogger';
 import {
   Row,
   Col,
@@ -84,7 +84,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.props.fetchSendDataRequest();
   }
 
-  updateAmountToSend = e => {
+  updateAmountToSend = (e) => {
     const { value } = e.target;
     if (isNaN(value) && value.length) return false;
 
@@ -97,7 +97,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  updateToAddress = e => {
+  updateToAddress = (e) => {
     const toAddress = e.target.value;
     this.setState({
       toAddress,
@@ -132,7 +132,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  handleScan = data => {
+  handleScan = (data) => {
     if (data) {
       shutterSnap.play();
       this.setState({
@@ -160,7 +160,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     }, 1000);
   };
 
-  handleScanError = err => {
+  handleScanError = (err) => {
     log.error(err);
   };
 
@@ -449,7 +449,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings } = state;
   return {
     unit: settings.appConfig.unit,

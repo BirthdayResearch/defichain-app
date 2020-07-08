@@ -644,5 +644,5 @@ export const txSchema = {
       type: 'string',
     },
   },
-  require: ['result'],
+  required: ['result'],
 };

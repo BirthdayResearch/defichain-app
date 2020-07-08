@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlockChainPage component should check for snapshot 1`] = `
+<div
+  className="main-wrapper"
+>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Blockchain – DeFi Blockchain Client
+    </title>
+  </HelmetWrapper>
+  <header
+    className="header-bar"
+  >
+    <h1>
+      Blockchain
+    </h1>
+  </header>
+  <div
+    className="content"
+  >
+    <section
+      className="mb-0"
+    >
+      <Connect(BlockchainTable) />
+    </section>
+  </div>
+</div>
+`;

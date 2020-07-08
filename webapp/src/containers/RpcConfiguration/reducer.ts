@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  isFetching: false,
+  rpcRemotes: [],
+  rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
+  isRunning: false,
+  rpcConfigError: '',
+  nodeError: '',
+};
+
 const configSlice = createSlice({
   name: 'app',
-  initialState: {
-    isFetching: false,
-    rpcRemotes: [],
-    rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
-    isRunning: false,
-    rpcConfigError: '',
-    nodeError: '',
-  },
+  initialState,
   reducers: {
     getRpcConfigsRequest(state) {
       state.isFetching = true;

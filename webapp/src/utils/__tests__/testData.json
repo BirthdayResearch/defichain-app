@@ -1,0 +1,134 @@
+{
+  "validateSchema": {
+    "result": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "getTxnDetails": {
+    "category_is_not_send": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "fee": 0.001,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839
+      }
+    ],
+    "category_is_send_fee_present": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "send",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": false,
+        "fee": 0.001,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839,
+        "bip125-replaceable": "no"
+      }
+    ],
+    "category_not_send_fee_not_present": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839,
+        "bip125-replaceable": "no"
+      }
+    ]
+  },
+  "expected": {
+    "getTxnDetails": {
+      "category_not_send_fee_not_present": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "generate",
+          "amount": 50,
+          "fee": 0,
+          "confirmations": 101,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ],
+      "category_is_not_send": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "generate",
+          "amount": 50,
+          "confirmations": 101,
+          "fee": 0,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ],
+      "category_is_send_fee_present": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "send",
+          "amount": 50,
+          "fee": 0.001,
+          "confirmations": 101,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ]
+    }
+  }
+}

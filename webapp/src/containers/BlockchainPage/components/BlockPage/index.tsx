@@ -63,7 +63,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
 
   const blockNumber = Number(height);
 
-  const fetchData = pageNumber => {
+  const fetchData = (pageNumber) => {
     setCurrentPage(pageNumber);
     props.fetchBlockCountRequest();
     const key = toSha256(`${blockNumber} ${pageNumber} ${pageSize}`);
@@ -113,19 +113,19 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
                 label={I18n.t(
                   'containers.blockChainPage.blockPage.noOfTransactions'
                 )}
-                value={nTxns.toString()}
+                value={(nTxns || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.difficulty')}
-                value={difficulty.toString()}
+                value={(difficulty || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.height')}
-                value={blockNumber.toString()}
+                value={(blockNumber || '').toString()}
               />
             </Col>
             <Col md='6'>
@@ -137,13 +137,13 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.version')}
-                value={version.toString()}
+                value={(version || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.nonce')}
-                value={nonce.toString()}
+                value={(nonce || '').toString()}
               />
             </Col>
             <Col>
@@ -228,7 +228,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { blockchain, settings } = state;
   const { unit } = settings.appConfig;
   const {
@@ -255,7 +255,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchTxns: (blockNumber, pageNo, pageSize) =>
     fetchTxnsRequest({ blockNumber, pageNo, pageSize }),
-  fetchBlockData: blockNumber => fetchBlockDataRequest({ blockNumber }),
+  fetchBlockData: (blockNumber) => fetchBlockDataRequest({ blockNumber }),
   fetchBlockCountRequest,
 };
 

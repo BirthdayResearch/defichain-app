@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import log from 'loglevel';
+import * as  log from '../../utils/electronLogger';
 import {
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
@@ -35,7 +35,7 @@ import {
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 
-function* fetchWalletBalance() {
+export function* fetchWalletBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
     yield put(fetchWalletBalanceSuccess(result));
@@ -46,7 +46,7 @@ function* fetchWalletBalance() {
   }
 }
 
-function* fetchPendingBalance() {
+export function* fetchPendingBalance() {
   try {
     const result = yield call(handleFetchPendingBalance);
     yield put(fetchPendingBalanceSuccess(result));
@@ -57,7 +57,7 @@ function* fetchPendingBalance() {
   }
 }
 
-function* addReceiveTxns(action: any) {
+export function* addReceiveTxns(action: any) {
   try {
     const result = yield call(handelAddReceiveTxns, action.payload);
     yield put(addReceiveTxnsSuccess(result));
@@ -68,7 +68,7 @@ function* addReceiveTxns(action: any) {
   }
 }
 
-function* removeReceiveTxns(action: any) {
+export function* removeReceiveTxns(action: any) {
   try {
     const result = yield call(handelRemoveReceiveTxns, action.payload);
     yield put(removeReceiveTxnsSuccess(result));
@@ -79,7 +79,7 @@ function* removeReceiveTxns(action: any) {
   }
 }
 
-function* fetchPayments() {
+export function* fetchPayments() {
   try {
     const data = yield call(handelGetPaymentRequest);
     yield put(fetchPaymentRequestsSuccess(data));
@@ -90,7 +90,7 @@ function* fetchPayments() {
   }
 }
 
-function* fetchWalletTxns(action) {
+export function* fetchWalletTxns(action) {
   try {
     const { currentPage: pageNo, pageSize } = action.payload;
     const data = yield call(handelFetchWalletTxns, pageNo, pageSize);
@@ -107,7 +107,7 @@ function* fetchWalletTxns(action) {
   }
 }
 
-function* fetchSendData() {
+export function* fetchSendData() {
   try {
     const data = yield call(handleSendData);
     if (data) {

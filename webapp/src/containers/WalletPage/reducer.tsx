@@ -1,37 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  walletBalance: 0,
+  isBalanceFetching: false,
+  isBalanceError: '',
+  pendingBalance: 0,
+  isPendingBalanceFetching: false,
+  isPendingBalanceError: '',
+  paymentRequests: [],
+  walletTxns: [],
+  walletTxnCount: 0,
+  isWalletTxnsLoading: false,
+  receivedData: {
+    amountToReceive: '',
+    amountToReceiveDisplayed: 0,
+    receiveMessage: '',
+    showBackdrop: '',
+    receiveStep: 'default',
+  },
+  sendData: {
+    walletBalance: 0,
+    amountToSend: '',
+    amountToSendDisplayed: 0,
+    toAddress: '',
+    scannerOpen: false,
+    flashed: '',
+    showBackdrop: '',
+    sendStep: 'default',
+    waitToSend: 5,
+  },
+};
 const configSlice = createSlice({
   name: 'wallet',
-  initialState: {
-    walletBalance: 0,
-    isBalanceFetching: false,
-    isBalanceError: '',
-    pendingBalance: 0,
-    isPendingBalanceFetching: false,
-    isPendingBalanceError: '',
-    paymentRequests: [],
-    walletTxns: [],
-    walletTxnCount: 0,
-    isWalletTxnsLoading: false,
-    receivedData: {
-      amountToReceive: '',
-      amountToReceiveDisplayed: 0,
-      receiveMessage: '',
-      showBackdrop: '',
-      receiveStep: 'default',
-    },
-    sendData: {
-      walletBalance: 0,
-      amountToSend: '',
-      amountToSendDisplayed: 0,
-      toAddress: '',
-      scannerOpen: false,
-      flashed: '',
-      showBackdrop: '',
-      sendStep: 'default',
-      waitToSend: 5,
-    },
-  },
+  initialState,
   reducers: {
     fetchPaymentRequest(state) {
       state.paymentRequests = [];
