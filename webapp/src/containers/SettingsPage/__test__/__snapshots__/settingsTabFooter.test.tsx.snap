@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTabFooterComponent should check for snapshot if isUnsaved is true 1`] = `
+<footer
+  className="footer-bar"
+>
+  <Row
+    className="justify-content-between align-items-center"
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="col-auto"
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      You have unsaved changes
+    </Col>
+    <Col
+      className="d-flex justify-content-end"
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Button
+        color="primary"
+        onClick={[Function]}
+        tag="button"
+      >
+        Save settings
+      </Button>
+    </Col>
+  </Row>
+</footer>
+`;
+
+exports[`SettingsTabFooterComponent should check for snapshot if isUnsaved is true 2`] = `
+<footer
+  className="footer-bar"
+>
+  <Row
+    className="justify-content-between align-items-center"
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="col-auto"
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    />
+    <Col
+      className="d-flex justify-content-end"
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Button
+        color="primary"
+        onClick={[Function]}
+        tag="button"
+      >
+        Save settings
+      </Button>
+    </Col>
+  </Row>
+</footer>
+`;

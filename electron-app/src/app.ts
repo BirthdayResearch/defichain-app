@@ -1,4 +1,5 @@
 import log from 'loglevel';
+import * as electronLog from 'electron-log';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';

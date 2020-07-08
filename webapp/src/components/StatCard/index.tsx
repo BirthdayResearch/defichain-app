@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import styles from './StatCard.module.scss';
 

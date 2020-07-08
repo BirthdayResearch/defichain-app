@@ -1,4 +1,4 @@
-import log from 'loglevel';
+import * as  log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
 import { PAYMENT_REQUEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';

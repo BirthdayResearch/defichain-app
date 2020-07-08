@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import log from 'loglevel';
+import * as  log from '../../utils/electronLogger';
 import {
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
@@ -67,7 +67,7 @@ function fetchPendingBalance() {
   );
 }
 
-function* addReceiveTxns(action: any) {
+export function* addReceiveTxns(action: any) {
   try {
     const result = yield call(handelAddReceiveTxns, action.payload);
     yield put(addReceiveTxnsSuccess(result));
@@ -78,7 +78,7 @@ function* addReceiveTxns(action: any) {
   }
 }
 
-function* removeReceiveTxns(action: any) {
+export function* removeReceiveTxns(action: any) {
   try {
     const result = yield call(handelRemoveReceiveTxns, action.payload);
     yield put(removeReceiveTxnsSuccess(result));
@@ -89,7 +89,7 @@ function* removeReceiveTxns(action: any) {
   }
 }
 
-function* fetchPayments() {
+export function* fetchPayments() {
   try {
     const data = yield call(handelGetPaymentRequest);
     yield put(fetchPaymentRequestsSuccess(data));

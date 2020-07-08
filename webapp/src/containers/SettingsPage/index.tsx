@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
@@ -11,13 +11,14 @@ import {
 import SettingsTabsHeader from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
 import SettingsTab from './components/SettingsTab';
+import usePrevious from '../../components/UsePrevious';
 // NOTE: Do not remove, for future purpose
 // import { TabContent } from 'reactstrap';
 // import SettingsTabGeneral from './components/SettingsTabGeneral';
 // import SettingsTabDisplay from './components/SettingsTabDisplay';
 
 interface SettingsPageProps {
-  isFetching: false;
+  isFetching: boolean;
   settingsError: string;
   languages: { label: string; value: string }[];
   amountUnits: { label: string; value: string }[];
@@ -57,73 +58,75 @@ interface SettingsPageState {
   isUnsavedChanges: boolean;
 }
 
-class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
-  constructor(props: Readonly<SettingsPageProps>) {
-    super(props);
-    this.state = {
-      activeTab: 'general',
-      ...props.appConfig,
-      isUnsavedChanges: false,
-    };
+const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
+  props: SettingsPageProps
+) => {
+  const [state, setState] = useState<SettingsPageState>({
+    activeTab: 'general',
+    ...props.appConfig,
+    isUnsavedChanges: false,
+  });
+
+  useEffect(() => {
     props.getSettingOptionsRequest();
     props.getInitialSettingsRequest();
-  }
+  }, []);
+  const prevProps: any = usePrevious(props);
+  const prevState: any = usePrevious(state) || {};
+  const setSettingsPageState = (updatedObject: any) => {
+    const updatedState = Object.assign({}, state, updatedObject);
+    setState(updatedState);
+  };
 
-  componentDidUpdate = (prevProps: { appConfig: any; isFetching: boolean }) => {
-    if (!isEqual(this.props.appConfig, prevProps.appConfig)) {
-      this.setState({
-        ...this.props.appConfig,
+  useEffect(() => {
+    const prevPropsValue =
+      !!prevProps && !!prevProps.appConfig ? prevProps.appConfig : {};
+    if (!isEqual(props.appConfig, prevPropsValue)) {
+      setSettingsPageState({
+        ...props.appConfig,
         isUnsavedChanges: false,
       });
     }
-  };
+  }, [props, prevProps]);
 
-  setActiveTab = (tab: string) => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
+  useEffect(() => {
+    if (!isEqual(prevState, state)) {
+      checkForChanges();
+    }
+  }, [prevState, state]);
+
+  const setActiveTab = (tab: string) => {
+    if (state.activeTab !== tab) {
+      setSettingsPageState({
         activeTab: tab,
       });
     }
   };
 
-  handleDropDowns = (data: any, field: any) => {
-    this.setState(
-      {
-        [field]: data,
-      } as SettingsPageState,
-      () => this.checkForChanges()
-    );
+  const handleDropDowns = (data: any, field: any) => {
+    setSettingsPageState({
+      [field]: data,
+    });
   };
 
-  handleToggles = (field: string) => {
-    this.setState(
-      {
-        [field]: !this.state[field],
-      } as {
-        pruneBlockStorage: boolean;
-        minimizedAtLaunch: boolean;
-        launchAtLogin: boolean;
-      },
-      () => this.checkForChanges()
-    );
+  const handleToggles = (field: string) => {
+    setSettingsPageState({
+      [field]: !state[field],
+    });
   };
 
-  handleInputs = (event: { target: { value: string } }, field: string) => {
-    this.setState(
-      {
-        [field]: /^-?[0-9]+$/.test(event.target.value)
-          ? parseInt(event.target.value, 10)
-          : '',
-      } as {
-        scriptVerificationThreads: number;
-        blockStorage: number;
-        databaseCache: number;
-      },
-      () => this.checkForChanges()
-    );
+  const handleInputs = (
+    event: { target: { value: string } },
+    field: string
+  ) => {
+    setSettingsPageState({
+      [field]: /^-?[0-9]+$/.test(event.target.value)
+        ? parseInt(event.target.value, 10)
+        : '',
+    });
   };
 
-  checkForChanges = () => {
+  const checkForChanges = () => {
     const keys = [
       'language',
       'unit',
@@ -139,20 +142,20 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
     let isUnsavedChanges = false;
 
     keys.forEach(key => {
-      if (!isUnsavedChanges && this.props.appConfig[key] !== this.state[key]) {
+      if (!isUnsavedChanges && props.appConfig[key] !== state[key]) {
         isUnsavedChanges = true;
       }
     });
 
-    const { launchAtLogin, minimizedAtLaunch } = this.state;
+    const { launchAtLogin, minimizedAtLaunch } = state;
 
-    this.setState({
+    setSettingsPageState({
       isUnsavedChanges,
       minimizedAtLaunch: !launchAtLogin ? false : minimizedAtLaunch,
     });
   };
 
-  saveChanges = () => {
+  const saveChanges = () => {
     const {
       language,
       unit,
@@ -163,7 +166,7 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       scriptVerificationThreads,
       blockStorage,
       databaseCache,
-    } = this.state;
+    } = state;
 
     const settings = {
       language,
@@ -176,72 +179,66 @@ class SettingsPage extends Component<SettingsPageProps, SettingsPageState> {
       blockStorage,
       databaseCache,
     };
-    this.props.updateSettings(settings);
+    props.updateSettings(settings);
   };
+  const {
+    activeTab,
+    isUnsavedChanges,
+    launchAtLogin,
+    minimizedAtLaunch,
+    pruneBlockStorage,
+    blockStorage,
+    databaseCache,
+    scriptVerificationThreads,
+    language,
+    unit,
+    displayMode,
+  } = state;
 
-  render() {
-    const {
-      activeTab,
-      isUnsavedChanges,
-      launchAtLogin,
-      minimizedAtLaunch,
-      pruneBlockStorage,
-      blockStorage,
-      databaseCache,
-      scriptVerificationThreads,
-      language,
-      unit,
-      displayMode,
-    } = this.state;
-
-    return (
-      <div className='main-wrapper'>
-        <Helmet>
-          <title>{I18n.t('containers.settings.title')}</title>
-        </Helmet>
-        <SettingsTabsHeader
-          activeTab={activeTab}
-          setActiveTab={this.setActiveTab}
+  return (
+    <div className='main-wrapper'>
+      <Helmet>
+        <title>{I18n.t('containers.settings.title')}</title>
+      </Helmet>
+      <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className='content'>
+        <SettingsTab
+          launchAtLogin={launchAtLogin!}
+          minimizedAtLaunch={minimizedAtLaunch!}
+          language={language!}
+          unit={unit!}
+          displayMode={displayMode!}
+          handleDropDowns={handleDropDowns}
+          handleToggles={handleToggles}
         />
-        <div className='content'>
-          <SettingsTab
+        {/* NOTE: Do not remove, for future purpose */}
+        {/* <TabContent activeTab={state.activeTab}>
+          <SettingsTabGeneral
             launchAtLogin={launchAtLogin!}
             minimizedAtLaunch={minimizedAtLaunch!}
+            pruneBlockStorage={pruneBlockStorage!}
+            blockStorage={blockStorage!}
+            databaseCache={databaseCache!}
+            scriptVerificationThreads={scriptVerificationThreads!}
+            handleInputs={handleInputs}
+            handleToggles={handleToggles}
+          />
+          <SettingsTabDisplay
             language={language!}
             unit={unit!}
             displayMode={displayMode!}
-            handleDropDowns={this.handleDropDowns}
-            handleToggles={this.handleToggles}
+            handleDropDowns={handleDropDowns}
           />
-          {/* NOTE: Do not remove, for future purpose */}
-          {/* <TabContent activeTab={this.state.activeTab}>
-            <SettingsTabGeneral
-              launchAtLogin={launchAtLogin!}
-              minimizedAtLaunch={minimizedAtLaunch!}
-              pruneBlockStorage={pruneBlockStorage!}
-              blockStorage={blockStorage!}
-              databaseCache={databaseCache!}
-              scriptVerificationThreads={scriptVerificationThreads!}
-              handleInputs={this.handleInputs}
-              handleToggles={this.handleToggles}
-            />
-            <SettingsTabDisplay
-              language={language!}
-              unit={unit!}
-              displayMode={displayMode!}
-              handleDropDowns={this.handleDropDowns}
-            />
-          </TabContent>
-         */}
-        </div>
-        <SettingsTabsFooter
-          isUnsavedChanges={isUnsavedChanges}
-          saveChanges={this.saveChanges}
-        />
+        </TabContent>
+       */}
       </div>
-    );
-  }
-}
+      <SettingsTabsFooter
+        isUnsavedChanges={isUnsavedChanges}
+        saveChanges={saveChanges}
+      />
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   const {

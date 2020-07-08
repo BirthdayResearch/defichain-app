@@ -1,4 +1,4 @@
-import log from 'loglevel';
+import * as log from '../services/electronLogger';
 import DialogManager from '../services/dialogmanager';
 import { MENU_BACKUP_WALLET, MENU_IMPORT_WALLET } from '../constants';
 

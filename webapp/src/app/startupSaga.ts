@@ -1,4 +1,4 @@
-import isElectron from 'is-electron';
+import { isElectron } from '../utils/isElectron';
 import initMenuIpcRenderers from './menu.ipcRenderer';
 
 function* startUpSaga() {

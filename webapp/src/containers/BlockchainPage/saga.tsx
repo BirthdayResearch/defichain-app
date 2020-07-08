@@ -1,5 +1,5 @@
-import { takeLatest } from 'redux-saga/effects';
-import log from 'loglevel';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import * as log from '../../utils/electronLogger';
 import {
   fetchBlocksRequest,
   fetchBlocksSuccess,
