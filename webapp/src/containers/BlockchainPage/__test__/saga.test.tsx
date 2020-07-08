@@ -1,11 +1,11 @@
 import { takeLatest } from 'redux-saga/effects';
 
-import mySaga, {
-  fetchBlocks,
-  fetchBlockData,
-  fetchBlockCount,
-  fetchTxns,
-} from '../saga';
+// import mySaga, {
+//   fetchBlocks,
+//   fetchBlockData,
+//   fetchBlockCount,
+//   fetchTxns,
+// } from '../saga';
 import {
   fetchBlocksRequest,
   fetchBlocksSuccess,
@@ -24,209 +24,211 @@ import * as service from '../service';
 import { expected } from './testData.json';
 import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
 
-describe('Wallet page saga unit test', () => {
-  const genObject = mySaga();
+/* For future use */
 
-  it('should wait for every fetchBlocksRequest action and call fetchBlocks method', () => {
-    expect(genObject.next().value).toEqual(
-      takeLatest(fetchBlocksRequest.type, fetchBlocks)
-    );
-  });
+// describe('Wallet page saga unit test', () => {
+//   const genObject = mySaga();
 
-  it('should wait for every fetchBlockCountRequest action and call fetchBlockCount method', () => {
-    expect(genObject.next().value).toEqual(
-      takeLatest(fetchBlockCountRequest.type, fetchBlockCount)
-    );
-  });
+//   it('should wait for every fetchBlocksRequest action and call fetchBlocks method', () => {
+//     expect(genObject.next().value).toEqual(
+//       takeLatest(fetchBlocksRequest.type, fetchBlocks)
+//     );
+//   });
 
-  it('should wait for every fetchBlockDataRequest action and call fetchBlockData method', () => {
-    expect(genObject.next().value).toEqual(
-      takeLatest(fetchBlockDataRequest.type, fetchBlockData)
-    );
-  });
+//   it('should wait for every fetchBlockCountRequest action and call fetchBlockCount method', () => {
+//     expect(genObject.next().value).toEqual(
+//       takeLatest(fetchBlockCountRequest.type, fetchBlockCount)
+//     );
+//   });
 
-  it('should wait for every fetchTxnsRequest action and call fetchTxns method', () => {
-    expect(genObject.next().value).toEqual(
-      takeLatest(fetchTxnsRequest.type, fetchTxns)
-    );
-  });
+//   it('should wait for every fetchBlockDataRequest action and call fetchBlockData method', () => {
+//     expect(genObject.next().value).toEqual(
+//       takeLatest(fetchBlockDataRequest.type, fetchBlockData)
+//     );
+//   });
 
-  describe('fetchBlocks method', () => {
-    let handelFetchBlocks;
+//   it('should wait for every fetchTxnsRequest action and call fetchTxns method', () => {
+//     expect(genObject.next().value).toEqual(
+//       takeLatest(fetchTxnsRequest.type, fetchTxns)
+//     );
+//   });
 
-    beforeEach(() => {
-      handelFetchBlocks = jest.spyOn(service, 'handelFetchBlocks');
-    });
+//   describe('fetchBlocks method', () => {
+//     let handelFetchBlocks;
 
-    afterEach(() => {
-      handelFetchBlocks.mockRestore();
-    });
+//     beforeEach(() => {
+//       handelFetchBlocks = jest.spyOn(service, 'handelFetchBlocks');
+//     });
 
-    afterAll(() => {
-      handelFetchBlocks.mockClear();
-    });
+//     afterEach(() => {
+//       handelFetchBlocks.mockRestore();
+//     });
 
-    it('should call api and dispatch success action', async () => {
-      handelFetchBlocks.mockImplementation(() =>
-        Promise.resolve(expected.handelFetchBlocks)
-      );
+//     afterAll(() => {
+//       handelFetchBlocks.mockClear();
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlocks);
+//     it('should call api and dispatch success action', async () => {
+//       handelFetchBlocks.mockImplementation(() =>
+//         Promise.resolve(expected.handelFetchBlocks)
+//       );
 
-      expect(handelFetchBlocks).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlocksSuccess(expected.handelFetchBlocks),
-      ]);
-    });
+//       const dispatched = await dispatchedFunc(fetchBlocks);
 
-    it('should call api and dispatch failure action', async () => {
-      handelFetchBlocks.mockImplementation(() =>
-        Promise.reject({ message: 'error in handelFetchBlocks' })
-      );
+//       expect(handelFetchBlocks).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlocksSuccess(expected.handelFetchBlocks),
+//       ]);
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlocks);
+//     it('should call api and dispatch failure action', async () => {
+//       handelFetchBlocks.mockImplementation(() =>
+//         Promise.reject({ message: 'error in handelFetchBlocks' })
+//       );
 
-      expect(handelFetchBlocks).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlocksFailure('error in handelFetchBlocks'),
-      ]);
-    });
-  });
+//       const dispatched = await dispatchedFunc(fetchBlocks);
 
-  describe('fetchBlockData method', () => {
-    let handleFetchBlockData;
+//       expect(handelFetchBlocks).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlocksFailure('error in handelFetchBlocks'),
+//       ]);
+//     });
+//   });
 
-    beforeEach(() => {
-      handleFetchBlockData = jest.spyOn(service, 'handleFetchBlockData');
-    });
+//   describe('fetchBlockData method', () => {
+//     let handleFetchBlockData;
 
-    afterEach(() => {
-      handleFetchBlockData.mockRestore();
-    });
+//     beforeEach(() => {
+//       handleFetchBlockData = jest.spyOn(service, 'handleFetchBlockData');
+//     });
 
-    afterAll(() => {
-      handleFetchBlockData.mockClear();
-    });
+//     afterEach(() => {
+//       handleFetchBlockData.mockRestore();
+//     });
 
-    it('should call api and dispatch success action', async () => {
-      handleFetchBlockData.mockImplementation(() =>
-        Promise.resolve(expected.handleFetchBlockData)
-      );
+//     afterAll(() => {
+//       handleFetchBlockData.mockClear();
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlockData, {
-        blockNumber: 101,
-      });
+//     it('should call api and dispatch success action', async () => {
+//       handleFetchBlockData.mockImplementation(() =>
+//         Promise.resolve(expected.handleFetchBlockData)
+//       );
 
-      expect(handleFetchBlockData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlockDataSuccess(expected.handleFetchBlockData),
-      ]);
-    });
+//       const dispatched = await dispatchedFunc(fetchBlockData, {
+//         blockNumber: 101,
+//       });
 
-    it('should call api and dispatch failure action', async () => {
-      handleFetchBlockData.mockImplementation(() =>
-        Promise.reject({ message: 'error while fetching block' })
-      );
+//       expect(handleFetchBlockData).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlockDataSuccess(expected.handleFetchBlockData),
+//       ]);
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlockData, {
-        blockNumber: 101,
-      });
+//     it('should call api and dispatch failure action', async () => {
+//       handleFetchBlockData.mockImplementation(() =>
+//         Promise.reject({ message: 'error while fetching block' })
+//       );
 
-      expect(handleFetchBlockData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlockDataFailure('error while fetching block'),
-      ]);
-    });
-  });
+//       const dispatched = await dispatchedFunc(fetchBlockData, {
+//         blockNumber: 101,
+//       });
 
-  describe('fetchBlockCount method', () => {
-    let handleFetchBlockCount;
+//       expect(handleFetchBlockData).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlockDataFailure('error while fetching block'),
+//       ]);
+//     });
+//   });
 
-    beforeEach(() => {
-      handleFetchBlockCount = jest.spyOn(service, 'handleFetchBlockCount');
-    });
+//   describe('fetchBlockCount method', () => {
+//     let handleFetchBlockCount;
 
-    afterEach(() => {
-      handleFetchBlockCount.mockRestore();
-    });
+//     beforeEach(() => {
+//       handleFetchBlockCount = jest.spyOn(service, 'handleFetchBlockCount');
+//     });
 
-    afterAll(() => {
-      handleFetchBlockCount.mockClear();
-    });
+//     afterEach(() => {
+//       handleFetchBlockCount.mockRestore();
+//     });
 
-    it('should call api and dispatch success action', async () => {
-      handleFetchBlockCount.mockImplementation(
-        () => expected.handleFetchBlockCount
-      );
+//     afterAll(() => {
+//       handleFetchBlockCount.mockClear();
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlockCount);
+//     it('should call api and dispatch success action', async () => {
+//       handleFetchBlockCount.mockImplementation(
+//         () => expected.handleFetchBlockCount
+//       );
 
-      expect(handleFetchBlockCount).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlockCountSuccess(expected.handleFetchBlockCount),
-      ]);
-    });
+//       const dispatched = await dispatchedFunc(fetchBlockCount);
 
-    it('should call api and dispatch failure action', async () => {
-      handleFetchBlockCount.mockImplementation(() => {
-        throw new Error('Error in handleFetchBlockCount');
-      });
+//       expect(handleFetchBlockCount).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlockCountSuccess(expected.handleFetchBlockCount),
+//       ]);
+//     });
 
-      const dispatched = await dispatchedFunc(fetchBlockCount);
+//     it('should call api and dispatch failure action', async () => {
+//       handleFetchBlockCount.mockImplementation(() => {
+//         throw new Error('Error in handleFetchBlockCount');
+//       });
 
-      expect(handleFetchBlockCount).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchBlockCountFailure('Error in handleFetchBlockCount'),
-      ]);
-    });
-  });
+//       const dispatched = await dispatchedFunc(fetchBlockCount);
 
-  describe('fetchTxns method', () => {
-    const blockNumber = 101;
-    const pageNo = 1;
-    const pageSize = 10;
-    let handelFetchTxns;
+//       expect(handleFetchBlockCount).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchBlockCountFailure('Error in handleFetchBlockCount'),
+//       ]);
+//     });
+//   });
 
-    beforeEach(() => {
-      handelFetchTxns = jest.spyOn(service, 'handelFetchTxns');
-    });
+//   describe('fetchTxns method', () => {
+//     const blockNumber = 101;
+//     const pageNo = 1;
+//     const pageSize = 10;
+//     let handelFetchTxns;
 
-    afterEach(() => {
-      handelFetchTxns.mockRestore();
-    });
+//     beforeEach(() => {
+//       handelFetchTxns = jest.spyOn(service, 'handelFetchTxns');
+//     });
 
-    afterAll(() => {
-      handelFetchTxns.mockClear();
-    });
+//     afterEach(() => {
+//       handelFetchTxns.mockRestore();
+//     });
 
-    it('should call api and dispatch success action', async () => {
-      handelFetchTxns.mockImplementation(() => expected.handelFetchTxns);
+//     afterAll(() => {
+//       handelFetchTxns.mockClear();
+//     });
 
-      const dispatched = await dispatchedFunc(fetchTxns, {
-        blockNumber,
-        pageNo,
-        pageSize,
-      });
+//     it('should call api and dispatch success action', async () => {
+//       handelFetchTxns.mockImplementation(() => expected.handelFetchTxns);
 
-      expect(handelFetchTxns).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([fetchTxnsSuccess(expected.handelFetchTxns)]);
-    });
+//       const dispatched = await dispatchedFunc(fetchTxns, {
+//         blockNumber,
+//         pageNo,
+//         pageSize,
+//       });
 
-    it('should call api and dispatch failure action', async () => {
-      handelFetchTxns.mockImplementation(() => {
-        throw new Error('Error in handelFetchTxns');
-      });
+//       expect(handelFetchTxns).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([fetchTxnsSuccess(expected.handelFetchTxns)]);
+//     });
 
-      const dispatched = await dispatchedFunc(fetchTxns, {
-        blockNumber,
-        pageNo,
-        pageSize,
-      });
+//     it('should call api and dispatch failure action', async () => {
+//       handelFetchTxns.mockImplementation(() => {
+//         throw new Error('Error in handelFetchTxns');
+//       });
 
-      expect(handelFetchTxns).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchTxnsFailure('Error in handelFetchTxns'),
-      ]);
-    });
-  });
-});
+//       const dispatched = await dispatchedFunc(fetchTxns, {
+//         blockNumber,
+//         pageNo,
+//         pageSize,
+//       });
+
+//       expect(handelFetchTxns).toHaveBeenCalledTimes(1);
+//       expect(dispatched).toEqual([
+//         fetchTxnsFailure('Error in handelFetchTxns'),
+//       ]);
+//     });
+//   });
+// });
