@@ -14,7 +14,7 @@ const getVoutForTransaction = (vouts: IVout[]) => {
   return { vout, valueOut };
 };
 
-export const getFullRawTxInfo = async (rawTx: IRawTxn) => {
+export const getFullRawTxInfo = (rawTx: IRawTxn) => {
   const { vout, valueOut } = getVoutForTransaction(rawTx.vout);
   const { hash, blocktime, blockhash } = rawTx;
 

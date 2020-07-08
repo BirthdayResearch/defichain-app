@@ -1,0 +1,37 @@
+{
+  "isBlockchainStarted": {
+    "result": {
+      "chain": "regtest",
+      "blocks": 0,
+      "headers": 0,
+      "bestblockhash": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+      "difficulty": 4.656542373906925e-10,
+      "mediantime": 1296688602,
+      "verificationprogress": 1,
+      "initialblockdownload": true,
+      "chainwork": "0000000000000000000000000000000000000000000000000000000000000002",
+      "size_on_disk": 293,
+      "pruned": false,
+      "softforks": {
+        "bip34": { "type": "buried", "active": false, "height": 500 },
+        "bip66": { "type": "buried", "active": false, "height": 1251 },
+        "bip65": { "type": "buried", "active": false, "height": 1351 },
+        "csv": { "type": "buried", "active": false, "height": 432 },
+        "segwit": { "type": "buried", "active": true, "height": 0 },
+        "testdummy": {
+          "type": "bip9",
+          "bip9": {
+            "status": "defined",
+            "start_time": 0,
+            "timeout": 9223372036854776000,
+            "since": 0
+          },
+          "active": false
+        }
+      },
+      "warnings": "This is a pre-release test build - use at your own risk - do not use for mining or merchant applications"
+    },
+    "error": null,
+    "id": "curltest"
+  }
+}

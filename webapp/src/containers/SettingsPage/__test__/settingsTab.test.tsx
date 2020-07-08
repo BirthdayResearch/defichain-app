@@ -1,0 +1,22 @@
+import React from 'react';
+import SettingsTabComponent from '../components/SettingsTab';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import store from '../../../app/rootStore';
+import { settingTab } from './testData.json';
+
+describe('SettingsTabComponent', () => {
+  it('should check for snapshot', () => {
+    const props = {
+      ...settingTab,
+      handleDropDowns: () => {},
+      handleToggles: () => {},
+    };
+    const wrapper = mount(
+      <Provider store={store}>
+        <SettingsTabComponent {...props} />
+      </Provider>
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+});

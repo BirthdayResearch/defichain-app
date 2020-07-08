@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReferenceComponent  should check for snapshot 1`] = `
+<div>
+  <h2>
+    <Label
+      tag="label"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      sendtoaddress
+    </Label>
+  </h2>
+  <p>
+    sendtoaddress "address" amount ( "comment" "comment_to" subtractfeefromamount replaceable conf_target "estimate_mode" )
+  </p>
+  <Input
+    readOnly={true}
+    type="text"
+    value="defi-cli sendtoaddress \\"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\" 0.1 \\"donation\\" \\"seans outpost\\""
+  />
+</div>
+`;

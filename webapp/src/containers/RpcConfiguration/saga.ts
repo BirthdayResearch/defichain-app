@@ -1,6 +1,6 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-
-import log from 'loglevel';
+import { call, put, takeLatest, take, select } from 'redux-saga/effects';
+import { isElectron } from '../../utils/isElectron';
+import * as log from '../../utils/electronLogger';
 import {
   getRpcConfigsRequest,
   getRpcConfigsSuccess,
@@ -10,14 +10,37 @@ import {
 import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
+import {
+  startNodeSuccess,
+  startNodeFailure,
+} from '../../containers/RpcConfiguration/reducer';
+import { openErrorModal } from '../../containers/ErrorModal/reducer';
 
-function* getConfig() {
+function* blockChainNotStarted(message) {
+  const { isRunning } = yield select(state => state.app);
+  if (!isRunning) yield put(startNodeFailure(message));
+  else yield put(openErrorModal());
+}
+
+export function* getConfig() {
   try {
     const res = yield call(getRpcConfig);
     if (res.success) {
       yield put({ type: getRpcConfigsSuccess.type, payload: res.data });
-      yield put({ type: startNodeRequest.type, payload: res.data });
-      yield call(startBinary, res.data);
+      yield put({ type: startNodeRequest.type });
+      if (isElectron()) {
+        const chan = yield call(startBinary, res.data);
+        while (true) {
+          const blockchainStatus = yield take(chan);
+          if (blockchainStatus.status) {
+            yield put(startNodeSuccess());
+          } else {
+            yield call(blockChainNotStarted, blockchainStatus.message);
+          }
+        }
+      } else {
+        yield put(startNodeSuccess());
+      }
     } else {
       showNotification(I18n.t('alerts.configurationFailure'), res.message);
       yield put({

@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import log from 'loglevel';
+import * as log from '../../utils/electronLogger';
 import {
   fetchBlocksRequest,
   fetchBlocksSuccess,
@@ -21,7 +21,7 @@ import {
   handleFetchBlockCount,
 } from './service';
 
-function* fetchBlocks(action) {
+export function* fetchBlocks(action) {
   const { currentPage: pageNo, pageSize } = action.payload;
   try {
     const data = yield call(handelFetchBlocks, pageNo, pageSize);
@@ -39,7 +39,7 @@ function* fetchBlocks(action) {
   }
 }
 
-function* fetchBlockData(action) {
+export function* fetchBlockData(action) {
   const { blockNumber } = action.payload;
   try {
     const data = yield call(handleFetchBlockData, blockNumber);
@@ -57,7 +57,7 @@ function* fetchBlockData(action) {
   }
 }
 
-function* fetchBlockCount() {
+export function* fetchBlockCount() {
   try {
     const data = yield call(handleFetchBlockCount);
     if (data && data.blockCount) {
@@ -74,7 +74,7 @@ function* fetchBlockCount() {
   }
 }
 
-function* fetchTxns(action) {
+export function* fetchTxns(action) {
   const { blockNumber, pageNo, pageSize } = action.payload;
   try {
     const data = yield call(handelFetchTxns, blockNumber, pageNo, pageSize);

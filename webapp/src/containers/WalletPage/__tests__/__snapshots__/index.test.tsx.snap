@@ -1,0 +1,481 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletPage component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(WalletPage)>
+        <WalletPage
+          fetchPendingBalanceRequest={[Function]}
+          fetchWalletBalanceRequest={[Function]}
+          pendingBalance={0}
+          unit="DFI"
+          walletBalance={0}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Wallet – DeFi Blockchain Client"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Wallet – DeFi Blockchain Client"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <header
+              className="header-bar"
+            >
+              <h1>
+                Wallet
+              </h1>
+              <ButtonGroup
+                role="group"
+                tag="div"
+              >
+                <div
+                  className="btn-group"
+                  role="group"
+                >
+                  <Button
+                    color="link"
+                    size="sm"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "displayName": "NavLink",
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/wallet/send"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="btn btn-link btn-sm"
+                      onClick={[Function]}
+                      to="/wallet/send"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="btn btn-link btn-sm"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/wallet/send",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="btn btn-link btn-sm"
+                          href="/wallet/send"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="btn btn-link btn-sm"
+                            href="/wallet/send"
+                            onClick={[Function]}
+                          >
+                            <MdArrowUpward>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowUpward>
+                            <span
+                              className="d-md-inline"
+                            >
+                              Send
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <Button
+                    color="link"
+                    size="sm"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "displayName": "NavLink",
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/wallet/receive"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="btn btn-link btn-sm"
+                      onClick={[Function]}
+                      to="/wallet/receive"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="btn btn-link btn-sm"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/wallet/receive",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="btn btn-link btn-sm"
+                          href="/wallet/receive"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="btn btn-link btn-sm"
+                            href="/wallet/receive"
+                            onClick={[Function]}
+                          >
+                            <MdArrowDownward>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowDownward>
+                            <span
+                              className="d-md-inline"
+                            >
+                              Receive
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                </div>
+              </ButtonGroup>
+            </header>
+            <div
+              className="content"
+            >
+              <section>
+                <Row
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col"
+                      >
+                        <StatCard
+                          label="Available balance"
+                          unit="DFI"
+                          value="0"
+                        >
+                          <Card
+                            tag="div"
+                          >
+                            <div
+                              className="card"
+                            >
+                              <CardBody
+                                tag="div"
+                              >
+                                <div
+                                  className="card-body"
+                                >
+                                  <div>
+                                    Available balance
+                                  </div>
+                                  <div>
+                                    0
+                                  </div>
+                                  <div>
+                                    DFI
+                                  </div>
+                                </div>
+                              </CardBody>
+                            </div>
+                          </Card>
+                        </StatCard>
+                      </div>
+                    </Col>
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col"
+                      >
+                        <StatCard
+                          label="Pending"
+                          unit="DFI"
+                          value="0"
+                        >
+                          <Card
+                            tag="div"
+                          >
+                            <div
+                              className="card"
+                            >
+                              <CardBody
+                                tag="div"
+                              >
+                                <div
+                                  className="card-body"
+                                >
+                                  <div>
+                                    Pending
+                                  </div>
+                                  <div>
+                                    0
+                                  </div>
+                                  <div>
+                                    DFI
+                                  </div>
+                                </div>
+                              </CardBody>
+                            </div>
+                          </Card>
+                        </StatCard>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </section>
+              <Connect(PaymentRequests)>
+                <PaymentRequests
+                  fetchPaymentRequest={[Function]}
+                  paymentRequests={Array []}
+                  removeReceiveTxns={[Function]}
+                  unit="DFI"
+                >
+                  <section
+                    className="mb-5"
+                  >
+                    <h2>
+                      Payment requests
+                    </h2>
+                    <Card
+                      className="table-responsive-md"
+                      tag="div"
+                    >
+                      <div
+                        className="table-responsive-md card"
+                      >
+                        <CardBody
+                          tag="div"
+                        >
+                          <div
+                            className="card-body"
+                          >
+                            No payment requests available
+                          </div>
+                        </CardBody>
+                      </div>
+                    </Card>
+                  </section>
+                </PaymentRequests>
+              </Connect(PaymentRequests)>
+              <Connect(WalletTxns)>
+                <WalletTxns
+                  fetchWalletTxns={[Function]}
+                  unit="DFI"
+                  walletTxnCount={0}
+                  walletTxns={Array []}
+                >
+                  <section
+                    className="mb-5"
+                  >
+                    <h2>
+                      Transactions
+                    </h2>
+                    <Card
+                      className="table-responsive-md"
+                      tag="div"
+                    >
+                      <div
+                        className="table-responsive-md card"
+                      >
+                        <CardBody
+                          tag="div"
+                        >
+                          <div
+                            className="card-body"
+                          >
+                            No transactions available
+                          </div>
+                        </CardBody>
+                      </div>
+                    </Card>
+                  </section>
+                </WalletTxns>
+              </Connect(WalletTxns)>
+            </div>
+          </div>
+        </WalletPage>
+      </Connect(WalletPage)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

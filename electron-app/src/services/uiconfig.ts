@@ -1,4 +1,4 @@
-import log from 'loglevel';
+import * as log from './electronLogger';
 import ini from 'ini';
 import yaml from 'js-yaml';
 import randomString from 'random-string';

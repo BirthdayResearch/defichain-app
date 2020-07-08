@@ -1,5 +1,6 @@
 export const DFI = 'DFI';
 export const FI = 'fi';
+export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;
 export const DEFAULT_UNIT = DFI;
 export const DFI_UNIT_MAP = {
   [DFI]: '1',

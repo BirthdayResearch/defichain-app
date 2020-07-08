@@ -27,12 +27,15 @@ const getLabel = (
   list: { value: string | number; label: string }[],
   value: string | number
 ) => {
-  const index = list.findIndex(obj => obj.value === value);
-  if (index === -1) {
-    return list[0].label;
-  } else {
-    return list[index].label;
+  if (list.length > 0) {
+    const index = list.findIndex(obj => obj.value === value);
+    if (index === -1) {
+      return list[0].label;
+    } else {
+      return list[index].label;
+    }
   }
+  return '';
 };
 
 const SettingsRowDropDown = (props: SettingsRowDropDownProps) => {

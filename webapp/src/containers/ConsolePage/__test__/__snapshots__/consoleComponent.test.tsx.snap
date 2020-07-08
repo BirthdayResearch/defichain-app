@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Console component snapshot test of console component 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(EchoConsole)>
+    <EchoConsole
+      fetchDataForQueryRequest={[Function]}
+      isError=""
+      isLoading={false}
+      resetDataForQuery={[Function]}
+      result={Object {}}
+    >
+      <div
+        onFocus={[Function]}
+        onPaste={[Function]}
+      >
+        <default_1
+          autofocus={true}
+          cancel={[Function]}
+          continue={[Function]}
+          handler={[Function]}
+          promptLabel=""
+          welcomeMessage="DeFi_v1.0.0"
+        >
+          <div
+            className="react-console-container react-console-focus"
+            onClick={[Function]}
+          >
+            <div
+              className="react-console-message react-console-welcome"
+            >
+              DeFi_v1.0.0
+            </div>
+            <ConsolePrompt
+              argument={null}
+              label=""
+              point={0}
+              value=""
+            >
+              <div
+                className="react-console-prompt-box"
+              >
+                <span
+                  className="react-console-prompt-label"
+                />
+                <span
+                  className="react-console-prompt-argument"
+                />
+                <span
+                  className="react-console-prompt"
+                >
+                  <span
+                    className="react-console-cursor"
+                    key="cursor"
+                  >
+                     
+                  </span>
+                </span>
+              </div>
+            </ConsolePrompt>
+            <div
+              style={
+                Object {
+                  "height": 1,
+                  "overflow": "hidden",
+                  "width": 1,
+                }
+              }
+            >
+              <textarea
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
+                className="react-console-typer"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                spellCheck="false"
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "border": "none",
+                    "color": "transparent",
+                    "outline": "none",
+                    "overflow": "hidden",
+                    "resize": "none",
+                  }
+                }
+              />
+            </div>
+            <div>
+               
+            </div>
+          </div>
+        </default_1>
+      </div>
+    </EchoConsole>
+  </Connect(EchoConsole)>
+</Provider>
+`;
