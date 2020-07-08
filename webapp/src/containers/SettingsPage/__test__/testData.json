@@ -1,0 +1,81 @@
+{
+  "settingsRowDropDown": {
+    "languages": [
+      { "label": "containers.settings.english", "value": "en" },
+      { "label": "containers.settings.german", "value": "de" }
+    ],
+    "amountUnits": [
+      { "label": "DFI", "value": "DFI" },
+      { "label": "fi", "value": "fi" }
+    ],
+    "displayModes": [
+      {
+        "label": "containers.settings.sameAsSystem",
+        "value": "SAME_AS_SYSTEM"
+      },
+      { "label": "containers.settings.light", "value": "LIGHT" },
+      { "label": "containers.settings.dark", "value": "DARK" }
+    ],
+    "language": "en-GB",
+    "unit": "DFI",
+    "displayMode": "SAME_AS_SYSTEM",
+    "launchAtLogin": false,
+    "minimizedAtLaunch": false
+  },
+  "settingTab": {
+    "launchAtLogin": false,
+    "minimizedAtLaunch": false,
+    "language": "en-GB",
+    "unit": "DFI",
+    "displayMode": "SAME_AS_SYSTEM"
+  },
+  "settingTabDisplay": {
+    "language": "en-GB",
+    "unit": "DFI",
+    "displayMode": "SAME_AS_SYSTEM"
+  },
+  "serviceTestData": {
+    "initialData": {
+      "language": "en",
+      "unit": "DFI",
+      "displayMode": "SAME_AS_SYSTEM",
+      "launchAtLogin": false,
+      "minimizedAtLaunch": false,
+      "pruneBlockStorage": false,
+      "scriptVerificationThreads": 0,
+      "blockStorage": "",
+      "databaseCache": ""
+    }
+  },
+  "sagaTestData": {
+    "getSettingsOptions": {
+      "languages": [
+        { "label": "containers.settings.english", "value": "en" },
+        { "label": "containers.settings.german", "value": "de" }
+      ],
+      "amountUnits": [
+        { "label": "DFI", "value": "DFI" },
+        { "label": "fi", "value": "fi" }
+      ],
+      "displayModes": [
+        {
+          "label": "containers.settings.sameAsSystem",
+          "value": "SAME_AS_SYSTEM"
+        },
+        { "label": "containers.settings.light", "value": "LIGHT" },
+        { "label": "containers.settings.dark", "value": "DARK" }
+      ]
+    },
+    "updateSettings": {
+      "language": "",
+      "unit": "",
+      "displayMode": "",
+      "launchAtLogin": "",
+      "minimizedAtLaunch": "",
+      "pruneBlockStorage": "",
+      "scriptVerificationThreads": "",
+      "blockStorage": "",
+      "databaseCache": ""
+    }
+  }
+}

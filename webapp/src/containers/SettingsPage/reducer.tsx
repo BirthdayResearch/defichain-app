@@ -1,28 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAppConfigUnit } from './service';
 
+export const initialState = {
+  isFetching: false,
+  settingsError: 'Unsupported language.',
+  appConfig: {
+    language: '',
+    unit: getAppConfigUnit(),
+    displayMode: '',
+    launchAtLogin: false,
+    minimizedAtLaunch: false,
+    pruneBlockStorage: false,
+    scriptVerificationThreads: 0,
+    blockStorage: '',
+    databaseCache: '',
+  },
+  isUpdating: false,
+  isUpdated: false,
+  languages: [],
+  amountUnits: [],
+  displayModes: [],
+};
+
 const configSlice = createSlice({
   name: 'settings',
-  initialState: {
-    isFetching: false,
-    settingsError: 'Unsupported language.',
-    appConfig: {
-      language: '',
-      unit: getAppConfigUnit(),
-      displayMode: '',
-      launchAtLogin: false,
-      minimizedAtLaunch: false,
-      pruneBlockStorage: false,
-      scriptVerificationThreads: 0,
-      blockStorage: '',
-      databaseCache: '',
-    },
-    isUpdating: false,
-    isUpdated: false,
-    languages: [],
-    amountUnits: [],
-    displayModes: [],
-  },
+  initialState,
   reducers: {
     getSettingOptionsRequest(state) {},
     getSettingOptionsSuccess(state, action) {

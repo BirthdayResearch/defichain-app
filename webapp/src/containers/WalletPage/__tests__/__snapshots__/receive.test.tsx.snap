@@ -1,0 +1,540 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReceivePage component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(ReceivePage)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ReceivePage
+          addReceiveTxns={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          paymentRequests={Array []}
+          unit="DFI"
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Receive DFI – DeFi Blockchain Client"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Receive DFI – DeFi Blockchain Client"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <header
+              className="header-bar"
+            >
+              <Button
+                className="header-bar-back"
+                color="link"
+                tag={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "NavLink",
+                    "propTypes": Object {
+                      "activeClassName": [Function],
+                      "activeStyle": [Function],
+                      "aria-current": [Function],
+                      "className": [Function],
+                      "exact": [Function],
+                      "innerRef": [Function],
+                      "isActive": [Function],
+                      "location": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "strict": [Function],
+                      "style": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                to="/"
+              >
+                <NavLink
+                  aria-label={null}
+                  className="header-bar-back btn btn-link"
+                  onClick={[Function]}
+                  to="/"
+                >
+                  <Link
+                    aria-current="page"
+                    aria-label={null}
+                    className="header-bar-back btn btn-link active"
+                    onClick={[Function]}
+                    style={Object {}}
+                    to={
+                      Object {
+                        "hash": "",
+                        "pathname": "/",
+                        "search": "",
+                        "state": null,
+                      }
+                    }
+                  >
+                    <LinkAnchor
+                      aria-current="page"
+                      aria-label={null}
+                      className="header-bar-back btn btn-link active"
+                      href="/"
+                      navigate={[Function]}
+                      onClick={[Function]}
+                      style={Object {}}
+                    >
+                      <a
+                        aria-current="page"
+                        aria-label={null}
+                        className="header-bar-back btn btn-link active"
+                        href="/"
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        <MdArrowBack>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdArrowBack>
+                        <span
+                          className="d-lg-inline"
+                        >
+                          Wallet
+                        </span>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </NavLink>
+              </Button>
+              <h1>
+                Receive DFI
+              </h1>
+            </header>
+            <div
+              className="content"
+            >
+              <section>
+                <Form
+                  tag="form"
+                >
+                  <form
+                    className=""
+                  >
+                    <FormGroup
+                      className="form-label-group"
+                      tag="div"
+                    >
+                      <div
+                        className="form-label-group form-group"
+                      >
+                        <InputGroup
+                          tag="div"
+                        >
+                          <div
+                            className="input-group"
+                          >
+                            <Input
+                              autoFocus={true}
+                              id="amount"
+                              inputMode="numeric"
+                              name="amount"
+                              onChange={[Function]}
+                              placeholder="Amount to Receive"
+                              type="text"
+                              value=""
+                            >
+                              <input
+                                autoFocus={true}
+                                className="form-control"
+                                id="amount"
+                                inputMode="numeric"
+                                name="amount"
+                                onChange={[Function]}
+                                placeholder="Amount to Receive"
+                                type="text"
+                                value=""
+                              />
+                            </Input>
+                            <Label
+                              for="amount"
+                              tag="label"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <label
+                                className=""
+                                htmlFor="amount"
+                              >
+                                Amount
+                              </label>
+                            </Label>
+                            <InputGroupAddon
+                              addonType="append"
+                              tag="div"
+                            >
+                              <div
+                                className="input-group-append"
+                              >
+                                <InputGroupText
+                                  tag="span"
+                                >
+                                  <span
+                                    className="input-group-text"
+                                  >
+                                    DFI
+                                  </span>
+                                </InputGroupText>
+                              </div>
+                            </InputGroupAddon>
+                          </div>
+                        </InputGroup>
+                      </div>
+                    </FormGroup>
+                    <FormGroup
+                      className="form-label-group"
+                      tag="div"
+                    >
+                      <div
+                        className="form-label-group form-group"
+                      >
+                        <Input
+                          id="label"
+                          name="label"
+                          onChange={[Function]}
+                          placeholder="Label"
+                          type="text"
+                          value=""
+                        >
+                          <input
+                            className="form-control"
+                            id="label"
+                            name="label"
+                            onChange={[Function]}
+                            placeholder="Label"
+                            type="text"
+                            value=""
+                          />
+                        </Input>
+                        <Label
+                          for="message"
+                          tag="label"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <label
+                            className=""
+                            htmlFor="message"
+                          >
+                            Label
+                          </label>
+                        </Label>
+                      </div>
+                    </FormGroup>
+                    <FormGroup
+                      className="form-label-group"
+                      tag="div"
+                    >
+                      <div
+                        className="form-label-group form-group"
+                      >
+                        <Input
+                          id="message"
+                          name="message"
+                          onChange={[Function]}
+                          placeholder="Message"
+                          rows="3"
+                          type="textarea"
+                          value=""
+                        >
+                          <textarea
+                            className="form-control"
+                            id="message"
+                            name="message"
+                            onChange={[Function]}
+                            placeholder="Message"
+                            rows="3"
+                            value=""
+                          />
+                        </Input>
+                        <Label
+                          for="message"
+                          tag="label"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <label
+                            className=""
+                            htmlFor="message"
+                          >
+                            Message
+                          </label>
+                        </Label>
+                      </div>
+                    </FormGroup>
+                  </form>
+                </Form>
+              </section>
+            </div>
+            <footer
+              className="footer-bar"
+            >
+              <div
+                className="d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <div
+                    className="caption-secondary"
+                  >
+                    Amount to Receive
+                  </div>
+                  <div>
+                    -
+                     
+                    DFI
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    className="mr-3"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "displayName": "NavLink",
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="mr-3 btn btn-link"
+                      onClick={[Function]}
+                      to="/"
+                    >
+                      <Link
+                        aria-current="page"
+                        aria-label={null}
+                        className="mr-3 btn btn-link active"
+                        onClick={[Function]}
+                        style={Object {}}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current="page"
+                          aria-label={null}
+                          className="mr-3 btn btn-link active"
+                          href="/"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                          style={Object {}}
+                        >
+                          <a
+                            aria-current="page"
+                            aria-label={null}
+                            className="mr-3 btn btn-link active"
+                            href="/"
+                            onClick={[Function]}
+                            style={Object {}}
+                          >
+                            Cancel
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <Button
+                    color="primary"
+                    disabled={false}
+                    onClick={[Function]}
+                    tag="button"
+                  >
+                    <button
+                      aria-label={null}
+                      className="btn btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Continue
+                    </button>
+                  </Button>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </ReceivePage>
+      </Connect(ReceivePage)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

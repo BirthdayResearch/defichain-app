@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsRowInput should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(SettingsRowInput)
+    field="blockStorage"
+    fieldName="blockStorage"
+    handleInputs={[Function]}
+    id="pruneTo"
+    label="blockPruneStorage"
+    name="pruneTo"
+    placeholder="Number"
+    text="gb"
+  >
+    <SettingsRowInput
+      dispatch={[Function]}
+      field="blockStorage"
+      fieldName="blockStorage"
+      handleInputs={[Function]}
+      id="pruneTo"
+      label="blockPruneStorage"
+      locale="en"
+      name="pruneTo"
+      placeholder="Number"
+      text="gb"
+    >
+      <InputGroup
+        tag="div"
+      >
+        <div
+          className="input-group"
+        >
+          <Input
+            id="pruneTo"
+            name="pruneTo"
+            onChange={[Function]}
+            placeholder="Number"
+            type="text"
+            value="blockStorage"
+          >
+            <input
+              className="form-control"
+              id="pruneTo"
+              name="pruneTo"
+              onChange={[Function]}
+              placeholder="Number"
+              type="text"
+              value="blockStorage"
+            />
+          </Input>
+          <Label
+            for="pruneTo"
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <label
+              className=""
+              htmlFor="pruneTo"
+            >
+              Block storage to prune
+            </label>
+          </Label>
+          <InputGroupAddon
+            addonType="append"
+            tag="div"
+          >
+            <div
+              className="input-group-append"
+            >
+              <InputGroupText
+                tag="span"
+              >
+                <span
+                  className="input-group-text"
+                >
+                  GB
+                </span>
+              </InputGroupText>
+            </div>
+          </InputGroupAddon>
+        </div>
+      </InputGroup>
+    </SettingsRowInput>
+  </Connect(SettingsRowInput)>
+</Provider>
+`;

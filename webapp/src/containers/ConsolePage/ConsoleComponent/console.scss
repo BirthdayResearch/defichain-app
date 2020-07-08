@@ -1,0 +1,92 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../scss/variables';
+@import '../../../scss/bootstrap/variables';
+
+div.react-console-container {
+  font-size: 0.85em;
+  font-family: 'Menlo', 'Consolas', 'DejaVu Sans Mono', monospace;
+  height: 70vh !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  background: $dfi-scent;
+  padding: 0.5em;
+  white-space: pre;
+}
+
+div.react-console-prompt-box {
+  color: #444;
+}
+
+span.react-console-prompt-label {
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.react-console-prompt-label::before {
+  content: '\203A';
+  font-size: 1rem;
+}
+
+span.react-console-prompt {
+  color: $dfi-purple;
+}
+
+div.react-console-focus span.react-console-cursor {
+  background: $dfi-purple;
+}
+
+span.react-console-cursor {
+  display: inline-block;
+  content: '';
+  width: 8px;
+  height: 24px;
+}
+
+div.react-console-nofocus span.react-console-cursor {
+  background: none;
+}
+
+div.react-console-focus span.react-console-cursor-idle {
+  animation: blink 1s infinite;
+}
+
+div.react-console-welcome {
+  color: $dfi-purple !important;
+}
+
+@keyframes blink {
+  0% {
+    background-color: $dfi-purple;
+  }
+
+  50% {
+    background-color: $dfi-purple;
+  }
+
+  51% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
+div.react-console-message {
+  color: $body-color;
+  padding: 0.1em;
+  word-break: break-all;
+  white-space: pre-line;
+}
+
+div.react-console-prompt-box {
+  span {
+    word-break: break-all;
+    white-space: pre-line;
+    color: $body-color;
+  }
+}
+
+/*# sourceMappingURL=react-console.css.map*/

@@ -16,6 +16,8 @@ import {
   getTxnDetails,
   getBlockDetails,
   parseTxn,
+  getRpcMethodName,
+  getParams,
 } from './utility';
 import { getFullRawTxInfo } from './transactionProcessor';
 
@@ -93,6 +95,7 @@ export default class RpcClient {
       rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
       data
     );
+
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
@@ -101,8 +104,8 @@ export default class RpcClient {
       );
     }
 
-    const fullRawTx = await getFullRawTxInfo(data.result);
-    const parsedTxn = await parseTxn(fullRawTx);
+    const fullRawTx = getFullRawTxInfo(data.result);
+    const parsedTxn = parseTxn(fullRawTx);
 
     return parsedTxn;
   };
@@ -120,6 +123,7 @@ export default class RpcClient {
       rpcResponseSchemaMap.get(methodNames.GET_RAW_TRANSACTION),
       data
     );
+
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
@@ -334,5 +338,23 @@ export default class RpcClient {
       return true;
     }
     return data.result.initialblockdownload;
+  };
+
+  getDataForCLIQuery = async (query: string) => {
+    const methodName = getRpcMethodName(query);
+    const params = getParams(query);
+
+    try {
+      const { data } = await this.call('/', methodName, params);
+      return data.result;
+    } catch (e) {
+      throw new Error(
+        (e.response &&
+          e.response.data &&
+          e.response.data.error &&
+          e.response.data.error.message) ||
+          'Bad Request'
+      );
+    }
   };
 }
