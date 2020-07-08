@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: install dependecies
-        run: npm run init
+        run: npm cache clean --force && npm run init
 
       - name: Build app
         run: npm run pre:build:linux
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: install dependecies
-        run: npm run init
+        run: npm cache clean --force && npm run init
 
       - name: Build app
         run: npm run pre:build:mac
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: install dependecies
-        run: npm run init
+        run: npm cache clean --force && npm run init
 
       - name: Build app
         run: |
