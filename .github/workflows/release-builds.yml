@@ -28,6 +28,9 @@ jobs:
 
   publish_mac_version:
     runs-on: macos-latest
+    env:
+      CSC_LINK: ${{ secrets.CSC_LINK}}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v2
