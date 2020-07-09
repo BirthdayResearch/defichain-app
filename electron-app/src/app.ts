@@ -44,7 +44,7 @@ export default class App {
     this.allowQuit = false;
     autoUpdater.autoDownload = false;
     /* For future purpose */
-    initiateElectronUpdateManager(autoUpdater);
+    // initiateElectronUpdateManager(autoUpdater);
   }
 
   run() {
@@ -63,7 +63,7 @@ export default class App {
     initiateIpcEvents();
 
     /* For future purpose */
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
   };
 
   initiateInterceptFileProtocol() {
