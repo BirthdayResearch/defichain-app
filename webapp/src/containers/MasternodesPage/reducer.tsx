@@ -1,16 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  masternodes: [],
+  isMasternodesLoaded: false,
+  isLoadingMasternodes: false,
+  masternodesLoadError: '',
+  isMasterNodeCreating: false,
+  createdMasterNodeData: {},
+  isErrorCreatingMasterNode: '',
+  isMasterNodeResigning: false,
+  resignedMasterNodeData: '',
+  isErrorResigningMasterNode: '',
+};
+
 const configSlice = createSlice({
   name: 'masternode',
-  initialState: {
-    masternodes: [],
-    isMasternodesLoaded: false,
-    isLoadingMasternodes: false,
-    masternodesLoadError: '',
-  },
+  initialState,
   reducers: {
     fetchMasternodesRequest(state) {
-      state.masternodes = [];
       state.isLoadingMasternodes = true;
     },
     fetchMasternodesSuccess(state, action) {
@@ -23,6 +30,36 @@ const configSlice = createSlice({
       state.isLoadingMasternodes = false;
       state.isMasternodesLoaded = true;
     },
+    createMasterNode(state, action) {
+      state.isMasterNodeCreating = true;
+      state.createdMasterNodeData = {};
+      state.isErrorCreatingMasterNode = '';
+    },
+    createMasterNodeSuccess(state, action) {
+      state.isMasterNodeCreating = false;
+      state.createdMasterNodeData = action.payload;
+      state.isErrorCreatingMasterNode = '';
+    },
+    createMasterNodeFailure(state, action) {
+      state.isMasterNodeCreating = false;
+      state.createdMasterNodeData = {};
+      state.isErrorCreatingMasterNode = action.payload;
+    },
+    resignMasterNode(state, action) {
+      state.isMasterNodeResigning = true;
+      state.resignedMasterNodeData = '';
+      state.isErrorResigningMasterNode = '';
+    },
+    resignMasterNodeSuccess(state, action) {
+      state.isMasterNodeResigning = false;
+      state.resignedMasterNodeData = action.payload;
+      state.isErrorResigningMasterNode = '';
+    },
+    resignMasterNodeFailure(state, action) {
+      state.isMasterNodeResigning = false;
+      state.resignedMasterNodeData = '';
+      state.isErrorResigningMasterNode = action.payload;
+    },
   },
 });
 
@@ -32,6 +69,12 @@ export const {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
   fetchMasternodesFailure,
+  createMasterNode,
+  createMasterNodeSuccess,
+  createMasterNodeFailure,
+  resignMasterNode,
+  resignMasterNodeSuccess,
+  resignMasterNodeFailure,
 } = actions;
 
 export default reducer;

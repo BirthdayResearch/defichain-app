@@ -14,6 +14,7 @@ import styles from './SearchBar.module.scss';
 interface SearchBarProps {
   searching: any;
   toggleSearch: any;
+  onChange: (e) => void;
 }
 
 const SearchBar: React.FunctionComponent<SearchBarProps> = (
@@ -31,6 +32,7 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = (
               placeholder='Search masternodes'
               name='searchInput'
               id='searchInput'
+              onChange={props.onChange}
             />
             <MdSearch className={styles.searchIndicator} />
             <InputGroupAddon addonType='append'>
