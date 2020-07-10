@@ -57,3 +57,8 @@ export interface IVout {
   n: number;
   scriptPubKey: object;
 }
+
+export interface IMasternodeCreatorInfo {
+  operatorAuthAddress: string;
+  collateralAddress: string;
+}
