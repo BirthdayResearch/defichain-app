@@ -154,9 +154,8 @@
     },
     "publish": {
       "provider": "github",
-      "repo": "defi-ui",
-      "owner": "cakedefi",
-      "private": true,
+      "repo": "electron-release-example",
+      "owner": "Sumit570",
       "releaseType": "release"
     }
   },
