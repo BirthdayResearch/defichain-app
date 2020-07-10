@@ -29,17 +29,21 @@ exports[`Console component snapshot test of console component 1`] = `
           cancel={[Function]}
           continue={[Function]}
           handler={[Function]}
-          promptLabel="DeFi_v1.0.0
- >"
+          promptLabel=""
+          welcomeMessage="DeFi_v1.0.0"
         >
           <div
             className="react-console-container react-console-focus"
             onClick={[Function]}
           >
+            <div
+              className="react-console-message react-console-welcome"
+            >
+              DeFi_v1.0.0
+            </div>
             <ConsolePrompt
               argument={null}
-              label="DeFi_v1.0.0
- >"
+              label=""
               point={0}
               value=""
             >
@@ -48,10 +52,7 @@ exports[`Console component snapshot test of console component 1`] = `
               >
                 <span
                   className="react-console-prompt-label"
-                >
-                  DeFi_v1.0.0
- &gt;
-                </span>
+                />
                 <span
                   className="react-console-prompt-argument"
                 />

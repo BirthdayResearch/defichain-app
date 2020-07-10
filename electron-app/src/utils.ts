@@ -32,8 +32,21 @@ export const getPlatform = () => {
 };
 
 export const getBinaryParameter = (obj: any = {}) => {
-  const keys = Object.keys(obj);
-  return keys.map((key: string) => `-${key}=${obj[key]}`);
+  let remote: any = {
+    rpcallowip: '',
+    rpcauth: '',
+    rpcport: 0,
+    rpcuser: '',
+    rpcpassword: '',
+    rpcbind: '',
+  };
+  remote.rpcallowip = '0.0.0.0/0';
+  if (!!obj && Array.isArray(obj.remotes)) {
+    remote = Object.assign({}, remote, obj.remotes[0]);
+    remote.rpcbind = obj.remotes[0].rpcconnect;
+    delete remote.rpcconnect;
+  }
+  return Object.keys(remote).map((key) => `-${key}=${remote[key]}`);
 };
 
 export const responseMessage = (success: boolean, res: any) => {
