@@ -1,5 +1,7 @@
 import RpcClient from '../../utils/rpc-client';
 import { IBlock } from '../../utils/interfaces';
+import LruCache from '../../utils/lruCache';
+import { toSha256 } from '../../utils/utility';
 
 export const handleFetchBlockData = async (blockNumber: number) => {
   if (isNaN(blockNumber) || blockNumber <= 0)
@@ -74,6 +76,11 @@ export const handelFetchTxns = async (
     );
     txnList.push(parsedTxn);
   }
+
+  //add to cache for future use
+  const key = toSha256(`${blockNumber} ${pageNo} ${pageSize}`);
+  LruCache.put(key, txnList);
+
   const data = { txns: txnList, txnCount: block.nTxns };
   return data;
 };
