@@ -343,7 +343,7 @@ exports[`Block Page should check for snapshot 1`] = `
                       >
                         <KeyValueLi
                           label="Number of transactions"
-                          value="0"
+                          value=""
                         >
                           <div>
                             <div>
@@ -355,9 +355,7 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div>
-                                0
-                              </div>
+                              <div />
                             </div>
                           </div>
                         </KeyValueLi>
@@ -381,7 +379,7 @@ exports[`Block Page should check for snapshot 1`] = `
                       >
                         <KeyValueLi
                           label="Difficulty"
-                          value="0"
+                          value=""
                         >
                           <div>
                             <div>
@@ -393,9 +391,7 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div>
-                                0
-                              </div>
+                              <div />
                             </div>
                           </div>
                         </KeyValueLi>
@@ -493,7 +489,7 @@ exports[`Block Page should check for snapshot 1`] = `
                       >
                         <KeyValueLi
                           label="Version"
-                          value="0"
+                          value=""
                         >
                           <div>
                             <div>
@@ -505,9 +501,7 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div>
-                                0
-                              </div>
+                              <div />
                             </div>
                           </div>
                         </KeyValueLi>
@@ -531,7 +525,7 @@ exports[`Block Page should check for snapshot 1`] = `
                       >
                         <KeyValueLi
                           label="Nonce"
-                          value="0"
+                          value=""
                         >
                           <div>
                             <div>
@@ -543,9 +537,7 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div>
-                                0
-                              </div>
+                              <div />
                             </div>
                           </div>
                         </KeyValueLi>

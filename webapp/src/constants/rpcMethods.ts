@@ -17,3 +17,6 @@ export const WALLET_CREATE_FUNDED_PSBT = 'walletcreatefundedpsbt';
 export const WALLET_PROCESS_PSBT = 'walletprocesspsbt';
 export const FINALIZE_PSBT = 'finalizepsbt';
 export const DECODE_RAW_TRANSACTION = 'decoderawtransaction';
+export const CREATE_MASTER_NODE = 'createmasternode';
+export const LIST_MASTER_NODE = 'listmasternodes';
+export const RESIGN_MASTER_NODE = 'resignmasternode';

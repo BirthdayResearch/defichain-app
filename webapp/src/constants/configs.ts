@@ -1,4 +1,5 @@
 export const REGTEST = 'regtest';
+export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
@@ -20,3 +21,4 @@ export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const BLOCKCHAIN_START_ERROR = 'Unable to start blockchain';
 export const BLOCKCHAIN_START_SUCCESS = 'blockchain started successfully';
 export const MAX_MONEY = 21000000;
+export const GET_NEW_ADDRESS_TYPE = 'legacy';

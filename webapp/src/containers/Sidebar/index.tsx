@@ -9,7 +9,7 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
   MdAccountBalanceWallet,
-  // MdDns,
+  MdDns,
   MdViewWeek,
   // MdCompareArrows,
 } from 'react-icons/md';
@@ -21,12 +21,14 @@ import {
   CONSOLE_RPC_CALL_BASE_PATH,
   WALLET_PAGE_PATH,
   WALLET_BASE_PATH,
-  // MASTER_NODES_PATH,
+  MASTER_NODES_PATH,
   // EXCHANGE_PATH,
-  HELP_PATH,
+  // HELP_PATH,
   SETTING_PATH,
+  DEFI_CHAIN_HOMEPAGE,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
+import OpenNewTab from '../../utils/openNewTab';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
@@ -34,7 +36,7 @@ export interface SidebarProps extends RouteComponentProps {
   unit: string;
 }
 
-const Sidebar: React.FunctionComponent<SidebarProps> = props => {
+const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   useEffect(() => {
     props.fetchWalletBalanceRequest();
   }, []);
@@ -72,7 +74,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
-          {/* <NavItem className={styles.navItem}>
+          <NavItem className={styles.navItem}>
             <NavLink
               to={MASTER_NODES_PATH}
               tag={RRNavLink}
@@ -82,7 +84,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
               <MdDns />
               {I18n.t('containers.sideBar.masterNodes')}
             </NavLink>
-          </NavItem> */}
+          </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
               to={BLOCKCHAIN_BASE_PATH}
@@ -120,8 +122,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={HELP_PATH}
-              tag={RRNavLink}
+              onClick={() => OpenNewTab(DEFI_CHAIN_HOMEPAGE)}
               className={styles.navLink}
               activeClassName={styles.active}
             >
@@ -145,7 +146,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { i18n, wallet, settings } = state;
   return {
     locale: i18n.locale,

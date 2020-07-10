@@ -19,6 +19,7 @@ import {
   IBlock,
   IParseTxn,
   IRawTxn,
+  IMasternodeCreatorInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -212,8 +213,12 @@ export default class RpcClient {
     return data.result.mine.untrusted_pending;
   };
 
-  getNewAddress = async (label): Promise<string> => {
-    const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, [label]);
+  getNewAddress = async (label, addressType = ''): Promise<string> => {
+    const params = [label];
+    if (!!addressType && addressType.length > 0) {
+      params.push(addressType);
+    }
+    const { data } = await this.call('/', methodNames.GET_NEW_ADDRESS, params);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_NEW_ADDRESS),
       data
@@ -489,5 +494,31 @@ export default class RpcClient {
           'Bad Request'
       );
     }
+  };
+  createMasterNode = async (
+    masternodeCreatorInfo: IMasternodeCreatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_MASTER_NODE, [
+      tx,
+      masternodeCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  resignMasterNode = async (
+    masternodeCreatorInfo: string,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.RESIGN_MASTER_NODE, [
+      tx,
+      masternodeCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  listMasterNodes = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    return data.result;
   };
 }

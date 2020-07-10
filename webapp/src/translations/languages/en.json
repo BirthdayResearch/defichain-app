@@ -93,6 +93,7 @@
     "masterNodes": {
       "masterNodesPage": {
         "title": "Masternodes – DeFi Blockchain Client",
+        "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
         "list": "List",
@@ -109,12 +110,43 @@
         "masternodeWorth": "Masternode worth"
       },
       "masterNodesList": {
-        "address": "Address",
-        "poseSore": "PoSe score",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "lastPaid": "Last paid",
-        "nextPayment": "Next payment",
-        "payee": "Payee"
+        "mintedBlocks": "Minted Blocks"
+      },
+      "createMasterNode": {
+        "title": "Create Master Node",
+        "masterNodeName": "MasterNode Name",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create master node",
+        "confirmationText": "Are you sure you want to create a master node?",
+        "createNodeButton": "Create Master Node",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "masternodeOperator": "Masternode Operator",
+        "masternodeOwner": "Masternode Owner",
+        "backToMasternodePage": "Back to Masternode Page"
+      },
+      "masternodeDetailPage": {
+        "masternodeDetailTitle": "Masternode Detail Page %{hash}",
+        "masternode": "Masternode",
+        "masternodeDetail": "Masternode Details",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
+        "state": "State",
+        "hash": "Hash",
+        "registered": "Registered",
+        "mintedBlocks": "Minted Blocks",
+        "resignHeight": "Resign Height",
+        "resignTx": "Resign Tx",
+        "banHeight": "Ban Height",
+        "banTx": "Ban Tx",
+        "resignMasterNode": "Resign",
+        "confirmation": "Are you sure you want to resign a master node?",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "successText": "Success",
+        "backToMasternodePage": "Back to Masternode Page"
       }
     },
     "settings": {

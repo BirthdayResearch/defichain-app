@@ -1,36 +1,39 @@
-import * as services from '../service';
-import { isBlockchainStarted } from './testData.json';
+// TODO: fix the test RPC configuration service
+import { isBlockchainStarted } from '../service';
+import * as testData from './testData.json';
 import { mockAxios } from '../../../utils/testUtils/mockUtils';
-import {
-  BLOCKCHAIN_START_ERROR,
-  BLOCKCHAIN_START_SUCCESS,
-} from '../../../constants';
+import { DIFF } from '../../../constants';
 
-describe('RPC configuration unit test', () => {
-  it('should test for isBlockchainStarted', async () => {
-    const post = jest.fn().mockResolvedValueOnce({
-      data: isBlockchainStarted,
-    });
+describe('Name of the group', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.clearAllMocks();
+  });
+  it('should check for isBlockChainFunc', async () => {
+    const post = jest
+      .fn()
+      .mockResolvedValue({ data: testData.isBlockchainStarted });
+    const emmitter = jest.fn();
     mockAxios(post);
-    const test = await services.isBlockchainStarted();
-    expect(test).toEqual({
-      status: true,
-      message: BLOCKCHAIN_START_SUCCESS,
-    });
+    isBlockchainStarted(emmitter);
+    jest.advanceTimersByTime(DIFF);
     expect(post).toBeCalledTimes(1);
+    expect(setInterval).toBeCalledTimes(1);
+    expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), DIFF);
   });
 
-  it('should test for isBlockchainStarted', async () => {
-    const post = jest.fn().mockRejectedValue({});
-    const spy = jest.spyOn(services, 'sleep').mockResolvedValue({});
+  it('should check for isBlockChainFunc', async () => {
+    const count = 50;
+    const post = jest.fn().mockRejectedValue('Error');
+    const emmitter = jest.fn();
     mockAxios(post);
-    const test = await services.isBlockchainStarted();
-    expect(test).toEqual({
-      message: BLOCKCHAIN_START_ERROR,
-      status: false,
-    });
-    expect(post).toBeCalledTimes(51);
-    expect(spy).toBeCalledTimes(51);
-    spy.mockClear();
+    isBlockchainStarted(emmitter);
+    jest.advanceTimersByTime(DIFF * count);
+    expect(post).toBeCalledTimes(count);
+    expect(setInterval).toBeCalledTimes(1);
+    expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), DIFF);
   });
 });
