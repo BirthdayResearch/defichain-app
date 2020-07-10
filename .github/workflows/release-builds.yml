@@ -11,6 +11,8 @@ on:
 jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
 
     steps:
       - uses: actions/checkout@v2
@@ -22,13 +24,12 @@ jobs:
         run: npm run pre:build:linux
 
       - name: Publish app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         run: npm run publish:linux
 
   publish_mac_version:
     runs-on: macos-latest
     env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
       CSC_LINK: ${{ secrets.CSC_LINK}}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
 
@@ -42,12 +43,12 @@ jobs:
         run: npm run pre:build:mac
 
       - name: Publish app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         run: npm run publish:mac
 
   publish_windows_version:
     runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
 
     steps:
       - uses: actions/checkout@v2
@@ -76,6 +77,4 @@ jobs:
         shell: powershell
 
       - name: Publish app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         run: npm run publish:win
