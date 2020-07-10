@@ -1,6 +1,7 @@
 import Ajv from 'ajv';
 import * as log from './electronLogger';
 import moment from 'moment';
+import SHA256 from 'crypto-js/sha256';
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
   DATE_FORMAT,
@@ -21,6 +22,10 @@ export const validateSchema = (schema, data) => {
     log.error(validate.errors);
   }
   return valid;
+};
+
+export const toSha256 = (value): any => {
+  return SHA256(value).toString();
 };
 
 export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
