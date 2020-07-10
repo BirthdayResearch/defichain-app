@@ -2,7 +2,6 @@
 import { isBlockchainStarted } from '../service';
 import * as testData from './testData.json';
 import { mockAxios } from '../../../utils/testUtils/mockUtils';
-import log from 'loglevel';
 import { DIFF } from '../../../constants';
 
 describe('Name of the group', () => {

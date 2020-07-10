@@ -12,3 +12,6 @@ export const LIST_TRANSACTIONS = 'listtransactions';
 export const GET_WALLET_INFO = 'getwalletinfo';
 export const GET_BALANCES = 'getbalances';
 export const GET_RAW_TRANSACTION = 'getrawtransaction';
+export const CREATE_MASTER_NODE = 'createmasternode';
+export const LIST_MASTER_NODE = 'listmasternodes';
+export const RESIGN_MASTER_NODE = 'resignmasternode';
