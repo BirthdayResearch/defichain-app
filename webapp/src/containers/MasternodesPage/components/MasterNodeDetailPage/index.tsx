@@ -41,9 +41,9 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     resignedMasterNodeData,
     isErrorResigningMasterNode,
   } = props;
-  const hash = match.params.hash;
+  const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
-    return ele.hash && ele.hash.toString() === hash;
+    return ele.hash && ele.hash.toString() === hashValue;
   });
 
   if (isEmpty(masternode)) {
