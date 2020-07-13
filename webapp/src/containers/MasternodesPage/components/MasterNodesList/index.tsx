@@ -8,10 +8,12 @@ import { filterByValue } from '../../../../utils/utility';
 import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
+import { History } from 'history';
 
 interface MasternodesListProps {
   masternodes: MasterNodeObject[];
   searchQuery: string;
+  history: History;
   fetchMasternodesRequest: () => void;
 }
 
