@@ -31,6 +31,7 @@ import {
   getAmountInSelectedUnit,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
+import qs from 'querystring';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -61,6 +62,7 @@ interface SendPageState {
   waitToSend: number;
   isAmountValid: boolean | string;
   isAddressValid: boolean | string;
+  uriData: string;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -78,6 +80,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     waitToSend: 5,
     isAmountValid: false,
     isAddressValid: false,
+    uriData: '',
   };
 
   componentDidMount() {
@@ -88,8 +91,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     const { value } = e.target;
     if (isNaN(value) && value.length) return false;
 
-    const amountToSend =
-      !isNaN(e.target.value) && e.target.value.length ? e.target.value : '';
+    const amountToSend = !isNaN(value) && value.length ? value : '';
     const amountToSendDisplayed =
       !isNaN(amountToSend) && amountToSend.length ? amountToSend : '0';
     this.setState({ amountToSend, amountToSendDisplayed }, () => {
@@ -133,14 +135,21 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   handleScan = (data) => {
+    const updatedState = {
+      flashed: 'flashed',
+      toAddress: '',
+      uriData: '',
+    };
     if (data) {
+      if (data.includes('DFI')) {
+        updatedState.uriData = data;
+      } else {
+        updatedState.toAddress = data;
+      }
       shutterSnap.play();
-      this.setState({
-        toAddress: data,
-        flashed: 'flashed',
-      });
+      this.setState(updatedState);
       setTimeout(() => {
-        this.isAddressValid();
+        this.isQRCodeValid();
         this.toggleScanner();
         this.setState({
           flashed: '',
@@ -217,6 +226,27 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       isLessThanBalance &&
       !isLessThanDustAmount(this.state.amountToSendDisplayed, this.props.unit);
     this.setState({ isAmountValid });
+  };
+
+  isQRCodeValid = async () => {
+    const { uriData } = this.state;
+    if (!!uriData) {
+      const start = uriData.indexOf(':');
+      const end = uriData.indexOf('?');
+      const toAddress = uriData.substring(start + 1, end);
+      const queryData = uriData.substring(end + 1);
+      const params = qs.parse(queryData);
+      const amountData = getAmountInSelectedUnit(
+        params.amount as string,
+        this.props.unit
+      );
+      this.updateAmountToSend({ target: { value: amountData } });
+      this.setState({
+        toAddress,
+        uriData: '',
+      });
+    }
+    this.isAddressValid();
   };
 
   isAddressValid = async () => {

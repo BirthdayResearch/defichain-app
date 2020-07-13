@@ -1,8 +1,9 @@
 export const REGTEST = 'regtest';
+export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
-export const SYNC_TIMEOUT = 30000;
+export const SYNC_TIMEOUT = 5000;
 export const DIFF = 2000;
 export const RETRY_ATTEMPT = 50;
 export const DATE_FORMAT = 'MMM D, hh:mm a';
@@ -19,3 +20,4 @@ export const DEFAULT_ELECTRON_LOG_FORMAT =
 export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const BLOCKCHAIN_START_ERROR = 'Unable to start blockchain';
 export const BLOCKCHAIN_START_SUCCESS = 'blockchain started successfully';
+export const GET_NEW_ADDRESS_TYPE = 'legacy';
