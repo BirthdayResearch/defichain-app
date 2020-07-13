@@ -59,6 +59,7 @@
     "ps-node": "^0.1.6",
     "qrcode.react": "^1.0.0",
     "random-string": "^0.2.0",
+    "react-ellipsis-text": "^1.2.1",
     "uid": "^1.0.0",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
