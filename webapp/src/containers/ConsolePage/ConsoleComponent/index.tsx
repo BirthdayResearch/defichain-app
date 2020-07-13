@@ -48,7 +48,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     }
   };
 
-  const onPasteHandler = e => {
+  const onPasteHandler = (e) => {
     if (!!currentRef) {
       currentRef.paste(e);
     }
@@ -59,7 +59,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     if (!isLoading) {
       if (!isError) {
         if (result !== undefined) {
-          toPrintData = JSON.stringify(result);
+          toPrintData = JSON.stringify(result, null, 2);
         }
       } else {
         toPrintData = isError;
@@ -87,7 +87,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     cli: { isLoading, result, isError },
   } = state;
