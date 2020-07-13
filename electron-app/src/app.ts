@@ -63,7 +63,9 @@ export default class App {
     initiateIpcEvents();
 
     /* For future purpose */
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify().catch((e) => {
+      log.error(e);
+    });
   };
 
   initiateInterceptFileProtocol() {
