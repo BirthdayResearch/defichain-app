@@ -2,6 +2,8 @@ import { CancellationToken } from 'electron-updater';
 import { dialog } from 'electron';
 const ProgressBar = require('electron-progressbar');
 
+import * as log from '../services/electronLogger';
+
 export default function initiateElectronUpdateManager(autoUpdater: any) {
   const cancellationToken = new CancellationToken();
   let progressBar: any;
@@ -61,8 +63,6 @@ export default function initiateElectronUpdateManager(autoUpdater: any) {
   });
 
   autoUpdater.on('error', (error: any) => {
-    dialog.showMessageBox({
-      message: `error while updating ${error}`,
-    });
+    log.error(error);
   });
 }
