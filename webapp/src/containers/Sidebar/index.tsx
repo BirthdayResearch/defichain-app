@@ -9,7 +9,7 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
   MdAccountBalanceWallet,
-  // MdDns,
+  MdDns,
   MdViewWeek,
   // MdCompareArrows,
 } from 'react-icons/md';
@@ -21,7 +21,7 @@ import {
   CONSOLE_RPC_CALL_BASE_PATH,
   WALLET_PAGE_PATH,
   WALLET_BASE_PATH,
-  // MASTER_NODES_PATH,
+  MASTER_NODES_PATH,
   // EXCHANGE_PATH,
   // HELP_PATH,
   SETTING_PATH,
@@ -74,7 +74,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
-          {/* <NavItem className={styles.navItem}>
+          <NavItem className={styles.navItem}>
             <NavLink
               to={MASTER_NODES_PATH}
               tag={RRNavLink}
@@ -84,7 +84,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               <MdDns />
               {I18n.t('containers.sideBar.masterNodes')}
             </NavLink>
-          </NavItem> */}
+          </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
               to={BLOCKCHAIN_BASE_PATH}

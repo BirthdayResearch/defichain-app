@@ -1,0 +1,16 @@
+{
+  "fetchMasternodesSuccess": [
+    {
+      "hash": "2a7ddddb0056bd814a580ec3a0420d6316a198e6ca60267f1d04cd6abe2ba31e",
+      "ownerAuthAddress": "7BQZ67KKYWSmVRukgv57m4HorjbGh7NWrQ",
+      "operatorAuthAddress": "7GULFtS6LuJfJEikByKKg8psscg84jnfHs",
+      "creationHeight": 0,
+      "resignHeight": -1,
+      "resignTx": "0000000000000000000000000000000000000000000000000000000000000000",
+      "banHeight": -1,
+      "banTx": "0000000000000000000000000000000000000000000000000000000000000000",
+      "state": "ENABLED",
+      "mintedBlocks": 12008
+    }
+  ]
+}
