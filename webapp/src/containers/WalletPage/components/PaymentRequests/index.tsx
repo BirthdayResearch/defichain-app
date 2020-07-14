@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
+import EllipsisText from 'react-ellipsis-text';
 import { MdMoreHoriz, MdDelete, MdAccessTime } from 'react-icons/md';
 import styles from './PaymentRequests.module.scss';
 import { fetchPaymentRequest, removeReceiveTxnsRequest } from '../../reducer';
@@ -70,7 +71,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                 </tr>
               </thead>
               <tbody>
-                {data.map(request => (
+                {data.map((request) => (
                   <tr key={request.id}>
                     <td className={styles.icon}>
                       <MdAccessTime className={styles.icon} />
@@ -101,7 +102,9 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                       </div>
                     </td>
                     <td>
-                      <div className={styles.message}>{request.message}</div>
+                      <div className={styles.message}>
+                        <EllipsisText text={request.message} length={'50'} />
+                      </div>
                     </td>
                     <td className={styles.actionCell}>
                       <UncontrolledDropdown>
@@ -149,7 +152,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings } = state;
   return {
     unit: settings.appConfig.unit,
