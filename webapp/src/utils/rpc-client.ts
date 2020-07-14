@@ -1,6 +1,16 @@
 import axios from 'axios';
 import store from '../app/rootStore';
-import { RPC_V, REGTEST } from './../constants';
+import {
+  RPC_V,
+  REGTEST,
+  MAX_TXN_SIZE,
+  MAXIMUM_COUNT,
+  MAXIMUM_AMOUNT,
+  FEE_RATE,
+  DEFAULT_MAXIMUM_AMOUNT,
+  DEFAULT_MAXIMUM_COUNT,
+  DEFAULT_FEE_RATE,
+} from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import {
@@ -19,8 +29,11 @@ import {
   parseTxn,
   getRpcMethodName,
   getParams,
+  getTxnSize,
 } from './utility';
 import { getFullRawTxInfo } from './transactionProcessor';
+import { construct } from './cutxo';
+import PersistentStore from './persistentStore';
 
 export default class RpcClient {
   client: any;
@@ -249,6 +262,15 @@ export default class RpcClient {
     amount: number | string,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
+    const txnSize = await getTxnSize();
+    if (txnSize >= MAX_TXN_SIZE) {
+      await construct({
+        maximumAmount: PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+        maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+      });
+    }
+
     const { data } = await this.call('/', methodNames.SEND_TO_ADDRESS, [
       toAddress,
       amount,
@@ -323,6 +345,117 @@ export default class RpcClient {
 
     const txnList: ITxn[] = getTxnDetails(data.result);
     return txnList;
+  };
+
+  listUnspent = async (maximumAmount: number, maximumCount?: number) => {
+    const queryOptions = maximumCount
+      ? { maximumAmount, maximumCount: Number(maximumCount) }
+      : { maximumAmount };
+
+    const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
+      1,
+      9999999,
+      [],
+      true,
+      queryOptions,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_UNSPENT),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.LIST_UNSPENT
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  walletCreateFundedPsbt = async (inputs, outputs, feeRate) => {
+    const { data } = await this.call(
+      '/',
+      methodNames.WALLET_CREATE_FUNDED_PSBT,
+      [
+        inputs,
+        outputs,
+        0,
+        {
+          subtractFeeFromOutputs: [0],
+          feeRate,
+        },
+      ]
+    );
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.WALLET_CREATE_FUNDED_PSBT),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.WALLET_CREATE_FUNDED_PSBT
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  walletProcessPsbt = async (psbt: string) => {
+    const { data } = await this.call('/', methodNames.WALLET_PROCESS_PSBT, [
+      psbt,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.WALLET_PROCESS_PSBT),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.WALLET_PROCESS_PSBT
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  finalizePsbt = async (psbt: string) => {
+    const { data } = await this.call('/', methodNames.FINALIZE_PSBT, [psbt]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.FINALIZE_PSBT),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.FINALIZE_PSBT
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  decodeRawTransaction = async (hex: string) => {
+    const { data } = await this.call('/', methodNames.DECODE_RAW_TRANSACTION, [
+      hex,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.DECODE_RAW_TRANSACTION),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.DECODE_RAW_TRANSACTION
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
   };
 
   isInitialBlockDownload = async (): Promise<boolean> => {

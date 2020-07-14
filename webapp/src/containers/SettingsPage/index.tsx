@@ -10,12 +10,10 @@ import {
 } from './reducer';
 import SettingsTabsHeader from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
-import SettingsTab from './components/SettingsTab';
+import { TabContent } from 'reactstrap';
+import SettingsTabGeneral from './components/SettingsTabGeneral';
+import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
-// NOTE: Do not remove, for future purpose
-// import { TabContent } from 'reactstrap';
-// import SettingsTabGeneral from './components/SettingsTabGeneral';
-// import SettingsTabDisplay from './components/SettingsTabDisplay';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -33,6 +31,9 @@ interface SettingsPageProps {
     scriptVerificationThreads: number;
     blockStorage: number;
     databaseCache: number;
+    maximumAmount: number;
+    maximumCount: number;
+    feeRate: number;
   };
   isUpdating: boolean;
   isUpdated: boolean;
@@ -55,6 +56,9 @@ interface SettingsPageState {
   scriptVerificationThreads?: number;
   blockStorage?: number;
   databaseCache?: number;
+  maximumAmount?: number;
+  maximumCount?: number;
+  feeRate?: number | string;
   isUnsavedChanges: boolean;
 }
 
@@ -115,14 +119,33 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     });
   };
 
-  const handleInputs = (
-    event: { target: { value: string } },
+  const handleFractionalNumInputs = (
+    event: { target: { name: string; value: string } },
+    field: string
+  ) => {
+    if (isNaN(Number(event.target.value)) && event.target.value !== '') {
+      return false;
+    }
+
+    setSettingsPageState({ [field]: event.target.value } as {
+      feeRate: number | string;
+    });
+  };
+
+  const handleRegularNumInputs = (
+    event: { target: { name: string; value: string } },
     field: string
   ) => {
     setSettingsPageState({
       [field]: /^-?[0-9]+$/.test(event.target.value)
         ? parseInt(event.target.value, 10)
         : '',
+    } as {
+      scriptVerificationThreads: number;
+      blockStorage: number;
+      databaseCache: number;
+      maximumAmount: number;
+      maximumCount: number;
     });
   };
 
@@ -137,6 +160,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'scriptVerificationThreads',
       'blockStorage',
       'databaseCache',
+      'maximumAmount',
+      'maximumCount',
+      'feeRate',
     ];
 
     let isUnsavedChanges = false;
@@ -166,6 +192,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       scriptVerificationThreads,
       blockStorage,
       databaseCache,
+      maximumAmount,
+      maximumCount,
+      feeRate,
     } = state;
 
     const settings = {
@@ -178,9 +207,13 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       scriptVerificationThreads,
       blockStorage,
       databaseCache,
+      maximumAmount,
+      maximumCount,
+      feeRate,
     };
     props.updateSettings(settings);
   };
+
   const {
     activeTab,
     isUnsavedChanges,
@@ -189,6 +222,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     pruneBlockStorage,
     blockStorage,
     databaseCache,
+    maximumAmount,
+    maximumCount,
+    feeRate,
     scriptVerificationThreads,
     language,
     unit,
@@ -202,25 +238,29 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       </Helmet>
       <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='content'>
-        <SettingsTab
-          launchAtLogin={launchAtLogin!}
-          minimizedAtLaunch={minimizedAtLaunch!}
-          language={language!}
-          unit={unit!}
-          displayMode={displayMode!}
-          handleDropDowns={handleDropDowns}
-          handleToggles={handleToggles}
-        />
         {/* NOTE: Do not remove, for future purpose */}
-        {/* <TabContent activeTab={state.activeTab}>
+        {/* <SettingsTab
+        launchAtLogin={launchAtLogin!}
+        minimizedAtLaunch={minimizedAtLaunch!}
+        language={language!}
+        unit={unit!}
+        displayMode={displayMode!}
+        handleDropDowns={this.handleDropDowns}
+        handleToggles={this.handleToggles}
+      /> */}
+        <TabContent activeTab={state.activeTab}>
           <SettingsTabGeneral
             launchAtLogin={launchAtLogin!}
             minimizedAtLaunch={minimizedAtLaunch!}
             pruneBlockStorage={pruneBlockStorage!}
             blockStorage={blockStorage!}
             databaseCache={databaseCache!}
+            maximumAmount={maximumAmount!}
+            maximumCount={maximumCount!}
+            feeRate={feeRate!}
             scriptVerificationThreads={scriptVerificationThreads!}
-            handleInputs={handleInputs}
+            handleRegularNumInputs={handleRegularNumInputs}
+            handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
           />
           <SettingsTabDisplay
@@ -230,7 +270,6 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handleDropDowns={handleDropDowns}
           />
         </TabContent>
-       */}
       </div>
       <SettingsTabsFooter
         isUnsavedChanges={isUnsavedChanges}

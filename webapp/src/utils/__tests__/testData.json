@@ -1,4 +1,100 @@
 {
+  "listUnspentOne": {
+    "result": [
+      {
+        "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "vout": 1,
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "label": "",
+        "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
+        "amount": 2.00000000,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/0'/13']02bc1af5d7fc5d216bc3741cb25edb805aa1a438e57bd321cb1187706d6b1c5ab0)#rwperqme",
+        "safe": true
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "listUnspentTwo": {
+    "result": [
+      {
+        "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "vout": 1,
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "label": "",
+        "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
+        "amount": 2.00000000,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/0'/13']02bc1af5d7fc5d216bc3741cb25edb805aa1a438e57bd321cb1187706d6b1c5ab0)#rwperqme",
+        "safe": true
+      },
+      {
+        "txid": "b461e0d27b055fa9b1ea9ad044af6dd7193f3bc1d5344adca7564d81630b4430",
+        "vout": 1,
+        "address": "bcrt1qt2qdlm5p4rgelsr355su3n2htv7fvz03cs545g",
+        "scriptPubKey": "00145a80dfee81a8d19fc071a521c8cd575b3c9609f1",
+        "amount": 278.99989848,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/1'/80']0322189a1246f66884a69e470ea511b7f5124e928e50ad8ffc598eda07a34d611f)#8dj3em8t",
+        "safe": true
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "getNewAddress": {
+    "result": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+    "error": null,
+    "id": "curltest"
+  },
+  "walletCreateFundedPsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "fee": 0.2,
+      "changeOps": -1
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "walletProcessPsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "complete": true
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "finalizePsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "complete": true
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "decodeRawTransaction": {
+    "result": {
+      "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "hash": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "size": 1234,
+      "vsize": 1234,
+      "weight": 2564,
+      "version": 1.0,
+      "locktime": 5386843238,
+      "vin": [],
+      "vout": []
+    },
+    "error": null,
+    "id": "curltest"
+  },
   "validateSchema": {
     "result": [
       {
@@ -129,6 +225,27 @@
           "unit": "DFI"
         }
       ]
-    }
+    },
+    "cutxo": {
+      "one_time_inside_loop": {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "amountInput": 2.0,
+        "amountOutput": 1.8,
+        "fee": 0.2,
+        "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "inputsUsed": 1,
+        "inputsTotal": 1
+      },
+      "multiple_time_inside_loop": {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "amountInput": 2.0,
+        "amountOutput": 1.8,
+        "fee": 0.2,
+        "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "inputsUsed": 1,
+        "inputsTotal": 2
+      }
+    },
+    "getTxnSize": 440
   }
 }

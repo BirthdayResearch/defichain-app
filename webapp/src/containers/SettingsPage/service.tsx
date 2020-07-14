@@ -1,6 +1,6 @@
 import { isElectron, ipcRendererFunc } from '../../utils/isElectron';
 import { I18n } from 'react-redux-i18n';
-import * as  log from '../../utils/electronLogger';
+import * as log from '../../utils/electronLogger';
 import {
   LANG_VARIABLE,
   UNIT,
@@ -18,6 +18,12 @@ import {
   DARK_DISPLAY,
   DEFAULT_UNIT,
   DFI_UNIT_MAP,
+  MAXIMUM_AMOUNT,
+  MAXIMUM_COUNT,
+  FEE_RATE,
+  DEFAULT_MAXIMUM_AMOUNT,
+  DEFAULT_MAXIMUM_COUNT,
+  DEFAULT_FEE_RATE,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import PersistentStore from '../../utils/persistentStore';
@@ -60,6 +66,9 @@ export const initialData = () => {
       parseInt(`${PersistentStore.get(SCRIPT_VERIFICATION)}`, 10) || 0,
     blockStorage: parseInt(`${PersistentStore.get(BLOCK_STORAGE)}`, 10) || '',
     databaseCache: parseInt(`${PersistentStore.get(DATABASE_CACHE)}`, 10) || '',
+    maximumAmount: getAppConfigMaximumAmount(),
+    maximumCount: getAppConfigMaximumCount(),
+    feeRate: getAppConfigFeeRate(),
   };
   return settings;
 };
@@ -77,6 +86,9 @@ export const updateSettingsData = settingsData => {
   );
   PersistentStore.set(BLOCK_STORAGE, settingsData.blockStorage);
   PersistentStore.set(DATABASE_CACHE, settingsData.databaseCache);
+  PersistentStore.set(MAXIMUM_AMOUNT, settingsData.maximumAmount);
+  PersistentStore.set(MAXIMUM_COUNT, settingsData.maximumCount);
+  PersistentStore.set(FEE_RATE, settingsData.feeRate);
   return settingsData;
 };
 
@@ -129,4 +141,28 @@ export const getAppConfigUnit = () => {
   log.error(new Error('Error in selected unit, setting it to default one'));
   PersistentStore.set(UNIT, DEFAULT_UNIT);
   return DEFAULT_UNIT;
+};
+
+export const getAppConfigMaximumAmount = () => {
+  const maximumAmount = PersistentStore.get(MAXIMUM_AMOUNT);
+  if (maximumAmount) return maximumAmount;
+
+  PersistentStore.set(MAXIMUM_AMOUNT, DEFAULT_MAXIMUM_AMOUNT);
+  return DEFAULT_MAXIMUM_AMOUNT;
+};
+
+export const getAppConfigMaximumCount = () => {
+  const maximumCount = PersistentStore.get(MAXIMUM_COUNT);
+  if (maximumCount) return maximumCount;
+
+  PersistentStore.set(MAXIMUM_COUNT, DEFAULT_MAXIMUM_COUNT);
+  return DEFAULT_MAXIMUM_COUNT;
+};
+
+export const getAppConfigFeeRate = () => {
+  const feeRate = PersistentStore.get(FEE_RATE);
+  if (feeRate) return feeRate;
+
+  PersistentStore.set(FEE_RATE, DEFAULT_FEE_RATE);
+  return DEFAULT_FEE_RATE;
 };

@@ -646,3 +646,191 @@ export const txSchema = {
   },
   required: ['result'],
 };
+
+export const decodeRaxTxnSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        txid: {
+          type: 'string',
+        },
+        hash: {
+          type: 'string',
+        },
+        size: {
+          type: 'number',
+        },
+        vsize: {
+          type: 'number',
+        },
+        weight: {
+          type: 'number',
+        },
+        version: {
+          type: 'number',
+        },
+        locktime: {
+          type: 'number',
+        },
+        vin: {
+          type: 'array',
+        },
+        vout: {
+          type: 'array',
+        },
+      },
+      required: ['txid', 'hash', 'size', 'vsize'],
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
+export const finalizePsbtSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        psbt: {
+          type: 'string'
+        },
+        hex: {
+          type: 'string'
+        },
+        complete: {
+          type: 'boolean'
+        }
+      },
+      required: ['hex', 'complete']
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
+export const walletProcessPsbtSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        psbt: {
+          type: 'string'
+        },
+        complete: {
+          type: 'boolean'
+        }
+      },
+      required: ['psbt', 'complete']
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
+export const walletCreateFundedPsbtSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'object',
+      properties: {
+        psbt: {
+          type: 'string'
+        },
+        fee: {
+          type: 'number'
+        },
+        changeops: {
+          type: 'number'
+        }
+      },
+      required: ['psbt', 'fee']
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
+
+export const listUnspentSchema = {
+  type: 'object',
+  properties: {
+    result: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          txid: {
+            type: 'string'
+          },
+          vout: {
+            type: 'number'
+          },
+          address: {
+            type: 'string'
+          },
+          label: {
+            type: 'string'
+          },
+          scriptPubKey: {
+            type: 'string'
+          },
+          amount: {
+            type: 'number'
+          },
+          confirmations: {
+            type: 'number'
+          },
+          redeemScript: {
+            type: 'string'
+          },
+          witnessScript: {
+            type: 'string'
+          },
+          spendable: {
+            type: 'boolean'
+          },
+          solvable: {
+            type: 'boolean'
+          },
+          desc: {
+            type: 'string'
+          },
+          safe: {
+            type: 'boolean'
+          }
+        },
+        required: ['txid', 'vout', 'address', 'amount', 'confirmations']
+      }
+    },
+    error: {
+      nullable: true,
+    },
+    id: {
+      type: 'string',
+    },
+  },
+  required: ['result'],
+};
