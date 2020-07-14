@@ -78,7 +78,7 @@ div.react-console-message {
   color: $body-color;
   padding: 0.1em;
   word-break: break-all;
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 
 div.react-console-prompt-box {
