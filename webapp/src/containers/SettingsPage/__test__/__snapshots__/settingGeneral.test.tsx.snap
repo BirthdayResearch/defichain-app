@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
+<TabPane
+  tabId="general"
+  tag="div"
+>
+  <section>
+    <Form
+      tag="form"
+    >
+      <Row
+        className="mb-5"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          md="4"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Launch options
+        </Col>
+        <Col
+          md="8"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Connect(SettingsRowToggle)
+            field={true}
+            fieldName="launchAtLogin"
+            handleToggles={[Function]}
+            label="launchAtLogin"
+          />
+          <Connect(SettingsRowToggle)
+            field={true}
+            fieldName="minimizedAtLaunch"
+            handleToggles={[Function]}
+            hideMinimized={false}
+            label="minimizedAtLaunch"
+          />
+        </Col>
+      </Row>
+      <Row
+        className="mb-5"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          md="4"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Storage
+        </Col>
+        <Col
+          md="8"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Connect(SettingsRowToggle)
+            field={true}
+            fieldName="pruneBlockStorage"
+            handleToggles={[Function]}
+            label="pruneBlockStorage"
+          />
+          <FormGroup
+            className="form-label-group "
+            tag="div"
+          >
+            <Connect(SettingsRowInput)
+              field={12}
+              fieldName="blockStorage"
+              handleInputs={[Function]}
+              id="pruneTo"
+              label="blockPruneStorage"
+              name="pruneTo"
+              placeholder="Number"
+              text="gb"
+            />
+          </FormGroup>
+          <FormGroup
+            className="form-label-group mb-5"
+            tag="div"
+          >
+            <Connect(SettingsRowInput)
+              field={12}
+              fieldName="databaseCache"
+              handleInputs={[Function]}
+              id="dbCacheSize"
+              label="databaseSize"
+              name="dbCacheSize"
+              placeholder="Number"
+              text="mib"
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          md="4"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Script verification
+        </Col>
+        <Col
+          md="8"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <FormGroup
+            className="form-row"
+            tag="div"
+          >
+            <Col
+              md="8"
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <Label
+                for="scriptVerificationThreads"
+                tag="label"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                Number of threads
+              </Label>
+              <Row
+                className="align-items-center"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <Col
+                  className="col-auto"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <ForwardRef
+                    id="scriptVerificationThreads"
+                    max={16}
+                    min={-2}
+                    onChange={[Function]}
+                    step={1}
+                    tooltip="off"
+                    value={12}
+                  />
+                </Col>
+                12
+              </Row>
+            </Col>
+          </FormGroup>
+        </Col>
+      </Row>
+    </Form>
+  </section>
+</TabPane>
+`;

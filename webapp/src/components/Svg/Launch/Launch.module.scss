@@ -1,0 +1,183 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../scss/variables';
+@import '../../../scss/bootstrap/variables';
+
+.launch {
+  color: $primary !important;
+  --duration: 2s;
+  --logoease: ease-out;
+  --groundease: ease-out;
+  --branchease: ease-out;
+}
+
+.whole_logo_group {
+  transform-origin: 54px 54px;
+  animation: logo_rotate_anim var(--duration) 1 var(--logoease) forwards;
+}
+
+.right_crescent_mask_path {
+  animation: right_crescent_mask_path_anim var(--duration) 1 var(--groundease)
+    forwards;
+}
+
+.right_rear_hemi_mask_path {
+  animation: right_rear_hemi_mask_path_anim var(--duration) 1 var(--groundease)
+    forwards;
+}
+
+.branch001_left,
+.branch001_right {
+  animation: branch001_anim var(--duration) 1 var(--branchease) forwards;
+}
+
+.branch002_left_A,
+.branch002_left_B,
+.branch002_right_A,
+.branch002_right_B {
+  animation: branch002_anim var(--duration) 1 var(--branchease) forwards;
+}
+
+.branch003_left_A,
+.branch003_left_D,
+.branch003_right_A,
+.branch003_right_D {
+  animation: branch003_AD_anim var(--duration) 1 var(--branchease) forwards;
+}
+
+.branch003_left_B,
+.branch003_left_C,
+.branch003_right_B,
+.branch003_right_C {
+  animation: branch003_BC_anim var(--duration) 1 var(--branchease) forwards;
+}
+
+@keyframes logo_rotate_anim {
+  0% {
+    transform: rotate(120deg);
+  }
+
+  23% {
+    transform: rotate(90deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+
+  49% {
+    transform: rotate(60deg);
+  }
+  51% {
+    transform: rotate(60deg);
+  }
+
+  75% {
+    transform: rotate(30deg);
+  }
+  77% {
+    transform: rotate(30deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes right_crescent_mask_path_anim {
+  0% {
+    transform: translateX(54px);
+  }
+  23% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes right_rear_hemi_mask_path_anim {
+  0% {
+    transform: translateX(54px);
+  }
+
+  23% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+
+  49% {
+    transform: translateX(-20px);
+  }
+  51% {
+    transform: translateX(-20px);
+  }
+
+  75% {
+    transform: translateX(-30px);
+  }
+  77% {
+    transform: translateX(-30px);
+  }
+
+  100% {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes branch001_anim {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  25% {
+    stroke-dashoffset: 40;
+  }
+  51% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes branch002_anim {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  51% {
+    stroke-dashoffset: 40;
+  }
+  77% {
+    stroke-dashoffset: 6;
+  }
+  100% {
+    stroke-dashoffset: 6;
+  }
+}
+
+@keyframes branch003_AD_anim {
+  0% {
+    stroke-dashoffset: 35;
+  }
+  78% {
+    stroke-dashoffset: 35;
+  }
+  100% {
+    stroke-dashoffset: 10;
+  }
+}
+
+@keyframes branch003_BC_anim {
+  0% {
+    stroke-dashoffset: 30;
+  }
+  78% {
+    stroke-dashoffset: 30;
+  }
+  100% {
+    stroke-dashoffset: 2;
+  }
+}

@@ -1,0 +1,460 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTabDisplayComponent should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(SettingsTabDisplay)
+    displayMode="SAME_AS_SYSTEM"
+    handleDropDowns={[Function]}
+    language="en-GB"
+    unit="DFI"
+  >
+    <SettingsTabDisplay
+      amountUnits={Array []}
+      dispatch={[Function]}
+      displayMode="SAME_AS_SYSTEM"
+      displayModes={Array []}
+      handleDropDowns={[Function]}
+      language="en-GB"
+      languages={Array []}
+      unit="DFI"
+    >
+      <TabPane
+        tabId="display"
+        tag="div"
+      >
+        <div
+          className="tab-pane"
+        >
+          <section>
+            <Form
+              tag="form"
+            >
+              <form
+                className=""
+              >
+                <Connect(SettingsRowDropDown)
+                  data={Array []}
+                  field="en-GB"
+                  fieldName="language"
+                  handleDropDowns={[Function]}
+                  label="containers.settings.appLanguage"
+                >
+                  <SettingsRowDropDown
+                    data={Array []}
+                    dispatch={[Function]}
+                    field="en-GB"
+                    fieldName="language"
+                    handleDropDowns={[Function]}
+                    label="containers.settings.appLanguage"
+                    locale="en"
+                  >
+                    <FormGroup
+                      className="form-row align-items-center"
+                      tag="div"
+                    >
+                      <div
+                        className="form-row align-items-center form-group"
+                      >
+                        <Col
+                          md="4"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-4"
+                          >
+                            App language
+                          </div>
+                        </Col>
+                        <Col
+                          md="8"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-8"
+                          >
+                            <UncontrolledDropdown>
+                              <Dropdown
+                                a11y={true}
+                                active={false}
+                                addonType={false}
+                                direction="down"
+                                inNavbar={false}
+                                isOpen={false}
+                                nav={false}
+                                setActiveFromChild={false}
+                                toggle={[Function]}
+                              >
+                                <Manager>
+                                  <div
+                                    className="dropdown"
+                                    onKeyDown={[Function]}
+                                  >
+                                    <DropdownToggle
+                                      aria-haspopup={true}
+                                      caret={true}
+                                      color="outline-secondary"
+                                    >
+                                      <Reference>
+                                        <InnerReference
+                                          setReferenceNode={[Function]}
+                                        >
+                                          <Button
+                                            aria-expanded={false}
+                                            aria-haspopup={true}
+                                            className="dropdown-toggle"
+                                            color="outline-secondary"
+                                            innerRef={[Function]}
+                                            onClick={[Function]}
+                                            tag="button"
+                                          >
+                                            <button
+                                              aria-expanded={false}
+                                              aria-haspopup={true}
+                                              aria-label={null}
+                                              className="dropdown-toggle btn btn-outline-secondary"
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <span
+                                                className="sr-only"
+                                              >
+                                                Toggle Dropdown
+                                              </span>
+                                            </button>
+                                          </Button>
+                                        </InnerReference>
+                                      </Reference>
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      flip={true}
+                                      tag="div"
+                                    >
+                                      <div
+                                        aria-hidden={true}
+                                        className="dropdown-menu"
+                                        role="menu"
+                                        tabIndex="-1"
+                                      />
+                                    </DropdownMenu>
+                                  </div>
+                                </Manager>
+                              </Dropdown>
+                            </UncontrolledDropdown>
+                          </div>
+                        </Col>
+                      </div>
+                    </FormGroup>
+                  </SettingsRowDropDown>
+                </Connect(SettingsRowDropDown)>
+                <Connect(SettingsRowDropDown)
+                  data={Array []}
+                  field="DFI"
+                  fieldName="unit"
+                  handleDropDowns={[Function]}
+                  label="containers.settings.displayAmount"
+                >
+                  <SettingsRowDropDown
+                    data={Array []}
+                    dispatch={[Function]}
+                    field="DFI"
+                    fieldName="unit"
+                    handleDropDowns={[Function]}
+                    label="containers.settings.displayAmount"
+                    locale="en"
+                  >
+                    <FormGroup
+                      className="form-row align-items-center"
+                      tag="div"
+                    >
+                      <div
+                        className="form-row align-items-center form-group"
+                      >
+                        <Col
+                          md="4"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-4"
+                          >
+                            Display amounts in unit
+                          </div>
+                        </Col>
+                        <Col
+                          md="8"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-8"
+                          >
+                            <UncontrolledDropdown>
+                              <Dropdown
+                                a11y={true}
+                                active={false}
+                                addonType={false}
+                                direction="down"
+                                inNavbar={false}
+                                isOpen={false}
+                                nav={false}
+                                setActiveFromChild={false}
+                                toggle={[Function]}
+                              >
+                                <Manager>
+                                  <div
+                                    className="dropdown"
+                                    onKeyDown={[Function]}
+                                  >
+                                    <DropdownToggle
+                                      aria-haspopup={true}
+                                      caret={true}
+                                      color="outline-secondary"
+                                    >
+                                      <Reference>
+                                        <InnerReference
+                                          setReferenceNode={[Function]}
+                                        >
+                                          <Button
+                                            aria-expanded={false}
+                                            aria-haspopup={true}
+                                            className="dropdown-toggle"
+                                            color="outline-secondary"
+                                            innerRef={[Function]}
+                                            onClick={[Function]}
+                                            tag="button"
+                                          >
+                                            <button
+                                              aria-expanded={false}
+                                              aria-haspopup={true}
+                                              aria-label={null}
+                                              className="dropdown-toggle btn btn-outline-secondary"
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <span
+                                                className="sr-only"
+                                              >
+                                                Toggle Dropdown
+                                              </span>
+                                            </button>
+                                          </Button>
+                                        </InnerReference>
+                                      </Reference>
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      flip={true}
+                                      tag="div"
+                                    >
+                                      <div
+                                        aria-hidden={true}
+                                        className="dropdown-menu"
+                                        role="menu"
+                                        tabIndex="-1"
+                                      />
+                                    </DropdownMenu>
+                                  </div>
+                                </Manager>
+                              </Dropdown>
+                            </UncontrolledDropdown>
+                            <FormText
+                              color="muted"
+                              key="fi"
+                              tag="small"
+                            >
+                              <small
+                                className="form-text text-muted"
+                              >
+                                1 DFI = 100,000,000 fi
+                              </small>
+                            </FormText>
+                          </div>
+                        </Col>
+                      </div>
+                    </FormGroup>
+                  </SettingsRowDropDown>
+                </Connect(SettingsRowDropDown)>
+                <Connect(SettingsRowDropDown)
+                  data={Array []}
+                  field="SAME_AS_SYSTEM"
+                  fieldName="displayMode"
+                  handleDropDowns={[Function]}
+                  label="containers.settings.displayMode"
+                >
+                  <SettingsRowDropDown
+                    data={Array []}
+                    dispatch={[Function]}
+                    field="SAME_AS_SYSTEM"
+                    fieldName="displayMode"
+                    handleDropDowns={[Function]}
+                    label="containers.settings.displayMode"
+                    locale="en"
+                  >
+                    <FormGroup
+                      className="form-row align-items-center"
+                      tag="div"
+                    >
+                      <div
+                        className="form-row align-items-center form-group"
+                      >
+                        <Col
+                          md="4"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-4"
+                          >
+                            Display mode
+                          </div>
+                        </Col>
+                        <Col
+                          md="8"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-8"
+                          >
+                            <UncontrolledDropdown>
+                              <Dropdown
+                                a11y={true}
+                                active={false}
+                                addonType={false}
+                                direction="down"
+                                inNavbar={false}
+                                isOpen={false}
+                                nav={false}
+                                setActiveFromChild={false}
+                                toggle={[Function]}
+                              >
+                                <Manager>
+                                  <div
+                                    className="dropdown"
+                                    onKeyDown={[Function]}
+                                  >
+                                    <DropdownToggle
+                                      aria-haspopup={true}
+                                      caret={true}
+                                      color="outline-secondary"
+                                    >
+                                      <Reference>
+                                        <InnerReference
+                                          setReferenceNode={[Function]}
+                                        >
+                                          <Button
+                                            aria-expanded={false}
+                                            aria-haspopup={true}
+                                            className="dropdown-toggle"
+                                            color="outline-secondary"
+                                            innerRef={[Function]}
+                                            onClick={[Function]}
+                                            tag="button"
+                                          >
+                                            <button
+                                              aria-expanded={false}
+                                              aria-haspopup={true}
+                                              aria-label={null}
+                                              className="dropdown-toggle btn btn-outline-secondary"
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <span
+                                                className="sr-only"
+                                              >
+                                                Toggle Dropdown
+                                              </span>
+                                            </button>
+                                          </Button>
+                                        </InnerReference>
+                                      </Reference>
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      flip={true}
+                                      tag="div"
+                                    >
+                                      <div
+                                        aria-hidden={true}
+                                        className="dropdown-menu"
+                                        role="menu"
+                                        tabIndex="-1"
+                                      />
+                                    </DropdownMenu>
+                                  </div>
+                                </Manager>
+                              </Dropdown>
+                            </UncontrolledDropdown>
+                          </div>
+                        </Col>
+                      </div>
+                    </FormGroup>
+                  </SettingsRowDropDown>
+                </Connect(SettingsRowDropDown)>
+              </form>
+            </Form>
+          </section>
+        </div>
+      </TabPane>
+    </SettingsTabDisplay>
+  </Connect(SettingsTabDisplay)>
+</Provider>
+`;
