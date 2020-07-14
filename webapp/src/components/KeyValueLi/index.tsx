@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import EllipsisText from 'react-ellipsis-text';
 import CopyToClipboard from '../CopyToClipboard';
 import classnames from 'classnames';
 import QrCode from '../QrCode';
@@ -34,7 +35,7 @@ const KeyValueLi: React.FunctionComponent<KeyValueLiProps> = (
         >
           {I18n.t('components.keyValueLi.copied')}
         </div>
-        <div>{props.value}</div>
+        <EllipsisText text={props.value} length={'50'} />
         {props.popsQR && (
           <QrCode value={props.value} uid={props.uid} qrClass={styles.qr} />
         )}
