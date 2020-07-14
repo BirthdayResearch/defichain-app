@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Console from 'react-console-component';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { fetchDataForQueryRequest, resetDataForQuery } from '../reducer';
+import {
+  fetchDataForQueryRequest,
+  resetDataForQuery,
+  storeCliLog,
+} from '../reducer';
 import {
   CONSOLE_PROMPT_LABEL,
   BITCOIN_CLI_REGEX,
@@ -13,6 +17,8 @@ import './console.scss';
 interface EchoConsoleProps {
   fetchDataForQueryRequest: (query: string) => void;
   resetDataForQuery: () => void;
+  storeCliLog: (logState: any) => void;
+  cliLog: any;
   isLoading: boolean;
   result: object | string | number | any[];
   isError: string;
@@ -24,9 +30,11 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   const {
     fetchDataForQueryRequest,
     resetDataForQuery,
+    storeCliLog,
     isLoading,
     result,
     isError,
+    cliLog,
   } = props;
   const [showConsoleResults, setShowConsoleResults] = useState(false);
   let currentRef: Console;
@@ -44,6 +52,13 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   };
   useEffect(() => {
     resetDataForQuery();
+    if (currentRef.state && !_.isEmpty(cliLog)) {
+      currentRef.setState({
+        log: [...cliLog.log],
+        history: [...cliLog.history],
+      });
+      currentRef.scrollSemaphore = cliLog.scrollSemaphore;
+    }
   }, []);
 
   const printToConsole = (text: string) => {
@@ -51,6 +66,14 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
       const updatedText = text.replace(BITCOIN_CLI_REGEX, DEFI_CLI_TEXT);
       currentRef.log(updatedText);
       currentRef.return();
+      const { log, history } = currentRef.state;
+      const stringifiedState = JSON.stringify({
+        log,
+        history,
+        scrollSemaphore: currentRef.scrollSemaphore,
+      });
+      const updatedState = JSON.parse(stringifiedState);
+      storeCliLog(updatedState);
     }
   };
 
@@ -104,18 +127,20 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
 
 const mapStateToProps = (state) => {
   const {
-    cli: { isLoading, result, isError },
+    cli: { isLoading, result, isError, cliLog },
   } = state;
   return {
     isLoading,
     result,
     isError,
+    cliLog,
   };
 };
 const mapDispatchToProps = {
   fetchDataForQueryRequest: (query: string) =>
     fetchDataForQueryRequest({ query }),
   resetDataForQuery,
+  storeCliLog: (logState: any) => storeCliLog(logState),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EchoConsole);
