@@ -62,3 +62,28 @@ rpcResponseSchemaMap.set(
   methodNames.GET_RAW_TRANSACTION,
   rpcResponseSchemas.txSchema
 )
+
+rpcResponseSchemaMap.set(
+  methodNames.DECODE_RAW_TRANSACTION,
+  rpcResponseSchemas.decodeRaxTxnSchema
+)
+
+rpcResponseSchemaMap.set(
+  methodNames.FINALIZE_PSBT,
+  rpcResponseSchemas.finalizePsbtSchema
+)
+
+rpcResponseSchemaMap.set(
+  methodNames.WALLET_PROCESS_PSBT,
+  rpcResponseSchemas.walletProcessPsbtSchema
+)
+
+rpcResponseSchemaMap.set(
+  methodNames.WALLET_CREATE_FUNDED_PSBT,
+  rpcResponseSchemas.walletCreateFundedPsbtSchema
+)
+
+rpcResponseSchemaMap.set(
+  methodNames.LIST_UNSPENT,
+  rpcResponseSchemas.listUnspentSchema
+)

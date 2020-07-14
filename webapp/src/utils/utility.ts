@@ -9,9 +9,11 @@ import {
   UNPARSED_ADDRESS,
   DUST_VALUE_DFI,
   DEFI_CLI,
+  MAX_MONEY,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
+import RpcClient from './rpc-client';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -24,12 +26,21 @@ export const validateSchema = (schema, data) => {
   return valid;
 };
 
+export const getTxnSize = async (): Promise<number> => {
+  const rpcClient = new RpcClient();
+  const unspent = await rpcClient.listUnspent(MAX_MONEY);
+
+  const inputs = unspent.length;
+  const outputs = 2;
+  return inputs * 180 + outputs * 34 + 10 + inputs;
+};
+
 export const toSha256 = (value): any => {
   return SHA256(value).toString();
 };
 
 export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
-  return addresses.map(addressObj => {
+  return addresses.map((addressObj) => {
     const { address, amount } = addressObj;
     return { address, amount };
   });
@@ -41,7 +52,7 @@ export const getTransactionURI = (
   extraData: any
 ) => {
   Object.keys(extraData).forEach(
-    key =>
+    (key) =>
       (extraData[key] === undefined ||
         extraData[key] === null ||
         extraData[key] === '') &&
@@ -55,7 +66,7 @@ export const dateTimeFormat = (date: string | Date) => {
   return moment(date).format(DATE_FORMAT);
 };
 
-export const getFromPersistentStorage = path => {
+export const getFromPersistentStorage = (path) => {
   return localStorage.getItem(path);
 };
 
@@ -67,7 +78,7 @@ export const setToPersistentStorage = (path, data) => {
   return data;
 };
 
-export const getBlockDetails = block => {
+export const getBlockDetails = (block) => {
   const blockDetails: IBlock = {
     hash: block.hash,
     size: block.size,
@@ -86,7 +97,7 @@ export const getBlockDetails = block => {
 
 // UNIT_CONVERSION
 export const getTxnDetails = (txns): ITxn[] => {
-  return txns.map(txn => {
+  return txns.map((txn) => {
     const fee = txn.category === 'send' ? txn.fee : 0;
     const blockHash = txn.category === 'orphan' ? '' : txn.blockhash;
     return {
@@ -104,7 +115,7 @@ export const getTxnDetails = (txns): ITxn[] => {
   });
 };
 
-const getToAddressAmountMap = vouts => {
+const getToAddressAmountMap = (vouts) => {
   const addressAmountMap = new Map<string, string>();
   for (const vout of vouts) {
     if (vout.scriptPubKey.type !== 'nulldata') {
@@ -137,7 +148,7 @@ const getToList = (vouts): IAddressAndAmount[] => {
   addressAmountMap.forEach((amount: string, address: string) => {
     toList.push({ address, amount });
   });
-  const unparsedAddressList: IAddressAndAmount[] = tos.map(to => {
+  const unparsedAddressList: IAddressAndAmount[] = tos.map((to) => {
     return { address: to.address, amount: to.amount };
   });
 
@@ -155,7 +166,7 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = epoch => {
+export const convertEpochToDate = (epoch) => {
   return moment.unix(epoch).format(DATE_FORMAT);
 };
 
@@ -226,7 +237,7 @@ export const getParams = (query: string) => {
   const splitQuery = query.trim().split(' ');
   const params = splitQuery.slice(2);
 
-  const parsedParams = params.map(param => {
+  const parsedParams = params.map((param) => {
     if (
       (param.startsWith('"') && param.endsWith('"')) ||
       (param.startsWith("'") && param.endsWith("'"))
@@ -241,8 +252,8 @@ export const getParams = (query: string) => {
 };
 
 export const filterByValue = (array, query) => {
-  return array.filter(o =>
-    Object.keys(o).some(k => {
+  return array.filter((o) =>
+    Object.keys(o).some((k) => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
     })

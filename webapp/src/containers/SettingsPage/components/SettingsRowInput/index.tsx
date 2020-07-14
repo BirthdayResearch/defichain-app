@@ -9,7 +9,7 @@ import {
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 
-const SettingsRowInput = (props) => {
+const SettingsRowInput = props => {
   const {
     id,
     name,
@@ -29,17 +29,21 @@ const SettingsRowInput = (props) => {
         id={`${id}`}
         placeholder={`${placeholder}`}
         value={field || ''}
-        onChange={(event) => handleInputs(event, `${fieldName}`)}
+        onChange={event => handleInputs(event, `${fieldName}`)}
       />
       <Label for='pruneTo'>{I18n.t(`containers.settings.${label}`)}</Label>
-      <InputGroupAddon addonType='append'>
-        <InputGroupText>{I18n.t(`containers.settings.${text}`)}</InputGroupText>
-      </InputGroupAddon>
+      {text && (
+        <InputGroupAddon addonType='append'>
+          <InputGroupText>
+            {I18n.t(`containers.settings.${text}`)}
+          </InputGroupText>
+        </InputGroupAddon>
+      )}
     </InputGroup>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { locale } = state.i18n;
   return {
     locale,

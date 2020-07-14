@@ -13,8 +13,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   return (
     <header className='header-bar'>
       <h1>{I18n.t('containers.settings.settings')}</h1>
-      {/* NOTE: Do not remove, for future purpose */}
-      {/* <Nav pills>
+      <Nav pills>
         <NavItem>
           <NavLink
             className={classnames({
@@ -39,7 +38,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             {I18n.t('containers.settings.display')}
           </NavLink>
         </NavItem>
-      </Nav> */}
+      </Nav>
       <div></div>
     </header>
   );
