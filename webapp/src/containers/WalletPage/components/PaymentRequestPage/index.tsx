@@ -51,9 +51,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
-            id: label || '',
-          })}
+          {I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle')}
         </title>
       </Helmet>
       <header className='header-bar'>
@@ -71,7 +69,6 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
         <h1>
           {I18n.t('containers.wallet.paymentRequestPage.paymentRequest')}
           &nbsp;
-          {label || address}
         </h1>
         <ButtonGroup>
           <Button color='link' onClick={() => removeReceiveTrans(id)}>
@@ -128,7 +125,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings } = state;
   return {
     unit: settings.appConfig.unit,
