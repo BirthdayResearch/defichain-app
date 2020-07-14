@@ -41,10 +41,15 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   const echo = (text: string) => {
     if (!!currentRef) {
       if (text === 'clear') {
-        return currentRef.setState({
+        currentRef.setState({
           acceptInput: true,
           log: [],
         });
+        return storeCliLog(
+          _.cloneDeep({
+            history: currentRef.state.history,
+          })
+        );
       }
       if (!showConsoleResults) setShowConsoleResults(true);
       return fetchDataForQueryRequest(text);
@@ -53,11 +58,23 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   useEffect(() => {
     resetDataForQuery();
     if (currentRef.state && !_.isEmpty(cliLog)) {
-      currentRef.setState({
-        log: [...cliLog.log],
-        history: [...cliLog.history],
-      });
-      currentRef.scrollSemaphore = cliLog.scrollSemaphore;
+      const updatedState = {
+        log: [],
+        history: [],
+      };
+
+      if (Array.isArray(cliLog.log) && cliLog.log.length > 0) {
+        updatedState.log = _.cloneDeep(cliLog.log);
+      }
+
+      if (Array.isArray(cliLog.history) && cliLog.history.length > 0) {
+        updatedState.history = _.cloneDeep(cliLog.history);
+      }
+
+      currentRef.setState(updatedState);
+      if (cliLog.scrollSemaphore) {
+        currentRef.scrollSemaphore = cliLog.scrollSemaphore;
+      }
     }
   }, []);
 
