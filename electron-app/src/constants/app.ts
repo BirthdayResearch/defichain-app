@@ -11,6 +11,7 @@ export const READY = 'ready';
 export const WINDOW_ALL_CLOSED = 'window-all-closed';
 export const ACTIVATE = 'activate';
 export const CLOSE = 'close';
+export const CLOSED = 'closed';
 export const SECOND_INSTANCE = 'second-instance';
 
 export const DARWIN = 'darwin';

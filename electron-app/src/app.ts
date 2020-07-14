@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
+
 import DefiProcessManager from './services/defiprocessmanager';
 import AppMenu from './menus';
 import { Options, parseOptions } from './clioptions';
@@ -17,8 +18,8 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  CLOSED,
 } from './constants';
-/* For future purpose */
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
 declare var process: {
@@ -113,6 +114,10 @@ export default class App {
     }
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
+
+    this.mainWindow.on(CLOSED, () => {
+      this.mainWindow = null;
+    });
   }
 
   // Create menu
