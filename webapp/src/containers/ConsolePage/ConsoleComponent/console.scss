@@ -16,6 +16,7 @@ div.react-console-container {
 }
 
 div.react-console-prompt-box {
+  font-weight: bold;
   color: #444;
 }
 
@@ -27,6 +28,7 @@ span.react-console-prompt-label {
 .react-console-prompt-label::before {
   content: '\203A';
   font-size: 1rem;
+  padding-right: 0.3rem;
 }
 
 span.react-console-prompt {
