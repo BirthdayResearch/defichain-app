@@ -1,5 +1,4 @@
 import log from 'loglevel';
-import * as electronLog from 'electron-log';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';
@@ -42,7 +41,6 @@ export default class App {
     this.allowQuit = false;
   }
 
-  // REMOVE MAGIC STRING
   run() {
     app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);
