@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
@@ -14,6 +14,12 @@ import {
 } from './reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import { getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  updateWalletBalanceSchedular,
+  updatePendingBalanceSchedular,
+  walletBalanceTimerID,
+  pendingBalanceTimerID,
+} from '../../worker/schedular';
 
 interface WalletPageProps {
   unit: string;
@@ -29,6 +35,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   useEffect(() => {
     props.fetchWalletBalanceRequest();
     props.fetchPendingBalanceRequest();
+
+    updateWalletBalanceSchedular();
+    updatePendingBalanceSchedular();
+    
+    return () => {
+      clearInterval(walletBalanceTimerID);
+      clearInterval(pendingBalanceTimerID);
+    };
   }, []);
 
   const { walletBalance, pendingBalance } = props;
@@ -67,6 +81,12 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
                 value={getAmountInSelectedUnit(walletBalance, props.unit)}
                 unit={props.unit}
+                icon={
+                  <MdRefresh
+                    size={30}
+                    onClick={props.fetchWalletBalanceRequest}
+                  />
+                }
               />
             </Col>
             <Col>
@@ -74,6 +94,12 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 label={I18n.t('containers.wallet.walletPage.pending')}
                 value={getAmountInSelectedUnit(pendingBalance, props.unit)}
                 unit={props.unit}
+                icon={
+                  <MdRefresh
+                    size={30}
+                    onClick={props.fetchPendingBalanceRequest}
+                  />
+                }
               />
             </Col>
           </Row>

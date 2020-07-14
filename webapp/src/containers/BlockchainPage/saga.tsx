@@ -20,76 +20,82 @@ import {
   handleFetchBlockData,
   handleFetchBlockCount,
 } from './service';
+import store from '../../app/rootStore';
+import queue from '../../worker/queue';
 
-export function* fetchBlocks(action) {
+function fetchBlocks(action) {
   const { currentPage: pageNo, pageSize } = action.payload;
-  try {
-    const data = yield call(handelFetchBlocks, pageNo, pageSize);
-    if (data && data.blocks) {
-      yield put({ type: fetchBlocksSuccess.type, payload: { ...data } });
-    } else {
-      yield put({
-        type: fetchBlocksFailure.type,
-        payload: 'No data found',
-      });
+  queue.push(
+    { methodName: handelFetchBlocks, params: [pageNo, pageSize] },
+    (err, result) => {
+      if (err) {
+        store.dispatch(fetchBlocksFailure(err.message));
+        log.error(err);
+        return;
+      }
+      if (result && result.blocks)
+        store.dispatch(fetchBlocksSuccess({ ...result }));
+      else {
+        store.dispatch(fetchBlocksFailure('No data found'));
+      }
     }
-  } catch (e) {
-    yield put({ type: fetchBlocksFailure.type, payload: e.message });
-    log.error(e);
-  }
+  );
 }
 
-export function* fetchBlockData(action) {
+function fetchBlockData(action) {
   const { blockNumber } = action.payload;
-  try {
-    const data = yield call(handleFetchBlockData, blockNumber);
-    if (data && data.blockData) {
-      yield put({ type: fetchBlockDataSuccess.type, payload: { ...data } });
-    } else {
-      yield put({
-        type: fetchBlockDataFailure.type,
-        payload: 'No data found',
-      });
+  queue.push(
+    { methodName: handleFetchBlockData, params: [blockNumber] },
+    (err, result) => {
+      if (err) {
+        store.dispatch(fetchBlockDataFailure(err.message));
+        log.error(err);
+        return;
+      }
+      if (result && result.blockData)
+        store.dispatch(fetchBlockDataSuccess({ ...result }));
+      else {
+        store.dispatch(fetchBlockDataFailure('No data found'));
+      }
     }
-  } catch (e) {
-    yield put({ type: fetchBlockDataFailure.type, payload: e.message });
-    log.error(e);
-  }
+  );
 }
 
-export function* fetchBlockCount() {
-  try {
-    const data = yield call(handleFetchBlockCount);
-    if (data && data.blockCount) {
-      yield put({ type: fetchBlockCountSuccess.type, payload: { ...data } });
-    } else {
-      yield put({
-        type: fetchBlockCountFailure.type,
-        payload: 'No data found',
-      });
+function fetchBlockCount() {
+  queue.push(
+    { methodName: handleFetchBlockCount, params: [] },
+    (err, result) => {
+      if (err) {
+        store.dispatch(fetchBlockCountFailure(err.message));
+        log.error(err);
+        return;
+      }
+      if (result && result.blockCount)
+        store.dispatch(fetchBlockCountSuccess({ ...result }));
+      else {
+        store.dispatch(fetchBlockCountFailure('No data found'));
+      }
     }
-  } catch (e) {
-    yield put({ type: fetchBlockCountFailure.type, payload: e.message });
-    log.error(e);
-  }
+  );
 }
 
-export function* fetchTxns(action) {
+function fetchTxns(action) {
   const { blockNumber, pageNo, pageSize } = action.payload;
-  try {
-    const data = yield call(handelFetchTxns, blockNumber, pageNo, pageSize);
-    if (data && data.txns) {
-      yield put({ type: fetchTxnsSuccess.type, payload: { ...data } });
-    } else {
-      yield put({
-        type: fetchTxnsFailure.type,
-        payload: 'No data found',
-      });
+  queue.push(
+    { methodName: handelFetchTxns, params: [blockNumber, pageNo, pageSize] },
+    (err, result) => {
+      if (err) {
+        store.dispatch(fetchTxnsFailure(err.message));
+        log.error(err);
+        return;
+      }
+      if (result && result.txns)
+        store.dispatch(fetchTxnsSuccess({ ...result }));
+      else {
+        store.dispatch(fetchTxnsFailure('No data found'));
+      }
     }
-  } catch (e) {
-    yield put({ type: fetchTxnsFailure.type, payload: e.message });
-    log.error(e);
-  }
+  );
 }
 
 function* mySaga() {

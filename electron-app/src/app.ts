@@ -47,7 +47,6 @@ export default class App {
     initiateElectronUpdateManager(autoUpdater);
   }
 
-  // REMOVE MAGIC STRING
   run() {
     app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);

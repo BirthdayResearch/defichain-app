@@ -126,4 +126,4 @@ dist
 # Storybook build
 storybook-static
 
-temp
+/temp
