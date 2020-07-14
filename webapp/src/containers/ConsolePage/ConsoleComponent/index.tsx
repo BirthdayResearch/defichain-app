@@ -67,12 +67,11 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
       currentRef.log(updatedText);
       currentRef.return();
       const { log, history } = currentRef.state;
-      const stringifiedState = JSON.stringify({
+      const updatedState = _.cloneDeep({
         log,
         history,
         scrollSemaphore: currentRef.scrollSemaphore,
       });
-      const updatedState = JSON.parse(stringifiedState);
       storeCliLog(updatedState);
     }
   };
