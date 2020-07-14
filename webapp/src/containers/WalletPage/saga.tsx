@@ -32,29 +32,39 @@ import {
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
 } from './service';
+import queue from '../../worker/queue';
+import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 
-export function* fetchWalletBalance() {
-  try {
-    const result = yield call(handleFetchWalletBalance);
-    yield put(fetchWalletBalanceSuccess(result));
-  } catch (e) {
-    showNotification(I18n.t('alerts.walletBalanceFailure'), e.message);
-    yield put({ type: fetchWalletBalanceFailure.type, payload: e.message });
-    log.error(e);
-  }
+function fetchWalletBalance() {
+  queue.push(
+    { methodName: handleFetchWalletBalance, params: [] },
+    (err, result) => {
+      if (err) {
+        showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
+        store.dispatch(fetchWalletBalanceFailure(err.message));
+        log.error(err);
+        return;
+      }
+      store.dispatch(fetchWalletBalanceSuccess(result));
+    }
+  );
 }
 
-export function* fetchPendingBalance() {
-  try {
-    const result = yield call(handleFetchPendingBalance);
-    yield put(fetchPendingBalanceSuccess(result));
-  } catch (e) {
-    showNotification(I18n.t('alerts.pendingBalanceFailure'), e.message);
-    yield put({ type: fetchPendingBalanceFailure.type, payload: e.message });
-    log.error(e);
-  }
+function fetchPendingBalance() {
+  queue.push(
+    { methodName: handleFetchPendingBalance, params: [] },
+    (err, result) => {
+      if (err) {
+        showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
+        store.dispatch(fetchPendingBalanceFailure(err.message));
+        log.error(err);
+        return;
+      }
+      store.dispatch(fetchPendingBalanceSuccess(result));
+    }
+  );
 }
 
 export function* addReceiveTxns(action: any) {
@@ -90,37 +100,40 @@ export function* fetchPayments() {
   }
 }
 
-export function* fetchWalletTxns(action) {
-  try {
-    const { currentPage: pageNo, pageSize } = action.payload;
-    const data = yield call(handelFetchWalletTxns, pageNo, pageSize);
-    if (data && data.walletTxns) {
-      yield put(fetchWalletTxnsSuccess({ ...data }));
-    } else {
-      showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
-      yield put(fetchWalletTxnsFailure('No data found'));
+function fetchWalletTxns(action) {
+  const { currentPage: pageNo, pageSize } = action.payload;
+  queue.push(
+    { methodName: handelFetchWalletTxns, params: [pageNo, pageSize] },
+    (err, result) => {
+      if (err) {
+        store.dispatch(fetchWalletTxnsFailure(err.message));
+        log.error(err);
+        return;
+      }
+      if (result && result.walletTxns)
+        store.dispatch(fetchWalletTxnsSuccess({ ...result }));
+      else {
+        showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
+        store.dispatch(fetchWalletTxnsFailure('No data found'));
+      }
     }
-  } catch (e) {
-    showNotification(I18n.t('alerts.walletTxnsFailure'), e.message);
-    yield put({ type: fetchWalletTxnsFailure.type, payload: e.message });
-    log.error(e);
-  }
+  );
 }
 
-export function* fetchSendData() {
-  try {
-    const data = yield call(handleSendData);
-    if (data) {
-      yield put(fetchSendDataSuccess({ data }));
-    } else {
-      showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
-      yield put(fetchSendDataFailure('No data found'));
+function fetchSendData() {
+  queue.push({ methodName: handleSendData, params: [] }, (err, result) => {
+    if (err) {
+      showNotification(I18n.t('alerts.sendDataFailure'), err.message);
+      store.dispatch(fetchSendDataFailure(err.message));
+      log.error(err);
+      return;
     }
-  } catch (e) {
-    showNotification(I18n.t('alerts.sendDataFailure'), e.message);
-    yield put({ type: fetchSendDataFailure.type, payload: e.message });
-    log.error(e);
-  }
+    if (result) store.dispatch(fetchSendDataSuccess({ data: result }));
+    else {
+      showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
+      store.dispatch(fetchSendDataFailure('No data found'));
+    }
+  });
 }
 
 function* mySaga() {
