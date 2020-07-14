@@ -32,8 +32,14 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   let currentRef: Console;
   const echo = (text: string) => {
     if (!!currentRef) {
+      if (text === 'clear') {
+        return currentRef.setState({
+          acceptInput: true,
+          log: [],
+        });
+      }
       if (!showConsoleResults) setShowConsoleResults(true);
-      fetchDataForQueryRequest(text);
+      return fetchDataForQueryRequest(text);
     }
   };
   useEffect(() => {
