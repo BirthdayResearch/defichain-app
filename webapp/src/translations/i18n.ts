@@ -2,10 +2,11 @@ import {
   loadTranslations,
   setLocale,
   syncTranslationWithStore,
-} from "react-redux-i18n";
-import enTranslationMessages from "./languages/en.json";
-import deTranslationMessages from "./languages/de.json";
-import { LANG_VARIABLE } from "../constants";
+} from 'react-redux-i18n';
+import enTranslationMessages from './languages/en.json';
+import deTranslationMessages from './languages/de.json';
+import { LANG_VARIABLE, ENGLISH, GERMAN } from '../constants';
+import PersistentStore from '../utils/persistentStore';
 
 const formatTranslationMessages = (locale, messages) => {
   const flattenFormattedMessages = (formattedMessages, key) => {
@@ -16,17 +17,17 @@ const formatTranslationMessages = (locale, messages) => {
 };
 
 const translationsObject = {
-  en: formatTranslationMessages("en", enTranslationMessages),
-  de: formatTranslationMessages("de", deTranslationMessages),
+  [ENGLISH]: formatTranslationMessages(ENGLISH, enTranslationMessages),
+  [GERMAN]: formatTranslationMessages(GERMAN, deTranslationMessages),
 };
 
-export const setupI18n = (store) => {
+export const setupI18n = store => {
   syncTranslationWithStore(store);
   store.dispatch(loadTranslations(translationsObject));
-  const storage_lang = localStorage.getItem(LANG_VARIABLE);
-  let locale = "";
-  if (storage_lang) {
-    locale = storage_lang;
+  const storageLang = PersistentStore.get(LANG_VARIABLE);
+  let locale = '';
+  if (storageLang) {
+    locale = storageLang;
   } else if (navigator.language) {
     const lang = navigator.language;
     locale = lang;
@@ -34,18 +35,18 @@ export const setupI18n = (store) => {
     const lang = navigator.languages[0];
     locale = lang;
   }
-  localStorage.setItem(LANG_VARIABLE, locale);
+  PersistentStore.set(LANG_VARIABLE, locale);
   store.dispatch(setLocale(getLocales(locale)));
 };
 
 export const getLocales = (lang: string) => {
   switch (lang) {
-    case "en":
-    case "en-GB":
-      return "en";
-    case "de":
-      return "de";
+    case 'en':
+    case 'en-GB':
+      return ENGLISH;
+    case 'de':
+      return GERMAN;
     default:
-      return "en";
+      return ENGLISH;
   }
 };

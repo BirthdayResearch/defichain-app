@@ -7,7 +7,7 @@ body {
   height: 100vh;
   width: 100vw;
 
-  > main {
+  >main {
     width: calc(100% - 224px);
     border-left: $border-width solid $border-color;
     border-top-left-radius: $border-radius * 1.5;
@@ -32,7 +32,7 @@ body {
       flex-shrink: 0;
 
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         width: 100%;
         height: 100%;
@@ -42,10 +42,10 @@ body {
         -webkit-app-region: drag;
       }
 
-      > h1,
-      > .nav,
-      > .btn-group,
-      > .btn {
+      >h1,
+      >.nav,
+      >.btn-group,
+      >.btn {
         flex-grow: 1;
       }
 
@@ -57,7 +57,7 @@ body {
         margin-bottom: -8px;
       }
 
-      > .btn-group {
+      >.btn-group {
         display: flex;
         justify-content: flex-end;
         margin-right: -16px;
@@ -138,7 +138,7 @@ body {
     }
   }
 
-  [class^="txn-status-"] {
+  [class^='txn-status-'] {
     display: block;
     text-indent: 100%;
     white-space: nowrap;
@@ -148,7 +148,8 @@ body {
     border-radius: 6px;
   }
 
-  .txn-status-confirmed {
+  .txn-status-confirmed,
+  .txn-status-enabled {
     background-color: $green;
   }
 }

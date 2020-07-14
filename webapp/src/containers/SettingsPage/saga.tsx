@@ -1,23 +1,45 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from 'redux-saga/effects';
+import * as  log from '../../utils/electronLogger';
 import {
+  getSettingOptionsRequest,
+  getSettingOptionsSuccess,
+  getSettingOptionsFailure,
   getInitialSettingsRequest,
   getInitialSettingsSuccess,
   getInitialSettingsFailure,
   updateSettingsRequest,
   updateSettingsSuccess,
   updateSettingsFailure,
-} from "./reducer";
+} from './reducer';
 import {
   updateSettingsData,
   initialData,
   enablePreLaunchStatus,
   disablePreLaunchStatus,
-} from "./settings.service";
-import store from "../../app/rootStore";
-import { setupI18n } from "../../translations/i18n";
-import { LANG_VARIABLE } from "../../constants";
+  getLanguage,
+  getAmountUnits,
+  getDisplayModes,
+} from './service';
+import store from '../../app/rootStore';
+import { setupI18n } from '../../translations/i18n';
+import { LANG_VARIABLE } from '../../constants';
+import PersistentStore from '../../utils/persistentStore';
 
-function* getSettings() {
+export function* getSettingsOptions() {
+  try {
+    const languages = yield call(getLanguage);
+    const amountUnits = yield call(getAmountUnits);
+    const displayModes = yield call(getDisplayModes);
+    yield put(
+      getSettingOptionsSuccess({ languages, amountUnits, displayModes })
+    );
+  } catch (e) {
+    yield put(getSettingOptionsFailure(e.message));
+    log.error(e);
+  }
+}
+
+export function* getSettings() {
   try {
     const data = yield call(initialData);
     if (data) {
@@ -25,31 +47,28 @@ function* getSettings() {
     } else {
       yield put({
         type: getInitialSettingsFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
     yield put({ type: getInitialSettingsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
-function* updateSettings(action) {
+export function* updateSettings(action) {
   try {
     let updateLanguage = false;
-    if (
-      localStorage.getItem(LANG_VARIABLE) !==
-      action.payload.settings.settingsLanguage
-    ) {
+    if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {
       updateLanguage = true;
     }
-    const data = yield call(updateSettingsData, action.payload.settings);
-    if (data && data.settings) {
+    const data = yield call(updateSettingsData, action.payload);
+    if (data) {
       if (updateLanguage) {
         setupI18n(store);
       }
-      if (data.settings.settingsLaunchAtLogin) {
-        enablePreLaunchStatus(data.settings.settingsMinimizedAtLaunch);
+      if (data.launchAtLogin) {
+        enablePreLaunchStatus(data.minimizedAtLaunch);
       } else {
         disablePreLaunchStatus();
       }
@@ -57,16 +76,17 @@ function* updateSettings(action) {
     } else {
       yield put({
         type: updateSettingsFailure.type,
-        payload: "No data found",
+        payload: 'No data found',
       });
     }
   } catch (e) {
     yield put({ type: updateSettingsFailure.type, payload: e.message });
-    console.log(e);
+    log.error(e);
   }
 }
 
 function* mySaga() {
+  yield takeLatest(getSettingOptionsRequest.type, getSettingsOptions);
   yield takeLatest(getInitialSettingsRequest.type, getSettings);
   yield takeLatest(updateSettingsRequest.type, updateSettings);
 }

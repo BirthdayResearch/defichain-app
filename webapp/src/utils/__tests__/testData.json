@@ -1,0 +1,251 @@
+{
+  "listUnspentOne": {
+    "result": [
+      {
+        "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "vout": 1,
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "label": "",
+        "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
+        "amount": 2.00000000,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/0'/13']02bc1af5d7fc5d216bc3741cb25edb805aa1a438e57bd321cb1187706d6b1c5ab0)#rwperqme",
+        "safe": true
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "listUnspentTwo": {
+    "result": [
+      {
+        "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "vout": 1,
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "label": "",
+        "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
+        "amount": 2.00000000,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/0'/13']02bc1af5d7fc5d216bc3741cb25edb805aa1a438e57bd321cb1187706d6b1c5ab0)#rwperqme",
+        "safe": true
+      },
+      {
+        "txid": "b461e0d27b055fa9b1ea9ad044af6dd7193f3bc1d5344adca7564d81630b4430",
+        "vout": 1,
+        "address": "bcrt1qt2qdlm5p4rgelsr355su3n2htv7fvz03cs545g",
+        "scriptPubKey": "00145a80dfee81a8d19fc071a521c8cd575b3c9609f1",
+        "amount": 278.99989848,
+        "confirmations": 2,
+        "spendable": true,
+        "solvable": true,
+        "desc": "wpkh([eef90efb/0'/1'/80']0322189a1246f66884a69e470ea511b7f5124e928e50ad8ffc598eda07a34d611f)#8dj3em8t",
+        "safe": true
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "getNewAddress": {
+    "result": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+    "error": null,
+    "id": "curltest"
+  },
+  "walletCreateFundedPsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "fee": 0.2,
+      "changeOps": -1
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "walletProcessPsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "complete": true
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "finalizePsbt": {
+    "result": {
+      "psbt": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "complete": true
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "decodeRawTransaction": {
+    "result": {
+      "txid": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "hash": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+      "size": 1234,
+      "vsize": 1234,
+      "weight": 2564,
+      "version": 1.0,
+      "locktime": 5386843238,
+      "vin": [],
+      "vout": []
+    },
+    "error": null,
+    "id": "curltest"
+  },
+  "validateSchema": {
+    "result": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "getTxnDetails": {
+    "category_is_not_send": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "fee": 0.001,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839
+      }
+    ],
+    "category_is_send_fee_present": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "send",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": false,
+        "fee": 0.001,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839,
+        "bip125-replaceable": "no"
+      }
+    ],
+    "category_not_send_fee_not_present": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "category": "generate",
+        "amount": 50.0,
+        "label": "",
+        "vout": 0,
+        "confirmations": 101,
+        "generated": true,
+        "blockhash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+        "blockheight": 1,
+        "blockindex": 0,
+        "blocktime": 1590490839,
+        "txid": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+        "walletconflicts": [],
+        "time": 1590490839,
+        "timereceived": 1590490839,
+        "bip125-replaceable": "no"
+      }
+    ]
+  },
+  "expected": {
+    "getTxnDetails": {
+      "category_not_send_fee_not_present": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "generate",
+          "amount": 50,
+          "fee": 0,
+          "confirmations": 101,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ],
+      "category_is_not_send": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "generate",
+          "amount": 50,
+          "confirmations": 101,
+          "fee": 0,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ],
+      "category_is_send_fee_present": [
+        {
+          "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+          "category": "send",
+          "amount": 50,
+          "fee": 0.001,
+          "confirmations": 101,
+          "blockHash": "22c99b433fae7d20fc470fa87d1dd7190cc015dad2cec9d60944aecbe5b51a00",
+          "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
+          "time": "May 26, 04:30 pm",
+          "timeReceived": "May 26, 04:30 pm",
+          "unit": "DFI"
+        }
+      ]
+    },
+    "cutxo": {
+      "one_time_inside_loop": {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "amountInput": 2.0,
+        "amountOutput": 1.8,
+        "fee": 0.2,
+        "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "inputsUsed": 1,
+        "inputsTotal": 1
+      },
+      "multiple_time_inside_loop": {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "amountInput": 2.0,
+        "amountOutput": 1.8,
+        "fee": 0.2,
+        "hex": "028cfc962bb05b7ecf116691a42a5f301dd08105d0003adf77e5262084d9ac1d",
+        "inputsUsed": 1,
+        "inputsTotal": 2
+      }
+    },
+    "getTxnSize": 440
+  }
+}

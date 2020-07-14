@@ -8,10 +8,11 @@
     "statCard": {},
     "syncStatus": {
       "synchronized": "Synchronized",
-      "syncing": "Syncing",
+      "syncing": "Synchronizing",
       "synced": "Synced",
-      "justNow": "just now",
-      "aMinuteAgo": "a minute ago"
+      "justNow": "Synchronized just now",
+      "aMinuteAgo": "Synchronized a minute ago",
+      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}"
     }
   },
   "containers": {
@@ -23,7 +24,8 @@
       "blockchain": "Blockchain",
       "exchange": "Exchange",
       "help": "Help",
-      "settings": "Settings"
+      "settings": "Settings",
+      "console": "Console"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -36,11 +38,13 @@
         "transactions": "Transactions",
         "minedBy": "Mined by",
         "size": "Size",
-        "count": "612127 – 612138 of 999,999,999 blocks"
+        "paginationRange": "%{from} – %{to} of %{total} blocks",
+        "noBlocks": "No blocks available",
+        "loading": "Loading..."
       },
       "blockPage": {
         "block": "Block",
-        "title": "Block %{blockNo} – DeFi Blockchain Client",
+        "title": "– DeFi Blockchain Client",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -58,7 +62,10 @@
         "noInputs": "No Inputs (Newly Generated Coins)",
         "copied": "Copied!",
         "dFI": "DFI",
-        "unparsedAddress": "Unparsed address"
+        "unparsedAddress": "Unparsed address",
+        "paginationRange": "%{from} – %{to} of %{total} transactions",
+        "noTransactions": "No transactions available",
+        "loading": "Loading..."
       },
       "minerPage": {
         "miner": "Miner",
@@ -86,6 +93,7 @@
     "masterNodes": {
       "masterNodesPage": {
         "title": "Masternodes – DeFi Blockchain Client",
+        "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
         "list": "List",
@@ -102,12 +110,43 @@
         "masternodeWorth": "Masternode worth"
       },
       "masterNodesList": {
-        "address": "Address",
-        "poseSore": "PoSe score",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "lastPaid": "Last paid",
-        "nextPayment": "Next payment",
-        "payee": "Payee"
+        "mintedBlocks": "Minted Blocks"
+      },
+      "createMasterNode": {
+        "title": "Create Master Node",
+        "masterNodeName": "MasterNode Name",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create master node",
+        "confirmationText": "Are you sure you want to create a master node?",
+        "createNodeButton": "Create Master Node",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "masternodeOperator": "Masternode Operator",
+        "masternodeOwner": "Masternode Owner",
+        "backToMasternodePage": "Back to Masternode Page"
+      },
+      "masternodeDetailPage": {
+        "masternodeDetailTitle": "Masternode Detail Page %{hash}",
+        "masternode": "Masternode",
+        "masternodeDetail": "Masternode Details",
+        "ownerAddress": "Owner Address",
+        "operatorAddress": "Operator Address",
+        "state": "State",
+        "hash": "Hash",
+        "registered": "Registered",
+        "mintedBlocks": "Minted Blocks",
+        "resignHeight": "Resign Height",
+        "resignTx": "Resign Tx",
+        "banHeight": "Ban Height",
+        "banTx": "Ban Tx",
+        "resignMasterNode": "Resign",
+        "confirmation": "Are you sure you want to resign a master node?",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "successText": "Success",
+        "backToMasternodePage": "Back to Masternode Page"
       }
     },
     "settings": {
@@ -122,7 +161,11 @@
       "pruneBlockStorage": "Prune block storage",
       "blockPruneStorage": "Block storage to prune",
       "gb": "GB",
+      "utxoConsolidator": "UTXO Consolidator",
       "databaseSize": "Size of database cache",
+      "maximumAmount": "Maximum value of each UTXO",
+      "maximumCount": "Maximum number of UTXOs",
+      "feeRate": "Specific fee rate in BTC/kB",
       "mib": "MiB",
       "scriptVerification": "Script verification",
       "noOfThreads": "Number of threads",
@@ -131,6 +174,8 @@
       "german": "German",
       "displayAmount": "Display amounts in unit",
       "dFI": "DFI",
+      "fi": "fi",
+      "conversionLabel": "1 %{from} = %{conversion} %{to}",
       "µDFI": "µDFI",
       "displayMode": "Display mode",
       "sameAsSystem": "Same as system",
@@ -166,7 +211,9 @@
         "amount": "Amount",
         "dFI": "DFI",
         "message": "Message",
+        "label": "Label",
         "amountToReceive": "Amount to Receive",
+        "addressNotAvailable": "Address not available",
         "cancel": "Cancel",
         "continue": "Continue"
       },
@@ -195,6 +242,8 @@
         "send": "Send",
         "receive": "Receive",
         "paymentRequests": "Payment requests",
+        "noPaymentRequests": "No payment requests available",
+        "paginationRange": "%{from} – %{to} of %{total} payment request",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending"
@@ -202,12 +251,49 @@
       "walletTxns": {
         "time": "Time",
         "amount": "Amount",
-        "hash": "Hash"
+        "hash": "Hash",
+        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "noTransactions": "No transactions available"
+      }
+    },
+    "console": {
+      "consolePage": {
+        "consoleDefiClient": "Console – DeFi Blockchain Client",
+        "defiCliCommand": "Enter Defi-cli command",
+        "console": "Console",
+        "submit": "Submit",
+        "forRef": "For Reference",
+        "example": [
+          {
+            "title": "sendtoaddress",
+            "highlightText": "sendtoaddress \"address\" amount ( \"comment\" \"comment_to\" subtractfeefromamount replaceable conf_target \"estimate_mode\" )",
+            "cmdText": "defi-cli sendtoaddress \"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"donation\" \"seans outpost\""
+          },
+          {
+            "title": "getblock",
+            "highlightText": "getblock \"blockhash\" ( verbosity )",
+            "cmdText": "defi-cli getblock \"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\""
+          }
+        ]
+      },
+      "consoleResultPage": {
+        "resultPage": "CLI Result",
+        "back": "Back"
       }
     }
   },
   "alerts": {
     "configurationFailure": "Configuration Failure",
-    "errorOccurred": "Error occurred"
+    "walletBalanceFailure": "Wallet Balance Failure",
+    "pendingBalanceFailure": "Pending Balance Failure",
+    "addReceiveTxnsFailure": "Add Receive Txns Failure",
+    "removeReceiveTxnsFailure": "Remove Receive Txns Failure",
+    "paymentRequestsFailure": "Payment Requests Failure",
+    "walletTxnsFailure": "Wallet Txns failure",
+    "sendDataFailure": "Send Data Failure",
+    "errorOccurred": "Error occurred",
+    "success": "Success",
+    "backupSuccess": "Wallet backup done successfully",
+    "importSuccess": "Import wallet done successfully"
   }
 }

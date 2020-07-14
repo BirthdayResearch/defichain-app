@@ -1,5 +1,5 @@
-import React from "react";
-import "../app/App.scss";
+import React from 'react';
+import '../app/App.scss';
 import {
   Col,
   FormGroup,
@@ -7,32 +7,32 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
-import { MdCheck } from "react-icons/md";
+} from 'reactstrap';
+import { MdCheck } from 'react-icons/md';
 
 export default {
-  title: "Dropdown",
+  title: 'Dropdown',
 };
 
 export const Dropdowns = () => (
-  <div className="container mt-5">
-    <FormGroup className="form-row align-items-center">
-      <Col md="4">App language</Col>
-      <Col md="8">
+  <div className='container mt-5'>
+    <FormGroup className='form-row align-items-center'>
+      <Col md='4'>App language</Col>
+      <Col md='8'>
         <UncontrolledDropdown>
-          <DropdownToggle caret color="outline-secondary">
+          <DropdownToggle caret color='outline-secondary'>
             English
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="English"
+              className='d-flex justify-content-between'
+              value='English'
             >
               <span>English</span> <MdCheck />
             </DropdownItem>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="German"
+              className='d-flex justify-content-between'
+              value='German'
             >
               <span>German</span>
             </DropdownItem>

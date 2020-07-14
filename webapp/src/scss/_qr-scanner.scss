@@ -8,7 +8,7 @@
 
     // Flash effect element
     &:before {
-      content: "";
+      content: '';
       width: 100%;
       height: 100%;
       background-color: $white;
@@ -50,7 +50,7 @@
   &:after {
     position: absolute;
     z-index: 1;
-    content: "";
+    content: '';
     width: 32px;
     height: 32px;
     top: 24px;
@@ -79,7 +79,7 @@
     &:after {
       position: absolute;
       z-index: 1;
-      content: "";
+      content: '';
       width: 32px;
       height: 32px;
       bottom: 24px;

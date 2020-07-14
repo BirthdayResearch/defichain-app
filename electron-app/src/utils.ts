@@ -1,29 +1,52 @@
-import * as fs from "fs";
-import * as base64 from "base-64";
-import * as utf8 from "utf8";
-import cryptoJs from "crypto-js";
-import { platform } from "os";
-import * as ps from "ps-node";
+import * as base64 from 'base-64';
+import * as fs from 'fs';
+import * as ps from 'ps-node';
+import * as utf8 from 'utf8';
+import cryptoJs from 'crypto-js';
+import { platform } from 'os';
+import {
+  DARWIN,
+  WIN_32,
+  LINUX,
+  AIX,
+  FREEBSD,
+  OPENBSD,
+  ANDROID,
+  SUNOS,
+} from './constants';
 
 export const getPlatform = () => {
   switch (platform()) {
-    case "aix":
-    case "freebsd":
-    case "linux":
-    case "openbsd":
-    case "android":
-      return "linux";
-    case "darwin":
-    case "sunos":
-      return "mac";
-    case "win32":
-      return "win";
+    case AIX:
+    case FREEBSD:
+    case LINUX:
+    case OPENBSD:
+    case ANDROID:
+      return 'linux';
+    case DARWIN:
+    case SUNOS:
+      return 'mac';
+    case WIN_32:
+      return 'win';
   }
 };
 
 export const getBinaryParameter = (obj: any = {}) => {
-  const keys = Object.keys(obj);
-  return keys.map((key: string) => `-${key}=${obj[key]}`);
+  let remote: any = {
+    rpcallowip: '',
+    rpcauth: '',
+    rpcport: 0,
+    rpcuser: '',
+    rpcpassword: '',
+    rpcbind: '',
+  };
+  remote.rpcallowip = '0.0.0.0/0';
+  if (!!obj && Array.isArray(obj.remotes)) {
+    remote = Object.assign({}, remote, obj.remotes[0]);
+    remote.rpcbind = obj.remotes[0].rpcconnect;
+    delete remote.rpcconnect;
+  }
+  return Object.keys(remote).map((key) => `-${key}=${remote[key]}`);
 };
 
 export const responseMessage = (success: boolean, res: any) => {
@@ -34,7 +57,7 @@ export const responseMessage = (success: boolean, res: any) => {
 };
 
 // Check file exists or not
-export const checkFileExists = (filePath: string) => {
+export const checkPathExists = (filePath: string) => {
   return fs.existsSync(filePath);
 };
 
@@ -49,24 +72,16 @@ export const createDir = (dirPath: string) => {
 };
 
 // Get file data
-export const getFileData = (filePath: string, format: string = "utf-8") => {
-  try {
-    return fs.readFileSync(filePath, format);
-  } catch (err) {
-    throw err;
-  }
+export const getFileData = (filePath: string, format: string = 'utf-8') => {
+  return fs.readFileSync(filePath, format);
 };
 
 // write / append on UI config file
 export const writeFile = (filePath: string, data: any, append?: boolean) => {
-  try {
-    if (append && checkFileExists(filePath)) {
-      return fs.appendFileSync(filePath, data);
-    } else {
-      return fs.writeFileSync(filePath, data, "utf8");
-    }
-  } catch (err) {
-    throw err;
+  if (append && checkPathExists(filePath)) {
+    return fs.appendFileSync(filePath, data);
+  } else {
+    return fs.writeFileSync(filePath, data, 'utf8');
   }
 };
 
@@ -79,11 +94,15 @@ export const generatePassword = () => {
 };
 
 //  get default RPC auth
-export const getRpcAuth = (username: string) => {
-  const password = generatePassword();
+export const getRpcAuth = (rpcuser: string) => {
+  const rpcpassword = generatePassword();
   const salt = cryptoJs.lib.WordArray.random(16);
-  const passwordHmac = cryptoJs.HmacSHA256(password, salt);
-  return `${username}:${salt}$${passwordHmac}`;
+  const passwordHmac = cryptoJs.HmacSHA256(rpcpassword, salt);
+  return {
+    rpcuser,
+    rpcpassword,
+    rpcauth: `${rpcuser}:${salt}$${passwordHmac}`,
+  };
 };
 
 export const getProcesses = (args: any) => {
@@ -97,7 +116,7 @@ export const getProcesses = (args: any) => {
 
 export const stopProcesses = (processId: number | string) => {
   return new Promise((resolve, reject) => {
-    ps.kill(processId, "SIGTERM", (err: any, result: unknown) => {
+    ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
       if (err) return reject(err);
       return resolve(result);
     });

@@ -1,0 +1,27 @@
+//
+// Base styles
+//
+
+@if $enable-transitions {
+  @keyframes progress-bar-pulse {
+    0%   { background-position: 0; }
+    50%  { background-position: 48px; }
+    100% { background-position: 96px; }
+  }
+}
+
+.progress {
+  box-shadow: $progress-box-shadow;
+}
+
+.progress-bar {
+  @include border-radius($progress-border-radius);
+}
+
+@if $enable-transitions {
+  .progress-bar-animated {
+    background: linear-gradient(135deg, rgba(128,104,255,1) 0%, rgba(91,16,255,1) 33.3%, rgba(128,104,255,1) 100%);
+    background-size: 48px;
+    animation: progress-bar-pulse $progress-bar-animation-timing;
+  }
+}
