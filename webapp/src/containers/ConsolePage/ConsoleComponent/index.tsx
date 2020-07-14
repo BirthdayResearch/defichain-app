@@ -60,6 +60,9 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
       if (!isError) {
         if (result !== undefined) {
           toPrintData = JSON.stringify(result, null, 2);
+          if (typeof result === 'string') {
+            toPrintData = result;
+          }
         }
       } else {
         toPrintData = isError;
@@ -72,12 +75,18 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     return !!currentRef && currentRef.focus();
   };
 
+  const onScrollHandler = () => {
+    return !!currentRef && currentRef.scrollIfBottom();
+  };
+
   return (
-    <div onPaste={onPasteHandler} onFocus={onFocusHandler}>
+    <div
+      onPaste={onPasteHandler}
+      onFocus={onFocusHandler}
+      onScroll={onScrollHandler}
+    >
       <Console
-        ref={(ref: Console) => {
-          return (currentRef = ref);
-        }}
+        ref={(ref: Console) => (currentRef = ref)}
         handler={echo}
         promptLabel=''
         welcomeMessage={CONSOLE_PROMPT_LABEL}
