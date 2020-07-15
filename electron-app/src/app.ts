@@ -1,7 +1,7 @@
 import log from 'loglevel';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, Menu, protocol } from 'electron';
+import { app, BrowserWindow, Menu, protocol, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import DefiProcessManager from './services/defiprocessmanager';
@@ -19,6 +19,7 @@ import {
   CLOSE,
   SECOND_INSTANCE,
   CLOSED,
+  DISCLAIMER_DIALOG_TIMER,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
@@ -113,12 +114,28 @@ export default class App {
       this.mainWindow.webContents.openDevTools();
     }
 
+    /* Only for alpha and beta releases
+       Remove this function later
+    */
+    setTimeout(this.openDisclaimerDialog, DISCLAIMER_DIALOG_TIMER);
+
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
 
     this.mainWindow.on(CLOSED, () => {
       this.mainWindow = null;
     });
   }
+
+  openDisclaimerDialog = () => {
+    const options = {
+      type: 'warning',
+      title: 'Disclaimer',
+      message: `This is testing version of defi app, Use at your own risk?`,
+      buttons: ['close'],
+    };
+
+    dialog.showMessageBox(options);
+  };
 
   // Create menu
   createMenu() {

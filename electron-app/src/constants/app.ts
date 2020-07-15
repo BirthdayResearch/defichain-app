@@ -26,3 +26,4 @@ export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;
 export const DEFAULT_ELECTRON_FORMAT =
   '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
+export const DISCLAIMER_DIALOG_TIMER = 20000; 
