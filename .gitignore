@@ -122,3 +122,8 @@ dist
 
 # Unnecessary folders
 .DS_Store
+
+# Storybook build
+storybook-static
+
+/temp

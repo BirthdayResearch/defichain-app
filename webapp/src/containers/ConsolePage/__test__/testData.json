@@ -1,0 +1,15 @@
+{
+  "handleDataForQuery": {
+    "result": "bcrt1qm8afjayussf0uryqf66ppng0p47l6ml09uj28g",
+    "error": null,
+    "id": "curltest"
+  },
+  "referenceComponentProps": {
+    "title": "sendtoaddress",
+    "highlightText": "sendtoaddress \"address\" amount ( \"comment\" \"comment_to\" subtractfeefromamount replaceable conf_target \"estimate_mode\" )",
+    "cmdText": "defi-cli sendtoaddress \"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"donation\" \"seans outpost\""
+  },
+  "expected": {
+    "handleDataForQuery": "bcrt1qm8afjayussf0uryqf66ppng0p47l6ml09uj28g"
+  }
+}

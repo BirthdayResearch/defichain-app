@@ -1,0 +1,58 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.keyValueLi {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: $table-cell-padding-y 0;
+  border-bottom: $table-border-width solid $table-border-color;
+}
+
+.label {
+  padding-right: 1rem;
+}
+
+.value {
+  position: relative;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-align: right;
+  display: flex;
+  align-items: center;
+
+  svg {
+    display: block;
+    color: $secondary;
+  }
+}
+
+.copiedIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 32px);
+  height: 100%;
+  background-color: $dfi-scent;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.card {
+  .copiedIndicator {
+    background-color: $body-bg;
+  }
+}
+
+.qr {
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 8px;
+}

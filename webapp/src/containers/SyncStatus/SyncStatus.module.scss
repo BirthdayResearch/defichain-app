@@ -1,0 +1,38 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.syncStatusWrapper {
+  border-top: 1px solid $border-color;
+  min-height: 96px;
+  padding: 24px 32px;
+
+  .syncHeading {
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.21px;
+    line-height: 1rem;
+  }
+
+  .blockStatus {
+    color: $secondary;
+    font-size: 0.75rem;
+    letter-spacing: 0.21px;
+    line-height: 1rem;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    margin-left: 2px;
+    color: $green;
+  }
+
+  .syncProgress {
+    margin-top: 8px;
+    height: 8px;
+  }
+}

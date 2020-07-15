@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsRowInput should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(SettingsRowToggle)
+    field="blockStorage"
+    fieldName="blockStorage"
+    handleToggles={[Function]}
+    hideMinimized="settings"
+    label="blockPruneStorage"
+  >
+    <SettingsRowToggle
+      dispatch={[Function]}
+      field="blockStorage"
+      fieldName="blockStorage"
+      handleToggles={[Function]}
+      hideMinimized="settings"
+      label="blockPruneStorage"
+      locale="en"
+    >
+      <FormGroup
+        className="d-none"
+        tag="div"
+      >
+        <div
+          className="d-none form-group"
+        >
+          <FormGroup
+            check={true}
+            tag="div"
+          >
+            <div
+              className="form-check"
+            >
+              <Label
+                check={true}
+                className="switch"
+                tag="label"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <label
+                  className="switch form-check-label"
+                >
+                  <Input
+                    checked="blockStorage"
+                    onChange={[Function]}
+                    type="checkbox"
+                  >
+                    <input
+                      checked="blockStorage"
+                      className="form-check-input"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                  </Input>
+                   
+                  Block storage to prune
+                </label>
+              </Label>
+            </div>
+          </FormGroup>
+        </div>
+      </FormGroup>
+    </SettingsRowToggle>
+  </Connect(SettingsRowToggle)>
+</Provider>
+`;
