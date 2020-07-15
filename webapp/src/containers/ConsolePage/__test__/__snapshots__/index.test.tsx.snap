@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Console Page should check for snapshot 1`] = `
+<div
+  className="main-wrapper"
+>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Console – DeFi Blockchain Client
+    </title>
+  </HelmetWrapper>
+  <header
+    className="header-bar"
+  >
+    <h1>
+      Console
+    </h1>
+  </header>
+  <div
+    className="content"
+  >
+    <section>
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs={12}
+        >
+          <Connect(EchoConsole) />
+        </Col>
+      </Row>
+    </section>
+  </div>
+</div>
+`;

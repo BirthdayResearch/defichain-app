@@ -1,0 +1,846 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Block Page should check for snapshot 1`] = `
+<MemoryRouter
+  keyLength={0}
+>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(BlockPage)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "height": "12",
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <BlockPage
+          blockCount={0}
+          blockData={
+            Object {
+              "bits": "",
+              "difficulty": 0,
+              "hash": "",
+              "height": 0,
+              "merkleRoot": "",
+              "nTxns": 0,
+              "nonce": 0,
+              "version": 0,
+            }
+          }
+          fetchBlockCountRequest={[Function]}
+          fetchBlockData={[Function]}
+          fetchTxns={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          isLoadingTxns={true}
+          isTxnsLoaded={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "height": "12",
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          txnCount={0}
+          txns={Array []}
+          txnsLoadError=""
+          unit="DFI"
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="– DeFi Blockchain Client"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="– DeFi Blockchain Client"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <header
+              className="header-bar"
+            >
+              <Button
+                className="header-bar-back"
+                color="link"
+                tag={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "NavLink",
+                    "propTypes": Object {
+                      "activeClassName": [Function],
+                      "activeStyle": [Function],
+                      "aria-current": [Function],
+                      "className": [Function],
+                      "exact": [Function],
+                      "innerRef": [Function],
+                      "isActive": [Function],
+                      "location": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "strict": [Function],
+                      "style": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                to="/blockchain"
+              >
+                <NavLink
+                  aria-label={null}
+                  className="header-bar-back btn btn-link"
+                  onClick={[Function]}
+                  to="/blockchain"
+                >
+                  <Link
+                    aria-current={null}
+                    aria-label={null}
+                    className="header-bar-back btn btn-link"
+                    onClick={[Function]}
+                    to={
+                      Object {
+                        "hash": "",
+                        "pathname": "/blockchain",
+                        "search": "",
+                        "state": null,
+                      }
+                    }
+                  >
+                    <LinkAnchor
+                      aria-current={null}
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      href="/blockchain"
+                      navigate={[Function]}
+                      onClick={[Function]}
+                    >
+                      <a
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        href="/blockchain"
+                        onClick={[Function]}
+                      >
+                        <MdArrowBack>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdArrowBack>
+                        <span
+                          className="d-lg-inline"
+                        >
+                          Blockchain
+                        </span>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </NavLink>
+              </Button>
+              <h1>
+                Block
+                 
+                12
+              </h1>
+            </header>
+            <div
+              className="content"
+            >
+              <section
+                className="mb-5"
+              >
+                <Row
+                  className="mb-4"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="mb-4 row"
+                  >
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Number of transactions"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Number of transactions
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Difficulty"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Difficulty
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Height"
+                          value="12"
+                        >
+                          <div>
+                            <div>
+                              Height
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div>
+                                12
+                              </div>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Bits"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Bits
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Version"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Version
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Nonce"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Nonce
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col"
+                      >
+                        <KeyValueLi
+                          copyable="true"
+                          label="Block hash"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Block hash
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                              <CopyToClipboard
+                                handleCopy={[Function]}
+                                value=""
+                              >
+                                <CopyToClipboard
+                                  text=""
+                                >
+                                  <Button
+                                    className="padless ml-2"
+                                    color="link"
+                                    onClick={[Function]}
+                                    size="sm"
+                                    tag="button"
+                                  >
+                                    <button
+                                      aria-label={null}
+                                      className="padless ml-2 btn btn-link btn-sm"
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <MdContentCopy>
+                                        <IconBase
+                                          attr={
+                                            Object {
+                                              "viewBox": "0 0 24 24",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            fill="currentColor"
+                                            height="1em"
+                                            stroke="currentColor"
+                                            strokeWidth="0"
+                                            style={
+                                              Object {
+                                                "color": undefined,
+                                              }
+                                            }
+                                            viewBox="0 0 24 24"
+                                            width="1em"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                              key="0"
+                                            />
+                                          </svg>
+                                        </IconBase>
+                                      </MdContentCopy>
+                                    </button>
+                                  </Button>
+                                </CopyToClipboard>
+                              </CopyToClipboard>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col"
+                      >
+                        <KeyValueLi
+                          copyable="true"
+                          label="Merkle root"
+                          value=""
+                        >
+                          <div>
+                            <div>
+                              Merkle root
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <div />
+                              <CopyToClipboard
+                                handleCopy={[Function]}
+                                value=""
+                              >
+                                <CopyToClipboard
+                                  text=""
+                                >
+                                  <Button
+                                    className="padless ml-2"
+                                    color="link"
+                                    onClick={[Function]}
+                                    size="sm"
+                                    tag="button"
+                                  >
+                                    <button
+                                      aria-label={null}
+                                      className="padless ml-2 btn btn-link btn-sm"
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <MdContentCopy>
+                                        <IconBase
+                                          attr={
+                                            Object {
+                                              "viewBox": "0 0 24 24",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            fill="currentColor"
+                                            height="1em"
+                                            stroke="currentColor"
+                                            strokeWidth="0"
+                                            style={
+                                              Object {
+                                                "color": undefined,
+                                              }
+                                            }
+                                            viewBox="0 0 24 24"
+                                            width="1em"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                              key="0"
+                                            />
+                                          </svg>
+                                        </IconBase>
+                                      </MdContentCopy>
+                                    </button>
+                                  </Button>
+                                </CopyToClipboard>
+                              </CopyToClipboard>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+                <div
+                  className="d-flex justify-content-between"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="outline-primary"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "displayName": "NavLink",
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/blockchain/block/11"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="header-bar-back btn btn-outline-primary"
+                      onClick={[Function]}
+                      to="/blockchain/block/11"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-outline-primary"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/blockchain/block/11",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-outline-primary"
+                          href="/blockchain/block/11"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-outline-primary"
+                            href="/blockchain/block/11"
+                            onClick={[Function]}
+                          >
+                            <MdChevronLeft>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdChevronLeft>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              11
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                </div>
+              </section>
+              <section>
+                <h2>
+                  Transactions
+                </h2>
+                Loading...
+              </section>
+            </div>
+          </div>
+        </BlockPage>
+      </Connect(BlockPage)>
+    </Provider>
+  </Router>
+</MemoryRouter>
+`;

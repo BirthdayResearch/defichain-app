@@ -1,0 +1,36 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.card {
+  overflow: hidden;
+}
+
+.table {
+  margin-bottom: 0;
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: $card-bg;
+    box-shadow: 0 $table-border-width $table-border-color;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr:first-child td,
+  tr:first-child th {
+    border-top: none;
+  }
+}
+
+.pagination {
+  ul {
+    margin-bottom: 0;
+  }
+}

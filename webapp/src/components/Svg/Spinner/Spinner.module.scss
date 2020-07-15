@@ -1,0 +1,40 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../scss/variables';
+@import '../../../scss/bootstrap/variables';
+
+.spinner {
+  color: $gray-300 !important;
+  animation: rotate 1.1s linear infinite;
+  width: 24px;
+  height: 24px;
+}
+
+.path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  animation: dash 1.5s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 144;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 80, 144;
+    stroke-dashoffset: -16;
+  }
+  100% {
+    stroke-dasharray: 48, 144;
+    stroke-dashoffset: -96;
+  }
+}

@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsRowDropDownComponent should check for snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <Connect(SettingsRowDropDown)
+    data={
+      Array [
+        Object {
+          "label": "containers.settings.english",
+          "value": "en",
+        },
+        Object {
+          "label": "containers.settings.german",
+          "value": "de",
+        },
+      ]
+    }
+    field="en-GB"
+    fieldName="language"
+    handleDropDowns={[Function]}
+    label="containers.settings.displayMode"
+  />
+</ContextProvider>
+`;
