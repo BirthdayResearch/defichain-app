@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Defi blockchain client ui",
   "main": "./electron-app/build/index.js",
   "author": {
@@ -155,8 +155,8 @@
     },
     "publish": {
       "provider": "github",
-      "repo": "electron-release-example",
-      "owner": "Sumit570",
+      "repo": "defi-app",
+      "owner": "DeFiCh",
       "releaseType": "release"
     }
   },
