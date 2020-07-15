@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
@@ -134,7 +134,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
       <div className='content'>
         {!isLoading && (
           <section>
-            <Form onSubmit={e => e.preventDefault()}>
+            <Form onSubmit={(e) => e.preventDefault()}>
               <FormGroup className='form-label-group form-row'>
                 <Col>
                   {showForm ? (
@@ -148,7 +148,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                           name='masterNodeName'
                           id='masterNodeName'
                           value={masterNodeName}
-                          onChange={e => setMasterNodeName(e.target.value)}
+                          onChange={(e) => setMasterNodeName(e.target.value)}
                           autoFocus
                         />
                         <Label for='masterNodeName'>
@@ -300,7 +300,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings, masterNodes } = state;
   return {
     unit: settings.appConfig.unit,

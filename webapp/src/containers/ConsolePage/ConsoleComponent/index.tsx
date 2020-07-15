@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Console from 'react-console-component';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import {
   fetchDataForQueryRequest,
@@ -46,7 +47,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
           log: [],
         });
         return storeCliLog(
-          _.cloneDeep({
+          cloneDeep({
             history: currentRef.state.history,
           })
         );
@@ -57,18 +58,18 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
   };
   useEffect(() => {
     resetDataForQuery();
-    if (currentRef.state && !_.isEmpty(cliLog)) {
+    if (currentRef.state && !isEmpty(cliLog)) {
       const updatedState = {
         log: [],
         history: [],
       };
 
       if (Array.isArray(cliLog.log) && cliLog.log.length > 0) {
-        updatedState.log = _.cloneDeep(cliLog.log);
+        updatedState.log = cloneDeep(cliLog.log);
       }
 
       if (Array.isArray(cliLog.history) && cliLog.history.length > 0) {
-        updatedState.history = _.cloneDeep(cliLog.history);
+        updatedState.history = cloneDeep(cliLog.history);
       }
 
       currentRef.setState(updatedState);
@@ -84,7 +85,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
       currentRef.log(updatedText);
       currentRef.return();
       const { log, history } = currentRef.state;
-      const updatedState = _.cloneDeep({
+      const updatedState = cloneDeep({
         log,
         history,
         scrollSemaphore: currentRef.scrollSemaphore,
