@@ -227,16 +227,18 @@ export const getRpcMethodName = (query: string) => {
   if (!query.trim().length) throw new Error('Invalid command');
 
   const splitQuery = query.trim().split(' ');
-  if (splitQuery[0] !== DEFI_CLI)
-    throw new Error(`${splitQuery[0]}: command not found`);
-
-  return splitQuery[1];
+  if (splitQuery[0] === DEFI_CLI) {
+    return splitQuery[1];
+  }
+  return splitQuery[0];
 };
 
 export const getParams = (query: string) => {
   const splitQuery = query.trim().split(' ');
-  const params = splitQuery.slice(2);
-
+  let params = splitQuery.slice(1);
+  if (splitQuery[0] === DEFI_CLI) {
+    params = splitQuery.slice(2);
+  }
   const parsedParams = params.map((param) => {
     if (
       (param.startsWith('"') && param.endsWith('"')) ||
