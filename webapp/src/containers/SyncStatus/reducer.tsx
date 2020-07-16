@@ -8,6 +8,7 @@ const configSlice = createSlice({
     latestBlock: 0,
     latestSyncedBlock: 0,
     syncingError: '',
+    blockChainInfo: {},
   },
   reducers: {
     syncStatusRequest(state) {
@@ -26,6 +27,9 @@ const configSlice = createSlice({
       state.isLoading = false;
       state.syncingError = action.payload;
     },
+    setBlockChainInfo(state, action) {
+      state.blockChainInfo = action.payload;
+    },
   },
 });
 
@@ -35,6 +39,7 @@ export const {
   syncStatusRequest,
   syncStatusSuccess,
   syncStatusFailure,
+  setBlockChainInfo,
 } = actions;
 
 export default reducer;
