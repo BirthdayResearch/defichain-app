@@ -115,7 +115,7 @@ export default class App {
     }
 
     /* Only for alpha and beta releases
-       Remove this function later
+       Remove this disclaimer dialog later
     */
     setTimeout(this.openDisclaimerDialog, DISCLAIMER_DIALOG_TIMER);
 
@@ -130,11 +130,15 @@ export default class App {
     const options = {
       type: 'warning',
       title: 'Disclaimer',
-      message: `This is testing version of defi app, Use at your own risk?`,
-      buttons: ['close'],
+      message: `This is testing version of defi app, use at your own risk?`,
+      buttons: ['I understand', 'Close App'],
     };
 
-    dialog.showMessageBox(options);
+    dialog.showMessageBox(options).then((result) => {
+      if (result.response === 1) {
+        app.quit();
+      }
+    });
   };
 
   // Create menu
