@@ -94,6 +94,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                               props.unit,
                               request.unit
                             )}
+                            &nbsp;
                             <span className={styles.unit}>{props.unit}</span>
                           </>
                         ) : (
