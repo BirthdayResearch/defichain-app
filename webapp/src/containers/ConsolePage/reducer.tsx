@@ -4,6 +4,7 @@ export const initialState = {
   isLoading: false,
   result: {},
   isError: '',
+  cliLog: {},
 };
 
 const configSlice = createSlice({
@@ -30,6 +31,9 @@ const configSlice = createSlice({
       state.result = {};
       state.isError = '';
     },
+    storeCliLog(state, action) {
+      state.cliLog = action.payload;
+    },
   },
 });
 
@@ -39,6 +43,7 @@ export const {
   fetchDataForQuerySuccess,
   fetchDataForQueryFailure,
   resetDataForQuery,
+  storeCliLog,
 } = actions;
 
 export default reducer;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -163,25 +163,25 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.registered'
             )}
-            value={creationHeight}
+            value={`${creationHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.mintedBlocks'
             )}
-            value={mintedBlocks}
+            value={`${mintedBlocks}`}
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.resignHeight'
             )}
-            value={resignHeight}
+            value={`${resignHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.banHeight'
             )}
-            value={banHeight}
+            value={`${banHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
