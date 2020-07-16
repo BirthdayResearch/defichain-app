@@ -12,7 +12,8 @@
       "synced": "Synchronisiert",
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
-      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}"
+      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
+      "network": "Network"
     }
   },
   "containers": {
