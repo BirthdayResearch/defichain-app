@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { MdDone } from 'react-icons/md';
+import isEmpty from 'lodash/isEmpty';
 import styles from './SyncStatus.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
+  blockChainInfo: any;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
@@ -21,14 +23,23 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     props.syncStatusRequest();
   }, []);
 
-  const { latestSyncedBlock, latestBlock, syncedPercentage, isLoading } = props;
-
+  const {
+    latestSyncedBlock,
+    latestBlock,
+    syncedPercentage,
+    isLoading,
+    blockChainInfo,
+  } = props;
+  const chainName = !isEmpty(blockChainInfo) ? blockChainInfo.chain : '';
   if (isLoading) {
     return <div className={styles.syncStatusWrapper}>&nbsp;</div>;
   }
 
   return (
     <div className={styles.syncStatusWrapper}>
+      <div className={styles.syncHeading}>
+        {I18n.t('components.syncStatus.network')}: {chainName}
+      </div>
       {latestSyncedBlock >= latestBlock ? (
         <>
           <span className={styles.syncHeading}>
@@ -58,13 +69,14 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { locale } = state.i18n;
   const {
     syncedPercentage,
     latestSyncedBlock,
     latestBlock,
     isLoading,
+    blockChainInfo,
   } = state.syncstatus;
   return {
     locale,
@@ -72,6 +84,7 @@ const mapStateToProps = state => {
     latestBlock,
     syncedPercentage,
     latestSyncedBlock,
+    blockChainInfo,
   };
 };
 
