@@ -22,7 +22,7 @@ export default class DialogManager {
   async getFilePath(filters?: { name: string; extensions: string[] }[]) {
     try {
       const res = await dialog.showOpenDialog(null, {
-        properties: ['openFile', 'openDirectory'],
+        properties: ['openFile'],
         filters,
       });
       if (res.canceled || !res.filePaths.length) {
