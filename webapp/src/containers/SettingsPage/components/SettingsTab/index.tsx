@@ -36,7 +36,7 @@ const SettingsTab = (props: SettingsTabProps) => {
   } = props;
 
   const getUnitDescription = () => {
-    return Object.keys(DFI_UNIT_MAP).map(eachUnit => {
+    return Object.keys(DFI_UNIT_MAP).map((eachUnit) => {
       if (eachUnit === DEFAULT_UNIT) return null;
       const conversion = getAmountInSelectedUnit(1, eachUnit);
       return (
@@ -89,20 +89,20 @@ const SettingsTab = (props: SettingsTabProps) => {
           >
             {getUnitDescription()}
           </SettingsRowDropDown>
-          <SettingsRowDropDown
+          {/* <SettingsRowDropDown
             label={'containers.settings.displayMode'}
             data={displayModes}
             field={displayMode}
             handleDropDowns={handleDropDowns}
             fieldName={'displayMode'}
-          />
+          /> */}
         </Form>
       </section>
     </TabPane>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { languages, amountUnits, displayModes } = state.settings;
 
   return {
