@@ -30,7 +30,10 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     isLoading,
     blockChainInfo,
   } = props;
-  const chainName = !isEmpty(blockChainInfo) ? blockChainInfo.chain : '';
+  const chainName = !isEmpty(blockChainInfo)
+    ? blockChainInfo.chain.charAt(0).toUpperCase() +
+      blockChainInfo.chain.slice(1)
+    : '';
   if (isLoading) {
     return <div className={styles.syncStatusWrapper}>&nbsp;</div>;
   }
