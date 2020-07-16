@@ -157,7 +157,7 @@
       "provider": "github",
       "repo": "defi-app",
       "owner": "DeFiCh",
-      "releaseType": "release"
+      "releaseType": "prerelease"
     }
   },
   "lint-staged": {
