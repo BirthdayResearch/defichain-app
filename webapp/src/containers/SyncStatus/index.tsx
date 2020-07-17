@@ -34,40 +34,48 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     ? blockChainInfo.chain.charAt(0).toUpperCase() +
       blockChainInfo.chain.slice(1)
     : '';
-  if (isLoading) {
-    return <div className={styles.syncStatusWrapper}>&nbsp;</div>;
-  }
+
+  const syncBlock = () => {
+    if (isLoading) {
+      return <div>&nbsp;</div>;
+    }
+    return (
+      <div>
+        {latestSyncedBlock >= latestBlock ? (
+          <>
+            <span className={styles.syncHeading}>
+              {I18n.t(`components.syncStatus.synchronized`)}
+            </span>
+            <MdDone />
+          </>
+        ) : (
+          <>
+            <div className={styles.syncHeading}>
+              {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
+            </div>
+            <div className={styles.blockStatus}>
+              {I18n.t('components.syncStatus.blockInfo', {
+                latestSyncedBlock,
+                latestBlock,
+              })}
+            </div>
+            <Progress
+              animated
+              className={styles.syncProgress}
+              value={syncedPercentage}
+            />
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className={styles.syncStatusWrapper}>
       <div className={styles.syncHeading}>
         {I18n.t('components.syncStatus.network')}: {chainName}
       </div>
-      {latestSyncedBlock >= latestBlock ? (
-        <>
-          <span className={styles.syncHeading}>
-            {I18n.t(`components.syncStatus.synchronized`)}
-          </span>
-          <MdDone />
-        </>
-      ) : (
-        <>
-          <div className={styles.syncHeading}>
-            {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
-          </div>
-          <div className={styles.blockStatus}>
-            {I18n.t('components.syncStatus.blockInfo', {
-              latestSyncedBlock,
-              latestBlock,
-            })}
-          </div>
-          <Progress
-            animated
-            className={styles.syncProgress}
-            value={syncedPercentage}
-          />
-        </>
-      )}
+      {syncBlock()}
     </div>
   );
 };
