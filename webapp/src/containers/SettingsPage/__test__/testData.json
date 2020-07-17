@@ -36,15 +36,18 @@
   },
   "serviceTestData": {
     "initialData": {
-      "language": "en",
-      "unit": "DFI",
+      "blockStorage": "",
+      "databaseCache": "",
       "displayMode": "SAME_AS_SYSTEM",
+      "feeRate": 0.1,
+      "language": "en",
       "launchAtLogin": false,
+      "maximumAmount": 10000,
+      "maximumCount": 1000,
       "minimizedAtLaunch": false,
       "pruneBlockStorage": false,
       "scriptVerificationThreads": 0,
-      "blockStorage": "",
-      "databaseCache": ""
+      "unit": "DFI"
     }
   },
   "sagaTestData": {

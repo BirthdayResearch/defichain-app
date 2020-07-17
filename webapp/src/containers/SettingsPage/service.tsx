@@ -36,7 +36,7 @@ export const getLanguage = () => {
 };
 
 export const getAmountUnits = () => {
-  return Object.keys(DFI_UNIT_MAP).map(eachUnit => {
+  return Object.keys(DFI_UNIT_MAP).map((eachUnit) => {
     return { label: eachUnit, value: eachUnit };
   });
 };
@@ -73,7 +73,7 @@ export const initialData = () => {
   return settings;
 };
 
-export const updateSettingsData = settingsData => {
+export const updateSettingsData = (settingsData) => {
   PersistentStore.set(LANG_VARIABLE, settingsData.language);
   PersistentStore.set(UNIT, settingsData.unit);
   PersistentStore.set(DISPLAY_MODE, settingsData.displayMode);
