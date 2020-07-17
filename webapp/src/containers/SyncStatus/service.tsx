@@ -20,3 +20,8 @@ export const getBlockSyncInfo = async () => {
       : Math.max(0, percentage).toFixed(2);
   return { latestSyncedBlock, latestBlock, syncedPercentage };
 };
+
+export const getBlockChainInfo = () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getBlockChainInfo();
+};

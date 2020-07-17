@@ -12,7 +12,8 @@
       "synced": "Synced",
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
-      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}"
+      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
+      "network": "Network"
     }
   },
   "containers": {
@@ -165,7 +166,7 @@
       "databaseSize": "Size of database cache",
       "maximumAmount": "Maximum value of each UTXO",
       "maximumCount": "Maximum number of UTXOs",
-      "feeRate": "Specific fee rate in BTC/kB",
+      "feeRate": "Specific fee rate in DFI/kB",
       "mib": "MiB",
       "scriptVerification": "Script verification",
       "noOfThreads": "Number of threads",

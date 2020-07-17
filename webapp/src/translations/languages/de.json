@@ -12,7 +12,8 @@
       "synced": "Synchronisiert",
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
-      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}"
+      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
+      "network": "Network"
     }
   },
   "containers": {
@@ -165,7 +166,7 @@
       "utxoConsolidator": "UTXO Konsolidierer",
       "maximumAmount": "Maximaler Wert von jedem UTXO",
       "maximumCount": "Maximale Anzahl von UTXOs",
-      "feeRate": "Gebührensatz in BTC/kB",
+      "feeRate": "Gebührensatz in DFI/kB",
       "mib": "MiB",
       "scriptVerification": "Skript verification",
       "noOfThreads": "Anzahl der threads",
