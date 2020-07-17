@@ -2,9 +2,8 @@ import React from 'react';
 import MasterNodeDetailPage from '../components/MasterNodeDetailPage';
 import { match } from 'react-router';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router-dom';
 import store from '../../../app/rootStore';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { history } from '../../../utils/testUtils/routeComponentProps';
 import { createLocation } from 'history';
 const path = `/route/:hash`;
@@ -21,18 +20,16 @@ const updatedHistory = Object.assign({}, history, {
   location: updatedLocation,
 });
 
-describe.skip('Master Node Detail Page', () => {
+describe('Master Node Detail Page', () => {
   it('should check for snapshot', () => {
-    const wrapper = mount(
-      <Router>
-        <Provider store={store}>
-          <MasterNodeDetailPage
-            match={match}
-            history={updatedHistory}
-            location={updatedLocation}
-          />
-        </Provider>
-      </Router>
+    const wrapper = shallow(
+      <Provider store={store}>
+        <MasterNodeDetailPage
+          match={match}
+          history={updatedHistory}
+          location={updatedLocation}
+        />
+      </Provider>
     );
     expect(wrapper).toMatchSnapshot();
   });
