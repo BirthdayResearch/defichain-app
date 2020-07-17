@@ -1,9 +1,7 @@
 import queue from 'async/queue';
 
 import { QUEUE_CONCURRENCY } from '../../constants';
-import { ipcRendererFunc } from '../../utils/isElectron';
-
-const ipcRenderer = ipcRendererFunc();
+import { ipcRendererFunc, isElectron } from '../../utils/isElectron';
 
 const worker = (task, callback) => {
   task
@@ -18,9 +16,12 @@ const worker = (task, callback) => {
 
 const q = queue(worker, QUEUE_CONCURRENCY);
 
-ipcRenderer.on('kill-queue', () => {
-  ipcRenderer.removeAllListeners('kill-queue');
-  q.kill();
-});
+if (isElectron()) {
+  const ipcRenderer = ipcRendererFunc();
+  ipcRenderer.on('kill-queue', () => {
+    ipcRenderer.removeAllListeners('kill-queue');
+    q.kill();
+  });
+}
 
 export default q;
