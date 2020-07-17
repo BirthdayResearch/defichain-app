@@ -136,7 +136,18 @@ export default class App {
 
     dialog.showMessageBox(options).then((result) => {
       if (result.response === 1) {
-        app.quit();
+        const options = {
+          type: 'question',
+          title: 'Close App',
+          message: `Are you sure you want to quit?`,
+          buttons: ['Cancel', 'Quit'],
+        };
+
+        dialog.showMessageBox(options).then((result) => {
+          if (result.response === 1) {
+            app.quit();
+          }
+        });
       }
     });
   };
