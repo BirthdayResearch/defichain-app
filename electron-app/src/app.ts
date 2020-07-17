@@ -18,7 +18,6 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
-  CLOSED,
   DISCLAIMER_DIALOG_TIMER,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
@@ -120,10 +119,6 @@ export default class App {
     setTimeout(this.openDisclaimerDialog, DISCLAIMER_DIALOG_TIMER);
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
-
-    this.mainWindow.on(CLOSED, () => {
-      this.mainWindow = null;
-    });
   }
 
   openDisclaimerDialog = () => {
