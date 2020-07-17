@@ -475,7 +475,7 @@ export default class RpcClient {
     if (data.result.chain === REGTEST) {
       return true;
     }
-    return data.result.initialblockdownload;
+    return !!data.result;
   };
 
   getDataForCLIQuery = async (query: string) => {
