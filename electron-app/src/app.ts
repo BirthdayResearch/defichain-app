@@ -190,6 +190,8 @@ export default class App {
       return (this.mainWindow = null);
     }
     // Stop all process before quit
+    this.mainWindow.webContents.send('kill-queue');
+
     this.mainWindow.hide();
     event.preventDefault();
     const defiProcessManager = new DefiProcessManager();
