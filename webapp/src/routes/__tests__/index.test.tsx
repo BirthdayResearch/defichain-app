@@ -43,26 +43,28 @@ describe('Routing', () => {
         })}
       </Router>
     );
-    pathMap = component.find(Route).map(item => item.props());
+    pathMap = component.find(Route).map((item) => item.props());
   });
 
   it(`Should check for send on path ${WALLET_SEND_PATH}`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => item.path === WALLET_SEND_PATH);
+      const routeData = pathMap.find((item) => item.path === WALLET_SEND_PATH);
       expect(routeData.component).toBe(SendPage);
     }
   });
 
   it(`Should check for receive on path ${WALLET_RECEIVE_PATH}`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => item.path === WALLET_RECEIVE_PATH);
+      const routeData = pathMap.find(
+        (item) => item.path === WALLET_RECEIVE_PATH
+      );
       expect(routeData.component).toBe(ReceivePage);
     }
   });
 
   it(`Should check for wallet page on path ${WALLET_PAGE_PATH}`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => item.path === WALLET_PAGE_PATH);
+      const routeData = pathMap.find((item) => item.path === WALLET_PAGE_PATH);
       expect(routeData.component).toBe(WalletPage);
     }
   });
@@ -70,7 +72,7 @@ describe('Routing', () => {
   it(`Should check for blockchain on path ${BLOCKCHAIN_BASE_PATH}`, () => {
     if (Array.isArray(pathMap)) {
       const routeData = pathMap.find(
-        item => item.path === BLOCKCHAIN_BASE_PATH
+        (item) => item.path === BLOCKCHAIN_BASE_PATH
       );
       expect(routeData.component).toBe(BlockchainPage);
     }
@@ -86,7 +88,7 @@ describe('Routing', () => {
 
   it(`Should check for help on path ${HELP_PATH}`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => item.path === HELP_PATH);
+      const routeData = pathMap.find((item) => item.path === HELP_PATH);
       expect(routeData.component).toBe(HelpPage);
     }
   });
@@ -101,7 +103,7 @@ describe('Routing', () => {
 
   it(`Should check for setting on path ${SETTING_PATH}`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => item.path === SETTING_PATH);
+      const routeData = pathMap.find((item) => item.path === SETTING_PATH);
       expect(routeData.component).toBe(SettingsPage);
     }
   });
@@ -109,7 +111,7 @@ describe('Routing', () => {
   it(`Should check for blockchain block on path ${BLOCKCHAIN_BLOCK_PARAM_PATH}`, () => {
     if (Array.isArray(pathMap)) {
       const routeData = pathMap.find(
-        item => item.path === BLOCKCHAIN_BLOCK_PARAM_PATH
+        (item) => item.path === BLOCKCHAIN_BLOCK_PARAM_PATH
       );
       expect(routeData.component).toBe(BlockPage);
     }
@@ -118,7 +120,7 @@ describe('Routing', () => {
   it(`Should check for blockchain miner on path ${BLOCKCHAIN_MINER_PARAM_PATH}`, () => {
     if (Array.isArray(pathMap)) {
       const routeData = pathMap.find(
-        item => item.path === BLOCKCHAIN_MINER_PARAM_PATH
+        (item) => item.path === BLOCKCHAIN_MINER_PARAM_PATH
       );
       expect(routeData.component).toBe(MinerPage);
     }
@@ -127,7 +129,7 @@ describe('Routing', () => {
   it(`Should check for wallet payment request on path ${WALLET_PAYMENT_REQ_PARAMS_PATH}`, () => {
     if (Array.isArray(pathMap)) {
       const routeData = pathMap.find(
-        item => item.path === WALLET_PAYMENT_REQ_PARAMS_PATH
+        (item) => item.path === WALLET_PAYMENT_REQ_PARAMS_PATH
       );
       expect(routeData.component).toBe(PaymentRequestPage);
     }
@@ -135,7 +137,7 @@ describe('Routing', () => {
 
   it(`Should check for Error Path`, () => {
     if (Array.isArray(pathMap)) {
-      const routeData = pathMap.find(item => !item.path);
+      const routeData = pathMap.find((item) => !item.path);
       expect(routeData.component).toBe(Error404Page);
     }
   });
