@@ -201,6 +201,7 @@
         "to": "To",
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
+        "sendFailed": "Error ocurred while sending amount",
         "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI Address"
