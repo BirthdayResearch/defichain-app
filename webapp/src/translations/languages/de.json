@@ -114,7 +114,8 @@
         "ownerAddress": "Besitzer Adresse",
         "operatorAddress": "Betreiber-Adresse",
         "registered": "Registriert",
-        "mintedBlocks": "Geprägt Blöcke"
+        "mintedBlocks": "Geprägt Blöcke",
+        "noMasterNodes": "Keine Masterknoten verfügbar"
       },
       "createMasterNode": {
         "title": "Erstellen Sie Master-Knoten",
