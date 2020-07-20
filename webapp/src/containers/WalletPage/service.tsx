@@ -1,23 +1,25 @@
-import * as  log from '../../utils/electronLogger';
+import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
 import { PAYMENT_REQUEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
+import { I18n } from 'react-redux-i18n';
+import showNotification from '../../utils/notifications';
 
 export const handelGetPaymentRequest = () => {
   return JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
 };
 
-export const handelAddReceiveTxns = data => {
+export const handelAddReceiveTxns = (data) => {
   const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
   const paymentData = [data, ...initialData];
   PersistentStore.set(PAYMENT_REQUEST, paymentData);
   return paymentData;
 };
 
-export const handelRemoveReceiveTxns = id => {
+export const handelRemoveReceiveTxns = (id) => {
   const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
   const paymentData = initialData.filter(
-    ele => ele.id && ele.id.toString() !== id.toString()
+    (ele) => ele.id && ele.id.toString() !== id.toString()
   );
   PersistentStore.set(PAYMENT_REQUEST, paymentData);
   return paymentData;
@@ -76,15 +78,25 @@ export const sendToAddress = async (
   amount: number | string,
   subtractfeefromamount: boolean = false
 ) => {
-  const rpcClient = new RpcClient();
   try {
-    return rpcClient.sendToAddress(toAddress, amount, subtractfeefromamount);
+    const rpcClient = new RpcClient();
+    const data = await rpcClient.sendToAddress(
+      toAddress,
+      amount,
+      subtractfeefromamount
+    );
+    return data;
   } catch (err) {
     log.error(`Got error in sendToAddress: ${err}`);
+    showNotification(
+      I18n.t('alerts.errorOccurred'),
+      I18n.t('containers.wallet.sendPage.sendFailed')
+    );
+    throw new Error(`Got error in sendToAddress: ${err}`);
   }
 };
 
-export const getNewAddress = async label => {
+export const getNewAddress = async (label) => {
   const rpcClient = new RpcClient();
   try {
     return rpcClient.getNewAddress(label);

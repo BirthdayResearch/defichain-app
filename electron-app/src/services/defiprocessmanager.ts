@@ -7,6 +7,8 @@ import {
   CONFIG_FILE_NAME,
   START_DEFI_CHAIN_REPLY,
   PID_FILE_NAME,
+  DEFAULT_FALLBACK_FEE,
+  DEFAULT_RPC_ALLOW_IP,
 } from '../constants';
 import {
   checkPathExists,
@@ -51,7 +53,8 @@ export default class DefiProcessManager {
       const config = params.remotes;
       const child = spawn(execPath, [
         `-conf=${CONFIG_FILE_NAME}`,
-        `-rpcallowip=0.0.0.0/0`,
+        `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
+        `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
       ]);
       log.info('Node start initiated');

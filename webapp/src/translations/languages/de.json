@@ -201,6 +201,7 @@
         "to": "Zu",
         "pleaseVerifyAmount": "Bitte überprüfen Sie den Betrag und Empfänger",
         "completeSend": "Komplett Senden",
+        "sendFailed": "Beim Senden des Betrags ist ein Fehler aufgetreten",
         "transactionSuccessMsg": "Die Transaktion war ein voller Erfolg. Ihr wallet-Guthaben wird aktualisiert, sobald die Transaktion bestätigt wurde durch die DeFi-Blockchain.",
         "backToWallet": "Zurück zum Geldbeutel",
         "dfiAddress": "DFI-Adresse"
