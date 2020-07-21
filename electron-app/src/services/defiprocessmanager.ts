@@ -50,6 +50,7 @@ export default class DefiProcessManager {
       // const config = getBinaryParameter(params)
       const child = spawn(execPath, [
         `-conf=${CONFIG_FILE_NAME}`,
+        `-rpcallowip=0.0.0.0/0`,
         `-pid=${PID_FILE_NAME}`,
       ]);
       log.info('Node start initiated');
