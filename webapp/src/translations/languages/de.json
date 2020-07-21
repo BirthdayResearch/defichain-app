@@ -114,7 +114,8 @@
         "ownerAddress": "Besitzer Adresse",
         "operatorAddress": "Betreiber-Adresse",
         "registered": "Registriert",
-        "mintedBlocks": "Geprägt Blöcke"
+        "mintedBlocks": "Geprägt Blöcke",
+        "noMasterNodes": "Keine Masterknoten verfügbar"
       },
       "createMasterNode": {
         "title": "Erstellen Sie Master-Knoten",
@@ -188,13 +189,13 @@
     "wallet": {
       "sendPage": {
         "sendDFITitle": "Senden DFI – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "sendDFI": "Senden DFI",
         "amount": "Höhe",
         "dFI": "DFI",
         "max": "MAX",
         "toAddress": "Adresse",
-        "walletBalance": "Wallet-Guthaben",
+        "walletBalance": "Brieftasche-Guthaben",
         "amountToSend": "Betrag senden",
         "cancel": "Abbrechen",
         "continue": "Weiter",
@@ -207,7 +208,7 @@
       },
       "receivePage": {
         "receiveDFITitle": "Erhalten DFI – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "receiveDFI": "Erhalten DFI",
         "amount": "Höhe",
         "dFI": "DFI",
@@ -227,7 +228,7 @@
       "paymentRequestPage": {
         "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi Blockchain-Client",
         "paymentRequest": "Zahlungsaufforderung",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "delete": "Löschen",
         "label": "Label",
         "amount": "Höhe",
@@ -237,8 +238,8 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Wallet – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "walletDefiClient": "Brieftasche – DeFi Blockchain-Client",
+        "wallet": "Brieftasche",
         "delete": "Löschen",
         "send": "Senden",
         "receive": "Erhalten",
@@ -285,12 +286,12 @@
   },
   "alerts": {
     "configurationFailure": "Konfigurationsfehler",
-    "walletBalanceFailure": "Wallet Balance Fehler",
+    "walletBalanceFailure": "Brieftasche Balance Fehler",
     "pendingBalanceFailure": "Pending Balance Fehler",
     "addReceiveTxnsFailure": "Fügen Sie Erhalten Txns Fehler",
     "removeReceiveTxnsFailure": "Entfernen Sie Den Empfangs-Txns Fehler",
     "paymentRequestsFailure": "Zahlung-Anfragen Scheitern",
-    "walletTxnsFailure": "Wallet Txns Fehler",
+    "walletTxnsFailure": "Brieftasche Txns Fehler",
     "sendDataFailure": "Senden Von Daten Fehler",
     "errorOccurred": "Fehler aufgetreten",
     "success": "Erfolg",

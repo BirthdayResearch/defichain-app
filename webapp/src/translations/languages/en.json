@@ -114,7 +114,8 @@
         "ownerAddress": "Owner Address",
         "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "mintedBlocks": "Minted Blocks"
+        "mintedBlocks": "Minted Blocks",
+        "noMasterNodes": "No Masternodes Available"
       },
       "createMasterNode": {
         "title": "Create Master Node",
