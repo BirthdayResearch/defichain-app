@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Table, CardBody } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
@@ -8,6 +9,7 @@ import { fetchWalletTxnsRequest } from '../../reducer';
 import { WALLET_TXN_PAGE_SIZE } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import { BLOCKCHAIN_BLOCK_BASE_PATH } from '../../../../constants';
 
 interface WalletTxnsProps {
   unit: string;
@@ -17,6 +19,7 @@ interface WalletTxnsProps {
     time: string;
     amount: number;
     unit: string;
+    height: number;
   }[];
   walletTxnCount: number;
   fetchWalletTxns: (currentPage: number, pageSize: number) => void;
@@ -59,6 +62,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
               <thead>
                 <tr>
                   <th></th>
+                  <th>{I18n.t('containers.wallet.walletTxns.block')}</th>
                   <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
                   <th className={styles.amount}>
                     {I18n.t('containers.wallet.walletTxns.amount')}
@@ -71,6 +75,17 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   <tr key={`${txn.txnId}-${index}`}>
                     <td className={styles.typeIcon}>
                       {getTxnsTypeIcon(txn.category)}
+                    </td>
+                    <td>
+                      {txn.height !== -1 ? (
+                        <Link
+                          to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${txn.height}`}
+                        >
+                          {txn.height}
+                        </Link>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                     <td>
                       <div className={styles.time}>{txn.time}</div>
@@ -116,7 +131,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { settings, wallet } = state;
   return {
     unit: settings.appConfig.unit,
