@@ -62,7 +62,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
               <thead>
                 <tr>
                   <th></th>
-                  <th>{I18n.t('containers.wallet.walletTxns.block')}</th>
+                  <th>{I18n.t('containers.wallet.walletTxns.height')}</th>
                   <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
                   <th className={styles.amount}>
                     {I18n.t('containers.wallet.walletTxns.amount')}
