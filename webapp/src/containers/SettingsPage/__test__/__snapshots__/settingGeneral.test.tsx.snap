@@ -91,60 +91,11 @@ exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
             ]
           }
         >
-          Storage
-        </Col>
-        <Col
-          md="8"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          <Connect(SettingsRowToggle)
-            field={true}
-            fieldName="pruneBlockStorage"
-            handleToggles={[Function]}
-            label="pruneBlockStorage"
-          />
-          <FormGroup
-            className="form-label-group "
-            tag="div"
-          >
-            <Connect(SettingsRowInput)
-              field={12}
-              fieldName="blockStorage"
-              handleInputs={[Function]}
-              id="pruneTo"
-              label="blockPruneStorage"
-              name="pruneTo"
-              placeholder="Number"
-              text="gb"
-            />
-          </FormGroup>
-          <FormGroup
-            className="form-label-group mb-5"
-            tag="div"
-          >
-            <Connect(SettingsRowInput)
-              field={12}
-              fieldName="databaseCache"
-              handleInputs={[Function]}
-              id="dbCacheSize"
-              label="databaseSize"
-              name="dbCacheSize"
-              placeholder="Number"
-              text="mib"
-            />
-          </FormGroup>
+          UTXO Consolidator
         </Col>
       </Row>
       <Row
+        className="mb-5"
         tag="div"
         widths={
           Array [
@@ -157,21 +108,6 @@ exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
         }
       >
         <Col
-          md="4"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          Script verification
-        </Col>
-        <Col
           md="8"
           tag="div"
           widths={
@@ -185,76 +121,46 @@ exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
           }
         >
           <FormGroup
-            className="form-row"
+            className="form-label-group mb-5"
             tag="div"
           >
-            <Col
-              md="8"
-              tag="div"
-              widths={
-                Array [
-                  "xs",
-                  "sm",
-                  "md",
-                  "lg",
-                  "xl",
-                ]
-              }
-            >
-              <Label
-                for="scriptVerificationThreads"
-                tag="label"
-                widths={
-                  Array [
-                    "xs",
-                    "sm",
-                    "md",
-                    "lg",
-                    "xl",
-                  ]
-                }
-              >
-                Number of threads
-              </Label>
-              <Row
-                className="align-items-center"
-                tag="div"
-                widths={
-                  Array [
-                    "xs",
-                    "sm",
-                    "md",
-                    "lg",
-                    "xl",
-                  ]
-                }
-              >
-                <Col
-                  className="col-auto"
-                  tag="div"
-                  widths={
-                    Array [
-                      "xs",
-                      "sm",
-                      "md",
-                      "lg",
-                      "xl",
-                    ]
-                  }
-                >
-                  <ForwardRef
-                    id="scriptVerificationThreads"
-                    max={16}
-                    min={-2}
-                    onChange={[Function]}
-                    step={1}
-                    tooltip="off"
-                    value={12}
-                  />
-                </Col>
-                12
-              </Row>
-            </Col>
+            <Connect(SettingsRowInput)
+              field={1000}
+              fieldName="maximumAmount"
+              handleInputs={[Function]}
+              id="maximumAmount"
+              label="maximumAmount"
+              name="maximumAmount"
+              placeholder="Number"
+            />
+          </FormGroup>
+          <FormGroup
+            className="form-label-group mb-5"
+            tag="div"
+          >
+            <Connect(SettingsRowInput)
+              field={650}
+              fieldName="maximumCount"
+              handleInputs={[Function]}
+              id="maximumCount"
+              label="maximumCount"
+              name="maximumCount"
+              placeholder="Number"
+            />
+          </FormGroup>
+          <FormGroup
+            className="form-label-group mb-5"
+            tag="div"
+          >
+            <Connect(SettingsRowInput)
+              field={0.1}
+              fieldName="feeRate"
+              handleInputs={[Function]}
+              id="feeRate"
+              label="feeRate"
+              name="feeRate"
+              placeholder="Number"
+            />
           </FormGroup>
         </Col>
       </Row>

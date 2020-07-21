@@ -16,6 +16,7 @@ import {
   mockPersistentStore,
   mockAxios,
 } from '../../../utils/testUtils/mockUtils';
+import * as Utility from '../../../utils/utility';
 
 describe('Wallet page service unit test', () => {
   it('should check for handelGetPaymentRequest', () => {
@@ -100,7 +101,8 @@ describe('Wallet page service unit test', () => {
     expect(post).toBeCalledTimes(1);
   });
 
-  it('should check for sendToAddress', async () => {
+  it('should check for sendToAddress if getTxnSize is 0', async () => {
+    const utilMock = jest.spyOn(Utility, 'getTxnSize').mockResolvedValueOnce(0);
     const post = jest.fn().mockResolvedValueOnce({
       data: sendToAddress,
     });
@@ -110,6 +112,7 @@ describe('Wallet page service unit test', () => {
     const test = await service.sendToAddress(toAddress, amount);
     expect(test).toBe(expected.sendToAddress);
     expect(post).toBeCalledTimes(1);
+    expect(utilMock).toBeCalledTimes(1);
   });
 
   it('should check for getNewAddress', async () => {
