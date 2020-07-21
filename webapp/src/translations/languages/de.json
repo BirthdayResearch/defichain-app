@@ -252,6 +252,7 @@
         "pending": "Ausstehend"
       },
       "walletTxns": {
+        "block": "Block",
         "time": "Zeit",
         "amount": "Höhe",
         "hash": "Hash",
