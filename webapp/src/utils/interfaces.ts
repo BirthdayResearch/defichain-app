@@ -15,6 +15,7 @@ export interface IBlock {
 }
 
 export interface ITxn {
+  height: number;
   address: string;
   category: string;
   amount: number;
