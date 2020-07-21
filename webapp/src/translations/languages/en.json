@@ -114,7 +114,8 @@
         "ownerAddress": "Owner Address",
         "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "mintedBlocks": "Minted Blocks"
+        "mintedBlocks": "Minted Blocks",
+        "noMasterNodes": "No Masternodes Available"
       },
       "createMasterNode": {
         "title": "Create Master Node",
@@ -210,6 +211,7 @@
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
+        "optional": "Optional",
         "amount": "Amount",
         "dFI": "DFI",
         "message": "Message",
@@ -251,6 +253,7 @@
         "pending": "Pending"
       },
       "walletTxns": {
+        "block": "Block",
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",

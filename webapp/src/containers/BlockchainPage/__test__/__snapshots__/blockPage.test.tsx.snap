@@ -355,7 +355,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -391,7 +398,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -427,9 +441,16 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div>
-                                12
-                              </div>
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text="12"
+                              >
+                                <span>
+                                  12
+                                </span>
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -465,7 +486,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -501,7 +529,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -537,7 +572,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                             </div>
                           </div>
                         </KeyValueLi>
@@ -573,7 +615,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                               <CopyToClipboard
                                 handleCopy={[Function]}
                                 value=""
@@ -662,7 +711,14 @@ exports[`Block Page should check for snapshot 1`] = `
                               >
                                 Copied!
                               </div>
-                              <div />
+                              <EllipsisText
+                                length="50"
+                                tail="..."
+                                tailClassName="more"
+                                text=""
+                              >
+                                <span />
+                              </EllipsisText>
                               <CopyToClipboard
                                 handleCopy={[Function]}
                                 value=""
