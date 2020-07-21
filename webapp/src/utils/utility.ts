@@ -96,11 +96,19 @@ export const getBlockDetails = (block) => {
 };
 
 // UNIT_CONVERSION
-export const getTxnDetails = (txns): ITxn[] => {
-  return txns.map((txn) => {
+export const getTxnDetails = async (txns): Promise<ITxn[]> => {
+  const rpcClient = new RpcClient();
+
+  const promisedTxns = txns.map(async (txn) => {
+    let height = -1;
     const fee = txn.category === 'send' ? txn.fee : 0;
-    const blockHash = txn.category === 'orphan' ? '' : txn.blockhash;
+    const blockHash = txn.blockhash || '';
+    if(blockHash !== ''){
+      const block = await rpcClient.getBlock(blockHash, 1);
+      height = block.height;
+    }
     return {
+      height,
       address: txn.address,
       category: txn.category,
       amount: txn.amount,
@@ -113,6 +121,9 @@ export const getTxnDetails = (txns): ITxn[] => {
       unit: DEFAULT_UNIT,
     };
   });
+
+  const parsedTxns: ITxn[] = await Promise.all(promisedTxns);
+  return parsedTxns;
 };
 
 const getToAddressAmountMap = (vouts) => {

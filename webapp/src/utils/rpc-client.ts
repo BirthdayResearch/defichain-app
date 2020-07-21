@@ -343,7 +343,7 @@ export default class RpcClient {
       );
     }
 
-    const txnList: ITxn[] = getTxnDetails(data.result);
+    const txnList: ITxn[] = await getTxnDetails(data.result);
     return txnList;
   };
 
