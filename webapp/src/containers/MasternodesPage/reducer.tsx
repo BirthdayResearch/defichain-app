@@ -11,6 +11,7 @@ export const initialState = {
   isMasterNodeResigning: false,
   resignedMasterNodeData: '',
   isErrorResigningMasterNode: '',
+  isMasterNodeOperator: '',
 };
 
 const configSlice = createSlice({
@@ -60,6 +61,10 @@ const configSlice = createSlice({
       state.resignedMasterNodeData = '';
       state.isErrorResigningMasterNode = action.payload;
     },
+    restartNodeWithMasterNode(state) {},
+    setMasternodeOperator(state, action) {
+      state.isMasterNodeOperator = action.payload;
+    },
   },
 });
 
@@ -75,6 +80,8 @@ export const {
   resignMasterNode,
   resignMasterNodeSuccess,
   resignMasterNodeFailure,
+  restartNodeWithMasterNode,
+  setMasternodeOperator,
 } = actions;
 
 export default reducer;

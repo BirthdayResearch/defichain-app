@@ -28,6 +28,7 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   resignedMasterNodeData: string;
   isErrorResigningMasterNode: string;
   resignMasterNode: (masterNodeHash: string) => void;
+  isMasterNodeOperator: string;
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
@@ -40,6 +41,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
+    isMasterNodeOperator,
   } = props;
   const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
@@ -140,17 +142,19 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           &nbsp;
         </h1>
         <ButtonGroup>
-          <Button
-            color='link'
-            onClick={() => setIsConfirmationModalOpen('confirm')}
-          >
-            <MdDelete />
-            <span>
-              {I18n.t(
-                'containers.masterNodes.masternodeDetailPage.resignMasterNode'
-              )}
-            </span>
-          </Button>
+          {isMasterNodeOperator === operatorAuthAddress && (
+            <Button
+              color='link'
+              onClick={() => setIsConfirmationModalOpen('confirm')}
+            >
+              <MdDelete />
+              <span>
+                {I18n.t(
+                  'containers.masterNodes.masternodeDetailPage.resignMasterNode'
+                )}
+              </span>
+            </Button>
+          )}
         </ButtonGroup>
       </header>
       <div className='content'>
@@ -324,6 +328,7 @@ const mapStateToProps = (state) => {
       isMasterNodeResigning,
       resignedMasterNodeData,
       isErrorResigningMasterNode,
+      isMasterNodeOperator,
     },
   } = state;
   return {
@@ -331,6 +336,7 @@ const mapStateToProps = (state) => {
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
+    isMasterNodeOperator,
   };
 };
 

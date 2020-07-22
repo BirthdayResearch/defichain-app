@@ -7,7 +7,7 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 
-export const isBlockchainStarted = async (emitter) => {
+export const isBlockchainStarted = async (emitter, response) => {
   let retryAttempt = RETRY_ATTEMPT;
   const rpcClient = new RpcClient();
   const intervalRef = setInterval(async () => {
@@ -17,6 +17,7 @@ export const isBlockchainStarted = async (emitter) => {
         emitter({
           status: res,
           message: BLOCKCHAIN_START_SUCCESS,
+          conf: response.data.conf,
         });
         clearInterval(intervalRef);
       }
