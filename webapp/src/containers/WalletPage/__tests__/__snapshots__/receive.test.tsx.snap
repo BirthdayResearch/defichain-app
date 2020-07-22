@@ -297,7 +297,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                                 className=""
                                 htmlFor="amount"
                               >
-                                Amount
+                                Amount (Optional)
                               </label>
                             </Label>
                             <InputGroupAddon
@@ -364,7 +364,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                             className=""
                             htmlFor="message"
                           >
-                            Label
+                            Label (Optional)
                           </label>
                         </Label>
                       </div>
@@ -412,7 +412,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                             className=""
                             htmlFor="message"
                           >
-                            Message
+                            Message (Optional)
                           </label>
                         </Label>
                       </div>
