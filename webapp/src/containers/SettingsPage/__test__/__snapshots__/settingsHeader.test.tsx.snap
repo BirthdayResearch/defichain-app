@@ -7,6 +7,34 @@ exports[`SettingsTabHeader should check for snapshot if isUnsaved is true 1`] = 
   <h1>
     Settings
   </h1>
+  <Nav
+    pills={true}
+    tag="ul"
+    vertical={false}
+  >
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className=""
+        onClick={[Function]}
+        tag="a"
+      >
+        General
+      </NavLink>
+    </NavItem>
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className=""
+        onClick={[Function]}
+        tag="a"
+      >
+        Display
+      </NavLink>
+    </NavItem>
+  </Nav>
   <div />
 </header>
 `;

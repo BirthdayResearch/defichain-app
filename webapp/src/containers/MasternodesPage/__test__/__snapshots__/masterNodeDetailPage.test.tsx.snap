@@ -1,19 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Master Node Detail Page should check for snapshot 1`] = `
-<MemoryRouter>
-  <Router
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <Connect(MasterNodeDetailPage)
     history={
       Object {
-        "action": "REPLACE",
+        "action": "POP",
         "block": [Function],
         "canGo": [Function],
         "createHref": [Function],
         "entries": Array [
           Object {
             "hash": "",
-            "key": "bezf8v",
-            "pathname": "/masternodes",
+            "pathname": "/",
             "search": "",
             "state": undefined,
           },
@@ -26,8 +53,7 @@ exports[`Master Node Detail Page should check for snapshot 1`] = `
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "bezf8v",
-          "pathname": "/masternodes",
+          "pathname": "/route/1",
           "search": "",
           "state": undefined,
         },
@@ -35,132 +61,24 @@ exports[`Master Node Detail Page should check for snapshot 1`] = `
         "replace": [Function],
       }
     }
-  >
-    <Provider
-      store={
-        Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        }
+    location={
+      Object {
+        "hash": "",
+        "pathname": "/route/1",
+        "search": "",
+        "state": undefined,
       }
-    >
-      <Connect(MasterNodeDetailPage)
-        history={
-          Object {
-            "action": "POP",
-            "block": [Function],
-            "canGo": [Function],
-            "createHref": [Function],
-            "entries": Array [
-              Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-            ],
-            "go": [Function],
-            "goBack": [Function],
-            "goForward": [Function],
-            "index": 0,
-            "length": 1,
-            "listen": [Function],
-            "location": Object {
-              "hash": "",
-              "pathname": "/route/1",
-              "search": "",
-              "state": undefined,
-            },
-            "push": [Function],
-            "replace": [Function],
-          }
-        }
-        location={
-          Object {
-            "hash": "",
-            "pathname": "/route/1",
-            "search": "",
-            "state": undefined,
-          }
-        }
-        match={
-          Object {
-            "isExact": false,
-            "params": Object {
-              "hash": "1",
-            },
-            "path": "/route/:hash",
-            "url": "/route/1",
-          }
-        }
-      >
-        <MasterNodeDetailPage
-          dispatch={[Function]}
-          history={
-            Object {
-              "action": "POP",
-              "block": [Function],
-              "canGo": [Function],
-              "createHref": [Function],
-              "entries": Array [
-                Object {
-                  "hash": "",
-                  "pathname": "/",
-                  "search": "",
-                  "state": undefined,
-                },
-              ],
-              "go": [Function],
-              "goBack": [Function],
-              "goForward": [Function],
-              "index": 0,
-              "length": 1,
-              "listen": [Function],
-              "location": Object {
-                "hash": "",
-                "pathname": "/route/1",
-                "search": "",
-                "state": undefined,
-              },
-              "push": [Function],
-              "replace": [Function],
-            }
-          }
-          location={
-            Object {
-              "hash": "",
-              "pathname": "/route/1",
-              "search": "",
-              "state": undefined,
-            }
-          }
-          masternodes={Array []}
-          match={
-            Object {
-              "isExact": false,
-              "params": Object {
-                "hash": "1",
-              },
-              "path": "/route/:hash",
-              "url": "/route/1",
-            }
-          }
-        >
-          <Redirect
-            to="/masternodes"
-          >
-            <Lifecycle
-              onMount={[Function]}
-              onUpdate={[Function]}
-              to="/masternodes"
-            />
-          </Redirect>
-        </MasterNodeDetailPage>
-      </Connect(MasterNodeDetailPage)>
-    </Provider>
-  </Router>
-</MemoryRouter>
+    }
+    match={
+      Object {
+        "isExact": false,
+        "params": Object {
+          "hash": "1",
+        },
+        "path": "/route/:hash",
+        "url": "/route/1",
+      }
+    }
+  />
+</ContextProvider>
 `;

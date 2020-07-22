@@ -12,7 +12,8 @@
       "synced": "Synchronisiert",
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
-      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}"
+      "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
+      "network": "Network"
     }
   },
   "containers": {
@@ -113,7 +114,8 @@
         "ownerAddress": "Besitzer Adresse",
         "operatorAddress": "Betreiber-Adresse",
         "registered": "Registriert",
-        "mintedBlocks": "Geprägt Blöcke"
+        "mintedBlocks": "Geprägt Blöcke",
+        "noMasterNodes": "Keine Masterknoten verfügbar"
       },
       "createMasterNode": {
         "title": "Erstellen Sie Master-Knoten",
@@ -165,7 +167,7 @@
       "utxoConsolidator": "UTXO Konsolidierer",
       "maximumAmount": "Maximaler Wert von jedem UTXO",
       "maximumCount": "Maximale Anzahl von UTXOs",
-      "feeRate": "Gebührensatz in BTC/kB",
+      "feeRate": "Gebührensatz in DFI/kB",
       "mib": "MiB",
       "scriptVerification": "Skript verification",
       "noOfThreads": "Anzahl der threads",
@@ -187,27 +189,29 @@
     "wallet": {
       "sendPage": {
         "sendDFITitle": "Senden DFI – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "sendDFI": "Senden DFI",
         "amount": "Höhe",
         "dFI": "DFI",
         "max": "MAX",
         "toAddress": "Adresse",
-        "walletBalance": "Wallet-Guthaben",
+        "walletBalance": "Brieftasche-Guthaben",
         "amountToSend": "Betrag senden",
         "cancel": "Abbrechen",
         "continue": "Weiter",
         "to": "Zu",
         "pleaseVerifyAmount": "Bitte überprüfen Sie den Betrag und Empfänger",
         "completeSend": "Komplett Senden",
+        "sendFailed": "Beim Senden des Betrags ist ein Fehler aufgetreten",
         "transactionSuccessMsg": "Die Transaktion war ein voller Erfolg. Ihr wallet-Guthaben wird aktualisiert, sobald die Transaktion bestätigt wurde durch die DeFi-Blockchain.",
         "backToWallet": "Zurück zum Geldbeutel",
         "dfiAddress": "DFI-Adresse"
       },
       "receivePage": {
         "receiveDFITitle": "Erhalten DFI – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "receiveDFI": "Erhalten DFI",
+        "optional": "Freiwillig",
         "amount": "Höhe",
         "dFI": "DFI",
         "message": "Nachricht",
@@ -226,7 +230,7 @@
       "paymentRequestPage": {
         "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi Blockchain-Client",
         "paymentRequest": "Zahlungsaufforderung",
-        "wallet": "Wallet",
+        "wallet": "Brieftasche",
         "delete": "Löschen",
         "label": "Label",
         "amount": "Höhe",
@@ -236,8 +240,8 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Wallet – DeFi Blockchain-Client",
-        "wallet": "Wallet",
+        "walletDefiClient": "Brieftasche – DeFi Blockchain-Client",
+        "wallet": "Brieftasche",
         "delete": "Löschen",
         "send": "Senden",
         "receive": "Erhalten",
@@ -249,6 +253,7 @@
         "pending": "Ausstehend"
       },
       "walletTxns": {
+        "height": "Höhe",
         "time": "Zeit",
         "amount": "Höhe",
         "hash": "Hash",
@@ -284,12 +289,12 @@
   },
   "alerts": {
     "configurationFailure": "Konfigurationsfehler",
-    "walletBalanceFailure": "Wallet Balance Fehler",
+    "walletBalanceFailure": "Brieftasche Balance Fehler",
     "pendingBalanceFailure": "Pending Balance Fehler",
     "addReceiveTxnsFailure": "Fügen Sie Erhalten Txns Fehler",
     "removeReceiveTxnsFailure": "Entfernen Sie Den Empfangs-Txns Fehler",
     "paymentRequestsFailure": "Zahlung-Anfragen Scheitern",
-    "walletTxnsFailure": "Wallet Txns Fehler",
+    "walletTxnsFailure": "Brieftasche Txns Fehler",
     "sendDataFailure": "Senden Von Daten Fehler",
     "errorOccurred": "Fehler aufgetreten",
     "success": "Erfolg",

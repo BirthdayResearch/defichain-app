@@ -7,6 +7,7 @@ interface StatCardProps {
   value: string;
   unit: string;
   icon?: any;
+  refreshFlag?: any;
 }
 
 const StatCard: React.FunctionComponent<StatCardProps> = (
@@ -18,7 +19,12 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
         <Row>
           <Col className={styles.label}>{props.label}</Col>
           {props.icon && (
-            <Col className='col-md-6' style={{ textAlign: 'end' }}>
+            <Col
+              md='6'
+              className={`${styles.statCardIcon} ${
+                props.refreshFlag ? styles.statCardIconAnimation : ''
+              }`}
+            >
               {props.icon}
             </Col>
           )}
