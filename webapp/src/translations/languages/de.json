@@ -299,6 +299,7 @@
     "errorOccurred": "Fehler aufgetreten",
     "success": "Erfolg",
     "backupSuccess": "Brieftasche backup erfolgreich abgeschlossen",
-    "importSuccess": "Import-wallet erfolgreich abgeschlossen"
+    "importSuccess": "Import-wallet erfolgreich abgeschlossen",
+    "masterNodeOperatorAddressFailure": "Masternode operator address is not present"
   }
 }

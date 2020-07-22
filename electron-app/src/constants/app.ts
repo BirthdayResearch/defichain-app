@@ -13,6 +13,7 @@ export const ACTIVATE = 'activate';
 export const CLOSE = 'close';
 export const CLOSED = 'closed';
 export const SECOND_INSTANCE = 'second-instance';
+export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
 export const WIN_32 = 'win32';
@@ -26,4 +27,4 @@ export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;
 export const DEFAULT_ELECTRON_FORMAT =
   '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
-export const DISCLAIMER_DIALOG_TIMER = 10000; 
+export const DISCLAIMER_DIALOG_TIMER = 10000;

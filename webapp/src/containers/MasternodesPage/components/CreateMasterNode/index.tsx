@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { fetchWalletBalanceRequest } from '../../../WalletPage/reducer';
-import { createMasterNode } from '../../reducer';
+import { createMasterNode, restartNodeWithMasterNode } from '../../reducer';
 import {
   MASTER_NODES_PATH,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
@@ -35,6 +35,7 @@ interface CreateMasterNodeProps {
   isMasterNodeCreating: boolean;
   createdMasterNodeData: any;
   isErrorCreatingMasterNode: string;
+  restartNodeWithMasterNode: () => void;
 }
 const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   props: CreateMasterNodeProps
@@ -48,6 +49,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
     isMasterNodeCreating,
     createdMasterNodeData,
     isErrorCreatingMasterNode,
+    restartNodeWithMasterNode,
   } = props;
   const [masterNodeName, setMasterNodeName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -110,6 +112,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   const showForm = new BigNumber(walletBalance).gte(
     MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
   );
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -263,11 +266,14 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
+          <div className='d-flex justify-content-end'>
             <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
                 'containers.masterNodes.createMasterNode.backToMasternodePage'
               )}
+            </Button>
+            <Button color='primary' onClick={() => restartNodeWithMasterNode()}>
+              {'Restart'}
             </Button>
           </div>
         </div>
@@ -317,6 +323,7 @@ const mapDispatchToProps = {
   fetchWalletBalanceRequest,
   createMasterNode: (masterNodeName: string) =>
     createMasterNode({ masterNodeName }),
+  restartNodeWithMasterNode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMasterNode);
