@@ -55,9 +55,7 @@ export default class RpcClient {
   call = async (path: string, method: string, params: any[] = []) => {
     return await this.client.post(path, {
       jsonrpc: RPC_V,
-      id: Math.random()
-        .toString()
-        .substr(2),
+      id: Math.random().toString().substr(2),
       method,
       params,
     });
@@ -265,8 +263,10 @@ export default class RpcClient {
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
-        maximumAmount: PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+        maximumAmount:
+          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+        maximumCount:
+          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
         feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
       });
     }
@@ -343,7 +343,7 @@ export default class RpcClient {
       );
     }
 
-    const txnList: ITxn[] = getTxnDetails(data.result);
+    const txnList: ITxn[] = await getTxnDetails(data.result);
     return txnList;
   };
 
@@ -475,7 +475,7 @@ export default class RpcClient {
     if (data.result.chain === REGTEST) {
       return true;
     }
-    return data.result.initialblockdownload;
+    return !!data.result;
   };
 
   getDataForCLIQuery = async (query: string) => {
@@ -519,6 +519,22 @@ export default class RpcClient {
 
   listMasterNodes = async (): Promise<string> => {
     const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    return data.result;
+  };
+
+  getBlockChainInfo = async () => {
+    const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_BLOCKCHAIN_INFO
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
     return data.result;
   };
 }

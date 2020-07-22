@@ -17,7 +17,7 @@ export const getRpcConfig = () => {
 };
 
 export function startBinary(config: any) {
-  return eventChannel(emit => {
+  return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send('start-defi-chain', config);
     ipcRenderer.on('start-defi-chain-reply', async (_e: any, res: any) => {
@@ -51,7 +51,7 @@ export const backupWallet = async (paths: string[]) => {
       I18n.t('alerts.backupSuccess')
     );
   }
-  return showNotification(I18n.t('alerts.error_occurred'), res.data.error);
+  return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
 export const importWallet = async (paths: string[]) => {
@@ -63,5 +63,5 @@ export const importWallet = async (paths: string[]) => {
       I18n.t('alerts.importSuccess')
     );
   }
-  return showNotification(I18n.t('alerts.error_occurred'), res.data.error);
+  return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
