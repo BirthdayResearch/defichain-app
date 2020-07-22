@@ -7,6 +7,7 @@ export const initialState = {
   isRunning: false,
   rpcConfigError: '',
   nodeError: '',
+  configurationData: '',
 };
 
 const configSlice = createSlice({
@@ -53,6 +54,9 @@ const configSlice = createSlice({
       state.isRunning = false;
       state.nodeError = action.payload;
     },
+    storeConfigurationData(state, action) {
+      state.configurationData = action.payload;
+    },
   },
 });
 
@@ -65,6 +69,7 @@ export const {
   startNodeRequest,
   startNodeSuccess,
   startNodeFailure,
+  storeConfigurationData,
 } = actions;
 
 export default reducer;
