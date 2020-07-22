@@ -101,9 +101,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   updateToAddress = (e) => {
     const toAddress = e.target.value;
-    this.setState({
-      toAddress,
-    });
+    this.setState(
+      {
+        toAddress,
+      },
+      this.isAddressValid
+    );
   };
 
   maxAmountToSend = () => {
@@ -250,7 +253,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   isAddressValid = async () => {
-    const isAddressValid = await isValidAddress(this.state.toAddress);
+    let isAddressValid = false;
+    if (
+      this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
+      this.state.toAddress.length <= 35
+    ) {
+      isAddressValid = await isValidAddress(this.state.toAddress);
+    }
     this.setState({ isAddressValid });
   };
 
@@ -321,7 +330,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     id='toAddress'
                     value={this.state.toAddress}
                     onChange={this.updateToAddress}
-                    onBlur={this.isAddressValid}
                   />
                   <Label for='toAddress'>
                     {I18n.t('containers.wallet.sendPage.toAddress')}
