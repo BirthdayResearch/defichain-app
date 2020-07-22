@@ -6,7 +6,8 @@
 @import '../../../../scss/bootstrap/variables';
 
 .card {
-  overflow: hidden;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .table {
