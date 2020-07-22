@@ -20,8 +20,12 @@ if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
   ipcRenderer.on('kill-queue', () => {
     ipcRenderer.removeAllListeners('kill-queue');
-    q.kill();
+    killQueue();
   });
 }
+
+export const killQueue = () => {
+  if (q) q.kill();
+};
 
 export default q;

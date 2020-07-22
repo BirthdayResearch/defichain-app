@@ -33,7 +33,10 @@ export default class DefiProcessManager {
           if (event)
             event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(true, { message: 'Node already running' })
+              responseMessage(true, {
+                message: 'Node already running',
+                conf: this.getConfiguration(),
+              })
             );
           return responseMessage(true, { message: 'Node already running' });
         }
@@ -52,7 +55,7 @@ export default class DefiProcessManager {
       // const config = getBinaryParameter(params)
       const config = params.remotes;
       const child = spawn(execPath, [
-        `-conf=${CONFIG_FILE_NAME}`,
+        // `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
@@ -67,7 +70,10 @@ export default class DefiProcessManager {
           if (event)
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(true, { message: 'Node started' })
+              responseMessage(true, {
+                message: 'Node started',
+                conf: this.getConfiguration(),
+              })
             );
         }
       });
@@ -102,6 +108,13 @@ export default class DefiProcessManager {
     }
   }
 
+  getConfiguration() {
+    if (checkPathExists(CONFIG_FILE_NAME)) {
+      return getFileData(CONFIG_FILE_NAME);
+    }
+    return '';
+  }
+
   async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);
@@ -119,5 +132,29 @@ export default class DefiProcessManager {
       log.error(err);
       return responseMessage(false, err);
     }
+  }
+
+  async restart(args: any, event: Electron.IpcMainEvent) {
+    if (args.updatedConf) {
+      writeFile(CONFIG_FILE_NAME, args.updatedConf, false)
+    }
+    log.info('Restart node started');
+    const stopResponse = await this.stop();
+    const startResponse = await this.start({}, event);
+    if (
+      stopResponse &&
+      startResponse &&
+      stopResponse.success &&
+      startResponse.success
+    ) {
+      return responseMessage(true, {
+        message: 'Restart Node Success',
+      });
+    } else {
+      return responseMessage(true, {
+        message: 'Restart Node Failure',
+      });
+    }
+
   }
 }
