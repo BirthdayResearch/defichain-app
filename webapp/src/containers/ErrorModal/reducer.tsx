@@ -4,6 +4,7 @@ const configSlice = createSlice({
   name: 'errorModal',
   initialState: {
     isOpen: false,
+    isRestart: false,
   },
   reducers: {
     openErrorModal(state) {
@@ -11,12 +12,16 @@ const configSlice = createSlice({
     },
     closeErrorModal(state) {
       state.isOpen = false;
+      state.isRestart = false;
+    },
+    restartModal(state) {
+      state.isRestart = true;
     },
   },
 });
 
 const { actions, reducer } = configSlice;
 
-export const { openErrorModal, closeErrorModal } = actions;
+export const { openErrorModal, closeErrorModal, restartModal } = actions;
 
 export default reducer;

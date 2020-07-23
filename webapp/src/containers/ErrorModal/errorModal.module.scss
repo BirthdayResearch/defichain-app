@@ -1,9 +1,9 @@
 // App and Bootstrap variables required
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
 
 .dark {
   background-color: $gray-900 !important;
@@ -21,6 +21,13 @@
   svg {
     color: $dfi-red;
   }
+  .errorLoaderContent {
+    display: inline-block;
+    svg {
+      -webkit-animation: rotation 2s infinite linear;
+      animation: rotation 2s infinite linear;
+    }
+  }
 }
 
 .onContentModal {
@@ -30,4 +37,17 @@
 
 .openErrorModal {
   filter: blur(5px);
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }

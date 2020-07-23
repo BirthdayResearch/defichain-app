@@ -55,7 +55,7 @@ export default class DefiProcessManager {
       // const config = getBinaryParameter(params)
       const config = params.remotes;
       const child = spawn(execPath, [
-        // `-conf=${CONFIG_FILE_NAME}`,
+        `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
@@ -136,7 +136,7 @@ export default class DefiProcessManager {
 
   async restart(args: any, event: Electron.IpcMainEvent) {
     if (args.updatedConf) {
-      writeFile(CONFIG_FILE_NAME, args.updatedConf, false)
+      writeFile(CONFIG_FILE_NAME, args.updatedConf, false);
     }
     log.info('Restart node started');
     const stopResponse = await this.stop();
@@ -155,6 +155,5 @@ export default class DefiProcessManager {
         message: 'Restart Node Failure',
       });
     }
-
   }
 }
