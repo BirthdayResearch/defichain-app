@@ -22,14 +22,14 @@ export const handelCreateMasterNodes = async (masterNodeName) => {
     `masternode_operator_${masterNodeName}`,
     GET_NEW_ADDRESS_TYPE
   );
-  // const masterNodeHash = await rpcClient.createMasterNode({
-  //   operatorAuthAddress: masternodeOperator,
-  //   collateralAddress: masternodeOwner,
-  // });
+  const masterNodeHash = await rpcClient.createMasterNode({
+    operatorAuthAddress: masternodeOperator,
+    collateralAddress: masternodeOwner,
+  });
   return {
     masternodeOperator,
     masternodeOwner,
-    masterNodeHash: '',
+    masterNodeHash,
   };
 };
 
