@@ -1,7 +1,8 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import remove from 'lodash/remove';
 import { I18n } from 'react-redux-i18n';
+import { killQueue } from '../../worker/queue';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -12,9 +13,11 @@ import {
   resignMasterNode,
   resignMasterNodeFailure,
   resignMasterNodeSuccess,
-  restartNodeWithMasterNode,
+  startRestartNodeWithMasterNode,
+  finishRestartNodeWithMasterNode,
   setMasternodeOperator,
 } from './reducer';
+import { restartModal } from '../ErrorModal/reducer';
 import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,
@@ -22,6 +25,7 @@ import {
   getPrivateKey,
   importPrivateKey,
 } from './service';
+import { history } from '../../utils/history';
 
 import { restartNode } from '../../utils/isElectron';
 
@@ -82,7 +86,7 @@ function* handleRestartNode() {
         createdMasterNodeData.masternodeOperator
       );
       yield call(importPrivateKey, privKey);
-      const dataArr = configurationData.split(' ');
+      const dataArr = configurationData.trim().split('\n');
       remove(dataArr, (item: string) => item.includes('masternode_operator='));
       remove(dataArr, (item: string) => item.includes('masternode_owner='));
       dataArr.push(
@@ -90,9 +94,12 @@ function* handleRestartNode() {
       );
       dataArr.push(`masternode_owner=${createdMasterNodeData.masternodeOwner}`);
 
-      const finalString = dataArr.join(' ');
-
+      const finalString = dataArr.join('\n');
+      yield put(restartModal());
+      yield call(killQueue);
       yield call(restartNode, { updatedConf: finalString });
+      yield delay(2000);
+      yield put(finishRestartNodeWithMasterNode());
     } else throw new Error('Unable to get location of config file');
   } catch (e) {
     yield put({ type: createMasterNodeFailure.type, payload: e.message });
@@ -123,7 +130,7 @@ function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
-  yield takeLatest(restartNodeWithMasterNode.type, handleRestartNode);
+  yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
 }
 
 export default mySaga;

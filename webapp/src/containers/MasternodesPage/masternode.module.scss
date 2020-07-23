@@ -1,8 +1,8 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
 
 .confirmationalModal {
   height: 6rem;
@@ -15,4 +15,28 @@
 
 .error-dailog {
   color: $dfi-red !important;
+}
+
+.rotationconAnimation {
+  text-align: center;
+  svg {
+    width: 3rem;
+    height: 3rem;
+    margin-top: 3rem;
+    -webkit-animation: rotation 2s infinite linear;
+    animation: rotation 2s infinite linear;
+  }
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }
