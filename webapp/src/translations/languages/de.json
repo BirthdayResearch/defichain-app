@@ -129,7 +129,8 @@
         "masternodeOperator": "Master-Knoten Betreiber",
         "masternodeOwner": "Master-Knoten Besitzer",
         "backToMasternodePage": "Zurück zu Master-Knoten Seite",
-        "restartNodeButton": "Restart node"
+        "restartNodeButton": "Restart node",
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Master-Knoten-Detail-Seite %{hash}",
