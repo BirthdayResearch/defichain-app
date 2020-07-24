@@ -293,8 +293,9 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
           <div className='footer-sheet'>
             <div className='text-center'>
               <p>
-                You can manually set masternode config in defi.conf or you can
-                automatic set this masternode config by restarting the node.
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.masterNodeSuccess'
+                )}
               </p>
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
