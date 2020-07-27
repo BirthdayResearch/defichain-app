@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
-import remove from 'lodash/remove';
+import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import { I18n } from 'react-redux-i18n';
 import q from '../../worker/queue';
 import {
@@ -30,7 +31,11 @@ import { restartNode, isElectron } from '../../utils/isElectron';
 
 function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
-  return configurationData.trim().split('\n');
+  const data = cloneDeep(configurationData);
+  if (isEmpty(data)) {
+    throw new Error('Unable to fetch configuration file');
+  }
+  return data;
 }
 
 function* fetchMasterNodes() {
@@ -90,22 +95,13 @@ function* handleRestartNode() {
           createdMasterNodeData.masternodeOperator
         );
         yield call(importPrivateKey, privKey);
-        const dataArr = yield call(getConfigurationDetails);
-        remove(dataArr, (item: string) =>
-          item.includes('masternode_operator=')
-        );
-        remove(dataArr, (item: string) => item.includes('masternode_owner='));
-        dataArr.push(
-          `masternode_operator=${createdMasterNodeData.masternodeOperator}`
-        );
-        dataArr.push(
-          `masternode_owner=${createdMasterNodeData.masternodeOwner}`
-        );
-
-        const finalString = dataArr.join('\n');
+        const updatedConf = yield call(getConfigurationDetails);
+        updatedConf.masternode_operator =
+          createdMasterNodeData.masternodeOperator;
+        updatedConf.masternode_owner = createdMasterNodeData.masternodeOwner;
         yield put(restartModal());
         yield call(q.kill);
-        yield call(restartNode, { updatedConf: finalString });
+        yield call(restartNode, { updatedConf });
         yield delay(2000);
         yield put(finishRestartNodeWithMasterNode());
       } else throw new Error('Unable to get location of config file');
@@ -117,15 +113,11 @@ function* handleRestartNode() {
 }
 
 function* masterNodeOperator() {
-  const configDetails = yield call(getConfigurationDetails);
-  const isMasterNode = configDetails.find((item) =>
-    item.includes('masternode_operator=')
-  );
-  const address = isMasterNode?.substring('masternode_operator='.length);
+  const configData = yield call(getConfigurationDetails);
   try {
-    if (address) {
-      yield call(getPrivateKey, address);
-      yield put(setMasternodeOperator(address));
+    if (configData.masternode_operator) {
+      yield call(getPrivateKey, configData.masternode_operator);
+      yield put(setMasternodeOperator(configData.masternode_operator));
     } else {
       throw new Error(I18n.t('alerts.masterNodeOperatorAddressFailure'));
     }
