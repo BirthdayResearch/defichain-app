@@ -1,5 +1,5 @@
 import { CancellationToken } from 'electron-updater';
-import { dialog } from 'electron';
+import { app, dialog } from 'electron';
 const ProgressBar = require('electron-progressbar');
 
 import * as log from '../services/electronLogger';
@@ -58,6 +58,7 @@ export default function initiateElectronUpdateManager(autoUpdater: any) {
     dialog.showMessageBox(options).then((result) => {
       if (result.response === 0) {
         autoUpdater.quitAndInstall();
+        app.exit();
       }
     });
   });
