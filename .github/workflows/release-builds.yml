@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-      - electron-app-update-flow
+      - bug-fixes/electron-app-update-windows
   pull_request:
     branches:
       - master
