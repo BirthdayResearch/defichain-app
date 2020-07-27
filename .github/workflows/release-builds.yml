@@ -2,11 +2,10 @@ on:
   push:
     branches:
       - master
-      - bug-fixes/electron-app-update-windows
+      - develop
   pull_request:
     branches:
       - master
-      - develop
 
 jobs:
   publish_linux_version:
