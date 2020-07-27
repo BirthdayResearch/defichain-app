@@ -2,11 +2,10 @@ on:
   push:
     branches:
       - master
-      - electron-app-update-flow
+      - develop
   pull_request:
     branches:
       - master
-      - develop
 
 jobs:
   publish_linux_version:
