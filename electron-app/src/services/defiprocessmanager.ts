@@ -1,5 +1,6 @@
 import * as log from './electronLogger';
 import * as path from 'path';
+import ini from 'ini';
 import { spawn } from 'child_process';
 import {
   BINARY_FILE_NAME,
@@ -110,9 +111,10 @@ export default class DefiProcessManager {
 
   getConfiguration() {
     if (checkPathExists(CONFIG_FILE_NAME)) {
-      return getFileData(CONFIG_FILE_NAME);
+      const data = getFileData(CONFIG_FILE_NAME, 'utf-8');
+      return ini.parse(data);
     }
-    return '';
+    return {};
   }
 
   async stop() {
@@ -135,8 +137,10 @@ export default class DefiProcessManager {
   }
 
   async restart(args: any, event: Electron.IpcMainEvent) {
-    if (args.updatedConf) {
-      writeFile(CONFIG_FILE_NAME, args.updatedConf, false);
+    if (args.updatedConf && Object.keys(args.updatedConf).length) {
+      const updatedConfigData = ini.encode(args.updatedConf);
+
+      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
     log.info('Restart node started');
     const stopResponse = await this.stop();
