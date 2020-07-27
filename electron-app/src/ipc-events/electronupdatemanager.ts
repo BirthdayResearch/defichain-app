@@ -60,7 +60,6 @@ export default function initiateElectronUpdateManager(autoUpdater: any) {
         setImmediate(() => {
           autoUpdater.quitAndInstall();
         })
-        // app.exit();
       }
     });
   });
