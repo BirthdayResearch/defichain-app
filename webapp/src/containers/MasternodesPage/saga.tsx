@@ -2,7 +2,7 @@ import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import remove from 'lodash/remove';
 import { I18n } from 'react-redux-i18n';
-import { killQueue } from '../../worker/queue';
+import q from '../../worker/queue';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -25,9 +25,13 @@ import {
   getPrivateKey,
   importPrivateKey,
 } from './service';
-import { history } from '../../utils/history';
 
-import { restartNode } from '../../utils/isElectron';
+import { restartNode, isElectron } from '../../utils/isElectron';
+
+function* getConfigurationDetails() {
+  const { configurationData } = yield select((state) => state.app);
+  return configurationData.trim().split('\n');
+}
 
 function* fetchMasterNodes() {
   yield call(masterNodeOperator);
@@ -78,29 +82,34 @@ function* masterNodeResign(action) {
 
 function* handleRestartNode() {
   const { createdMasterNodeData } = yield select((state) => state.masterNodes);
-  const { configurationData } = yield select((state) => state.app);
   try {
-    if (createdMasterNodeData) {
-      const privKey = yield call(
-        getPrivateKey,
-        createdMasterNodeData.masternodeOperator
-      );
-      yield call(importPrivateKey, privKey);
-      const dataArr = configurationData.trim().split('\n');
-      remove(dataArr, (item: string) => item.includes('masternode_operator='));
-      remove(dataArr, (item: string) => item.includes('masternode_owner='));
-      dataArr.push(
-        `masternode_operator=${createdMasterNodeData.masternodeOperator}`
-      );
-      dataArr.push(`masternode_owner=${createdMasterNodeData.masternodeOwner}`);
+    if (isElectron()) {
+      if (createdMasterNodeData) {
+        const privKey = yield call(
+          getPrivateKey,
+          createdMasterNodeData.masternodeOperator
+        );
+        yield call(importPrivateKey, privKey);
+        const dataArr = yield call(getConfigurationDetails);
+        remove(dataArr, (item: string) =>
+          item.includes('masternode_operator=')
+        );
+        remove(dataArr, (item: string) => item.includes('masternode_owner='));
+        dataArr.push(
+          `masternode_operator=${createdMasterNodeData.masternodeOperator}`
+        );
+        dataArr.push(
+          `masternode_owner=${createdMasterNodeData.masternodeOwner}`
+        );
 
-      const finalString = dataArr.join('\n');
-      yield put(restartModal());
-      yield call(killQueue);
-      yield call(restartNode, { updatedConf: finalString });
-      yield delay(2000);
-      yield put(finishRestartNodeWithMasterNode());
-    } else throw new Error('Unable to get location of config file');
+        const finalString = dataArr.join('\n');
+        yield put(restartModal());
+        yield call(q.kill);
+        yield call(restartNode, { updatedConf: finalString });
+        yield delay(2000);
+        yield put(finishRestartNodeWithMasterNode());
+      } else throw new Error('Unable to get location of config file');
+    } else throw new Error('Electron app is needed for restart');
   } catch (e) {
     yield put({ type: createMasterNodeFailure.type, payload: e.message });
     log.error(e);
@@ -108,10 +117,10 @@ function* handleRestartNode() {
 }
 
 function* masterNodeOperator() {
-  const { configurationData } = yield select((state) => state.app);
-  const isMasterNode = String(configurationData)
-    .split(' ')
-    .find((item) => item.includes('masternode_operator='));
+  const configDetails = yield call(getConfigurationDetails);
+  const isMasterNode = configDetails.find((item) =>
+    item.includes('masternode_operator=')
+  );
   const address = isMasterNode?.substring('masternode_operator='.length);
   try {
     if (address) {
