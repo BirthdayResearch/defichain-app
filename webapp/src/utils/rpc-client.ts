@@ -111,7 +111,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_RAW_TRANSACTION
+          methodNames.GET_RAW_TRANSACTION
         }: ${JSON.stringify(data)}`
       );
     }
@@ -139,7 +139,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_RAW_TRANSACTION
+          methodNames.GET_RAW_TRANSACTION
         }: ${JSON.stringify(data)}`
       );
     }
@@ -156,7 +156,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_BLOCK_COUNT
+          methodNames.GET_BLOCK_COUNT
         }: ${JSON.stringify(data)}`
       );
     }
@@ -172,7 +172,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_PEER_INFO
+          methodNames.GET_PEER_INFO
         }: ${JSON.stringify(data)}`
       );
     }
@@ -188,7 +188,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_BALANCE
+          methodNames.GET_BALANCE
         }: ${JSON.stringify(data)}`
       );
     }
@@ -204,7 +204,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_BALANCES
+          methodNames.GET_BALANCES
         }: ${JSON.stringify(data)}`
       );
     }
@@ -224,7 +224,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_NEW_ADDRESS
+          methodNames.GET_NEW_ADDRESS
         }: ${JSON.stringify(data)}`
       );
     }
@@ -278,7 +278,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.VALIDATE_ADDRESS
+          methodNames.VALIDATE_ADDRESS
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -295,7 +295,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_WALLET_INFO
+          methodNames.GET_WALLET_INFO
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -323,7 +323,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.LIST_TRANSACTIONS
+          methodNames.LIST_TRANSACTIONS
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -352,7 +352,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.LIST_UNSPENT
+          methodNames.LIST_UNSPENT
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -381,7 +381,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.WALLET_CREATE_FUNDED_PSBT
+          methodNames.WALLET_CREATE_FUNDED_PSBT
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -400,7 +400,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.WALLET_PROCESS_PSBT
+          methodNames.WALLET_PROCESS_PSBT
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -417,7 +417,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.FINALIZE_PSBT
+          methodNames.FINALIZE_PSBT
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -436,7 +436,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.DECODE_RAW_TRANSACTION
+          methodNames.DECODE_RAW_TRANSACTION
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -452,7 +452,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_BLOCKCHAIN_INFO
+          methodNames.GET_BLOCKCHAIN_INFO
         }: ${JSON.stringify(data.result)}`
       );
     }
@@ -476,7 +476,7 @@ export default class RpcClient {
           e.response.data &&
           e.response.data.error &&
           e.response.data.error.message) ||
-        'Bad Request'
+          'Bad Request'
       );
     }
   };
@@ -516,12 +516,13 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.GET_BLOCKCHAIN_INFO
+          methodNames.GET_BLOCKCHAIN_INFO
         }: ${JSON.stringify(data.result)}`
       );
     }
     return data.result;
   };
+
   dumpPrivKey = async (address: string) => {
     const { data } = await this.call('/', methodNames.DUMP_PRIV_KEY, [address]);
     return data.result;
@@ -532,7 +533,8 @@ export default class RpcClient {
       address,
     ]);
     return data.result;
-  }
+  };
+
   getListreceivedAddress = async (minConf: number = 0) => {
     const { data } = await this.call(
       '/',
@@ -546,7 +548,7 @@ export default class RpcClient {
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
-        methodNames.LIST_RECEIVED_BY_ADDRESS
+          methodNames.LIST_RECEIVED_BY_ADDRESS
         }: ${JSON.stringify(data.result)}`
       );
     }

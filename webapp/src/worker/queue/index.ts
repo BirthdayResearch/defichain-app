@@ -16,16 +16,12 @@ const worker = (task, callback) => {
 
 const q = queue(worker, QUEUE_CONCURRENCY);
 
-export const killQueue = () => {
-  if (isElectron()) {
-    const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.on('kill-queue', () => {
-      ipcRenderer.removeAllListeners('kill-queue');
-      q.kill();
-    });
-  }
-};
-
-killQueue();
+if (isElectron()) {
+  const ipcRenderer = ipcRendererFunc();
+  ipcRenderer.on('kill-queue', () => {
+    ipcRenderer.removeAllListeners('kill-queue');
+    q.kill();
+  });
+}
 
 export default q;
