@@ -57,8 +57,10 @@ export default function initiateElectronUpdateManager(autoUpdater: any) {
     };
     dialog.showMessageBox(options).then((result) => {
       if (result.response === 0) {
-        autoUpdater.quitAndInstall();
-        app.exit();
+        setImmediate(() => {
+          autoUpdater.quitAndInstall();
+        })
+        // app.exit();
       }
     });
   });
