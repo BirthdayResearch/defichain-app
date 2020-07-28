@@ -156,8 +156,8 @@
     },
     "publish": {
       "provider": "github",
-      "repo": "electron-release-example",
-      "owner": "Sumit570",
+      "repo": "defi-app",
+      "owner": "DeFiCh",
       "releaseType": "prerelease"
     }
   },
