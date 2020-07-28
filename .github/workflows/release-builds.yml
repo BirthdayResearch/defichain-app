@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - bug-fixes/payment-request-disapper-windows
   pull_request:
     branches:
       - master
