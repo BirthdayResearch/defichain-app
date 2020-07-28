@@ -1,0 +1,78 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  publish_linux_version:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependecies
+        run: npm cache clean --force && npm run init
+
+      - name: Build app
+        run: npm run pre:build:linux
+
+      - name: Publish app
+        run: npm run publish:linux
+
+  publish_mac_version:
+    runs-on: macos-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+      CSC_LINK: ${{ secrets.CSC_LINK}}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependecies
+        run: npm cache clean --force && npm run init
+
+      - name: Build app
+        run: npm run pre:build:mac
+
+      - name: Publish app
+        run: npm run publish:mac
+
+  publish_windows_version:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependecies
+        run: npm cache clean --force && npm run init
+
+      - name: Build app
+        run: |
+          mkdir binary -ea 0
+          cd binary 
+          rm -r -fo win, mac, linux -ErrorAction Ignore
+          mkdir win
+          cd ..
+          mkdir temp -ea 0
+          cd temp 
+          rm -r -fo win -ErrorAction Ignore
+          mkdir win 
+          cd win
+          curl https://github.com/DeFiCh/ain/releases/download/v1.0.0/defichain-1.0.0-x86_64-w64-mingw32.zip -O defichain-1.0.0-x86_64-w64-mingw32.zip
+          Expand-Archive -LiteralPath .\defichain-1.0.0-x86_64-w64-mingw32.zip -DestinationPath .
+          Copy-Item .\defichain-1.0.0\bin\defid.exe .
+          cd ..\.. 
+          Copy-Item temp\win\defid.exe binary\win\defid.exe
+          icacls binary\win\defid.exe /grant everyone:F
+        shell: powershell
+
+      - name: Publish app
+        run: npm run publish:win
