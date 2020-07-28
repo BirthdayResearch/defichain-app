@@ -35,11 +35,28 @@ describe('Settings page service', () => {
   });
 
   describe('initialData function', () => {
+    let iselec;
+    let ipc;
+    let notify;
+
+    beforeAll(() => {
+      iselec = mockisElectron();
+      ipc = mockIpcRenderer();
+      notify = mockNotification();
+    });
+    afterEach(() => {
+      iselec.mockClear();
+      ipc.mockClear();
+      notify.mockClear();
+    });
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
     it('should check initalData if no data is present', () => {
       const persistence = mockPersistentStore(null, null);
       const data = service.initialData();
       expect(data).toEqual(serviceTestData.initialData);
-      expect(persistence.get).toBeCalledTimes(7);
+      expect(persistence.get).toBeCalledTimes(10);
     });
 
     it('should check initalData if prelaunch is runing', () => {
@@ -62,15 +79,10 @@ describe('Settings page service', () => {
       const persistence = mockPersistentStore(null, null);
       const data = service.initialData();
       expect(data).toEqual(result);
-      expect(persistence.get).toBeCalledTimes(8);
-      iselec.mockClear();
-      ipc.mockClear();
+      expect(persistence.get).toBeCalledTimes(11);
     });
 
     it('should check initalData if prelaunch is failed', () => {
-      const iselec = mockisElectron();
-      const ipc = mockIpcRenderer();
-      const notify = mockNotification();
       const sendSync = jest.fn().mockReturnValue({
         success: false,
         data: {
@@ -88,10 +100,7 @@ describe('Settings page service', () => {
       expect(sendSync).toBeCalledTimes(1);
       expect(notify).toBeCalledTimes(1);
       expect(data).toEqual(serviceTestData.initialData);
-      expect(persistence.get).toBeCalledTimes(7);
-      notify.mockClear();
-      iselec.mockClear();
-      ipc.mockClear();
+      expect(persistence.get).toBeCalledTimes(10);
     });
   });
 
@@ -110,7 +119,7 @@ describe('Settings page service', () => {
       };
       const PersistentStore = mockPersistentStore(null, null);
       const data = service.updateSettingsData(test);
-      expect(PersistentStore.set).toBeCalledTimes(Object.keys(test).length);
+      expect(PersistentStore.set).toBeCalledTimes(12);
       expect(data).toEqual(test);
     });
   });

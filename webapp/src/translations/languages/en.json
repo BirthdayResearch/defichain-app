@@ -12,7 +12,8 @@
       "synced": "Synced",
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
-      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}"
+      "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
+      "network": "Network"
     }
   },
   "containers": {
@@ -113,7 +114,8 @@
         "ownerAddress": "Owner Address",
         "operatorAddress": "Operator Address",
         "registered": "Registered",
-        "mintedBlocks": "Minted Blocks"
+        "mintedBlocks": "Minted Blocks",
+        "noMasterNodes": "No Masternodes Available"
       },
       "createMasterNode": {
         "title": "Create Master Node",
@@ -165,7 +167,7 @@
       "databaseSize": "Size of database cache",
       "maximumAmount": "Maximum value of each UTXO",
       "maximumCount": "Maximum number of UTXOs",
-      "feeRate": "Specific fee rate in BTC/kB",
+      "feeRate": "Specific fee rate in DFI/kB",
       "mib": "MiB",
       "scriptVerification": "Script verification",
       "noOfThreads": "Number of threads",
@@ -200,6 +202,7 @@
         "to": "To",
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
+        "sendFailed": "Error ocurred while sending amount",
         "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI Address"
@@ -208,6 +211,7 @@
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
+        "optional": "Optional",
         "amount": "Amount",
         "dFI": "DFI",
         "message": "Message",
@@ -249,6 +253,7 @@
         "pending": "Pending"
       },
       "walletTxns": {
+        "height": "Height",
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",

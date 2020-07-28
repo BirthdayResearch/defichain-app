@@ -1,7 +1,9 @@
 import log from 'loglevel';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, Menu, protocol } from 'electron';
+import { app, BrowserWindow, Menu, protocol, dialog } from 'electron';
+import { autoUpdater } from 'electron-updater';
+
 import DefiProcessManager from './services/defiprocessmanager';
 import AppMenu from './menus';
 import { Options, parseOptions } from './clioptions';
@@ -16,7 +18,9 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  DISCLAIMER_DIALOG_TIMER,
 } from './constants';
+import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
 declare var process: {
   argv: any;
@@ -39,6 +43,9 @@ export default class App {
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
+    autoUpdater.autoDownload = false;
+    /* For future purpose */
+    initiateElectronUpdateManager(autoUpdater);
   }
 
   run() {
@@ -55,6 +62,11 @@ export default class App {
     this.createMenu();
     // initiate ipcMain events
     initiateIpcEvents();
+
+    /* For future purpose */
+    autoUpdater.checkForUpdatesAndNotify().catch((e) => {
+      log.error(e);
+    });
   };
 
   initiateInterceptFileProtocol() {
@@ -101,8 +113,39 @@ export default class App {
       this.mainWindow.webContents.openDevTools();
     }
 
+    /* Only for alpha and beta releases
+       Remove this disclaimer dialog later
+    */
+    setTimeout(this.openDisclaimerDialog, DISCLAIMER_DIALOG_TIMER);
+
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
   }
+
+  openDisclaimerDialog = () => {
+    const options = {
+      type: 'warning',
+      title: 'Disclaimer',
+      message: `This is testing version of defi app, use at your own risk?`,
+      buttons: ['I understand', 'Close App'],
+    };
+
+    dialog.showMessageBox(options).then((result) => {
+      if (result.response === 1) {
+        const options = {
+          type: 'question',
+          title: 'Close App',
+          message: `Are you sure you want to quit?`,
+          buttons: ['Cancel', 'Quit'],
+        };
+
+        dialog.showMessageBox(options).then((result) => {
+          if (result.response === 1) {
+            app.quit();
+          }
+        });
+      }
+    });
+  };
 
   // Create menu
   createMenu() {
@@ -142,6 +185,8 @@ export default class App {
       return (this.mainWindow = null);
     }
     // Stop all process before quit
+    this.mainWindow.webContents.send('kill-queue');
+
     this.mainWindow.hide();
     event.preventDefault();
     const defiProcessManager = new DefiProcessManager();

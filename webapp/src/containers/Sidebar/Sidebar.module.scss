@@ -1,9 +1,9 @@
 // App and Bootstrap variables required
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
 
 .sidebar {
   width: 224px;
@@ -26,7 +26,7 @@
   align-content: flex-end;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -78,6 +78,13 @@
     padding-bottom: 0.75rem;
     text-transform: none;
     font-weight: $font-weight-normal;
+
+    &:hover:not(.active) {
+      color: inherit;
+      svg {
+        color: $secondary;
+      }
+    }
 
     svg {
       width: 24px;

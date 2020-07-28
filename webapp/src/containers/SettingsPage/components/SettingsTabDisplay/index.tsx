@@ -64,13 +64,14 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
           >
             {getUnitDescription()}
           </SettingsRowDropDown>
-          <SettingsRowDropDown
+          {/* For future purpose */}
+          {/* <SettingsRowDropDown
             label={'containers.settings.displayMode'}
             data={displayModes}
             field={displayMode}
             handleDropDowns={handleDropDowns}
             fieldName={'displayMode'}
-          />
+          /> */}
         </Form>
       </section>
     </TabPane>

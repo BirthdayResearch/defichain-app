@@ -87,7 +87,7 @@ const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value, inputMode } = event.target;
     if (inputMode === 'numeric' && isNaN(value) && value !== '') {
       return false;
@@ -143,7 +143,11 @@ const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
                   autoFocus
                 />
                 <Label for='amount'>
-                  {I18n.t('containers.wallet.receivePage.amount')}
+                  {!amount
+                    ? `${I18n.t(
+                        'containers.wallet.receivePage.amount'
+                      )} (${I18n.t('containers.wallet.receivePage.optional')})`
+                    : I18n.t('containers.wallet.receivePage.amount')}
                 </Label>
                 <InputGroupAddon addonType='append'>
                   <InputGroupText>{props.unit}</InputGroupText>
@@ -160,7 +164,11 @@ const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
                 placeholder={I18n.t('containers.wallet.receivePage.label')}
               />
               <Label for='message'>
-                {I18n.t('containers.wallet.receivePage.label')}
+                {!label
+                  ? `${I18n.t('containers.wallet.receivePage.label')} (${I18n.t(
+                      'containers.wallet.receivePage.optional'
+                    )})`
+                  : I18n.t('containers.wallet.receivePage.label')}
               </Label>
             </FormGroup>
             <FormGroup className='form-label-group'>
@@ -174,7 +182,11 @@ const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
                 rows='3'
               />
               <Label for='message'>
-                {I18n.t('containers.wallet.receivePage.message')}
+                {!message
+                  ? `${I18n.t(
+                      'containers.wallet.receivePage.message'
+                    )} (${I18n.t('containers.wallet.receivePage.optional')})`
+                  : I18n.t('containers.wallet.receivePage.message')}
               </Label>
             </FormGroup>
           </Form>
@@ -214,7 +226,7 @@ const ReceivePage: React.FunctionComponent<ReceivePageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings } = state;
   return {
     paymentRequests: wallet.paymentRequests,

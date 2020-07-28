@@ -7,6 +7,8 @@ import {
   CONFIG_FILE_NAME,
   START_DEFI_CHAIN_REPLY,
   PID_FILE_NAME,
+  DEFAULT_FALLBACK_FEE,
+  DEFAULT_RPC_ALLOW_IP,
 } from '../constants';
 import {
   checkPathExists,
@@ -48,8 +50,11 @@ export default class DefiProcessManager {
       let nodeStarted = false;
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
+      const config = params.remotes;
       const child = spawn(execPath, [
         `-conf=${CONFIG_FILE_NAME}`,
+        `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
+        `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
       ]);
       log.info('Node start initiated');
@@ -68,7 +73,7 @@ export default class DefiProcessManager {
       });
 
       // on STDERR
-      child.stderr.on('data', err => {
+      child.stderr.on('data', (err) => {
         log.error(err.toString('utf8').trim());
         if (event)
           return event.sender.send(
@@ -78,7 +83,7 @@ export default class DefiProcessManager {
       });
 
       // on close
-      child.on('close', code => {
+      child.on('close', (code) => {
         log.info(`child process exited with code ${code}`);
         if (event)
           return event.sender.send(
