@@ -118,7 +118,6 @@ function* checkMasterNodeOwnerInfo(action) {
       payload: { masterNodeOwner },
     } = action;
     const data = yield call(getAddressInfo, masterNodeOwner);
-
     yield put({
       type: setMasterNodeOwnerSuccess.type,
       payload: data.ismine && !data.iswatchonly,
