@@ -2,7 +2,6 @@ import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { I18n } from 'react-redux-i18n';
 import q from '../../worker/queue';
 import {
   fetchMasternodesRequest,
@@ -16,7 +15,9 @@ import {
   resignMasterNodeSuccess,
   startRestartNodeWithMasterNode,
   finishRestartNodeWithMasterNode,
-  setMasternodeOperator,
+  setMasterNodeOwnerSuccess,
+  setMasterNodeOwnerError,
+  setMasterNodeOwner,
 } from './reducer';
 import { restartModal } from '../ErrorModal/reducer';
 import {
@@ -25,6 +26,7 @@ import {
   handleResignMasterNode,
   getPrivateKey,
   importPrivateKey,
+  getAddressInfo,
 } from './service';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
@@ -39,7 +41,6 @@ function* getConfigurationDetails() {
 }
 
 function* fetchMasterNodes() {
-  yield call(masterNodeOperator);
   try {
     const data = yield call(handelFetchMasterNodes);
     if (data && Array.isArray(data)) {
@@ -111,18 +112,19 @@ function* handleRestartNode() {
     log.error(e);
   }
 }
-
-function* masterNodeOperator() {
-  const configData = yield call(getConfigurationDetails);
+function* checkMasterNodeOwnerInfo(action) {
   try {
-    if (configData.masternode_operator) {
-      yield call(getPrivateKey, configData.masternode_operator);
-      yield put(setMasternodeOperator(configData.masternode_operator));
-    } else {
-      throw new Error(I18n.t('alerts.masterNodeOperatorAddressFailure'));
-    }
+    const {
+      payload: { masterNodeOwner },
+    } = action;
+    const data = yield call(getAddressInfo, masterNodeOwner);
+
+    yield put({
+      type: setMasterNodeOwnerSuccess.type,
+      payload: data.ismine && !data.iswatchonly,
+    });
   } catch (e) {
-    yield put(setMasternodeOperator(''));
+    yield put({ type: setMasterNodeOwnerError.type, payload: e.message });
     log.error(e);
   }
 }
@@ -132,6 +134,7 @@ function* mySaga() {
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
   yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
+  yield takeLatest(setMasterNodeOwner.type, checkMasterNodeOwnerInfo);
 }
 
 export default mySaga;

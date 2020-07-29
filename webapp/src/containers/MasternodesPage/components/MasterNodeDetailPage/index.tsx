@@ -15,7 +15,7 @@ import { NavLink, RouteComponentProps, Redirect } from 'react-router-dom';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
-import { resignMasterNode } from '../../reducer';
+import { resignMasterNode, setMasterNodeOwner } from '../../reducer';
 import styles from '../../masternode.module.scss';
 
 interface RouteProps {
@@ -28,7 +28,8 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   resignedMasterNodeData: string;
   isErrorResigningMasterNode: string;
   resignMasterNode: (masterNodeHash: string) => void;
-  isMasterNodeOperator: string;
+  isMasterNodeOwner: boolean;
+  setMasterNodeOwner: (masterNodeOwner: string) => void;
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
@@ -41,12 +42,24 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
-    isMasterNodeOperator,
+    setMasterNodeOwner,
   } = props;
   const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
     return ele.hash && ele.hash.toString() === hashValue;
   });
+  const {
+    ownerAuthAddress,
+    operatorAuthAddress,
+    creationHeight,
+    state,
+    resignHeight,
+    resignTx,
+    banHeight,
+    banTx,
+    hash,
+    mintedBlocks,
+  } = masternode || {};
 
   if (isEmpty(masternode)) {
     return <Redirect to={MASTER_NODES_PATH} />;
@@ -81,18 +94,11 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     allowCalls,
   ]);
 
-  const {
-    ownerAuthAddress,
-    operatorAuthAddress,
-    creationHeight,
-    state,
-    resignHeight,
-    resignTx,
-    banHeight,
-    banTx,
-    hash,
-    mintedBlocks,
-  } = masternode || {};
+  useEffect(() => {
+    if (ownerAuthAddress) {
+      setMasterNodeOwner(ownerAuthAddress);
+    }
+  }, []);
 
   useEffect(() => {
     let waitToSendInterval;
@@ -141,8 +147,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           )}
           &nbsp;
         </h1>
-        <ButtonGroup>
-          {isMasterNodeOperator === operatorAuthAddress && (
+        {props.isMasterNodeOwner && (
+          <ButtonGroup>
             <Button
               color='link'
               onClick={() => setIsConfirmationModalOpen('confirm')}
@@ -154,8 +160,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
                 )}
               </span>
             </Button>
-          )}
-        </ButtonGroup>
+          </ButtonGroup>
+        )}
       </header>
       <div className='content'>
         <section className='mb-5'>
@@ -328,7 +334,7 @@ const mapStateToProps = (state) => {
       isMasterNodeResigning,
       resignedMasterNodeData,
       isErrorResigningMasterNode,
-      isMasterNodeOperator,
+      isMasterNodeOwner,
     },
   } = state;
   return {
@@ -336,13 +342,15 @@ const mapStateToProps = (state) => {
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
-    isMasterNodeOperator,
+    isMasterNodeOwner,
   };
 };
 
 const mapDispatchToProps = {
   resignMasterNode: (masterNodeHash: string) =>
     resignMasterNode({ masterNodeHash }),
+  setMasterNodeOwner: (masterNodeOwner: string) =>
+    setMasterNodeOwner({ masterNodeOwner }),
 };
 
 export default connect(
