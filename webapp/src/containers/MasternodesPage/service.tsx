@@ -47,3 +47,8 @@ export const importPrivateKey = (address: string) => {
   const rpcClient = new RpcClient();
   return rpcClient.importPrivKey(address);
 };
+
+export const getAddressInfo = (address) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getaddressInfo(address);
+};
