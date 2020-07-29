@@ -43,6 +43,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     resignedMasterNodeData,
     isErrorResigningMasterNode,
     setMasterNodeOwner,
+    isMasterNodeOwner,
   } = props;
   const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
@@ -147,7 +148,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           )}
           &nbsp;
         </h1>
-        {props.isMasterNodeOwner && (
+        {isMasterNodeOwner && (
           <ButtonGroup>
             <Button
               color='link'
