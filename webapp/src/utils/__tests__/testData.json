@@ -7,7 +7,7 @@
         "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
         "label": "",
         "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
-        "amount": 2.00000000,
+        "amount": 2.0,
         "confirmations": 2,
         "spendable": true,
         "solvable": true,
@@ -26,7 +26,7 @@
         "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
         "label": "",
         "scriptPubKey": "001472903c101c2c92d7206842c3d801ec6adccce164",
-        "amount": 2.00000000,
+        "amount": 2.0,
         "confirmations": 2,
         "spendable": true,
         "solvable": true,
@@ -119,6 +119,29 @@
     "id": "curltest"
   },
   "getTxnDetails": {
+    "getBlock": {
+      "result": {
+        "nonce": 0,
+        "hash": "stringddsss",
+        "confirmations": 0,
+        "previousblockhash": "stringddsss",
+        "height": 0,
+        "strippedsize": 0,
+        "version": 0,
+        "time": 0,
+        "difficulty": 0,
+        "nTx": 0,
+        "merkleroot": "stringddsss",
+        "chainwork": "stringddsss",
+        "size": 0,
+        "nextblockhash": "stringddsss",
+        "bits": "stringddsss",
+        "weight": 0,
+        "mediantime": 0,
+        "versionHex": "stringddsss",
+        "tx": ["getTxnDetails", "getTxnDetails"]
+      }
+    },
     "category_is_not_send": [
       {
         "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
@@ -194,7 +217,8 @@
           "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
           "time": "May 26, 04:30 pm",
           "timeReceived": "May 26, 04:30 pm",
-          "unit": "DFI"
+          "unit": "DFI",
+          "height": 0
         }
       ],
       "category_is_not_send": [
@@ -208,7 +232,8 @@
           "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
           "time": "May 26, 04:30 pm",
           "timeReceived": "May 26, 04:30 pm",
-          "unit": "DFI"
+          "unit": "DFI",
+          "height": 0
         }
       ],
       "category_is_send_fee_present": [
@@ -222,7 +247,8 @@
           "txnId": "a5dcc62d7e1c6ad9590d0fbe6e05de557c020af5706ae05f9bd5ae659d7a1d82",
           "time": "May 26, 04:30 pm",
           "timeReceived": "May 26, 04:30 pm",
-          "unit": "DFI"
+          "unit": "DFI",
+          "height": 0
         }
       ]
     },

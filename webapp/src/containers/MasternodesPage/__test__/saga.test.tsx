@@ -4,7 +4,6 @@ import mySaga, {
   fetchMasterNodes,
   createMasterNodes,
   masterNodeResign,
-  handleRestartNode,
   checkMasterNodeOwnerInfo,
 } from '../saga';
 import {
