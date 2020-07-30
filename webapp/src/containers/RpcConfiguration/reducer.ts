@@ -7,7 +7,7 @@ export const initialState = {
   isRunning: false,
   rpcConfigError: '',
   nodeError: '',
-  configurationData: '',
+  configurationData: {},
 };
 
 const configSlice = createSlice({
