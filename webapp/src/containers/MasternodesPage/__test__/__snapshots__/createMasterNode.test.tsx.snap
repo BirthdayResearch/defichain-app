@@ -35,15 +35,114 @@ exports[`Create Master Node should check for snapshot 1`] = `
         }
       }
     >
-      <Connect(CreateMasterNode)>
+      <Connect(CreateMasterNode)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "hash": "1",
+            },
+            "path": "/route/:hash",
+            "url": "/route/1",
+          }
+        }
+      >
         <CreateMasterNode
           createMasterNode={[Function]}
           createdMasterNodeData={Object {}}
           fetchWalletBalanceRequest={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/route/1",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
           isBalanceError={true}
           isBalanceFetching={true}
           isErrorCreatingMasterNode=""
           isMasterNodeCreating={false}
+          isRestartNode={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "hash": "1",
+              },
+              "path": "/route/:hash",
+              "url": "/route/1",
+            }
+          }
+          startRestartNodeWithMasterNode={[Function]}
           unit="DFI"
           walletBalance={0}
         >
@@ -413,6 +512,9 @@ exports[`Create Master Node should check for snapshot 1`] = `
                   <div
                     className="text-center"
                   >
+                    <p>
+                      You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.
+                    </p>
                     <MdCheckCircle
                       className="footer-sheet-icon"
                     >
@@ -454,78 +556,125 @@ exports[`Create Master Node should check for snapshot 1`] = `
                     </p>
                   </div>
                 </div>
-                <div
-                  className="d-flex align-items-center justify-content-center"
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
                 >
-                  <Button
-                    color="primary"
-                    tag={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "displayName": "NavLink",
-                        "propTypes": Object {
-                          "activeClassName": [Function],
-                          "activeStyle": [Function],
-                          "aria-current": [Function],
-                          "className": [Function],
-                          "exact": [Function],
-                          "innerRef": [Function],
-                          "isActive": [Function],
-                          "location": [Function],
-                          "onClick": [Function],
-                          "replace": [Function],
-                          "strict": [Function],
-                          "style": [Function],
-                          "target": [Function],
-                          "to": [Function],
-                        },
-                        "render": [Function],
-                      }
-                    }
-                    to="/masternodes"
+                  <div
+                    className="justify-content-between align-items-center row"
                   >
-                    <NavLink
-                      aria-label={null}
-                      className="btn btn-primary"
-                      onClick={[Function]}
-                      to="/masternodes"
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
                     >
-                      <Link
-                        aria-current={null}
-                        aria-label={null}
-                        className="btn btn-primary"
-                        onClick={[Function]}
-                        to={
-                          Object {
-                            "hash": "",
-                            "pathname": "/masternodes",
-                            "search": "",
-                            "state": null,
-                          }
-                        }
+                      <div
+                        className="d-flex justify-content-end col"
                       >
-                        <LinkAnchor
-                          aria-current={null}
-                          aria-label={null}
-                          className="btn btn-primary"
-                          href="/masternodes"
-                          navigate={[Function]}
-                          onClick={[Function]}
+                        <Button
+                          color="primary"
+                          tag={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "displayName": "NavLink",
+                              "propTypes": Object {
+                                "activeClassName": [Function],
+                                "activeStyle": [Function],
+                                "aria-current": [Function],
+                                "className": [Function],
+                                "exact": [Function],
+                                "innerRef": [Function],
+                                "isActive": [Function],
+                                "location": [Function],
+                                "onClick": [Function],
+                                "replace": [Function],
+                                "strict": [Function],
+                                "style": [Function],
+                                "target": [Function],
+                                "to": [Function],
+                              },
+                              "render": [Function],
+                            }
+                          }
+                          to="/masternodes"
                         >
-                          <a
-                            aria-current={null}
+                          <NavLink
                             aria-label={null}
                             className="btn btn-primary"
-                            href="/masternodes"
                             onClick={[Function]}
+                            to="/masternodes"
                           >
-                            Back to Masternode Page
-                          </a>
-                        </LinkAnchor>
-                      </Link>
-                    </NavLink>
-                  </Button>
-                </div>
+                            <Link
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-primary"
+                              onClick={[Function]}
+                              to={
+                                Object {
+                                  "hash": "",
+                                  "pathname": "/masternodes",
+                                  "search": "",
+                                  "state": null,
+                                }
+                              }
+                            >
+                              <LinkAnchor
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-primary"
+                                href="/masternodes"
+                                navigate={[Function]}
+                                onClick={[Function]}
+                              >
+                                <a
+                                  aria-current={null}
+                                  aria-label={null}
+                                  className="btn btn-primary"
+                                  href="/masternodes"
+                                  onClick={[Function]}
+                                >
+                                  Back to Masternode Page
+                                </a>
+                              </LinkAnchor>
+                            </Link>
+                          </NavLink>
+                        </Button>
+                        <Button
+                          className="ml-4"
+                          color="primary"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="ml-4 btn btn-primary"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Restart node
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
               </div>
               <div
                 className="d-none"
