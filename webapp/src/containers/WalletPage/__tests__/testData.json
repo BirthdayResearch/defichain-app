@@ -24,18 +24,20 @@
     },
     "walletBalance": 50,
     "pendingBalance": 20,
-    "walletTxns": [{
-      "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
-      "category": "send",
-      "amount": -15,
-      "fee": -0.00010152,
-      "confirmations": 0,
-      "blockHash": "00000000000000000006e82a20db8ba7adeb8a8b032c02f324b96fe5f4c779e8",
-      "txnId": "6d4a37d4ee74b2b7c3ffef7947c30eb3bd39858bcce10c7ec2f7f91a0f1194cf",
-      "time": "May 29, 11:16 am",
-      "timeReceived": "May 29, 11:16 am",
-      "unit": "DFI"
-    }],
+    "walletTxns": [
+      {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "category": "send",
+        "amount": -15,
+        "fee": -0.00010152,
+        "confirmations": 0,
+        "blockHash": "00000000000000000006e82a20db8ba7adeb8a8b032c02f324b96fe5f4c779e8",
+        "txnId": "6d4a37d4ee74b2b7c3ffef7947c30eb3bd39858bcce10c7ec2f7f91a0f1194cf",
+        "time": "May 29, 11:16 am",
+        "timeReceived": "May 29, 11:16 am",
+        "unit": "DFI"
+      }
+    ],
     "walletTxnCount": 1
   },
   "getBalance": {
@@ -177,7 +179,9 @@
           "txnId": "09515db53222e0bb1ba06d0579d58f77b0e038451e4681d60b710598c357abf6",
           "time": "May 29, 09:46 pm",
           "timeReceived": "May 29, 09:46 pm",
-          "unit": "DFI"
+          "unit": "DFI",
+          "height": -1,
+          "blockHash": ""
         }
       ],
       "walletTxnCount": 103
