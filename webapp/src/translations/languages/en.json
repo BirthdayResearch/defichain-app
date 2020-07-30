@@ -122,12 +122,15 @@
         "masterNodeName": "MasterNode Name",
         "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create master node",
         "confirmationText": "Are you sure you want to create a master node?",
+        "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create Master Node",
         "noButtonText": "Cancel",
         "yesButtonText": "Continue",
         "masternodeOperator": "Masternode Operator",
         "masternodeOwner": "Masternode Owner",
-        "backToMasternodePage": "Back to Masternode Page"
+        "backToMasternodePage": "Back to Masternode Page",
+        "restartNodeButton": "Restart node",
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Masternode Detail Page %{hash}",
@@ -299,6 +302,9 @@
     "errorOccurred": "Error occurred",
     "success": "Success",
     "backupSuccess": "Wallet backup done successfully",
-    "importSuccess": "Import wallet done successfully"
+    "importSuccess": "Import wallet done successfully",
+    "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
+    "restartNode": "Restarting Node",
+    "nodeDisconnected": "Node is disconnected"
   }
 }

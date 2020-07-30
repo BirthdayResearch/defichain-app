@@ -122,12 +122,15 @@
         "masterNodeName": "Master-Knoten-Name",
         "lackOfBalanceMsg": "Keine Master-Knoten aufgrund fehlender Mittel. Mindestens 1 million DFI ist erforderlich zum erstellen der master-Knoten",
         "confirmationText": "Sind Sie sicher, dass Sie möchten, erstellen Sie ein master-Knoten?",
+        "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Erstellen Sie Master-Knoten",
         "noButtonText": "Abbrechen",
         "yesButtonText": "Weiter",
         "masternodeOperator": "Master-Knoten Betreiber",
         "masternodeOwner": "Master-Knoten Besitzer",
-        "backToMasternodePage": "Zurück zu Master-Knoten Seite"
+        "backToMasternodePage": "Zurück zu Master-Knoten Seite",
+        "restartNodeButton": "Restart node",
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Master-Knoten-Detail-Seite %{hash}",
@@ -299,6 +302,9 @@
     "errorOccurred": "Fehler aufgetreten",
     "success": "Erfolg",
     "backupSuccess": "Brieftasche backup erfolgreich abgeschlossen",
-    "importSuccess": "Import-wallet erfolgreich abgeschlossen"
+    "importSuccess": "Import-wallet erfolgreich abgeschlossen",
+    "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
+    "restartNode": "Restarting Node",
+    "nodeDisconnected": "Node is disconnected"
   }
 }
