@@ -40,27 +40,20 @@ function* getConfigurationDetails() {
   return data;
 }
 
-function* fetchMasterNodes() {
+export function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
-    if (data && Array.isArray(data)) {
-      yield put({
-        type: fetchMasternodesSuccess.type,
-        payload: { masternodes: data },
-      });
-    } else {
-      yield put({
-        type: fetchMasternodesFailure.type,
-        payload: 'No data found',
-      });
-    }
+    yield put({
+      type: fetchMasternodesSuccess.type,
+      payload: { masternodes: data },
+    });
   } catch (e) {
     yield put({ type: fetchMasternodesFailure.type, payload: e.message });
     log.error(e);
   }
 }
 
-function* createMasterNodes(action) {
+export function* createMasterNodes(action) {
   try {
     const {
       payload: { masterNodeName },
@@ -73,7 +66,7 @@ function* createMasterNodes(action) {
   }
 }
 
-function* masterNodeResign(action) {
+export function* masterNodeResign(action) {
   try {
     const {
       payload: { masterNodeHash },
@@ -86,7 +79,7 @@ function* masterNodeResign(action) {
   }
 }
 
-function* handleRestartNode() {
+export function* handleRestartNode() {
   const { createdMasterNodeData } = yield select((state) => state.masterNodes);
   try {
     if (isElectron()) {
@@ -112,7 +105,7 @@ function* handleRestartNode() {
     log.error(e);
   }
 }
-function* checkMasterNodeOwnerInfo(action) {
+export function* checkMasterNodeOwnerInfo(action) {
   try {
     const {
       payload: { masterNodeOwner },
