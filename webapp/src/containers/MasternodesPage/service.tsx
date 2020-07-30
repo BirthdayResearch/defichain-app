@@ -1,9 +1,13 @@
 import RpcClient from '../../utils/rpc-client';
 import { GET_NEW_ADDRESS_TYPE } from '../../constants';
+import isEmpty from 'lodash/isEmpty';
 
 export const handelFetchMasterNodes = async () => {
   const rpcClient = new RpcClient();
   const masternodes = await rpcClient.listMasterNodes();
+  if (isEmpty(masternodes)) {
+    return [];
+  }
   const transformedData = Object.keys(masternodes).map((item) => ({
     hash: item,
     ...masternodes[item],
