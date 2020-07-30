@@ -338,7 +338,6 @@ exports[`SendPage component should check for snapshot 1`] = `
                             <Input
                               id="toAddress"
                               name="toAddress"
-                              onBlur={[Function]}
                               onChange={[Function]}
                               placeholder="DFI Address"
                               type="text"
@@ -348,7 +347,6 @@ exports[`SendPage component should check for snapshot 1`] = `
                                 className="form-control"
                                 id="toAddress"
                                 name="toAddress"
-                                onBlur={[Function]}
                                 onChange={[Function]}
                                 placeholder="DFI Address"
                                 type="text"

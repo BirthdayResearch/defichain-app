@@ -79,7 +79,7 @@ const configSlice = createSlice({
     },
     setMasterNodeOwnerError(state, action) {
       state.isMasterNodeOwner = false;
-      state.isMasterNodeOwnerError = '';
+      state.isMasterNodeOwnerError = action.payload;
     },
   },
 });
