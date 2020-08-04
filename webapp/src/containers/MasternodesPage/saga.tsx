@@ -3,6 +3,7 @@ import * as log from '../../utils/electronLogger';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import q from '../../worker/queue';
+import { I18n } from 'react-redux-i18n';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -31,7 +32,7 @@ import {
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 
-function* getConfigurationDetails() {
+export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
   const data = cloneDeep(configurationData);
   if (isEmpty(data)) {
@@ -80,26 +81,22 @@ export function* masterNodeResign(action) {
 }
 
 export function* handleRestartNode() {
-  const { createdMasterNodeData } = yield select((state) => state.masterNodes);
+  const {
+    createdMasterNodeData: { masternodeOperator, masternodeOwner },
+  } = yield select((state) => state.masterNodes);
   try {
     if (isElectron()) {
-      if (createdMasterNodeData) {
-        const privKey = yield call(
-          getPrivateKey,
-          createdMasterNodeData.masternodeOperator
-        );
-        yield call(importPrivateKey, privKey);
-        const updatedConf = yield call(getConfigurationDetails);
-        updatedConf.masternode_operator =
-          createdMasterNodeData.masternodeOperator;
-        updatedConf.masternode_owner = createdMasterNodeData.masternodeOwner;
-        yield put(restartModal());
-        yield call(q.kill);
-        yield call(restartNode, { updatedConf });
-        yield delay(2000);
-        yield put(finishRestartNodeWithMasterNode());
-      } else throw new Error('Unable to get location of config file');
-    } else throw new Error('Electron app is needed for restart');
+      const privKey = yield call(getPrivateKey, masternodeOperator);
+      yield call(importPrivateKey, privKey);
+      const updatedConf = yield call(getConfigurationDetails);
+      updatedConf.masternode_operator = masternodeOperator;
+      updatedConf.masternode_owner = masternodeOwner;
+      yield put(restartModal());
+      yield call(q.kill);
+      yield call(restartNode, { updatedConf });
+      yield delay(2000);
+      yield put(finishRestartNodeWithMasterNode());
+    } else throw new Error(I18n.t('alerts.electronRequiredError'));
   } catch (e) {
     yield put({ type: createMasterNodeFailure.type, payload: e.message });
     log.error(e);
