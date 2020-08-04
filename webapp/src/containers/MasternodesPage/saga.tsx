@@ -31,7 +31,7 @@ import {
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 
-function* getConfigurationDetails() {
+export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
   const data = cloneDeep(configurationData);
   if (isEmpty(data)) {
