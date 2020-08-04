@@ -1,10 +1,12 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, select, call, put, delay } from 'redux-saga/effects';
 import * as testData from './testData.json';
 import mySaga, {
   fetchMasterNodes,
   createMasterNodes,
   masterNodeResign,
   checkMasterNodeOwnerInfo,
+  handleRestartNode,
+  getConfigurationDetails,
 } from '../saga';
 import {
   fetchMasternodesRequest,
@@ -18,9 +20,13 @@ import {
   resignMasterNodeFailure,
   setMasterNodeOwnerSuccess,
   setMasterNodeOwnerError,
+  finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
-import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
+import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
+import * as electronFunc from '../../../utils/isElectron';
+import { restartModal } from '../../ErrorModal/reducer';
+import q from '../../../worker/queue';
 
 const errorObj = {
   message: 'error occurred',
@@ -189,6 +195,114 @@ describe('Console page saga unit test', () => {
       });
       expect(getAddressInfo).toBeCalledTimes(1);
       expect(dispatched).toEqual([setMasterNodeOwnerError(errorObj.message)]);
+    });
+  });
+
+  describe('Restart node', () => {
+    let genObject;
+    let getPrivateKey;
+    let importPrivateKey;
+    let restartNode;
+    let isElectron;
+    beforeEach(() => {
+      genObject = handleRestartNode();
+      getPrivateKey = jest.spyOn(service, 'getPrivateKey');
+      importPrivateKey = jest.spyOn(service, 'importPrivateKey');
+      isElectron = jest.spyOn(electronFunc, 'isElectron');
+      restartNode = jest.spyOn(electronFunc, 'restartNode');
+    });
+    afterEach(() => {
+      getPrivateKey.mockRestore();
+      importPrivateKey.mockRestore();
+      isElectron.mockRestore();
+      restartNode.mockRestore();
+    });
+
+    it('should check for genObj', async () => {
+      getPrivateKey.mockImplementation(() =>
+        Promise.resolve('test_privateKey')
+      );
+      importPrivateKey.mockImplementation(() => Promise.resolve(true));
+      isElectron.mockImplementation(() => Promise.resolve(true));
+      restartNode.mockImplementation(() => Promise.resolve(true));
+      const setterObj: any = {
+        createdMasterNodeData: {
+          masternodeOperator: 'test_masternodeOperator',
+          masternodeOwner: 'test_masternodeOwner',
+        },
+        masternode_operator: 'operator',
+        masternode_owner: 'owner',
+      };
+      expect(JSON.stringify(genObject.next().value)).toEqual(
+        JSON.stringify(select((state) => state.masterNodes))
+      );
+      const getPrivKeYyield = genObject.next(setterObj).value;
+      expect(getPrivKeYyield).toEqual(
+        call(getPrivateKey, setterObj.createdMasterNodeData.masternodeOperator)
+      );
+      const importPrivKey = genObject.next().value;
+      expect(importPrivKey).toEqual(call(importPrivateKey, undefined));
+      expect(genObject.next().value).toEqual(call(getConfigurationDetails));
+      expect(genObject.next(setterObj).value).toEqual(put(restartModal()));
+      expect(genObject.next().value).toEqual(call(q.kill));
+      expect(genObject.next().value).toEqual(
+        call(restartNode, { updatedConf: setterObj })
+      );
+      expect(genObject.next().value).toEqual(delay(2000));
+      expect(genObject.next().value).toEqual(
+        put(finishRestartNodeWithMasterNode())
+      );
+    });
+
+    it('should check for import is giving error', async () => {
+      getPrivateKey.mockImplementation(() =>
+        Promise.resolve('test_privateKey')
+      );
+      importPrivateKey.mockImplementation(() => Promise.resolve(true));
+      isElectron.mockImplementationOnce(() => Promise.resolve(true));
+      restartNode.mockImplementation(() => Promise.resolve(true));
+      const setterObj: any = {
+        createdMasterNodeData: {
+          masternodeOperator: 'test_masternodeOperator',
+          masternodeOwner: 'test_masternodeOwner',
+        },
+        masternode_operator: 'operator',
+        masternode_owner: 'owner',
+      };
+      expect(JSON.stringify(genObject.next().value)).toEqual(
+        JSON.stringify(select((state) => state.masterNodes))
+      );
+      const getPrivKeYyield = genObject.next(setterObj).value;
+      expect(getPrivKeYyield).toEqual(
+        call(getPrivateKey, setterObj.createdMasterNodeData.masternodeOperator)
+      );
+      const importPrivKey = genObject.throw(errorObj).value;
+      expect(importPrivKey).toEqual(
+        put(createMasterNodeFailure(errorObj.message))
+      );
+    });
+
+    it('should check for if is electron is false', () => {
+      getPrivateKey.mockImplementation(() =>
+        Promise.resolve('test_privateKey')
+      );
+      importPrivateKey.mockImplementation(() => Promise.resolve(true));
+      isElectron.mockImplementationOnce(() => false);
+      restartNode.mockImplementation(() => Promise.resolve(true));
+      const setterObj: any = {
+        createdMasterNodeData: {
+          masternodeOperator: 'test_masternodeOperator',
+          masternodeOwner: 'test_masternodeOwner',
+        },
+        masternode_operator: 'operator',
+        masternode_owner: 'owner',
+      };
+      expect(JSON.stringify(genObject.next().value)).toEqual(
+        JSON.stringify(select((state) => state.masterNodes))
+      );
+      expect(genObject.next(setterObj).value).toEqual(
+        put(createMasterNodeFailure('Electron app is needed for restart'))
+      );
     });
   });
 });
