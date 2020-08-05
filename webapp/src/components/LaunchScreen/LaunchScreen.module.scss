@@ -26,6 +26,7 @@
     letter-spacing: 0.44px;
     line-height: 24px;
     text-align: center;
+    margin-top: 1rem;
   }
 
   .subAppVersion {
@@ -34,29 +35,5 @@
     letter-spacing: 0.21px;
     line-height: 16px;
     text-align: center;
-  }
-
-  .rotationconAnimation {
-    text-align: center;
-    svg {
-      width: 3rem;
-      height: 3rem;
-      margin-top: 1rem;
-      -webkit-animation: rotation 2s infinite linear;
-      animation: rotation 2s infinite linear;
-    }
-  }
-}
-
-@-webkit-keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
   }
 }
