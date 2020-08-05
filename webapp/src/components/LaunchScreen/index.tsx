@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './LaunchScreen.module.scss';
-import { RiLoader4Line } from 'react-icons/ri';
+import Loader from '../Loader';
 import LaunchLogo from '../Svg/Launch';
 import { PACKAGE_VERSION, APP_TITLE } from '../../constants';
 
@@ -18,9 +18,7 @@ const LaunchScreen: React.FunctionComponent<LaunchScreenProps> = (
         <label className={style.appTitle}>{APP_TITLE}</label>
         <label className={style.subAppVersion}>{`v${PACKAGE_VERSION}`}</label>
         <label>{props.message}</label>
-        <div className={style.rotationconAnimation}>
-          <RiLoader4Line />
-        </div>
+        <Loader size={28} className='mt-5' />
       </div>
     </div>
   );
