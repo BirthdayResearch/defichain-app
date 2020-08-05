@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
+import Loader from '../../../../components/Loader';
 import {
   Row,
   Col,
@@ -254,10 +255,8 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                         'containers.masterNodes.createMasterNode.confirmationText'
                       )}
                 </span>
-                {restartNodeConfirm && (
-                  <div className={styles.rotationconAnimation}>
-                    {isLoader && <RiLoader4Line />}
-                  </div>
+                {restartNodeConfirm && isLoader && (
+                  <Loader className='text-center mt-5' />
                 )}
               </dd>
             </dl>
