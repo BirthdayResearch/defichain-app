@@ -41,6 +41,10 @@ exports[`SettingsRowDropDownComponent should check for snapshot 1`] = `
           "label": "containers.settings.german",
           "value": "de",
         },
+        Object {
+          "label": "containers.settings.french",
+          "value": "fr",
+        },
       ]
     }
     field="en-GB"
