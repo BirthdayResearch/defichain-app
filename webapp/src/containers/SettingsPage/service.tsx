@@ -13,6 +13,7 @@ import {
   DATABASE_CACHE,
   ENGLISH,
   GERMAN,
+  FRENCH,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -32,6 +33,7 @@ export const getLanguage = () => {
   return [
     { label: 'containers.settings.english', value: ENGLISH },
     { label: 'containers.settings.german', value: GERMAN },
+    { label: 'containers.settings.french', value: FRENCH },
   ];
 };
 
