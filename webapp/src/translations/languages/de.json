@@ -306,6 +306,7 @@
     "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
     "restartNode": "Restarting Node",
     "nodeDisconnected": "Node is disconnected",
-    "electronRequiredError": "Electron app is needed for restart"
+    "electronRequiredError": "Electron app is needed for restart",
+    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet."
   }
 }
