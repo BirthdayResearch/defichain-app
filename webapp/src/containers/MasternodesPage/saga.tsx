@@ -86,16 +86,22 @@ export function* handleRestartNode() {
   } = yield select((state) => state.masterNodes);
   try {
     if (isElectron()) {
-      const privKey = yield call(getPrivateKey, masternodeOperator);
-      yield call(importPrivateKey, privKey);
-      const updatedConf = yield call(getConfigurationDetails);
-      updatedConf.masternode_operator = masternodeOperator;
-      updatedConf.masternode_owner = masternodeOwner;
-      yield put(restartModal());
-      yield call(q.kill);
-      yield call(restartNode, { updatedConf });
-      yield delay(2000);
-      yield put(finishRestartNodeWithMasterNode());
+      const data = yield call(getAddressInfo, masternodeOperator);
+      if (data.ismine && !data.iswatchonly) {
+        const updatedConf = yield call(getConfigurationDetails);
+        updatedConf.masternode_operator = masternodeOperator;
+        updatedConf.masternode_owner = masternodeOwner;
+        yield put(restartModal());
+        yield call(q.kill);
+        yield call(restartNode, { updatedConf });
+        yield delay(2000);
+        yield put(finishRestartNodeWithMasterNode());
+      } else
+        throw new Error(
+          I18n.t('alerts.addressIsNotAPartOfWallet', {
+            addressName: 'masternodeOperator',
+          })
+        );
     } else throw new Error(I18n.t('alerts.electronRequiredError'));
   } catch (e) {
     yield put({ type: createMasterNodeFailure.type, payload: e.message });
