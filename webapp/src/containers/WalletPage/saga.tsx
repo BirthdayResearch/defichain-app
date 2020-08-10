@@ -105,11 +105,11 @@ export function* fetchPayments() {
 }
 
 function* fetchWalletTxns(action) {
-  const { currentPage: pageNo, pageSize } = action.payload;
+  const { currentPage: pageNo, pageSize, intialLoad } = action.payload;
   const { totalFetchedTxns, walletTxnCount, walletPageCounter } = yield select(
     (state) => state.wallet
   );
-  if (totalFetchedTxns.length <= (pageNo - 1) * pageSize) {
+  if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
     yield put(stopWalletTxnPagination());
     queue.push(
       {
