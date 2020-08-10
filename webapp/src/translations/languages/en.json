@@ -222,13 +222,20 @@
         "amountToReceive": "Amount to Receive",
         "addressNotAvailable": "Address not available",
         "cancel": "Cancel",
-        "continue": "Continue"
+        "continue": "Continue",
+        "receive": "Receive",
+        "newAddressButton": "New Address"
       },
       "paymentRequests": {
         "time": "Time",
         "amount": "Amount",
         "message": "Message",
         "cancelRequest": "Cancel request"
+      },
+      "paymentRequestList": {
+        "label": "Label",
+        "address": "Address",
+        "created": "Created"
       },
       "paymentRequestPage": {
         "paymentRequestTitle": "Payment request %{id} – DeFi Blockchain Client",
