@@ -103,12 +103,12 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                       <td>{request.address}</td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
-                        <div>
+                        <div className={styles.qrCc}>
                           <span>
                             <QrCode
                               value={transactionURI}
                               uid={`${request.id}`}
-                              qrClass={styles.qr}
+                              qrClass={''}
                             />
                           </span>
                           <span>
@@ -119,7 +119,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                           </span>
                         </div>
                       </td>
-                      <td className={styles.actionCell}>
+                      <td className={`${styles.actionCell} ${styles.qrCc}`}>
                         <UncontrolledDropdown>
                           <DropdownToggle className='padless' color='link'>
                             <MdMoreHoriz />
