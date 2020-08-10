@@ -5,7 +5,10 @@ import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchMasternodesRequest } from '../../reducer';
 import { filterByValue } from '../../../../utils/utility';
-import { MASTER_NODES_PATH } from '../../../../constants';
+import {
+  MASTER_NODES_PATH,
+  MASTERNODE_LIST_PAGE_SIZE,
+} from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
@@ -22,34 +25,40 @@ interface MasternodesListProps {
 const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
+  const defaultPage = 1;
   const { masternodes, fetchMasternodesRequest, searchQuery } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   useEffect(() => {
     fetchMasternodesRequest();
   }, []);
-  useEffect(() => {
-    if (!searchQuery) {
-      settableData(masternodes);
-    } else {
-      settableData(filterByValue(masternodes, searchQuery));
-    }
-  }, [masternodes, searchQuery]);
-  const pageSize = 2;
-  const total = tableData.length;
+  const pageSize = MASTERNODE_LIST_PAGE_SIZE;
+  const total = masternodes.length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
 
-  function paginate(page_number) {
-    const clone = cloneDeep(masternodes);
+  function paginate(pageNumber, masternodeList?: MasterNodeObject[]) {
+    const clone = cloneDeep(masternodeList || masternodes);
     const tableData = clone.slice(
-      (page_number - 1) * pageSize,
-      page_number * pageSize
+      (pageNumber - 1) * pageSize,
+      pageNumber * pageSize
     );
-    setCurrentPage(page_number);
+    setCurrentPage(pageNumber);
     settableData(tableData);
   }
+  useEffect(() => {
+    if (!searchQuery) {
+      paginate(currentPage);
+    } else {
+      const masternodeList: MasterNodeObject[] = filterByValue(
+        masternodes,
+        searchQuery
+      );
+      paginate(defaultPage, masternodeList);
+    }
+  }, [masternodes, searchQuery]);
+
   return (
     <>
       {tableData.length ? (
