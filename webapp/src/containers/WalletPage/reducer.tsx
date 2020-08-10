@@ -11,6 +11,8 @@ export const initialState = {
   walletTxns: [],
   walletTxnCount: 0,
   isWalletTxnsLoading: false,
+  totalFetchedTxns: [],
+  walletPageCounter: 1,
   receivedData: {
     amountToReceive: '',
     amountToReceiveDisplayed: 0,
@@ -48,7 +50,9 @@ const configSlice = createSlice({
     },
     fetchWalletTxnsSuccess(state, action) {
       state.walletTxns = action.payload.walletTxns;
+      state.totalFetchedTxns = action.payload.totalFetchedTxns;
       state.walletTxnCount = action.payload.walletTxnCount;
+      state.walletPageCounter = action.payload.walletPageCounter;
       state.isWalletTxnsLoading = false;
     },
     fetchWalletTxnsFailure(state, action) {
