@@ -22,7 +22,11 @@ interface WalletTxnsProps {
     height: number;
   }[];
   walletTxnCount: number;
-  fetchWalletTxns: (currentPage: number, pageSize: number) => void;
+  fetchWalletTxns: (
+    currentPage: number,
+    pageSize: number,
+    intialLoad: boolean
+  ) => void;
   stopPagination: boolean;
 }
 
@@ -34,7 +38,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const { walletTxnCount: total, walletTxns, stopPagination } = props;
 
   useEffect(() => {
-    props.fetchWalletTxns(currentPage, pageSize);
+    props.fetchWalletTxns(currentPage, pageSize, true);
   }, []);
 
   const getTxnsTypeIcon = (type: string) => {
@@ -145,8 +149,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletTxns: (currentPage, pageSize) =>
-    fetchWalletTxnsRequest({ currentPage, pageSize }),
+  fetchWalletTxns: (currentPage, pageSize, intialLoad) =>
+    fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
