@@ -12,6 +12,7 @@ export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
 export const BLOCK_TXN_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 5;
+export const MAX_WALLET_TXN_PAGE_SIZE = 200;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const QUEUE_CONCURRENCY = 5;
 export const BALANCE_CRON_DELAY_TIME = 300000;
