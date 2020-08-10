@@ -23,6 +23,7 @@ interface WalletTxnsProps {
   }[];
   walletTxnCount: number;
   fetchWalletTxns: (currentPage: number, pageSize: number) => void;
+  stopPagination: boolean;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -30,6 +31,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 ) => {
   const [currentPage, handlePageChange] = useState(1);
   const pageSize = WALLET_TXN_PAGE_SIZE;
+  const { walletTxnCount: total, walletTxns, stopPagination } = props;
 
   useEffect(() => {
     props.fetchWalletTxns(currentPage, pageSize);
@@ -47,7 +49,6 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     handlePageChange(pageNumber);
   };
 
-  const { walletTxnCount: total, walletTxns } = props;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
@@ -119,6 +120,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             pagesCount={pagesCount}
             handlePageClick={fetchData}
             showNexOnly
+            disableNext={stopPagination}
           />
         </>
       ) : (
@@ -138,6 +140,7 @@ const mapStateToProps = (state) => {
     unit: settings.appConfig.unit,
     walletTxns: wallet.walletTxns,
     walletTxnCount: wallet.walletTxnCount,
+    stopPagination: wallet.stopPagination,
   };
 };
 
