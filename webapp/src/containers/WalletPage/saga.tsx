@@ -22,6 +22,7 @@ import {
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
+  stopWalletTxnPagination,
 } from './reducer';
 import {
   handelGetPaymentRequest,
@@ -109,6 +110,7 @@ function* fetchWalletTxns(action) {
     (state) => state.wallet
   );
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize) {
+    yield put(stopWalletTxnPagination());
     queue.push(
       {
         methodName: handelFetchWalletTxns,

@@ -15,6 +15,7 @@ interface IPaginationComponentProps {
   label?: string;
   handlePageClick: (index: number) => void;
   showNexOnly?: boolean;
+  disableNext?: boolean;
 }
 
 const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = (
@@ -63,6 +64,7 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
           <PaginationLink
             next
             onClick={(e) => props.handlePageClick(currentPage + 1)}
+            disabled={props.disableNext}
           >
             <MdChevronRight />
           </PaginationLink>
