@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { RiErrorWarningLine, RiLoader4Line } from 'react-icons/ri';
+import Loader from '../../components/Loader';
 import styles from './errorModal.module.scss';
 
 interface ErrorModalProps {
@@ -19,8 +20,13 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
           <p>{I18n.t('alerts.nodeDisconnected')}</p>
         </div>
       ) : (
-        <div className={styles.errorLoaderContent}>
-          <RiLoader4Line size={100} />
+        <div>
+          <Loader
+            className='mb-5'
+            size={100}
+            color={'#ff0000'}
+            borderSize={10}
+          />
           <p>{I18n.t('alerts.restartNode')}</p>
         </div>
       )}
