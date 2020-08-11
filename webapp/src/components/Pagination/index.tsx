@@ -14,7 +14,7 @@ interface IPaginationComponentProps {
   pagesCount: number;
   label?: string;
   handlePageClick: (index: number) => void;
-  showNexOnly?: boolean;
+  showNextOnly?: boolean;
   disableNext?: boolean;
 }
 
@@ -22,7 +22,7 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
   props: IPaginationComponentProps
 ) => {
   const paginatedItems = (currentPage: number, pagesCount: number) => {
-    return props.showNexOnly ? (
+    return props.showNextOnly ? (
       <PaginationItem key={currentPage} active={true}>
         <PaginationLink onClick={(e) => props.handlePageClick(currentPage)}>
           {currentPage}
@@ -44,7 +44,7 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
     <div className='d-flex justify-content-between align-items-center mt-3'>
       <div>{label}</div>
       <Pagination className={styles.pagination}>
-        {!props.showNexOnly && (
+        {!props.showNextOnly && (
           <PaginationItem disabled={currentPage <= 1}>
             <PaginationLink first onClick={(e) => props.handlePageClick(1)}>
               <MdFirstPage />
@@ -69,7 +69,7 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
             <MdChevronRight />
           </PaginationLink>
         </PaginationItem>
-        {!props.showNexOnly && (
+        {!props.showNextOnly && (
           <PaginationItem disabled={currentPage >= pagesCount}>
             <PaginationLink
               last

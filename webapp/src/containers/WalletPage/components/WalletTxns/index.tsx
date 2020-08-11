@@ -25,7 +25,7 @@ interface WalletTxnsProps {
   fetchWalletTxns: (
     currentPage: number,
     pageSize: number,
-    intialLoad: boolean
+    intialLoad?: boolean
   ) => void;
   stopPagination: boolean;
 }
@@ -123,7 +123,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             currentPage={currentPage}
             pagesCount={pagesCount}
             handlePageClick={fetchData}
-            showNexOnly
+            showNextOnly
             disableNext={stopPagination}
           />
         </>
