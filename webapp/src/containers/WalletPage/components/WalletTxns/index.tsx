@@ -123,7 +123,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             currentPage={currentPage}
             pagesCount={pagesCount}
             handlePageClick={fetchData}
-            showNexOnly
+            showNextOnly
             disableNext={stopPagination}
           />
         </>
