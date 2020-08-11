@@ -130,7 +130,7 @@ function* fetchWalletTxns(action) {
               walletTxnCount: result.walletTxnCount,
               totalFetchedTxns: totalFetched,
               walletTxns: paginate(totalFetched, pageSize, pageNo),
-              walletPageCounter: walletPageCounter + 1,
+              walletPageCounter: intialLoad ? 1 : walletPageCounter + 1,
             })
           );
         } else {

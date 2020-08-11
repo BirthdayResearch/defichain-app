@@ -25,7 +25,7 @@ interface WalletTxnsProps {
   fetchWalletTxns: (
     currentPage: number,
     pageSize: number,
-    intialLoad: boolean
+    intialLoad?: boolean
   ) => void;
   stopPagination: boolean;
 }
