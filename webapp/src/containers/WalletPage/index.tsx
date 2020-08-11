@@ -5,7 +5,6 @@ import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
-import PaymentRequests from './components/PaymentRequests';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
@@ -126,7 +125,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col>
           </Row>
         </section>
-        <PaymentRequests />
         <WalletTxns />
       </div>
     </div>

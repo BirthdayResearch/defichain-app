@@ -96,7 +96,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                           <span>
                             <QrCode
                               value={transactionURI}
-                              uid={uid()}
+                              uid={`request-${uid()}`}
                               qrClass={styles.qrCc}
                             />
                           </span>
