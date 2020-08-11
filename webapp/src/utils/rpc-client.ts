@@ -315,18 +315,18 @@ export default class RpcClient {
       skip,
     ]);
 
-    // const isValid = validateSchema(
-    //   rpcResponseSchemaMap.get(methodNames.LIST_TRANSACTIONS),
-    //   data
-    // );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_TRANSACTIONS),
+      data
+    );
 
-    // if (!isValid) {
-    //   throw new Error(
-    //     `Invalid response from node, ${
-    //     methodNames.LIST_TRANSACTIONS
-    //     }: ${JSON.stringify(data.result)}`
-    //   );
-    // }
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.LIST_TRANSACTIONS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
 
     const txnList: ITxn[] = await getTxnDetails(data.result);
     return txnList;
