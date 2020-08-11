@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import uid from 'uid';
 import {
   Card,
   CardBody,
@@ -17,14 +18,10 @@ import {
   fetchPaymentRequest,
   removeReceiveTxnsRequest,
 } from '../../../reducer';
-import {
-  WALLET_PAYMENT_REQ_BASE_PATH,
-  PAYMENT_REQ_LIST_SIZE,
-} from '../../../../../constants';
+import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
-import { getTransactionURI } from '../../../../../utils/utility';
 
 interface PaymentRequestsProps {
   unit: string;
@@ -87,16 +84,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
               </thead>
               <tbody>
                 {data.map((request) => {
-                  const transactionURI = getTransactionURI(
-                    request.unit,
-                    request.address,
-                    {
-                      label: request.label,
-                      amount: request.amount,
-                      message: request.message,
-                    }
-                  );
-                  const uid = `${Math.random() * 1000}`;
+                  const transactionURI = request.address;
                   return (
                     <tr key={request.id}>
                       <td></td>
@@ -108,7 +96,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                           <span>
                             <QrCode
                               value={transactionURI}
-                              uid={`request-${uid.slice(0, uid.indexOf('.'))}`}
+                              uid={uid()}
                               qrClass={styles.qrCc}
                             />
                           </span>
