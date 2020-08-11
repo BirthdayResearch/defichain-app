@@ -11,6 +11,7 @@ export const PAYMENT_REQUEST_DETAIL_DATE_FORMAT = 'MMM D YYYY, hh:mm a';
 export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
 export const BLOCK_TXN_PAGE_SIZE = 10;
+export const MASTERNODE_LIST_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 5;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const QUEUE_CONCURRENCY = 5;
