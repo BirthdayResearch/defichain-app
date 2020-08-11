@@ -65,7 +65,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <main>
         <TransitionGroup
           className='transition-group'
-          childFactory={child =>
+          childFactory={(child) =>
             React.cloneElement(child, {
               classNames: transition[0],
               timeout: transition[1],
