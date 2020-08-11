@@ -30,7 +30,7 @@ interface PaymentRequestsProps {
   unit: string;
   paymentRequests: {
     label: string;
-    id: number;
+    id: string;
     time: string;
     address: string;
     message: string;
@@ -96,6 +96,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                       message: request.message,
                     }
                   );
+                  const uid = `${Math.random() * 1000}`;
                   return (
                     <tr key={request.id}>
                       <td></td>
@@ -107,8 +108,8 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                           <span>
                             <QrCode
                               value={transactionURI}
-                              uid={`${request.id}`}
-                              qrClass={''}
+                              uid={`request-${uid.slice(0, uid.indexOf('.'))}`}
+                              qrClass={styles.qrCc}
                             />
                           </span>
                           <span>
