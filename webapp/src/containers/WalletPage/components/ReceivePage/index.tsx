@@ -30,7 +30,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
             {I18n.t('containers.wallet.receivePage.wallet')}
           </span>
         </Button>
-        <h1>{I18n.t('containers.wallet.receivePage.receivePage')}</h1>
+        <h1>{I18n.t('containers.wallet.receivePage.receive')}</h1>
         <ButtonGroup>
           <Button
             to={WALLET_CREATE_RECEIVE_REQUEST}

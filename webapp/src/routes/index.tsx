@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import WalletPage from '../containers/WalletPage';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
-import CreateReceiveAmount from '../containers/WalletPage/components/ReceivePage/CreateReceiveAmount';
+import CreateReceiveAmount from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
 import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
 import BlockchainPage from '../containers/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/components/BlockPage';
