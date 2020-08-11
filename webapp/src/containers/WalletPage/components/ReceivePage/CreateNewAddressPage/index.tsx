@@ -68,8 +68,8 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
           className='header-bar-back'
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.receivePage.wallet')}
+          <span className='d-lg-inline text-uppercase'>
+            {I18n.t('containers.wallet.receivePage.backButton')}
           </span>
         </Button>
         <h1>
@@ -112,7 +112,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
               {I18n.t('containers.wallet.receivePage.cancel')}
             </Button>
             <Button color='primary' onClick={onSubmit} disabled={!label}>
-              {I18n.t('containers.wallet.receivePage.continue')}
+              {I18n.t('containers.wallet.receivePage.createButton')}
             </Button>
           </div>
         </div>

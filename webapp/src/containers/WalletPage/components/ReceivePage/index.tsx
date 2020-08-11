@@ -26,8 +26,8 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
           className='header-bar-back'
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.receivePage.wallet')}
+          <span className='d-lg-inline text-uppercase'>
+            {I18n.t('containers.wallet.receivePage.backButton')}
           </span>
         </Button>
         <h1>{I18n.t('containers.wallet.receivePage.receive')}</h1>

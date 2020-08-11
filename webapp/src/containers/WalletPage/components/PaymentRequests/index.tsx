@@ -104,7 +104,10 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                     </td>
                     <td>
                       <div className={styles.message}>
-                        <EllipsisText text={request.message} length={'50'} />
+                        <EllipsisText
+                          text={request.message || ''}
+                          length={'50'}
+                        />
                       </div>
                     </td>
                     <td className={styles.actionCell}>
