@@ -224,7 +224,10 @@
         "cancel": "Cancel",
         "continue": "Continue",
         "receive": "Receive",
-        "newAddressButton": "New Address"
+        "newAddressButton": "New Address",
+        "addressLabel": "Address label",
+        "createNewAddressNotice": "Give your new DFI address a meaningful label",
+        "createNewReceiveAddressLabel": "Create new receive address"
       },
       "paymentRequests": {
         "time": "Time",
