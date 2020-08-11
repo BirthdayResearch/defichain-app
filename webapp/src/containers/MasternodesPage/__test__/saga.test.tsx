@@ -200,29 +200,22 @@ describe('Console page saga unit test', () => {
 
   describe('Restart node', () => {
     let genObject;
-    let getPrivateKey;
-    let importPrivateKey;
+    let getAddressInfo;
     let restartNode;
     let isElectron;
     beforeEach(() => {
       genObject = handleRestartNode();
-      getPrivateKey = jest.spyOn(service, 'getPrivateKey');
-      importPrivateKey = jest.spyOn(service, 'importPrivateKey');
+      getAddressInfo = jest.spyOn(service, 'getAddressInfo');
       isElectron = jest.spyOn(electronFunc, 'isElectron');
       restartNode = jest.spyOn(electronFunc, 'restartNode');
     });
     afterEach(() => {
-      getPrivateKey.mockRestore();
-      importPrivateKey.mockRestore();
+      getAddressInfo.mockRestore();
       isElectron.mockRestore();
       restartNode.mockRestore();
     });
 
     it('should check for genObj', async () => {
-      getPrivateKey.mockImplementation(() =>
-        Promise.resolve('test_privateKey')
-      );
-      importPrivateKey.mockImplementation(() => Promise.resolve(true));
       isElectron.mockImplementation(() => Promise.resolve(true));
       restartNode.mockImplementation(() => Promise.resolve(true));
       const setterObj: any = {
@@ -230,19 +223,19 @@ describe('Console page saga unit test', () => {
           masternodeOperator: 'test_masternodeOperator',
           masternodeOwner: 'test_masternodeOwner',
         },
-        masternode_operator: 'operator',
-        masternode_owner: 'owner',
+        ismine: true,
+        iswatchonly: false,
       };
       expect(JSON.stringify(genObject.next().value)).toEqual(
         JSON.stringify(select((state) => state.masterNodes))
       );
-      const getPrivKeYyield = genObject.next(setterObj).value;
-      expect(getPrivKeYyield).toEqual(
-        call(getPrivateKey, setterObj.createdMasterNodeData.masternodeOperator)
+      const getAddressInfoService = genObject.next(setterObj).value;
+      expect(getAddressInfoService).toEqual(
+        call(getAddressInfo, setterObj.createdMasterNodeData.masternodeOperator)
       );
-      const importPrivKey = genObject.next().value;
-      expect(importPrivKey).toEqual(call(importPrivateKey, undefined));
-      expect(genObject.next().value).toEqual(call(getConfigurationDetails));
+      expect(genObject.next(setterObj).value).toEqual(
+        call(getConfigurationDetails)
+      );
       expect(genObject.next(setterObj).value).toEqual(put(restartModal()));
       expect(genObject.next().value).toEqual(call(q.kill));
       expect(genObject.next().value).toEqual(
@@ -254,39 +247,28 @@ describe('Console page saga unit test', () => {
       );
     });
 
-    it('should check for import is giving error', async () => {
-      getPrivateKey.mockImplementation(() =>
-        Promise.resolve('test_privateKey')
-      );
-      importPrivateKey.mockImplementation(() => Promise.resolve(true));
-      isElectron.mockImplementationOnce(() => Promise.resolve(true));
+    it('should check for getAddressInfo is giving error', async () => {
+      isElectron.mockImplementation(() => Promise.resolve(true));
       restartNode.mockImplementation(() => Promise.resolve(true));
       const setterObj: any = {
         createdMasterNodeData: {
           masternodeOperator: 'test_masternodeOperator',
           masternodeOwner: 'test_masternodeOwner',
         },
-        masternode_operator: 'operator',
-        masternode_owner: 'owner',
+        ismine: true,
+        iswatchonly: false,
       };
       expect(JSON.stringify(genObject.next().value)).toEqual(
         JSON.stringify(select((state) => state.masterNodes))
       );
-      const getPrivKeYyield = genObject.next(setterObj).value;
-      expect(getPrivKeYyield).toEqual(
-        call(getPrivateKey, setterObj.createdMasterNodeData.masternodeOperator)
-      );
-      const importPrivKey = genObject.throw(errorObj).value;
-      expect(importPrivKey).toEqual(
+      const genObjectnext = genObject.next(setterObj).value;
+      const getAddressInfoService = genObject.throw(errorObj).value;
+      expect(getAddressInfoService).toEqual(
         put(createMasterNodeFailure(errorObj.message))
       );
     });
 
     it('should check for if is electron is false', () => {
-      getPrivateKey.mockImplementation(() =>
-        Promise.resolve('test_privateKey')
-      );
-      importPrivateKey.mockImplementation(() => Promise.resolve(true));
       isElectron.mockImplementationOnce(() => false);
       restartNode.mockImplementation(() => Promise.resolve(true));
       const setterObj: any = {
@@ -302,6 +284,29 @@ describe('Console page saga unit test', () => {
       );
       expect(genObject.next(setterObj).value).toEqual(
         put(createMasterNodeFailure('Electron app is needed for restart'))
+      );
+    });
+
+    it('should check for getAddressInfo ismine and iswatchonly', async () => {
+      isElectron.mockImplementation(() => Promise.resolve(true));
+      restartNode.mockImplementation(() => Promise.resolve(true));
+      const setterObj: any = {
+        createdMasterNodeData: {
+          masternodeOperator: 'test_masternodeOperator',
+          masternodeOwner: 'test_masternodeOwner',
+        },
+        ismine: false,
+        iswatchonly: false,
+      };
+      expect(JSON.stringify(genObject.next().value)).toEqual(
+        JSON.stringify(select((state) => state.masterNodes))
+      );
+      const genObjectnext = genObject.next(setterObj).value;
+      const getAddressInfoService = genObject.next(setterObj).value;
+      expect(getAddressInfoService).toEqual(
+        put(
+          createMasterNodeFailure('masternodeOperator is not a part of wallet.')
+        )
       );
     });
   });
