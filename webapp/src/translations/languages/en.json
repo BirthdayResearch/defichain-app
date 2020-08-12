@@ -222,13 +222,25 @@
         "amountToReceive": "Amount to Receive",
         "addressNotAvailable": "Address not available",
         "cancel": "Cancel",
-        "continue": "Continue"
+        "continue": "Continue",
+        "receive": "Receive",
+        "newAddressButton": "New Address",
+        "addressLabel": "Address label",
+        "createNewAddressNotice": "Give your new DFI address a meaningful label",
+        "createNewReceiveAddressLabel": "Create new receive address",
+        "backButton": "back",
+        "createButton": "Create"
       },
       "paymentRequests": {
         "time": "Time",
         "amount": "Amount",
         "message": "Message",
         "cancelRequest": "Cancel request"
+      },
+      "paymentRequestList": {
+        "label": "Label",
+        "address": "Address",
+        "created": "Created"
       },
       "paymentRequestPage": {
         "paymentRequestTitle": "Payment request %{id} – DeFi Blockchain Client",
