@@ -32,11 +32,11 @@ span.react-console-prompt-label {
 }
 
 span.react-console-prompt {
-  color: $dfi-purple;
+  color: $dfi-pink;
 }
 
 div.react-console-focus span.react-console-cursor {
-  background: $dfi-purple;
+  background: $dfi-pink;
 }
 
 span.react-console-cursor {
@@ -55,16 +55,16 @@ div.react-console-focus span.react-console-cursor-idle {
 }
 
 div.react-console-welcome {
-  color: $dfi-purple !important;
+  color: $dfi-pink !important;
 }
 
 @keyframes blink {
   0% {
-    background-color: $dfi-purple;
+    background-color: $dfi-pink;
   }
 
   50% {
-    background-color: $dfi-purple;
+    background-color: $dfi-pink;
   }
 
   51% {
