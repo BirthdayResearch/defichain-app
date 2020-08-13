@@ -187,7 +187,11 @@
       "light": "Licht",
       "dark": "Dunkel",
       "unsavedChanges": "Sie haben ungespeicherte änderungen",
-      "saveSettings": "Speichern Sie die Einstellungen"
+      "saveSettings": "Speichern Sie die Einstellungen",
+      "network": "Network",
+      "mainnet": "Mainnet",
+      "testnet": "Testnet",
+      "regnet": "Regnet"
     },
     "wallet": {
       "sendPage": {

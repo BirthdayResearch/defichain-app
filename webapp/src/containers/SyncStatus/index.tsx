@@ -6,6 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { syncStatusRequest } from './reducer';
 import { Progress } from 'reactstrap';
+import UsePrevious from '../../components/UsePrevious';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -14,14 +15,21 @@ interface SyncStatusProps {
   isLoading: boolean;
   syncStatusRequest: () => void;
   blockChainInfo: any;
+  isRestart: boolean;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   props: SyncStatusProps
 ) => {
+  const prevIsRestart = UsePrevious(props.isRestart);
   useEffect(() => {
     props.syncStatusRequest();
   }, []);
+  useEffect(() => {
+    if (prevIsRestart && !props.isRestart) {
+      props.syncStatusRequest();
+    }
+  }, [prevIsRestart && !props.isRestart]);
 
   const {
     latestSyncedBlock,
@@ -89,6 +97,7 @@ const mapStateToProps = (state) => {
     isLoading,
     blockChainInfo,
   } = state.syncstatus;
+  const { isRestart } = state.errorModal;
   return {
     locale,
     isLoading,
@@ -96,6 +105,7 @@ const mapStateToProps = (state) => {
     syncedPercentage,
     latestSyncedBlock,
     blockChainInfo,
+    isRestart,
   };
 };
 

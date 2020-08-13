@@ -1,4 +1,3 @@
-export const REGTEST = 'regtest';
 export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
