@@ -44,6 +44,7 @@ interface CreateMasterNodeProps extends RouteComponentProps {
   isErrorCreatingMasterNode: string;
   startRestartNodeWithMasterNode: () => void;
   isRestartNode: boolean;
+  isErrorModalRestart: boolean;
 }
 const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   props: CreateMasterNodeProps
@@ -59,9 +60,10 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
     isErrorCreatingMasterNode,
     startRestartNodeWithMasterNode,
     isRestartNode,
+    isErrorModalRestart,
     history,
   } = props;
-  const prevIsRestartNode = usePrevious(isRestartNode);
+  const prevIsErrorModalRestart = usePrevious(isErrorModalRestart);
   const [masterNodeName, setMasterNodeName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPage, setIsPage] = useState<boolean>(false);
@@ -79,10 +81,10 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   }, []);
 
   useEffect(() => {
-    if (!isRestartNode && prevIsRestartNode) {
+    if (!isRestartNode && prevIsErrorModalRestart && !isErrorModalRestart) {
       history.push(WALLET_PAGE_PATH);
     }
-  }, [isRestartNode, prevIsRestartNode]);
+  }, [prevIsErrorModalRestart, isErrorModalRestart, isRestartNode]);
 
   useEffect(() => {
     if (allowCalls && !isMasterNodeCreating) {
@@ -320,6 +322,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                 className='ml-4'
                 color='primary'
                 onClick={() => {
+                  setWait(5);
                   setRestartNodeConfirm(true);
                   setIsConfirmationModalOpen('confirm');
                 }}
@@ -361,7 +364,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet, settings, masterNodes, isRestartNode } = state;
+  const { wallet, settings, masterNodes, errorModal } = state;
   return {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
@@ -371,6 +374,7 @@ const mapStateToProps = (state) => {
     createdMasterNodeData: masterNodes.createdMasterNodeData,
     isErrorCreatingMasterNode: masterNodes.isErrorCreatingMasterNode,
     isRestartNode: masterNodes.isRestartNode,
+    isErrorModalRestart: errorModal.isRestart,
   };
 };
 
