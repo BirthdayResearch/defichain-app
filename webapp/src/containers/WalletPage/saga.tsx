@@ -124,7 +124,8 @@ function* fetchWalletTxns(action) {
         }
         if (result && result.walletTxns) {
           const distinct = uniqBy(result.walletTxns, 'txnId');
-          const totalFetched = totalFetchedTxns.concat(distinct);
+          const previousFetchedTxns = intialLoad ? [] : totalFetchedTxns;
+          const totalFetched = previousFetchedTxns.concat(distinct);
           store.dispatch(
             fetchWalletTxnsSuccess({
               walletTxnCount: result.walletTxnCount,
