@@ -13,7 +13,10 @@ import {
   OPENBSD,
   ANDROID,
   SUNOS,
+  STOP_RPC_COMMAND,
+  RPC_V,
 } from './constants';
+import axios from 'axios';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -120,5 +123,18 @@ export const stopProcesses = (processId: number | string) => {
       if (err) return reject(err);
       return resolve(result);
     });
+  });
+};
+
+export const callStopBinary = (
+  rpcauth: string,
+  rpcconnect: string,
+  rpcport: string
+) => {
+  return axios.post(`http://${rpcauth}@${rpcconnect}:${rpcport}/`, {
+    jsonrpc: RPC_V,
+    id: Math.random().toString().substr(2),
+    method: STOP_RPC_COMMAND,
+    params: [],
   });
 };
