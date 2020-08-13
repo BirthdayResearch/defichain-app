@@ -16,9 +16,11 @@ import {
   getFileData,
   getProcesses,
   responseMessage,
-  stopProcesses,
   writeFile,
+  callStopBinary,
 } from '../utils';
+
+import UiConfig from './uiconfig';
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
@@ -119,14 +121,10 @@ export default class DefiProcessManager {
 
   async stop() {
     try {
-      const pid = getFileData(PID_FILE_NAME);
-      const processLists: any = await getProcesses({ pid: parseInt(pid, 10) });
-      for (const eachProcess of processLists) {
-        if (eachProcess.pid) {
-          await stopProcesses(eachProcess.pid);
-          log.info(`Process killed with pid: ${eachProcess.pid}`);
-        }
-      }
+      const configData = new UiConfig().getDefault(CONFIG_FILE_NAME);
+      const auth = `${configData.rpcuser}:${configData.rpcpassword}`;
+      await callStopBinary(auth, configData.rpcbind, configData.rpcport);
+      log.info(`Process killed`);
       return responseMessage(true, {
         message: 'Initiated termination of node',
       });
