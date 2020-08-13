@@ -25,6 +25,7 @@ interface SettingsPageProps {
     language: string;
     unit: string;
     displayMode: string;
+    network: string;
     launchAtLogin: boolean;
     minimizedAtLaunch: boolean;
     pruneBlockStorage: boolean;
@@ -49,6 +50,7 @@ interface SettingsPageState {
   activeTab: string;
   language?: string;
   unit?: string;
+  network?: string;
   displayMode?: string;
   launchAtLogin?: boolean;
   minimizedAtLaunch?: boolean;
@@ -154,6 +156,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'language',
       'unit',
       'displayMode',
+      'network',
       'launchAtLogin',
       'minimizedAtLaunch',
       'pruneBlockStorage',
@@ -167,7 +170,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
 
     let isUnsavedChanges = false;
 
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (!isUnsavedChanges && props.appConfig[key] !== state[key]) {
         isUnsavedChanges = true;
       }
@@ -186,6 +189,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       language,
       unit,
       displayMode,
+      network,
       launchAtLogin,
       minimizedAtLaunch,
       pruneBlockStorage,
@@ -201,6 +205,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       language,
       unit,
       displayMode,
+      network,
       launchAtLogin,
       minimizedAtLaunch,
       pruneBlockStorage,
@@ -229,6 +234,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     language,
     unit,
     displayMode,
+    network,
   } = state;
 
   return (
@@ -267,6 +273,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             language={language!}
             unit={unit!}
             displayMode={displayMode!}
+            network={network!}
             handleDropDowns={handleDropDowns}
           />
         </TabContent>
@@ -279,7 +286,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     isFetching,
     settingsError,
@@ -301,6 +308,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getSettingOptionsRequest,
   getInitialSettingsRequest,
-  updateSettings: settings => updateSettingsRequest(settings),
+  updateSettings: (settings) => updateSettingsRequest(settings),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
