@@ -16,7 +16,7 @@ interface SettingsTabGeneralProps {
   feeRate: number | string;
   scriptVerificationThreads: number;
   handleRegularNumInputs: any;
-  handleFractionalInputs: any
+  handleFractionalInputs: any;
   handleToggles: any;
 }
 
@@ -42,7 +42,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
         <Form>
           <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.launchOptions')}</Col>
-            <Col md='8'>
+            <Col md='8' lg='6'>
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'launchAtLogin'}
@@ -60,9 +60,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
           </Row>
           <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.utxoConsolidator')}</Col>
-          </Row>
-          <Row className='mb-5'>
-            <Col md='8'>
+            <Col md='8' lg='6'>
               <FormGroup className='form-label-group mb-5'>
                 <SettingsRowInput
                   field={maximumAmount}
