@@ -187,7 +187,11 @@
       "light": "Light",
       "dark": "Dark",
       "unsavedChanges": "You have unsaved changes",
-      "saveSettings": "Save settings"
+      "saveSettings": "Save settings",
+      "network": "Network",
+      "mainnet": "Mainnet",
+      "testnet": "Testnet",
+      "regnet": "Regnet"
     },
     "wallet": {
       "sendPage": {
