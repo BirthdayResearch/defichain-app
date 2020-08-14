@@ -65,7 +65,6 @@ export function* getSettings() {
     blockChainInfo: { chain },
   } = yield select((state) => state.syncstatus);
   let network = MAINNET;
-  console.log({ chain });
   if (chain === 'test') {
     network = TESTNET;
   }
@@ -91,6 +90,9 @@ export function* getSettings() {
 export function* updateSettings(action) {
   try {
     let updateLanguage = false;
+    const {
+      appConfig: { network: prevNetwork },
+    } = yield select((state) => state.settings);
     if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {
       updateLanguage = true;
     }
@@ -105,8 +107,7 @@ export function* updateSettings(action) {
         disablePreLaunchStatus();
       }
       yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
-      if (action.payload.network) {
-        console.log(action.payload.network);
+      if (action.payload.network !== prevNetwork) {
         yield call(changeNetworkNode, action.payload.network);
       }
     } else {

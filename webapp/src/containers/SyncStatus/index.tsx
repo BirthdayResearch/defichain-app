@@ -6,6 +6,10 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { syncStatusRequest } from './reducer';
 import { Progress } from 'reactstrap';
+import {
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
+} from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
 
 interface SyncStatusProps {
@@ -14,6 +18,8 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
+  fetchWalletBalanceRequest: () => void;
+  fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
   isRestart: boolean;
 }
@@ -28,6 +34,8 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   useEffect(() => {
     if (prevIsRestart && !props.isRestart) {
       props.syncStatusRequest();
+      props.fetchWalletBalanceRequest();
+      props.fetchPendingBalanceRequest();
     }
   }, [prevIsRestart && !props.isRestart]);
 
@@ -111,6 +119,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   syncStatusRequest,
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SyncStatus);
