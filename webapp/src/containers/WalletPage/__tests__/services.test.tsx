@@ -17,17 +17,21 @@ import {
   mockAxios,
 } from '../../../utils/testUtils/mockUtils';
 import * as Utility from '../../../utils/utility';
-
+import { MAINNET } from '../../../constants';
+const networkName = MAINNET.toLowerCase();
 describe('Wallet page service unit test', () => {
   it('should check for handelGetPaymentRequest', () => {
     const PersistentStore = mockPersistentStore(null, null);
-    service.handelGetPaymentRequest();
+    service.handelGetPaymentRequest(networkName);
     expect(PersistentStore.get).toBeCalledTimes(1);
   });
 
   it('should check for handelAddReceiveTxns', () => {
     const PersistentStore = mockPersistentStore(null, null);
-    const data = service.handelAddReceiveTxns(handelAddReceiveTxns);
+    const data = service.handelAddReceiveTxns(
+      handelAddReceiveTxns,
+      networkName
+    );
     expect(PersistentStore.get).toBeCalledTimes(1);
     expect(data).toBeInstanceOf(Array);
     expect(data).toEqual(expected.handelAddReceiveTxns);
@@ -38,7 +42,10 @@ describe('Wallet page service unit test', () => {
       JSON.stringify(handelRemoveReceiveTxns.localStorageData),
       null
     );
-    const data = service.handelRemoveReceiveTxns(handelRemoveReceiveTxns.uuid);
+    const data = service.handelRemoveReceiveTxns(
+      handelRemoveReceiveTxns.uuid,
+      networkName
+    );
     expect(PersistentStore.set).toBeCalledTimes(1);
     expect(PersistentStore.get).toBeCalledTimes(1);
     expect(data).toBeInstanceOf(Array);
