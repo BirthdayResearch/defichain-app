@@ -36,7 +36,6 @@ export function* getConfig() {
         const chan = yield call(startBinary, res.data);
         while (true) {
           const blockchainStatus = yield take(chan);
-          console.log('blockchain status', blockchainStatus.status);
           if (blockchainStatus.status) {
             yield put(startNodeSuccess());
             yield put(storeConfigurationData(blockchainStatus.conf));
