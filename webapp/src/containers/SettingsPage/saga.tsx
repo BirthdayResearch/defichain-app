@@ -64,9 +64,12 @@ export function* getSettings() {
   const {
     blockChainInfo: { chain },
   } = yield select((state) => state.syncstatus);
-  let network = MAINNET;
+  let network = '';
   if (chain === 'test') {
     network = TESTNET;
+  }
+  if (chain === 'main') {
+    network = MAINNET;
   }
   try {
     const data = yield call(initialData);

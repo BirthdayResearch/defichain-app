@@ -5,23 +5,29 @@ import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
 
-export const handelGetPaymentRequest = () => {
-  return JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+export const handelGetPaymentRequest = (networkName) => {
+  return JSON.parse(
+    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+  );
 };
 
-export const handelAddReceiveTxns = (data) => {
-  const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+export const handelAddReceiveTxns = (data, networkName) => {
+  const initialData = JSON.parse(
+    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+  );
   const paymentData = [data, ...initialData];
-  PersistentStore.set(PAYMENT_REQUEST, paymentData);
+  PersistentStore.set(`${PAYMENT_REQUEST}-${networkName}`, paymentData);
   return paymentData;
 };
 
-export const handelRemoveReceiveTxns = (id) => {
-  const initialData = JSON.parse(PersistentStore.get(PAYMENT_REQUEST) || '[]');
+export const handelRemoveReceiveTxns = (id, networkName) => {
+  const initialData = JSON.parse(
+    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+  );
   const paymentData = initialData.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
   );
-  PersistentStore.set(PAYMENT_REQUEST, paymentData);
+  PersistentStore.set(`${PAYMENT_REQUEST}-${networkName}`, paymentData);
   return paymentData;
 };
 

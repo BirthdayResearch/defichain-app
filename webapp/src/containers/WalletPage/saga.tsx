@@ -41,6 +41,13 @@ import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
 
+export function* getNetwork() {
+  const {
+    appConfig: { network },
+  } = yield select((state) => state.settings);
+  return network.toString().toLowerCase();
+}
+
 function fetchWalletBalance() {
   queue.push(
     { methodName: handleFetchWalletBalance, params: [] },
@@ -73,7 +80,12 @@ function fetchPendingBalance() {
 
 export function* addReceiveTxns(action: any) {
   try {
-    const result = yield call(handelAddReceiveTxns, action.payload);
+    const networkName = yield call(getNetwork);
+    const result = yield call(
+      handelAddReceiveTxns,
+      action.payload,
+      networkName
+    );
     yield put(addReceiveTxnsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
@@ -84,7 +96,12 @@ export function* addReceiveTxns(action: any) {
 
 export function* removeReceiveTxns(action: any) {
   try {
-    const result = yield call(handelRemoveReceiveTxns, action.payload);
+    const networkName = yield call(getNetwork);
+    const result = yield call(
+      handelRemoveReceiveTxns,
+      action.payload,
+      networkName
+    );
     yield put(removeReceiveTxnsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
@@ -95,7 +112,8 @@ export function* removeReceiveTxns(action: any) {
 
 export function* fetchPayments() {
   try {
-    const data = yield call(handelGetPaymentRequest);
+    const networkName = yield call(getNetwork);
+    const data = yield call(handelGetPaymentRequest, networkName);
     yield put(fetchPaymentRequestsSuccess(data));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
