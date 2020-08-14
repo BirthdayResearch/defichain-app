@@ -7,6 +7,7 @@ import styles from './errorModal.module.scss';
 
 interface ErrorModalProps {
   isRestart: boolean;
+  showWarning: boolean;
 }
 
 const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
@@ -14,12 +15,13 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
 ) => (
   <>
     <div className={styles.errorModal}>
-      {!props.isRestart ? (
+      {!props.isRestart && props.showWarning && (
         <div className={styles.errorModalContent}>
           <RiErrorWarningLine size={100} />
           <p>{I18n.t('alerts.nodeDisconnected')}</p>
         </div>
-      ) : (
+      )}
+      {props.isRestart && (
         <div>
           <Loader
             className='mb-5'
@@ -34,9 +36,10 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
   </>
 );
 const mapStateToProps = (state) => {
-  const { isRestart } = state.errorModal;
+  const { isRestart, showWarning } = state.errorModal;
   return {
     isRestart,
+    showWarning,
   };
 };
 
