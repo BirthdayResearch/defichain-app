@@ -125,7 +125,7 @@ export function* updateSettings(action) {
   }
 }
 
-function* changeNetworkNode(networkName) {
+export function* changeNetworkNode(networkName) {
   const { configurationData } = yield select((state) => state.app);
   const network = {
     regtest: 0,
