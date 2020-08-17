@@ -22,6 +22,7 @@ interface AppProps extends RouteComponentProps {
   getRpcConfigsRequest: () => void;
   isErrorModalOpen: boolean;
   nodeError: string;
+  isFetching: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -88,7 +89,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       </Modal>
     </div>
   ) : (
-    <LaunchScreen message={props.nodeError} />
+    <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
   );
 };
 
@@ -96,6 +97,7 @@ const mapStateToProps = ({ app, errorModal }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
   isErrorModalOpen: errorModal.isOpen,
+  isFetching: app.isFetching,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };
