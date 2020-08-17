@@ -13,7 +13,7 @@ describe('SettingsTabDisplayComponent', () => {
     };
     const wrapper = mount(
       <Provider store={store}>
-        {/* <SettingsTabDisplayComponent {...props} /> */}
+        <SettingsTabDisplayComponent {...props} />
       </Provider>
     );
     expect(wrapper).toMatchSnapshot();
