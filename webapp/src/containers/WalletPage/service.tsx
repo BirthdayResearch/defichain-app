@@ -1,33 +1,40 @@
 import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
-import { PAYMENT_REQUEST } from '../../constants';
+import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
 
+const handleLocalStorageName = (networkName) => {
+  if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
+    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}`.toLowerCase();
+  }
+  return PAYMENT_REQUEST;
+};
+
 export const handelGetPaymentRequest = (networkName) => {
   return JSON.parse(
-    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
 };
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const initialData = JSON.parse(
-    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
   const paymentData = [data, ...initialData];
-  PersistentStore.set(`${PAYMENT_REQUEST}-${networkName}`, paymentData);
+  PersistentStore.set(handleLocalStorageName(networkName), paymentData);
   return paymentData;
 };
 
 export const handelRemoveReceiveTxns = (id, networkName) => {
   const initialData = JSON.parse(
-    PersistentStore.get(`${PAYMENT_REQUEST}-${networkName}`) || '[]'
+    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
   const paymentData = initialData.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
   );
-  PersistentStore.set(`${PAYMENT_REQUEST}-${networkName}`, paymentData);
+  PersistentStore.set(handleLocalStorageName(networkName), paymentData);
   return paymentData;
 };
 
