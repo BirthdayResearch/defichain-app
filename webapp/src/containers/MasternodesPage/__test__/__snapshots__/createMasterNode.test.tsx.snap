@@ -122,6 +122,7 @@ exports[`Create Master Node should check for snapshot 1`] = `
           isBalanceError={true}
           isBalanceFetching={true}
           isErrorCreatingMasterNode=""
+          isErrorModalRestart={false}
           isMasterNodeCreating={false}
           isRestartNode={false}
           location={

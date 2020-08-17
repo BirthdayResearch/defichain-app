@@ -24,7 +24,6 @@ import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
 
 interface PaymentRequestsProps {
-  unit: string;
   paymentRequests: {
     label: string;
     id: string;
@@ -158,9 +157,8 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet, settings } = state;
+  const { wallet } = state;
   return {
-    unit: settings.appConfig.unit,
     paymentRequests: wallet.paymentRequests,
   };
 };
