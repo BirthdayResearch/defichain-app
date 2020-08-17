@@ -338,7 +338,6 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                   fetchPaymentRequest={[Function]}
                   paymentRequests={Array []}
                   removeReceiveTxns={[Function]}
-                  unit="DFI"
                 >
                   <section
                     className="mb-5"
