@@ -31,13 +31,12 @@ import q from '../../worker/queue';
 import {
   MAINNET,
   TESTNET,
-  REGTEST,
   DEFAULT_MAINNET_CONNECT,
   DEFAULT_TESTNET_CONNECT,
-  DEFAULT_REGTEST_CONNECT,
   DEFAULT_MAINNET_PORT,
   DEFAULT_TESTNET_PORT,
-  DEFAULT_REGTEST_PORT,
+  BLOCKCHAIN_INFO_CHAIN_MAINNET,
+  BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../constants';
 
 export function* getSettingsOptions() {
@@ -65,10 +64,10 @@ export function* getSettings() {
     blockChainInfo: { chain },
   } = yield select((state) => state.syncstatus);
   let network = '';
-  if (chain === 'test') {
+  if (chain === BLOCKCHAIN_INFO_CHAIN_TEST) {
     network = TESTNET;
   }
-  if (chain === 'main') {
+  if (chain === BLOCKCHAIN_INFO_CHAIN_MAINNET) {
     network = MAINNET;
   }
   try {

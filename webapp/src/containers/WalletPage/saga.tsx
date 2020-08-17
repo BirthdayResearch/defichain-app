@@ -43,9 +43,9 @@ import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
 
 export function* getNetwork() {
   const {
-    appConfig: { network },
-  } = yield select((state) => state.settings);
-  return network.toString().toLowerCase();
+    blockChainInfo: { chain },
+  } = yield select((state) => state.syncstatus);
+  return chain;
 }
 
 function fetchWalletBalance() {

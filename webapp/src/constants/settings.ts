@@ -33,3 +33,5 @@ export const DEFAULT_REGTEST_CONNECT = '127.0.0.1';
 export const DEFAULT_MAINNET_PORT = '8555';
 export const DEFAULT_TESTNET_PORT = '8555';
 export const DEFAULT_REGTEST_PORT = '8555';
+export const BLOCKCHAIN_INFO_CHAIN_MAINNET = 'main';
+export const BLOCKCHAIN_INFO_CHAIN_TEST = 'test';
