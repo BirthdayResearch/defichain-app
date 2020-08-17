@@ -35,7 +35,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
         }
       }
     >
-      <Connect(ReceivePage)
+      <ReceivePage
         history={
           Object {
             "action": "POP",
@@ -66,474 +66,308 @@ exports[`ReceivePage component should check for snapshot 1`] = `
             "replace": [Function],
           }
         }
-      >
-        <ReceivePage
-          addReceiveTxns={[Function]}
-          history={
-            Object {
-              "action": "POP",
-              "block": [Function],
-              "canGo": [Function],
-              "createHref": [Function],
-              "entries": Array [
-                Object {
-                  "hash": "",
-                  "pathname": "/",
-                  "search": "",
-                  "state": undefined,
-                },
-              ],
-              "go": [Function],
-              "goBack": [Function],
-              "goForward": [Function],
-              "index": 0,
-              "length": 1,
-              "listen": [Function],
-              "location": Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-              "push": [Function],
-              "replace": [Function],
-            }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
           }
-          paymentRequests={Array []}
-          unit="DFI"
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <div
+          className="main-wrapper"
         >
-          <div
-            className="main-wrapper"
+          <HelmetWrapper
+            defer={true}
+            encodeSpecialCharacters={true}
           >
-            <HelmetWrapper
+            <SideEffect(NullComponent)
               defer={true}
               encodeSpecialCharacters={true}
+              title="receivePage"
+              titleAttributes={Object {}}
             >
-              <SideEffect(NullComponent)
+              <NullComponent
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Receive DFI – DeFi Blockchain Client"
+                title="receivePage"
                 titleAttributes={Object {}}
-              >
-                <NullComponent
-                  defer={true}
-                  encodeSpecialCharacters={true}
-                  title="Receive DFI – DeFi Blockchain Client"
-                  titleAttributes={Object {}}
-                />
-              </SideEffect(NullComponent)>
-            </HelmetWrapper>
-            <header
-              className="header-bar"
-            >
-              <Button
-                className="header-bar-back"
-                color="link"
-                tag={
-                  Object {
-                    "$$typeof": Symbol(react.forward_ref),
-                    "displayName": "NavLink",
-                    "propTypes": Object {
-                      "activeClassName": [Function],
-                      "activeStyle": [Function],
-                      "aria-current": [Function],
-                      "className": [Function],
-                      "exact": [Function],
-                      "innerRef": [Function],
-                      "isActive": [Function],
-                      "location": [Function],
-                      "onClick": [Function],
-                      "replace": [Function],
-                      "strict": [Function],
-                      "style": [Function],
-                      "target": [Function],
-                      "to": [Function],
-                    },
-                    "render": [Function],
-                  }
+              />
+            </SideEffect(NullComponent)>
+          </HelmetWrapper>
+          <header
+            className="header-bar"
+          >
+            <Button
+              className="header-bar-back"
+              color="link"
+              tag={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "NavLink",
+                  "propTypes": Object {
+                    "activeClassName": [Function],
+                    "activeStyle": [Function],
+                    "aria-current": [Function],
+                    "className": [Function],
+                    "exact": [Function],
+                    "innerRef": [Function],
+                    "isActive": [Function],
+                    "location": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "strict": [Function],
+                    "style": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
                 }
+              }
+              to="/"
+            >
+              <NavLink
+                aria-label={null}
+                className="header-bar-back btn btn-link"
+                onClick={[Function]}
                 to="/"
               >
-                <NavLink
+                <Link
+                  aria-current="page"
                   aria-label={null}
-                  className="header-bar-back btn btn-link"
+                  className="header-bar-back btn btn-link active"
                   onClick={[Function]}
-                  to="/"
+                  style={Object {}}
+                  to={
+                    Object {
+                      "hash": "",
+                      "pathname": "/",
+                      "search": "",
+                      "state": null,
+                    }
+                  }
                 >
-                  <Link
+                  <LinkAnchor
                     aria-current="page"
                     aria-label={null}
                     className="header-bar-back btn btn-link active"
+                    href="/"
+                    navigate={[Function]}
                     onClick={[Function]}
                     style={Object {}}
-                    to={
-                      Object {
-                        "hash": "",
-                        "pathname": "/",
-                        "search": "",
-                        "state": null,
-                      }
-                    }
                   >
-                    <LinkAnchor
+                    <a
                       aria-current="page"
                       aria-label={null}
                       className="header-bar-back btn btn-link active"
                       href="/"
-                      navigate={[Function]}
                       onClick={[Function]}
                       style={Object {}}
                     >
-                      <a
-                        aria-current="page"
-                        aria-label={null}
-                        className="header-bar-back btn btn-link active"
-                        href="/"
-                        onClick={[Function]}
-                        style={Object {}}
-                      >
-                        <MdArrowBack>
-                          <IconBase
-                            attr={
+                      <MdArrowBack>
+                        <IconBase
+                          attr={
+                            Object {
+                              "viewBox": "0 0 24 24",
+                            }
+                          }
+                        >
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            strokeWidth="0"
+                            style={
                               Object {
-                                "viewBox": "0 0 24 24",
+                                "color": undefined,
                               }
                             }
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <svg
-                              fill="currentColor"
-                              height="1em"
-                              stroke="currentColor"
-                              strokeWidth="0"
-                              style={
+                            <path
+                              d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                              key="0"
+                            />
+                          </svg>
+                        </IconBase>
+                      </MdArrowBack>
+                      <span
+                        className="d-lg-inline text-uppercase"
+                      >
+                        back
+                      </span>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </NavLink>
+            </Button>
+            <h1>
+              Receive
+            </h1>
+            <ButtonGroup
+              role="group"
+              tag="div"
+            >
+              <div
+                className="btn-group"
+                role="group"
+              >
+                <Button
+                  color="link"
+                  tag={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "displayName": "NavLink",
+                      "propTypes": Object {
+                        "activeClassName": [Function],
+                        "activeStyle": [Function],
+                        "aria-current": [Function],
+                        "className": [Function],
+                        "exact": [Function],
+                        "innerRef": [Function],
+                        "isActive": [Function],
+                        "location": [Function],
+                        "onClick": [Function],
+                        "replace": [Function],
+                        "strict": [Function],
+                        "style": [Function],
+                        "target": [Function],
+                        "to": [Function],
+                      },
+                      "render": [Function],
+                    }
+                  }
+                  to="/wallet/receive/request"
+                >
+                  <NavLink
+                    aria-label={null}
+                    className="btn btn-link"
+                    onClick={[Function]}
+                    to="/wallet/receive/request"
+                  >
+                    <Link
+                      aria-current={null}
+                      aria-label={null}
+                      className="btn btn-link"
+                      onClick={[Function]}
+                      to={
+                        Object {
+                          "hash": "",
+                          "pathname": "/wallet/receive/request",
+                          "search": "",
+                          "state": null,
+                        }
+                      }
+                    >
+                      <LinkAnchor
+                        aria-current={null}
+                        aria-label={null}
+                        className="btn btn-link"
+                        href="/wallet/receive/request"
+                        navigate={[Function]}
+                        onClick={[Function]}
+                      >
+                        <a
+                          aria-current={null}
+                          aria-label={null}
+                          className="btn btn-link"
+                          href="/wallet/receive/request"
+                          onClick={[Function]}
+                        >
+                          <MdAdd>
+                            <IconBase
+                              attr={
                                 Object {
-                                  "color": undefined,
+                                  "viewBox": "0 0 24 24",
                                 }
                               }
-                              viewBox="0 0 24 24"
-                              width="1em"
-                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <path
-                                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
-                                key="0"
-                              />
-                            </svg>
-                          </IconBase>
-                        </MdArrowBack>
-                        <span
-                          className="d-lg-inline"
-                        >
-                          Wallet
-                        </span>
-                      </a>
-                    </LinkAnchor>
-                  </Link>
-                </NavLink>
-              </Button>
-              <h1>
-                Receive DFI
-              </h1>
-            </header>
-            <div
-              className="content"
-            >
-              <section>
-                <Form
-                  tag="form"
+                              <svg
+                                fill="currentColor"
+                                height="1em"
+                                stroke="currentColor"
+                                strokeWidth="0"
+                                style={
+                                  Object {
+                                    "color": undefined,
+                                  }
+                                }
+                                viewBox="0 0 24 24"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                                  key="0"
+                                />
+                              </svg>
+                            </IconBase>
+                          </MdAdd>
+                          <span
+                            className="d-lg-inline"
+                          >
+                            New Address
+                          </span>
+                        </a>
+                      </LinkAnchor>
+                    </Link>
+                  </NavLink>
+                </Button>
+              </div>
+            </ButtonGroup>
+          </header>
+          <div
+            className="content"
+          >
+            <section>
+              <Connect(PaymentRequestList)>
+                <PaymentRequestList
+                  fetchPaymentRequest={[Function]}
+                  paymentRequests={Array []}
+                  removeReceiveTxns={[Function]}
+                  unit="DFI"
                 >
-                  <form
-                    className=""
+                  <section
+                    className="mb-5"
                   >
-                    <FormGroup
-                      className="form-label-group"
+                    <Card
+                      className="table-responsive-md"
                       tag="div"
                     >
                       <div
-                        className="form-label-group form-group"
+                        className="table-responsive-md card"
                       >
-                        <InputGroup
+                        <CardBody
                           tag="div"
                         >
                           <div
-                            className="input-group"
+                            className="card-body"
                           >
-                            <Input
-                              autoFocus={true}
-                              id="amount"
-                              inputMode="numeric"
-                              name="amount"
-                              onChange={[Function]}
-                              placeholder="Amount to Receive"
-                              type="text"
-                              value=""
-                            >
-                              <input
-                                autoFocus={true}
-                                className="form-control"
-                                id="amount"
-                                inputMode="numeric"
-                                name="amount"
-                                onChange={[Function]}
-                                placeholder="Amount to Receive"
-                                type="text"
-                                value=""
-                              />
-                            </Input>
-                            <Label
-                              for="amount"
-                              tag="label"
-                              widths={
-                                Array [
-                                  "xs",
-                                  "sm",
-                                  "md",
-                                  "lg",
-                                  "xl",
-                                ]
-                              }
-                            >
-                              <label
-                                className=""
-                                htmlFor="amount"
-                              >
-                                Amount (Optional)
-                              </label>
-                            </Label>
-                            <InputGroupAddon
-                              addonType="append"
-                              tag="div"
-                            >
-                              <div
-                                className="input-group-append"
-                              >
-                                <InputGroupText
-                                  tag="span"
-                                >
-                                  <span
-                                    className="input-group-text"
-                                  >
-                                    DFI
-                                  </span>
-                                </InputGroupText>
-                              </div>
-                            </InputGroupAddon>
+                            No payment requests available
                           </div>
-                        </InputGroup>
+                        </CardBody>
                       </div>
-                    </FormGroup>
-                    <FormGroup
-                      className="form-label-group"
-                      tag="div"
-                    >
-                      <div
-                        className="form-label-group form-group"
-                      >
-                        <Input
-                          id="label"
-                          name="label"
-                          onChange={[Function]}
-                          placeholder="Label"
-                          type="text"
-                          value=""
-                        >
-                          <input
-                            className="form-control"
-                            id="label"
-                            name="label"
-                            onChange={[Function]}
-                            placeholder="Label"
-                            type="text"
-                            value=""
-                          />
-                        </Input>
-                        <Label
-                          for="message"
-                          tag="label"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
-                        >
-                          <label
-                            className=""
-                            htmlFor="message"
-                          >
-                            Label (Optional)
-                          </label>
-                        </Label>
-                      </div>
-                    </FormGroup>
-                    <FormGroup
-                      className="form-label-group"
-                      tag="div"
-                    >
-                      <div
-                        className="form-label-group form-group"
-                      >
-                        <Input
-                          id="message"
-                          name="message"
-                          onChange={[Function]}
-                          placeholder="Message"
-                          rows="3"
-                          type="textarea"
-                          value=""
-                        >
-                          <textarea
-                            className="form-control"
-                            id="message"
-                            name="message"
-                            onChange={[Function]}
-                            placeholder="Message"
-                            rows="3"
-                            value=""
-                          />
-                        </Input>
-                        <Label
-                          for="message"
-                          tag="label"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
-                        >
-                          <label
-                            className=""
-                            htmlFor="message"
-                          >
-                            Message (Optional)
-                          </label>
-                        </Label>
-                      </div>
-                    </FormGroup>
-                  </form>
-                </Form>
-              </section>
-            </div>
-            <footer
-              className="footer-bar"
-            >
-              <div
-                className="d-flex justify-content-between align-items-center"
-              >
-                <div>
-                  <div
-                    className="caption-secondary"
-                  >
-                    Amount to Receive
-                  </div>
-                  <div>
-                    -
-                     
-                    DFI
-                  </div>
-                </div>
-                <div>
-                  <Button
-                    className="mr-3"
-                    color="link"
-                    tag={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "displayName": "NavLink",
-                        "propTypes": Object {
-                          "activeClassName": [Function],
-                          "activeStyle": [Function],
-                          "aria-current": [Function],
-                          "className": [Function],
-                          "exact": [Function],
-                          "innerRef": [Function],
-                          "isActive": [Function],
-                          "location": [Function],
-                          "onClick": [Function],
-                          "replace": [Function],
-                          "strict": [Function],
-                          "style": [Function],
-                          "target": [Function],
-                          "to": [Function],
-                        },
-                        "render": [Function],
-                      }
-                    }
-                    to="/"
-                  >
-                    <NavLink
-                      aria-label={null}
-                      className="mr-3 btn btn-link"
-                      onClick={[Function]}
-                      to="/"
-                    >
-                      <Link
-                        aria-current="page"
-                        aria-label={null}
-                        className="mr-3 btn btn-link active"
-                        onClick={[Function]}
-                        style={Object {}}
-                        to={
-                          Object {
-                            "hash": "",
-                            "pathname": "/",
-                            "search": "",
-                            "state": null,
-                          }
-                        }
-                      >
-                        <LinkAnchor
-                          aria-current="page"
-                          aria-label={null}
-                          className="mr-3 btn btn-link active"
-                          href="/"
-                          navigate={[Function]}
-                          onClick={[Function]}
-                          style={Object {}}
-                        >
-                          <a
-                            aria-current="page"
-                            aria-label={null}
-                            className="mr-3 btn btn-link active"
-                            href="/"
-                            onClick={[Function]}
-                            style={Object {}}
-                          >
-                            Cancel
-                          </a>
-                        </LinkAnchor>
-                      </Link>
-                    </NavLink>
-                  </Button>
-                  <Button
-                    color="primary"
-                    disabled={false}
-                    onClick={[Function]}
-                    tag="button"
-                  >
-                    <button
-                      aria-label={null}
-                      className="btn btn-primary"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      Continue
-                    </button>
-                  </Button>
-                </div>
-              </div>
-            </footer>
+                    </Card>
+                  </section>
+                </PaymentRequestList>
+              </Connect(PaymentRequestList)>
+            </section>
           </div>
-        </ReceivePage>
-      </Connect(ReceivePage)>
+        </div>
+      </ReceivePage>
     </Provider>
   </Router>
 </BrowserRouter>

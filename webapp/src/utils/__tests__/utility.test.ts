@@ -229,7 +229,7 @@ describe('utility', () => {
   it('validateSchema invalid object', () => {
     const spy = jest.spyOn(log, 'error');
     const data = Object.assign({}, validateSchema);
-    delete data.result[0].address;
+    delete data.result[0].time;
     const isValid = utility.validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_TRANSACTIONS),
       data
