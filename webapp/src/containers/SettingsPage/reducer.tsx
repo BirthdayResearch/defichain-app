@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAppConfigUnit } from './service';
+import { MAINNET } from '../../constants';
 
 export const initialState = {
   isFetching: false,
@@ -8,6 +9,7 @@ export const initialState = {
     language: '',
     unit: getAppConfigUnit(),
     displayMode: '',
+    network: '',
     launchAtLogin: false,
     minimizedAtLaunch: false,
     pruneBlockStorage: false,
@@ -20,6 +22,7 @@ export const initialState = {
   languages: [],
   amountUnits: [],
   displayModes: [],
+  networkOptions: [],
 };
 
 const configSlice = createSlice({
@@ -31,11 +34,13 @@ const configSlice = createSlice({
       state.languages = action.payload.languages;
       state.amountUnits = action.payload.amountUnits;
       state.displayModes = action.payload.displayModes;
+      state.networkOptions = action.payload.networkOptions;
     },
     getSettingOptionsFailure(state, action) {
       state.languages = [];
       state.amountUnits = [];
       state.displayModes = [];
+      state.networkOptions = [];
     },
     getInitialSettingsRequest(state) {
       state.isFetching = true;

@@ -1,0 +1,398 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PaymentRequests component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(CreateNewAddressPage)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <CreateNewAddressPage
+          addReceiveTxns={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Create new receive address"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Create new receive address"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <header
+              className="header-bar"
+            >
+              <Button
+                className="header-bar-back"
+                color="link"
+                tag={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "NavLink",
+                    "propTypes": Object {
+                      "activeClassName": [Function],
+                      "activeStyle": [Function],
+                      "aria-current": [Function],
+                      "className": [Function],
+                      "exact": [Function],
+                      "innerRef": [Function],
+                      "isActive": [Function],
+                      "location": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "strict": [Function],
+                      "style": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                to="/wallet/receive"
+              >
+                <NavLink
+                  aria-label={null}
+                  className="header-bar-back btn btn-link"
+                  onClick={[Function]}
+                  to="/wallet/receive"
+                >
+                  <Link
+                    aria-current={null}
+                    aria-label={null}
+                    className="header-bar-back btn btn-link"
+                    onClick={[Function]}
+                    to={
+                      Object {
+                        "hash": "",
+                        "pathname": "/wallet/receive",
+                        "search": "",
+                        "state": null,
+                      }
+                    }
+                  >
+                    <LinkAnchor
+                      aria-current={null}
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      href="/wallet/receive"
+                      navigate={[Function]}
+                      onClick={[Function]}
+                    >
+                      <a
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        href="/wallet/receive"
+                        onClick={[Function]}
+                      >
+                        <MdArrowBack>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdArrowBack>
+                        <span
+                          className="d-lg-inline text-uppercase"
+                        >
+                          back
+                        </span>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </NavLink>
+              </Button>
+              <h1>
+                Create new receive address
+              </h1>
+            </header>
+            <div
+              className="content"
+            >
+              <section>
+                <Form
+                  tag="form"
+                >
+                  <form
+                    className=""
+                  >
+                    <FormGroup
+                      className="form-label-group"
+                      tag="div"
+                    >
+                      <div
+                        className="form-label-group form-group"
+                      >
+                        <Input
+                          id="label"
+                          name="label"
+                          onChange={[Function]}
+                          placeholder="Address label"
+                          type="text"
+                          value=""
+                        >
+                          <input
+                            className="form-control"
+                            id="label"
+                            name="label"
+                            onChange={[Function]}
+                            placeholder="Address label"
+                            type="text"
+                            value=""
+                          />
+                        </Input>
+                        <div
+                          className="undefined mt-2"
+                        >
+                          Give your new DFI address a meaningful label
+                        </div>
+                        <Label
+                          for="message"
+                          tag="label"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <label
+                            className=""
+                            htmlFor="message"
+                          >
+                            Address label
+                          </label>
+                        </Label>
+                      </div>
+                    </FormGroup>
+                  </form>
+                </Form>
+              </section>
+            </div>
+            <footer
+              className="footer-bar"
+            >
+              <div
+                className="d-flex justify-content-end"
+              >
+                <div>
+                  <Button
+                    className="mr-3"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "displayName": "NavLink",
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/wallet/receive"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="mr-3 btn btn-link"
+                      onClick={[Function]}
+                      to="/wallet/receive"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="mr-3 btn btn-link"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/wallet/receive",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="mr-3 btn btn-link"
+                          href="/wallet/receive"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="mr-3 btn btn-link"
+                            href="/wallet/receive"
+                            onClick={[Function]}
+                          >
+                            Cancel
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <Button
+                    color="primary"
+                    onClick={[Function]}
+                    tag="button"
+                  >
+                    <button
+                      aria-label={null}
+                      className="btn btn-primary"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Create
+                    </button>
+                  </Button>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </CreateNewAddressPage>
+      </Connect(CreateNewAddressPage)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

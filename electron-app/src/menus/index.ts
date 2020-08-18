@@ -8,13 +8,13 @@ export default class AppMenu {
       {
         label: 'Wallet',
         submenu: [
-          {
-            label: 'Import Wallet',
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.load(bw);
-            },
-          },
+          // {
+          //   label: 'Import Wallet',
+          //   click(item, bw) {
+          //     const wallet = new Wallet();
+          //     wallet.load(bw);
+          //   },
+          // },
           {
             label: 'Backup Wallet',
             click(item, bw) {

@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import WalletPage from '../containers/WalletPage';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
+import CreateNewAddressPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
 import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
 import BlockchainPage from '../containers/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/components/BlockPage';
@@ -32,14 +33,20 @@ import {
   CONSOLE_RPC_CALL_BASE_PATH,
   CREATE_MASTER_NODES_PATH,
   MASTER_NODES_DETAIL_PATH,
+  WALLET_CREATE_RECEIVE_REQUEST,
 } from '../constants';
 
-const routes = location => (
+const routes = (location) => (
   <Switch location={location}>
     <Redirect from={INDEX_PATH} to={WALLET_PAGE_PATH} />
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
+    <Route
+      exact
+      path={WALLET_CREATE_RECEIVE_REQUEST}
+      component={CreateNewAddressPage}
+    />
     <Route
       exact
       path={WALLET_PAYMENT_REQ_PARAMS_PATH}

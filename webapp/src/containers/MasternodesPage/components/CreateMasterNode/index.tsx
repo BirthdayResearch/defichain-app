@@ -14,18 +14,23 @@ import {
   Input,
   InputGroup,
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 import { fetchWalletBalanceRequest } from '../../../WalletPage/reducer';
-import { createMasterNode } from '../../reducer';
+import {
+  createMasterNode,
+  startRestartNodeWithMasterNode,
+} from '../../reducer';
 import {
   MASTER_NODES_PATH,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+  WALLET_PAGE_PATH,
 } from '../../../../constants';
 import BigNumber from 'bignumber.js';
 import { MdArrowBack, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import styles from '../../masternode.module.scss';
+import usePrevious from '../../../../components/UsePrevious';
 
-interface CreateMasterNodeProps {
+interface CreateMasterNodeProps extends RouteComponentProps {
   unit: string;
   walletBalance: string | number;
   fetchWalletBalanceRequest: () => void;
@@ -35,6 +40,9 @@ interface CreateMasterNodeProps {
   isMasterNodeCreating: boolean;
   createdMasterNodeData: any;
   isErrorCreatingMasterNode: string;
+  startRestartNodeWithMasterNode: () => void;
+  isRestartNode: boolean;
+  isErrorModalRestart: boolean;
 }
 const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   props: CreateMasterNodeProps
@@ -48,7 +56,12 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
     isMasterNodeCreating,
     createdMasterNodeData,
     isErrorCreatingMasterNode,
+    startRestartNodeWithMasterNode,
+    isRestartNode,
+    isErrorModalRestart,
+    history,
   } = props;
+  const prevIsErrorModalRestart = usePrevious(isErrorModalRestart);
   const [masterNodeName, setMasterNodeName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPage, setIsPage] = useState<boolean>(false);
@@ -57,11 +70,19 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   >('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
+  const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
 
   useEffect(() => {
     fetchWalletBalanceRequest();
     setIsPage(true);
   }, []);
+
+  useEffect(() => {
+    if (!isRestartNode && prevIsErrorModalRestart && !isErrorModalRestart) {
+      history.push(WALLET_PAGE_PATH);
+    }
+  }, [prevIsErrorModalRestart, isErrorModalRestart, isRestartNode]);
 
   useEffect(() => {
     if (allowCalls && !isMasterNodeCreating) {
@@ -104,7 +125,22 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
 
   const cancelConfirmation = () => {
     setWait(5);
-    setIsConfirmationModalOpen('default');
+    if (restartNodeConfirm) {
+      setIsConfirmationModalOpen('success');
+      setRestartNodeConfirm(false);
+    } else {
+      setIsConfirmationModalOpen('default');
+    }
+  };
+
+  const confirmation = () => {
+    if (restartNodeConfirm) {
+      startRestartNodeWithMasterNode();
+      setIsRestartButtonDisable(true);
+    } else {
+      setAllowCalls(true);
+      createMasterNode(masterNodeName);
+    }
   };
 
   const showForm = new BigNumber(walletBalance).gte(
@@ -210,9 +246,13 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
             <dl className='row'>
               <dd className='col-12'>
                 <span className='h2 mb-0'>
-                  {I18n.t(
-                    'containers.masterNodes.createMasterNode.confirmationText'
-                  )}
+                  {restartNodeConfirm
+                    ? I18n.t(
+                        'containers.masterNodes.createMasterNode.restartNodeConfirmationText'
+                      )
+                    : I18n.t(
+                        'containers.masterNodes.createMasterNode.confirmationText'
+                      )}
                 </span>
               </dd>
             </dl>
@@ -228,11 +268,8 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </Button>
               <Button
                 color='primary'
-                onClick={() => {
-                  setAllowCalls(true);
-                  createMasterNode(masterNodeName);
-                }}
-                disabled={wait > 0 ? true : false}
+                onClick={() => confirmation()}
+                disabled={isRestartButtonDisable || (wait > 0 ? true : false)}
               >
                 {I18n.t(
                   'containers.masterNodes.createMasterNode.yesButtonText'
@@ -250,6 +287,11 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
         >
           <div className='footer-sheet'>
             <div className='text-center'>
+              <p>
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.masterNodeSuccess'
+                )}
+              </p>
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t(
@@ -263,13 +305,28 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
-              {I18n.t(
-                'containers.masterNodes.createMasterNode.backToMasternodePage'
-              )}
-            </Button>
-          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.backToMasternodePage'
+                )}
+              </Button>
+              <Button
+                className='ml-4'
+                color='primary'
+                onClick={() => {
+                  setWait(5);
+                  setRestartNodeConfirm(true);
+                  setIsConfirmationModalOpen('confirm');
+                }}
+              >
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.restartNodeButton'
+                )}
+              </Button>
+            </Col>
+          </Row>
         </div>
         <div
           className={classnames({
@@ -301,7 +358,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet, settings, masterNodes } = state;
+  const { wallet, settings, masterNodes, errorModal } = state;
   return {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
@@ -310,6 +367,8 @@ const mapStateToProps = (state) => {
     isMasterNodeCreating: masterNodes.isMasterNodeCreating,
     createdMasterNodeData: masterNodes.createdMasterNodeData,
     isErrorCreatingMasterNode: masterNodes.isErrorCreatingMasterNode,
+    isRestartNode: masterNodes.isRestartNode,
+    isErrorModalRestart: errorModal.isRestart,
   };
 };
 
@@ -317,6 +376,7 @@ const mapDispatchToProps = {
   fetchWalletBalanceRequest,
   createMasterNode: (masterNodeName: string) =>
     createMasterNode({ masterNodeName }),
+  startRestartNodeWithMasterNode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMasterNode);

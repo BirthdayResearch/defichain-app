@@ -1,6 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { history } from '../../../utils/testUtils/routeComponentProps';
+import {
+  history,
+  location,
+  match,
+} from '../../../utils/testUtils/routeComponentProps';
 import ReceivePage from '../components/ReceivePage';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
@@ -11,7 +15,7 @@ describe('ReceivePage component', () => {
     const wrapper = mount(
       <Router>
         <Provider store={store}>
-          <ReceivePage history={history} />
+          <ReceivePage history={history} location={location} match={match} />
         </Provider>
       </Router>
     );

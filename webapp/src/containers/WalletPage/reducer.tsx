@@ -11,6 +11,9 @@ export const initialState = {
   walletTxns: [],
   walletTxnCount: 0,
   isWalletTxnsLoading: false,
+  totalFetchedTxns: [],
+  walletPageCounter: 1,
+  stopPagination: false,
   receivedData: {
     amountToReceive: '',
     amountToReceiveDisplayed: 0,
@@ -48,8 +51,11 @@ const configSlice = createSlice({
     },
     fetchWalletTxnsSuccess(state, action) {
       state.walletTxns = action.payload.walletTxns;
+      state.totalFetchedTxns = action.payload.totalFetchedTxns;
       state.walletTxnCount = action.payload.walletTxnCount;
+      state.walletPageCounter = action.payload.walletPageCounter;
       state.isWalletTxnsLoading = false;
+      state.stopPagination = false;
     },
     fetchWalletTxnsFailure(state, action) {
       state.walletTxns = [];
@@ -96,6 +102,9 @@ const configSlice = createSlice({
       state.isPendingBalanceFetching = false;
       state.isPendingBalanceError = action.payload;
     },
+    stopWalletTxnPagination(state) {
+      state.stopPagination = true;
+    },
   },
 });
 
@@ -123,6 +132,7 @@ export const {
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
+  stopWalletTxnPagination,
 } = actions;
 
 export default reducer;

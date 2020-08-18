@@ -103,7 +103,7 @@ export const getTxnDetails = async (txns): Promise<ITxn[]> => {
     let height = -1;
     const fee = txn.category === 'send' ? txn.fee : 0;
     const blockHash = txn.blockhash || '';
-    if(blockHash !== ''){
+    if (blockHash !== '') {
       const block = await rpcClient.getBlock(blockHash, 1);
       height = block.height;
     }
@@ -271,4 +271,9 @@ export const filterByValue = (array, query) => {
       return stringer.toLowerCase().includes(query.toLowerCase());
     })
   );
+};
+
+export const paginate = (array, pageSize, pageNo) => {
+  // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
+  return array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
 };

@@ -1,16 +1,42 @@
 import React from 'react';
-import { RiErrorWarningLine } from 'react-icons/ri';
+import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
+import { RiErrorWarningLine, RiLoader4Line } from 'react-icons/ri';
+import Loader from '../../components/Loader';
 import styles from './errorModal.module.scss';
 
-const ErrorModal: React.FunctionComponent = () => (
+interface ErrorModalProps {
+  isRestart: boolean;
+  showWarning: boolean;
+}
+
+const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
+  props: ErrorModalProps
+) => (
   <>
     <div className={styles.errorModal}>
-      <div className={styles.errorModalContent}>
-        <RiErrorWarningLine size={100} />
-        <p>Node is disconnected</p>
-      </div>
+      {!props.isRestart && props.showWarning && (
+        <div className={styles.errorModalContent}>
+          <RiErrorWarningLine size={50} />
+          <p>{I18n.t('alerts.nodeDisconnected')}</p>
+        </div>
+      )}
+      {props.isRestart && (
+        <div>
+          <Loader className='mb-5' size={28} />
+          <p>{I18n.t('alerts.restartNode')}</p>
+        </div>
+      )}
     </div>
   </>
 );
 
-export default ErrorModal;
+const mapStateToProps = (state) => {
+  const { isRestart, showWarning } = state.errorModal;
+  return {
+    isRestart,
+    showWarning,
+  };
+};
+
+export default connect(mapStateToProps)(ErrorModal);

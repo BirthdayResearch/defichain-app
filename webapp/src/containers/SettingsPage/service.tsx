@@ -24,6 +24,9 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
+  MAINNET,
+  TESTNET,
+  // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import PersistentStore from '../../utils/persistentStore';
@@ -49,6 +52,17 @@ export const getDisplayModes = () => {
     },
     { label: 'containers.settings.light', value: LIGHT_DISPLAY },
     { label: 'containers.settings.dark', value: DARK_DISPLAY },
+  ];
+};
+
+export const getNetWorkList = () => {
+  return [
+    {
+      label: 'containers.settings.mainnet',
+      value: MAINNET,
+    },
+    { label: 'containers.settings.testnet', value: TESTNET },
+    // { label: 'containers.settings.regnet', value: REGTEST },
   ];
 };
 

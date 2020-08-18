@@ -711,43 +711,10 @@ exports[`WalletPage component should check for snapshot 1`] = `
                   </div>
                 </Row>
               </section>
-              <Connect(PaymentRequests)>
-                <PaymentRequests
-                  fetchPaymentRequest={[Function]}
-                  paymentRequests={Array []}
-                  removeReceiveTxns={[Function]}
-                  unit="DFI"
-                >
-                  <section
-                    className="mb-5"
-                  >
-                    <h2>
-                      Payment requests
-                    </h2>
-                    <Card
-                      className="table-responsive-md"
-                      tag="div"
-                    >
-                      <div
-                        className="table-responsive-md card"
-                      >
-                        <CardBody
-                          tag="div"
-                        >
-                          <div
-                            className="card-body"
-                          >
-                            No payment requests available
-                          </div>
-                        </CardBody>
-                      </div>
-                    </Card>
-                  </section>
-                </PaymentRequests>
-              </Connect(PaymentRequests)>
               <Connect(WalletTxns)>
                 <WalletTxns
                   fetchWalletTxns={[Function]}
+                  stopPagination={true}
                   unit="DFI"
                   walletTxnCount={0}
                   walletTxns={Array []}

@@ -20,3 +20,6 @@ export const DECODE_RAW_TRANSACTION = 'decoderawtransaction';
 export const CREATE_MASTER_NODE = 'createmasternode';
 export const LIST_MASTER_NODE = 'listmasternodes';
 export const RESIGN_MASTER_NODE = 'resignmasternode';
+export const DUMP_PRIV_KEY = 'dumpprivkey';
+export const IMPORT_PRIV_KEY = 'importprivkey';
+export const GET_ADDRESS_INFO = 'getaddressinfo';

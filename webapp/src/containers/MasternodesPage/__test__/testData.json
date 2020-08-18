@@ -12,5 +12,34 @@
       "state": "ENABLED",
       "mintedBlocks": 12008
     }
-  ]
+  ],
+  "saga": {
+    "handelCreateMasterNodes": {
+      "masternodeOperator": "test_masternodeOperator",
+      "masternodeOwner": "test_masternodeOwner",
+      "masterNodeHash": "test_masterNodeHash"
+    },
+    "handleResignMasterNode": {},
+    "getAddressInfo": {
+      "address": "8Pf3bNJwTth7xW8RmK6qHd23PLnw14fhju",
+      "scriptPubKey": "76a9145e07ce5fce8404d06c600a3f8abxxxxxxxxxxxxxxxx",
+      "ismine": true,
+      "solvable": true,
+      "desc": "pkh(xxxxxxxxxxxxxxxxxxxx)#mdew0l3m",
+      "iswatchonly": false,
+      "isscript": false,
+      "iswitness": false,
+      "pubkey": "027dd7f5cc0cf5e20d2c17a7085dd75afca0426ebd95cxxxxxxxxxxxx",
+      "iscompressed": true,
+      "label": "",
+      "ischange": false,
+      "timestamp": 1,
+      "labels": [
+        {
+          "name": "",
+          "purpose": "receive"
+        }
+      ]
+    }
+  }
 }

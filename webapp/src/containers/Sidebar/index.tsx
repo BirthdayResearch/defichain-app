@@ -25,7 +25,7 @@ import {
   // EXCHANGE_PATH,
   // HELP_PATH,
   SETTING_PATH,
-  DEFI_CHAIN_HOMEPAGE,
+  SITE_URL,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -122,7 +122,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              onClick={() => OpenNewTab(DEFI_CHAIN_HOMEPAGE)}
+              onClick={() => OpenNewTab(SITE_URL)}
               className={styles.navLink}
               activeClassName={styles.active}
             >

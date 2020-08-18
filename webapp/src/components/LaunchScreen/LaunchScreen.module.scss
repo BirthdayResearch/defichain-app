@@ -16,6 +16,24 @@
     text-align: center;
     svg {
       margin: auto;
+      width: 72px;
+      height: 72px;
     }
+  }
+
+  .appTitle {
+    font-size: 16px;
+    letter-spacing: 0.44px;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .subAppVersion {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    letter-spacing: 0.21px;
+    line-height: 16px;
+    text-align: center;
   }
 }
