@@ -32,8 +32,7 @@
   "settingTabDisplay": {
     "language": "en-GB",
     "unit": "DFI",
-    "displayMode": "SAME_AS_SYSTEM",
-    "network": "Testnet"
+    "displayMode": "SAME_AS_SYSTEM"
   },
   "serviceTestData": {
     "initialData": {

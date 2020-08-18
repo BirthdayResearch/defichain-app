@@ -268,12 +268,13 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handleRegularNumInputs={handleRegularNumInputs}
             handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
+            network={network!}
+            handleDropDowns={handleDropDowns}
           />
           <SettingsTabDisplay
             language={language!}
             unit={unit!}
             displayMode={displayMode!}
-            network={network!}
             handleDropDowns={handleDropDowns}
           />
         </TabContent>
