@@ -111,7 +111,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
             >
               {I18n.t('containers.wallet.receivePage.cancel')}
             </Button>
-            <Button color='primary' onClick={onSubmit} disabled={!label}>
+            <Button color='primary' onClick={onSubmit}>
               {I18n.t('containers.wallet.receivePage.createButton')}
             </Button>
           </div>
