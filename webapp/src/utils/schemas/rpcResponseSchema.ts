@@ -428,14 +428,7 @@ export const txnListSchema = {
           'bip125-replaceable': { type: 'string' },
           abandoned: { type: 'boolean' },
         },
-        required: [
-          'address',
-          'category',
-          'amount',
-          'confirmations',
-          'txid',
-          'time',
-        ],
+        required: ['category', 'amount', 'confirmations', 'txid', 'time'],
       },
     },
     error: {
@@ -700,16 +693,16 @@ export const finalizePsbtSchema = {
       type: 'object',
       properties: {
         psbt: {
-          type: 'string'
+          type: 'string',
         },
         hex: {
-          type: 'string'
+          type: 'string',
         },
         complete: {
-          type: 'boolean'
-        }
+          type: 'boolean',
+        },
       },
-      required: ['hex', 'complete']
+      required: ['hex', 'complete'],
     },
     error: {
       nullable: true,
@@ -728,13 +721,13 @@ export const walletProcessPsbtSchema = {
       type: 'object',
       properties: {
         psbt: {
-          type: 'string'
+          type: 'string',
         },
         complete: {
-          type: 'boolean'
-        }
+          type: 'boolean',
+        },
       },
-      required: ['psbt', 'complete']
+      required: ['psbt', 'complete'],
     },
     error: {
       nullable: true,
@@ -753,16 +746,16 @@ export const walletCreateFundedPsbtSchema = {
       type: 'object',
       properties: {
         psbt: {
-          type: 'string'
+          type: 'string',
         },
         fee: {
-          type: 'number'
+          type: 'number',
         },
         changeops: {
-          type: 'number'
-        }
+          type: 'number',
+        },
       },
-      required: ['psbt', 'fee']
+      required: ['psbt', 'fee'],
     },
     error: {
       nullable: true,
@@ -783,47 +776,47 @@ export const listUnspentSchema = {
         type: 'object',
         properties: {
           txid: {
-            type: 'string'
+            type: 'string',
           },
           vout: {
-            type: 'number'
+            type: 'number',
           },
           address: {
-            type: 'string'
+            type: 'string',
           },
           label: {
-            type: 'string'
+            type: 'string',
           },
           scriptPubKey: {
-            type: 'string'
+            type: 'string',
           },
           amount: {
-            type: 'number'
+            type: 'number',
           },
           confirmations: {
-            type: 'number'
+            type: 'number',
           },
           redeemScript: {
-            type: 'string'
+            type: 'string',
           },
           witnessScript: {
-            type: 'string'
+            type: 'string',
           },
           spendable: {
-            type: 'boolean'
+            type: 'boolean',
           },
           solvable: {
-            type: 'boolean'
+            type: 'boolean',
           },
           desc: {
-            type: 'string'
+            type: 'string',
           },
           safe: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
-        required: ['txid', 'vout', 'address', 'amount', 'confirmations']
-      }
+        required: ['txid', 'vout', 'address', 'amount', 'confirmations'],
+      },
     },
     error: {
       nullable: true,

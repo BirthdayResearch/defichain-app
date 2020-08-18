@@ -14,19 +14,29 @@ interface IPaginationComponentProps {
   pagesCount: number;
   label?: string;
   handlePageClick: (index: number) => void;
+  showNextOnly?: boolean;
+  disableNext?: boolean;
 }
 
 const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = (
   props: IPaginationComponentProps
 ) => {
   const paginatedItems = (currentPage: number, pagesCount: number) => {
-    return fetchPageNumbers(currentPage, pagesCount, 1).map(pageNumber => (
-      <PaginationItem key={pageNumber} active={pageNumber === currentPage}>
-        <PaginationLink onClick={e => props.handlePageClick(pageNumber)}>
-          {pageNumber}
+    return props.showNextOnly ? (
+      <PaginationItem key={currentPage} active={true}>
+        <PaginationLink onClick={(e) => props.handlePageClick(currentPage)}>
+          {currentPage}
         </PaginationLink>
       </PaginationItem>
-    ));
+    ) : (
+      fetchPageNumbers(currentPage, pagesCount, 1).map((pageNumber) => (
+        <PaginationItem key={pageNumber} active={pageNumber === currentPage}>
+          <PaginationLink onClick={(e) => props.handlePageClick(pageNumber)}>
+            {pageNumber}
+          </PaginationLink>
+        </PaginationItem>
+      ))
+    );
   };
 
   const { currentPage, pagesCount, label } = props;
@@ -34,15 +44,17 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
     <div className='d-flex justify-content-between align-items-center mt-3'>
       <div>{label}</div>
       <Pagination className={styles.pagination}>
-        <PaginationItem disabled={currentPage <= 1}>
-          <PaginationLink first onClick={e => props.handlePageClick(1)}>
-            <MdFirstPage />
-          </PaginationLink>
-        </PaginationItem>
+        {!props.showNextOnly && (
+          <PaginationItem disabled={currentPage <= 1}>
+            <PaginationLink first onClick={(e) => props.handlePageClick(1)}>
+              <MdFirstPage />
+            </PaginationLink>
+          </PaginationItem>
+        )}
         <PaginationItem disabled={currentPage <= 1}>
           <PaginationLink
             previous
-            onClick={e => props.handlePageClick(currentPage - 1)}
+            onClick={(e) => props.handlePageClick(currentPage - 1)}
           >
             <MdChevronLeft />
           </PaginationLink>
@@ -51,16 +63,22 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
         <PaginationItem disabled={currentPage >= pagesCount}>
           <PaginationLink
             next
-            onClick={e => props.handlePageClick(currentPage + 1)}
+            onClick={(e) => props.handlePageClick(currentPage + 1)}
+            disabled={props.disableNext}
           >
             <MdChevronRight />
           </PaginationLink>
         </PaginationItem>
-        <PaginationItem disabled={currentPage >= pagesCount}>
-          <PaginationLink last onClick={e => props.handlePageClick(pagesCount)}>
-            <MdLastPage />
-          </PaginationLink>
-        </PaginationItem>
+        {!props.showNextOnly && (
+          <PaginationItem disabled={currentPage >= pagesCount}>
+            <PaginationLink
+              last
+              onClick={(e) => props.handlePageClick(pagesCount)}
+            >
+              <MdLastPage />
+            </PaginationLink>
+          </PaginationItem>
+        )}
       </Pagination>
     </div>
   );

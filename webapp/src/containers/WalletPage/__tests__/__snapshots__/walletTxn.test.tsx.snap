@@ -15,6 +15,7 @@ exports[`WalletTxns component should check for snapshot 1`] = `
   <Connect(WalletTxns)>
     <WalletTxns
       fetchWalletTxns={[Function]}
+      stopPagination={true}
       unit="DFI"
       walletTxnCount={0}
       walletTxns={Array []}

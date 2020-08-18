@@ -75,6 +75,10 @@ describe('utility', () => {
   });
 
   it('getTxnDetails valid data pass when category is not send and fee attribute is not present', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: getTxnDetails.getBlock,
+    });
+    mockAxios(post);
     const testData = getTxnDetails.category_not_send_fee_not_present;
     const data = await utility.getTxnDetails(testData);
     expect(data).toBeInstanceOf(Array);
@@ -84,6 +88,10 @@ describe('utility', () => {
   });
 
   it('getTxnDetails valid data pass when category is send and fee attribute present ', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: getTxnDetails.getBlock,
+    });
+    mockAxios(post);
     const testData = getTxnDetails.category_is_send_fee_present;
     const data = await utility.getTxnDetails(testData);
     expect(data).toBeInstanceOf(Array);
@@ -91,6 +99,10 @@ describe('utility', () => {
   });
 
   it('getTxnDetails valid data pass when category is not send and fee attribute present ', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: getTxnDetails.getBlock,
+    });
+    mockAxios(post);
     const testData = getTxnDetails.category_is_not_send;
     const data = await utility.getTxnDetails(testData);
     expect(data).toBeInstanceOf(Array);
@@ -217,7 +229,7 @@ describe('utility', () => {
   it('validateSchema invalid object', () => {
     const spy = jest.spyOn(log, 'error');
     const data = Object.assign({}, validateSchema);
-    delete data.result[0].address;
+    delete data.result[0].time;
     const isValid = utility.validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_TRANSACTIONS),
       data

@@ -116,36 +116,9 @@ export default class App {
     /* Only for alpha and beta releases
        Remove this disclaimer dialog later
     */
-    setTimeout(this.openDisclaimerDialog, DISCLAIMER_DIALOG_TIMER);
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
   }
-
-  openDisclaimerDialog = () => {
-    const options = {
-      type: 'warning',
-      title: 'Disclaimer',
-      message: `This is testing version of defi app, use at your own risk?`,
-      buttons: ['I understand', 'Close App'],
-    };
-
-    dialog.showMessageBox(options).then((result) => {
-      if (result.response === 1) {
-        const options = {
-          type: 'question',
-          title: 'Close App',
-          message: `Are you sure you want to quit?`,
-          buttons: ['Cancel', 'Quit'],
-        };
-
-        dialog.showMessageBox(options).then((result) => {
-          if (result.response === 1) {
-            app.quit();
-          }
-        });
-      }
-    });
-  };
 
   // Create menu
   createMenu() {
@@ -187,7 +160,7 @@ export default class App {
     // Stop all process before quit
     this.mainWindow.webContents.send('kill-queue');
 
-    this.mainWindow.hide();
+    this.mainWindow.minimize();
     event.preventDefault();
     const defiProcessManager = new DefiProcessManager();
     await defiProcessManager.stop();

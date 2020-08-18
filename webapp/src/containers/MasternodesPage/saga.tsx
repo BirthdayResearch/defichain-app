@@ -1,5 +1,9 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
+import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
+import q from '../../worker/queue';
+import { I18n } from 'react-redux-i18n';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -10,34 +14,47 @@ import {
   resignMasterNode,
   resignMasterNodeFailure,
   resignMasterNodeSuccess,
+  startRestartNodeWithMasterNode,
+  finishRestartNodeWithMasterNode,
+  setMasterNodeOwnerSuccess,
+  setMasterNodeOwnerError,
+  setMasterNodeOwner,
 } from './reducer';
+import { restartModal } from '../ErrorModal/reducer';
 import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
+  getPrivateKey,
+  importPrivateKey,
+  getAddressInfo,
 } from './service';
 
-function* fetchMasterNodes() {
+import { restartNode, isElectron } from '../../utils/isElectron';
+
+export function* getConfigurationDetails() {
+  const { configurationData } = yield select((state) => state.app);
+  const data = cloneDeep(configurationData);
+  if (isEmpty(data)) {
+    throw new Error('Unable to fetch configuration file');
+  }
+  return data;
+}
+
+export function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
-    if (data && Array.isArray(data)) {
-      yield put({
-        type: fetchMasternodesSuccess.type,
-        payload: { masternodes: data },
-      });
-    } else {
-      yield put({
-        type: fetchMasternodesFailure.type,
-        payload: 'No data found',
-      });
-    }
+    yield put({
+      type: fetchMasternodesSuccess.type,
+      payload: { masternodes: data },
+    });
   } catch (e) {
     yield put({ type: fetchMasternodesFailure.type, payload: e.message });
     log.error(e);
   }
 }
 
-function* createMasterNodes(action) {
+export function* createMasterNodes(action) {
   try {
     const {
       payload: { masterNodeName },
@@ -50,7 +67,7 @@ function* createMasterNodes(action) {
   }
 }
 
-function* masterNodeResign(action) {
+export function* masterNodeResign(action) {
   try {
     const {
       payload: { masterNodeHash },
@@ -63,10 +80,56 @@ function* masterNodeResign(action) {
   }
 }
 
+export function* handleRestartNode() {
+  const {
+    createdMasterNodeData: { masternodeOperator, masternodeOwner },
+  } = yield select((state) => state.masterNodes);
+  try {
+    if (isElectron()) {
+      const data = yield call(getAddressInfo, masternodeOperator);
+      if (data.ismine && !data.iswatchonly) {
+        const updatedConf = yield call(getConfigurationDetails);
+        updatedConf.masternode_operator = masternodeOperator;
+        updatedConf.masternode_owner = masternodeOwner;
+        yield put(restartModal());
+        yield call(q.kill);
+        yield call(restartNode, { updatedConf });
+        yield delay(2000);
+        yield put(finishRestartNodeWithMasterNode());
+      } else
+        throw new Error(
+          I18n.t('alerts.addressIsNotAPartOfWallet', {
+            addressName: 'masternodeOperator',
+          })
+        );
+    } else throw new Error(I18n.t('alerts.electronRequiredError'));
+  } catch (e) {
+    yield put({ type: createMasterNodeFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+export function* checkMasterNodeOwnerInfo(action) {
+  try {
+    const {
+      payload: { masterNodeOwner },
+    } = action;
+    const data = yield call(getAddressInfo, masterNodeOwner);
+    yield put({
+      type: setMasterNodeOwnerSuccess.type,
+      payload: data.ismine && !data.iswatchonly,
+    });
+  } catch (e) {
+    yield put({ type: setMasterNodeOwnerError.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
+  yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
+  yield takeLatest(setMasterNodeOwner.type, checkMasterNodeOwnerInfo);
 }
 
 export default mySaga;

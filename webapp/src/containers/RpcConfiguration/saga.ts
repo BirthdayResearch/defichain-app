@@ -6,6 +6,7 @@ import {
   getRpcConfigsSuccess,
   getRpcConfigsFailure,
   startNodeRequest,
+  storeConfigurationData,
 } from './reducer';
 import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
@@ -14,10 +15,13 @@ import {
   startNodeSuccess,
   startNodeFailure,
 } from '../../containers/RpcConfiguration/reducer';
-import { openErrorModal } from '../../containers/ErrorModal/reducer';
+import {
+  openErrorModal,
+  closeErrorModal,
+} from '../../containers/ErrorModal/reducer';
 
 function* blockChainNotStarted(message) {
-  const { isRunning } = yield select(state => state.app);
+  const { isRunning } = yield select((state) => state.app);
   if (!isRunning) yield put(startNodeFailure(message));
   else yield put(openErrorModal());
 }
@@ -34,6 +38,8 @@ export function* getConfig() {
           const blockchainStatus = yield take(chan);
           if (blockchainStatus.status) {
             yield put(startNodeSuccess());
+            yield put(storeConfigurationData(blockchainStatus.conf));
+            yield put(closeErrorModal());
           } else {
             yield call(blockChainNotStarted, blockchainStatus.message);
           }

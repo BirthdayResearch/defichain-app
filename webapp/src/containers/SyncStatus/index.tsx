@@ -6,6 +6,11 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { syncStatusRequest } from './reducer';
 import { Progress } from 'reactstrap';
+import {
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
+} from '../WalletPage/reducer';
+import UsePrevious from '../../components/UsePrevious';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -13,15 +18,26 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
+  fetchWalletBalanceRequest: () => void;
+  fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
+  isRestart: boolean;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   props: SyncStatusProps
 ) => {
+  const prevIsRestart = UsePrevious(props.isRestart);
   useEffect(() => {
     props.syncStatusRequest();
   }, []);
+  useEffect(() => {
+    if (prevIsRestart && !props.isRestart) {
+      props.syncStatusRequest();
+      props.fetchWalletBalanceRequest();
+      props.fetchPendingBalanceRequest();
+    }
+  }, [prevIsRestart && !props.isRestart]);
 
   const {
     latestSyncedBlock,
@@ -89,6 +105,7 @@ const mapStateToProps = (state) => {
     isLoading,
     blockChainInfo,
   } = state.syncstatus;
+  const { isRestart } = state.errorModal;
   return {
     locale,
     isLoading,
@@ -96,11 +113,14 @@ const mapStateToProps = (state) => {
     syncedPercentage,
     latestSyncedBlock,
     blockChainInfo,
+    isRestart,
   };
 };
 
 const mapDispatchToProps = {
   syncStatusRequest,
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SyncStatus);

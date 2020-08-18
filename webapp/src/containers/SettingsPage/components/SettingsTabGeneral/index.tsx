@@ -4,6 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
+import { connect } from 'react-redux';
+import SettingsRowDropDown from '../SettingsRowDropDown';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
@@ -16,8 +18,11 @@ interface SettingsTabGeneralProps {
   feeRate: number | string;
   scriptVerificationThreads: number;
   handleRegularNumInputs: any;
-  handleFractionalInputs: any
+  handleFractionalInputs: any;
   handleToggles: any;
+  network: string;
+  networkOptions: { label: string; value: string }[];
+  handleDropDowns: (data: any, field: any) => any;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
@@ -34,6 +39,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     handleRegularNumInputs,
     handleFractionalInputs,
     handleToggles,
+    networkOptions,
+    network,
+    handleDropDowns,
   } = props;
 
   return (
@@ -41,8 +49,19 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
       <section>
         <Form>
           <Row className='mb-5'>
+            <Col md='12'>
+              <SettingsRowDropDown
+                label={'containers.settings.network'}
+                data={networkOptions}
+                field={network}
+                handleDropDowns={handleDropDowns}
+                fieldName={'network'}
+              />
+            </Col>
+          </Row>
+          <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.launchOptions')}</Col>
-            <Col md='8'>
+            <Col md='8' lg='6'>
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'launchAtLogin'}
@@ -60,9 +79,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
           </Row>
           <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.utxoConsolidator')}</Col>
-          </Row>
-          <Row className='mb-5'>
-            <Col md='8'>
+            <Col md='8' lg='6'>
               <FormGroup className='form-label-group mb-5'>
                 <SettingsRowInput
                   field={maximumAmount}
@@ -175,4 +192,12 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   );
 };
 
-export default SettingsTabGeneral;
+const mapStateToProps = (state) => {
+  const { networkOptions } = state.settings;
+
+  return {
+    networkOptions,
+  };
+};
+
+export default connect(mapStateToProps)(SettingsTabGeneral);

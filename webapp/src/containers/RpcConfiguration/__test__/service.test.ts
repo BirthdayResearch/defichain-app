@@ -18,7 +18,7 @@ describe('Name of the group', () => {
       .mockResolvedValue({ data: testData.isBlockchainStarted });
     const emmitter = jest.fn();
     mockAxios(post);
-    isBlockchainStarted(emmitter);
+    isBlockchainStarted(emmitter, {});
     jest.advanceTimersByTime(DIFF);
     expect(post).toBeCalledTimes(1);
     expect(setInterval).toBeCalledTimes(1);
@@ -30,7 +30,7 @@ describe('Name of the group', () => {
     const post = jest.fn().mockRejectedValue('Error');
     const emmitter = jest.fn();
     mockAxios(post);
-    isBlockchainStarted(emmitter);
+    isBlockchainStarted(emmitter, {});
     jest.advanceTimersByTime(DIFF * count);
     expect(post).toBeCalledTimes(count);
     expect(setInterval).toBeCalledTimes(1);
