@@ -7,10 +7,10 @@ import {
 } from './reducer';
 import { getBlockSyncInfo, getBlockChainInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
-import { SYNC_TIMEOUT, RETRY_ATTEMPT } from '../../constants';
+import { SYNC_TIMEOUT, SYNC_INFO_RETRY_ATTEMPT } from '../../constants';
 
 function* blockSyncInfo() {
-  const chan = yield call(fetchBlockSyncInfo, RETRY_ATTEMPT);
+  const chan = yield call(fetchBlockSyncInfo, SYNC_INFO_RETRY_ATTEMPT);
   yield call(fetchChainInfo);
   try {
     while (true) {
@@ -45,7 +45,7 @@ function fetchBlockSyncInfo(retryAttempt: number) {
       try {
         const res = await getBlockSyncInfo();
         // reset retry attempt on success
-        retryAttempt = RETRY_ATTEMPT;
+        retryAttempt = SYNC_INFO_RETRY_ATTEMPT;
         emitter(res);
       } catch (err) {
         retryAttempt--;
