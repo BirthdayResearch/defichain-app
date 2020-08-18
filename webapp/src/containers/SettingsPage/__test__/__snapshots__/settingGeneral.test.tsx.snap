@@ -1,158 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
-<TabPane
-  tabId="general"
-  tag="div"
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
 >
-  <section>
-    <Form
-      tag="form"
-    >
-      <Row
-        className="mb-5"
-        tag="div"
-        widths={
-          Array [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl",
-          ]
-        }
-      >
-        <Col
-          md="4"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          Launch options
-        </Col>
-        <Col
-          lg="6"
-          md="8"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          <Connect(SettingsRowToggle)
-            field={true}
-            fieldName="launchAtLogin"
-            handleToggles={[Function]}
-            label="launchAtLogin"
-          />
-          <Connect(SettingsRowToggle)
-            field={true}
-            fieldName="minimizedAtLaunch"
-            handleToggles={[Function]}
-            hideMinimized={false}
-            label="minimizedAtLaunch"
-          />
-        </Col>
-      </Row>
-      <Row
-        className="mb-5"
-        tag="div"
-        widths={
-          Array [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl",
-          ]
-        }
-      >
-        <Col
-          md="4"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          UTXO Consolidator
-        </Col>
-        <Col
-          lg="6"
-          md="8"
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-        >
-          <FormGroup
-            className="form-label-group mb-5"
-            tag="div"
-          >
-            <Connect(SettingsRowInput)
-              field={1000}
-              fieldName="maximumAmount"
-              handleInputs={[Function]}
-              id="maximumAmount"
-              label="maximumAmount"
-              name="maximumAmount"
-              placeholder="Number"
-            />
-          </FormGroup>
-          <FormGroup
-            className="form-label-group mb-5"
-            tag="div"
-          >
-            <Connect(SettingsRowInput)
-              field={650}
-              fieldName="maximumCount"
-              handleInputs={[Function]}
-              id="maximumCount"
-              label="maximumCount"
-              name="maximumCount"
-              placeholder="Number"
-            />
-          </FormGroup>
-          <FormGroup
-            className="form-label-group mb-5"
-            tag="div"
-          >
-            <Connect(SettingsRowInput)
-              field={0.1}
-              fieldName="feeRate"
-              handleInputs={[Function]}
-              id="feeRate"
-              label="feeRate"
-              name="feeRate"
-              placeholder="Number"
-            />
-          </FormGroup>
-        </Col>
-      </Row>
-    </Form>
-  </section>
-</TabPane>
+  <Connect(SettingsTabGeneral)
+    blockStorage={12}
+    databaseCache={12}
+    feeRate={0.1}
+    handleDropDowns={[Function]}
+    handleFractionalInputs={[Function]}
+    handleRegularNumInputs={[Function]}
+    handleToggles={[Function]}
+    launchAtLogin={true}
+    maximumAmount={1000}
+    maximumCount={650}
+    minimizedAtLaunch={true}
+    network="Testnet"
+    networkOptions={Array []}
+    pruneBlockStorage={true}
+    scriptVerificationThreads={12}
+  />
+</ContextProvider>
 `;

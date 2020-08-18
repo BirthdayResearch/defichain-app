@@ -4,6 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
+import { connect } from 'react-redux';
+import SettingsRowDropDown from '../SettingsRowDropDown';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
@@ -18,6 +20,9 @@ interface SettingsTabGeneralProps {
   handleRegularNumInputs: any;
   handleFractionalInputs: any;
   handleToggles: any;
+  network: string;
+  networkOptions: { label: string; value: string }[];
+  handleDropDowns: (data: any, field: any) => any;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
@@ -34,12 +39,26 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     handleRegularNumInputs,
     handleFractionalInputs,
     handleToggles,
+    networkOptions,
+    network,
+    handleDropDowns,
   } = props;
 
   return (
     <TabPane tabId='general'>
       <section>
         <Form>
+          <Row className='mb-5'>
+            <Col md='12'>
+              <SettingsRowDropDown
+                label={'containers.settings.network'}
+                data={networkOptions}
+                field={network}
+                handleDropDowns={handleDropDowns}
+                fieldName={'network'}
+              />
+            </Col>
+          </Row>
           <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.launchOptions')}</Col>
             <Col md='8' lg='6'>
@@ -173,4 +192,12 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   );
 };
 
-export default SettingsTabGeneral;
+const mapStateToProps = (state) => {
+  const { networkOptions } = state.settings;
+
+  return {
+    networkOptions,
+  };
+};
+
+export default connect(mapStateToProps)(SettingsTabGeneral);

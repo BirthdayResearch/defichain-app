@@ -282,4 +282,70 @@ describe('Wallet page saga unit test', () => {
       );
     });
   });
+
+  describe('change network node', () => {
+    it('should check for restart func for testnet', async () => {
+      const gen = changeNetworkNode(TESTNET);
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.app))
+      );
+      const configurationData = {
+        rpcauth: 'a:b',
+        rpcuser: 'a',
+        rpcpassword: 'b',
+        rpcbind: '127.0.0.1',
+        rpcport: '8555',
+        masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+        masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+      };
+      const name = 'test';
+      const result = Object.assign({}, configurationData, {
+        testnet: 1,
+        regtest: 0,
+        [name]: {
+          rpcbind: DEFAULT_TESTNET_CONNECT,
+          rpcport: DEFAULT_TESTNET_PORT,
+        },
+      });
+      expect(gen.next({ configurationData }).value).toEqual(
+        put(restartModal())
+      );
+      expect(gen.next().value).toEqual(call(q.kill));
+      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(
+        call(restartNode, { updatedConf: result })
+      );
+    });
+
+    it('should check for restart func for mainnet', async () => {
+      const gen = changeNetworkNode(MAINNET);
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.app))
+      );
+      const configurationData = {
+        rpcauth: 'a:b',
+        rpcuser: 'a',
+        rpcpassword: 'b',
+        rpcbind: '127.0.0.1',
+        rpcport: '8555',
+      };
+      const name = 'main';
+      const result = Object.assign({}, configurationData, {
+        testnet: 0,
+        regtest: 0,
+        [name]: {
+          rpcbind: DEFAULT_MAINNET_CONNECT,
+          rpcport: DEFAULT_MAINNET_PORT,
+        },
+      });
+      expect(gen.next({ configurationData }).value).toEqual(
+        put(restartModal())
+      );
+      expect(gen.next().value).toEqual(call(q.kill));
+      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(
+        call(restartNode, { updatedConf: result })
+      );
+    });
+  });
 });
