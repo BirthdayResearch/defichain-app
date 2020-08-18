@@ -15,8 +15,6 @@ interface SettingsTabDisplayProps {
   displayModes: { label: string; value: string }[];
   displayMode: string;
   handleDropDowns: (data: any, field: any) => any;
-  network: string;
-  networkOptions: { label: string; value: string }[];
 }
 
 const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
@@ -25,8 +23,6 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
     language,
     amountUnits,
     unit,
-    networkOptions,
-    network,
     displayModes,
     displayMode,
     handleDropDowns,
@@ -68,13 +64,6 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
           >
             {getUnitDescription()}
           </SettingsRowDropDown>
-          <SettingsRowDropDown
-            label={'containers.settings.network'}
-            data={networkOptions}
-            field={network}
-            handleDropDowns={handleDropDowns}
-            fieldName={'network'}
-          />
           {/* For future purpose */}
           {/* <SettingsRowDropDown
             label={'containers.settings.displayMode'}
@@ -90,18 +79,12 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
 };
 
 const mapStateToProps = (state) => {
-  const {
-    languages,
-    amountUnits,
-    displayModes,
-    networkOptions,
-  } = state.settings;
+  const { languages, amountUnits, displayModes } = state.settings;
 
   return {
     languages,
     amountUnits,
     displayModes,
-    networkOptions,
   };
 };
 
