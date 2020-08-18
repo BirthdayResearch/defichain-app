@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
-import Loader from '../../../../components/Loader';
 import {
   Row,
   Col,
@@ -28,7 +27,6 @@ import {
 } from '../../../../constants';
 import BigNumber from 'bignumber.js';
 import { MdArrowBack, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
-import { RiLoader4Line } from 'react-icons/ri';
 import styles from '../../masternode.module.scss';
 import usePrevious from '../../../../components/UsePrevious';
 
@@ -73,7 +71,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
-  const [isLoader, setIsLoader] = useState(false);
+  const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
 
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -138,7 +136,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   const confirmation = () => {
     if (restartNodeConfirm) {
       startRestartNodeWithMasterNode();
-      setIsLoader(true);
+      setIsRestartButtonDisable(true);
     } else {
       setAllowCalls(true);
       createMasterNode(masterNodeName);
@@ -148,7 +146,6 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   const showForm = new BigNumber(walletBalance).gte(
     MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
   );
-
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -257,9 +254,6 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                         'containers.masterNodes.createMasterNode.confirmationText'
                       )}
                 </span>
-                {restartNodeConfirm && isLoader && (
-                  <Loader className='text-center mt-5' />
-                )}
               </dd>
             </dl>
           </div>
@@ -275,7 +269,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               <Button
                 color='primary'
                 onClick={() => confirmation()}
-                disabled={isLoader || (wait > 0 ? true : false)}
+                disabled={isRestartButtonDisable || (wait > 0 ? true : false)}
               >
                 {I18n.t(
                   'containers.masterNodes.createMasterNode.yesButtonText'

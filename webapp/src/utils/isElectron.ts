@@ -13,7 +13,7 @@ export const getElectronProperty = (name) => {
   return electron[name];
 };
 
-export const restartNode = (args) => {
+export const restartNode = (args?: any) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send('restart-app', args);

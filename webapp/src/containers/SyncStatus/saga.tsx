@@ -1,4 +1,4 @@
-import { call, put, takeLatest, take, cancelled } from 'redux-saga/effects';
+import { call, put, takeLatest, take } from 'redux-saga/effects';
 import logger, * as log from '../../utils/electronLogger';
 import {
   syncStatusRequest,

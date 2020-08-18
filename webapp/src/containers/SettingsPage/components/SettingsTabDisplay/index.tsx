@@ -29,7 +29,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   } = props;
 
   const getUnitDescription = () => {
-    return Object.keys(DFI_UNIT_MAP).map(eachUnit => {
+    return Object.keys(DFI_UNIT_MAP).map((eachUnit) => {
       if (eachUnit === DEFAULT_UNIT) return null;
       const conversion = getAmountInSelectedUnit(1, eachUnit);
       return (
@@ -78,7 +78,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { languages, amountUnits, displayModes } = state.settings;
 
   return {
