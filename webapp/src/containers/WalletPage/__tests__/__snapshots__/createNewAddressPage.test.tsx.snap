@@ -374,14 +374,12 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                   </Button>
                   <Button
                     color="primary"
-                    disabled={true}
                     onClick={[Function]}
                     tag="button"
                   >
                     <button
                       aria-label={null}
-                      className="btn btn-primary disabled"
-                      disabled={true}
+                      className="btn btn-primary"
                       onClick={[Function]}
                       type="button"
                     >

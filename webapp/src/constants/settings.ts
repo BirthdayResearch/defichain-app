@@ -23,3 +23,4 @@ export const DEFI_CHAIN_HOMEPAGE = `https://www.defichain.io/`;
 export const PACKAGE_VERSION = version;
 export const PACKAGE_NAME = name;
 export const APP_TITLE = 'DeFi Blockchain';
+export const SITE_URL = 'https://defichain.com/';
