@@ -13,7 +13,7 @@
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
-      "network": "Network"
+      "network": "Netzwerk"
     }
   },
   "containers": {
@@ -188,7 +188,7 @@
       "dark": "Dunkel",
       "unsavedChanges": "Sie haben ungespeicherte änderungen",
       "saveSettings": "Speichern Sie die Einstellungen",
-      "network": "Network",
+      "network": "Netzwerk",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet"
