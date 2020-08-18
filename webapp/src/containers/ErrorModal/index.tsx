@@ -17,24 +17,20 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
     <div className={styles.errorModal}>
       {!props.isRestart && props.showWarning && (
         <div className={styles.errorModalContent}>
-          <RiErrorWarningLine size={100} />
+          <RiErrorWarningLine size={50} />
           <p>{I18n.t('alerts.nodeDisconnected')}</p>
         </div>
       )}
       {props.isRestart && (
         <div>
-          <Loader
-            className='mb-5'
-            size={100}
-            color={'#ff0000'}
-            borderSize={10}
-          />
+          <Loader className='mb-5' size={28} />
           <p>{I18n.t('alerts.restartNode')}</p>
         </div>
       )}
     </div>
   </>
 );
+
 const mapStateToProps = (state) => {
   const { isRestart, showWarning } = state.errorModal;
   return {

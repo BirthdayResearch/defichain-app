@@ -1,6 +1,8 @@
 import React from 'react';
 import SettingsTabGeneralComponent from '../components/SettingsTabGeneral';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import store from '../../../app/rootStore';
 
 describe('SettingsTabGeneralComponent', () => {
   it('should check for snapshot', () => {
@@ -17,8 +19,15 @@ describe('SettingsTabGeneralComponent', () => {
       handleRegularNumInputs: () => {},
       handleFractionalInputs: () => {},
       handleToggles: () => {},
+      network: 'Testnet',
+      networkOptions: [],
+      handleDropDowns: () => {},
     };
-    const wrapper = shallow(<SettingsTabGeneralComponent {...props} />);
+    const wrapper = shallow(
+      <Provider store={store}>
+        <SettingsTabGeneralComponent {...props} />
+      </Provider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });
