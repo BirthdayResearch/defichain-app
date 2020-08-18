@@ -68,6 +68,13 @@
         },
         { "label": "containers.settings.light", "value": "LIGHT" },
         { "label": "containers.settings.dark", "value": "DARK" }
+      ],
+      "networkOptions": [
+        {
+          "label": "containers.settings.mainnet",
+          "value": "Mainnet"
+        },
+        { "label": "containers.settings.testnet", "value": "Testnet" }
       ]
     },
     "updateSettings": {

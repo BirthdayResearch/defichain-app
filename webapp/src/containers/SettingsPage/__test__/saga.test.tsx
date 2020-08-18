@@ -27,6 +27,7 @@ import {
   TESTNET,
   DEFAULT_MAINNET_CONNECT,
   DEFAULT_MAINNET_PORT,
+  BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../../constants';
 import { restartModal } from '../../ErrorModal/reducer';
 import q from '../../../worker/queue';
@@ -82,90 +83,135 @@ describe('Wallet page saga unit test', () => {
   });
 
   describe('getSettings method', () => {
-    let initialData;
-
-    beforeEach(() => {
-      initialData = jest.spyOn(service, 'initialData');
-    });
-
-    afterEach(() => {
-      initialData.mockRestore();
-    });
-
-    afterAll(() => {
-      initialData.mockClear();
-    });
+    const mockObj = {
+      blockChainInfo: { chain: BLOCKCHAIN_INFO_CHAIN_TEST },
+      network: TESTNET,
+      ...serviceTestData.initialData,
+    };
 
     it('should call api and dispatch success action', async () => {
-      initialData.mockImplementation(() =>
-        Promise.resolve(serviceTestData.initialData)
+      const gen = getSettings();
+
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.syncstatus))
       );
-
-      const dispatched = await dispatchedFunc(getSettings);
-
-      expect(initialData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        getInitialSettingsSuccess(serviceTestData.initialData),
-      ]);
+      expect(gen.next(mockObj).value).toEqual(call(service.initialData));
+      expect(gen.next(mockObj).value).toEqual(
+        put(getInitialSettingsSuccess(mockObj))
+      );
+      expect(gen.next().done).toBeTruthy();
     });
 
     it('should call api and dispatch failure action', async () => {
-      initialData.mockImplementation(() =>
-        Promise.reject({ message: 'error while fetching initial data' })
+      const gen = getSettings();
+
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.syncstatus))
       );
-
-      const dispatched = await dispatchedFunc(getSettings);
-
-      expect(initialData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        getInitialSettingsFailure('error while fetching initial data'),
-      ]);
+      gen.next(mockObj);
+      expect(gen.throw(errorObj).value).toEqual(
+        put(getInitialSettingsFailure(errorObj.message))
+      );
+      expect(gen.next().done).toBeTruthy();
     });
   });
 
   describe('updateSettings method', () => {
-    let updateSettingsData;
-
-    beforeEach(() => {
-      updateSettingsData = jest.spyOn(service, 'updateSettingsData');
-    });
-
-    afterEach(() => {
-      updateSettingsData.mockRestore();
-    });
-
-    afterAll(() => {
-      updateSettingsData.mockClear();
-    });
-
     it('should call api and dispatch success action', async () => {
-      updateSettingsData.mockImplementation(() => sagaTestData.updateSettings);
+      const action = {
+        payload: {
+          ...sagaTestData.updateSettings,
+        },
+      };
+      const gen = updateSettings(action);
+      const mockObj = {
+        appConfig: { network: TESTNET },
 
-      const dispatched = await dispatchedFunc(
-        updateSettings,
-        sagaTestData.updateSettings
+        ...sagaTestData.updateSettings,
+      };
+
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.settings))
+      );
+      expect(gen.next(mockObj).value).toEqual(
+        call(service.updateSettingsData, action.payload)
       );
 
-      expect(updateSettingsData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        updateSettingsSuccess(sagaTestData.updateSettings),
-      ]);
+      expect(gen.next(mockObj).value).toEqual(
+        put(updateSettingsSuccess(mockObj))
+      );
+    });
+
+    it('should call api and check for changenetwork method call when network is not equal to previous network', async () => {
+      const action = {
+        payload: {
+          ...sagaTestData.updateSettings,
+          network: MAINNET,
+        },
+      };
+      const gen = updateSettings(action);
+      const mockObj = {
+        appConfig: { network: TESTNET },
+
+        ...sagaTestData.updateSettings,
+      };
+
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.settings))
+      );
+      expect(gen.next(mockObj).value).toEqual(
+        call(service.updateSettingsData, action.payload)
+      );
+
+      expect(gen.next(mockObj).value).toEqual(
+        put(updateSettingsSuccess(mockObj))
+      );
+      expect(gen.next().value).toEqual(call(changeNetworkNode, MAINNET));
+      expect(gen.next().done).toBeTruthy();
+    });
+
+    it('should call api and giving null data', async () => {
+      const action = {
+        payload: {
+          ...sagaTestData.updateSettings,
+        },
+      };
+      const gen = updateSettings(action);
+      const mockObj = {
+        ...sagaTestData.updateSettings,
+        appConfig: { network: TESTNET },
+      };
+
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.settings))
+      );
+      expect(gen.next(mockObj).value).toEqual(
+        call(service.updateSettingsData, action.payload)
+      );
+      expect(gen.next().value).toEqual(
+        put(updateSettingsFailure('No data found'))
+      );
     });
 
     it('should call api and dispatch failure action', async () => {
-      updateSettingsData.mockImplementation(() => {
-        throw new Error('Error in updateSettingsData');
-      });
+      const action = {
+        payload: {
+          ...sagaTestData.updateSettings,
+        },
+      };
+      const gen = updateSettings(action);
+      const mockObj = {
+        ...sagaTestData.updateSettings,
+      };
 
-      const dispatched = await dispatchedFunc(
-        updateSettings,
-        sagaTestData.updateSettings
+      expect(JSON.stringify(gen.next().value)).toEqual(
+        JSON.stringify(select((state) => state.settings))
       );
-
-      expect(updateSettingsData).toHaveBeenCalledTimes(1);
-      expect(dispatched).toEqual([
-        updateSettingsFailure('Error in updateSettingsData'),
-      ]);
+      expect(gen.next().value).toEqual(
+        put(
+          updateSettingsFailure("Cannot read property 'appConfig' of undefined")
+        )
+      );
     });
   });
 
