@@ -8,6 +8,7 @@ import { filterByValue } from '../../../../utils/utility';
 import {
   MASTER_NODES_PATH,
   MASTERNODE_LIST_PAGE_SIZE,
+  RESIGNED_STATE,
 } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
@@ -40,10 +41,14 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
 
   function paginate(pageNumber, masternodeList?: MasterNodeObject[]) {
     const clone = cloneDeep(masternodeList || masternodes);
-    const tableData = clone.slice(
+    const enabledMasternodes = clone.filter(
+      (masternode) => masternode.state !== RESIGNED_STATE
+    );
+    const tableData = enabledMasternodes.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
+
     setCurrentPage(pageNumber);
     settableData(tableData);
   }
