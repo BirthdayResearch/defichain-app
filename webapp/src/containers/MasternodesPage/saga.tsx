@@ -25,10 +25,10 @@ import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
-  getPrivateKey,
-  importPrivateKey,
   getAddressInfo,
 } from './service';
+
+import { getErrorMessage } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 
@@ -49,7 +49,10 @@ export function* fetchMasterNodes() {
       payload: { masternodes: data },
     });
   } catch (e) {
-    yield put({ type: fetchMasternodesFailure.type, payload: e.message });
+    yield put({
+      type: fetchMasternodesFailure.type,
+      payload: getErrorMessage(e),
+    });
     log.error(e);
   }
 }
@@ -62,7 +65,10 @@ export function* createMasterNodes(action) {
     const data = yield call(handelCreateMasterNodes, masterNodeName);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createMasterNodeFailure.type, payload: e.message });
+    yield put({
+      type: createMasterNodeFailure.type,
+      payload: getErrorMessage(e),
+    });
     log.error(e);
   }
 }
@@ -75,7 +81,10 @@ export function* masterNodeResign(action) {
     const data = yield call(handleResignMasterNode, masterNodeHash);
     yield put({ type: resignMasterNodeSuccess.type, payload: data });
   } catch (e) {
-    yield put({ type: resignMasterNodeFailure.type, payload: e.message });
+    yield put({
+      type: resignMasterNodeFailure.type,
+      payload: getErrorMessage(e),
+    });
     log.error(e);
   }
 }
@@ -86,7 +95,7 @@ export function* handleRestartNode() {
   } = yield select((state) => state.masterNodes);
   try {
     if (isElectron()) {
-      const data = yield call(getAddressInfo, masternodeOperator);
+      const data = yield call(getAddressInfo, masternodeOwner);
       if (data.ismine && !data.iswatchonly) {
         const updatedConf = yield call(getConfigurationDetails);
         updatedConf.masternode_operator = masternodeOperator;
@@ -104,7 +113,10 @@ export function* handleRestartNode() {
         );
     } else throw new Error(I18n.t('alerts.electronRequiredError'));
   } catch (e) {
-    yield put({ type: createMasterNodeFailure.type, payload: e.message });
+    yield put({
+      type: createMasterNodeFailure.type,
+      payload: getErrorMessage(e),
+    });
     log.error(e);
   }
 }
@@ -119,7 +131,10 @@ export function* checkMasterNodeOwnerInfo(action) {
       payload: data.ismine && !data.iswatchonly,
     });
   } catch (e) {
-    yield put({ type: setMasterNodeOwnerError.type, payload: e.message });
+    yield put({
+      type: setMasterNodeOwnerError.type,
+      payload: getErrorMessage(e),
+    });
     log.error(e);
   }
 }
