@@ -7,8 +7,11 @@
 
 .syncStatusWrapper {
   border-top: 1px solid $border-color;
-  min-height: 96px;
-  padding: 24px 32px;
+  background-color: $white;
+  min-height: 81px;
+  padding: 16px 32px;
+  position: sticky;
+  bottom: 0;
 
   .syncHeading {
     font-size: 0.75rem;
