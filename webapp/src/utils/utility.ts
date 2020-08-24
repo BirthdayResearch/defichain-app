@@ -277,3 +277,15 @@ export const paginate = (array, pageSize, pageNo) => {
   // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
   return array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
 };
+
+export const getErrorMessage = (errorResponse) => {
+  let message = errorResponse.message;
+  if (errorResponse.response) {
+    const { data } = errorResponse.response;
+    message = data;
+    if (data.error) {
+      message = data.error.message;
+    }
+  }
+  return typeof message === 'string' ? message : JSON.stringify(message);
+};
