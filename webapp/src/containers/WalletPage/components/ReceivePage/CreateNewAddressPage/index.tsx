@@ -3,11 +3,10 @@ import { NavLink } from 'react-router-dom';
 import uid from 'uid';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, FormText, Label, Input } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { MdArrowBack } from 'react-icons/md';
 import { WALLET_RECEIVE_PATH } from '../../../../../constants';
-import styles from './CreateNewAddress.module.scss';
 import { addReceiveTxnsRequest } from '../../../reducer';
 import { getNewAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
@@ -90,9 +89,9 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
                   'containers.wallet.receivePage.addressLabel'
                 )}
               />
-              <div className={`${styles.createNewAddressNotice} mt-2`}>
+              <FormText color='muted'>
                 {I18n.t('containers.wallet.receivePage.createNewAddressNotice')}
-              </div>
+              </FormText>
               <Label for='message'>
                 {I18n.t('containers.wallet.receivePage.addressLabel')}
               </Label>

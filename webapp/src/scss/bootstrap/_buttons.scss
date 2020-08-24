@@ -44,7 +44,6 @@
   }
 }
 
-
 //
 // Button variants
 //
@@ -53,7 +52,6 @@
   color: $body-color;
 }
 
-
 //
 // Link buttons
 //
@@ -61,20 +59,12 @@
 // Make a button look and behave like a link
 .btn-link {
   font-weight: $font-weight-medium;
-  
+
   &:hover,
   &:focus {
     text-decoration: none;
   }
-
-  &:focus,
-  &:active {
-    svg {
-      color: $primary;
-    }
-  }
 }
-
 
 //
 // Alternate buttons
@@ -93,9 +83,9 @@
     }
 
     .show > &.dropdown-toggle {
-    color: $input-color;
-    background-color: $input-bg;
-    border-color: $input-border-color;
-  }
+      color: $input-color;
+      background-color: $input-bg;
+      border-color: $input-border-color;
+    }
   }
 }
