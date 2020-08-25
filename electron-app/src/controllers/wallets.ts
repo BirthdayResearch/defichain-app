@@ -16,11 +16,11 @@ export default class Wallet {
   async backup(bw: Electron.BrowserWindow) {
     try {
       const dialogManager = new DialogManager();
-      const paths = await dialogManager.getDirectoryPath();
+      const paths = await dialogManager.saveFilePath();
       if (!paths.length) {
         throw new Error('No valid path available');
       }
-      bw.webContents.send(MENU_BACKUP_WALLET, { paths: paths[0] });
+      bw.webContents.send(MENU_BACKUP_WALLET, { paths });
     } catch (err) {
       log.error(err);
     }
