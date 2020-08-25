@@ -6,6 +6,9 @@ import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
 import { eventChannel } from 'redux-saga';
+import { MAINNET, TESTNET } from '../constants';
+import isEmpty from 'lodash/isEmpty';
+import store from '../app/rootStore';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -42,9 +45,20 @@ export const stopBinary = () => {
   return { success: true, data: {} };
 };
 
-export const backupWallet = async (paths: string[]) => {
+export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
-  const res = await rpcClient.call('', 'backupwallet', paths);
+  let backupWalletName = 'wallet';
+  const {
+    syncstatus: { blockChainInfo },
+  } = store.getState();
+
+  if (!isEmpty(blockChainInfo)) {
+    backupWalletName = `${blockChainInfo.chain}-wallet`;
+  }
+  const res = await rpcClient.call('', 'dumpwallet', [
+    `${paths}/${backupWalletName}`,
+  ]);
+
   if (res.status === HttpStatus.OK) {
     return showNotification(
       I18n.t('alerts.success'),
