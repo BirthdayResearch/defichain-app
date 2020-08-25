@@ -47,17 +47,7 @@ export const stopBinary = () => {
 
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
-  let backupWalletName = 'wallet';
-  const {
-    syncstatus: { blockChainInfo },
-  } = store.getState();
-
-  if (!isEmpty(blockChainInfo)) {
-    backupWalletName = `${blockChainInfo.chain}-wallet`;
-  }
-  const res = await rpcClient.call('', 'dumpwallet', [
-    `${paths}/${backupWalletName}`,
-  ]);
+  const res = await rpcClient.call('', 'dumpwallet', [`${paths}`]);
 
   if (res.status === HttpStatus.OK) {
     return showNotification(

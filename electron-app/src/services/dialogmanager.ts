@@ -34,4 +34,24 @@ export default class DialogManager {
       throw err;
     }
   }
+
+  async saveFilePath(filters?: { name: string; extensions: string[] }[]) {
+    try {
+      const res = await dialog.showSaveDialog(null, {
+        properties: [
+          'createDirectory',
+          'showOverwriteConfirmation',
+          'treatPackageAsDirectory',
+        ],
+        filters,
+      });
+      if (res.canceled || !res.filePath) {
+        throw new Error('File not selected');
+      }
+      return res.filePath;
+    } catch (err) {
+      log.error(err);
+      throw err;
+    }
+  }
 }
