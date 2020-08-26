@@ -127,7 +127,9 @@
         "yesButtonText": "Continuer",
         "masternodeOperator": "Opérateur du nœud complet",
         "masternodeOwner": "Propriétaire du nœud complet",
-        "backToMasternodePage": "Retour à la page du nœud complet"
+        "backToMasternodePage": "Retour à la page du nœud complet",
+        "restartNodeButton": "Redémarrer le nœud",
+        "masterNodeSuccess": "Vous pouvez définir manuellement la configuration du nœud sous defi.conf ou la définir automatiquement en redémarrant le nœud."
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Page de détail du nœud complet %{hash}",
@@ -300,6 +302,10 @@
     "errorOccurred": "Une erreur s'est produite",
     "success": "Succès",
     "backupSuccess": "Sauvegarde du portefeuille effectuée avec succès",
-    "importSuccess": "Import du portefeuille effectué avec succès"
+    "importSuccess": "Import du portefeuille effectué avec succès",
+    "masterNodeOperatorAddressFailure": "L'adresse de l'opérateur du nœud complet est manquante",
+    "restartNode": "Redémarrage du nœud",
+    "nodeDisconnected": "Le nœud est déconnecté",
+    "electronRequiredError": "L'application Electron est nécéssaire pour le redémarrage"
   }
 }
