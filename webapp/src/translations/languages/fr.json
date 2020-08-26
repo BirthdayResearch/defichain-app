@@ -120,6 +120,7 @@
         "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un nœud complet. Un minimum de 1 million de DFI est nécéssaire pour la création d'un nœud complet",
         "confirmationText": "Êtes-vous certain de vouloir créer un nœud complet?",
         "createNodeButton": "Créer un nœud complet",
+        "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
         "noButtonText": "Annuler",
         "yesButtonText": "Continuer",
         "masternodeOperator": "Opérateur du nœud complet",
