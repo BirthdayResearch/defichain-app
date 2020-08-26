@@ -1,0 +1,40 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.tokenCard {
+  margin-bottom: 24px;
+}
+
+.cardBody {
+  display: inline-block;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.label {
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-weight: $font-weight-semibold;
+  font-size: 2.125rem;
+  line-height: 2.5rem;
+}
+
+.unit {
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+  color: $secondary;
+}
+
+.tokenCardIcon {
+  text-align: end;
+}
