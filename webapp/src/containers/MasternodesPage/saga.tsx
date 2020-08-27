@@ -2,7 +2,7 @@ import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import q from '../../worker/queue';
+import { shutDownBinary } from '../../worker/queue';
 import { I18n } from 'react-redux-i18n';
 import {
   fetchMasternodesRequest,
@@ -25,8 +25,6 @@ import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
-  getPrivateKey,
-  importPrivateKey,
   getAddressInfo,
 } from './service';
 
@@ -92,9 +90,8 @@ export function* handleRestartNode() {
         updatedConf.masternode_operator = masternodeOperator;
         updatedConf.masternode_owner = masternodeOwner;
         yield put(restartModal());
-        yield call(q.kill);
+        yield call(shutDownBinary);
         yield call(restartNode, { updatedConf });
-        yield delay(2000);
         yield put(finishRestartNodeWithMasterNode());
       } else
         throw new Error(
