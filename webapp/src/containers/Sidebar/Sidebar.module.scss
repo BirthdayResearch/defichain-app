@@ -55,15 +55,19 @@
 .navs {
   flex-grow: 1;
   padding: 16px;
+  min-height: 384px;
   display: flex;
+  flex-wrap: nowrap;
   flex-direction: column;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .navMain,
 .navSub {
   margin-top: 12px;
   margin-bottom: 16px;
+  flex-wrap: nowrap;
 
   .navItem {
     margin-top: 4px;
