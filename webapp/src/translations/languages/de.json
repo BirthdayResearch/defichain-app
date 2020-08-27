@@ -3,9 +3,6 @@
     "keyValueLi": {
       "copied": "Kopiert!"
     },
-    "searchBar": [],
-    "spinner": [],
-    "statCard": [],
     "syncStatus": {
       "synchronized": "Synchronisiert",
       "syncing": "Synchronisieren",
@@ -177,6 +174,7 @@
       "appLanguage": "App Sprache",
       "english": "Englisch",
       "german": "Deutsch",
+      "french": "French",
       "displayAmount": "Anzeige Beträge in Einheit",
       "dFI": "DFI",
       "fi": "fi",

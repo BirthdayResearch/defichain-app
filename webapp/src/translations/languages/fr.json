@@ -1,0 +1,309 @@
+{
+  "components": {
+    "keyValueLi": {
+      "copied": "Copié!"
+    },
+    "syncStatus": {
+      "synchronized": "Synchronisé",
+      "syncing": "En cours de synchronisation",
+      "synced": "Synchronisé",
+      "justNow": "Synchronisé à l'instant",
+      "aMinuteAgo": "Synchronisé il y a une minute",
+      "blockInfo": "Bloc %{latestSyncedBlock} de %{latestBlock}",
+      "network": "Réseau"
+    }
+  },
+  "containers": {
+    "sideBar": {
+      "balance": "Solde",
+      "dfi": "DFI",
+      "wallet": "Portefeuille",
+      "masterNodes": "Nœuds complets",
+      "blockchain": "Blockchain",
+      "exchange": "Échange",
+      "help": "Aide",
+      "settings": "Paramètres",
+      "console": "Console"
+    },
+    "blockChainPage": {
+      "blockChainPage": {
+        "title": "Blockchain – Client Blockchain DeFi",
+        "blockchain": "Blockchain"
+      },
+      "blockChainTable": {
+        "height": "Hauteur",
+        "age": "Âge",
+        "transactions": "Transactions",
+        "minedBy": "Relayé par",
+        "size": "Taille",
+        "paginationRange": "%{from} – %{to} de %{total} - Blocs",
+        "noBlocks": "Aucun bloc disponible",
+        "loading": "Chargement..."
+      },
+      "blockPage": {
+        "block": "Bloc",
+        "title": "– Client Blockchain DeFi",
+        "blockchain": "Blockchain",
+        "transactions": "Transactions",
+        "noOfTransactions": "Nombre de transactions",
+        "difficulty": "Difficulté",
+        "height": "Hauteur",
+        "bits": "Bits",
+        "blockReward": "Récompense de bloc",
+        "version": "Version",
+        "minedBy": "Relayé par",
+        "nonce": "Nonce",
+        "blockHash": "Hash du bloc",
+        "merkleRoot": "Racine de Merkle"
+      },
+      "blockTxn": {
+        "noInputs": "Aucune entrée (Coins générés récemment)",
+        "copied": "Copié!",
+        "dFI": "DFI",
+        "unparsedAddress": "Adresse non analysée",
+        "paginationRange": "%{from} – %{to} de %{total} transactions",
+        "noTransactions": "Aucune transaction disponible",
+        "loading": "Chargement..."
+      },
+      "minerPage": {
+        "miner": "Mineur",
+        "defiBlockChainClient": "Client Blockchain DeFi",
+        "blockchain": "Blockchain"
+      }
+    },
+    "errors": {
+      "title": "Centre de traitement des blocs DFI – Client Blockchain DeFi",
+      "header": "Centre de traitement des blocs DFI",
+      "detail": "Vous semblez avoir atterri ici par accident. C'est ici que nos employés s'assurent que chaque bloc DFI est ajouté correctement à la chaine. Il s'agit donc d'une zone interdite et nous vous prions de faire demi-tour",
+      "goBack": "Faites demi-tour"
+    },
+    "exchangePage": {
+      "title": "Échange – Client Blockchain DeFi",
+      "exchange": "Échange",
+      "section": "Section",
+      "footerBar": "Barre de pied de page"
+    },
+    "helpPage": {
+      "title": "Aide – Client Blockchain DeFi",
+      "help": "Aide",
+      "section": "Section"
+    },
+    "masterNodes": {
+      "masterNodesPage": {
+        "title": "Nœuds complets – Client Blockchain DeFi",
+        "createMasterNode": "Créer",
+        "masterNodes": "Nœuds complets",
+        "statistics": "Statistiques",
+        "list": "Liste",
+        "weeklyIncome": "Revenu hebdomadaire",
+        "volume": "Volume",
+        "marketCap": "Cap. marché",
+        "returnPerAnnum": "Rendement annuel",
+        "paidRewards": "Récompenses payées",
+        "rewardFrequency": "Fréquence des récompenses",
+        "activeMasterNodes": "Nœuds complets actifs",
+        "supply": "Quantité",
+        "lockedInCollateral": "Garantie bloquée",
+        "costPerMasterNode": "Coût d'un Nœud complet",
+        "masternodeWorth": "Valeur du nœud complet"
+      },
+      "masterNodesList": {
+        "ownerAddress": "Adresse du propriétaire",
+        "operatorAddress": "Adresse de l'opérateur",
+        "registered": "Enregistré",
+        "mintedBlocks": "Blocs validés",
+        "noMasterNodes": "Aucun nœud complet disponible"
+      },
+      "createMasterNode": {
+        "title": "Créer un nœud complet",
+        "masterNodeName": "Nom du nœud complet",
+        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un nœud complet. Un minimum de 1 million de DFI est nécéssaire pour la création d'un nœud complet",
+        "confirmationText": "Êtes-vous certain de vouloir créer un nœud complet?",
+        "createNodeButton": "Créer un nœud complet",
+        "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
+        "noButtonText": "Annuler",
+        "yesButtonText": "Continuer",
+        "masternodeOperator": "Opérateur du nœud complet",
+        "masternodeOwner": "Propriétaire du nœud complet",
+        "backToMasternodePage": "Retour à la page du nœud complet",
+        "restartNodeButton": "Redémarrer le nœud",
+        "masterNodeSuccess": "Vous pouvez définir manuellement la configuration du nœud sous defi.conf ou la définir automatiquement en redémarrant le nœud."
+      },
+      "masternodeDetailPage": {
+        "masternodeDetailTitle": "Page de détail du nœud complet %{hash}",
+        "masternode": "Nœud complet",
+        "masternodeDetail": "Détails du nœud complet",
+        "ownerAddress": "Adresse du propriétaire",
+        "operatorAddress": "Adresse de l'opérateur",
+        "state": "Statut",
+        "hash": "Hash",
+        "registered": "Enregistré",
+        "mintedBlocks": "Blocs validés",
+        "resignHeight": "Abandonner la hauteur",
+        "resignTx": "Abandonner la transaction",
+        "banHeight": "Interdire la hauteur",
+        "banTx": "Interdire la transaction",
+        "resignMasterNode": "Abandonner",
+        "confirmation": "Êtes-vous certain de vouloir abandonner le nœud complet?",
+        "noButtonText": "Annuler",
+        "yesButtonText": "Continuer",
+        "successText": "Succès",
+        "backToMasternodePage": "Retour à la page du nœud complet"
+      }
+    },
+    "settings": {
+      "title": "Paramètres – Client Blockchain DeFi",
+      "settings": "Paramètres",
+      "general": "Général",
+      "display": "Affichage",
+      "launchOptions": "Lancement des options",
+      "launchAtLogin": "Lancement au démarage",
+      "minimizedAtLaunch": "Minimisé au démarage",
+      "storage": "Espace de stockage",
+      "pruneBlockStorage": "Élaguer stockage de bloc",
+      "blockPruneStorage": "Stockage de bloc à élaguer",
+      "gb": "GB",
+      "databaseSize": "Taille de la base de données cache",
+      "utxoConsolidator": "Consolidateur UTXO",
+      "maximumAmount": "Valeur maximale de chaque UTXO",
+      "maximumCount": "Nombre maximum d'UTXOs",
+      "feeRate": "Taux de frais spécifiques en DFI/kB",
+      "mib": "MiB",
+      "scriptVerification": "Vérification du script",
+      "noOfThreads": "Nombre de threads",
+      "appLanguage": "Langue de l'application",
+      "english": "Anglais",
+      "german": "Allemand",
+      "french": "français",
+      "displayAmount": "Afficher les montants en unité",
+      "dFI": "DFI",
+      "fi": "fi",
+      "conversionLabel": "1 %{from} = %{conversion} %{to}",
+      "µDFI": "µDFI",
+      "displayMode": "Mode d'affichage",
+      "sameAsSystem": "Identique au système",
+      "light": "Clair",
+      "dark": "Sombre",
+      "unsavedChanges": "Vous avez des changements non sauvegardés",
+      "saveSettings": "Sauvegarder les paramètres"
+    },
+    "wallet": {
+      "sendPage": {
+        "sendDFITitle": "Envoi de DFI – Client Blockchain DeFi",
+        "wallet": "Portefeuille",
+        "sendDFI": "Envoyer DFI",
+        "amount": "Montant",
+        "dFI": "DFI",
+        "max": "MAX",
+        "toAddress": "À l'adresse",
+        "walletBalance": "Solde du portefeuille",
+        "amountToSend": "Montant à envoyer",
+        "cancel": "Annuler",
+        "continue": "Continuer",
+        "to": "À",
+        "pleaseVerifyAmount": "Merci de vérifier le montant et le bénéficiaire",
+        "completeSend": "Finaliser l'envoi",
+        "sendFailed": "Une erreur s'est produite lors de l'envoi",
+        "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé une fois la transaction confirmée par la Blockchain DeFi.",
+        "backToWallet": "Retour au portefeuille",
+        "dfiAddress": "Adresse DFI"
+      },
+      "receivePage": {
+        "receiveDFITitle": "Réception de DFI – Client Blockchain DeFi",
+        "wallet": "Portefeuille",
+        "receiveDFI": "Recevoir des DFI",
+        "optional": "Optionnel",
+        "amount": "Montant",
+        "dFI": "DFI",
+        "message": "Message",
+        "label": "Libellé",
+        "amountToReceive": "Montant à recevoir",
+        "addressNotAvailable": "Adresse non valide",
+        "cancel": "Annuler",
+        "continue": "Continuer"
+      },
+      "paymentRequests": {
+        "time": "Date",
+        "amount": "Montant",
+        "message": "Message",
+        "cancelRequest": "Annuler la demande"
+      },
+      "paymentRequestPage": {
+        "paymentRequestTitle": "Demande de paiement %{id} – Client Blockchain DeFi",
+        "paymentRequest": "Demande de paiement",
+        "wallet": "Portefeuille",
+        "delete": "Effacer",
+        "label": "Libellé",
+        "amount": "Montant",
+        "time": "Date",
+        "message": "Message",
+        "address": "Adresse",
+        "uRI": "URI"
+      },
+      "walletPage": {
+        "walletDefiClient": "Portefeuille – Client Blockchain DeFi",
+        "wallet": "Portefeuille",
+        "delete": "Effacer",
+        "send": "Envoyer",
+        "receive": "Recevoir",
+        "paymentRequests": "Demandes de paiement",
+        "noPaymentRequests": "Aucune demande de paiement disponible",
+        "paginationRange": "%{from} – %{to} de %{total} demandes de paiement",
+        "transactions": "Transactions",
+        "availableBalance": "Solde disponible",
+        "pending": "En attente"
+      },
+      "walletTxns": {
+        "height": "Hauteur",
+        "time": "Date",
+        "amount": "Montant",
+        "hash": "Hash",
+        "paginationRange": "%{from} – %{to} de %{total} transactions",
+        "noTransactions": "Aucune transaction disponible"
+      }
+    },
+    "console": {
+      "consolePage": {
+        "consoleDefiClient": "Console – Client Blockchain DeFi",
+        "defiCliCommand": "Entrer la commande Defi-cli",
+        "console": "Console",
+        "submit": "Envoyer",
+        "forRef": "Pour Référence",
+        "example": [
+          {
+            "title": "sendtoaddress",
+            "highlightText": "sendtoaddress \"address\" Betrag ( \"Kommentar\", \"comment_to\" subtractfeefromamount austauschbare conf_target \"estimate_mode\" )",
+            "cmdText": "defi-cli sendtoaddress \"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"Spende\" \"seans outpost\""
+          },
+          {
+            "title": "getblock",
+            "highlightText": "getblock \"blockhash\" ( Ausführlichkeit )",
+            "cmdText": "defi-cli getblock \"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\""
+          }
+        ]
+      },
+      "consoleResultPage": {
+        "resultPage": "Résultat CLI",
+        "back": "Retour"
+      }
+    }
+  },
+  "alerts": {
+    "configurationFailure": "Échec de configuration",
+    "walletBalanceFailure": "Échec du solde de portefeuille",
+    "pendingBalanceFailure": "Échec du solde en attente",
+    "addReceiveTxnsFailure": "Échec d'ajout de transactions",
+    "removeReceiveTxnsFailure": "Supprimer l'échec d'ajout de transactions",
+    "paymentRequestsFailure": "Échec de demande de transactions",
+    "walletTxnsFailure": "Échec des transactions de portefeuille",
+    "sendDataFailure": "Échec de l'envoi de données",
+    "errorOccurred": "Une erreur s'est produite",
+    "success": "Succès",
+    "backupSuccess": "Sauvegarde du portefeuille effectuée avec succès",
+    "importSuccess": "Import du portefeuille effectué avec succès",
+    "masterNodeOperatorAddressFailure": "L'adresse de l'opérateur du nœud complet est manquante",
+    "restartNode": "Redémarrage du nœud",
+    "nodeDisconnected": "Le nœud est déconnecté",
+    "electronRequiredError": "L'application Electron est nécéssaire pour le redémarrage"
+  }
+}
