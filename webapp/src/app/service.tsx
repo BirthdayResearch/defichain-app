@@ -42,9 +42,10 @@ export const stopBinary = () => {
   return { success: true, data: {} };
 };
 
-export const backupWallet = async (paths: string[]) => {
+export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
-  const res = await rpcClient.call('', 'backupwallet', paths);
+  const res = await rpcClient.call('', 'dumpwallet', [paths]);
+
   if (res.status === HttpStatus.OK) {
     return showNotification(
       I18n.t('alerts.success'),
