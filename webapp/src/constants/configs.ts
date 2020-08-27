@@ -27,3 +27,4 @@ export const BLOCKCHAIN_START_ERROR = 'Unable to start blockchain';
 export const BLOCKCHAIN_START_SUCCESS = 'blockchain started successfully';
 export const MAX_MONEY = 21000000;
 export const GET_NEW_ADDRESS_TYPE = 'legacy';
+export const RESIGNED_STATE = 'RESIGNED';
