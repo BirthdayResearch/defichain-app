@@ -18,7 +18,6 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
-  DISCLAIMER_DIALOG_TIMER,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
@@ -160,7 +159,7 @@ export default class App {
     // Stop all process before quit
     this.mainWindow.webContents.send('kill-queue');
 
-    this.mainWindow.minimize();
+    this.mainWindow.hide();
     event.preventDefault();
     const defiProcessManager = new DefiProcessManager();
     await defiProcessManager.stop();
