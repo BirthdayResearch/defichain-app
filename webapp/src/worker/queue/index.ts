@@ -2,6 +2,7 @@ import queue from 'async/queue';
 
 import { QUEUE_CONCURRENCY } from '../../constants';
 import { ipcRendererFunc, isElectron } from '../../utils/isElectron';
+import RpcClient from '../../utils/rpc-client';
 
 const worker = (task, callback) => {
   task
@@ -20,8 +21,14 @@ if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
   ipcRenderer.on('kill-queue', () => {
     ipcRenderer.removeAllListeners('kill-queue');
-    q.kill();
+    shutDownBinary();
   });
 }
+
+export const shutDownBinary = () => {
+  q.kill();
+  const rpcClient = new RpcClient();
+  return rpcClient.stop();
+};
 
 export default q;

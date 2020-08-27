@@ -17,10 +17,8 @@ import {
   getProcesses,
   responseMessage,
   writeFile,
-  callStopBinary,
+  sleep,
 } from '../utils';
-
-import UiConfig from './uiconfig';
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
@@ -56,7 +54,6 @@ export default class DefiProcessManager {
       let nodeStarted = false;
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
-      const config = params.remotes;
       const child = spawn(execPath, [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
@@ -121,13 +118,20 @@ export default class DefiProcessManager {
 
   async stop() {
     try {
-      const configData = new UiConfig().getDefault(CONFIG_FILE_NAME);
-      const auth = `${configData.rpcuser}:${configData.rpcpassword}`;
-      await callStopBinary(auth, configData.rpcbind, configData.rpcport);
-      log.info(`Process killed`);
-      return responseMessage(true, {
-        message: 'Initiated termination of node',
-      });
+      const pid = getFileData(PID_FILE_NAME);
+      while (true) {
+        const processLists: any = await getProcesses({
+          pid: parseInt(pid, 10),
+        });
+        if (Array.isArray(processLists) && processLists.length === 0) {
+          log.info(`Process killed`);
+          return responseMessage(true, {
+            message: 'Initiated termination of node',
+          });
+        } else {
+          await sleep(100);
+        }
+      }
     } catch (err) {
       log.error(err);
       return responseMessage(false, err);
@@ -135,13 +139,12 @@ export default class DefiProcessManager {
   }
 
   async restart(args: any, event: Electron.IpcMainEvent) {
-    if (args.updatedConf && Object.keys(args.updatedConf).length) {
-      const updatedConfigData = ini.encode(args.updatedConf);
-
-      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
-    }
     log.info('Restart node started');
     const stopResponse = await this.stop();
+    if (args.updatedConf && Object.keys(args.updatedConf).length) {
+      const updatedConfigData = ini.encode(args.updatedConf);
+      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
+    }
     const startResponse = await this.start({}, event);
     if (
       stopResponse &&

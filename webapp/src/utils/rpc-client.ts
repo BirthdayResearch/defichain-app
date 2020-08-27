@@ -561,4 +561,9 @@ export default class RpcClient {
     }
     return data.result;
   };
+
+  stop = async () => {
+    const { data } = await this.call('/', methodNames.STOP, []);
+    return data.result;
+  };
 }
