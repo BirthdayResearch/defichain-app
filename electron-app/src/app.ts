@@ -157,7 +157,7 @@ export default class App {
       return (this.mainWindow = null);
     }
     // Stop all process before quit
-    this.mainWindow.webContents.send('kill-queue');
+    this.mainWindow.webContents.send('stop-binary-and-queue');
 
     this.mainWindow.hide();
     event.preventDefault();
