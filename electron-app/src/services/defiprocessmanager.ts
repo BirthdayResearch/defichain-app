@@ -10,6 +10,7 @@ import {
   PID_FILE_NAME,
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
+  STOP_BINARY_INTERVAL,
 } from '../constants';
 import {
   checkPathExists,
@@ -124,12 +125,11 @@ export default class DefiProcessManager {
           pid: parseInt(pid, 10),
         });
         if (Array.isArray(processLists) && processLists.length === 0) {
-          log.info(`Process killed`);
           return responseMessage(true, {
-            message: 'Initiated termination of node',
+            message: 'Node is successfully terminated',
           });
         } else {
-          await sleep(100);
+          await sleep(STOP_BINARY_INTERVAL);
         }
       }
     } catch (err) {

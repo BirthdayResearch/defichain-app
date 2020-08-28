@@ -126,19 +126,6 @@ export const stopProcesses = (processId: number | string) => {
   });
 };
 
-export const callStopBinary = (
-  rpcauth: string,
-  rpcconnect: string,
-  rpcport: string
-) => {
-  return axios.post(`http://${rpcauth}@${rpcconnect}:${rpcport}/`, {
-    jsonrpc: RPC_V,
-    id: Math.random().toString().substr(2),
-    method: STOP_RPC_COMMAND,
-    params: [],
-  });
-};
-
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
