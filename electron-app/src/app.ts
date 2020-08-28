@@ -18,6 +18,7 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  STOP_BINARY_AND_QUEUE,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 
@@ -157,7 +158,7 @@ export default class App {
       return (this.mainWindow = null);
     }
     // Stop all process before quit
-    this.mainWindow.webContents.send('stop-binary-and-queue');
+    this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
 
     this.mainWindow.hide();
     event.preventDefault();
