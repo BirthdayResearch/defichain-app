@@ -19,8 +19,8 @@ const q = queue(worker, QUEUE_CONCURRENCY);
 
 if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
-  ipcRenderer.on('kill-queue', () => {
-    ipcRenderer.removeAllListeners('kill-queue');
+  ipcRenderer.on('stop-binary-and-queue', () => {
+    ipcRenderer.removeAllListeners('stop-binary-and-queue');
     shutDownBinary();
   });
 }
