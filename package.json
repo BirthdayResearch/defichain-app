@@ -45,6 +45,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/preset-typescript": "^7.9.0",
+    "@types/react": "^16.9.48",
     "auto-launch": "^5.0.5",
     "autoprefixer": "^9.7.5",
     "axios": "^0.19.2",
@@ -74,6 +75,7 @@
     "random-string": "^0.2.0",
     "react-ellipsis-text": "^1.2.1",
     "react-md-spinner": "^1.0.0",
+    "react-papaparse": "^3.7.3",
     "uid": "^1.0.0",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
