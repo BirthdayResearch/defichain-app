@@ -30,13 +30,13 @@ import {
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../../constants';
 import { restartModal } from '../../ErrorModal/reducer';
-import q from '../../../worker/queue';
+import { shutDownBinary } from '../../../worker/queue';
 import { restartNode } from '../../../utils/isElectron';
 
 const errorObj = {
   message: 'Error Occurred',
 };
-describe('Wallet page saga unit test', () => {
+describe('Settings page saga unit test', () => {
   const genObject = mySaga();
 
   it('should wait for every getSettingOptionsRequest action and call getSettingsOptions method', () => {
@@ -242,8 +242,8 @@ describe('Wallet page saga unit test', () => {
       expect(gen.next({ configurationData }).value).toEqual(
         put(restartModal())
       );
-      expect(gen.next().value).toEqual(call(q.kill));
-      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(call(shutDownBinary));
+
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
       );
@@ -275,8 +275,8 @@ describe('Wallet page saga unit test', () => {
       expect(gen.next({ configurationData }).value).toEqual(
         put(restartModal())
       );
-      expect(gen.next().value).toEqual(call(q.kill));
-      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(call(shutDownBinary));
+
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
       );
@@ -310,8 +310,8 @@ describe('Wallet page saga unit test', () => {
       expect(gen.next({ configurationData }).value).toEqual(
         put(restartModal())
       );
-      expect(gen.next().value).toEqual(call(q.kill));
-      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(call(shutDownBinary));
+
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
       );
@@ -341,8 +341,8 @@ describe('Wallet page saga unit test', () => {
       expect(gen.next({ configurationData }).value).toEqual(
         put(restartModal())
       );
-      expect(gen.next().value).toEqual(call(q.kill));
-      expect(gen.next().value).toEqual(delay(2000));
+      expect(gen.next().value).toEqual(call(shutDownBinary));
+
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
       );
