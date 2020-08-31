@@ -6,6 +6,12 @@ import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
 import { eventChannel } from 'redux-saga';
+import {
+  fetchWalletBalanceRequest,
+  fetchPendingBalanceRequest,
+} from '../containers/WalletPage/reducer';
+import store from '../app/rootStore';
+import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -44,7 +50,7 @@ export const stopBinary = () => {
 
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
-  const res = await rpcClient.call('', 'dumpwallet', [paths]);
+  const res = await rpcClient.call('', DUMP_WALLET, [paths]);
 
   if (res.status === HttpStatus.OK) {
     return showNotification(
@@ -57,8 +63,11 @@ export const backupWallet = async (paths: string) => {
 
 export const importWallet = async (paths: string[]) => {
   const rpcClient = new RpcClient();
-  const res = await rpcClient.call('', 'importwallet', paths);
+  const res = await rpcClient.call('', IMPORT_WALLET, paths);
   if (res.status === HttpStatus.OK) {
+    store.dispatch(fetchWalletBalanceRequest()); // Check for new Balance;
+    store.dispatch(fetchPendingBalanceRequest()); // Check for new Pending Balance;
+
     return showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.importSuccess')
