@@ -21,6 +21,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.d.ts",
-    "src/stories/*.stories.tsx"
+    "src/stories/*.stories.tsx",
+    "src/components/CsvReader/index.tsx"
   ]
 }
