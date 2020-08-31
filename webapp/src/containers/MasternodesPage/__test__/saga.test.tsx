@@ -26,13 +26,13 @@ import * as service from '../service';
 import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
 import { restartModal } from '../../ErrorModal/reducer';
-import q from '../../../worker/queue';
+import { shutDownBinary } from '../../../worker/queue';
 
 const errorObj = {
   message: 'error occurred',
 };
 
-describe('Console page saga unit test', () => {
+describe('Masternode page saga unit test', () => {
   const genObject = mySaga();
 
   it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
@@ -237,11 +237,10 @@ describe('Console page saga unit test', () => {
         call(getConfigurationDetails)
       );
       expect(genObject.next(setterObj).value).toEqual(put(restartModal()));
-      expect(genObject.next().value).toEqual(call(q.kill));
+      expect(genObject.next().value).toEqual(call(shutDownBinary));
       expect(genObject.next().value).toEqual(
         call(restartNode, { updatedConf: setterObj })
       );
-      expect(genObject.next().value).toEqual(delay(2000));
       expect(genObject.next().value).toEqual(
         put(finishRestartNodeWithMasterNode())
       );

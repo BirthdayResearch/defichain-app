@@ -10,14 +10,15 @@ import {
   PID_FILE_NAME,
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
+  STOP_BINARY_INTERVAL,
 } from '../constants';
 import {
   checkPathExists,
   getFileData,
   getProcesses,
   responseMessage,
-  stopProcesses,
   writeFile,
+  sleep,
 } from '../utils';
 
 // EXCEPTION handling event response inside service
@@ -54,7 +55,6 @@ export default class DefiProcessManager {
       let nodeStarted = false;
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
-      const config = params.remotes;
       const child = spawn(execPath, [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
@@ -120,16 +120,18 @@ export default class DefiProcessManager {
   async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);
-      const processLists: any = await getProcesses({ pid: parseInt(pid, 10) });
-      for (const eachProcess of processLists) {
-        if (eachProcess.pid) {
-          await stopProcesses(eachProcess.pid);
-          log.info(`Process killed with pid: ${eachProcess.pid}`);
+      while (true) {
+        const processLists: any = await getProcesses({
+          pid: parseInt(pid, 10),
+        });
+        if (Array.isArray(processLists) && processLists.length === 0) {
+          return responseMessage(true, {
+            message: 'Node is successfully terminated',
+          });
+        } else {
+          await sleep(STOP_BINARY_INTERVAL);
         }
       }
-      return responseMessage(true, {
-        message: 'Initiated termination of node',
-      });
     } catch (err) {
       log.error(err);
       return responseMessage(false, err);
@@ -137,13 +139,12 @@ export default class DefiProcessManager {
   }
 
   async restart(args: any, event: Electron.IpcMainEvent) {
-    if (args.updatedConf && Object.keys(args.updatedConf).length) {
-      const updatedConfigData = ini.encode(args.updatedConf);
-
-      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
-    }
     log.info('Restart node started');
     const stopResponse = await this.stop();
+    if (args.updatedConf && Object.keys(args.updatedConf).length) {
+      const updatedConfigData = ini.encode(args.updatedConf);
+      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
+    }
     const startResponse = await this.start({}, event);
     if (
       stopResponse &&
