@@ -11,6 +11,7 @@ import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
+  MdToll,
   // MdCompareArrows,
 } from 'react-icons/md';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
@@ -26,6 +27,7 @@ import {
   // HELP_PATH,
   SETTING_PATH,
   SITE_URL,
+  TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -109,6 +111,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             >
               <MdViewWeek />
               {I18n.t('containers.sideBar.blockchain')}
+            </NavLink>
+          </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={TOKENS_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdToll />
+              {I18n.t('containers.sideBar.tokens')}
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
