@@ -20,6 +20,7 @@
       "wallet": "Wallet",
       "masterNodes": "Masternodes",
       "blockchain": "Blockchain",
+      "tokens": "Tokens",
       "exchange": "Exchange",
       "help": "Help",
       "settings": "Settings",
@@ -159,6 +160,93 @@
       "masternodeTab": {
         "myMasternodes": "Mine",
         "network": "Network"
+      }
+    },
+    "tokens": {
+      "tokensPage": {
+        "title": "Tokens – DeFi Blockchain Client",
+        "createToken": "Create",
+        "tokens": "Tokens",
+        "searchTokens": "Search Tokens",
+        "dat": "DAT",
+        "dct": "DCT",
+        "datLabels": {
+          "type": "Type",
+          "price": "Price",
+          "volume": "Volume (24H)",
+          "marketCap": "Market Cap",
+          "holders": "Holders"
+        },
+        "dctLabels": {
+          "id": "ID",
+          "totalInitialSupply": "Total initial supply",
+          "finalSupplyLimit": "Final supply limit",
+          "mintingSupport": "Minting Support",
+          "tradeable": "Tradeable"
+        }
+      },
+      "createToken": {
+        "back": "back",
+        "yes": "Yes",
+        "no": "No",
+        "cancel": "CANCEL",
+        "continue": "CONTINUE",
+        "title": "Create DCT (DeFi Custom Token)",
+        "nameLabel": "Name of token",
+        "tickerSymbol": "Ticker Symbol",
+        "divisibility": "Divisibility",
+        "divisibilityText": "Number of decimal places. Cannot be changed once set.",
+        "initialSupply": "Total initial supply",
+        "mintingSupport": "Minting support?",
+        "optionalFinalSupplyLimit": "Final supply limit (optional)",
+        "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
+        "tradable": "Trade-able?",
+        "dfiRequired": "DFI required"
+      },
+      "tokenInfo": {
+        "back": "BACK",
+        "name": "Name",
+        "symbol": "Symbol",
+        "type": "Type",
+        "price": "Price",
+        "id": "ID",
+        "decimals": "Decimals",
+        "holders": "Holders",
+        "marketCap": "Market Cap",
+        "volume": "Volume (24 H)",
+        "officialSite": "Official site",
+        "transfers": "Transfers",
+        "holders": "Holders",
+        "info": "Info",
+        "exchange": "Exchange",
+        "dex": "DEX",
+        "readContract": "Read Contract",
+        "writeContract": "Write Contract",
+        "analysis": "Analysis",
+        "comments": "Comments"
+      },
+      "transfersList": {
+        "txnHash": "Txn Hash",
+        "age": "Age",
+        "from": "From",
+        "to": "To",
+        "amount": "Amount"
+      },
+      "dctDistribution": {
+        "back": "BACK",
+        "add": "ADD",
+        "cancel": "CANCEL",
+        "continue": "CONTINUE",
+        "dfiRequired": "DFI required",
+        "chooseFile": "CHOOSE FILE",
+        "dctDistribution": "DCT Distribution",
+        "uploadCsv": "UPLOAD CSV",
+        "addAddress": "ADD ADDRESS",
+        "address": "Address",
+        "addAddressesText": "Add addresses to your initial distribution list.",
+        "enterDfiAddress": "Enter DFI address",
+        "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
+        "verifyingCollateral": "Verifying Collateral"
       }
     },
     "settings": {
