@@ -265,11 +265,16 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                             value=""
                           />
                         </Input>
-                        <div
-                          className="undefined mt-2"
+                        <FormText
+                          color="muted"
+                          tag="small"
                         >
-                          Give your new DFI address a meaningful label
-                        </div>
+                          <small
+                            className="form-text text-muted"
+                          >
+                            Give your new DFI address a meaningful label
+                          </small>
+                        </FormText>
                         <Label
                           for="message"
                           tag="label"
