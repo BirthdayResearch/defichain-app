@@ -27,7 +27,7 @@ import { LANG_VARIABLE } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { restartNode } from '../../utils/isElectron';
 import { restartModal } from '../ErrorModal/reducer';
-import q from '../../worker/queue';
+import { shutDownBinary } from '../../worker/queue';
 import {
   MAINNET,
   TESTNET,
@@ -151,8 +151,7 @@ export function* changeNetworkNode(networkName) {
     [name]: config,
   });
   yield put(restartModal());
-  yield call(q.kill);
-  yield delay(2000);
+  yield call(shutDownBinary);
   yield call(restartNode, { updatedConf });
 }
 
