@@ -231,7 +231,7 @@ describe('Console page saga unit test', () => {
       );
       const getAddressInfoService = genObject.next(setterObj).value;
       expect(getAddressInfoService).toEqual(
-        call(getAddressInfo, setterObj.createdMasterNodeData.masternodeOperator)
+        call(getAddressInfo, setterObj.createdMasterNodeData.masternodeOwner)
       );
       expect(genObject.next(setterObj).value).toEqual(
         call(getConfigurationDetails)
