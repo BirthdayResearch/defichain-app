@@ -30,21 +30,32 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   const { masternodes, fetchMasternodesRequest, searchQuery } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
+  const [enabledMasternodes, setEnabledMasternodes] = useState<
+    MasterNodeObject[]
+  >([]);
+
   useEffect(() => {
     fetchMasternodesRequest();
   }, []);
+
+  useEffect(() => {
+    if (masternodes.length > 0) {
+      const enabledMasternodes = masternodes.filter(
+        (masternode) => masternode.state !== RESIGNED_STATE
+      );
+      setEnabledMasternodes(enabledMasternodes);
+    }
+  }, [masternodes]);
+
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
-  const total = masternodes.length;
+  const total = enabledMasternodes.length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
 
   function paginate(pageNumber, masternodeList?: MasterNodeObject[]) {
-    const clone = cloneDeep(masternodeList || masternodes);
-    const enabledMasternodes = clone.filter(
-      (masternode) => masternode.state !== RESIGNED_STATE
-    );
-    const tableData = enabledMasternodes.slice(
+    const clone = cloneDeep(masternodeList || enabledMasternodes);
+    const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
@@ -52,17 +63,18 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
     setCurrentPage(pageNumber);
     settableData(tableData);
   }
+
   useEffect(() => {
     if (!searchQuery) {
       paginate(currentPage);
     } else {
       const masternodeList: MasterNodeObject[] = filterByValue(
-        masternodes,
+        enabledMasternodes,
         searchQuery
       );
       paginate(defaultPage, masternodeList);
     }
-  }, [masternodes, searchQuery]);
+  }, [enabledMasternodes, searchQuery]);
 
   return (
     <>
@@ -115,19 +127,13 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
                         </Link>
                       </td>
                       <td>
-                        <div className={styles.pose}>
-                          {masternode.operatorAuthAddress}
-                        </div>
+                        <div>{masternode.operatorAuthAddress}</div>
                       </td>
                       <td>
-                        <div className={styles.registered}>
-                          {masternode.creationHeight}
-                        </div>
+                        <div>{masternode.creationHeight}</div>
                       </td>
                       <td>
-                        <div className={styles.lastPaid}>
-                          {masternode.mintedBlocks}
-                        </div>
+                        <div>{masternode.mintedBlocks}</div>
                       </td>
                     </tr>
                   ))}
