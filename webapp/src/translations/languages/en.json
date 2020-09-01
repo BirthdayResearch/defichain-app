@@ -170,6 +170,7 @@
         "searchTokens": "Search Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "paginationRange": "%{from} – %{to} of %{total} tokens",
         "datLabels": {
           "type": "Type",
           "price": "Price",
