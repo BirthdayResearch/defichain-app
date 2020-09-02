@@ -41,6 +41,7 @@ import {
 } from 'react-icons/md';
 import styles from '../../masternode.module.scss';
 import usePrevious from '../../../../components/UsePrevious';
+import { isValidAddress } from '../../service';
 
 const shutterSnap = new UIfx(shutterSound);
 
@@ -88,13 +89,14 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   >('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
-  const [openScanner, setOpenScanner] = useState<boolean>(false);
+  const [openScanner, setOpenScanner] = useState<string>('');
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
   const [flashed, setFlashed] = useState<string>('');
+  const [validAddress, setValidAddress] = useState<boolean>(false);
 
   const toggleScanner = () => {
-    setOpenScanner(!openScanner);
+    setOpenScanner('');
   };
 
   useEffect(() => {
@@ -167,12 +169,29 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
     }
   };
 
-  const handleScan = (data) => {
+  const isValid = async (data, field) => {
+    let isAddressValid = false;
+    if (
+      data.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
+      data.length <= 35
+    ) {
+      isAddressValid = await isValidAddress(data);
+    }
+    if (field === 'masternodeOperator') {
+      setMasternodeOperator(data);
+    }
+    if (field === 'masternodeOwner') {
+      setMasternodeOwner(data);
+    }
+    setValidAddress(isAddressValid);
+  };
+
+  const handleScan = async (data) => {
     if (data) {
       shutterSnap.play();
       setFlashed('flashed');
+      await isValid(data, openScanner);
       setTimeout(() => {
-        // this.isQRCodeValid(); //TODO add code validator
         toggleScanner();
         setFlashed('flashed');
       }, 600);
@@ -226,8 +245,8 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                               name='masternodeOwner'
                               id='masternodeOwner'
                               value={masternodeOwner}
-                              onChange={(e) =>
-                                setMasternodeOwner(e.target.value)
+                              onChange={async (e) =>
+                                await isValid(e.target.value, 'masternodeOwner')
                               }
                               autoFocus
                             />
@@ -239,7 +258,9 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                             <InputGroupAddon addonType='append'>
                               <Button
                                 color='outline-primary'
-                                onClick={() => setOpenScanner(true)}
+                                onClick={() =>
+                                  setOpenScanner('masternodeOwner')
+                                }
                               >
                                 <MdCropFree />
                               </Button>
@@ -261,8 +282,11 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                               name='masternodeOperator'
                               id='masternodeOperator'
                               value={masternodeOperator}
-                              onChange={(e) =>
-                                setMasternodeOperator(e.target.value)
+                              onChange={async (e) =>
+                                await isValid(
+                                  e.target.value,
+                                  'masternodeOperator'
+                                )
                               }
                               autoFocus
                             />
@@ -274,7 +298,9 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                             <InputGroupAddon addonType='append'>
                               <Button
                                 color='outline-primary'
-                                onClick={() => setOpenScanner(true)}
+                                onClick={() =>
+                                  setOpenScanner('masternodeOperator')
+                                }
                               >
                                 <MdCropFree />
                               </Button>
@@ -301,7 +327,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </FormGroup>
             </Form>
             <Modal
-              isOpen={openScanner}
+              isOpen={openScanner !== ''}
               toggle={toggleScanner}
               centered={true}
               className={`qr-scanner ${flashed}`}
@@ -338,7 +364,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </Button>
               <Button
                 color='primary'
-                disabled={!masternodeOwner}
+                disabled={!masternodeOwner || !validAddress}
                 onClick={() => setIsConfirmationModalOpen('confirm')}
               >
                 {I18n.t(
