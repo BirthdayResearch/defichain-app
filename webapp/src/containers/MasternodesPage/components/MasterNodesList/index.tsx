@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import { History } from 'history';
 import cloneDeep from 'lodash/cloneDeep';
+import MasternodeTab from '../MasternodeTab';
 
 interface MasternodesListProps {
   masternodes: MasterNodeObject[];
@@ -33,6 +34,7 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+  const [activeTab, setActiveTab] = useState<string>('myMasternodes');
 
   useEffect(() => {
     fetchMasternodesRequest();
@@ -40,12 +42,20 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
 
   useEffect(() => {
     if (masternodes.length > 0) {
-      const enabledMasternodes = masternodes.filter(
-        (masternode) => masternode.state !== RESIGNED_STATE
-      );
+      const isMyMasternodes = activeTab === 'myMasternodes';
+      const enabledMasternodes = masternodes.filter((masternode) => {
+        if (isMyMasternodes) {
+          return (
+            masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
+          );
+        }
+        return (
+          masternode.state !== RESIGNED_STATE && !masternode.isMyMasternode
+        );
+      });
       setEnabledMasternodes(enabledMasternodes);
     }
-  }, [masternodes]);
+  }, [masternodes, activeTab]);
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = enabledMasternodes.length;
@@ -80,6 +90,7 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
     <>
       {tableData.length ? (
         <>
+          <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
           <Card className={styles.card}>
             <div className={`${styles.tableResponsive} table-responsive-xl`}>
               <Table className={styles.table}>
