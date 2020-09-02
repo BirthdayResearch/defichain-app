@@ -92,3 +92,92 @@ export const handleFetchTokens = async () => {
     },
   ];
 };
+
+export const handleTokenTransfers = async (id: string) => {
+  // return dummy tokens data;
+  return [
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+    {
+      txnhash: 'a870a10234ea870a10234ea870a10234ea870a',
+      age: '28s ago',
+      from: 'a870a10234ea870a10234ea870a10234ea870a',
+      to: 'a870a10234ea870a10234ea870a10234ea870a',
+      amount: '101.8414562',
+    },
+  ];
+};
+
+export const handleCreateTokens = async (tokenData) => {
+  return {
+    hash: 'a870a10234ea870a10234ea870a10234ea870a',
+  };
+};
