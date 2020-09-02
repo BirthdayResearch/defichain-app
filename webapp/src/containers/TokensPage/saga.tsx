@@ -10,8 +10,19 @@ import {
   fetchTokensSuccess,
   fetchTokenInfoSuccess,
   fetchTokenInfoFailure,
+  fetchTransfersRequest,
+  fetchTransfersFailure,
+  fetchTransfersSuccess,
+  createToken,
+  createTokenSuccess,
+  createTokenFailure,
 } from './reducer';
-import { handleFetchTokens, handleFetchToken } from './service';
+import {
+  handleFetchTokens,
+  handleFetchToken,
+  handleTokenTransfers,
+  handleCreateTokens,
+} from './service';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -51,9 +62,40 @@ export function* fetchTokens() {
   }
 }
 
+export function* fetchTransfers(action) {
+  const {
+    payload: { id },
+  } = action;
+  try {
+    const data = yield call(handleTokenTransfers, id);
+    yield put({
+      type: fetchTransfersSuccess.type,
+      payload: { transfers: data },
+    });
+  } catch (e) {
+    yield put({ type: fetchTransfersFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+export function* createTokens(action) {
+  try {
+    const {
+      payload: { tokenData },
+    } = action;
+    const data = yield call(handleCreateTokens, tokenData);
+    yield put({ type: createTokenSuccess.type, payload: { ...data } });
+  } catch (e) {
+    yield put({ type: createTokenFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
+  yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
+  yield takeLatest(createToken.type, createTokens);
 }
 
 export default mySaga;
