@@ -149,6 +149,10 @@
         "yesButtonText": "Weiter",
         "successText": "Erfolg",
         "backToMasternodePage": "Zurück zu Master-Knoten Seite"
+      },
+      "masternodeTab": {
+        "myMasternodes": "My Masternodes",
+        "otherMasterNodes": "Other Masternodes"
       }
     },
     "settings": {
