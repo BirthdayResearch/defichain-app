@@ -16,16 +16,11 @@ export const handelFetchMasterNodes = async () => {
   return transformedData;
 };
 
-export const handelCreateMasterNodes = async (masterNodeName) => {
+export const handelCreateMasterNodes = async (
+  masternodeOwner: string,
+  masternodeOperator: string
+) => {
   const rpcClient = new RpcClient();
-  const masternodeOwner = await rpcClient.getNewAddress(
-    `masternode_owner_${masterNodeName}`,
-    GET_NEW_ADDRESS_TYPE
-  );
-  const masternodeOperator = await rpcClient.getNewAddress(
-    `masternode_operator_${masterNodeName}`,
-    GET_NEW_ADDRESS_TYPE
-  );
   const masterNodeHash = await rpcClient.createMasterNode({
     operatorAuthAddress: masternodeOperator,
     collateralAddress: masternodeOwner,

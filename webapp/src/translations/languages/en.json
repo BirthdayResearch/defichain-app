@@ -127,7 +127,12 @@
         "masternodeOwner": "Masternode Owner",
         "backToMasternodePage": "Back to Masternode Page",
         "restartNodeButton": "Restart node",
-        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.",
+        "collaterAddress": "Collateral Address",
+        "masternodeOperatorNotOptional": "Operator Address",
+        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "noticeMasternodeOperator": "If masternode operator is different from owner",
+        "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Masternode Detail Page %{hash}",
