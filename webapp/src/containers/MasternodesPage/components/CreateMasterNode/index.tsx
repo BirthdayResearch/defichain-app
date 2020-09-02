@@ -17,6 +17,7 @@ import {
   InputGroupAddon,
   Modal,
   ModalBody,
+  FormText,
 } from 'reactstrap';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
 import QrReader from 'react-qr-reader';
@@ -266,11 +267,11 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                               </Button>
                             </InputGroupAddon>
                           </InputGroup>
-                          <div className='mt-3'>
+                          <FormText color='muted mt-3'>
                             {I18n.t(
                               'containers.masterNodes.createMasterNode.noticeMasternodeOwner'
                             )}
-                          </div>
+                          </FormText>
                         </div>
                         <div className='mt-3'>
                           <InputGroup>
@@ -306,11 +307,11 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                               </Button>
                             </InputGroupAddon>
                           </InputGroup>
-                          <div className='mt-3'>
+                          <FormText color='muted mt-3'>
                             {I18n.t(
                               'containers.masterNodes.createMasterNode.noticeMasternodeOperator'
                             )}
-                          </div>
+                          </FormText>
                         </div>
                       </div>
                     </div>
