@@ -19,3 +19,11 @@ export interface DCTTokenObject {
   mintingSupport: string;
   tradeable: string;
 }
+
+export interface TransferObject {
+  txnhash: string;
+  age: string;
+  from: string;
+  to: string;
+  amount: string;
+}
