@@ -12,7 +12,7 @@ const MasternodeTabs = (props: MasternodeTabsProps) => {
   const { setActiveTab, activeTab } = props;
   return (
     <>
-      <Nav pills className='justify-content-center mb-3'>
+      <Nav pills className='justify-content-center'>
         <NavItem>
           <NavLink
             className={classnames({
