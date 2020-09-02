@@ -8,12 +8,14 @@ import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { CREATE_MASTER_NODES_PATH } from '../../constants';
+import MasternodeTab from './components/MasternodeTab';
 
 const MasternodesPage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<string>('myMasternodes');
   const toggleSearch = () => {
     if (searching) {
       setSearchQuery('');
@@ -29,6 +31,7 @@ const MasternodesPage: React.FunctionComponent<RouteComponentProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
+        <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
@@ -50,7 +53,11 @@ const MasternodesPage: React.FunctionComponent<RouteComponentProps> = (
       </header>
       <div className='content'>
         <section>
-          <MasternodesList searchQuery={searchQuery} history={props.history} />
+          <MasternodesList
+            activeTab={activeTab}
+            searchQuery={searchQuery}
+            history={props.history}
+          />
         </section>
       </div>
     </div>

@@ -15,12 +15,12 @@ import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import { History } from 'history';
 import cloneDeep from 'lodash/cloneDeep';
-import MasternodeTab from '../MasternodeTab';
 
 interface MasternodesListProps {
   masternodes: MasterNodeObject[];
   searchQuery: string;
   history: History;
+  activeTab: string;
   fetchMasternodesRequest: () => void;
 }
 
@@ -28,13 +28,17 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
   const defaultPage = 1;
-  const { masternodes, fetchMasternodesRequest, searchQuery } = props;
+  const {
+    masternodes,
+    fetchMasternodesRequest,
+    searchQuery,
+    activeTab,
+  } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
-  const [activeTab, setActiveTab] = useState<string>('myMasternodes');
 
   useEffect(() => {
     fetchMasternodesRequest();
@@ -90,7 +94,6 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
     <>
       {tableData.length ? (
         <>
-          <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
           <Card className={styles.card}>
             <div className={`${styles.tableResponsive} table-responsive-xl`}>
               <Table className={styles.table}>
