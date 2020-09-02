@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import * as log from '../../../../utils/electronLogger';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
@@ -13,8 +14,12 @@ import {
   Label,
   Input,
   InputGroup,
+  InputGroupAddon,
+  Modal,
+  ModalBody,
 } from 'reactstrap';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
+import QrReader from 'react-qr-reader';
 import { fetchWalletBalanceRequest } from '../../../WalletPage/reducer';
 import {
   createMasterNode,
@@ -26,9 +31,18 @@ import {
   WALLET_PAGE_PATH,
 } from '../../../../constants';
 import BigNumber from 'bignumber.js';
-import { MdArrowBack, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+import UIfx from 'uifx';
+import shutterSound from './../../../../assets/audio/shutter.mp3';
+import {
+  MdArrowBack,
+  MdCheckCircle,
+  MdErrorOutline,
+  MdCropFree,
+} from 'react-icons/md';
 import styles from '../../masternode.module.scss';
 import usePrevious from '../../../../components/UsePrevious';
+
+const shutterSnap = new UIfx(shutterSound);
 
 interface CreateMasterNodeProps extends RouteComponentProps {
   unit: string;
@@ -36,7 +50,10 @@ interface CreateMasterNodeProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
   isBalanceFetching: boolean;
   isBalanceError: any;
-  createMasterNode: (masterNodeName: string) => void;
+  createMasterNode: (
+    masternodeOwner: string,
+    masternodeOperator?: string
+  ) => void;
   isMasterNodeCreating: boolean;
   createdMasterNodeData: any;
   isErrorCreatingMasterNode: string;
@@ -62,7 +79,8 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
     history,
   } = props;
   const prevIsErrorModalRestart = usePrevious(isErrorModalRestart);
-  const [masterNodeName, setMasterNodeName] = useState<string>('');
+  const [masternodeOwner, setMasternodeOwner] = useState<string>('');
+  const [masternodeOperator, setMasternodeOperator] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPage, setIsPage] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
@@ -70,8 +88,14 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
   >('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [openScanner, setOpenScanner] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
+  const [flashed, setFlashed] = useState<string>('');
+
+  const toggleScanner = () => {
+    setOpenScanner(!openScanner);
+  };
 
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -139,8 +163,24 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
       setIsRestartButtonDisable(true);
     } else {
       setAllowCalls(true);
-      createMasterNode(masterNodeName);
+      createMasterNode(masternodeOwner, masternodeOperator);
     }
+  };
+
+  const handleScan = (data) => {
+    if (data) {
+      shutterSnap.play();
+      setFlashed('flashed');
+      setTimeout(() => {
+        // this.isQRCodeValid(); //TODO add code validator
+        toggleScanner();
+        setFlashed('flashed');
+      }, 600);
+    }
+  };
+
+  const handleScanError = (err) => {
+    log.error(err);
   };
 
   const showForm = new BigNumber(walletBalance).gte(
@@ -175,24 +215,78 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                 <Col>
                   {showForm ? (
                     <div>
-                      <InputGroup>
-                        <Input
-                          type='text'
-                          placeholder={I18n.t(
-                            'containers.masterNodes.createMasterNode.masterNodeName'
-                          )}
-                          name='masterNodeName'
-                          id='masterNodeName'
-                          value={masterNodeName}
-                          onChange={(e) => setMasterNodeName(e.target.value)}
-                          autoFocus
-                        />
-                        <Label for='masterNodeName'>
-                          {I18n.t(
-                            'containers.masterNodes.createMasterNode.masterNodeName'
-                          )}
-                        </Label>
-                      </InputGroup>
+                      <div>
+                        <div>
+                          <InputGroup>
+                            <Input
+                              type='text'
+                              placeholder={I18n.t(
+                                'containers.masterNodes.createMasterNode.collaterAddress'
+                              )}
+                              name='masternodeOwner'
+                              id='masternodeOwner'
+                              value={masternodeOwner}
+                              onChange={(e) =>
+                                setMasternodeOwner(e.target.value)
+                              }
+                              autoFocus
+                            />
+                            <Label for='masternodeOwner'>
+                              {I18n.t(
+                                'containers.masterNodes.createMasterNode.collaterAddress'
+                              )}
+                            </Label>
+                            <InputGroupAddon addonType='append'>
+                              <Button
+                                color='outline-primary'
+                                onClick={() => setOpenScanner(true)}
+                              >
+                                <MdCropFree />
+                              </Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                          <div className='mt-3'>
+                            {I18n.t(
+                              'containers.masterNodes.createMasterNode.noticeMasternodeOwner'
+                            )}
+                          </div>
+                        </div>
+                        <div className='mt-3'>
+                          <InputGroup>
+                            <Input
+                              type='text'
+                              placeholder={I18n.t(
+                                'containers.masterNodes.createMasterNode.masternodeOperatorOptional'
+                              )}
+                              name='masternodeOperator'
+                              id='masternodeOperator'
+                              value={masternodeOperator}
+                              onChange={(e) =>
+                                setMasternodeOperator(e.target.value)
+                              }
+                              autoFocus
+                            />
+                            <Label for='masternodeOperator'>
+                              {I18n.t(
+                                'containers.masterNodes.createMasterNode.masternodeOperatorOptional'
+                              )}
+                            </Label>
+                            <InputGroupAddon addonType='append'>
+                              <Button
+                                color='outline-primary'
+                                onClick={() => setOpenScanner(true)}
+                              >
+                                <MdCropFree />
+                              </Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                          <div className='mt-3'>
+                            {I18n.t(
+                              'containers.masterNodes.createMasterNode.noticeMasternodeOperator'
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div>
@@ -206,6 +300,23 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
                 </Col>
               </FormGroup>
             </Form>
+            <Modal
+              isOpen={openScanner}
+              toggle={toggleScanner}
+              centered={true}
+              className={`qr-scanner ${flashed}`}
+            >
+              <ModalBody>
+                <QrReader
+                  delay={1000}
+                  onError={handleScanError}
+                  onScan={handleScan}
+                  showViewFinder={false}
+                  style={{ width: '100%' }}
+                  className='qr-scanner-preview'
+                />
+              </ModalBody>
+            </Modal>
           </section>
         )}
       </div>
@@ -227,7 +338,7 @@ const CreateMasterNode: React.FunctionComponent<CreateMasterNodeProps> = (
               </Button>
               <Button
                 color='primary'
-                disabled={!masterNodeName}
+                disabled={!masternodeOwner}
                 onClick={() => setIsConfirmationModalOpen('confirm')}
               >
                 {I18n.t(
@@ -374,8 +485,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchWalletBalanceRequest,
-  createMasterNode: (masterNodeName: string) =>
-    createMasterNode({ masterNodeName }),
+  createMasterNode: (masternodeOwner: string, masternodeOperator?: string) =>
+    createMasterNode({ masternodeOwner, masternodeOperator }),
   startRestartNodeWithMasterNode,
 };
 
