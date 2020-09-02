@@ -9,9 +9,6 @@ import reducer, {
   resignMasterNode,
   resignMasterNodeSuccess,
   resignMasterNodeFailure,
-  setMasterNodeOwner,
-  setMasterNodeOwnerSuccess,
-  setMasterNodeOwnerError,
 } from '../reducer';
 import * as testData from './testData.json';
 const errorOccurred = 'error Ocurred';
@@ -115,38 +112,6 @@ describe('masternode slice', () => {
       expect(rootState.masterNodes.isMasterNodeResigning).toEqual(false);
       expect(rootState.masterNodes.resignedMasterNodeData).toEqual('');
       expect(rootState.masterNodes.isErrorResigningMasterNode).toEqual(
-        errorOccurred
-      );
-    });
-  });
-
-  describe('setMasterNodeOwner reducers and actions', () => {
-    // tslint:disable-next-line: max-line-length
-    it('should properly set isBalanceFetching and isBalanceError information when setMasterNodeOwner is made', () => {
-      const masternodeOwner = '1223213123123';
-      const nextState = reducer(
-        initialState,
-        setMasterNodeOwner(masternodeOwner)
-      );
-      const rootState = { masterNodes: nextState };
-      expect(rootState.masterNodes.isMasterNodeOwner).toEqual(false);
-      expect(rootState.masterNodes.isMasterNodeOwnerError).toEqual('');
-    });
-    // tslint:disable-next-line: max-line-length
-    it('should properly set isMasterNodeOwner and isMasterNodeOwnerError information when setMasterNodeOwnerSuccess is made', () => {
-      const nextState = reducer(initialState, setMasterNodeOwnerSuccess(true));
-      const rootState = { masterNodes: nextState };
-      expect(rootState.masterNodes.isMasterNodeOwner).toEqual(true);
-      expect(rootState.masterNodes.isMasterNodeOwnerError).toEqual('');
-    });
-    it('should properly set isMasterNodeOwner and isMasterNodeOwnerError information when setMasterNodeOwnerError is made', () => {
-      const nextState = reducer(
-        initialState,
-        setMasterNodeOwnerError(errorOccurred)
-      );
-      const rootState = { masterNodes: nextState };
-      expect(rootState.masterNodes.isMasterNodeOwner).toEqual(false);
-      expect(rootState.masterNodes.isMasterNodeOwnerError).toEqual(
         errorOccurred
       );
     });

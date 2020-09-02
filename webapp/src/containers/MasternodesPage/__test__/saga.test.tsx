@@ -4,7 +4,6 @@ import mySaga, {
   fetchMasterNodes,
   createMasterNodes,
   masterNodeResign,
-  checkMasterNodeOwnerInfo,
   handleRestartNode,
   getConfigurationDetails,
 } from '../saga';
@@ -18,8 +17,6 @@ import {
   resignMasterNode,
   resignMasterNodeSuccess,
   resignMasterNodeFailure,
-  setMasterNodeOwnerSuccess,
-  setMasterNodeOwnerError,
   finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
@@ -159,42 +156,6 @@ describe('Masternode page saga unit test', () => {
       });
       expect(handleResignMasterNode).toBeCalledTimes(1);
       expect(dispatched).toEqual([resignMasterNodeFailure(errorObj.message)]);
-    });
-  });
-
-  describe('checkMasterNodeOwnerInfo method', () => {
-    let getAddressInfo;
-    const masterNodeOwner = 'TestMasterNodeOwner';
-    beforeEach(() => {
-      getAddressInfo = jest.spyOn(service, 'getAddressInfo');
-    });
-    afterEach(() => {
-      getAddressInfo.mockRestore();
-    });
-    afterAll(jest.clearAllMocks);
-    it('should call api and dispatch success action', async () => {
-      getAddressInfo.mockImplementation(() =>
-        Promise.resolve(testData.saga.getAddressInfo)
-      );
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([
-        setMasterNodeOwnerSuccess(
-          testData.saga.getAddressInfo.ismine &&
-            !testData.saga.getAddressInfo.iswatchonly
-        ),
-      ]);
-    });
-
-    it('should call api and dispatch failure action', async () => {
-      getAddressInfo.mockImplementation(() => Promise.reject(errorObj));
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([setMasterNodeOwnerError(errorObj.message)]);
     });
   });
 

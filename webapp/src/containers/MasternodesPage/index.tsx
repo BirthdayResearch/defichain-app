@@ -43,7 +43,7 @@ const MasternodesPage: React.FunctionComponent<RouteComponentProps> = (
           </Button>
         </ButtonGroup>
         <SearchBar
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           searching={searching}
           toggleSearch={toggleSearch}
         />
