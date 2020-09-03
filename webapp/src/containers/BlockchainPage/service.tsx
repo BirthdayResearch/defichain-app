@@ -77,7 +77,7 @@ export const handelFetchTxns = async (
     txnList.push(parsedTxn);
   }
 
-  //add to cache for future use
+  // add to cache for future use
   const key = toSha256(`${blockNumber} ${pageNo} ${pageSize}`);
   LruCache.put(key, txnList);
 
