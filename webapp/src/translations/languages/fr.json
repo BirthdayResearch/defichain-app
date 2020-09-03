@@ -157,8 +157,8 @@
         "backToMasternodePage": "Retour à la page du nœud complet"
       },
       "masternodeTab": {
-        "myMasternodes": "Mine",
-        "otherMasterNodes": "Other"
+        "myMasternodes": "Mienne",
+        "otherMasterNodes": "Autre"
       }
     },
     "settings": {
