@@ -28,3 +28,5 @@ export const BLOCKCHAIN_START_SUCCESS = 'blockchain started successfully';
 export const MAX_MONEY = 21000000;
 export const GET_NEW_ADDRESS_TYPE = 'legacy';
 export const RESIGNED_STATE = 'RESIGNED';
+export const CONFIRM_BUTTON_TIMEOUT = 1000;
+export const CONFIRM_BUTTON_COUNTER = 5;
