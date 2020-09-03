@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { Button, Row, Col } from 'reactstrap';
 
 interface SettingsTabsFooterProps {
-  saveChanges: Function;
+  saveChanges: () => void;
   isUnsavedChanges: boolean;
 }
 
