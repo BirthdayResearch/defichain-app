@@ -157,8 +157,8 @@
         "backToMasternodePage": "Zurück zu Master-Knoten Seite"
       },
       "masternodeTab": {
-        "myMasternodes": "Mine",
-        "otherMasterNodes": "Other"
+        "myMasternodes": "Bergwerk",
+        "otherMasterNodes": "Andere"
       }
     },
     "settings": {
