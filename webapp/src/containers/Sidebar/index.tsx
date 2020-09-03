@@ -29,6 +29,7 @@ import {
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
+import { updateWalletBalanceSchedular } from '../../worker/schedular';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
@@ -39,6 +40,10 @@ export interface SidebarProps extends RouteComponentProps {
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   useEffect(() => {
     props.fetchWalletBalanceRequest();
+    const clearWalletBalanceTimer = updateWalletBalanceSchedular();
+    return () => {
+      clearWalletBalanceTimer();
+    };
   }, []);
 
   return (
