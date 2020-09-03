@@ -37,7 +37,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
       props.fetchWalletBalanceRequest();
       props.fetchPendingBalanceRequest();
     }
-  }, [prevIsRestart && !props.isRestart]);
+  }, [prevIsRestart, props.isRestart]);
 
   const {
     latestSyncedBlock,

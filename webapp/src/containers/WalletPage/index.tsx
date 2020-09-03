@@ -13,12 +13,7 @@ import {
 } from './reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import { getAmountInSelectedUnit } from '../../utils/utility';
-import {
-  updateWalletBalanceSchedular,
-  updatePendingBalanceSchedular,
-  walletBalanceTimerID,
-  pendingBalanceTimerID,
-} from '../../worker/schedular';
+import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 
 interface WalletPageProps {
@@ -35,13 +30,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   useEffect(() => {
     props.fetchWalletBalanceRequest();
     props.fetchPendingBalanceRequest();
-
-    updateWalletBalanceSchedular();
-    updatePendingBalanceSchedular();
+    const clearPendingBalanceTimer = updatePendingBalanceSchedular();
 
     return () => {
-      clearInterval(walletBalanceTimerID);
-      clearInterval(pendingBalanceTimerID);
+      clearPendingBalanceTimer();
       clearTimeout(balanceRefreshTimerID);
       clearTimeout(pendingBalRefreshTimerID);
     };
