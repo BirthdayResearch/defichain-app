@@ -1,117 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Map Chart should check for snapshot 1`] = `
-<div
-  className="main-wrapper"
+exports[`Masternode Chart should check for snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
 >
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <title>
-      Masternodes – DeFi Blockchain Client
-    </title>
-  </HelmetWrapper>
-  <header
-    className="header-bar"
-  >
-    <h1
-      className=""
-    >
-      Masternodes
-    </h1>
-    <ButtonGroup
-      className=""
-      role="group"
-      tag="div"
-    >
-      <Button
-        color="link"
-        onClick={[Function]}
-        size="sm"
-        tag="button"
-      >
-        <MdSearch />
-      </Button>
-      <Button
-        color="link"
-        tag={
+  <Connect(MasternodesPage)
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
           Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "NavLink",
-            "propTypes": Object {
-              "activeClassName": [Function],
-              "activeStyle": [Function],
-              "aria-current": [Function],
-              "className": [Function],
-              "exact": [Function],
-              "innerRef": [Function],
-              "isActive": [Function],
-              "location": [Function],
-              "onClick": [Function],
-              "replace": [Function],
-              "strict": [Function],
-              "style": [Function],
-              "target": [Function],
-              "to": [Function],
-            },
-            "render": [Function],
-          }
-        }
-        to="/masternodes/create"
-      >
-        <MdAdd />
-        <span
-          className="d-lg-inline"
-        >
-          Create
-        </span>
-      </Button>
-    </ButtonGroup>
-    <SearchBar
-      onChange={[Function]}
-      searching={false}
-      toggleSearch={[Function]}
-    />
-  </header>
-  <div
-    className="content"
-  >
-    <section>
-      <Connect(MasternodesList)
-        history={
-          Object {
-            "action": "POP",
-            "block": [Function],
-            "canGo": [Function],
-            "createHref": [Function],
-            "entries": Array [
-              Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-            ],
-            "go": [Function],
-            "goBack": [Function],
-            "goForward": [Function],
-            "index": 0,
-            "length": 1,
-            "listen": [Function],
-            "location": Object {
-              "hash": "",
-              "pathname": "/",
-              "search": "",
-              "state": undefined,
-            },
-            "push": [Function],
-            "replace": [Function],
-          }
-        }
-        searchQuery=""
-      />
-    </section>
-  </div>
-</div>
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+    location={
+      Object {
+        "hash": "",
+        "pathname": "/route/1",
+        "search": "",
+        "state": undefined,
+      }
+    }
+    match={
+      Object {
+        "isExact": false,
+        "params": Object {
+          "id": "1",
+        },
+        "path": "/route/:id",
+        "url": "/route/1",
+      }
+    }
+  />
+</ContextProvider>
 `;

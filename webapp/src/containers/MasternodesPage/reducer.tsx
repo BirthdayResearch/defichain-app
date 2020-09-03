@@ -31,7 +31,7 @@ const configSlice = createSlice({
       state.isLoadingMasternodes = false;
       state.isMasternodesLoaded = true;
     },
-    createMasterNode(state, action) {
+    createMasterNode(state) {
       state.isMasterNodeCreating = true;
       state.createdMasterNodeData = {};
       state.isErrorCreatingMasterNode = '';
