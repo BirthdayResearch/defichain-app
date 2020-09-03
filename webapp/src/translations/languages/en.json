@@ -156,8 +156,8 @@
         "backToMasternodePage": "Back to Masternode Page"
       },
       "masternodeTab": {
-        "myMasternodes": "My Masternodes",
-        "otherMasterNodes": "Other Masternodes"
+        "myMasternodes": "Mine",
+        "otherMasterNodes": "Other"
       }
     },
     "settings": {
