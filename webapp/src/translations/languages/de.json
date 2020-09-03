@@ -105,7 +105,8 @@
         "supply": "Lieferung",
         "lockedInCollateral": "Gesperrt Sicherheiten",
         "costPerMasterNode": "Kosten pro Master-Knoten",
-        "masternodeWorth": "Master-Knoten lohnt sich"
+        "masternodeWorth": "Master-Knoten lohnt sich",
+        "searchBar": "Suche nach Masternodes"
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer Adresse",
@@ -127,7 +128,12 @@
         "masternodeOwner": "Master-Knoten Besitzer",
         "backToMasternodePage": "Zurück zu Master-Knoten Seite",
         "restartNodeButton": "Restart node",
-        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.",
+        "collaterAddress": "Collateral Address",
+        "masternodeOperatorNotOptional": "Operator Address",
+        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "noticeMasternodeOperator": "If masternode operator is different from owner",
+        "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Master-Knoten-Detail-Seite %{hash}",
@@ -149,6 +155,10 @@
         "yesButtonText": "Weiter",
         "successText": "Erfolg",
         "backToMasternodePage": "Zurück zu Master-Knoten Seite"
+      },
+      "masternodeTab": {
+        "myMasternodes": "Bergwerk",
+        "otherMasterNodes": "Andere"
       }
     },
     "settings": {
