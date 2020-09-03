@@ -105,7 +105,8 @@
         "supply": "Lieferung",
         "lockedInCollateral": "Gesperrt Sicherheiten",
         "costPerMasterNode": "Kosten pro Master-Knoten",
-        "masternodeWorth": "Master-Knoten lohnt sich"
+        "masternodeWorth": "Master-Knoten lohnt sich",
+        "searchBar": "Suche nach Masternodes"
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer Adresse",

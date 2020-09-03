@@ -10,7 +10,6 @@ import BlockPage from '../containers/BlockchainPage/components/BlockPage';
 import MinerPage from '../containers/BlockchainPage/components/MinerPage';
 import ConsolePage from '../containers/ConsolePage';
 import MasternodesPage from '../containers/MasternodesPage'; //  NOTE: Do not remove, for future purpose
-import CreateMasternodesPage from '../containers/MasternodesPage/components/CreateMasterNode'; //  NOTE: Do not remove, for future purpose
 import MasterNodeDetailPageProps from '../containers/MasternodesPage/components/MasterNodeDetailPage';
 
 // import ExchangePage from '../containers/ExchangePage'; //  NOTE: Do not remove, for future purpose
@@ -31,7 +30,6 @@ import {
   BLOCKCHAIN_MINER_PARAM_PATH,
   WALLET_PAYMENT_REQ_PARAMS_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,
-  CREATE_MASTER_NODES_PATH,
   MASTER_NODES_DETAIL_PATH,
   WALLET_CREATE_RECEIVE_REQUEST,
 } from '../constants';
@@ -54,11 +52,6 @@ const routes = (location) => (
     />
     {/* NOTE: Do not remove, for future purpose */}
     <Route exact path={MASTER_NODES_PATH} component={MasternodesPage} />
-    <Route
-      exact
-      path={CREATE_MASTER_NODES_PATH}
-      component={CreateMasternodesPage}
-    />
     <Route
       exact
       path={MASTER_NODES_DETAIL_PATH}
