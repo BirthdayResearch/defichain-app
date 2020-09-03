@@ -48,7 +48,7 @@ describe('masternode slice', () => {
 
   describe('createMasterNode reducers and actions', () => {
     it('should properly set isWalletTxnsLoading information when createMasterNode is made', () => {
-      const nextState = reducer(initialState, createMasterNode({}));
+      const nextState = reducer(initialState, createMasterNode());
       const rootState = { masterNodes: nextState };
       expect(rootState.masterNodes.isMasterNodeCreating).toEqual(true);
       expect(rootState.masterNodes.createdMasterNodeData).toEqual({});
