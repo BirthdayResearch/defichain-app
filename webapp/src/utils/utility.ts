@@ -289,3 +289,18 @@ export const getErrorMessage = (errorResponse) => {
   }
   return typeof message === 'string' ? message : JSON.stringify(message);
 };
+
+export const setIntervalSynchronous = (func, delay) => {
+  let intervalFunction;
+  let timeoutId;
+  let clear;
+  clear = () => {
+    clearTimeout(timeoutId);
+  };
+  intervalFunction = () => {
+    func();
+    timeoutId = setTimeout(intervalFunction, delay);
+  };
+  timeoutId = setTimeout(intervalFunction, delay);
+  return clear;
+};
