@@ -15,7 +15,7 @@ import { NavLink, RouteComponentProps, Redirect } from 'react-router-dom';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
-import { resignMasterNode, setMasterNodeOwner } from '../../reducer';
+import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
 
 interface RouteProps {
@@ -28,8 +28,6 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   resignedMasterNodeData: string;
   isErrorResigningMasterNode: string;
   resignMasterNode: (masterNodeHash: string) => void;
-  isMasterNodeOwner: boolean;
-  setMasterNodeOwner: (masterNodeOwner: string) => void;
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
@@ -42,8 +40,6 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
-    setMasterNodeOwner,
-    isMasterNodeOwner,
   } = props;
   const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
@@ -60,6 +56,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     banTx,
     hash,
     mintedBlocks,
+    isMyMasternode,
   } = masternode || {};
 
   if (isEmpty(masternode)) {
@@ -94,12 +91,6 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     isErrorResigningMasterNode,
     allowCalls,
   ]);
-
-  useEffect(() => {
-    if (ownerAuthAddress) {
-      setMasterNodeOwner(ownerAuthAddress);
-    }
-  }, []);
 
   useEffect(() => {
     let waitToSendInterval;
@@ -148,7 +139,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           )}
           &nbsp;
         </h1>
-        {isMasterNodeOwner && (
+        {isMyMasternode && (
           <ButtonGroup>
             <Button
               color='link'
@@ -335,7 +326,6 @@ const mapStateToProps = (state) => {
       isMasterNodeResigning,
       resignedMasterNodeData,
       isErrorResigningMasterNode,
-      isMasterNodeOwner,
     },
   } = state;
   return {
@@ -343,15 +333,12 @@ const mapStateToProps = (state) => {
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
-    isMasterNodeOwner,
   };
 };
 
 const mapDispatchToProps = {
   resignMasterNode: (masterNodeHash: string) =>
     resignMasterNode({ masterNodeHash }),
-  setMasterNodeOwner: (masterNodeOwner: string) =>
-    setMasterNodeOwner({ masterNodeOwner }),
 };
 
 export default connect(

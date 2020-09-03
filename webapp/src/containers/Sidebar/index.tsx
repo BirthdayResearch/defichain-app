@@ -30,14 +30,18 @@ import {
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
 import { updateWalletBalanceSchedular } from '../../worker/schedular';
+import usePrevious from '../../components/UsePrevious';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
+  isErrorModalOpen: boolean;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
+  const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+
   useEffect(() => {
     props.fetchWalletBalanceRequest();
     const clearWalletBalanceTimer = updateWalletBalanceSchedular();
@@ -45,6 +49,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
       clearWalletBalanceTimer();
     };
   }, []);
+
+  useEffect(() => {
+    if (!props.isErrorModalOpen && prevIsErrorModalOpen) {
+      props.fetchWalletBalanceRequest();
+    }
+  }, [prevIsErrorModalOpen, props.isErrorModalOpen]);
 
   return (
     <div className={styles.sidebar}>
@@ -152,11 +162,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings } = state;
+  const { i18n, wallet, settings, errorModal } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
+    isErrorModalOpen: errorModal.isOpen,
   };
 };
 

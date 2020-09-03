@@ -9,4 +9,5 @@ export interface MasterNodeObject {
   banTx: string;
   state: string;
   mintedBlocks: number;
+  isMyMasternode: boolean;
 }

@@ -4,7 +4,6 @@ import mySaga, {
   fetchMasterNodes,
   createMasterNodes,
   masterNodeResign,
-  checkMasterNodeOwnerInfo,
   handleRestartNode,
   getConfigurationDetails,
 } from '../saga';
@@ -18,8 +17,6 @@ import {
   resignMasterNode,
   resignMasterNodeSuccess,
   resignMasterNodeFailure,
-  setMasterNodeOwnerSuccess,
-  setMasterNodeOwnerError,
   finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
@@ -35,25 +32,25 @@ const errorObj = {
 describe('Masternode page saga unit test', () => {
   const genObject = mySaga();
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call fetchMasternodesRequest', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(fetchMasternodesRequest.type, fetchMasterNodes)
     );
   });
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call createMasterNode', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(createMasterNode.type, createMasterNodes)
     );
   });
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call resignMasterNode', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(resignMasterNode.type, masterNodeResign)
     );
   });
 
-  describe('fetchDataForQuery method', () => {
+  describe('fetchMasternodesRequest', () => {
     let handelFetchMasterNodes;
     beforeEach(() => {
       handelFetchMasterNodes = jest.spyOn(service, 'handelFetchMasterNodes');
@@ -68,11 +65,6 @@ describe('Masternode page saga unit test', () => {
       );
       const dispatched = await dispatchedFunc(fetchMasterNodes);
       expect(handelFetchMasterNodes).toBeCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchMasternodesSuccess({
-          masternodes: testData.fetchMasternodesSuccess,
-        }),
-      ]);
     });
 
     it('should call api and dispatch success action when no data found', async () => {
@@ -159,42 +151,6 @@ describe('Masternode page saga unit test', () => {
       });
       expect(handleResignMasterNode).toBeCalledTimes(1);
       expect(dispatched).toEqual([resignMasterNodeFailure(errorObj.message)]);
-    });
-  });
-
-  describe('checkMasterNodeOwnerInfo method', () => {
-    let getAddressInfo;
-    const masterNodeOwner = 'TestMasterNodeOwner';
-    beforeEach(() => {
-      getAddressInfo = jest.spyOn(service, 'getAddressInfo');
-    });
-    afterEach(() => {
-      getAddressInfo.mockRestore();
-    });
-    afterAll(jest.clearAllMocks);
-    it('should call api and dispatch success action', async () => {
-      getAddressInfo.mockImplementation(() =>
-        Promise.resolve(testData.saga.getAddressInfo)
-      );
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([
-        setMasterNodeOwnerSuccess(
-          testData.saga.getAddressInfo.ismine &&
-            !testData.saga.getAddressInfo.iswatchonly
-        ),
-      ]);
-    });
-
-    it('should call api and dispatch failure action', async () => {
-      getAddressInfo.mockImplementation(() => Promise.reject(errorObj));
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([setMasterNodeOwnerError(errorObj.message)]);
     });
   });
 
