@@ -1,6 +1,7 @@
 import RpcClient from '../../utils/rpc-client';
 import * as log from '../../utils/electronLogger';
 import isEmpty from 'lodash/isEmpty';
+import { GET_NEW_ADDRESS_TYPE } from '../../constants';
 
 export const isValidAddress = async (toAddress: string) => {
   const rpcClient = new RpcClient();
@@ -26,15 +27,24 @@ export const handelFetchMasterNodes = async () => {
   return transformedData;
 };
 
-export const handelCreateMasterNodes = async (
-  masternodeOwner: string,
-  masternodeOperator: string
-) => {
+export const handelCreateMasterNodes = async () => {
   const rpcClient = new RpcClient();
+
+  const masternodeOwner = await rpcClient.getNewAddress(
+    null,
+    GET_NEW_ADDRESS_TYPE
+  );
+
+  const masternodeOperator = await rpcClient.getNewAddress(
+    null,
+    GET_NEW_ADDRESS_TYPE
+  );
+
   const masterNodeHash = await rpcClient.createMasterNode({
     operatorAuthAddress: masternodeOperator,
     collateralAddress: masternodeOwner,
   });
+
   return {
     masternodeOperator,
     masternodeOwner,

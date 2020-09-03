@@ -105,7 +105,8 @@
         "supply": "Quantité",
         "lockedInCollateral": "Garantie bloquée",
         "costPerMasterNode": "Coût d'un Nœud complet",
-        "masternodeWorth": "Valeur du nœud complet"
+        "masternodeWorth": "Valeur du nœud complet",
+        "searchBar": "Rechercher Masternodes"
       },
       "masterNodesList": {
         "ownerAddress": "Adresse du propriétaire",

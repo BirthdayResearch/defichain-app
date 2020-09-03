@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './SearchBar.module.scss';
+import { I18n } from 'react-redux-i18n';
 
 interface SearchBarProps {
   searching: any;
@@ -29,7 +30,9 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = (
           <InputGroup>
             <Input
               type='text'
-              placeholder='Search masternodes'
+              placeholder={I18n.t(
+                'containers.masterNodes.masterNodesPage.searchBar'
+              )}
               name='searchInput'
               id='searchInput'
               onChange={props.onChange}

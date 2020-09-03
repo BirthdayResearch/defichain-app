@@ -57,17 +57,9 @@ export function* fetchMasterNodes() {
   }
 }
 
-export function* createMasterNodes(action) {
+export function* createMasterNodes() {
   try {
-    const {
-      payload: { masternodeOwner, masternodeOperator },
-    } = action;
-
-    const data = yield call(
-      handelCreateMasterNodes,
-      masternodeOwner,
-      masternodeOperator || masternodeOwner
-    );
+    const data = yield call(handelCreateMasterNodes);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({
