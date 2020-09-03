@@ -10,6 +10,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import {
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   RESIGNED_STATE,
+  CONFIRM_BUTTON_TIMEOUT,
+  CONFIRM_BUTTON_COUNTER,
 } from '../../constants';
 import { connect } from 'react-redux';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
@@ -61,7 +63,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
     string
   >('default');
-  const [wait, setWait] = useState<number>(5);
+  const [wait, setWait] = useState<number>(CONFIRM_BUTTON_COUNTER);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
@@ -137,14 +139,14 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   useEffect(() => {
     let waitToSendInterval;
     if (isConfirmationModalOpen === 'confirm') {
-      let counter = 5;
+      let counter = CONFIRM_BUTTON_COUNTER;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
         setWait(counter);
         if (counter === 0) {
           clearInterval(waitToSendInterval);
         }
-      }, 1000);
+      }, CONFIRM_BUTTON_TIMEOUT);
     }
     return () => {
       clearInterval(waitToSendInterval);
@@ -152,7 +154,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   }, [isConfirmationModalOpen]);
 
   const cancelConfirmation = () => {
-    setWait(5);
+    setWait(CONFIRM_BUTTON_COUNTER);
     if (restartNodeConfirm) {
       setIsConfirmationModalOpen('success');
       setRestartNodeConfirm(false);
@@ -304,7 +306,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 className='ml-4'
                 color='primary'
                 onClick={() => {
-                  setWait(5);
+                  setWait(CONFIRM_BUTTON_COUNTER);
                   setRestartNodeConfirm(true);
                   setIsConfirmationModalOpen('confirm');
                 }}
