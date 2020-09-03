@@ -127,7 +127,12 @@
         "masternodeOwner": "Propriétaire du nœud complet",
         "backToMasternodePage": "Retour à la page du nœud complet",
         "restartNodeButton": "Redémarrer le nœud",
-        "masterNodeSuccess": "Vous pouvez définir manuellement la configuration du nœud sous defi.conf ou la définir automatiquement en redémarrant le nœud."
+        "masterNodeSuccess": "Vous pouvez définir manuellement la configuration du nœud sous defi.conf ou la définir automatiquement en redémarrant le nœud.",
+        "collaterAddress": "Collateral Address",
+        "masternodeOperatorNotOptional": "Operator Address",
+        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "noticeMasternodeOperator": "If masternode operator is different from owner",
+        "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Page de détail du nœud complet %{hash}",
@@ -149,6 +154,10 @@
         "yesButtonText": "Continuer",
         "successText": "Succès",
         "backToMasternodePage": "Retour à la page du nœud complet"
+      },
+      "masternodeTab": {
+        "myMasternodes": "Mine",
+        "otherMasterNodes": "Other"
       }
     },
     "settings": {

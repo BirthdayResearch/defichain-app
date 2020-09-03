@@ -1,65 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Table, CardBody } from 'reactstrap';
-import { connect } from 'react-redux';
 import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
-import { fetchMasternodesRequest } from '../../reducer';
 import { filterByValue } from '../../../../utils/utility';
 import {
   MASTER_NODES_PATH,
   MASTERNODE_LIST_PAGE_SIZE,
-  RESIGNED_STATE,
 } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
-import { History } from 'history';
 import cloneDeep from 'lodash/cloneDeep';
 
 interface MasternodesListProps {
-  masternodes: MasterNodeObject[];
   searchQuery: string;
-  history: History;
-  activeTab: string;
-  fetchMasternodesRequest: () => void;
+  enabledMasternodes: MasterNodeObject[];
 }
 
 const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
   const defaultPage = 1;
-  const {
-    masternodes,
-    fetchMasternodesRequest,
-    searchQuery,
-    activeTab,
-  } = props;
+  const { searchQuery, enabledMasternodes } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
-  const [enabledMasternodes, setEnabledMasternodes] = useState<
-    MasterNodeObject[]
-  >([]);
-
-  useEffect(() => {
-    fetchMasternodesRequest();
-  }, []);
-
-  useEffect(() => {
-    if (masternodes.length > 0) {
-      const isMyMasternodes = activeTab === 'myMasternodes';
-      const enabledMasternodes = masternodes.filter((masternode) => {
-        if (isMyMasternodes) {
-          return (
-            masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
-          );
-        }
-        return (
-          masternode.state !== RESIGNED_STATE && !masternode.isMyMasternode
-        );
-      });
-      setEnabledMasternodes(enabledMasternodes);
-    }
-  }, [masternodes, activeTab]);
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = enabledMasternodes.length;
@@ -177,23 +141,4 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    masternodes,
-    isMasternodesLoaded,
-    isLoadingMasternodes,
-    masternodesLoadError,
-  } = state.masterNodes;
-  return {
-    masternodes,
-    isMasternodesLoaded,
-    isLoadingMasternodes,
-    masternodesLoadError,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchMasternodesRequest,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MasternodesList);
+export default MasternodesList;
