@@ -13,7 +13,10 @@ import {
   OPENBSD,
   ANDROID,
   SUNOS,
+  STOP_RPC_COMMAND,
+  RPC_V,
 } from './constants';
+import axios from 'axios';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -122,3 +125,7 @@ export const stopProcesses = (processId: number | string) => {
     });
   });
 };
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

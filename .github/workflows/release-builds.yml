@@ -62,9 +62,9 @@ jobs:
           rm -r -fo win -ErrorAction Ignore
           mkdir win 
           cd win
-          curl https://github.com/DeFiCh/ain/releases/download/v1.0.1/defichain-1.0.1-x86_64-w64-mingw32.zip -O defichain-1.0.1-x86_64-w64-mingw32.zip
-          Expand-Archive -LiteralPath .\defichain-1.0.1-x86_64-w64-mingw32.zip -DestinationPath .
-          Copy-Item .\defichain-1.0.1\bin\defid.exe .
+          curl https://github.com/DeFiCh/ain/releases/download/v1.0.2/defichain-1.0.2-x86_64-w64-mingw32.zip -O defichain-1.0.2-x86_64-w64-mingw32.zip
+          Expand-Archive -LiteralPath .\defichain-1.0.2-x86_64-w64-mingw32.zip -DestinationPath .
+          Copy-Item .\defichain-1.0.2\bin\defid.exe .
           cd ..\.. 
           Copy-Item temp\win\defid.exe binary\win\defid.exe
           icacls binary\win\defid.exe /grant everyone:F

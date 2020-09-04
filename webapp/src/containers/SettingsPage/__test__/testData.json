@@ -2,7 +2,8 @@
   "settingsRowDropDown": {
     "languages": [
       { "label": "containers.settings.english", "value": "en" },
-      { "label": "containers.settings.german", "value": "de" }
+      { "label": "containers.settings.german", "value": "de" },
+      { "label": "containers.settings.french", "value": "fr" }
     ],
     "amountUnits": [
       { "label": "DFI", "value": "DFI" },
@@ -54,7 +55,8 @@
     "getSettingsOptions": {
       "languages": [
         { "label": "containers.settings.english", "value": "en" },
-        { "label": "containers.settings.german", "value": "de" }
+        { "label": "containers.settings.german", "value": "de" },
+        { "label": "containers.settings.french", "value": "fr" }
       ],
       "amountUnits": [
         { "label": "DFI", "value": "DFI" },

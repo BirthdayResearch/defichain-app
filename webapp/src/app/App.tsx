@@ -13,10 +13,6 @@ import { Modal, ModalBody } from 'reactstrap';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 
-interface AppState {
-  prevDepth: number;
-}
-
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
   getRpcConfigsRequest: () => void;
