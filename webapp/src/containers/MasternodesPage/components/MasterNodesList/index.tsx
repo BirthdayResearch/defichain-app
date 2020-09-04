@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Table, CardBody } from 'reactstrap';
-import { connect } from 'react-redux';
 import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
-import { fetchMasternodesRequest } from '../../reducer';
 import { filterByValue } from '../../../../utils/utility';
 import {
   MASTER_NODES_PATH,
@@ -12,52 +10,49 @@ import {
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
-import { History } from 'history';
 import cloneDeep from 'lodash/cloneDeep';
 
 interface MasternodesListProps {
-  masternodes: MasterNodeObject[];
   searchQuery: string;
-  history: History;
-  fetchMasternodesRequest: () => void;
+  enabledMasternodes: MasterNodeObject[];
 }
 
 const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
   const defaultPage = 1;
-  const { masternodes, fetchMasternodesRequest, searchQuery } = props;
+  const { searchQuery, enabledMasternodes } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
-  useEffect(() => {
-    fetchMasternodesRequest();
-  }, []);
+
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
-  const total = masternodes.length;
+  const total = enabledMasternodes.length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
 
   function paginate(pageNumber, masternodeList?: MasterNodeObject[]) {
-    const clone = cloneDeep(masternodeList || masternodes);
+    const clone = cloneDeep(masternodeList || enabledMasternodes);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
+
     setCurrentPage(pageNumber);
     settableData(tableData);
   }
+
   useEffect(() => {
     if (!searchQuery) {
       paginate(currentPage);
     } else {
       const masternodeList: MasterNodeObject[] = filterByValue(
-        masternodes,
+        enabledMasternodes,
         searchQuery
       );
       paginate(defaultPage, masternodeList);
     }
-  }, [masternodes, searchQuery]);
+  }, [enabledMasternodes, searchQuery]);
 
   return (
     <>
@@ -110,19 +105,13 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
                         </Link>
                       </td>
                       <td>
-                        <div className={styles.pose}>
-                          {masternode.operatorAuthAddress}
-                        </div>
+                        <div>{masternode.operatorAuthAddress}</div>
                       </td>
                       <td>
-                        <div className={styles.registered}>
-                          {masternode.creationHeight}
-                        </div>
+                        <div>{masternode.creationHeight}</div>
                       </td>
                       <td>
-                        <div className={styles.lastPaid}>
-                          {masternode.mintedBlocks}
-                        </div>
+                        <div>{masternode.mintedBlocks}</div>
                       </td>
                     </tr>
                   ))}
@@ -152,23 +141,4 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    masternodes,
-    isMasternodesLoaded,
-    isLoadingMasternodes,
-    masternodesLoadError,
-  } = state.masterNodes;
-  return {
-    masternodes,
-    isMasternodesLoaded,
-    isLoadingMasternodes,
-    masternodesLoadError,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchMasternodesRequest,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MasternodesList);
+export default MasternodesList;

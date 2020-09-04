@@ -4,7 +4,7 @@ const initMenuIpcRenderers = () => {
   const { ipcRenderer } = window.require('electron');
   ipcRenderer.on(
     'menu-backup-wallet',
-    async (event: any, arg: { paths: string[] }) => {
+    async (event: any, arg: { paths: string }) => {
       const { paths } = arg;
       await backupWallet(paths);
     }

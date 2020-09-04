@@ -4,7 +4,6 @@ import mySaga, {
   fetchMasterNodes,
   createMasterNodes,
   masterNodeResign,
-  checkMasterNodeOwnerInfo,
   handleRestartNode,
   getConfigurationDetails,
 } from '../saga';
@@ -18,42 +17,40 @@ import {
   resignMasterNode,
   resignMasterNodeSuccess,
   resignMasterNodeFailure,
-  setMasterNodeOwnerSuccess,
-  setMasterNodeOwnerError,
   finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
 import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
 import { restartModal } from '../../ErrorModal/reducer';
-import q from '../../../worker/queue';
+import { shutDownBinary } from '../../../worker/queue';
 
 const errorObj = {
   message: 'error occurred',
 };
 
-describe('Console page saga unit test', () => {
+describe('Masternode page saga unit test', () => {
   const genObject = mySaga();
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call fetchMasternodesRequest', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(fetchMasternodesRequest.type, fetchMasterNodes)
     );
   });
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call createMasterNode', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(createMasterNode.type, createMasterNodes)
     );
   });
 
-  it('should wait for every fetchMasternodesRequest action and call fetchDataForQuery method', () => {
+  it('should wait for every fetchMasternodesRequest action and call resignMasterNode', () => {
     expect(genObject.next().value).toEqual(
       takeLatest(resignMasterNode.type, masterNodeResign)
     );
   });
 
-  describe('fetchDataForQuery method', () => {
+  describe('fetchMasternodesRequest', () => {
     let handelFetchMasterNodes;
     beforeEach(() => {
       handelFetchMasterNodes = jest.spyOn(service, 'handelFetchMasterNodes');
@@ -68,11 +65,6 @@ describe('Console page saga unit test', () => {
       );
       const dispatched = await dispatchedFunc(fetchMasterNodes);
       expect(handelFetchMasterNodes).toBeCalledTimes(1);
-      expect(dispatched).toEqual([
-        fetchMasternodesSuccess({
-          masternodes: testData.fetchMasternodesSuccess,
-        }),
-      ]);
     });
 
     it('should call api and dispatch success action when no data found', async () => {
@@ -162,42 +154,6 @@ describe('Console page saga unit test', () => {
     });
   });
 
-  describe('checkMasterNodeOwnerInfo method', () => {
-    let getAddressInfo;
-    const masterNodeOwner = 'TestMasterNodeOwner';
-    beforeEach(() => {
-      getAddressInfo = jest.spyOn(service, 'getAddressInfo');
-    });
-    afterEach(() => {
-      getAddressInfo.mockRestore();
-    });
-    afterAll(jest.clearAllMocks);
-    it('should call api and dispatch success action', async () => {
-      getAddressInfo.mockImplementation(() =>
-        Promise.resolve(testData.saga.getAddressInfo)
-      );
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([
-        setMasterNodeOwnerSuccess(
-          testData.saga.getAddressInfo.ismine &&
-            !testData.saga.getAddressInfo.iswatchonly
-        ),
-      ]);
-    });
-
-    it('should call api and dispatch failure action', async () => {
-      getAddressInfo.mockImplementation(() => Promise.reject(errorObj));
-      const dispatched = await dispatchedFunc(checkMasterNodeOwnerInfo, {
-        payload: { masterNodeOwner },
-      });
-      expect(getAddressInfo).toBeCalledTimes(1);
-      expect(dispatched).toEqual([setMasterNodeOwnerError(errorObj.message)]);
-    });
-  });
-
   describe('Restart node', () => {
     let genObject;
     let getAddressInfo;
@@ -231,17 +187,16 @@ describe('Console page saga unit test', () => {
       );
       const getAddressInfoService = genObject.next(setterObj).value;
       expect(getAddressInfoService).toEqual(
-        call(getAddressInfo, setterObj.createdMasterNodeData.masternodeOperator)
+        call(getAddressInfo, setterObj.createdMasterNodeData.masternodeOwner)
       );
       expect(genObject.next(setterObj).value).toEqual(
         call(getConfigurationDetails)
       );
       expect(genObject.next(setterObj).value).toEqual(put(restartModal()));
-      expect(genObject.next().value).toEqual(call(q.kill));
+      expect(genObject.next().value).toEqual(call(shutDownBinary));
       expect(genObject.next().value).toEqual(
         call(restartNode, { updatedConf: setterObj })
       );
-      expect(genObject.next().value).toEqual(delay(2000));
       expect(genObject.next().value).toEqual(
         put(finishRestartNodeWithMasterNode())
       );

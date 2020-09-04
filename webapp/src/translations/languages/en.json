@@ -3,9 +3,6 @@
     "keyValueLi": {
       "copied": "Copied!"
     },
-    "searchBar": {},
-    "spinner": {},
-    "statCard": {},
     "syncStatus": {
       "synchronized": "Synchronized",
       "syncing": "Synchronizing",
@@ -108,7 +105,8 @@
         "supply": "Supply",
         "lockedInCollateral": "Locked in collateral",
         "costPerMasterNode": "Cost per masternode",
-        "masternodeWorth": "Masternode worth"
+        "masternodeWorth": "Masternode worth",
+        "searchBar": "Search masternodes"
       },
       "masterNodesList": {
         "ownerAddress": "Owner Address",
@@ -128,9 +126,14 @@
         "yesButtonText": "Continue",
         "masternodeOperator": "Masternode Operator",
         "masternodeOwner": "Masternode Owner",
-        "backToMasternodePage": "Back to Masternode Page",
+        "backToMasternodePage": "Close",
         "restartNodeButton": "Restart node",
-        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node."
+        "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.",
+        "collaterAddress": "Collateral Address",
+        "masternodeOperatorNotOptional": "Operator Address",
+        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "noticeMasternodeOperator": "If masternode operator is different from owner",
+        "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Masternode Detail Page %{hash}",
@@ -152,6 +155,10 @@
         "yesButtonText": "Continue",
         "successText": "Success",
         "backToMasternodePage": "Back to Masternode Page"
+      },
+      "masternodeTab": {
+        "myMasternodes": "Mine",
+        "network": "Network"
       }
     },
     "settings": {
@@ -177,6 +184,7 @@
       "appLanguage": "App language",
       "english": "English",
       "german": "German",
+      "french": "French",
       "displayAmount": "Display amounts in unit",
       "dFI": "DFI",
       "fi": "fi",

@@ -8,7 +8,7 @@ const BN = BigNumber.clone({ DECIMAL_PLACES: 8 });
 export const construct = async ({ maximumAmount, maximumCount, feeRate }) => {
   const rpcClient = new RpcClient();
 
-  let unspent = await rpcClient.listUnspent(maximumAmount, maximumCount);
+  const unspent = await rpcClient.listUnspent(maximumAmount, maximumCount);
   const inputsTotal = unspent.length;
 
   if (unspent.length === 0) {
@@ -29,7 +29,7 @@ export const construct = async ({ maximumAmount, maximumCount, feeRate }) => {
   while (!success) {
     let res;
     const unspentSlice = unspent.slice(0, sliceTo);
-    const inputs = unspentSlice.map(u => ({
+    const inputs = unspentSlice.map((u) => ({
       txid: u.txid,
       vout: u.vout,
     }));
@@ -39,10 +39,7 @@ export const construct = async ({ maximumAmount, maximumCount, feeRate }) => {
     const outputs = [{ [address]: amount }];
 
     try {
-      const fR = new BN(feeRate)
-        .times(1024)
-        .div(1e8)
-        .toNumber();
+      const fR = new BN(feeRate).times(1024).div(1e8).toNumber();
       res = await rpcClient.walletCreateFundedPsbt(inputs, outputs, fR);
     } catch (e) {
       if (

@@ -5,7 +5,8 @@ import {
 } from 'react-redux-i18n';
 import enTranslationMessages from './languages/en.json';
 import deTranslationMessages from './languages/de.json';
-import { LANG_VARIABLE, ENGLISH, GERMAN } from '../constants';
+import frTranslationMessages from './languages/fr.json';
+import { LANG_VARIABLE, ENGLISH, GERMAN, FRENCH } from '../constants';
 import PersistentStore from '../utils/persistentStore';
 
 const formatTranslationMessages = (locale, messages) => {
@@ -19,9 +20,10 @@ const formatTranslationMessages = (locale, messages) => {
 const translationsObject = {
   [ENGLISH]: formatTranslationMessages(ENGLISH, enTranslationMessages),
   [GERMAN]: formatTranslationMessages(GERMAN, deTranslationMessages),
+  [FRENCH]: formatTranslationMessages(FRENCH, frTranslationMessages),
 };
 
-export const setupI18n = store => {
+export const setupI18n = (store) => {
   syncTranslationWithStore(store);
   store.dispatch(loadTranslations(translationsObject));
   const storageLang = PersistentStore.get(LANG_VARIABLE);
@@ -46,6 +48,8 @@ export const getLocales = (lang: string) => {
       return ENGLISH;
     case 'de':
       return GERMAN;
+    case 'fr':
+      return FRENCH;
     default:
       return ENGLISH;
   }

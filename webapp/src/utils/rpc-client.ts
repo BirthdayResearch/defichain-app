@@ -485,8 +485,9 @@ export default class RpcClient {
     tx: any = []
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.CREATE_MASTER_NODE, [
+      masternodeCreatorInfo.collateralAddress,
+      masternodeCreatorInfo.operatorAuthAddress,
       tx,
-      masternodeCreatorInfo,
     ]);
     return data.result;
   };
@@ -496,8 +497,8 @@ export default class RpcClient {
     tx: any = []
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.RESIGN_MASTER_NODE, [
-      tx,
       masternodeCreatorInfo,
+      tx,
     ]);
     return data.result;
   };
@@ -559,6 +560,11 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
+    return data.result;
+  };
+
+  stop = async () => {
+    const { data } = await this.call('/', methodNames.STOP, []);
     return data.result;
   };
 }
