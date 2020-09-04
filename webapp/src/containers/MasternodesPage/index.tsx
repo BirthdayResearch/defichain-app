@@ -68,7 +68,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<string>('otherMasterNodes');
+  const [activeTab, setActiveTab] = useState<string>('network');
   const [disableTab, setDisableTab] = useState<boolean>(true);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
