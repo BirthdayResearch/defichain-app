@@ -158,7 +158,7 @@
       },
       "masternodeTab": {
         "myMasternodes": "Mienne",
-        "otherMasterNodes": "Autre"
+        "network": "Réseau"
       }
     },
     "settings": {
