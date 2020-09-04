@@ -28,13 +28,13 @@ const MasternodeTabs = (props: MasternodeTabsProps) => {
         <NavItem>
           <NavLink
             className={classnames({
-              active: activeTab === 'otherMasterNodes',
+              active: activeTab === 'network',
             })}
             onClick={() => {
-              setActiveTab('otherMasterNodes');
+              setActiveTab('network');
             }}
           >
-            {I18n.t('containers.masterNodes.masternodeTab.otherMasterNodes')}
+            {I18n.t('containers.masterNodes.masternodeTab.network')}
           </NavLink>
         </NavItem>
       </Nav>
