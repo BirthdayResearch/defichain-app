@@ -115,7 +115,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
         <TabContent activeTab={activeTab}>
           <TabPane tabId={DAT_TOKEN}>
             <TokensList
-              tokens={tokens.filter((data) => data.type)}
+              tokens={tokens.filter((data) => data.isDAT)}
               history={history}
               searchQuery={searchQuery}
               handleCardClick={handleCardClick}
@@ -124,7 +124,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           </TabPane>
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
-              tokens={tokens.filter((data) => !data.type)}
+              tokens={tokens.filter((data) => !data.isDAT)}
               history={history}
               searchQuery={searchQuery}
               handleCardClick={handleCardClick}
