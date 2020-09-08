@@ -1,7 +1,12 @@
+import RpcClient from '../../utils/rpc-client';
+import isEmpty from 'lodash/isEmpty';
+
 import BitcoinIcon from '../../assets/svg/icon-coin-bitcoin-lapis.svg';
 import DeefIcon from '../../assets/svg/icon-coin-deef-lapis.svg';
 
 export const handleFetchToken = async (id: string) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.tokenInfo(id);
   // return dummy token data;
   return {
     name: 'Deef',
@@ -18,6 +23,17 @@ export const handleFetchToken = async (id: string) => {
 };
 
 export const handleFetchTokens = async () => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.listTokens();
+  if (isEmpty(tokens)) {
+    return [];
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData;
   // return dummy tokens data;
   return [
     {
@@ -177,7 +193,30 @@ export const handleTokenTransfers = async (id: string) => {
 };
 
 export const handleCreateTokens = async (tokenData) => {
+  const data = {
+    name: tokenData.name,
+    symbol: tokenData.symbol,
+    isDAT: tokenData.isDAT,
+    decimal: Number(tokenData.decimal),
+    limit: Number(tokenData.limit),
+    mintable: JSON.parse(tokenData.mintable),
+    tradeable: JSON.parse(tokenData.tradeable),
+    collateralAddress: tokenData.collateralAddress,
+  };
+  if (!tokenData.name) {
+    delete data.name;
+  }
+  const rpcClient = new RpcClient();
+  const hash = await rpcClient.createToken(data);
   return {
-    hash: 'a870a10234ea870a10234ea870a10234ea870a',
+    hash,
+  };
+};
+
+export const getReceivingAddressAndAmountList = async () => {
+  const rpcClient = new RpcClient();
+  const addressAndAmountList = await rpcClient.getReceivingAddressAndAmountList();
+  return {
+    addressAndAmountList,
   };
 };

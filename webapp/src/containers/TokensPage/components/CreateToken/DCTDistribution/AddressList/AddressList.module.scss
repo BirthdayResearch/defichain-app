@@ -9,11 +9,15 @@
   overflow: hidden;
 }
 
-// .tableResponsive {
-//   height: calc(100vh - 186px);
-//   min-height: 400px;
-//   overflow: auto;
-// }
+.tableResponsive {
+  height: calc(100vh - 300px);
+  min-height: 400px;
+  overflow: auto;
+}
+
+.marginTop {
+  margin-top: 15%;
+}
 
 .table {
   margin-bottom: 0;
