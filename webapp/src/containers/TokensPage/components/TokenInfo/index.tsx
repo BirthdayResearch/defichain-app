@@ -4,35 +4,12 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { MdArrowBack } from 'react-icons/md';
-import {
-  Button,
-  Row,
-  Col,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-} from 'reactstrap';
-
-import classnames from 'classnames';
+import { Button, Row, Col } from 'reactstrap';
 
 import KeyValueLi from '../../../../components/KeyValueLi';
-import TransfersList from './TransfersList';
 import DeefIcon from '../../../../assets/svg/icon-coin-deef-lapis.svg';
 import { fetchTokenInfo } from '../../reducer';
-import {
-  TOKENS_PATH,
-  TOKEN_TRANSFERS,
-  TOKEN_HOLDERS,
-  TOKEN_INFO,
-  TOKEN_EXCHANGE,
-  TOKEN_DEX,
-  TOKEN_READ_CONTRACT,
-  TOKEN_WRITE_CONTRACT,
-  TOKEN_ANALYSIS,
-  TOKEN_COMMENTS,
-} from '../../../../constants';
+import { TOKENS_PATH, TOKEN_TRANSFERS } from '../../../../constants';
 
 interface RouteParams {
   id?: string;
@@ -47,7 +24,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   props: TokenInfoProps
 ) => {
   const { id } = props.match.params;
-  const [activeTab, setActiveTab] = useState<string>(TOKEN_TRANSFERS);
+  // const [activeTab, setActiveTab] = useState<string>(TOKEN_TRANSFERS);
 
   const { tokenInfo } = props;
 
@@ -140,165 +117,12 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </Col>
           </Row>
         </section>
-        <section>
-          <Nav pills>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_TRANSFERS,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_TRANSFERS);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.transfers')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_HOLDERS,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_HOLDERS);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.holders')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_INFO,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_INFO);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.info')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_EXCHANGE,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_EXCHANGE);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.exchange')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_DEX,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_DEX);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.dex')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_READ_CONTRACT,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_READ_CONTRACT);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.readContract')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_WRITE_CONTRACT,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_WRITE_CONTRACT);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.writeContract')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_ANALYSIS,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_ANALYSIS);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.analysis')}
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === TOKEN_COMMENTS,
-                })}
-                onClick={() => {
-                  setActiveTab(TOKEN_COMMENTS);
-                }}
-              >
-                {I18n.t('containers.tokens.tokenInfo.comments')}
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </section>
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId={TOKEN_TRANSFERS}>
-            <section>
-              <TransfersList history={props.history} symbol={id} />
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_HOLDERS}>
-            <section>
-              <p>{TOKEN_HOLDERS}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_INFO}>
-            <section>
-              <p>{TOKEN_INFO}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_EXCHANGE}>
-            <section>
-              <p>{TOKEN_EXCHANGE}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_DEX}>
-            <section>
-              <p>{TOKEN_DEX}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_READ_CONTRACT}>
-            <section>
-              <p>{TOKEN_READ_CONTRACT}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_WRITE_CONTRACT}>
-            <section>
-              <p>{TOKEN_WRITE_CONTRACT}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_ANALYSIS}>
-            <section>
-              <p>{TOKEN_ANALYSIS}</p>
-            </section>
-          </TabPane>
-          <TabPane tabId={TOKEN_COMMENTS}>
-            <section>
-              <p>{TOKEN_COMMENTS}</p>
-            </section>
-          </TabPane>
-        </TabContent>
+        {/* <Tabs
+          activeTab={activeTab} i
+          d={id}
+          history={history}
+          setActiveTab={setActiveTab}
+        /> */}
       </div>
     </div>
   );
