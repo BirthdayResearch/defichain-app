@@ -39,15 +39,30 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                 <th>{I18n.t('containers.tokens.dctDistribution.address')}</th>
                 <th className='text-right'>
                   {!!csvData.length && (
-                    <MdDelete onClick={() => handleDeleteAll()} />
+                    <MdDelete
+                      onClick={() => handleDeleteAll()}
+                      style={{
+                        height: '20px',
+                        width: '20px',
+                      }}
+                    />
                   )}
                 </th>
               </tr>
             </thead>
             {newAddressFlag ? (
-              <tr className={styles.masternodeRow}>
+              <tr
+                className={styles.masternodeRow}
+                style={{
+                  borderBottom: '1px solid #cccccc',
+                }}
+              >
                 <td>
-                  <Input
+                  <input
+                    style={{
+                      border: 'none',
+                      width: '100%',
+                    }}
                     type='text'
                     placeholder={I18n.t(
                       'containers.tokens.dctDistribution.enterDfiAddress'
@@ -63,7 +78,13 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                   />
                 </td>
                 <td className='text-right'>
-                  <MdCropFree onClick={() => openScanner()} />
+                  <MdCropFree
+                    onClick={() => openScanner()}
+                    style={{
+                      height: '20px',
+                      width: '20px',
+                    }}
+                  />
                 </td>
               </tr>
             ) : (
@@ -75,21 +96,23 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                   <tr key={address} className={styles.masternodeRow}>
                     <td>{address}</td>
                     <td className='text-right'>
-                      <MdDelete onClick={() => handleDelete(address)} />
+                      <MdDelete
+                        onClick={() => handleDelete(address)}
+                        style={{
+                          height: '20px',
+                          width: '20px',
+                        }}
+                      />
                     </td>
                   </tr>
                 ))}
               </tbody>
             ) : (
-              <tbody className='justify-content-center text-center vertical-center'>
-                <tr>
-                  <td>
-                    {I18n.t(
-                      'containers.tokens.dctDistribution.addAddressesText'
-                    )}
-                  </td>
-                </tr>
-              </tbody>
+              <div className='h-100'>
+                <div className={`${styles.marginTop} text-center`}>
+                  {I18n.t('containers.tokens.dctDistribution.addAddressesText')}
+                </div>
+              </div>
             )}
           </Table>
         </div>
