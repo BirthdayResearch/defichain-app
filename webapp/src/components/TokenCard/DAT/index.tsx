@@ -7,13 +7,18 @@ import styles from '../TokenCard.module.scss';
 interface TokenCardProps {
   data: {
     name: string;
-    icon: any;
+    // icon: any;
     symbol: string;
-    type: string;
-    price: string;
-    volume: string;
-    marketCap: string;
-    holders: string;
+    // type: string;
+    // price: string;
+    // volume: string;
+    // marketCap: string;
+    // holders: string;
+    isDAT: boolean;
+    decimal: number;
+    limit: number;
+    mintable: boolean;
+    tradeable: boolean;
   };
   handleCardClick: any;
 }
@@ -33,11 +38,11 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           <Col>
             <b>{data.name}</b> {data.symbol}
           </Col>
-          {
+          {/* {
             <Col md='6' className={`${styles.tokenCardIcon}`}>
               <img src={data.icon} />
             </Col>
-          }
+          } */}
         </Row>
         <br />
         <Row>
@@ -48,51 +53,59 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.type}
+            {data.isDAT ? 'DAT' : ''}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.datLabels.price')}
+            {/* {I18n.t('containers.tokens.tokensPage.datLabels.price')} */}
+            {I18n.t('containers.tokens.tokensPage.datLabels.decimal')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.price}
+            {data.decimal}
+            {/* {data.price} */}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.datLabels.volume')}
+            {/* {I18n.t('containers.tokens.tokensPage.datLabels.volume')} */}
+            {I18n.t('containers.tokens.tokensPage.datLabels.limit')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.volume}
+            {/* {data.volume} */}
+            {data.limit}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.datLabels.marketCap')}
+            {/* {I18n.t('containers.tokens.tokensPage.datLabels.marketCap')} */}
+            {I18n.t('containers.tokens.tokensPage.datLabels.mintingSupport')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.marketCap}
+            {/* {data.marketCap} */}
+            {data.mintable.toString()}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.datLabels.holders')}
+            {/* {I18n.t('containers.tokens.tokensPage.datLabels.holders')} */}
+            {I18n.t('containers.tokens.tokensPage.datLabels.tradeable')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.holders}
+            {/* {data.holders} */}
+            {data.tradeable.toString()}
           </Col>
         </Row>
       </CardBody>

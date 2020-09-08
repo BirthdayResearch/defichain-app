@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import QrReader from 'react-qr-reader';
-import { MdFileUpload, MdAdd, MdGridOn, MdArrowBack } from 'react-icons/md';
+import { MdFileUpload, MdAdd, MdArrowBack } from 'react-icons/md';
 import classnames from 'classnames';
 import { Row, Col, ButtonGroup, Button, Modal, ModalBody } from 'reactstrap';
 
@@ -18,6 +18,8 @@ interface DCTDistributionProps {
   csvData: any;
   setCsvData: any;
   handleSubmit: () => void;
+  setIsVerifyingCollateralModalOpen: any;
+  IsVerifyingCollateralModalOpen: boolean;
 }
 
 const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
@@ -27,12 +29,15 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
   const [flashed, setFlashed] = React.useState<string>('');
   const [uploadCsv, setuploadCsv] = useState<boolean>(false);
   const [openScanner, setOpenScanner] = useState<boolean>(false);
-  const [
+
+  const {
+    handleActiveTab,
+    setCsvData,
+    csvData,
+    handleSubmit,
     IsVerifyingCollateralModalOpen,
     setIsVerifyingCollateralModalOpen,
-  ] = useState<boolean>(false);
-
-  const { handleActiveTab, setCsvData, csvData, handleSubmit } = props;
+  } = props;
 
   const handleOnDrop = (data, file) => {
     if (file.type !== 'text/csv') {
@@ -40,8 +45,13 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
       setuploadCsv(false);
     } else {
       const transformedData = data.map((address) => address.data[0]);
+      // if (transformedData.includes('')) {
+      //   alert('CSV is invalid');
+      //   setuploadCsv(false);
+      // } else {
       setCsvData(transformedData);
       setuploadCsv(false);
+      // }
     }
   };
 
@@ -158,8 +168,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
             centered={true}
             toggle={() => setuploadCsv(false)}
           >
-            <ModalBody>
-              <MdGridOn />
+            <ModalBody className='p-5'>
               <CsvReader
                 handleOnDrop={handleOnDrop}
                 handleOnError={handleOnError}
