@@ -21,6 +21,7 @@ import {
   STOP_BINARY_AND_QUEUE,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
+import ElectronLogger from './services/electronLogger';
 
 declare var process: {
   argv: any;
@@ -44,6 +45,7 @@ export default class App {
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
     autoUpdater.autoDownload = false;
+    autoUpdater.logger = ElectronLogger;
     /* For future purpose */
     initiateElectronUpdateManager(autoUpdater);
   }
