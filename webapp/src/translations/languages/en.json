@@ -176,14 +176,21 @@
           "price": "Price",
           "volume": "Volume (24H)",
           "marketCap": "Market Cap",
-          "holders": "Holders"
+          "holders": "Holders",
+          "decimal": "Decimal",
+          "limit": "Limit",
+          "mintingSupport": "Minting Support",
+          "tradeable": "Tradeable"
         },
         "dctLabels": {
           "id": "ID",
           "totalInitialSupply": "Total initial supply",
           "finalSupplyLimit": "Final supply limit",
           "mintingSupport": "Minting Support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "type": "Type",
+          "decimal": "Decimal",
+          "limit": "Limit"
         }
       },
       "createToken": {
@@ -193,16 +200,17 @@
         "cancel": "CANCEL",
         "continue": "CONTINUE",
         "title": "Create DCT (DeFi Custom Token)",
-        "nameLabel": "Name of token",
-        "tickerSymbol": "Ticker Symbol",
-        "divisibility": "Divisibility",
-        "divisibilityText": "Number of decimal places. Cannot be changed once set.",
-        "initialSupply": "Total initial supply",
+        "name": "Name of token",
+        "symbol": "Ticker Symbol",
+        "decimal": "Decimal",
+        "decimalText": "Number of decimal places. Cannot be changed once set.",
+        "limit": "Limit",
         "mintingSupport": "Minting support?",
         "optionalFinalSupplyLimit": "Final supply limit (optional)",
         "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
-        "tradable": "Trade-able?",
-        "dfiRequired": "DFI required"
+        "tradeable": "Trade-able?",
+        "dfiRequired": "DFI required",
+        "collateralAddress": "Collateral Address"
       },
       "tokenInfo": {
         "back": "BACK",
@@ -247,7 +255,8 @@
         "addAddressesText": "Add addresses to your initial distribution list.",
         "enterDfiAddress": "Enter DFI address",
         "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
-        "verifyingCollateral": "Verifying Collateral"
+        "verifyingCollateral": "Verifying Collateral",
+        "chooseFile": "Choose File"
       }
     },
     "settings": {
