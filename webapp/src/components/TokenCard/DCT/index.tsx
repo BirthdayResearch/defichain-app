@@ -7,13 +7,16 @@ import styles from '../TokenCard.module.scss';
 interface TokenCardProps {
   data: {
     name: string;
-    icon: any;
+    // icon: any;
     symbol: string;
-    id: string;
-    totalInitialSupply: string;
-    finalSupplyLimit: string;
-    mintingSupport: string;
+    // id: string;
+    // totalInitialSupply: string;
+    // finalSupplyLimit: string;
+    decimal: string;
+    limit: number;
+    mintable: string;
     tradeable: string;
+    isDAT: boolean;
   };
   handleCardClick: any;
 }
@@ -30,46 +33,52 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           <Col>
             <b>{data.name}</b> {data.symbol}
           </Col>
-          {
+          {/* {
             <Col md='6' className={`${styles.tokenCardIcon}`}>
               <img src={data.icon} />
             </Col>
-          }
+          } */}
         </Row>
         <br />
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.dctLabels.id')}
+            {/* {I18n.t('containers.tokens.tokensPage.dctLabels.id')} */}
+            {I18n.t('containers.tokens.tokensPage.dctLabels.type')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.id}
+            {/* {data.id} */}
+            {data.isDAT ? '' : 'DCT'}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t(
+            {/* {I18n.t(
               'containers.tokens.tokensPage.dctLabels.totalInitialSupply'
-            )}
+            )} */}
+            {I18n.t('containers.tokens.tokensPage.dctLabels.limit')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.totalInitialSupply}
+            {/* {data.totalInitialSupply} */}
+            {data.limit}
           </Col>
         </Row>
         <Row>
           <Col className={`${styles.label}`}>
-            {I18n.t('containers.tokens.tokensPage.dctLabels.finalSupplyLimit')}
+            {/* {I18n.t('conainers.tokens.tokensPage.dctLabels.finalSupplyLimit')} */}
+            {I18n.t('conainers.tokens.tokensPage.dctLabels.decimal')}
           </Col>
           <Col
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.finalSupplyLimit}
+            {/* {data.finalSupplyLimit} */}
+            {data.decimal}
           </Col>
         </Row>
         <Row>
@@ -80,7 +89,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.mintingSupport}
+            {data.mintable.toString()}
           </Col>
         </Row>
         <Row>
@@ -91,7 +100,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
             className={styles.unit}
             style={{ textAlign: 'end', lineHeight: '1.5rem' }}
           >
-            {data.tradeable}
+            {data.tradeable.toString()}
           </Col>
         </Row>
       </CardBody>
