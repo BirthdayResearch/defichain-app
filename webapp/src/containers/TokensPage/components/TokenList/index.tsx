@@ -52,11 +52,11 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
     <>
       <section>
         <Row>
-          {tableData.map((datToken, i) => (
+          {tableData.map((tokenData, i) => (
             <Col md='6' key={i}>
               <props.component
                 handleCardClick={handleCardClick}
-                data={datToken}
+                data={tokenData}
               />
             </Col>
           ))}

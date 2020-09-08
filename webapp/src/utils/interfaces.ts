@@ -63,3 +63,14 @@ export interface IMasternodeCreatorInfo {
   operatorAuthAddress: string;
   collateralAddress: string;
 }
+
+export interface ITokenCreatorInfo {
+  symbol: string;
+  name?: string;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  collateralAddress: string;
+}
