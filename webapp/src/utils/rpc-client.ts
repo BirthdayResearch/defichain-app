@@ -20,6 +20,7 @@ import {
   IParseTxn,
   IRawTxn,
   IMasternodeCreatorInfo,
+  ITokenCreatorInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -492,6 +493,17 @@ export default class RpcClient {
     return data.result;
   };
 
+  createToken = async (
+    tokenCreatorInfo: ITokenCreatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
+      tx,
+      tokenCreatorInfo,
+    ]);
+    return data.result;
+  };
+
   resignMasterNode = async (
     masternodeCreatorInfo: string,
     tx: any = []
@@ -503,8 +515,18 @@ export default class RpcClient {
     return data.result;
   };
 
+  tokenInfo = async (key: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+    return data.result;
+  };
+
   listMasterNodes = async (): Promise<string> => {
     const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    return data.result;
+  };
+
+  listTokens = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_TOKEN);
     return data.result;
   };
 
