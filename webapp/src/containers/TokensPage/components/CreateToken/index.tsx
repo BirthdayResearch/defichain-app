@@ -12,6 +12,7 @@ import {
   CREATE_DCT,
   DCT_DISTRIBUTION,
   TOKENS_PATH,
+  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 
 interface CreateTokenProps extends RouteComponentProps {
@@ -26,6 +27,9 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 ) => {
   const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
+  const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
+    boolean
+  >(true);
   const [formState, setFormState] = useState<any>({
     name: '',
     symbol: '',
@@ -80,11 +84,16 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     });
   };
 
-  const handleDropDowns = (data: any, field: any) => {
-    setFormState({
-      ...formState,
-      [field]: data,
-    });
+  const handleDropDowns = (data: any, field: any, amount: any) => {
+    if (amount < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
+      setIsCollateralAddressValid(false);
+    } else {
+      setFormState({
+        ...formState,
+        [field]: data,
+      });
+      setIsCollateralAddressValid(true);
+    }
   };
 
   const handleActiveTab = (active: string) => {
@@ -104,6 +113,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
               setIsVerifyingCollateralModalOpen
             }
             IsVerifyingCollateralModalOpen={IsVerifyingCollateralModalOpen}
+            IsCollateralAddressValid={IsCollateralAddressValid}
             handleSubmit={handleSubmit}
             handleDropDowns={handleDropDowns}
           />
