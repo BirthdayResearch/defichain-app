@@ -11,7 +11,6 @@ import { getReceivingAddressAndAmountList } from '../../service';
 import {
   CREATE_DCT,
   DCT_DISTRIBUTION,
-  TOKENS_PATH,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 
@@ -40,6 +39,11 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     tradeable: 'true',
     collateralAddress: '',
   });
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
+    string
+  >('default');
+  const [wait, setWait] = useState<number>(5);
+  const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [
     IsVerifyingCollateralModalOpen,
     setIsVerifyingCollateralModalOpen,
@@ -62,20 +66,32 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   }, []);
 
   useEffect(() => {
-    if (!isTokenCreating) {
+    if (allowCalls && !isTokenCreating) {
       if (!isErrorCreatingToken && !isEmpty(createdTokenData)) {
-        setIsVerifyingCollateralModalOpen(false);
+        setIsConfirmationModalOpen('success');
       }
       if (isErrorCreatingToken && isEmpty(createdTokenData)) {
-        setIsVerifyingCollateralModalOpen(false);
+        setIsConfirmationModalOpen('failure');
       }
     }
-  }, [createdTokenData, isTokenCreating, isErrorCreatingToken]);
+  }, [createdTokenData, isTokenCreating, isErrorCreatingToken, allowCalls]);
 
-  const handleSubmit = async () => {
-    const tokenData = { ...formState };
-    createToken(tokenData);
-  };
+  useEffect(() => {
+    let waitToSendInterval;
+    if (isConfirmationModalOpen === 'confirm') {
+      let counter = 5;
+      waitToSendInterval = setInterval(() => {
+        counter -= 1;
+        setWait(counter);
+        if (counter === 0) {
+          clearInterval(waitToSendInterval);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(waitToSendInterval);
+    };
+  }, [isConfirmationModalOpen]);
 
   const handleChange = (e) => {
     setFormState({
@@ -100,21 +116,39 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setActiveTab(active);
   };
 
+  const cancelConfirmation = () => {
+    setWait(5);
+    setIsConfirmationModalOpen('default');
+  };
+
+  const confirmation = () => {
+    setAllowCalls(true);
+    const tokenData = { ...formState };
+    createToken(tokenData);
+  };
+
+  const handleSubmit = async () => {
+    const tokenData = { ...formState };
+    createToken(tokenData);
+  };
+
   return (
     <TabContent activeTab={activeTab}>
       <TabPane tabId={CREATE_DCT}>
         <div className='main-wrapper position-relative'>
           <CreateDCT
-            handleActiveTab={handleActiveTab}
             handleChange={handleChange}
             formState={formState}
             collateralAddresses={collateralAddresses}
-            setIsVerifyingCollateralModalOpen={
-              setIsVerifyingCollateralModalOpen
-            }
-            IsVerifyingCollateralModalOpen={IsVerifyingCollateralModalOpen}
+            isErrorCreatingToken={isErrorCreatingToken}
+            createdTokenData={createdTokenData}
+            wait={wait}
+            setWait={setWait}
+            confirmation={confirmation}
+            cancelConfirmation={cancelConfirmation}
             IsCollateralAddressValid={IsCollateralAddressValid}
-            handleSubmit={handleSubmit}
+            isConfirmationModalOpen={isConfirmationModalOpen}
+            setIsConfirmationModalOpen={setIsConfirmationModalOpen}
             handleDropDowns={handleDropDowns}
           />
         </div>
