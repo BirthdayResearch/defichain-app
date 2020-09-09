@@ -210,7 +210,8 @@
         "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
         "tradeable": "Trade-able?",
         "dfiRequired": "DFI required",
-        "collateralAddress": "Collateral Address"
+        "collateralAddress": "Collateral Address",
+        "collateralAddressError": "Minimum 1000 DFI is required"
       },
       "tokenInfo": {
         "back": "BACK",
