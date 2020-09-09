@@ -21,7 +21,11 @@ import {
 
 import styles from './CreateDCT.module.scss';
 import Spinner from '../../../../../components/Svg/Spinner';
-import { TOKENS_PATH, DCT_DISTRIBUTION } from '../../../../../constants';
+import {
+  TOKENS_PATH,
+  DCT_DISTRIBUTION,
+  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
+} from '../../../../../constants';
 
 interface CreateDCTProps {
   handleActiveTab: (active: string) => void;
@@ -30,8 +34,9 @@ interface CreateDCTProps {
   collateralAddresses: any;
   setIsVerifyingCollateralModalOpen: any;
   IsVerifyingCollateralModalOpen: boolean;
+  IsCollateralAddressValid: boolean;
   handleSubmit: () => void;
-  handleDropDowns: (data: any, field: any) => void;
+  handleDropDowns: (data: any, field: any, amount: any) => void;
 }
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
@@ -44,6 +49,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     collateralAddresses,
     setIsVerifyingCollateralModalOpen,
     IsVerifyingCollateralModalOpen,
+    IsCollateralAddressValid,
     handleSubmit,
     handleDropDowns,
   } = props;
@@ -276,7 +282,8 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               <DropdownToggle
                 caret
                 color='outline-secondary'
-                className={styles.divisibilityDropdown}
+                className={`${styles.divisibilityDropdown}
+                ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
               >
                 {I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
@@ -288,7 +295,11 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                       key={data.address}
                       name='collateralAddress'
                       onClick={() =>
-                        handleDropDowns(data.address, 'collateralAddress')
+                        handleDropDowns(
+                          data.address,
+                          'collateralAddress',
+                          data.amount
+                        )
                       }
                       value={data.address}
                     >
@@ -302,6 +313,13 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 })}
               </DropdownMenu>
             </UncontrolledDropdown>
+            {!IsCollateralAddressValid ? (
+              <FormText className={`${styles.collateralFormText} mt-2`}>
+                {I18n.t('containers.tokens.createToken.collateralAddressError')}
+              </FormText>
+            ) : (
+              ''
+            )}
           </Form>
         </section>
       </div>
@@ -317,7 +335,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 {I18n.t('containers.tokens.createToken.dfiRequired')}
               </div>
               <div>
-                {'1,000'}
+                {MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION}
                 &nbsp;
                 {'DFI'}
               </div>
