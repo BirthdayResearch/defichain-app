@@ -6,7 +6,17 @@ import DeefIcon from '../../assets/svg/icon-coin-deef-lapis.svg';
 
 export const handleFetchToken = async (id: string) => {
   const rpcClient = new RpcClient();
-  return rpcClient.tokenInfo(id);
+  const tokens = await rpcClient.tokenInfo(id);
+  if (isEmpty(tokens)) {
+    return {};
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData[0];
+
   // return dummy token data;
   return {
     name: 'Deef',
