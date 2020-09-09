@@ -3,6 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
+import { getErrorMessage } from '../../utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -16,12 +17,16 @@ import {
   createToken,
   createTokenSuccess,
   createTokenFailure,
+  destroyToken,
+  destroyTokenFailure,
+  destroyTokenSuccess,
 } from './reducer';
 import {
   handleFetchTokens,
   handleFetchToken,
   handleTokenTransfers,
   handleCreateTokens,
+  handleDestroyToken,
 } from './service';
 
 export function* getConfigurationDetails() {
@@ -91,11 +96,28 @@ export function* createTokens(action) {
   }
 }
 
+export function* tokenDestroy(action) {
+  try {
+    const {
+      payload: { id },
+    } = action;
+    const data = yield call(handleDestroyToken, id);
+    yield put({ type: destroyTokenSuccess.type, payload: data });
+  } catch (e) {
+    yield put({
+      type: destroyTokenFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
   yield takeLatest(createToken.type, createTokens);
+  yield takeLatest(destroyToken.type, tokenDestroy);
 }
 
 export default mySaga;

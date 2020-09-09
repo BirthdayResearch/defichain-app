@@ -13,6 +13,9 @@ export const initialState = {
   isTokenCreating: false,
   createdTokenData: {},
   isErrorCreatingToken: '',
+  isTokenDestroying: false,
+  destroyTokenData: '',
+  isErrorDestroyingToken: '',
 };
 
 const configSlice = createSlice({
@@ -73,6 +76,21 @@ const configSlice = createSlice({
       state.createdTokenData = {};
       state.isErrorCreatingToken = action.payload;
     },
+    destroyToken(state, action) {
+      state.isTokenDestroying = true;
+      state.destroyTokenData = '';
+      state.isErrorDestroyingToken = '';
+    },
+    destroyTokenSuccess(state, action) {
+      state.isTokenDestroying = false;
+      state.destroyTokenData = action.payload;
+      state.isErrorDestroyingToken = '';
+    },
+    destroyTokenFailure(state, action) {
+      state.isTokenDestroying = false;
+      state.destroyTokenData = '';
+      state.isErrorDestroyingToken = action.payload;
+    },
   },
 });
 
@@ -91,6 +109,9 @@ export const {
   createToken,
   createTokenFailure,
   createTokenSuccess,
+  destroyToken,
+  destroyTokenFailure,
+  destroyTokenSuccess,
 } = actions;
 
 export default reducer;
