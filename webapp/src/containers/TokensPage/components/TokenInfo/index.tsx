@@ -7,7 +7,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { Button, Row, Col } from 'reactstrap';
 
 import KeyValueLi from '../../../../components/KeyValueLi';
-import DeefIcon from '../../../../assets/svg/icon-coin-deef-lapis.svg';
+// import DeefIcon from '../../../../assets/svg/icon-coin-deef-lapis.svg';
 import { fetchTokenInfo } from '../../reducer';
 import { TOKENS_PATH, TOKEN_TRANSFERS } from '../../../../constants';
 
@@ -54,56 +54,64 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
-            <Col md='6'>
-              <img src={DeefIcon} height={'64px'} width={'64px'} />
-            </Col>
+            {/* <Col md='6'> */}
+            {/* <img src={DeefIcon} height={'64px'} width={'64px'} /> */}
+            {/* </Col> */}
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.name')}
                 value={(tokenInfo.name || '').toString()}
               />
+            </Col>
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.symbol')}
                 value={(tokenInfo.symbol || '').toString()}
               />
             </Col>
-            <Col md='6'>
+            {/* <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.id')}
                 value={(tokenInfo.id || '').toString()}
               />
-            </Col>
+            </Col> */}
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.decimals')}
-                value={(tokenInfo.decimals || '').toString()}
+                value={(tokenInfo.decimal || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.type')}
-                value={(tokenInfo.type || '').toString()}
+                value={(tokenInfo.isDAT ? 'DAT' : 'DCT' || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t('containers.tokens.tokenInfo.holders')}
-                value={(tokenInfo.holders || '').toString()}
+                // label={I18n.t('containers.tokens.tokenInfo.holders')}
+                // value={(tokenInfo.holders || '').toString()}
+                label={I18n.t('containers.tokens.tokenInfo.limit')}
+                value={(tokenInfo.limit || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t('containers.tokens.tokenInfo.price')}
-                value={(tokenInfo.price || '').toString()}
+                // label={I18n.t('containers.tokens.tokenInfo.price')}
+                // value={(tokenInfo.price || '').toString()}
+                label={I18n.t('containers.tokens.tokenInfo.minitingSupport')}
+                value={(tokenInfo.mintable || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t('containers.tokens.tokenInfo.volume')}
-                value={(tokenInfo.volume || '').toString()}
+                // label={I18n.t('containers.tokens.tokenInfo.volume')}
+                // value={(tokenInfo.volume || '').toString()}
+                label={I18n.t('containers.tokens.tokenInfo.tradeable')}
+                value={(tokenInfo.tradeable || '').toString()}
               />
             </Col>
-            <Col md='6'>
+            {/* <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.marketCap')}
                 value={(tokenInfo.marketCap || '').toString()}
@@ -114,7 +122,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 label={I18n.t('containers.tokens.tokenInfo.officialSite')}
                 value={(tokenInfo.officialSite || '').toString()}
               />
-            </Col>
+            </Col> */}
           </Row>
         </section>
         {/* <Tabs
