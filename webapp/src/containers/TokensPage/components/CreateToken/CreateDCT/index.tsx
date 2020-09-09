@@ -3,7 +3,12 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCheck,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import {
   Row,
   Col,
@@ -20,38 +25,43 @@ import {
 } from 'reactstrap';
 
 import styles from './CreateDCT.module.scss';
-import Spinner from '../../../../../components/Svg/Spinner';
 import {
   TOKENS_PATH,
-  DCT_DISTRIBUTION,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../constants';
 
 interface CreateDCTProps {
-  handleActiveTab: (active: string) => void;
   handleChange: (e) => void;
   formState: any;
   collateralAddresses: any;
-  setIsVerifyingCollateralModalOpen: any;
-  IsVerifyingCollateralModalOpen: boolean;
   IsCollateralAddressValid: boolean;
-  handleSubmit: () => void;
+  isConfirmationModalOpen: string;
+  setIsConfirmationModalOpen: any;
+  createdTokenData: any;
+  wait: number;
+  setWait: any;
+  confirmation: () => void;
   handleDropDowns: (data: any, field: any, amount: any) => void;
+  cancelConfirmation: () => void;
+  isErrorCreatingToken: any;
 }
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   props: CreateDCTProps
 ) => {
   const {
-    handleActiveTab,
     handleChange,
     formState,
     collateralAddresses,
-    setIsVerifyingCollateralModalOpen,
-    IsVerifyingCollateralModalOpen,
     IsCollateralAddressValid,
-    handleSubmit,
     handleDropDowns,
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+    cancelConfirmation,
+    confirmation,
+    wait,
+    createdTokenData,
+    isErrorCreatingToken,
   } = props;
 
   return (
@@ -326,7 +336,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
       <footer className='footer-bar'>
         <div
           className={classnames({
-            'd-none': IsVerifyingCollateralModalOpen,
+            'd-none': isConfirmationModalOpen !== 'default',
           })}
         >
           <Row className='justify-content-between align-items-center'>
@@ -357,32 +367,96 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   formState.name.length > 128
                 }
                 onClick={() => {
-                  setIsVerifyingCollateralModalOpen(true);
-                  handleSubmit();
+                  setIsConfirmationModalOpen('confirm');
                 }}
                 color='primary'
               >
-                {I18n.t('containers.tokens.createToken.continue')}
+                {I18n.t('containers.tokens.createToken.createTokenButton')}
               </Button>
             </Col>
           </Row>
         </div>
         <div
           className={classnames({
-            'd-none': !IsVerifyingCollateralModalOpen,
+            'd-none': isConfirmationModalOpen !== 'confirm',
           })}
         >
           <div className='footer-sheet'>
             <dl className='row'>
               <dd className='col-12'>
-                <Spinner />
-                <span className='mb-0'>
-                  {I18n.t(
-                    'containers.tokens.dctDistribution.verifyingCollateral'
-                  )}
+                <span className='h2 mb-0'>
+                  {I18n.t('containers.tokens.createToken.confirmationText')}
                 </span>
               </dd>
             </dl>
+          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                color='link'
+                className='mr-3'
+                onClick={() => cancelConfirmation()}
+              >
+                {I18n.t('containers.masterNodes.createMasterNode.noButtonText')}
+              </Button>
+              <Button
+                color='primary'
+                onClick={() => confirmation()}
+                disabled={wait > 0 ? true : false}
+              >
+                {I18n.t(
+                  'containers.masterNodes.createMasterNode.yesButtonText'
+                )}
+                &nbsp;
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'success',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <p>{I18n.t('containers.tokens.createToken.tokenSuccess')}</p>
+              <MdCheckCircle className='footer-sheet-icon' />
+              <p>
+                {`${I18n.t('containers.tokens.createToken.tokenHash')}: ${
+                  createdTokenData.hash
+                }`}
+              </p>
+            </div>
+          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
+                {I18n.t('containers.tokens.createToken.backToTokenPage')}
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'failure',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdErrorOutline
+                className={classnames({
+                  'footer-sheet-icon': true,
+                  [styles[`error-dailog`]]: true,
+                })}
+              />
+              <p>{isErrorCreatingToken}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
+              {I18n.t('containers.tokens.createToken.backToTokenPage')}
+            </Button>
           </div>
         </div>
       </footer>
