@@ -3,8 +3,16 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { MdArrowBack } from 'react-icons/md';
-import { Button, Row, Col } from 'reactstrap';
+import { MdArrowBack, MdMoreHoriz } from 'react-icons/md';
+import {
+  Button,
+  Row,
+  Col,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 
 import KeyValueLi from '../../../../components/KeyValueLi';
 // import DeefIcon from '../../../../assets/svg/icon-coin-deef-lapis.svg';
@@ -28,6 +36,8 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
 
   const { tokenInfo } = props;
 
+  const tokenInfoMenu = [{ label: 'Delete token', value: 'delete' }];
+
   useEffect(() => {
     props.fetchToken(id);
   }, []);
@@ -50,6 +60,25 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </span>
         </Button>
         <h1>{tokenInfo.name}</h1>
+        <UncontrolledDropdown>
+          <DropdownToggle color='link' size='sm'>
+            <MdMoreHoriz />
+          </DropdownToggle>
+          <DropdownMenu>
+            {tokenInfoMenu.map((data) => {
+              return (
+                <DropdownItem
+                  className='d-flex justify-content-between'
+                  key={data.value}
+                  name='collateralAddress'
+                  value={data.value}
+                >
+                  <span>{I18n.t(data.label)}</span>
+                </DropdownItem>
+              );
+            })}
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </header>
       <div className='content'>
         <section className='mb-5'>
