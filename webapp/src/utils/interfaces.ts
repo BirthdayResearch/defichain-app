@@ -74,3 +74,14 @@ export interface ITokenCreatorInfo {
   tradeable?: boolean;
   collateralAddress: string;
 }
+
+export interface ITokenUpdatorInfo {
+  symbol: string;
+  name?: string;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  collateralAddress?: string;
+}
