@@ -241,7 +241,12 @@
         "readContract": "Read Contract",
         "writeContract": "Write Contract",
         "analysis": "Analysis",
-        "comments": "Comments"
+        "comments": "Comments",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "successText": "Success",
+        "backToTokenPage": "Back to Token Page",
+        "confirmation": "Are you sure you want to destroy a token?"
       },
       "transfersList": {
         "txnHash": "Txn Hash",
