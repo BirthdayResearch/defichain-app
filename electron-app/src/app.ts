@@ -47,7 +47,6 @@ export default class App {
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
     /* For future purpose */
-    initiateElectronUpdateManager(autoUpdater);
   }
 
   run() {
@@ -63,12 +62,13 @@ export default class App {
     this.createWindow();
     this.createMenu();
     // initiate ipcMain events
-    initiateIpcEvents();
+    initiateIpcEvents(autoUpdater);
 
     /* For future purpose */
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
+    initiateElectronUpdateManager(autoUpdater, this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {

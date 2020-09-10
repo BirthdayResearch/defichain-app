@@ -331,6 +331,10 @@
     "restartNode": "Restarting Node",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
-    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet."
+    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
+    "updateAppNoticeline1": "You need to restart app to see the new update.",
+    "updateAppNoticeline2": "Do you want to restart?",
+    "yesUpdateAppNotice": "Yes, Restart",
+    "noUpdateAppNotice": "No"
   }
 }
