@@ -44,12 +44,14 @@ interface CreateDCTProps {
   handleDropDowns: (data: any, field: any, amount: any) => void;
   cancelConfirmation: () => void;
   isErrorCreatingToken: any;
+  isUpdate: boolean;
 }
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   props: CreateDCTProps
 ) => {
   const {
+    isUpdate,
     handleChange,
     formState,
     collateralAddresses,
@@ -82,7 +84,9 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
           </span>
         </Button>
         <h1 className={classnames({ 'd-none': false })}>
-          {I18n.t('containers.tokens.createToken.title')}
+          {isUpdate
+            ? I18n.t('containers.tokens.createToken.updateTitle')
+            : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
       </header>
       <div className='content'>
@@ -114,6 +118,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 required
                 valid={formState.symbol.length > 0}
                 invalid={formState.symbol.length > 8}
+                disabled={isUpdate}
               />
               <Label for='message'>
                 {I18n.t('containers.tokens.createToken.symbol')}
@@ -294,6 +299,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 color='outline-secondary'
                 className={`${styles.divisibilityDropdown}
                 ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
+                disabled={isUpdate}
               >
                 {I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
@@ -359,20 +365,36 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               >
                 {I18n.t('containers.tokens.createToken.cancel')}
               </Button>
-              <Button
-                disabled={
-                  !formState.symbol ||
-                  !formState.collateralAddress ||
-                  formState.symbol.length > 8 ||
-                  formState.name.length > 128
-                }
-                onClick={() => {
-                  setIsConfirmationModalOpen('confirm');
-                }}
-                color='primary'
-              >
-                {I18n.t('containers.tokens.createToken.createTokenButton')}
-              </Button>
+              {isUpdate ? (
+                <Button
+                  disabled={
+                    !formState.symbol ||
+                    formState.symbol.length > 8 ||
+                    formState.name.length > 128
+                  }
+                  onClick={() => {
+                    setIsConfirmationModalOpen('confirm');
+                  }}
+                  color='primary'
+                >
+                  {I18n.t('containers.tokens.createToken.updateTokenButton')}
+                </Button>
+              ) : (
+                <Button
+                  disabled={
+                    !formState.symbol ||
+                    !formState.collateralAddress ||
+                    formState.symbol.length > 8 ||
+                    formState.name.length > 128
+                  }
+                  onClick={() => {
+                    setIsConfirmationModalOpen('confirm');
+                  }}
+                  color='primary'
+                >
+                  {I18n.t('containers.tokens.createToken.createTokenButton')}
+                </Button>
+              )}
             </Col>
           </Row>
         </div>
@@ -385,7 +407,13 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             <dl className='row'>
               <dd className='col-12'>
                 <span className='h2 mb-0'>
-                  {I18n.t('containers.tokens.createToken.confirmationText')}
+                  {isUpdate
+                    ? I18n.t(
+                        'containers.tokens.createToken.updateConfirmationText'
+                      )
+                    : I18n.t(
+                        'containers.tokens.createToken.createConfirmationText'
+                      )}
                 </span>
               </dd>
             </dl>
@@ -420,11 +448,15 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
         >
           <div className='footer-sheet'>
             <div className='text-center'>
-              <p>{I18n.t('containers.tokens.createToken.tokenSuccess')}</p>
+              <p>
+                {isUpdate
+                  ? I18n.t('containers.tokens.createToken.updateTokenSuccess')
+                  : I18n.t('containers.tokens.createToken.createTokenSuccess')}
+              </p>
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t('containers.tokens.createToken.tokenHash')}: ${
-                  createdTokenData.hash
+                  isUpdate ? createdTokenData.hash : createdTokenData.hash
                 }`}
               </p>
             </div>
