@@ -38,6 +38,7 @@ import {
   TOKENS_PATH,
   CREATE_TOKENS_PATH,
   TOKENS_INFO_PATH,
+  EDIT_TOKENS_PATH,
 } from '../constants';
 
 const routes = (location) => (
@@ -67,6 +68,7 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
     <Route exact path={TOKENS_PATH} component={TokensPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
+    <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
     <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />
     <Route exact path={BLOCKCHAIN_BLOCK_PARAM_PATH} component={BlockPage} />
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />

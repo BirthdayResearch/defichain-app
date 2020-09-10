@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import DCTDistribution from './DCTDistribution';
 import CreateDCT from './CreateDCT';
-import { createToken } from '../../reducer';
+import { createToken, fetchTokenInfo } from '../../reducer';
 import { getReceivingAddressAndAmountList } from '../../service';
 import {
   CREATE_DCT,
@@ -14,7 +14,13 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 
-interface CreateTokenProps extends RouteComponentProps {
+interface RouteParams {
+  id?: string;
+}
+
+interface CreateTokenProps extends RouteComponentProps<RouteParams> {
+  tokenInfo: any;
+  fetchToken: (id: string | undefined) => void;
   createToken: (tokenData) => void;
   createdTokenData: any;
   isTokenCreating: boolean;
@@ -24,6 +30,8 @@ interface CreateTokenProps extends RouteComponentProps {
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   props: CreateTokenProps
 ) => {
+  const { id } = props.match.params;
+
   const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
   const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
@@ -49,6 +57,27 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setIsVerifyingCollateralModalOpen,
   ] = useState<boolean>(false);
   const [csvData, setCsvData] = React.useState<any>([]);
+
+  const { fetchToken, tokenInfo } = props;
+
+  useEffect(() => {
+    fetchToken(id);
+  }, []);
+
+  useEffect(() => {
+    if (!isEmpty(tokenInfo)) {
+      const data = {
+        name: tokenInfo.name,
+        symbol: tokenInfo.symbol,
+        isDAT: tokenInfo.isDAT,
+        decimal: tokenInfo.decimal.toString(),
+        limit: tokenInfo.limit.toString(),
+        mintable: tokenInfo.mintable.toString(),
+        tradeable: tokenInfo.tradeable.toString(),
+      };
+      setFormState(data);
+    }
+  }, [tokenInfo]);
 
   const {
     createToken,
@@ -137,6 +166,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       <TabPane tabId={CREATE_DCT}>
         <div className='main-wrapper position-relative'>
           <CreateDCT
+            isUpdate={!isEmpty(tokenInfo)}
             handleChange={handleChange}
             formState={formState}
             collateralAddresses={collateralAddresses}
@@ -174,6 +204,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 const mapStateToProps = (state) => {
   const { tokens } = state;
   return {
+    tokenInfo: tokens.tokenInfo,
     isTokenCreating: tokens.isTokenCreating,
     createdTokenData: tokens.createdTokenData,
     isErrorCreatingToken: tokens.isErrorCreatingToken,
@@ -181,6 +212,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  fetchToken: (id) => fetchTokenInfo({ id }),
   createToken: (tokenData) => createToken({ tokenData }),
 };
 
