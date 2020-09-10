@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import DCTDistribution from './DCTDistribution';
 import CreateDCT from './CreateDCT';
-import { createToken, fetchTokenInfo } from '../../reducer';
+import { createToken, fetchTokenInfo, updateToken } from '../../reducer';
 import { getReceivingAddressAndAmountList } from '../../service';
 import {
   CREATE_DCT,
@@ -22,16 +22,19 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   tokenInfo: any;
   fetchToken: (id: string | undefined) => void;
   createToken: (tokenData) => void;
+  updateToken: (tokenData) => void;
   createdTokenData: any;
+  updatedTokenData: any;
+  isTokenUpdating: boolean;
+  isErrorUpdatingToken: string;
   isTokenCreating: boolean;
-  isErrorCreatingToken: boolean;
+  isErrorCreatingToken: string;
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   props: CreateTokenProps
 ) => {
   const { id } = props.match.params;
-
   const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
   const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
@@ -65,7 +68,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   }, []);
 
   useEffect(() => {
-    if (!isEmpty(tokenInfo)) {
+    if (!isEmpty(tokenInfo) && id) {
       const data = {
         name: tokenInfo.name,
         symbol: tokenInfo.symbol,
@@ -81,9 +84,13 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 
   const {
     createToken,
+    updateToken,
+    updatedTokenData,
     createdTokenData,
     isTokenCreating,
     isErrorCreatingToken,
+    isTokenUpdating,
+    isErrorUpdatingToken,
   } = props;
 
   useEffect(() => {
@@ -104,6 +111,17 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       }
     }
   }, [createdTokenData, isTokenCreating, isErrorCreatingToken, allowCalls]);
+
+  useEffect(() => {
+    if (allowCalls && !isTokenUpdating) {
+      if (!isErrorUpdatingToken && !isEmpty(updatedTokenData)) {
+        setIsConfirmationModalOpen('success');
+      }
+      if (isErrorUpdatingToken && isEmpty(updatedTokenData)) {
+        setIsConfirmationModalOpen('failure');
+      }
+    }
+  }, [updatedTokenData, isTokenUpdating, isErrorUpdatingToken, allowCalls]);
 
   useEffect(() => {
     let waitToSendInterval;
@@ -150,10 +168,16 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setIsConfirmationModalOpen('default');
   };
 
-  const confirmation = () => {
+  const createConfirmation = () => {
     setAllowCalls(true);
     const tokenData = { ...formState };
     createToken(tokenData);
+  };
+
+  const updateConfirmation = () => {
+    setAllowCalls(true);
+    const tokenData = { ...formState };
+    updateToken(tokenData);
   };
 
   const handleSubmit = async () => {
@@ -166,15 +190,18 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       <TabPane tabId={CREATE_DCT}>
         <div className='main-wrapper position-relative'>
           <CreateDCT
-            isUpdate={!isEmpty(tokenInfo)}
+            isUpdate={!isEmpty(tokenInfo) && !!id}
             handleChange={handleChange}
             formState={formState}
             collateralAddresses={collateralAddresses}
             isErrorCreatingToken={isErrorCreatingToken}
             createdTokenData={createdTokenData}
+            updatedTokenData={updatedTokenData}
+            isErrorUpdatingToken={isErrorUpdatingToken}
             wait={wait}
             setWait={setWait}
-            confirmation={confirmation}
+            createConfirmation={createConfirmation}
+            updateConfirmation={updateConfirmation}
             cancelConfirmation={cancelConfirmation}
             IsCollateralAddressValid={IsCollateralAddressValid}
             isConfirmationModalOpen={isConfirmationModalOpen}
@@ -208,12 +235,16 @@ const mapStateToProps = (state) => {
     isTokenCreating: tokens.isTokenCreating,
     createdTokenData: tokens.createdTokenData,
     isErrorCreatingToken: tokens.isErrorCreatingToken,
+    isTokenUpdating: tokens.isTokenUpdating,
+    updatedTokenData: tokens.updatedTokenData,
+    isErrorUpdatingToken: tokens.isErrorUpdatingToken,
   };
 };
 
 const mapDispatchToProps = {
   fetchToken: (id) => fetchTokenInfo({ id }),
   createToken: (tokenData) => createToken({ tokenData }),
+  updateToken: (tokenData) => updateToken({ tokenData }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateToken);
