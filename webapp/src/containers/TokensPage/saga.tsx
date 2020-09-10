@@ -20,6 +20,9 @@ import {
   destroyToken,
   destroyTokenFailure,
   destroyTokenSuccess,
+  updateToken,
+  updateTokenSuccess,
+  updateTokenFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -27,6 +30,7 @@ import {
   handleTokenTransfers,
   handleCreateTokens,
   handleDestroyToken,
+  handleUpdateTokens,
 } from './service';
 
 export function* getConfigurationDetails() {
@@ -96,6 +100,19 @@ export function* createTokens(action) {
   }
 }
 
+export function* updateTokens(action) {
+  try {
+    const {
+      payload: { tokenData },
+    } = action;
+    const data = yield call(handleUpdateTokens, tokenData);
+    yield put({ type: updateTokenSuccess.type, payload: { ...data } });
+  } catch (e) {
+    yield put({ type: updateTokenFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 export function* tokenDestroy(action) {
   try {
     const {
@@ -118,6 +135,7 @@ function* mySaga() {
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
   yield takeLatest(createToken.type, createTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
+  yield takeLatest(updateToken.type, updateTokens);
 }
 
 export default mySaga;

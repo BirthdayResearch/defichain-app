@@ -21,6 +21,7 @@ import {
   IRawTxn,
   IMasternodeCreatorInfo,
   ITokenCreatorInfo,
+  ITokenUpdatorInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -481,6 +482,7 @@ export default class RpcClient {
       );
     }
   };
+
   createMasterNode = async (
     masternodeCreatorInfo: IMasternodeCreatorInfo,
     tx: any = []
@@ -500,6 +502,17 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
       tx,
       tokenCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  updateToken = async (
+    tokenUpdatorInfo: ITokenUpdatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.UPDATE_TOKEN, [
+      tx,
+      tokenUpdatorInfo,
     ]);
     return data.result;
   };
