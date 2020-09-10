@@ -3,7 +3,13 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { MdArrowBack, MdMoreHoriz } from 'react-icons/md';
+import classnames from 'classnames';
+import {
+  MdArrowBack,
+  MdMoreHoriz,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import {
   Button,
   Row,
@@ -14,10 +20,10 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+import styles from '../../token.module.scss';
 import KeyValueLi from '../../../../components/KeyValueLi';
-// import DeefIcon from '../../../../assets/svg/icon-coin-deef-lapis.svg';
-import { fetchTokenInfo } from '../../reducer';
-import { TOKENS_PATH, TOKEN_TRANSFERS } from '../../../../constants';
+import { fetchTokenInfo, destroyToken } from '../../reducer';
+import { TOKENS_PATH } from '../../../../constants';
 
 interface RouteParams {
   id?: string;
@@ -26,21 +32,70 @@ interface RouteParams {
 interface TokenInfoProps extends RouteComponentProps<RouteParams> {
   tokenInfo: any;
   fetchToken: (id: string | undefined) => void;
+  destroyToken: (id) => void;
+  destroyTokenData: any;
+  isErrorDestroyingToken: string;
+  isTokenDestroying: boolean;
 }
 
 const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   props: TokenInfoProps
 ) => {
   const { id } = props.match.params;
-  // const [activeTab, setActiveTab] = useState<string>(TOKEN_TRANSFERS);
-
-  const { tokenInfo } = props;
 
   const tokenInfoMenu = [{ label: 'Delete token', value: 'delete' }];
+
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
+    string
+  >('default');
+  const [allowCalls, setAllowCalls] = useState(false);
+  const [wait, setWait] = useState<number>(5);
+
+  const {
+    tokenInfo,
+    destroyToken,
+    destroyTokenData,
+    isErrorDestroyingToken,
+    isTokenDestroying,
+  } = props;
+
+  useEffect(() => {
+    if (allowCalls) {
+      if (destroyTokenData && !isTokenDestroying && !isErrorDestroyingToken) {
+        setIsConfirmationModalOpen('success');
+      }
+      if (!destroyTokenData && !isTokenDestroying && isErrorDestroyingToken) {
+        setIsConfirmationModalOpen('failure');
+      }
+    }
+  }, [isTokenDestroying, destroyTokenData, isErrorDestroyingToken, allowCalls]);
+
+  useEffect(() => {
+    let waitToSendInterval;
+    if (isConfirmationModalOpen === 'confirm') {
+      let counter = 5;
+      waitToSendInterval = setInterval(() => {
+        counter -= 1;
+        setWait(counter);
+        if (counter === 0) {
+          clearInterval(waitToSendInterval);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(waitToSendInterval);
+    };
+  }, [isConfirmationModalOpen]);
 
   useEffect(() => {
     props.fetchToken(id);
   }, []);
+
+  const handleDropDowns = (data: string) => {
+    if (data === 'delete') {
+      setIsConfirmationModalOpen('confirm');
+    }
+  };
 
   return (
     <div className='main-wrapper'>
@@ -72,6 +127,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                   key={data.value}
                   name='collateralAddress'
                   value={data.value}
+                  onClick={() => handleDropDowns(data.value)}
                 >
                   <span>{I18n.t(data.label)}</span>
                 </DropdownItem>
@@ -161,20 +217,109 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           setActiveTab={setActiveTab}
         /> */}
       </div>
+      <footer className='footer-bar'>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'confirm',
+          })}
+        >
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dd className='col-12'>
+                <span className='h2 mb-0'>
+                  {I18n.t('containers.tokens.tokenInfo.confirmation')}
+                </span>
+              </dd>
+            </dl>
+          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                color='link'
+                className='mr-3'
+                onClick={() => setIsConfirmationModalOpen('default')}
+              >
+                {I18n.t('containers.tokens.tokenInfo.noButtonText')}
+              </Button>
+              <Button
+                color='primary'
+                onClick={() => {
+                  setAllowCalls(true);
+                  destroyToken(id);
+                }}
+                disabled={wait > 0 ? true : false}
+              >
+                {I18n.t('containers.tokens.tokenInfo.yesButtonText')}
+                &nbsp;
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'success',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
+              <p>{`${I18n.t('containers.tokens.tokenInfo.successText')}`}</p>
+              <p>{destroyTokenData}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
+              {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
+            </Button>
+          </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'failure',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdErrorOutline
+                className={classnames({
+                  'footer-sheet-icon': true,
+                  [styles[`error-dailog`]]: true,
+                })}
+              />
+              <p>{isErrorDestroyingToken}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
+              {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
+            </Button>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   const { tokens } = state;
-  const { tokenInfo } = tokens;
+  const {
+    tokenInfo,
+    isTokenDestroying,
+    destroyTokenData,
+    isErrorDestroyingToken,
+  } = tokens;
   return {
     tokenInfo,
+    isTokenDestroying,
+    destroyTokenData,
+    isErrorDestroyingToken,
   };
 };
 
 const mapDispatchToProps = {
   fetchToken: (id) => fetchTokenInfo({ id }),
+  destroyToken: (id: string) => destroyToken({ id }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TokenInfo);
