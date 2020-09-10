@@ -38,12 +38,15 @@ interface CreateDCTProps {
   isConfirmationModalOpen: string;
   setIsConfirmationModalOpen: any;
   createdTokenData: any;
+  updatedTokenData: any;
   wait: number;
   setWait: any;
-  confirmation: () => void;
+  createConfirmation: () => void;
+  updateConfirmation: () => void;
   handleDropDowns: (data: any, field: any, amount: any) => void;
   cancelConfirmation: () => void;
-  isErrorCreatingToken: any;
+  isErrorCreatingToken: string;
+  isErrorUpdatingToken: string;
   isUpdate: boolean;
 }
 
@@ -60,10 +63,13 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     isConfirmationModalOpen,
     setIsConfirmationModalOpen,
     cancelConfirmation,
-    confirmation,
+    createConfirmation,
+    updateConfirmation,
     wait,
     createdTokenData,
     isErrorCreatingToken,
+    updatedTokenData,
+    isErrorUpdatingToken,
   } = props;
 
   return (
@@ -429,7 +435,9 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               </Button>
               <Button
                 color='primary'
-                onClick={() => confirmation()}
+                onClick={() => {
+                  isUpdate ? updateConfirmation() : createConfirmation();
+                }}
                 disabled={wait > 0 ? true : false}
               >
                 {I18n.t(
@@ -456,7 +464,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t('containers.tokens.createToken.tokenHash')}: ${
-                  isUpdate ? createdTokenData.hash : createdTokenData.hash
+                  isUpdate ? updatedTokenData.hash : createdTokenData.hash
                 }`}
               </p>
             </div>
@@ -482,7 +490,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   [styles[`error-dailog`]]: true,
                 })}
               />
-              <p>{isErrorCreatingToken}</p>
+              <p>{isUpdate ? isErrorUpdatingToken : isErrorCreatingToken}</p>
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
