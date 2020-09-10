@@ -19,6 +19,7 @@ export const FINALIZE_PSBT = 'finalizepsbt';
 export const DECODE_RAW_TRANSACTION = 'decoderawtransaction';
 export const CREATE_MASTER_NODE = 'createmasternode';
 export const CREATE_TOKEN = 'createtoken';
+export const UPDATE_TOKEN = 'updatetoken';
 export const LIST_MASTER_NODE = 'listmasternodes';
 export const LIST_TOKEN = 'listtokens';
 export const DESTROY_TOKEN = 'destroytoken';
