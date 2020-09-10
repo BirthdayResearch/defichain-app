@@ -23,7 +23,7 @@ import {
 import styles from '../../token.module.scss';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { fetchTokenInfo, destroyToken } from '../../reducer';
-import { TOKENS_PATH } from '../../../../constants';
+import { TOKENS_PATH, TOKEN_EDIT_PATH } from '../../../../constants';
 
 interface RouteParams {
   id?: string;
@@ -43,7 +43,16 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
 ) => {
   const { id } = props.match.params;
 
-  const tokenInfoMenu = [{ label: 'Delete token', value: 'delete' }];
+  const tokenInfoMenu = [
+    {
+      label: I18n.t('containers.tokens.tokenInfo.deleteToken'),
+      value: 'delete',
+    },
+    {
+      label: I18n.t('containers.tokens.tokenInfo.editToken'),
+      value: 'edit',
+    },
+  ];
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
     string
@@ -57,6 +66,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     destroyTokenData,
     isErrorDestroyingToken,
     isTokenDestroying,
+    history,
   } = props;
 
   useEffect(() => {
@@ -94,6 +104,8 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   const handleDropDowns = (data: string) => {
     if (data === 'delete') {
       setIsConfirmationModalOpen('confirm');
+    } else {
+      history.push(`${TOKEN_EDIT_PATH}/${id}`);
     }
   };
 

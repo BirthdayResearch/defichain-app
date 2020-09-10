@@ -199,7 +199,8 @@
         "no": "No",
         "cancel": "CANCEL",
         "continue": "CONTINUE",
-        "title": "Create DCT (DeFi Custom Token)",
+        "createTitle": "Create DCT (DeFi Custom Token)",
+        "updateTitle": "Update DCT (DeFi Custom Token)",
         "name": "Name of token",
         "symbol": "Ticker Symbol",
         "decimal": "Decimal",
@@ -213,10 +214,13 @@
         "collateralAddress": "Collateral Address",
         "collateralAddressError": "Minimum 1000 DFI is required",
         "createTokenButton": "CREATE TOKEN",
-        "confirmationText": "Are you sure you want to create a token?",
-        "tokenSuccess": "Token is Created Successfully",
+        "createConfirmationText": "Are you sure you want to create a token?",
+        "updateConfirmationText": "Are you sure you want to update a token?",
+        "createTokenSuccess": "Token is Created Successfully",
+        "updateTokenSuccess": "Token is Updated Successfully",
         "tokenHash": "Token Hash",
-        "backToTokenPage": "Back To Token Page"
+        "backToTokenPage": "Back To Token Page",
+        "updateTokenButton": "UPDATE TOKEN"
       },
       "tokenInfo": {
         "back": "BACK",
@@ -246,7 +250,9 @@
         "yesButtonText": "Continue",
         "successText": "Success",
         "backToTokenPage": "Back to Token Page",
-        "confirmation": "Are you sure you want to destroy a token?"
+        "confirmation": "Are you sure you want to destroy a token?",
+        "deleteToken": "Delete Token",
+        "editToken": "Edit Token"
       },
       "transfersList": {
         "txnHash": "Txn Hash",
