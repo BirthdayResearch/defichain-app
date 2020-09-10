@@ -13,6 +13,9 @@ export const initialState = {
   isTokenCreating: false,
   createdTokenData: {},
   isErrorCreatingToken: '',
+  isTokenUpdating: false,
+  updatedTokenData: {},
+  isErrorUpdatingToken: '',
   isTokenDestroying: false,
   destroyTokenData: '',
   isErrorDestroyingToken: '',
@@ -76,6 +79,21 @@ const configSlice = createSlice({
       state.createdTokenData = {};
       state.isErrorCreatingToken = action.payload;
     },
+    updateToken(state, action) {
+      state.isTokenUpdating = true;
+      state.updatedTokenData = {};
+      state.isErrorUpdatingToken = '';
+    },
+    updateTokenSuccess(state, action) {
+      state.isTokenUpdating = false;
+      state.updatedTokenData = action.payload;
+      state.isErrorUpdatingToken = '';
+    },
+    updateTokenFailure(state, action) {
+      state.isTokenUpdating = false;
+      state.updatedTokenData = {};
+      state.isErrorUpdatingToken = action.payload;
+    },
     destroyToken(state, action) {
       state.isTokenDestroying = true;
       state.destroyTokenData = '';
@@ -109,6 +127,9 @@ export const {
   createToken,
   createTokenFailure,
   createTokenSuccess,
+  updateToken,
+  updateTokenSuccess,
+  updateTokenFailure,
   destroyToken,
   destroyTokenFailure,
   destroyTokenSuccess,

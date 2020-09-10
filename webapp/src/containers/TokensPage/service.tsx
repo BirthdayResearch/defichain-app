@@ -223,6 +223,26 @@ export const handleCreateTokens = async (tokenData) => {
   };
 };
 
+export const handleUpdateTokens = async (tokenData) => {
+  const data = {
+    name: tokenData.name,
+    symbol: tokenData.symbol,
+    isDAT: tokenData.isDAT,
+    decimal: Number(tokenData.decimal),
+    limit: Number(tokenData.limit),
+    mintable: JSON.parse(tokenData.mintable),
+    tradeable: JSON.parse(tokenData.tradeable),
+  };
+  if (!tokenData.name) {
+    delete data.name;
+  }
+  const rpcClient = new RpcClient();
+  const hash = await rpcClient.updateToken(data);
+  return {
+    hash,
+  };
+};
+
 export const handleDestroyToken = (tokenId) => {
   const rpcClient = new RpcClient();
   return rpcClient.destroyToken(tokenId);
