@@ -1,12 +1,16 @@
 import { CancellationToken } from 'electron-updater';
-import { app, dialog } from 'electron';
-const ProgressBar = require('electron-progressbar');
+import { dialog } from 'electron';
+import {
+  UPDATE_PROGRESS_VALUE,
+  UPDATE_PROGRESS_COMPLETED,
+  UPDATE_PROGRESS_FAILURE,
+} from '../constants';
 
-import * as log from '../services/electronLogger';
-
-export default function initiateElectronUpdateManager(autoUpdater: any) {
+export default function initiateElectronUpdateManager(
+  autoUpdater: any,
+  bw: Electron.BrowserWindow
+) {
   const cancellationToken = new CancellationToken();
-  let progressBar: any;
 
   autoUpdater.on('update-available', () => {
     const options = {
@@ -19,51 +23,19 @@ export default function initiateElectronUpdateManager(autoUpdater: any) {
     dialog.showMessageBox(options).then((result) => {
       if (result.response === 0) {
         autoUpdater.downloadUpdate(cancellationToken);
-
-        progressBar = new ProgressBar({
-          browserWindow: {
-            text: 'Preparing data...',
-            title: 'App Update',
-            webPreferences: {
-              nodeIntegration: true,
-            },
-          },
-        });
-
-        progressBar.detail = 'Downloading in progress...';
       }
     });
   });
 
-  autoUpdater.on('download-progress', () => {
-    progressBar.on('aborted', function () {
-      cancellationToken.cancel();
-    });
+  autoUpdater.on('download-progress', (event: any) => {
+    bw.webContents.send(UPDATE_PROGRESS_VALUE, event);
   });
 
   autoUpdater.on('update-downloaded', () => {
-    progressBar.setCompleted();
-
-    progressBar.on('completed', function () {
-      progressBar.detail = 'Task completed. Exiting...';
-      progressBar.close();
-    });
-
-    const options = {
-      type: 'question',
-      title: 'Restart App',
-      message: `Would you like to restart to install new version?`,
-      buttons: ['Yes, Restart Now', 'Close'],
-    };
-    dialog.showMessageBox(options).then((result) => {
-      if (result.response === 0) {
-        autoUpdater.quitAndInstall();
-        app.exit();
-      }
-    });
+    bw.webContents.send(UPDATE_PROGRESS_COMPLETED);
   });
 
   autoUpdater.on('error', (error: any) => {
-    log.error(error);
+    bw.webContents.send(UPDATE_PROGRESS_FAILURE, error);
   });
 }

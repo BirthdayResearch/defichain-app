@@ -12,6 +12,12 @@ import {
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
+import {
+  startUpdateApp,
+  updateApp,
+  updateCompleted,
+  closeUpdate,
+} from '../containers/ErrorModal/reducer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -74,4 +80,26 @@ export const importWallet = async (paths: string[]) => {
     );
   }
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
+};
+
+const openUpdateModal = () => {
+  const { errorModal } = store.getState();
+  if (!errorModal.isUpdateModalOpen) {
+    store.dispatch(startUpdateApp());
+  }
+};
+
+export const updateProgress = (args) => {
+  openUpdateModal();
+  return store.dispatch(updateApp(args));
+};
+
+export const updateComplete = () => {
+  openUpdateModal();
+  return store.dispatch(updateCompleted());
+};
+
+export const handleUpdateError = (args?: any) => {
+  openUpdateModal();
+  return store.dispatch(closeUpdate(args));
 };

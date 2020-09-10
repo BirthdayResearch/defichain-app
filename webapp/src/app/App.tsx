@@ -9,6 +9,7 @@ import './App.scss'; // INFO: do not move down, placed on purpose
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import ErrorModal from '../containers/ErrorModal';
+import UpdateProgressModal from '../containers/ErrorModal/component/UpdateProgress';
 import { Modal, ModalBody } from 'reactstrap';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
@@ -19,6 +20,7 @@ interface AppProps extends RouteComponentProps {
   isErrorModalOpen: boolean;
   nodeError: string;
   isFetching: boolean;
+  isUpdateModalOpen: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -50,42 +52,57 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   const transition = determineTransition(props.location, prevDepth.current);
 
-  return props.isRunning ? (
-    <div
-      id='app'
-      className={props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''}
-    >
-      <Helmet>
-        <title>DeFi Blockchain Client</title>
-      </Helmet>
-      <Sidebar />
-      <main>
-        <TransitionGroup
-          className='transition-group'
-          childFactory={(child) =>
-            React.cloneElement(child, {
-              classNames: transition[0],
-              timeout: transition[1],
-            })
+  return (
+    <>
+      {props.isRunning ? (
+        <div
+          id='app'
+          className={
+            props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''
           }
         >
-          <CSSTransition timeout={300} key={props.location.key}>
-            {routes(props.location)}
-          </CSSTransition>
-        </TransitionGroup>
-      </main>
+          <Helmet>
+            <title>DeFi Blockchain Client</title>
+          </Helmet>
+          <Sidebar />
+          <main>
+            <TransitionGroup
+              className='transition-group'
+              childFactory={(child) =>
+                React.cloneElement(child, {
+                  classNames: transition[0],
+                  timeout: transition[1],
+                })
+              }
+            >
+              <CSSTransition timeout={300} key={props.location.key}>
+                {routes(props.location)}
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
+          <Modal
+            isOpen={props.isErrorModalOpen}
+            centered
+            contentClassName={errorModelStyles.onContentModal}
+          >
+            <ModalBody>
+              <ErrorModal />
+            </ModalBody>
+          </Modal>
+        </div>
+      ) : (
+        <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
+      )}
       <Modal
-        isOpen={props.isErrorModalOpen}
+        isOpen={props.isUpdateModalOpen}
         centered
         contentClassName={errorModelStyles.onContentModal}
       >
         <ModalBody>
-          <ErrorModal />
+          <UpdateProgressModal />
         </ModalBody>
       </Modal>
-    </div>
-  ) : (
-    <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
+    </>
   );
 };
 
@@ -94,6 +111,7 @@ const mapStateToProps = ({ app, errorModal }) => ({
   nodeError: app.nodeError,
   isErrorModalOpen: errorModal.isOpen,
   isFetching: app.isFetching,
+  isUpdateModalOpen: errorModal.isUpdateModalOpen,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

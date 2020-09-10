@@ -12,3 +12,11 @@ export const MENU_BACKUP_WALLET = 'menu-backup-wallet';
 export const MENU_IMPORT_WALLET = 'menu-import-wallet';
 
 export const STOP_BINARY_AND_QUEUE = 'stop-binary-and-queue';
+
+export const UPDATE_PROGRESS_VALUE = 'download-progress';
+
+export const UPDATE_PROGRESS_COMPLETED = 'update-downloaded';
+
+export const UPDATE_PROGRESS_FAILURE = 'update-downloaded-error';
+
+export const POST_UPDATE_ACTION = 'post-update-action';
