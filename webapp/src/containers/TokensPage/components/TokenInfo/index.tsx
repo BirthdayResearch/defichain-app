@@ -128,14 +128,14 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         </Button>
         <h1>{tokenInfo.name}</h1>
         <UncontrolledDropdown>
-          <DropdownToggle color='link' size='sm'>
+          <DropdownToggle color='link' size='md'>
             <MdMoreHoriz />
           </DropdownToggle>
-          <DropdownMenu>
+          <DropdownMenu right>
             {tokenInfoMenu.map((data) => {
               return (
                 <DropdownItem
-                  className='d-flex justify-content-between'
+                  className='justify-content-between'
                   key={data.value}
                   name='collateralAddress'
                   value={data.value}
