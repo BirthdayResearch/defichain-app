@@ -76,7 +76,7 @@ export interface ITokenCreatorInfo {
 }
 
 export interface ITokenUpdatorInfo {
-  symbol: string;
+  token: string;
   name?: string;
   isDAT?: boolean;
   decimal?: number;
