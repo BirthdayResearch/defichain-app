@@ -226,7 +226,7 @@ export const handleCreateTokens = async (tokenData) => {
 export const handleUpdateTokens = async (tokenData) => {
   const data = {
     name: tokenData.name,
-    symbol: tokenData.symbol,
+    token: tokenData.symbol,
     isDAT: tokenData.isDAT,
     decimal: Number(tokenData.decimal),
     limit: Number(tokenData.limit),
