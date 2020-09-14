@@ -22,22 +22,36 @@ interface SyncStatusProps {
   fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
   isRestart: boolean;
+  isUpdateModalOpen: boolean;
+  isUpdateStarted: boolean;
+  updateAppinfo: any;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   props: SyncStatusProps
 ) => {
-  const prevIsRestart = UsePrevious(props.isRestart);
+  const {
+    isUpdateModalOpen,
+    isUpdateStarted,
+    updateAppinfo: { percent = 0 },
+    syncStatusRequest,
+    isRestart,
+    fetchWalletBalanceRequest,
+    fetchPendingBalanceRequest,
+  } = props;
+  const prevIsRestart = UsePrevious(isRestart);
+
   useEffect(() => {
-    props.syncStatusRequest();
+    syncStatusRequest();
   }, []);
+
   useEffect(() => {
-    if (prevIsRestart && !props.isRestart) {
-      props.syncStatusRequest();
-      props.fetchWalletBalanceRequest();
-      props.fetchPendingBalanceRequest();
+    if (prevIsRestart && !isRestart) {
+      syncStatusRequest();
+      fetchWalletBalanceRequest();
+      fetchPendingBalanceRequest();
     }
-  }, [prevIsRestart, props.isRestart]);
+  }, [prevIsRestart, isRestart]);
 
   const {
     latestSyncedBlock,
@@ -46,6 +60,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     isLoading,
     blockChainInfo,
   } = props;
+
   const chainName = !isEmpty(blockChainInfo)
     ? blockChainInfo.chain.charAt(0).toUpperCase() +
       blockChainInfo.chain.slice(1)
@@ -86,12 +101,33 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     );
   };
 
+  const updateInfo = () => {
+    const percentValue = Number(percent).toFixed(2);
+
+    if (!isUpdateModalOpen && isUpdateStarted) {
+      return (
+        <>
+          <div className={styles.syncHeading}>
+            {I18n.t('components.syncStatus.downloading')} {percentValue}%
+          </div>
+          <Progress
+            animated
+            className={styles.syncProgress}
+            value={percentValue}
+          />
+        </>
+      );
+    }
+    return <div />;
+  };
+
   return (
     <div className={styles.syncStatusWrapper}>
       <div className={styles.syncHeading}>
         {I18n.t('components.syncStatus.network')}: {chainName}
       </div>
       {syncBlock()}
+      {updateInfo()}
     </div>
   );
 };
@@ -99,13 +135,20 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
 const mapStateToProps = (state) => {
   const { locale } = state.i18n;
   const {
-    syncedPercentage,
-    latestSyncedBlock,
-    latestBlock,
-    isLoading,
-    blockChainInfo,
-  } = state.syncstatus;
-  const { isRestart } = state.errorModal;
+    syncstatus: {
+      syncedPercentage,
+      latestSyncedBlock,
+      latestBlock,
+      isLoading,
+      blockChainInfo,
+    },
+    errorModal: {
+      isUpdateModalOpen,
+      isUpdateStarted,
+      updateAppinfo,
+      isRestart,
+    },
+  } = state;
   return {
     locale,
     isLoading,
@@ -114,6 +157,9 @@ const mapStateToProps = (state) => {
     latestSyncedBlock,
     blockChainInfo,
     isRestart,
+    isUpdateModalOpen,
+    isUpdateStarted,
+    updateAppinfo,
   };
 };
 

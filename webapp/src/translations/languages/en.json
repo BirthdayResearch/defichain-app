@@ -6,6 +6,7 @@
     "syncStatus": {
       "synchronized": "Synchronized",
       "syncing": "Synchronizing",
+      "downloading": "Downloading update",
       "synced": "Synced",
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
