@@ -30,26 +30,33 @@ const configSlice = createSlice({
     startUpdateApp(state) {
       state.isUpdateModalOpen = true;
     },
+    showUpdateAvailable(state) {
+      state.showUpdateAvailable = true;
+    },
     updateApp(state, action) {
       state.isUpdateStarted = true;
       state.updateAppinfo = action.payload;
     },
     updateCompleted(state) {
       state.isUpdateStarted = false;
+      state.updateAppinfo = {};
       state.postUpdateFlag = true;
     },
-    closeUpdate(state, action) {
+    updateError(state, action) {
       state.showUpdateAvailable = false;
-      state.isUpdateStarted = false;
       state.updateAppinfo = {};
       state.postUpdateFlag = false;
-      state.isUpdateError = action.payload || '';
+      state.isUpdateError = action.payload;
     },
-    showUpdateAvailable(state) {
-      state.showUpdateAvailable = true;
+    closeUpdateAvailable(state) {
+      state.showUpdateAvailable = false;
+    },
+    closePostUpdate(state) {
+      state.postUpdateFlag = false;
     },
     closeUpdateApp(state) {
       state.isUpdateModalOpen = false;
+      state.isUpdateError = '';
     },
   },
 });
@@ -63,8 +70,10 @@ export const {
   startUpdateApp,
   updateApp,
   updateCompleted,
-  closeUpdate,
+  updateError,
   showUpdateAvailable,
+  closeUpdateAvailable,
+  closePostUpdate,
   closeUpdateApp,
 } = actions;
 

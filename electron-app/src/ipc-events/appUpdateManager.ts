@@ -3,7 +3,7 @@ import { app, ipcMain } from 'electron';
 import { POST_UPDATE_ACTION, START_DOWNLOAD_UPDATE } from '../constants';
 
 export default function initiateAppUpdateManager(autoUpdater: any) {
-  ipcMain.on(POST_UPDATE_ACTION, (event: Electron.IpcMainEvent) => {
+  ipcMain.on(POST_UPDATE_ACTION, () => {
     autoUpdater.quitAndInstall();
     app.exit();
   });

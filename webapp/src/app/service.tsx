@@ -16,8 +16,10 @@ import {
   startUpdateApp,
   updateApp,
   updateCompleted,
-  closeUpdate,
+  updateError,
   showUpdateAvailable,
+  closeUpdateAvailable,
+  closePostUpdate,
   closeUpdateApp,
 } from '../containers/ErrorModal/reducer';
 
@@ -103,12 +105,17 @@ export const updateComplete = () => {
 
 export const handleUpdateError = (args?: any) => {
   openUpdateModal();
-  return store.dispatch(closeUpdate(args));
+  return store.dispatch(updateError(args));
 };
 
 export const handleShowUpdateAvailable = () => {
   openUpdateModal();
   return store.dispatch(showUpdateAvailable());
 };
+
+export const handleCloseUpdateAvailable = () =>
+  store.dispatch(closeUpdateAvailable());
+
+export const handleClosePostUpdate = () => store.dispatch(closePostUpdate());
 
 export const handleCloseUpdateApp = () => store.dispatch(closeUpdateApp());
