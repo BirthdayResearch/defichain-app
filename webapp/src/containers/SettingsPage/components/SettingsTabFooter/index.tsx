@@ -17,7 +17,11 @@ const SettingsTabsFooter = (props: SettingsTabsFooterProps) => {
           {isUnsavedChanges && I18n.t('containers.settings.unsavedChanges')}
         </Col>
         <Col className='d-flex justify-content-end'>
-          <Button onClick={() => saveChanges()} color='primary'>
+          <Button
+            disabled={!isUnsavedChanges}
+            onClick={() => saveChanges()}
+            color='primary'
+          >
             {I18n.t('containers.settings.saveSettings')}
           </Button>
         </Col>
