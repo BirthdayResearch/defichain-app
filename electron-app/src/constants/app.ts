@@ -29,3 +29,4 @@ export const DEFAULT_ELECTRON_FORMAT =
   '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
 export const DISCLAIMER_DIALOG_TIMER = 10000;
 export const STOP_BINARY_INTERVAL = 500;
+export const REINDEX_ERROR_STRING = 'restart with -reindex';
