@@ -11,6 +11,7 @@ import {
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
+  REINDEX_ERROR_STRING,
 } from '../constants';
 import {
   checkPathExists,
@@ -64,7 +65,8 @@ export default class DefiProcessManager {
       log.info('Node start initiated');
 
       // on STDOUT
-      child.stdout.on('data', () => {
+      child.stdout.on('data', (data) => {
+        log.info(data.toString('utf8'));
         if (!nodeStarted) {
           nodeStarted = true;
           log.info('Node started');
@@ -81,7 +83,9 @@ export default class DefiProcessManager {
 
       // on STDERR
       child.stderr.on('data', (err) => {
-        log.error(err.toString('utf8').trim());
+        const regex = new RegExp(REINDEX_ERROR_STRING, 'g');
+        const res = regex.test(err?.toString('utf8').trim());
+        log.info(`**** ${err.toString('utf8').trim()},  res:${res}`);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
