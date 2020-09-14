@@ -4,6 +4,7 @@ import * as ps from 'ps-node';
 import * as utf8 from 'utf8';
 import cryptoJs from 'crypto-js';
 import { platform } from 'os';
+import path from 'path';
 import {
   DARWIN,
   WIN_32,
@@ -13,8 +14,8 @@ import {
   OPENBSD,
   ANDROID,
   SUNOS,
-  STOP_RPC_COMMAND,
-  RPC_V,
+  HOME_PATH,
+  WIN,
 } from './constants';
 import axios from 'axios';
 
@@ -128,4 +129,36 @@ export const stopProcesses = (processId: number | string) => {
 
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function getConfFilePath() {
+  const confFilePath = path.join(HOME_PATH, '/.defi', 'defi.conf');
+  return confFilePath;
+}
+
+export function getDebugLogFilePath() {
+  let debugLogFilePath = '';
+  const platform = getPlatform();
+
+  if (platform === LINUX) {
+    debugLogFilePath = path.join(HOME_PATH, '/.defi', 'debug.log');
+  } else if (platform === WIN) {
+    debugLogFilePath = path.join(
+      HOME_PATH,
+      'AppData',
+      'Roaming',
+      'DeFi Blockchain',
+      'debug.log'
+    );
+  } else {
+    debugLogFilePath = path.join(
+      HOME_PATH,
+      'Library',
+      'Application Support',
+      'Defi',
+      'debug.log'
+    );
+  }
+
+  return debugLogFilePath;
 }
