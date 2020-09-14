@@ -20,3 +20,7 @@ export const UPDATE_PROGRESS_COMPLETED = 'update-downloaded';
 export const UPDATE_PROGRESS_FAILURE = 'update-downloaded-error';
 
 export const POST_UPDATE_ACTION = 'post-update-action';
+
+export const START_DOWNLOAD_UPDATE = 'start-download-update';
+
+export const SHOW_UPDATE_AVAILABLE = 'show-update-available';

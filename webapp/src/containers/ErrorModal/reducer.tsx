@@ -11,6 +11,7 @@ const configSlice = createSlice({
     isUpdateError: '',
     updateAppinfo: {},
     postUpdateFlag: false,
+    showUpdateAvailable: false,
   },
   reducers: {
     openErrorModal(state) {
@@ -38,10 +39,17 @@ const configSlice = createSlice({
       state.postUpdateFlag = true;
     },
     closeUpdate(state, action) {
+      state.showUpdateAvailable = false;
       state.isUpdateStarted = false;
       state.updateAppinfo = {};
       state.postUpdateFlag = false;
       state.isUpdateError = action.payload || '';
+    },
+    showUpdateAvailable(state) {
+      state.showUpdateAvailable = true;
+    },
+    closeUpdateApp(state) {
+      state.isUpdateModalOpen = false;
     },
   },
 });
@@ -56,6 +64,8 @@ export const {
   updateApp,
   updateCompleted,
   closeUpdate,
+  showUpdateAvailable,
+  closeUpdateApp,
 } = actions;
 
 export default reducer;

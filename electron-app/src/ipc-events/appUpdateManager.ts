@@ -1,11 +1,15 @@
+import { CancellationToken } from 'electron-updater';
 import { app, ipcMain } from 'electron';
-import { POST_UPDATE_ACTION } from '../constants';
+import { POST_UPDATE_ACTION, START_DOWNLOAD_UPDATE } from '../constants';
 
 export default function initiateAppUpdateManager(autoUpdater: any) {
-  ipcMain.on(POST_UPDATE_ACTION, (event: Electron.IpcMainEvent, args: any) => {
-    if (args.isRestarted) {
-      autoUpdater.quitAndInstall();
-    }
+  ipcMain.on(POST_UPDATE_ACTION, (event: Electron.IpcMainEvent) => {
+    autoUpdater.quitAndInstall();
     app.exit();
+  });
+
+  ipcMain.on(START_DOWNLOAD_UPDATE, () => {
+    const cancellationToken = new CancellationToken();
+    autoUpdater.downloadUpdate(cancellationToken);
   });
 }

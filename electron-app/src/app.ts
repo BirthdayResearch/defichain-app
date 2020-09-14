@@ -1,7 +1,7 @@
 import log from 'loglevel';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, Menu, protocol, dialog } from 'electron';
+import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import DefiProcessManager from './services/defiprocessmanager';
