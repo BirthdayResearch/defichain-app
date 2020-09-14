@@ -340,6 +340,7 @@
     "yesShowUpdateAvailableButton": "Yes, Upgrade Now",
     "noShowUpdateAvailableButton": "No",
     "startUpdateLabel": "Initiating Update",
-    "closeBtnLabel": "Close"
+    "closeBtnLabel": "Close",
+    "downloadingUpdate": "Downloading update..."
   }
 }

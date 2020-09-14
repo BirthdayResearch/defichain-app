@@ -3,9 +3,12 @@ import {
   updateComplete,
   updateProgress,
   handleShowUpdateAvailable,
+  handleCloseUpdateAvailable,
+  handleClosePostUpdate,
   handleCloseUpdateApp,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
+import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -32,7 +35,7 @@ export const sendUpdateResponse = () => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send('post-update-action');
   }
-  closeUpdateModal();
+  closeUpdateModal(handleClosePostUpdate);
 };
 
 export const showAvailableUpdateResponse = () => {
@@ -40,12 +43,12 @@ export const showAvailableUpdateResponse = () => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send('start-download-update');
   }
-  closeUpdateModal();
+  closeUpdateModal(handleCloseUpdateAvailable);
 };
 
-export const closeUpdateModal = () => {
-  handleUpdateError();
+export const closeUpdateModal = (closingFunc) => {
   handleCloseUpdateApp();
+  setTimeout(closingFunc, UPDATE_MODAL_CLOSE_TIMEOUT);
 };
 
 export default initUpdateAppIpcRenderers;
