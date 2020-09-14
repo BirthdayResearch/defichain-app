@@ -335,6 +335,11 @@
     "updateAppNoticeline1": "You need to restart app to see the new update.",
     "updateAppNoticeline2": "Do you want to restart?",
     "yesUpdateAppNotice": "Yes, Restart",
-    "noUpdateAppNotice": "No"
+    "noUpdateAppNotice": "No",
+    "showUpdateAvailableNotice": "A new version of Defi is available. Would you like to upgrade?",
+    "yesShowUpdateAvailableButton": "Yes, Upgrade Now",
+    "noShowUpdateAvailableButton": "No",
+    "startUpdateLabel": "Initiating Update",
+    "closeBtnLabel": "Close"
   }
 }

@@ -17,6 +17,8 @@ import {
   updateApp,
   updateCompleted,
   closeUpdate,
+  showUpdateAvailable,
+  closeUpdateApp,
 } from '../containers/ErrorModal/reducer';
 
 export const getRpcConfig = () => {
@@ -103,3 +105,10 @@ export const handleUpdateError = (args?: any) => {
   openUpdateModal();
   return store.dispatch(closeUpdate(args));
 };
+
+export const handleShowUpdateAvailable = () => {
+  openUpdateModal();
+  return store.dispatch(showUpdateAvailable());
+};
+
+export const handleCloseUpdateApp = () => store.dispatch(closeUpdateApp());
