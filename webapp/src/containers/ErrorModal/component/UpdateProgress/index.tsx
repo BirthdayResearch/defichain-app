@@ -121,6 +121,15 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
   };
   return (
     <Row>
+      {isUpdateStarted && (
+        <Col xs={12}>
+          <div className='float-right'>
+            <Button size='xs' onClick={closeUpdateApp} color='link'>
+              _
+            </Button>
+          </div>
+        </Col>
+      )}
       <Col xs={12}>{loadHtml()}</Col>
     </Row>
   );
