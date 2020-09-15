@@ -29,7 +29,7 @@ import {
   DEFAULT_MAINNET_PORT,
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../../constants';
-import { restartModal } from '../../ErrorModal/reducer';
+import { restartModal } from '../../PopOver/reducer';
 import { shutDownBinary } from '../../../worker/queue';
 import { restartNode } from '../../../utils/isElectron';
 

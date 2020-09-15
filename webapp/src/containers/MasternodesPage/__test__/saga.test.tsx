@@ -22,7 +22,7 @@ import {
 import * as service from '../service';
 import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
-import { restartModal } from '../../ErrorModal/reducer';
+import { restartModal } from '../../PopOver/reducer';
 import { shutDownBinary } from '../../../worker/queue';
 
 const errorObj = {

@@ -21,7 +21,7 @@ import {
   closeUpdateAvailable,
   closePostUpdate,
   closeUpdateApp,
-} from '../containers/ErrorModal/reducer';
+} from '../containers/PopOver/reducer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -87,8 +87,8 @@ export const importWallet = async (paths: string[]) => {
 };
 
 const openUpdateModal = () => {
-  const { errorModal } = store.getState();
-  if (!errorModal.isUpdateModalOpen) {
+  const { popover } = store.getState();
+  if (!popover.isUpdateModalOpen) {
     store.dispatch(startUpdateApp());
   }
 };
