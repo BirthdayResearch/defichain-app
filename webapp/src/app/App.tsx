@@ -12,6 +12,7 @@ import ErrorModal from '../containers/ErrorModal';
 import { Modal, ModalBody } from 'reactstrap';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
+import ReIndexModel from '../containers/ReIndexModel';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -19,6 +20,7 @@ interface AppProps extends RouteComponentProps {
   isErrorModalOpen: boolean;
   nodeError: string;
   isFetching: boolean;
+  isRestart: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -50,50 +52,62 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   const transition = determineTransition(props.location, prevDepth.current);
 
-  return props.isRunning ? (
-    <div
-      id='app'
-      className={props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''}
-    >
-      <Helmet>
-        <title>DeFi Blockchain Client</title>
-      </Helmet>
-      <Sidebar />
-      <main>
-        <TransitionGroup
-          className='transition-group'
-          childFactory={(child) =>
-            React.cloneElement(child, {
-              classNames: transition[0],
-              timeout: transition[1],
-            })
+  return (
+    <div>
+      {props.isRunning ? (
+        <div
+          id='app'
+          className={
+            props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''
           }
         >
-          <CSSTransition timeout={300} key={props.location.key}>
-            {routes(props.location)}
-          </CSSTransition>
-        </TransitionGroup>
-      </main>
-      <Modal
-        isOpen={props.isErrorModalOpen}
-        centered
-        contentClassName={errorModelStyles.onContentModal}
-      >
-        <ModalBody>
-          <ErrorModal />
-        </ModalBody>
-      </Modal>
+          <Helmet>
+            <title>DeFi Blockchain Client</title>
+          </Helmet>
+          <Sidebar />
+          <main>
+            <TransitionGroup
+              className='transition-group'
+              childFactory={(child) =>
+                React.cloneElement(child, {
+                  classNames: transition[0],
+                  timeout: transition[1],
+                })
+              }
+            >
+              <CSSTransition timeout={300} key={props.location.key}>
+                {routes(props.location)}
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
+          <Modal
+            isOpen={props.isErrorModalOpen}
+            centered
+            contentClassName={errorModelStyles.onContentModal}
+          >
+            <ModalBody>
+              <ErrorModal />
+            </ModalBody>
+          </Modal>
+        </div>
+      ) : (
+        <LaunchScreen
+          message={props.nodeError}
+          isLoading={props.isFetching}
+          isRestart={props.isRestart}
+        />
+      )}
+      <ReIndexModel />
     </div>
-  ) : (
-    <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
   );
 };
 
-const mapStateToProps = ({ app, errorModal }) => ({
+const mapStateToProps = ({ app, errorModal, reindexModel }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
   isErrorModalOpen: errorModal.isOpen,
   isFetching: app.isFetching,
+  isRestart: reindexModel.isRestart,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

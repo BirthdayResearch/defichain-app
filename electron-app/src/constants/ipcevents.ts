@@ -12,3 +12,5 @@ export const MENU_BACKUP_WALLET = 'menu-backup-wallet';
 export const MENU_IMPORT_WALLET = 'menu-import-wallet';
 
 export const STOP_BINARY_AND_QUEUE = 'stop-binary-and-queue';
+
+export const CLOSE_APP = 'close-app';

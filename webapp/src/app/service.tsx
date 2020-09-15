@@ -10,6 +10,7 @@ import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
 } from '../containers/WalletPage/reducer';
+import { openReIndexModal } from '../containers/ReIndexModel/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
 
@@ -30,6 +31,9 @@ export function startBinary(config: any) {
       if (res.success) {
         isBlockchainStarted(emit, res);
       } else {
+        if (res.isReindexReq) {
+          store.dispatch(openReIndexModal());
+        }
         emit(res);
       }
     });
