@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
-import {
-  closeUpdateApp,
-  closePostUpdate,
-  closeUpdateAvailable,
-} from '../reducer';
+import { closeUpdateApp } from '../reducer';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../../../constants';
 import ErrorComponent from './ErrorComponent';
 import ShowUpdateAvailableComponent from './ShowUpdateAvailable';
@@ -48,26 +44,12 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
 
     return <div />;
   };
-  return (
-    <Row>
-      {isUpdateStarted && (
-        <Col xs={12}>
-          <div className='float-right'>
-            <Button size='xs' onClick={closeUpdateApp} color='link'>
-              _
-            </Button>
-          </div>
-        </Col>
-      )}
-      <Col xs={12}>{loadHtml()}</Col>
-    </Row>
-  );
+  return <>{loadHtml()}</>;
 };
 
 const mapStateToProps = (state) => {
   const {
     isUpdateError,
-    updateAppinfo,
     postUpdateFlag,
     showUpdateAvailable,
     isUpdateStarted,
@@ -82,8 +64,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   closeUpdateApp,
-  closePostUpdate,
-  closeUpdateAvailable,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateModal);
