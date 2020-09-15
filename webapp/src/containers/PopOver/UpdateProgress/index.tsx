@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalBody } from 'reactstrap';
+import { Modal } from 'reactstrap';
 import UpdateProgressComponent from './UpdateProgressComponent';
 import styles from '../popOver.module.scss';
 import { connect } from 'react-redux';
@@ -15,9 +15,7 @@ const UpdateProgressModal = (props: UpdateProgressModalProps) => {
       centered
       contentClassName={styles.onContentModal}
     >
-      <ModalBody>
-        <UpdateProgressComponent />
-      </ModalBody>
+      <UpdateProgressComponent />
     </Modal>
   );
 };
