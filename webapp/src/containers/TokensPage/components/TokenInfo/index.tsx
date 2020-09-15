@@ -48,10 +48,10 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       label: I18n.t('containers.tokens.tokenInfo.deleteToken'),
       value: 'delete',
     },
-    {
-      label: I18n.t('containers.tokens.tokenInfo.editToken'),
-      value: 'edit',
-    },
+    // {
+    //   label: I18n.t('containers.tokens.tokenInfo.editToken'),
+    //   value: 'edit',
+    // },
   ];
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
