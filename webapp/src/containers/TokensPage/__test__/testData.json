@@ -1,0 +1,42 @@
+{
+  "fetchTokensSuccess": [
+    {
+      "hash": "0",
+      "symbol": "DFI",
+      "name": "Default Defi token",
+      "decimal": 8,
+      "limit": 0,
+      "mintable": true,
+      "tradeable": true,
+      "isDAT": true
+    }
+  ],
+  "fetchTokenInfoSuccess": {
+    "hash": "0",
+    "symbol": "DFI",
+    "name": "Default Defi token",
+    "decimal": 8,
+    "limit": 0,
+    "mintable": true,
+    "tradeable": true,
+    "isDAT": true
+  },
+  "saga": {
+    "handleCreateTokens": {
+      "hash": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+    },
+    "handleDestroyToken": {
+      "hash": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+    },
+    "handleFetchToken": {
+      "hash": "0",
+      "symbol": "DFI",
+      "name": "Default Defi token",
+      "decimal": 8,
+      "limit": 0,
+      "mintable": true,
+      "tradeable": true,
+      "isDAT": true
+    }
+  }
+}
