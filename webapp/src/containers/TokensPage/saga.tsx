@@ -132,10 +132,10 @@ export function* tokenDestroy(action) {
 function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
-  yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
   yield takeLatest(createToken.type, createTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
   yield takeLatest(updateToken.type, updateTokens);
+  yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
 }
 
 export default mySaga;
