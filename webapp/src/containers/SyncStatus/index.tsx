@@ -142,12 +142,7 @@ const mapStateToProps = (state) => {
       isLoading,
       blockChainInfo,
     },
-    errorModal: {
-      isUpdateModalOpen,
-      isUpdateStarted,
-      updateAppinfo,
-      isRestart,
-    },
+    popover: { isUpdateModalOpen, isUpdateStarted, updateAppinfo, isRestart },
   } = state;
   return {
     locale,

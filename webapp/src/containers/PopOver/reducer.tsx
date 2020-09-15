@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const configSlice = createSlice({
-  name: 'errorModal',
+  name: 'popover',
   initialState: {
     isOpen: false,
     isRestart: false,

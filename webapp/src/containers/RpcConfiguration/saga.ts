@@ -15,10 +15,7 @@ import {
   startNodeSuccess,
   startNodeFailure,
 } from '../../containers/RpcConfiguration/reducer';
-import {
-  openErrorModal,
-  closeErrorModal,
-} from '../../containers/ErrorModal/reducer';
+import { openErrorModal, closeErrorModal } from '../PopOver/reducer';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);

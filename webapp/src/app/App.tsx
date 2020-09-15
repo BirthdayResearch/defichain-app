@@ -4,22 +4,21 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
-import errorModelStyles from '../containers/ErrorModal/errorModal.module.scss';
+import popoverModelStyles from '../containers/PopOver/popOver.module.scss';
 import './App.scss'; // INFO: do not move down, placed on purpose
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
-import ErrorModal from '../containers/ErrorModal';
-import UpdateProgressModal from '../containers/ErrorModal/component/UpdateProgress';
-import { Modal, ModalBody } from 'reactstrap';
+import ErrorModal from '../containers/PopOver/ErrorModal';
+import UpdateProgressModal from '../containers/PopOver/UpdateProgress';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
   getRpcConfigsRequest: () => void;
-  isErrorModalOpen: boolean;
   nodeError: string;
   isFetching: boolean;
+  isErrorModalOpen: boolean;
   isUpdateModalOpen: boolean;
 }
 
@@ -40,25 +39,37 @@ const determineTransition = (location, prevDepth) => {
 };
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
-  const prevDepth = useRef(getPathDepth(props.location));
+  const {
+    location,
+    getRpcConfigsRequest,
+    isRunning,
+    isErrorModalOpen,
+    isUpdateModalOpen,
+    nodeError,
+    isFetching,
+  } = props;
+
+  const prevDepth = useRef(getPathDepth(location));
 
   useEffect(() => {
-    props.getRpcConfigsRequest();
+    getRpcConfigsRequest();
   }, []);
 
   useEffect(() => {
-    prevDepth.current = getPathDepth(props.location);
+    prevDepth.current = getPathDepth(location);
   });
 
-  const transition = determineTransition(props.location, prevDepth.current);
+  const transition = determineTransition(location, prevDepth.current);
 
   return (
     <>
-      {props.isRunning ? (
+      {isRunning ? (
         <div
           id='app'
           className={
-            props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''
+            isErrorModalOpen || isUpdateModalOpen
+              ? popoverModelStyles.openErrorModal
+              : ''
           }
         >
           <Helmet>
@@ -75,43 +86,27 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
                 })
               }
             >
-              <CSSTransition timeout={300} key={props.location.key}>
-                {routes(props.location)}
+              <CSSTransition timeout={300} key={location.key}>
+                {routes(location)}
               </CSSTransition>
             </TransitionGroup>
           </main>
-          <Modal
-            isOpen={props.isErrorModalOpen}
-            centered
-            contentClassName={errorModelStyles.onContentModal}
-          >
-            <ModalBody>
-              <ErrorModal />
-            </ModalBody>
-          </Modal>
+          <ErrorModal />
         </div>
       ) : (
-        <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
+        <LaunchScreen message={nodeError} isLoading={isFetching} />
       )}
-      <Modal
-        isOpen={props.isUpdateModalOpen}
-        centered
-        contentClassName={errorModelStyles.onContentModal}
-      >
-        <ModalBody>
-          <UpdateProgressModal />
-        </ModalBody>
-      </Modal>
+      <UpdateProgressModal />
     </>
   );
 };
 
-const mapStateToProps = ({ app, errorModal }) => ({
+const mapStateToProps = ({ app, popover }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
-  isErrorModalOpen: errorModal.isOpen,
   isFetching: app.isFetching,
-  isUpdateModalOpen: errorModal.isUpdateModalOpen,
+  isErrorModalOpen: popover.isOpen,
+  isUpdateModalOpen: popover.isUpdateModalOpen,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };
