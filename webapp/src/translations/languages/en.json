@@ -241,7 +241,9 @@
         "createNewAddressNotice": "Give your new DFI address a meaningful label",
         "createNewReceiveAddressLabel": "Create new receive address",
         "backButton": "back",
-        "createButton": "Create"
+        "createButton": "Create",
+        "legacyAddress": "Legacy Address",
+        "addressType": "Address Type"
       },
       "paymentRequests": {
         "time": "Time",
