@@ -4,12 +4,12 @@ import { I18n } from 'react-redux-i18n';
 import { Button, ModalHeader } from 'reactstrap';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { MdClose } from 'react-icons/md';
-import { restartNodeWithReIndexing, closeApp } from '../../utils/isElectron';
-import { closeReIndexModal, isRestartLoader } from './reducer';
+import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
+import { closeReIndexModal, isRestartLoader } from '../reducer';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
-  isRestart: boolean;
+  isReIndexRestart: boolean;
   closeReIndexModal: () => void;
   isRestartLoader: () => void;
 }
@@ -32,7 +32,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     <div>
       <Modal isOpen={props.isReIndexModelOpen} centered>
         <ModalHeader>
-          <MdClose onClick={() => props.closeReIndexModal()} />
+          <MdClose onClick={props.closeReIndexModal} />
         </ModalHeader>
         <ModalBody>
           <p className='text-center'>
@@ -58,11 +58,11 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { isReIndexModelOpen, isRestart } = state.reindexModel;
+  const { isReIndexModelOpen, isReIndexRestart } = state.errorModal;
 
   return {
     isReIndexModelOpen,
-    isRestart,
+    isReIndexRestart,
   };
 };
 

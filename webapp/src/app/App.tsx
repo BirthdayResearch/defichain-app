@@ -12,7 +12,7 @@ import ErrorModal from '../containers/ErrorModal';
 import { Modal, ModalBody } from 'reactstrap';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
-import ReIndexModel from '../containers/ReIndexModel';
+import ReIndexModel from '../containers/ErrorModal/ReIndexModel';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -102,12 +102,12 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   );
 };
 
-const mapStateToProps = ({ app, errorModal, reindexModel }) => ({
+const mapStateToProps = ({ app, errorModal }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
   isErrorModalOpen: errorModal.isOpen,
   isFetching: app.isFetching,
-  isRestart: reindexModel.isRestart,
+  isRestart: errorModal.isReIndexRestart,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

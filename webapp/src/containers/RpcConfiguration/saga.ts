@@ -19,7 +19,7 @@ import {
   openErrorModal,
   closeErrorModal,
 } from '../../containers/ErrorModal/reducer';
-import { closeRestartLoader } from '../ReIndexModel/reducer';
+import { closeRestartLoader } from '../ErrorModal/reducer';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
