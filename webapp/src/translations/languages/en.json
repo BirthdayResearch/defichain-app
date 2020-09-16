@@ -331,6 +331,10 @@
     "restartNode": "Restarting Node",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
-    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet."
+    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
+    "restartAppWithReindexNoticeline1": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.",
+    "restartAppWithReindexNoticeline2": "Do you want to restart?",
+    "yesRestartAppWithReindex": "Yes",
+    "noCloseApp": "No"
   }
 }

@@ -6,6 +6,8 @@ const configSlice = createSlice({
     isOpen: false,
     isRestart: false,
     showWarning: false,
+    isReIndexModelOpen: false,
+    isReIndexRestart: false,
   },
   reducers: {
     openErrorModal(state) {
@@ -21,11 +23,31 @@ const configSlice = createSlice({
       state.isRestart = true;
       state.isOpen = true;
     },
+    openReIndexModal(state) {
+      state.isReIndexModelOpen = true;
+    },
+    closeReIndexModal(state) {
+      state.isReIndexModelOpen = false;
+    },
+    isRestartLoader(state) {
+      state.isReIndexRestart = true;
+    },
+    closeRestartLoader(state) {
+      state.isReIndexRestart = false;
+    },
   },
 });
 
 const { actions, reducer } = configSlice;
 
-export const { openErrorModal, closeErrorModal, restartModal } = actions;
+export const {
+  openErrorModal,
+  closeErrorModal,
+  restartModal,
+  openReIndexModal,
+  closeReIndexModal,
+  isRestartLoader,
+  closeRestartLoader,
+} = actions;
 
 export default reducer;
