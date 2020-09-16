@@ -85,3 +85,16 @@ export interface ITokenUpdatorInfo {
   tradeable?: boolean;
   collateralAddress?: string;
 }
+
+export interface ITokenCard {
+  data: {
+    name: string;
+    symbol: string;
+    isDAT: boolean;
+    decimal: number;
+    limit: number;
+    mintable: boolean;
+    tradeable: boolean;
+  };
+  handleCardClick: (symbol: string) => void;
+}
