@@ -109,10 +109,15 @@ export const sendToAddress = async (
   }
 };
 
-export const getNewAddress = async (label) => {
+export const getNewAddress = async (
+  label: string,
+  addressTypeChecked: boolean
+) => {
   const rpcClient = new RpcClient();
   try {
-    return rpcClient.getNewAddress(label);
+    const params: string[] = [];
+    addressTypeChecked && params.push('legacy');
+    return rpcClient.getNewAddress(label, ...params);
   } catch (err) {
     log.error(`Got error in getNewAddress: ${err}`);
     throw err;
