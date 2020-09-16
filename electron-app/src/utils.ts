@@ -56,7 +56,7 @@ export const responseMessage = (success: boolean, res: any) => {
   if (success) {
     return { success: true, data: res };
   }
-  return { success: false, message: res.message };
+  return { success: false, ...res };
 };
 
 // Check file exists or not

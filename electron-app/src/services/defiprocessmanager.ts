@@ -1,4 +1,5 @@
 import * as log from './electronLogger';
+import { app } from 'electron';
 import * as path from 'path';
 import ini from 'ini';
 import { spawn } from 'child_process';
@@ -11,6 +12,7 @@ import {
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
+  REINDEX_ERROR_STRING,
 } from '../constants';
 import {
   checkPathExists,
@@ -24,6 +26,8 @@ import {
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
 export default class DefiProcessManager {
+  isReindexReq: boolean;
+
   async start(params: any, event: Electron.IpcMainEvent) {
     try {
       if (checkPathExists(PID_FILE_NAME)) {
@@ -55,16 +59,22 @@ export default class DefiProcessManager {
       let nodeStarted = false;
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
-      const child = spawn(execPath, [
+      const configArray = [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
-      ]);
+      ];
+
+      if (params && params.isReindexReq) {
+        configArray.push('-reindex');
+      }
+
+      const child = spawn(execPath, configArray);
       log.info('Node start initiated');
 
       // on STDOUT
-      child.stdout.on('data', () => {
+      child.stdout.on('data', (data) => {
         if (!nodeStarted) {
           nodeStarted = true;
           log.info('Node started');
@@ -81,7 +91,14 @@ export default class DefiProcessManager {
 
       // on STDERR
       child.stderr.on('data', (err) => {
-        log.error(err.toString('utf8').trim());
+        const regex = new RegExp(REINDEX_ERROR_STRING, 'g');
+        const res = regex.test(err?.toString('utf8').trim());
+
+        // change value of isReindexReq variable based on regex evaluation
+        if (res) {
+          this.isReindexReq = res;
+        }
+
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
@@ -91,15 +108,32 @@ export default class DefiProcessManager {
 
       // on close
       child.on('close', (code) => {
-        log.info(`child process exited with code ${code}`);
-        if (event)
+        if (event && this.isReindexReq) {
+          log.info(
+            'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.'
+          );
+          return event.sender.send(
+            START_DEFI_CHAIN_REPLY,
+            responseMessage(false, {
+              message:
+                'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.',
+              isReindexReq: this.isReindexReq,
+            })
+          );
+        }
+
+        if (event) {
+          log.info(`Error occurred while running binary with code: ${code}`);
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
             responseMessage(
               false,
-              new Error(`child process exited with code ${code}`)
+              new Error(
+                `Error occurred while running binary with code: ${code}`
+              )
             )
           );
+        }
       });
     } catch (err) {
       log.error(err);
@@ -160,5 +194,9 @@ export default class DefiProcessManager {
         message: 'Restart Node Failure',
       });
     }
+  }
+
+  async closeApp() {
+    app.quit();
   }
 }
