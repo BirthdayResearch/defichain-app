@@ -15,36 +15,24 @@ const PostUpdateComponent = (props: PostUpdateComponentProps) => {
   const closing = () => closeModal(closePostUpdate);
   return (
     <>
-      <ModalHeader className='p-0'>
-        <Button size='xs' color='link' onClick={closing}>
-          X
-        </Button>
+      <ModalHeader toggle={closing}>
+        {I18n.t('alerts.updateAppNoticeTitle')}
       </ModalHeader>
-      <ModalBody>
-        <p className='text-center'>{I18n.t('alerts.updateAppNoticeline1')}</p>
-        <p className='text-center'>{I18n.t('alerts.updateAppNoticeline2')}</p>
-      </ModalBody>
+      <ModalBody>{I18n.t('alerts.updateAppNotice')}</ModalBody>
       <ModalFooter>
-        <div className='d-flex justify-content-end'>
-          <Button color='primary' onClick={() => sendUpdateResponse()}>
-            {I18n.t('alerts.yesUpdateAppNotice')}
-          </Button>
-          <Button className='ml-4' onClick={closing}>
-            {I18n.t('alerts.noUpdateAppNotice')}
-          </Button>
-        </div>
+        <Button size='sm' color='primary' onClick={() => sendUpdateResponse()}>
+          {I18n.t('alerts.yesUpdateAppNotice')}
+        </Button>
+        <Button size='sm' onClick={closing}>
+          {I18n.t('alerts.noUpdateAppNotice')}
+        </Button>
       </ModalFooter>
     </>
   );
 };
 
-const mapStateToProps = () => {};
-
 const mapDispatchToProps = {
   closePostUpdate,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostUpdateComponent);
+export default connect(null, mapDispatchToProps)(PostUpdateComponent);

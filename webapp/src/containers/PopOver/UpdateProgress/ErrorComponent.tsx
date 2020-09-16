@@ -13,20 +13,12 @@ const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
   const { isUpdateError, closeUpdateApp } = props;
   return (
     <>
-      <ModalHeader className='p-0'>
-        <Button size='xs' color='link' onClick={closeUpdateApp}>
-          X
-        </Button>
-      </ModalHeader>
-      <ModalBody>
-        <p className='text-center'>{isUpdateError}</p>
-      </ModalBody>
+      <ModalHeader toggle={closeUpdateApp}>&nbsp;</ModalHeader>
+      <ModalBody>{isUpdateError}</ModalBody>
       <ModalFooter>
-        <div className='d-flex justify-content-end'>
-          <Button className='ml-4' onClick={closeUpdateApp}>
-            {I18n.t('alerts.closeBtnLabel')}
-          </Button>
-        </div>
+        <Button size='sm' onClick={closeUpdateApp}>
+          {I18n.t('alerts.closeBtnLabel')}
+        </Button>
       </ModalFooter>
     </>
   );

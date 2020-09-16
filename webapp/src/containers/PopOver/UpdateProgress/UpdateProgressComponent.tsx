@@ -44,6 +44,7 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
 
     return <div />;
   };
+
   return <>{loadHtml()}</>;
 };
 

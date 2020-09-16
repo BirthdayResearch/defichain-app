@@ -10,17 +10,15 @@ interface ErrorModalProps {
 
 function ErrorModal(props: ErrorModalProps) {
   return (
-    <>
-      <Modal
-        isOpen={props.isOpen}
-        centered
-        contentClassName={styles.onContentModal}
-      >
-        <ModalBody>
-          <ErrorComponent />
-        </ModalBody>
-      </Modal>
-    </>
+    <Modal
+      isOpen={props.isOpen}
+      centered
+      contentClassName={styles.onContentModal}
+    >
+      <ModalBody>
+        <ErrorComponent />
+      </ModalBody>
+    </Modal>
   );
 }
 
