@@ -4,6 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import { MdGridOn } from 'react-icons/md';
 import { Button } from 'reactstrap';
 
+import styles from './CsvReader.module.scss';
+
 interface CsvReaderProps {
   handleOnDrop: (data, file?) => void;
   handleOnError: (err, file?, inputElem?, reason?) => void;
@@ -25,13 +27,8 @@ const CsvReader: React.FunctionComponent<CsvReaderProps> = (
         onRemoveFile={props.handleOnRemoveFile}
       >
         <div className='p-5 text-center'>
-          <MdGridOn
-            style={{
-              width: '52px',
-              height: '52px',
-            }}
-          />
-          <div className='my-4 text-primary'></div>
+          <MdGridOn className={styles.icon} />
+          <div className='my-4 text-primary' />
           <span>
             {I18n.t('containers.tokens.dctDistribution.dragAndUploadCSV')}
           </span>

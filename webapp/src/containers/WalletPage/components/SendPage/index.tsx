@@ -354,8 +354,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
-                  style={{ width: '100%' }}
-                  className='qr-scanner-preview'
+                  className='qr-scanner-preview w-100'
                 />
               </ModalBody>
             </Modal>

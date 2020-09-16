@@ -32,12 +32,7 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
         <Row>
           &nbsp;
           <Col className={styles.value}>{props.value}</Col>
-          <Col
-            className={styles.unit}
-            style={{ textAlign: 'end', lineHeight: '2.5rem' }}
-          >
-            {props.unit}
-          </Col>
+          <Col className={`${styles.unit} ${styles.text}`}>{props.unit}</Col>
         </Row>
       </CardBody>
     </Card>
