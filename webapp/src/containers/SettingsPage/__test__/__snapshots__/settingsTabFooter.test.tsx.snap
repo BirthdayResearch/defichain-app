@@ -47,6 +47,7 @@ exports[`SettingsTabFooterComponent should check for snapshot if isUnsaved is tr
     >
       <Button
         color="primary"
+        disabled={false}
         onClick={[Function]}
         tag="button"
       >
@@ -102,6 +103,7 @@ exports[`SettingsTabFooterComponent should check for snapshot if isUnsaved is tr
     >
       <Button
         color="primary"
+        disabled={true}
         onClick={[Function]}
         tag="button"
       >
