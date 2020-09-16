@@ -11,7 +11,7 @@ interface DownloadProgressComponentProps {
 }
 
 const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
-  const { updateAppinfo } = props;
+  const { updateAppinfo, closeUpdateApp } = props;
   const percent = Number(updateAppinfo.percent || 0).toFixed(2);
   return (
     <>
