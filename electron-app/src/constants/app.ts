@@ -16,6 +16,7 @@ export const SECOND_INSTANCE = 'second-instance';
 export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
+export const MAC = 'mac';
 export const WIN = 'win';
 export const WIN_32 = 'win32';
 export const LINUX = 'linux';
