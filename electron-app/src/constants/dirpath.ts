@@ -1,7 +1,13 @@
 import path from 'path';
 import { app } from 'electron';
 import { rootPath } from 'electron-root-path';
-import { getPlatform } from '../utils';
+import {
+  getPlatform,
+  isDataDirDefined,
+  getCustomDebugLogFilePath,
+  checkPathExists,
+  getDefaultDebugLogFilePath,
+} from '../utils';
 
 export const APP_NAME = app.name;
 export const IS_DEV = process.env.NODE_ENV === 'development';
@@ -20,3 +26,10 @@ export const BINARY_FILE_PATH = IS_DEV
   : IS_PACKAGED
   ? path.join(__dirname, '../../../../..', 'binary', getPlatform())
   : path.join(rootPath, '../', 'binary', getPlatform());
+
+export const CONFIG_FILE_PATH = path.join(HOME_PATH, '/.defi', 'defi.conf');
+
+export const DEBUG_LOG_FILE_PATH =
+  checkPathExists(CONFIG_FILE_PATH) && isDataDirDefined(CONFIG_FILE_PATH)
+    ? path.join(getCustomDebugLogFilePath(CONFIG_FILE_PATH), 'debug.log')
+    : getDefaultDebugLogFilePath(HOME_PATH);

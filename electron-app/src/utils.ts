@@ -4,6 +4,7 @@ import * as ps from 'ps-node';
 import * as utf8 from 'utf8';
 import cryptoJs from 'crypto-js';
 import { platform } from 'os';
+import ini from 'ini';
 import path from 'path';
 import {
   DARWIN,
@@ -14,10 +15,8 @@ import {
   OPENBSD,
   ANDROID,
   SUNOS,
-  HOME_PATH,
   WIN,
 } from './constants';
-import axios from 'axios';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -43,6 +42,7 @@ export const getBinaryParameter = (obj: any = {}) => {
     rpcuser: '',
     rpcpassword: '',
     rpcbind: '',
+    datadir: '',
   };
   remote.rpcallowip = '0.0.0.0/0';
   if (!!obj && Array.isArray(obj.remotes)) {
@@ -131,34 +131,35 @@ export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getConfFilePath() {
-  const confFilePath = path.join(HOME_PATH, '/.defi', 'defi.conf');
-  return confFilePath;
-}
-
-export function getDebugLogFilePath() {
-  let debugLogFilePath = '';
+export function getDefaultDebugLogFilePath(homePath: string) {
   const platform = getPlatform();
-
   if (platform === LINUX) {
-    debugLogFilePath = path.join(HOME_PATH, '/.defi', 'debug.log');
+    return path.join(homePath, '/.defi', 'debug.log');
   } else if (platform === WIN) {
-    debugLogFilePath = path.join(
-      HOME_PATH,
+    return path.join(
+      homePath,
       'AppData',
       'Roaming',
       'DeFi Blockchain',
       'debug.log'
     );
-  } else {
-    debugLogFilePath = path.join(
-      HOME_PATH,
-      'Library',
-      'Application Support',
-      'Defi',
-      'debug.log'
-    );
   }
+  return path.join(
+    homePath,
+    'Library',
+    'Application Support',
+    'Defi',
+    'debug.log'
+  );
+}
 
-  return debugLogFilePath;
+export function getCustomDebugLogFilePath(configFilePath: string) {
+  const data = getFileData(configFilePath);
+  const config = ini.decode(data);
+  return config && config.datadir ? config.datadir : '';
+}
+
+export function isDataDirDefined(configFilePath: string) {
+  const debugLogFilePath = getCustomDebugLogFilePath(configFilePath);
+  return debugLogFilePath.length > 0;
 }

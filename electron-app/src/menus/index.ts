@@ -1,9 +1,8 @@
 import { app, shell } from 'electron';
 import Wallet from '../controllers/wallets';
-import { DARWIN, WIN_32, LINUX, SITE_URL } from '../constants';
+import { DARWIN, WIN_32, LINUX, SITE_URL, DEBUG_LOG_FILE_PATH, CONFIG_FILE_PATH } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
-import { getConfFilePath, getDebugLogFilePath } from '../utils';
 
 export default class AppMenu {
   getTemplate() {
@@ -81,20 +80,16 @@ export default class AppMenu {
           {
             label: 'Defid Debug Logs',
             click: async () => {
-              const srcFilePath = getDebugLogFilePath();
               const logs = new Logs();
-
-              const data = await logs.read(srcFilePath);
+              const data = await logs.read(DEBUG_LOG_FILE_PATH);
               await logs.download(data);
             },
           },
           {
             label: 'Defi Conf',
             click: async () => {
-              const srcFilePath = getConfFilePath();
               const logs = new Logs();
-
-              const data = await logs.read(srcFilePath);
+              const data = await logs.read(CONFIG_FILE_PATH);
               await logs.download(data);
             },
           },
