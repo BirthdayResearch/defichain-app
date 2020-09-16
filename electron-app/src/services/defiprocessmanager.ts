@@ -109,23 +109,28 @@ export default class DefiProcessManager {
       // on close
       child.on('close', (code) => {
         if (event && this.isReindexReq) {
-          log.info(`reindexing required to start node successfully again`);
+          log.info(
+            'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.'
+          );
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
             responseMessage(false, {
-              message: `reindexing required to start node successfully again`,
+              message:
+                'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.',
               isReindexReq: this.isReindexReq,
             })
           );
         }
 
         if (event) {
-          log.info(`child process exited with code ${code}`);
+          log.info(`Error occurred while running binary with code: ${code}`);
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
             responseMessage(
               false,
-              new Error(`child process exited with code ${code}`)
+              new Error(
+                `Error occurred while running binary with code: ${code}`
+              )
             )
           );
         }
