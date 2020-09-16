@@ -16,7 +16,7 @@ interface SearchBarProps {
   searching: any;
   toggleSearch: any;
   onChange: (e) => void;
-  placeholder: string;
+  placeholder?: string;
 }
 
 const SearchBar: React.FunctionComponent<SearchBarProps> = (
