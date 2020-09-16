@@ -21,6 +21,7 @@ import {
   closeUpdateAvailable,
   closePostUpdate,
   closeUpdateApp,
+  openReIndexModal,
 } from '../containers/PopOver/reducer';
 
 export const getRpcConfig = () => {
@@ -40,6 +41,9 @@ export function startBinary(config: any) {
       if (res.success) {
         isBlockchainStarted(emit, res);
       } else {
+        if (res.isReindexReq) {
+          store.dispatch(openReIndexModal());
+        }
         emit(res);
       }
     });

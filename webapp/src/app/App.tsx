@@ -12,6 +12,7 @@ import ErrorModal from '../containers/PopOver/ErrorModal';
 import UpdateProgressModal from '../containers/PopOver/UpdateProgress';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
+import ReIndexModel from '../containers/PopOver/ReIndexModel';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -20,6 +21,7 @@ interface AppProps extends RouteComponentProps {
   isFetching: boolean;
   isErrorModalOpen: boolean;
   isUpdateModalOpen: boolean;
+  isRestart: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -47,6 +49,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
     isUpdateModalOpen,
     nodeError,
     isFetching,
+    isRestart,
   } = props;
 
   const prevDepth = useRef(getPathDepth(location));
@@ -94,9 +97,14 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           <ErrorModal />
         </div>
       ) : (
-        <LaunchScreen message={nodeError} isLoading={isFetching} />
+        <LaunchScreen
+          message={nodeError}
+          isLoading={isFetching}
+          isRestart={isRestart}
+        />
       )}
       <UpdateProgressModal />
+      <ReIndexModel />
     </>
   );
 };
@@ -107,6 +115,7 @@ const mapStateToProps = ({ app, popover }) => ({
   isFetching: app.isFetching,
   isErrorModalOpen: popover.isOpen,
   isUpdateModalOpen: popover.isUpdateModalOpen,
+  isRestart: popover.isReIndexRestart,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };
