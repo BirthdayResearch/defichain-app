@@ -17,37 +17,24 @@ const ShowUpdateAvailableComponent = (
   const closing = () => closeModal(closeUpdateAvailable);
   return (
     <>
-      <ModalHeader className='p-0'>
-        <Button size='xs' color='link' onClick={closing}>
-          X
-        </Button>
+      <ModalHeader toggle={closing}>
+        {I18n.t('alerts.showUpdateAvailableHeader')}
       </ModalHeader>
-      <ModalBody>
-        <p className='text-center'>
-          {I18n.t('alerts.showUpdateAvailableNotice')}
-        </p>
-      </ModalBody>
+      <ModalBody>{I18n.t('alerts.showUpdateAvailableNotice')}</ModalBody>
       <ModalFooter>
-        <div className='d-flex justify-content-end'>
-          <Button color='primary' onClick={() => showAvailableUpdateResponse()}>
-            {I18n.t('alerts.yesShowUpdateAvailableButton')}
-          </Button>
-          <Button className='ml-4' onClick={closing}>
-            {I18n.t('alerts.noShowUpdateAvailableButton')}
-          </Button>
-        </div>
+        <Button size='sm' color='primary' onClick={showAvailableUpdateResponse}>
+          {I18n.t('alerts.yesShowUpdateAvailableButton')}
+        </Button>
+        <Button size='sm' onClick={closing}>
+          {I18n.t('alerts.noShowUpdateAvailableButton')}
+        </Button>
       </ModalFooter>
     </>
   );
 };
 
-const mapStateToProps = () => {};
-
 const mapDispatchToProps = {
   closeUpdateAvailable,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ShowUpdateAvailableComponent);
+export default connect(null, mapDispatchToProps)(ShowUpdateAvailableComponent);

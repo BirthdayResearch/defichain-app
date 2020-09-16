@@ -9,7 +9,7 @@ const configSlice = createSlice({
     isUpdateModalOpen: false,
     isUpdateStarted: false,
     isUpdateError: '',
-    updateAppinfo: {},
+    updateAppInfo: {},
     postUpdateFlag: false,
     showUpdateAvailable: false,
     isReIndexModelOpen: false,
@@ -37,16 +37,16 @@ const configSlice = createSlice({
     },
     updateApp(state, action) {
       state.isUpdateStarted = true;
-      state.updateAppinfo = action.payload;
+      state.updateAppInfo = action.payload;
     },
     updateCompleted(state) {
       state.isUpdateStarted = false;
-      state.updateAppinfo = {};
+      state.updateAppInfo = {};
       state.postUpdateFlag = true;
     },
     updateError(state, action) {
       state.showUpdateAvailable = false;
-      state.updateAppinfo = {};
+      state.updateAppInfo = {};
       state.postUpdateFlag = false;
       state.isUpdateError = action.payload;
     },

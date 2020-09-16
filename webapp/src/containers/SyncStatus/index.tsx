@@ -24,7 +24,7 @@ interface SyncStatusProps {
   isRestart: boolean;
   isUpdateModalOpen: boolean;
   isUpdateStarted: boolean;
-  updateAppinfo: any;
+  updateAppInfo: any;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
@@ -33,7 +33,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   const {
     isUpdateModalOpen,
     isUpdateStarted,
-    updateAppinfo: { percent = 0 },
+    updateAppInfo: { percent = 0 },
     syncStatusRequest,
     isRestart,
     fetchWalletBalanceRequest,
@@ -142,7 +142,7 @@ const mapStateToProps = (state) => {
       isLoading,
       blockChainInfo,
     },
-    popover: { isUpdateModalOpen, isUpdateStarted, updateAppinfo, isRestart },
+    popover: { isUpdateModalOpen, isUpdateStarted, updateAppInfo, isRestart },
   } = state;
   return {
     locale,
@@ -154,7 +154,7 @@ const mapStateToProps = (state) => {
     isRestart,
     isUpdateModalOpen,
     isUpdateStarted,
-    updateAppinfo,
+    updateAppInfo,
   };
 };
 
