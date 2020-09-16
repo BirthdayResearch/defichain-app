@@ -28,6 +28,8 @@ export const DEFAULT_ELECTRON_LOG_SIZE = 5; // IN MBs
 export const BLOCKCHAIN_START_ERROR = 'Unable to start blockchain';
 export const BLOCKCHAIN_START_SUCCESS = 'blockchain started successfully';
 export const MAX_MONEY = 21000000;
+export const DESTRUCTION_TX =
+  '0000000000000000000000000000000000000000000000000000000000000000';
 export const GET_NEW_ADDRESS_TYPE = 'legacy';
 export const RESIGNED_STATE = 'RESIGNED';
 export const CONFIRM_BUTTON_TIMEOUT = 1000;
