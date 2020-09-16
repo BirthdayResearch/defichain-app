@@ -40,29 +40,18 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                 <th className='text-right'>
                   {!!csvData.length && (
                     <MdDelete
+                      className={styles.icon}
                       onClick={() => handleDeleteAll()}
-                      style={{
-                        height: '20px',
-                        width: '20px',
-                      }}
                     />
                   )}
                 </th>
               </tr>
             </thead>
             {newAddressFlag ? (
-              <tr
-                className={styles.masternodeRow}
-                style={{
-                  borderBottom: '1px solid #cccccc',
-                }}
-              >
+              <tr className={`${styles.masternodeRow} ${styles.borderBottom}`}>
                 <td>
                   <input
-                    style={{
-                      border: 'none',
-                      width: '100%',
-                    }}
+                    className={styles.borderNone}
                     type='text'
                     placeholder={I18n.t(
                       'containers.tokens.dctDistribution.enterDfiAddress'
@@ -79,11 +68,8 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                 </td>
                 <td className='text-right'>
                   <MdCropFree
+                    className={styles.icon}
                     onClick={() => openScanner()}
-                    style={{
-                      height: '20px',
-                      width: '20px',
-                    }}
                   />
                 </td>
               </tr>
@@ -97,11 +83,8 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                     <td>{address}</td>
                     <td className='text-right'>
                       <MdDelete
+                        className={styles.icon}
                         onClick={() => handleDelete(address)}
-                        style={{
-                          height: '20px',
-                          width: '20px',
-                        }}
                       />
                     </td>
                   </tr>
