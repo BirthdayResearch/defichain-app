@@ -10,7 +10,7 @@ import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
 } from '../containers/WalletPage/reducer';
-import { openReIndexModal } from '../containers/ReIndexModel/reducer';
+import { openReIndexModal } from '../containers/ErrorModal/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
 
