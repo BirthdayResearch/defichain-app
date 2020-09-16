@@ -25,6 +25,7 @@ import {
   CREATE_TOKENS_PATH,
   DAT_TOKEN,
   DCT_TOKEN,
+  DESTRUCTION_TX,
   TOKENS_PATH,
 } from '../../constants';
 
@@ -124,7 +125,9 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           </TabPane>
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
-              tokens={tokens.filter((data) => !data.isDAT)}
+              tokens={tokens.filter(
+                (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
+              )}
               history={history}
               searchQuery={searchQuery}
               handleCardClick={handleCardClick}
