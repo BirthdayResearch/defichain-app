@@ -342,6 +342,10 @@
     "noShowUpdateAvailableButton": "No",
     "startUpdateLabel": "Initiating Update",
     "closeBtnLabel": "Close",
-    "downloadingUpdate": "Downloading update..."
+    "downloadingUpdate": "Downloading update...",
+    "restartAppWithReindexNoticeline1": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.",
+    "restartAppWithReindexNoticeline2": "Do you want to restart?",
+    "yesRestartAppWithReindex": "Yes",
+    "noCloseApp": "No"
   }
 }
