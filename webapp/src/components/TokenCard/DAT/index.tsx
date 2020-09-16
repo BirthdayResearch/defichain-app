@@ -3,29 +3,9 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
+import { ITokenCard } from '../../../utils/interfaces';
 
-interface TokenCardProps {
-  data: {
-    name: string;
-    symbol: string;
-    isDAT: boolean;
-    decimal: number;
-    limit: number;
-    mintable: boolean;
-    tradeable: boolean;
-    // icon: any;
-    // type: string;
-    // price: string;
-    // volume: string;
-    // marketCap: string;
-    // holders: string;
-  };
-  handleCardClick: (symbol: string) => void;
-}
-
-const TokenCard: React.FunctionComponent<TokenCardProps> = (
-  props: TokenCardProps
-) => {
+const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
   const { data } = props;
 
   return (
@@ -46,7 +26,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           } */}
         </Row>
         <Row>
-          <Col className={`${styles.label}`}>
+          <Col className={styles.label}>
             {I18n.t('containers.tokens.tokensPage.datLabels.type')}
           </Col>
           <Col className={`${styles.unit} ${styles.text}`}>
@@ -54,7 +34,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           </Col>
         </Row>
         <Row>
-          <Col className={`${styles.label}`}>
+          <Col className={styles.label}>
             {/* {I18n.t('containers.tokens.tokensPage.datLabels.price')} */}
             {I18n.t('containers.tokens.tokensPage.datLabels.decimal')}
           </Col>
@@ -64,7 +44,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           </Col>
         </Row>
         <Row>
-          <Col className={`${styles.label}`}>
+          <Col className={styles.label}>
             {/* {I18n.t('containers.tokens.tokensPage.datLabels.volume')} */}
             {I18n.t('containers.tokens.tokensPage.datLabels.limit')}
           </Col>
@@ -74,7 +54,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           </Col>
         </Row>
         <Row>
-          <Col className={`${styles.label}`}>
+          <Col className={styles.label}>
             {/* {I18n.t('containers.tokens.tokensPage.datLabels.marketCap')} */}
             {I18n.t('containers.tokens.tokensPage.datLabels.mintingSupport')}
           </Col>
@@ -84,7 +64,7 @@ const TokenCard: React.FunctionComponent<TokenCardProps> = (
           </Col>
         </Row>
         <Row>
-          <Col className={`${styles.label}`}>
+          <Col className={styles.label}>
             {/* {I18n.t('containers.tokens.tokensPage.datLabels.holders')} */}
             {I18n.t('containers.tokens.tokensPage.datLabels.tradeable')}
           </Col>
