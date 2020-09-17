@@ -2,19 +2,20 @@ import React from 'react';
 import { Progress, ModalBody, ModalHeader, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { closeUpdateApp } from '../reducer';
+import { minimizeDownloadProgressModal } from '../reducer';
 
 interface DownloadProgressComponentProps {
   updateAppInfo: any;
-  closeUpdateApp: () => void;
+  minimizeDownloadProgressModal: () => void;
 }
 
 const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
-  const { updateAppInfo, closeUpdateApp } = props;
+  const { updateAppInfo, minimizeDownloadProgressModal } = props;
   const percent = Number(updateAppInfo.percent || 0).toFixed(2);
+  const minimize = () => minimizeDownloadProgressModal();
   return (
     <>
-      <ModalHeader toggle={closeUpdateApp} charCode='-'>
+      <ModalHeader toggle={minimize} charCode='-'>
         {I18n.t('alerts.downloadingUpdate')}
       </ModalHeader>
       <ModalBody className='text-center'>
@@ -30,7 +31,7 @@ const mapStateToProps = ({ popover }) => ({
 });
 
 const mapDispatchToProps = {
-  closeUpdateApp: () => closeUpdateApp(),
+  minimizeDownloadProgressModal,
 };
 
 export default connect(

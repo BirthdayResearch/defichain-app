@@ -14,6 +14,7 @@ const configSlice = createSlice({
     showUpdateAvailable: false,
     isReIndexModelOpen: false,
     isReIndexRestart: false,
+    isMinimized: false,
   },
   reducers: {
     openErrorModal(state) {
@@ -72,6 +73,10 @@ const configSlice = createSlice({
     closeRestartLoader(state) {
       state.isReIndexRestart = false;
     },
+    minimizeDownloadProgressModal(state) {
+      state.isMinimized = true;
+      state.isUpdateModalOpen = false;
+    }
   },
 });
 
@@ -93,6 +98,7 @@ export const {
   closeReIndexModal,
   isRestartLoader,
   closeRestartLoader,
+  minimizeDownloadProgressModal,
 } = actions;
 
 export default reducer;

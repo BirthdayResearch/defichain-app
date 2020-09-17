@@ -98,7 +98,12 @@ const openUpdateModal = () => {
 };
 
 export const updateProgress = (args) => {
-  openUpdateModal();
+  const {
+    popover: { isMinimized },
+  } = store.getState();
+  if(!isMinimized) {
+    openUpdateModal();
+  }
   return store.dispatch(updateApp(args));
 };
 
