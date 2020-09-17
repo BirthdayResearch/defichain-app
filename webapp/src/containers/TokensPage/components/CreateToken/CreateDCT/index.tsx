@@ -3,12 +3,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import {
-  MdArrowBack,
-  MdCheck,
-  MdCheckCircle,
-  MdErrorOutline,
-} from 'react-icons/md';
+import { MdArrowBack, MdCheck } from 'react-icons/md';
 import {
   Row,
   Col,
@@ -24,11 +19,9 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
-import {
-  TOKENS_PATH,
-  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
-} from '../../../../../constants';
+import { TOKENS_PATH } from '../../../../../constants';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
@@ -143,31 +136,6 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               <Label for='message'>
                 {I18n.t('containers.tokens.createToken.decimal')}
               </Label>
-              {/* <UncontrolledDropdown
-                className="w-100">
-                <DropdownToggle caret color='outline-secondary' className={styles.divisibilityDropdown}>
-                  {I18n.t('containers.tokens.createToken.divisibility')}
-                </DropdownToggle>
-                <DropdownMenu>
-                  {divisibilityData.map((decimal) => {
-                    return (
-                      <DropdownItem
-                        className='d-flex justify-content-between ml-0'
-                        key={decimal.value}
-                        name='divisibility'
-                        onClick={handleChange}
-                        value={decimal.value}
-                      >
-                        <span>{I18n.t(decimal.label)}</span>
-                        &nbsp;
-                        {formState.divisibility === decimal.value && (
-                          <MdCheck />
-                        )}
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </UncontrolledDropdown> */}
               <FormText className='mt-2'>
                 {I18n.t('containers.tokens.createToken.decimalText')}
               </FormText>
@@ -231,29 +199,6 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 </Row>
               </Col>
             </Row>
-            {/* <FormGroup className='form-label-group'>
-              <Input
-                type='number'
-                inputMode='numeric'
-                placeholder={I18n.t(
-                  'containers.tokens.createToken.optionalFinalSupplyLimit'
-                )}
-                name='optionalFinalSupplyLimit'
-                id='optionalFinalSupplyLimit'
-                value={formState.optionalFinalSupplyLimit}
-                onChange={handleChange}
-              />
-              <Label for='message'>
-                {I18n.t(
-                  'containers.tokens.createToken.optionalFinalSupplyLimit'
-                )}
-              </Label>
-              <FormText>
-                {I18n.t(
-                  'containers.tokens.createToken.optionalFinalSupplyLimitText'
-                )}
-              </FormText>
-            </FormGroup> */}
             <Row>
               <Col md='4'>
                 <FormGroup>
@@ -345,161 +290,20 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
           </Form>
         </section>
       </div>
-      <footer className='footer-bar'>
-        <div
-          className={classnames({
-            'd-none': isConfirmationModalOpen !== 'default',
-          })}
-        >
-          <Row className='justify-content-between align-items-center'>
-            <Col className='col-auto'>
-              <div className='caption-secondary'>
-                {I18n.t('containers.tokens.createToken.dfiRequired')}
-              </div>
-              <div>
-                {MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION}
-                &nbsp;
-                {'DFI'}
-              </div>
-            </Col>
-            <Col className='d-flex justify-content-end'>
-              <Button
-                to={TOKENS_PATH}
-                tag={NavLink}
-                color='link'
-                className='mr-3'
-              >
-                {I18n.t('containers.tokens.createToken.cancel')}
-              </Button>
-              {isUpdate ? (
-                <Button
-                  disabled={
-                    !formState.symbol ||
-                    formState.symbol.length > 8 ||
-                    formState.name.length > 128
-                  }
-                  onClick={() => {
-                    setIsConfirmationModalOpen('confirm');
-                  }}
-                  color='primary'
-                >
-                  {I18n.t('containers.tokens.createToken.updateTokenButton')}
-                </Button>
-              ) : (
-                <Button
-                  disabled={
-                    !formState.symbol ||
-                    !formState.collateralAddress ||
-                    formState.symbol.length > 8 ||
-                    formState.name.length > 128
-                  }
-                  onClick={() => {
-                    setIsConfirmationModalOpen('confirm');
-                  }}
-                  color='primary'
-                >
-                  {I18n.t('containers.tokens.createToken.createTokenButton')}
-                </Button>
-              )}
-            </Col>
-          </Row>
-        </div>
-        <div
-          className={classnames({
-            'd-none': isConfirmationModalOpen !== 'confirm',
-          })}
-        >
-          <div className='footer-sheet'>
-            <dl className='row'>
-              <dd className='col-12'>
-                <span className='h2 mb-0'>
-                  {isUpdate
-                    ? I18n.t(
-                        'containers.tokens.createToken.updateConfirmationText'
-                      )
-                    : I18n.t(
-                        'containers.tokens.createToken.createConfirmationText'
-                      )}
-                </span>
-              </dd>
-            </dl>
-          </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
-              <Button
-                color='link'
-                className='mr-3'
-                onClick={() => cancelConfirmation()}
-              >
-                {I18n.t('containers.masterNodes.createMasterNode.noButtonText')}
-              </Button>
-              <Button
-                color='primary'
-                onClick={() => {
-                  isUpdate ? updateConfirmation() : createConfirmation();
-                }}
-                disabled={wait > 0 ? true : false}
-              >
-                {I18n.t(
-                  'containers.masterNodes.createMasterNode.yesButtonText'
-                )}
-                &nbsp;
-                <span className='timer'>{wait > 0 ? wait : ''}</span>
-              </Button>
-            </Col>
-          </Row>
-        </div>
-        <div
-          className={classnames({
-            'd-none': isConfirmationModalOpen !== 'success',
-          })}
-        >
-          <div className='footer-sheet'>
-            <div className='text-center'>
-              <p>
-                {isUpdate
-                  ? I18n.t('containers.tokens.createToken.updateTokenSuccess')
-                  : I18n.t('containers.tokens.createToken.createTokenSuccess')}
-              </p>
-              <MdCheckCircle className='footer-sheet-icon' />
-              <p>
-                {`${I18n.t('containers.tokens.createToken.tokenHash')}: ${
-                  isUpdate ? updatedTokenData.hash : createdTokenData.hash
-                }`}
-              </p>
-            </div>
-          </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
-              <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
-                {I18n.t('containers.tokens.createToken.backToTokenPage')}
-              </Button>
-            </Col>
-          </Row>
-        </div>
-        <div
-          className={classnames({
-            'd-none': isConfirmationModalOpen !== 'failure',
-          })}
-        >
-          <div className='footer-sheet'>
-            <div className='text-center'>
-              <MdErrorOutline
-                className={classnames({
-                  'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
-                })}
-              />
-              <p>{isUpdate ? isErrorUpdatingToken : isErrorCreatingToken}</p>
-            </div>
-          </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
-              {I18n.t('containers.tokens.createToken.backToTokenPage')}
-            </Button>
-          </div>
-        </div>
-      </footer>
+      <Footer
+        isUpdate={isUpdate}
+        formState={formState}
+        isConfirmationModalOpen={isConfirmationModalOpen}
+        setIsConfirmationModalOpen={setIsConfirmationModalOpen}
+        cancelConfirmation={cancelConfirmation}
+        createConfirmation={createConfirmation}
+        updateConfirmation={updateConfirmation}
+        wait={wait}
+        createdTokenData={createdTokenData}
+        isErrorCreatingToken={isErrorCreatingToken}
+        isErrorUpdatingToken={isErrorUpdatingToken}
+        updatedTokenData={updatedTokenData}
+      />
     </>
   );
 };
