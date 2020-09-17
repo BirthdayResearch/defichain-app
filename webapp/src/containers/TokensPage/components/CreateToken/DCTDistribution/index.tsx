@@ -16,9 +16,9 @@ import { TOKENS_PATH, CREATE_DCT } from '../../../../../constants';
 interface DCTDistributionProps {
   handleActiveTab: (active: string) => void;
   csvData: any;
-  setCsvData: any;
+  setCsvData: (data) => void;
   handleSubmit: () => void;
-  setIsVerifyingCollateralModalOpen: any;
+  setIsVerifyingCollateralModalOpen: (state: boolean) => void;
   IsVerifyingCollateralModalOpen: boolean;
 }
 

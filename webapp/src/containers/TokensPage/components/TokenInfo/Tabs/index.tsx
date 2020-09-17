@@ -21,7 +21,7 @@ interface TokenInfoTabsProps {
   activeTab: string;
   id: string | undefined;
   history: any;
-  setActiveTab: any;
+  setActiveTab: (tab: string) => void;
 }
 
 const Tabs: React.FunctionComponent<TokenInfoTabsProps> = (
