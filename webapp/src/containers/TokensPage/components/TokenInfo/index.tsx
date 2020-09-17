@@ -30,6 +30,7 @@ import {
   TOKENS_PATH,
   TOKEN_EDIT_PATH,
 } from '../../../../constants';
+import { ITokenResponse } from '../../../../utils/interfaces';
 
 interface RouteParams {
   id?: string;
@@ -39,7 +40,7 @@ interface TokenInfoProps extends RouteComponentProps<RouteParams> {
   tokenInfo: any;
   fetchToken: (id: string | undefined) => void;
   destroyToken: (id) => void;
-  destroyTokenData: any;
+  destroyTokenData: ITokenResponse;
   isErrorDestroyingToken: string;
   isTokenDestroying: boolean;
 }
