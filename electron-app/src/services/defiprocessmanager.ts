@@ -21,6 +21,7 @@ import {
   responseMessage,
   writeFile,
   sleep,
+  stopProcesses,
 } from '../utils';
 
 // EXCEPTION handling event response inside service
@@ -198,5 +199,27 @@ export default class DefiProcessManager {
 
   async closeApp() {
     app.quit();
+  }
+
+  async forceClose() {
+    try {
+      log.info('Force close defid');
+      const pid = getFileData(PID_FILE_NAME);
+      const processLists: any = await getProcesses({
+        pid: parseInt(pid, 10),
+      });
+
+      if (Array.isArray(processLists)) {
+        await Promise.all(processLists.map((item) => stopProcesses(item.pid)));
+        return responseMessage(true, {
+          message: 'Node is successfully terminated',
+        });
+      }
+    } catch (err) {
+      log.info(err);
+      return responseMessage(false, {
+        message: err.message,
+      });
+    }
   }
 }

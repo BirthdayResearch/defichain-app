@@ -5,6 +5,7 @@ import {
   STOP_DEFI_CHAIN,
   RESTART_APP,
   CLOSE_APP,
+  FORCE_KILL_QUEUE_AND_SHUTDOWN,
 } from '../constants';
 
 export default function initiateDefiProcessManager() {
@@ -26,5 +27,10 @@ export default function initiateDefiProcessManager() {
   ipcMain.on(CLOSE_APP, async () => {
     const defiProcessManager = new DefiProcessManager();
     await defiProcessManager.closeApp();
+  });
+
+  ipcMain.on(FORCE_KILL_QUEUE_AND_SHUTDOWN, async () => {
+    const defiProcessManager = new DefiProcessManager();
+    await defiProcessManager.forceClose();
   });
 }

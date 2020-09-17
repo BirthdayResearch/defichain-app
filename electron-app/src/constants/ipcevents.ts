@@ -24,4 +24,7 @@ export const POST_UPDATE_ACTION = 'post-update-action';
 export const START_DOWNLOAD_UPDATE = 'start-download-update';
 
 export const SHOW_UPDATE_AVAILABLE = 'show-update-available';
+
 export const CLOSE_APP = 'close-app';
+
+export const FORCE_KILL_QUEUE_AND_SHUTDOWN = 'force-kill-queue-and-shutdown';
