@@ -25,6 +25,7 @@ interface SyncStatusProps {
   isUpdateModalOpen: boolean;
   isUpdateStarted: boolean;
   updateAppInfo: any;
+  isMinimized: boolean;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
@@ -38,6 +39,12 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     isRestart,
     fetchWalletBalanceRequest,
     fetchPendingBalanceRequest,
+    isMinimized,
+    latestSyncedBlock,
+    latestBlock,
+    syncedPercentage,
+    isLoading,
+    blockChainInfo,
   } = props;
   const prevIsRestart = UsePrevious(isRestart);
 
@@ -52,14 +59,6 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
       fetchPendingBalanceRequest();
     }
   }, [prevIsRestart, isRestart]);
-
-  const {
-    latestSyncedBlock,
-    latestBlock,
-    syncedPercentage,
-    isLoading,
-    blockChainInfo,
-  } = props;
 
   const chainName = !isEmpty(blockChainInfo)
     ? blockChainInfo.chain.charAt(0).toUpperCase() +
@@ -104,7 +103,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   const updateInfo = () => {
     const percentValue = Number(percent).toFixed(2);
 
-    if (!isUpdateModalOpen && isUpdateStarted) {
+    if (!isUpdateModalOpen && isUpdateStarted && isMinimized) {
       return (
         <>
           <div className={styles.syncHeading}>
@@ -142,7 +141,7 @@ const mapStateToProps = (state) => {
       isLoading,
       blockChainInfo,
     },
-    popover: { isUpdateModalOpen, isUpdateStarted, updateAppInfo, isRestart },
+    popover: { isUpdateModalOpen, isUpdateStarted, updateAppInfo, isRestart, isMinimized },
   } = state;
   return {
     locale,
@@ -155,6 +154,7 @@ const mapStateToProps = (state) => {
     isUpdateModalOpen,
     isUpdateStarted,
     updateAppInfo,
+    isMinimized,
   };
 };
 
