@@ -9,6 +9,8 @@ import CreateDCT from './CreateDCT';
 import { createToken, fetchTokenInfo, updateToken } from '../../reducer';
 import { getReceivingAddressAndAmountList } from '../../service';
 import {
+  CONFIRM_BUTTON_COUNTER,
+  CONFIRM_BUTTON_TIMEOUT,
   CREATE_DCT,
   DCT_DISTRIBUTION,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
@@ -126,14 +128,14 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   useEffect(() => {
     let waitToSendInterval;
     if (isConfirmationModalOpen === 'confirm') {
-      let counter = 5;
+      let counter = CONFIRM_BUTTON_COUNTER;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
         setWait(counter);
         if (counter === 0) {
           clearInterval(waitToSendInterval);
         }
-      }, 1000);
+      }, CONFIRM_BUTTON_TIMEOUT);
     }
     return () => {
       clearInterval(waitToSendInterval);
