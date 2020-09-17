@@ -1,27 +1,29 @@
 import log from 'loglevel';
-import electronLogger from 'electron-log';
+import ElectronLogger from 'electron-log';
 import {
   DEFAULT_ELECTRON_LOG_BASE_UNIT,
   DEFAULT_ELECTRON_LOG_SIZE,
   DEFAULT_ELECTRON_FORMAT,
 } from '../constants';
 
-electronLogger.transports.file.format = DEFAULT_ELECTRON_FORMAT;
-electronLogger.transports.file.maxSize =
+ElectronLogger.transports.file.format = DEFAULT_ELECTRON_FORMAT;
+ElectronLogger.transports.file.maxSize =
   DEFAULT_ELECTRON_LOG_BASE_UNIT * DEFAULT_ELECTRON_LOG_SIZE;
 
 const info = (text: string) => {
-  electronLogger.log(text);
+  ElectronLogger.log(text);
   log.info(text);
 };
 
 const error = (text: string) => {
-  electronLogger.error(text);
+  ElectronLogger.error(text);
   log.error(text);
 };
 
 const logFilePath = () => {
-  return electronLogger.transports.file.findLogPath();
+  return ElectronLogger.transports.file.findLogPath();
 };
 
 export { info, error, logFilePath };
+
+export default ElectronLogger;

@@ -30,3 +30,4 @@ export const GET_NEW_ADDRESS_TYPE = 'legacy';
 export const RESIGNED_STATE = 'RESIGNED';
 export const CONFIRM_BUTTON_TIMEOUT = 1000;
 export const CONFIRM_BUTTON_COUNTER = 5;
+export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;

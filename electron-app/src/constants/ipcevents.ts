@@ -13,4 +13,15 @@ export const MENU_IMPORT_WALLET = 'menu-import-wallet';
 
 export const STOP_BINARY_AND_QUEUE = 'stop-binary-and-queue';
 
+export const UPDATE_PROGRESS_VALUE = 'download-progress';
+
+export const UPDATE_PROGRESS_COMPLETED = 'update-downloaded';
+
+export const UPDATE_PROGRESS_FAILURE = 'update-downloaded-error';
+
+export const POST_UPDATE_ACTION = 'post-update-action';
+
+export const START_DOWNLOAD_UPDATE = 'start-download-update';
+
+export const SHOW_UPDATE_AVAILABLE = 'show-update-available';
 export const CLOSE_APP = 'close-app';

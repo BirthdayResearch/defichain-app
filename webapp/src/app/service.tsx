@@ -10,9 +10,19 @@ import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
 } from '../containers/WalletPage/reducer';
-import { openReIndexModal } from '../containers/ErrorModal/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
+import {
+  startUpdateApp,
+  updateApp,
+  updateCompleted,
+  updateError,
+  showUpdateAvailable,
+  closeUpdateAvailable,
+  closePostUpdate,
+  closeUpdateApp,
+  openReIndexModal,
+} from '../containers/PopOver/reducer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -79,3 +89,42 @@ export const importWallet = async (paths: string[]) => {
   }
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
+
+const openUpdateModal = () => {
+  const { popover } = store.getState();
+  if (!popover.isUpdateModalOpen) {
+    store.dispatch(startUpdateApp());
+  }
+};
+
+export const updateProgress = (args) => {
+  const {
+    popover: { isMinimized },
+  } = store.getState();
+  if(!isMinimized) {
+    openUpdateModal();
+  }
+  return store.dispatch(updateApp(args));
+};
+
+export const updateComplete = () => {
+  openUpdateModal();
+  return store.dispatch(updateCompleted());
+};
+
+export const handleUpdateError = (args?: any) => {
+  openUpdateModal();
+  return store.dispatch(updateError(args));
+};
+
+export const handleShowUpdateAvailable = () => {
+  openUpdateModal();
+  return store.dispatch(showUpdateAvailable());
+};
+
+export const handleCloseUpdateAvailable = () =>
+  store.dispatch(closeUpdateAvailable());
+
+export const handleClosePostUpdate = () => store.dispatch(closePostUpdate());
+
+export const handleCloseUpdateApp = () => store.dispatch(closeUpdateApp());
