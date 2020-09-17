@@ -30,7 +30,7 @@ const mapStateToProps = ({ popover }) => ({
 });
 
 const mapDispatchToProps = {
-  closeUpdateApp,
+  closeUpdateApp: () => closeUpdateApp(),
 };
 
 export default connect(
