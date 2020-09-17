@@ -1,6 +1,13 @@
 import { app, shell } from 'electron';
 import Wallet from '../controllers/wallets';
-import { DARWIN, WIN_32, LINUX, SITE_URL, DEBUG_LOG_FILE_PATH, CONFIG_FILE_PATH } from '../constants';
+import {
+  DARWIN,
+  WIN_32,
+  LINUX,
+  SITE_URL,
+  DEBUG_LOG_FILE_PATH,
+  CONFIG_FILE_PATH,
+} from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
 
@@ -65,32 +72,32 @@ export default class AppMenu {
         ],
       },
       {
-        label: 'Download logs',
+        label: 'Logs',
         submenu: [
           {
-            label: 'Defi App Logs',
+            label: 'App Logs',
             click: async () => {
               const srcFilePath = logFilePath();
               const logs = new Logs();
 
               const data = await logs.read(srcFilePath);
-              await logs.download(data);
+              await logs.download(data, '.log');
             },
           },
           {
-            label: 'Defid Debug Logs',
+            label: 'Binary Logs',
             click: async () => {
               const logs = new Logs();
               const data = await logs.read(DEBUG_LOG_FILE_PATH);
-              await logs.download(data);
+              await logs.download(data, '.log');
             },
           },
           {
-            label: 'Defi Conf',
+            label: 'App Config',
             click: async () => {
               const logs = new Logs();
               const data = await logs.read(CONFIG_FILE_PATH);
-              await logs.download(data);
+              await logs.download(data, '.conf');
             },
           },
         ],
