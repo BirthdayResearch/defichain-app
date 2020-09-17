@@ -10,20 +10,21 @@ import {
   TOKENS_PATH,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../../constants';
+import { ITokenResponse } from '../../../../../../utils/interfaces';
 
 interface CreateDCTProps {
   isUpdate: boolean;
   formState: any;
   isConfirmationModalOpen: string;
-  setIsConfirmationModalOpen: any;
+  setIsConfirmationModalOpen: (state: string) => void;
   cancelConfirmation: () => void;
   createConfirmation: () => void;
   updateConfirmation: () => void;
   wait: number;
-  createdTokenData: any;
+  createdTokenData: ITokenResponse;
   isErrorCreatingToken: string;
   isErrorUpdatingToken: string;
-  updatedTokenData: any;
+  updatedTokenData: ITokenResponse;
 }
 
 const Footer: React.FunctionComponent<CreateDCTProps> = (

@@ -22,6 +22,7 @@ import {
 import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
+import { ITokenResponse } from '../../../../../utils/interfaces';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
@@ -29,11 +30,11 @@ interface CreateDCTProps {
   collateralAddresses: any;
   IsCollateralAddressValid: boolean;
   isConfirmationModalOpen: string;
-  setIsConfirmationModalOpen: any;
-  createdTokenData: any;
-  updatedTokenData: any;
+  setIsConfirmationModalOpen: (state: string) => void;
+  createdTokenData: ITokenResponse;
+  updatedTokenData: ITokenResponse;
   wait: number;
-  setWait: any;
+  setWait: (wait: number) => void;
   createConfirmation: () => void;
   updateConfirmation: () => void;
   handleDropDowns: (data: any, field: any, amount: any) => void;

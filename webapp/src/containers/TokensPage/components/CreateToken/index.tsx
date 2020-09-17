@@ -15,6 +15,7 @@ import {
   DCT_DISTRIBUTION,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
+import { ITokenResponse } from '../../../../utils/interfaces';
 
 interface RouteParams {
   id?: string;
@@ -25,8 +26,8 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   fetchToken: (id: string | undefined) => void;
   createToken: (tokenData) => void;
   updateToken: (tokenData) => void;
-  createdTokenData: any;
-  updatedTokenData: any;
+  createdTokenData: ITokenResponse;
+  updatedTokenData: ITokenResponse;
   isTokenUpdating: boolean;
   isErrorUpdatingToken: string;
   isTokenCreating: boolean;
