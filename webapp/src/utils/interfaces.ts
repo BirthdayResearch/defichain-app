@@ -98,3 +98,7 @@ export interface ITokenCard {
   };
   handleCardClick: (symbol: string) => void;
 }
+
+export interface ITokenResponse {
+  hash: string;
+}
