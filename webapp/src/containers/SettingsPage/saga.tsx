@@ -62,7 +62,7 @@ export function* getSettingsOptions() {
 export function* getSettings() {
   const {
     blockChainInfo: { chain },
-  } = yield select((state) => state.syncstatus);
+  } = yield select((state) => state.wallet);
   let network = '';
   if (chain === BLOCKCHAIN_INFO_CHAIN_TEST) {
     network = TESTNET;

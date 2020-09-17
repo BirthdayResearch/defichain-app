@@ -1,17 +1,12 @@
 import { call, put, takeLatest, take } from 'redux-saga/effects';
 import logger, * as log from '../../utils/electronLogger';
-import {
-  syncStatusRequest,
-  syncStatusSuccess,
-  setBlockChainInfo,
-} from './reducer';
-import { getBlockSyncInfo, getBlockChainInfo } from './service';
+import { syncStatusRequest, syncStatusSuccess } from './reducer';
+import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
 import { SYNC_TIMEOUT, SYNC_INFO_RETRY_ATTEMPT } from '../../constants';
 
 function* blockSyncInfo() {
   const chan = yield call(fetchBlockSyncInfo, SYNC_INFO_RETRY_ATTEMPT);
-  yield call(fetchChainInfo);
   try {
     while (true) {
       // take(END) will cause the saga to terminate by jumping to the finally block
@@ -25,18 +20,6 @@ function* blockSyncInfo() {
     const e = new Error('Error Occurred');
     log.error(e);
   }
-}
-
-function* fetchChainInfo() {
-  let result;
-  try {
-    const data = yield call(getBlockChainInfo);
-    result = data;
-  } catch (err) {
-    log.error(err.message);
-    result = {};
-  }
-  yield put(setBlockChainInfo(result));
 }
 
 function fetchBlockSyncInfo(retryAttempt: number) {
