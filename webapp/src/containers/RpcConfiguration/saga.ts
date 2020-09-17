@@ -20,6 +20,8 @@ import {
   closeErrorModal,
   closeRestartLoader,
 } from '../PopOver/reducer';
+import { fetchPaymentRequest } from '../WalletPage/reducer';
+import { fetchChainInfo } from '../WalletPage/saga';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
@@ -63,8 +65,14 @@ export function* getConfig() {
   }
 }
 
+export function* preCheck() {
+  yield call(fetchChainInfo);
+  yield put(fetchPaymentRequest());
+}
+
 function* mySaga() {
   yield takeLatest(getRpcConfigsRequest.type, getConfig);
+  yield takeLatest(startNodeSuccess.type, preCheck);
 }
 
 export default mySaga;

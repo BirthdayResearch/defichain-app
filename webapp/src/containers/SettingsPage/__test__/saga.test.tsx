@@ -93,7 +93,7 @@ describe('Settings page saga unit test', () => {
       const gen = getSettings();
 
       expect(JSON.stringify(gen.next().value)).toEqual(
-        JSON.stringify(select((state) => state.syncstatus))
+        JSON.stringify(select((state) => state.wallet))
       );
       expect(gen.next(mockObj).value).toEqual(call(service.initialData));
       expect(gen.next(mockObj).value).toEqual(

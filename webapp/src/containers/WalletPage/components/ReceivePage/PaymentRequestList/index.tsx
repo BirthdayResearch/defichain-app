@@ -33,17 +33,12 @@ interface PaymentRequestsProps {
     amount: number;
     unit: string;
   }[];
-  fetchPaymentRequest: () => void;
   removeReceiveTxns: (id: string | number) => void;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
   props: PaymentRequestsProps
 ) => {
-  useEffect(() => {
-    props.fetchPaymentRequest();
-  }, []);
-
   const [currentPage, handlePageClick] = useState(1);
   const pageSize = PAYMENT_REQ_LIST_SIZE;
   const total = props.paymentRequests.length;
@@ -164,7 +159,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchPaymentRequest,
   removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
 };
 

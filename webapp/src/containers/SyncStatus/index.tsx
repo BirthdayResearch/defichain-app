@@ -132,22 +132,17 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { locale } = state.i18n;
   const {
-    syncstatus: {
-      syncedPercentage,
-      latestSyncedBlock,
-      latestBlock,
-      isLoading,
-      blockChainInfo,
-    },
+    i18n: { locale },
+    syncstatus: { syncedPercentage, latestSyncedBlock, latestBlock, isLoading },
+    wallet: { blockChainInfo },
     popover: {
       isUpdateModalOpen,
       isUpdateStarted,
       updateAppInfo,
       isRestart,
       isMinimized,
-    },
+    }
   } = state;
   return {
     locale,
