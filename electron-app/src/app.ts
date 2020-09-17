@@ -1,7 +1,7 @@
 import log from 'loglevel';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, Menu, protocol, dialog } from 'electron';
+import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import DefiProcessManager from './services/defiprocessmanager';
@@ -21,6 +21,7 @@ import {
   STOP_BINARY_AND_QUEUE,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
+import ElectronLogger from './services/electronLogger';
 
 declare var process: {
   argv: any;
@@ -44,8 +45,8 @@ export default class App {
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
     autoUpdater.autoDownload = false;
+    autoUpdater.logger = ElectronLogger;
     /* For future purpose */
-    initiateElectronUpdateManager(autoUpdater);
   }
 
   run() {
@@ -61,12 +62,13 @@ export default class App {
     this.createWindow();
     this.createMenu();
     // initiate ipcMain events
-    initiateIpcEvents();
+    initiateIpcEvents(autoUpdater);
 
     /* For future purpose */
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
+    initiateElectronUpdateManager(autoUpdater, this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {

@@ -18,8 +18,8 @@ import {
 import {
   openErrorModal,
   closeErrorModal,
-} from '../../containers/ErrorModal/reducer';
-import { closeRestartLoader } from '../ErrorModal/reducer';
+  closeRestartLoader,
+} from '../PopOver/reducer';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);

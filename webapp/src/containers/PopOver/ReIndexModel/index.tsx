@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
-import { closeReIndexModal, isRestartLoader } from '../reducer';
-import ReIndexComponent from './ReIndexComponent';
+import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
+import { I18n } from 'react-redux-i18n';
+
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
   closeReIndexModal: () => void;
@@ -27,19 +28,29 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   };
 
   return (
-    <div>
-      <Modal isOpen={isReIndexModelOpen} centered>
-        <ReIndexComponent
-          restartAppWithReIndexing={restartAppWithReIndexing}
-          closePopupAndApp={closePopupAndApp}
-        />
-      </Modal>
-    </div>
+    <Modal isOpen={isReIndexModelOpen} centered>
+      <ModalHeader toggle={closeReIndexModal}>
+        {I18n.t('alerts.reindexModelHeader')}
+      </ModalHeader>
+      <ModalBody>
+        <label className='text-center'>
+          {I18n.t('alerts.restartAppWithReindexNotice')}
+        </label>
+      </ModalBody>
+      <ModalFooter>
+        <Button size='sm' color='primary' onClick={restartAppWithReIndexing}>
+          {I18n.t('alerts.yesRestartAppWithReindex')}
+        </Button>
+        <Button size='sm' className='ml-4' onClick={closePopupAndApp}>
+          {I18n.t('alerts.noCloseApp')}
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { isReIndexModelOpen } = state.errorModal;
+  const { isReIndexModelOpen } = state.popover;
 
   return {
     isReIndexModelOpen,
