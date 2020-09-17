@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col } from 'reactstrap';
 import { closeUpdateApp } from '../reducer';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../../../constants';
 import ErrorComponent from './ErrorComponent';

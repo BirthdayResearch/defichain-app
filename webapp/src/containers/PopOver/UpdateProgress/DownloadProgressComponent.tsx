@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress, ModalBody, ModalHeader, Button } from 'reactstrap';
+import { Progress, ModalBody, ModalHeader } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { minimizeDownloadProgressModal } from '../reducer';

@@ -105,7 +105,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
 
     if (!isUpdateModalOpen && isUpdateStarted && isMinimized) {
       return (
-        <>
+        <div className='mt-2'>
           <div className={styles.syncHeading}>
             {I18n.t('components.syncStatus.downloading')} {percentValue}%
           </div>
@@ -114,7 +114,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
             className={styles.syncProgress}
             value={percentValue}
           />
-        </>
+        </div>
       );
     }
     return <div />;
@@ -141,7 +141,13 @@ const mapStateToProps = (state) => {
       isLoading,
       blockChainInfo,
     },
-    popover: { isUpdateModalOpen, isUpdateStarted, updateAppInfo, isRestart, isMinimized },
+    popover: {
+      isUpdateModalOpen,
+      isUpdateStarted,
+      updateAppInfo,
+      isRestart,
+      isMinimized,
+    },
   } = state;
   return {
     locale,
