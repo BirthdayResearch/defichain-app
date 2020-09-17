@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
   fetchPaymentRequest,
@@ -23,6 +23,7 @@ import {
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
+  setBlockChainInfo,
 } from './reducer';
 import {
   handelGetPaymentRequest,
@@ -32,6 +33,8 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
+  getAddressInfo,
+  getBlockChainInfo,
 } from './service';
 import queue from '../../worker/queue';
 import store from '../../app/rootStore';
@@ -39,12 +42,14 @@ import showNotification from '../../utils/notifications';
 import { paginate } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
+import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
 
 export function* getNetwork() {
   const {
     blockChainInfo: { chain },
-  } = yield select((state) => state.syncstatus);
+  } = yield select((state) => state.wallet);
   return chain;
 }
 
@@ -78,15 +83,22 @@ function fetchPendingBalance() {
   );
 }
 
+function* getPaymentRequestState() {
+  const { paymentRequests = [] } = yield select((state) => state.wallet);
+  return cloneDeep(paymentRequests);
+}
+
 export function* addReceiveTxns(action: any) {
   try {
+    const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
+
     const networkName = yield call(getNetwork);
-    const result = yield call(
-      handelAddReceiveTxns,
-      action.payload,
-      networkName
-    );
-    yield put(addReceiveTxnsSuccess(result));
+
+    yield call(handelAddReceiveTxns, action.payload, networkName);
+
+    cloneDeepPaymentRequests.push(action.payload);
+
+    yield put(addReceiveTxnsSuccess(cloneDeepPaymentRequests));
   } catch (e) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
@@ -96,12 +108,16 @@ export function* addReceiveTxns(action: any) {
 
 export function* removeReceiveTxns(action: any) {
   try {
+    const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
+
     const networkName = yield call(getNetwork);
-    const result = yield call(
-      handelRemoveReceiveTxns,
-      action.payload,
-      networkName
+
+    yield call(handelRemoveReceiveTxns, action.payload, networkName);
+
+    const result = cloneDeepPaymentRequests.filter(
+      (ele) => ele.id && ele.id.toString() !== action.payload.toString()
     );
+
     yield put(removeReceiveTxnsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
@@ -114,7 +130,16 @@ export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
     const data = yield call(handelGetPaymentRequest, networkName);
-    yield put(fetchPaymentRequestsSuccess(data));
+    const list = yield all(
+      data.map((item) => call(getAddressInfo, item.address))
+    );
+    const result = data.filter((item) => {
+      const found = list.find(
+        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
+      );
+      return !isEmpty(found);
+    });
+    yield put(fetchPaymentRequestsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -184,6 +209,18 @@ function fetchSendData() {
       store.dispatch(fetchSendDataFailure('No data found'));
     }
   });
+}
+
+export function* fetchChainInfo() {
+  let result;
+  try {
+    const data = yield call(getBlockChainInfo);
+    result = data;
+  } catch (err) {
+    log.error(err.message);
+    result = {};
+  }
+  yield put(setBlockChainInfo(result));
 }
 
 function* mySaga() {

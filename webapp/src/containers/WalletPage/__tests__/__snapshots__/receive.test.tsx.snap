@@ -335,7 +335,6 @@ exports[`ReceivePage component should check for snapshot 1`] = `
             <section>
               <Connect(PaymentRequestList)>
                 <PaymentRequestList
-                  fetchPaymentRequest={[Function]}
                   paymentRequests={Array []}
                   removeReceiveTxns={[Function]}
                 >
