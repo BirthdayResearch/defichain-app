@@ -23,7 +23,13 @@ import {
 import styles from '../../token.module.scss';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { fetchTokenInfo, destroyToken } from '../../reducer';
-import { TOKENS_PATH, TOKEN_EDIT_PATH } from '../../../../constants';
+import {
+  CONFIRM_BUTTON_COUNTER,
+  CONFIRM_BUTTON_TIMEOUT,
+  DELETE,
+  TOKENS_PATH,
+  TOKEN_EDIT_PATH,
+} from '../../../../constants';
 
 interface RouteParams {
   id?: string;
@@ -83,14 +89,14 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   useEffect(() => {
     let waitToSendInterval;
     if (isConfirmationModalOpen === 'confirm') {
-      let counter = 5;
+      let counter = CONFIRM_BUTTON_COUNTER;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
         setWait(counter);
         if (counter === 0) {
           clearInterval(waitToSendInterval);
         }
-      }, 1000);
+      }, CONFIRM_BUTTON_TIMEOUT);
     }
     return () => {
       clearInterval(waitToSendInterval);
@@ -102,7 +108,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   }, []);
 
   const handleDropDowns = (data: string) => {
-    if (data === 'delete') {
+    if (data === DELETE) {
       setIsConfirmationModalOpen('confirm');
     } else {
       history.push(`${TOKEN_EDIT_PATH}/${id}`);

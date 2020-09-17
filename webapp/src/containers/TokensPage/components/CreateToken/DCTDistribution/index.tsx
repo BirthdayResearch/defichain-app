@@ -41,17 +41,11 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
 
   const handleOnDrop = (data, file) => {
     if (file.type !== 'text/csv') {
-      alert('File format not supported');
       setuploadCsv(false);
     } else {
       const transformedData = data.map((address) => address.data[0]);
-      // if (transformedData.includes('')) {
-      //   alert('CSV is invalid');
-      //   setuploadCsv(false);
-      // } else {
       setCsvData(transformedData);
       setuploadCsv(false);
-      // }
     }
   };
 
@@ -60,7 +54,6 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
   };
 
   const handleOnError = (err, file, inputElem, reason) => {
-    alert(err.message);
     setCsvData([]);
     setuploadCsv(false);
   };

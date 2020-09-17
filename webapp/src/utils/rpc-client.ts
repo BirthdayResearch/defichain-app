@@ -495,6 +495,22 @@ export default class RpcClient {
     return data.result;
   };
 
+  resignMasterNode = async (
+    masternodeCreatorInfo: string,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.RESIGN_MASTER_NODE, [
+      masternodeCreatorInfo,
+      tx,
+    ]);
+    return data.result;
+  };
+
+  listMasterNodes = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    return data.result;
+  };
+
   createToken = async (
     tokenCreatorInfo: ITokenCreatorInfo,
     tx: any = []
@@ -517,17 +533,6 @@ export default class RpcClient {
     return data.result;
   };
 
-  resignMasterNode = async (
-    masternodeCreatorInfo: string,
-    tx: any = []
-  ): Promise<string> => {
-    const { data } = await this.call('/', methodNames.RESIGN_MASTER_NODE, [
-      masternodeCreatorInfo,
-      tx,
-    ]);
-    return data.result;
-  };
-
   destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
     const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [
       tx,
@@ -538,11 +543,6 @@ export default class RpcClient {
 
   tokenInfo = async (key: string): Promise<string> => {
     const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
-    return data.result;
-  };
-
-  listMasterNodes = async (): Promise<string> => {
-    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
     return data.result;
   };
 
