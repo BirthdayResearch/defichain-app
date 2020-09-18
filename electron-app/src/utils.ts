@@ -131,17 +131,18 @@ export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getDefaultDebugLogFilePath(homePath: string) {
+export function getDefaultDebugLogFilePath(homePath: string, binaryLogFileName: string) {
   const platform = getPlatform();
   if (platform === LINUX) {
-    return path.join(homePath, '/.defi', 'debug.log');
-  } else if (platform === WIN) {
+    return path.join(homePath, '/.defi', binaryLogFileName);
+  }
+  if (platform === WIN) {
     return path.join(
       homePath,
       'AppData',
       'Roaming',
       'DeFi Blockchain',
-      'debug.log'
+      binaryLogFileName
     );
   }
   return path.join(
@@ -149,7 +150,7 @@ export function getDefaultDebugLogFilePath(homePath: string) {
     'Library',
     'Application Support',
     'Defi',
-    'debug.log'
+    binaryLogFileName
   );
 }
 
@@ -160,6 +161,10 @@ export function getCustomDebugLogFilePath(configFilePath: string) {
 }
 
 export function isDataDirDefined(configFilePath: string) {
+  if(!checkPathExists(configFilePath)){
+    return false;
+  }
+
   const debugLogFilePath = getCustomDebugLogFilePath(configFilePath);
   return debugLogFilePath.length > 0;
 }
