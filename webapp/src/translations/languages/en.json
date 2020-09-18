@@ -350,6 +350,10 @@
     "reindexModelHeader": "Error occurred",
     "restartAppWithReindexNotice": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover. Do you want to restart?",
     "yesRestartAppWithReindex": "Restart app",
-    "noCloseApp": "Quit app"
+    "noCloseApp": "Quit app",
+    "backupWalletNoticeTitle": "Backup Wallet",
+    "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
+    "yesBackupWalletNotice": "Yes",
+    "noBackupWalletNotice": "No"
   }
 }
