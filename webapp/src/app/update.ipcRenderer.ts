@@ -51,4 +51,11 @@ export const closeUpdateModal = (closingFunc) => {
   setTimeout(closingFunc, UPDATE_MODAL_CLOSE_TIMEOUT);
 };
 
+export const backupWallet = async () => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    await ipcRenderer.sendSync('wallet-backup');
+  }
+};
+
 export default initUpdateAppIpcRenderers;

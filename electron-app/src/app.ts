@@ -22,6 +22,7 @@ import {
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
+import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
 
 declare var process: {
   argv: any;
@@ -69,6 +70,7 @@ export default class App {
       log.error(e);
     });
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
+    initiateBackupImportWalletManager(this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {
