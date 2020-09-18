@@ -2,7 +2,7 @@ import {
   handleUpdateError,
   updateComplete,
   updateProgress,
-  handleShowUpdateAvailable,
+  handleShowUpdateAvailableBadge,
   handleCloseUpdateAvailable,
   handleClosePostUpdate,
   handleCloseUpdateApp,
@@ -14,7 +14,7 @@ const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
 
   ipcRenderer.on('show-update-available', async () => {
-    handleShowUpdateAvailable();
+    handleShowUpdateAvailableBadge();
   });
 
   ipcRenderer.on('download-progress', async (event: any, arg: any) => {
