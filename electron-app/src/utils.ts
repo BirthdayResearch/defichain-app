@@ -4,6 +4,8 @@ import * as ps from 'ps-node';
 import * as utf8 from 'utf8';
 import cryptoJs from 'crypto-js';
 import { platform } from 'os';
+import ini from 'ini';
+import path from 'path';
 import {
   DARWIN,
   WIN_32,
@@ -13,10 +15,8 @@ import {
   OPENBSD,
   ANDROID,
   SUNOS,
-  STOP_RPC_COMMAND,
-  RPC_V,
+  WIN,
 } from './constants';
-import axios from 'axios';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -42,6 +42,7 @@ export const getBinaryParameter = (obj: any = {}) => {
     rpcuser: '',
     rpcpassword: '',
     rpcbind: '',
+    datadir: '',
   };
   remote.rpcallowip = '0.0.0.0/0';
   if (!!obj && Array.isArray(obj.remotes)) {
@@ -128,4 +129,42 @@ export const stopProcesses = (processId: number | string) => {
 
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function getDefaultDebugLogFilePath(homePath: string, binaryLogFileName: string) {
+  const platform = getPlatform();
+  if (platform === LINUX) {
+    return path.join(homePath, '/.defi', binaryLogFileName);
+  }
+  if (platform === WIN) {
+    return path.join(
+      homePath,
+      'AppData',
+      'Roaming',
+      'DeFi Blockchain',
+      binaryLogFileName
+    );
+  }
+  return path.join(
+    homePath,
+    'Library',
+    'Application Support',
+    'Defi',
+    binaryLogFileName
+  );
+}
+
+export function getCustomDebugLogFilePath(configFilePath: string) {
+  const data = getFileData(configFilePath);
+  const config = ini.decode(data);
+  return config && config.datadir ? config.datadir : '';
+}
+
+export function isDataDirDefined(configFilePath: string) {
+  if(!checkPathExists(configFilePath)){
+    return false;
+  }
+
+  const debugLogFilePath = getCustomDebugLogFilePath(configFilePath);
+  return debugLogFilePath.length > 0;
 }
