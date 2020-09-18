@@ -280,7 +280,8 @@
         "paginationRange": "%{from} – %{to} of %{total} payment request",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
-        "pending": "Pending"
+        "pending": "Pending",
+        "updateAvailableLabel": "Update Available"
       },
       "walletTxns": {
         "height": "Height",
