@@ -3,8 +3,10 @@ import { backupWallet } from '../../app/update.ipcRenderer';
 import { backupLoadingStart, showUpdateAvailable } from './reducer';
 
 function* backupWalletbeforeUpdate() {
-  yield call(backupWallet);
-  yield put(showUpdateAvailable());
+  const result = yield call(backupWallet);
+  if (result) {
+    yield put(showUpdateAvailable());
+  }
 }
 
 function* mySaga() {
