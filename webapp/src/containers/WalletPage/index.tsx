@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
-import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
+import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import {
+  MdArrowUpward,
+  MdArrowDownward,
+  MdRefresh,
+  MdInfo,
+} from 'react-icons/md';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
@@ -70,12 +75,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
       <header className='header-bar'>
         <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
         {updateAvailableBadge && ( // TODO remove true from reducer
-          <Button size='sm' color='secondary' outline onClick={openUpdatePopUp}>
-            <Badge color='success' pill>
-              i
-            </Badge>{' '}
-            {I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
-          </Button>
+          <div className='update-available'>
+            <Button className='badge' outline onClick={openUpdatePopUp}>
+              <MdInfo />
+              <span>
+                {I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
+              </span>
+            </Button>
+          </div>
         )}
         <ButtonGroup>
           <Button to={WALLET_SEND_PATH} tag={RRNavLink} color='link' size='sm'>

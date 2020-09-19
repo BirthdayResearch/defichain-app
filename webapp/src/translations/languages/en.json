@@ -281,7 +281,7 @@
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
-        "updateAvailableLabel": "Update Available"
+        "updateAvailableLabel": "Update available"
       },
       "walletTxns": {
         "height": "Height",
@@ -340,10 +340,10 @@
     "updateAppNotice": "You need to restart app to see the new update. Do you want to restart?",
     "yesUpdateAppNotice": "Yes",
     "noUpdateAppNotice": "No",
-    "showUpdateAvailableHeader": "Update available",
-    "showUpdateAvailableNotice": "A new version of Defi app is available. Would you like to update?",
-    "yesShowUpdateAvailableButton": "Yes",
-    "noShowUpdateAvailableButton": "No",
+    "showUpdateAvailableHeader": "An update available is available for DeFi app",
+    "showUpdateAvailableNotice": "Would you like to update?",
+    "yesShowUpdateAvailableButton": "Update",
+    "noShowUpdateAvailableButton": "Not now",
     "startUpdateLabel": "Initiating Update",
     "closeBtnLabel": "Close",
     "downloadingUpdate": "Downloading update",
