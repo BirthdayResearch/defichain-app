@@ -28,3 +28,5 @@ export const SHOW_UPDATE_AVAILABLE = 'show-update-available';
 export const CLOSE_APP = 'close-app';
 
 export const FORCE_KILL_QUEUE_AND_SHUTDOWN = 'force-kill-queue-and-shutdown';
+
+export const WALLET_BACKUP = 'wallet-backup';

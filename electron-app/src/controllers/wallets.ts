@@ -21,8 +21,10 @@ export default class Wallet {
         throw new Error('No valid path available');
       }
       bw.webContents.send(MENU_BACKUP_WALLET, { paths });
+      return true;
     } catch (err) {
       log.error(err);
+      return false;
     }
   }
 }
