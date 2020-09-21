@@ -340,7 +340,7 @@
     "updateAppNotice": "You need to restart app to see the new update. Do you want to restart?",
     "yesUpdateAppNotice": "Yes",
     "noUpdateAppNotice": "No",
-    "showUpdateAvailableHeader": "An update available is available for DeFi app",
+    "showUpdateAvailableHeader": "An update is available for DeFi app",
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
