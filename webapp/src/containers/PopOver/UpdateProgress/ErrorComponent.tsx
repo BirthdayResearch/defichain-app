@@ -13,7 +13,6 @@ const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
   const { isUpdateError, closeUpdateApp } = props;
   return (
     <>
-      <ModalHeader toggle={closeUpdateApp}>&nbsp;</ModalHeader>
       <ModalBody>{isUpdateError}</ModalBody>
       <ModalFooter>
         <Button size='sm' onClick={closeUpdateApp}>
