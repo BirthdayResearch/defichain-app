@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
 import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
@@ -29,10 +29,8 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
 
   return (
     <Modal isOpen={isReIndexModelOpen} centered>
-      <ModalHeader toggle={closeReIndexModal}>
-        {I18n.t('alerts.reindexModelHeader')}
-      </ModalHeader>
       <ModalBody>
+        <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
         <label className='text-center'>
           {I18n.t('alerts.restartAppWithReindexNotice')}
         </label>

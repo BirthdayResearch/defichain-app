@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { showAvailableUpdateResponse } from '../../../app/update.ipcRenderer';
@@ -17,15 +17,15 @@ const ShowUpdateAvailableComponent = (
   const closing = () => closeModal(closeUpdateAvailable);
   return (
     <>
-      <ModalHeader toggle={closing}>
-        {I18n.t('alerts.showUpdateAvailableHeader')}
-      </ModalHeader>
-      <ModalBody>{I18n.t('alerts.showUpdateAvailableNotice')}</ModalBody>
+      <ModalBody>
+        <h1 className='h4'>{I18n.t('alerts.showUpdateAvailableHeader')}</h1>
+        {I18n.t('alerts.showUpdateAvailableNotice')}
+      </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={showAvailableUpdateResponse}>
           {I18n.t('alerts.yesShowUpdateAvailableButton')}
         </Button>
-        <Button size='sm' onClick={closing}>
+        <Button size='sm' color='link' onClick={closing}>
           {I18n.t('alerts.noShowUpdateAvailableButton')}
         </Button>
       </ModalFooter>
