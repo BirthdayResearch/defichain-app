@@ -15,7 +15,7 @@ const configSlice = createSlice({
     isReIndexModelOpen: false,
     isReIndexRestart: false,
     isMinimized: false,
-    updateAvailableBadge: true,
+    updateAvailableBadge: false,
   },
   reducers: {
     openErrorModal(state) {
