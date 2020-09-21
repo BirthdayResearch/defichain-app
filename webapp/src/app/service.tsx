@@ -17,7 +17,7 @@ import {
   updateApp,
   updateCompleted,
   updateError,
-  showUpdateAvailable,
+  showUpdateAvailableBadge,
   closeUpdateAvailable,
   closePostUpdate,
   closeUpdateApp,
@@ -101,7 +101,7 @@ export const updateProgress = (args) => {
   const {
     popover: { isMinimized },
   } = store.getState();
-  if(!isMinimized) {
+  if (!isMinimized) {
     openUpdateModal();
   }
   return store.dispatch(updateApp(args));
@@ -117,9 +117,8 @@ export const handleUpdateError = (args?: any) => {
   return store.dispatch(updateError(args));
 };
 
-export const handleShowUpdateAvailable = () => {
-  openUpdateModal();
-  return store.dispatch(showUpdateAvailable());
+export const handleShowUpdateAvailableBadge = () => {
+  return store.dispatch(showUpdateAvailableBadge());
 };
 
 export const handleCloseUpdateAvailable = () =>
