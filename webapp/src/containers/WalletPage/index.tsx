@@ -16,7 +16,7 @@ import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
 } from './reducer';
-import { startUpdateApp, showUpdateAvailable } from '../PopOver/reducer';
+import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import { updatePendingBalanceSchedular } from '../../worker/schedular';
@@ -31,7 +31,7 @@ interface WalletPageProps {
   fetchPendingBalanceRequest: () => void;
   updateAvailableBadge: boolean;
   startUpdateApp: () => void;
-  showUpdateAvailable: () => void;
+  openBackupWallet: () => void;
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
@@ -43,7 +43,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     fetchPendingBalanceRequest,
     updateAvailableBadge,
     startUpdateApp,
-    showUpdateAvailable,
+    openBackupWallet,
   } = props;
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -58,7 +58,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   }, []);
 
   const openUpdatePopUp = () => {
-    showUpdateAvailable();
+    openBackupWallet();
     startUpdateApp();
   };
 
@@ -176,7 +176,7 @@ const mapDispatchToProps = {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
   startUpdateApp,
-  showUpdateAvailable,
+  openBackupWallet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletPage);

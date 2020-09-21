@@ -6,6 +6,7 @@ import ErrorComponent from './ErrorComponent';
 import ShowUpdateAvailableComponent from './ShowUpdateAvailable';
 import PostUpdateComponent from './PostUpdateComponent';
 import DownloadProgressComponent from './DownloadProgressComponent';
+import Backupwalletnotice from './BackupWalletNotice';
 
 interface UpdateModalProps {
   isUpdateError: string;
@@ -13,6 +14,7 @@ interface UpdateModalProps {
   showUpdateAvailable: boolean;
   isUpdateStarted: boolean;
   closeUpdateApp: () => void;
+  backupWalletIsOpen: boolean;
 }
 
 const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
@@ -24,6 +26,7 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
     isUpdateStarted,
     isUpdateError,
     closeUpdateApp,
+    backupWalletIsOpen,
   } = props;
 
   const closeModal = (fn) => {
@@ -41,6 +44,8 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
 
     if (isUpdateStarted) return <DownloadProgressComponent />;
 
+    if (backupWalletIsOpen) return <Backupwalletnotice />;
+
     return <div />;
   };
 
@@ -53,12 +58,14 @@ const mapStateToProps = (state) => {
     postUpdateFlag,
     showUpdateAvailable,
     isUpdateStarted,
+    backupWalletIsOpen,
   } = state.popover;
   return {
     isUpdateError,
     postUpdateFlag,
     showUpdateAvailable,
     isUpdateStarted,
+    backupWalletIsOpen,
   };
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { sendUpdateResponse } from '../../../app/update.ipcRenderer';
@@ -15,10 +15,10 @@ const PostUpdateComponent = (props: PostUpdateComponentProps) => {
   const closing = () => closeModal(closePostUpdate);
   return (
     <>
-      <ModalHeader toggle={closing}>
-        {I18n.t('alerts.updateAppNoticeTitle')}
-      </ModalHeader>
-      <ModalBody>{I18n.t('alerts.updateAppNotice')}</ModalBody>
+      <ModalBody>
+        <h1 className='h4'>{I18n.t('alerts.updateAppNoticeTitle')}</h1>
+        {I18n.t('alerts.updateAppNotice')}
+      </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={() => sendUpdateResponse()}>
           {I18n.t('alerts.yesUpdateAppNotice')}
