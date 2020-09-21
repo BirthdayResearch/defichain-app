@@ -19,8 +19,6 @@ interface AppProps extends RouteComponentProps {
   getRpcConfigsRequest: () => void;
   nodeError: string;
   isFetching: boolean;
-  isErrorModalOpen: boolean;
-  isUpdateModalOpen: boolean;
   isRestart: boolean;
 }
 
@@ -45,8 +43,6 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
     location,
     getRpcConfigsRequest,
     isRunning,
-    isErrorModalOpen,
-    isUpdateModalOpen,
     nodeError,
     isFetching,
     isRestart,
@@ -67,14 +63,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   return (
     <>
       {isRunning ? (
-        <div
-          id='app'
-          className={
-            isErrorModalOpen || isUpdateModalOpen
-              ? popoverModelStyles.openErrorModal
-              : ''
-          }
-        >
+        <div id='app'>
           <Helmet>
             <title>DeFi Blockchain Client</title>
           </Helmet>
@@ -113,8 +102,6 @@ const mapStateToProps = ({ app, popover }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
   isFetching: app.isFetching,
-  isErrorModalOpen: popover.isOpen,
-  isUpdateModalOpen: popover.isUpdateModalOpen,
   isRestart: popover.isReIndexRestart,
 });
 
