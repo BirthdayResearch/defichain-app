@@ -75,6 +75,33 @@ body {
         text-transform: none;
       }
 
+      .update-available {
+        position: absolute;
+        top: 16px;
+        right: 24px;
+
+        > * {
+          display: block;
+        }
+
+        > .btn {
+          text-transform: none;
+          letter-spacing: 0.21px;
+          font-weight: $font-weight-medium;
+
+          &:hover {
+            color: $gray-900;
+          }
+
+          svg {
+            color: $green;
+            margin-right: 4px;
+            width: 12px;
+            height: 12px;
+          }
+        }
+      }
+
       @include media-breakpoint-down(sm) {
         .btn span {
           display: none;
