@@ -30,3 +30,7 @@ export const CLOSE_APP = 'close-app';
 export const FORCE_KILL_QUEUE_AND_SHUTDOWN = 'force-kill-queue-and-shutdown';
 
 export const WALLET_BACKUP = 'wallet-backup';
+
+export const BACKUP_WALLET_DAT = 'backup-wallet-dat';
+
+export const START_BACKUP_WALLET_DAT = 'start-backup-wallet-dat';

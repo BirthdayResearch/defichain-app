@@ -1,4 +1,4 @@
-import { backupWallet, importWallet } from './service';
+import { importWallet, backupWallet, startBackupWalletDat } from './service';
 
 const initMenuIpcRenderers = () => {
   const { ipcRenderer } = window.require('electron');
@@ -9,6 +9,10 @@ const initMenuIpcRenderers = () => {
       await backupWallet(paths);
     }
   );
+
+  ipcRenderer.on('start-backup-wallet-dat', async (event: any) => {
+    await startBackupWalletDat();
+  });
 
   ipcRenderer.on(
     'menu-import-wallet',

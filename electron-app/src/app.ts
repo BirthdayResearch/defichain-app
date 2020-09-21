@@ -166,8 +166,7 @@ export default class App {
 
     this.mainWindow.hide();
     event.preventDefault();
-    const defiProcessManager = new DefiProcessManager();
-    await defiProcessManager.stop();
+    await DefiProcessManager.stop();
     this.allowQuit = true;
     return app.quit();
   };

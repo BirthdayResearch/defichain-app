@@ -16,6 +16,10 @@ import {
   ANDROID,
   SUNOS,
   WIN,
+  CONFIG_FILE_NAME,
+  MAINNET_BASE_FOLDER,
+  REGTEST_BASE_FOLDER,
+  TESTNET_BASE_FOLDER,
 } from './constants';
 
 export const getPlatform = () => {
@@ -131,27 +135,15 @@ export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getDefaultDebugLogFilePath(homePath: string, binaryLogFileName: string) {
+export function getDefaultDebugLogFilePath(homePath: string) {
   const platform = getPlatform();
   if (platform === LINUX) {
-    return path.join(homePath, '/.defi', binaryLogFileName);
+    return path.join(homePath, '/.defi');
   }
   if (platform === WIN) {
-    return path.join(
-      homePath,
-      'AppData',
-      'Roaming',
-      'DeFi Blockchain',
-      binaryLogFileName
-    );
+    return path.join(homePath, 'AppData', 'Roaming', 'DeFi Blockchain');
   }
-  return path.join(
-    homePath,
-    'Library',
-    'Application Support',
-    'Defi',
-    binaryLogFileName
-  );
+  return path.join(homePath, 'Library', 'Application Support', 'Defi');
 }
 
 export function getCustomDebugLogFilePath(configFilePath: string) {
@@ -161,10 +153,34 @@ export function getCustomDebugLogFilePath(configFilePath: string) {
 }
 
 export function isDataDirDefined(configFilePath: string) {
-  if(!checkPathExists(configFilePath)){
+  if (!checkPathExists(configFilePath)) {
     return false;
   }
 
   const debugLogFilePath = getCustomDebugLogFilePath(configFilePath);
   return debugLogFilePath.length > 0;
 }
+
+export const copyFile = (src: fs.PathLike, dest: fs.PathLike) => {
+  return fs.copyFileSync(src, dest);
+};
+
+export const getIniData = (fileName: string) => {
+  if (checkPathExists(fileName)) {
+    const data = getFileData(fileName, 'utf-8');
+    return ini.parse(data);
+  }
+  return {};
+};
+
+export const getBaseFolder = () => {
+  const data = getIniData(CONFIG_FILE_NAME);
+  let baseFolder = MAINNET_BASE_FOLDER;
+  if (data.testnet && parseInt(data.testnet, 10)) {
+    baseFolder = TESTNET_BASE_FOLDER;
+  }
+  if (data.regtest && parseInt(data.regtest, 10)) {
+    baseFolder = REGTEST_BASE_FOLDER;
+  }
+  return baseFolder;
+};

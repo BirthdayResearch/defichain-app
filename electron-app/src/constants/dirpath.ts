@@ -30,6 +30,27 @@ export const BINARY_FILE_PATH = IS_DEV
 
 export const CONFIG_FILE_PATH = path.join(HOME_PATH, '/.defi', 'defi.conf');
 
-export const DEBUG_LOG_FILE_PATH = isDataDirDefined(CONFIG_FILE_PATH)
-  ? path.join(getCustomDebugLogFilePath(CONFIG_FILE_PATH), BINARY_LOG_FILE_NAME)
-  : getDefaultDebugLogFilePath(HOME_PATH, BINARY_LOG_FILE_NAME);
+export const BASE_FILE_PATH = isDataDirDefined(CONFIG_FILE_PATH)
+  ? path.join(getCustomDebugLogFilePath(CONFIG_FILE_PATH))
+  : getDefaultDebugLogFilePath(HOME_PATH);
+
+export const DEBUG_LOG_FILE_PATH = path.join(
+  BASE_FILE_PATH,
+  BINARY_LOG_FILE_NAME
+);
+
+export const WALLET_DAT = 'wallet.dat';
+
+export const TESTNET_BASE_FOLDER = path.join(
+  BASE_FILE_PATH,
+  'testnet3',
+  'wallets'
+);
+
+export const REGTEST_BASE_FOLDER = path.join(
+  BASE_FILE_PATH,
+  'regtest',
+  'wallets'
+);
+
+export const MAINNET_BASE_FOLDER = BASE_FILE_PATH;

@@ -22,6 +22,7 @@ import {
   closePostUpdate,
   closeUpdateApp,
   openReIndexModal,
+  openWalletDatBackupModal,
 } from '../containers/PopOver/reducer';
 
 export const getRpcConfig = () => {
@@ -62,6 +63,18 @@ export const stopBinary = () => {
   return { success: true, data: {} };
 };
 
+export const backupWalletDat = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  const resp = ipcRenderer.sendSync('backup-wallet-dat');
+  if (resp.success) {
+    return showNotification(
+      I18n.t('alerts.success'),
+      I18n.t('alerts.backupSuccess')
+    );
+  }
+  return showNotification(I18n.t('alerts.errorOccurred'), resp.message);
+};
+
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
   const res = await rpcClient.call('', DUMP_WALLET, [paths]);
@@ -97,6 +110,13 @@ const openUpdateModal = () => {
   }
 };
 
+const isRunning = () => {
+  const {
+    app: { isRunning },
+  } = store.getState();
+  return isRunning;
+};
+
 export const updateProgress = (args) => {
   const {
     popover: { isMinimized },
@@ -127,3 +147,7 @@ export const handleCloseUpdateAvailable = () =>
 export const handleClosePostUpdate = () => store.dispatch(closePostUpdate());
 
 export const handleCloseUpdateApp = () => store.dispatch(closeUpdateApp());
+
+export const startBackupWalletDat = () => {
+  return store.dispatch(openWalletDatBackupModal());
+};
