@@ -29,10 +29,8 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
 
   return (
     <Modal isOpen={isReIndexModelOpen} centered>
-      <ModalHeader toggle={closeReIndexModal}>
-        {I18n.t('alerts.reindexModelHeader')}
-      </ModalHeader>
       <ModalBody>
+        <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
         <label className='text-center'>
           {I18n.t('alerts.restartAppWithReindexNotice')}
         </label>

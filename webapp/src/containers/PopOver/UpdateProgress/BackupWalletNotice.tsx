@@ -24,10 +24,10 @@ const BackupWalletNotice: React.FunctionComponent<BackupWalletNoticeProps> = (
   };
   return (
     <>
-      <ModalHeader toggle={closing}>
-        {I18n.t('alerts.backupWalletNoticeTitle')}
-      </ModalHeader>
-      <ModalBody>{I18n.t('alerts.backupWalletNotice')}</ModalBody>
+      <ModalBody>
+        <h1 className='h4'>{I18n.t('alerts.backupWalletNoticeTitle')}</h1>
+        {I18n.t('alerts.backupWalletNotice')}
+      </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={backupLoadingStart}>
           {I18n.t('alerts.yesBackupWalletNotice')}

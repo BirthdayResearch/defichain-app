@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress, ModalBody, ModalHeader } from 'reactstrap';
+import { Progress, ModalBody, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { minimizeDownloadProgressModal } from '../reducer';
@@ -15,11 +15,19 @@ const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
   const minimize = () => minimizeDownloadProgressModal();
   return (
     <>
-      <ModalHeader toggle={minimize} charCode='-'>
-        {I18n.t('alerts.downloadingUpdate')}
-      </ModalHeader>
-      <ModalBody className='text-center'>
-        <p>{percent} %</p>
+      <ModalBody>
+        <h1 className='h4'>
+          {I18n.t('alerts.downloadingUpdate')}
+          <Button
+            size='xs'
+            color='link'
+            className='float-right p-0'
+            onClick={minimize}
+          >
+            &minus;
+          </Button>
+        </h1>
+        <p className='text-center'>{percent} %</p>
         <Progress animated color='info' value={percent}></Progress>
       </ModalBody>
     </>
