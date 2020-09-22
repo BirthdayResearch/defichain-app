@@ -28,7 +28,7 @@ const BackupWalletNotice: React.FunctionComponent<BackupWalletNoticeProps> = (
       >
         <ModalBody>
           <h1 className='h4'>{I18n.t('alerts.backupWalletNoticeTitle')}</h1>
-          {I18n.t('alerts.backupWalletNotice')}
+          {I18n.t('alerts.backupWalletDatNotice')}
         </ModalBody>
         <ModalFooter>
           <Button size='sm' color='primary' onClick={backupWalletDat}>

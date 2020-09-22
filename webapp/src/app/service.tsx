@@ -23,7 +23,9 @@ import {
   closeUpdateApp,
   openReIndexModal,
   openWalletDatBackupModal,
+  closeWalletDatBackupModal,
 } from '../containers/PopOver/reducer';
+import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -67,6 +69,7 @@ export const backupWalletDat = async () => {
   const ipcRenderer = ipcRendererFunc();
   const resp = ipcRenderer.sendSync('backup-wallet-dat');
   if (resp.success) {
+    store.dispatch(closeWalletDatBackupModal());
     return showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.backupSuccess')
@@ -148,6 +151,14 @@ export const handleClosePostUpdate = () => store.dispatch(closePostUpdate());
 
 export const handleCloseUpdateApp = () => store.dispatch(closeUpdateApp());
 
-export const startBackupWalletDat = () => {
+export const openBackupWalletDat = () => {
   return store.dispatch(openWalletDatBackupModal());
 };
+
+export const startBackupModal = () => {
+  if (isRunning()) return backupWalletIpcRenderer();
+  return openBackupWalletDat();
+};
+
+export const showErrorNotification = (res) =>
+  showNotification(I18n.t('alerts.errorOccurred'), res.message);
