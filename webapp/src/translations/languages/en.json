@@ -354,7 +354,7 @@
     "noCloseApp": "Quit app",
     "backupWalletNoticeTitle": "Backup Wallet",
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
-    "backupWalletDatNotice": "There is some error in backup wallet but you can take backup of wallet.dat, Do you want to backup your wallet.dat file?",
+    "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
     "yesBackupWalletNotice": "Yes",
     "noBackupWalletNotice": "No"
   }
