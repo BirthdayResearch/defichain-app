@@ -28,7 +28,7 @@ export default class AppMenu {
             label: 'Backup Wallet',
             click(item, bw) {
               const wallet = new Wallet();
-              wallet.backup(bw);
+              wallet.startBackupWallet(bw);
             },
           },
         ],

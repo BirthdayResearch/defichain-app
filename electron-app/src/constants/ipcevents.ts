@@ -33,4 +33,4 @@ export const WALLET_BACKUP = 'wallet-backup';
 
 export const BACKUP_WALLET_DAT = 'backup-wallet-dat';
 
-export const START_BACKUP_WALLET_DAT = 'start-backup-wallet-dat';
+export const START_BACKUP_WALLET = 'start-backup-wallet';
