@@ -17,7 +17,7 @@ import {
   startRestartNodeWithMasterNode,
   finishRestartNodeWithMasterNode,
 } from './reducer';
-import { restartModal } from '../ErrorModal/reducer';
+import { restartModal } from '../PopOver/reducer';
 import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,

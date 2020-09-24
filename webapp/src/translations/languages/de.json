@@ -10,7 +10,8 @@
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
-      "network": "Netzwerk"
+      "network": "Netzwerk",
+      "downloading": "Downloading update"
     }
   },
   "containers": {
@@ -241,7 +242,9 @@
         "createNewAddressNotice": "Give your new DFI address a meaningful label",
         "createNewReceiveAddressLabel": "Create new receive address",
         "backButton": "Back",
-        "createButton": "Create"
+        "createButton": "Create",
+        "legacyAddress": "Legacy Address",
+        "addressType": "Address Type"
       },
       "paymentRequests": {
         "time": "Zeit",
@@ -277,7 +280,8 @@
         "paginationRange": "%{from} – %{to} von %{total} Zahlungsaufforderung",
         "transactions": "Transaktionen",
         "availableBalance": "Verfügbares Guthaben",
-        "pending": "Ausstehend"
+        "pending": "Ausstehend",
+        "updateAvailableLabel": "Update available"
       },
       "walletTxns": {
         "height": "Höhe",
@@ -331,6 +335,27 @@
     "restartNode": "Restarting Node",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
-    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet."
+    "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
+    "updateAppNoticeTitle": "Update complete",
+    "updateAppNotice": "You need to restart app to see the new update. Do you want to restart?",
+    "yesUpdateAppNotice": "Yes",
+    "noUpdateAppNotice": "No",
+    "showUpdateAvailableHeader": "An update is available for DeFi app",
+    "showUpdateAvailableNotice": "Would you like to update?",
+    "yesShowUpdateAvailableButton": "Update",
+    "noShowUpdateAvailableButton": "Not now",
+    "startUpdateLabel": "Initiating Update",
+    "closeBtnLabel": "Close",
+    "minimizeBtnLabel": "Minimize",
+    "downloadingUpdate": "Downloading update",
+    "reindexModelHeader": "Error occurred",
+    "restartAppWithReindexNotice": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover. Do you want to restart?",
+    "yesRestartAppWithReindex": "Restart app",
+    "noCloseApp": "Quit app",
+    "backupWalletNoticeTitle": "Backup Wallet",
+    "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
+    "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
+    "yesBackupWalletNotice": "Yes",
+    "noBackupWalletNotice": "No"
   }
 }

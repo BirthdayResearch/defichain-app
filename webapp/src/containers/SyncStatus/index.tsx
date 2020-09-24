@@ -22,30 +22,44 @@ interface SyncStatusProps {
   fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
   isRestart: boolean;
+  isUpdateModalOpen: boolean;
+  isUpdateStarted: boolean;
+  updateAppInfo: any;
+  isMinimized: boolean;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   props: SyncStatusProps
 ) => {
-  const prevIsRestart = UsePrevious(props.isRestart);
-  useEffect(() => {
-    props.syncStatusRequest();
-  }, []);
-  useEffect(() => {
-    if (prevIsRestart && !props.isRestart) {
-      props.syncStatusRequest();
-      props.fetchWalletBalanceRequest();
-      props.fetchPendingBalanceRequest();
-    }
-  }, [prevIsRestart, props.isRestart]);
-
   const {
+    isUpdateModalOpen,
+    isUpdateStarted,
+    updateAppInfo: { percent = 0 },
+    syncStatusRequest,
+    isRestart,
+    fetchWalletBalanceRequest,
+    fetchPendingBalanceRequest,
+    isMinimized,
     latestSyncedBlock,
     latestBlock,
     syncedPercentage,
     isLoading,
     blockChainInfo,
   } = props;
+  const prevIsRestart = UsePrevious(isRestart);
+
+  useEffect(() => {
+    syncStatusRequest();
+  }, []);
+
+  useEffect(() => {
+    if (prevIsRestart && !isRestart) {
+      syncStatusRequest();
+      fetchWalletBalanceRequest();
+      fetchPendingBalanceRequest();
+    }
+  }, [prevIsRestart, isRestart]);
+
   const chainName = !isEmpty(blockChainInfo)
     ? blockChainInfo.chain.charAt(0).toUpperCase() +
       blockChainInfo.chain.slice(1)
@@ -86,26 +100,50 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     );
   };
 
+  const updateInfo = () => {
+    const percentValue = Number(percent).toFixed(2);
+
+    if (!isUpdateModalOpen && isUpdateStarted && isMinimized) {
+      return (
+        <div className='mt-2'>
+          <div className={styles.syncHeading}>
+            {I18n.t('components.syncStatus.downloading')} {percentValue}%
+          </div>
+          <Progress
+            animated
+            className={styles.syncProgress}
+            value={percentValue}
+          />
+        </div>
+      );
+    }
+    return <div />;
+  };
+
   return (
     <div className={styles.syncStatusWrapper}>
       <div className={styles.syncHeading}>
         {I18n.t('components.syncStatus.network')}: {chainName}
       </div>
       {syncBlock()}
+      {updateInfo()}
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { locale } = state.i18n;
   const {
-    syncedPercentage,
-    latestSyncedBlock,
-    latestBlock,
-    isLoading,
-    blockChainInfo,
-  } = state.syncstatus;
-  const { isRestart } = state.errorModal;
+    i18n: { locale },
+    syncstatus: { syncedPercentage, latestSyncedBlock, latestBlock, isLoading },
+    wallet: { blockChainInfo },
+    popover: {
+      isUpdateModalOpen,
+      isUpdateStarted,
+      updateAppInfo,
+      isRestart,
+      isMinimized,
+    }
+  } = state;
   return {
     locale,
     isLoading,
@@ -114,6 +152,10 @@ const mapStateToProps = (state) => {
     latestSyncedBlock,
     blockChainInfo,
     isRestart,
+    isUpdateModalOpen,
+    isUpdateStarted,
+    updateAppInfo,
+    isMinimized,
   };
 };
 

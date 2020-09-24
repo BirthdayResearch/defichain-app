@@ -128,7 +128,7 @@ describe('Wallet page service unit test', () => {
     });
     const label = 'test';
     mockAxios(post);
-    const test = await service.getNewAddress(label);
+    const test = await service.getNewAddress(label, false);
     expect(test).toBe(expected.getNewAddress);
     expect(post).toBeCalledTimes(1);
   });
@@ -140,7 +140,7 @@ describe('Wallet page service unit test', () => {
         .mockImplementationOnce(() => Promise.reject('Error'));
       const label = 'test';
       mockAxios(post);
-      const test = await service.getNewAddress(label);
+      const test = await service.getNewAddress(label, false);
     } catch (err) {
       expect(err).toBeTruthy();
     }
@@ -156,7 +156,7 @@ describe('Wallet page service unit test', () => {
       });
       const label = 'test';
       mockAxios(post);
-      const test = await service.getNewAddress(label);
+      const test = await service.getNewAddress(label, false);
     } catch (err) {
       expect(spy).toBeCalled();
       expect(err).toBeTruthy();

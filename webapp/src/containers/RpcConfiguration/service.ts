@@ -4,6 +4,7 @@ import {
   RETRY_ATTEMPT,
   BLOCKCHAIN_START_ERROR,
   BLOCKCHAIN_START_SUCCESS,
+  LOADING_BLOCK_INDEX_CODE,
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 
@@ -22,7 +23,10 @@ export const isBlockchainStarted = async (emitter, response) => {
         clearInterval(intervalRef);
       }
     } catch (err) {
-      retryAttempt -= 1;
+      // Do not decrease retryAttempt in case of loading index
+      if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
+        retryAttempt -= 1;
+      }
       log.error(`Got error in isBlockchainStarted: ${err}`);
       // this causes the channel to close
       if (!retryAttempt) {
