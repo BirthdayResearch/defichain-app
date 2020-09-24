@@ -10,27 +10,22 @@ import {
 
 export default function initiateDefiProcessManager() {
   ipcMain.on(START_DEFI_CHAIN, async (event, arg) => {
-    const defiProcessManager = new DefiProcessManager();
-    await defiProcessManager.start(arg, event);
+    await DefiProcessManager.start(arg, event);
   });
 
   ipcMain.on(STOP_DEFI_CHAIN, async (event) => {
-    const defiProcessManager = new DefiProcessManager();
-    event.returnValue = await defiProcessManager.stop();
+    event.returnValue = await DefiProcessManager.stop();
   });
 
   ipcMain.on(RESTART_APP, async (event, args) => {
-    const defiProcessManager = new DefiProcessManager();
-    event.returnValue = await defiProcessManager.restart(args, event);
+    event.returnValue = await DefiProcessManager.restart(args, event);
   });
 
   ipcMain.on(CLOSE_APP, async () => {
-    const defiProcessManager = new DefiProcessManager();
-    await defiProcessManager.closeApp();
+    await DefiProcessManager.closeApp();
   });
 
   ipcMain.on(FORCE_KILL_QUEUE_AND_SHUTDOWN, async () => {
-    const defiProcessManager = new DefiProcessManager();
-    await defiProcessManager.forceClose();
+    await DefiProcessManager.forceClose();
   });
 }

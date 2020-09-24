@@ -17,6 +17,7 @@ const configSlice = createSlice({
     isMinimized: false,
     updateAvailableBadge: false,
     backupWalletIsOpen: false,
+    openBackupWalletDatModal: false,
   },
   reducers: {
     openErrorModal(state) {
@@ -90,6 +91,12 @@ const configSlice = createSlice({
     closeBackupLoading(state) {
       state.backupWalletIsOpen = false;
     },
+    openWalletDatBackupModal(state) {
+      state.openBackupWalletDatModal = true;
+    },
+    closeWalletDatBackupModal(state) {
+      state.openBackupWalletDatModal = false;
+    },
   },
 });
 
@@ -116,6 +123,8 @@ export const {
   backupLoadingStart,
   openBackupWallet,
   closeBackupLoading,
+  openWalletDatBackupModal,
+  closeWalletDatBackupModal,
 } = actions;
 
 export default reducer;

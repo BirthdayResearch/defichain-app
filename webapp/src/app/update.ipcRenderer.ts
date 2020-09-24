@@ -6,6 +6,7 @@ import {
   handleCloseUpdateAvailable,
   handleClosePostUpdate,
   handleCloseUpdateApp,
+  showErrorNotification,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
@@ -54,8 +55,13 @@ export const closeUpdateModal = (closingFunc) => {
 export const backupWallet = async () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return await ipcRenderer.sendSync('wallet-backup');
+    const resp = await ipcRenderer.sendSync('wallet-backup');
+    if (!resp.success) {
+      showErrorNotification(resp);
+    }
+    return resp.success;
   }
+  return false;
 };
 
 export default initUpdateAppIpcRenderers;

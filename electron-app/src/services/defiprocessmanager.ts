@@ -22,14 +22,16 @@ import {
   writeFile,
   sleep,
   stopProcesses,
+  getIniData,
 } from '../utils';
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
 export default class DefiProcessManager {
-  isReindexReq: boolean;
+  static isReindexReq: boolean;
+  static isStartedNode: boolean = false;
 
-  async start(params: any, event: Electron.IpcMainEvent) {
+  static async start(params: any, event: Electron.IpcMainEvent) {
     try {
       if (checkPathExists(PID_FILE_NAME)) {
         const pid = getFileData(PID_FILE_NAME);
@@ -78,6 +80,7 @@ export default class DefiProcessManager {
       child.stdout.on('data', (data) => {
         if (!nodeStarted) {
           nodeStarted = true;
+          this.isStartedNode = true;
           log.info('Node started');
           if (event)
             return event.sender.send(
@@ -144,15 +147,11 @@ export default class DefiProcessManager {
     }
   }
 
-  getConfiguration() {
-    if (checkPathExists(CONFIG_FILE_NAME)) {
-      const data = getFileData(CONFIG_FILE_NAME, 'utf-8');
-      return ini.parse(data);
-    }
-    return {};
+  static getConfiguration() {
+    return getIniData(CONFIG_FILE_NAME);
   }
 
-  async stop() {
+  static async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
@@ -160,6 +159,7 @@ export default class DefiProcessManager {
           pid: parseInt(pid, 10),
         });
         if (Array.isArray(processLists) && processLists.length === 0) {
+          this.isStartedNode = false;
           return responseMessage(true, {
             message: 'Node is successfully terminated',
           });
@@ -173,7 +173,7 @@ export default class DefiProcessManager {
     }
   }
 
-  async restart(args: any, event: Electron.IpcMainEvent) {
+  static async restart(args: any, event: Electron.IpcMainEvent) {
     log.info('Restart node started');
     const stopResponse = await this.stop();
     if (args.updatedConf && Object.keys(args.updatedConf).length) {
@@ -197,11 +197,11 @@ export default class DefiProcessManager {
     }
   }
 
-  async closeApp() {
+  static async closeApp() {
     app.quit();
   }
 
-  async forceClose() {
+  static async forceClose() {
     try {
       log.info('Force close defid');
       const pid = getFileData(PID_FILE_NAME);
@@ -211,6 +211,7 @@ export default class DefiProcessManager {
 
       if (Array.isArray(processLists)) {
         await Promise.all(processLists.map((item) => stopProcesses(item.pid)));
+        this.isStartedNode = false;
         return responseMessage(true, {
           message: 'Node is successfully terminated',
         });
