@@ -4,21 +4,20 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
-import errorModelStyles from '../containers/ErrorModal/errorModal.module.scss';
 import './App.scss'; // INFO: do not move down, placed on purpose
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
-import ErrorModal from '../containers/ErrorModal';
-import { Modal, ModalBody } from 'reactstrap';
+import ErrorModal from '../containers/PopOver/ErrorModal';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
+import Popover from '../containers/PopOver';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
   getRpcConfigsRequest: () => void;
-  isErrorModalOpen: boolean;
   nodeError: string;
   isFetching: boolean;
+  isRestart: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -38,62 +37,69 @@ const determineTransition = (location, prevDepth) => {
 };
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
-  const prevDepth = useRef(getPathDepth(props.location));
+  const {
+    location,
+    getRpcConfigsRequest,
+    isRunning,
+    nodeError,
+    isFetching,
+    isRestart,
+  } = props;
+
+  const prevDepth = useRef(getPathDepth(location));
 
   useEffect(() => {
-    props.getRpcConfigsRequest();
+    getRpcConfigsRequest();
   }, []);
 
   useEffect(() => {
-    prevDepth.current = getPathDepth(props.location);
+    prevDepth.current = getPathDepth(location);
   });
 
-  const transition = determineTransition(props.location, prevDepth.current);
+  const transition = determineTransition(location, prevDepth.current);
 
-  return props.isRunning ? (
-    <div
-      id='app'
-      className={props.isErrorModalOpen ? errorModelStyles.openErrorModal : ''}
-    >
-      <Helmet>
-        <title>DeFi Blockchain Client</title>
-      </Helmet>
-      <Sidebar />
-      <main>
-        <TransitionGroup
-          className='transition-group'
-          childFactory={(child) =>
-            React.cloneElement(child, {
-              classNames: transition[0],
-              timeout: transition[1],
-            })
-          }
-        >
-          <CSSTransition timeout={300} key={props.location.key}>
-            {routes(props.location)}
-          </CSSTransition>
-        </TransitionGroup>
-      </main>
-      <Modal
-        isOpen={props.isErrorModalOpen}
-        centered
-        contentClassName={errorModelStyles.onContentModal}
-      >
-        <ModalBody>
+  return (
+    <>
+      {isRunning ? (
+        <div id='app'>
+          <Helmet>
+            <title>DeFi Blockchain Client</title>
+          </Helmet>
+          <Sidebar />
+          <main>
+            <TransitionGroup
+              className='transition-group'
+              childFactory={(child) =>
+                React.cloneElement(child, {
+                  classNames: transition[0],
+                  timeout: transition[1],
+                })
+              }
+            >
+              <CSSTransition timeout={300} key={location.key}>
+                {routes(location)}
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
           <ErrorModal />
-        </ModalBody>
-      </Modal>
-    </div>
-  ) : (
-    <LaunchScreen message={props.nodeError} isLoading={props.isFetching} />
+        </div>
+      ) : (
+        <LaunchScreen
+          message={nodeError}
+          isLoading={isFetching}
+          isRestart={isRestart}
+        />
+      )}
+      <Popover />
+    </>
   );
 };
 
-const mapStateToProps = ({ app, errorModal }) => ({
+const mapStateToProps = ({ app, popover }) => ({
   isRunning: app.isRunning,
   nodeError: app.nodeError,
-  isErrorModalOpen: errorModal.isOpen,
   isFetching: app.isFetching,
+  isRestart: popover.isReIndexRestart,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

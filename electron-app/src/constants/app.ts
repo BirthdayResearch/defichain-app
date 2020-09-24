@@ -16,6 +16,8 @@ export const SECOND_INSTANCE = 'second-instance';
 export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
+export const MAC = 'mac';
+export const WIN = 'win';
 export const WIN_32 = 'win32';
 export const LINUX = 'linux';
 export const AIX = 'aix';
@@ -29,3 +31,4 @@ export const DEFAULT_ELECTRON_FORMAT =
   '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
 export const DISCLAIMER_DIALOG_TIMER = 10000;
 export const STOP_BINARY_INTERVAL = 500;
+export const REINDEX_ERROR_STRING = 'restart with -reindex';

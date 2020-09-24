@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { RiErrorWarningLine, RiLoader4Line } from 'react-icons/ri';
-import Loader from '../../components/Loader';
-import styles from './errorModal.module.scss';
+import { RiErrorWarningLine } from 'react-icons/ri';
+import Loader from '../../../components/Loader';
+import styles from '../popOver.module.scss';
 
 interface ErrorModalProps {
   isRestart: boolean;
@@ -32,7 +32,7 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
 );
 
 const mapStateToProps = (state) => {
-  const { isRestart, showWarning } = state.errorModal;
+  const { isRestart, showWarning } = state.popover;
   return {
     isRestart,
     showWarning,

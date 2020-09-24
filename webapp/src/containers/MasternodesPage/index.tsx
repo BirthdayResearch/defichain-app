@@ -348,16 +348,26 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet, masterNodes, errorModal } = state;
+  const {
+    wallet: { walletBalance },
+    masterNodes: {
+      isMasterNodeCreating,
+      masternodes,
+      createdMasterNodeData,
+      isErrorCreatingMasterNode,
+      isLoadingMasternodes,
+    },
+    popover: { isOpen, isRestart },
+  } = state;
   return {
-    walletBalance: wallet.walletBalance,
-    isMasterNodeCreating: masterNodes.isMasterNodeCreating,
-    masternodes: masterNodes.masternodes,
-    isLoadingMasternodes: masterNodes.isLoadingMasternodes,
-    createdMasterNodeData: masterNodes.createdMasterNodeData,
-    isErrorCreatingMasterNode: masterNodes.isErrorCreatingMasterNode,
-    isOpen: errorModal.isOpen,
-    isRestart: errorModal.isRestart,
+    walletBalance,
+    isMasterNodeCreating,
+    masternodes,
+    isLoadingMasternodes,
+    createdMasterNodeData,
+    isErrorCreatingMasterNode,
+    isOpen,
+    isRestart,
   };
 };
 
