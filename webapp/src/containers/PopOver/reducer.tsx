@@ -1,24 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  isOpen: false,
+  isRestart: false,
+  showWarning: false,
+  isUpdateModalOpen: false,
+  isUpdateStarted: false,
+  isUpdateError: '',
+  updateAppInfo: {},
+  postUpdateFlag: false,
+  showUpdateAvailable: false,
+  isReIndexModelOpen: false,
+  isReIndexRestart: false,
+  isMinimized: false,
+  updateAvailableBadge: false,
+  backupWalletIsOpen: false,
+  openBackupWalletDatModal: false,
+};
+
 const configSlice = createSlice({
   name: 'popover',
-  initialState: {
-    isOpen: false,
-    isRestart: false,
-    showWarning: false,
-    isUpdateModalOpen: false,
-    isUpdateStarted: false,
-    isUpdateError: '',
-    updateAppInfo: {},
-    postUpdateFlag: false,
-    showUpdateAvailable: false,
-    isReIndexModelOpen: false,
-    isReIndexRestart: false,
-    isMinimized: false,
-    updateAvailableBadge: false,
-    backupWalletIsOpen: false,
-    openBackupWalletDatModal: false,
-  },
+  initialState,
   reducers: {
     openErrorModal(state) {
       state.isOpen = true;
