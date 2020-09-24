@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorComponent should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(DownloadProgressComponent)>
+    <DownloadProgressComponent
+      closeUpdateApp={[Function]}
+      isUpdateError=""
+    >
+      <ModalBody
+        tag="div"
+      >
+        <div
+          className="modal-body"
+        />
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <div
+          className="modal-footer"
+        >
+          <Button
+            color="secondary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-secondary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Close
+            </button>
+          </Button>
+        </div>
+      </ModalFooter>
+    </DownloadProgressComponent>
+  </Connect(DownloadProgressComponent)>
+</Provider>
+`;
