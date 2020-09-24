@@ -53,4 +53,7 @@ export const REGTEST_BASE_FOLDER = path.join(
   'wallets'
 );
 
-export const MAINNET_BASE_FOLDER = BASE_FILE_PATH;
+export const MAINNET_BASE_FOLDER =
+  getPlatform() === 'linux'
+    ? BASE_FILE_PATH
+    : path.join(BASE_FILE_PATH, 'wallets');
