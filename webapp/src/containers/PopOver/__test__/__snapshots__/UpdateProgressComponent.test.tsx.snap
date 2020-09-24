@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpdateProgressComponent should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(UpdateModal)>
+    <UpdateModal
+      backupWalletIsOpen={false}
+      closeUpdateApp={[Function]}
+      isUpdateError=""
+      isUpdateStarted={false}
+      postUpdateFlag={false}
+      showUpdateAvailable={false}
+    >
+      <div />
+    </UpdateModal>
+  </Connect(UpdateModal)>
+</Provider>
+`;
