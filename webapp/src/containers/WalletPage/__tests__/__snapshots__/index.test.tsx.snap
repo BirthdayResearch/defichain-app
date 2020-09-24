@@ -39,8 +39,11 @@ exports[`WalletPage component should check for snapshot 1`] = `
         <WalletPage
           fetchPendingBalanceRequest={[Function]}
           fetchWalletBalanceRequest={[Function]}
+          openBackupWallet={[Function]}
           pendingBalance={0}
+          startUpdateApp={[Function]}
           unit="DFI"
+          updateAvailableBadge={false}
           walletBalance={0}
         >
           <div
