@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowUpdateAvailable should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(ShowUpdateAvailableComponent)
+    closeModal={[Function]}
+  >
+    <ShowUpdateAvailableComponent
+      closeModal={[Function]}
+      closeUpdateAvailable={[Function]}
+    >
+      <ModalBody
+        tag="div"
+      >
+        <div
+          className="modal-body"
+        >
+          <h1
+            className="h4"
+          >
+            An update is available for DeFi app
+          </h1>
+          Would you like to update?
+        </div>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <div
+          className="modal-footer"
+        >
+          <Button
+            color="primary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-primary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Update
+            </button>
+          </Button>
+          <Button
+            color="link"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-link btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Not now
+            </button>
+          </Button>
+        </div>
+      </ModalFooter>
+    </ShowUpdateAvailableComponent>
+  </Connect(ShowUpdateAvailableComponent)>
+</Provider>
+`;
