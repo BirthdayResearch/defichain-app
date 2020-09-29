@@ -385,6 +385,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "tokens": "TOKENS",
         "walletDefiClient": "Wallet – DeFi Blockchain Client",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -396,6 +397,18 @@
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending"
+      },
+      "walletTokensPage": {
+        "walletTokens": "Wallet – Tokens",
+        "tokens": "Tokens",
+        "addToken": "Add Token"
+      },
+      "walletAddTokensPage": {
+        "walletAddTokens": "Wallet – Add Token",
+        "back": "BACK",
+        "add": "ADD",
+        "tokens": "Tokens",
+        "addTokenLabel": "Add a Token"
       },
       "walletTxns": {
         "height": "Height",
