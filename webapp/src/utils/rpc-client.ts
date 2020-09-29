@@ -516,7 +516,6 @@ export default class RpcClient {
     tx: any = []
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
-      tx,
       tokenCreatorInfo,
     ]);
     return data.result;
@@ -535,7 +534,7 @@ export default class RpcClient {
 
   destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
     const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [
-      tx,
+      // tx,
       tokenId,
     ]);
     return data.result;
