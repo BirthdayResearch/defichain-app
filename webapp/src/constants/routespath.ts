@@ -23,4 +23,6 @@ export const WALLET_RECEIVE_PATH = `${WALLET_BASE_PATH}/receive`;
 export const WALLET_CREATE_RECEIVE_REQUEST = `${WALLET_BASE_PATH}/receive/request`;
 export const WALLET_PAYMENT_REQ_BASE_PATH = `${WALLET_BASE_PATH}/paymentrequest`;
 export const WALLET_PAYMENT_REQ_PARAMS_PATH = `${WALLET_PAYMENT_REQ_BASE_PATH}/:id`;
+export const WALLET_TOKENS_PATH = `${WALLET_BASE_PATH}/tokens`;
+export const WALLET_ADD_TOKEN_PATH = `${WALLET_TOKENS_PATH}/addtoken`;
 export const CONSOLE_RPC_CALL_BASE_PATH = `/console`;
