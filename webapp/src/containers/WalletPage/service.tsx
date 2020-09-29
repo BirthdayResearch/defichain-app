@@ -4,6 +4,7 @@ import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
+import isEmpty from 'lodash/isEmpty';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -117,4 +118,18 @@ export const getNewAddress = async (label) => {
     log.error(`Got error in getNewAddress: ${err}`);
     throw err;
   }
+};
+
+export const handleFetchTokens = async () => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.listTokens();
+  if (isEmpty(tokens)) {
+    return [];
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData;
 };

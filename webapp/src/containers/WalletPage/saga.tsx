@@ -1,6 +1,9 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
+  fetchTokensSuccess,
+  fetchTokensRequest,
+  fetchTokensFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
@@ -25,6 +28,7 @@ import {
   stopWalletTxnPagination,
 } from './reducer';
 import {
+  handleFetchTokens,
   handelGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
@@ -186,6 +190,19 @@ function fetchSendData() {
   });
 }
 
+export function* fetchTokens() {
+  try {
+    const data = yield call(handleFetchTokens);
+    yield put({
+      type: fetchTokensSuccess.type,
+      payload: { tokens: data },
+    });
+  } catch (e) {
+    yield put({ type: fetchTokensFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -194,6 +211,7 @@ function* mySaga() {
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
+  yield takeLatest(fetchTokensRequest.type, fetchTokens);
 }
 
 export default mySaga;
