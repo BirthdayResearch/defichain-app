@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
+  tokens: [],
+  isTokensLoaded: false,
+  isLoadingTokens: false,
   walletBalance: 0,
   isBalanceFetching: false,
   isBalanceError: '',
@@ -37,6 +40,19 @@ const configSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
+    fetchTokensRequest(state) {
+      state.isLoadingTokens = true;
+    },
+    fetchTokensSuccess(state, action) {
+      state.tokens = action.payload.tokens;
+      state.isLoadingTokens = false;
+      state.isTokensLoaded = true;
+    },
+    fetchTokensFailure(state, action) {
+      state.tokens = [];
+      state.isLoadingTokens = false;
+      state.isTokensLoaded = true;
+    },
     fetchPaymentRequest(state) {
       state.paymentRequests = [];
     },
@@ -111,6 +127,9 @@ const configSlice = createSlice({
 const { actions, reducer } = configSlice;
 
 export const {
+  fetchTokensRequest,
+  fetchTokensSuccess,
+  fetchTokensFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
