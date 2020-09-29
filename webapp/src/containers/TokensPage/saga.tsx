@@ -95,7 +95,7 @@ export function* createTokens(action) {
     const data = yield call(handleCreateTokens, tokenData);
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createTokenFailure.type, payload: e.message });
+    yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
     log.error(e);
   }
 }
@@ -108,7 +108,7 @@ export function* updateTokens(action) {
     const data = yield call(handleUpdateTokens, tokenData);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: updateTokenFailure.type, payload: e.message });
+    yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
     log.error(e);
   }
 }
