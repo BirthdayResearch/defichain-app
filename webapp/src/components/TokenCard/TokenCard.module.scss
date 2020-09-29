@@ -43,3 +43,21 @@
 .tokenCardIcon {
   text-align: end;
 }
+
+.keyValueLi {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: $table-cell-padding-y 0;
+}
+
+.cardValue {
+  display: flex;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.cardLabel {
+  color: rgba(0, 0, 0, 0.6);
+  padding-right: 1rem;
+}
