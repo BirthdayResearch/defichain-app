@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import WalletPage from '../containers/WalletPage';
+import WalletTokensPage from '../containers/WalletPage/components/Tokens/TokensList';
+import WalletAddToken from '../containers/WalletPage/components/Tokens/AddToken';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
 import CreateNewAddressPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
@@ -37,8 +39,10 @@ import {
   WALLET_CREATE_RECEIVE_REQUEST,
   TOKENS_PATH,
   CREATE_TOKENS_PATH,
+  WALLET_ADD_TOKEN_PATH,
   TOKENS_INFO_PATH,
   EDIT_TOKENS_PATH,
+  WALLET_TOKENS_PATH,
 } from '../constants';
 
 const routes = (location) => (
@@ -68,6 +72,8 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
     <Route exact path={TOKENS_PATH} component={TokensPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
+    <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
+    <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
     <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
     <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />
     <Route exact path={BLOCKCHAIN_BLOCK_PARAM_PATH} component={BlockPage} />

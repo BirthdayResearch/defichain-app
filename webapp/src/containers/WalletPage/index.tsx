@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
+import { I18n } from 'react-redux-i18n';
 import { NavLink as RRNavLink } from 'react-router-dom';
+import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import {
+  MdArrowUpward,
+  MdArrowDownward,
+  MdRefresh,
+  MdArrowBack,
+} from 'react-icons/md';
+
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
-import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
+import { getAmountInSelectedUnit } from '../../utils/utility';
+import { updatePendingBalanceSchedular } from '../../worker/schedular';
+import styles from './WalletPage.module.scss';
 import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
 } from './reducer';
-import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit } from '../../utils/utility';
-import { updatePendingBalanceSchedular } from '../../worker/schedular';
-import styles from './WalletPage.module.scss';
+import {
+  WALLET_SEND_PATH,
+  WALLET_RECEIVE_PATH,
+  WALLET_TOKENS_PATH,
+} from '../../constants';
 
 interface WalletPageProps {
   unit: string;
@@ -46,9 +56,20 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.walletPage.walletDefiClient')}</title>
+        <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
       <header className='header-bar'>
+        <Button
+          to={WALLET_TOKENS_PATH}
+          tag={RRNavLink}
+          color='link'
+          className='header-bar-back'
+        >
+          <MdArrowBack />
+          <span className='d-lg-inline'>
+            {I18n.t('containers.wallet.walletPage.tokens')}
+          </span>
+        </Button>
         <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
         <ButtonGroup>
           <Button to={WALLET_SEND_PATH} tag={RRNavLink} color='link' size='sm'>
