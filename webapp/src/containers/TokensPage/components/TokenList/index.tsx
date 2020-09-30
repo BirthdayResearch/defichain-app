@@ -13,7 +13,7 @@ interface TokensListProps {
   searchQuery: string;
   history: any;
   component: any;
-  handleCardClick: (symbol: string) => void;
+  handleCardClick: (symbol: string, hash: string) => void;
 }
 
 const TokensList: React.FunctionComponent<TokensListProps> = (
