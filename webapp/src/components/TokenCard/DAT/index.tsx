@@ -11,7 +11,7 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
   return (
     <Card
       className={styles.tokenCard}
-      onClick={() => props.handleCardClick(data.symbol)}
+      onClick={() => props.handleCardClick(data.symbol, data.hash)}
     >
       <CardBody className={styles.cardBody}>
         <Row className='mb-3'>
