@@ -34,6 +34,7 @@ import { ITokenResponse } from '../../../../utils/interfaces';
 
 interface RouteParams {
   id?: string;
+  hash?: string;
 }
 
 interface TokenInfoProps extends RouteComponentProps<RouteParams> {
@@ -48,7 +49,7 @@ interface TokenInfoProps extends RouteComponentProps<RouteParams> {
 const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   props: TokenInfoProps
 ) => {
-  const { id } = props.match.params;
+  const { id, hash } = props.match.params;
 
   const tokenInfoMenu = [
     {
@@ -105,7 +106,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   }, [isConfirmationModalOpen]);
 
   useEffect(() => {
-    props.fetchToken(id);
+    props.fetchToken(`${id}#${hash}`);
   }, []);
 
   const handleDropDowns = (data: string) => {
@@ -264,7 +265,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 color='primary'
                 onClick={() => {
                   setAllowCalls(true);
-                  destroyToken(id);
+                  destroyToken(`${id}#${hash}`);
                 }}
                 disabled={wait > 0 ? true : false}
               >

@@ -55,8 +55,8 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
     setSearching(!searching);
   };
 
-  const handleCardClick = (symbol: string) => {
-    return props.history.push(`${TOKENS_PATH}/${symbol}`);
+  const handleCardClick = (symbol: string, hash: string) => {
+    return props.history.push(`${TOKENS_PATH}/${symbol}/${hash}`);
   };
 
   return (

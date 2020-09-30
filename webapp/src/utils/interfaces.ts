@@ -88,6 +88,7 @@ export interface ITokenUpdatorInfo {
 
 export interface ITokenCard {
   data: {
+    hash: string;
     name: string;
     symbol: string;
     isDAT: boolean;
@@ -96,7 +97,7 @@ export interface ITokenCard {
     mintable: boolean;
     tradeable: boolean;
   };
-  handleCardClick: (symbol: string) => void;
+  handleCardClick: (symbol: string, hash: string) => void;
 }
 
 export interface ITokenResponse {
