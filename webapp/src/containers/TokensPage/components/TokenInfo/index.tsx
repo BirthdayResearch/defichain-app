@@ -106,7 +106,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   }, [isConfirmationModalOpen]);
 
   useEffect(() => {
-    props.fetchToken(`${id}#${hash}`);
+    if (hash === '0') {
+      props.fetchToken(`${id}`);
+    } else {
+      props.fetchToken(`${id}#${hash}`);
+    }
   }, []);
 
   const handleDropDowns = (data: string) => {

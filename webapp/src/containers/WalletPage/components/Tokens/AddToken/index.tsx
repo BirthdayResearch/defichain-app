@@ -15,6 +15,7 @@ import { filterByValue } from '../../../../../utils/utility';
 import {
   WALLET_TOKENS_PATH,
   TOKEN_LIST_PAGE_SIZE,
+  DESTRUCTION_TX,
 } from '../../../../../constants';
 
 interface TokensProps {
@@ -36,8 +37,12 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
 
+  const filteredTokens = tokens.filter(
+    (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
+  );
+
   function paginate(pageNumber, tokensList?: any[]) {
-    const clone = cloneDeep(tokensList || tokens);
+    const clone = cloneDeep(tokensList || filteredTokens);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
@@ -50,10 +55,10 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
     if (!searchQuery) {
       paginate(currentPage);
     } else {
-      const tokensList: any[] = filterByValue(tokens, searchQuery);
+      const tokensList: any[] = filterByValue(filteredTokens, searchQuery);
       paginate(defaultPage, tokensList);
     }
-  }, [tokens, searchQuery]);
+  }, [filteredTokens, searchQuery]);
 
   useEffect(() => {
     fetchTokensRequest();
