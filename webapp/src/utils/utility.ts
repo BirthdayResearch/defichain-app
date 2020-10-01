@@ -14,6 +14,8 @@ import {
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
+import store from '../../src/app/rootStore';
+import queue from '../../src/worker/queue';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -303,4 +305,17 @@ export const setIntervalSynchronous = (func, delay) => {
   };
   timeoutId = setTimeout(intervalFunction, delay);
   return clear;
+};
+
+export const queuePush = (
+  methodName,
+  params,
+  callBack: (err, result) => void
+) => {
+  const {
+    app: { isQueueReady },
+  } = store.getState();
+  if (isQueueReady) {
+    return queue.push({ methodName, params }, callBack);
+  }
 };
