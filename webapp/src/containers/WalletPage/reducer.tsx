@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
+  accountTokens: [],
+  isAccountTokensLoaded: false,
+  isAccountLoadingTokens: false,
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
@@ -40,6 +43,19 @@ const configSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
+    fetchAccountTokensRequest(state, action) {
+      state.isAccountLoadingTokens = true;
+    },
+    fetchAccountTokensSuccess(state, action) {
+      state.accountTokens = action.payload.accountTokens;
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = true;
+    },
+    fetchAccountTokensFailure(state, action) {
+      state.accountTokens = [];
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = true;
+    },
     fetchTokensRequest(state) {
       state.isLoadingTokens = true;
     },
@@ -127,6 +143,9 @@ const configSlice = createSlice({
 const { actions, reducer } = configSlice;
 
 export const {
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
   fetchTokensRequest,
   fetchTokensSuccess,
   fetchTokensFailure,
