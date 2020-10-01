@@ -23,6 +23,7 @@ export const UPDATE_TOKEN = 'updatetoken';
 export const LIST_MASTER_NODE = 'listmasternodes';
 export const LIST_TOKEN = 'listtokens';
 export const DESTROY_TOKEN = 'destroytoken';
+export const GET_ACCOUNT = 'getaccount';
 export const RESIGN_MASTER_NODE = 'resignmasternode';
 export const GET_TOKEN_NODE = 'gettoken';
 export const DUMP_PRIV_KEY = 'dumpprivkey';
