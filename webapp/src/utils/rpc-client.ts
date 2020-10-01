@@ -562,6 +562,15 @@ export default class RpcClient {
     return data.result;
   };
 
+  getAccount = async (ownerAddress: string) => {
+    const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
+      ownerAddress,
+      {},
+      true,
+    ]);
+    return data.result;
+  };
+
   dumpPrivKey = async (address: string) => {
     const { data } = await this.call('/', methodNames.DUMP_PRIV_KEY, [address]);
     return data.result;
