@@ -36,10 +36,9 @@ import {
   getAddressInfo,
   getBlockChainInfo,
 } from './service';
-import queue from '../../worker/queue';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
-import { paginate } from '../../utils/utility';
+import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
@@ -54,33 +53,29 @@ export function* getNetwork() {
 }
 
 function fetchWalletBalance() {
-  queue.push(
-    { methodName: handleFetchWalletBalance, params: [] },
-    (err, result) => {
-      if (err) {
-        showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
-        store.dispatch(fetchWalletBalanceFailure(err.message));
-        log.error(err);
-        return;
-      }
-      store.dispatch(fetchWalletBalanceSuccess(result));
+  const callBack = (err, result) => {
+    if (err) {
+      showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
+      store.dispatch(fetchWalletBalanceFailure(err.message));
+      log.error(err);
+      return;
     }
-  );
+    store.dispatch(fetchWalletBalanceSuccess(result));
+  };
+  queuePush(handleFetchWalletBalance, [], callBack);
 }
 
 function fetchPendingBalance() {
-  queue.push(
-    { methodName: handleFetchPendingBalance, params: [] },
-    (err, result) => {
-      if (err) {
-        showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
-        store.dispatch(fetchPendingBalanceFailure(err.message));
-        log.error(err);
-        return;
-      }
-      store.dispatch(fetchPendingBalanceSuccess(result));
+  const callBack = (err, result) => {
+    if (err) {
+      showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
+      store.dispatch(fetchPendingBalanceFailure(err.message));
+      log.error(err);
+      return;
     }
-  );
+    store.dispatch(fetchPendingBalanceSuccess(result));
+  };
+  queuePush(handleFetchPendingBalance, [], callBack);
 }
 
 function* getPaymentRequestState() {
@@ -152,36 +147,35 @@ function* fetchWalletTxns(action) {
   const { totalFetchedTxns, walletTxnCount, walletPageCounter } = yield select(
     (state) => state.wallet
   );
+  const callBack = (err, result) => {
+    if (err) {
+      store.dispatch(fetchWalletTxnsFailure(err.message));
+      log.error(err);
+      return;
+    }
+    if (result && result.walletTxns) {
+      const distinct = uniqBy(result.walletTxns, 'txnId');
+      const previousFetchedTxns = intialLoad ? [] : totalFetchedTxns;
+      const totalFetched = previousFetchedTxns.concat(distinct);
+      store.dispatch(
+        fetchWalletTxnsSuccess({
+          walletTxnCount: result.walletTxnCount,
+          totalFetchedTxns: totalFetched,
+          walletTxns: paginate(totalFetched, pageSize, pageNo),
+          walletPageCounter: intialLoad ? 1 : walletPageCounter + 1,
+        })
+      );
+    } else {
+      showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
+      store.dispatch(fetchWalletTxnsFailure('No data found'));
+    }
+  };
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
     yield put(stopWalletTxnPagination());
-    queue.push(
-      {
-        methodName: handelFetchWalletTxns,
-        params: [walletPageCounter, MAX_WALLET_TXN_PAGE_SIZE],
-      },
-      (err, result) => {
-        if (err) {
-          store.dispatch(fetchWalletTxnsFailure(err.message));
-          log.error(err);
-          return;
-        }
-        if (result && result.walletTxns) {
-          const distinct = uniqBy(result.walletTxns, 'txnId');
-          const previousFetchedTxns = intialLoad ? [] : totalFetchedTxns;
-          const totalFetched = previousFetchedTxns.concat(distinct);
-          store.dispatch(
-            fetchWalletTxnsSuccess({
-              walletTxnCount: result.walletTxnCount,
-              totalFetchedTxns: totalFetched,
-              walletTxns: paginate(totalFetched, pageSize, pageNo),
-              walletPageCounter: intialLoad ? 1 : walletPageCounter + 1,
-            })
-          );
-        } else {
-          showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
-          store.dispatch(fetchWalletTxnsFailure('No data found'));
-        }
-      }
+    queuePush(
+      handelFetchWalletTxns,
+      [walletPageCounter, MAX_WALLET_TXN_PAGE_SIZE],
+      callBack
     );
   } else {
     yield put(
@@ -196,7 +190,7 @@ function* fetchWalletTxns(action) {
 }
 
 function fetchSendData() {
-  queue.push({ methodName: handleSendData, params: [] }, (err, result) => {
+  const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
       store.dispatch(fetchSendDataFailure(err.message));
@@ -208,7 +202,8 @@ function fetchSendData() {
       showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
       store.dispatch(fetchSendDataFailure('No data found'));
     }
-  });
+  };
+  queuePush(handleSendData, [], callBack);
 }
 
 export function* fetchChainInfo() {

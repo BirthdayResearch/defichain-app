@@ -7,6 +7,7 @@ import {
   getRpcConfigsFailure,
   startNodeRequest,
   storeConfigurationData,
+  setQueueReady,
 } from './reducer';
 import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
@@ -44,6 +45,7 @@ export function* getConfig() {
             yield put(closeRestartLoader());
             yield put(storeConfigurationData(blockchainStatus.conf));
             yield put(closeErrorModal());
+            yield put(setQueueReady());
           } else {
             yield call(blockChainNotStarted, blockchainStatus.message);
           }
