@@ -133,3 +133,39 @@ export const handleFetchTokens = async () => {
 
   return transformedData;
 };
+
+export const handleFetchToken = async (id: string) => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.tokenInfo(id);
+  if (isEmpty(tokens)) {
+    return {};
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData[0];
+};
+
+export const handleAccountFetchTokens = async (ownerAddress) => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.getAccount(ownerAddress);
+  if (isEmpty(tokens)) {
+    return [];
+  }
+
+  const transformedData = Object.keys(tokens).map(async (item) => {
+    let data = {};
+    async function getData() {
+      data = await handleFetchToken(item);
+    }
+    await getData();
+    return {
+      ...data,
+      amount: tokens[item],
+    };
+  });
+
+  return await Promise.all(transformedData);
+};

@@ -25,6 +25,9 @@ import {
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
   stopWalletTxnPagination,
 } from './reducer';
 import {
@@ -36,11 +39,12 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
+  handleAccountFetchTokens,
 } from './service';
 import queue from '../../worker/queue';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
-import { paginate } from '../../utils/utility';
+import { paginate, getErrorMessage } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
@@ -203,6 +207,25 @@ export function* fetchTokens() {
   }
 }
 
+export function* fetchAccountTokens(action) {
+  const {
+    payload: { ownerAddress },
+  } = action;
+  try {
+    const data = yield call(handleAccountFetchTokens, ownerAddress);
+    yield put({
+      type: fetchAccountTokensSuccess.type,
+      payload: { accountTokens: data },
+    });
+  } catch (e) {
+    yield put({
+      type: fetchAccountTokensFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -212,6 +235,7 @@ function* mySaga() {
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
+  yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
 }
 
 export default mySaga;
