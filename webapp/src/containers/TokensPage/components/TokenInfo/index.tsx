@@ -139,7 +139,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </span>
         </Button>
         <h1>{tokenInfo.name}</h1>
-        <UncontrolledDropdown>
+        {/* <UncontrolledDropdown>
           <DropdownToggle color='link' size='md'>
             <MdMoreHoriz />
           </DropdownToggle>
@@ -158,7 +158,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               );
             })}
           </DropdownMenu>
-        </UncontrolledDropdown>
+        </UncontrolledDropdown> */}
       </header>
       <div className='content'>
         <section className='mb-5'>
@@ -201,7 +201,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 // label={I18n.t('containers.tokens.tokenInfo.holders')}
                 // value={(tokenInfo.holders || '').toString()}
                 label={I18n.t('containers.tokens.tokenInfo.limit')}
-                value={(tokenInfo.limit || '').toString()}
+                value={(tokenInfo.limit || '0').toString()}
               />
             </Col>
             <Col md='6'>
