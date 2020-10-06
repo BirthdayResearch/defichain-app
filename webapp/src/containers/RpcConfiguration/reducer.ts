@@ -8,6 +8,7 @@ export const initialState = {
   rpcConfigError: '',
   nodeError: '',
   configurationData: {},
+  isQueueReady: false,
 };
 
 const configSlice = createSlice({
@@ -57,6 +58,12 @@ const configSlice = createSlice({
     storeConfigurationData(state, action) {
       state.configurationData = action.payload;
     },
+    setQueueReady(state) {
+      state.isQueueReady = true;
+    },
+    killQueue(state) {
+      state.isQueueReady = false;
+    },
   },
 });
 
@@ -70,6 +77,8 @@ export const {
   startNodeSuccess,
   startNodeFailure,
   storeConfigurationData,
+  setQueueReady,
+  killQueue,
 } = actions;
 
 export default reducer;
