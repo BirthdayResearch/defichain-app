@@ -49,3 +49,4 @@ export const TOKEN_READ_CONTRACT = 'Read Contract';
 export const TOKEN_WRITE_CONTRACT = 'Write Contract';
 export const TOKEN_ANALYSIS = 'Analysis';
 export const TOKEN_COMMENTS = 'Comments';
+export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;

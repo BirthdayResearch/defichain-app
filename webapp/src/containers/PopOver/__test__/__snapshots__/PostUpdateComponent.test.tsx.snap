@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostUpdateComponent should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(PostUpdateComponent)
+    closeModal={[Function]}
+  >
+    <PostUpdateComponent
+      closeModal={[Function]}
+      closePostUpdate={[Function]}
+    >
+      <ModalBody
+        tag="div"
+      >
+        <div
+          className="modal-body"
+        >
+          <h1
+            className="h4"
+          >
+            Update complete
+          </h1>
+          You need to restart app to see the new update. Do you want to restart?
+        </div>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <div
+          className="modal-footer"
+        >
+          <Button
+            color="primary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-primary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Yes
+            </button>
+          </Button>
+          <Button
+            color="secondary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-secondary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              No
+            </button>
+          </Button>
+        </div>
+      </ModalFooter>
+    </PostUpdateComponent>
+  </Connect(PostUpdateComponent)>
+</Provider>
+`;

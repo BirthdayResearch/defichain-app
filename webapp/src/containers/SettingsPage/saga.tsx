@@ -26,7 +26,7 @@ import { setupI18n } from '../../translations/i18n';
 import { LANG_VARIABLE } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { restartNode } from '../../utils/isElectron';
-import { restartModal } from '../ErrorModal/reducer';
+import { restartModal } from '../PopOver/reducer';
 import { shutDownBinary } from '../../worker/queue';
 import {
   MAINNET,
@@ -62,7 +62,7 @@ export function* getSettingsOptions() {
 export function* getSettings() {
   const {
     blockChainInfo: { chain },
-  } = yield select((state) => state.syncstatus);
+  } = yield select((state) => state.wallet);
   let network = '';
   if (chain === BLOCKCHAIN_INFO_CHAIN_TEST) {
     network = TESTNET;

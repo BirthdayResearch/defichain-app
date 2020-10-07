@@ -276,7 +276,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                           </small>
                         </FormText>
                         <Label
-                          for="message"
+                          for="label"
                           tag="label"
                           widths={
                             Array [
@@ -290,13 +290,113 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                         >
                           <label
                             className=""
-                            htmlFor="message"
+                            htmlFor="label"
                           >
                             Address label
                           </label>
                         </Label>
                       </div>
                     </FormGroup>
+                    <Row
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="row"
+                      >
+                        <Col
+                          md="4"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-4"
+                          >
+                            Address Type
+                          </div>
+                        </Col>
+                        <Col
+                          md="8"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col-md-8"
+                          >
+                            <FormGroup
+                              check={true}
+                              tag="div"
+                            >
+                              <div
+                                className="form-check"
+                              >
+                                <Label
+                                  check={true}
+                                  className="switch"
+                                  tag="label"
+                                  widths={
+                                    Array [
+                                      "xs",
+                                      "sm",
+                                      "md",
+                                      "lg",
+                                      "xl",
+                                    ]
+                                  }
+                                >
+                                  <label
+                                    className="switch form-check-label"
+                                  >
+                                    <Input
+                                      checked={false}
+                                      id="addressType"
+                                      name="addressType"
+                                      onChange={[Function]}
+                                      type="checkbox"
+                                    >
+                                      <input
+                                        checked={false}
+                                        className="form-check-input"
+                                        id="addressType"
+                                        name="addressType"
+                                        onChange={[Function]}
+                                        type="checkbox"
+                                      />
+                                    </Input>
+                                     
+                                    Legacy Address
+                                  </label>
+                                </Label>
+                              </div>
+                            </FormGroup>
+                          </div>
+                        </Col>
+                      </div>
+                    </Row>
                   </form>
                 </Form>
               </section>

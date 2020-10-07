@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { NavLink as RRNavLink } from 'react-router-dom';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
 import {
   MdArrowUpward,
@@ -10,12 +9,10 @@ import {
   MdRefresh,
   MdArrowBack,
 } from 'react-icons/md';
+import { NavLink as RRNavLink } from 'react-router-dom';
 
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
-import { getAmountInSelectedUnit } from '../../utils/utility';
-import { updatePendingBalanceSchedular } from '../../worker/schedular';
-import styles from './WalletPage.module.scss';
 import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
@@ -25,6 +22,11 @@ import {
   WALLET_RECEIVE_PATH,
   WALLET_TOKENS_PATH,
 } from '../../constants';
+import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
+import { getAmountInSelectedUnit } from '../../utils/utility';
+import { updatePendingBalanceSchedular } from '../../worker/schedular';
+import styles from './WalletPage.module.scss';
+import Badge from '../../components/Badge';
 
 interface WalletPageProps {
   unit: string;
@@ -32,14 +34,25 @@ interface WalletPageProps {
   pendingBalance: string;
   fetchWalletBalanceRequest: () => void;
   fetchPendingBalanceRequest: () => void;
+  updateAvailableBadge: boolean;
+  startUpdateApp: () => void;
+  openBackupWallet: () => void;
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
+  const {
+    fetchWalletBalanceRequest,
+    unit,
+    fetchPendingBalanceRequest,
+    updateAvailableBadge,
+    startUpdateApp,
+    openBackupWallet,
+  } = props;
   useEffect(() => {
-    props.fetchWalletBalanceRequest();
-    props.fetchPendingBalanceRequest();
+    fetchWalletBalanceRequest();
+    fetchPendingBalanceRequest();
     const clearPendingBalanceTimer = updatePendingBalanceSchedular();
 
     return () => {
@@ -48,11 +61,18 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
       clearTimeout(pendingBalRefreshTimerID);
     };
   }, []);
+
+  const openUpdatePopUp = () => {
+    openBackupWallet();
+    startUpdateApp();
+  };
+
   let balanceRefreshTimerID;
   let pendingBalRefreshTimerID;
   const { walletBalance, pendingBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -71,6 +91,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           </span>
         </Button>
         <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
+        {updateAvailableBadge && (
+          <Badge
+            baseClass='update-available'
+            outline
+            onClick={openUpdatePopUp}
+            label={I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
+          />
+        )}
         <ButtonGroup>
           <Button to={WALLET_SEND_PATH} tag={RRNavLink} color='link' size='sm'>
             <MdArrowUpward />
@@ -97,8 +125,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={getAmountInSelectedUnit(walletBalance, props.unit)}
-                unit={props.unit}
+                value={getAmountInSelectedUnit(walletBalance, unit)}
+                unit={unit}
                 refreshFlag={refreshBalance}
                 icon={
                   <MdRefresh
@@ -109,7 +137,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                       balanceRefreshTimerID = setTimeout(() => {
                         setRefreshBalance(false);
                       }, 2000);
-                      props.fetchWalletBalanceRequest();
+                      fetchWalletBalanceRequest();
                     }}
                   />
                 }
@@ -118,8 +146,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
-                value={getAmountInSelectedUnit(pendingBalance, props.unit)}
-                unit={props.unit}
+                value={getAmountInSelectedUnit(pendingBalance, unit)}
+                unit={unit}
                 refreshFlag={pendingRefreshBalance}
                 icon={
                   <MdRefresh
@@ -130,7 +158,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                       pendingBalRefreshTimerID = setTimeout(() => {
                         setPendingRefreshBalance(false);
                       }, 2000);
-                      props.fetchPendingBalanceRequest();
+                      fetchPendingBalanceRequest();
                     }}
                   />
                 }
@@ -145,17 +173,26 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet, settings } = state;
+  const {
+    wallet: { walletBalance, pendingBalance },
+    settings: {
+      appConfig: { unit },
+    },
+    popover: { updateAvailableBadge },
+  } = state;
   return {
-    unit: settings.appConfig.unit,
-    walletBalance: wallet.walletBalance,
-    pendingBalance: wallet.pendingBalance,
+    unit,
+    walletBalance,
+    pendingBalance,
+    updateAvailableBadge,
   };
 };
 
 const mapDispatchToProps = {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
+  startUpdateApp,
+  openBackupWallet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletPage);

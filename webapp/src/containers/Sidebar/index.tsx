@@ -175,12 +175,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, errorModal } = state;
+  const { i18n, wallet, settings, popover } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
-    isErrorModalOpen: errorModal.isOpen,
+    isErrorModalOpen: popover.isOpen,
   };
 };
 

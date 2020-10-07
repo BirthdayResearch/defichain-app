@@ -7,7 +7,7 @@ import masterNodesReducer from '../containers/MasternodesPage/reducer';
 import tokensReducer from '../containers/TokensPage/reducer';
 import syncStatusReducer from '../containers/SyncStatus/reducer';
 import cliReducer from '../containers/ConsolePage/reducer';
-import errorModalReducer from '../containers/ErrorModal/reducer';
+import popoverReducer from '../containers/PopOver/reducer';
 import { i18nReducer } from 'react-redux-i18n';
 
 export default combineReducers({
@@ -20,5 +20,5 @@ export default combineReducers({
   syncstatus: syncStatusReducer,
   i18n: i18nReducer,
   cli: cliReducer,
-  errorModal: errorModalReducer,
+  popover: popoverReducer,
 });
