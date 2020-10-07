@@ -9,6 +9,7 @@ import walletSaga from '../containers/WalletPage/saga';
 import settingsSaga from '../containers/SettingsPage/saga';
 import syncStatusSaga from '../containers/SyncStatus/saga';
 import consoleSaga from '../containers/ConsolePage/saga';
+import popOverSaga from '../containers/PopOver/saga';
 
 function* rootSaga() {
   yield all([
@@ -21,6 +22,7 @@ function* rootSaga() {
     fork(settingsSaga),
     fork(syncStatusSaga),
     fork(consoleSaga),
+    fork(popOverSaga),
   ]);
 }
 

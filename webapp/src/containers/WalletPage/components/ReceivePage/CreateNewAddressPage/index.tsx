@@ -3,7 +3,16 @@ import { NavLink } from 'react-router-dom';
 import uid from 'uid';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Button, Form, FormGroup, FormText, Label, Input } from 'reactstrap';
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormText,
+  Label,
+  Input,
+  Row,
+  Col,
+} from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { MdArrowBack } from 'react-icons/md';
 import { WALLET_RECEIVE_PATH } from '../../../../../constants';
@@ -22,7 +31,13 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
   props: CreateNewAddressPageProps
 ) => {
   const [label, setLabel] = useState<string>('');
+  const [addressTypeChecked, setAddressTypeChecked] = useState(false);
+
   const handleChange = (e) => {
+    if (e.target.type === 'checkbox') {
+      setAddressTypeChecked(!addressTypeChecked);
+      return;
+    }
     const { value } = e.target;
     if (value) {
       setLabel(value);
@@ -33,7 +48,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
 
   const onSubmit = async () => {
     try {
-      const newAddress = await getNewAddress(label);
+      const newAddress = await getNewAddress(label, addressTypeChecked);
       if (!newAddress) {
         throw new Error(
           I18n.t('containers.wallet.receivePage.addressNotAvailable')
@@ -92,10 +107,30 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
               <FormText color='muted'>
                 {I18n.t('containers.wallet.receivePage.createNewAddressNotice')}
               </FormText>
-              <Label for='message'>
+              <Label for='label'>
                 {I18n.t('containers.wallet.receivePage.addressLabel')}
               </Label>
             </FormGroup>
+            <Row>
+              <Col md='4'>
+                {I18n.t('containers.wallet.receivePage.addressType')}
+              </Col>
+              <Col md='8'>
+                <FormGroup check>
+                  <Label check className='switch'>
+                    <Input
+                      type='checkbox'
+                      name='addressType'
+                      id='addressType'
+                      checked={addressTypeChecked}
+                      onChange={handleChange}
+                    />
+                    &nbsp;
+                    {I18n.t('containers.wallet.receivePage.legacyAddress')}
+                  </Label>
+                </FormGroup>
+              </Col>
+            </Row>
           </Form>
         </section>
       </div>

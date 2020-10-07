@@ -20,6 +20,7 @@ export const initialState = {
   totalFetchedTxns: [],
   walletPageCounter: 1,
   stopPagination: false,
+  blockChainInfo: {},
   receivedData: {
     amountToReceive: '',
     amountToReceiveDisplayed: 0,
@@ -137,6 +138,9 @@ const configSlice = createSlice({
     stopWalletTxnPagination(state) {
       state.stopPagination = true;
     },
+    setBlockChainInfo(state, action) {
+      state.blockChainInfo = action.payload;
+    },
   },
 });
 
@@ -171,6 +175,7 @@ export const {
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
+  setBlockChainInfo,
 } = actions;
 
 export default reducer;

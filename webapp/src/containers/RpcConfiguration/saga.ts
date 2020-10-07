@@ -7,6 +7,7 @@ import {
   getRpcConfigsFailure,
   startNodeRequest,
   storeConfigurationData,
+  setQueueReady,
 } from './reducer';
 import { getRpcConfig, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
@@ -18,7 +19,10 @@ import {
 import {
   openErrorModal,
   closeErrorModal,
-} from '../../containers/ErrorModal/reducer';
+  closeRestartLoader,
+} from '../PopOver/reducer';
+import { fetchPaymentRequest } from '../WalletPage/reducer';
+import { fetchChainInfo } from '../WalletPage/saga';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
@@ -38,8 +42,10 @@ export function* getConfig() {
           const blockchainStatus = yield take(chan);
           if (blockchainStatus.status) {
             yield put(startNodeSuccess());
+            yield put(closeRestartLoader());
             yield put(storeConfigurationData(blockchainStatus.conf));
             yield put(closeErrorModal());
+            yield put(setQueueReady());
           } else {
             yield call(blockChainNotStarted, blockchainStatus.message);
           }
@@ -61,8 +67,14 @@ export function* getConfig() {
   }
 }
 
+export function* preCheck() {
+  yield call(fetchChainInfo);
+  yield put(fetchPaymentRequest());
+}
+
 function* mySaga() {
   yield takeLatest(getRpcConfigsRequest.type, getConfig);
+  yield takeLatest(startNodeSuccess.type, preCheck);
 }
 
 export default mySaga;

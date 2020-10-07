@@ -29,7 +29,7 @@ import {
   DEFAULT_MAINNET_PORT,
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../../constants';
-import { restartModal } from '../../ErrorModal/reducer';
+import { restartModal } from '../../PopOver/reducer';
 import { shutDownBinary } from '../../../worker/queue';
 import { restartNode } from '../../../utils/isElectron';
 
@@ -93,7 +93,7 @@ describe('Settings page saga unit test', () => {
       const gen = getSettings();
 
       expect(JSON.stringify(gen.next().value)).toEqual(
-        JSON.stringify(select((state) => state.syncstatus))
+        JSON.stringify(select((state) => state.wallet))
       );
       expect(gen.next(mockObj).value).toEqual(call(service.initialData));
       expect(gen.next(mockObj).value).toEqual(
