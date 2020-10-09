@@ -565,7 +565,14 @@ export default class RpcClient {
   getAccount = async (ownerAddress: string) => {
     const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
       ownerAddress,
+    ]);
+    return data.result;
+  };
+
+  listAccounts = async () => {
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
       {},
+      true,
       true,
     ]);
     return data.result;
