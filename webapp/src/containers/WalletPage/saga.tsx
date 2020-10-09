@@ -43,6 +43,7 @@ import {
   handleAccountFetchTokens,
   getAddressInfo,
   getBlockChainInfo,
+  handleFetchAccounts,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -240,12 +241,9 @@ export function* fetchTokens() {
   }
 }
 
-export function* fetchAccountTokens(action) {
-  const {
-    payload: { ownerAddress },
-  } = action;
+export function* fetchAccountTokens() {
   try {
-    const data = yield call(handleAccountFetchTokens, ownerAddress);
+    const data = yield call(handleFetchAccounts);
     yield put({
       type: fetchAccountTokensSuccess.type,
       payload: { accountTokens: data },

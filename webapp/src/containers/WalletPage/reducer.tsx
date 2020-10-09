@@ -44,7 +44,7 @@ const configSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
-    fetchAccountTokensRequest(state, action) {
+    fetchAccountTokensRequest(state) {
       state.isAccountLoadingTokens = true;
     },
     fetchAccountTokensSuccess(state, action) {

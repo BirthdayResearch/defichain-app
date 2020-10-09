@@ -5,6 +5,7 @@ import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
 import isEmpty from 'lodash/isEmpty';
+import _ from 'lodash';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -171,6 +172,58 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
   });
 
   return await Promise.all(transformedData);
+};
+
+export const handleFetchAccounts = async () => {
+  const rpcClient = new RpcClient();
+  const accounts = await rpcClient.listAccounts();
+  if (isEmpty(accounts)) {
+    return [];
+  }
+
+  const tokensData = accounts.map(async (account) => {
+    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+
+    if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      return account.amount;
+    }
+  });
+
+  const resolvedData: any = _.compact(await Promise.all(tokensData));
+
+  const transformedData: any =
+    resolvedData &&
+    resolvedData.map(async (item) => {
+      let data = {};
+      async function getData() {
+        data = await handleFetchToken(Object.keys(item)[0]);
+      }
+      await getData();
+      return {
+        ...data,
+        amount: item[Object.keys(item)[0]],
+      };
+    });
+
+  const transformedDataResolved: any = await Promise.all(transformedData);
+
+  const result: any = [];
+  Array.from(new Set(transformedDataResolved.map((x) => x.hash))).forEach(
+    (x: any) => {
+      result.push(
+        transformedDataResolved
+          .filter((y) => y.hash === x)
+          .reduce((output, item) => {
+            const val = output['amount'] === undefined ? 0 : output['amount'];
+            output = { ...item };
+            output['amount'] = item.amount + val;
+            return output;
+          }, {})
+      );
+    }
+  );
+
+  return result;
 };
 
 export const getAddressInfo = (address) => {
