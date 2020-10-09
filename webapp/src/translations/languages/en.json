@@ -322,9 +322,10 @@
     },
     "wallet": {
       "sendPage": {
-        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
+        "sendTitle": "Send – DeFi Blockchain Client",
         "wallet": "Wallet",
         "sendDFI": "Send DFI",
+        "send": "Send",
         "amount": "Amount",
         "dFI": "DFI",
         "max": "MAX",

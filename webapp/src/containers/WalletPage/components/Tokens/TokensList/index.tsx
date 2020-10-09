@@ -25,7 +25,7 @@ interface WalletTokensListProps extends RouteComponentProps {
   tokens: any;
   accountTokens: any;
   fetchTokensRequest: () => void;
-  fetchAccountTokensRequest: (ownerAddress) => void;
+  fetchAccountTokensRequest: () => void;
 }
 
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
@@ -42,9 +42,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
-    fetchAccountTokensRequest({
-      ownerAddress: 'a91414e4641c4695acaf50738d88917242e5e6be603f87',
-    });
+    fetchAccountTokensRequest();
   }, []);
 
   function paginate(pageNumber, tokensList?: any[]) {
@@ -62,8 +60,10 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     paginate(defaultPage, tokensList);
   }, [accountTokens]);
 
-  const handleCardClick = () => {
-    props.history.push(WALLET_PAGE_PATH);
+  const handleCardClick = (symbol, hash, amount) => {
+    props.history.push(
+      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}`
+    );
   };
 
   return (
