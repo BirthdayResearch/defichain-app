@@ -36,6 +36,7 @@ const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
   unit: string;
+  location?: any;
   sendData: {
     walletBalance: number;
     amountToSend: string | number;
@@ -67,6 +68,10 @@ interface SendPageState {
 
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
+  urlParams = new URLSearchParams(this.props.location.search);
+  tokenSymbol = this.urlParams.get('symbol');
+  tokenHash = this.urlParams.get('hash');
+  tokenAmount = this.urlParams.get('amount');
 
   state = {
     walletBalance: 0,
@@ -110,10 +115,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   maxAmountToSend = () => {
-    const amount = getAmountInSelectedUnit(
-      this.props.sendData.walletBalance,
-      this.props.unit
-    );
+    let amount;
+    if (!this.tokenSymbol) {
+      amount = getAmountInSelectedUnit(
+        this.props.sendData.walletBalance,
+        this.props.unit
+      );
+    } else {
+      amount = this.tokenAmount;
+    }
     this.setState(
       {
         amountToSend: amount,
@@ -214,10 +224,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   isAmountValid = async () => {
-    const amount = getAmountInSelectedUnit(
-      this.props.sendData.walletBalance,
-      this.props.unit
-    );
+    let amount;
+    if (!this.tokenSymbol) {
+      amount = getAmountInSelectedUnit(
+        this.props.sendData.walletBalance,
+        this.props.unit
+      );
+    } else {
+      amount = this.tokenAmount;
+    }
 
     const isLessThanBalance = new BigNumber(
       this.state.amountToSendDisplayed
@@ -264,14 +279,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
+    const { tokenSymbol, tokenHash, tokenAmount } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t('containers.wallet.sendPage.sendDFITitle')}</title>
+          <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
         </Helmet>
         <header className='header-bar'>
           <Button
-            to={WALLET_PAGE_PATH}
+            to={
+              tokenSymbol
+                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                : WALLET_PAGE_PATH
+            }
             tag={NavLink}
             color='link'
             className='header-bar-back'
@@ -281,7 +301,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               {I18n.t('containers.wallet.sendPage.wallet')}
             </span>
           </Button>
-          <h1>{I18n.t('containers.wallet.sendPage.sendDFI')}</h1>
+          <h1>
+            {I18n.t('containers.wallet.sendPage.send')}{' '}
+            {tokenSymbol ? tokenSymbol : this.props.unit}
+          </h1>
         </header>
         <div className='content'>
           <section>
@@ -306,7 +329,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       {I18n.t('containers.wallet.sendPage.amount')}
                     </Label>
                     <InputGroupAddon addonType='append'>
-                      <InputGroupText>{this.props.unit}</InputGroupText>
+                      <InputGroupText>
+                        {tokenSymbol ? tokenSymbol : this.props.unit}
+                      </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -372,12 +397,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {getAmountInSelectedUnit(
-                    this.props.sendData.walletBalance,
-                    this.props.unit
-                  )}
+                  {!tokenSymbol
+                    ? getAmountInSelectedUnit(
+                        this.props.sendData.walletBalance,
+                        this.props.unit
+                      )
+                    : tokenAmount}
                   &nbsp;
-                  {this.props.unit}
+                  {tokenSymbol ? tokenSymbol : this.props.unit}
                 </div>
               </Col>
               <Col className='col-auto'>
@@ -386,7 +413,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {this.props.unit}
+                  {tokenSymbol ? tokenSymbol : this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -423,7 +450,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {this.props.unit}
+                    {tokenSymbol ? tokenSymbol : this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>

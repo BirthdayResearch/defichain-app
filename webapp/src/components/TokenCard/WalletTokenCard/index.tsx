@@ -6,7 +6,7 @@ import Icon from '../../../assets/svg/icon-coin-bitcoin-lapis.svg';
 
 interface WalletTokenCardProps {
   token: any;
-  handleCardClick: (symbol: string) => void;
+  handleCardClick: (symbol: string, hash: string, amount: any) => void;
 }
 
 const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
@@ -15,7 +15,10 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
   const { handleCardClick, token } = props;
 
   return (
-    <Card className={styles.tokenCard} onClick={() => handleCardClick('DAT')}>
+    <Card
+      className={styles.tokenCard}
+      onClick={() => handleCardClick(token.symbol, token.hash, token.amount)}
+    >
       <CardBody className={styles.cardBody}>
         <Row>
           <Col md='6'>
