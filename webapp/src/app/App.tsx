@@ -10,6 +10,8 @@ import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import ErrorModal from '../containers/PopOver/ErrorModal';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
+import ReIndexModel from '../containers/PopOver/ReIndexModel';
+import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 import Popover from '../containers/PopOver';
 
 interface AppProps extends RouteComponentProps {
@@ -90,6 +92,8 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           isRestart={isRestart}
         />
       )}
+      <ReIndexModel />
+      <BackupWalletWarningModel/>
       <Popover />
     </>
   );
