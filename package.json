@@ -157,7 +157,7 @@
     },
     "publish": {
       "provider": "github",
-      "repo": "defi-app",
+      "repo": "defi-app-2",
       "owner": "DeFiCh",
       "releaseType": "prerelease"
     }
