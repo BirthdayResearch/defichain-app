@@ -41,7 +41,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
 ) => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<string>(DAT_TOKEN);
+  const [activeTab, setActiveTab] = useState<string>(DCT_TOKEN);
   const { tokens, fetchTokensRequest } = props;
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.tokens.tokensPage.tokens')}
         </h1>
-        <Nav pills className='justify-content-center'>
+        {/* <Nav pills className='justify-content-center'>
           <NavItem>
             <NavLink
               className={classnames({
@@ -93,7 +93,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
               {I18n.t('containers.tokens.tokensPage.dct')}
             </NavLink>
           </NavItem>
-        </Nav>
+        </Nav> */}
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
