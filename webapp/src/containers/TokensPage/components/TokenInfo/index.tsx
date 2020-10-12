@@ -190,12 +190,12 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 value={(tokenInfo.decimal || '').toString()}
               />
             </Col>
-            <Col md='6'>
+            {/* <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.type')}
                 value={(tokenInfo.isDAT ? 'DAT' : 'DCT' || '').toString()}
               />
-            </Col>
+            </Col> */}
             <Col md='6'>
               <KeyValueLi
                 // label={I18n.t('containers.tokens.tokenInfo.holders')}
