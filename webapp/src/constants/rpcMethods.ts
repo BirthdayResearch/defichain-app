@@ -33,3 +33,4 @@ export const GET_ADDRESS_INFO = 'getaddressinfo';
 export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
+export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';

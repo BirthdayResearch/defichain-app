@@ -6,6 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
+import { getErrorMessage } from '../../utils/utility';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -106,6 +107,26 @@ export const sendToAddress = async (
       I18n.t('containers.wallet.sendPage.sendFailed')
     );
     throw new Error(`Got error in sendToAddress: ${err}`);
+  }
+};
+
+export const accountToAccount = async (
+  fromAddress: string,
+  toAddress: string,
+  amount: string
+) => {
+  try {
+    const rpcClient = new RpcClient();
+    const data = await rpcClient.accountToAccount(
+      fromAddress,
+      toAddress,
+      amount
+    );
+    return data;
+  } catch (err) {
+    log.error(`Got error in accounttoaccount: ${err}`);
+    showNotification(I18n.t('alerts.errorOccurred'), getErrorMessage(err));
+    throw new Error(`Got error in accounttoaccount: ${err}`);
   }
 };
 

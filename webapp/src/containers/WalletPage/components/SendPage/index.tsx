@@ -24,7 +24,7 @@ import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
-import { isValidAddress, sendToAddress } from '../../service';
+import { accountToAccount, isValidAddress, sendToAddress } from '../../service';
 import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
@@ -206,20 +206,34 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   sendTransaction = async () => {
     const { isAmountValid, isAddressValid } = this.state;
     if (isAmountValid && isAddressValid) {
-      // Convert to base unit
-      const amount = getAmountInSelectedUnit(
-        this.state.amountToSendDisplayed,
-        DEFAULT_UNIT,
-        this.props.unit
-      );
-      // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-      if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
-        await sendToAddress(this.state.toAddress, amount, true);
-      else await sendToAddress(this.state.toAddress, amount, false);
-      this.setState({
-        sendStep: 'success',
-        showBackdrop: 'show-backdrop',
-      });
+      let amount;
+      if (!this.tokenSymbol) {
+        // Convert to base unit
+        amount = getAmountInSelectedUnit(
+          this.state.amountToSendDisplayed,
+          DEFAULT_UNIT,
+          this.props.unit
+        );
+        // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+        if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
+          await sendToAddress(this.state.toAddress, amount, true);
+        else await sendToAddress(this.state.toAddress, amount, false);
+        this.setState({
+          sendStep: 'success',
+          showBackdrop: 'show-backdrop',
+        });
+      } else {
+        amount = this.tokenAmount;
+        await accountToAccount(
+          'ti8SN8JMjm4vjWireULXgqQ5oXG3G8zZz9',
+          this.state.toAddress,
+          `${amount}@${this.tokenHash}`
+        );
+        this.setState({
+          sendStep: 'success',
+          showBackdrop: 'show-backdrop',
+        });
+      }
     }
   };
 
