@@ -39,10 +39,13 @@ export interface SidebarProps extends RouteComponentProps {
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
+  blockChainInfo: any;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+
+  const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
     props.fetchWalletBalanceRequest();
@@ -113,17 +116,19 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={TOKENS_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdToll />
-              {I18n.t('containers.sideBar.tokens')}
-            </NavLink>
-          </NavItem>
+          {softforks.amk && softforks.amk.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TOKENS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdToll />
+                {I18n.t('containers.sideBar.tokens')}
+              </NavLink>
+            </NavItem>
+          )}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
@@ -181,6 +186,7 @@ const mapStateToProps = (state) => {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
+    blockChainInfo: wallet.blockChainInfo,
   };
 };
 

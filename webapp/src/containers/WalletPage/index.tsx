@@ -38,6 +38,7 @@ interface WalletPageProps {
   updateAvailableBadge: boolean;
   startUpdateApp: () => void;
   openBackupWallet: () => void;
+  blockChainInfo: any;
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
@@ -56,6 +57,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     startUpdateApp,
     openBackupWallet,
   } = props;
+  const { softforks = {} } = props.blockChainInfo;
+
   useEffect(() => {
     fetchWalletBalanceRequest();
     fetchPendingBalanceRequest();
@@ -85,17 +88,19 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
       <header className='header-bar'>
-        <Button
-          to={WALLET_TOKENS_PATH}
-          tag={RRNavLink}
-          color='link'
-          className='header-bar-back'
-        >
-          <MdArrowBack />
-          <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.walletPage.tokens')}
-          </span>
-        </Button>
+        {softforks.amk && softforks.amk.active && (
+          <Button
+            to={WALLET_TOKENS_PATH}
+            tag={RRNavLink}
+            color='link'
+            className='header-bar-back'
+          >
+            <MdArrowBack />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.wallet.walletPage.tokens')}
+            </span>
+          </Button>
+        )}
         <h1>
           {tokenSymbol ? tokenSymbol : unit}{' '}
           {I18n.t('containers.wallet.walletPage.wallet')}
@@ -196,7 +201,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
 
 const mapStateToProps = (state) => {
   const {
-    wallet: { walletBalance, pendingBalance },
+    wallet: { walletBalance, pendingBalance, blockChainInfo },
     settings: {
       appConfig: { unit },
     },
@@ -207,6 +212,7 @@ const mapStateToProps = (state) => {
     walletBalance,
     pendingBalance,
     updateAvailableBadge,
+    blockChainInfo,
   };
 };
 
