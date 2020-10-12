@@ -2,6 +2,9 @@ import Ajv from 'ajv';
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
+import _ from 'lodash';
+import * as bitcoin from 'bitcoinjs-lib';
+
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
   DATE_FORMAT,
@@ -10,11 +13,19 @@ import {
   DUST_VALUE_DFI,
   DEFI_CLI,
   MAX_MONEY,
+  ENTROPY_BITS,
+  MIN_WORD_INDEX,
+  MAX_WORD_INDEX,
+  TOTAL_WORD_LENGTH,
+  RANDOM_WORD_LENGTH,
+  MAIN,
+  TEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
-import store from '../../src/app/rootStore';
+import Mnemonic from './mnemonic';
+import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
 
 export const validateSchema = (schema, data) => {
@@ -306,6 +317,127 @@ export const setIntervalSynchronous = (func, delay) => {
   timeoutId = setTimeout(intervalFunction, delay);
   return clear;
 };
+
+export const getMnemonicObject = () => {
+  const mnemonic = new Mnemonic();
+  const mnemonicCode = mnemonic.createMnemonic(ENTROPY_BITS);
+  const mnemonicWordArray = mnemonicCode.split(' ');
+  return {
+    mnemonicObj: getObjectFromArrayString(mnemonicWordArray),
+    mnemonicCode,
+  };
+};
+
+export const getRandomWordObject = () => {
+  const mnemonic = new Mnemonic();
+  const randomCode = mnemonic.createMnemonic(32);
+  const randomWordArray = randomCode.split(' ');
+  return getObjectFromArrayString(randomWordArray);
+};
+
+export const getObjectFromArrayString = (strArray: string[]) => {
+  const strObj = {};
+  for (const [index, str] of strArray.entries()) {
+    strObj[index + 1] = str;
+  }
+  return strObj;
+};
+
+export const getMixWordsObject = (
+  mnemonicObject: any,
+  randomWordObject: any
+) => {
+  const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
+  const randomWordArray = _.values(randomWordObject);
+
+  const mixArray = shuffleArray(mnemonicWordArray.concat(randomWordArray));
+  return getObjectFromArrayString(mixArray);
+};
+
+export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
+  let min = MIN_WORD_INDEX;
+  let max = MAX_WORD_INDEX;
+  const mixArray: any[] = [];
+  while (max <= TOTAL_WORD_LENGTH) {
+    const index = getRandomNumber(min, max);
+    mixArray.push(mnemonicObject[index]);
+
+    min += 4;
+    max += 4;
+  }
+  return mixArray;
+};
+
+export const getRandomNumber = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
+export const shuffleArray = (array: string[]): string[] => {
+  return array.sort(
+    () => Math.floor(Math.random() * Math.floor(RANDOM_WORD_LENGTH - 1)) - 1
+  );
+};
+
+export const checkElementsInArray = (
+  selectedWordObjectArray: any[],
+  mnemonicObject: any
+): boolean => {
+  const selectedWordArray = selectedWordObjectArray.map(
+    (wordObj) => wordObj.value
+  );
+
+  if (selectedWordArray.length < 6) {
+    return false;
+  }
+
+  const mnemonicWordArray = _.values(mnemonicObject);
+
+  return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
+};
+
+export const createWallet = async (mnemonicCode: string) => {
+  try {
+    const mnemonic = new Mnemonic();
+    const rpcClient = new RpcClient();
+
+    const seed = mnemonic.createSeed(mnemonicCode);
+    const root = mnemonic.createRoot(seed);
+    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
+
+    await rpcClient.setHdSeed(hdSeed);
+  } catch (e) {
+    log.error(e);
+  }
+};
+
+export const getNetworkType = () => {
+  const state = store.getState();
+  const blockChainInfo: any = state.wallet.blockChainInfo;
+  return blockChainInfo.chain || MAIN;
+};
+
+export const getNetworkInfo = (networkType: string) => {
+  if (networkType === MAIN) {
+    return bitcoin.networks.bitcoin;
+  }
+  if (networkType === TEST) {
+    return bitcoin.networks.testnet;
+  }
+  return bitcoin.networks.regtest;
+};
+
+export const getMnemonicFromObj = (mnemonicObj) => {
+  const values: string[] = Object.values(mnemonicObj);
+  const mnemonic = values.reduce((mnemonicCode, value) => {
+    return mnemonicCode.concat(value + ' ');
+  }, '');
+  return mnemonic.trim();
+};
+
+export const isValidMnemonic = (mnemonicCode: string) => {
+  const mnemonic = new Mnemonic();
+  return mnemonic.isValidMnemonic(mnemonicCode);
+}
 
 export const queuePush = (
   methodName,

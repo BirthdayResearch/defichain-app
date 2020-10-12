@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import {
-  MdArrowUpward,
-  MdArrowDownward,
-  MdRefresh,
-  MdInfo,
-} from 'react-icons/md';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
+import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
 import { I18n } from 'react-redux-i18n';
@@ -17,13 +12,22 @@ import {
   fetchPendingBalanceRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  WALLET_SEND_PATH,
+  WALLET_RECEIVE_PATH,
+  MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+  WALLET_CREATE_PATH,
+} from '../../constants';
+import { getAmountInSelectedUnit, getNetworkType } from '../../utils/utility';
 import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
+import PersistentStore from '../../utils/persistentStore';
+import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
 
-interface WalletPageProps {
+interface WalletPageProps extends RouteComponentProps {
   unit: string;
   walletBalance: string;
   pendingBalance: string;
@@ -44,6 +48,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     updateAvailableBadge,
     startUpdateApp,
     openBackupWallet,
+    history,
   } = props;
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -62,6 +67,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     startUpdateApp();
   };
 
+  const isWalletCreated = () => {
+    const networkType = getNetworkType();
+    const key =
+      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+    return PersistentStore.get(key) || false;
+  };
+
   let balanceRefreshTimerID;
   let pendingBalRefreshTimerID;
   const { walletBalance, pendingBalance } = props;
@@ -69,90 +81,128 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
 
   return (
-    <div className='main-wrapper'>
-      <Helmet>
-        <title>{I18n.t('containers.wallet.walletPage.walletDefiClient')}</title>
-      </Helmet>
-      <header className='header-bar'>
-        <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
-        {updateAvailableBadge && (
-          <Badge
-            baseClass='update-available'
-            outline
-            onClick={openUpdatePopUp}
-            label={I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
-          />
-        )}
-        <ButtonGroup>
-          <Button to={WALLET_SEND_PATH} tag={RRNavLink} color='link' size='sm'>
-            <MdArrowUpward />
-            <span className='d-md-inline'>
-              {I18n.t('containers.wallet.walletPage.send')}
-            </span>
-          </Button>
-          <Button
-            to={WALLET_RECEIVE_PATH}
-            tag={RRNavLink}
-            color='link'
-            size='sm'
-          >
-            <MdArrowDownward />
-            <span className='d-md-inline'>
-              {I18n.t('containers.wallet.walletPage.receive')}
-            </span>
-          </Button>
-        </ButtonGroup>
-      </header>
-      <div className='content'>
-        <section>
-          <Row>
-            <Col>
-              <StatCard
-                label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={getAmountInSelectedUnit(walletBalance, unit)}
-                unit={unit}
-                refreshFlag={refreshBalance}
-                icon={
-                  <MdRefresh
-                    className={styles.iconPointer}
-                    size={30}
-                    onClick={() => {
-                      setRefreshBalance(true);
-                      balanceRefreshTimerID = setTimeout(() => {
-                        setRefreshBalance(false);
-                      }, 2000);
-                      fetchWalletBalanceRequest();
-                    }}
-                  />
-                }
+    <>
+      {!isWalletCreated() ? (
+        <div className='main-wrapper'>
+          <CreateOrRestoreWalletPage history={history} />
+        </div>
+      ) : (
+        <div className='main-wrapper'>
+          <Helmet>
+            <title>
+              {I18n.t('containers.wallet.walletPage.walletDefiClient')}
+            </title>
+          </Helmet>
+          <header className='header-bar'>
+            <h1>{I18n.t('containers.wallet.walletPage.wallet')}</h1>
+            {updateAvailableBadge && (
+              <Badge
+                baseClass='update-available'
+                outline
+                onClick={openUpdatePopUp}
+                label={I18n.t(
+                  'containers.wallet.walletPage.updateAvailableLabel'
+                )}
               />
-            </Col>
-            <Col>
-              <StatCard
-                label={I18n.t('containers.wallet.walletPage.pending')}
-                value={getAmountInSelectedUnit(pendingBalance, unit)}
-                unit={unit}
-                refreshFlag={pendingRefreshBalance}
-                icon={
-                  <MdRefresh
-                    className={styles.iconPointer}
-                    size={30}
-                    onClick={() => {
-                      setPendingRefreshBalance(true);
-                      pendingBalRefreshTimerID = setTimeout(() => {
-                        setPendingRefreshBalance(false);
-                      }, 2000);
-                      fetchPendingBalanceRequest();
-                    }}
+            )}
+            <ButtonGroup>
+              <Button
+                to={WALLET_SEND_PATH}
+                tag={RRNavLink}
+                color='link'
+                size='sm'
+              >
+                <MdArrowUpward />
+                <span className='d-md-inline'>
+                  {I18n.t('containers.wallet.walletPage.send')}
+                </span>
+              </Button>
+              <Button
+                to={WALLET_RECEIVE_PATH}
+                tag={RRNavLink}
+                color='link'
+                size='sm'
+              >
+                <MdArrowDownward />
+                <span className='d-md-inline'>
+                  {I18n.t('containers.wallet.walletPage.receive')}
+                </span>
+              </Button>
+            </ButtonGroup>
+          </header>
+          <div className='content'>
+            <section>
+              <Row>
+                <Col>
+                  <StatCard
+                    label={I18n.t(
+                      'containers.wallet.walletPage.availableBalance'
+                    )}
+                    value={getAmountInSelectedUnit(walletBalance, unit)}
+                    unit={unit}
+                    refreshFlag={refreshBalance}
+                    icon={
+                      <MdRefresh
+                        className={styles.iconPointer}
+                        size={30}
+                        onClick={() => {
+                          setRefreshBalance(true);
+                          balanceRefreshTimerID = setTimeout(() => {
+                            setRefreshBalance(false);
+                          }, 2000);
+                          fetchWalletBalanceRequest();
+                        }}
+                      />
+                    }
                   />
-                }
-              />
-            </Col>
-          </Row>
-        </section>
-        <WalletTxns />
-      </div>
-    </div>
+                </Col>
+                <Col>
+                  <StatCard
+                    label={I18n.t('containers.wallet.walletPage.pending')}
+                    value={getAmountInSelectedUnit(pendingBalance, unit)}
+                    unit={unit}
+                    refreshFlag={pendingRefreshBalance}
+                    icon={
+                      <MdRefresh
+                        className={styles.iconPointer}
+                        size={30}
+                        onClick={() => {
+                          setPendingRefreshBalance(true);
+                          pendingBalRefreshTimerID = setTimeout(() => {
+                            setPendingRefreshBalance(false);
+                          }, 2000);
+                          fetchPendingBalanceRequest();
+                        }}
+                      />
+                    }
+                  />
+                </Col>
+              </Row>
+            </section>
+            <WalletTxns />
+          </div>
+          <footer className='footer-bar'>
+            <div>
+              <Row className='justify-content-between align-items-center'>
+                <Col className='d-flex justify-content-end'>
+                  <Button
+                    color='link'
+                    className='mr-3'
+                    onClick={() => {
+                      history.push(WALLET_CREATE_PATH);
+                    }}
+                  >
+                    {I18n.t(
+                      'containers.wallet.createNewWalletPage.createNewWallet'
+                    )}
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          </footer>
+        </div>
+      )}
+    </>
   );
 };
 

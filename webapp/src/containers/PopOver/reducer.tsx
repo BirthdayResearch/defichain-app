@@ -16,6 +16,7 @@ export const initialState = {
   updateAvailableBadge: false,
   backupWalletIsOpen: false,
   openBackupWalletDatModal: false,
+  isBackupWalletWarningModelOpen: false,
 };
 
 const configSlice = createSlice({
@@ -93,6 +94,13 @@ const configSlice = createSlice({
     closeBackupLoading(state) {
       state.backupWalletIsOpen = false;
     },
+    openBackupWalletWarningModal(state) {
+      state.isBackupWalletWarningModelOpen = true;
+    },
+    closeBackupWalletWarningModal(state) {
+      state.isBackupWalletWarningModelOpen = false;
+    },
+    backupWalletStart() {},
     openWalletDatBackupModal(state) {
       state.openBackupWalletDatModal = true;
     },
@@ -125,6 +133,9 @@ export const {
   backupLoadingStart,
   openBackupWallet,
   closeBackupLoading,
+  openBackupWalletWarningModal,
+  closeBackupWalletWarningModal,
+  backupWalletStart,
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
 } = actions;
