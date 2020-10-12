@@ -24,16 +24,14 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
             </Col>
           } */}
         </Row>
-        <Row>
+        {/* <Row>
           <Col className={styles.label}>
-            {/* {I18n.t('containers.tokens.tokensPage.dctLabels.id')} */}
             {I18n.t('containers.tokens.tokensPage.dctLabels.type')}
           </Col>
           <Col className={`${styles.unit} ${styles.text}`}>
-            {/* {data.id} */}
             {data.isDAT ? '' : 'DCT'}
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col className={styles.label}>
             {/* {I18n.t(

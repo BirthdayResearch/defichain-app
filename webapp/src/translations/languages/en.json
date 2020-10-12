@@ -195,12 +195,12 @@
         }
       },
       "createToken": {
-        "back": "back",
+        "back": "BACK",
         "yes": "Yes",
         "no": "No",
         "cancel": "CANCEL",
         "continue": "CONTINUE",
-        "createTitle": "Create DCT (DeFi Custom Token)",
+        "createTitle": "Create Token",
         "updateTitle": "Update DCT (DeFi Custom Token)",
         "name": "Name of token",
         "symbol": "Ticker Symbol",
