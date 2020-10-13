@@ -26,7 +26,12 @@ import {
   setBlockChainInfo,
   createWalletFailure,
   createWalletSuccess,
-  createWalletRequest, restoreWalletFailure, restoreWalletRequest, restoreWalletSuccess
+  createWalletRequest,
+  restoreWalletFailure,
+  restoreWalletRequest,
+  restoreWalletSuccess,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } from './reducer';
 import {
   handelGetPaymentRequest,
@@ -38,7 +43,8 @@ import {
   handleFetchPendingBalance,
   getAddressInfo,
   getBlockChainInfo,
-  setHdSeed, importPrivKey
+  setHdSeed,
+  importPrivKey,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -261,15 +267,14 @@ export function* createWallet(action) {
 }
 
 export function* restoreWallet(action) {
-  try{
+  try {
     const {
       payload: { mnemonicObj, history },
     } = action;
 
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
-    console.log(mnemonicCode);
     const isValid = isValidMnemonic(mnemonicCode);
-    if(!isValid){
+    if (!isValid) {
       throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
     }
 
@@ -285,12 +290,31 @@ export function* restoreWallet(action) {
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     history.push(WALLET_PAGE_PATH);
-  }catch(e){
+  } catch (e) {
     log.error(e.message);
-    yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e)});
+    yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
   }
 }
 
+export function* fetchInstantBalance() {
+  try {
+    const result = yield call(handleFetchWalletBalance);
+    yield put(fetchWalletBalanceSuccess(result));
+  } catch (err) {
+    yield put(fetchWalletBalanceFailure(err.message));
+    log.error(err);
+  }
+}
+
+export function* fetchInstantPendingBalance() {
+  try {
+    const result = yield call(handleFetchPendingBalance);
+    yield put(fetchPendingBalanceSuccess(result));
+  } catch (err) {
+    yield put(fetchPendingBalanceFailure(err.message));
+    log.error(err);
+  }
+}
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -301,6 +325,11 @@ function* mySaga() {
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
   yield takeLatest(createWalletRequest.type, createWallet);
   yield takeLatest(restoreWalletRequest.type, restoreWallet);
+  yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);
+  yield takeLatest(
+    fetchInstantPendingBalanceRequest.type,
+    fetchInstantPendingBalance
+  );
 }
 
 export default mySaga;

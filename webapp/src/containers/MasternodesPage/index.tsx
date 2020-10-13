@@ -14,7 +14,7 @@ import {
   CONFIRM_BUTTON_COUNTER,
 } from '../../constants';
 import { connect } from 'react-redux';
-import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import { createMasterNode, startRestartNodeWithMasterNode } from './reducer';
 import styles from './masternode.module.scss';
 import isEmpty from 'lodash/isEmpty';
@@ -33,7 +33,7 @@ interface MasternodesPageProps extends RouteComponentProps {
   masternodes: MasterNodeObject[];
   fetchMasternodesRequest: () => void;
   isLoadingMasternodes: boolean;
-  fetchWalletBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
   isOpen: boolean;
   isRestart: boolean;
 }
@@ -51,7 +51,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     masternodes,
     fetchMasternodesRequest,
     isLoadingMasternodes,
-    fetchWalletBalanceRequest,
+    fetchInstantBalanceRequest,
     isOpen,
     isRestart,
   } = props;
@@ -74,7 +74,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     MasterNodeObject[]
   >([]);
   const resetConfirmationModal = (event: any) => {
-    fetchWalletBalanceRequest();
+    fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
   };
 
@@ -117,7 +117,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       return masternode.state !== RESIGNED_STATE && !masternode.isMyMasternode;
     });
     setEnabledMasternodes(enabledMasternodes);
-  }, [activeTab]);
+  }, [activeTab, masternodes]);
 
   useEffect(() => {
     if (allowCalls && !isMasterNodeCreating) {
@@ -373,7 +373,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchMasternodesRequest,
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
   createMasterNode,
   startRestartNodeWithMasterNode,
 };
