@@ -20,6 +20,8 @@ import {
   RANDOM_WORD_LENGTH,
   MAIN,
   TEST,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -27,6 +29,7 @@ import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
+import PersistentStore from './persistentStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -450,4 +453,11 @@ export const queuePush = (
   if (isQueueReady) {
     return queue.push({ methodName, params }, callBack);
   }
+};
+
+export const isWalletCreated = () => {
+  const networkType = getNetworkType();
+  const key =
+    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  return PersistentStore.get(key) || false;
 };
