@@ -30,6 +30,12 @@ import {
   fetchAccountTokensFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
+  createWalletFailure,
+  createWalletSuccess,
+  createWalletRequest,
+  restoreWalletFailure,
+  restoreWalletRequest,
+  restoreWalletSuccess,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -44,16 +50,32 @@ import {
   getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
+  setHdSeed,
+  importPrivKey,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
-import { paginate, getErrorMessage } from '../../utils/utility';
-import { queuePush } from '../../utils/utility';
+import {
+  getErrorMessage,
+  getMnemonicFromObj,
+  getNetworkInfo,
+  getNetworkType,
+  isValidMnemonic,
+} from '../../utils/utility';
+import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
+import {
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+  MAIN,
+  MAX_WALLET_TXN_PAGE_SIZE,
+  WALLET_PAGE_PATH,
+} from '../../constants';
+import PersistentStore from '../../utils/persistentStore';
+import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 
 export function* getNetwork() {
   const {
@@ -256,6 +278,59 @@ export function* fetchAccountTokens() {
     log.error(e);
   }
 }
+export function* createWallet(action) {
+  try {
+    const {
+      payload: { mnemonicCode, history },
+    } = action;
+
+    const networkType = getNetworkType();
+    const network = getNetworkInfo(networkType);
+    const isWalletCreated =
+      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+
+    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
+
+    yield call(setHdSeed, hdSeed);
+    yield put({ type: createWalletSuccess.type });
+    PersistentStore.set(isWalletCreated, true);
+    history.push(WALLET_PAGE_PATH);
+  } catch (e) {
+    log.error(e.message);
+    yield put({ type: createWalletFailure.type, payload: getErrorMessage(e) });
+  }
+}
+
+export function* restoreWallet(action) {
+  try {
+    const {
+      payload: { mnemonicObj, history },
+    } = action;
+
+    const mnemonicCode = getMnemonicFromObj(mnemonicObj);
+    console.log(mnemonicCode);
+    const isValid = isValidMnemonic(mnemonicCode);
+    if (!isValid) {
+      throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
+    }
+
+    const networkType = getNetworkType();
+    const network = getNetworkInfo(networkType);
+    const isWalletCreated =
+      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+
+    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
+
+    yield call(setHdSeed, hdSeed);
+    yield call(importPrivKey, hdSeed);
+    yield put({ type: restoreWalletSuccess.type });
+    PersistentStore.set(isWalletCreated, true);
+    history.push(WALLET_PAGE_PATH);
+  } catch (e) {
+    log.error(e.message);
+    yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
+  }
+}
 
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
@@ -267,6 +342,8 @@ function* mySaga() {
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
+  yield takeLatest(createWalletRequest.type, createWallet);
+  yield takeLatest(restoreWalletRequest.type, restoreWallet);
 }
 
 export default mySaga;
