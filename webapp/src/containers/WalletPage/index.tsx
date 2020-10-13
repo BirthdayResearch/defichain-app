@@ -48,6 +48,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const tokenSymbol = urlParams.get('symbol');
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
+  const tokenAddress = urlParams.get('address');
 
   const {
     fetchWalletBalanceRequest,
@@ -117,7 +118,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
@@ -174,7 +175,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
                 value={getAmountInSelectedUnit(pendingBalance, unit)}
-                unit={unit}
+                unit={tokenSymbol ? tokenSymbol : unit}
                 refreshFlag={pendingRefreshBalance}
                 icon={
                   <MdRefresh

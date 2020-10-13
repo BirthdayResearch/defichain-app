@@ -6,7 +6,12 @@ import Icon from '../../../assets/svg/icon-coin-bitcoin-lapis.svg';
 
 interface WalletTokenCardProps {
   token: any;
-  handleCardClick: (symbol: string, hash: string, amount: any) => void;
+  handleCardClick: (
+    symbol: string,
+    hash: string,
+    amount: any,
+    address: string
+  ) => void;
 }
 
 const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
@@ -17,7 +22,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
   return (
     <Card
       className={styles.tokenCard}
-      onClick={() => handleCardClick(token.symbol, token.hash, token.amount)}
+      onClick={() =>
+        handleCardClick(token.symbol, token.hash, token.amount, token.address)
+      }
     >
       <CardBody className={styles.cardBody}>
         <Row>

@@ -60,9 +60,9 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     paginate(defaultPage, tokensList);
   }, [accountTokens]);
 
-  const handleCardClick = (symbol, hash, amount) => {
+  const handleCardClick = (symbol, hash, amount, address) => {
     props.history.push(
-      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}`
+      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
     );
   };
 
