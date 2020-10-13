@@ -22,16 +22,16 @@ import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
   WALLET_SEND_PATH,
   WALLET_RECEIVE_PATH,
-  MAIN,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   WALLET_CREATE_PATH,
 } from '../../constants';
-import { getAmountInSelectedUnit, getNetworkType } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  getNetworkType,
+  isWalletCreated,
+} from '../../utils/utility';
 import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
-import PersistentStore from '../../utils/persistentStore';
 import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
 
 interface WalletPageProps extends RouteComponentProps {
@@ -81,13 +81,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const openUpdatePopUp = () => {
     openBackupWallet();
     startUpdateApp();
-  };
-
-  const isWalletCreated = () => {
-    const networkType = getNetworkType();
-    const key =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-    return PersistentStore.get(key) || false;
   };
 
   let balanceRefreshTimerID;

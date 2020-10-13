@@ -7,9 +7,9 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 import {
   Button,
   ButtonGroup,
-  Nav,
-  NavItem,
-  NavLink,
+  // Nav,
+  // NavItem,
+  // NavLink,
   TabContent,
   TabPane,
 } from 'reactstrap';
@@ -28,6 +28,7 @@ import {
   DESTRUCTION_TX,
   TOKENS_PATH,
 } from '../../constants';
+import { isWalletCreated } from '../../utils/utility';
 
 interface TokensProps {
   tokens: any;
@@ -98,12 +99,14 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
-            <MdAdd />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokensPage.createToken')}
-            </span>
-          </Button>
+          {isWalletCreated() && (
+            <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokensPage.createToken')}
+              </span>
+            </Button>
+          )}
         </ButtonGroup>
         <SearchBar
           onChange={(e) => setSearchQuery(e.target.value)}
