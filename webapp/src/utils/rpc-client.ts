@@ -269,7 +269,7 @@ export default class RpcClient {
   };
 
   accountToAccount = async (
-    fromAddress: string,
+    fromAddress: string | null,
     toAddress: string,
     amount: string
   ): Promise<string> => {

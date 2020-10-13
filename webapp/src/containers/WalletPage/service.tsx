@@ -111,7 +111,7 @@ export const sendToAddress = async (
 };
 
 export const accountToAccount = async (
-  fromAddress: string,
+  fromAddress: string | null,
   toAddress: string,
   amount: string
 ) => {
@@ -206,7 +206,10 @@ export const handleFetchAccounts = async () => {
     const addressInfo = await getAddressInfo(account.owner.addresses[0]);
 
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return account.amount;
+      return {
+        amount: account.amount,
+        address: account.owner.addresses[0],
+      };
     }
   });
 
@@ -217,12 +220,13 @@ export const handleFetchAccounts = async () => {
     resolvedData.map(async (item) => {
       let data = {};
       async function getData() {
-        data = await handleFetchToken(Object.keys(item)[0]);
+        data = await handleFetchToken(Object.keys(item.amount)[0]);
       }
       await getData();
       return {
         ...data,
-        amount: item[Object.keys(item)[0]],
+        amount: item.amount[Object.keys(item.amount)[0]],
+        address: item.address,
       };
     });
 
@@ -231,13 +235,20 @@ export const handleFetchAccounts = async () => {
   const result: any = [];
   Array.from(new Set(transformedDataResolved.map((x) => x.hash))).forEach(
     (x: any) => {
+      let maxAmountAddress;
+      let maxAmount = 0;
       result.push(
         transformedDataResolved
           .filter((y) => y.hash === x)
           .reduce((output, item) => {
+            if (item.amount > maxAmount) {
+              maxAmount = item.amount;
+              maxAmountAddress = item.address;
+            }
             const val = output['amount'] === undefined ? 0 : output['amount'];
             output = { ...item };
             output['amount'] = item.amount + val;
+            output['address'] = maxAmountAddress;
             return output;
           }, {})
       );
