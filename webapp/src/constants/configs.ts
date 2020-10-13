@@ -50,3 +50,12 @@ export const TOKEN_WRITE_CONTRACT = 'Write Contract';
 export const TOKEN_ANALYSIS = 'Analysis';
 export const TOKEN_COMMENTS = 'Comments';
 export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
+export const ENTROPY_BITS = 64;
+
+export const MIN_WORD_INDEX = 1;
+export const MAX_WORD_INDEX = 4;
+export const TOTAL_WORD_LENGTH = 24;
+export const RANDOM_WORD_LENGTH = 18;
+export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
+export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
+export const MAIN = 'main';
