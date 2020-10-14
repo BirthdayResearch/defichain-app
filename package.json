@@ -28,7 +28,7 @@
     "build:all": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder -mwl",
     "build:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --linux",
     "build:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --mac",
-    "build:win": "npm run pre:build:win && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --win",
+    "build:win": "npm run build:react && npm run transpile && SET NODE_ENV=production & electron-builder --win",
     "pack": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder --dir",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
@@ -165,7 +165,7 @@
       "provider": "github",
       "repo": "defi-app-2",
       "owner": "DeFiCh",
-      "releaseType": "draft"
+      "releaseType": "release"
     }
   },
   "lint-staged": {
