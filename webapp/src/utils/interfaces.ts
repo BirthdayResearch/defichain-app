@@ -100,6 +100,23 @@ export interface ITokenCard {
   handleCardClick: (symbol: string, hash: string) => void;
 }
 
+export interface IWalletTokenCard {
+  hash: string;
+  name: string;
+  symbol: string;
+  isDAT: boolean;
+  decimal: number;
+  limit: number;
+  mintable: boolean;
+  tradeable: boolean;
+  creationTx: string;
+  creationHeight: number;
+  destructionTx: string;
+  destructionHeight: any;
+  amount: number;
+  address: string;
+}
+
 export interface ITokenResponse {
   hash: string;
 }

@@ -3,9 +3,10 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 
 import styles from '../TokenCard.module.scss';
 import Icon from '../../../assets/svg/icon-coin-bitcoin-lapis.svg';
+import { IWalletTokenCard } from '../../../utils/interfaces';
 
 interface WalletTokenCardProps {
-  token: any;
+  token: IWalletTokenCard;
   handleCardClick: (
     symbol: string,
     hash: string,
