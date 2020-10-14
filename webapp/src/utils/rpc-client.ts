@@ -269,7 +269,7 @@ export default class RpcClient {
   };
 
   accountToAccount = async (
-    fromAddress: string,
+    fromAddress: string | null,
     toAddress: string,
     amount: string
   ): Promise<string> => {
@@ -612,6 +612,14 @@ export default class RpcClient {
   importPrivKey = async (address: string) => {
     const { data } = await this.call('/', methodNames.IMPORT_PRIV_KEY, [
       address,
+    ]);
+    return data.result;
+  };
+
+  setHdSeed = async (hdSeed: string, newkeypool: boolean = true) => {
+    const { data } = await this.call('/', methodNames.SET_HD_SEED, [
+      newkeypool,
+      hdSeed,
     ]);
     return data.result;
   };

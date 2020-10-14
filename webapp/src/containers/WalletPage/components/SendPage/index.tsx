@@ -72,6 +72,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenSymbol = this.urlParams.get('symbol');
   tokenHash = this.urlParams.get('hash');
   tokenAmount = this.urlParams.get('amount');
+  tokenAddress = this.urlParams.get('address');
 
   state = {
     walletBalance: 0,
@@ -223,9 +224,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           showBackdrop: 'show-backdrop',
         });
       } else {
-        amount = this.tokenAmount;
+        amount = this.state.amountToSendDisplayed;
         await accountToAccount(
-          'ti8SN8JMjm4vjWireULXgqQ5oXG3G8zZz9',
+          this.tokenAddress,
           this.state.toAddress,
           `${amount}@${this.tokenHash}`
         );
