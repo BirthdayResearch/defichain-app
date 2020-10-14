@@ -100,18 +100,14 @@ export const sendToAddress = async (
   try {
     const rpcClient = new RpcClient();
     const data = await rpcClient.sendToAddress(
-      toAddress,
+      'toAddress',
       amount,
       subtractfeefromamount
     );
     return data;
   } catch (err) {
     log.error(`Got error in sendToAddress: ${err}`);
-    showNotification(
-      I18n.t('alerts.errorOccurred'),
-      I18n.t('containers.wallet.sendPage.sendFailed')
-    );
-    throw new Error(`Got error in sendToAddress: ${err}`);
+    throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
   }
 };
 
@@ -130,8 +126,7 @@ export const accountToAccount = async (
     return data;
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
-    showNotification(I18n.t('alerts.errorOccurred'), getErrorMessage(err));
-    throw new Error(`Got error in accounttoaccount: ${err}`);
+    throw new Error(getErrorMessage(err));
   }
 };
 

@@ -16,7 +16,12 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import { MdArrowBack, MdCropFree, MdCheckCircle } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCropFree,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
@@ -29,9 +34,11 @@ import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
+  getErrorMessage,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
+import styles from '../../WalletPage.module.scss';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -64,6 +71,7 @@ interface SendPageState {
   isAmountValid: boolean | string;
   isAddressValid: boolean | string;
   uriData: string;
+  errMessage: string;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -87,6 +95,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     isAmountValid: false,
     isAddressValid: false,
     uriData: '',
+    errMessage: '',
   };
 
   componentDidMount() {
@@ -187,6 +196,21 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     log.error(err);
   };
 
+  handleSuccess = () => {
+    this.setState({
+      sendStep: 'success',
+      showBackdrop: 'show-backdrop',
+    });
+  };
+
+  handleFailure = (error) => {
+    this.setState({
+      sendStep: 'failure',
+      showBackdrop: 'show-backdrop',
+      errMessage: error.message,
+    });
+  };
+
   sendStepDefault = () => {
     this.setState({
       sendStep: 'default',
@@ -201,6 +225,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'confirm',
       showBackdrop: 'show-backdrop',
+      errMessage: '',
     });
   };
 
@@ -216,26 +241,28 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           this.props.unit
         );
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-        if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
-          await sendToAddress(this.state.toAddress, amount, true);
-        } else {
-          await sendToAddress(this.state.toAddress, amount, false);
+        try {
+          if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
+            await sendToAddress(this.state.toAddress, amount, true);
+          } else {
+            await sendToAddress(this.state.toAddress, amount, false);
+          }
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
         }
-        this.setState({
-          sendStep: 'success',
-          showBackdrop: 'show-backdrop',
-        });
       } else {
-        amount = this.state.amountToSendDisplayed;
-        await accountToAccount(
-          this.tokenAddress,
-          this.state.toAddress,
-          `${amount}@${this.tokenHash}`
-        );
-        this.setState({
-          sendStep: 'success',
-          showBackdrop: 'show-backdrop',
-        });
+        try {
+          amount = this.state.amountToSendDisplayed;
+          await accountToAccount(
+            this.tokenAddress,
+            this.state.toAddress,
+            `${amount}@${this.tokenHash}`
+          );
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
+        }
       }
     }
   };
@@ -512,6 +539,28 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center'>
+              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+                {I18n.t('containers.wallet.sendPage.backToWallet')}
+              </Button>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'failure',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dailog`]]: true,
+                  })}
+                />
+                <p>{this.state.errMessage}</p>
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
