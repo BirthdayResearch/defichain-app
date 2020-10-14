@@ -178,44 +178,26 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 value={(tokenInfo.symbol || '').toString()}
               />
             </Col>
-            {/* <Col md='6'>
-              <KeyValueLi
-                label={I18n.t('containers.tokens.tokenInfo.id')}
-                value={(tokenInfo.id || '').toString()}
-              />
-            </Col> */}
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.decimals')}
                 value={(tokenInfo.decimal || '').toString()}
               />
             </Col>
-            {/* <Col md='6'>
-              <KeyValueLi
-                label={I18n.t('containers.tokens.tokenInfo.type')}
-                value={(tokenInfo.isDAT ? 'DAT' : 'DCT' || '').toString()}
-              />
-            </Col> */}
             <Col md='6'>
               <KeyValueLi
-                // label={I18n.t('containers.tokens.tokenInfo.holders')}
-                // value={(tokenInfo.holders || '').toString()}
                 label={I18n.t('containers.tokens.tokenInfo.limit')}
                 value={(tokenInfo.limit || '0').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                // label={I18n.t('containers.tokens.tokenInfo.price')}
-                // value={(tokenInfo.price || '').toString()}
                 label={I18n.t('containers.tokens.tokenInfo.minitingSupport')}
                 value={(tokenInfo.mintable || '').toString()}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                // label={I18n.t('containers.tokens.tokenInfo.volume')}
-                // value={(tokenInfo.volume || '').toString()}
                 label={I18n.t('containers.tokens.tokenInfo.tradeable')}
                 value={(tokenInfo.tradeable || '').toString()}
               />

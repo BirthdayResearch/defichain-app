@@ -1,3 +1,5 @@
+// Not in use component. Don't delete it for future purposes
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
