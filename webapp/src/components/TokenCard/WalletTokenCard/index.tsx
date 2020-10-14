@@ -8,7 +8,7 @@ import { IWalletTokenCard } from '../../../utils/interfaces';
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
   handleCardClick: (
-    symbol: string,
+    symbol: string | null,
     hash: string,
     amount: any,
     address: string

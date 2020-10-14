@@ -216,9 +216,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           this.props.unit
         );
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-        if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
+        if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
           await sendToAddress(this.state.toAddress, amount, true);
-        else await sendToAddress(this.state.toAddress, amount, false);
+        } else {
+          await sendToAddress(this.state.toAddress, amount, false);
+        }
         this.setState({
           sendStep: 'success',
           showBackdrop: 'show-backdrop',
@@ -318,7 +320,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {tokenSymbol ? tokenSymbol : this.props.unit}
+            {tokenSymbol || this.props.unit}
           </h1>
         </header>
         <div className='content'>
@@ -345,7 +347,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {tokenSymbol ? tokenSymbol : this.props.unit}
+                        {tokenSymbol || this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -428,7 +430,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {tokenSymbol ? tokenSymbol : this.props.unit}
+                  {tokenSymbol || this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -465,7 +467,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {tokenSymbol ? tokenSymbol : this.props.unit}
+                    {tokenSymbol || this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>

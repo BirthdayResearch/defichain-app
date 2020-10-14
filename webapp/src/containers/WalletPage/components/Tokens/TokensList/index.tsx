@@ -31,6 +31,9 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
+  const urlParams = new URLSearchParams(props.location.search);
+  const value = urlParams.get('value');
+  const unit = urlParams.get('unit');
   const defaultPage = 1;
   const [tableData, settableData] = useState([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
@@ -66,6 +69,10 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     );
   };
 
+  const handleCardClickDefault = () => {
+    props.history.push(WALLET_PAGE_PATH);
+  };
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -85,6 +92,15 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
         </ButtonGroup> */}
       </header>
       <div className='content'>
+        <WalletTokenCard
+          handleCardClick={handleCardClickDefault}
+          token={{
+            symbol: unit,
+            amount: value,
+            hash: '0',
+            address: '',
+          }}
+        />
         {tableData.map((token, index) => (
           <WalletTokenCard
             handleCardClick={handleCardClick}

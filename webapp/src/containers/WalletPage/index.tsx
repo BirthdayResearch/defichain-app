@@ -24,11 +24,7 @@ import {
   WALLET_RECEIVE_PATH,
   WALLET_CREATE_PATH,
 } from '../../constants';
-import {
-  getAmountInSelectedUnit,
-  getNetworkType,
-  isWalletCreated,
-} from '../../utils/utility';
+import { getAmountInSelectedUnit, isWalletCreated } from '../../utils/utility';
 import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
@@ -103,7 +99,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <header className='header-bar'>
             {softforks.amk && softforks.amk.active && (
               <Button
-                to={WALLET_TOKENS_PATH}
+                to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
+                  walletBalance,
+                  unit
+                )}&unit=${unit}`}
                 tag={RRNavLink}
                 color='link'
                 className='header-bar-back'
@@ -115,7 +114,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
               </Button>
             )}
             <h1>
-              {tokenSymbol ? tokenSymbol : unit}{' '}
+              {tokenSymbol ? tokenSymbol : unit}
+              &nbsp;
               {I18n.t('containers.wallet.walletPage.wallet')}
             </h1>
             {updateAvailableBadge && (
@@ -210,7 +210,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 </Col>
               </Row>
             </section>
-            {!tokenSymbol ? <WalletTxns /> : ''}
+            {!tokenSymbol && <WalletTxns />}
           </div>
           <footer className='footer-bar'>
             <div>

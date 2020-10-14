@@ -102,18 +102,18 @@ export interface ITokenCard {
 
 export interface IWalletTokenCard {
   hash: string;
-  name: string;
-  symbol: string;
-  isDAT: boolean;
-  decimal: number;
-  limit: number;
-  mintable: boolean;
-  tradeable: boolean;
-  creationTx: string;
-  creationHeight: number;
-  destructionTx: string;
-  destructionHeight: any;
-  amount: number;
+  name?: string;
+  symbol: string | null;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  creationTx?: string;
+  creationHeight?: number;
+  destructionTx?: string;
+  destructionHeight?: any;
+  amount: number | string | null;
   address: string;
 }
 
