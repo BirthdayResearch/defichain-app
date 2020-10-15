@@ -11,17 +11,20 @@ import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import cloneDeep from 'lodash/cloneDeep';
+import { connect } from 'react-redux';
+import { table } from 'console';
 
 interface MasternodesListProps {
   searchQuery: string;
   enabledMasternodes: MasterNodeObject[];
+  isLoadingMasternodes: boolean;
 }
 
 const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
   const defaultPage = 1;
-  const { searchQuery, enabledMasternodes } = props;
+  const { searchQuery, enabledMasternodes, isLoadingMasternodes } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
 
@@ -54,91 +57,106 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
     }
   }, [enabledMasternodes, searchQuery]);
 
-  return (
-    <>
-      {tableData.length ? (
-        <>
-          <Card className={styles.card}>
-            <div className={`${styles.tableResponsive} table-responsive-xl`}>
-              <Table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>
-                      {I18n.t(
-                        'containers.masterNodes.masterNodesList.ownerAddress'
-                      )}
-                    </th>
-                    <th>
-                      {I18n.t(
-                        'containers.masterNodes.masterNodesList.operatorAddress'
-                      )}
-                    </th>
-                    <th>
-                      {I18n.t(
-                        'containers.masterNodes.masterNodesList.registered'
-                      )}
-                    </th>
-                    <th>
-                      {I18n.t(
-                        'containers.masterNodes.masterNodesList.mintedBlocks'
-                      )}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData.map((masternode) => (
-                    <tr key={masternode.hash} className={styles.masternodeRow}>
-                      <td className={styles.status}>
-                        <span
-                          className={`txn-status-${masternode.state.toLowerCase()}`}
-                        >
-                          {masternode.state}
-                        </span>
-                      </td>
-                      <td>
-                        <Link
-                          className={styles.address}
-                          to={`${MASTER_NODES_PATH}/${masternode.hash}`}
-                        >
-                          {masternode.ownerAuthAddress}
-                        </Link>
-                      </td>
-                      <td>
-                        <div>{masternode.operatorAuthAddress}</div>
-                      </td>
-                      <td>
-                        <div>{masternode.creationHeight}</div>
-                      </td>
-                      <td>
-                        <div>{masternode.mintedBlocks}</div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          </Card>
-          <Pagination
-            label={I18n.t('containers.wallet.walletPage.paginationRange', {
-              to,
-              total,
-              from: from + 1,
-            })}
-            currentPage={currentPage}
-            pagesCount={pagesCount}
-            handlePageClick={paginate}
-          />
-        </>
-      ) : (
+  const loadHtml = () => {
+    if (isLoadingMasternodes) {
+      return I18n.t('containers.masterNodes.masterNodesList.loading');
+    }
+    if (!tableData.length) {
+      return (
         <Card className='table-responsive-md'>
           <CardBody>
             {I18n.t('containers.masterNodes.masterNodesList.noMasterNodes')}
           </CardBody>
         </Card>
-      )}
-    </>
-  );
+      );
+    }
+    return (
+      <>
+        <Card className={styles.card}>
+          <div className={`${styles.tableResponsive} table-responsive-xl`}>
+            <Table className={styles.table}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>
+                    {I18n.t(
+                      'containers.masterNodes.masterNodesList.ownerAddress'
+                    )}
+                  </th>
+                  <th>
+                    {I18n.t(
+                      'containers.masterNodes.masterNodesList.operatorAddress'
+                    )}
+                  </th>
+                  <th>
+                    {I18n.t(
+                      'containers.masterNodes.masterNodesList.registered'
+                    )}
+                  </th>
+                  <th>
+                    {I18n.t(
+                      'containers.masterNodes.masterNodesList.mintedBlocks'
+                    )}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.map((masternode) => (
+                  <tr key={masternode.hash} className={styles.masternodeRow}>
+                    <td className={styles.status}>
+                      <span
+                        className={`txn-status-${masternode.state.toLowerCase()}`}
+                      >
+                        {masternode.state}
+                      </span>
+                    </td>
+                    <td>
+                      <Link
+                        className={styles.address}
+                        to={`${MASTER_NODES_PATH}/${masternode.hash}`}
+                      >
+                        {masternode.ownerAuthAddress}
+                      </Link>
+                    </td>
+                    <td>
+                      <div>{masternode.operatorAuthAddress}</div>
+                    </td>
+                    <td>
+                      <div>{masternode.creationHeight}</div>
+                    </td>
+                    <td>
+                      <div>{masternode.mintedBlocks}</div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Card>
+        <Pagination
+          label={I18n.t('containers.wallet.walletPage.paginationRange', {
+            to,
+            total,
+            from: from + 1,
+          })}
+          currentPage={currentPage}
+          pagesCount={pagesCount}
+          handlePageClick={paginate}
+        />
+      </>
+    );
+  };
+
+  return <>{loadHtml()}</>;
 };
 
-export default MasternodesList;
+const mapStateToProps = (state) => {
+  const {
+    masterNodes: { isLoadingMasternodes },
+  } = state;
+  return {
+    isLoadingMasternodes,
+  };
+};
+
+export default connect(mapStateToProps)(MasternodesList);

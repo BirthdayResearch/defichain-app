@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { syncStatusRequest } from './reducer';
 import { Progress } from 'reactstrap';
 import {
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
   fetchPendingBalanceRequest,
 } from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
@@ -18,7 +18,7 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
-  fetchWalletBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
   fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
   isRestart: boolean;
@@ -37,7 +37,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     updateAppInfo: { percent = 0 },
     syncStatusRequest,
     isRestart,
-    fetchWalletBalanceRequest,
+    fetchInstantBalanceRequest,
     fetchPendingBalanceRequest,
     isMinimized,
     latestSyncedBlock,
@@ -55,7 +55,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   useEffect(() => {
     if (prevIsRestart && !isRestart) {
       syncStatusRequest();
-      fetchWalletBalanceRequest();
+      fetchInstantBalanceRequest();
       fetchPendingBalanceRequest();
     }
   }, [prevIsRestart, isRestart]);
@@ -142,7 +142,7 @@ const mapStateToProps = (state) => {
       updateAppInfo,
       isRestart,
       isMinimized,
-    }
+    },
   } = state;
   return {
     locale,
@@ -161,7 +161,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   syncStatusRequest,
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
   fetchPendingBalanceRequest,
 };
 

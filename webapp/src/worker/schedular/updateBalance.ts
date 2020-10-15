@@ -14,8 +14,10 @@ const pendingBalanceSchedular = () => {
   store.dispatch(fetchPendingBalanceRequest());
 };
 
-export const updateWalletBalanceSchedular = () =>
-  setIntervalSynchronous(walletBalanceSchedular, BALANCE_CRON_DELAY_TIME);
+const pendingAndWalletBalance = () => {
+  walletBalanceSchedular();
+  pendingBalanceSchedular();
+};
 
-export const updatePendingBalanceSchedular = () =>
-  setIntervalSynchronous(pendingBalanceSchedular, BALANCE_CRON_DELAY_TIME);
+export const updateBalanceScheduler = () =>
+  setIntervalSynchronous(pendingAndWalletBalance, BALANCE_CRON_DELAY_TIME);
