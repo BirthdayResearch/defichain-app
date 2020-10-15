@@ -394,6 +394,22 @@
     "backupWalletWarningModelHeader": "Backup wallet",
     "saveMyBackup": "Save my backup",
     "okIHaveDoneIt": "Ok, I have done it",
-    "backupWalletWarning": "Please backup your existing wallet before creating or restoring a new wallet."
+    "backupWalletWarning": "Please backup your existing wallet before creating or restoring a new wallet.",
+    "encryptWalletNoticeTitle": "Lock Wallet",
+    "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
+    "enableLocking": "ENABLE LOCKING",
+    "later": "LATER",
+    "passphraseLabel": "Enter passphrase",
+    "proceed": "PROCEED",
+    "reset": "RESET",
+    "encryptWalletSuccess": "Encrypt wallet done successfully",
+    "passphraseLabelConfirm": "Confirm passphrase",
+    "confirm": "CONFIRM",
+    "cancel": "CANCEL",
+    "unlock": "UNLOCK",
+    "enterYourPassphrase": "Enter your passphrase",
+    "walletUnlockTitle": "Welcome back",
+    "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
+    "lostPassphraseMessage": "I LOST MY PASSPHRASE"
   }
 }
