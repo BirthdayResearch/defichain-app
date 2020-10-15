@@ -14,8 +14,8 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
 import {
-  fetchWalletBalanceRequest,
-  fetchPendingBalanceRequest,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } from './reducer';
 import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
@@ -24,8 +24,8 @@ import {
   WALLET_RECEIVE_PATH,
   WALLET_CREATE_PATH,
 } from '../../constants';
-import { getAmountInSelectedUnit, isWalletCreated } from '../../utils/utility';
-import { updatePendingBalanceSchedular } from '../../worker/schedular';
+import { isWalletCreated } from '../../utils/utility';
+import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
 import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
@@ -34,8 +34,8 @@ interface WalletPageProps extends RouteComponentProps {
   unit: string;
   walletBalance: string;
   pendingBalance: string;
-  fetchWalletBalanceRequest: () => void;
-  fetchPendingBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
+  fetchInstantPendingBalanceRequest: () => void;
   updateAvailableBadge: boolean;
   startUpdateApp: () => void;
   openBackupWallet: () => void;
@@ -52,9 +52,9 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const tokenAddress = urlParams.get('address');
 
   const {
-    fetchWalletBalanceRequest,
+    fetchInstantBalanceRequest,
     unit,
-    fetchPendingBalanceRequest,
+    fetchInstantPendingBalanceRequest,
     updateAvailableBadge,
     startUpdateApp,
     openBackupWallet,
@@ -63,12 +63,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
-    fetchWalletBalanceRequest();
-    fetchPendingBalanceRequest();
-    const clearPendingBalanceTimer = updatePendingBalanceSchedular();
+    fetchInstantBalanceRequest();
+    fetchInstantPendingBalanceRequest();
 
     return () => {
-      clearPendingBalanceTimer();
       clearTimeout(balanceRefreshTimerID);
       clearTimeout(pendingBalRefreshTimerID);
     };
@@ -181,7 +179,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                           balanceRefreshTimerID = setTimeout(() => {
                             setRefreshBalance(false);
                           }, 2000);
-                          fetchWalletBalanceRequest();
+                          fetchInstantBalanceRequest();
                         }}
                       />
                     }
@@ -202,7 +200,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                           pendingBalRefreshTimerID = setTimeout(() => {
                             setPendingRefreshBalance(false);
                           }, 2000);
-                          fetchPendingBalanceRequest();
+                          fetchInstantPendingBalanceRequest();
                         }}
                       />
                     }
@@ -255,8 +253,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletBalanceRequest,
-  fetchPendingBalanceRequest,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
   startUpdateApp,
   openBackupWallet,
 };

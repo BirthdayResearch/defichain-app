@@ -39,7 +39,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       <div className='content'>
         <section>
           <Row>
-            <Col>
+            <Col lg='6' sm='12' md='12'>
               <div
                 onClick={() => {
                   openBackupWalletWarningModal();
@@ -54,7 +54,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                 />
               </div>
             </Col>
-            <Col>
+            <Col lg='6' sm='12' md='12'>
               <div
                 onClick={() => {
                   openBackupWalletWarningModal();

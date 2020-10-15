@@ -36,6 +36,8 @@ import {
   restoreWalletFailure,
   restoreWalletRequest,
   restoreWalletSuccess,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -308,7 +310,6 @@ export function* restoreWallet(action) {
     } = action;
 
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
-    console.log(mnemonicCode);
     const isValid = isValidMnemonic(mnemonicCode);
     if (!isValid) {
       throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
@@ -332,6 +333,25 @@ export function* restoreWallet(action) {
   }
 }
 
+export function* fetchInstantBalance() {
+  try {
+    const result = yield call(handleFetchWalletBalance);
+    yield put(fetchWalletBalanceSuccess(result));
+  } catch (err) {
+    yield put(fetchWalletBalanceFailure(err.message));
+    log.error(err);
+  }
+}
+
+export function* fetchInstantPendingBalance() {
+  try {
+    const result = yield call(handleFetchPendingBalance);
+    yield put(fetchPendingBalanceSuccess(result));
+  } catch (err) {
+    yield put(fetchPendingBalanceFailure(err.message));
+    log.error(err);
+  }
+}
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -344,6 +364,11 @@ function* mySaga() {
   yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
   yield takeLatest(createWalletRequest.type, createWallet);
   yield takeLatest(restoreWalletRequest.type, restoreWallet);
+  yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);
+  yield takeLatest(
+    fetchInstantPendingBalanceRequest.type,
+    fetchInstantPendingBalance
+  );
 }
 
 export default mySaga;
