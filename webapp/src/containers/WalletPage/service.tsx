@@ -12,6 +12,7 @@ import {
   getMnemonicObject,
   getRandomWordObject,
 } from '../../utils/utility';
+import { fetchAccountTokens } from './saga';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -100,7 +101,7 @@ export const sendToAddress = async (
   try {
     const rpcClient = new RpcClient();
     const data = await rpcClient.sendToAddress(
-      'toAddress',
+      toAddress,
       amount,
       subtractfeefromamount
     );
