@@ -117,13 +117,13 @@ const configSlice = createSlice({
       state.isWalletCreating = true;
       state.isErrorCreatingWallet = '';
     },
-    createWalletSuccess(state){
+    createWalletSuccess(state) {
       state.isWalletCreating = false;
       state.isErrorCreatingWallet = '';
     },
-    createWalletFailure(state, action){
+    createWalletFailure(state, action) {
       state.isWalletCreating = false;
-      state.isErrorCreatingWallet = action.payload
+      state.isErrorCreatingWallet = action.payload;
     },
     resetCreateWalletError(state, action) {
       state.isWalletCreating = false;
@@ -137,14 +137,16 @@ const configSlice = createSlice({
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = '';
     },
-    restoreWalletFailure(state, action){
+    restoreWalletFailure(state, action) {
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = action.payload;
     },
-    resetRestoreWalletError(state, action){
+    resetRestoreWalletError(state, action) {
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = '';
-    }
+    },
+    fetchInstantBalanceRequest(state) {},
+    fetchInstantPendingBalanceRequest(state) {},
   },
 });
 
@@ -181,7 +183,9 @@ export const {
   restoreWalletRequest,
   restoreWalletSuccess,
   restoreWalletFailure,
-  resetRestoreWalletError
+  resetRestoreWalletError,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } = actions;
 
 export default reducer;
