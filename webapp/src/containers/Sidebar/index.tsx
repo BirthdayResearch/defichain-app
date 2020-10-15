@@ -11,7 +11,7 @@ import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
-  // MdCompareArrows,
+  MdLockOpen
 } from 'react-icons/md';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
@@ -58,6 +58,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   return (
     <div className={styles.sidebar}>
+      <div className='text-right m-2'>
+      <MdLockOpen className={styles.iconPointer} size={25} color='#cccdcd'/>
+      </div>
       <div className={styles.balance}>
         <div className={styles.balanceLabel}>
           {I18n.t('containers.sideBar.balance')}
