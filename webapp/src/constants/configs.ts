@@ -40,3 +40,5 @@ export const RANDOM_WORD_LENGTH = 18;
 export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
 export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
+
+export const WALLET_UNLOCK_TIMEOUT = 300;
