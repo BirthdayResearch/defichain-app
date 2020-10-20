@@ -40,3 +40,5 @@ export const RANDOM_WORD_LENGTH = 18;
 export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
 export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
+export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
+export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
