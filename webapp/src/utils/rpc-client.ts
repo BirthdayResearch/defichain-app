@@ -10,6 +10,8 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
+  MASTERNODE_PARAMS_INCLUDE_FROM_START,
+  MASTERNODE_PARAMS_MASTERNODE_LIMIT,
 } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -504,7 +506,12 @@ export default class RpcClient {
   };
 
   listMasterNodes = async (): Promise<string> => {
-    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE, [
+      {
+        including_start: MASTERNODE_PARAMS_INCLUDE_FROM_START,
+        limit: MASTERNODE_PARAMS_MASTERNODE_LIMIT,
+      },
+    ]);
     return data.result;
   };
 
