@@ -41,9 +41,15 @@ export function* getConfigurationDetails() {
 export function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
-    const masternodes = yield all(
-      data.map((item) => call(MasterNodeOwnerInfo, item))
-    );
+    const masternodes: any[] = [];
+    for (const iterator of data) {
+      try {
+        const result = yield call(MasterNodeOwnerInfo, iterator);
+        masternodes.push(result);
+      } catch (err) {
+        log.error(err.message);
+      }
+    }
     yield put({
       type: fetchMasternodesSuccess.type,
       payload: { masternodes },
