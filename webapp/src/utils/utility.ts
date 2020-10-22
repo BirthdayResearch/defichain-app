@@ -19,7 +19,7 @@ import {
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
   MAIN,
-  TEST,
+  TEST, IS_WALLET_LOCKED_MAIN, IS_WALLET_LOCKED_TEST
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -27,6 +27,7 @@ import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
+import PersistentStore from './persistentStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -451,3 +452,9 @@ export const queuePush = (
     return queue.push({ methodName, params }, callBack);
   }
 };
+
+export const isWalletEncrypted = () => {
+  const networkType = getNetworkType();
+  const isWalletLocked = networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  return PersistentStore.get(isWalletLocked);
+}

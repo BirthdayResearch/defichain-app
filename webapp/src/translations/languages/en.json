@@ -403,6 +403,8 @@
     "proceed": "PROCEED",
     "reset": "RESET",
     "encryptWalletSuccess": "Encrypt wallet done successfully",
+    "unlockWalletSuccess": "Unlock wallet done successfully",
+    "lockWalletSuccess": "Lock wallet done successfully",
     "passphraseLabelConfirm": "Confirm passphrase",
     "confirm": "CONFIRM",
     "cancel": "CANCEL",

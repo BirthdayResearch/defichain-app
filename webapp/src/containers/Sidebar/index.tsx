@@ -11,11 +11,15 @@ import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
-  MdLockOpen
+  MdLockOpen,
+  MdLock,
 } from 'react-icons/md';
 import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  isWalletEncrypted,
+} from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,
@@ -31,12 +35,21 @@ import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
 import { updateWalletBalanceSchedular } from '../../worker/schedular';
 import usePrevious from '../../components/UsePrevious';
+import {
+  openEncryptWalletModal,
+  openWalletPassphraseModal,
+  lockWalletStart
+} from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
+  isWalletUnlocked: boolean;
+  openEncryptWalletModal: () => void;
+  openWalletPassphraseModal: () => void;
+  lockWalletStart: () => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
@@ -56,10 +69,35 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     }
   }, [prevIsErrorModalOpen, props.isErrorModalOpen]);
 
+  const {
+    openEncryptWalletModal,
+    openWalletPassphraseModal,
+    isWalletUnlocked,
+    lockWalletStart
+  } = props;
+
   return (
     <div className={styles.sidebar}>
       <div className='text-right m-2'>
-      <MdLockOpen className={styles.iconPointer} size={25} color='#cccdcd'/>
+        {!isWalletEncrypted() ? (
+          <MdLockOpen
+            className={styles.iconPointer}
+            size={25}
+            onClick={openEncryptWalletModal}
+          />
+        ) : isWalletUnlocked ? (
+          <MdLockOpen
+            className={styles.iconPointer}
+            size={25}
+            onClick={lockWalletStart}
+          />
+        ) : (
+          <MdLock
+            className={styles.iconPointer}
+            size={25}
+            onClick={openWalletPassphraseModal}
+          />
+        )}
       </div>
       <div className={styles.balance}>
         <div className={styles.balanceLabel}>
@@ -171,11 +209,15 @@ const mapStateToProps = (state) => {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
+    isWalletUnlocked: popover.isWalletUnlocked,
   };
 };
 
 const mapDispatchToProps = {
   fetchWalletBalanceRequest,
+  openEncryptWalletModal,
+  openWalletPassphraseModal,
+  lockWalletStart: () => lockWalletStart({})
 };
 
 export default withRouter(
