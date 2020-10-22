@@ -244,6 +244,26 @@ export default class RpcClient {
     return addressAndAmountList;
   };
 
+  accountToUtxos = async (
+    fromAddress: string | null,
+    toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.ACCOUNT_TO_UTXOS, [
+      fromAddress,
+      {
+        [toAddress]: amount,
+      },
+      [],
+    ]);
+    return data.result;
+  };
+
+  getTransaction = async (txId: string): Promise<any> => {
+    const { data } = await this.call('/', methodNames.GET_TRANSACTION, [txId]);
+    return data.result;
+  };
+
   sendToAddress = async (
     toAddress: string,
     amount: number | string,

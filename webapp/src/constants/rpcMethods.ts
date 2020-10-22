@@ -34,4 +34,6 @@ export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
+export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
+export const GET_TRANSACTION = 'gettransaction';
 export const SET_HD_SEED = 'sethdseed';
