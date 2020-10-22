@@ -35,7 +35,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const value = urlParams.get('value');
   const unit = urlParams.get('unit');
   const defaultPage = 1;
-  const [tableData, settableData] = useState([]);
+  const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const pageSize = TOKEN_LIST_PAGE_SIZE;
   const { fetchAccountTokensRequest, accountTokens } = props;
@@ -101,13 +101,15 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             address: '',
           }}
         />
-        {tableData.map((token, index) => (
-          <WalletTokenCard
-            handleCardClick={handleCardClick}
-            key={index}
-            token={token}
-          />
-        ))}
+        {tableData
+          .filter((data) => data.hash !== '0')
+          .map((token, index) => (
+            <WalletTokenCard
+              handleCardClick={handleCardClick}
+              key={index}
+              token={token}
+            />
+          ))}
         <Pagination
           label={I18n.t('containers.tokens.tokensPage.paginationRange', {
             to,

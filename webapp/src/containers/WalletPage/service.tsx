@@ -3,7 +3,6 @@ import RpcClient from '../../utils/rpc-client';
 import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
-import showNotification from '../../utils/notifications';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
 import { getErrorMessage } from '../../utils/utility';
@@ -12,7 +11,6 @@ import {
   getMnemonicObject,
   getRandomWordObject,
 } from '../../utils/utility';
-import { fetchAccountTokens } from './saga';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -57,8 +55,7 @@ export const handelFetchWalletTxns = async (
 };
 
 export const handleSendData = async () => {
-  const rpcClient = new RpcClient();
-  const walletBalance = await rpcClient.getBalance();
+  const walletBalance = await handleFetchWalletBalance();
   const data = {
     walletBalance,
     amountToSend: '',
@@ -73,9 +70,23 @@ export const handleSendData = async () => {
   return data;
 };
 
-export const handleFetchWalletBalance = async () => {
+export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
   return await rpcClient.getBalance();
+};
+
+export const handleFetchAccountDFI = async () => {
+  const accountTokens = await handleFetchAccounts();
+  const DFIToken = accountTokens.find((token) => token.hash === '0');
+  const tempDFI = DFIToken && DFIToken.amount;
+  const accountDFI = tempDFI || 0;
+  return accountDFI;
+};
+
+export const handleFetchWalletBalance = async () => {
+  const regularDFI = await handleFetchRegularDFI();
+  const accountDFI = await handleFetchAccountDFI();
+  return regularDFI + accountDFI;
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -93,22 +104,61 @@ export const isValidAddress = async (toAddress: string) => {
   }
 };
 
+export const getTransactionInfo = async (txId): Promise<any> => {
+  const rpcClient = new RpcClient();
+  const txInfo = await rpcClient.getTransaction(txId);
+  if (!txInfo.blockhash && txInfo.confirmations === 0) {
+    await sleep(3000);
+    await getTransactionInfo(txId);
+  } else {
+    return;
+  }
+};
+
 export const sendToAddress = async (
   toAddress: string,
-  amount: number | string,
+  amount: any,
   subtractfeefromamount: boolean = false
 ) => {
-  try {
-    const rpcClient = new RpcClient();
-    const data = await rpcClient.sendToAddress(
-      toAddress,
-      amount,
-      subtractfeefromamount
-    );
-    return data;
-  } catch (err) {
-    log.error(`Got error in sendToAddress: ${err}`);
-    throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+  const rpcClient = new RpcClient();
+  const regularDFI = await handleFetchRegularDFI();
+  if (regularDFI >= amount) {
+    try {
+      const data = await rpcClient.sendToAddress(
+        toAddress,
+        amount,
+        subtractfeefromamount
+      );
+      return data;
+    } catch (err) {
+      log.error(`Got error in sendToAddress: ${err}`);
+      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+    }
+  } else {
+    try {
+      const accountTokens = await handleFetchAccounts();
+      const DFIObj = accountTokens.find((token) => token.hash === '0');
+      const fromAddress = DFIObj.address;
+      const txId = await rpcClient.sendToAddress(
+        fromAddress,
+        (10 / 100) * amount,
+        subtractfeefromamount
+      );
+      await getTransactionInfo(txId);
+      const hash = await rpcClient.accountToUtxos(
+        fromAddress,
+        fromAddress,
+        `${(amount - regularDFI).toFixed(4)}@DFI`
+      );
+      await getTransactionInfo(hash);
+      const regularDFIAfterTxFee = await handleFetchRegularDFI();
+      const transferAmount =
+        regularDFIAfterTxFee < amount ? regularDFIAfterTxFee : amount;
+      await sendToAddress(toAddress, transferAmount, true);
+    } catch (error) {
+      log.error(`Got error in sendToAddress: ${error}`);
+      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+    }
   }
 };
 

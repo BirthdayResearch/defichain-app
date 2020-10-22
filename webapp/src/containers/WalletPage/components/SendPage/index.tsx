@@ -29,7 +29,13 @@ import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
-import { accountToAccount, isValidAddress, sendToAddress } from '../../service';
+import {
+  accountToAccount,
+  handleFetchAccounts,
+  handleFetchRegularDFI,
+  isValidAddress,
+  sendToAddress,
+} from '../../service';
 import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
@@ -39,6 +45,7 @@ import {
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
+import Spinner from '../../../../components/Svg/Spinner';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -72,6 +79,7 @@ interface SendPageState {
   isAddressValid: boolean | string;
   uriData: string;
   errMessage: string;
+  regularDFI: string | number;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -96,6 +104,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     isAddressValid: false,
     uriData: '',
     errMessage: '',
+    regularDFI: '',
   };
 
   componentDidMount() {
@@ -211,6 +220,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
+  handleLoading = () => {
+    this.setState({
+      sendStep: 'loading',
+      showBackdrop: '',
+    });
+  };
+
   sendStepDefault = () => {
     this.setState({
       sendStep: 'default',
@@ -230,10 +246,18 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   sendTransaction = async () => {
+    this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
+    const regularDFI = await handleFetchRegularDFI();
+    this.setState({
+      regularDFI,
+    });
     if (isAmountValid && isAddressValid) {
       let amount;
-      if (!this.tokenSymbol) {
+      if (
+        (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
+        regularDFI !== 0
+      ) {
         // Convert to base unit
         amount = getAmountInSelectedUnit(
           this.state.amountToSendDisplayed,
@@ -253,11 +277,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
+          const hash = this.tokenHash || '0';
+          const accountTokens = await handleFetchAccounts();
+          const DFIObj = accountTokens.find((token) => token.hash === '0');
+          const address = this.tokenAddress || DFIObj.address;
           amount = this.state.amountToSendDisplayed;
           await accountToAccount(
-            this.tokenAddress,
+            address,
             this.state.toAddress,
-            `${amount}@${this.tokenHash}`
+            `${amount}@${hash}`
           );
           this.handleSuccess();
         } catch (error) {
@@ -549,6 +577,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </div>
           <div
             className={classnames({
+              'd-none': this.state.sendStep !== 'loading',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <Spinner />
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames({
               'd-none': this.state.sendStep !== 'failure',
             })}
           >
@@ -560,6 +599,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     [styles[`error-dailog`]]: true,
                   })}
                 />
+                {!this.state.regularDFI && (
+                  <p>
+                    {I18n.t('containers.wallet.sendPage.pleaseTransferFunds')}
+                  </p>
+                )}
                 <p>{this.state.errMessage}</p>
               </div>
             </div>

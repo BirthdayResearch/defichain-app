@@ -376,7 +376,8 @@
         "sendFailed": "Error ocurred while sending amount",
         "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet",
-        "dfiAddress": "DFI Address"
+        "dfiAddress": "DFI Address",
+        "pleaseTransferFunds": "Please transfer some DFIs to your account"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
