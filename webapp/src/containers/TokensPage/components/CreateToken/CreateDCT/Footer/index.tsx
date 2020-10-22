@@ -25,6 +25,7 @@ interface CreateDCTProps {
   isErrorCreatingToken: string;
   isErrorUpdatingToken: string;
   updatedTokenData: ITokenResponse;
+  IsCollateralAddressValid: boolean;
 }
 
 const Footer: React.FunctionComponent<CreateDCTProps> = (
@@ -43,6 +44,7 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
     isErrorCreatingToken,
     updatedTokenData,
     isErrorUpdatingToken,
+    IsCollateralAddressValid,
   } = props;
 
   return (
@@ -93,7 +95,8 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
                     !formState.symbol ||
                     !formState.collateralAddress ||
                     formState.symbol.length > 8 ||
-                    formState.name.length > 128
+                    formState.name.length > 128 ||
+                    !IsCollateralAddressValid
                   }
                   onClick={() => {
                     setIsConfirmationModalOpen('confirm');

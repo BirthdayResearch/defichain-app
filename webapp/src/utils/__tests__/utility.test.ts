@@ -69,7 +69,7 @@ describe('utility', () => {
       address: item,
       amount: Math.random() * 100,
     }));
-    const data = await utility.getAddressAndAmount(testData);
+    const data = await utility.getAddressAndAmount(testData, '');
     expect(data).toBeInstanceOf(Array);
     expect(data).toEqual(testData);
   });
@@ -229,7 +229,7 @@ describe('utility', () => {
   it('validateSchema invalid object', () => {
     const spy = jest.spyOn(log, 'error');
     const data = Object.assign({}, validateSchema);
-    delete data.result[0].time;
+    // delete data.result[0].time;
     const isValid = utility.validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_TRANSACTIONS),
       data

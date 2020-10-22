@@ -299,6 +299,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
         cancelConfirmation={cancelConfirmation}
         createConfirmation={createConfirmation}
         updateConfirmation={updateConfirmation}
+        IsCollateralAddressValid={IsCollateralAddressValid}
         wait={wait}
         createdTokenData={createdTokenData}
         isErrorCreatingToken={isErrorCreatingToken}

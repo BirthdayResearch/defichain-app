@@ -214,7 +214,7 @@
         "tradeable": "Trade-able?",
         "dfiRequired": "DFI required",
         "collateralAddress": "Collateral Address",
-        "collateralAddressError": "Minimum 1000 DFI is required",
+        "collateralAddressError": "Minimum 100 DFI is required",
         "createTokenButton": "CREATE TOKEN",
         "createConfirmationText": "Are you sure you want to create a token?",
         "updateConfirmationText": "Are you sure you want to update a token?",

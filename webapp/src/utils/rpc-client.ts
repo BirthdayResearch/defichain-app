@@ -236,8 +236,10 @@ export default class RpcClient {
   // include addresses that haven't received any payments.
   getReceivingAddressAndAmountList = async (): Promise<IAddressAndAmount[]> => {
     const result = await this.getListreceivedAddress(1);
+    const balance = await this.getBalance();
     const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
-      result
+      result,
+      balance
     );
     return addressAndAmountList;
   };
