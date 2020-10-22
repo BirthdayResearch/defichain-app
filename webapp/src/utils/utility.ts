@@ -55,10 +55,13 @@ export const toSha256 = (value): any => {
   return SHA256(value).toString();
 };
 
-export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
+export const getAddressAndAmount = (
+  addresses,
+  balance
+): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address, amount } = addressObj;
-    return { address, amount };
+    const { address } = addressObj;
+    return { address, amount: balance };
   });
 };
 
