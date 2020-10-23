@@ -46,10 +46,12 @@ import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
+  SWAP_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
+import SwapPage from '../containers/SwapPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -84,6 +86,7 @@ const routes = (location) => (
     {/* <Route exact path={EXCHANGE_PATH} component={ExchangePage} /> */}
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
     <Route exact path={TOKENS_PATH} component={TokensPage} />
+    <Route exact path={SWAP_PATH} component={SwapPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
     <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />

@@ -8,6 +8,7 @@ export const HELP_PATH = '/help';
 export const INDEX_PATH = '/index.html';
 export const MASTER_NODES_PATH = '/masternodes';
 export const TOKENS_PATH = '/tokens';
+export const SWAP_PATH = '/swap';
 export const TOKENS_INFO_PATH = `${TOKENS_PATH}/:id/:hash`;
 export const MASTER_NODES_DETAIL_PATH = `${MASTER_NODES_PATH}/:hash`;
 export const CREATE_MASTER_NODES_PATH = `${MASTER_NODES_PATH}/create`;
