@@ -10,6 +10,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
+  fetchInstantBalanceRequest,
 } from '../../../reducer';
 import { filterByValue } from '../../../../../utils/utility';
 import {
@@ -23,7 +24,9 @@ import Pagination from '../../../../../components/Pagination';
 
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: any;
+  unit: string;
   accountTokens: any;
+  walletBalance: any;
   fetchTokensRequest: () => void;
   fetchAccountTokensRequest: () => void;
 }
@@ -31,9 +34,7 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
-  const urlParams = new URLSearchParams(props.location.search);
-  const value = urlParams.get('value');
-  const unit = urlParams.get('unit');
+  const { unit } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
@@ -45,6 +46,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
+    fetchInstantBalanceRequest();
     fetchAccountTokensRequest();
   }, []);
 
@@ -96,7 +98,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           handleCardClick={handleCardClickDefault}
           token={{
             symbol: unit,
-            amount: value,
+            amount: props.walletBalance,
             hash: '0',
             address: '',
           }}
@@ -127,26 +129,35 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 
 const mapStateToProps = (state) => {
   const {
-    tokens,
-    isTokensLoaded,
-    isLoadingTokens,
-    accountTokens,
-    isAccountTokensLoaded,
-    isAccountLoadingTokens,
-  } = state.wallet;
+    wallet: {
+      tokens,
+      isTokensLoaded,
+      isLoadingTokens,
+      accountTokens,
+      isAccountTokensLoaded,
+      isAccountLoadingTokens,
+      walletBalance,
+    },
+    settings: {
+      appConfig: { unit },
+    },
+  } = state;
   return {
+    unit,
     tokens,
     isTokensLoaded,
     isLoadingTokens,
     accountTokens,
     isAccountTokensLoaded,
     isAccountLoadingTokens,
+    walletBalance,
   };
 };
 
 const mapDispatchToProps = {
   fetchTokensRequest,
   fetchAccountTokensRequest,
+  fetchInstantBalanceRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTokensList);

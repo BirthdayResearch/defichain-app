@@ -28,6 +28,7 @@ import {
   SETTING_PATH,
   SITE_URL,
   TOKENS_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -77,7 +78,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={WALLET_PAGE_PATH}
+              to={WALLET_TOKENS_PATH}
               exact
               tag={RRNavLink}
               className={styles.navLink}
