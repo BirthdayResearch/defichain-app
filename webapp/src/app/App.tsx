@@ -12,6 +12,7 @@ import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
+import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
 import Popover from '../containers/PopOver';
 
 interface AppProps extends RouteComponentProps {
@@ -95,6 +96,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <ReIndexModel />
       <BackupWalletWarningModel/>
       <Popover />
+      <RestartWalletModel />
     </>
   );
 };
