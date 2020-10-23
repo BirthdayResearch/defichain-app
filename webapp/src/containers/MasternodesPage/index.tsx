@@ -112,9 +112,9 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     const isMyMasternodes = activeTab === 'myMasternodes';
     const enabledMasternodes = masternodes.filter((masternode) => {
       if (isMyMasternodes) {
-        return masternode.state !== RESIGNED_STATE && masternode.isMyMasternode;
+        return masternode.isMyMasternode;
       }
-      return masternode.state !== RESIGNED_STATE && !masternode.isMyMasternode;
+      return !masternode.isMyMasternode;
     });
     setEnabledMasternodes(enabledMasternodes);
   }, [activeTab, masternodes]);
