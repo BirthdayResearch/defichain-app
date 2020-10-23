@@ -31,6 +31,7 @@ import {
   TOKEN_EDIT_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
+import DefiIcon from '../../../../../src/assets/svg/defi-icon.svg';
 
 interface RouteParams {
   id?: string;
@@ -163,9 +164,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
-            {/* <Col md='6'> */}
-            {/* <img src={DeefIcon} height={'64px'} width={'64px'} /> */}
-            {/* </Col> */}
+            <Col md='6'>
+              <img src={DefiIcon} height={'30px'} width={'30px'} />
+            </Col>
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.name')}

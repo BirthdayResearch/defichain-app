@@ -29,6 +29,7 @@ import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
 import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
+import DefiIcon from '../../assets/svg/defi-icon.svg';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -111,11 +112,15 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 </span>
               </Button>
             )}
-            <h1>
-              {tokenSymbol ? tokenSymbol : unit}
+            <div className='d-flex'>
+              <img src={DefiIcon} />
               &nbsp;
-              {I18n.t('containers.wallet.walletPage.wallet')}
-            </h1>
+              <h1>
+                {tokenSymbol ? tokenSymbol : unit}
+                &nbsp;
+                {I18n.t('containers.wallet.walletPage.wallet')}
+              </h1>
+            </div>
             {updateAvailableBadge && (
               <Badge
                 baseClass='update-available'
