@@ -126,7 +126,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
               tokens={tokens.filter(
-                (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
+                (data) => data.destructionTx === DESTRUCTION_TX
               )}
               history={history}
               searchQuery={searchQuery}
