@@ -176,7 +176,7 @@ export default class DefiProcessManager {
   static async restart(args: any, event: Electron.IpcMainEvent) {
     log.info('Restart node started');
     const stopResponse = await this.stop();
-    if (args.updatedConf && Object.keys(args.updatedConf).length) {
+    if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
       writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
