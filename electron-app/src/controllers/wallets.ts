@@ -7,7 +7,7 @@ import {
   START_BACKUP_WALLET,
   WALLET_DAT,
 } from '../constants';
-import { copyFile, getBaseFolder, responseMessage } from '../utils';
+import { copyFile, deleteFile, getBaseFolder, responseMessage } from '../utils';
 
 const saveFileDailog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -62,6 +62,15 @@ export default class Wallet {
     const baseFolder = getBaseFolder();
     const src = path.join(baseFolder, WALLET_DAT);
     return copyFile(src, dest);
+  }
+
+  async replaceWalletDat() {
+    const baseFolder = getBaseFolder();
+    const destFileName = `wallet-bak-${Date.now()}.dat`;
+    const destFilePath = path.join(baseFolder, destFileName);
+    const srcFilePath = path.join(baseFolder, WALLET_DAT);
+    copyFile(srcFilePath, destFilePath);
+    deleteFile(srcFilePath);
   }
 
   async startBackupWallet(bw: Electron.BrowserWindow) {

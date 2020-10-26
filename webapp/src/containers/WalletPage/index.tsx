@@ -23,6 +23,9 @@ import {
   WALLET_SEND_PATH,
   WALLET_RECEIVE_PATH,
   WALLET_CREATE_PATH,
+  MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
 } from '../../constants';
 import { isWalletCreated } from '../../utils/utility';
 import { getAmountInSelectedUnit } from '../../utils/utility';
@@ -215,25 +218,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </section>
             {!tokenSymbol && <WalletTxns />}
           </div>
-          <footer className='footer-bar'>
-            <div>
-              <Row className='justify-content-between align-items-center'>
-                <Col className='d-flex justify-content-end'>
-                  <Button
-                    color='link'
-                    className='mr-3'
-                    onClick={() => {
-                      history.push(WALLET_CREATE_PATH);
-                    }}
-                  >
-                    {I18n.t(
-                      'containers.wallet.createNewWalletPage.createNewWallet'
-                    )}
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          </footer>
         </div>
       )}
     </>

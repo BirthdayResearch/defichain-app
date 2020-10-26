@@ -6,12 +6,14 @@ import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import {
   closeBackupWalletWarningModal,
   backupWalletStart,
+  openWalletRestartModal,
 } from '../../PopOver/reducer';
 
 interface BackupWalletWarningModelProps {
   isBackupWalletWarningModelOpen: boolean;
   closeBackupWalletWarningModal: () => void;
   backupWalletStart: () => void;
+  openWalletRestartModal: () => void;
 }
 
 const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModelProps> = (
@@ -21,6 +23,7 @@ const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModel
     isBackupWalletWarningModelOpen,
     closeBackupWalletWarningModal,
     backupWalletStart,
+    openWalletRestartModal,
   } = props;
 
   return (
@@ -40,7 +43,10 @@ const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModel
         <Button
           size='sm'
           className='ml-4'
-          onClick={closeBackupWalletWarningModal}
+          onClick={() => {
+            closeBackupWalletWarningModal();
+            openWalletRestartModal();
+          }}
         >
           {I18n.t('alerts.okIHaveDoneIt')}
         </Button>
@@ -60,6 +66,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   closeBackupWalletWarningModal,
   backupWalletStart,
+  openWalletRestartModal,
 };
 
 export default connect(
