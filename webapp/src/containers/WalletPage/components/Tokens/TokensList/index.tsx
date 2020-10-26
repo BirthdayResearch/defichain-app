@@ -12,7 +12,7 @@ import {
   fetchAccountTokensRequest,
   fetchInstantBalanceRequest,
 } from '../../../reducer';
-import { filterByValue } from '../../../../../utils/utility';
+import { filterByValue, isWalletCreated } from '../../../../../utils/utility';
 import {
   WALLET_ADD_TOKEN_PATH,
   WALLET_PAGE_PATH,
@@ -21,6 +21,7 @@ import {
 } from '../../../../../constants';
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
+import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: any;
@@ -34,7 +35,7 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
-  const { unit } = props;
+  const { unit, history } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
@@ -76,15 +77,21 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   };
 
   return (
-    <div className='main-wrapper'>
-      <Helmet>
-        <title>
-          {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
-        </title>
-      </Helmet>
-      <header className='header-bar'>
-        <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
-        {/* <ButtonGroup>
+    <>
+      {!isWalletCreated() ? (
+        <div className='main-wrapper'>
+          <CreateOrRestoreWalletPage history={history} />
+        </div>
+      ) : (
+        <div className='main-wrapper'>
+          <Helmet>
+            <title>
+              {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
+            </title>
+          </Helmet>
+          <header className='header-bar'>
+            <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
+            {/* <ButtonGroup>
           <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
@@ -92,38 +99,40 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </span>
           </Button>
         </ButtonGroup> */}
-      </header>
-      <div className='content'>
-        <WalletTokenCard
-          handleCardClick={handleCardClickDefault}
-          token={{
-            symbol: unit,
-            amount: props.walletBalance,
-            hash: '0',
-            address: '',
-          }}
-        />
-        {tableData
-          .filter((data) => data.hash !== '0')
-          .map((token, index) => (
+          </header>
+          <div className='content'>
             <WalletTokenCard
-              handleCardClick={handleCardClick}
-              key={index}
-              token={token}
+              handleCardClick={handleCardClickDefault}
+              token={{
+                symbol: unit,
+                amount: props.walletBalance,
+                hash: '0',
+                address: '',
+              }}
             />
-          ))}
-        <Pagination
-          label={I18n.t('containers.tokens.tokensPage.paginationRange', {
-            to,
-            total,
-            from: from + 1,
-          })}
-          currentPage={currentPage}
-          pagesCount={pagesCount}
-          handlePageClick={paginate}
-        />
-      </div>
-    </div>
+            {tableData
+              .filter((data) => data.hash !== '0')
+              .map((token, index) => (
+                <WalletTokenCard
+                  handleCardClick={handleCardClick}
+                  key={index}
+                  token={token}
+                />
+              ))}
+            <Pagination
+              label={I18n.t('containers.tokens.tokensPage.paginationRange', {
+                to,
+                total,
+                from: from + 1,
+              })}
+              currentPage={currentPage}
+              pagesCount={pagesCount}
+              handlePageClick={paginate}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

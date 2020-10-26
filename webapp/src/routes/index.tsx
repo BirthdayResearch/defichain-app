@@ -53,7 +53,7 @@ import CreateOrRestoreWalletPage from '../containers/WalletPage/components/Creat
 
 const routes = (location) => (
   <Switch location={location}>
-    <Redirect from={INDEX_PATH} to={WALLET_PAGE_PATH} />
+    <Redirect from={INDEX_PATH} to={WALLET_TOKENS_PATH} />
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />

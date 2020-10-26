@@ -74,7 +74,7 @@ import {
   IS_WALLET_CREATED_TEST,
   MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
-  WALLET_PAGE_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
@@ -296,7 +296,7 @@ export function* createWallet(action) {
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_PAGE_PATH);
+    history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
     yield put({ type: createWalletFailure.type, payload: getErrorMessage(e) });
@@ -326,7 +326,7 @@ export function* restoreWallet(action) {
     yield call(importPrivKey, hdSeed);
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_PAGE_PATH);
+    history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
