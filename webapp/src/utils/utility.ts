@@ -4,6 +4,7 @@ import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import _ from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
+import shuffle from 'shuffle-array';
 
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
@@ -17,7 +18,6 @@ import {
   MIN_WORD_INDEX,
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
-  RANDOM_WORD_LENGTH,
   MAIN,
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
@@ -356,8 +356,7 @@ export const getMixWordsObject = (
 ) => {
   const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
   const randomWordArray = _.values(randomWordObject);
-
-  const mixArray = shuffleArray(mnemonicWordArray.concat(randomWordArray));
+  const mixArray = shuffle(mnemonicWordArray.concat(randomWordArray));
   return getObjectFromArrayString(mixArray);
 };
 
@@ -377,12 +376,6 @@ export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
 
 export const getRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
-};
-
-export const shuffleArray = (array: string[]): string[] => {
-  return array.sort(
-    () => Math.floor(Math.random() * Math.floor(RANDOM_WORD_LENGTH - 1)) - 1
-  );
 };
 
 export const checkElementsInArray = (
