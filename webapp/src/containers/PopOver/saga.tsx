@@ -4,7 +4,7 @@ import { backupWallet } from '../../app/update.ipcRenderer';
 import showNotification from '../../utils/notifications';
 import { getErrorMessage, getNetworkType } from '../../utils/utility';
 import { backupLoadingStart, backupWalletStart, closeBackupWalletWarningModal, closeEncryptWalletModal, closeWalletPassphraseModal, encryptWalletStart, lockWalletStart, showUpdateAvailable, unlockWalletStart } from './reducer';
-import { enableAutoLock, handleEncryptWallet, handleLockWallet, handleUnlockWallet } from './service';
+import { autoLockTimer, enableAutoLock, handleEncryptWallet, handleLockWallet, handleUnlockWallet } from './service';
 import * as log from '../../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
@@ -65,6 +65,7 @@ function* unlockWallet(action) {
 function* lockWallet() {
   try{
     const result = yield call(handleLockWallet);
+    autoLockTimer && clearTimeout(autoLockTimer);
     showNotification(I18n.t('alerts.success'), I18n.t('alerts.lockWalletSuccess'));
   }catch(e){
     log.error(e);

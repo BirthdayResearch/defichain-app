@@ -456,5 +456,5 @@ export const queuePush = (
 export const isWalletEncrypted = () => {
   const networkType = getNetworkType();
   const isWalletLocked = networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-  return PersistentStore.get(isWalletLocked);
+  return PersistentStore.get(isWalletLocked) || false;
 }

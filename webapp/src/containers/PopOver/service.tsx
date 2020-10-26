@@ -3,6 +3,8 @@ import { WALLET_UNLOCK_TIMEOUT } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { enableAutoLockStart } from './reducer';
 
+export let autoLockTimer;
+
 export const handleEncryptWallet = async (passphrase: string) => {
   const rpcClient = new RpcClient();
   return rpcClient.encryptWallet(passphrase);
@@ -19,7 +21,7 @@ export const handleLockWallet = async () => {
 };
 
 export const enableAutoLock = () => {
-  setTimeout(
+  autoLockTimer = setTimeout(
     () => store.dispatch(enableAutoLockStart()),
     WALLET_UNLOCK_TIMEOUT * 1000
   );
