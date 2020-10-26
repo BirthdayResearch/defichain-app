@@ -78,6 +78,11 @@ export const backupWalletDat = async () => {
   return showNotification(I18n.t('alerts.errorOccurred'), resp.message);
 };
 
+export const replaceWalletDat = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  return ipcRenderer.sendSync('replace-wallet-dat');
+}
+
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
   const res = await rpcClient.call('', DUMP_WALLET, [paths]);

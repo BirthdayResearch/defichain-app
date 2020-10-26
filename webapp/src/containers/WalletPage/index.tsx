@@ -18,7 +18,6 @@ import {
   MAIN,
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
-  WALLET_CREATE_PATH,
 } from '../../constants';
 import { getAmountInSelectedUnit, getNetworkType } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
@@ -178,25 +177,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </section>
             <WalletTxns />
           </div>
-          <footer className='footer-bar'>
-            <div>
-              <Row className='justify-content-between align-items-center'>
-                <Col className='d-flex justify-content-end'>
-                  <Button
-                    color='link'
-                    className='mr-3'
-                    onClick={() => {
-                      history.push(WALLET_CREATE_PATH);
-                    }}
-                  >
-                    {I18n.t(
-                      'containers.wallet.createNewWalletPage.createNewWallet'
-                    )}
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          </footer>
         </div>
       )}
     </>

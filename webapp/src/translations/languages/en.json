@@ -395,6 +395,10 @@
     "backupWalletWarningModelHeader": "Backup wallet",
     "saveMyBackup": "Save my backup",
     "okIHaveDoneIt": "Ok, I have done it",
-    "backupWalletWarning": "Please backup your existing wallet before creating or restoring a new wallet."
+    "backupWalletWarning": "Please backup your existing wallet before creating or restoring a new wallet.",
+    "restartWalletModalHeader": "Restart App",
+    "restartWalletWarningNotice": "You need to restart app. Do you want to restart, now?",
+    "yesRestartWalletNotice": "Yes",
+    "noRestartWalletNotice": "No"
   }
 }

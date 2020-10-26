@@ -19,7 +19,7 @@ import {
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
   MAIN,
-  TEST,
+  TEST, RANDOM_WORD_ENTROPY_BITS
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -330,7 +330,7 @@ export const getMnemonicObject = () => {
 
 export const getRandomWordObject = () => {
   const mnemonic = new Mnemonic();
-  const randomCode = mnemonic.createMnemonic(32);
+  const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
   const randomWordArray = randomCode.split(' ');
   return getObjectFromArrayString(randomWordArray);
 };
