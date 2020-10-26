@@ -267,7 +267,7 @@ export default class RpcClient {
   };
 
   sendToAddress = async (
-    toAddress: string,
+    toAddress: string | null,
     amount: number | string,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {

@@ -52,6 +52,7 @@ export const TOKEN_COMMENTS = 'Comments';
 export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
 export const ENTROPY_BITS = 256;
 export const RANDOM_WORD_ENTROPY_BITS = 128;
+export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
 
 export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;

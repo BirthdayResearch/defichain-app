@@ -1,6 +1,10 @@
 import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
-import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
+import {
+  PAYMENT_REQUEST,
+  BLOCKCHAIN_INFO_CHAIN_TEST,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+} from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
@@ -169,6 +173,12 @@ export const accountToAccount = async (
 ) => {
   try {
     const rpcClient = new RpcClient();
+    const txId = await rpcClient.sendToAddress(
+      fromAddress,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+      true
+    );
+    await getTransactionInfo(txId);
     const data = await rpcClient.accountToAccount(
       fromAddress,
       toAddress,
