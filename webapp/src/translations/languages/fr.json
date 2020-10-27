@@ -204,6 +204,11 @@
         "from": "From",
         "to": "To"
       },
+      "poolTab": {
+        "yourLiquidity":"Your liquidity",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "addLiquidity":"ADD LIQUIDITY"
+      },
       "addLiquidity": {
         "balance": "Balance",
         "max": "Max",
