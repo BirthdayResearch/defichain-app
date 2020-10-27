@@ -66,9 +66,6 @@ const WalletPassphraseModel: React.FunctionComponent<WalletPassphraseModelProps>
                       {I18n.t('alerts.unlock')}
                     </Button>
                   </div>
-                  <div className='mt-5 text-primary'>
-                    {I18n.t('alerts.lostPassphraseMessage')}
-                  </div>
                 </section>
               </div>
             </Col>

@@ -356,6 +356,24 @@
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
     "yesBackupWalletNotice": "Yes",
-    "noBackupWalletNotice": "No"
+    "noBackupWalletNotice": "No",
+    "encryptWalletNoticeTitle": "Lock Wallet",
+    "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
+    "enableLocking": "ENABLE LOCKING",
+    "later": "LATER",
+    "passphraseLabel": "Enter passphrase",
+    "proceed": "PROCEED",
+    "reset": "RESET",
+    "encryptWalletSuccess": "Encrypt wallet done successfully",
+    "unlockWalletSuccess": "Unlock wallet done successfully",
+    "lockWalletSuccess": "Lock wallet done successfully",
+    "passphraseLabelConfirm": "Confirm passphrase",
+    "confirm": "CONFIRM",
+    "cancel": "CANCEL",
+    "unlock": "UNLOCK",
+    "enterYourPassphrase": "Enter your passphrase",
+    "walletUnlockTitle": "Welcome back",
+    "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
+    "lostPassphraseMessage": "I LOST MY PASSPHRASE"
   }
 }
