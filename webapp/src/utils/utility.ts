@@ -396,21 +396,6 @@ export const checkElementsInArray = (
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
 
-export const createWallet = async (mnemonicCode: string) => {
-  try {
-    const mnemonic = new Mnemonic();
-    const rpcClient = new RpcClient();
-
-    const seed = mnemonic.createSeed(mnemonicCode);
-    const root = mnemonic.createRoot(seed);
-    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
-
-    await rpcClient.setHdSeed(hdSeed);
-  } catch (e) {
-    log.error(e);
-  }
-};
-
 export const getNetworkType = () => {
   const state = store.getState();
   const blockChainInfo: any = state.wallet.blockChainInfo;

@@ -41,6 +41,6 @@ export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
 export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
 
-export const WALLET_UNLOCK_TIMEOUT = 300;
+export const WALLET_UNLOCK_TIMEOUT = 600;
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
