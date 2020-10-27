@@ -12,6 +12,13 @@
       "aMinuteAgo": "Synchronized a minute ago",
       "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
       "network": "Network"
+    },
+    "swapCard": {
+      "selectAToken": "Select a token",
+      "popular": "Popular",
+      "tokens": "Tokens",
+      "balance": "Balance",
+      "max": "MAX"
     }
   },
   "containers": {
@@ -240,7 +247,6 @@
         "volume": "Volume (24 H)",
         "officialSite": "Official site",
         "transfers": "Transfers",
-        "holders": "Holders",
         "info": "Info",
         "exchange": "Exchange",
         "dex": "DEX",
@@ -269,7 +275,6 @@
         "cancel": "CANCEL",
         "continue": "CONTINUE",
         "dfiRequired": "DFI required",
-        "chooseFile": "CHOOSE FILE",
         "dctDistribution": "DCT Distribution",
         "uploadCsv": "UPLOAD CSV",
         "addAddress": "ADD ADDRESS",
@@ -311,6 +316,10 @@
         "pooledDOO": "Pooled DOO",
         "poolReward": "Pool reward",
         "poolShare": "Pool share"
+      },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
       },
       "addLiquidity": {
         "balance": "Balance",

@@ -12,6 +12,13 @@
       "blockInfo": "Bloc %{latestSyncedBlock} de %{latestBlock}",
       "network": "Réseau",
       "downloading": "Downloading update"
+    },
+    "swapCard": {
+      "selectAToken": "Select a token",
+      "popular": "Popular",
+      "tokens": "Tokens",
+      "balance": "Balance",
+      "max": "MAX"
     }
   },
   "containers": {
@@ -160,6 +167,58 @@
       "masternodeTab": {
         "myMasternodes": "Mienne",
         "network": "Réseau"
+      }
+    },
+    "swap": {
+      "swapPage": {
+        "title": "Tokens – DeFi Blockchain Client",
+        "swap": "Swap",
+        "pool": "Pool",
+        "liquidity": "Liquidity",
+        "enterAnAmount": "Enter an amount to swap",
+        "continue": "Continue",
+        "from": "From",
+        "to": "To",
+        "balance": "Balance",
+        "max": "Max",
+        "selectToken": "Select a Token",
+        "searchToken": "Search token name or address",
+        "popular": "Popular",
+        "tokens": "Tokens",
+        "readySwap": "Ready to swap",
+        "price": "Price",
+        "minimumReceived": "Minimum Received",
+        "priceImpact": "Price Impact",
+        "liquidityProviderFee": "Liquidity provider fee",
+        "verifyTransactionSwap": "Please verify transaction and press SWAP",
+        "yourLiquidity": "Your Liquidity",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "add": "Add",
+        "remove": "Remove",
+        "pooledDFI": "Pooled DFI",
+        "pooledDOO": "Pooled DOO",
+        "poolReward": "Pool reward",
+        "poolShare": "Pool share"
+      },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
+      },
+      "addLiquidity": {
+        "balance": "Balance",
+        "max": "Max",
+        "selectToken": "Select a Token",
+        "addLiquidity": "Add Liquidity",
+        "selectInputTokens": "Select input tokens and enter an amount",
+        "back": "Back",
+        "input": "Input",
+        "shareOfPool": "Share of pool",
+        "readyToSupply": "Ready to supply",
+        "verifyTransactionSupply": "Please verify transaction and press SUPPLY",
+        "reward": "Reward",
+        "deposits": "Deposits",
+        "rates": "Rates",
+        "continue": "Continue"
       }
     },
     "settings": {
