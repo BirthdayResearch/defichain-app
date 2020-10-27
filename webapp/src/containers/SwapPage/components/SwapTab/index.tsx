@@ -2,26 +2,42 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { MdCompareArrows } from 'react-icons/md';
 
-import ToCard from '../../../../components/SwapCard/ToCard';
-import FromCard from '../../../../components/SwapCard/FromCard';
+import SwapCard from '../../../../components/SwapCard';
+import styles from './swapTab.module.scss';
+import { I18n } from 'react-redux-i18n';
 
 interface SwapTabProps {}
 
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
   props: SwapTabProps
 ) => {
+  const popularTokenList = ['DFI', 'BTC', 'ETH'];
+  const normalTokenList = ['DOO', 'MEOW'];
+
   return (
     <>
       <section>
         <Row>
           <Col md='5'>
-            <ToCard />
+            <SwapCard
+              isFrom={true}
+              label={I18n.t('containers.swap.swapTab.from')}
+              balance={100}
+              popularTokenList={popularTokenList}
+              normalTokenList={normalTokenList}
+            />
           </Col>
           <Col md='2' className='text-center vertical-center'>
-            <MdCompareArrows />
+            <MdCompareArrows className={styles.svg} />
           </Col>
           <Col md='5'>
-            <FromCard />
+            <SwapCard
+              isFrom={false}
+              label={I18n.t('containers.swap.swapTab.to')}
+              balance={100}
+              popularTokenList={popularTokenList}
+              normalTokenList={normalTokenList}
+            />
           </Col>
         </Row>
       </section>

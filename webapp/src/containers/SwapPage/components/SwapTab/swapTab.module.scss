@@ -1,0 +1,13 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.svg {
+  width: 42px;
+  height: 42px;
+  margin-top: 64px;
+  fill: #FF00AF;
+}

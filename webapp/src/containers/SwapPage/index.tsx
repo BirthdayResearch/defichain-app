@@ -102,9 +102,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 color='link'
                 className='mr-3'
                 disabled={true}
-                // onClick={() => {
-                //   setIsWalletTabActive(!isWalletTabActive);
-                // }}
               >
                 {I18n.t('containers.swap.swapPage.continue')}
               </Button>
