@@ -40,7 +40,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
     <Card className={styles.swapCard}>
       <CardBody className={styles.cardBody}>
         <Row>
-          <Col>{label}</Col>
+          <Col className={styles.labelDirection}>{label}</Col>
         </Row>
         <Row>
           <Col className='mt-2'>
@@ -81,7 +81,10 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
       <CardFooter>
         <Row>
           <Col>
-            {I18n.t('components.swapCard.balance')}: {balance}
+            <span className={styles.labelBalance}>
+              {I18n.t('components.swapCard.balance')}
+            </span>
+            : {balance}
           </Col>
           {isFrom && (
             <Col className={styles.colorMax}>
