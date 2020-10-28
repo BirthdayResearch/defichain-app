@@ -9,6 +9,7 @@ import {
   MdMoreHoriz,
   MdCheckCircle,
   MdErrorOutline,
+  MdAdd,
 } from 'react-icons/md';
 import {
   Button,
@@ -18,6 +19,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  ButtonGroup,
 } from 'reactstrap';
 
 import styles from '../../token.module.scss';
@@ -27,8 +29,10 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   DELETE,
+  MINT_TOKENS_PATH,
   TOKENS_PATH,
   TOKEN_EDIT_PATH,
+  TOKEN_MINT_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import DefiIcon from '../../../../../src/assets/svg/defi-icon.svg';
@@ -53,14 +57,18 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   const { id, hash } = props.match.params;
 
   const tokenInfoMenu = [
-    {
-      label: I18n.t('containers.tokens.tokenInfo.deleteToken'),
-      value: 'delete',
-    },
+    // {
+    //   label: I18n.t('containers.tokens.tokenInfo.deleteToken'),
+    //   value: 'delete',
+    // },
     // {
     //   label: I18n.t('containers.tokens.tokenInfo.editToken'),
     //   value: 'edit',
     // },
+    {
+      label: I18n.t('containers.tokens.tokenInfo.mint'),
+      value: 'mint',
+    },
   ];
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
@@ -107,18 +115,15 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   }, [isConfirmationModalOpen]);
 
   useEffect(() => {
-    if (hash === '0') {
-      props.fetchToken(`${id}`);
-    } else {
-      props.fetchToken(`${id}#${hash}`);
-    }
+    props.fetchToken(`${hash}`);
   }, []);
 
   const handleDropDowns = (data: string) => {
     if (data === DELETE) {
       setIsConfirmationModalOpen('confirm');
     } else {
-      history.push(`${TOKEN_EDIT_PATH}/${id}`);
+      // history.push(`${TOKEN_EDIT_PATH}/${id}`);
+      history.push(`${TOKEN_MINT_PATH}/${id}/${hash}`);
     }
   };
 
@@ -140,27 +145,52 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </span>
         </Button>
         <h1>{tokenInfo.name}</h1>
-        {/* <UncontrolledDropdown>
-          <DropdownToggle color='link' size='md'>
-            <MdMoreHoriz />
-          </DropdownToggle>
-          <DropdownMenu right>
-            {tokenInfoMenu.map((data) => {
-              return (
-                <DropdownItem
-                  className='justify-content-between'
-                  key={data.value}
-                  name='collateralAddress'
-                  value={data.value}
-                  onClick={() => handleDropDowns(data.value)}
-                >
-                  <span>{I18n.t(data.label)}</span>
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </UncontrolledDropdown> */}
+        {/* {tokenInfo.hash !== '0' && <ButtonGroup>
+          <Button to={MINT_TOKENS_PATH} tag={RRNavLink} color='link'>
+            <MdAdd />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.tokens.tokenInfo.mint')}
+            </span>
+          </Button>
+        </ButtonGroup>} */}
+        {tokenInfo.hash !== '0' && (
+          <UncontrolledDropdown>
+            <DropdownToggle color='link' size='md'>
+              <MdMoreHoriz />
+            </DropdownToggle>
+            <DropdownMenu right>
+              {tokenInfoMenu.map((data) => {
+                return (
+                  <DropdownItem
+                    className='justify-content-between'
+                    key={data.value}
+                    name='collateralAddress'
+                    value={data.value}
+                    onClick={() => handleDropDowns(data.value)}
+                  >
+                    <span>{I18n.t(data.label)}</span>
+                  </DropdownItem>
+                );
+              })}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        )}
       </header>
+      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && (
+        <div className={`${styles.mintAlert} m-5`}>
+          <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
+          <Button
+            to={`${TOKEN_MINT_PATH}/${id}/${hash}`}
+            tag={RRNavLink}
+            color='link'
+            className='text-right'
+          >
+            <span className='d-lg-inline'>
+              {I18n.t('containers.tokens.tokenInfo.mint')}
+            </span>
+          </Button>
+        </div>
+      )}
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
