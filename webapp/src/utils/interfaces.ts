@@ -75,6 +75,11 @@ export interface ITokenCreatorInfo {
   collateralAddress: string;
 }
 
+export interface ITokenMintInfo {
+  amount: number;
+  hash: string;
+}
+
 export interface ITokenUpdatorInfo {
   token: string;
   name?: string;
