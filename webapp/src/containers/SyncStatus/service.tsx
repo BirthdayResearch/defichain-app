@@ -1,16 +1,27 @@
 import RpcClient from '../../utils/rpc-client';
+import { getTotalBlocks } from '../../utils/utility';
 
 export const getBlockSyncInfo = async () => {
   const rpcClient = new RpcClient();
   const latestSyncedBlock = await rpcClient.getLatestSyncedBlock();
-  const latestBlockInfoArr: any = await rpcClient.getPeerInfo();
+  let latestBlock = 0;
 
-  const latestBlock = latestBlockInfoArr.length
-    ? Math.max.apply(
-        Math,
-        latestBlockInfoArr.map((o: { startingheight: any }) => o.startingheight)
-      )
-    : 0;
+  try {
+    const latestBlockInfoArr = await getTotalBlocks();
+    latestBlock = latestBlockInfoArr.blockHeight;
+  } 
+  // Use getpeerinfo rpc call, if not able to get data from stats api
+  catch (e) {
+    const latestBlockInfoArr: any = await rpcClient.getPeerInfo();
+    latestBlock = latestBlockInfoArr.length
+      ? Math.max.apply(
+          Math,
+          latestBlockInfoArr.map(
+            (o: { startingheight: any }) => o.startingheight
+          )
+        )
+      : 0;
+  }
 
   const percentage = (latestSyncedBlock / latestBlock) * 100;
 
