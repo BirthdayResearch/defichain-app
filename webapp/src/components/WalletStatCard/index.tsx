@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardFooter, Col } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import styles from './WalletStatCard.module.scss';
 
 interface WalletStatCardProps {
@@ -12,18 +12,16 @@ const WalletStatCard: React.FunctionComponent<WalletStatCardProps> = (
 ) => {
   const { label, icon } = props;
   return (
-      <Card>
-        <CardBody>
-          <div className={styles.icon}>
-            <div>{icon}</div>
-          </div>
-        </CardBody>
-        <CardFooter>
-          <div className={styles.label}>
-            <div>{label}</div>
-          </div>
-        </CardFooter>
-      </Card>
+    <Card className={styles.card}>
+      <CardBody className={styles.cardBody}>
+        <div className={styles.icon}>
+          <div>{icon}</div>
+        </div>
+        <div className={styles.label}>
+          <div>{label}</div>
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 
