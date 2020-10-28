@@ -209,6 +209,7 @@
         "decimalText": "Number of decimal places. Cannot be changed once set.",
         "limit": "Limit",
         "mintingSupport": "Minting support?",
+        "mintText": "You can mint tokens after it has been created.",
         "optionalFinalSupplyLimit": "Final supply limit (optional)",
         "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
         "tradeable": "Trade-able?",
@@ -254,7 +255,22 @@
         "backToTokenPage": "Back to Token Page",
         "confirmation": "Are you sure you want to destroy a token?",
         "deleteToken": "Delete Token",
-        "editToken": "Edit Token"
+        "editToken": "Edit Token",
+        "mint": "Mint",
+        "notMintedAlert": "You have not minted the token",
+        "mint": "Mint"
+      },
+      "mintToken": {
+        "title": "Mint",
+        "back": "BACK",
+        "amountToMint": "Amount to Mint",
+        "amount": "Amount",
+        "cancel": "Cancel",
+        "continue": "continue",
+        "pleaseVerifyAmount": "Please Verify Amount",
+        "completeMint": "Complete Mint",
+        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "backToToken": "Back to Tokens"
       },
       "transfersList": {
         "txnHash": "Txn Hash",
