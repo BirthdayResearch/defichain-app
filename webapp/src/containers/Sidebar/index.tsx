@@ -117,7 +117,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          {softforks.amk && softforks.amk.active && (
+          {softforks?.amk?.active && (
             <NavItem className={styles.navItem}>
               <NavLink
                 to={TOKENS_PATH}
