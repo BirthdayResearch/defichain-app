@@ -11,8 +11,15 @@ interface SwapTabProps {}
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
   props: SwapTabProps
 ) => {
-  const popularTokenList = ['DFI', 'BTC', 'ETH'];
-  const normalTokenList = ['DOO', 'MEOW'];
+  const popularTokenList: Map<string, number> = new Map([
+    ['DFI', 10],
+    ['BTC', 20],
+    ['ETH', 30],
+  ]);
+  const normalTokenList: Map<string, number> = new Map([
+    ['DOO', 40],
+    ['MEOW', 50],
+  ]);
 
   return (
     <>
