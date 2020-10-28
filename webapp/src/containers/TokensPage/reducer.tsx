@@ -13,6 +13,9 @@ export const initialState = {
   isTokenCreating: false,
   createdTokenData: {},
   isErrorCreatingToken: '',
+  isTokenMinting: false,
+  mintedTokenData: {},
+  isErrorMintingToken: '',
   isTokenUpdating: false,
   updatedTokenData: {},
   isErrorUpdatingToken: '',
@@ -79,6 +82,21 @@ const configSlice = createSlice({
       state.createdTokenData = {};
       state.isErrorCreatingToken = action.payload;
     },
+    mintToken(state, action) {
+      state.isTokenMinting = true;
+      state.mintedTokenData = {};
+      state.isErrorMintingToken = '';
+    },
+    mintTokenSuccess(state, action) {
+      state.isTokenMinting = false;
+      state.mintedTokenData = action.payload;
+      state.isErrorMintingToken = '';
+    },
+    mintTokenFailure(state, action) {
+      state.isTokenMinting = false;
+      state.mintedTokenData = {};
+      state.isErrorMintingToken = action.payload;
+    },
     updateToken(state, action) {
       state.isTokenUpdating = true;
       state.updatedTokenData = {};
@@ -127,6 +145,9 @@ export const {
   createToken,
   createTokenFailure,
   createTokenSuccess,
+  mintToken,
+  mintTokenFailure,
+  mintTokenSuccess,
   updateToken,
   updateTokenSuccess,
   updateTokenFailure,

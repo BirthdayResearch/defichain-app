@@ -24,6 +24,7 @@ import {
   IMasternodeCreatorInfo,
   ITokenCreatorInfo,
   ITokenUpdatorInfo,
+  ITokenMintInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -572,6 +573,17 @@ export default class RpcClient {
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
       tokenCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  mintToken = async (
+    tokenMintInfo: ITokenMintInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { hash, amount } = tokenMintInfo;
+    const { data } = await this.call('/', methodNames.MINT_TOKEN, [
+      `${amount}@${hash}`,
     ]);
     return data.result;
   };
