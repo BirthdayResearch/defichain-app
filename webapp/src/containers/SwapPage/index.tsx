@@ -20,7 +20,7 @@ import {
 
 import classnames from 'classnames';
 
-import { CREATE_TOKENS_PATH, SWAP, POOL } from '../../constants';
+import { SWAP, POOL, CREATE_POOL_PAIR_PATH } from '../../constants';
 import SwapTab from './components/SwapTab';
 import PoolTab from './components/PoolTab';
 
@@ -69,7 +69,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             visibility: activeTab !== POOL ? 'hidden' : 'visible',
           }}
         >
-          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
+          <Button to={CREATE_POOL_PAIR_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t('containers.swap.swapPage.liquidity')}
@@ -98,11 +98,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               </FormGroup>
             </Col>
             <Col className='d-flex justify-content-end'>
-              <Button
-                color='link'
-                className='mr-3'
-                disabled={true}
-              >
+              <Button color='link' className='mr-3' disabled={true}>
                 {I18n.t('containers.swap.swapPage.continue')}
               </Button>
             </Col>
