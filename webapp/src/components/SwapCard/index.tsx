@@ -18,8 +18,8 @@ interface SwapCardProps {
   label: string;
   isFrom: boolean;
   balance: number;
-  popularTokenList: string[];
-  normalTokenList: string[];
+  popularTokenList: Map<string, number>;
+  normalTokenList: Map<string, number>;
 }
 
 const SwapCard: React.FunctionComponent<SwapCardProps> = (
@@ -31,6 +31,21 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
 
   const onInputChange = (e) => {
     setFromAmount(e.target.value);
+  };
+
+  const getTokenDropdownList = (TokenList) => {
+    const TokenDropdownItems: any[] = [];
+    TokenList.forEach((balance: number, symbol: string) => {
+      TokenDropdownItems.push(
+        <DropdownItem key={symbol}>
+          <Row>
+            <Col>{symbol}</Col>
+            <Col className='d-flex justify-content-end'>{balance}</Col>
+          </Row>
+        </DropdownItem>
+      );
+    });
+    return TokenDropdownItems;
   };
 
   // temporary condition, need to update
@@ -63,15 +78,11 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
               <DropdownMenu>
                 <DropdownItem header>
                   {I18n.t('components.swapCard.popular')}
-                  {popularTokenList.map((token) => (
-                    <DropdownItem>{token}</DropdownItem>
-                  ))}
+                  {getTokenDropdownList(popularTokenList)}
                 </DropdownItem>
                 <DropdownItem header>
                   {I18n.t('components.swapCard.tokens')}
-                  {normalTokenList.map((token) => (
-                    <DropdownItem>{token}</DropdownItem>
-                  ))}
+                  {getTokenDropdownList(normalTokenList)}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

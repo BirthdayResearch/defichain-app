@@ -18,14 +18,29 @@ interface LiquidityCardProps {
   label: string;
   balance: number;
   amount: number;
-  popularTokenList: string[];
-  normalTokenList: string[];
+  popularTokenList: Map<string, number>;
+  normalTokenList: Map<string, number>;
 }
 
 const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
   props: LiquidityCardProps
 ) => {
   const { label, balance, amount, popularTokenList, normalTokenList } = props;
+
+  const getTokenDropdownList = (TokenList) => {
+    const TokenDropdownItems: any[] = [];
+    TokenList.forEach((balance: number, symbol: string) => {
+      TokenDropdownItems.push(
+        <DropdownItem key={symbol}>
+          <Row>
+            <Col>{symbol}</Col>
+            <Col className='d-flex justify-content-end'>{balance}</Col>
+          </Row>
+        </DropdownItem>
+      );
+    });
+    return TokenDropdownItems;
+  };
 
   return (
     <Card className={styles.liquidityCard}>
@@ -43,15 +58,11 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
               <DropdownMenu>
                 <DropdownItem header>
                   {I18n.t('components.swapCard.popular')}
-                  {popularTokenList.map((token) => (
-                    <DropdownItem>{token}</DropdownItem>
-                  ))}
+                  {getTokenDropdownList(popularTokenList)}
                 </DropdownItem>
                 <DropdownItem header>
                   {I18n.t('components.swapCard.tokens')}
-                  {normalTokenList.map((token) => (
-                    <DropdownItem>{token}</DropdownItem>
-                  ))}
+                  {getTokenDropdownList(normalTokenList)}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
