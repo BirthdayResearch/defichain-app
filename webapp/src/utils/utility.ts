@@ -1,4 +1,6 @@
 import Ajv from 'ajv';
+import axios from 'axios';
+
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
@@ -23,6 +25,7 @@ import {
   IS_WALLET_CREATED_TEST,
   TEST,
   RANDOM_WORD_ENTROPY_BITS,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -457,4 +460,13 @@ export const isWalletCreated = () => {
   const key =
     networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
   return PersistentStore.get(key) || false;
+};
+
+export const getTotalBlocks = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    method: 'GET',
+  });
+  return data;
 };
