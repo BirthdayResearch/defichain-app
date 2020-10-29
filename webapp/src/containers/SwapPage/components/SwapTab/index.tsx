@@ -47,7 +47,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               normalTokenList={normalTokenList}
             />
           </Col>
-          <Col md='2' className='text-center vertical-center'>
+          <Col md='2' className={styles.colSvg}>
             <MdCompareArrows className={styles.svg} />
           </Col>
           <Col md='5'>

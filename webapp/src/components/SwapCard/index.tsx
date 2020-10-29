@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import { I18n } from 'react-redux-i18n';
-import {
-  Row,
-  Card,
-  CardBody,
-  CardFooter,
-  Col,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Input,
-} from 'reactstrap';
+import { Row, Card, CardBody, CardFooter, Col, Input } from 'reactstrap';
+
+import SwapDropdown from '../swapDropdown';
 import styles from './SwapCard.module.scss';
 
 interface SwapCardProps {
@@ -31,21 +22,6 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
 
   const onInputChange = (e) => {
     setFromAmount(e.target.value);
-  };
-
-  const getTokenDropdownList = (TokenList) => {
-    const TokenDropdownItems: any[] = [];
-    TokenList.forEach((balance: number, symbol: string) => {
-      TokenDropdownItems.push(
-        <DropdownItem key={symbol}>
-          <Row>
-            <Col>{symbol}</Col>
-            <Col className='d-flex justify-content-end'>{balance}</Col>
-          </Row>
-        </DropdownItem>
-      );
-    });
-    return TokenDropdownItems;
   };
 
   // temporary condition, need to update
@@ -70,26 +46,15 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
               amount
             )}
           </Col>
-          <Col>
-            <UncontrolledDropdown>
-              <DropdownToggle caret color='outline-secondary'>
-                {I18n.t('components.swapCard.selectAToken')}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>
-                  {I18n.t('components.swapCard.popular')}
-                  {getTokenDropdownList(popularTokenList)}
-                </DropdownItem>
-                <DropdownItem header>
-                  {I18n.t('components.swapCard.tokens')}
-                  {getTokenDropdownList(normalTokenList)}
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+          <Col className={styles.dropDownCol}>
+            <SwapDropdown
+              popularTokenList={popularTokenList}
+              normalTokenList={normalTokenList}
+            />
           </Col>
         </Row>
       </CardBody>
-      <CardFooter>
+      <CardFooter className={styles.cardFooter}>
         <Row>
           <Col>
             <span className={styles.labelBalance}>

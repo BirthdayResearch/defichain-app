@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { MdAdd, MdArrowBack } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import { Button, Col, FormGroup, Label, Row } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
+import {connect} from 'react-redux';
 import classnames from 'classnames';
 
 import LiquidityCard from '../../../../components/LiquidityCard';
+import { fetchPoolPairListRequest } from '../../reducer';
 import styles from './addLiquidity.module.scss';
 import { SWAP_PATH } from '../../../../constants';
 
-interface AddLiquidityProps {}
+interface AddLiquidityProps {
+  poolPairList: any;
+  fetchPoolPairListRequest: () => void;
+}
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   props: AddLiquidityProps
 ) => {
+
+  const { poolPairList, fetchPoolPairListRequest } = props;
+
   const popularTokenList: Map<string, number> = new Map([
     ['DFI', 10],
     ['BTC', 20],
@@ -24,6 +32,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     ['DOO', 40],
     ['MEOW', 50],
   ]);
+
+  useEffect(() => {
+    fetchPoolPairListRequest();
+  }, []);
+
+  console.log(poolPairList);
 
   return (
     <div className='main-wrapper'>
@@ -56,7 +70,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 normalTokenList={normalTokenList}
               />
             </Col>
-            <Col md='2' className='text-center vertical-center'>
+            <Col md='2' className={styles.colSvg}>
               <MdAdd className={styles.svg} />
             </Col>
             <Col md='5'>
@@ -93,4 +107,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-export default AddLiquidity;
+const mapStateToProps = (state) => {
+  const { poolPairList } = state.swap;
+  return { poolPairList };
+};
+
+const mapDispatchToProps = {
+  fetchPoolPairListRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidity);

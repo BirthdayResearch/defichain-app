@@ -7,6 +7,7 @@
 
 .liquidityCard {
   margin-bottom: 24px;
+  height: calc(100% - 24px);
   cursor: pointer;
 }
 
@@ -60,7 +61,7 @@
 }
 
 .colorMax {
-  color: #FF00AF;
+  color: #ff00af;
 }
 
 .labelDirection {
@@ -71,4 +72,9 @@
 .labelBalance {
   color: #000000;
   font-weight: bold;
+}
+
+.dropDownCol {
+  position: initial;
+  padding: 0;
 }
