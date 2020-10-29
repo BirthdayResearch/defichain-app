@@ -2,7 +2,7 @@ export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
-export const SYNC_TIMEOUT = 5000;
+export const SYNC_TIMEOUT = 10000;
 export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
@@ -43,3 +43,5 @@ export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
 export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
+
+export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';
