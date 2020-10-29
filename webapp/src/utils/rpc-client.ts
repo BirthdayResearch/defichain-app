@@ -655,4 +655,11 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.STOP, []);
     return data.result;
   };
+
+  // LP RPC call
+
+  listPoolPairs = async () => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, []);
+    return data.result;
+  };
 }

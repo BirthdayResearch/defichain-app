@@ -35,3 +35,6 @@ export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
 export const SET_HD_SEED = 'sethdseed';
+
+// LP RPC Methods
+export const LIST_POOL_PAIRS = 'listpoolpairs';
