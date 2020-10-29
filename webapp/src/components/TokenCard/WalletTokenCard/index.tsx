@@ -2,9 +2,8 @@ import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 
 import styles from '../TokenCard.module.scss';
-import Icon from '../../../assets/svg/icon-coin-bitcoin-lapis.svg';
 import { IWalletTokenCard } from '../../../utils/interfaces';
-import DefiIcon from '../../../assets/svg/defi-icon.svg';
+import { getIcon } from '../../../utils/utility';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -23,7 +22,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
 
   return (
     <Card
-      className={styles.tokenCard}
+      className={styles.tokenBalanceCard}
       onClick={() =>
         handleCardClick(token.symbol, token.hash, token.amount, token.address)
       }
@@ -32,7 +31,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
         <Row>
           <Col md='6'>
             <div className='d-flex'>
-              <img src={DefiIcon} height={'30px'} width={'30px'} />
+              <img src={getIcon(token.symbol)} height={'30px'} width={'30px'} />
               <div className='ml-4'>
                 <div>
                   <b>{token.symbol}</b>

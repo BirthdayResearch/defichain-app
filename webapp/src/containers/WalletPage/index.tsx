@@ -27,12 +27,11 @@ import {
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
 } from '../../constants';
-import { isWalletCreated } from '../../utils/utility';
+import { getIcon, isWalletCreated } from '../../utils/utility';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
 import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
-import DefiIcon from '../../assets/svg/defi-icon.svg';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -110,7 +109,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           </Button>
         )}
         <div className='d-flex'>
-          <img src={DefiIcon} />
+          <img src={getIcon(tokenSymbol)} height={'30px'} width={'30px'} />
           &nbsp;
           <h1>
             {tokenSymbol ? tokenSymbol : unit}

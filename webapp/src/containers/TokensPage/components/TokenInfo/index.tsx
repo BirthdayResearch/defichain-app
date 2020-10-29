@@ -35,7 +35,7 @@ import {
   TOKEN_MINT_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
-import DefiIcon from '../../../../../src/assets/svg/defi-icon.svg';
+import { getIcon } from '../../../../utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -195,7 +195,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <section className='mb-5'>
           <Row className='mb-4'>
             <Col md='6'>
-              <img src={DefiIcon} height={'30px'} width={'30px'} />
+              <img
+                src={getIcon(tokenInfo.symbol)}
+                height={'30px'}
+                width={'30px'}
+              />
             </Col>
             <Col md='6'>
               <KeyValueLi
