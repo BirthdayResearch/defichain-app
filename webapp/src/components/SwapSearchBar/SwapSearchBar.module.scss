@@ -1,0 +1,24 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.formGroup {
+  position: relative;
+  margin-bottom: 0;
+}
+
+input {
+  padding-left: 48px;
+}
+
+.searchIndicator {
+  position: absolute;
+  right: 0;
+  margin: 12px;
+  color: $gray-400;
+  width: 24px;
+  height: 24px;
+}
