@@ -200,11 +200,10 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               <dt className='col-sm-3 text-right'>
                 {I18n.t('containers.tokens.mintToken.amount')}
               </dt>
+              &nbsp;
               <dd className='col-sm-9'>
-                <span className='h2 mb-0'>
-                  {amountToMint}&nbsp;
-                  {id}
-                </span>
+                {amountToMint}&nbsp;
+                {id}
               </dd>
             </dl>
           </div>
@@ -274,7 +273,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+            <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>
           </div>

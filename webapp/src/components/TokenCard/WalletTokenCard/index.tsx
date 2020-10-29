@@ -28,10 +28,16 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
       }
     >
       <CardBody className={styles.cardBody}>
-        <Row>
+        <Row className='align-items-center'>
           <Col md='6'>
-            <div className='d-flex'>
-              <img src={getIcon(token.symbol)} height={'30px'} width={'30px'} />
+            <div className='d-flex align-items-center justify-content-start'>
+              <div>
+                <img
+                  src={getIcon(token.symbol)}
+                  height={'30px'}
+                  width={'30px'}
+                />
+              </div>
               <div className='ml-4'>
                 <div>
                   <b>{token.symbol}</b>
@@ -41,12 +47,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
             </div>
           </Col>
           <Col md='6'>
-            <div className='float-right'>
-              <div className={styles.cardValue}>
-                <b className='text-dark'>{token.amount}</b>
-                <span className='ml-2'>{token.symbol}</span>
-              </div>
-              {/* <div className={styles.cardValue}>{'220 USD'}</div> */}
+            <div className={`${styles.cardValue} justify-content-end`}>
+              <b className='text-dark'>{token.amount}</b>
+              <span className='ml-2'>{token.symbol}</span>
             </div>
           </Col>
         </Row>

@@ -245,7 +245,9 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
                 disabled={isUpdate}
               >
-                {I18n.t('containers.tokens.createToken.collateralAddress')}
+                {formState.collateralAddress
+                  ? formState.collateralAddress
+                  : I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
               <DropdownMenu>
                 {collateralAddresses.map((data) => {

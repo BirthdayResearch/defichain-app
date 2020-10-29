@@ -197,8 +197,8 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             <Col md='6'>
               <img
                 src={getIcon(tokenInfo.symbol)}
-                height={'30px'}
-                width={'30px'}
+                height={'60px'}
+                width={'60px'}
               />
             </Col>
             <Col md='6'>
@@ -206,8 +206,6 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 label={I18n.t('containers.tokens.tokenInfo.name')}
                 value={(tokenInfo.name || '').toString()}
               />
-            </Col>
-            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.symbol')}
                 value={(tokenInfo.symbol || '').toString()}
