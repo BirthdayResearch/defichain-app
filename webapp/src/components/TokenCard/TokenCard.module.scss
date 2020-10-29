@@ -8,6 +8,12 @@
 .tokenCard {
   margin-bottom: 24px;
   cursor: pointer;
+  height: calc(100% - 24px);
+}
+
+.tokenBalanceCard {
+  margin-bottom: 24px;
+  cursor: pointer;
 }
 
 .text {

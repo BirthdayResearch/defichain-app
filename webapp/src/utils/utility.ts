@@ -34,6 +34,9 @@ import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
 import PersistentStore from './persistentStore';
+import DefiIcon from '../assets/svg/defi-icon.svg';
+import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
+import EthIcon from '../assets/svg/eth-icon.svg';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -469,4 +472,14 @@ export const getTotalBlocks = async () => {
     method: 'GET',
   });
   return data;
+};
+
+export const getIcon = (symbol: string | null) => {
+  if (symbol === 'BTC') {
+    return BTCIcon;
+  } else if (symbol === 'ETH') {
+    return EthIcon;
+  } else {
+    return DefiIcon;
+  }
 };
