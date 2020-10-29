@@ -6,8 +6,14 @@
 @import '../../../../scss/bootstrap/variables';
 
 .svg {
-  width: 42px;
-  height: 42px;
-  margin-top: 64px;
-  fill: #000000;
+  width: 30px;
+  height: 30px;
+  fill: rgba(0, 0, 0, 0.6);
+}
+
+.colSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0px;
 }
