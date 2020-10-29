@@ -1,4 +1,6 @@
 import Ajv from 'ajv';
+import axios from 'axios';
+
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
@@ -19,7 +21,7 @@ import {
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
   MAIN,
-  TEST, RANDOM_WORD_ENTROPY_BITS
+  TEST, RANDOM_WORD_ENTROPY_BITS, STATS_API_BASE_URL
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -451,3 +453,12 @@ export const queuePush = (
     return queue.push({ methodName, params }, callBack);
   }
 };
+
+export const getTotalBlocks = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    method: "GET",
+  });
+  return data;
+}
