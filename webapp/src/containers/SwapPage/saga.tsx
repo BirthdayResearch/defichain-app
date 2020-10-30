@@ -1,12 +1,12 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as log from '../../utils/electronLogger';
 import {
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
-  fetchPoolsharesFailure,
+  fetchPoolsharesFailure, fetchPoolPairListRequest, fetchTokenBalanceListRequest, fetchTokenBalanceListSuccess, fetchPoolPairListSuccess
 } from './reducer';
-import { handleFetchPoolshares } from './service';
+import { handleFetchPoolPairList, handleFetchPoolshares, handleFetchTokenBalanceList } from './service';
 
 function* fetchPoolshares() {
   try {
@@ -24,8 +24,28 @@ function* fetchPoolshares() {
   }
 }
 
+function* fetchTokenBalanceList() {
+  try {
+    const data = yield call(handleFetchTokenBalanceList);
+    yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e);
+  }
+}
+
+function* fetchPoolPairList() {
+  try {
+    const data = yield call(handleFetchPoolPairList);
+    yield put({ type: fetchPoolPairListSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
+  yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
+  yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
 }
 
 export default mySaga;

@@ -18,14 +18,14 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
 ) => {
   const { poolshares, fetchPoolsharesRequest } = props;
 
-  const popularTokenList: Map<string, number> = new Map([
-    ['DFI', 10],
-    ['BTC', 20],
-    ['ETH', 30],
+  const popularTokenMap: Map<string, string> = new Map([
+    ['DFI', '10'],
+    ['BTC', '20'],
+    ['ETH', '30'],
   ]);
-  const normalTokenList: Map<string, number> = new Map([
-    ['DOO', 40],
-    ['MEOW', 50],
+  const normalTokenMap: Map<string, string> = new Map([
+    ['DOO', '40'],
+    ['MEOW', '50'],
   ]);
 
   useEffect(() => {
@@ -41,8 +41,8 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               isFrom={true}
               label={I18n.t('containers.swap.swapTab.from')}
               balance={100}
-              popularTokenList={popularTokenList}
-              normalTokenList={normalTokenList}
+              popularTokenMap={popularTokenMap}
+              normalTokenMap={normalTokenMap}
             />
           </Col>
           <Col md='2' className={styles.colSvg}>
@@ -53,8 +53,8 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               isFrom={false}
               label={I18n.t('containers.swap.swapTab.to')}
               balance={100}
-              popularTokenList={popularTokenList}
-              normalTokenList={normalTokenList}
+              popularTokenMap={popularTokenMap}
+              normalTokenMap={normalTokenMap}
             />
           </Col>
         </Row>

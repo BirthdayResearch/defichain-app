@@ -9,14 +9,14 @@ interface LiquidityCardProps {
   label: string;
   balance: number;
   amount: number;
-  popularTokenList: Map<string, number>;
-  normalTokenList: Map<string, number>;
+  popularTokenMap: Map<string, string>;
+  normalTokenMap: Map<string, string>;
 }
 
 const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
   props: LiquidityCardProps
 ) => {
-  const { label, balance, amount, popularTokenList, normalTokenList } = props;
+  const { label, balance, amount, popularTokenMap, normalTokenMap } = props;
 
   return (
     <Card className={styles.liquidityCard}>
@@ -28,8 +28,8 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
           <Col className='mt-2'>{amount}</Col>
           <Col className={styles.dropDownCol}>
             <SwapDropdown
-              popularTokenList={popularTokenList}
-              normalTokenList={normalTokenList}
+              popularTokenMap={popularTokenMap}
+              normalTokenMap={normalTokenMap}
             />
           </Col>
         </Row>

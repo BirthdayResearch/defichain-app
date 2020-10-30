@@ -9,14 +9,14 @@ interface SwapCardProps {
   label: string;
   isFrom: boolean;
   balance: number;
-  popularTokenList: Map<string, number>;
-  normalTokenList: Map<string, number>;
+  popularTokenMap: Map<string, string>;
+  normalTokenMap: Map<string, string>;
 }
 
 const SwapCard: React.FunctionComponent<SwapCardProps> = (
   props: SwapCardProps
 ) => {
-  const { isFrom, label, balance, popularTokenList, normalTokenList } = props;
+  const { isFrom, label, balance, popularTokenMap, normalTokenMap } = props;
 
   const [fromAmount, setFromAmount] = useState(0);
 
@@ -48,8 +48,8 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
           </Col>
           <Col className={styles.dropDownCol}>
             <SwapDropdown
-              popularTokenList={popularTokenList}
-              normalTokenList={normalTokenList}
+              popularTokenMap={popularTokenMap}
+              normalTokenMap={normalTokenMap}
             />
           </Col>
         </Row>
