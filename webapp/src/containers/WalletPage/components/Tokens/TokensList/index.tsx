@@ -10,8 +10,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
+  fetchInstantBalanceRequest,
 } from '../../../reducer';
-import { filterByValue } from '../../../../../utils/utility';
+import { filterByValue, isWalletCreated } from '../../../../../utils/utility';
 import {
   WALLET_ADD_TOKEN_PATH,
   WALLET_PAGE_PATH,
@@ -20,10 +21,13 @@ import {
 } from '../../../../../constants';
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
+import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: any;
+  unit: string;
   accountTokens: any;
+  walletBalance: any;
   fetchTokensRequest: () => void;
   fetchAccountTokensRequest: () => void;
 }
@@ -31,8 +35,9 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
+  const { unit, history } = props;
   const defaultPage = 1;
-  const [tableData, settableData] = useState([]);
+  const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const pageSize = TOKEN_LIST_PAGE_SIZE;
   const { fetchAccountTokensRequest, accountTokens } = props;
@@ -42,6 +47,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
+    fetchInstantBalanceRequest();
     fetchAccountTokensRequest();
   }, []);
 
@@ -66,16 +72,26 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     );
   };
 
+  const handleCardClickDefault = () => {
+    props.history.push(WALLET_PAGE_PATH);
+  };
+
   return (
-    <div className='main-wrapper'>
-      <Helmet>
-        <title>
-          {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
-        </title>
-      </Helmet>
-      <header className='header-bar'>
-        <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
-        {/* <ButtonGroup>
+    <>
+      {!isWalletCreated() ? (
+        <div className='main-wrapper'>
+          <CreateOrRestoreWalletPage history={history} />
+        </div>
+      ) : (
+        <div className='main-wrapper'>
+          <Helmet>
+            <title>
+              {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
+            </title>
+          </Helmet>
+          <header className='header-bar'>
+            <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
+            {/* <ButtonGroup>
           <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
@@ -83,52 +99,74 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </span>
           </Button>
         </ButtonGroup> */}
-      </header>
-      <div className='content'>
-        {tableData.map((token, index) => (
-          <WalletTokenCard
-            handleCardClick={handleCardClick}
-            key={index}
-            token={token}
-          />
-        ))}
-        <Pagination
-          label={I18n.t('containers.tokens.tokensPage.paginationRange', {
-            to,
-            total,
-            from: from + 1,
-          })}
-          currentPage={currentPage}
-          pagesCount={pagesCount}
-          handlePageClick={paginate}
-        />
-      </div>
-    </div>
+          </header>
+          <div className='content'>
+            <WalletTokenCard
+              handleCardClick={handleCardClickDefault}
+              token={{
+                symbol: unit,
+                amount: props.walletBalance,
+                hash: '0',
+                address: '',
+              }}
+            />
+            {tableData
+              .filter((data) => data.hash !== '0')
+              .map((token, index) => (
+                <WalletTokenCard
+                  handleCardClick={handleCardClick}
+                  key={index}
+                  token={token}
+                />
+              ))}
+            <Pagination
+              label={I18n.t('containers.tokens.tokensPage.paginationRange', {
+                to,
+                total,
+                from: from + 1,
+              })}
+              currentPage={currentPage}
+              pagesCount={pagesCount}
+              handlePageClick={paginate}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
   const {
-    tokens,
-    isTokensLoaded,
-    isLoadingTokens,
-    accountTokens,
-    isAccountTokensLoaded,
-    isAccountLoadingTokens,
-  } = state.wallet;
+    wallet: {
+      tokens,
+      isTokensLoaded,
+      isLoadingTokens,
+      accountTokens,
+      isAccountTokensLoaded,
+      isAccountLoadingTokens,
+      walletBalance,
+    },
+    settings: {
+      appConfig: { unit },
+    },
+  } = state;
   return {
+    unit,
     tokens,
     isTokensLoaded,
     isLoadingTokens,
     accountTokens,
     isAccountTokensLoaded,
     isAccountLoadingTokens,
+    walletBalance,
   };
 };
 
 const mapDispatchToProps = {
   fetchTokensRequest,
   fetchAccountTokensRequest,
+  fetchInstantBalanceRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTokensList);

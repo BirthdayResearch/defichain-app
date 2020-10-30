@@ -35,3 +35,5 @@ export const CREATE_MNEMONIC = 'create-mnemonic';
 export const BACKUP_WALLET_DAT = 'backup-wallet-dat';
 
 export const START_BACKUP_WALLET = 'start-backup-wallet';
+
+export const REPLACE_WALLET_DAT = 'replace-wallet-dat';

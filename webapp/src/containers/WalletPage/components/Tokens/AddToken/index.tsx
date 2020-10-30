@@ -1,3 +1,5 @@
+// Not in use component. Don't delete it for future purposes
+
 import React, { useState, useEffect } from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';

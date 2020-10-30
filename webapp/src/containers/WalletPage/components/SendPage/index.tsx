@@ -16,7 +16,12 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import { MdArrowBack, MdCropFree, MdCheckCircle } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCropFree,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
@@ -24,14 +29,23 @@ import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
-import { accountToAccount, isValidAddress, sendToAddress } from '../../service';
+import {
+  accountToAccount,
+  handleFetchAccounts,
+  handleFetchRegularDFI,
+  isValidAddress,
+  sendToAddress,
+} from '../../service';
 import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
+  getErrorMessage,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
+import styles from '../../WalletPage.module.scss';
+import Spinner from '../../../../components/Svg/Spinner';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -64,6 +78,8 @@ interface SendPageState {
   isAmountValid: boolean | string;
   isAddressValid: boolean | string;
   uriData: string;
+  errMessage: string;
+  regularDFI: string | number;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -87,6 +103,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     isAmountValid: false,
     isAddressValid: false,
     uriData: '',
+    errMessage: '',
+    regularDFI: '',
   };
 
   componentDidMount() {
@@ -187,6 +205,28 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     log.error(err);
   };
 
+  handleSuccess = () => {
+    this.setState({
+      sendStep: 'success',
+      showBackdrop: 'show-backdrop',
+    });
+  };
+
+  handleFailure = (error) => {
+    this.setState({
+      sendStep: 'failure',
+      showBackdrop: 'show-backdrop',
+      errMessage: error.message,
+    });
+  };
+
+  handleLoading = () => {
+    this.setState({
+      sendStep: 'loading',
+      showBackdrop: '',
+    });
+  };
+
   sendStepDefault = () => {
     this.setState({
       sendStep: 'default',
@@ -201,14 +241,23 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'confirm',
       showBackdrop: 'show-backdrop',
+      errMessage: '',
     });
   };
 
   sendTransaction = async () => {
+    this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
+    const regularDFI = await handleFetchRegularDFI();
+    this.setState({
+      regularDFI,
+    });
     if (isAmountValid && isAddressValid) {
       let amount;
-      if (!this.tokenSymbol) {
+      if (
+        (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
+        regularDFI !== 0
+      ) {
         // Convert to base unit
         amount = getAmountInSelectedUnit(
           this.state.amountToSendDisplayed,
@@ -216,24 +265,32 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           this.props.unit
         );
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-        if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
-          await sendToAddress(this.state.toAddress, amount, true);
-        else await sendToAddress(this.state.toAddress, amount, false);
-        this.setState({
-          sendStep: 'success',
-          showBackdrop: 'show-backdrop',
-        });
+        try {
+          if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
+            await sendToAddress(this.state.toAddress, amount, true);
+          } else {
+            await sendToAddress(this.state.toAddress, amount, false);
+          }
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
+        }
       } else {
-        amount = this.state.amountToSendDisplayed;
-        await accountToAccount(
-          this.tokenAddress,
-          this.state.toAddress,
-          `${amount}@${this.tokenHash}`
-        );
-        this.setState({
-          sendStep: 'success',
-          showBackdrop: 'show-backdrop',
-        });
+        try {
+          const hash = this.tokenHash || '0';
+          const accountTokens = await handleFetchAccounts();
+          const DFIObj = accountTokens.find((token) => token.hash === '0');
+          const address = this.tokenAddress || DFIObj.address;
+          amount = this.state.amountToSendDisplayed;
+          await accountToAccount(
+            address,
+            this.state.toAddress,
+            `${amount}@${hash}`
+          );
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
+        }
       }
     }
   };
@@ -318,7 +375,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {tokenSymbol ? tokenSymbol : this.props.unit}
+            {tokenSymbol || this.props.unit}
           </h1>
         </header>
         <div className='content'>
@@ -345,7 +402,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {tokenSymbol ? tokenSymbol : this.props.unit}
+                        {tokenSymbol || this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -428,7 +485,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {tokenSymbol ? tokenSymbol : this.props.unit}
+                  {tokenSymbol || this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -465,7 +522,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {tokenSymbol ? tokenSymbol : this.props.unit}
+                    {tokenSymbol || this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -510,6 +567,44 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center'>
+              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+                {I18n.t('containers.wallet.sendPage.backToWallet')}
+              </Button>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'loading',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <Spinner />
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'failure',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dailog`]]: true,
+                  })}
+                />
+                {!this.state.regularDFI && (
+                  <p>
+                    {I18n.t('containers.wallet.sendPage.pleaseTransferFunds')}
+                  </p>
+                )}
+                <p>{this.state.errMessage}</p>
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>

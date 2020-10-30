@@ -1,3 +1,5 @@
+// Not in use component. Don't delete it for future purposes
+
 import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';

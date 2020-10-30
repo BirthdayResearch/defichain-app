@@ -19,6 +19,7 @@ export const FINALIZE_PSBT = 'finalizepsbt';
 export const DECODE_RAW_TRANSACTION = 'decoderawtransaction';
 export const CREATE_MASTER_NODE = 'createmasternode';
 export const CREATE_TOKEN = 'createtoken';
+export const MINT_TOKEN = 'minttokens';
 export const UPDATE_TOKEN = 'updatetoken';
 export const LIST_MASTER_NODE = 'listmasternodes';
 export const LIST_TOKEN = 'listtokens';
@@ -35,6 +36,8 @@ export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
+export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
+export const GET_TRANSACTION = 'gettransaction';
 export const SET_HD_SEED = 'sethdseed';
 
 // LP RPC Methods

@@ -28,7 +28,6 @@ import {
   DESTRUCTION_TX,
   TOKENS_PATH,
 } from '../../constants';
-import { isWalletCreated } from '../../utils/utility';
 
 interface TokensProps {
   tokens: any;
@@ -99,14 +98,12 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          {isWalletCreated() && (
-            <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
-              <MdAdd />
-              <span className='d-lg-inline'>
-                {I18n.t('containers.tokens.tokensPage.createToken')}
-              </span>
-            </Button>
-          )}
+          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
+            <MdAdd />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.tokens.tokensPage.createToken')}
+            </span>
+          </Button>
         </ButtonGroup>
         <SearchBar
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -129,7 +126,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
               tokens={tokens.filter(
-                (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
+                (data) => data.destructionTx === DESTRUCTION_TX
               )}
               history={history}
               searchQuery={searchQuery}

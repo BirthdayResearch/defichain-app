@@ -10,17 +10,22 @@ import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
 } from '../../../../constants';
-import { openBackupWalletWarningModal } from '../../../PopOver/reducer';
+import {
+  openBackupWalletWarningModal,
+  openWalletRestartModal,
+} from '../../../PopOver/reducer';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
+  isWalletReplace: boolean;
   openBackupWalletWarningModal: () => void;
+  openWalletRestartModal: () => void;
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
   props: CreateOrRestoreWalletPageProps
 ) => {
-  const { history, openBackupWalletWarningModal } = props;
+  const { history, isWalletReplace, openBackupWalletWarningModal } = props;
 
   return (
     <div>
@@ -39,11 +44,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       <div className='content'>
         <section>
           <Row>
-            <Col>
+            <Col lg='6' sm='12' md='12'>
               <div
                 onClick={() => {
-                  openBackupWalletWarningModal();
-                  history.push(WALLET_BASE_PATH);
+                  !isWalletReplace
+                    ? openBackupWalletWarningModal()
+                    : history.push(WALLET_BASE_PATH);
                 }}
               >
                 <WalletStatCard
@@ -54,11 +60,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                 />
               </div>
             </Col>
-            <Col>
+            <Col lg='6' sm='12' md='12'>
               <div
                 onClick={() => {
-                  openBackupWalletWarningModal();
-                  history.push(WALLET_RESTORE_PAGE_PATH);
+                  !isWalletReplace
+                    ? openBackupWalletWarningModal()
+                    : history.push(WALLET_RESTORE_PAGE_PATH);
                 }}
               >
                 <WalletStatCard
@@ -76,10 +83,17 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   );
 };
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  const { isWalletReplace } = state.popover;
+
+  return {
+    isWalletReplace,
+  };
+};
 
 const mapDispatchToProps = {
   openBackupWalletWarningModal,
+  openWalletRestartModal,
 };
 
 export default connect(

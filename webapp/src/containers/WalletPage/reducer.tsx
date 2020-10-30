@@ -177,6 +177,8 @@ const configSlice = createSlice({
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = '';
     },
+    fetchInstantBalanceRequest(state) {},
+    fetchInstantPendingBalanceRequest(state) {},
   },
 });
 
@@ -220,6 +222,8 @@ export const {
   restoreWalletSuccess,
   restoreWalletFailure,
   resetRestoreWalletError,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } = actions;
 
 export default reducer;
