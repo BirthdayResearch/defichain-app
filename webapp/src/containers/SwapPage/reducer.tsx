@@ -1,27 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
-  poolPairList: {},
+  poolshares: [],
+  isPoolsharesLoaded: false,
+  isLoadingPoolshares: false,
 };
 
 const configSlice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    fetchPoolPairListRequest(state) {},
-    fetchPoolPairListSuccess(state, action) {
-      state.poolPairList = action.payload;
+    fetchPoolsharesRequest(state) {
+      state.isPoolsharesLoaded = true;
     },
-    fetchPoolPairListFailure(state) {},
+    fetchPoolsharesSuccess(state, action) {
+      state.poolshares = action.payload.poolshares;
+      state.isPoolsharesLoaded = false;
+      state.isLoadingPoolshares = true;
+    },
+    fetchPoolsharesFailure(state) {
+      state.poolshares = [];
+      state.isLoadingPoolshares = false;
+      state.isPoolsharesLoaded = true;
+    },
   },
 });
 
 const { actions, reducer } = configSlice;
 
 export const {
-  fetchPoolPairListRequest,
-  fetchPoolPairListSuccess,
-  fetchPoolPairListFailure,
+  fetchPoolsharesRequest,
+  fetchPoolsharesSuccess,
+  fetchPoolsharesFailure,
 } = actions;
 
 export default reducer;
