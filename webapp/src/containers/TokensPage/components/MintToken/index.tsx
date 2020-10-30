@@ -33,6 +33,7 @@ import { isEmpty } from 'lodash';
 interface RouteParams {
   id?: string;
   hash?: string;
+  address?: string;
 }
 
 interface MintTokenProps extends RouteComponentProps<RouteParams> {
@@ -45,7 +46,7 @@ interface MintTokenProps extends RouteComponentProps<RouteParams> {
 const MintToken: React.FunctionComponent<MintTokenProps> = (
   props: MintTokenProps
 ) => {
-  const { id, hash } = props.match.params;
+  const { id, hash, address } = props.match.params;
 
   const {
     mintToken,
@@ -100,6 +101,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
     setMintStep('loading');
     mintToken({
       tokenData: {
+        address,
         amount: amountToMint,
         hash,
       },

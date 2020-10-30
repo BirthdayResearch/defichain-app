@@ -78,6 +78,7 @@ export interface ITokenCreatorInfo {
 export interface ITokenMintInfo {
   amount: number;
   hash: string;
+  address: string;
 }
 
 export interface ITokenUpdatorInfo {

@@ -1,7 +1,15 @@
 import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
-import { DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT } from '../../constants';
+import {
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  UNDEFINED_STRING,
+} from '../../constants';
 import { sleep } from '../WalletPage/service';
+
+export const getAddressInfo = (address) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getaddressInfo(address);
+};
 
 // TODO: Need to remove the dummy data
 export const handleFetchToken = async (id: string) => {
@@ -10,12 +18,21 @@ export const handleFetchToken = async (id: string) => {
   if (isEmpty(tokens)) {
     return {};
   }
-  const transformedData = Object.keys(tokens).map((item) => ({
-    hash: item,
-    ...tokens[item],
-  }));
+  const transformedData = Object.keys(tokens).map(async (item) => {
+    const { collateralAddress } = tokens[item];
+    let addressInfo;
+    if (collateralAddress && collateralAddress !== UNDEFINED_STRING) {
+      addressInfo = await getAddressInfo(collateralAddress);
+    }
 
-  return transformedData[0];
+    return {
+      ismine: addressInfo && addressInfo.ismine,
+      hash: item,
+      ...tokens[item],
+    };
+  });
+
+  return Promise.resolve(transformedData[0]);
 };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
@@ -69,13 +86,14 @@ export const handleCreateTokens = async (tokenData) => {
 };
 
 export const handleMintTokens = async (tokenData) => {
+  const { address } = tokenData;
   const rpcClient = new RpcClient();
-  // const txId = await rpcClient.sendToAddress(
-  //   "fromAddress",
-  //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  //   true
-  // );
-  // await getTransactionInfo(txId);
+  const txId = await rpcClient.sendToAddress(
+    address,
+    DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+    true
+  );
+  await getTransactionInfo(txId);
   const hash = await rpcClient.mintToken(tokenData);
   return {
     hash,

@@ -40,6 +40,7 @@ import { getIcon } from '../../../../utils/utility';
 interface RouteParams {
   id?: string;
   hash?: string;
+  address?: string;
 }
 
 interface TokenInfoProps extends RouteComponentProps<RouteParams> {
@@ -123,7 +124,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       setIsConfirmationModalOpen('confirm');
     } else {
       // history.push(`${TOKEN_EDIT_PATH}/${id}`);
-      history.push(`${TOKEN_MINT_PATH}/${id}/${hash}`);
+      history.push(
+        `${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`
+      );
     }
   };
 
@@ -153,7 +156,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </span>
           </Button>
         </ButtonGroup>} */}
-        {tokenInfo.hash !== '0' && (
+        {tokenInfo.hash !== '0' && tokenInfo.ismine && (
           <UncontrolledDropdown>
             <DropdownToggle color='link' size='md'>
               <MdMoreHoriz />
@@ -176,7 +179,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </UncontrolledDropdown>
         )}
       </header>
-      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && (
+      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && tokenInfo.ismine && (
         <div className={`${styles.mintAlert} m-5`}>
           <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
           <Button
