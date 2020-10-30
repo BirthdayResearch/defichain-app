@@ -572,6 +572,11 @@ export default class RpcClient {
     return data.result;
   };
 
+  getTokenBalances = async (): Promise<string[]> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+    return data.result;
+  };
+
   getBlockChainInfo = async () => {
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
@@ -658,13 +663,25 @@ export default class RpcClient {
 
   // LP RPC call
 
-  listPoolPairs = async () => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, []);
+  listPoolPairs = async (
+    start: number,
+    including_start: boolean,
+    limit: number
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+      { start, including_start, limit },
+    ]);
     return data.result;
   };
 
-  listPoolShares = async () => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, []);
+  listPoolShares = async (
+    start: number,
+    including_start: boolean,
+    limit: number
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+      { start, including_start, limit },
+    ]);
     return data.result;
   };
 

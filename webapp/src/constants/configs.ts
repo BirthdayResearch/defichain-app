@@ -61,3 +61,6 @@ export const RANDOM_WORD_LENGTH = 18;
 export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
 export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
+
+export const POOL_PAIR_PAGE_SIZE = 500;
+export const SHARE_POOL_PAGE_SIZE = 500;

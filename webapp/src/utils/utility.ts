@@ -461,3 +461,86 @@ export const isWalletCreated = () => {
     networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
   return PersistentStore.get(key) || false;
 };
+
+const getPopularSymbolList = () => {
+  return ['0', '1', '2'];
+};
+
+export const getTokenAndBalanceMap = (
+  poolPairList: any[],
+  tokenBalanceList: string[]
+) => {
+  const popularTokenMap = new Map<string, string>();
+  const normalTokenMap = new Map<string, string>();
+  const popularSymbolList = getPopularSymbolList();
+
+  const uniqueTokenMap = getUniqueTokenMap(poolPairList);
+  const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
+
+  balanceAndSymbolMap.forEach((balance, symbol) => {
+    if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
+      popularTokenMap.set(uniqueTokenMap.get(symbol), balance);
+    } else if (uniqueTokenMap.has(symbol)) {
+      normalTokenMap.set(uniqueTokenMap.get(symbol), balance);
+    }
+  });
+  return { popularTokenMap, normalTokenMap };
+};
+
+const getUniqueTokenMap = (poolPairList) => {
+  return poolPairList.reduce((uniqueTokenList, poolPair) => {
+    const { symbol } = poolPair;
+    const symbolList: string[] = symbol.split('-');
+    if (!uniqueTokenList.has(poolPair.idTokenA)) {
+      uniqueTokenList.set(poolPair.idTokenA, symbolList[0]);
+    }
+    if (!uniqueTokenList.has(poolPair.idTokenB)) {
+      uniqueTokenList.set(poolPair.idTokenB, symbolList[1]);
+    }
+    return uniqueTokenList;
+  }, new Map<string, string>());
+};
+
+const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
+  return tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
+    const itemList: string[] = item.split('@');
+    return balanceAndSymbolMap.set(itemList[1], itemList[0]);
+  }, new Map<string, string>());
+};
+
+export const fetchDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    ...result[item],
+  }));
+
+  if (transformedData.length === 0) {
+    return [];
+  }
+
+  list.push(...transformedData);
+  start += limit;
+
+  while (true) {
+    const result = await fetchList(start, true, limit);
+
+    const transformedData = Object.keys(result).map((item) => ({
+      ...result[item],
+    }));
+
+    if (transformedData.length === 0) {
+      break;
+    }
+
+    list.push(...transformedData);
+    start += limit;
+  }
+
+  return list;
+};

@@ -13,18 +13,18 @@ import SwapSearchBar from '../SwapSearchBar';
 import styles from './SwapDropdown.module.scss';
 
 interface SwapDropdownProps {
-  popularTokenList: Map<string, number>;
-  normalTokenList: Map<string, number>;
+  popularTokenMap: Map<string, string>;
+  normalTokenMap: Map<string, string>;
 }
 
 const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   props: SwapDropdownProps
 ) => {
-  const { popularTokenList, normalTokenList } = props;
+  const { popularTokenMap, normalTokenMap } = props;
 
-  const getTokenDropdownList = (TokenList) => {
+  const getTokenDropdownList = (TokenMap) => {
     const TokenDropdownItems: any[] = [];
-    TokenList.forEach((balance: number, symbol: string) => {
+    TokenMap.forEach((balance: number, symbol: string) => {
       TokenDropdownItems.push(
         <DropdownItem key={symbol}>
           <Row>
@@ -55,11 +55,11 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         </DropdownItem>
         <DropdownItem header>
           {I18n.t('components.swapCard.popular')}
-          {getTokenDropdownList(popularTokenList)}
+          {getTokenDropdownList(popularTokenMap)}
         </DropdownItem>
         <DropdownItem header>
           {I18n.t('components.swapCard.tokens')}
-          {getTokenDropdownList(normalTokenList)}
+          {getTokenDropdownList(normalTokenMap)}
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

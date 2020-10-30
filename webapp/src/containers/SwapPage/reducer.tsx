@@ -4,6 +4,8 @@ export const initialState = {
   poolshares: [],
   isPoolsharesLoaded: false,
   isLoadingPoolshares: false,
+  poolPairList: [],
+  tokenBalanceList: [],
 };
 
 const configSlice = createSlice({
@@ -23,6 +25,16 @@ const configSlice = createSlice({
       state.isLoadingPoolshares = false;
       state.isPoolsharesLoaded = true;
     },
+    fetchPoolPairListRequest(state) {},
+    fetchPoolPairListSuccess(state, action) {
+      state.poolPairList = action.payload;
+    },
+    fetchPoolPairListFailure(state) {},
+    fetchTokenBalanceListRequest(state) {},
+    fetchTokenBalanceListSuccess(state, action) {
+      state.tokenBalanceList = action.payload;
+    },
+    fetchTokenBalanceListFailure(state) {},
   },
 });
 
@@ -32,6 +44,12 @@ export const {
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,
+  fetchPoolPairListRequest,
+  fetchPoolPairListSuccess,
+  fetchPoolPairListFailure,
+  fetchTokenBalanceListRequest,
+  fetchTokenBalanceListSuccess,
+  fetchTokenBalanceListFailure,
 } = actions;
 
 export default reducer;
