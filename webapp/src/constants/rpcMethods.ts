@@ -38,3 +38,5 @@ export const SET_HD_SEED = 'sethdseed';
 
 // LP RPC Methods
 export const LIST_POOL_PAIRS = 'listpoolpairs';
+export const LIST_POOL_SHARES = 'listpoolshares';
+export const GET_POOL_PAIR = 'getpoolpair';
