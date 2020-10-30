@@ -196,8 +196,7 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "add": "Add",
         "remove": "Remove",
-        "pooledDFI": "Pooled DFI",
-        "pooledDOO": "Pooled DOO",
+        "pooled": "Pooled",
         "poolReward": "Pool reward",
         "poolShare": "Pool share"
       },
@@ -206,9 +205,9 @@
         "to": "To"
       },
       "poolTab": {
-        "yourLiquidity":"Your liquidity",
+        "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-        "addLiquidity":"ADD LIQUIDITY"
+        "addLiquidity": "ADD LIQUIDITY"
       },
       "addLiquidity": {
         "balance": "Balance",
