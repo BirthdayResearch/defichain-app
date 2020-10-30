@@ -4,24 +4,23 @@ import { MdAdd, MdArrowBack } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import { Button, Col, FormGroup, Label, Row } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import LiquidityCard from '../../../../components/LiquidityCard';
-import { fetchPoolPairListRequest } from '../../reducer';
+import { fetchPoolsharesRequest } from '../../reducer';
 import styles from './addLiquidity.module.scss';
 import { SWAP_PATH } from '../../../../constants';
 
 interface AddLiquidityProps {
-  poolPairList: any;
-  fetchPoolPairListRequest: () => void;
+  poolshares: any;
+  fetchPoolsharesRequest: () => void;
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   props: AddLiquidityProps
 ) => {
-
-  const { poolPairList, fetchPoolPairListRequest } = props;
+  const { poolshares, fetchPoolsharesRequest } = props;
 
   const popularTokenList: Map<string, number> = new Map([
     ['DFI', 10],
@@ -34,10 +33,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   ]);
 
   useEffect(() => {
-    fetchPoolPairListRequest();
+    fetchPoolsharesRequest();
   }, []);
-
-  console.log(poolPairList);
 
   return (
     <div className='main-wrapper'>
@@ -108,12 +105,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { poolPairList } = state.swap;
-  return { poolPairList };
+  const { poolshares } = state.swap;
+  return { poolshares };
 };
 
 const mapDispatchToProps = {
-  fetchPoolPairListRequest,
+  fetchPoolsharesRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidity);
