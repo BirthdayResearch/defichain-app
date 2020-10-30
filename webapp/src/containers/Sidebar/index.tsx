@@ -15,7 +15,7 @@ import {
   MdCompareArrows,
   // MdCompareArrows,
 } from 'react-icons/md';
-import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import {
@@ -30,14 +30,15 @@ import {
   SITE_URL,
   TOKENS_PATH,
   SWAP_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
-import { updateWalletBalanceSchedular } from '../../worker/schedular';
+import { updateBalanceScheduler } from '../../worker/schedular';
 import usePrevious from '../../components/UsePrevious';
 
 export interface SidebarProps extends RouteComponentProps {
-  fetchWalletBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
@@ -50,8 +51,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
-    props.fetchWalletBalanceRequest();
-    const clearWalletBalanceTimer = updateWalletBalanceSchedular();
+    props.fetchInstantBalanceRequest();
+    const clearWalletBalanceTimer = updateBalanceScheduler();
     return () => {
       clearWalletBalanceTimer();
     };
@@ -59,7 +60,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   useEffect(() => {
     if (!props.isErrorModalOpen && prevIsErrorModalOpen) {
-      props.fetchWalletBalanceRequest();
+      props.fetchInstantBalanceRequest();
     }
   }, [prevIsErrorModalOpen, props.isErrorModalOpen]);
 
@@ -79,7 +80,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={WALLET_PAGE_PATH}
+              to={WALLET_TOKENS_PATH}
               exact
               tag={RRNavLink}
               className={styles.navLink}
@@ -118,7 +119,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          {softforks.amk && softforks.amk.active && (
+          {softforks?.amk?.active && (
             <NavItem className={styles.navItem}>
               <NavLink
                 to={TOKENS_PATH}
@@ -206,7 +207,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
 };
 
 export default withRouter(

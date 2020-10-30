@@ -46,17 +46,20 @@ import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
-  SWAP_PATH, CREATE_POOL_PAIR_PATH
+  SWAP_PATH,
+  CREATE_POOL_PAIR_PATH,
+  MINT_TOKENS_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import SwapPage from '../containers/SwapPage';
 import AddLiquidityPage from '../containers/SwapPage/components/AddLiquidity';
+import MintToken from '../containers/TokensPage/components/MintToken';
 
 const routes = (location) => (
   <Switch location={location}>
-    <Redirect from={INDEX_PATH} to={WALLET_PAGE_PATH} />
+    <Redirect from={INDEX_PATH} to={WALLET_TOKENS_PATH} />
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
@@ -89,6 +92,7 @@ const routes = (location) => (
     <Route exact path={TOKENS_PATH} component={TokensPage} />
     <Route exact path={SWAP_PATH} component={SwapPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
+    <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
     <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
     <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
@@ -98,7 +102,7 @@ const routes = (location) => (
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
-    <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage}/> 
+    <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
     <Route exact component={Error404Page} />
   </Switch>
 );

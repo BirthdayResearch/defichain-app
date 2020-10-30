@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "1.2.0",
+  "version": "1.3.1",
   "description": "Defi blockchain client ui",
   "author": {
     "name": "Cake",
@@ -70,6 +70,7 @@
     "reactstrap": "^8.4.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
+    "shuffle-array": "^1.0.1",
     "ts-jest": "^26.0.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "uifx": "^2.0.7"

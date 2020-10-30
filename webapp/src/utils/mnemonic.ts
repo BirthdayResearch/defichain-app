@@ -12,8 +12,7 @@ export default class Mnemonic {
   };
 
   createMnemonic = (entropyBits: number) => {
-    const entropy = this.getRandomEntropy(entropyBits);
-    return bip39.entropyToMnemonic(entropy);
+    return bip39.generateMnemonic(entropyBits);
   };
 
   isValidMnemonic = (mnemonic: string) => {

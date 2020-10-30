@@ -2,7 +2,7 @@ export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
-export const SYNC_TIMEOUT = 5000;
+export const SYNC_TIMEOUT = 10000;
 export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
@@ -40,7 +40,7 @@ export const SWAP = 'swap';
 export const POOL = 'pool';
 export const DELETE = 'delete';
 export const CREATE_DCT = 'dat';
-export const MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION = 0;
+export const MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION = 100;
 export const DCT_DISTRIBUTION = 'dct';
 export const TOKEN_TRANSFERS = 'Transfers';
 export const TOKEN_HOLDERS = 'Holders';
@@ -52,7 +52,10 @@ export const TOKEN_WRITE_CONTRACT = 'Write Contract';
 export const TOKEN_ANALYSIS = 'Analysis';
 export const TOKEN_COMMENTS = 'Comments';
 export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
-export const ENTROPY_BITS = 64;
+export const ENTROPY_BITS = 256;
+export const RANDOM_WORD_ENTROPY_BITS = 128;
+export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
+export const UNDEFINED_STRING = 'undefined';
 
 export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;
@@ -64,3 +67,7 @@ export const MAIN = 'main';
 
 export const POOL_PAIR_PAGE_SIZE = 500;
 export const SHARE_POOL_PAGE_SIZE = 500;
+export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
+export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
+
+export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';

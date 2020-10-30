@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSVReader } from 'react-papaparse';
+// import { CSVReader } from 'react-papaparse';
 import { I18n } from 'react-redux-i18n';
 import { MdGridOn } from 'react-icons/md';
 import { Button } from 'reactstrap';
@@ -17,7 +17,7 @@ const CsvReader: React.FunctionComponent<CsvReaderProps> = (
 ) => {
   return (
     <>
-      <CSVReader
+      {/* <CSVReader
         style={{
           border: 'solid 1px #000000',
         }}
@@ -38,7 +38,7 @@ const CsvReader: React.FunctionComponent<CsvReaderProps> = (
             </Button>
           </div>
         </div>
-      </CSVReader>
+      </CSVReader> */}
     </>
   );
 };

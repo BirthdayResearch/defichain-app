@@ -23,6 +23,9 @@ import {
   updateToken,
   updateTokenSuccess,
   updateTokenFailure,
+  mintToken,
+  mintTokenSuccess,
+  mintTokenFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -31,6 +34,7 @@ import {
   handleCreateTokens,
   handleDestroyToken,
   handleUpdateTokens,
+  handleMintTokens,
 } from './service';
 
 export function* getConfigurationDetails() {
@@ -100,6 +104,19 @@ export function* createTokens(action) {
   }
 }
 
+export function* mintTokens(action) {
+  try {
+    const {
+      payload: { tokenData },
+    } = action;
+    const data = yield call(handleMintTokens, tokenData);
+    yield put({ type: mintTokenSuccess.type, payload: { ...data } });
+  } catch (e) {
+    yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });
+    log.error(e);
+  }
+}
+
 export function* updateTokens(action) {
   try {
     const {
@@ -133,6 +150,7 @@ function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(createToken.type, createTokens);
+  yield takeLatest(mintToken.type, mintTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
   yield takeLatest(updateToken.type, updateTokens);
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);

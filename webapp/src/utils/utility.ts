@@ -1,9 +1,12 @@
 import Ajv from 'ajv';
+import axios from 'axios';
+
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import _ from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
+import shuffle from 'shuffle-array';
 
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
@@ -17,11 +20,12 @@ import {
   MIN_WORD_INDEX,
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
-  RANDOM_WORD_LENGTH,
   MAIN,
-  TEST,
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
+  TEST,
+  RANDOM_WORD_ENTROPY_BITS,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -30,6 +34,9 @@ import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
 import PersistentStore from './persistentStore';
+import DefiIcon from '../assets/svg/defi-icon.svg';
+import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
+import EthIcon from '../assets/svg/eth-icon.svg';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -55,10 +62,13 @@ export const toSha256 = (value): any => {
   return SHA256(value).toString();
 };
 
-export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
+export const getAddressAndAmount = (
+  addresses,
+  balance
+): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address, amount } = addressObj;
-    return { address, amount };
+    const { address } = addressObj;
+    return { address, amount: balance };
   });
 };
 
@@ -333,7 +343,7 @@ export const getMnemonicObject = () => {
 
 export const getRandomWordObject = () => {
   const mnemonic = new Mnemonic();
-  const randomCode = mnemonic.createMnemonic(32);
+  const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
   const randomWordArray = randomCode.split(' ');
   return getObjectFromArrayString(randomWordArray);
 };
@@ -352,8 +362,7 @@ export const getMixWordsObject = (
 ) => {
   const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
   const randomWordArray = _.values(randomWordObject);
-
-  const mixArray = shuffleArray(mnemonicWordArray.concat(randomWordArray));
+  const mixArray = shuffle(mnemonicWordArray.concat(randomWordArray));
   return getObjectFromArrayString(mixArray);
 };
 
@@ -373,12 +382,6 @@ export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
 
 export const getRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
-};
-
-export const shuffleArray = (array: string[]): string[] => {
-  return array.sort(
-    () => Math.floor(Math.random() * Math.floor(RANDOM_WORD_LENGTH - 1)) - 1
-  );
 };
 
 export const checkElementsInArray = (
@@ -543,4 +546,23 @@ export const fetchDataWithPagination = async (
   }
 
   return list;
+}
+
+export const getTotalBlocks = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    method: 'GET',
+  });
+  return data;
+};
+
+export const getIcon = (symbol: string | null) => {
+  if (symbol === 'BTC') {
+    return BTCIcon;
+  } else if (symbol === 'ETH') {
+    return EthIcon;
+  } else {
+    return DefiIcon;
+  }
 };

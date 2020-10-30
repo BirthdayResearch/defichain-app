@@ -17,6 +17,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  CustomInput,
 } from 'reactstrap';
 
 import Footer from './Footer';
@@ -155,51 +156,46 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 {I18n.t('containers.tokens.createToken.limit')}
               </Label>
             </FormGroup>
-            <Row>
-              <Col md='4'>
-                <FormGroup>
-                  <Label>
-                    <strong>
-                      {I18n.t('containers.tokens.createToken.mintingSupport')}
-                    </strong>
-                  </Label>
-                </FormGroup>
-              </Col>
-              <Col md='8' lg='6'>
-                <Row className='mb-5'>
+            <FormGroup row>
+              <Label sm={4} for='mintable'>
+                <strong>
+                  {I18n.t('containers.tokens.createToken.mintingSupport')}
+                </strong>
+              </Label>
+              <Col sm={{ size: 8 }}>
+                <FormGroup row>
                   <Col md='2'>
-                    <FormGroup check onChange={handleChange}>
-                      <Label check>
-                        <Input
-                          type='radio'
-                          name='mintable'
-                          value={'false'}
-                          checked={formState.mintable === 'false'}
-                        />{' '}
-                        <strong>
-                          {I18n.t('containers.tokens.createToken.no')}
-                        </strong>
-                      </Label>
+                    <FormGroup>
+                      <CustomInput
+                        type='radio'
+                        name='mintable'
+                        value={'false'}
+                        id='mintable'
+                        label={I18n.t('containers.tokens.createToken.no')}
+                        checked={formState.mintable === 'false'}
+                        onChange={handleChange}
+                      />
                     </FormGroup>
                   </Col>
                   <Col>
-                    <FormGroup check onChange={handleChange}>
-                      <Label check>
-                        <Input
-                          type='radio'
-                          name='mintable'
-                          value='true'
-                          checked={formState.mintable === 'true'}
-                        />{' '}
-                        <strong>
-                          {I18n.t('containers.tokens.createToken.yes')}
-                        </strong>
-                      </Label>
+                    <FormGroup>
+                      <CustomInput
+                        type='radio'
+                        name='mintable'
+                        value={'true'}
+                        id='mintable2'
+                        label={I18n.t('containers.tokens.createToken.yes')}
+                        checked={formState.mintable === 'true'}
+                        onChange={handleChange}
+                      />
                     </FormGroup>
                   </Col>
-                </Row>
+                </FormGroup>
               </Col>
-            </Row>
+            </FormGroup>
+            <FormText className='mb-5'>
+              {I18n.t('containers.tokens.createToken.mintText')}
+            </FormText>
             <Row>
               <Col md='4'>
                 <FormGroup>
@@ -213,33 +209,29 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               <Col md='8' lg='6'>
                 <Row className='mb-5'>
                   <Col md='2'>
-                    <FormGroup check onChange={handleChange}>
-                      <Label check>
-                        <Input
-                          type='radio'
-                          name='tradeable'
-                          value='false'
-                          checked={formState.tradeable === 'false'}
-                        />{' '}
-                        <strong>
-                          {I18n.t('containers.tokens.createToken.no')}
-                        </strong>
-                      </Label>
+                    <FormGroup>
+                      <CustomInput
+                        type='radio'
+                        name='tradeable'
+                        value={'false'}
+                        id='tradeable1'
+                        label={I18n.t('containers.tokens.createToken.no')}
+                        checked={formState.tradeable === 'false'}
+                        onChange={handleChange}
+                      />
                     </FormGroup>
                   </Col>
                   <Col>
-                    <FormGroup check onChange={handleChange}>
-                      <Label check>
-                        <Input
-                          type='radio'
-                          name='tradeable'
-                          value='true'
-                          checked={formState.tradeable === 'true'}
-                        />{' '}
-                        <strong>
-                          {I18n.t('containers.tokens.createToken.yes')}
-                        </strong>
-                      </Label>
+                    <FormGroup>
+                      <CustomInput
+                        type='radio'
+                        name='tradeable'
+                        value={'true'}
+                        id='tradeable2'
+                        label={I18n.t('containers.tokens.createToken.yes')}
+                        checked={formState.tradeable === 'true'}
+                        onChange={handleChange}
+                      />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -253,7 +245,9 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
                 disabled={isUpdate}
               >
-                {I18n.t('containers.tokens.createToken.collateralAddress')}
+                {formState.collateralAddress
+                  ? formState.collateralAddress
+                  : I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
               <DropdownMenu>
                 {collateralAddresses.map((data) => {
@@ -281,12 +275,10 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 })}
               </DropdownMenu>
             </UncontrolledDropdown>
-            {!IsCollateralAddressValid ? (
+            {!IsCollateralAddressValid && (
               <FormText className={`${styles.collateralFormText} mt-2`}>
                 {I18n.t('containers.tokens.createToken.collateralAddressError')}
               </FormText>
-            ) : (
-              ''
             )}
           </Form>
         </section>
@@ -299,6 +291,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
         cancelConfirmation={cancelConfirmation}
         createConfirmation={createConfirmation}
         updateConfirmation={updateConfirmation}
+        IsCollateralAddressValid={IsCollateralAddressValid}
         wait={wait}
         createdTokenData={createdTokenData}
         isErrorCreatingToken={isErrorCreatingToken}

@@ -75,6 +75,12 @@ export interface ITokenCreatorInfo {
   collateralAddress: string;
 }
 
+export interface ITokenMintInfo {
+  amount: number;
+  hash: string;
+  address: string;
+}
+
 export interface ITokenUpdatorInfo {
   token: string;
   name?: string;
@@ -98,6 +104,23 @@ export interface ITokenCard {
     tradeable: boolean;
   };
   handleCardClick: (symbol: string, hash: string) => void;
+}
+
+export interface IWalletTokenCard {
+  hash: string;
+  name?: string;
+  symbol: string | null;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  creationTx?: string;
+  creationHeight?: number;
+  destructionTx?: string;
+  destructionHeight?: any;
+  amount: number | string | null;
+  address: string;
 }
 
 export interface ITokenResponse {

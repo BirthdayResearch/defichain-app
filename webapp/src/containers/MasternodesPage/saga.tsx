@@ -28,6 +28,7 @@ import {
 import { getErrorMessage } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
+import { RESIGNED_STATE } from '../../constants';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -41,9 +42,18 @@ export function* getConfigurationDetails() {
 export function* fetchMasterNodes() {
   try {
     const data = yield call(handelFetchMasterNodes);
-    const masternodes = yield all(
-      data.map((item) => call(MasterNodeOwnerInfo, item))
+    const enabledMasternode = data.filter(
+      (masterNode) => masterNode.state !== RESIGNED_STATE
     );
+    const masternodes: any[] = [];
+    for (const iterator of enabledMasternode) {
+      try {
+        const result = yield call(MasterNodeOwnerInfo, iterator);
+        masternodes.push(result);
+      } catch (err) {
+        log.error(err.message);
+      }
+    }
     yield put({
       type: fetchMasternodesSuccess.type,
       payload: { masternodes },

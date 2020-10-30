@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 
 import styles from '../TokenCard.module.scss';
-import Icon from '../../../assets/svg/icon-coin-bitcoin-lapis.svg';
+import { IWalletTokenCard } from '../../../utils/interfaces';
+import { getIcon } from '../../../utils/utility';
 
 interface WalletTokenCardProps {
-  token: any;
+  token: IWalletTokenCard;
   handleCardClick: (
-    symbol: string,
+    symbol: string | null,
     hash: string,
     amount: any,
     address: string
@@ -21,16 +22,22 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
 
   return (
     <Card
-      className={styles.tokenCard}
+      className={styles.tokenBalanceCard}
       onClick={() =>
         handleCardClick(token.symbol, token.hash, token.amount, token.address)
       }
     >
       <CardBody className={styles.cardBody}>
-        <Row>
+        <Row className='align-items-center'>
           <Col md='6'>
-            <div className='d-flex'>
-              {/* <img src={Icon} /> */}
+            <div className='d-flex align-items-center justify-content-start'>
+              <div>
+                <img
+                  src={getIcon(token.symbol)}
+                  height={'30px'}
+                  width={'30px'}
+                />
+              </div>
               <div className='ml-4'>
                 <div>
                   <b>{token.symbol}</b>
@@ -40,12 +47,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
             </div>
           </Col>
           <Col md='6'>
-            <div className='float-right'>
-              <div className={styles.cardValue}>
-                <b className='text-dark'>{token.amount}</b>
-                <span className='ml-2'>{token.symbol}</span>
-              </div>
-              {/* <div className={styles.cardValue}>{'220 USD'}</div> */}
+            <div className={`${styles.cardValue} justify-content-end`}>
+              <b className='text-dark'>{token.amount}</b>
+              <span className='ml-2'>{token.symbol}</span>
             </div>
           </Col>
         </Row>
