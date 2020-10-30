@@ -662,4 +662,14 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, []);
     return data.result;
   };
+
+  listPoolShares = async () => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, []);
+    return data.result;
+  };
+
+  getPoolPair = async (poolID: string) => {
+    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
+    return data.result;
+  };
 }
