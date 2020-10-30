@@ -465,6 +465,73 @@ export const isWalletCreated = () => {
   return PersistentStore.get(key) || false;
 };
 
+export const fetchDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    ...result[item],
+  }));
+
+  if (transformedData.length === 0) {
+    return [];
+  }
+
+  list.push(...transformedData);
+  start += limit;
+
+  while (true) {
+    const result = await fetchList(start, true, limit);
+
+    const transformedData = Object.keys(result).map((item) => ({
+      ...result[item],
+    }));
+
+    if (transformedData.length === 0) {
+      break;
+    }
+
+    list.push(...transformedData);
+    start += limit;
+  }
+
+  return list;
+};
+
+export const fetchAccountsDataWithPagination = async (
+  start: string,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(true, limit);
+
+  if (result.length === 0) {
+    return [];
+  }
+
+  list.push(...result);
+  start = result[result.length - 1].key;
+
+  while (true) {
+    const result = await fetchList(false, limit, start);
+
+    if (result.length === 0) {
+      break;
+    }
+
+    list.push(...result);
+    start = result[result.length - 1].key;
+  }
+
+  return list;
+};
+
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({

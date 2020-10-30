@@ -608,8 +608,14 @@ export default class RpcClient {
     return data.result;
   };
 
-  listTokens = async (): Promise<string> => {
-    const { data } = await this.call('/', methodNames.LIST_TOKEN);
+  listTokens = async (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_TOKEN, [
+      { start, including_start: includingStart, limit },
+    ]);
     return data.result;
   };
 
@@ -636,9 +642,17 @@ export default class RpcClient {
     return data.result;
   };
 
-  listAccounts = async () => {
+  listAccounts = async (
+    includingStart: boolean,
+    limit: number,
+    start?: string
+  ) => {
     const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
-      {},
+      {
+        start,
+        including_start: includingStart,
+        limit,
+      },
       true,
       true,
     ]);
