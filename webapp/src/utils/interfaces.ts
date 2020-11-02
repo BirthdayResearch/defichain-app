@@ -103,3 +103,8 @@ export interface ITokenCard {
 export interface ITokenResponse {
   hash: string;
 }
+
+export interface ITokenBalanceInfo {
+  balance: string;
+  isPopularToken: boolean;
+}

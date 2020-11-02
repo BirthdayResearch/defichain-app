@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Row, Card, CardBody, CardFooter, Col } from 'reactstrap';
+import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './LiquidityCard.module.scss';
@@ -9,14 +10,13 @@ interface LiquidityCardProps {
   label: string;
   balance: number;
   amount: number;
-  popularTokenMap: Map<string, string>;
-  normalTokenMap: Map<string, string>;
+  tokenMap: Map<string, ITokenBalanceInfo>;
 }
 
 const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
   props: LiquidityCardProps
 ) => {
-  const { label, balance, amount, popularTokenMap, normalTokenMap } = props;
+  const { label, balance, amount, tokenMap } = props;
 
   return (
     <Card className={styles.liquidityCard}>
@@ -27,10 +27,7 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
         <Row>
           <Col className='mt-2'>{amount}</Col>
           <Col className={styles.dropDownCol}>
-            <SwapDropdown
-              popularTokenMap={popularTokenMap}
-              normalTokenMap={normalTokenMap}
-            />
+            <SwapDropdown tokenMap={tokenMap} />
           </Col>
         </Row>
       </CardBody>

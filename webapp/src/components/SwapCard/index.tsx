@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Row, Card, CardBody, CardFooter, Col, Input } from 'reactstrap';
+import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './SwapCard.module.scss';
@@ -9,14 +10,13 @@ interface SwapCardProps {
   label: string;
   isFrom: boolean;
   balance: number;
-  popularTokenMap: Map<string, string>;
-  normalTokenMap: Map<string, string>;
+  tokenMap: Map<string, ITokenBalanceInfo>;
 }
 
 const SwapCard: React.FunctionComponent<SwapCardProps> = (
   props: SwapCardProps
 ) => {
-  const { isFrom, label, balance, popularTokenMap, normalTokenMap } = props;
+  const { isFrom, label, balance, tokenMap } = props;
 
   const [fromAmount, setFromAmount] = useState(0);
 
@@ -47,10 +47,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
             )}
           </Col>
           <Col className={styles.dropDownCol}>
-            <SwapDropdown
-              popularTokenMap={popularTokenMap}
-              normalTokenMap={normalTokenMap}
-            />
+            <SwapDropdown tokenMap={tokenMap} />
           </Col>
         </Row>
       </CardBody>
