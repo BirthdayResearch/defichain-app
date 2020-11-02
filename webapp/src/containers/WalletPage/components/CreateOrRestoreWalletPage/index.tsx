@@ -25,11 +25,7 @@ interface CreateOrRestoreWalletPageProps {
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
   props: CreateOrRestoreWalletPageProps
 ) => {
-  const {
-    history,
-    isWalletReplace,
-    openBackupWalletWarningModal
-  } = props;
+  const { history, isWalletReplace, openBackupWalletWarningModal } = props;
 
   return (
     <div>
@@ -48,7 +44,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       <div className='content'>
         <section>
           <Row>
-            <Col lg='6' sm='12' md='12'>
+            <Col lg='4' sm='12' md='6'>
               <div
                 onClick={() => {
                   !isWalletReplace
@@ -60,11 +56,11 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.createANewWallet'
                   )}
-                  icon={<MdAccountBalanceWallet size={60} color='#ff00af' />}
+                  icon={<MdAccountBalanceWallet size={48} color='#ff00af' />}
                 />
               </div>
             </Col>
-            <Col lg='6' sm='12' md='12'>
+            <Col lg='4' sm='12' md='6'>
               <div
                 onClick={() => {
                   !isWalletReplace
@@ -76,7 +72,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
                   )}
-                  icon={<MdFormatListBulleted size={60} color='#ff00af' />}
+                  icon={<MdFormatListBulleted size={48} color='#ff00af' />}
                 />
               </div>
             </Col>
