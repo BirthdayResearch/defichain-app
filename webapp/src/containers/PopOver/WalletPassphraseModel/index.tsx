@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LaunchLogo from '../../../components/Svg/Launch';
+import defiIcon from '../../../assets/svg/defi-icon.svg';
 import { I18n } from 'react-redux-i18n';
 import { Button, Input, Row, Col, Modal, ModalBody } from 'reactstrap';
 import {connect} from 'react-redux';
@@ -40,7 +40,7 @@ const WalletPassphraseModel: React.FunctionComponent<WalletPassphraseModelProps>
             <Col md='6'>
               <div className='text-center'>
                 <section>
-                  <LaunchLogo />
+                  <img src={defiIcon} width='96px' height='96px'/>
                   <h3 className='mt-5'>{I18n.t('alerts.walletUnlockTitle')}</h3>
                   <p>{I18n.t('alerts.walletUnlockMessage')}</p>
                   <div className='d-flex mt-5'>
