@@ -24,6 +24,8 @@ import {
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
   TEST,
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
   STATS_API_BASE_URL,
 } from '../constants';
@@ -401,21 +403,6 @@ export const checkElementsInArray = (
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
 
-export const createWallet = async (mnemonicCode: string) => {
-  try {
-    const mnemonic = new Mnemonic();
-    const rpcClient = new RpcClient();
-
-    const seed = mnemonic.createSeed(mnemonicCode);
-    const root = mnemonic.createRoot(seed);
-    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
-
-    await rpcClient.setHdSeed(hdSeed);
-  } catch (e) {
-    log.error(e);
-  }
-};
-
 export const getNetworkType = () => {
   const state = store.getState();
   const blockChainInfo: any = state.wallet.blockChainInfo;
@@ -532,6 +519,13 @@ export const fetchAccountsDataWithPagination = async (
   }
 
   return list;
+};
+
+export const isWalletEncrypted = () => {
+  const networkType = getNetworkType();
+  const isWalletLocked =
+    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  return PersistentStore.get(isWalletLocked) || false;
 };
 
 export const getTotalBlocks = async () => {

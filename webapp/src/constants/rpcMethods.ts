@@ -38,3 +38,6 @@ export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
 export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
 export const GET_TRANSACTION = 'gettransaction';
 export const SET_HD_SEED = 'sethdseed';
+export const ENCRYPT_WALLET = 'encryptwallet';
+export const WALLET_PASSPHRASE = 'walletpassphrase';
+export const WALLET_LOCK = 'walletlock';
