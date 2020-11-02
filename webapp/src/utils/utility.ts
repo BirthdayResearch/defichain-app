@@ -508,7 +508,7 @@ const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   }, new Map<string, string>());
 };
 
-export const fetchDataWithPagination = async (
+export const fetchPoolPairDataWithPagination = async (
   start: number,
   limit: number,
   fetchList: Function
@@ -517,6 +517,7 @@ export const fetchDataWithPagination = async (
 
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
+    key: item,
     ...result[item],
   }));
 
@@ -525,12 +526,13 @@ export const fetchDataWithPagination = async (
   }
 
   list.push(...transformedData);
-  start += limit;
+  start = Number(transformedData[transformedData.length-1].key);
 
   while (true) {
-    const result = await fetchList(start, true, limit);
+    const result = await fetchList(start, false, limit);
 
     const transformedData = Object.keys(result).map((item) => ({
+      key: item,
       ...result[item],
     }));
 
@@ -539,7 +541,46 @@ export const fetchDataWithPagination = async (
     }
 
     list.push(...transformedData);
-    start += limit;
+    start = Number(transformedData[transformedData.length-1].key);
+  }
+
+  return list;
+};
+
+export const fetchPoolShareDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    key: item.split('@')[0],
+    ...result[item],
+  }));
+
+  if (transformedData.length === 0) {
+    return [];
+  }
+
+  list.push(...transformedData);
+  start = Number(transformedData[transformedData.length-1].key);
+
+  while (true) {
+    const result = await fetchList(start, false, limit);
+
+    const transformedData = Object.keys(result).map((item) => ({
+      key: item.split('@')[0],
+      ...result[item],
+    }));
+
+    if (transformedData.length === 0) {
+      break;
+    }
+
+    list.push(...transformedData);
+    start = Number(transformedData[transformedData.length-1].key);
   }
 
   return list;
