@@ -305,6 +305,17 @@ export const filterByValue = (array, query) => {
   );
 };
 
+export const filterByValueMap = (map, query) => {
+  const filteredMap: Map<string, ITokenBalanceInfo> = new Map();
+  const keys: string[] = Array.from(map.keys());
+  keys.map((key: string) => {
+    if (key.toLowerCase().includes(query.toLowerCase())) {
+      filteredMap.set(key, map.get(key));
+    }
+  });
+  return filteredMap;
+};
+
 export const paginate = (array, pageSize, pageNo) => {
   // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
   return array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
@@ -598,7 +609,7 @@ export const fetchPoolShareDataWithPagination = async (
   }
 
   return list;
-}
+};
 
 export const getTotalBlocks = async () => {
   const network = getNetworkType();

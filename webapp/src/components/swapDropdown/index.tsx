@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { I18n } from 'react-redux-i18n';
 import {
   UncontrolledDropdown,
@@ -9,6 +9,7 @@ import {
   Row,
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
+import { filterByValue, filterByValueMap } from '../../utils/utility';
 
 import SwapSearchBar from '../SwapSearchBar';
 import styles from './SwapDropdown.module.scss';
@@ -21,6 +22,13 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   props: SwapDropdownProps
 ) => {
   const { tokenMap } = props;
+  const [tableData, settableData] = useState<any>(tokenMap);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    const filteredTokensMap: any = filterByValueMap(tokenMap, searchQuery);
+    settableData(filteredTokensMap);
+  }, [tokenMap, searchQuery]);
 
   const getTokenDropdownList = (tokenMap) => {
     const popularTokenDropdownItems: any[] = [];
@@ -56,7 +64,7 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   const {
     popularTokenDropdownItems,
     normalTokenDropdownItems,
-  } = getTokenDropdownList(tokenMap);
+  } = getTokenDropdownList(tableData);
 
   return (
     <UncontrolledDropdown className={styles.dropDownTokens}>
@@ -68,12 +76,13 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         {I18n.t('components.swapCard.selectAToken')}
       </DropdownToggle>
       <DropdownMenu className={styles.dropdownMenublock}>
-        <DropdownItem className={styles.dropdownItemsearch}>
-          <SwapSearchBar
-            searching=''
-            placeholder={I18n.t('containers.swap.swapPage.searchToken')}
-          />
-        </DropdownItem>
+        {/* <DropdownItem className={styles.dropdownItemsearch}> */}
+        <SwapSearchBar
+          searching=''
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={I18n.t('containers.swap.swapPage.searchToken')}
+        />
+        {/* </DropdownItem> */}
         <DropdownItem header>
           {I18n.t('components.swapCard.popular')}
           {popularTokenDropdownItems}
