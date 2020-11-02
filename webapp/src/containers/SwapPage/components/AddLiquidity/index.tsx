@@ -38,7 +38,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     fetchTokenBalanceListRequest();
   }, []);
 
-  const { popularTokenMap, normalTokenMap } = getTokenAndBalanceMap(
+  const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList
   );
@@ -70,8 +70,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 label={I18n.t('containers.swap.addLiquidity.input')}
                 balance={100}
                 amount={10}
-                popularTokenMap={popularTokenMap}
-                normalTokenMap={normalTokenMap}
+                tokenMap = {tokenMap}
               />
             </Col>
             <Col md='2' className={styles.colSvg}>
@@ -82,8 +81,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 label={I18n.t('containers.swap.addLiquidity.input')}
                 balance={100}
                 amount={20}
-                popularTokenMap={popularTokenMap}
-                normalTokenMap={normalTokenMap}
+                tokenMap = {tokenMap}
               />
             </Col>
           </Row>
