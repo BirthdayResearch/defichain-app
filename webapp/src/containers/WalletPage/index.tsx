@@ -8,8 +8,8 @@ import WalletTxns from './components/WalletTxns';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import {
-  fetchWalletBalanceRequest,
-  fetchPendingBalanceRequest,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
@@ -18,10 +18,8 @@ import {
   MAIN,
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
-  WALLET_CREATE_PATH,
 } from '../../constants';
 import { getAmountInSelectedUnit, getNetworkType } from '../../utils/utility';
-import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
 import PersistentStore from '../../utils/persistentStore';
@@ -31,8 +29,8 @@ interface WalletPageProps extends RouteComponentProps {
   unit: string;
   walletBalance: string;
   pendingBalance: string;
-  fetchWalletBalanceRequest: () => void;
-  fetchPendingBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
+  fetchInstantPendingBalanceRequest: () => void;
   updateAvailableBadge: boolean;
   startUpdateApp: () => void;
   openBackupWallet: () => void;
@@ -42,21 +40,19 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
   const {
-    fetchWalletBalanceRequest,
+    fetchInstantBalanceRequest,
     unit,
-    fetchPendingBalanceRequest,
+    fetchInstantPendingBalanceRequest,
     updateAvailableBadge,
     startUpdateApp,
     openBackupWallet,
     history,
   } = props;
   useEffect(() => {
-    fetchWalletBalanceRequest();
-    fetchPendingBalanceRequest();
-    const clearPendingBalanceTimer = updatePendingBalanceSchedular();
+    fetchInstantBalanceRequest();
+    fetchInstantPendingBalanceRequest();
 
     return () => {
-      clearPendingBalanceTimer();
       clearTimeout(balanceRefreshTimerID);
       clearTimeout(pendingBalRefreshTimerID);
     };
@@ -150,7 +146,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                           balanceRefreshTimerID = setTimeout(() => {
                             setRefreshBalance(false);
                           }, 2000);
-                          fetchWalletBalanceRequest();
+                          fetchInstantBalanceRequest();
                         }}
                       />
                     }
@@ -171,7 +167,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                           pendingBalRefreshTimerID = setTimeout(() => {
                             setPendingRefreshBalance(false);
                           }, 2000);
-                          fetchPendingBalanceRequest();
+                          fetchInstantPendingBalanceRequest();
                         }}
                       />
                     }
@@ -181,25 +177,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </section>
             <WalletTxns />
           </div>
-          <footer className='footer-bar'>
-            <div>
-              <Row className='justify-content-between align-items-center'>
-                <Col className='d-flex justify-content-end'>
-                  <Button
-                    color='link'
-                    className='mr-3'
-                    onClick={() => {
-                      history.push(WALLET_CREATE_PATH);
-                    }}
-                  >
-                    {I18n.t(
-                      'containers.wallet.createNewWalletPage.createNewWallet'
-                    )}
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          </footer>
         </div>
       )}
     </>
@@ -223,8 +200,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletBalanceRequest,
-  fetchPendingBalanceRequest,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
   startUpdateApp,
   openBackupWallet,
 };

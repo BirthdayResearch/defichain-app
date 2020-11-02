@@ -14,7 +14,7 @@ import {
   MdLockOpen,
   MdLock,
 } from 'react-icons/md';
-import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   getAmountInSelectedUnit,
@@ -33,7 +33,7 @@ import {
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
-import { updateWalletBalanceSchedular } from '../../worker/schedular';
+import { updateBalanceScheduler } from '../../worker/schedular';
 import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
@@ -42,7 +42,7 @@ import {
 } from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
-  fetchWalletBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
@@ -56,8 +56,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
 
   useEffect(() => {
-    props.fetchWalletBalanceRequest();
-    const clearWalletBalanceTimer = updateWalletBalanceSchedular();
+    props.fetchInstantBalanceRequest();
+    const clearWalletBalanceTimer = updateBalanceScheduler();
     return () => {
       clearWalletBalanceTimer();
     };
@@ -65,7 +65,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   useEffect(() => {
     if (!props.isErrorModalOpen && prevIsErrorModalOpen) {
-      props.fetchWalletBalanceRequest();
+      props.fetchInstantBalanceRequest();
     }
   }, [prevIsErrorModalOpen, props.isErrorModalOpen]);
 
@@ -214,7 +214,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart: () => lockWalletStart({})

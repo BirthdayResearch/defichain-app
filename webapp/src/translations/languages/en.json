@@ -114,7 +114,8 @@
         "operatorAddress": "Operator Address",
         "registered": "Registered",
         "mintedBlocks": "Minted Blocks",
-        "noMasterNodes": "No Masternodes Available"
+        "noMasterNodes": "No Masternodes Available",
+        "loading": "Loading..."
       },
       "createMasterNode": {
         "title": "Create Master Node",
@@ -412,6 +413,10 @@
     "enterYourPassphrase": "Enter your passphrase",
     "walletUnlockTitle": "Welcome back",
     "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
-    "lostPassphraseMessage": "I LOST MY PASSPHRASE"
+    "lostPassphraseMessage": "I LOST MY PASSPHRASE",
+    "restartWalletModalHeader": "Restart App",
+    "restartWalletWarningNotice": "You need to restart app. Do you want to restart, now?",
+    "yesRestartWalletNotice": "Yes",
+    "noRestartWalletNotice": "No"
   }
 }

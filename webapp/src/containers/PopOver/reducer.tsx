@@ -19,7 +19,9 @@ export const initialState = {
   isBackupWalletWarningModelOpen: false,
   isEnrcyptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
-  isWalletUnlocked: false
+  isWalletUnlocked: false,
+  isWalletRestart: false,
+  isWalletReplace: false,
 };
 
 const configSlice = createSlice({
@@ -131,7 +133,20 @@ const configSlice = createSlice({
     },
     enableAutoLockStart(state){
       state.isWalletUnlocked = false;
-    }
+    },
+    openWalletRestartModal(state) {
+      state.isWalletRestart = true;
+    },
+    closeWalletRestartModal(state) {
+      state.isWalletRestart = false;
+    },
+    restartWalletStart(state) {
+      state.isWalletReplace = true;
+      state.isWalletRestart = false;
+    },
+    setIsWalletReplace(state) {
+      state.isWalletReplace = true;
+    },
   },
 });
 
@@ -170,7 +185,11 @@ export const {
   closeWalletPassphraseModal,
   unlockWalletStart,
   lockWalletStart,
-  enableAutoLockStart
+  enableAutoLockStart,
+  openWalletRestartModal,
+  closeWalletRestartModal,
+  restartWalletStart,
+  setIsWalletReplace
 } = actions;
 
 export default reducer;

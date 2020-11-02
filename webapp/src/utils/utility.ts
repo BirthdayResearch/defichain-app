@@ -1,4 +1,6 @@
 import Ajv from 'ajv';
+import axios from 'axios';
+
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
@@ -19,7 +21,11 @@ import {
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
   MAIN,
-  TEST, IS_WALLET_LOCKED_MAIN, IS_WALLET_LOCKED_TEST
+  TEST,
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
+  RANDOM_WORD_ENTROPY_BITS,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -331,7 +337,7 @@ export const getMnemonicObject = () => {
 
 export const getRandomWordObject = () => {
   const mnemonic = new Mnemonic();
-  const randomCode = mnemonic.createMnemonic(32);
+  const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
   const randomWordArray = randomCode.split(' ');
   return getObjectFromArrayString(randomWordArray);
 };
@@ -423,7 +429,7 @@ export const getMnemonicFromObj = (mnemonicObj) => {
 export const isValidMnemonic = (mnemonicCode: string) => {
   const mnemonic = new Mnemonic();
   return mnemonic.isValidMnemonic(mnemonicCode);
-}
+};
 
 export const queuePush = (
   methodName,
@@ -440,6 +446,16 @@ export const queuePush = (
 
 export const isWalletEncrypted = () => {
   const networkType = getNetworkType();
-  const isWalletLocked = networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  const isWalletLocked =
+    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
   return PersistentStore.get(isWalletLocked) || false;
-}
+};
+
+export const getTotalBlocks = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    method: 'GET',
+  });
+  return data;
+};

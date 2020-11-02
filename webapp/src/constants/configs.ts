@@ -2,7 +2,7 @@ export const TEST = 'test';
 export const RPC_V = '1.0';
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
-export const SYNC_TIMEOUT = 5000;
+export const SYNC_TIMEOUT = 10000;
 export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
@@ -31,7 +31,8 @@ export const RESIGNED_STATE = 'RESIGNED';
 export const CONFIRM_BUTTON_TIMEOUT = 1000;
 export const CONFIRM_BUTTON_COUNTER = 5;
 export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
-export const ENTROPY_BITS = 64;
+export const ENTROPY_BITS = 256;
+export const RANDOM_WORD_ENTROPY_BITS = 128;
 
 export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;
@@ -44,3 +45,7 @@ export const MAIN = 'main';
 export const WALLET_UNLOCK_TIMEOUT = 600;
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
+export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
+export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
+
+export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';

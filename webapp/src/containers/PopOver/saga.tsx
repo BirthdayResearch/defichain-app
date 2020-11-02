@@ -1,15 +1,42 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { backupWallet } from '../../app/update.ipcRenderer';
 import showNotification from '../../utils/notifications';
 import { getErrorMessage, getNetworkType } from '../../utils/utility';
-import { backupLoadingStart, backupWalletStart, closeBackupWalletWarningModal, closeEncryptWalletModal, closeWalletPassphraseModal, encryptWalletStart, lockWalletStart, showUpdateAvailable, unlockWalletStart } from './reducer';
-import { autoLockTimer, enableAutoLock, handleEncryptWallet, handleLockWallet, handleUnlockWallet } from './service';
+import {
+  backupLoadingStart,
+  backupWalletStart,
+  closeBackupWalletWarningModal,
+  closeEncryptWalletModal,
+  closeWalletPassphraseModal,
+  encryptWalletStart,
+  lockWalletStart,
+  showUpdateAvailable,
+  unlockWalletStart,
+  restartWalletStart,
+  openWalletRestartModal,
+  restartModal,
+  setIsWalletReplace,
+} from './reducer';
+import {
+  autoLockTimer,
+  enableAutoLock,
+  handleEncryptWallet,
+  handleLockWallet,
+  handleUnlockWallet,
+} from './service';
 import * as log from '../../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
 import PersistentStore from '../../utils/persistentStore';
-import { IS_WALLET_LOCKED_MAIN, IS_WALLET_LOCKED_TEST, MAIN } from '../../constants';
+import {
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
+  MAIN,
+} from '../../constants';
+import { replaceWalletDat } from '../../app/service';
+import { backupWallet } from '../../app/update.ipcRenderer';
+import { restartNode } from '../../utils/isElectron';
+import { shutDownBinary } from '../../worker/queue';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -20,8 +47,9 @@ export function* backupWalletbeforeUpdate() {
 
 function* backupWalletBeforeNewWalletCreation() {
   const result = yield call(backupWallet);
-  if(result){
+  if (result) {
     yield put(closeBackupWalletWarningModal());
+    yield put(openWalletRestartModal());
   }
 }
 
@@ -34,9 +62,13 @@ function* encryptWallet(action) {
     yield put(closeEncryptWalletModal());
 
     const networkType = getNetworkType();
-    const isWalletLocked = networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+    const isWalletLocked =
+      networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
     PersistentStore.set(isWalletLocked, true);
-    showNotification(I18n.t('alerts.success'), I18n.t('alerts.encryptWalletSuccess'));
+    showNotification(
+      I18n.t('alerts.success'),
+      I18n.t('alerts.encryptWalletSuccess')
+    );
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
@@ -53,7 +85,10 @@ function* unlockWallet(action) {
     const result = yield call(handleUnlockWallet, passphrase);
     yield call(enableAutoLock);
     yield put(closeWalletPassphraseModal());
-    showNotification(I18n.t('alerts.success'), I18n.t('alerts.unlockWalletSuccess'));
+    showNotification(
+      I18n.t('alerts.success'),
+      I18n.t('alerts.unlockWalletSuccess')
+    );
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
@@ -63,15 +98,26 @@ function* unlockWallet(action) {
 }
 
 function* lockWallet() {
-  try{
+  try {
     const result = yield call(handleLockWallet);
     autoLockTimer && clearTimeout(autoLockTimer);
-    showNotification(I18n.t('alerts.success'), I18n.t('alerts.lockWalletSuccess'));
-  }catch(e){
+    showNotification(
+      I18n.t('alerts.success'),
+      I18n.t('alerts.lockWalletSuccess')
+    );
+  } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
     showErrorNotification({ message });
   }
+}
+
+function* restartWalletBeforeNewWalletCreation() {
+  yield put(restartModal());
+  yield call(replaceWalletDat);
+  yield call(shutDownBinary);
+  yield call(restartNode);
+  yield put(setIsWalletReplace());
 }
 
 function* mySaga() {
@@ -80,5 +126,9 @@ function* mySaga() {
   yield takeLatest(encryptWalletStart.type, encryptWallet);
   yield takeLatest(unlockWalletStart.type, unlockWallet);
   yield takeLatest(lockWalletStart.type, lockWallet);
+  yield takeLatest(
+    restartWalletStart.type,
+    restartWalletBeforeNewWalletCreation
+  );
 }
 export default mySaga;
