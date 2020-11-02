@@ -7,6 +7,7 @@ import { I18n } from 'react-redux-i18n';
 import SwapCard from '../../../../components/SwapCard';
 import { fetchPoolsharesRequest } from '../../reducer';
 import styles from './swapTab.module.scss';
+import { ITokenBalanceInfo } from '../../../../utils/interfaces';
 
 interface SwapTabProps {
   poolshares: any;
@@ -18,14 +19,12 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
 ) => {
   const { poolshares, fetchPoolsharesRequest } = props;
 
-  const popularTokenMap: Map<string, string> = new Map([
-    ['DFI', '10'],
-    ['BTC', '20'],
-    ['ETH', '30'],
-  ]);
-  const normalTokenMap: Map<string, string> = new Map([
-    ['DOO', '40'],
-    ['MEOW', '50'],
+  const tokenMap: Map<string, ITokenBalanceInfo> = new Map([
+    ['DFI', { balance: '10', isPopularToken: true }],
+    ['BTC', { balance: '20', isPopularToken: true }],
+    ['ETH', { balance: '30', isPopularToken: true }],
+    ['DOO', { balance: '40', isPopularToken: false }],
+    ['MEOW', { balance: '50', isPopularToken: false }],
   ]);
 
   useEffect(() => {
@@ -41,8 +40,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               isFrom={true}
               label={I18n.t('containers.swap.swapTab.from')}
               balance={100}
-              popularTokenMap={popularTokenMap}
-              normalTokenMap={normalTokenMap}
+              tokenMap={tokenMap}
             />
           </Col>
           <Col md='2' className={styles.colSvg}>
@@ -53,8 +51,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               isFrom={false}
               label={I18n.t('containers.swap.swapTab.to')}
               balance={100}
-              popularTokenMap={popularTokenMap}
-              normalTokenMap={normalTokenMap}
+              tokenMap={tokenMap}
             />
           </Col>
         </Row>
