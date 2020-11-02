@@ -8,34 +8,55 @@ import {
   Col,
   Row,
 } from 'reactstrap';
+import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapSearchBar from '../SwapSearchBar';
 import styles from './SwapDropdown.module.scss';
 
 interface SwapDropdownProps {
-  popularTokenMap: Map<string, string>;
-  normalTokenMap: Map<string, string>;
+  tokenMap: Map<string, ITokenBalanceInfo>;
 }
 
 const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   props: SwapDropdownProps
 ) => {
-  const { popularTokenMap, normalTokenMap } = props;
+  const { tokenMap } = props;
 
-  const getTokenDropdownList = (TokenMap) => {
-    const TokenDropdownItems: any[] = [];
-    TokenMap.forEach((balance: number, symbol: string) => {
-      TokenDropdownItems.push(
-        <DropdownItem key={symbol}>
-          <Row>
-            <Col>{symbol}</Col>
-            <Col className='d-flex justify-content-end'>{balance}</Col>
-          </Row>
-        </DropdownItem>
-      );
+  const getTokenDropdownList = (tokenMap) => {
+    const popularTokenDropdownItems: any[] = [];
+    const normalTokenDropdownItems: any[] = [];
+    tokenMap.forEach((balanceTokenInfo: ITokenBalanceInfo, symbol: string) => {
+      if (balanceTokenInfo.isPopularToken) {
+        popularTokenDropdownItems.push(
+          <DropdownItem key={symbol}>
+            <Row>
+              <Col>{symbol}</Col>
+              <Col className='d-flex justify-content-end'>
+                {balanceTokenInfo.balance}
+              </Col>
+            </Row>
+          </DropdownItem>
+        );
+      } else {
+        normalTokenDropdownItems.push(
+          <DropdownItem key={symbol}>
+            <Row>
+              <Col>{symbol}</Col>
+              <Col className='d-flex justify-content-end'>
+                {balanceTokenInfo.balance}
+              </Col>
+            </Row>
+          </DropdownItem>
+        );
+      }
     });
-    return TokenDropdownItems;
+    return { popularTokenDropdownItems, normalTokenDropdownItems };
   };
+
+  const {
+    popularTokenDropdownItems,
+    normalTokenDropdownItems,
+  } = getTokenDropdownList(tokenMap);
 
   return (
     <UncontrolledDropdown className={styles.dropDownTokens}>
@@ -55,11 +76,11 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         </DropdownItem>
         <DropdownItem header>
           {I18n.t('components.swapCard.popular')}
-          {getTokenDropdownList(popularTokenMap)}
+          {popularTokenDropdownItems}
         </DropdownItem>
         <DropdownItem header>
           {I18n.t('components.swapCard.tokens')}
-          {getTokenDropdownList(normalTokenMap)}
+          {normalTokenDropdownItems}
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

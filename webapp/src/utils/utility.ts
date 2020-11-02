@@ -8,7 +8,13 @@ import _ from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
 
-import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
+import {
+  IAddressAndAmount,
+  ITxn,
+  IBlock,
+  IParseTxn,
+  ITokenBalanceInfo,
+} from './interfaces';
 import {
   DATE_FORMAT,
   DEFAULT_UNIT,
@@ -473,8 +479,7 @@ export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[]
 ) => {
-  const popularTokenMap = new Map<string, string>();
-  const normalTokenMap = new Map<string, string>();
+  const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
 
   const uniqueTokenMap = getUniqueTokenMap(poolPairList);
@@ -482,12 +487,18 @@ export const getTokenAndBalanceMap = (
 
   balanceAndSymbolMap.forEach((balance, symbol) => {
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
-      popularTokenMap.set(uniqueTokenMap.get(symbol), balance);
+      tokenMap.set(uniqueTokenMap.get(symbol), {
+        balance,
+        isPopularToken: true,
+      });
     } else if (uniqueTokenMap.has(symbol)) {
-      normalTokenMap.set(uniqueTokenMap.get(symbol), balance);
+      tokenMap.set(uniqueTokenMap.get(symbol), {
+        balance,
+        isPopularToken: false,
+      });
     }
   });
-  return { popularTokenMap, normalTokenMap };
+  return tokenMap;
 };
 
 const getUniqueTokenMap = (poolPairList) => {
@@ -529,7 +540,7 @@ export const fetchPoolPairDataWithPagination = async (
   }
 
   list.push(...transformedData);
-  start = Number(transformedData[transformedData.length-1].key);
+  start = Number(transformedData[transformedData.length - 1].key);
 
   while (true) {
     const result = await fetchList(start, false, limit);
@@ -544,7 +555,7 @@ export const fetchPoolPairDataWithPagination = async (
     }
 
     list.push(...transformedData);
-    start = Number(transformedData[transformedData.length-1].key);
+    start = Number(transformedData[transformedData.length - 1].key);
   }
 
   return list;
@@ -568,7 +579,7 @@ export const fetchPoolShareDataWithPagination = async (
   }
 
   list.push(...transformedData);
-  start = Number(transformedData[transformedData.length-1].key);
+  start = Number(transformedData[transformedData.length - 1].key);
 
   while (true) {
     const result = await fetchList(start, false, limit);
@@ -583,7 +594,7 @@ export const fetchPoolShareDataWithPagination = async (
     }
 
     list.push(...transformedData);
-    start = Number(transformedData[transformedData.length-1].key);
+    start = Number(transformedData[transformedData.length - 1].key);
   }
 
   return list;
