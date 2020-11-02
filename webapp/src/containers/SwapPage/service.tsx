@@ -5,11 +5,11 @@ import { POOL_PAIR_PAGE_SIZE, SHARE_POOL_PAGE_SIZE } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
 import { getAddressInfo } from '../WalletPage/service';
-import { fetchDataWithPagination } from '../../utils/utility';
+import { fetchPoolPairDataWithPagination, fetchPoolShareDataWithPagination } from '../../utils/utility';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
-  const poolShares = await fetchDataWithPagination(
+  const poolShares = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,
     rpcClient.listPoolShares
@@ -45,7 +45,7 @@ export const handleFetchPoolshares = async () => {
 
 export const handleFetchPoolPairList = async () => {
   const rpcClient = new RpcClient();
-  const poolPairList: any[] = await fetchDataWithPagination(
+  const poolPairList: any[] = await fetchPoolPairDataWithPagination(
     0,
     POOL_PAIR_PAGE_SIZE,
     rpcClient.listPoolPairs
