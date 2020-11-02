@@ -5,6 +5,11 @@
 @import '../../scss/variables';
 @import '../../scss/bootstrap/variables';
 
-.iconPointer {
+.refreshIcon {
   cursor: pointer;
+  color: $secondary;
+
+  &:hover {
+    color: $body-color;
+  }
 }

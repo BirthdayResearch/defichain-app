@@ -129,7 +129,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <div className='content'>
             <section>
               <Row>
-                <Col>
+                <Col md='6'>
                   <StatCard
                     label={I18n.t(
                       'containers.wallet.walletPage.availableBalance'
@@ -139,8 +139,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     refreshFlag={refreshBalance}
                     icon={
                       <MdRefresh
-                        className={styles.iconPointer}
-                        size={30}
+                        className={styles.refreshIcon}
+                        size={24}
                         onClick={() => {
                           setRefreshBalance(true);
                           balanceRefreshTimerID = setTimeout(() => {
@@ -152,7 +152,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     }
                   />
                 </Col>
-                <Col>
+                <Col md='6'>
                   <StatCard
                     label={I18n.t('containers.wallet.walletPage.pending')}
                     value={getAmountInSelectedUnit(pendingBalance, unit)}
@@ -160,8 +160,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     refreshFlag={pendingRefreshBalance}
                     icon={
                       <MdRefresh
-                        className={styles.iconPointer}
-                        size={30}
+                        className={styles.refreshIcon}
+                        size={24}
                         onClick={() => {
                           setPendingRefreshBalance(true);
                           pendingBalRefreshTimerID = setTimeout(() => {

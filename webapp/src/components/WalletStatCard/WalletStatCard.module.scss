@@ -5,12 +5,29 @@
 @import '../../scss/variables';
 @import '../../scss/bootstrap/variables';
 
-.label {
+.card {
+  min-height: 192px;
+  margin-bottom: 24px;
+}
+
+.cardBody {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  align-content: space-between;
+  flex-direction: column;
+  align-content: center;
+}
+
+.label {
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
 }
 
 .icon {
+  height: 96px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }

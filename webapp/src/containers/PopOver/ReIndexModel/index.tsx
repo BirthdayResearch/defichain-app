@@ -31,9 +31,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     <Modal isOpen={isReIndexModelOpen} centered>
       <ModalBody>
         <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
-        <label className='text-center'>
-          {I18n.t('alerts.restartAppWithReindexNotice')}
-        </label>
+        <p>{I18n.t('alerts.restartAppWithReindexNotice')}</p>
       </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={restartAppWithReIndexing}>
