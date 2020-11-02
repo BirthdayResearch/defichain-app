@@ -23,7 +23,7 @@ const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModel
     isBackupWalletWarningModelOpen,
     closeBackupWalletWarningModal,
     backupWalletStart,
-    openWalletRestartModal
+    openWalletRestartModal,
   } = props;
 
   return (
@@ -32,23 +32,21 @@ const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModel
         <h1 className='h4'>
           {I18n.t('alerts.backupWalletWarningModelHeader')}
         </h1>
-        <label className='text-center'>
-          {I18n.t('alerts.backupWalletWarning')}
-        </label>
+        <p>{I18n.t('alerts.backupWalletWarning')}</p>
+        <Button size='sm' color='link' onClick={backupWalletStart}>
+          {I18n.t('alerts.backupNow')}
+        </Button>
       </ModalBody>
       <ModalFooter>
-        <Button size='sm' color='primary' onClick={backupWalletStart}>
-          {I18n.t('alerts.saveMyBackup')}
-        </Button>
         <Button
           size='sm'
-          className='ml-4'
+          color='primary'
           onClick={() => {
             closeBackupWalletWarningModal();
             openWalletRestartModal();
           }}
         >
-          {I18n.t('alerts.okIHaveDoneIt')}
+          {I18n.t('alerts.skipBackup')}
         </Button>
       </ModalFooter>
     </Modal>
@@ -66,7 +64,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   closeBackupWalletWarningModal,
   backupWalletStart,
-  openWalletRestartModal
+  openWalletRestartModal,
 };
 
 export default connect(
