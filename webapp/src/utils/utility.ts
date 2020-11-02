@@ -21,7 +21,11 @@ import {
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
   MAIN,
-  TEST, RANDOM_WORD_ENTROPY_BITS, STATS_API_BASE_URL
+  TEST,
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
+  RANDOM_WORD_ENTROPY_BITS,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -29,6 +33,7 @@ import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
+import PersistentStore from './persistentStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -397,21 +402,6 @@ export const checkElementsInArray = (
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
 
-export const createWallet = async (mnemonicCode: string) => {
-  try {
-    const mnemonic = new Mnemonic();
-    const rpcClient = new RpcClient();
-
-    const seed = mnemonic.createSeed(mnemonicCode);
-    const root = mnemonic.createRoot(seed);
-    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
-
-    await rpcClient.setHdSeed(hdSeed);
-  } catch (e) {
-    log.error(e);
-  }
-};
-
 export const getNetworkType = () => {
   const state = store.getState();
   const blockChainInfo: any = state.wallet.blockChainInfo;
@@ -439,7 +429,7 @@ export const getMnemonicFromObj = (mnemonicObj) => {
 export const isValidMnemonic = (mnemonicCode: string) => {
   const mnemonic = new Mnemonic();
   return mnemonic.isValidMnemonic(mnemonicCode);
-}
+};
 
 export const queuePush = (
   methodName,
@@ -454,11 +444,18 @@ export const queuePush = (
   }
 };
 
+export const isWalletEncrypted = () => {
+  const networkType = getNetworkType();
+  const isWalletLocked =
+    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  return PersistentStore.get(isWalletLocked) || false;
+};
+
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({
     url: `${STATS_API_BASE_URL}?network=${network}net`,
-    method: "GET",
+    method: 'GET',
   });
   return data;
-}
+};

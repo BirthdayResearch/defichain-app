@@ -15,6 +15,9 @@ import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningM
 import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
 import Popover from '../containers/PopOver';
 
+import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
+import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
+
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
   getRpcConfigsRequest: () => void;
@@ -96,6 +99,8 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <ReIndexModel />
       <BackupWalletWarningModel/>
       <Popover />
+      <EncryptWalletModel/>
+      <WalletPassphraseModel/>
       <RestartWalletModel />
     </>
   );
