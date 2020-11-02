@@ -474,7 +474,7 @@ export const fetchTokenDataWithPagination = async (
 
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
-    key: item,
+    hash: item,
     ...result[item],
   }));
 
@@ -483,13 +483,13 @@ export const fetchTokenDataWithPagination = async (
   }
 
   list.push(...transformedData);
-  start = Number(transformedData[transformedData.length - 1].key);
+  start = Number(transformedData[transformedData.length - 1].hash);
 
   while (true) {
     const result = await fetchList(start, false, limit);
 
     const transformedData = Object.keys(result).map((item) => ({
-      key: item,
+      hash: item,
       ...result[item],
     }));
 
@@ -498,7 +498,7 @@ export const fetchTokenDataWithPagination = async (
     }
 
     list.push(...transformedData);
-    start = Number(transformedData[transformedData.length - 1].key);
+    start = Number(transformedData[transformedData.length - 1].hash);
   }
 
   return list;
