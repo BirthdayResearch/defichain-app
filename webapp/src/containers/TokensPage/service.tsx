@@ -6,7 +6,7 @@ import {
   UNDEFINED_STRING,
 } from '../../constants';
 import { sleep } from '../WalletPage/service';
-import { fetchDataWithPagination } from '../../utils/utility';
+import { fetchTokenDataWithPagination } from '../../utils/utility';
 
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
@@ -50,7 +50,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  return await fetchDataWithPagination(
+  return await fetchTokenDataWithPagination(
     0,
     LIST_TOKEN_PAGE_SIZE,
     rpcClient.listTokens

@@ -13,7 +13,7 @@ import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
 import {
   fetchAccountsDataWithPagination,
-  fetchDataWithPagination,
+  fetchTokenDataWithPagination,
   getErrorMessage,
 } from '../../utils/utility';
 import {
@@ -214,7 +214,7 @@ export const getNewAddress = async (
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  return await fetchDataWithPagination(
+  return await fetchTokenDataWithPagination(
     0,
     LIST_TOKEN_PAGE_SIZE,
     rpcClient.listTokens

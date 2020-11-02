@@ -465,7 +465,7 @@ export const isWalletCreated = () => {
   return PersistentStore.get(key) || false;
 };
 
-export const fetchDataWithPagination = async (
+export const fetchTokenDataWithPagination = async (
   start: number,
   limit: number,
   fetchList: Function
@@ -474,6 +474,7 @@ export const fetchDataWithPagination = async (
 
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
+    key: item,
     ...result[item],
   }));
 
@@ -482,12 +483,13 @@ export const fetchDataWithPagination = async (
   }
 
   list.push(...transformedData);
-  start += limit;
+  start = Number(transformedData[transformedData.length - 1].key);
 
   while (true) {
-    const result = await fetchList(start, true, limit);
+    const result = await fetchList(start, false, limit);
 
     const transformedData = Object.keys(result).map((item) => ({
+      key: item,
       ...result[item],
     }));
 
@@ -496,7 +498,7 @@ export const fetchDataWithPagination = async (
     }
 
     list.push(...transformedData);
-    start += limit;
+    start = Number(transformedData[transformedData.length - 1].key);
   }
 
   return list;
