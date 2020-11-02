@@ -10,6 +10,7 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
+  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
 } from './../constants';
@@ -580,6 +581,26 @@ export default class RpcClient {
 
   stop = async () => {
     const { data } = await this.call('/', methodNames.STOP, []);
+    return data.result;
+  };
+
+  encryptWallet = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.ENCRYPT_WALLET, [
+      passphrase,
+    ]);
+    return data.result;
+  };
+
+  walletPassphrase = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
+      passphrase,
+      WALLET_UNLOCK_TIMEOUT,
+    ]);
+    return data.result;
+  };
+
+  walletlock = async () => {
+    const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
     return data.result;
   };
 }

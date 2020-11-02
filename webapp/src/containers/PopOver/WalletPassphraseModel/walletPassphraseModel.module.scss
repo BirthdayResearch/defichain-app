@@ -1,0 +1,16 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../scss/variables';
+@import '../../../scss/bootstrap/variables';
+
+.modalContent {
+  background-color: #F4F3F6;
+  border: none;
+}
+
+.modalBackdrop {
+  background-color: #F4F3F6;
+  opacity: 1 !important;
+}

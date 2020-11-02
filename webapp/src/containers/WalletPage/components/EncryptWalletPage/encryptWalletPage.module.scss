@@ -1,0 +1,22 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.lockIcon {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  line-height: 100px;
+  border-radius: 100%;
+  margin: 50px auto;
+  padding: 20px;
+  color: #676868;
+}
+
+.lockSection {
+  margin-top: 15%;
+}

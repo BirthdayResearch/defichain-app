@@ -27,3 +27,6 @@ export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const SET_HD_SEED = 'sethdseed';
+export const ENCRYPT_WALLET = 'encryptwallet';
+export const WALLET_PASSPHRASE = 'walletpassphrase';
+export const WALLET_LOCK = 'walletlock';

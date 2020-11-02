@@ -41,6 +41,10 @@ export const RANDOM_WORD_LENGTH = 18;
 export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
 export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
+
+export const WALLET_UNLOCK_TIMEOUT = 600;
+export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
+export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
 export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
 
