@@ -128,6 +128,7 @@ export interface ITokenResponse {
 }
 
 export interface ITokenBalanceInfo {
+  hash: string;
   balance: string;
   isPopularToken: boolean;
 }
