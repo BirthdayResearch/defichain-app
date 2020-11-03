@@ -9,7 +9,7 @@ import {
   Row,
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
-import { filterByValue, filterByValueMap } from '../../utils/utility';
+import { filterByValueMap } from '../../utils/utility';
 
 import SwapSearchBar from '../SwapSearchBar';
 import styles from './SwapDropdown.module.scss';
@@ -76,13 +76,13 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         {I18n.t('components.swapCard.selectAToken')}
       </DropdownToggle>
       <DropdownMenu className={styles.dropdownMenublock}>
-        {/* <DropdownItem className={styles.dropdownItemsearch}> */}
-        <SwapSearchBar
-          searching=''
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={I18n.t('containers.swap.swapPage.searchToken')}
-        />
-        {/* </DropdownItem> */}
+        <div className={styles.dropdownItemsearch}>
+          <SwapSearchBar
+            searching=''
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={I18n.t('containers.swap.swapPage.searchToken')}
+          />
+        </div>
         <DropdownItem header>
           {I18n.t('components.swapCard.popular')}
           {popularTokenDropdownItems}
