@@ -166,6 +166,7 @@
     "tokens": {
       "tokensPage": {
         "title": "Tokens – DeFi Blockchain Client",
+        "loading": "Loading...",
         "createToken": "Create",
         "tokens": "Tokens",
         "searchTokens": "Search Tokens",
