@@ -17,6 +17,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenSymbol = urlParams.get('symbol');
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
+  const tokenAddress = urlParams.get('address');
 
   return (
     <div className='main-wrapper'>
@@ -27,7 +28,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
         <Button
           to={
             tokenSymbol
-              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
               : WALLET_PAGE_PATH
           }
           tag={RRNavLink}

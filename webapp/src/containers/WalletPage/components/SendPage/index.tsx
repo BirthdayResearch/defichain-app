@@ -351,7 +351,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount } = this;
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -361,7 +361,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
@@ -574,7 +574,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}
@@ -620,7 +620,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}
