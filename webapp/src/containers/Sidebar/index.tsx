@@ -132,7 +132,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               </NavLink>
             </NavItem>
           )}
-          {softforks.amk && softforks.amk.active && (
+          {softforks?.bayfront && softforks?.bayfront?.active && (
             <NavItem className={styles.navItem}>
               <NavLink
                 to={SWAP_PATH}

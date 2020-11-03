@@ -92,7 +92,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
       <header className='header-bar'>
-        {softforks.amk && softforks.amk.active && (
+        {softforks?.amk && softforks?.amk?.active && (
           <Button
             to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
               walletBalance,
