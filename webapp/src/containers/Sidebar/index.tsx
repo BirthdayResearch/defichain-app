@@ -13,14 +13,14 @@ import {
   MdViewWeek,
   MdToll,
   // MdCompareArrows,
-  MdLockOpen,
-  MdLock,
+  // MdLockOpen,
+  // MdLock,
 } from 'react-icons/md';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   getAmountInSelectedUnit,
-  isWalletEncrypted,
+  // isWalletEncrypted,
 } from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
@@ -85,7 +85,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   return (
     <div className={styles.sidebar}>
-      <div className='text-right m-2'>
+      {/* NOTE: Do not remove, for future purpose */}
+      {/* <div className='text-right m-2'>
         {!isWalletEncrypted() ? (
           <MdLockOpen
             className={styles.iconPointer}
@@ -105,7 +106,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             onClick={openWalletPassphraseModal}
           />
         )}
-      </div>
+      </div> */}
       <div className={styles.balance}>
         <div className={styles.balanceLabel}>
           {I18n.t('containers.sideBar.balance')}
