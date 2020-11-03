@@ -730,4 +730,23 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
     return data.result;
   };
+
+  addpooliquidity = async (
+    address1: string,
+    amount1: string,
+    address2: string,
+    amount2: string,
+    shareAddress: string
+  ) => {
+    const from =
+      address1 === address2
+        ? { [address1]: [amount1, amount2] }
+        : { [address1]: amount1, [address2]: amount2 };
+
+    const data = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
+      from,
+      shareAddress,
+    ]);
+    return data.result;
+  };
 }
