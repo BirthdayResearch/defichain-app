@@ -20,11 +20,11 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
   const { poolshares, fetchPoolsharesRequest } = props;
 
   const tokenMap: Map<string, ITokenBalanceInfo> = new Map([
-    ['DFI', { balance: '10', isPopularToken: true }],
-    ['BTC', { balance: '20', isPopularToken: true }],
-    ['ETH', { balance: '30', isPopularToken: true }],
-    ['DOO', { balance: '40', isPopularToken: false }],
-    ['MEOW', { balance: '50', isPopularToken: false }],
+    ['DFI', { balance: '10', isPopularToken: true, hash: '0' }],
+    ['BTC', { balance: '20', isPopularToken: true, hash: '1' }],
+    ['ETH', { balance: '30', isPopularToken: true, hash: '2' }],
+    ['DOO', { balance: '40', isPopularToken: false, hash:'3' }],
+    ['MEOW', { balance: '50', isPopularToken: false, hash: '4' }],
   ]);
 
   useEffect(() => {

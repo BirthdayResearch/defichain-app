@@ -499,11 +499,13 @@ export const getTokenAndBalanceMap = (
   balanceAndSymbolMap.forEach((balance, symbol) => {
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
+        hash: symbol,
         balance,
         isPopularToken: true,
       });
     } else if (uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
+        hash: symbol,
         balance,
         isPopularToken: false,
       });
