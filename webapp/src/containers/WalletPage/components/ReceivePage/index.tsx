@@ -13,6 +13,11 @@ import {
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
+  const urlParams = new URLSearchParams(props.location.search);
+  const tokenSymbol = urlParams.get('symbol');
+  const tokenHash = urlParams.get('hash');
+  const tokenAmount = urlParams.get('amount');
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -20,7 +25,11 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={WALLET_PAGE_PATH}
+          to={
+            tokenSymbol
+              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+              : WALLET_PAGE_PATH
+          }
           tag={RRNavLink}
           color='link'
           className='header-bar-back'

@@ -570,7 +570,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>
@@ -608,7 +616,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>
