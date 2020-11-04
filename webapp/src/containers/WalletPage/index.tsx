@@ -142,7 +142,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </span>
           </Button>
           <Button
-            to={WALLET_RECEIVE_PATH}
+            to={
+              tokenSymbol
+                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                : WALLET_RECEIVE_PATH
+            }
             tag={RRNavLink}
             color='link'
             size='sm'

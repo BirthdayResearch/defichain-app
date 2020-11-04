@@ -30,6 +30,8 @@ import {
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
   TEST,
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
   STATS_API_BASE_URL,
 } from '../constants';
@@ -43,6 +45,7 @@ import PersistentStore from './persistentStore';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
+import USDTIcon from '../assets/svg/usdt-icon.svg';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -418,21 +421,6 @@ export const checkElementsInArray = (
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
 
-export const createWallet = async (mnemonicCode: string) => {
-  try {
-    const mnemonic = new Mnemonic();
-    const rpcClient = new RpcClient();
-
-    const seed = mnemonic.createSeed(mnemonicCode);
-    const root = mnemonic.createRoot(seed);
-    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
-
-    await rpcClient.setHdSeed(hdSeed);
-  } catch (e) {
-    log.error(e);
-  }
-};
-
 export const getNetworkType = () => {
   const state = store.getState();
   const blockChainInfo: any = state.wallet.blockChainInfo;
@@ -541,36 +529,82 @@ export const fetchPoolPairDataWithPagination = async (
   fetchList: Function
 ) => {
   const list: any[] = [];
-
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
     key: item,
     ...result[item],
   }));
-
   if (transformedData.length === 0) {
     return [];
   }
-
   list.push(...transformedData);
   start = Number(transformedData[transformedData.length - 1].key);
-
   while (true) {
     const result = await fetchList(start, false, limit);
-
     const transformedData = Object.keys(result).map((item) => ({
       key: item,
       ...result[item],
     }));
-
     if (transformedData.length === 0) {
       break;
     }
-
     list.push(...transformedData);
     start = Number(transformedData[transformedData.length - 1].key);
   }
+  return list;
+};
 
+export const fetchTokenDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    hash: item,
+    ...result[item],
+  }));
+  if (transformedData.length === 0) {
+    return [];
+  }
+  list.push(...transformedData);
+  start = Number(transformedData[transformedData.length - 1].hash);
+  while (true) {
+    const result = await fetchList(start, false, limit);
+    const transformedData = Object.keys(result).map((item) => ({
+      hash: item,
+      ...result[item],
+    }));
+    if (transformedData.length === 0) {
+      break;
+    }
+    list.push(...transformedData);
+    start = Number(transformedData[transformedData.length - 1].hash);
+  }
+  return list;
+};
+
+export const fetchAccountsDataWithPagination = async (
+  start: string,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+  const result = await fetchList(true, limit);
+  if (result.length === 0) {
+    return [];
+  }
+  list.push(...result);
+  start = result[result.length - 1].key;
+  while (true) {
+    const result = await fetchList(false, limit, start);
+    if (result.length === 0) {
+      break;
+    }
+    list.push(...result);
+    start = result[result.length - 1].key;
+  }
   return list;
 };
 
@@ -580,37 +614,36 @@ export const fetchPoolShareDataWithPagination = async (
   fetchList: Function
 ) => {
   const list: any[] = [];
-
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
     key: item.split('@')[0],
     ...result[item],
   }));
-
   if (transformedData.length === 0) {
     return [];
   }
-
   list.push(...transformedData);
   start = Number(transformedData[transformedData.length - 1].key);
-
   while (true) {
     const result = await fetchList(start, false, limit);
-
     const transformedData = Object.keys(result).map((item) => ({
       key: item.split('@')[0],
       ...result[item],
     }));
-
     if (transformedData.length === 0) {
       break;
     }
-
     list.push(...transformedData);
     start = Number(transformedData[transformedData.length - 1].key);
   }
-
   return list;
+};
+
+export const isWalletEncrypted = () => {
+  const networkType = getNetworkType();
+  const isWalletLocked =
+    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  return PersistentStore.get(isWalletLocked) || false;
 };
 
 export const getTotalBlocks = async () => {
@@ -627,6 +660,8 @@ export const getIcon = (symbol: string | null) => {
     return BTCIcon;
   } else if (symbol === 'ETH') {
     return EthIcon;
+  } else if (symbol === 'USDT') {
+    return USDTIcon;
   } else {
     return DefiIcon;
   }

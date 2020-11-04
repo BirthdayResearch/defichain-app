@@ -14,6 +14,7 @@ interface TokensListProps {
   history: any;
   component: any;
   handleCardClick: (symbol: string, hash: string) => void;
+  isLoadingTokens: boolean;
 }
 
 const TokensList: React.FunctionComponent<TokensListProps> = (
@@ -22,7 +23,7 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
   const defaultPage = 1;
   const [tableData, settableData] = useState([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
-  const { tokens, searchQuery, handleCardClick } = props;
+  const { tokens, searchQuery, handleCardClick, isLoadingTokens } = props;
   const pageSize = TOKEN_LIST_PAGE_SIZE;
   const total = tokens.length;
   const pagesCount = Math.ceil(total / pageSize);
@@ -47,6 +48,10 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
       paginate(defaultPage, tokensList);
     }
   }, [tokens, searchQuery]);
+
+  if (isLoadingTokens) {
+    return <div>{I18n.t('containers.tokens.tokensPage.loading')}</div>;
+  }
 
   return (
     <>

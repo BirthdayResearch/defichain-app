@@ -56,6 +56,8 @@ export const ENTROPY_BITS = 256;
 export const RANDOM_WORD_ENTROPY_BITS = 128;
 export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
 export const UNDEFINED_STRING = 'undefined';
+export const LIST_TOKEN_PAGE_SIZE = 500;
+export const LIST_ACCOUNTS_PAGE_SIZE = 500;
 
 export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;
@@ -67,6 +69,9 @@ export const MAIN = 'main';
 
 export const POOL_PAIR_PAGE_SIZE = 500;
 export const SHARE_POOL_PAGE_SIZE = 500;
+export const WALLET_UNLOCK_TIMEOUT = 600;
+export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
+export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
 export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
 

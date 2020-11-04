@@ -2,9 +2,11 @@ import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
 import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  LIST_TOKEN_PAGE_SIZE,
   UNDEFINED_STRING,
 } from '../../constants';
 import { sleep } from '../WalletPage/service';
+import { fetchTokenDataWithPagination } from '../../utils/utility';
 
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
@@ -48,16 +50,11 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  const tokens = await rpcClient.listTokens();
-  if (isEmpty(tokens)) {
-    return [];
-  }
-  const transformedData = Object.keys(tokens).map((item) => ({
-    hash: item,
-    ...tokens[item],
-  }));
-
-  return transformedData;
+  return await fetchTokenDataWithPagination(
+    0,
+    LIST_TOKEN_PAGE_SIZE,
+    rpcClient.listTokens
+  );
 };
 
 export const handleTokenTransfers = async (id: string) => {
