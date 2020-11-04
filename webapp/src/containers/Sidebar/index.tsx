@@ -11,11 +11,17 @@ import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
+  MdToll,
   // MdCompareArrows,
+  // MdLockOpen,
+  // MdLock,
 } from 'react-icons/md';
-import { fetchWalletBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  // isWalletEncrypted,
+} from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,
@@ -26,25 +32,39 @@ import {
   // HELP_PATH,
   SETTING_PATH,
   SITE_URL,
+  TOKENS_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
-import { updateWalletBalanceSchedular } from '../../worker/schedular';
+import { updateBalanceScheduler } from '../../worker/schedular';
 import usePrevious from '../../components/UsePrevious';
+import {
+  openEncryptWalletModal,
+  openWalletPassphraseModal,
+  lockWalletStart,
+} from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
-  fetchWalletBalanceRequest: () => void;
+  fetchInstantBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
+  blockChainInfo: any;
+  isWalletUnlocked: boolean;
+  openEncryptWalletModal: () => void;
+  openWalletPassphraseModal: () => void;
+  lockWalletStart: () => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
 
+  const { softforks = {} } = props.blockChainInfo;
+
   useEffect(() => {
-    props.fetchWalletBalanceRequest();
-    const clearWalletBalanceTimer = updateWalletBalanceSchedular();
+    props.fetchInstantBalanceRequest();
+    const clearWalletBalanceTimer = updateBalanceScheduler();
     return () => {
       clearWalletBalanceTimer();
     };
@@ -52,12 +72,41 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   useEffect(() => {
     if (!props.isErrorModalOpen && prevIsErrorModalOpen) {
-      props.fetchWalletBalanceRequest();
+      props.fetchInstantBalanceRequest();
     }
   }, [prevIsErrorModalOpen, props.isErrorModalOpen]);
 
+  const {
+    openEncryptWalletModal,
+    openWalletPassphraseModal,
+    isWalletUnlocked,
+    lockWalletStart,
+  } = props;
+
   return (
     <div className={styles.sidebar}>
+      {/* NOTE: Do not remove, for future purpose */}
+      {/* <div className='text-right m-2'>
+        {!isWalletEncrypted() ? (
+          <MdLockOpen
+            className={styles.iconPointer}
+            size={25}
+            onClick={openEncryptWalletModal}
+          />
+        ) : isWalletUnlocked ? (
+          <MdLockOpen
+            className={styles.iconPointer}
+            size={25}
+            onClick={lockWalletStart}
+          />
+        ) : (
+          <MdLock
+            className={styles.iconPointer}
+            size={25}
+            onClick={openWalletPassphraseModal}
+          />
+        )}
+      </div> */}
       <div className={styles.balance}>
         <div className={styles.balanceLabel}>
           {I18n.t('containers.sideBar.balance')}
@@ -72,7 +121,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={WALLET_PAGE_PATH}
+              to={WALLET_TOKENS_PATH}
               exact
               tag={RRNavLink}
               className={styles.navLink}
@@ -111,6 +160,19 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
+          {softforks?.amk?.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TOKENS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdToll />
+                {I18n.t('containers.sideBar.tokens')}
+              </NavLink>
+            </NavItem>
+          )}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
@@ -168,11 +230,16 @@ const mapStateToProps = (state) => {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
+    blockChainInfo: wallet.blockChainInfo,
+    isWalletUnlocked: popover.isWalletUnlocked,
   };
 };
 
 const mapDispatchToProps = {
-  fetchWalletBalanceRequest,
+  fetchInstantBalanceRequest,
+  openEncryptWalletModal,
+  openWalletPassphraseModal,
+  lockWalletStart: () => lockWalletStart({}),
 };
 
 export default withRouter(

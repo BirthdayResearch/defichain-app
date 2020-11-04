@@ -1,7 +1,13 @@
 import Ajv from 'ajv';
+import axios from 'axios';
+
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
+import _ from 'lodash';
+import * as bitcoin from 'bitcoinjs-lib';
+import shuffle from 'shuffle-array';
+
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
   DATE_FORMAT,
@@ -10,12 +16,30 @@ import {
   DUST_VALUE_DFI,
   DEFI_CLI,
   MAX_MONEY,
+  ENTROPY_BITS,
+  MIN_WORD_INDEX,
+  MAX_WORD_INDEX,
+  TOTAL_WORD_LENGTH,
+  MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+  TEST,
+  IS_WALLET_LOCKED_MAIN,
+  IS_WALLET_LOCKED_TEST,
+  RANDOM_WORD_ENTROPY_BITS,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
-import store from '../../src/app/rootStore';
+import Mnemonic from './mnemonic';
+import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
+import PersistentStore from './persistentStore';
+import DefiIcon from '../assets/svg/defi-icon.svg';
+import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
+import EthIcon from '../assets/svg/eth-icon.svg';
+import USDTIcon from '../assets/svg/usdt-icon.svg';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -41,10 +65,13 @@ export const toSha256 = (value): any => {
   return SHA256(value).toString();
 };
 
-export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
+export const getAddressAndAmount = (
+  addresses,
+  balance
+): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address, amount } = addressObj;
-    return { address, amount };
+    const { address } = addressObj;
+    return { address, amount: balance };
   });
 };
 
@@ -307,6 +334,105 @@ export const setIntervalSynchronous = (func, delay) => {
   return clear;
 };
 
+export const getMnemonicObject = () => {
+  const mnemonic = new Mnemonic();
+  const mnemonicCode = mnemonic.createMnemonic(ENTROPY_BITS);
+  const mnemonicWordArray = mnemonicCode.split(' ');
+  return {
+    mnemonicObj: getObjectFromArrayString(mnemonicWordArray),
+    mnemonicCode,
+  };
+};
+
+export const getRandomWordObject = () => {
+  const mnemonic = new Mnemonic();
+  const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
+  const randomWordArray = randomCode.split(' ');
+  return getObjectFromArrayString(randomWordArray);
+};
+
+export const getObjectFromArrayString = (strArray: string[]) => {
+  const strObj = {};
+  for (const [index, str] of strArray.entries()) {
+    strObj[index + 1] = str;
+  }
+  return strObj;
+};
+
+export const getMixWordsObject = (
+  mnemonicObject: any,
+  randomWordObject: any
+) => {
+  const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
+  const randomWordArray = _.values(randomWordObject);
+  const mixArray = shuffle(mnemonicWordArray.concat(randomWordArray));
+  return getObjectFromArrayString(mixArray);
+};
+
+export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
+  let min = MIN_WORD_INDEX;
+  let max = MAX_WORD_INDEX;
+  const mixArray: any[] = [];
+  while (max <= TOTAL_WORD_LENGTH) {
+    const index = getRandomNumber(min, max);
+    mixArray.push(mnemonicObject[index]);
+
+    min += 4;
+    max += 4;
+  }
+  return mixArray;
+};
+
+export const getRandomNumber = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
+export const checkElementsInArray = (
+  selectedWordObjectArray: any[],
+  mnemonicObject: any
+): boolean => {
+  const selectedWordArray = selectedWordObjectArray.map(
+    (wordObj) => wordObj.value
+  );
+
+  if (selectedWordArray.length < 6) {
+    return false;
+  }
+
+  const mnemonicWordArray = _.values(mnemonicObject);
+
+  return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
+};
+
+export const getNetworkType = () => {
+  const state = store.getState();
+  const blockChainInfo: any = state.wallet.blockChainInfo;
+  return blockChainInfo.chain || MAIN;
+};
+
+export const getNetworkInfo = (networkType: string) => {
+  if (networkType === MAIN) {
+    return bitcoin.networks.bitcoin;
+  }
+  if (networkType === TEST) {
+    return bitcoin.networks.testnet;
+  }
+  return bitcoin.networks.regtest;
+};
+
+export const getMnemonicFromObj = (mnemonicObj) => {
+  const values: string[] = Object.values(mnemonicObj);
+  const mnemonic = values.reduce((mnemonicCode, value) => {
+    return mnemonicCode.concat(value + ' ');
+  }, '');
+  return mnemonic.trim();
+};
+
+export const isValidMnemonic = (mnemonicCode: string) => {
+  const mnemonic = new Mnemonic();
+  return mnemonic.isValidMnemonic(mnemonicCode);
+};
+
 export const queuePush = (
   methodName,
   params,
@@ -317,5 +443,109 @@ export const queuePush = (
   } = store.getState();
   if (isQueueReady) {
     return queue.push({ methodName, params }, callBack);
+  }
+};
+
+export const isWalletCreated = () => {
+  const networkType = getNetworkType();
+  const key =
+    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  return PersistentStore.get(key) || false;
+};
+
+export const fetchTokenDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    hash: item,
+    ...result[item],
+  }));
+
+  if (transformedData.length === 0) {
+    return [];
+  }
+
+  list.push(...transformedData);
+  start = Number(transformedData[transformedData.length - 1].hash);
+
+  while (true) {
+    const result = await fetchList(start, false, limit);
+
+    const transformedData = Object.keys(result).map((item) => ({
+      hash: item,
+      ...result[item],
+    }));
+
+    if (transformedData.length === 0) {
+      break;
+    }
+
+    list.push(...transformedData);
+    start = Number(transformedData[transformedData.length - 1].hash);
+  }
+
+  return list;
+};
+
+export const fetchAccountsDataWithPagination = async (
+  start: string,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(true, limit);
+
+  if (result.length === 0) {
+    return [];
+  }
+
+  list.push(...result);
+  start = result[result.length - 1].key;
+
+  while (true) {
+    const result = await fetchList(false, limit, start);
+
+    if (result.length === 0) {
+      break;
+    }
+
+    list.push(...result);
+    start = result[result.length - 1].key;
+  }
+
+  return list;
+};
+
+export const isWalletEncrypted = () => {
+  const networkType = getNetworkType();
+  const isWalletLocked =
+    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  return PersistentStore.get(isWalletLocked) || false;
+};
+
+export const getTotalBlocks = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    method: 'GET',
+  });
+  return data;
+};
+
+export const getIcon = (symbol: string | null) => {
+  if (symbol === 'BTC') {
+    return BTCIcon;
+  } else if (symbol === 'ETH') {
+    return EthIcon;
+  } else if (symbol === 'USDT') {
+    return USDTIcon;
+  } else {
+    return DefiIcon;
   }
 };

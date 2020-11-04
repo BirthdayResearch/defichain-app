@@ -16,6 +16,12 @@ export const initialState = {
   updateAvailableBadge: false,
   backupWalletIsOpen: false,
   openBackupWalletDatModal: false,
+  isBackupWalletWarningModelOpen: false,
+  isEnrcyptWalletModalOpen: false,
+  isWalletPassphraseModalOpen: false,
+  isWalletUnlocked: false,
+  isWalletRestart: false,
+  isWalletReplace: false,
 };
 
 const configSlice = createSlice({
@@ -93,11 +99,53 @@ const configSlice = createSlice({
     closeBackupLoading(state) {
       state.backupWalletIsOpen = false;
     },
+    openBackupWalletWarningModal(state) {
+      state.isBackupWalletWarningModelOpen = true;
+    },
+    closeBackupWalletWarningModal(state) {
+      state.isBackupWalletWarningModelOpen = false;
+    },
+    backupWalletStart() {},
     openWalletDatBackupModal(state) {
       state.openBackupWalletDatModal = true;
     },
     closeWalletDatBackupModal(state) {
       state.openBackupWalletDatModal = false;
+    },
+    openEncryptWalletModal(state) {
+      state.isEnrcyptWalletModalOpen = true;
+    },
+    closeEncryptWalletModal(state) {
+      state.isEnrcyptWalletModalOpen = false;
+    },
+    encryptWalletStart(state, action) {},
+    openWalletPassphraseModal(state) {
+      state.isWalletPassphraseModalOpen = true;
+    },
+    closeWalletPassphraseModal(state) {
+      state.isWalletPassphraseModalOpen = false;
+    },
+    unlockWalletStart(state, action) {
+      state.isWalletUnlocked = true;
+    },
+    lockWalletStart(state, action) {
+      state.isWalletUnlocked = false;
+    },
+    enableAutoLockStart(state) {
+      state.isWalletUnlocked = false;
+    },
+    openWalletRestartModal(state) {
+      state.isWalletRestart = true;
+    },
+    closeWalletRestartModal(state) {
+      state.isWalletRestart = false;
+    },
+    restartWalletStart(state) {
+      state.isWalletReplace = true;
+      state.isWalletRestart = false;
+    },
+    setIsWalletReplace(state) {
+      state.isWalletReplace = true;
     },
   },
 });
@@ -125,8 +173,23 @@ export const {
   backupLoadingStart,
   openBackupWallet,
   closeBackupLoading,
+  openBackupWalletWarningModal,
+  closeBackupWalletWarningModal,
+  backupWalletStart,
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
+  openEncryptWalletModal,
+  closeEncryptWalletModal,
+  encryptWalletStart,
+  openWalletPassphraseModal,
+  closeWalletPassphraseModal,
+  unlockWalletStart,
+  lockWalletStart,
+  enableAutoLockStart,
+  openWalletRestartModal,
+  closeWalletRestartModal,
+  restartWalletStart,
+  setIsWalletReplace,
 } = actions;
 
 export default reducer;

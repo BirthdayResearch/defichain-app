@@ -1,0 +1,33 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.card {
+  min-height: 192px;
+  margin-bottom: 24px;
+}
+
+.cardBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  flex-direction: column;
+  align-content: center;
+}
+
+.label {
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

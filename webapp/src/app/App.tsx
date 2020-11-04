@@ -10,7 +10,13 @@ import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import ErrorModal from '../containers/PopOver/ErrorModal';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
+import ReIndexModel from '../containers/PopOver/ReIndexModel';
+import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
+import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
 import Popover from '../containers/PopOver';
+
+import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
+import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -90,7 +96,12 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           isRestart={isRestart}
         />
       )}
+      <ReIndexModel />
+      <BackupWalletWarningModel />
       <Popover />
+      <EncryptWalletModel />
+      <WalletPassphraseModel />
+      <RestartWalletModel />
     </>
   );
 };

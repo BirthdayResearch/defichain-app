@@ -20,24 +20,17 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
           <Col className={styles.label}>{props.label}</Col>
           {props.icon && (
             <Col
-              md='6'
-              className={`${styles.statCardIcon} ${
-                props.refreshFlag ? styles.statCardIconAnimation : ''
+              className={`${styles.statCardActionWithIcon} ${
+                props.refreshFlag ? styles.statCardActionWithIconAnimation : ''
               }`}
             >
               {props.icon}
             </Col>
           )}
         </Row>
-        <Row>
-          &nbsp;
+        <Row className={styles.valueUnit}>
           <Col className={styles.value}>{props.value}</Col>
-          <Col
-            className={styles.unit}
-            style={{ textAlign: 'end', lineHeight: '2.5rem' }}
-          >
-            {props.unit}
-          </Col>
+          <Col className={`${styles.unit} ${styles.text}`}>{props.unit}</Col>
         </Row>
       </CardBody>
     </Card>

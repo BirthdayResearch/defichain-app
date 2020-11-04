@@ -21,6 +21,7 @@
       "wallet": "Wallet",
       "masterNodes": "Masternodes",
       "blockchain": "Blockchain",
+      "tokens": "Tokens",
       "exchange": "Exchange",
       "help": "Help",
       "settings": "Settings",
@@ -114,7 +115,8 @@
         "operatorAddress": "Operator Address",
         "registered": "Registered",
         "mintedBlocks": "Minted Blocks",
-        "noMasterNodes": "No Masternodes Available"
+        "noMasterNodes": "No Masternodes Available",
+        "loading": "Loading..."
       },
       "createMasterNode": {
         "title": "Create Master Node",
@@ -162,6 +164,140 @@
         "network": "Network"
       }
     },
+    "tokens": {
+      "tokensPage": {
+        "title": "Tokens – DeFi Blockchain Client",
+        "loading": "Loading...",
+        "createToken": "Create",
+        "tokens": "Tokens",
+        "searchTokens": "Search Tokens",
+        "dat": "DAT",
+        "dct": "DCT",
+        "paginationRange": "%{from} – %{to} of %{total} tokens",
+        "datLabels": {
+          "type": "Type",
+          "price": "Price",
+          "volume": "Volume (24H)",
+          "marketCap": "Market Cap",
+          "holders": "Holders",
+          "decimal": "Decimal",
+          "limit": "Limit",
+          "mintingSupport": "Minting Support",
+          "tradeable": "Tradeable"
+        },
+        "dctLabels": {
+          "id": "ID",
+          "totalInitialSupply": "Total initial supply",
+          "finalSupplyLimit": "Final supply limit",
+          "mintingSupport": "Minting Support",
+          "tradeable": "Tradeable",
+          "type": "Type",
+          "decimal": "Decimal",
+          "limit": "Limit"
+        }
+      },
+      "createToken": {
+        "back": "BACK",
+        "yes": "Yes",
+        "no": "No",
+        "cancel": "CANCEL",
+        "continue": "CONTINUE",
+        "createTitle": "Create Token",
+        "updateTitle": "Update DCT (DeFi Custom Token)",
+        "name": "Name of token",
+        "symbol": "Ticker Symbol",
+        "decimal": "Decimal",
+        "decimalText": "Number of decimal places. Cannot be changed once set.",
+        "limit": "Limit",
+        "mintingSupport": "Minting support?",
+        "mintText": "You can mint tokens after it has been created.",
+        "optionalFinalSupplyLimit": "Final supply limit (optional)",
+        "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
+        "tradeable": "Trade-able?",
+        "dfiRequired": "DFI required",
+        "collateralAddress": "Collateral Address",
+        "collateralAddressError": "Minimum 100 DFI is required",
+        "createTokenButton": "CREATE TOKEN",
+        "createConfirmationText": "Are you sure you want to create a token?",
+        "updateConfirmationText": "Are you sure you want to update a token?",
+        "createTokenSuccess": "Token is Created Successfully",
+        "updateTokenSuccess": "Token is Updated Successfully",
+        "tokenHash": "Token Hash",
+        "backToTokenPage": "Back To Token Page",
+        "updateTokenButton": "UPDATE TOKEN"
+      },
+      "tokenInfo": {
+        "back": "BACK",
+        "name": "Name",
+        "symbol": "Symbol",
+        "type": "Type",
+        "price": "Price",
+        "id": "ID",
+        "decimals": "Decimals",
+        "holders": "Holders",
+        "limit": "Limit",
+        "minitingSupport": "Minting Support",
+        "tradeable": "Trade-able?",
+        "marketCap": "Market Cap",
+        "volume": "Volume (24 H)",
+        "officialSite": "Official site",
+        "transfers": "Transfers",
+        "holders": "Holders",
+        "info": "Info",
+        "exchange": "Exchange",
+        "dex": "DEX",
+        "readContract": "Read Contract",
+        "writeContract": "Write Contract",
+        "analysis": "Analysis",
+        "comments": "Comments",
+        "noButtonText": "Cancel",
+        "yesButtonText": "Continue",
+        "successText": "Success",
+        "backToTokenPage": "Back to Token Page",
+        "confirmation": "Are you sure you want to destroy a token?",
+        "deleteToken": "Delete Token",
+        "editToken": "Edit Token",
+        "mint": "Mint",
+        "notMintedAlert": "You have not minted the token",
+        "mint": "Mint"
+      },
+      "mintToken": {
+        "title": "Mint",
+        "back": "BACK",
+        "amountToMint": "Amount to Mint",
+        "amount": "Amount",
+        "cancel": "Cancel",
+        "continue": "continue",
+        "pleaseVerifyAmount": "Please Verify Amount",
+        "completeMint": "Complete Mint",
+        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "backToToken": "Back to Tokens"
+      },
+      "transfersList": {
+        "txnHash": "Txn Hash",
+        "age": "Age",
+        "from": "From",
+        "to": "To",
+        "amount": "Amount"
+      },
+      "dctDistribution": {
+        "back": "BACK",
+        "add": "ADD",
+        "cancel": "CANCEL",
+        "continue": "CONTINUE",
+        "dfiRequired": "DFI required",
+        "chooseFile": "CHOOSE FILE",
+        "dctDistribution": "DCT Distribution",
+        "uploadCsv": "UPLOAD CSV",
+        "addAddress": "ADD ADDRESS",
+        "address": "Address",
+        "addAddressesText": "Add addresses to your initial distribution list.",
+        "enterDfiAddress": "Enter DFI address",
+        "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
+        "verifyingCollateral": "Verifying Collateral",
+        "chooseFile": "Choose File"
+      }
+    },
     "settings": {
       "title": "Settings – DeFi Blockchain Client",
       "settings": "Settings",
@@ -203,10 +339,46 @@
       "regnet": "Regnet"
     },
     "wallet": {
+      "createOrRestoreWalletPage": {
+        "title": "Wallet - Create or restore wallet",
+        "createOrRestoreWallet": "Create or restore wallet",
+        "createANewWallet": "Create a new wallet",
+        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed"
+      },
+      "createNewWalletPage": {
+        "back": "BACK",
+        "title": "Wallet - Create a new wallet",
+        "createANewWallet": "Create a new wallet",
+        "mnemonicGuideline": "Write down the following 24 words below. It is important to write them down in the exact order as displayed. This 24 - word mnemonic seed will be used to recover or transfer your wallet. Without it, you will not be able to recover your wallet. Don't lose it.",
+        "generateNewSet": "Generate a new set of 24 words",
+        "copied24Words": "I've have copied down 24 words in the exact order",
+        "continue": "CONTINUE",
+        "createNewWallet": "Create New Wallet"
+      },
+      "verifyMnemonicPage": {
+        "back": "BACK",
+        "title": "Wallet - Verify mnemonic seed",
+        "verifyMnemonicSeed": "Verify mnemonic seed",
+        "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please pick out 6 of the words in your mnemonic seed, in the list below.",
+        "showAgain": "Show me my 24 words again",
+        "creatingYourWallet": "Creating your wallet",
+        "backToWalletPage": "CLOSE"
+      },
+      "restoreWalletPage": {
+        "back": "BACK",
+        "title": "Wallet - Restore wallet",
+        "restoreWallet": "Restore wallet",
+        "restoreWalletGuideLine": "Enter the 24 words in your mnemonic seed to restore wallet.",
+        "restoringWallet": "Restoring wallet",
+        "restore": "RESTORE",
+        "backToWalletPage": "CLOSE"
+      },
       "sendPage": {
-        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
+        "sendTitle": "Send – DeFi Blockchain Client",
         "wallet": "Wallet",
+        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
         "sendDFI": "Send DFI",
+        "send": "Send",
         "amount": "Amount",
         "dFI": "DFI",
         "max": "MAX",
@@ -221,7 +393,8 @@
         "sendFailed": "Error ocurred while sending amount",
         "transactionSuccessMsg": "The transaction was a success. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet",
-        "dfiAddress": "DFI Address"
+        "dfiAddress": "DFI Address",
+        "pleaseTransferFunds": "Please transfer some DFIs to your account"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
@@ -270,6 +443,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "tokens": "TOKENS",
         "walletDefiClient": "Wallet – DeFi Blockchain Client",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -282,6 +456,18 @@
         "availableBalance": "Available balance",
         "pending": "Pending",
         "updateAvailableLabel": "Update available"
+      },
+      "walletTokensPage": {
+        "walletTokens": "Wallet – Tokens",
+        "tokens": "Tokens",
+        "addToken": "Add Token"
+      },
+      "walletAddTokensPage": {
+        "walletAddTokens": "Wallet – Add Token",
+        "back": "BACK",
+        "add": "ADD",
+        "tokens": "Tokens",
+        "addTokenLabel": "Add a Token"
       },
       "walletTxns": {
         "height": "Height",
@@ -337,9 +523,9 @@
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
     "updateAppNoticeTitle": "Update complete",
-    "updateAppNotice": "You need to restart app to see the new update. Do you want to restart?",
-    "yesUpdateAppNotice": "Yes",
-    "noUpdateAppNotice": "No",
+    "updateAppNotice": "You need to restart DeFi app to apply new update. Do you want to restart?",
+    "restartNowNotice": "Restart now",
+    "restartLaterNotice": "Later",
     "showUpdateAvailableHeader": "An update is available for DeFi app",
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
@@ -356,6 +542,34 @@
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
     "yesBackupWalletNotice": "Yes",
-    "noBackupWalletNotice": "No"
+    "noBackupWalletNotice": "No",
+    "saveMyBackup": "Save my backup",
+    "okIHaveDoneIt": "Ok, I have done it",
+    "encryptWalletNoticeTitle": "Lock Wallet",
+    "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
+    "enableLocking": "ENABLE LOCKING",
+    "later": "LATER",
+    "passphraseLabel": "Enter passphrase",
+    "proceed": "PROCEED",
+    "reset": "RESET",
+    "encryptWalletSuccess": "Encrypt wallet done successfully",
+    "unlockWalletSuccess": "Unlock wallet done successfully",
+    "lockWalletSuccess": "Lock wallet done successfully",
+    "passphraseLabelConfirm": "Confirm passphrase",
+    "confirm": "CONFIRM",
+    "cancel": "CANCEL",
+    "unlock": "UNLOCK",
+    "enterYourPassphrase": "Enter your passphrase",
+    "walletUnlockTitle": "Welcome back",
+    "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
+    "lostPassphraseMessage": "I LOST MY PASSPHRASE",
+    "backupWalletWarningModelHeader": "Wallet backup warning",
+    "backupNow": "Backup now",
+    "skipBackup": "Skip backup",
+    "backupWalletWarning": "Creating a new wallet or restoring one will override any existing wallets in the app. Do you want to backup your existing wallet?",
+    "restartWalletModalHeader": "Restart required",
+    "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart?",
+    "yesRestartWalletNotice": "Restart now",
+    "noRestartWalletNotice": "Later"
   }
 }
