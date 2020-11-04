@@ -37,7 +37,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
           </Row>
         </CardBody>
       </Card>
-      <Collapse isOpen={collapse}>
+      <Collapse isOpen={collapse} className='mb-5'>
         {/* TODO: Problem in CSS need to fix */}
         {collapse && (
           <Card>
@@ -75,7 +75,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
                   {I18n.t('containers.swap.swapPage.poolShare')}
                 </Col>
                 <Col className={`${styles.unit} ${styles.text}`}>
-                  {`${poolpair['%']} %`}
+                  {`${poolpair.poolSharePercentage} %`}
                 </Col>
               </Row>
               <Row className='mt-5'>

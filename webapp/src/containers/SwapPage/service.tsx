@@ -5,7 +5,10 @@ import { POOL_PAIR_PAGE_SIZE, SHARE_POOL_PAGE_SIZE } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
 import { getAddressInfo } from '../WalletPage/service';
-import { fetchPoolPairDataWithPagination, fetchPoolShareDataWithPagination } from '../../utils/utility';
+import {
+  fetchPoolPairDataWithPagination,
+  fetchPoolShareDataWithPagination,
+} from '../../utils/utility';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
@@ -31,9 +34,12 @@ export const handleFetchPoolshares = async () => {
       }));
       const tokenAData = await handleFetchToken(poolPairData[0].idTokenA);
       const tokenBData = await handleFetchToken(poolPairData[0].idTokenB);
+      const poolSharePercentage =
+        (poolShare.amount / poolShare.totalLiquidity) * 100;
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
+        poolSharePercentage: poolSharePercentage.toFixed(2),
         ...poolPairData[0],
         ...poolShare,
       };
