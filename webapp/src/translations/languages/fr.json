@@ -18,7 +18,8 @@
       "popular": "Popular",
       "tokens": "Tokens",
       "balance": "Balance",
-      "max": "MAX"
+      "max": "MAX",
+      "inputLabel": "Enter input"
     }
   },
   "containers": {
@@ -217,14 +218,20 @@
         "selectInputTokens": "Select input tokens and enter an amount",
         "back": "Back",
         "input": "Input",
+        "price": "Price",
         "shareOfPool": "Share of pool",
         "readyToSupply": "Ready to supply",
         "verifyTransactionSupply": "Please verify transaction and press SUPPLY",
         "reward": "Reward",
         "deposits": "Deposits",
         "rates": "Rates",
-        "continue": "Continue"
-        }
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "supply": "Supply",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "viewOnChain": "View on chain",
+        "backToPool": "Back to pool"
+      }
     },
     "tokens": {
       "tokensPage": {
