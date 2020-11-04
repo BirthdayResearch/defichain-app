@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import defiIcon from '../../../assets/svg/defi-icon.svg';
 import { I18n } from 'react-redux-i18n';
 import { Button, Input, Row, Col, Modal, ModalBody } from 'reactstrap';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import styles from './walletPassphraseModel.module.scss';
 
 import {
-  closeWalletPassphraseModal, unlockWalletStart,
+  closeWalletPassphraseModal,
+  unlockWalletStart,
 } from '../../PopOver/reducer';
 
 interface WalletPassphraseModelProps {
@@ -25,7 +26,11 @@ const WalletPassphraseModel: React.FunctionComponent<WalletPassphraseModelProps>
     setPassphrase(event.target.value);
   };
 
-  const { isWalletPassphraseModalOpen, closeWalletPassphraseModal, unlockWalletStart } = props;
+  const {
+    isWalletPassphraseModalOpen,
+    closeWalletPassphraseModal,
+    unlockWalletStart,
+  } = props;
   return (
     <Modal
       isOpen={isWalletPassphraseModalOpen}
@@ -40,7 +45,7 @@ const WalletPassphraseModel: React.FunctionComponent<WalletPassphraseModelProps>
             <Col md='6'>
               <div className='text-center'>
                 <section>
-                  <img src={defiIcon} width='96px' height='96px'/>
+                  <img src={defiIcon} width='96px' height='96px' />
                   <h3 className='mt-5'>{I18n.t('alerts.walletUnlockTitle')}</h3>
                   <p>{I18n.t('alerts.walletUnlockMessage')}</p>
                   <div className='d-flex mt-5'>
@@ -86,8 +91,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   closeWalletPassphraseModal,
-  unlockWalletStart: (passphrase: string) =>
-    unlockWalletStart({ passphrase }),
+  unlockWalletStart: (passphrase: string) => unlockWalletStart({ passphrase }),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletPassphraseModel);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WalletPassphraseModel);

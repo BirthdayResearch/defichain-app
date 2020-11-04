@@ -16,7 +16,12 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import { MdArrowBack, MdCropFree, MdCheckCircle } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCropFree,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import UIfx from 'uifx';
 import QrReader from 'react-qr-reader';
@@ -24,18 +29,28 @@ import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
-import { isValidAddress, sendToAddress } from '../../service';
+import {
+  accountToAccount,
+  handleFetchAccounts,
+  handleFetchRegularDFI,
+  isValidAddress,
+  sendToAddress,
+} from '../../service';
 import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
+  getErrorMessage,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
+import styles from '../../WalletPage.module.scss';
+import Spinner from '../../../../components/Svg/Spinner';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
   unit: string;
+  location?: any;
   sendData: {
     walletBalance: number;
     amountToSend: string | number;
@@ -63,10 +78,17 @@ interface SendPageState {
   isAmountValid: boolean | string;
   isAddressValid: boolean | string;
   uriData: string;
+  errMessage: string;
+  regularDFI: string | number;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
+  urlParams = new URLSearchParams(this.props.location.search);
+  tokenSymbol = this.urlParams.get('symbol');
+  tokenHash = this.urlParams.get('hash');
+  tokenAmount = this.urlParams.get('amount');
+  tokenAddress = this.urlParams.get('address');
 
   state = {
     walletBalance: 0,
@@ -81,6 +103,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     isAmountValid: false,
     isAddressValid: false,
     uriData: '',
+    errMessage: '',
+    regularDFI: '',
   };
 
   componentDidMount() {
@@ -110,10 +134,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   maxAmountToSend = () => {
-    const amount = getAmountInSelectedUnit(
-      this.props.sendData.walletBalance,
-      this.props.unit
-    );
+    let amount;
+    if (!this.tokenSymbol) {
+      amount = getAmountInSelectedUnit(
+        this.props.sendData.walletBalance,
+        this.props.unit
+      );
+    } else {
+      amount = this.tokenAmount;
+    }
     this.setState(
       {
         amountToSend: amount,
@@ -176,6 +205,28 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     log.error(err);
   };
 
+  handleSuccess = () => {
+    this.setState({
+      sendStep: 'success',
+      showBackdrop: 'show-backdrop',
+    });
+  };
+
+  handleFailure = (error) => {
+    this.setState({
+      sendStep: 'failure',
+      showBackdrop: 'show-backdrop',
+      errMessage: error.message,
+    });
+  };
+
+  handleLoading = () => {
+    this.setState({
+      sendStep: 'loading',
+      showBackdrop: '',
+    });
+  };
+
   sendStepDefault = () => {
     this.setState({
       sendStep: 'default',
@@ -190,34 +241,70 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'confirm',
       showBackdrop: 'show-backdrop',
+      errMessage: '',
     });
   };
 
   sendTransaction = async () => {
+    this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
+    const regularDFI = await handleFetchRegularDFI();
+    this.setState({
+      regularDFI,
+    });
     if (isAmountValid && isAddressValid) {
-      // Convert to base unit
-      const amount = getAmountInSelectedUnit(
-        this.state.amountToSendDisplayed,
-        DEFAULT_UNIT,
-        this.props.unit
-      );
-      // if amount to send is equal to wallet balance then cut tx fee from amountToSend
-      if (new BigNumber(amount).eq(this.props.sendData.walletBalance))
-        await sendToAddress(this.state.toAddress, amount, true);
-      else await sendToAddress(this.state.toAddress, amount, false);
-      this.setState({
-        sendStep: 'success',
-        showBackdrop: 'show-backdrop',
-      });
+      let amount;
+      if (
+        (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
+        regularDFI !== 0
+      ) {
+        // Convert to base unit
+        amount = getAmountInSelectedUnit(
+          this.state.amountToSendDisplayed,
+          DEFAULT_UNIT,
+          this.props.unit
+        );
+        // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+        try {
+          if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
+            await sendToAddress(this.state.toAddress, amount, true);
+          } else {
+            await sendToAddress(this.state.toAddress, amount, false);
+          }
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
+        }
+      } else {
+        try {
+          const hash = this.tokenHash || '0';
+          const accountTokens = await handleFetchAccounts();
+          const DFIObj = accountTokens.find((token) => token.hash === '0');
+          const address = this.tokenAddress || DFIObj.address;
+          amount = this.state.amountToSendDisplayed;
+          await accountToAccount(
+            address,
+            this.state.toAddress,
+            `${amount}@${hash}`
+          );
+          this.handleSuccess();
+        } catch (error) {
+          this.handleFailure(error);
+        }
+      }
     }
   };
 
   isAmountValid = async () => {
-    const amount = getAmountInSelectedUnit(
-      this.props.sendData.walletBalance,
-      this.props.unit
-    );
+    let amount;
+    if (!this.tokenSymbol) {
+      amount = getAmountInSelectedUnit(
+        this.props.sendData.walletBalance,
+        this.props.unit
+      );
+    } else {
+      amount = this.tokenAmount;
+    }
 
     const isLessThanBalance = new BigNumber(
       this.state.amountToSendDisplayed
@@ -264,14 +351,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t('containers.wallet.sendPage.sendDFITitle')}</title>
+          <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
         </Helmet>
         <header className='header-bar'>
           <Button
-            to={WALLET_PAGE_PATH}
+            to={
+              tokenSymbol
+                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                : WALLET_PAGE_PATH
+            }
             tag={NavLink}
             color='link'
             className='header-bar-back'
@@ -281,7 +373,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               {I18n.t('containers.wallet.sendPage.wallet')}
             </span>
           </Button>
-          <h1>{I18n.t('containers.wallet.sendPage.sendDFI')}</h1>
+          <h1>
+            {I18n.t('containers.wallet.sendPage.send')}{' '}
+            {tokenSymbol || this.props.unit}
+          </h1>
         </header>
         <div className='content'>
           <section>
@@ -306,7 +401,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       {I18n.t('containers.wallet.sendPage.amount')}
                     </Label>
                     <InputGroupAddon addonType='append'>
-                      <InputGroupText>{this.props.unit}</InputGroupText>
+                      <InputGroupText>
+                        {tokenSymbol || this.props.unit}
+                      </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -354,8 +451,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
-                  style={{ width: '100%' }}
-                  className='qr-scanner-preview'
+                  className='qr-scanner-preview w-100'
                 />
               </ModalBody>
             </Modal>
@@ -373,12 +469,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {getAmountInSelectedUnit(
-                    this.props.sendData.walletBalance,
-                    this.props.unit
-                  )}
+                  {!tokenSymbol
+                    ? getAmountInSelectedUnit(
+                        this.props.sendData.walletBalance,
+                        this.props.unit
+                      )
+                    : tokenAmount}
                   &nbsp;
-                  {this.props.unit}
+                  {tokenSymbol ? tokenSymbol : this.props.unit}
                 </div>
               </Col>
               <Col className='col-auto'>
@@ -387,7 +485,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {this.props.unit}
+                  {tokenSymbol || this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -424,7 +522,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {this.props.unit}
+                    {tokenSymbol || this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -472,7 +570,61 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
+                {I18n.t('containers.wallet.sendPage.backToWallet')}
+              </Button>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'loading',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <Spinner />
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'failure',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dailog`]]: true,
+                  })}
+                />
+                {!this.state.regularDFI && (
+                  <p>
+                    {I18n.t('containers.wallet.sendPage.pleaseTransferFunds')}
+                  </p>
+                )}
+                <p>{this.state.errMessage}</p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center'>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

@@ -1,6 +1,9 @@
 import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
+  fetchTokensSuccess,
+  fetchTokensRequest,
+  fetchTokensFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
@@ -22,6 +25,9 @@ import {
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
   createWalletFailure,
@@ -34,6 +40,7 @@ import {
   fetchInstantPendingBalanceRequest,
 } from './reducer';
 import {
+  handleFetchTokens,
   handelGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
@@ -41,8 +48,10 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
+  handleAccountFetchTokens,
   getAddressInfo,
   getBlockChainInfo,
+  handleFetchAccounts,
   setHdSeed,
   importPrivKey,
 } from './service';
@@ -65,7 +74,7 @@ import {
   IS_WALLET_CREATED_TEST,
   MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
-  WALLET_PAGE_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
@@ -243,6 +252,34 @@ export function* fetchChainInfo() {
   yield put(setBlockChainInfo(result));
 }
 
+export function* fetchTokens() {
+  try {
+    const data = yield call(handleFetchTokens);
+    yield put({
+      type: fetchTokensSuccess.type,
+      payload: { tokens: data },
+    });
+  } catch (e) {
+    yield put({ type: fetchTokensFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+export function* fetchAccountTokens() {
+  try {
+    const data = yield call(handleFetchAccounts);
+    yield put({
+      type: fetchAccountTokensSuccess.type,
+      payload: { accountTokens: data },
+    });
+  } catch (e) {
+    yield put({
+      type: fetchAccountTokensFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
 export function* createWallet(action) {
   try {
     const {
@@ -259,7 +296,7 @@ export function* createWallet(action) {
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_PAGE_PATH);
+    history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
     yield put({ type: createWalletFailure.type, payload: getErrorMessage(e) });
@@ -289,7 +326,7 @@ export function* restoreWallet(action) {
     yield call(importPrivKey, hdSeed);
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_PAGE_PATH);
+    history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
@@ -323,6 +360,8 @@ function* mySaga() {
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
+  yield takeLatest(fetchTokensRequest.type, fetchTokens);
+  yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
   yield takeLatest(createWalletRequest.type, createWallet);
   yield takeLatest(restoreWalletRequest.type, restoreWallet);
   yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);

@@ -6,6 +6,7 @@ import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import _ from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
+import shuffle from 'shuffle-array';
 
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
@@ -19,8 +20,9 @@ import {
   MIN_WORD_INDEX,
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
-  RANDOM_WORD_LENGTH,
   MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
   TEST,
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
@@ -34,6 +36,10 @@ import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
 import PersistentStore from './persistentStore';
+import DefiIcon from '../assets/svg/defi-icon.svg';
+import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
+import EthIcon from '../assets/svg/eth-icon.svg';
+import USDTIcon from '../assets/svg/usdt-icon.svg';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -59,10 +65,13 @@ export const toSha256 = (value): any => {
   return SHA256(value).toString();
 };
 
-export const getAddressAndAmount = (addresses): IAddressAndAmount[] => {
+export const getAddressAndAmount = (
+  addresses,
+  balance
+): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address, amount } = addressObj;
-    return { address, amount };
+    const { address } = addressObj;
+    return { address, amount: balance };
   });
 };
 
@@ -356,8 +365,7 @@ export const getMixWordsObject = (
 ) => {
   const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
   const randomWordArray = _.values(randomWordObject);
-
-  const mixArray = shuffleArray(mnemonicWordArray.concat(randomWordArray));
+  const mixArray = shuffle(mnemonicWordArray.concat(randomWordArray));
   return getObjectFromArrayString(mixArray);
 };
 
@@ -377,12 +385,6 @@ export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
 
 export const getRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
-};
-
-export const shuffleArray = (array: string[]): string[] => {
-  return array.sort(
-    () => Math.floor(Math.random() * Math.floor(RANDOM_WORD_LENGTH - 1)) - 1
-  );
 };
 
 export const checkElementsInArray = (
@@ -444,6 +446,82 @@ export const queuePush = (
   }
 };
 
+export const isWalletCreated = () => {
+  const networkType = getNetworkType();
+  const key =
+    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  return PersistentStore.get(key) || false;
+};
+
+export const fetchTokenDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    hash: item,
+    ...result[item],
+  }));
+
+  if (transformedData.length === 0) {
+    return [];
+  }
+
+  list.push(...transformedData);
+  start = Number(transformedData[transformedData.length - 1].hash);
+
+  while (true) {
+    const result = await fetchList(start, false, limit);
+
+    const transformedData = Object.keys(result).map((item) => ({
+      hash: item,
+      ...result[item],
+    }));
+
+    if (transformedData.length === 0) {
+      break;
+    }
+
+    list.push(...transformedData);
+    start = Number(transformedData[transformedData.length - 1].hash);
+  }
+
+  return list;
+};
+
+export const fetchAccountsDataWithPagination = async (
+  start: string,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+
+  const result = await fetchList(true, limit);
+
+  if (result.length === 0) {
+    return [];
+  }
+
+  list.push(...result);
+  start = result[result.length - 1].key;
+
+  while (true) {
+    const result = await fetchList(false, limit, start);
+
+    if (result.length === 0) {
+      break;
+    }
+
+    list.push(...result);
+    start = result[result.length - 1].key;
+  }
+
+  return list;
+};
+
 export const isWalletEncrypted = () => {
   const networkType = getNetworkType();
   const isWalletLocked =
@@ -458,4 +536,16 @@ export const getTotalBlocks = async () => {
     method: 'GET',
   });
   return data;
+};
+
+export const getIcon = (symbol: string | null) => {
+  if (symbol === 'BTC') {
+    return BTCIcon;
+  } else if (symbol === 'ETH') {
+    return EthIcon;
+  } else if (symbol === 'USDT') {
+    return USDTIcon;
+  } else {
+    return DefiIcon;
+  }
 };
