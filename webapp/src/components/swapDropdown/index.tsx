@@ -16,12 +16,23 @@ import styles from './SwapDropdown.module.scss';
 
 interface SwapDropdownProps {
   tokenMap: Map<string, ITokenBalanceInfo>;
+  name: number;
+  formState: any;
+  handleDropdown: (
+    hash: string,
+    field1: string,
+    symbol: string,
+    field2: string,
+    balance: string,
+    field3: string
+  ) => void;
+  dropdownLabel: string;
 }
 
 const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   props: SwapDropdownProps
 ) => {
-  const { tokenMap } = props;
+  const { tokenMap, handleDropdown, name, dropdownLabel } = props;
   const [tableData, settableData] = useState<any>(tokenMap);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -36,7 +47,21 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
     tokenMap.forEach((balanceTokenInfo: ITokenBalanceInfo, symbol: string) => {
       if (balanceTokenInfo.isPopularToken) {
         popularTokenDropdownItems.push(
-          <DropdownItem key={symbol}>
+          <DropdownItem
+            key={symbol}
+            name={`hash${name}`}
+            value={balanceTokenInfo.hash}
+            onClick={() =>
+              handleDropdown(
+                balanceTokenInfo.hash,
+                `hash${name}`,
+                symbol,
+                `symbol${name}`,
+                balanceTokenInfo.balance,
+                `balance${name}`
+              )
+            }
+          >
             <Row>
               <Col>{symbol}</Col>
               <Col className='d-flex justify-content-end'>
@@ -47,7 +72,21 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         );
       } else {
         normalTokenDropdownItems.push(
-          <DropdownItem key={symbol}>
+          <DropdownItem
+            key={symbol}
+            name={`hash${name}`}
+            value={balanceTokenInfo.hash}
+            onClick={() =>
+              handleDropdown(
+                balanceTokenInfo.hash,
+                `hash${name}`,
+                symbol,
+                `symbol${name}`,
+                balanceTokenInfo.balance,
+                `balance${name}`
+              )
+            }
+          >
             <Row>
               <Col>{symbol}</Col>
               <Col className='d-flex justify-content-end'>
@@ -73,7 +112,7 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         color='outline-secondary'
         className={styles.buttonDropdown}
       >
-        {I18n.t('components.swapCard.selectAToken')}
+        {dropdownLabel}
       </DropdownToggle>
       <DropdownMenu className={styles.dropdownMenublock}>
         <div className={styles.dropdownItemsearch}>
