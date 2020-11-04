@@ -47,7 +47,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
             )}
           </Col>
           <Col className={styles.dropDownCol}>
-            <SwapDropdown tokenMap={tokenMap} />
+            {/* <SwapDropdown tokenMap={tokenMap} /> */}
           </Col>
         </Row>
       </CardBody>
