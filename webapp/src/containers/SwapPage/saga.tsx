@@ -10,7 +10,7 @@ import {
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
   fetchPoolPairListSuccess,
-  addPoolLiquidityRequest,, addPoolLiquiditySuccess, addPoolLiquidityFailure
+  addPoolLiquidityRequest, addPoolLiquiditySuccess, addPoolLiquidityFailure
 } from './reducer';
 import {
   handleAddPoolLiquidity,
