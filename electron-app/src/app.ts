@@ -23,6 +23,7 @@ import {
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
 import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
+import { createMnemonicAction } from './ipc-events/createMnemonic';
 
 declare var process: {
   argv: any;
@@ -71,6 +72,7 @@ export default class App {
     });
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
     initiateBackupImportWalletManager(this.mainWindow);
+    createMnemonicAction();
   };
 
   initiateInterceptFileProtocol() {

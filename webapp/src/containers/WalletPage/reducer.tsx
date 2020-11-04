@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
+  accountTokens: [],
+  isAccountTokensLoaded: false,
+  isAccountLoadingTokens: false,
+  tokens: [],
+  isTokensLoaded: false,
+  isLoadingTokens: false,
   walletBalance: 0,
   isBalanceFetching: false,
   isBalanceError: '',
@@ -33,11 +39,41 @@ export const initialState = {
     sendStep: 'default',
     waitToSend: 5,
   },
+  isWalletCreating: false,
+  isErrorCreatingWallet: '',
+  isWalletRestoring: false,
+  isErrorRestoringWallet: '',
 };
 const configSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
+    fetchAccountTokensRequest(state) {
+      state.isAccountLoadingTokens = true;
+    },
+    fetchAccountTokensSuccess(state, action) {
+      state.accountTokens = action.payload.accountTokens;
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = true;
+    },
+    fetchAccountTokensFailure(state, action) {
+      state.accountTokens = [];
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = true;
+    },
+    fetchTokensRequest(state) {
+      state.isLoadingTokens = true;
+    },
+    fetchTokensSuccess(state, action) {
+      state.tokens = action.payload.tokens;
+      state.isLoadingTokens = false;
+      state.isTokensLoaded = true;
+    },
+    fetchTokensFailure(state, action) {
+      state.tokens = [];
+      state.isLoadingTokens = false;
+      state.isTokensLoaded = true;
+    },
     fetchPaymentRequest(state) {
       state.paymentRequests = [];
     },
@@ -109,12 +145,52 @@ const configSlice = createSlice({
     setBlockChainInfo(state, action) {
       state.blockChainInfo = action.payload;
     },
+    createWalletRequest(state, action) {
+      state.isWalletCreating = true;
+      state.isErrorCreatingWallet = '';
+    },
+    createWalletSuccess(state) {
+      state.isWalletCreating = false;
+      state.isErrorCreatingWallet = '';
+    },
+    createWalletFailure(state, action) {
+      state.isWalletCreating = false;
+      state.isErrorCreatingWallet = action.payload;
+    },
+    resetCreateWalletError(state, action) {
+      state.isWalletCreating = false;
+      state.isErrorCreatingWallet = '';
+    },
+    restoreWalletRequest(state, action) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletSuccess(state) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletFailure(state, action) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = action.payload;
+    },
+    resetRestoreWalletError(state, action) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = '';
+    },
+    fetchInstantBalanceRequest(state) {},
+    fetchInstantPendingBalanceRequest(state) {},
   },
 });
 
 const { actions, reducer } = configSlice;
 
 export const {
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
+  fetchTokensRequest,
+  fetchTokensSuccess,
+  fetchTokensFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
@@ -138,6 +214,16 @@ export const {
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
+  createWalletRequest,
+  createWalletSuccess,
+  createWalletFailure,
+  resetCreateWalletError,
+  restoreWalletRequest,
+  restoreWalletSuccess,
+  restoreWalletFailure,
+  resetRestoreWalletError,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } = actions;
 
 export default reducer;

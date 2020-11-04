@@ -1,0 +1,15 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.inputNumber {
+  width: 48px;
+  text-align: right;
+}
+
+.error-dailog {
+  color: $dfi-red !important;
+}

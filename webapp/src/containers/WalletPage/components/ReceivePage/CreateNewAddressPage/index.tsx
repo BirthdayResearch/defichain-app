@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import uid from 'uid';
 import { connect } from 'react-redux';
@@ -46,8 +46,9 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     }
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (event: FormEvent) => {
     try {
+      event.preventDefault();
       const newAddress = await getNewAddress(label, addressTypeChecked);
       if (!newAddress) {
         throw new Error(
@@ -92,7 +93,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
       </header>
       <div className='content'>
         <section>
-          <Form>
+          <Form onSubmit={onSubmit}>
             <FormGroup className='form-label-group'>
               <Input
                 type='text'

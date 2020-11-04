@@ -10,6 +10,9 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
+  WALLET_UNLOCK_TIMEOUT,
+  MASTERNODE_PARAMS_INCLUDE_FROM_START,
+  MASTERNODE_PARAMS_MASTERNODE_LIMIT,
 } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -20,6 +23,9 @@ import {
   IParseTxn,
   IRawTxn,
   IMasternodeCreatorInfo,
+  ITokenCreatorInfo,
+  ITokenUpdatorInfo,
+  ITokenMintInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -234,14 +240,36 @@ export default class RpcClient {
   // include addresses that haven't received any payments.
   getReceivingAddressAndAmountList = async (): Promise<IAddressAndAmount[]> => {
     const result = await this.getListreceivedAddress(1);
+    const balance = await this.getBalance();
     const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
-      result
+      result,
+      balance
     );
     return addressAndAmountList;
   };
 
-  sendToAddress = async (
+  accountToUtxos = async (
+    fromAddress: string | null,
     toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.ACCOUNT_TO_UTXOS, [
+      fromAddress,
+      {
+        [toAddress]: amount,
+      },
+      [],
+    ]);
+    return data.result;
+  };
+
+  getTransaction = async (txId: string): Promise<any> => {
+    const { data } = await this.call('/', methodNames.GET_TRANSACTION, [txId]);
+    return data.result;
+  };
+
+  sendToAddress = async (
+    toAddress: string | null,
     amount: number | string,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
@@ -262,6 +290,32 @@ export default class RpcClient {
       '',
       '',
       subtractfeefromamount,
+    ]);
+    return data.result;
+  };
+
+  accountToAccount = async (
+    fromAddress: string | null,
+    toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const txnSize = await getTxnSize();
+    if (txnSize >= MAX_TXN_SIZE) {
+      await construct({
+        maximumAmount:
+          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+        maximumCount:
+          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+      });
+    }
+
+    const { data } = await this.call('/', methodNames.ACCOUNT_TO_ACCOUNT, [
+      fromAddress,
+      {
+        [toAddress]: amount,
+      },
+      [],
     ]);
     return data.result;
   };
@@ -480,6 +534,7 @@ export default class RpcClient {
       );
     }
   };
+
   createMasterNode = async (
     masternodeCreatorInfo: IMasternodeCreatorInfo,
     tx: any = []
@@ -504,7 +559,64 @@ export default class RpcClient {
   };
 
   listMasterNodes = async (): Promise<string> => {
-    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE);
+    const { data } = await this.call('/', methodNames.LIST_MASTER_NODE, [
+      {
+        including_start: MASTERNODE_PARAMS_INCLUDE_FROM_START,
+        limit: MASTERNODE_PARAMS_MASTERNODE_LIMIT,
+      },
+    ]);
+    return data.result;
+  };
+
+  createToken = async (
+    tokenCreatorInfo: ITokenCreatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
+      tokenCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  mintToken = async (
+    tokenMintInfo: ITokenMintInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { hash, amount } = tokenMintInfo;
+    const { data } = await this.call('/', methodNames.MINT_TOKEN, [
+      `${amount}@${hash}`,
+    ]);
+    return data.result;
+  };
+
+  updateToken = async (
+    tokenUpdatorInfo: ITokenUpdatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.UPDATE_TOKEN, [
+      tokenUpdatorInfo,
+    ]);
+    return data.result;
+  };
+
+  destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
+    const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [tokenId]);
+    return data.result;
+  };
+
+  tokenInfo = async (key: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+    return data.result;
+  };
+
+  listTokens = async (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_TOKEN, [
+      { start, including_start: includingStart, limit },
+    ]);
     return data.result;
   };
 
@@ -524,6 +636,30 @@ export default class RpcClient {
     return data.result;
   };
 
+  getAccount = async (ownerAddress: string) => {
+    const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
+      ownerAddress,
+    ]);
+    return data.result;
+  };
+
+  listAccounts = async (
+    includingStart: boolean,
+    limit: number,
+    start?: string
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
+      {
+        start,
+        including_start: includingStart,
+        limit,
+      },
+      true,
+      true,
+    ]);
+    return data.result;
+  };
+
   dumpPrivKey = async (address: string) => {
     const { data } = await this.call('/', methodNames.DUMP_PRIV_KEY, [address]);
     return data.result;
@@ -532,6 +668,14 @@ export default class RpcClient {
   importPrivKey = async (address: string) => {
     const { data } = await this.call('/', methodNames.IMPORT_PRIV_KEY, [
       address,
+    ]);
+    return data.result;
+  };
+
+  setHdSeed = async (hdSeed: string, newkeypool: boolean = true) => {
+    const { data } = await this.call('/', methodNames.SET_HD_SEED, [
+      newkeypool,
+      hdSeed,
     ]);
     return data.result;
   };
@@ -565,6 +709,26 @@ export default class RpcClient {
 
   stop = async () => {
     const { data } = await this.call('/', methodNames.STOP, []);
+    return data.result;
+  };
+
+  encryptWallet = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.ENCRYPT_WALLET, [
+      passphrase,
+    ]);
+    return data.result;
+  };
+
+  walletPassphrase = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
+      passphrase,
+      WALLET_UNLOCK_TIMEOUT,
+    ]);
+    return data.result;
+  };
+
+  walletlock = async () => {
+    const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
     return data.result;
   };
 }

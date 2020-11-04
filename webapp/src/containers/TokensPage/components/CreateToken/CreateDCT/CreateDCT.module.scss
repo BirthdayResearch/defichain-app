@@ -1,0 +1,27 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../../scss/variables';
+@import '../../../../../scss/bootstrap/variables';
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.collateralDropdown {
+  box-shadow: 0 0 0 0.0625rem #dc3545 !important;
+}
+
+.error-dailog {
+  color: $dfi-red !important;
+}
+
+.collateralFormText {
+  color: #dc3545 !important;
+}

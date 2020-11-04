@@ -64,7 +64,7 @@ describe('App Service', () => {
     });
     mockAxios(post);
     await service.importWallet(["m/44'/0'/0'/0/1"]);
-    expect(post).toBeCalledTimes(1);
+    expect(post).toBeCalledTimes(3);
   });
 
   it('should check for importWallet', async () => {

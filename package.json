@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Defi blockchain client ui",
   "main": "./electron-app/build/index.js",
   "author": {
@@ -26,9 +26,9 @@
     "pre:build:win": "sh pre-build-win.sh",
     "build": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder",
     "build:all": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder -mwl",
-    "build:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --linux",
-    "build:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --mac",
-    "build:win": "npm run pre:build:win && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --win",
+    "build:linux": "npm run pre:build:linux && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --linux -p never",
+    "build:mac": "npm run pre:build:mac && npm run build:react && npm run transpile && NODE_ENV=production electron-builder --mac -p never",
+    "build:win": "npm run build:react && npm run transpile && SET NODE_ENV=production & electron-builder --win -p never",
     "pack": "npm run build:react && npm run transpile && NODE_ENV=production electron-builder --dir",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
@@ -45,11 +45,15 @@
   "license": "ISC",
   "dependencies": {
     "@babel/preset-typescript": "^7.9.0",
+    "@types/react": "^16.9.48",
     "auto-launch": "^5.0.5",
     "autoprefixer": "^9.7.5",
     "axios": "^0.19.2",
     "base-64": "^0.1.0",
     "bignumber.js": "^9.0.0",
+    "bip32": "^2.0.6",
+    "bip39": "^3.0.2",
+    "bitcoinjs-lib": "^5.2.0",
     "bootstrap": "^4.5.2",
     "commander": "^5.1.0",
     "crypto-js": "^4.0.0",
@@ -71,6 +75,7 @@
     "prop-types": "^15.7.2",
     "ps-node": "^0.1.6",
     "qrcode.react": "^1.0.0",
+    "random-binary": "^1.0.3",
     "random-string": "^0.2.0",
     "react-ellipsis-text": "^1.2.1",
     "react-md-spinner": "^1.0.0",
@@ -148,8 +153,7 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "AppImage"
       ]
     },
     "win": {
@@ -159,7 +163,7 @@
       "provider": "github",
       "repo": "defi-app-2",
       "owner": "DeFiCh",
-      "releaseType": "prerelease"
+      "releaseType": "release"
     }
   },
   "lint-staged": {

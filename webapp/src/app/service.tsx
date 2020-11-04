@@ -7,8 +7,8 @@ import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
 import { eventChannel } from 'redux-saga';
 import {
-  fetchWalletBalanceRequest,
-  fetchPendingBalanceRequest,
+  fetchInstantBalanceRequest,
+  fetchInstantPendingBalanceRequest,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
@@ -78,6 +78,11 @@ export const backupWalletDat = async () => {
   return showNotification(I18n.t('alerts.errorOccurred'), resp.message);
 };
 
+export const replaceWalletDat = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  return ipcRenderer.sendSync('replace-wallet-dat');
+};
+
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
   const res = await rpcClient.call('', DUMP_WALLET, [paths]);
@@ -95,8 +100,8 @@ export const importWallet = async (paths: string[]) => {
   const rpcClient = new RpcClient();
   const res = await rpcClient.call('', IMPORT_WALLET, paths);
   if (res.status === HttpStatus.OK) {
-    store.dispatch(fetchWalletBalanceRequest()); // Check for new Balance;
-    store.dispatch(fetchPendingBalanceRequest()); // Check for new Pending Balance;
+    store.dispatch(fetchInstantBalanceRequest()); // Check for new Balance;
+    store.dispatch(fetchInstantPendingBalanceRequest()); // Check for new Pending Balance;
 
     return showNotification(
       I18n.t('alerts.success'),

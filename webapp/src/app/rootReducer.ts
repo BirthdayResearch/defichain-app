@@ -4,6 +4,7 @@ import walletReducer from '../containers/WalletPage/reducer';
 import settingsReducer from '../containers/SettingsPage/reducer';
 import blockchainReducer from '../containers/BlockchainPage/reducer';
 import masterNodesReducer from '../containers/MasternodesPage/reducer';
+import tokensReducer from '../containers/TokensPage/reducer';
 import syncStatusReducer from '../containers/SyncStatus/reducer';
 import cliReducer from '../containers/ConsolePage/reducer';
 import popoverReducer from '../containers/PopOver/reducer';
@@ -15,6 +16,7 @@ export default combineReducers({
   settings: settingsReducer,
   blockchain: blockchainReducer,
   masterNodes: masterNodesReducer,
+  tokens: tokensReducer,
   syncstatus: syncStatusReducer,
   i18n: i18nReducer,
   cli: cliReducer,

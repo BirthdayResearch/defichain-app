@@ -67,9 +67,9 @@ describe('utility', () => {
     ];
     const testData = address.map((item) => ({
       address: item,
-      amount: Math.random() * 100,
+      amount: '',
     }));
-    const data = await utility.getAddressAndAmount(testData);
+    const data = await utility.getAddressAndAmount(testData, '');
     expect(data).toBeInstanceOf(Array);
     expect(data).toEqual(testData);
   });
