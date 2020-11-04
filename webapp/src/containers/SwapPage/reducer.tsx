@@ -13,12 +13,12 @@ const configSlice = createSlice({
   initialState,
   reducers: {
     fetchPoolsharesRequest(state) {
-      state.isPoolsharesLoaded = true;
+      state.isLoadingPoolshares = true;
     },
     fetchPoolsharesSuccess(state, action) {
       state.poolshares = action.payload.poolshares;
-      state.isPoolsharesLoaded = false;
-      state.isLoadingPoolshares = true;
+      state.isLoadingPoolshares = false;
+      state.isPoolsharesLoaded = true;
     },
     fetchPoolsharesFailure(state) {
       state.poolshares = [];
