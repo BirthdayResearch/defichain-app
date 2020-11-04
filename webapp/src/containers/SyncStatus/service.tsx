@@ -9,9 +9,8 @@ export const getBlockSyncInfo = async () => {
   try {
     const latestBlockInfoArr = await getTotalBlocks();
     latestBlock = latestBlockInfoArr.blockHeight;
-  } 
-  // Use getpeerinfo rpc call, if not able to get data from stats api
-  catch (e) {
+  } catch (e) {
+    // Use getpeerinfo rpc call, if not able to get data from stats api
     const latestBlockInfoArr: any = await rpcClient.getPeerInfo();
     latestBlock = latestBlockInfoArr.length
       ? Math.max.apply(

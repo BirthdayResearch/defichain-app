@@ -128,10 +128,10 @@ const configSlice = createSlice({
     unlockWalletStart(state, action) {
       state.isWalletUnlocked = true;
     },
-    lockWalletStart(state, action){
+    lockWalletStart(state, action) {
       state.isWalletUnlocked = false;
     },
-    enableAutoLockStart(state){
+    enableAutoLockStart(state) {
       state.isWalletUnlocked = false;
     },
     openWalletRestartModal(state) {
@@ -189,7 +189,7 @@ export const {
   openWalletRestartModal,
   closeWalletRestartModal,
   restartWalletStart,
-  setIsWalletReplace
+  setIsWalletReplace,
 } = actions;
 
 export default reducer;

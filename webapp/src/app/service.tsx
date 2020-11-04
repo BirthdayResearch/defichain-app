@@ -81,7 +81,7 @@ export const backupWalletDat = async () => {
 export const replaceWalletDat = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync('replace-wallet-dat');
-}
+};
 
 export const backupWallet = async (paths: string) => {
   const rpcClient = new RpcClient();

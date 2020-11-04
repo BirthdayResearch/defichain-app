@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import WalletPage from '../containers/WalletPage';
+import WalletTokensPage from '../containers/WalletPage/components/Tokens/TokensList';
+import WalletAddToken from '../containers/WalletPage/components/Tokens/AddToken';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
 import CreateNewAddressPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
@@ -16,6 +18,9 @@ import MasterNodeDetailPageProps from '../containers/MasternodesPage/components/
 import HelpPage from '../containers/HelpPage';
 import Error404Page from '../containers/Errors';
 import SettingsPage from '../containers/SettingsPage';
+import TokensPage from '../containers/TokensPage';
+import CreateToken from '../containers/TokensPage/components/CreateToken';
+import TokenInfo from '../containers/TokensPage/components/TokenInfo';
 import {
   BLOCKCHAIN_BASE_PATH,
   HELP_PATH,
@@ -32,17 +37,25 @@ import {
   CONSOLE_RPC_CALL_BASE_PATH,
   MASTER_NODES_DETAIL_PATH,
   WALLET_CREATE_RECEIVE_REQUEST,
+  TOKENS_PATH,
+  CREATE_TOKENS_PATH,
+  WALLET_ADD_TOKEN_PATH,
+  TOKENS_INFO_PATH,
+  EDIT_TOKENS_PATH,
+  WALLET_TOKENS_PATH,
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
+  MINT_TOKENS_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
+import MintToken from '../containers/TokensPage/components/MintToken';
 
 const routes = (location) => (
   <Switch location={location}>
-    <Redirect from={INDEX_PATH} to={WALLET_PAGE_PATH} />
+    <Redirect from={INDEX_PATH} to={WALLET_TOKENS_PATH} />
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
@@ -72,6 +85,13 @@ const routes = (location) => (
     />
     {/* <Route exact path={EXCHANGE_PATH} component={ExchangePage} /> */}
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
+    <Route exact path={TOKENS_PATH} component={TokensPage} />
+    <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
+    <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
+    <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
+    <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
+    <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
+    <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />
     <Route exact path={BLOCKCHAIN_BLOCK_PARAM_PATH} component={BlockPage} />
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
     <Route exact path={HELP_PATH} component={HelpPage} />

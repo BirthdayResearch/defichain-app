@@ -216,6 +216,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           onChange={(e) => setSearchQuery(e.target.value)}
           searching={searching}
           toggleSearch={toggleSearch}
+          placeholder={'Search masternodes'}
         />
       </header>
       <div className='content'>

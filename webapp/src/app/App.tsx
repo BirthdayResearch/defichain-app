@@ -97,10 +97,10 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
         />
       )}
       <ReIndexModel />
-      <BackupWalletWarningModel/>
+      <BackupWalletWarningModel />
       <Popover />
-      <EncryptWalletModel/>
-      <WalletPassphraseModel/>
+      <EncryptWalletModel />
+      <WalletPassphraseModel />
       <RestartWalletModel />
     </>
   );

@@ -11,14 +11,16 @@ import {
   MdAccountBalanceWallet,
   MdDns,
   MdViewWeek,
-  MdLockOpen,
-  MdLock,
+  MdToll,
+  // MdCompareArrows,
+  // MdLockOpen,
+  // MdLock,
 } from 'react-icons/md';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   getAmountInSelectedUnit,
-  isWalletEncrypted,
+  // isWalletEncrypted,
 } from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
@@ -30,6 +32,8 @@ import {
   // HELP_PATH,
   SETTING_PATH,
   SITE_URL,
+  TOKENS_PATH,
+  WALLET_TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -38,7 +42,7 @@ import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
-  lockWalletStart
+  lockWalletStart,
 } from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
@@ -46,6 +50,7 @@ export interface SidebarProps extends RouteComponentProps {
   walletBalance: string;
   unit: string;
   isErrorModalOpen: boolean;
+  blockChainInfo: any;
   isWalletUnlocked: boolean;
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
@@ -54,6 +59,8 @@ export interface SidebarProps extends RouteComponentProps {
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+
+  const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -73,12 +80,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     openEncryptWalletModal,
     openWalletPassphraseModal,
     isWalletUnlocked,
-    lockWalletStart
+    lockWalletStart,
   } = props;
 
   return (
     <div className={styles.sidebar}>
-      <div className='text-right m-2'>
+      {/* NOTE: Do not remove, for future purpose */}
+      {/* <div className='text-right m-2'>
         {!isWalletEncrypted() ? (
           <MdLockOpen
             className={styles.iconPointer}
@@ -98,7 +106,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             onClick={openWalletPassphraseModal}
           />
         )}
-      </div>
+      </div> */}
       <div className={styles.balance}>
         <div className={styles.balanceLabel}>
           {I18n.t('containers.sideBar.balance')}
@@ -113,7 +121,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={WALLET_PAGE_PATH}
+              to={WALLET_TOKENS_PATH}
               exact
               tag={RRNavLink}
               className={styles.navLink}
@@ -152,6 +160,19 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
+          {softforks?.amk?.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TOKENS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdToll />
+                {I18n.t('containers.sideBar.tokens')}
+              </NavLink>
+            </NavItem>
+          )}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
@@ -209,6 +230,7 @@ const mapStateToProps = (state) => {
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
+    blockChainInfo: wallet.blockChainInfo,
     isWalletUnlocked: popover.isWalletUnlocked,
   };
 };
@@ -217,7 +239,7 @@ const mapDispatchToProps = {
   fetchInstantBalanceRequest,
   openEncryptWalletModal,
   openWalletPassphraseModal,
-  lockWalletStart: () => lockWalletStart({})
+  lockWalletStart: () => lockWalletStart({}),
 };
 
 export default withRouter(

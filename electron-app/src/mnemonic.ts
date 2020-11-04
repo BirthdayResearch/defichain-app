@@ -13,7 +13,7 @@ export default class Mnemonic {
     return seed;
   };
 
-  createRoot = (seed: Buffer,network: any) => {
+  createRoot = (seed: Buffer, network: any) => {
     return bip32.fromSeed(seed, network);
   };
 
