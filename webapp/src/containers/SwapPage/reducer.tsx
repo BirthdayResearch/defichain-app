@@ -6,6 +6,10 @@ export const initialState = {
   isLoadingPoolshares: false,
   poolPairList: [],
   tokenBalanceList: [],
+  isLoadingAddPoolLiquidity: false,
+  isAddPoolLiquidityLoaded: false,
+  addPoolLiquidityHash: '',
+  isErrorAddingPoolLiquidity: '',
 };
 
 const configSlice = createSlice({
@@ -35,6 +39,20 @@ const configSlice = createSlice({
       state.tokenBalanceList = action.payload;
     },
     fetchTokenBalanceListFailure(state) {},
+    addPoolLiquidityRequest(state) {
+      state.isLoadingAddPoolLiquidity = true;
+      state.isAddPoolLiquidityLoaded = false;
+    },
+    addPoolLiquiditySuccess(state, action){
+      state.addPoolLiquidityHash = action.payload;
+      state.isLoadingAddPoolLiquidity = false;
+      state.isAddPoolLiquidityLoaded = true;
+    },
+    addPoolLiquidityFailure(state, action){
+      state.isErrorAddingPoolLiquidity = action.payload;
+      state.isLoadingAddPoolLiquidity = false;
+      state.isAddPoolLiquidityLoaded = true;
+    }
   },
 });
 
@@ -50,6 +68,9 @@ export const {
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
   fetchTokenBalanceListFailure,
+  addPoolLiquidityRequest,
+  addPoolLiquiditySuccess,
+  addPoolLiquidityFailure
 } = actions;
 
 export default reducer;
