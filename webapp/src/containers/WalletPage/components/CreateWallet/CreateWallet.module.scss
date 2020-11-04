@@ -47,14 +47,14 @@
   color: #ff00af;
 }
 
-.statCardIconAnimation {
+.statCardActionWithIconAnimation {
   svg {
     -webkit-animation: rotation 2s infinite linear;
     animation: rotation 2s infinite linear;
   }
 }
 
-.statCardIcon {
+.statCardActionWithIcon {
   text-align: end;
 }
 

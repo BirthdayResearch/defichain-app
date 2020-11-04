@@ -351,7 +351,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount } = this;
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -361,7 +361,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}`
+                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
@@ -570,7 +570,61 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={WALLET_PAGE_PATH} tag={NavLink}>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
+                {I18n.t('containers.wallet.sendPage.backToWallet')}
+              </Button>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'loading',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <Spinner />
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames({
+              'd-none': this.state.sendStep !== 'failure',
+            })}
+          >
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dailog`]]: true,
+                  })}
+                />
+                {!this.state.regularDFI && (
+                  <p>
+                    {I18n.t('containers.wallet.sendPage.pleaseTransferFunds')}
+                  </p>
+                )}
+                <p>{this.state.errMessage}</p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center'>
+              <Button
+                color='primary'
+                to={
+                  tokenSymbol
+                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : WALLET_PAGE_PATH
+                }
+                tag={NavLink}
+              >
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

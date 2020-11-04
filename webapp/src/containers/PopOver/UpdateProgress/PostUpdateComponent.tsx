@@ -17,14 +17,14 @@ const PostUpdateComponent = (props: PostUpdateComponentProps) => {
     <>
       <ModalBody>
         <h1 className='h4'>{I18n.t('alerts.updateAppNoticeTitle')}</h1>
-        {I18n.t('alerts.updateAppNotice')}
+        <p>{I18n.t('alerts.updateAppNotice')}</p>
       </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={() => sendUpdateResponse()}>
-          {I18n.t('alerts.yesUpdateAppNotice')}
+          {I18n.t('alerts.restartNowNotice')}
         </Button>
         <Button size='sm' onClick={closing}>
-          {I18n.t('alerts.noUpdateAppNotice')}
+          {I18n.t('alerts.restartLaterNotice')}
         </Button>
       </ModalFooter>
     </>

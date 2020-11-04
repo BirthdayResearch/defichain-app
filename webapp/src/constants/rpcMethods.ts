@@ -45,3 +45,6 @@ export const LIST_POOL_PAIRS = 'listpoolpairs';
 export const LIST_POOL_SHARES = 'listpoolshares';
 export const GET_POOL_PAIR = 'getpoolpair';
 export const ADD_POOL_LIQUIDITY = 'addpoolliquidity';
+export const ENCRYPT_WALLET = 'encryptwallet';
+export const WALLET_PASSPHRASE = 'walletpassphrase';
+export const WALLET_LOCK = 'walletlock';

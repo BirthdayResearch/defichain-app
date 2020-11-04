@@ -4,12 +4,18 @@ import {
   PAYMENT_REQUEST,
   BLOCKCHAIN_INFO_CHAIN_TEST,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  LIST_TOKEN_PAGE_SIZE,
+  LIST_ACCOUNTS_PAGE_SIZE,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
-import { getErrorMessage } from '../../utils/utility';
+import {
+  fetchAccountsDataWithPagination,
+  fetchTokenDataWithPagination,
+  getErrorMessage,
+} from '../../utils/utility';
 import {
   getMixWordsObject,
   getMnemonicObject,
@@ -208,16 +214,11 @@ export const getNewAddress = async (
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  const tokens = await rpcClient.listTokens();
-  if (isEmpty(tokens)) {
-    return [];
-  }
-  const transformedData = Object.keys(tokens).map((item) => ({
-    hash: item,
-    ...tokens[item],
-  }));
-
-  return transformedData;
+  return await fetchTokenDataWithPagination(
+    0,
+    LIST_TOKEN_PAGE_SIZE,
+    rpcClient.listTokens
+  );
 };
 
 export const handleFetchToken = async (id: string) => {
@@ -258,10 +259,11 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
 
 export const handleFetchAccounts = async () => {
   const rpcClient = new RpcClient();
-  const accounts = await rpcClient.listAccounts();
-  if (isEmpty(accounts)) {
-    return [];
-  }
+  const accounts = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts
+  );
 
   const tokensData = accounts.map(async (account) => {
     const addressInfo = await getAddressInfo(account.owner.addresses[0]);

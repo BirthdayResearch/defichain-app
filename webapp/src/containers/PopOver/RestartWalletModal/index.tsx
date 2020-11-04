@@ -26,16 +26,14 @@ const RestartWalletModal: React.FunctionComponent<RestartWalletModalProps> = (
     <Modal isOpen={isWalletRestart} centered>
       <ModalBody>
         <h1 className='h4'>{I18n.t('alerts.restartWalletModalHeader')}</h1>
-        <label className='text-center'>
-          {I18n.t('alerts.restartWalletWarningNotice')}
-        </label>
+        <p>{I18n.t('alerts.restartWalletWarningNotice')}</p>
       </ModalBody>
       <ModalFooter>
+        <Button size='sm' color='link' onClick={closeWalletRestartModal}>
+          {I18n.t('alerts.noRestartWalletNotice')}
+        </Button>
         <Button size='sm' color='primary' onClick={restartWalletStart}>
           {I18n.t('alerts.yesRestartWalletNotice')}
-        </Button>
-        <Button size='sm' className='ml-4' onClick={closeWalletRestartModal}>
-          {I18n.t('alerts.noRestartWalletNotice')}
         </Button>
       </ModalFooter>
     </Modal>

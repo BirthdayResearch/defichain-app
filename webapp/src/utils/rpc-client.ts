@@ -10,6 +10,7 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
+  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
 } from './../constants';
@@ -608,13 +609,19 @@ export default class RpcClient {
     return data.result;
   };
 
-  listTokens = async (): Promise<string> => {
-    const { data } = await this.call('/', methodNames.LIST_TOKEN);
+  getTokenBalances = async (): Promise<string[]> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
     return data.result;
   };
 
-  getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+  listTokens = async (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_TOKEN, [
+      { start, including_start: includingStart, limit },
+    ]);
     return data.result;
   };
 
@@ -641,9 +648,17 @@ export default class RpcClient {
     return data.result;
   };
 
-  listAccounts = async () => {
+  listAccounts = async (
+    includingStart: boolean,
+    limit: number,
+    start?: string
+  ) => {
     const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
-      {},
+      {
+        start,
+        including_start: includingStart,
+        limit,
+      },
       true,
       true,
     ]);
@@ -713,6 +728,13 @@ export default class RpcClient {
       { start, including_start, limit },
     ]);
     return data.result;
+  }
+
+  encryptWallet = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.ENCRYPT_WALLET, [
+      passphrase,
+    ]);
+    return data.result;
   };
 
   listPoolShares = async (
@@ -722,6 +744,14 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
+    ]);
+    return data.result;
+  }
+
+  walletPassphrase = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
+      passphrase,
+      WALLET_UNLOCK_TIMEOUT,
     ]);
     return data.result;
   };
@@ -747,6 +777,11 @@ export default class RpcClient {
       from,
       shareAddress,
     ]);
+    return data.result;
+  };
+  
+  walletlock = async () => {
+    const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
     return data.result;
   };
 }

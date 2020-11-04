@@ -34,6 +34,7 @@ interface TokensProps {
   searchQuery: string;
   history: any;
   fetchTokensRequest: () => void;
+  isLoadingTokens: boolean;
 }
 
 const TokensPage: React.FunctionComponent<TokensProps> = (
@@ -42,7 +43,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>(DCT_TOKEN);
-  const { tokens, fetchTokensRequest } = props;
+  const { tokens, fetchTokensRequest, isLoadingTokens } = props;
 
   useEffect(() => {
     fetchTokensRequest();
@@ -121,6 +122,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
               searchQuery={searchQuery}
               handleCardClick={handleCardClick}
               component={DATTokenCard}
+              isLoadingTokens={isLoadingTokens}
             />
           </TabPane>
           <TabPane tabId={DCT_TOKEN}>
@@ -132,6 +134,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
               searchQuery={searchQuery}
               handleCardClick={handleCardClick}
               component={DCTTokenCard}
+              isLoadingTokens={isLoadingTokens}
             />
           </TabPane>
         </TabContent>
