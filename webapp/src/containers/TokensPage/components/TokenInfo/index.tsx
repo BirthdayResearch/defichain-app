@@ -183,7 +183,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <div className={`${styles.mintAlert} m-5`}>
           <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
           <Button
-            to={`${TOKEN_MINT_PATH}/${id}/${hash}`}
+            to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
             tag={RRNavLink}
             color='link'
             className='text-right'
