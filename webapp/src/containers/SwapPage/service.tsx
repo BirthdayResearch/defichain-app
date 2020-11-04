@@ -63,3 +63,20 @@ export const handleFetchTokenBalanceList = async () => {
   const rpcClient = new RpcClient();
   return await rpcClient.getTokenBalances();
 };
+
+export const handleAddPoolLiquidity = async (
+  address1: string,
+  amount1: string,
+  address2: string,
+  amount2: string,
+  shareAddress: string
+) => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.addpooliquidity(
+    address1,
+    amount1,
+    address2,
+    amount2,
+    shareAddress
+  );
+};
