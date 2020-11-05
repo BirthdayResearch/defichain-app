@@ -68,7 +68,7 @@
         "loading": "Загрузка..."
       },
       "minerPage": {
-        "miner": "Шахтер",
+        "miner": "Майнер",
         "defiBlockChainClient": "Блокчейн-Клиент DeFi",
         "blockchain": "Блокчейн"
       }
@@ -83,7 +83,7 @@
       "title": "Обменник – Блокчейн-Клиент DeFi",
       "exchange": "Обменник",
       "section": "Раздел",
-      "footerBar": "Нижняя стойка"
+      "footerBar": "Подвал"
     },
     "helpPage": {
       "title": "Помощь – Блокчейн-Клиент DeFi",
@@ -149,14 +149,14 @@
         "registered": "Зарегистрировано",
         "mintedBlocks": "Отчеканенные блоки",
         "resignHeight": "Отказ от роста",
-        "resignTx": "Отказ от трансакции",
+        "resignTx": "отказ от транзакции",
         "banHeight": "Забанить рост",
         "banTx": "Забанить транзакцию",
         "resignMasterNode": "Отказ",
         "confirmation": "Вы уверены, что хотите отказаться от мастерноды?",
         "noButtonText": "Отменить",
         "yesButtonText": "Продолжить",
-        "successText": "Успех",
+        "successText": "Успешно",
         "backToMasternodePage": "Вернуться на страницу мастерноды"
       },
       "masternodeTab": {
@@ -207,7 +207,7 @@
         "name": "Имя токена",
         "symbol": "Символ тикера",
         "decimal": "Десятичный",
-        "decimalText": "Количество десятичных знаков. После установки не может быть изменен.",
+        "decimalText": "Количество десятичных знаков. После установки не может быть изменено.",
         "limit": "Предел",
         "mintingSupport": "Поддержка чеканки",
         "mintText": "Вы можете чеканить токены после того, как они будут созданы.",
@@ -252,7 +252,7 @@
         "comments": "Комментарии",
         "noButtonText": "Отмена",
         "yesButtonText": "Продолжить",
-        "successText": "Успех",
+        "successText": "Успешно",
         "backToTokenPage": "Вернуться на страницу токенов",
         "confirmation": "Вы уверены, что хотите уничтожить токен?",
         "deleteToken": "Удалить токен",
@@ -514,7 +514,7 @@
     "walletTxnsFailure": "Ошибка в транзакции кошелька",
     "sendDataFailure": "Ошибка отправки данных",
     "errorOccurred": "Произошла ошибка",
-    "success": "Успех",
+    "success": "Успешно",
     "backupSuccess": "Резервное копирование кошелька выполнено успешно",
     "importSuccess": "Импорт кошелька выполнен успешно",
     "masterNodeOperatorAddressFailure": "Адрес оператора мастерноды отсутствует",
