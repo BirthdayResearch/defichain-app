@@ -717,6 +717,26 @@ export default class RpcClient {
     return data.result;
   };
 
+  encryptWallet = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.ENCRYPT_WALLET, [
+      passphrase,
+    ]);
+    return data.result;
+  };
+
+  walletPassphrase = async (passphrase: string) => {
+    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
+      passphrase,
+      WALLET_UNLOCK_TIMEOUT,
+    ]);
+    return data.result;
+  };
+
+  walletlock = async () => {
+    const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
+    return data.result;
+  };
+
   // LP RPC call
 
   listPoolPairs = async (
@@ -726,13 +746,6 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
       { start, including_start, limit },
-    ]);
-    return data.result;
-  }
-
-  encryptWallet = async (passphrase: string) => {
-    const { data } = await this.call('/', methodNames.ENCRYPT_WALLET, [
-      passphrase,
     ]);
     return data.result;
   };
@@ -746,14 +759,6 @@ export default class RpcClient {
       { start, including_start, limit },
     ]);
     return data.result;
-  }
-
-  walletPassphrase = async (passphrase: string) => {
-    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
-      passphrase,
-      WALLET_UNLOCK_TIMEOUT,
-    ]);
-    return data.result;
   };
 
   getPoolPair = async (poolID: string) => {
@@ -761,7 +766,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  addpooliquidity = async (
+  addPooLiquidity = async (
     address1: string,
     amount1: string,
     address2: string,
@@ -773,15 +778,28 @@ export default class RpcClient {
         ? { [address1]: [amount1, amount2] }
         : { [address1]: amount1, [address2]: amount2 };
 
-    const data = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
+    const {data} = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
       from,
       shareAddress,
     ]);
     return data.result;
   };
-  
-  walletlock = async () => {
-    const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
+
+  poolSwap = async (
+    from: string,
+    tokenForm: string,
+    amountFrom: number,
+    to: string,
+    tokenTo: string
+  ) => {
+    const {data} = await this.call('/', methodNames.POOL_SWAP, [
+      { from, tokenForm, amountFrom, to, tokenTo },
+    ]);
+    return data.result;
+  };
+
+  removePoolLiquidity= async (from: string, amount: string) => {
+    const {data} = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [from, amount, []]);
     return data.result;
   };
 }

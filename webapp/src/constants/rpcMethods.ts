@@ -40,11 +40,15 @@ export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
 export const GET_TRANSACTION = 'gettransaction';
 export const SET_HD_SEED = 'sethdseed';
 
+// wallet lock/unlock methods
+export const ENCRYPT_WALLET = 'encryptwallet';
+export const WALLET_PASSPHRASE = 'walletpassphrase';
+export const WALLET_LOCK = 'walletlock';
+
 // LP RPC Methods
 export const LIST_POOL_PAIRS = 'listpoolpairs';
 export const LIST_POOL_SHARES = 'listpoolshares';
 export const GET_POOL_PAIR = 'getpoolpair';
 export const ADD_POOL_LIQUIDITY = 'addpoolliquidity';
-export const ENCRYPT_WALLET = 'encryptwallet';
-export const WALLET_PASSPHRASE = 'walletpassphrase';
-export const WALLET_LOCK = 'walletlock';
+export const POOL_SWAP = 'poolswap';
+export const REMOVE_POOL_LIQUIDITY = 'removepoolliquidity';
