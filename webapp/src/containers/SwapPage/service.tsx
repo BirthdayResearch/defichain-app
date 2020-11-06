@@ -72,7 +72,7 @@ export const handleAddPoolLiquidity = async (
   shareAddress: string
 ) => {
   const rpcClient = new RpcClient();
-  return await rpcClient.addpooliquidity(
+  return await rpcClient.addPooLiquidity(
     address1,
     amount1,
     address2,
@@ -80,3 +80,4 @@ export const handleAddPoolLiquidity = async (
     shareAddress
   );
 };
+

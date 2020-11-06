@@ -33,7 +33,7 @@ import {
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
-  STATS_API_BASE_URL,
+  STATS_API_BASE_URL, LIST_ACCOUNTS_PAGE_SIZE
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -46,6 +46,7 @@ import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
+import { getAddressInfo } from '../containers/WalletPage/service';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -666,3 +667,39 @@ export const getIcon = (symbol: string | null) => {
     return DefiIcon;
   }
 };
+
+export const getAddressAndAmountListForAccount = async () => {
+  const rpcClient = new RpcClient();
+  const accountList = await fetchAccountsDataWithPagination('',LIST_ACCOUNTS_PAGE_SIZE,rpcClient.listAccounts);
+
+  const addressAndAmountList: IAddressAndAmount[] = accountList.reduce(async (filterList:IAddressAndAmount[], account) => {
+    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+    if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      filterList.push({
+        amount: account.amount,
+        address: account.owner.addresses[0],
+      });
+    }
+    return filterList;
+  }, [])
+  return addressAndAmountList;
+}
+
+export const getAddressForSymbol = async (key: string, list: IAddressAndAmount[]) => {
+  const rpcClient = new RpcClient();
+  const tokenInfo = await rpcClient.tokenInfo(key);
+  const { symbol } = tokenInfo[key];
+
+  let maxAmount = 0;
+  let address = '';
+  for(const obj of list){
+    const amountAndSymbolList = obj.amount.split('@');
+    const tokenSymbol = amountAndSymbolList[1];
+    const amount = Number(amountAndSymbolList[0]);
+    if(symbol === tokenSymbol && maxAmount < amount){
+      maxAmount = amount;
+      address = obj.address;
+    }
+  }
+  return address;
+}

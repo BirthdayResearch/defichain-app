@@ -132,3 +132,8 @@ export interface ITokenBalanceInfo {
   balance: string;
   isPopularToken: boolean;
 }
+
+export interface IAddressAndAmount {
+  amount: string;
+  address: string;
+}
