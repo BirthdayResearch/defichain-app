@@ -778,7 +778,7 @@ export default class RpcClient {
         ? { [address1]: [amount1, amount2] }
         : { [address1]: amount1, [address2]: amount2 };
 
-    const {data} = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
+    const { data } = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
       from,
       shareAddress,
     ]);
@@ -792,14 +792,32 @@ export default class RpcClient {
     to: string,
     tokenTo: string
   ) => {
-    const {data} = await this.call('/', methodNames.POOL_SWAP, [
+    const { data } = await this.call('/', methodNames.POOL_SWAP, [
       { from, tokenForm, amountFrom, to, tokenTo },
+      []
     ]);
     return data.result;
   };
 
-  removePoolLiquidity= async (from: string, amount: string) => {
-    const {data} = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [from, amount, []]);
+  removePoolLiquidity = async (from: string, amount: string) => {
+    const { data } = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [
+      from,
+      amount,
+      [],
+    ]);
+    return data.result;
+  };
+
+  testPoolSwap = async (
+    from: string,
+    tokenForm: string,
+    amountFrom: number,
+    to: string,
+    tokenTo: string
+  ) => {
+    const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
+      { from, tokenForm, amountFrom, to, tokenTo },
+    ]);
     return data.result;
   };
 }
