@@ -48,13 +48,14 @@ import {
   WALLET_CREATE_PATH,
   SWAP_PATH,
   CREATE_POOL_PAIR_PATH,
-  MINT_TOKENS_PATH,
+  MINT_TOKENS_PATH, REMOVE_LIQUIDITY
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import SwapPage from '../containers/SwapPage';
 import AddLiquidityPage from '../containers/SwapPage/components/AddLiquidity';
+import RemoveLiquidityPage from '../containers/SwapPage/components/RemoveLiquidity';
 import MintToken from '../containers/TokensPage/components/MintToken';
 
 const routes = (location) => (
@@ -103,6 +104,7 @@ const routes = (location) => (
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
+    <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage}/>
     <Route exact component={Error404Page} />
   </Switch>
 );
