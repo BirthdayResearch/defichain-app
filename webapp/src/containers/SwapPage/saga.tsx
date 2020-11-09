@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import { getErrorMessage } from '../../utils/utility';
 import {
+  fetchTestPoolSwapRequest,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,
@@ -10,7 +11,17 @@ import {
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
   fetchPoolPairListSuccess,
-  addPoolLiquidityRequest, addPoolLiquiditySuccess, addPoolLiquidityFailure, removePoolLiquiditySuccess, removePoolLiquidityFailure, removePoolLiqudityRequest
+  addPoolLiquidityRequest,
+  addPoolLiquiditySuccess,
+  addPoolLiquidityFailure,
+  removePoolLiquiditySuccess,
+  removePoolLiquidityFailure,
+  removePoolLiqudityRequest,
+  fetchTestPoolSwapSuccess,
+  fetchTestPoolSwapFailure,
+  poolSwapRequest,
+  poolSwapSuccess,
+  poolSwapFailure,
 } from './reducer';
 import {
   handleAddPoolLiquidity,
@@ -18,6 +29,8 @@ import {
   handleFetchPoolshares,
   handleFetchTokenBalanceList,
   handleRemovePoolLiquidity,
+  handlePoolSwap,
+  handleTestPoolSwap,
 } from './service';
 
 function* fetchPoolshares() {
@@ -45,6 +58,23 @@ function* fetchTokenBalanceList() {
   }
 }
 
+function* fetchTestPoolSwap(action) {
+  try {
+    const {
+      payload: { formState },
+    } = action;
+
+    const data = yield call(handleTestPoolSwap, formState);
+    yield put({ type: fetchTestPoolSwapSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e);
+    yield put({
+      type: fetchTestPoolSwapFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
 function* fetchPoolPairList() {
   try {
     const data = yield call(handleFetchPoolPairList);
@@ -57,48 +87,65 @@ function* fetchPoolPairList() {
 function* addPoolLiquidity(action) {
   try {
     const {
-      payload: { address1, amount1, address2, amount2, shareAddress }
+      payload: { hash1, amount1, hash2, amount2 },
     } = action;
 
     const data = yield call(
       handleAddPoolLiquidity,
-      address1,
+      hash1,
       amount1,
-      address2,
-      amount2,
-      shareAddress
+      hash2,
+      amount2
     );
-    yield put({type: addPoolLiquiditySuccess.type, payload: data});
+    yield put({ type: addPoolLiquiditySuccess.type, payload: data });
   } catch (e) {
     log.error(e.message);
-    yield put({ type: addPoolLiquidityFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: addPoolLiquidityFailure.type,
+      payload: getErrorMessage(e),
+    });
   }
 }
 
 function* removePoolLiquidity(action) {
   try {
     const {
-      payload: { from, amount }
+      payload: { from, amount },
     } = action;
 
-    const data = yield call(
-      handleRemovePoolLiquidity,
-      from,
-      amount
-    );
-    yield put({type: removePoolLiquiditySuccess.type, payload: data});
+    const data = yield call(handleRemovePoolLiquidity, from, amount);
+    yield put({ type: removePoolLiquiditySuccess.type, payload: data });
   } catch (e) {
     log.error(e.message);
-    yield put({ type: removePoolLiquidityFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: removePoolLiquidityFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
+function* poolSwap(action) {
+  try {
+    const {
+      payload: { formState },
+    } = action;
+
+    const data = yield call(handlePoolSwap, formState);
+    yield put({ type: poolSwapSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e.message);
+    yield put({ type: poolSwapFailure.type, payload: getErrorMessage(e) });
   }
 }
 
 function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
+  yield takeLatest(fetchTestPoolSwapRequest.type, fetchTestPoolSwap);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
   yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);
+  yield takeLatest(poolSwapRequest.type, poolSwap);
 }
 
 export default mySaga;
