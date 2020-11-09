@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { I18n } from 'react-redux-i18n';
-import { Row, Card, CardBody, CardFooter, Col, Input } from 'reactstrap';
+import {
+  Row,
+  Card,
+  CardBody,
+  CardFooter,
+  Col,
+  FormGroup,
+  Input,
+  Label,
+  Button,
+} from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapDropdown from '../swapDropdown';
@@ -8,24 +18,35 @@ import styles from './SwapCard.module.scss';
 
 interface SwapCardProps {
   label: string;
-  isFrom: boolean;
-  balance: number;
+  dropdownLabel: string;
   tokenMap: Map<string, ITokenBalanceInfo>;
+  name: number;
+  formState: any;
+  handleChange: (e) => void;
+  setMaxValue: (field: string, value: string) => void;
+  handleDropdown: (
+    hash: string,
+    field1: string,
+    symbol: string,
+    field2: string,
+    balance: string,
+    field3: string
+  ) => void;
 }
 
 const SwapCard: React.FunctionComponent<SwapCardProps> = (
   props: SwapCardProps
 ) => {
-  const { isFrom, label, balance, tokenMap } = props;
-
-  const [fromAmount, setFromAmount] = useState(0);
-
-  const onInputChange = (e) => {
-    setFromAmount(e.target.value);
-  };
-
-  // temporary condition, need to update
-  const amount = isFrom ? fromAmount : Number(fromAmount) * 10 || 0;
+  const {
+    label,
+    tokenMap,
+    name,
+    formState,
+    handleChange,
+    handleDropdown,
+    dropdownLabel,
+    setMaxValue,
+  } = props;
 
   return (
     <Card className={styles.swapCard}>
@@ -35,35 +56,58 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
         </Row>
         <Row>
           <Col className='mt-2'>
-            {isFrom ? (
-              <Input
-                className='border-0'
-                type='text'
-                value={amount}
-                onChange={onInputChange}
-              ></Input>
+            {name === 1 ? (
+              <FormGroup className='form-label-group'>
+                <Input
+                  type='number'
+                  placeholder={I18n.t('components.swapCard.inputLabel')}
+                  name={`amount${name}`}
+                  id='input'
+                  value={formState[`amount${name}`]}
+                  onChange={handleChange}
+                  disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+                />
+                <Label for='message'>
+                  {I18n.t('components.swapCard.inputLabel')}
+                </Label>
+              </FormGroup>
             ) : (
-              amount
+              <div className='mt-2'>{formState[`amount2`]}</div>
             )}
           </Col>
           <Col className={styles.dropDownCol}>
-            {/* <SwapDropdown tokenMap={tokenMap} /> */}
+            <SwapDropdown
+              tokenMap={tokenMap}
+              name={name}
+              formState={formState}
+              handleDropdown={handleDropdown}
+              dropdownLabel={dropdownLabel}
+            />
           </Col>
         </Row>
       </CardBody>
-      <CardFooter className={styles.cardFooter}>
+      <CardFooter>
         <Row>
-          <Col>
+          <Col md='8'>
             <span className={styles.labelBalance}>
               {I18n.t('components.swapCard.balance')}
             </span>
-            : {balance}
+            : {formState[`balance${name}`] || '-'}
           </Col>
-          {isFrom && (
-            <Col className={styles.colorMax}>
-              {I18n.t('components.swapCard.max')}
-            </Col>
-          )}
+          <Col className='text-right' md='4'>
+            {name === 1 && (
+              <Button
+                color='link'
+                size='sm'
+                disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+                onClick={() =>
+                  setMaxValue(`amount${name}`, formState[`balance${name}`])
+                }
+              >
+                {I18n.t('components.swapCard.max')}
+              </Button>
+            )}
+          </Col>
         </Row>
       </CardFooter>
     </Card>
