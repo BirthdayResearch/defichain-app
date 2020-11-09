@@ -231,6 +231,17 @@
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool"
+      },
+      "removeLiquidity": {
+        "removeLiquidity": "Remove Liquidity",
+        "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
+        "removeLiquidityAmount": "Amount of liquidity to remove",
+        "removeLiquidityPercentage": "%",
+        "price": "Price",
+        "none": "None",
+        "all":"All",
+        "back": "BACK",
+        "continue": "CONTINUE"
       }
     },
     "tokens": {
