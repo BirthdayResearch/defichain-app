@@ -179,6 +179,7 @@
         "liquidity": "Liquidity",
         "enterAnAmount": "Enter an amount to swap",
         "continue": "Continue",
+        "cancel": "Cancel",
         "from": "From",
         "to": "To",
         "balance": "Balance",
@@ -193,6 +194,10 @@
         "priceImpact": "Price Impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "goToWallet": "Go to Wallet",
+        "go": "Go",
+        "ok": "OK",
         "yourLiquidity": "Your Liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "add": "Add",
@@ -239,7 +244,7 @@
         "removeLiquidityPercentage": "%",
         "price": "Price",
         "none": "None",
-        "all":"All",
+        "all": "All",
         "back": "BACK",
         "continue": "CONTINUE"
       }
