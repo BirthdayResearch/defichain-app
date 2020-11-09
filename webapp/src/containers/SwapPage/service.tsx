@@ -81,3 +81,8 @@ export const handleAddPoolLiquidity = async (
   );
 };
 
+export const handleRemovePoolLiquidity = async (from: string, amount: string) => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.removePoolLiquidity(from, amount);
+}
+
