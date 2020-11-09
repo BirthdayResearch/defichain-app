@@ -10,22 +10,34 @@ import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
 
 interface SwapTabProps {
-  poolshares: any;
-  fetchPoolsharesRequest: () => void;
+  label: string;
+  dropdownLabel: string;
+  tokenMap: Map<string, ITokenBalanceInfo>;
+  name: number;
+  formState: any;
+  handleChange: (e) => void;
+  setMaxValue: (field: string, value: string) => void;
+  handleDropdown: (
+    hash: string,
+    field1: string,
+    symbol: string,
+    field2: string,
+    balance: string,
+    field3: string
+  ) => void;
+  filterBySymbol: any;
 }
 
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
   props: SwapTabProps
 ) => {
-  const { poolshares, fetchPoolsharesRequest } = props;
-
-  const tokenMap: Map<string, ITokenBalanceInfo> = new Map([
-    ['DFI', { balance: '10', isPopularToken: true, hash: '0' }],
-    ['BTC', { balance: '20', isPopularToken: true, hash: '1' }],
-    ['ETH', { balance: '30', isPopularToken: true, hash: '2' }],
-    ['DOO', { balance: '40', isPopularToken: false, hash:'3' }],
-    ['MEOW', { balance: '50', isPopularToken: false, hash: '4' }],
-  ]);
+  const {
+    formState,
+    handleChange,
+    handleDropdown,
+    setMaxValue,
+    filterBySymbol,
+  } = props;
 
   useEffect(() => {
     fetchPoolsharesRequest();
@@ -33,40 +45,49 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
 
   return (
     <>
-      <section>
-        <Row>
-          <Col md='5'>
-            <SwapCard
-              isFrom={true}
-              label={I18n.t('containers.swap.swapTab.from')}
-              balance={100}
-              tokenMap={tokenMap}
-            />
-          </Col>
-          <Col md='2' className={styles.colSvg}>
-            <MdCompareArrows className={styles.svg} />
-          </Col>
-          <Col md='5'>
-            <SwapCard
-              isFrom={false}
-              label={I18n.t('containers.swap.swapTab.to')}
-              balance={100}
-              tokenMap={tokenMap}
-            />
-          </Col>
-        </Row>
-      </section>
+      <div>
+        <section>
+          <Row>
+            <Col md='5'>
+              <SwapCard
+                label={I18n.t('containers.swap.swapTab.from')}
+                tokenMap={filterBySymbol(`symbol${2}`)}
+                name={1}
+                formState={formState}
+                handleChange={handleChange}
+                handleDropdown={handleDropdown}
+                setMaxValue={setMaxValue}
+                dropdownLabel={
+                  formState.symbol1
+                    ? formState.symbol1
+                    : I18n.t('components.swapCard.selectAToken')
+                }
+              />
+            </Col>
+            <Col md='2' className={styles.colSvg}>
+              <MdCompareArrows className={styles.svg} />
+            </Col>
+            <Col md='5'>
+              <SwapCard
+                label={I18n.t('containers.swap.swapTab.to')}
+                tokenMap={filterBySymbol(`symbol${1}`)}
+                name={2}
+                formState={formState}
+                handleChange={handleChange}
+                handleDropdown={handleDropdown}
+                setMaxValue={setMaxValue}
+                dropdownLabel={
+                  formState.symbol2
+                    ? formState.symbol2
+                    : I18n.t('components.swapCard.selectAToken')
+                }
+              />
+            </Col>
+          </Row>
+        </section>
+      </div>
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  const { poolshares } = state.swap;
-  return { poolshares };
-};
-
-const mapDispatchToProps = {
-  fetchPoolsharesRequest,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SwapTab);
+export default SwapTab;
