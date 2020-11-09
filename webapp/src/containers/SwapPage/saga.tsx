@@ -10,13 +10,14 @@ import {
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
   fetchPoolPairListSuccess,
-  addPoolLiquidityRequest, addPoolLiquiditySuccess, addPoolLiquidityFailure
+  addPoolLiquidityRequest, addPoolLiquiditySuccess, addPoolLiquidityFailure, removePoolLiquiditySuccess, removePoolLiquidityFailure, removePoolLiqudityRequest
 } from './reducer';
 import {
   handleAddPoolLiquidity,
   handleFetchPoolPairList,
   handleFetchPoolshares,
   handleFetchTokenBalanceList,
+  handleRemovePoolLiquidity,
 } from './service';
 
 function* fetchPoolshares() {
@@ -74,11 +75,30 @@ function* addPoolLiquidity(action) {
   }
 }
 
+function* removePoolLiquidity(action) {
+  try {
+    const {
+      payload: { from, amount }
+    } = action;
+
+    const data = yield call(
+      handleRemovePoolLiquidity,
+      from,
+      amount
+    );
+    yield put({type: removePoolLiquiditySuccess.type, payload: data});
+  } catch (e) {
+    log.error(e.message);
+    yield put({ type: removePoolLiquidityFailure.type, payload: getErrorMessage(e) });
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
+  yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);
 }
 
 export default mySaga;

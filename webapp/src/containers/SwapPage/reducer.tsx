@@ -10,6 +10,10 @@ export const initialState = {
   isAddPoolLiquidityLoaded: false,
   addPoolLiquidityHash: '',
   isErrorAddingPoolLiquidity: '',
+  isLoadingRemovePoolLiquidity: false,
+  isRemovePoolLiquidityLoaded: false,
+  removePoolLiquidityHash: '',
+  isErrorRemovingPoolLiquidity: '',
 };
 
 const configSlice = createSlice({
@@ -43,16 +47,30 @@ const configSlice = createSlice({
       state.isLoadingAddPoolLiquidity = true;
       state.isAddPoolLiquidityLoaded = false;
     },
-    addPoolLiquiditySuccess(state, action){
+    addPoolLiquiditySuccess(state, action) {
       state.addPoolLiquidityHash = action.payload;
       state.isLoadingAddPoolLiquidity = false;
       state.isAddPoolLiquidityLoaded = true;
     },
-    addPoolLiquidityFailure(state, action){
+    addPoolLiquidityFailure(state, action) {
       state.isErrorAddingPoolLiquidity = action.payload;
       state.isLoadingAddPoolLiquidity = false;
       state.isAddPoolLiquidityLoaded = true;
-    }
+    },
+    removePoolLiqudityRequest(state, action) {
+      state.isLoadingRemovePoolLiquidity = true;
+      state.isRemovePoolLiquidityLoaded = false;
+    },
+    removePoolLiquiditySuccess(state, action) {
+      state.removePoolLiquidityHash = action.payload;
+      state.isLoadingRemovePoolLiquidity = false;
+      state.isRemovePoolLiquidityLoaded = true;
+    },
+    removePoolLiquidityFailure(state, action) {
+      state.isErrorRemovingPoolLiquidity = action.payload;
+      state.isLoadingRemovePoolLiquidity = false;
+      state.isRemovePoolLiquidityLoaded = true;
+    },
   },
 });
 
@@ -70,7 +88,10 @@ export const {
   fetchTokenBalanceListFailure,
   addPoolLiquidityRequest,
   addPoolLiquiditySuccess,
-  addPoolLiquidityFailure
+  addPoolLiquidityFailure,
+  removePoolLiqudityRequest,
+  removePoolLiquiditySuccess,
+  removePoolLiquidityFailure,
 } = actions;
 
 export default reducer;
