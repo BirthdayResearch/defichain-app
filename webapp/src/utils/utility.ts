@@ -33,7 +33,8 @@ import {
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
-  STATS_API_BASE_URL, LIST_ACCOUNTS_PAGE_SIZE
+  STATS_API_BASE_URL,
+  LIST_ACCOUNTS_PAGE_SIZE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -47,6 +48,7 @@ import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import { getAddressInfo } from '../containers/WalletPage/service';
+import { handleFetchToken } from '../containers/TokensPage/service';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -531,26 +533,44 @@ export const fetchPoolPairDataWithPagination = async (
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
-  const transformedData = Object.keys(result).map((item) => ({
-    key: item,
-    ...result[item],
-  }));
-  if (transformedData.length === 0) {
+  const transformedData = Object.keys(result).map(async (item: any) => {
+    const tokenAData = await handleFetchToken(result[item].idTokenA);
+    const tokenBData = await handleFetchToken(result[item].idTokenB);
+    return {
+      key: item,
+      tokenA: tokenAData.symbol,
+      tokenB: tokenBData.symbol,
+      ...result[item],
+    };
+  });
+  const resolvedTransformedData = await Promise.all(transformedData);
+  if (resolvedTransformedData.length === 0) {
     return [];
   }
-  list.push(...transformedData);
-  start = Number(transformedData[transformedData.length - 1].key);
+  list.push(...resolvedTransformedData);
+  start = Number(
+    resolvedTransformedData[resolvedTransformedData.length - 1].key
+  );
   while (true) {
     const result = await fetchList(start, false, limit);
-    const transformedData = Object.keys(result).map((item) => ({
-      key: item,
-      ...result[item],
-    }));
-    if (transformedData.length === 0) {
+    const transformedData = Object.keys(result).map(async (item: any) => {
+      const tokenAData = await handleFetchToken(result[item].idTokenA);
+      const tokenBData = await handleFetchToken(result[item].idTokenB);
+      return {
+        key: item,
+        tokenA: tokenAData.symbol,
+        tokenB: tokenBData.symbol,
+        ...result[item],
+      };
+    });
+    const resolvedTransformedData = await Promise.all(transformedData);
+    if (resolvedTransformedData.length === 0) {
       break;
     }
-    list.push(...transformedData);
-    start = Number(transformedData[transformedData.length - 1].key);
+    list.push(...resolvedTransformedData);
+    start = Number(
+      resolvedTransformedData[resolvedTransformedData.length - 1].key
+    );
   }
   return list;
 };
@@ -656,6 +676,56 @@ export const getTotalBlocks = async () => {
   return data;
 };
 
+export const calculateInputAddLiquidity = (
+  input1: string,
+  formState,
+  poolPairList
+) => {
+  const ratio = conversionRatio(formState, poolPairList);
+  if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
+    const amount2 = ratio * Number(input1);
+    return amount2;
+  }
+  return '-';
+};
+
+export const selectedPoolPair = (formState, poolPairList) => {
+  let condition1;
+  let condition2;
+  const poolPair = poolPairList.find((poolpair) => {
+    condition1 =
+      poolpair.idTokenA === formState.hash1 &&
+      poolpair.idTokenB === formState.hash2;
+    condition2 =
+      poolpair.idTokenA === formState.hash2 &&
+      poolpair.idTokenB === formState.hash1;
+    return condition1 || condition2;
+  });
+  return [poolPair, condition1];
+};
+
+export const conversionRatio = (formState, poolPairList) => {
+  const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
+
+  const ratio = condition1
+    ? poolPair.reserveB / poolPair.reserveA
+    : poolPair.reserveA / poolPair.reserveB;
+
+  return ratio;
+};
+
+export const shareOfPool = (formState, poolPairList, poolShareList) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  const shareOfPool = poolShareList.reduce((sharePercentage, poolShare) => {
+    if (poolShare.poolID === poolPair.key) {
+      return Number(poolShare.poolSharePercentage) + Number(sharePercentage);
+    } else {
+      return sharePercentage;
+    }
+  }, 0);
+  return `${shareOfPool} %`;
+};
+
 export const getIcon = (symbol: string | null) => {
   if (symbol === 'BTC') {
     return BTCIcon;
@@ -670,36 +740,36 @@ export const getIcon = (symbol: string | null) => {
 
 export const getAddressAndAmountListForAccount = async () => {
   const rpcClient = new RpcClient();
-  const accountList = await fetchAccountsDataWithPagination('',LIST_ACCOUNTS_PAGE_SIZE,rpcClient.listAccounts);
+  const accountList = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts
+  );
 
-  const addressAndAmountList: IAddressAndAmount[] = accountList.reduce(async (filterList:IAddressAndAmount[], account) => {
+  const addressAndAmountList = accountList.map(async (account) => {
     const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      filterList.push({
+      return {
         amount: account.amount,
         address: account.owner.addresses[0],
-      });
+      };
     }
-    return filterList;
-  }, [])
-  return addressAndAmountList;
-}
+  });
+  return _.compact(await Promise.all(addressAndAmountList));
+};
 
-export const getAddressForSymbol = async (key: string, list: IAddressAndAmount[]) => {
+export const getAddressForSymbol = async (key: string, list: any) => {
   const rpcClient = new RpcClient();
-  const tokenInfo = await rpcClient.tokenInfo(key);
-  const { symbol } = tokenInfo[key];
-
   let maxAmount = 0;
   let address = '';
-  for(const obj of list){
-    const amountAndSymbolList = obj.amount.split('@');
-    const tokenSymbol = amountAndSymbolList[1];
-    const amount = Number(amountAndSymbolList[0]);
-    if(symbol === tokenSymbol && maxAmount < amount){
+  for (const obj of list) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]);
+    if (key === tokenSymbol && maxAmount < amount) {
       maxAmount = amount;
       address = obj.address;
     }
   }
   return address;
-}
+};
