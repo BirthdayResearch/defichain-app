@@ -14,6 +14,14 @@ export const initialState = {
   isRemovePoolLiquidityLoaded: false,
   removePoolLiquidityHash: '',
   isErrorRemovingPoolLiquidity: '',
+  testPoolSwap: '-',
+  isLoadingTestPoolSwap: false,
+  isTestPoolSwapLoaded: false,
+  isErrorTestPoolSwap: '',
+  poolSwapHash: '',
+  isLoadingPoolSwap: false,
+  isPoolSwapLoaded: false,
+  isErrorPoolSwap: '',
 };
 
 const configSlice = createSlice({
@@ -43,7 +51,7 @@ const configSlice = createSlice({
       state.tokenBalanceList = action.payload;
     },
     fetchTokenBalanceListFailure(state) {},
-    addPoolLiquidityRequest(state) {
+    addPoolLiquidityRequest(state, action) {
       state.isLoadingAddPoolLiquidity = true;
       state.isAddPoolLiquidityLoaded = false;
     },
@@ -71,6 +79,34 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = false;
       state.isRemovePoolLiquidityLoaded = true;
     },
+    fetchTestPoolSwapRequest(state, action) {
+      state.isLoadingTestPoolSwap = true;
+    },
+    fetchTestPoolSwapSuccess(state, action) {
+      state.testPoolSwap = action.payload;
+      state.isLoadingTestPoolSwap = false;
+      state.isTestPoolSwapLoaded = true;
+    },
+    fetchTestPoolSwapFailure(state, action) {
+      state.testPoolSwap = '';
+      state.isLoadingTestPoolSwap = false;
+      state.isTestPoolSwapLoaded = true;
+      state.isErrorTestPoolSwap = action.payload;
+    },
+    poolSwapRequest(state, action) {
+      state.isLoadingPoolSwap = true;
+      state.isPoolSwapLoaded = false;
+    },
+    poolSwapSuccess(state, action) {
+      state.poolSwapHash = action.payload;
+      state.isLoadingPoolSwap = false;
+      state.isPoolSwapLoaded = true;
+    },
+    poolSwapFailure(state, action) {
+      state.isErrorPoolSwap = action.payload;
+      state.isLoadingPoolSwap = false;
+      state.isPoolSwapLoaded = true;
+    },
   },
 });
 
@@ -92,6 +128,12 @@ export const {
   removePoolLiqudityRequest,
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
+  fetchTestPoolSwapRequest,
+  fetchTestPoolSwapSuccess,
+  fetchTestPoolSwapFailure,
+  poolSwapRequest,
+  poolSwapSuccess,
+  poolSwapFailure,
 } = actions;
 
 export default reducer;
