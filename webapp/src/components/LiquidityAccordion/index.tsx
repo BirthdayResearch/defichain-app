@@ -4,7 +4,7 @@ import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import styles from './LiquidityAccordion.module.scss';
-import DFIIcon from '../../assets/svg/icon-coin-bitcoin-lapis.svg';
+import { getIcon } from '../../utils/utility';
 
 interface LiquidityAccordionProps {
   poolpair: any;
@@ -25,8 +25,16 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
         <CardBody>
           <Row>
             <Col md={2} className='text-center'>
-              <img src={DFIIcon} height={'24px'} width={'24px'} />
-              <img src={DFIIcon} height={'24px'} width={'24px'} />
+              <img
+                src={getIcon(poolpair.tokenA)}
+                height={'24px'}
+                width={'24px'}
+              />
+              <img
+                src={getIcon(poolpair.tokenB)}
+                height={'24px'}
+                width={'24px'}
+              />
             </Col>
             <Col md={5}>
               <span>{`${poolpair.tokenA}/${poolpair.tokenB}`}</span>

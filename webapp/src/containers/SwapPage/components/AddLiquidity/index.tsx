@@ -16,19 +16,33 @@ import LiquidityCard from '../../../../components/LiquidityCard';
 import {
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
+  addPoolLiquidityRequest,
+  fetchPoolsharesRequest,
 } from '../../reducer';
 import styles from './addLiquidity.module.scss';
 import { SWAP_PATH } from '../../../../constants';
-import { getTokenAndBalanceMap } from '../../../../utils/utility';
+import {
+  calculateInputAddLiquidity,
+  conversionRatio,
+  getTokenAndBalanceMap,
+  shareOfPool,
+} from '../../../../utils/utility';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 
 interface AddLiquidityProps {
+  poolshares: any[];
+  fetchPoolsharesRequest: () => void;
   poolPairList: any[];
   tokenBalanceList: string[];
   fetchPoolPairListRequest: () => void;
   fetchTokenBalanceListRequest: () => void;
+  addPoolLiquidityRequest: (poolData) => void;
+  isLoadingAddPoolLiquidity: boolean;
+  isAddPoolLiquidityLoaded: boolean;
+  addPoolLiquidityHash: string;
+  isErrorAddingPoolLiquidity: string;
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
@@ -38,7 +52,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     amount1: '',
     hash1: '',
     symbol1: '',
-    amount2: '',
+    amount2: '-',
     hash2: '',
     symbol2: '',
     balance1: '',
@@ -49,16 +63,39 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
 
   const {
+    poolshares,
     poolPairList,
     fetchPoolPairListRequest,
     tokenBalanceList,
     fetchTokenBalanceListRequest,
+    addPoolLiquidityRequest,
+    isLoadingAddPoolLiquidity,
+    addPoolLiquidityHash,
+    isErrorAddingPoolLiquidity,
+    fetchPoolsharesRequest,
   } = props;
 
   useEffect(() => {
     fetchPoolPairListRequest();
     fetchTokenBalanceListRequest();
+    fetchPoolsharesRequest();
   }, []);
+
+  useEffect(() => {
+    if (allowCalls && !isLoadingAddPoolLiquidity) {
+      if (!isErrorAddingPoolLiquidity && addPoolLiquidityHash) {
+        setAddLiquidityStep('success');
+      }
+      if (isErrorAddingPoolLiquidity && !addPoolLiquidityHash) {
+        setAddLiquidityStep('failure');
+      }
+    }
+  }, [
+    addPoolLiquidityHash,
+    isErrorAddingPoolLiquidity,
+    isLoadingAddPoolLiquidity,
+    allowCalls,
+  ]);
 
   const tokenMap = getTokenAndBalanceMap(poolPairList, tokenBalanceList);
 
@@ -66,6 +103,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
+      amount2: calculateInputAddLiquidity(
+        e.target.value,
+        formState,
+        poolPairList
+      ),
     });
   };
 
@@ -89,6 +131,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     setFormState({
       ...formState,
       [field]: value,
+      amount2: calculateInputAddLiquidity(value, formState, poolPairList),
     });
   };
 
@@ -118,6 +161,48 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const handleAddLiquidity = async () => {
     setAllowCalls(true);
     setAddLiquidityStep('loading');
+    addPoolLiquidityRequest({
+      hash1: formState.hash1,
+      amount1: formState.amount1,
+      hash2: formState.hash2,
+      amount2: formState.amount2,
+    });
+  };
+
+  const filterBySymbol = (symbolKey: string) => {
+    const filterMap: Map<string, any> = new Map();
+    if (formState.hash1 ^ formState.hash2) {
+      const filterArray = filterByPoolPairs(symbolKey);
+      const tokenArray = Array.from(tokenMap.keys());
+      const finalArray = filterArray.filter((value) =>
+        tokenArray.includes(value)
+      );
+      finalArray.map((symbol: string) => {
+        if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
+          filterMap.set(symbol, tokenMap.get(symbol));
+        }
+      });
+    } else {
+      const tokenArray = Array.from(tokenMap.keys());
+      tokenArray.map((symbol: string) => {
+        if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
+          filterMap.set(symbol, tokenMap.get(symbol));
+        }
+      });
+    }
+    return filterMap;
+  };
+
+  const filterByPoolPairs = (symbolKey: string) => {
+    const filterArray = poolPairList.reduce((tokenArray, poolPair) => {
+      if (poolPair.tokenA === formState[symbolKey]) {
+        tokenArray.push(poolPair.tokenB);
+      } else if (poolPair.tokenB === formState[symbolKey]) {
+        tokenArray.push(poolPair.tokenA);
+      }
+      return tokenArray;
+    }, []);
+    return filterArray;
   };
 
   return (
@@ -145,7 +230,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col md='5'>
               <LiquidityCard
                 label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={tokenMap}
+                tokenMap={filterBySymbol(`symbol${2}`)}
                 name={1}
                 formState={formState}
                 handleChange={handleChange}
@@ -164,7 +249,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col md='5'>
               <LiquidityCard
                 label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={tokenMap}
+                tokenMap={filterBySymbol(`symbol${1}`)}
                 name={2}
                 formState={formState}
                 handleChange={handleChange}
@@ -183,12 +268,16 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <Col md='12'>
                 <KeyValueLi
                   label={I18n.t('containers.swap.addLiquidity.price')}
-                  value={`10,00000 DOO per DFI
-                        0.10000 DFI per DOO`}
+                  value={`${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol1
+                  } per ${formState.symbol2}
+                    ${1 / conversionRatio(formState, poolPairList)} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}
                 />
                 <KeyValueLi
                   label={I18n.t('containers.swap.addLiquidity.shareOfPool')}
-                  value={'0.025 %'}
+                  value={shareOfPool(formState, poolPairList, poolshares)}
                 />
               </Col>
             </Row>
@@ -205,7 +294,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='col-auto'>
               <FormGroup check>
                 <Label check>
-                  {I18n.t('containers.swap.addLiquidity.readyToSupply')}
+                  {isValid()
+                    ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                    : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
                 </Label>
               </FormGroup>
             </Col>
@@ -236,22 +327,30 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 {I18n.t('containers.swap.addLiquidity.deposits')}
               </dt>
               <dd className='col-sm-8'>
-                {'9,999 DFI'}
+                {`${formState.amount1} ${formState.symbol1}`}
                 <br />
-                {'99,990 DOO'}
+                {`${formState.amount2} ${formState.symbol2}`}
               </dd>
               <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.rates')}
               </dt>
               <dd className='col-sm-8'>
-                {'10,00000 DOO per DFI'}
+                {isValid() &&
+                  `${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol1
+                  } per ${formState.symbol2}`}
                 <br />
-                {'0.10000 DFI per DOO'}
+                {isValid() &&
+                  `${1 / conversionRatio(formState, poolPairList)} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}{' '}
               </dd>
               <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.shareOfPool')}
               </dt>
-              <dd className='col-sm-8'>{'0.025 %'}</dd>
+              <dd className='col-sm-8'>
+                {isValid() && shareOfPool(formState, poolPairList, poolshares)}
+              </dd>
             </dl>
           </div>
           <Row className='justify-content-between align-items-center'>
@@ -292,22 +391,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button
-                color='link'
-                className='mr-3'
-                // onClick={mintStepDefault}
-              >
+              <Button color='link' className='mr-3'>
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
-              <Button
-                to={SWAP_PATH}
-                tag={RRNavLink}
-                color='primary'
-                // onClick={() => handleMintToken()}
-                // disabled={wait > 0 ? true : false}
-              >
+              <Button to={SWAP_PATH} tag={RRNavLink} color='primary'>
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
-                {/* <span className='timer'>{wait > 0 ? wait : ''}</span> */}
               </Button>
             </Col>
           </Row>
@@ -336,15 +424,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   [styles[`error-dailog`]]: true,
                 })}
               />
-              {/* <p>{isErrorMintingToken}</p> */}
+              <p>{isErrorAddingPoolLiquidity}</p>
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button
-              color='primary'
-              // to={TOKENS_PATH}
-              // tag={NavLink}
-            >
+            <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
               {I18n.t('containers.swap.addLiquidity.backToPool')}
             </Button>
           </div>
@@ -355,13 +439,31 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { poolPairList, tokenBalanceList } = state.swap;
-  return { poolPairList, tokenBalanceList };
+  const {
+    poolPairList,
+    tokenBalanceList,
+    isLoadingAddPoolLiquidity,
+    isAddPoolLiquidityLoaded,
+    addPoolLiquidityHash,
+    isErrorAddingPoolLiquidity,
+    poolshares,
+  } = state.swap;
+  return {
+    poolPairList,
+    tokenBalanceList,
+    isLoadingAddPoolLiquidity,
+    isAddPoolLiquidityLoaded,
+    addPoolLiquidityHash,
+    isErrorAddingPoolLiquidity,
+    poolshares,
+  };
 };
 
 const mapDispatchToProps = {
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
+  addPoolLiquidityRequest,
+  fetchPoolsharesRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidity);
