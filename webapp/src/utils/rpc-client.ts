@@ -787,14 +787,14 @@ export default class RpcClient {
 
   poolSwap = async (
     from: string,
-    tokenForm: string,
+    tokenFrom: string,
     amountFrom: number,
     to: string,
     tokenTo: string
   ) => {
     const { data } = await this.call('/', methodNames.POOL_SWAP, [
-      { from, tokenForm, amountFrom, to, tokenTo },
-      []
+      { from, tokenFrom, amountFrom, to, tokenTo },
+      [],
     ]);
     return data.result;
   };
@@ -810,13 +810,13 @@ export default class RpcClient {
 
   testPoolSwap = async (
     from: string,
-    tokenForm: string,
+    tokenFrom: string,
     amountFrom: number,
     to: string,
     tokenTo: string
   ) => {
     const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
-      { from, tokenForm, amountFrom, to, tokenTo },
+      { from, tokenFrom, amountFrom, to, tokenTo },
     ]);
     return data.result;
   };
