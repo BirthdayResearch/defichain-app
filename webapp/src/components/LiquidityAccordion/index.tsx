@@ -1,18 +1,48 @@
 import React, { useState } from 'react';
-import { Collapse, Button, CardBody, Card, Row, Col } from 'reactstrap';
-import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import {
+  CardBody,
+  Card,
+  Row,
+  Col,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import { MdMoreHoriz } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import styles from './LiquidityAccordion.module.scss';
 import { getIcon } from '../../utils/utility';
+import { CREATE_POOL_PAIR_PATH, ADD, REMOVE } from '../../constants';
 
 interface LiquidityAccordionProps {
+  history: any;
   poolpair: any;
 }
 
 const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
   props: LiquidityAccordionProps
 ) => {
+  const { history } = props;
+  const liquidityCardMenu = [
+    {
+      label: I18n.t('containers.swap.swapPage.add'),
+      value: ADD,
+    },
+    {
+      label: I18n.t('containers.swap.swapPage.remove'),
+      value: REMOVE,
+    },
+  ];
+
+  const handleDropDowns = (data: string) => {
+    if (data === ADD) {
+      history.push(`${CREATE_POOL_PAIR_PATH}`);
+    } else {
+    }
+  };
+
   const [collapse, setCollapse] = useState(false);
 
   const { poolpair } = props;
@@ -21,10 +51,10 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
 
   return (
     <div>
-      <Card onClick={toggle} className={styles.liquidityCard}>
+      <Card onClick={toggle} className={`${styles.liquidityCard} mb-5`}>
         <CardBody>
-          <Row>
-            <Col md={2} className='text-center'>
+          <Row className='align-items-center'>
+            <Col md={2} className={styles.imgDesign}>
               <img
                 src={getIcon(poolpair.tokenA)}
                 height={'24px'}
@@ -40,67 +70,66 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               <span>{`${poolpair.tokenA}/${poolpair.tokenB}`}</span>
             </Col>
             <Col md={5} className='text-right'>
-              {collapse ? <MdArrowDropUp /> : <MdArrowDropDown />}
+              <UncontrolledDropdown>
+                <DropdownToggle color='link' size='md'>
+                  <MdMoreHoriz />
+                </DropdownToggle>
+                <DropdownMenu right>
+                  {liquidityCardMenu.map((data) => {
+                    return (
+                      <DropdownItem
+                        className='justify-content-between'
+                        key={data.value}
+                        value={data.value}
+                        onClick={() => handleDropDowns(data.value)}
+                      >
+                        <span>{I18n.t(data.label)}</span>
+                      </DropdownItem>
+                    );
+                  })}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col className={styles.apy}>
+              {I18n.t('containers.swap.swapPage.apy')}
+            </Col>
+            <Col className={`${styles.apyValue} ${styles.text}`}>
+              {poolpair.reserveA}
+            </Col>
+          </Row>
+          <Row>
+            <Col className={styles.label}>
+              {I18n.t('containers.swap.swapPage.pooled')}
+              &nbsp;
+              {`${poolpair.tokenA}`}
+            </Col>
+            <Col className={`${styles.unit} ${styles.text}`}>
+              {poolpair.reserveA}
+            </Col>
+          </Row>
+          <Row>
+            <Col className={styles.label}>
+              {I18n.t('containers.swap.swapPage.pooled')}
+              &nbsp;
+              {`${poolpair.tokenB}`}
+            </Col>
+            <Col className={`${styles.unit} ${styles.text}`}>
+              {poolpair.reserveB}
+            </Col>
+          </Row>
+          <Row>
+            <Col className={styles.label}>
+              {I18n.t('containers.swap.swapPage.poolShare')}
+            </Col>
+            <Col className={`${styles.unit} ${styles.text}`}>
+              {`${poolpair.poolSharePercentage} %`}
             </Col>
           </Row>
         </CardBody>
       </Card>
-      <Collapse isOpen={collapse} className='mb-5'>
-        {/* TODO: Problem in CSS need to fix */}
-        {collapse && (
-          <Card>
-            <CardBody>
-              <Row>
-                <Col className={styles.label}>
-                  {I18n.t('containers.swap.swapPage.pooled')}
-                  &nbsp;
-                  {`${poolpair.tokenA}`}
-                </Col>
-                <Col className={`${styles.unit} ${styles.text}`}>
-                  {poolpair.reserveA}
-                </Col>
-              </Row>
-              <Row>
-                <Col className={styles.label}>
-                  {I18n.t('containers.swap.swapPage.pooled')}
-                  &nbsp;
-                  {`${poolpair.tokenB}`}
-                </Col>
-                <Col className={`${styles.unit} ${styles.text}`}>
-                  {poolpair.reserveB}
-                </Col>
-              </Row>
-              {/* <Row>
-                <Col className={styles.label}>
-                  {I18n.t('containers.swap.swapPage.poolReward')}
-                </Col>
-                <Col className={`${styles.unit} ${styles.text}`}>
-                  {'99 DFI'}
-                </Col>
-              </Row> */}
-              <Row>
-                <Col className={styles.label}>
-                  {I18n.t('containers.swap.swapPage.poolShare')}
-                </Col>
-                <Col className={`${styles.unit} ${styles.text}`}>
-                  {`${poolpair.poolSharePercentage} %`}
-                </Col>
-              </Row>
-              <Row className='mt-5'>
-                <Col></Col>
-                <Col className='text-right'>
-                  <Button color='primary'>
-                    {I18n.t('containers.swap.swapPage.add')}
-                  </Button>
-                  <Button color='danger' className='ml-5'>
-                    {I18n.t('containers.swap.swapPage.remove')}
-                  </Button>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        )}
-      </Collapse>
     </div>
   );
 };

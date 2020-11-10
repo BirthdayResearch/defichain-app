@@ -32,3 +32,28 @@
   letter-spacing: 0.15px;
   color: $secondary;
 }
+
+.apy {
+  font-size: 20px;
+  letter-spacing: 0.15px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-weight: $font-weight-medium;
+}
+
+.apyValue {
+  font-size: 34px;
+  letter-spacing: 0.25px;
+  font-weight: $font-weight-medium;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.imgDesign {
+  text-align: left;
+}
+
+.imgDesign img:nth-child(1) {
+  font-weight: 500 !important;
+  transform: translate(10px, 0px);
+}

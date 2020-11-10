@@ -287,19 +287,32 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           {isValid() && (
             <Row>
               <Col md='12'>
-                <KeyValueLi
-                  label={I18n.t('containers.swap.addLiquidity.price')}
-                  value={`${conversionRatio(formState, poolPairList)} ${
-                    formState.symbol1
-                  } per ${formState.symbol2}
-                    ${1 / conversionRatio(formState, poolPairList)} ${
-                    formState.symbol2
-                  } per ${formState.symbol1}`}
-                />
-                <KeyValueLi
-                  label={I18n.t('containers.swap.addLiquidity.shareOfPool')}
-                  value={shareOfPool(formState, poolPairList, poolshares)}
-                />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
+                  </Col>
+                  <Col className='text-right'>
+                    {`${conversionRatio(formState, poolPairList)} ${
+                      formState.symbol1
+                    } per ${formState.symbol2}`}
+                    <br />
+                    {`${1 / conversionRatio(formState, poolPairList)} ${
+                      formState.symbol2
+                    } per ${formState.symbol1}`}
+                  </Col>
+                </Row>
+                <hr />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.shareOfPool')}
+                    </span>
+                  </Col>
+                  <Col className='text-right'>
+                    {shareOfPool(formState, poolPairList, poolshares)}
+                  </Col>
+                </Row>
+                <hr />
               </Col>
             </Row>
           )}
