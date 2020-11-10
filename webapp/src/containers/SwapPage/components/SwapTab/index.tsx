@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { MdCompareArrows } from 'react-icons/md';
-import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 
 import SwapCard from '../../../../components/SwapCard';

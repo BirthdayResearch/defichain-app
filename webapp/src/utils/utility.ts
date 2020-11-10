@@ -689,6 +689,11 @@ export const calculateInputAddLiquidity = (
   return '-';
 };
 
+export const countDecimals = (value) => {
+  if (value % 1 != 0) return value.toString().split('.')[1].length;
+  return 0;
+};
+
 export const selectedPoolPair = (formState, poolPairList) => {
   let condition1;
   let condition2;
