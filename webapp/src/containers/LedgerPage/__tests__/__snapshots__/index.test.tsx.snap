@@ -1,0 +1,479 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletPage component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(WalletPage)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <WalletPage
+          blockChainInfo={Object {}}
+          fetchInstantBalanceRequest={[Function]}
+          fetchInstantPendingBalanceRequest={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          openBackupWallet={[Function]}
+          pendingBalance={0}
+          startUpdateApp={[Function]}
+          unit="DFI"
+          updateAvailableBadge={false}
+          walletBalance={0}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <Connect(CreateOrRestoreWalletPage)
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <CreateOrRestoreWalletPage
+                history={
+                  Object {
+                    "action": "POP",
+                    "block": [Function],
+                    "canGo": [Function],
+                    "createHref": [Function],
+                    "entries": Array [
+                      Object {
+                        "hash": "",
+                        "pathname": "/",
+                        "search": "",
+                        "state": undefined,
+                      },
+                    ],
+                    "go": [Function],
+                    "goBack": [Function],
+                    "goForward": [Function],
+                    "index": 0,
+                    "length": 1,
+                    "listen": [Function],
+                    "location": Object {
+                      "hash": "",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                    "push": [Function],
+                    "replace": [Function],
+                  }
+                }
+                openBackupWalletWarningModal={[Function]}
+              >
+                <div>
+                  <HelmetWrapper
+                    defer={true}
+                    encodeSpecialCharacters={true}
+                  >
+                    <SideEffect(NullComponent)
+                      defer={true}
+                      encodeSpecialCharacters={true}
+                      title="Wallet - Create or restore wallet"
+                      titleAttributes={Object {}}
+                    >
+                      <NullComponent
+                        defer={true}
+                        encodeSpecialCharacters={true}
+                        title="Wallet - Create or restore wallet"
+                        titleAttributes={Object {}}
+                      />
+                    </SideEffect(NullComponent)>
+                  </HelmetWrapper>
+                  <header
+                    className="header-bar"
+                  >
+                    <h1>
+                      Create or restore wallet
+                    </h1>
+                  </header>
+                  <div
+                    className="content"
+                  >
+                    <section>
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <Col
+                            lg="6"
+                            md="12"
+                            sm="12"
+                            tag="div"
+                            widths={
+                              Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                            }
+                          >
+                            <div
+                              className="col-sm-12 col-md-12 col-lg-6"
+                            >
+                              <div
+                                onClick={[Function]}
+                              >
+                                <WalletStatCard
+                                  icon={
+                                    <MdAccountBalanceWallet
+                                      color="#ff00af"
+                                      size={60}
+                                    />
+                                  }
+                                  label="Create a new wallet"
+                                >
+                                  <Card
+                                    tag="div"
+                                  >
+                                    <div
+                                      className="card"
+                                    >
+                                      <CardBody
+                                        tag="div"
+                                      >
+                                        <div
+                                          className="card-body"
+                                        >
+                                          <div>
+                                            <div>
+                                              <MdAccountBalanceWallet
+                                                color="#ff00af"
+                                                size={60}
+                                              >
+                                                <IconBase
+                                                  attr={
+                                                    Object {
+                                                      "viewBox": "0 0 24 24",
+                                                    }
+                                                  }
+                                                  color="#ff00af"
+                                                  size={60}
+                                                >
+                                                  <svg
+                                                    color="#ff00af"
+                                                    fill="currentColor"
+                                                    height={60}
+                                                    size={60}
+                                                    stroke="currentColor"
+                                                    strokeWidth="0"
+                                                    style={
+                                                      Object {
+                                                        "color": "#ff00af",
+                                                      }
+                                                    }
+                                                    viewBox="0 0 24 24"
+                                                    width={60}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  >
+                                                    <path
+                                                      d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                                                      key="0"
+                                                    />
+                                                  </svg>
+                                                </IconBase>
+                                              </MdAccountBalanceWallet>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </CardBody>
+                                      <CardFooter
+                                        tag="div"
+                                      >
+                                        <div
+                                          className="card-footer"
+                                        >
+                                          <div>
+                                            <div>
+                                              Create a new wallet
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </CardFooter>
+                                    </div>
+                                  </Card>
+                                </WalletStatCard>
+                              </div>
+                            </div>
+                          </Col>
+                          <Col
+                            lg="6"
+                            md="12"
+                            sm="12"
+                            tag="div"
+                            widths={
+                              Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                            }
+                          >
+                            <div
+                              className="col-sm-12 col-md-12 col-lg-6"
+                            >
+                              <div
+                                onClick={[Function]}
+                              >
+                                <WalletStatCard
+                                  icon={
+                                    <MdFormatListBulleted
+                                      color="#ff00af"
+                                      size={60}
+                                    />
+                                  }
+                                  label="Restore wallet from mnemonic seed"
+                                >
+                                  <Card
+                                    tag="div"
+                                  >
+                                    <div
+                                      className="card"
+                                    >
+                                      <CardBody
+                                        tag="div"
+                                      >
+                                        <div
+                                          className="card-body"
+                                        >
+                                          <div>
+                                            <div>
+                                              <MdFormatListBulleted
+                                                color="#ff00af"
+                                                size={60}
+                                              >
+                                                <IconBase
+                                                  attr={
+                                                    Object {
+                                                      "viewBox": "0 0 24 24",
+                                                    }
+                                                  }
+                                                  color="#ff00af"
+                                                  size={60}
+                                                >
+                                                  <svg
+                                                    color="#ff00af"
+                                                    fill="currentColor"
+                                                    height={60}
+                                                    size={60}
+                                                    stroke="currentColor"
+                                                    strokeWidth="0"
+                                                    style={
+                                                      Object {
+                                                        "color": "#ff00af",
+                                                      }
+                                                    }
+                                                    viewBox="0 0 24 24"
+                                                    width={60}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  >
+                                                    <path
+                                                      d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
+                                                      key="0"
+                                                    />
+                                                  </svg>
+                                                </IconBase>
+                                              </MdFormatListBulleted>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </CardBody>
+                                      <CardFooter
+                                        tag="div"
+                                      >
+                                        <div
+                                          className="card-footer"
+                                        >
+                                          <div>
+                                            <div>
+                                              Restore wallet from mnemonic seed
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </CardFooter>
+                                    </div>
+                                  </Card>
+                                </WalletStatCard>
+                              </div>
+                            </div>
+                          </Col>
+                        </div>
+                      </Row>
+                    </section>
+                  </div>
+                </div>
+              </CreateOrRestoreWalletPage>
+            </Connect(CreateOrRestoreWalletPage)>
+          </div>
+        </WalletPage>
+      </Connect(WalletPage)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

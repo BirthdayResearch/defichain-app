@@ -462,6 +462,12 @@
         "created": "Created"
       }
     },
+    "ledger": {
+      "ledgerPage": {
+        "title": "Ledger DFI Portefeuille",
+        "connect": "Relier"
+      }
+    },
     "console": {
       "consolePage": {
         "consoleDefiClient": "Console – Client Blockchain DeFi",

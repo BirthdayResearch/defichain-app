@@ -479,6 +479,12 @@
         "noTransactions": "Нет доступных транзакций"
       }
     },
+    "ledger": {
+      "ledgerPage": {
+        "title": "Ledger DFI Кошелек",
+        "connect": "Подключится"
+      }
+    },
     "console": {
       "consolePage": {
         "consoleDefiClient": "Консоль – Блокчейн-Клиент DeFi",

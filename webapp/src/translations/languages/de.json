@@ -462,6 +462,12 @@
         "noTransactions": "Keine Transaktionen verfügbar"
       }
     },
+    "ledger": {
+      "ledgerPage": {
+        "title": "Ledger DFI Brieftasche",
+        "connect": "Verbinden"
+      }
+    },
     "console": {
       "consolePage": {
         "consoleDefiClient": "Konsole – DeFi Blockchain-Client",

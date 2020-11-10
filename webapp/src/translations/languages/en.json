@@ -479,6 +479,12 @@
         "noTransactions": "No transactions available"
       }
     },
+    "ledger": {
+      "ledgerPage": {
+        "title": "Ledger DFI Wallet",
+        "connect": "Connect"
+      }
+    },
     "console": {
       "consolePage": {
         "consoleDefiClient": "Console – DeFi Blockchain Client",

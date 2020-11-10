@@ -47,11 +47,13 @@ import {
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
   MINT_TOKENS_PATH,
+  LEDGER_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import MintToken from '../containers/TokensPage/components/MintToken';
+import LedgerPage from '../containers/LedgerPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -97,6 +99,7 @@ const routes = (location) => (
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
+    <Route exact path={LEDGER_PATH} component={LedgerPage} />
     <Route exact component={Error404Page} />
   </Switch>
 );
