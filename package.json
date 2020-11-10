@@ -46,6 +46,9 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.9.0",
     "@types/react": "^16.9.48",
+    "@ledgerhq/hw-transport-node-hid": "^5.26.0",
+    "@types/ledgerhq__hw-transport": "^4.21.3",
+    "@types/ledgerhq__hw-transport-node-hid": "^4.22.2",
     "auto-launch": "^5.0.5",
     "autoprefixer": "^9.7.5",
     "axios": "^0.19.2",

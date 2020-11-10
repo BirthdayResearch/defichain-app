@@ -8,6 +8,7 @@ import {
   WALLET_DAT,
 } from '../constants';
 import { copyFile, deleteFile, getBaseFolder, responseMessage } from '../utils';
+import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 
 const saveFileDailog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -75,5 +76,23 @@ export default class Wallet {
 
   async startBackupWallet(bw: Electron.BrowserWindow) {
     bw.webContents.send(START_BACKUP_WALLET);
+  }
+  async connectHwWallet() {
+    const defiHwWallet = new DefiHwWallet();
+    console.log('connectHwWallet');
+    let devsPath = await defiHwWallet.getDevices();
+    console.log('devs: ' + devsPath.toLocaleString());
+    await defiHwWallet.connect(devsPath[0]);
+    for (let i = 0; i < 5; i++) {
+      let ret: { pubkey: Buffer; address: String };
+      ret = await defiHwWallet.getDefiPublicKey(i, 'legacy');
+      console.log('legacy addr: ' + ret.address);
+      ret = await defiHwWallet.getDefiPublicKey(i, 'p2sh');
+      console.log('p2sh addr: ' + ret.address);
+      ret = await defiHwWallet.getDefiPublicKey(i, 'bech32');
+      console.log('bech32 addr: ' + ret.address);
+      ret = await defiHwWallet.getDefiPublicKey(i, 'cashaddr');
+      console.log('cashaddr addr: ' + ret.address);
+    }
   }
 }
