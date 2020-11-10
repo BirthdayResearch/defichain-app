@@ -102,6 +102,10 @@
     }
   }
 
+  .ledgerIcon {
+    transform: rotate(90deg) rotateY(180deg) scaleY(1.5);
+  }
+
   .active {
     background-color: $dfi-scent;
     color: $body-color;

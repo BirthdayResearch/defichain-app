@@ -15,6 +15,7 @@ import {
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
+  MdViewQuilt,
 } from 'react-icons/md';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
@@ -34,6 +35,7 @@ import {
   SITE_URL,
   TOKENS_PATH,
   WALLET_TOKENS_PATH,
+  LEDGER_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -135,6 +137,18 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             >
               <MdAccountBalanceWallet />
               {I18n.t('containers.sideBar.wallet')}
+            </NavLink>
+          </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={LEDGER_PATH}
+              exact
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdViewQuilt className={styles.ledgerIcon} />
+              {I18n.t('containers.sideBar.ledger')}
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
