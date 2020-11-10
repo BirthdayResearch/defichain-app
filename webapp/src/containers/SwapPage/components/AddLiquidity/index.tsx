@@ -24,6 +24,7 @@ import { SWAP_PATH } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
   conversionRatio,
+  countDecimals,
   getTokenAndBalanceMap,
   shareOfPool,
 } from '../../../../utils/utility';
@@ -97,18 +98,39 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     allowCalls,
   ]);
 
+  useEffect(() => {
+    isValidAmount() &&
+      setFormState({
+        ...formState,
+        amount2: calculateInputAddLiquidity(
+          formState.amount1,
+          formState,
+          poolPairList
+        ),
+      });
+  }, [formState.amount1, formState.hash1, formState.hash2]);
+
+  const isValidAmount = () => {
+    if (
+      formState[`balance1`] &&
+      formState[`amount2`] &&
+      formState[`balance2`]
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const tokenMap = getTokenAndBalanceMap(poolPairList, tokenBalanceList);
 
   const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-      amount2: calculateInputAddLiquidity(
-        e.target.value,
-        formState,
-        poolPairList
-      ),
-    });
+    if (countDecimals(e.target.value) <= 8) {
+      setFormState({
+        ...formState,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleDropDown = (
@@ -131,7 +153,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     setFormState({
       ...formState,
       [field]: value,
-      amount2: calculateInputAddLiquidity(value, formState, poolPairList),
     });
   };
 
@@ -394,7 +415,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <Button color='link' className='mr-3'>
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
-              <Button to={SWAP_PATH} tag={RRNavLink} color='primary'>
+              <Button
+                to={`${SWAP_PATH}?tab=pool`}
+                tag={RRNavLink}
+                color='primary'
+              >
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
               </Button>
             </Col>
@@ -428,7 +453,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
+            <Button
+              color='primary'
+              to={`${SWAP_PATH}?tab=pool`}
+              tag={RRNavLink}
+            >
               {I18n.t('containers.swap.addLiquidity.backToPool')}
             </Button>
           </div>

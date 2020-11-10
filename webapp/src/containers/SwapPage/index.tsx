@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import classnames from 'classnames';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
@@ -18,7 +19,6 @@ import {
   TabPane,
 } from 'reactstrap';
 
-import classnames from 'classnames';
 import {
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
@@ -29,6 +29,7 @@ import {
 } from './reducer';
 import {
   conversionRatio,
+  countDecimals,
   getTokenAndBalanceMap,
   selectedPoolPair,
 } from '../../utils/utility';
@@ -47,6 +48,7 @@ import styles from './swap.module.scss';
 import KeyValueLi from '../../components/KeyValueLi';
 
 interface SwapPageProps {
+  location?: any;
   poolshares: any[];
   fetchTestPoolSwapRequest: (formState) => void;
   fetchPoolsharesRequest: () => void;
@@ -71,7 +73,9 @@ interface SwapPageProps {
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
   props: SwapPageProps
 ) => {
-  const [activeTab, setActiveTab] = useState<string>(SWAP);
+  const urlParams = new URLSearchParams(props.location.search);
+  const tab = urlParams.get('tab');
+  const [activeTab, setActiveTab] = useState<string>(tab ? tab : SWAP);
   const [swapStep, setSwapStep] = useState<string>('default');
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
@@ -105,10 +109,23 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   }, []);
 
   useEffect(() => {
-    fetchTestPoolSwapRequest({
-      formState,
-    });
-  }, [formState.amount1]);
+    isValidAmount() &&
+      fetchTestPoolSwapRequest({
+        formState,
+      });
+  }, [formState.amount1, formState.hash1, formState.hash2]);
+
+  const isValidAmount = () => {
+    if (
+      formState[`balance1`] &&
+      formState[`amount1`] &&
+      formState[`balance2`]
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   useEffect(() => {
     setFormState({
@@ -138,11 +155,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const tokenMap = getTokenAndBalanceMap(poolPairList, tokenBalanceList);
 
   const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-      amount2: testPoolSwap,
-    });
+    if (countDecimals(e.target.value) <= 8) {
+      setFormState({
+        ...formState,
+        [e.target.name]: e.target.value,
+        amount2: testPoolSwap,
+      });
+    }
   };
 
   const handleDropDown = (
@@ -468,7 +487,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={SWAP_PATH} tag={NavLink}>
+              <Button
+                color='primary'
+                to={`${SWAP_PATH}?tab=pool`}
+                tag={NavLink}
+              >
                 {I18n.t('containers.swap.addLiquidity.backToPool')}
               </Button>
             </div>
