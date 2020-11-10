@@ -122,14 +122,16 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             placeholder={I18n.t('containers.swap.swapPage.searchToken')}
           />
         </div>
-        <DropdownItem header>
-          {I18n.t('components.swapCard.popular')}
-          {popularTokenDropdownItems}
-        </DropdownItem>
-        <DropdownItem header>
-          {I18n.t('components.swapCard.tokens')}
-          {normalTokenDropdownItems}
-        </DropdownItem>
+        <div className={styles.scrollableContainer}>
+          <DropdownItem header>
+            {I18n.t('components.swapCard.popular')}
+            {popularTokenDropdownItems}
+          </DropdownItem>
+          <DropdownItem header>
+            {I18n.t('components.swapCard.tokens')}
+            {normalTokenDropdownItems}
+          </DropdownItem>
+        </div>
       </DropdownMenu>
     </UncontrolledDropdown>
   );
