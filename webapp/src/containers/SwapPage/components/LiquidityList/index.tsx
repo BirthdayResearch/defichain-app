@@ -9,6 +9,7 @@ import LiquidityAccordion from '../../../../components/LiquidityAccordion';
 
 interface LiquidityListProps {
   poolshares: any;
+  history: History;
 }
 
 const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
@@ -44,7 +45,7 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
         <Row>
           {tableData.map((poolpair, i) => (
             <Col md='6' key={i}>
-              <LiquidityAccordion poolpair={poolpair} />
+              <LiquidityAccordion poolpair={poolpair} history={props.history} />
             </Col>
           ))}
         </Row>

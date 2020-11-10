@@ -55,7 +55,23 @@ export const handleFetchPoolshares = async () => {
     }
   });
 
-  return _.compact(await Promise.all(minePoolShares));
+  const resolvedMinePoolShares = _.compact(await Promise.all(minePoolShares));
+
+  const ind = {};
+
+  const groupedMinePoolShares = resolvedMinePoolShares.reduce((arr, obj) => {
+    if (ind.hasOwnProperty(obj.poolID)) {
+      arr[ind[obj.poolID]].poolSharePercentage =
+        Number(arr[ind[obj.poolID]].poolSharePercentage) +
+        Number(obj.poolSharePercentage);
+    } else {
+      arr.push(obj);
+      ind[obj.poolID] = arr.length - 1;
+    }
+    return arr;
+  }, []);
+
+  return groupedMinePoolShares;
 };
 
 export const handleFetchPoolPairList = async () => {

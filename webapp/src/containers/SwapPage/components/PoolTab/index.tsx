@@ -11,6 +11,7 @@ import LiquidityList from '../LiquidityList';
 import { fetchPoolsharesRequest } from '../../reducer';
 
 interface PoolTabProps {
+  history: History;
   poolshares: any;
   fetchPoolsharesRequest: () => void;
 }
@@ -40,7 +41,7 @@ const PoolTab: React.FunctionComponent<PoolTabProps> = (
           </Button>
         </div>
       ) : (
-        <LiquidityList poolshares={poolshares} />
+        <LiquidityList poolshares={poolshares} history={props.history} />
       )}
     </>
   );

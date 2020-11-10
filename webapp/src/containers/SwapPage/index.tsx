@@ -45,9 +45,9 @@ import PoolTab from './components/PoolTab';
 import { BigNumber } from 'bignumber.js';
 import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
-import KeyValueLi from '../../components/KeyValueLi';
 
 interface SwapPageProps {
+  history?: any;
   location?: any;
   poolshares: any[];
   fetchTestPoolSwapRequest: (formState) => void;
@@ -321,31 +321,52 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             />
           </TabPane>
           <TabPane tabId={POOL}>
-            <PoolTab />
+            <PoolTab history={props.history} />
           </TabPane>
         </TabContent>
         {isValid() && activeTab === SWAP && (
           <Row>
             <Col md='12'>
-              <KeyValueLi
-                label={I18n.t('containers.swap.swapPage.price')}
-                value={`${conversionRatio(formState, poolPairList)} ${
-                  formState.symbol1
-                } per ${formState.symbol2}
-                    ${1 / conversionRatio(formState, poolPairList)} ${
-                  formState.symbol2
-                } per ${formState.symbol1}`}
-              />
-              <KeyValueLi
-                label={I18n.t('containers.swap.swapPage.minimumReceived')}
-                value={`${formState.amount2} ${formState.symbol2}`}
-              />
-              <KeyValueLi
-                label={I18n.t('containers.swap.swapPage.liquidityProviderFee')}
-                value={(
-                  selectedPoolPair(formState, poolPairList)[0].commission * 100
-                ).toString()}
-              />
+              <Row className='align-items-center'>
+                <Col>
+                  <span>{I18n.t('containers.swap.swapPage.price')}</span>
+                </Col>
+                <Col className={`${styles.valueTxt}`}>
+                  {`${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol1
+                  } per ${formState.symbol2}`}
+                  <br />
+                  {`${1 / conversionRatio(formState, poolPairList)} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}
+                </Col>
+              </Row>
+              <hr />
+              <Row className='align-items-center'>
+                <Col>
+                  <span>
+                    {I18n.t('containers.swap.swapPage.minimumReceived')}
+                  </span>
+                </Col>
+                <Col
+                  className={`${styles.valueTxt}`}
+                >{`${formState.amount2} ${formState.symbol2}`}</Col>
+              </Row>
+              <hr />
+              <Row className='align-items-center'>
+                <Col>
+                  <span>
+                    {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
+                  </span>
+                </Col>
+                <Col className={`${styles.valueTxt}`}>
+                  {(
+                    selectedPoolPair(formState, poolPairList)[0].commission *
+                    100
+                  ).toString()}
+                </Col>
+              </Row>
+              <hr />
             </Col>
           </Row>
         )}
