@@ -338,6 +338,7 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "add": "Add",
         "remove": "Remove",
+        "apy": "APY",
         "pooled": "Pooled",
         "poolReward": "Pool reward",
         "poolShare": "Pool share"
