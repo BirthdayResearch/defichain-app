@@ -690,7 +690,7 @@ export const calculateInputAddLiquidity = (
 };
 
 export const countDecimals = (value) => {
-  if (value % 1 != 0) return value.toString().split('.')[1].length;
+  if (value % 1 !== 0) return value.toString().split('.')[1].length;
   return 0;
 };
 
@@ -716,6 +716,11 @@ export const conversionRatio = (formState, poolPairList) => {
     ? poolPair.reserveB / poolPair.reserveA
     : poolPair.reserveA / poolPair.reserveB;
 
+  return ratio;
+};
+
+export const getRatio = (poolpair) => {
+  const ratio = poolpair.reserveB / poolpair.reserveA;
   return ratio;
 };
 
