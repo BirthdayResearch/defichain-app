@@ -1,0 +1,15 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.imgDesign {
+  text-align: left;
+}
+
+.imgDesign img:nth-child(1) {
+  font-weight: 500 !important;
+  transform: translate(10px, 0px);
+}
