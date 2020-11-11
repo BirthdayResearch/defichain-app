@@ -233,7 +233,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={SWAP_PATH}
+          to={`${SWAP_PATH}?tab=pool`}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'

@@ -34,4 +34,5 @@ export const WALLET_TOKENS_PATH = `${WALLET_BASE_PATH}/tokens`;
 export const WALLET_ADD_TOKEN_PATH = `${WALLET_TOKENS_PATH}/addtoken`;
 export const CONSOLE_RPC_CALL_BASE_PATH = `/console`;
 export const CREATE_POOL_PAIR_PATH = `${SWAP_PATH}/createpoolpair`;
-export const REMOVE_LIQUIDITY = `${SWAP_PATH}/removeliquidity`;
+export const REMOVE_LIQUIDITY_BASE_PATH = `${SWAP_PATH}/removeliquidity`;
+export const REMOVE_LIQUIDITY = `${REMOVE_LIQUIDITY_BASE_PATH}/:id`;

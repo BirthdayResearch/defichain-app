@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { Row, Col } from 'reactstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
-import Pagination from '../../../../components/Pagination';
+// import Pagination from '../../../../components/Pagination';
 import { TOKEN_LIST_PAGE_SIZE } from '../../../../constants';
 import LiquidityAccordion from '../../../../components/LiquidityAccordion';
 
@@ -50,7 +50,7 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
           ))}
         </Row>
       </section>
-      <Pagination
+      {/* <Pagination
         label={I18n.t('containers.tokens.tokensPage.paginationRange', {
           to,
           total,
@@ -59,7 +59,7 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
         currentPage={currentPage}
         pagesCount={pagesCount}
         handlePageClick={paginate}
-      />
+      /> */}
     </>
   );
 };
