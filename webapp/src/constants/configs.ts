@@ -71,10 +71,25 @@ export const REMOVE = 'remove';
 
 export const POOL_PAIR_PAGE_SIZE = 500;
 export const SHARE_POOL_PAGE_SIZE = 500;
-export const WALLET_UNLOCK_TIMEOUT = 600;
+export const WALLET_UNLOCK_TIMEOUT = 600; // time in seconds
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
 export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
 
+export const LP_DAILY_DFI_REWARD = 'LP_DAILY_DFI_REWARD';
+export const LP_SPLITS = 'LP_SPLITS';
+export const VS_CURRENCY = 'usd';
+
+export const DFI_SYMBOL = '0';
+export const BTC_SYMBOL = '1';
+export const ETH_SYMBOL = '2';
+export const USDT_SYMBOL = '5';
+
+export const COINGECKO_DFI_ID = 'defichain';
+export const COINGECKO_BTC_ID = 'bitcoin';
+export const COINGECKO_ETH_ID = 'ethereum';
+export const COINGECKO_USDT_ID= 'tether';
+
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';
+export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
