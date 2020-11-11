@@ -4,7 +4,11 @@ export const initialState = {
   poolshares: [],
   isPoolsharesLoaded: false,
   isLoadingPoolshares: false,
+  poolpair: {},
+  isLoadingPoolpair: false,
+  isPoolpairLoaded: false,
   poolPairList: [],
+  isLoadingPoolPairList: false,
   tokenBalanceList: [],
   isLoadingAddPoolLiquidity: false,
   isAddPoolLiquidityLoaded: false,
@@ -28,6 +32,19 @@ const configSlice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
+    fetchPoolpair(state, action) {
+      state.isLoadingPoolpair = true;
+    },
+    fetchPoolpairSuccess(state, action) {
+      state.poolpair = action.payload.poolpair;
+      state.isLoadingPoolpair = false;
+      state.isPoolpairLoaded = true;
+    },
+    fetchPoolpairFailure(state, action) {
+      state.poolpair = {};
+      state.isLoadingPoolpair = false;
+      state.isPoolpairLoaded = true;
+    },
     fetchPoolsharesRequest(state) {
       state.isLoadingPoolshares = true;
     },
@@ -41,11 +58,16 @@ const configSlice = createSlice({
       state.isLoadingPoolshares = false;
       state.isPoolsharesLoaded = true;
     },
-    fetchPoolPairListRequest(state) {},
+    fetchPoolPairListRequest(state) {
+      state.isLoadingPoolPairList = true;
+    },
     fetchPoolPairListSuccess(state, action) {
       state.poolPairList = action.payload;
+      state.isLoadingPoolPairList = false;
     },
-    fetchPoolPairListFailure(state) {},
+    fetchPoolPairListFailure(state) {
+      state.isLoadingPoolPairList = false;
+    },
     fetchTokenBalanceListRequest(state) {},
     fetchTokenBalanceListSuccess(state, action) {
       state.tokenBalanceList = action.payload;
@@ -113,6 +135,9 @@ const configSlice = createSlice({
 const { actions, reducer } = configSlice;
 
 export const {
+  fetchPoolpair,
+  fetchPoolpairSuccess,
+  fetchPoolpairFailure,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,

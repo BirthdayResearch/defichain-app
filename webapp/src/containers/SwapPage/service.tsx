@@ -74,6 +74,22 @@ export const handleFetchPoolshares = async () => {
   return groupedMinePoolShares;
 };
 
+export const handleFetchPoolpair = async (id: string) => {
+  const rpcClient = new RpcClient();
+  const poolPair = await rpcClient.getPoolPair(id);
+  const poolPairData = Object.keys(poolPair).map((item) => ({
+    hash: item,
+    ...poolPair[item],
+  }));
+  const tokenAData = await handleFetchToken(poolPairData[0].idTokenA);
+  const tokenBData = await handleFetchToken(poolPairData[0].idTokenB);
+  return {
+    tokenA: tokenAData.symbol,
+    tokenB: tokenBData.symbol,
+    ...poolPairData[0],
+  };
+};
+
 export const handleFetchPoolPairList = async () => {
   const rpcClient = new RpcClient();
   const poolPairList: any[] = await fetchPoolPairDataWithPagination(

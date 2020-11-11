@@ -3,6 +3,9 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import { getErrorMessage } from '../../utils/utility';
 import {
+  fetchPoolpair,
+  fetchPoolpairSuccess,
+  fetchPoolpairFailure,
   fetchTestPoolSwapRequest,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
@@ -31,6 +34,7 @@ import {
   handleRemovePoolLiquidity,
   handlePoolSwap,
   handleTestPoolSwap,
+  handleFetchPoolpair,
 } from './service';
 
 function* fetchPoolshares() {
@@ -72,6 +76,22 @@ function* fetchTestPoolSwap(action) {
       type: fetchTestPoolSwapFailure.type,
       payload: getErrorMessage(e),
     });
+  }
+}
+
+export function* fetchPoolPair(action) {
+  const {
+    payload: { id },
+  } = action;
+  try {
+    const data = yield call(handleFetchPoolpair, id);
+    yield put({
+      type: fetchPoolpairSuccess.type,
+      payload: { poolpair: data },
+    });
+  } catch (e) {
+    yield put({ type: fetchPoolpairFailure.type, payload: e.message });
+    log.error(e);
   }
 }
 
@@ -141,6 +161,7 @@ function* poolSwap(action) {
 function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
+  yield takeLatest(fetchPoolpair.type, fetchPoolPair);
   yield takeLatest(fetchTestPoolSwapRequest.type, fetchTestPoolSwap);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
