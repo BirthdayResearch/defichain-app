@@ -574,9 +574,9 @@ export const fetchPoolPairDataWithPagination = async (
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
-      totalLiquidity: totalLiquidity.toNumber(),
-      yearlyPoolReward: yearlyPoolReward.toNumber(),
-      apy: yearlyPoolReward.div(totalLiquidity).toNumber(),
+      totalLiquidity: totalLiquidity.toNumber().toFixed(8),
+      yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+      apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -616,9 +616,9 @@ export const fetchPoolPairDataWithPagination = async (
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         ...result[item],
-        totalLiquidity: totalLiquidity.toNumber(),
-        yearlyPoolReward: yearlyPoolReward.toNumber(),
-        apy: yearlyPoolReward.div(totalLiquidity).toNumber(),
+        totalLiquidity: totalLiquidity.toNumber().toFixed(8),
+        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+        apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
