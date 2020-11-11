@@ -8,21 +8,33 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import { CREATE_POOL_PAIR_PATH } from '../../../../constants';
 import styles from './poolTab.module.scss';
 import LiquidityList from '../LiquidityList';
-import { fetchPoolsharesRequest } from '../../reducer';
+import {
+  fetchPoolPairListRequest,
+  fetchPoolsharesRequest,
+} from '../../reducer';
+import AvailablePoolPairsList from '../AvailablePoolPairsList';
 
 interface PoolTabProps {
   history: History;
   poolshares: any;
+  poolPairList: any;
   fetchPoolsharesRequest: () => void;
+  fetchPoolPairListRequest: () => void;
 }
 
 const PoolTab: React.FunctionComponent<PoolTabProps> = (
   props: PoolTabProps
 ) => {
-  const { poolshares, fetchPoolsharesRequest } = props;
+  const {
+    poolshares,
+    fetchPoolsharesRequest,
+    poolPairList,
+    fetchPoolPairListRequest,
+  } = props;
 
   useEffect(() => {
     fetchPoolsharesRequest();
+    fetchPoolPairListRequest();
   }, []);
 
   return (
@@ -43,13 +55,25 @@ const PoolTab: React.FunctionComponent<PoolTabProps> = (
       ) : (
         <LiquidityList poolshares={poolshares} history={props.history} />
       )}
+      <div>
+        <section className={`${styles.sectionYourLliquidity} mb-5 mt-5`}>
+          {I18n.t('containers.swap.poolTab.availablePoolPairs')}
+        </section>
+        <AvailablePoolPairsList searchQuery={''} poolPairList={poolPairList} />
+      </div>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { poolshares, isPoolsharesLoaded, isLoadingPoolshares } = state.swap;
+  const {
+    poolshares,
+    isPoolsharesLoaded,
+    isLoadingPoolshares,
+    poolPairList,
+  } = state.swap;
   return {
+    poolPairList,
     poolshares,
     isPoolsharesLoaded,
     isLoadingPoolshares,
@@ -58,6 +82,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchPoolsharesRequest,
+  fetchPoolPairListRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PoolTab);
