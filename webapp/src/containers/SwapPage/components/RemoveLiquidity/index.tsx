@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack, MdCheck } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import {
   Button,
   Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   FormGroup,
   Input,
   InputGroup,
@@ -12,19 +15,55 @@ import {
   InputGroupText,
   Label,
   Row,
+  UncontrolledDropdown,
 } from 'reactstrap';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
 
 import { SWAP_PATH } from '../../../../constants';
-import DefiIcon from '../../../../assets/svg/defi-icon.svg';
-import Styles from './removeLiquidity.module.scss';
+import { fetchPoolpair } from '../../reducer';
+import styles from './removeLiquidity.module.scss';
+import { getIcon, getRatio } from '../../../../utils/utility';
+import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 
-interface RemoveLiquidityProps {}
+interface RouteParams {
+  id?: string;
+}
+
+interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
+  fetchPoolpair: (id) => void;
+  poolpair: any;
+}
 
 const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   props: RemoveLiquidityProps
 ) => {
+  const [formState, setFormState] = useState<any>({
+    amountPercentage: '0',
+    receiveAddress: '',
+  });
+
+  const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
+
+  const { id } = props.match.params;
+
+  const { fetchPoolpair, poolpair } = props;
+
+  useEffect(() => {
+    fetchPoolpair({
+      id,
+    });
+  }, []);
+
+  useEffect(() => {
+    async function addressAndAmount() {
+      const data = await getReceivingAddressAndAmountList();
+      setReceiveAddresses(data.addressAndAmountList);
+    }
+    addressAndAmount();
+  }, []);
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -32,7 +71,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={SWAP_PATH}
+          to={`${SWAP_PATH}?tab=pool`}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'
@@ -55,9 +94,17 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 <InputGroup className='m-2'>
                   <Input
                     type='number'
-                    id='inputAmount'
-                    defaultValue='0'
+                    id='amountPercentage'
+                    value={formState.amountPercentage}
                     className='border-right-0'
+                    onChange={(e) => {
+                      if (Number(e.target.value) <= 100) {
+                        setFormState({
+                          ...formState,
+                          amountPercentage: e.target.value,
+                        });
+                      }
+                    }}
                   />
                   <InputGroupAddon addonType='prepend'>
                     <InputGroupText className='border-left-0'>
@@ -72,17 +119,23 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 sm={10}
                 className='d-flex align-items-center justify-content-center'
               >
-                <span className={Styles.rangeText}>
+                <span className={styles.rangeText}>
                   {I18n.t('containers.swap.removeLiquidity.none')}
                 </span>
-                <Input
+                <input
                   type='range'
                   name='removeLiquidityRange'
                   id='removeLiquidityRange'
-                  defaultValue='0'
-                  className={Styles.rangeSlider}
+                  value={formState.amountPercentage}
+                  className='custom-range ml-5 mr-5'
+                  onChange={(e) => {
+                    setFormState({
+                      ...formState,
+                      amountPercentage: e.target.value,
+                    });
+                  }}
                 />
-                <span className={Styles.rangeText}>
+                <span className={styles.rangeText}>
                   {I18n.t('containers.swap.removeLiquidity.all')}
                 </span>
               </Col>
@@ -92,31 +145,79 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             <Col md='12'>
               <Row className='align-items-center'>
                 <Col>
-                  <img src={DefiIcon} />
-                  <span className={Styles.logoText}>{`DFI`}</span>
+                  <img
+                    src={getIcon(poolpair.tokenA)}
+                    height={'26px'}
+                    width={'26px'}
+                  />
+                  <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
-                <Col className={Styles.colText}>{`49,999.5 of 99,999 DFI`}</Col>
+                <Col className={styles.colText}>{`49,999.5 of 99,999 DFI`}</Col>
               </Row>
               <hr />
               <Row className='align-items-center'>
                 <Col>
-                  <img src={DefiIcon} />
-                  <span className={Styles.logoText}>{`DOO`}</span>
+                  <img
+                    src={getIcon(poolpair.tokenB)}
+                    height={'26px'}
+                    width={'26px'}
+                  />
+                  <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col
-                  className={Styles.colText}
+                  className={styles.colText}
                 >{`499,999.5 of 999,999 DOO`}</Col>
               </Row>
               <hr />
               <Row>
                 <Col>{I18n.t('containers.swap.removeLiquidity.price')}</Col>
-                <Col className={Styles.colText}>
-                  {`10,00000 DOO per DFI
-                        0.10000 DFI per DOO`}
+                <Col className={styles.colText}>
+                  {`${getRatio(poolpair)} ${poolpair.tokenA} per ${
+                    poolpair.tokenB
+                  }`}
+                  <br />
+                  {`${1 / getRatio(poolpair)} ${poolpair.tokenB} per ${
+                    poolpair.tokenA
+                  }`}
                 </Col>
               </Row>
+              <hr />
             </Col>
           </Row>
+          <UncontrolledDropdown className='w-100'>
+            <DropdownToggle
+              caret
+              color='outline-secondary'
+              className={`${styles.divisibilityDropdown}`}
+              // disabled={isUpdate}
+            >
+              {formState.receiveAddress
+                ? formState.receiveAddress
+                : I18n.t('containers.swap.removeLiquidity.receiveAddress')}
+            </DropdownToggle>
+            <DropdownMenu className='overflow-auto'>
+              {receiveAddresses.map((data) => {
+                return (
+                  <DropdownItem
+                    className='d-flex justify-content-between ml-0'
+                    key={data.address}
+                    name='receiveAddress'
+                    onClick={() =>
+                      setFormState({
+                        ...formState,
+                        receiveAddress: data.address,
+                      })
+                    }
+                    value={data.address}
+                  >
+                    <span>{I18n.t(data.address)}</span>
+                    &nbsp;
+                    {formState.receiveAddress === data.address && <MdCheck />}
+                  </DropdownItem>
+                );
+              })}
+            </DropdownMenu>
+          </UncontrolledDropdown>
         </section>
       </div>
       <footer className='footer-bar'>
@@ -131,12 +232,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             </FormGroup>
           </Col>
           <Col className='d-flex justify-content-end'>
-            <Button
-              color='link'
-              className='mr-3'
-              disabled={true}
-              // onClick={}
-            >
+            <Button color='link' className='mr-3' disabled={true}>
               {I18n.t('containers.swap.removeLiquidity.continue')}
             </Button>
           </Col>
@@ -146,4 +242,15 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   );
 };
 
-export default RemoveLiquidity;
+const mapStateToProps = (state) => {
+  const { poolpair } = state.swap;
+  return {
+    poolpair,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchPoolpair,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidity);

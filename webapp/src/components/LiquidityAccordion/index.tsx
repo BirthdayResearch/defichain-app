@@ -13,8 +13,13 @@ import { MdMoreHoriz } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import styles from './LiquidityAccordion.module.scss';
-import { getIcon } from '../../utils/utility';
-import { CREATE_POOL_PAIR_PATH, ADD, REMOVE } from '../../constants';
+import {
+  CREATE_POOL_PAIR_PATH,
+  ADD,
+  REMOVE,
+  REMOVE_LIQUIDITY_BASE_PATH,
+} from '../../constants';
+import PairIcon from '../PairIcon';
 
 interface LiquidityAccordionProps {
   history: any;
@@ -36,10 +41,11 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
     },
   ];
 
-  const handleDropDowns = (data: string) => {
+  const handleDropDowns = (data: string, poolpair) => {
     if (data === ADD) {
-      history.push(`${CREATE_POOL_PAIR_PATH}`);
+      history.push(CREATE_POOL_PAIR_PATH);
     } else {
+      history.push(`${REMOVE_LIQUIDITY_BASE_PATH}/${poolpair.poolID}`);
     }
   };
 
@@ -54,17 +60,8 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
       <Card onClick={toggle} className={`${styles.liquidityCard} mb-5`}>
         <CardBody>
           <Row className='align-items-center'>
-            <Col md={2} className={styles.imgDesign}>
-              <img
-                src={getIcon(poolpair.tokenA)}
-                height={'24px'}
-                width={'24px'}
-              />
-              <img
-                src={getIcon(poolpair.tokenB)}
-                height={'24px'}
-                width={'24px'}
-              />
+            <Col md={2}>
+              <PairIcon poolpair={poolpair} />
             </Col>
             <Col md={5}>
               <span>{`${poolpair.tokenA}/${poolpair.tokenB}`}</span>
@@ -81,7 +78,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
                         className='justify-content-between'
                         key={data.value}
                         value={data.value}
-                        onClick={() => handleDropDowns(data.value)}
+                        onClick={() => handleDropDowns(data.value, poolpair)}
                       >
                         <span>{I18n.t(data.label)}</span>
                       </DropdownItem>
