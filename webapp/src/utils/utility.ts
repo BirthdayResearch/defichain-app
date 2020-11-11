@@ -35,6 +35,17 @@ import {
   RANDOM_WORD_ENTROPY_BITS,
   STATS_API_BASE_URL,
   LIST_ACCOUNTS_PAGE_SIZE,
+  COINGECKO_API_BASE_URL,
+  LP_DAILY_DFI_REWARD,
+  VS_CURRENCY,
+  COINGECKO_DFI_ID,
+  COINGECKO_BTC_ID,
+  COINGECKO_ETH_ID,
+  COINGECKO_USDT_ID,
+  DFI_SYMBOL,
+  BTC_SYMBOL,
+  ETH_SYMBOL,
+  USDT_SYMBOL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -531,16 +542,41 @@ export const fetchPoolPairDataWithPagination = async (
   limit: number,
   fetchList: Function
 ) => {
+  const rpcClient = new RpcClient();
+  const govResult = await rpcClient.getGov();
+  const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const coinPriceObj = await parsedCoinPriceData();
+
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map(async (item: any) => {
-    const tokenAData = await handleFetchToken(result[item].idTokenA);
-    const tokenBData = await handleFetchToken(result[item].idTokenB);
+    const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[item];
+    const tokenAData = await handleFetchToken(idTokenA);
+    const tokenBData = await handleFetchToken(idTokenB);
+
+    const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+      .times(rewardPct)
+      .times(365)
+      .times(coinPriceObj['0']);
+
+    const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+      coinPriceObj[idTokenA]
+    );
+    const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+      coinPriceObj[idTokenB]
+    );
+    const totalLiquidity = liquidityReserveidTokenA.plus(
+      liquidityReserveidTokenB
+    );
+
     return {
       key: item,
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
+      totalLiquidity: totalLiquidity.toNumber(),
+      yearlyPoolReward: yearlyPoolReward.toNumber(),
+      apy: yearlyPoolReward.div(totalLiquidity).toNumber(),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -554,13 +590,35 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const tokenAData = await handleFetchToken(result[item].idTokenA);
-      const tokenBData = await handleFetchToken(result[item].idTokenB);
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
+        item
+      ];
+      const tokenAData = await handleFetchToken(idTokenA);
+      const tokenBData = await handleFetchToken(idTokenB);
+
+      const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+        .times(rewardPct)
+        .times(365)
+        .times(coinPriceObj['0']);
+
+      const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+        coinPriceObj[idTokenA]
+      );
+      const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+        coinPriceObj[idTokenB]
+      );
+      const totalLiquidity = liquidityReserveidTokenA.plus(
+        liquidityReserveidTokenB
+      );
+
       return {
         key: item,
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         ...result[item],
+        totalLiquidity: totalLiquidity.toNumber(),
+        yearlyPoolReward: yearlyPoolReward.toNumber(),
+        apy: yearlyPoolReward.div(totalLiquidity).toNumber(),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -782,4 +840,54 @@ export const getAddressForSymbol = async (key: string, list: any) => {
     }
   }
   return address;
+};
+
+export const getCoinPriceInUSD = async (conversionCurrency: string) => {
+  const ids = getIDs();
+  console.log('ids', ids);
+  const { data } = await axios({
+    url: `${COINGECKO_API_BASE_URL}/simple/price`,
+    method: 'GET',
+    params: {
+      ids,
+      vs_currencies: conversionCurrency,
+    },
+  });
+  return data;
+};
+
+export const parsedCoinPriceData = async () => {
+  const result = await getCoinPriceInUSD(VS_CURRENCY);
+  console.log('result', result);
+  const coinMap = getCoinMap();
+  return Object.keys(result).reduce((coinPriceObj: any, item) => {
+    const symbol = coinMap.get(item) || '0';
+    coinPriceObj[symbol] = result[item][VS_CURRENCY];
+    return coinPriceObj;
+  }, {});
+};
+
+export const getCoinMap = () => {
+  const coinMap: Map<string, string> = new Map<string, string>([
+    [COINGECKO_DFI_ID, DFI_SYMBOL],
+    [COINGECKO_BTC_ID, BTC_SYMBOL],
+    [COINGECKO_ETH_ID, ETH_SYMBOL],
+    [COINGECKO_USDT_ID, USDT_SYMBOL],
+  ]);
+  return coinMap;
+};
+
+export const getCoinIds = () => {
+  return [
+    COINGECKO_DFI_ID,
+    COINGECKO_BTC_ID,
+    COINGECKO_ETH_ID,
+    COINGECKO_USDT_ID,
+  ];
+};
+
+export const getIDs = () => {
+  const coinIdList = getCoinIds();
+  const parsedIds = '' + coinIdList;
+  return parsedIds;
 };

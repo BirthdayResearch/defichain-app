@@ -53,3 +53,4 @@ export const ADD_POOL_LIQUIDITY = 'addpoolliquidity';
 export const POOL_SWAP = 'poolswap';
 export const REMOVE_POOL_LIQUIDITY = 'removepoolliquidity';
 export const TEST_POOL_SWAP = 'testpoolswap';
+export const GET_GOV = 'getgov';

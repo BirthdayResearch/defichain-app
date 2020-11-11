@@ -13,6 +13,7 @@ import {
   WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
+  LP_DAILY_DFI_REWARD,
 } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -817,6 +818,13 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
       { from, tokenFrom, amountFrom, to, tokenTo },
+    ]);
+    return data.result;
+  };
+
+  getGov = async () => {
+    const { data } = await this.call('/', methodNames.GET_GOV, [
+      LP_DAILY_DFI_REWARD,
     ]);
     return data.result;
   };
