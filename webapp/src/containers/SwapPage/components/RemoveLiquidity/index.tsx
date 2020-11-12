@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCheck,
+  MdCheckCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import {
   Button,
@@ -17,15 +22,28 @@ import {
   Row,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
+import {
+  NavLink,
+  NavLink as RRNavLink,
+  RouteComponentProps,
+} from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 
-import { SWAP_PATH } from '../../../../constants';
-import { fetchPoolpair } from '../../reducer';
+import {
+  CONFIRM_BUTTON_COUNTER,
+  CONFIRM_BUTTON_TIMEOUT,
+  SWAP_PATH,
+} from '../../../../constants';
+import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
 import styles from './removeLiquidity.module.scss';
-import { getIcon, getRatio } from '../../../../utils/utility';
+import {
+  getIcon,
+  getRatio,
+  getTotalAmountPoolShare,
+} from '../../../../utils/utility';
 import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
+import Spinner from '../../../../components/Svg/Spinner';
 
 interface RouteParams {
   id?: string;
@@ -34,21 +52,57 @@ interface RouteParams {
 interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
   fetchPoolpair: (id) => void;
   poolpair: any;
+  isErrorRemovingPoolLiquidity: string;
+  removePoolLiqudityRequest: (formState) => void;
+  isLoadingRemovePoolLiquidity: boolean;
+  removePoolLiquidityHash: string;
 }
 
 const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   props: RemoveLiquidityProps
 ) => {
+  const urlParams = new URLSearchParams(props.location.search);
+  const sharePercentage = urlParams.get('sharePercentage');
+
   const [formState, setFormState] = useState<any>({
     amountPercentage: '0',
     receiveAddress: '',
   });
-
+  const [removeLiquidityStep, setRemoveLiquidityStep] = useState<string>(
+    'default'
+  );
   const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
+  const [wait, setWait] = useState<number>(5);
+  const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [sumAmount, setSumAmount] = useState<number>(0);
 
   const { id } = props.match.params;
 
-  const { fetchPoolpair, poolpair } = props;
+  const {
+    fetchPoolpair,
+    poolpair,
+    isErrorRemovingPoolLiquidity,
+    removePoolLiqudityRequest,
+    isLoadingRemovePoolLiquidity,
+    removePoolLiquidityHash,
+  } = props;
+
+  useEffect(() => {
+    let waitToSendInterval;
+    if (removeLiquidityStep === 'confirm') {
+      let counter = CONFIRM_BUTTON_COUNTER;
+      waitToSendInterval = setInterval(() => {
+        counter -= 1;
+        setWait(counter);
+        if (counter === 0) {
+          clearInterval(waitToSendInterval);
+        }
+      }, CONFIRM_BUTTON_TIMEOUT);
+    }
+    return () => {
+      clearInterval(waitToSendInterval);
+    };
+  }, [removeLiquidityStep]);
 
   useEffect(() => {
     fetchPoolpair({
@@ -57,12 +111,57 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   }, []);
 
   useEffect(() => {
+    if (allowCalls && !isLoadingRemovePoolLiquidity) {
+      if (!isErrorRemovingPoolLiquidity && removePoolLiquidityHash) {
+        setRemoveLiquidityStep('success');
+      }
+      if (isErrorRemovingPoolLiquidity && !removePoolLiquidityHash) {
+        setRemoveLiquidityStep('failure');
+      }
+    }
+  }, [
+    removePoolLiquidityHash,
+    isErrorRemovingPoolLiquidity,
+    isLoadingRemovePoolLiquidity,
+    allowCalls,
+  ]);
+
+  useEffect(() => {
     async function addressAndAmount() {
       const data = await getReceivingAddressAndAmountList();
       setReceiveAddresses(data.addressAndAmountList);
     }
     addressAndAmount();
   }, []);
+
+  useEffect(() => {
+    async function totalAmountPoolShare() {
+      const amount = await getTotalAmountPoolShare(id);
+      setSumAmount(amount);
+    }
+    totalAmountPoolShare();
+  }, []);
+
+  const handleRemoveLiquidity = () => {
+    setAllowCalls(true);
+    setRemoveLiquidityStep('loading');
+    removePoolLiqudityRequest({
+      poolID: id,
+      amount: (formState.amountPercentage * sumAmount) / 100,
+    });
+  };
+
+  const calculateTotal = (total, reserve) => {
+    return ((total / 100) * reserve).toFixed(8);
+  };
+
+  const removeLiquidityAmount = (total) => {
+    const liquidityAmount = (Number(formState.amountPercentage) / 100) * total;
+    return liquidityAmount.toFixed(8);
+  };
+
+  const totalA = calculateTotal(sharePercentage, poolpair.reserveA);
+  const totalB = calculateTotal(sharePercentage, poolpair.reserveB);
 
   return (
     <div className='main-wrapper'>
@@ -152,7 +251,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   />
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
-                <Col className={styles.colText}>{`49,999.5 of 99,999 DFI`}</Col>
+                <Col className={styles.colText}>
+                  {`${removeLiquidityAmount(totalA)} of ${totalA} ${
+                    poolpair.tokenA
+                  }`}
+                </Col>
               </Row>
               <hr />
               <Row className='align-items-center'>
@@ -164,9 +267,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   />
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
-                <Col
-                  className={styles.colText}
-                >{`499,999.5 of 999,999 DOO`}</Col>
+                <Col className={styles.colText}>
+                  {`${removeLiquidityAmount(totalB)} of ${totalB} ${
+                    poolpair.tokenB
+                  }`}
+                </Col>
               </Row>
               <hr />
               <Row>
@@ -176,9 +281,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                     poolpair.tokenB
                   }`}
                   <br />
-                  {`${1 / getRatio(poolpair)} ${poolpair.tokenB} per ${
-                    poolpair.tokenA
-                  }`}
+                  {`${(1 / Number(getRatio(poolpair))).toFixed(8)} ${
+                    poolpair.tokenB
+                  } per ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
@@ -221,36 +326,158 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         </section>
       </div>
       <footer className='footer-bar'>
-        <Row className='justify-content-between align-items-center'>
-          <Col className='col-auto'>
-            <FormGroup check>
-              <Label check>
+        <div
+          className={classnames({
+            'd-none': removeLiquidityStep !== 'default',
+          })}
+        >
+          <Row className='justify-content-between align-items-center'>
+            <Col className='col-auto'>
+              <FormGroup check>
+                <Label check>
+                  {I18n.t(
+                    'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
+                  )}
+                </Label>
+              </FormGroup>
+            </Col>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                color='link'
+                className='mr-3'
+                onClick={() => setRemoveLiquidityStep('confirm')}
+                disabled={
+                  !Number(formState.amountPercentage) ||
+                  !formState.receiveAddress
+                }
+              >
+                {I18n.t('containers.swap.removeLiquidity.continue')}
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': removeLiquidityStep !== 'confirm',
+          })}
+        >
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dt className='col-sm-3 text-right'>
+                {I18n.t('containers.swap.removeLiquidity.receive')}
+              </dt>
+              &nbsp;
+              <dd className='col-sm-9'>
+                <span>{`${removeLiquidityAmount(totalA)} ${
+                  poolpair.tokenA
+                }`}</span>
+                <br />
+                <span>{`${removeLiquidityAmount(totalB)} ${
+                  poolpair.tokenB
+                }`}</span>
+              </dd>
+            </dl>
+          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='col'>
+              {I18n.t('containers.swap.removeLiquidity.verifyTransaction')}
+            </Col>
+            <Col className='d-flex justify-content-end'>
+              <Button
+                color='link'
+                className='mr-3'
+                onClick={() => setRemoveLiquidityStep('default')}
+              >
+                {I18n.t('containers.swap.removeLiquidity.cancel')}
+              </Button>
+              <Button
+                color='primary'
+                onClick={() => handleRemoveLiquidity()}
+                disabled={wait > 0 ? true : false}
+              >
+                {I18n.t('containers.swap.removeLiquidity.confirm')}&nbsp;
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': removeLiquidityStep !== 'success',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
+              <p>
                 {I18n.t(
-                  'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
+                  'containers.swap.removeLiquidity.transactionSuccessMsg'
                 )}
-              </Label>
-            </FormGroup>
-          </Col>
-          <Col className='d-flex justify-content-end'>
-            <Button color='link' className='mr-3' disabled={true}>
-              {I18n.t('containers.swap.removeLiquidity.continue')}
+              </p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={`${SWAP_PATH}?tab=pool`} tag={NavLink}>
+              {I18n.t('containers.swap.removeLiquidity.backToPool')}
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': removeLiquidityStep !== 'loading',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <Spinner />
+            </div>
+          </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': removeLiquidityStep !== 'failure',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdErrorOutline
+                className={classnames({
+                  'footer-sheet-icon': true,
+                  [styles[`error-dailog`]]: true,
+                })}
+              />
+              <p>{isErrorRemovingPoolLiquidity}</p>
+            </div>
+          </div>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={`${SWAP_PATH}?tab=pool`} tag={NavLink}>
+              {I18n.t('containers.swap.removeLiquidity.backToPool')}
+            </Button>
+          </div>
+        </div>
       </footer>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { poolpair } = state.swap;
+  const {
+    poolpair,
+    isErrorRemovingPoolLiquidity,
+    removePoolLiquidityHash,
+    isLoadingRemovePoolLiquidity,
+  } = state.swap;
   return {
+    removePoolLiquidityHash,
+    isLoadingRemovePoolLiquidity,
+    isErrorRemovingPoolLiquidity,
     poolpair,
   };
 };
 
 const mapDispatchToProps = {
   fetchPoolpair,
+  removePoolLiqudityRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidity);

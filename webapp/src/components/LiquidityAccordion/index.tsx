@@ -45,7 +45,11 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
     if (data === ADD) {
       history.push(CREATE_POOL_PAIR_PATH);
     } else {
-      history.push(`${REMOVE_LIQUIDITY_BASE_PATH}/${poolpair.poolID}`);
+      history.push(
+        `${REMOVE_LIQUIDITY_BASE_PATH}/${
+          poolpair.poolID
+        }?sharePercentage=${Number(poolpair.poolSharePercentage).toFixed(8)}`
+      );
     }
   };
 
@@ -122,7 +126,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
             <Col className={`${styles.unit} ${styles.text}`}>
-              {`${poolpair.poolSharePercentage} %`}
+              {`${Number(poolpair.poolSharePercentage).toFixed(8)} %`}
             </Col>
           </Row>
         </CardBody>

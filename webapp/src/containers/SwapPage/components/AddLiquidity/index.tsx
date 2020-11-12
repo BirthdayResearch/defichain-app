@@ -302,7 +302,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                       formState.symbol1
                     } per ${formState.symbol2}`}
                     <br />
-                    {`${1 / conversionRatio(formState, poolPairList)} ${
+                    {`${1 / Number(conversionRatio(formState, poolPairList))} ${
                       formState.symbol2
                     } per ${formState.symbol1}`}
                   </Col>
@@ -381,7 +381,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   } per ${formState.symbol2}`}
                 <br />
                 {isValid() &&
-                  `${1 / conversionRatio(formState, poolPairList)} ${
+                  `${1 / Number(conversionRatio(formState, poolPairList))} ${
                     formState.symbol2
                   } per ${formState.symbol1}`}{' '}
               </dd>
