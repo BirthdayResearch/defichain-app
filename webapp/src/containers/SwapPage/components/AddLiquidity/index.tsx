@@ -44,6 +44,7 @@ interface AddLiquidityProps {
   isAddPoolLiquidityLoaded: boolean;
   addPoolLiquidityHash: string;
   isErrorAddingPoolLiquidity: string;
+  walletBalance: number;
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
@@ -74,6 +75,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     addPoolLiquidityHash,
     isErrorAddingPoolLiquidity,
     fetchPoolsharesRequest,
+    walletBalance,
   } = props;
 
   useEffect(() => {
@@ -122,7 +124,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     }
   };
 
-  const tokenMap = getTokenAndBalanceMap(poolPairList, tokenBalanceList);
+  const tokenMap = getTokenAndBalanceMap(
+    poolPairList,
+    tokenBalanceList,
+    walletBalance
+  );
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
@@ -490,6 +496,7 @@ const mapStateToProps = (state) => {
     isErrorAddingPoolLiquidity,
     poolshares,
   } = state.swap;
+  const { walletBalance } = state.wallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -498,6 +505,7 @@ const mapStateToProps = (state) => {
     addPoolLiquidityHash,
     isErrorAddingPoolLiquidity,
     poolshares,
+    walletBalance,
   };
 };
 
