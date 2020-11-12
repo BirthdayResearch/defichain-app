@@ -264,6 +264,15 @@ export default class RpcClient {
     return data.result;
   };
 
+  utxosToAccount = async (toAddress: string, amount: string) => {
+    const { data } = await this.call('/', methodNames.UTXOS_TO_ACCOUNT, [
+      {
+        [toAddress]: amount,
+      },
+    ]);
+    return data.result;
+  };
+
   getTransaction = async (txId: string): Promise<any> => {
     const { data } = await this.call('/', methodNames.GET_TRANSACTION, [txId]);
     return data.result;
@@ -605,7 +614,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  tokenInfo = async (key: string): Promise<string> => {
+  tokenInfo = async (key: string): Promise<any> => {
     const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
     return data.result;
   };

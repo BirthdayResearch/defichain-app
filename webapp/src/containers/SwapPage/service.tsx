@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  DFI_SYMBOL,
   POOL_PAIR_PAGE_SIZE,
   SHARE_POOL_PAGE_SIZE,
 } from '../../constants';
@@ -18,6 +19,8 @@ import {
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
   getAddressForSymbol,
+  getDfiUTXOS,
+  handleUtxoToAccountConversion,
 } from '../../utils/utility';
 
 export const handleFetchPoolshares = async () => {
@@ -103,8 +106,48 @@ export const handleFetchPoolPairList = async () => {
 export const handleTestPoolSwap = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const address1 = await getAddressForSymbol(formState.hash1, list);
-  const address2 = await getAddressForSymbol(formState.hash2, list);
+  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+    formState.hash1,
+    list
+  );
+  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
+    formState.hash2,
+    list
+  );
+
+  const dfiUTXOS = await getDfiUTXOS();
+
+  const tokenInfo1 = await rpcClient.tokenInfo(formState.hash1);
+  const tokenInfo2 = await rpcClient.tokenInfo(formState.hash2);
+
+  const { symbol: symbol1 } = tokenInfo1[formState.hash1];
+  const { symbol: symbol2 } = tokenInfo2[formState.hash2];
+
+  // convert utxo to account DFI, if don't have sufficent funds in account
+  if (
+    formState.hash1 === DFI_SYMBOL &&
+    Number(formState.amount1) > maxAmount1
+  ) {
+    await handleUtxoToAccountConversion(
+      formState.hash1,
+      address1,
+      formState.amount1,
+      maxAmount1,
+      dfiUTXOS
+    );
+  } else if (
+    formState.hash2 === DFI_SYMBOL &&
+    Number(formState.amount2) > maxAmount2
+  ) {
+    await handleUtxoToAccountConversion(
+      formState.hash2,
+      address2,
+      formState.amount2,
+      maxAmount2,
+      dfiUTXOS
+    );
+  }
+
   const testPoolSwapAmount = await rpcClient.testPoolSwap(
     address1,
     formState.hash1,
@@ -118,8 +161,14 @@ export const handleTestPoolSwap = async (formState) => {
 export const handlePoolSwap = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const address1 = await getAddressForSymbol(formState.hash1, list);
-  const address2 = await getAddressForSymbol(formState.hash2, list);
+  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+    formState.hash1,
+    list
+  );
+  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
+    formState.hash2,
+    list
+  );
   if (address1 !== address2) {
     const txId1 = await rpcClient.sendToAddress(
       address2,
@@ -164,9 +213,42 @@ export const handleAddPoolLiquidity = async (
 ) => {
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
-  const address1 = await getAddressForSymbol(hash1, addressesList);
-  const address2 = await getAddressForSymbol(hash2, addressesList);
+  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+    hash1,
+    addressesList
+  );
+  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
+    hash2,
+    addressesList
+  );
   const shareAddress = await getNewAddress('', true);
+  const dfiUTXOS = await getDfiUTXOS();
+
+  const tokenInfo1 = await rpcClient.tokenInfo(hash1);
+  const tokenInfo2 = await rpcClient.tokenInfo(hash2);
+
+  const { symbol: symbol1 } = tokenInfo1[hash1];
+  const { symbol: symbol2 } = tokenInfo2[hash2];
+
+  // convert utxo to account DFI, if don't have sufficent funds in account
+  if (hash1 === DFI_SYMBOL && Number(amount1) > maxAmount1) {
+    await handleUtxoToAccountConversion(
+      hash1,
+      address1,
+      amount1,
+      maxAmount1,
+      dfiUTXOS
+    );
+  } else if (hash2 === DFI_SYMBOL && Number(amount2) > maxAmount2) {
+    await handleUtxoToAccountConversion(
+      hash2,
+      address2,
+      amount2,
+      maxAmount2,
+      dfiUTXOS
+    );
+  }
+
   if (address1 !== address2) {
     const txId1 = await rpcClient.sendToAddress(
       address2,
