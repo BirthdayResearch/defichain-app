@@ -58,7 +58,11 @@ import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
-import { getAddressInfo } from '../containers/WalletPage/service';
+import {
+  getAddressInfo,
+  getNewAddress,
+  getTransactionInfo,
+} from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 
 export const validateSchema = (schema, data) => {
@@ -500,8 +504,7 @@ export const getTokenAndBalanceMap = (
   const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
 
   balanceAndSymbolMap.forEach((balance, symbol) => {
-    const finalBalance =
-      symbol === DFI_SYMBOL ? walletBalance || 0 : balance;
+    const finalBalance = symbol === DFI_SYMBOL ? walletBalance || 0 : balance;
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
@@ -849,12 +852,15 @@ export const getAddressForSymbol = async (key: string, list: any) => {
   for (const obj of list) {
     const tokenSymbol = Object.keys(obj.amount)[0];
     const amount = Number(obj.amount[tokenSymbol]);
-    if (key === tokenSymbol && maxAmount < amount) {
+    if (key === tokenSymbol && maxAmount <= amount) {
       maxAmount = amount;
       address = obj.address;
     }
   }
-  return address;
+  if (address === '') {
+    address = await getNewAddress('', true);
+  }
+  return { address, amount: maxAmount };
 };
 
 export const getCoinPriceInUSD = async (conversionCurrency: string) => {
@@ -905,4 +911,28 @@ export const getIDs = () => {
   const coinIdList = getCoinIds();
   const parsedIds = '' + coinIdList;
   return parsedIds;
+};
+
+export const getDfiUTXOS = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getBalance();
+};
+
+export const handleUtxoToAccountConversion = async (
+  hash: string,
+  address: string,
+  amount: string,
+  maxAmount: number,
+  DfiUTXOS: number
+) => {
+  const rpcClient = new RpcClient();
+  if (Number(amount) > maxAmount + DfiUTXOS) {
+    throw new Error(`Insufficent DFI in account`);
+  }
+  const transferAmount = Number(amount) - maxAmount;
+  const utxoToDfiTxId = await rpcClient.utxosToAccount(
+    address,
+    `${transferAmount.toFixed(8)}@${hash}`
+  );
+  await getTransactionInfo(utxoToDfiTxId);
 };
