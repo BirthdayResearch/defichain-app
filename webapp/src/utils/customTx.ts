@@ -5,7 +5,6 @@ import {
   CustomTx,
   crypto,
   util,
-  SignatureData,
 } from 'bitcore-lib-dfi';
 import _ from 'lodash';
 
