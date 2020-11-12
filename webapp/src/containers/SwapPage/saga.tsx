@@ -130,10 +130,10 @@ function* addPoolLiquidity(action) {
 function* removePoolLiquidity(action) {
   try {
     const {
-      payload: { from, amount },
+      payload: { poolID, amount },
     } = action;
 
-    const data = yield call(handleRemovePoolLiquidity, from, amount);
+    const data = yield call(handleRemovePoolLiquidity, poolID, amount);
     yield put({ type: removePoolLiquiditySuccess.type, payload: data });
   } catch (e) {
     log.error(e.message);
