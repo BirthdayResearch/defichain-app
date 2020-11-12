@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
 
@@ -46,6 +46,7 @@ import {
   BTC_SYMBOL,
   ETH_SYMBOL,
   USDT_SYMBOL,
+  SHARE_POOL_PAGE_SIZE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -757,10 +758,10 @@ export const calculateInputAddLiquidity = (
   formState,
   poolPairList
 ) => {
-  const ratio = conversionRatio(formState, poolPairList);
+  const ratio: any = conversionRatio(formState, poolPairList);
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     const amount2 = ratio * Number(input1);
-    return amount2;
+    return amount2.toFixed(8);
   }
   return '-';
 };
@@ -792,12 +793,12 @@ export const conversionRatio = (formState, poolPairList) => {
     ? poolPair.reserveB / poolPair.reserveA
     : poolPair.reserveA / poolPair.reserveB;
 
-  return ratio;
+  return ratio.toFixed(8);
 };
 
 export const getRatio = (poolpair) => {
   const ratio = poolpair.reserveB / poolpair.reserveA;
-  return ratio;
+  return ratio.toFixed(8);
 };
 
 export const shareOfPool = (formState, poolPairList, poolShareList) => {
@@ -809,7 +810,7 @@ export const shareOfPool = (formState, poolPairList, poolShareList) => {
       return sharePercentage;
     }
   }, 0);
-  return `${shareOfPool} %`;
+  return `${shareOfPool.toFixed(8)} %`;
 };
 
 export const getIcon = (symbol: string | null) => {
@@ -865,7 +866,6 @@ export const getAddressForSymbol = async (key: string, list: any) => {
 
 export const getCoinPriceInUSD = async (conversionCurrency: string) => {
   const ids = getIDs();
-  console.log('ids', ids);
   const { data } = await axios({
     url: `${COINGECKO_API_BASE_URL}/simple/price`,
     method: 'GET',
@@ -879,7 +879,6 @@ export const getCoinPriceInUSD = async (conversionCurrency: string) => {
 
 export const parsedCoinPriceData = async () => {
   const result = await getCoinPriceInUSD(VS_CURRENCY);
-  console.log('result', result);
   const coinMap = getCoinMap();
   return Object.keys(result).reduce((coinPriceObj: any, item) => {
     const symbol = coinMap.get(item) || '0';
@@ -935,4 +934,51 @@ export const handleUtxoToAccountConversion = async (
     `${transferAmount.toFixed(8)}@${hash}`
   );
   await getTransactionInfo(utxoToDfiTxId);
+};
+export const getAddressAndAmountListPoolShare = async (poolID) => {
+  const rpcClient = new RpcClient();
+  const poolShares = await fetchPoolShareDataWithPagination(
+    0,
+    SHARE_POOL_PAGE_SIZE,
+    rpcClient.listPoolShares
+  );
+
+  if (isEmpty(poolShares)) {
+    return [];
+  }
+
+  const minePoolShares = poolShares.map(async (poolShare) => {
+    const addressInfo = await getAddressInfo(poolShare.owner);
+
+    if (
+      addressInfo.ismine &&
+      !addressInfo.iswatchonly &&
+      poolShare.poolID === poolID
+    ) {
+      return {
+        amount: poolShare.amount,
+        address: poolShare.owner,
+      };
+    }
+  });
+
+  const resolvedMineAddressAndAmountListPoolShare = _.compact(
+    await Promise.all(minePoolShares)
+  );
+
+  const sortedList = resolvedMineAddressAndAmountListPoolShare.sort(
+    (a, b) => parseFloat(b.amount) - parseFloat(a.amount)
+  );
+
+  return sortedList;
+};
+
+export const getTotalAmountPoolShare = async (poolID) => {
+  const list = await getAddressAndAmountListPoolShare(poolID);
+  const totalAmount = list.reduce((amount, obj) => {
+    amount = amount + Number(obj.amount);
+    return amount;
+  }, 0);
+
+  return totalAmount;
 };
