@@ -550,31 +550,38 @@ export const fetchPoolPairDataWithPagination = async (
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map(async (item: any) => {
-    const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[item];
+    const {
+      reserveA,
+      reserveB,
+      idTokenA,
+      idTokenB,
+      rewardPct,
+      totalLiquidity,
+    } = result[item];
     const tokenAData = await handleFetchToken(idTokenA);
     const tokenBData = await handleFetchToken(idTokenB);
 
     const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
       .times(rewardPct)
       .times(365)
-      .times(coinPriceObj['0']);
+      .times(coinPriceObj[DFI_SYMBOL]);
 
-    const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-      coinPriceObj[idTokenA]
-    );
-    const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-      coinPriceObj[idTokenB]
-    );
-    const totalLiquidity = liquidityReserveidTokenA.plus(
-      liquidityReserveidTokenB
-    );
+    /* Don't remove, for future purpose */
+    // const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+    //   coinPriceObj[idTokenA]
+    // );
+    // const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+    //   coinPriceObj[idTokenB]
+    // );
+    // const totalLiquidity = liquidityReserveidTokenA.plus(
+    //   liquidityReserveidTokenB
+    // );
 
     return {
       key: item,
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
-      totalLiquidity: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
     };
@@ -590,33 +597,38 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
-        item
-      ];
+      const {
+        reserveA,
+        reserveB,
+        idTokenA,
+        idTokenB,
+        rewardPct,
+        totalLiquidity,
+      } = result[item];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
 
       const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
         .times(rewardPct)
         .times(365)
-        .times(coinPriceObj['0']);
+        .times(coinPriceObj[DFI_SYMBOL]);
 
-      const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-        coinPriceObj[idTokenA]
-      );
-      const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-        coinPriceObj[idTokenB]
-      );
-      const totalLiquidity = liquidityReserveidTokenA.plus(
-        liquidityReserveidTokenB
-      );
+      /* Don't remove, for future purpose */
+      // const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+      //   coinPriceObj[idTokenA]
+      // );
+      // const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+      //   coinPriceObj[idTokenB]
+      // );
+      // const totalLiquidity = liquidityReserveidTokenA.plus(
+      //   liquidityReserveidTokenB
+      // );
 
       return {
         key: item,
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         ...result[item],
-        totalLiquidity: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
       };
