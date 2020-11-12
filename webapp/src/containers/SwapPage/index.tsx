@@ -342,9 +342,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     formState.symbol1
                   } per ${formState.symbol2}`}
                   <br />
-                  {`${1 / conversionRatio(formState, poolPairList)} ${
-                    formState.symbol2
-                  } per ${formState.symbol1}`}
+                  {`${(
+                    1 / Number(conversionRatio(formState, poolPairList))
+                  ).toFixed(8)} ${formState.symbol2} per ${formState.symbol1}`}
                 </Col>
               </Row>
               <hr />
