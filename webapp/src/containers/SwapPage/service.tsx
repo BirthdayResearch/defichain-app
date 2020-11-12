@@ -18,6 +18,7 @@ import {
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
+  getAddressAndAmountListPoolShare,
   getAddressForSymbol,
   getDfiUTXOS,
   handleUtxoToAccountConversion,
@@ -280,9 +281,42 @@ export const handleAddPoolLiquidity = async (
 };
 
 export const handleRemovePoolLiquidity = async (
-  from: string,
+  poolID: string,
   amount: string
 ) => {
   const rpcClient = new RpcClient();
-  return await rpcClient.removePoolLiquidity(from, amount);
+  const list = await getAddressAndAmountListPoolShare(poolID);
+  const addressList: any[] = [];
+  list.reduce((sumAmount, obj) => {
+    if (sumAmount < Number(amount)) {
+      const tempAmount =
+        sumAmount + Number(obj.amount) <= Number(amount)
+          ? Number(obj.amount)
+          : Number(amount) - sumAmount;
+      addressList.push({
+        address: obj.address,
+        amount: tempAmount,
+      });
+      sumAmount = sumAmount + tempAmount;
+    }
+    return sumAmount;
+  }, 0);
+
+  const hashArray = addressList.map(async (obj, index) => {
+    const txId = await rpcClient.sendToAddress(
+      obj.address,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+      true
+    );
+    await getTransactionInfo(txId);
+    const hash = await rpcClient.removePoolLiquidity(
+      obj.address,
+      `${Number(obj.amount).toFixed(8)}@${poolID}`
+    );
+    return hash;
+  });
+
+  const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
+
+  return resolvedHashArray[resolvedHashArray.length - 1];
 };
