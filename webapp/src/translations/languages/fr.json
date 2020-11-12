@@ -246,13 +246,19 @@
       "removeLiquidity": {
         "removeLiquidity": "Remove Liquidity",
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
+        "verifyTransaction": "Please verify transaction and press CONFIRM",
         "removeLiquidityAmount": "Amount of liquidity to remove",
+        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the Defi blockchain",
+        "receive": "Receive",
+        "cancel": "Cancel",
         "removeLiquidityPercentage": "%",
         "price": "Price",
         "none": "None",
         "all": "All",
         "back": "BACK",
         "continue": "CONTINUE",
+        "confirm": "Confirm",
+        "backToPool": "Back to pool",
         "receiveAddress": "Receive Address"
       }
     },
