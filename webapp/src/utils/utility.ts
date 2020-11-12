@@ -490,7 +490,8 @@ const getPopularSymbolList = () => {
 
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
-  tokenBalanceList: string[]
+  tokenBalanceList: string[],
+  walletBalance: number
 ) => {
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
@@ -499,16 +500,18 @@ export const getTokenAndBalanceMap = (
   const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
 
   balanceAndSymbolMap.forEach((balance, symbol) => {
+    const finalBalance =
+      symbol === DFI_SYMBOL ? walletBalance || 0 : balance;
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance,
+        balance: finalBalance.toString(),
         isPopularToken: true,
       });
     } else if (uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance,
+        balance: finalBalance.toString(),
         isPopularToken: false,
       });
     }

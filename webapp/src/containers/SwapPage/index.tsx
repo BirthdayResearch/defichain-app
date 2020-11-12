@@ -68,6 +68,7 @@ interface SwapPageProps {
   isAddPoolLiquidityLoaded: boolean;
   addPoolLiquidityHash: string;
   isErrorAddingPoolLiquidity: string;
+  walletBalance: number;
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -101,6 +102,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     isLoadingPoolSwap,
     isErrorPoolSwap,
     poolSwapHash,
+    walletBalance,
   } = props;
 
   useEffect(() => {
@@ -152,7 +154,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   }, [poolSwapHash, isErrorPoolSwap, isLoadingPoolSwap, allowCalls]);
 
-  const tokenMap = getTokenAndBalanceMap(poolPairList, tokenBalanceList);
+  const tokenMap = getTokenAndBalanceMap(
+    poolPairList,
+    tokenBalanceList,
+    walletBalance
+  );
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
@@ -539,6 +545,7 @@ const mapStateToProps = (state) => {
     isPoolSwapLoaded,
     poolSwapHash,
   } = state.swap;
+  const { walletBalance } = state.wallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -553,6 +560,7 @@ const mapStateToProps = (state) => {
     isErrorPoolSwap,
     isPoolSwapLoaded,
     poolSwapHash,
+    walletBalance,
   };
 };
 
