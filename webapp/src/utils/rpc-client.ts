@@ -680,6 +680,19 @@ export default class RpcClient {
     return data.result;
   };
 
+  importPubKey = async (
+    pubKey: string,
+    label: string = '',
+    rescan: boolean = false
+  ) => {
+    const { data } = await this.call('/', methodNames.IMPORT_PUB_KEY, [
+      pubKey,
+      label,
+      rescan,
+    ]);
+    return data.result;
+  };
+
   getaddressInfo = async (address: string) => {
     const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
       address,

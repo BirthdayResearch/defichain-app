@@ -41,3 +41,4 @@ export const SET_HD_SEED = 'sethdseed';
 export const ENCRYPT_WALLET = 'encryptwallet';
 export const WALLET_PASSPHRASE = 'walletpassphrase';
 export const WALLET_LOCK = 'walletlock';
+export const IMPORT_PUB_KEY = 'importpubkey';
