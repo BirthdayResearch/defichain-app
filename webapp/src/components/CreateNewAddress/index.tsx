@@ -15,7 +15,7 @@ import { I18n } from 'react-redux-i18n';
 import { MdArrowBack } from 'react-icons/md';
 import * as log from '../../utils/electronLogger';
 
-interface CreateNewAddressPageProps {
+interface CreateNewAddressProps {
   history: {
     push(url: string): void;
   };
@@ -23,8 +23,8 @@ interface CreateNewAddressPageProps {
   handleSubmit: (label: string, addressTypeChecked: boolean) => void;
 }
 
-const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> = (
-  props: CreateNewAddressPageProps
+const CreateNewAddress: React.FunctionComponent<CreateNewAddressProps> = (
+  props: CreateNewAddressProps
 ) => {
   const [label, setLabel] = useState<string>('');
   const [addressTypeChecked, setAddressTypeChecked] = useState(false);
@@ -139,4 +139,4 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
   );
 };
 
-export default CreateNewAddressPage;
+export default CreateNewAddress;
