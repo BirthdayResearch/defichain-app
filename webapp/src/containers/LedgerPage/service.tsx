@@ -212,6 +212,16 @@ export const getNewAddress = async (
   }
 };
 
+export const importPubKey = async (pubKey: string, keyIndex: number) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.importPubKey(pubKey, `ledger_pas:${keyIndex}`);
+  } catch (err) {
+    log.error(`Got error in importPubKey: ${err}`);
+    throw err;
+  }
+};
+
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
   return await fetchTokenDataWithPagination(
