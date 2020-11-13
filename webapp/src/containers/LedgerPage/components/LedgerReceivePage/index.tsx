@@ -10,7 +10,7 @@ import {
   WALLET_CREATE_RECEIVE_REQUEST,
 } from '../../../../constants';
 
-const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
+const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
@@ -63,4 +63,4 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   );
 };
 
-export default ReceivePage;
+export default LedgerReceivePage;

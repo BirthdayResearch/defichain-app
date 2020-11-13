@@ -48,12 +48,16 @@ import {
   WALLET_CREATE_PATH,
   MINT_TOKENS_PATH,
   LEDGER_PATH,
+  LEDGER_RECEIVE_PATH,
+  LEDGER_CREATE_RECEIVE_REQUEST,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LedgerPage from '../containers/LedgerPage';
+import CreateNewAddressLedgerPage from '../containers/LedgerPage/components/LedgerReceivePage/CreateNewAddressLedgerPage';
+import LedgerReceivePage from '../containers/LedgerPage/components/LedgerReceivePage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -100,6 +104,12 @@ const routes = (location) => (
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={LEDGER_PATH} component={LedgerPage} />
+    <Route exact path={LEDGER_RECEIVE_PATH} component={LedgerReceivePage} />
+    <Route
+      exact
+      path={LEDGER_CREATE_RECEIVE_REQUEST}
+      component={CreateNewAddressLedgerPage}
+    />
     <Route exact component={Error404Page} />
   </Switch>
 );

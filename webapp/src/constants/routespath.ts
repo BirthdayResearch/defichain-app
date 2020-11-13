@@ -32,3 +32,5 @@ export const WALLET_TOKENS_PATH = `${WALLET_BASE_PATH}/tokens`;
 export const WALLET_ADD_TOKEN_PATH = `${WALLET_TOKENS_PATH}/addtoken`;
 export const CONSOLE_RPC_CALL_BASE_PATH = `/console`;
 export const LEDGER_PATH = '/ledger';
+export const LEDGER_RECEIVE_PATH = `${LEDGER_PATH}/receive`;
+export const LEDGER_CREATE_RECEIVE_REQUEST = `${LEDGER_RECEIVE_PATH}/request`;

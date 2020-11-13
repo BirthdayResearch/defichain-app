@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateNewAddressPage from '../components/ReceivePage/CreateNewAddressPage';
+import CreateNewAddressPage from '../components/LedgerReceivePage/CreateNewAddressLedgerPage';
 import { history } from '../../../utils/testUtils/routeComponentProps';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';

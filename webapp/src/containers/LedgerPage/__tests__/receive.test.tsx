@@ -5,7 +5,7 @@ import {
   location,
   match,
 } from '../../../utils/testUtils/routeComponentProps';
-import ReceivePage from '../components/ReceivePage';
+import ReceivePage from '../components/LedgerReceivePage';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
 import { mount } from 'enzyme';

@@ -1,5 +1,5 @@
 import React from 'react';
-import PaymentRequestList from '../components/ReceivePage/PaymentRequestList';
+import PaymentRequestList from '../components/LedgerReceivePage/PaymentRequestList';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
