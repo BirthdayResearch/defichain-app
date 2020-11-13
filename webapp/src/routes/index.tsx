@@ -5,7 +5,7 @@ import WalletTokensPage from '../containers/WalletPage/components/Tokens/TokensL
 import WalletAddToken from '../containers/WalletPage/components/Tokens/AddToken';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
-import CreateNewAddressPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
+import CreateNewAddressWalletPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressWalletPage';
 import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
 import BlockchainPage from '../containers/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/components/BlockPage';
@@ -71,7 +71,7 @@ const routes = (location) => (
     <Route
       exact
       path={WALLET_CREATE_RECEIVE_REQUEST}
-      component={CreateNewAddressPage}
+      component={CreateNewAddressWalletPage}
     />
     <Route
       exact
