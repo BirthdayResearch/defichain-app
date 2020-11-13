@@ -2,7 +2,7 @@ import React from 'react';
 import uid from 'uid';
 import { I18n } from 'react-redux-i18n';
 import { LEDGER_RECEIVE_PATH } from '../../../../../constants';
-import { getNewAddress } from '../../../service';
+import { getNewAddress, importPubKey } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import CreateNewAddress from '../../../../../components/CreateNewAddress';
 
@@ -29,6 +29,7 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         time: new Date().toString(),
         address: newAddress,
       };
+      await importPubKey('', 1);
       props.history.push(LEDGER_RECEIVE_PATH);
     } catch (err) {
       log.error(err);

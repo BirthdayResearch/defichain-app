@@ -94,5 +94,6 @@ export default class Wallet {
       ret = await defiHwWallet.getDefiPublicKey(i, 'cashaddr');
       console.log('cashaddr addr: ' + ret.address);
     }
+    return await defiHwWallet.getDefiPublicKey(0);
   }
 }
