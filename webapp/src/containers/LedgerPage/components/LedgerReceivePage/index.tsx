@@ -6,8 +6,8 @@ import PaymentRequestList from './PaymentRequestList';
 import { I18n } from 'react-redux-i18n';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import {
-  WALLET_PAGE_PATH,
-  WALLET_CREATE_RECEIVE_REQUEST,
+  LEDGER_CREATE_RECEIVE_REQUEST,
+  LEDGER_PATH,
 } from '../../../../constants';
 
 const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
@@ -26,11 +26,7 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={
-            tokenSymbol
-              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-              : WALLET_PAGE_PATH
-          }
+          to={LEDGER_PATH}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'
@@ -43,7 +39,7 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
         <h1>{I18n.t('containers.wallet.receivePage.receive')}</h1>
         <ButtonGroup>
           <Button
-            to={WALLET_CREATE_RECEIVE_REQUEST}
+            to={LEDGER_CREATE_RECEIVE_REQUEST}
             tag={RRNavLink}
             color='link'
           >

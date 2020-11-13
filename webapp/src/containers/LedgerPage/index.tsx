@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import {
-  MdArrowUpward,
-  MdArrowDownward,
-  MdRefresh,
-  MdArrowBack,
-} from 'react-icons/md';
+import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
@@ -17,12 +12,10 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
 } from './reducer';
-import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getIcon, getAmountInSelectedUnit } from '../../utils/utility';
+import { LEDGER_RECEIVE_PATH } from '../../constants';
+import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './LedgerPage.module.scss';
-import Badge from '../../components/Badge';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -89,27 +82,14 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
           {I18n.t('containers.ledger.ledgerPage.connect')}
         </Button>
         <ButtonGroup>
-          <Button
-            to={
-              tokenSymbol
-                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-                : WALLET_SEND_PATH
-            }
-            tag={RRNavLink}
-            color='link'
-            size='sm'
-          >
+          <Button color='link' size='sm' disabled>
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
           <Button
-            to={
-              tokenSymbol
-                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-                : WALLET_RECEIVE_PATH
-            }
+            to={LEDGER_RECEIVE_PATH}
             tag={RRNavLink}
             color='link'
             size='sm'
