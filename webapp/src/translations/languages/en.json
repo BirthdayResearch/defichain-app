@@ -482,7 +482,9 @@
     "ledger": {
       "ledgerPage": {
         "title": "Ledger DFI Wallet",
-        "connect": "Connect"
+        "connect": "Connect",
+        "send": "send",
+        "receive": "receive"
       }
     },
     "console": {

@@ -54,7 +54,6 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
     openBackupWallet,
     history,
   } = props;
-  const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
     fetchInstantBalanceRequest();
@@ -80,39 +79,15 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
+        <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
       </Helmet>
       <header className='header-bar'>
-        {softforks.amk && softforks.amk.active && (
-          <Button
-            to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
-              walletBalance,
-              unit
-            )}&unit=${unit}`}
-            tag={RRNavLink}
-            color='link'
-            className='header-bar-back'
-          >
-            <MdArrowBack />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.tokens')}
-            </span>
-          </Button>
-        )}
         <div className='d-flex'>
           <h1>{I18n.t('containers.ledger.ledgerPage.title')}</h1>
         </div>
         <Button color='link' size='sm' className={styles.connectButton}>
           {I18n.t('containers.ledger.ledgerPage.connect')}
         </Button>
-        {updateAvailableBadge && (
-          <Badge
-            baseClass='update-available'
-            outline
-            onClick={openUpdatePopUp}
-            label={I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
-          />
-        )}
         <ButtonGroup>
           <Button
             to={
@@ -126,7 +101,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
           >
             <MdArrowUpward />
             <span className='d-md-inline'>
-              {I18n.t('containers.wallet.walletPage.send')}
+              {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
           <Button
@@ -141,7 +116,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
           >
             <MdArrowDownward />
             <span className='d-md-inline'>
-              {I18n.t('containers.wallet.walletPage.receive')}
+              {I18n.t('containers.ledger.ledgerPage.receive')}
             </span>
           </Button>
         </ButtonGroup>
