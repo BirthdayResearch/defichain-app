@@ -5,6 +5,7 @@ import { LEDGER_RECEIVE_PATH } from '../../../../../constants';
 import { getNewAddress, importPubKey } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import CreateNewAddress from '../../../../../components/CreateNewAddress';
+import { getPubKeyLedger } from '../../../service';
 
 interface CreateNewAddressPageLedgerProps {
   history: {
@@ -29,7 +30,8 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         time: new Date().toString(),
         address: newAddress,
       };
-      await importPubKey('', 1);
+      const { pubkey } = await getPubKeyLedger();
+      await importPubKey(pubkey, 1);
       props.history.push(LEDGER_RECEIVE_PATH);
     } catch (err) {
       log.error(err);

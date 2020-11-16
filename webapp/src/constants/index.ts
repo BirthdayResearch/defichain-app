@@ -5,3 +5,4 @@ export * from './rpcMethods';
 export * from './units';
 export * from './validations';
 export * from './httpCodes';
+export * from './ipcevents';

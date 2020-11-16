@@ -1,9 +1,10 @@
 import isElectronFunction from 'is-electron';
+import { IpcRenderer } from 'electron';
 
 export const isElectron = () => isElectronFunction();
 
 export const ipcRendererFunc = () => {
-  const { ipcRenderer } = window.require('electron');
+  const { ipcRenderer }: { ipcRenderer: IpcRenderer } = window.require('electron');
   return ipcRenderer;
 };
 
