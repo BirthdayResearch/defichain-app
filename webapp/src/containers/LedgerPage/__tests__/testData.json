@@ -209,5 +209,9 @@
         "amount": 0
       }
     ]
+  },
+  "getpubkey": {
+    "address": "bcrt1qm8afjayussf0uryqf66ppng0p47l6ml09uj28g",
+    "pubkey": "027dd7f5cc0cf5e20d2c17a7085dd75afca0426ebd95cxxxxxxxxxxxx"
   }
 }
