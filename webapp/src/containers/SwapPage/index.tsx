@@ -210,13 +210,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   };
 
-  const filterBySymbol = (symbolKey: string) => {
+  const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (
-      formState.hash1 &&
-      formState.hash2 &&
-      formState.hash1 ^ formState.hash2
-    ) {
+    if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
