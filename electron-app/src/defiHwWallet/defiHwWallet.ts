@@ -1,4 +1,5 @@
 import TransportHid from '@ledgerhq/hw-transport-node-hid';
+import crypto from 'crypto';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import {
   Subscription,
@@ -74,7 +75,7 @@ function checkStatusCode(response: Buffer): { code: number; status: string } {
 }
 
 export default class DefiHwWallet {
-  transport: any;
+  transport: TransportHid;
   connected: boolean;
 
   async getDevices(): Promise<readonly string[]> {
@@ -158,6 +159,60 @@ export default class DefiHwWallet {
     console.log('Address: ' + address);
 
     return { pubkey, address };
+  }
+
+  async sign(keyIndex: number, msg: Buffer) {
+    const bufKeyIndex = Buffer.alloc(4);
+    bufKeyIndex.writeInt32LE(keyIndex, 0);
+    const p1 = Buffer.alloc(1);
+    p1.writeInt8(SIGN_VERIFY_P1_NEED_HASH, 0);
+    // send message buffer splited at 4 parts
+    const stepsNum = 4;
+    const msgLen = msg.length;
+    const partSize = (msgLen / stepsNum) + 1;
+    let response: null | Buffer = null;
+    for (let i = 0; i < stepsNum; i++ ) {
+      const start = i * partSize;
+      let finish = (i + 1) * partSize;
+      if (finish >= msgLen) {
+        finish = null;
+      }
+      const msgSlice = msg.subarray(start, finish - 1);
+      let p2: number | Buffer = 0;
+      let data = Buffer.alloc(0);
+      let dataLen: number | Buffer = msgSlice.length;
+      if (i === 0) {
+        p2 = SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_MORE;
+        data = Buffer.concat([data, bufKeyIndex]);
+        dataLen += bufKeyIndex.length;
+      } else if (i === stepsNum - 1) {
+        p2 = SIGN_VERIFY_P2_LAST;
+      } else {
+        p2 = SIGN_VERIFY_P2_MORE;
+      }
+      data = Buffer.concat([data, msgSlice]);
+      p2 = new Buffer(p2);
+      dataLen = new Buffer(dataLen);
+      const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2, dataLen, data]);
+      response = await this.transport.exchange(apdu);
+      const { code, status } = checkStatusCode(response);
+      if (code !== StatusCodes.OK) {
+        throw new Error(status);
+      }
+    }
+    const msgHash = crypto.createHash('sha256').update(crypto.createHash('sha256').update(response).digest()).digest();
+    const signVerifyP1AlreadyHashedBuf = Buffer.alloc(1);
+    signVerifyP1AlreadyHashedBuf.writeInt8(SIGN_VERIFY_P1_ALREADY_HASHED, 0);
+    const signVerifyP2Buf = Buffer.alloc(1);
+    signVerifyP2Buf.writeInt8(SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_LAST, 0);
+    const lenBuf = Buffer.alloc(1);
+    lenBuf.writeInt8(bufKeyIndex.length + response.length + msgHash.length, 0);
+    const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]),
+      signVerifyP1AlreadyHashedBuf,
+      signVerifyP2Buf,
+      lenBuf,
+      bufKeyIndex, response, msgHash]);
+    return this.transport.exchange(apdu);
   }
 
   /*
