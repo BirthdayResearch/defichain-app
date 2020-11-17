@@ -12,6 +12,7 @@ import {
   Button,
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
+import Loader from '../Loader';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './SwapCard.module.scss';
@@ -24,6 +25,7 @@ interface SwapCardProps {
   formState: any;
   handleChange: (e) => void;
   setMaxValue: (field: string, value: string) => void;
+  isLoadingTestPoolSwap: boolean;
   handleDropdown: (
     hash: string,
     field1: string,
@@ -46,6 +48,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
     handleDropdown,
     dropdownLabel,
     setMaxValue,
+    isLoadingTestPoolSwap,
   } = props;
 
   return (
@@ -72,7 +75,9 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                 </Label>
               </FormGroup>
             ) : (
-              <div className='mt-2'>{formState[`amount2`]}</div>
+              <div className='mt-2'>
+                {!isLoadingTestPoolSwap ? formState[`amount2`] : <Loader />}
+              </div>
             )}
           </Col>
           <Col className={styles.dropDownCol}>
