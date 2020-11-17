@@ -55,6 +55,7 @@ interface SwapPageProps {
   poolPairList: any[];
   tokenBalanceList: string[];
   testPoolSwap: string;
+  isLoadingTestPoolSwap: boolean;
   isErrorTestPoolSwap: string;
   poolSwapRequest: (formState) => void;
   isLoadingPoolSwap: boolean;
@@ -99,6 +100,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     testPoolSwap,
     poolSwapRequest,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     poolSwapHash,
@@ -315,6 +317,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               tokenMap={tokenMap}
               filterBySymbol={filterBySymbol}
               name={1}
+              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
               formState={formState}
               handleChange={handleChange}
               handleDropdown={handleDropDown}
@@ -540,6 +543,7 @@ const mapStateToProps = (state) => {
     poolshares,
     testPoolSwap,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     isPoolSwapLoaded,
@@ -556,6 +560,7 @@ const mapStateToProps = (state) => {
     poolshares,
     testPoolSwap,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     isPoolSwapLoaded,

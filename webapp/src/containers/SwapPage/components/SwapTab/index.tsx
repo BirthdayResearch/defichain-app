@@ -25,6 +25,7 @@ interface SwapTabProps {
     field3: string
   ) => void;
   filterBySymbol: any;
+  isLoadingTestPoolSwap: boolean;
 }
 
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
@@ -36,6 +37,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     handleDropdown,
     setMaxValue,
     filterBySymbol,
+    isLoadingTestPoolSwap,
   } = props;
 
   useEffect(() => {
@@ -56,6 +58,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
                 handleChange={handleChange}
                 handleDropdown={handleDropdown}
                 setMaxValue={setMaxValue}
+                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
                 dropdownLabel={
                   formState.symbol1
                     ? formState.symbol1
@@ -75,6 +78,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
                 handleChange={handleChange}
                 handleDropdown={handleDropdown}
                 setMaxValue={setMaxValue}
+                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
                 dropdownLabel={
                   formState.symbol2
                     ? formState.symbol2
