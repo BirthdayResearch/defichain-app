@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DFI_SYMBOL,
+  LP_DAILY_DFI_REWARD,
   POOL_PAIR_PAGE_SIZE,
   SHARE_POOL_PAGE_SIZE,
 } from '../../constants';
@@ -22,10 +23,15 @@ import {
   getAddressForSymbol,
   getDfiUTXOS,
   handleUtxoToAccountConversion,
+  parsedCoinPriceData,
 } from '../../utils/utility';
+import BigNumber from 'bignumber.js';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
+  const govResult = await rpcClient.getGov();
+  const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const coinPriceObj = await parsedCoinPriceData();
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,
@@ -49,10 +55,29 @@ export const handleFetchPoolshares = async () => {
       const tokenBData = await handleFetchToken(poolPairData[0].idTokenB);
       const poolSharePercentage =
         (poolShare.amount / poolShare.totalLiquidity) * 100;
+
+      const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+        .times(poolPairData[0].rewardPct)
+        .times(365)
+        .times(coinPriceObj[DFI_SYMBOL]);
+
+      const liquidityReserveidTokenA = new BigNumber(
+        poolPairData[0].reserveA
+      ).times(coinPriceObj[poolPairData[0].idTokenA]);
+      const liquidityReserveidTokenB = new BigNumber(
+        poolPairData[0].reserveB
+      ).times(coinPriceObj[poolPairData[0].idTokenB]);
+      const totalLiquidity = liquidityReserveidTokenA.plus(
+        liquidityReserveidTokenB
+      );
+
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         poolSharePercentage: poolSharePercentage.toFixed(2),
+        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
+        apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
         ...poolPairData[0],
         ...poolShare,
       };
