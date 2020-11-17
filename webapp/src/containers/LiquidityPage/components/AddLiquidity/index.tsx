@@ -196,13 +196,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     });
   };
 
-  const filterBySymbol = (symbolKey: string) => {
+  const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (
-      formState.hash1 &&
-      formState.hash2 &&
-      formState.hash1 ^ formState.hash2
-    ) {
+    if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
@@ -261,7 +257,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col md='5'>
               <LiquidityCard
                 label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={filterBySymbol(`symbol${2}`)}
+                tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
                 name={1}
                 formState={formState}
                 handleChange={handleChange}
@@ -280,7 +276,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col md='5'>
               <LiquidityCard
                 label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={filterBySymbol(`symbol${1}`)}
+                tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
                 name={2}
                 formState={formState}
                 handleChange={handleChange}
@@ -438,11 +434,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <Button color='link' className='mr-3'>
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
-              <Button
-                to={`${SWAP_PATH}?tab=pool`}
-                tag={RRNavLink}
-                color='primary'
-              >
+              <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
               </Button>
             </Col>
@@ -476,11 +468,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button
-              color='primary'
-              to={`${SWAP_PATH}?tab=pool`}
-              tag={RRNavLink}
-            >
+            <Button color='primary' to={LIQUIDITY_PATH} tag={RRNavLink}>
               {I18n.t('containers.swap.addLiquidity.backToPool')}
             </Button>
           </div>

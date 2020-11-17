@@ -52,7 +52,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             <Col md='5'>
               <SwapCard
                 label={I18n.t('containers.swap.swapTab.from')}
-                tokenMap={filterBySymbol(`symbol${2}`)}
+                tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
                 name={1}
                 formState={formState}
                 handleChange={handleChange}
@@ -72,7 +72,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             <Col md='5'>
               <SwapCard
                 label={I18n.t('containers.swap.swapTab.to')}
-                tokenMap={filterBySymbol(`symbol${1}`)}
+                tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
                 name={2}
                 formState={formState}
                 handleChange={handleChange}
