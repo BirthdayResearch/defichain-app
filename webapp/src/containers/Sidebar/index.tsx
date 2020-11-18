@@ -60,8 +60,6 @@ export interface SidebarProps extends RouteComponentProps {
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
 
-  const { softforks = {} } = props.blockChainInfo;
-
   useEffect(() => {
     props.fetchInstantBalanceRequest();
     const clearWalletBalanceTimer = updateBalanceScheduler();
@@ -160,7 +158,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          {softforks?.amk?.active && (
             <NavItem className={styles.navItem}>
               <NavLink
                 to={TOKENS_PATH}
@@ -172,7 +169,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
                 {I18n.t('containers.sideBar.tokens')}
               </NavLink>
             </NavItem>
-          )}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
