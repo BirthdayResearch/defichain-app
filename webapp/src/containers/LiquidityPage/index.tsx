@@ -18,6 +18,7 @@ interface LiquidityPageProps {
   poolPairList: any;
   fetchPoolsharesRequest: () => void;
   fetchPoolPairListRequest: () => void;
+  isLoadingPoolshares: boolean;
 }
 
 const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
@@ -28,6 +29,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
     fetchPoolsharesRequest,
     poolPairList,
     fetchPoolPairListRequest,
+    isLoadingPoolshares,
   } = props;
 
   useEffect(() => {
@@ -51,35 +53,42 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
           </Button>
         </ButtonGroup>
       </header>
-      <div className='content'>
-        <section className={`${styles.sectionYourLliquidity} mb-5`}>
-          {I18n.t('containers.liquidity.liquidityPage.yourLiquidity')}
-        </section>
-        {!poolshares.length ? (
-          <div className='text-center'>
-            <MdCompareArrows size={50} className={styles.svg} />
-            <div>
-              {I18n.t('containers.liquidity.liquidityPage.noLiquidity')}
-            </div>
-            <Button to={CREATE_POOL_PAIR_PATH} tag={RRNavLink} color='link'>
-              <div className={styles.labelAddLiquidity}>
-                {I18n.t('containers.liquidity.liquidityPage.addLiquidity')}
+      {isLoadingPoolshares ? (
+        I18n.t('containers.liquidity.liquidityPage.loading')
+      ) : (
+        <div className='content'>
+          {!poolshares.length ? (
+            <>
+              <section>
+                {I18n.t('containers.liquidity.liquidityPage.yourLiquidity')}
+              </section>
+              <div className='text-center'>
+                <MdCompareArrows size={50} className={styles.svg} />
+                <div className={styles.txtColor}>
+                  {I18n.t('containers.liquidity.liquidityPage.noLiquidity')}
+                  {/* {I18n.t('containers.liquidity.liquidityPage.watchVideo')} */}
+                </div>
+                <Button to={CREATE_POOL_PAIR_PATH} tag={RRNavLink} color='link'>
+                  <div className={styles.labelAddLiquidity}>
+                    {I18n.t('containers.liquidity.liquidityPage.addLiquidity')}
+                  </div>
+                </Button>
               </div>
-            </Button>
+            </>
+          ) : (
+            <LiquidityList poolshares={poolshares} history={props.history} />
+          )}
+          <div>
+            <section className={`${styles.sectionYourLliquidity} mb-5 mt-5`}>
+              {I18n.t('containers.liquidity.liquidityPage.availablePoolPairs')}
+            </section>
+            <AvailablePoolPairsList
+              searchQuery={''}
+              poolPairList={poolshares}
+            />
           </div>
-        ) : (
-          <LiquidityList poolshares={poolshares} history={props.history} />
-        )}
-        <div>
-          <section className={`${styles.sectionYourLliquidity} mb-5 mt-5`}>
-            {I18n.t('containers.liquidity.liquidityPage.availablePoolPairs')}
-          </section>
-          <AvailablePoolPairsList
-            searchQuery={''}
-            poolPairList={poolPairList}
-          />
         </div>
-      </div>
+      )}
     </div>
   );
 };

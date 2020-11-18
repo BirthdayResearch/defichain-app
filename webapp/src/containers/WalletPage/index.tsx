@@ -107,7 +107,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           </span>
         </Button>
         <div className='d-flex'>
-          <TokenAvatar symbol={tokenSymbol} />
+          <TokenAvatar symbol={tokenSymbol ? tokenSymbol : unit} />
           &nbsp;
           <h1>
             {tokenSymbol ? tokenSymbol : unit}

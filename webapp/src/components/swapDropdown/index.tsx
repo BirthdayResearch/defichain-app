@@ -9,7 +9,7 @@ import {
   Row,
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
-import { filterByValueMap } from '../../utils/utility';
+import { filterByValueMap, getIcon } from '../../utils/utility';
 
 import SwapSearchBar from '../SwapSearchBar';
 import styles from './SwapDropdown.module.scss';
@@ -63,8 +63,11 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             }
           >
             <Row>
-              <Col>{symbol}</Col>
-              <Col className='d-flex justify-content-end'>
+              <Col md='2'>
+                <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
+              </Col>
+              <Col md='5'>{symbol}</Col>
+              <Col className='d-flex justify-content-end' md='5'>
                 {balanceTokenInfo.balance}
               </Col>
             </Row>
@@ -88,8 +91,11 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             }
           >
             <Row>
-              <Col>{symbol}</Col>
-              <Col className='d-flex justify-content-end'>
+              <Col md='2'>
+                <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
+              </Col>
+              <Col md='5'>{symbol}</Col>
+              <Col className='d-flex justify-content-end' md='5'>
                 {balanceTokenInfo.balance}
               </Col>
             </Row>

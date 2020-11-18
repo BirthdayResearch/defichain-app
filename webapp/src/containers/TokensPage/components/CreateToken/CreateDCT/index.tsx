@@ -247,7 +247,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   ? formState.collateralAddress
                   : I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className={styles.scrollAuto}>
                 {collateralAddresses.map((data) => {
                   return (
                     <DropdownItem

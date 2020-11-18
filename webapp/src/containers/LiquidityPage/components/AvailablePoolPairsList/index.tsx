@@ -7,13 +7,14 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   MASTERNODE_LIST_PAGE_SIZE,
   CREATE_POOL_PAIR_PATH,
+  REMOVE_LIQUIDITY_BASE_PATH,
 } from '../../../../constants';
 import { Link } from 'react-router-dom';
 // import Pagination from '../../../../components/Pagination';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
 import PairIcon from '../../../../components/PairIcon';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdRemove } from 'react-icons/md';
 
 interface AvailablePoolPairsListProps {
   searchQuery: string;
@@ -57,15 +58,13 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
 
   const loadHtml = () => {
     if (isLoadingPoolPairList) {
-      return I18n.t('containers.masterNodes.AvailablePoolPairsList.loading');
+      return I18n.t('containers.liquidity.liquidityPage.loading');
     }
     if (!tableData.length) {
       return (
         <Card className='table-responsive-md'>
           <CardBody>
-            {I18n.t(
-              'containers.masterNodes.AvailablePoolPairsList.noMasterNodes'
-            )}
+            {I18n.t('containers.liquidity.liquidityPage.noPoolPairs')}
           </CardBody>
         </Card>
       );
@@ -105,7 +104,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       <div>{poolpair.operatorAuthAddress}</div>
                     </td> */}
                     <td>
-                      <div>{poolpair.apy}</div>
+                      <div>{`${poolpair.apy} %`}</div>
                     </td>
                     <td>
                       <div>
@@ -116,6 +115,18 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                           size='sm'
                         >
                           <MdAdd />
+                        </Button>
+                        <Button
+                          to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
+                            poolpair.poolID
+                          }?sharePercentage=${Number(
+                            poolpair.poolSharePercentage
+                          ).toFixed(8)}`}
+                          tag={RRNavLink}
+                          color='link'
+                          size='sm'
+                        >
+                          <MdRemove />
                         </Button>
                       </div>
                     </td>
