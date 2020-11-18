@@ -17,7 +17,7 @@ import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
-
+import Header from '../../../HeaderComponent';
 interface RouteProps {
   hash: string;
 }
@@ -121,7 +121,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           )}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={MASTER_NODES_PATH}
           tag={NavLink}
@@ -154,7 +154,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             </Button>
           </ButtonGroup>
         )}
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi

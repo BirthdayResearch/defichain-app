@@ -13,6 +13,7 @@ import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
+import Header from '../../../../HeaderComponent';
 
 interface VerifyMnemonicProps {
   mnemonicObj: any;
@@ -67,7 +68,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
       <Helmet>
         <title>{I18n.t('containers.wallet.verifyMnemonicPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_BASE_PATH}
           tag={NavLink}
@@ -82,7 +83,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.wallet.verifyMnemonicPage.verifyMnemonicSeed')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <p>

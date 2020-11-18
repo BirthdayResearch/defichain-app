@@ -28,6 +28,7 @@ import {
   DESTRUCTION_TX,
   TOKENS_PATH,
 } from '../../constants';
+import Header from '../HeaderComponent';
 
 interface TokensProps {
   tokens: any;
@@ -65,7 +66,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.tokens.tokensPage.tokens')}
         </h1>
@@ -112,7 +113,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           toggleSearch={toggleSearch}
           placeholder={I18n.t('containers.tokens.tokensPage.searchTokens')}
         />
-      </header>
+      </Header>
       <div className='content'>
         <TabContent activeTab={activeTab}>
           <TabPane tabId={DAT_TOKEN}>

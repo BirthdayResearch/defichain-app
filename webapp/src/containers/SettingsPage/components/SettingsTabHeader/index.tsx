@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
+import Header from '../../../HeaderComponent';
 
 interface SettingsTabsHeaderProps {
   setActiveTab: (tab: string) => void;
@@ -11,7 +12,7 @@ interface SettingsTabsHeaderProps {
 const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   const { setActiveTab, activeTab } = props;
   return (
-    <header className='header-bar'>
+    <Header>
       <h1>{I18n.t('containers.settings.settings')}</h1>
       <Nav pills>
         <NavItem>
@@ -40,7 +41,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
         </NavItem>
       </Nav>
       <div></div>
-    </header>
+    </Header>
   );
 };
 
