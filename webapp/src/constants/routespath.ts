@@ -24,6 +24,7 @@ export const WALLET_PAGE_PATH = '/';
 export const WALLET_BASE_PATH = '/wallet';
 export const WALLET_CREATE_PATH = '/wallet/create';
 export const WALLET_RESTORE_PAGE_PATH = '/wallet/restore';
+export const WALLET_SYNC_PAGE_PATH = '/wallet/sync';
 export const CREATE_NEW_WALLET_PATH = `${WALLET_BASE_PATH}/createnew`;
 export const WALLET_SEND_PATH = `${WALLET_BASE_PATH}/send`;
 export const WALLET_RECEIVE_PATH = `${WALLET_BASE_PATH}/receive`;

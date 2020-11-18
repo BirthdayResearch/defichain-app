@@ -461,7 +461,8 @@
         "title": "Wallet - Create or restore wallet",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
-        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed"
+        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
+        "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete"
       },
       "createNewWalletPage": {
         "back": "BACK",
