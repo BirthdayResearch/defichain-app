@@ -198,7 +198,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                     value={formState.amountPercentage}
                     className='border-right-0'
                     onChange={(e) => {
-                      if (Number(e.target.value) <= 100) {
+                      if (
+                        0 <= Number(e.target.value) &&
+                        Number(e.target.value) <= 100
+                      ) {
                         setFormState({
                           ...formState,
                           amountPercentage: e.target.value,
@@ -219,7 +222,15 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 sm={10}
                 className='d-flex align-items-center justify-content-center'
               >
-                <span className={styles.rangeText}>
+                <span
+                  className={styles.rangeText}
+                  onClick={() => {
+                    setFormState({
+                      ...formState,
+                      amountPercentage: '0',
+                    });
+                  }}
+                >
                   {I18n.t('containers.swap.removeLiquidity.none')}
                 </span>
                 <input
@@ -229,13 +240,23 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   value={formState.amountPercentage}
                   className='custom-range ml-5 mr-5'
                   onChange={(e) => {
-                    setFormState({
-                      ...formState,
-                      amountPercentage: e.target.value,
-                    });
+                    if (Number(e.target.value) >= 0) {
+                      setFormState({
+                        ...formState,
+                        amountPercentage: e.target.value,
+                      });
+                    }
                   }}
                 />
-                <span className={styles.rangeText}>
+                <span
+                  className={styles.rangeText}
+                  onClick={() => {
+                    setFormState({
+                      ...formState,
+                      amountPercentage: '100',
+                    });
+                  }}
+                >
                   {I18n.t('containers.swap.removeLiquidity.all')}
                 </span>
               </Col>
@@ -301,7 +322,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 ? formState.receiveAddress
                 : I18n.t('containers.swap.removeLiquidity.receiveAddress')}
             </DropdownToggle>
-            <DropdownMenu className='overflow-auto'>
+            <DropdownMenu className={styles.scrollAuto}>
               {receiveAddresses.map((data) => {
                 return (
                   <DropdownItem
@@ -451,7 +472,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={`${SWAP_PATH}?tab=pool`} tag={NavLink}>
+            <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
               {I18n.t('containers.swap.removeLiquidity.backToPool')}
             </Button>
           </div>

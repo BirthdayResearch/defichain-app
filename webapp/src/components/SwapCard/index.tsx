@@ -58,7 +58,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
           <Col className={styles.labelDirection}>{label}</Col>
         </Row>
         <Row>
-          <Col className='mt-2'>
+          <Col className='mt-2' md='12' xs='12' sm='12' lg='12' xl='6'>
             {name === 1 ? (
               <FormGroup className='form-label-group'>
                 <Input
@@ -67,7 +67,11 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                   name={`amount${name}`}
                   id='input'
                   value={formState[`amount${name}`]}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    if (Number(e.target.value) >= 0) {
+                      handleChange(e);
+                    }
+                  }}
                   disabled={!formState[`hash${name}`] || !formState[`hash2`]}
                 />
                 <Label for='message'>
@@ -80,7 +84,14 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
               </div>
             )}
           </Col>
-          <Col className={styles.dropDownCol}>
+          <Col
+            className={styles.dropDownCol}
+            md='12'
+            xs='12'
+            sm='12'
+            lg='12'
+            xl='6'
+          >
             <SwapDropdown
               tokenMap={tokenMap}
               name={name}
@@ -93,13 +104,13 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
       </CardBody>
       <CardFooter>
         <Row>
-          <Col md='8'>
+          <Col lg='12' md='12' xs='12' sm='12' xl='8'>
             <span className={styles.labelBalance}>
               {I18n.t('components.swapCard.balance')}
             </span>
             : {formState[`balance${name}`] || '-'}
           </Col>
-          <Col className='text-right' md='4'>
+          <Col className='text-right' lg='12' md='12' xs='12' sm='12' xl='4'>
             {name === 1 && (
               <Button
                 color='link'

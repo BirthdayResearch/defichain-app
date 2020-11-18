@@ -64,7 +64,11 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
                   name={`amount${name}`}
                   id='input'
                   value={formState[`amount${name}`]}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    if (Number(e.target.value) >= 0) {
+                      handleChange(e);
+                    }
+                  }}
                   disabled={!formState[`hash${name}`] || !formState[`hash2`]}
                 />
                 <Label for='message'>

@@ -11,8 +11,6 @@ import {
   Col,
   FormGroup,
   Label,
-  Nav,
-  NavItem,
   NavLink,
   Row,
   TabContent,
@@ -467,6 +465,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             <div className='footer-sheet'>
               <div className='text-center'>
                 <MdCheckCircle className='footer-sheet-icon' />
+                <h2>
+                  {I18n.t('containers.swap.swapPage.transactionComplete')}
+                </h2>
                 <p>
                   {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
                 </p>
