@@ -9,6 +9,7 @@ import WalletStatCard from '../../../../components/WalletStatCard';
 import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
+  WALLET_SYNC_PAGE_PATH,
 } from '../../../../constants';
 import {
   openBackupWalletWarningModal,
@@ -18,6 +19,8 @@ import {
 interface CreateOrRestoreWalletPageProps {
   history: any;
   isWalletReplace: boolean;
+  latestSyncedBlock: number;
+  latestBlock: number;
   openBackupWalletWarningModal: () => void;
   openWalletRestartModal: () => void;
 }
@@ -25,7 +28,29 @@ interface CreateOrRestoreWalletPageProps {
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
   props: CreateOrRestoreWalletPageProps
 ) => {
-  const { history, isWalletReplace, openBackupWalletWarningModal } = props;
+  const {
+    history,
+    isWalletReplace,
+    latestSyncedBlock,
+    latestBlock,
+    openBackupWalletWarningModal,
+  } = props;
+
+  const createWallet = () => {
+    latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock
+      ? !isWalletReplace
+        ? openBackupWalletWarningModal()
+        : history.push(WALLET_BASE_PATH)
+      : history.push(WALLET_SYNC_PAGE_PATH);
+  };
+
+  const restoreWallet = () => {
+    latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock
+      ? !isWalletReplace
+        ? openBackupWalletWarningModal()
+        : history.push(WALLET_RESTORE_PAGE_PATH)
+      : history.push(WALLET_SYNC_PAGE_PATH);
+  };
 
   return (
     <div>
@@ -45,13 +70,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
         <section>
           <Row>
             <Col lg='4' sm='12' md='6'>
-              <div
-                onClick={() => {
-                  !isWalletReplace
-                    ? openBackupWalletWarningModal()
-                    : history.push(WALLET_BASE_PATH);
-                }}
-              >
+              <div onClick={createWallet}>
                 <WalletStatCard
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.createANewWallet'
@@ -61,13 +80,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
               </div>
             </Col>
             <Col lg='4' sm='12' md='6'>
-              <div
-                onClick={() => {
-                  !isWalletReplace
-                    ? openBackupWalletWarningModal()
-                    : history.push(WALLET_RESTORE_PAGE_PATH);
-                }}
-              >
+              <div onClick={restoreWallet}>
                 <WalletStatCard
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
@@ -85,9 +98,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
 
 const mapStateToProps = (state) => {
   const { isWalletReplace } = state.popover;
+  const { latestSyncedBlock, latestBlock } = state.syncstatus;
 
   return {
     isWalletReplace,
+    latestSyncedBlock,
+    latestBlock,
   };
 };
 
