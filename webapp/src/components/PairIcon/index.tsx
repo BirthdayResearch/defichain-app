@@ -1,5 +1,5 @@
 import React from 'react';
-import { getIcon } from '../../utils/utility';
+import TokenAvatar from '../TokenAvatar';
 
 import styles from './PairIcon.module.scss';
 
@@ -14,8 +14,9 @@ const PairIcon: React.FunctionComponent<PairIconProps> = (
 
   return (
     <div className={styles.imgDesign}>
-      <img src={getIcon(poolpair.tokenA)} height={'24px'} width={'24px'} />
-      <img src={getIcon(poolpair.tokenB)} height={'24px'} width={'24px'} />
+      <TokenAvatar symbol={poolpair.tokenA} size='24px' />
+      &nbsp;
+      <TokenAvatar symbol={poolpair.tokenB} size='24px' />
     </div>
   );
 };
