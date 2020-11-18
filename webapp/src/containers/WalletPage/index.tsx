@@ -32,6 +32,7 @@ import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
 import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
+import TokenAvatar from '../../components/TokenAvatar';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -106,7 +107,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           </span>
         </Button>
         <div className='d-flex'>
-          <img src={getIcon(tokenSymbol)} height={'30px'} width={'30px'} />
+          <TokenAvatar symbol={tokenSymbol} />
           &nbsp;
           <h1>
             {tokenSymbol ? tokenSymbol : unit}
