@@ -4,7 +4,8 @@ import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { ITokenCard } from '../../../utils/interfaces';
-import { getIcon } from '../../../utils/utility';
+
+import TokenAvatar from '../../TokenAvatar';
 
 const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
   const { data } = props;
@@ -22,7 +23,7 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
 
           {
             <Col md='6' className={`${styles.tokenCardIcon}`}>
-              <img height={'30px'} width={'30px'} src={getIcon(data.symbol)} />
+              <TokenAvatar symbol={data.symbol} />
             </Col>
           }
         </Row>

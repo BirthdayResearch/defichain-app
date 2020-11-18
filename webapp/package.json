@@ -52,6 +52,7 @@
     "qrcode.react": "^1.0.0",
     "random-binary": "^1.0.3",
     "react": "^16.13.1",
+    "react-avatar": "^3.9.7",
     "react-bootstrap": "^1.0.1",
     "react-bootstrap-range-slider": "^0.3.1",
     "react-console-component": "^0.6.1",
