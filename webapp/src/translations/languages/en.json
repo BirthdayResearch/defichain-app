@@ -88,7 +88,12 @@
     "helpPage": {
       "title": "Help – DeFi Blockchain Client",
       "help": "Help",
-      "section": "Section"
+      "telegramEn": "Telegram community (EN)",
+      "telegramDe": "Telegram community (DE)",
+      "github": "Report an Issue",
+      "faq": "Frequently-Asked Questions",
+      "defichainsite": "Official website",
+      "reddit": "Reddit community"
     },
     "masterNodes": {
       "masterNodesPage": {
