@@ -21,6 +21,7 @@ import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
+import Header from '../../../../HeaderComponent';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
@@ -69,7 +70,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={TOKENS_PATH}
           tag={NavLink}
@@ -86,7 +87,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             ? I18n.t('containers.tokens.createToken.updateTitle')
             : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form>
