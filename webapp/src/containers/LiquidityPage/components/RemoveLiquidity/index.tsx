@@ -33,6 +33,7 @@ import { connect } from 'react-redux';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
+  LIQUIDITY_PATH,
   SWAP_PATH,
 } from '../../../../constants';
 import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
@@ -170,7 +171,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={`${SWAP_PATH}?tab=pool`}
+          to={LIQUIDITY_PATH}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'

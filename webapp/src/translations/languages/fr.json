@@ -27,13 +27,15 @@
       "balance": "Solde",
       "dfi": "DFI",
       "wallet": "Portefeuille",
+      "dex": "DEX",
       "masterNodes": "Nœuds complets",
       "blockchain": "Blockchain",
       "tokens": "Tokens",
       "exchange": "Échange",
       "help": "Aide",
       "settings": "Paramètres",
-      "console": "Console"
+      "console": "Console",
+      "liquidity": "Liquidity"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -171,9 +173,25 @@
         "network": "Réseau"
       }
     },
+    "liquidity": {
+      "liquidityPage": {
+        "title": "Liquidity – DeFi Blockchain Client",
+        "yourLiquidity": "Your liquidity",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "addLiquidity": "ADD LIQUIDITY",
+        "availablePoolPairs": "Available Pool Pairs",
+        "pair": "Pair",
+        "liquidity": "Liquidity",
+        "addLiquidity": "Add Liquidity",
+        "liquidityPools": "Liquidity pools",
+        "volume": "Volume",
+        "apy": "APY"
+      }
+    },
     "swap": {
       "swapPage": {
         "title": "Tokens – DeFi Blockchain Client",
+        "decentralisedExchange": "Decentralised Exchange",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",

@@ -99,13 +99,13 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       <div>{poolpair.symbol}</div>
                     </td>
                     <td>
-                      <div>{poolpair.totalLiquidity}</div>
+                      <div>{poolpair.totalLiquidityInUSDT}</div>
                     </td>
                     {/* <td>
                       <div>{poolpair.operatorAuthAddress}</div>
                     </td> */}
                     <td>
-                      <div>{'99.99 %'}</div>
+                      <div>{poolpair.apy}</div>
                     </td>
                     <td>
                       <div>

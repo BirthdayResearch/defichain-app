@@ -41,7 +41,6 @@ import {
   SWAP_PATH,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
-import PoolTab from './components/PoolTab';
 import { BigNumber } from 'bignumber.js';
 import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
@@ -55,6 +54,7 @@ interface SwapPageProps {
   poolPairList: any[];
   tokenBalanceList: string[];
   testPoolSwap: string;
+  isLoadingTestPoolSwap: boolean;
   isErrorTestPoolSwap: string;
   poolSwapRequest: (formState) => void;
   isLoadingPoolSwap: boolean;
@@ -99,6 +99,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     testPoolSwap,
     poolSwapRequest,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     poolSwapHash,
@@ -209,9 +210,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   };
 
-  const filterBySymbol = (symbolKey: string) => {
+  const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (formState.hash1 ^ formState.hash2) {
+    if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
@@ -267,8 +268,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
       <header className='header-bar'>
-        <h1>{I18n.t('containers.swap.swapPage.swap')}</h1>
-        <Nav pills className='justify-content-center'>
+        <h1>{I18n.t('containers.swap.swapPage.decentralisedExchange')}</h1>
+        {/* <Nav pills className='justify-content-center'>
           <NavItem>
             <NavLink
               className={classnames({
@@ -293,7 +294,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               {I18n.t('containers.swap.swapPage.pool')}
             </NavLink>
           </NavItem>
-        </Nav>
+        </Nav> */}
         <ButtonGroup
           style={{
             visibility: activeTab !== POOL ? 'hidden' : 'visible',
@@ -315,6 +316,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               tokenMap={tokenMap}
               filterBySymbol={filterBySymbol}
               name={1}
+              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
               formState={formState}
               handleChange={handleChange}
               handleDropdown={handleDropDown}
@@ -327,7 +329,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             />
           </TabPane>
           <TabPane tabId={POOL}>
-            <PoolTab history={props.history} />
+            {/* <PoolTab history={props.history} /> */}
           </TabPane>
         </TabContent>
         {isValid() && activeTab === SWAP && (
@@ -540,6 +542,7 @@ const mapStateToProps = (state) => {
     poolshares,
     testPoolSwap,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     isPoolSwapLoaded,
@@ -556,6 +559,7 @@ const mapStateToProps = (state) => {
     poolshares,
     testPoolSwap,
     isErrorTestPoolSwap,
+    isLoadingTestPoolSwap,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     isPoolSwapLoaded,

@@ -574,21 +574,22 @@ export const fetchPoolPairDataWithPagination = async (
       .times(coinPriceObj[DFI_SYMBOL]);
 
     /* Don't remove, for future purpose */
-    // const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-    //   coinPriceObj[idTokenA]
-    // );
-    // const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-    //   coinPriceObj[idTokenB]
-    // );
-    // const totalLiquidity = liquidityReserveidTokenA.plus(
-    //   liquidityReserveidTokenB
-    // );
+    const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+      coinPriceObj[idTokenA]
+    );
+    const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+      coinPriceObj[idTokenB]
+    );
+    const totalLiquidityInUSDT = liquidityReserveidTokenA.plus(
+      liquidityReserveidTokenB
+    );
 
     return {
       key: item,
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
+      totalLiquidityInUSDT: totalLiquidityInUSDT.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
     };
@@ -935,6 +936,7 @@ export const handleUtxoToAccountConversion = async (
   );
   await getTransactionInfo(utxoToDfiTxId);
 };
+
 export const getAddressAndAmountListPoolShare = async (poolID) => {
   const rpcClient = new RpcClient();
   const poolShares = await fetchPoolShareDataWithPagination(
