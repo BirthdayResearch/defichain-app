@@ -23,6 +23,8 @@ import { fetchMasternodesRequest } from './reducer';
 import { MasterNodeObject } from './masterNodeInterface';
 import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
+import Header from '../HeaderComponent';
+
 interface MasternodesPageProps extends RouteComponentProps {
   createMasterNode: () => void;
   startRestartNodeWithMasterNode: () => void;
@@ -192,7 +194,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.masterNodes.masterNodesPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
@@ -218,7 +220,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           toggleSearch={toggleSearch}
           placeholder={'Search masternodes'}
         />
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <MasternodesList

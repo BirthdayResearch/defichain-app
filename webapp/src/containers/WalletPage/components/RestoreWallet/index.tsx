@@ -19,6 +19,7 @@ import { WALLET_PAGE_PATH } from '../../../../constants';
 import { resetRestoreWalletError, restoreWalletRequest } from '../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import Header from '../../../HeaderComponent';
 
 interface RestoreWalletProps extends RouteComponentProps {
   isWalletRestoring: boolean;
@@ -89,7 +90,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
       <Helmet>
         <title>{I18n.t('containers.wallet.restoreWalletPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_PAGE_PATH}
           tag={NavLink}
@@ -104,7 +105,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.wallet.restoreWalletPage.restoreWallet')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <p>
