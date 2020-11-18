@@ -57,6 +57,7 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.2",
     "bitcoinjs-lib": "^5.2.0",
+    "bitcore-lib-dfi": "https://github.com/DeFiCh/bitcore-lib-dfi.git#feature/declare_index.d.ts",
     "bootstrap": "^4.5.2",
     "commander": "^5.1.0",
     "crypto-js": "^4.0.0",

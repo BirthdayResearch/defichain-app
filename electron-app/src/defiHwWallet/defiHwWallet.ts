@@ -1,5 +1,6 @@
 import TransportHid from '@ledgerhq/hw-transport-node-hid';
 import crypto from 'crypto';
+import { encoding } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import {
   Subscription,
@@ -101,7 +102,7 @@ export default class DefiHwWallet {
         console.log('Transport not supported');
         return;
       }
-      this.transport = await TransportHid.open(path !== undefined ? path : '');
+      this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
       console.log(this.transport.info);
     } catch (e) {
@@ -134,26 +135,25 @@ export default class DefiHwWallet {
   ): Promise<{ pubkey: Buffer; address: string }> {
     if (!format) format = 'legacy';
 
-    let apdu: Buffer = Buffer.from([
-      CLA,
-      INS_GET_PUBKEY,
-      GET_PUBKEY_P1_DISPLAY_ADDRESS,
-      addressFormatToP2(format),
-    ]);
+    const apdu = new encoding.BufferWriter();
+    apdu.writeUInt8(CLA);
+    apdu.writeUInt8(INS_GET_PUBKEY);
+    apdu.writeUInt8(GET_PUBKEY_P1_DISPLAY_ADDRESS);
+    apdu.writeUInt8(addressFormatToP2(format));
+
     // key index lenght
-    apdu.writeUInt8(4, apdu.length);
+    apdu.writeUInt8(4);
     // add 4 bytes index to buffer
-    apdu.writeInt32LE(index, apdu.length);
+    apdu.writeInt32LE(index);
+    console.log('apdu: ' + apdu.toBuffer().toString('hex'));
 
-    console.log('apdu: ' + apdu.toString('hex'));
-
-    let respone = await this.transport.exchange(apdu);
-    let pubkeyLen = respone[0];
-    let pubkey = respone.slice(1, 1 + pubkeyLen);
+    const resposne = await this.transport.exchange(apdu.toBuffer());
+    const pubkeyLen = resposne[0];
+    const pubkey = resposne.slice(1, 1 + pubkeyLen);
     console.log('Pubkey: ' + pubkey.toString('hex'));
-    let addrOffset = 1 + pubkeyLen + 1;
-    let addrLen = respone[addrOffset - 1];
-    let address = respone
+    const addrOffset = 1 + pubkeyLen + 1;
+    const addrLen = resposne[addrOffset - 1];
+    const address = resposne
       .slice(addrOffset, addrOffset + addrLen)
       .toString('utf-8');
     console.log('Address: ' + address);
@@ -169,9 +169,9 @@ export default class DefiHwWallet {
     // send message buffer splited at 4 parts
     const stepsNum = 4;
     const msgLen = msg.length;
-    const partSize = (msgLen / stepsNum) + 1;
+    const partSize = msgLen / stepsNum + 1;
     let response: null | Buffer = null;
-    for (let i = 0; i < stepsNum; i++ ) {
+    for (let i = 0; i < stepsNum; i++) {
       const start = i * partSize;
       let finish = (i + 1) * partSize;
       if (finish >= msgLen) {
@@ -193,25 +193,38 @@ export default class DefiHwWallet {
       data = Buffer.concat([data, msgSlice]);
       p2 = new Buffer(p2);
       dataLen = new Buffer(dataLen);
-      const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2, dataLen, data]);
+      const apdu = Buffer.concat([
+        new Buffer([CLA, INS_SIGN_MSG]),
+        p1,
+        p2,
+        dataLen,
+        data,
+      ]);
       response = await this.transport.exchange(apdu);
       const { code, status } = checkStatusCode(response);
       if (code !== StatusCodes.OK) {
         throw new Error(status);
       }
     }
-    const msgHash = crypto.createHash('sha256').update(crypto.createHash('sha256').update(response).digest()).digest();
+    const msgHash = crypto
+      .createHash('sha256')
+      .update(crypto.createHash('sha256').update(response).digest())
+      .digest();
     const signVerifyP1AlreadyHashedBuf = Buffer.alloc(1);
     signVerifyP1AlreadyHashedBuf.writeInt8(SIGN_VERIFY_P1_ALREADY_HASHED, 0);
     const signVerifyP2Buf = Buffer.alloc(1);
     signVerifyP2Buf.writeInt8(SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_LAST, 0);
     const lenBuf = Buffer.alloc(1);
     lenBuf.writeInt8(bufKeyIndex.length + response.length + msgHash.length, 0);
-    const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]),
+    const apdu = Buffer.concat([
+      new Buffer([CLA, INS_SIGN_MSG]),
       signVerifyP1AlreadyHashedBuf,
       signVerifyP2Buf,
       lenBuf,
-      bufKeyIndex, response, msgHash]);
+      bufKeyIndex,
+      response,
+      msgHash,
+    ]);
     return this.transport.exchange(apdu);
   }
 

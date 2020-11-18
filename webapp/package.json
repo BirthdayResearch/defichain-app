@@ -37,7 +37,6 @@
     "bignumber.js": "^9.0.0",
     "bip39": "^3.0.2",
     "bitcoinjs-lib": "^5.2.0",
-    "bitcore-lib-dfi": "ssh://git@github.com:DeFiCh/bitcore-lib-dfi.git",
     "bootstrap": "^4.4.1",
     "comma-number": "^2.0.1",
     "convict": "^6.0.0",
