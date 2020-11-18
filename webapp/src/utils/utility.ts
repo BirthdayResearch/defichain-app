@@ -563,7 +563,6 @@ export const fetchPoolPairDataWithPagination = async (
       idTokenA,
       idTokenB,
       rewardPct,
-      totalLiquidity,
     } = result[item];
     const tokenAData = await handleFetchToken(idTokenA);
     const tokenBData = await handleFetchToken(idTokenB);
@@ -573,14 +572,13 @@ export const fetchPoolPairDataWithPagination = async (
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
 
-    /* Don't remove, for future purpose */
     const liquidityReserveidTokenA = new BigNumber(reserveA).times(
       coinPriceObj[idTokenA]
     );
     const liquidityReserveidTokenB = new BigNumber(reserveB).times(
       coinPriceObj[idTokenB]
     );
-    const totalLiquidityInUSDT = liquidityReserveidTokenA.plus(
+    const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
 
@@ -589,9 +587,9 @@ export const fetchPoolPairDataWithPagination = async (
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
-      totalLiquidityInUSDT: totalLiquidityInUSDT.toNumber().toFixed(8),
+      totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
+      apy: (yearlyPoolReward.div(totalLiquidity)).times(100).toNumber().toFixed(2),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -611,7 +609,6 @@ export const fetchPoolPairDataWithPagination = async (
         idTokenA,
         idTokenB,
         rewardPct,
-        totalLiquidity,
       } = result[item];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
@@ -621,24 +618,24 @@ export const fetchPoolPairDataWithPagination = async (
         .times(365)
         .times(coinPriceObj[DFI_SYMBOL]);
 
-      /* Don't remove, for future purpose */
-      // const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-      //   coinPriceObj[idTokenA]
-      // );
-      // const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-      //   coinPriceObj[idTokenB]
-      // );
-      // const totalLiquidity = liquidityReserveidTokenA.plus(
-      //   liquidityReserveidTokenB
-      // );
+      const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+        coinPriceObj[idTokenA]
+      );
+      const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+        coinPriceObj[idTokenB]
+      );
+      const totalLiquidity = liquidityReserveidTokenA.plus(
+        liquidityReserveidTokenB
+      );
 
       return {
         key: item,
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         ...result[item],
+        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
+        apy: (yearlyPoolReward.div(totalLiquidity)).times(100).toNumber().toFixed(2),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
