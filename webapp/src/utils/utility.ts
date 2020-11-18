@@ -509,13 +509,13 @@ export const getTokenAndBalanceMap = (
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: finalBalance.toString(),
+        balance: Number(finalBalance).toFixed(8).toString(),
         isPopularToken: true,
       });
     } else if (uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: finalBalance.toString(),
+        balance: Number(finalBalance).toFixed(8).toString(),
         isPopularToken: false,
       });
     }
@@ -557,13 +557,7 @@ export const fetchPoolPairDataWithPagination = async (
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map(async (item: any) => {
-    const {
-      reserveA,
-      reserveB,
-      idTokenA,
-      idTokenB,
-      rewardPct,
-    } = result[item];
+    const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[item];
     const tokenAData = await handleFetchToken(idTokenA);
     const tokenBData = await handleFetchToken(idTokenB);
 
@@ -589,7 +583,11 @@ export const fetchPoolPairDataWithPagination = async (
       ...result[item],
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: (yearlyPoolReward.div(totalLiquidity)).times(100).toNumber().toFixed(2),
+      apy: yearlyPoolReward
+        .div(totalLiquidity)
+        .times(100)
+        .toNumber()
+        .toFixed(2),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -603,13 +601,9 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const {
-        reserveA,
-        reserveB,
-        idTokenA,
-        idTokenB,
-        rewardPct,
-      } = result[item];
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
+        item
+      ];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
 
@@ -635,7 +629,11 @@ export const fetchPoolPairDataWithPagination = async (
         ...result[item],
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        apy: (yearlyPoolReward.div(totalLiquidity)).times(100).toNumber().toFixed(2),
+        apy: yearlyPoolReward
+          .div(totalLiquidity)
+          .times(100)
+          .toNumber()
+          .toFixed(2),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);

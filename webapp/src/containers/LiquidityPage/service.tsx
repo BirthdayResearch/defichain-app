@@ -77,7 +77,11 @@ export const handleFetchPoolshares = async () => {
         poolSharePercentage: poolSharePercentage.toFixed(2),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: yearlyPoolReward.div(totalLiquidity).toNumber().toFixed(8),
+        apy: yearlyPoolReward
+          .div(totalLiquidity)
+          .times(100)
+          .toNumber()
+          .toFixed(2),
         ...poolPairData[0],
         ...poolShare,
       };
