@@ -25,6 +25,7 @@ interface SwapTabProps {
     field3: string
   ) => void;
   filterBySymbol: any;
+  isLoadingTestPoolSwap: boolean;
 }
 
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
@@ -36,6 +37,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     handleDropdown,
     setMaxValue,
     filterBySymbol,
+    isLoadingTestPoolSwap,
   } = props;
 
   useEffect(() => {
@@ -50,12 +52,13 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             <Col md='5'>
               <SwapCard
                 label={I18n.t('containers.swap.swapTab.from')}
-                tokenMap={filterBySymbol(`symbol${2}`)}
+                tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
                 name={1}
                 formState={formState}
                 handleChange={handleChange}
                 handleDropdown={handleDropdown}
                 setMaxValue={setMaxValue}
+                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
                 dropdownLabel={
                   formState.symbol1
                     ? formState.symbol1
@@ -69,12 +72,13 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             <Col md='5'>
               <SwapCard
                 label={I18n.t('containers.swap.swapTab.to')}
-                tokenMap={filterBySymbol(`symbol${1}`)}
+                tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
                 name={2}
                 formState={formState}
                 handleChange={handleChange}
                 handleDropdown={handleDropdown}
                 setMaxValue={setMaxValue}
+                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
                 dropdownLabel={
                   formState.symbol2
                     ? formState.symbol2

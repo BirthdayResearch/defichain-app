@@ -13,6 +13,7 @@ import {
   MdViewWeek,
   MdToll,
   MdCompareArrows,
+  MdPieChart,
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
@@ -36,6 +37,7 @@ import {
   TOKENS_PATH,
   SWAP_PATH,
   WALLET_TOKENS_PATH,
+  LIQUIDITY_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -139,6 +141,45 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.wallet')}
             </NavLink>
           </NavItem>
+          {softforks?.bayfront && softforks?.bayfront?.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={LIQUIDITY_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdPieChart />
+                {I18n.t('containers.sideBar.liquidity')}
+              </NavLink>
+            </NavItem>
+          )}
+          {softforks?.bayfront && softforks?.bayfront?.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={SWAP_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdCompareArrows />
+                {I18n.t('containers.sideBar.dex')}
+              </NavLink>
+            </NavItem>
+          )}
+          {softforks?.amk?.active && (
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TOKENS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdToll />
+                {I18n.t('containers.sideBar.tokens')}
+              </NavLink>
+            </NavItem>
+          )}
           {/* NOTE: Do not remove, for future purpose */}
           <NavItem className={styles.navItem}>
             <NavLink
@@ -162,32 +203,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          {softforks?.amk?.active && (
-            <NavItem className={styles.navItem}>
-              <NavLink
-                to={TOKENS_PATH}
-                tag={RRNavLink}
-                className={styles.navLink}
-                activeClassName={styles.active}
-              >
-                <MdToll />
-                {I18n.t('containers.sideBar.tokens')}
-              </NavLink>
-            </NavItem>
-          )}
-          {softforks?.bayfront && softforks?.bayfront?.active && (
-            <NavItem className={styles.navItem}>
-              <NavLink
-                to={SWAP_PATH}
-                tag={RRNavLink}
-                className={styles.navLink}
-                activeClassName={styles.active}
-              >
-                <MdCompareArrows />
-                {I18n.t('containers.sideBar.swap')}
-              </NavLink>
-            </NavItem>
-          )}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink

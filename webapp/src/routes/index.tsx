@@ -48,15 +48,18 @@ import {
   WALLET_CREATE_PATH,
   SWAP_PATH,
   CREATE_POOL_PAIR_PATH,
-  MINT_TOKENS_PATH, REMOVE_LIQUIDITY
+  MINT_TOKENS_PATH,
+  REMOVE_LIQUIDITY,
+  LIQUIDITY_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import SwapPage from '../containers/SwapPage';
-import AddLiquidityPage from '../containers/SwapPage/components/AddLiquidity';
-import RemoveLiquidityPage from '../containers/SwapPage/components/RemoveLiquidity';
+import AddLiquidityPage from '../containers/LiquidityPage/components/AddLiquidity';
+import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLiquidity';
 import MintToken from '../containers/TokensPage/components/MintToken';
+import LiquidityPage from '../containers/LiquidityPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -92,6 +95,7 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
     <Route exact path={TOKENS_PATH} component={TokensPage} />
     <Route exact path={SWAP_PATH} component={SwapPage} />
+    <Route exact path={LIQUIDITY_PATH} component={LiquidityPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
@@ -104,7 +108,7 @@ const routes = (location) => (
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
-    <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage}/>
+    <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />
     <Route exact component={Error404Page} />
   </Switch>
 );
