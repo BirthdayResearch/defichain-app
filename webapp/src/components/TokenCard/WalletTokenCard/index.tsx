@@ -3,7 +3,8 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 
 import styles from '../TokenCard.module.scss';
 import { IWalletTokenCard } from '../../../utils/interfaces';
-import { getIcon } from '../../../utils/utility';
+
+import TokenAvatar from '../../TokenAvatar';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -32,11 +33,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className='d-flex align-items-center justify-content-start'>
               <div>
-                <img
-                  src={getIcon(token.symbol)}
-                  height={'30px'}
-                  width={'30px'}
-                />
+                <TokenAvatar symbol={token.symbol} />
               </div>
               <div className='ml-4'>
                 <div>
