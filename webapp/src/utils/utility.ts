@@ -814,16 +814,14 @@ export const shareOfPool = (formState, poolPairList, poolShareList) => {
   return `${shareOfPool.toFixed(8)} %`;
 };
 
-export const getIcon = (symbol: string | null) => {
-  if (symbol === 'BTC') {
-    return BTCIcon;
-  } else if (symbol === 'ETH') {
-    return EthIcon;
-  } else if (symbol === 'USDT') {
-    return USDTIcon;
-  } else {
-    return DefiIcon;
-  }
+export const getIcon = (symbol: string) => {
+  const symbolIconObj = {
+    BTC: BTCIcon,
+    ETH: EthIcon,
+    USDT: USDTIcon,
+    DFI: DefiIcon,
+  };
+  return symbolIconObj[symbol];
 };
 
 export const getAddressAndAmountListForAccount = async () => {
