@@ -21,6 +21,7 @@ import Pagination from '../../../../components/Pagination';
 import { ITxn, IBlockData } from '../../interfaces';
 import { toSha256 } from '../../../../utils/utility';
 import LruCache from '../../../../utils/lruCache';
+import Header from '../../../HeaderComponent';
 
 interface RouteParams {
   id?: string;
@@ -88,7 +89,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
           })}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={BLOCKCHAIN_BASE_PATH}
           tag={NavLink}
@@ -104,7 +105,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
           {I18n.t('containers.blockChainPage.blockPage.block')}&nbsp;
           {blockNumber}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>

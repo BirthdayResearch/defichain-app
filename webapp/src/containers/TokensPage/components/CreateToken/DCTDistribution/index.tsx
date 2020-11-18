@@ -14,6 +14,7 @@ import Spinner from '../../../../../components/Svg/Spinner';
 import AddressList from './AddressList';
 import * as log from '../../../../../utils/electronLogger';
 import { TOKENS_PATH, CREATE_DCT } from '../../../../../constants';
+import Header from '../../../../HeaderComponent';
 
 interface DCTDistributionProps {
   handleActiveTab: (active: string) => void;
@@ -119,7 +120,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           onClick={() => handleActiveTab(CREATE_DCT)}
           color='link'
@@ -147,7 +148,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section className='h-100'>
           <AddressList

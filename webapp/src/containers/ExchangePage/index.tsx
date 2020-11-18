@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
+import Header from '../HeaderComponent';
 
 const ExchangePage = () => {
   return (
@@ -8,9 +9,9 @@ const ExchangePage = () => {
       <Helmet>
         <title>{I18n.t('containers.exchangePage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.exchangePage.exchange')}</h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>{I18n.t('containers.exchangePage.section')}</section>
       </div>
