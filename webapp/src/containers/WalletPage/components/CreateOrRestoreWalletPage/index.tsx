@@ -15,6 +15,7 @@ import {
   openBackupWalletWarningModal,
   openWalletRestartModal,
 } from '../../../PopOver/reducer';
+import Header from '../../../HeaderComponent';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -59,13 +60,13 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
           {I18n.t('containers.wallet.createOrRestoreWalletPage.title')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>
           {I18n.t(
             'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
           )}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Row>

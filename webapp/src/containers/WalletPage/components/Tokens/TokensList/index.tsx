@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet';
 import { MdAdd } from 'react-icons/md';
 import { Button, ButtonGroup } from 'reactstrap';
 import cloneDeep from 'lodash/cloneDeep';
-
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
@@ -22,7 +21,7 @@ import {
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
-
+import Header from '../../../../HeaderComponent';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: any;
   unit: string;
@@ -89,7 +88,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
               {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
             </title>
           </Helmet>
-          <header className='header-bar'>
+          <Header>
             <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
             {/* <ButtonGroup>
           <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
@@ -99,7 +98,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </span>
           </Button>
         </ButtonGroup> */}
-          </header>
+          </Header>
           <div className='content'>
             <WalletTokenCard
               handleCardClick={handleCardClickDefault}
