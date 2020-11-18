@@ -63,7 +63,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     openBackupWallet,
     history,
   } = props;
-  const { softforks = {} } = props.blockChainInfo;
 
   useEffect(() => {
     fetchInstantBalanceRequest();
@@ -92,22 +91,20 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
       <header className='header-bar'>
-        {softforks?.amk && softforks?.amk?.active && (
-          <Button
-            to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
-              walletBalance,
-              unit
-            )}&unit=${unit}`}
-            tag={RRNavLink}
-            color='link'
-            className='header-bar-back'
-          >
-            <MdArrowBack />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.tokens')}
-            </span>
-          </Button>
-        )}
+        <Button
+          to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
+            walletBalance,
+            unit
+          )}&unit=${unit}`}
+          tag={RRNavLink}
+          color='link'
+          className='header-bar-back'
+        >
+          <MdArrowBack />
+          <span className='d-lg-inline'>
+            {I18n.t('containers.wallet.walletPage.tokens')}
+          </span>
+        </Button>
         <div className='d-flex'>
           <img src={getIcon(tokenSymbol)} height={'30px'} width={'30px'} />
           &nbsp;
