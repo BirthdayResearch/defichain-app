@@ -40,7 +40,7 @@ export const SWAP = 'swap';
 export const POOL = 'pool';
 export const DELETE = 'delete';
 export const CREATE_DCT = 'dat';
-export const MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION = 100;
+export const MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION = 101;
 export const DCT_DISTRIBUTION = 'dct';
 export const TOKEN_TRANSFERS = 'Transfers';
 export const TOKEN_HOLDERS = 'Holders';
@@ -89,7 +89,7 @@ export const USDT_SYMBOL = '5';
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
 export const COINGECKO_ETH_ID = 'ethereum';
-export const COINGECKO_USDT_ID= 'tether';
+export const COINGECKO_USDT_ID = 'tether';
 
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
