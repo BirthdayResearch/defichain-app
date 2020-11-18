@@ -27,6 +27,7 @@
   letter-spacing: 0.44px;
   line-height: 24px;
   text-align: left;
+  cursor: pointer;
 }
 
 .divisibilityDropdown {
@@ -44,4 +45,9 @@
 
 .error-dailog {
   color: $dfi-red !important;
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
 }
