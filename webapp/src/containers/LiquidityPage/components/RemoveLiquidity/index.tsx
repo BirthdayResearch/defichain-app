@@ -439,7 +439,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={`${SWAP_PATH}?tab=pool`} tag={NavLink}>
+            <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
               {I18n.t('containers.swap.removeLiquidity.backToPool')}
             </Button>
           </div>
