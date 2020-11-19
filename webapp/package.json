@@ -48,6 +48,7 @@
     "http-status-codes": "^1.4.0",
     "is-electron": "^2.2.0",
     "lodash": "^4.17.15",
+    "prettier": "^2.1.2",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
     "random-binary": "^1.0.3",

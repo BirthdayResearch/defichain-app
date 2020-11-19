@@ -38,6 +38,7 @@ import {
   SWAP_PATH,
   WALLET_TOKENS_PATH,
   LIQUIDITY_PATH,
+  HELP_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -196,7 +197,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-          {/* <NavItem className={styles.navItem}>
+          <NavItem className={styles.navItem}>
             <NavLink
               to={TOKENS_PATH}
               tag={RRNavLink}
@@ -206,7 +207,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               <MdToll />
               {I18n.t('containers.sideBar.tokens')}
             </NavLink>
-          </NavItem> */}
+          </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
@@ -233,7 +234,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              onClick={() => OpenNewTab(SITE_URL)}
+              to={HELP_PATH}
+              tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >

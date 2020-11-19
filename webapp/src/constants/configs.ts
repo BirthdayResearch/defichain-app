@@ -93,3 +93,10 @@ export const COINGECKO_USDT_ID = 'tether';
 
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
+export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
+export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';
+export const GITHUB_ISSUE_HELP_LINK =
+  'https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App';
+export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
+export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
+export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
