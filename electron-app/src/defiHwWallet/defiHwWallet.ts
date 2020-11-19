@@ -1,6 +1,6 @@
-import TransportHid from '@ledgerhq/hw-transport-node-hid';
-import crypto from 'crypto';
-import { encoding } from 'bitcore-lib-dfi';
+// import TransportHid from '@ledgerhq/hw-transport-node-hid';
+import TransportHid from '@ledgerhq/hw-transport-node-speculos';
+import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import {
   Subscription,
@@ -162,67 +162,80 @@ export default class DefiHwWallet {
   }
 
   async sign(keyIndex: number, msg: Buffer) {
-    const bufKeyIndex = Buffer.alloc(4);
-    bufKeyIndex.writeInt32LE(keyIndex, 0);
-    const p1 = Buffer.alloc(1);
-    p1.writeInt8(SIGN_VERIFY_P1_NEED_HASH, 0);
+    const keyIndexBuf = new encoding.BufferWriter();
+    keyIndexBuf.writeInt32LE(keyIndex);
+    const p1 = new encoding.BufferWriter();
+    p1.writeUInt8(SIGN_VERIFY_P1_NEED_HASH);
     // send message buffer splited at 4 parts
     const stepsNum = 4;
     const msgLen = msg.length;
-    const partSize = msgLen / stepsNum + 1;
-    let response: null | Buffer = null;
+    const partSize = Math.round(msgLen / stepsNum) + 1;
+    let rawTVLSignature: null | Buffer = null;
+    let data = Buffer.alloc(0);
+    let dataLen: number | encoding.BufferWriter = 0;
     for (let i = 0; i < stepsNum; i++) {
       const start = i * partSize;
       let finish = (i + 1) * partSize;
       if (finish >= msgLen) {
-        finish = null;
+        finish = 0;
       }
       const msgSlice = msg.subarray(start, finish - 1);
-      let p2: number | Buffer = 0;
-      let data = Buffer.alloc(0);
-      let dataLen: number | Buffer = msgSlice.length;
+      let p2: number | encoding.BufferWriter = 0;
+      dataLen = msgSlice.length;
       if (i === 0) {
         p2 = SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_MORE;
-        data = Buffer.concat([data, bufKeyIndex]);
-        dataLen += bufKeyIndex.length;
+        data = Buffer.concat([data, keyIndexBuf.toBuffer()]);
+        dataLen += keyIndexBuf.toBuffer().length;
       } else if (i === stepsNum - 1) {
         p2 = SIGN_VERIFY_P2_LAST;
       } else {
         p2 = SIGN_VERIFY_P2_MORE;
       }
       data = Buffer.concat([data, msgSlice]);
-      p2 = new Buffer(p2);
-      dataLen = new Buffer(dataLen);
+      p2 = new encoding.BufferWriter().writeUInt8(p2);
+      dataLen = new encoding.BufferWriter().writeUInt8(dataLen);
       const apdu = Buffer.concat([
         new Buffer([CLA, INS_SIGN_MSG]),
-        p1,
-        p2,
-        dataLen,
+        p1.toBuffer(),
+        p2.toBuffer(),
+        dataLen.toBuffer(),
         data,
       ]);
-      response = await this.transport.exchange(apdu);
-      const { code, status } = checkStatusCode(response);
+      const res = await this.transport.exchange(apdu);
+      const { code } = checkStatusCode(res);
       if (code !== StatusCodes.OK) {
-        throw new Error(status);
+        break;
+      } else {
+        rawTVLSignature = res.slice(0, res.length - 2);
       }
     }
-    const msgHash = crypto
-      .createHash('sha256')
-      .update(crypto.createHash('sha256').update(response).digest())
-      .digest();
+    return rawTVLSignature;
+  }
+
+  async verifySignature(
+    keyIndex: number,
+    msg: Buffer,
+    rawTVLSignature: Buffer
+  ) {
+    const keyIndexBuf = new encoding.BufferWriter();
+    keyIndexBuf.writeInt32LE(keyIndex);
+    const msgHash = crypto.Hash.sha256(crypto.Hash.sha256(msg));
     const signVerifyP1AlreadyHashedBuf = Buffer.alloc(1);
     signVerifyP1AlreadyHashedBuf.writeInt8(SIGN_VERIFY_P1_ALREADY_HASHED, 0);
     const signVerifyP2Buf = Buffer.alloc(1);
     signVerifyP2Buf.writeInt8(SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_LAST, 0);
     const lenBuf = Buffer.alloc(1);
-    lenBuf.writeInt8(bufKeyIndex.length + response.length + msgHash.length, 0);
+    lenBuf.writeUInt8(
+      keyIndexBuf.toBuffer().length + rawTVLSignature.length + msgHash.length,
+      0
+    );
     const apdu = Buffer.concat([
-      new Buffer([CLA, INS_SIGN_MSG]),
+      new Buffer([CLA, INS_VERIFY_MSG]),
       signVerifyP1AlreadyHashedBuf,
       signVerifyP2Buf,
       lenBuf,
-      bufKeyIndex,
-      response,
+      keyIndexBuf.toBuffer(),
+      rawTVLSignature,
       msgHash,
     ]);
     return this.transport.exchange(apdu);
