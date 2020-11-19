@@ -22,17 +22,11 @@ import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
   WALLET_SEND_PATH,
   WALLET_RECEIVE_PATH,
-  WALLET_CREATE_PATH,
-  MAIN,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
 } from '../../constants';
-import { getIcon, isWalletCreated } from '../../utils/utility';
 import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
-import Badge from '../../components/Badge';
-import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
 import TokenAvatar from '../../components/TokenAvatar';
+import Header from '../HeaderComponent';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -40,9 +34,6 @@ interface WalletPageProps extends RouteComponentProps {
   pendingBalance: string;
   fetchInstantBalanceRequest: () => void;
   fetchInstantPendingBalanceRequest: () => void;
-  updateAvailableBadge: boolean;
-  startUpdateApp: () => void;
-  openBackupWallet: () => void;
   blockChainInfo: any;
 }
 
@@ -59,10 +50,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     fetchInstantBalanceRequest,
     unit,
     fetchInstantPendingBalanceRequest,
-    updateAvailableBadge,
-    startUpdateApp,
-    openBackupWallet,
-    history,
+    walletBalance,
+    pendingBalance,
   } = props;
 
   useEffect(() => {
@@ -75,14 +64,8 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     };
   }, []);
 
-  const openUpdatePopUp = () => {
-    openBackupWallet();
-    startUpdateApp();
-  };
-
   let balanceRefreshTimerID;
   let pendingBalRefreshTimerID;
-  const { walletBalance, pendingBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
 
@@ -91,7 +74,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
             walletBalance,
@@ -115,14 +98,6 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
         </div>
-        {updateAvailableBadge && (
-          <Badge
-            baseClass='update-available'
-            outline
-            onClick={openUpdatePopUp}
-            label={I18n.t('containers.wallet.walletPage.updateAvailableLabel')}
-          />
-        )}
         <ButtonGroup>
           <Button
             to={
@@ -155,7 +130,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Row>
@@ -219,13 +194,11 @@ const mapStateToProps = (state) => {
     settings: {
       appConfig: { unit },
     },
-    popover: { updateAvailableBadge },
   } = state;
   return {
     unit,
     walletBalance,
     pendingBalance,
-    updateAvailableBadge,
     blockChainInfo,
   };
 };

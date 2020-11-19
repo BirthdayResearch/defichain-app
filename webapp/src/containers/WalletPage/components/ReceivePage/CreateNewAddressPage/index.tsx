@@ -19,6 +19,7 @@ import { WALLET_RECEIVE_PATH } from '../../../../../constants';
 import { addReceiveTxnsRequest } from '../../../reducer';
 import { getNewAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
+import Header from '../../../../HeaderComponent';
 
 interface CreateNewAddressPageProps {
   addReceiveTxns: (data: any) => void;
@@ -75,7 +76,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
           {I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_RECEIVE_PATH}
           tag={NavLink}
@@ -90,7 +91,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
         <h1>
           {I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form onSubmit={onSubmit}>

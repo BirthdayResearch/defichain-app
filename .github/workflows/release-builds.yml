@@ -39,17 +39,6 @@ jobs:
       - name: Publish app
         run: npm run publish:mac
 
-      - name: Read package.json
-        uses: tyankatsu0105/read-package-version-actions@v1
-        id: package-version
-
-      - name: Delete mac zip file
-        uses: mknejp/delete-release-assets@v1
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          tag: 'v${{ steps.package-version.outputs.version }}'
-          assets: '*mac.zip'
-
   publish_windows_version:
     runs-on: windows-latest
     env:

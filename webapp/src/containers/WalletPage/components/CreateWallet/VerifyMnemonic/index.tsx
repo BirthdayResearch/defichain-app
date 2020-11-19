@@ -7,12 +7,16 @@ import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
 import { checkElementsInArray } from '../../../../../utils/utility';
 
-import { WALLET_BASE_PATH, WALLET_PAGE_PATH } from '../../../../../constants';
+import {
+  WALLET_BASE_PATH,
+  WALLET_TOKENS_PATH,
+} from '../../../../../constants';
 
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
+import Header from '../../../../HeaderComponent';
 
 interface VerifyMnemonicProps {
   mnemonicObj: any;
@@ -67,7 +71,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
       <Helmet>
         <title>{I18n.t('containers.wallet.verifyMnemonicPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_BASE_PATH}
           tag={NavLink}
@@ -82,7 +86,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.wallet.verifyMnemonicPage.verifyMnemonicSeed')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <p>
@@ -168,7 +172,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 color='primary'
                 onClick={() => {
                   resetCreateWalletError();
-                  history.push(WALLET_PAGE_PATH);
+                  history.push(WALLET_TOKENS_PATH);
                 }}
               >
                 {I18n.t(

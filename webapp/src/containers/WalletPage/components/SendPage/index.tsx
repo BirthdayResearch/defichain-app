@@ -46,6 +46,7 @@ import {
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
+import Header from '../../../HeaderComponent';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -357,7 +358,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         <Helmet>
           <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
         </Helmet>
-        <header className='header-bar'>
+        <Header>
           <Button
             to={
               tokenSymbol
@@ -377,7 +378,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             {I18n.t('containers.wallet.sendPage.send')}{' '}
             {tokenSymbol || this.props.unit}
           </h1>
-        </header>
+        </Header>
         <div className='content'>
           <section>
             <Form>
