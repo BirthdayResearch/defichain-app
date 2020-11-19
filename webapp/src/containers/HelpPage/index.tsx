@@ -9,8 +9,20 @@ import {
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import openNewTab from '../../utils/openNewTab';
+import DefiLogo from '../../assets/svg/defi-logo.svg';
 import styles from './HelpPage.module.scss';
+import {
+  TELEGRAM_GERMAN_HELP_LINK,
+  TELEGRAM_ENGLISH_HELP_LINK,
+  GITHUB_ISSUE_HELP_LINK,
+  DEFICHAIN_FAQ_HELP_LINK,
+  DEFICHAIN_OFFICIAL_HELP_LINK,
+  REDDIT_HELP_LINK,
+} from '../../constants';
+
+// const ButtonLink = (props: ButtonProps) => <Button color='link' {...props} />
 
 const HelpPage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -25,90 +37,159 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
       </Header>
       <div className='content'>
         <section>
+          <h5>{I18n.t('containers.helpPage.helpPageHeader')}</h5>
           <Row>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaTelegramPlane size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.telegramEn')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(TELEGRAM_ENGLISH_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <FaTelegramPlane />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.telegramEn')}
+                        </h4>
+                        <span>
+                          {I18n.t('containers.helpPage.telegramEnLink')}
+                        </span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
             </Col>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaTelegramPlane size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.telegramDe')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(TELEGRAM_GERMAN_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <FaTelegramPlane />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.telegramDe')}
+                        </h4>
+                        <span>
+                          {I18n.t('containers.helpPage.telegramDeLink')}
+                        </span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
             </Col>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaGithub size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.github')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(GITHUB_ISSUE_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <FaGithub />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.github')}
+                        </h4>
+                        <span>{I18n.t('containers.helpPage.githubLink')}</span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
             </Col>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaQuestionCircle size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.faq')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(DEFICHAIN_FAQ_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <FaQuestionCircle />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.faq')}
+                        </h4>
+                        <span>{I18n.t('containers.helpPage.faqLink')}</span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
             </Col>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaQuestionCircle size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.defichainsite')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(DEFICHAIN_OFFICIAL_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <img src={DefiLogo} />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.defichainsite')}
+                        </h4>
+                        <span>
+                          {I18n.t('containers.helpPage.defichainsiteLink')}
+                        </span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
             </Col>
-            <Col xs='12' md='6' className='my-2'>
-              <Card>
-                <CardBody>
-                  <Row>
-                    <Col xs='3'>
-                      <FaReddit size='60px' />
-                    </Col>
-                    <Col xs='9'>
-                      <h4>{I18n.t('containers.helpPage.reddit')}</h4>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+            <Col xs='12' md='6'>
+              <Button
+                className={styles.buttonLink}
+                color='link'
+                onClick={() => openNewTab(REDDIT_HELP_LINK)}
+              >
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col xs='2'>
+                        <FaReddit />
+                      </Col>
+                      <Col xs='10'>
+                        <h4 className='m-0'>
+                          {I18n.t('containers.helpPage.reddit')}
+                        </h4>
+                        <span>{I18n.t('containers.helpPage.redditLink')}</span>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Button>
+            </Col>
+            <Col xs='12' className='mt-2'>
+              <div className={styles.footerNote}>
+                <span>{I18n.t('containers.helpPage.helpTextFooterLine1')}</span>
+              </div>
+              <div className={styles.footerNote}>
+                <span>{I18n.t('containers.helpPage.helpTextFooterLine2')}</span>
+              </div>
             </Col>
           </Row>
         </section>
