@@ -37,14 +37,14 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
         <section>
           <h5>{I18n.t('containers.helpPage.helpPageHeader')}</h5>
           <Row>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(TELEGRAM_ENGLISH_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(TELEGRAM_ENGLISH_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <FaTelegramPlane />
@@ -58,18 +58,18 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         </span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(TELEGRAM_GERMAN_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(TELEGRAM_GERMAN_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <FaTelegramPlane />
@@ -83,18 +83,18 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         </span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(GITHUB_ISSUE_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(GITHUB_ISSUE_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <FaGithub />
@@ -106,18 +106,18 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         <span>{I18n.t('containers.helpPage.githubLink')}</span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(DEFICHAIN_FAQ_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(DEFICHAIN_FAQ_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <FaQuestionCircle />
@@ -129,18 +129,18 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         <span>{I18n.t('containers.helpPage.faqLink')}</span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(DEFICHAIN_OFFICIAL_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(DEFICHAIN_OFFICIAL_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <Logo />
@@ -154,18 +154,18 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         </span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' md='6'>
-              <Button
-                className={styles.buttonLink}
-                color='link'
-                onClick={() => openNewTab(REDDIT_HELP_LINK)}
-              >
-                <Card>
-                  <CardBody>
+            <Col xs='12' md='6' className='my-3'>
+              <Card>
+                <CardBody>
+                  <Button
+                    className={`${styles.buttonLink} p-0`}
+                    color='link'
+                    onClick={() => openNewTab(REDDIT_HELP_LINK)}
+                  >
                     <Row>
                       <Col xs='2'>
                         <FaReddit />
@@ -177,11 +177,11 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                         <span>{I18n.t('containers.helpPage.redditLink')}</span>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
-              </Button>
+                  </Button>
+                </CardBody>
+              </Card>
             </Col>
-            <Col xs='12' className='mt-2'>
+            <Col xs='12' className='mt-4'>
               <div className={styles.footerNote}>
                 <span>{I18n.t('containers.helpPage.helpTextFooterLine1')}</span>
               </div>
