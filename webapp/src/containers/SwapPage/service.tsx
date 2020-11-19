@@ -74,10 +74,14 @@ export const handleFetchPoolshares = async () => {
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
-        poolSharePercentage: poolSharePercentage.toFixed(2),
+        poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: (yearlyPoolReward.div(totalLiquidity)).times(100).toNumber().toFixed(2),
+        apy: yearlyPoolReward
+          .div(totalLiquidity)
+          .times(100)
+          .toNumber()
+          .toFixed(2),
         ...poolPairData[0],
         ...poolShare,
       };
