@@ -11,7 +11,6 @@ import Header from '../HeaderComponent';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import openNewTab from '../../utils/openNewTab';
-import DefiLogo from '../../assets/svg/defi-logo.svg';
 import styles from './HelpPage.module.scss';
 import {
   TELEGRAM_GERMAN_HELP_LINK,
@@ -22,8 +21,6 @@ import {
   REDDIT_HELP_LINK,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
-
-// const ButtonLink = (props: ButtonProps) => <Button color='link' {...props} />
 
 const HelpPage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
