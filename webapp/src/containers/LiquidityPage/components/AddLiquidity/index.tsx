@@ -421,7 +421,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 {I18n.t('containers.swap.addLiquidity.shareOfPool')}
               </dt>
               <dd className='col-sm-8'>
-                {isValid() && shareOfPool(formState, poolPairList, poolshares)}
+                {isValid() && shareOfPool(formState, poolPairList)}
               </dd>
             </dl>
           </div>
