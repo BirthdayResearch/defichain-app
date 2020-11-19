@@ -14,9 +14,9 @@ const Logo = (props) => {
       <g
         id='DeFiChain-App'
         stroke='none'
-        stroke-width='1'
+        strokeWidth='1'
         fill='none'
-        fill-rule='evenodd'
+        fillRule='evenodd'
       >
         <g id='help' transform='translate(-328.000000, -462.000000)'>
           <g id='Group-10' transform='translate(56.000000, 38.000000)'>
