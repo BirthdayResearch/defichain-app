@@ -21,6 +21,7 @@ import {
   DEFICHAIN_OFFICIAL_HELP_LINK,
   REDDIT_HELP_LINK,
 } from '../../constants';
+import Logo from '../../components/DefiLogo';
 
 // const ButtonLink = (props: ButtonProps) => <Button color='link' {...props} />
 
@@ -145,7 +146,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   <CardBody>
                     <Row>
                       <Col xs='2'>
-                        <img src={DefiLogo} />
+                        <Logo />
                       </Col>
                       <Col xs='10'>
                         <h4 className='m-0'>
