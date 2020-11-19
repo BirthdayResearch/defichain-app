@@ -572,6 +572,19 @@ export const fetchPoolPairDataWithPagination = async (
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
 
+    const poolShares = await fetchPoolShareDataWithPagination(
+      0,
+      SHARE_POOL_PAGE_SIZE,
+      rpcClient.listPoolShares
+    );
+
+    const poolShare = poolShares.find((poolshare) => {
+      return poolshare.poolID === item;
+    });
+
+    const poolSharePercentage =
+      (poolShare.amount / poolShare.totalLiquidity) * 100;
+
     const liquidityReserveidTokenA = new BigNumber(reserveA).times(
       coinPriceObj[idTokenA]
     );
@@ -584,9 +597,11 @@ export const fetchPoolPairDataWithPagination = async (
 
     return {
       key: item,
+      poolID: item,
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
+      poolSharePercentage: poolSharePercentage.toFixed(2),
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       apy: yearlyPoolReward

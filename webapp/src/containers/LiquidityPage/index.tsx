@@ -84,7 +84,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
             </section>
             <AvailablePoolPairsList
               searchQuery={''}
-              poolPairList={poolshares}
+              poolPairList={poolPairList}
             />
           </div>
         </div>
