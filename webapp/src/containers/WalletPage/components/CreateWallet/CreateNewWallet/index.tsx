@@ -15,7 +15,7 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { WALLET_PAGE_PATH } from '../../../../../constants';
+import { WALLET_TOKENS_PATH } from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
 import Header from '../../../../HeaderComponent';
 
@@ -45,7 +45,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
       </Helmet>
       <Header>
         <Button
-          to={WALLET_PAGE_PATH}
+          to={WALLET_TOKENS_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'
