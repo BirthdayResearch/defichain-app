@@ -26,6 +26,7 @@ import {
   conversionRatio,
   countDecimals,
   getTokenAndBalanceMap,
+  getTotalPoolValue,
   shareOfPool,
 } from '../../../../utils/utility';
 import KeyValueLi from '../../../../components/KeyValueLi';
@@ -315,10 +316,41 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                     </span>
                   </Col>
                   <Col className='text-right'>
-                    {shareOfPool(formState, poolPairList, poolshares)}
+                    {shareOfPool(formState, poolPairList)}
                   </Col>
                 </Row>
                 <hr />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
+                      {formState.symbol1}
+                    </span>
+                  </Col>
+                  <Col className='text-right'>
+                    {getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash1
+                    )}
+                  </Col>
+                </Row>
+                <hr />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
+                      {formState.symbol2}
+                    </span>
+                  </Col>
+                  <Col className='text-right'>
+                    {getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash2
+                    )}
+                  </Col>
+                </Row>
               </Col>
             </Row>
           )}
