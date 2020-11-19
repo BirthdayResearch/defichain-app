@@ -117,7 +117,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                         >
                           <MdAdd />
                         </Button>
-                        {new BigNumber(poolpair.poolSharePercentage).eq(0) && (
+                        {!new BigNumber(poolpair.poolSharePercentage).eq(0) && (
                           <Button
                             to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
                               poolpair.poolID
