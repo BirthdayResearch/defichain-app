@@ -2,7 +2,7 @@
 
 ![Image](https://i.imgur.com/F7tpKU5.png)
 
-For direct download, check the [Releases](https://github.com/DeFiCh/defi-app/releases) for latest downloadable binaries for Windows, Mac and Linux.
+For direct download, check the [Releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
 
 
 ## Scripts

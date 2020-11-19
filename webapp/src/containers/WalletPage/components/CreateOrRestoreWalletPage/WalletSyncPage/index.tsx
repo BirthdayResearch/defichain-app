@@ -2,12 +2,10 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { MdSync } from 'react-icons/md';
-
+import Header from '../../../../HeaderComponent';
 import styles from './walletSyncPage.module.scss';
 
-interface WalletSyncPageProps {}
-
-const WalletSyncPage: React.FunctionComponent<WalletSyncPageProps> = () => {
+const WalletSyncPage: React.FunctionComponent = () => {
   return (
     <div>
       <Helmet>
@@ -15,13 +13,13 @@ const WalletSyncPage: React.FunctionComponent<WalletSyncPageProps> = () => {
           {I18n.t('containers.wallet.createOrRestoreWalletPage.title')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>
           {I18n.t(
             'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
           )}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section className={styles.syncSection}>
           <MdSync size={20} className={styles.syncIcon} />
