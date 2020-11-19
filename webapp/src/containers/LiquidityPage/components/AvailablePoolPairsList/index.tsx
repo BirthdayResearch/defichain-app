@@ -15,6 +15,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
 import PairIcon from '../../../../components/PairIcon';
 import { MdAdd, MdRemove } from 'react-icons/md';
+import BigNumber from 'bignumber.js';
 
 interface AvailablePoolPairsListProps {
   searchQuery: string;
@@ -116,18 +117,20 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                         >
                           <MdAdd />
                         </Button>
-                        <Button
-                          to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
-                            poolpair.poolID
-                          }?sharePercentage=${Number(
-                            poolpair.poolSharePercentage
-                          ).toFixed(8)}`}
-                          tag={RRNavLink}
-                          color='link'
-                          size='sm'
-                        >
-                          <MdRemove />
-                        </Button>
+                        {new BigNumber(poolpair.sharePercentage).eq(0) && (
+                          <Button
+                            to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
+                              poolpair.poolID
+                            }?sharePercentage=${Number(
+                              poolpair.poolSharePercentage
+                            ).toFixed(8)}`}
+                            tag={RRNavLink}
+                            color='link'
+                            size='sm'
+                          >
+                            <MdRemove />
+                          </Button>
+                        )}
                       </div>
                     </td>
                   </tr>
