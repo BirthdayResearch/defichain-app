@@ -595,7 +595,9 @@ export const fetchPoolPairDataWithPagination = async (
       tokenA: tokenAData.symbol,
       tokenB: tokenBData.symbol,
       ...result[item],
-      poolSharePercentage: Number(poolShare.poolSharePercentage).toFixed(8),
+      poolSharePercentage: poolShare
+        ? Number(poolShare.poolSharePercentage).toFixed(8)
+        : "0",
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       apy: yearlyPoolReward
@@ -649,7 +651,9 @@ export const fetchPoolPairDataWithPagination = async (
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         ...result[item],
-        poolSharePercentage: Number(poolShare.poolSharePercentage).toFixed(8),
+        poolSharePercentage: poolShare
+          ? Number(poolShare.poolSharePercentage).toFixed(8)
+          : "0",
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         apy: yearlyPoolReward
