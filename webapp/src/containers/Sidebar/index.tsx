@@ -16,6 +16,8 @@ import {
   // MdLockOpen,
   // MdLock,
 } from 'react-icons/md';
+import { DiTerminal } from 'react-icons/di';
+import { AiTwotoneSetting, AiFillQuestionCircle } from 'react-icons/ai';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
@@ -183,35 +185,37 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             </NavLink>
           </NavItem> */}
         </Nav>
-        <Nav className={`${styles.navSub} flex-column nav-pills`}>
-          <NavItem className={styles.navItem}>
+        <Nav className={`${styles.navSub} ${styles.navSubIcon}`}>
+          <NavItem>
             <NavLink
               to={CONSOLE_RPC_CALL_BASE_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.console')}
+              <DiTerminal />
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+
+          <NavItem>
             <NavLink
               to={HELP_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.help')}
+              <AiFillQuestionCircle />
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+
+          <NavItem>
             <NavLink
               to={SETTING_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.settings')}
+              <AiTwotoneSetting />
             </NavLink>
           </NavItem>
         </Nav>
