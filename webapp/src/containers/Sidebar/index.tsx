@@ -174,18 +174,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.tokens')}
             </NavLink>
           </NavItem>
-          {/* NOTE: Do not remove, for future purpose */}
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={MASTER_NODES_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdDns />
-              {I18n.t('containers.sideBar.masterNodes')}
-            </NavLink>
-          </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
               to={BLOCKCHAIN_BASE_PATH}
@@ -199,13 +187,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={TOKENS_PATH}
+              to={MASTER_NODES_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <MdToll />
-              {I18n.t('containers.sideBar.tokens')}
+              <MdDns />
+              {I18n.t('containers.sideBar.masterNodes')}
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
