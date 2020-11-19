@@ -181,7 +181,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                 </CardBody>
               </Card>
             </Col>
-            <Col xs='12' className='mt-4'>
+            <Col xs='12' className='mt-3'>
               <div className={styles.footerNote}>
                 <span>{I18n.t('containers.helpPage.helpTextFooterLine1')}</span>
               </div>
