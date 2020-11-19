@@ -21,7 +21,7 @@ import {
   DEFICHAIN_OFFICIAL_HELP_LINK,
   REDDIT_HELP_LINK,
 } from '../../constants';
-import Logo from '../../components/DefiLogo';
+import Logo from '../../components/Svg/DefiLogo';
 
 // const ButtonLink = (props: ButtonProps) => <Button color='link' {...props} />
 
