@@ -803,16 +803,40 @@ export const getRatio = (poolpair) => {
   return ratio.toFixed(8);
 };
 
-export const shareOfPool = (formState, poolPairList, poolShareList) => {
+export const shareOfPool = (formState, poolPairList) => {
   const [poolPair] = selectedPoolPair(formState, poolPairList);
-  const shareOfPool = poolShareList.reduce((sharePercentage, poolShare) => {
-    if (poolShare.poolID === poolPair.key) {
-      return Number(poolShare.poolSharePercentage) + Number(sharePercentage);
-    } else {
-      return sharePercentage;
-    }
-  }, 0);
-  return `${shareOfPool.toFixed(8)} %`;
+
+  const shareA =
+    formState.hash1 === poolPair.idTokenA
+      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
+      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
+
+  const shareB =
+    formState.hash2 === poolPair.idTokenB
+      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
+      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
+
+  const shareOfPool = shareA
+    .plus(shareB)
+    .div(2)
+    .times(100)
+    .toNumber()
+    .toFixed(2);
+
+  return `${shareOfPool} %`;
+};
+
+export const getTotalPoolValue = (formState, poolPairList, hash) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  return hash === poolPair.idTokenA ? poolPair.reserveA : poolPair.reserveB;
+};
+
+export const calculateLPFee = (formState, poolPairList) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  return new BigNumber(formState.amount1)
+    .times(poolPair.commission)
+    .toNumber()
+    .toFixed(8);
 };
 
 export const getIcon = (symbol: string) => {

@@ -184,10 +184,8 @@
         "addLiquidity": "ADD LIQUIDITY",
         "availablePoolPairs": "Available Pool Pairs",
         "noPoolPairs": "No Pool Pairs",
-        "loading": "Loading..",
         "pair": "Pair",
         "liquidity": "Liquidity",
-        "addLiquidity": "Add Liquidity",
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
         "apy": "APY"
@@ -265,7 +263,8 @@
         "supply": "Supply",
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
         "viewOnChain": "View on chain",
-        "backToPool": "Back to pool"
+        "backToPool": "Back to pool",
+        "totalPooled": "Total Pooled"
       },
       "removeLiquidity": {
         "removeLiquidity": "Remove Liquidity",
