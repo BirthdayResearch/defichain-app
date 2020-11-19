@@ -99,7 +99,21 @@
     "helpPage": {
       "title": "Help – DeFi Blockchain Client",
       "help": "Help",
-      "section": "Section"
+      "helpPageHeader": "Connect with the community with these options:",
+      "telegramEn": "Telegram community (EN)",
+      "telegramEnLink": "t.me/defiblockchain",
+      "telegramDe": "Telegram community (DE)",
+      "telegramDeLink": "t.me/defiblockchain_DE",
+      "github": "Report an Issue",
+      "githubLink": "github.com",
+      "faq": "Frequently-Asked Questions",
+      "faqLink": "defichain.com/learn/#faq",
+      "defichainsite": "Official website",
+      "defichainsiteLink": "defichain.com",
+      "reddit": "Reddit community",
+      "redditLink": "reddit.com/r/defiblockchain",
+      "helpTextFooterLine1": "DeFiChain is a community-driven and open project.",
+      "helpTextFooterLine2": "The DeFiChain Foundation does not provide direct support."
     },
     "masterNodes": {
       "masterNodesPage": {
