@@ -12,6 +12,14 @@
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
       "network": "Netzwerk",
       "downloading": "Downloading update"
+    },
+    "swapCard": {
+      "selectAToken": "Select a token",
+      "popular": "Popular",
+      "tokens": "Tokens",
+      "balance": "Balance",
+      "max": "MAX",
+      "inputLabel": "Enter input"
     }
   },
   "containers": {
@@ -161,6 +169,97 @@
       "masternodeTab": {
         "myMasternodes": "Bergwerk",
         "network": "Netzwerk"
+      }
+    },
+    "swap": {
+      "swapPage": {
+        "title": "Tokens – DeFi Blockchain Client",
+        "swap": "Swap",
+        "pool": "Pool",
+        "liquidity": "Liquidity",
+        "enterAnAmount": "Enter an amount to swap",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "from": "From",
+        "to": "To",
+        "balance": "Balance",
+        "max": "Max",
+        "selectToken": "Select a Token",
+        "searchToken": "Search token name or address",
+        "popular": "Popular",
+        "tokens": "Tokens",
+        "readySwap": "Ready to swap",
+        "price": "Price",
+        "minimumReceived": "Minimum Received",
+        "priceImpact": "Price Impact",
+        "liquidityProviderFee": "Liquidity provider fee",
+        "verifyTransactionSwap": "Please verify transaction and press SWAP",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "goToWallet": "Go to Wallet",
+        "go": "Go",
+        "ok": "OK",
+        "yourLiquidity": "Your Liquidity",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "add": "Add",
+        "remove": "Remove",
+        "apy": "APY",
+        "pooled": "Pooled",
+        "poolReward": "Pool reward",
+        "poolShare": "Pool share"
+      },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
+      },
+      "poolTab": {
+        "yourLiquidity": "Your liquidity",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "addLiquidity": "ADD LIQUIDITY",
+        "availablePoolPairs": "Available Pool Pairs",
+        "pair": "Pair",
+        "liquidity": "Liquidity",
+        "volume": "Volume",
+        "apy": "APY"
+      },
+      "addLiquidity": {
+        "balance": "Balance",
+        "max": "Max",
+        "selectToken": "Select a Token",
+        "addLiquidity": "Add Liquidity",
+        "selectInputTokens": "Select input tokens and enter an amount",
+        "back": "Back",
+        "input": "Input",
+        "price": "Price",
+        "shareOfPool": "Share of pool",
+        "readyToSupply": "Ready to supply",
+        "verifyTransactionSupply": "Please verify transaction and press SUPPLY",
+        "reward": "Reward",
+        "deposits": "Deposits",
+        "rates": "Rates",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "supply": "Supply",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "viewOnChain": "View on chain",
+        "backToPool": "Back to pool"
+      },
+      "removeLiquidity": {
+        "removeLiquidity": "Remove Liquidity",
+        "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
+        "verifyTransaction": "Please verify transaction and press CONFIRM",
+        "removeLiquidityAmount": "Amount of liquidity to remove",
+        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the Defi blockchain",
+        "receive": "Receive",
+        "cancel": "Cancel",
+        "removeLiquidityPercentage": "%",
+        "price": "Price",
+        "none": "None",
+        "all": "All",
+        "back": "BACK",
+        "continue": "CONTINUE",
+        "confirm": "Confirm",
+        "backToPool": "Back to pool",
+        "receiveAddress": "Receive Address"
       }
     },
     "tokens": {

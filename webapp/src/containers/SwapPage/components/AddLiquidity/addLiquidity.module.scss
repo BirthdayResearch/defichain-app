@@ -1,0 +1,23 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.svg {
+  width: 30px;
+  height: 30px;
+  fill: rgba(0, 0, 0, 0.6);
+}
+
+.colSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0px;
+}
+
+.error-dailog {
+  color: $dfi-red !important;
+}

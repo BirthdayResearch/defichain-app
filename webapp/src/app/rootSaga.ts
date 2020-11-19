@@ -10,6 +10,7 @@ import settingsSaga from '../containers/SettingsPage/saga';
 import syncStatusSaga from '../containers/SyncStatus/saga';
 import consoleSaga from '../containers/ConsolePage/saga';
 import popOverSaga from '../containers/PopOver/saga';
+import swapSaga from '../containers/SwapPage/saga';
 
 function* rootSaga() {
   yield all([
@@ -23,6 +24,7 @@ function* rootSaga() {
     fork(syncStatusSaga),
     fork(consoleSaga),
     fork(popOverSaga),
+    fork(swapSaga),
   ]);
 }
 

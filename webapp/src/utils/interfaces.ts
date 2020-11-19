@@ -126,3 +126,14 @@ export interface IWalletTokenCard {
 export interface ITokenResponse {
   hash: string;
 }
+
+export interface ITokenBalanceInfo {
+  hash: string;
+  balance: string;
+  isPopularToken: boolean;
+}
+
+export interface IAddressAndAmount {
+  amount: string;
+  address: string;
+}

@@ -19,10 +19,19 @@ import {
 } from './reducer';
 import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getIcon, getAmountInSelectedUnit } from '../../utils/utility';
+import {
+  WALLET_SEND_PATH,
+  WALLET_RECEIVE_PATH,
+  WALLET_CREATE_PATH,
+  MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+} from '../../constants';
+import { getIcon, isWalletCreated } from '../../utils/utility';
+import { getAmountInSelectedUnit } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
+import CreateOrRestoreWalletPage from './components/CreateOrRestoreWalletPage';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -83,7 +92,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
       </Helmet>
       <header className='header-bar'>
-        {softforks.amk && softforks.amk.active && (
+        {softforks?.amk && softforks?.amk?.active && (
           <Button
             to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
               walletBalance,

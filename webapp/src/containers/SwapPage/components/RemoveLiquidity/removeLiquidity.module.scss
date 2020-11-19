@@ -1,0 +1,47 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.colText {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 16px;
+  letter-spacing: 0.44px;
+  line-height: 24px;
+  text-align: right;
+}
+
+.logoText {
+  padding-left: 10px;
+}
+
+.rangeSlider {
+  margin: 0 15px;
+}
+
+.rangeText {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 16px;
+  letter-spacing: 0.44px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.collateralDropdown {
+  box-shadow: 0 0 0 0.0625rem #dc3545 !important;
+}
+
+.error-dailog {
+  color: $dfi-red !important;
+}
