@@ -3,7 +3,7 @@ on:
     branches:
       - feature/implement-token-listing-ui
       - ci/*
-      - feature/implement-lp
+      # - feature/implement-lp
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
