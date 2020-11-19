@@ -9,3 +9,28 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+.buttonLink {
+  text-transform: none !important;
+  width: 100%;
+  text-align: left;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  h4 {
+    color: rgb(0, 0, 0);
+  }
+  span {
+    color: $secondary;
+    font-size: 14px;
+  }
+}
+.footerNote {
+  text-align: center;
+  span {
+    color: $secondary;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
