@@ -504,6 +504,11 @@ export const getTokenAndBalanceMap = (
   const uniqueTokenMap = getUniqueTokenMap(poolPairList);
   const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
 
+  // Add DFI to list if DFI tokens are not present already
+  if (!balanceAndSymbolMap.has(DFI_SYMBOL)) {
+    balanceAndSymbolMap.set(DFI_SYMBOL, '0');
+  }
+
   balanceAndSymbolMap.forEach((balance, symbol) => {
     const finalBalance = symbol === DFI_SYMBOL ? walletBalance || 0 : balance;
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
@@ -540,7 +545,8 @@ const getUniqueTokenMap = (poolPairList) => {
 const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   return tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
     const itemList: string[] = item.split('@');
-    return balanceAndSymbolMap.set(itemList[1], itemList[0]);
+    balanceAndSymbolMap.set(itemList[1], itemList[0]);
+    return balanceAndSymbolMap;
   }, new Map<string, string>());
 };
 
