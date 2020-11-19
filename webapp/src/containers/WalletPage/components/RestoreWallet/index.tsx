@@ -15,7 +15,7 @@ import {
 import classnames from 'classnames';
 
 import styles from './RestoreWallet.module.scss';
-import { WALLET_PAGE_PATH } from '../../../../constants';
+import { WALLET_TOKENS_PATH } from '../../../../constants';
 import { resetRestoreWalletError, restoreWalletRequest } from '../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
@@ -92,7 +92,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
       </Helmet>
       <Header>
         <Button
-          to={WALLET_PAGE_PATH}
+          to={WALLET_TOKENS_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'
@@ -161,7 +161,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 color='primary'
                 onClick={() => {
                   resetRestoreWalletError();
-                  history.push(WALLET_PAGE_PATH);
+                  history.push(WALLET_TOKENS_PATH);
                 }}
               >
                 {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}

@@ -22,7 +22,6 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   TOKENS_PATH,
-  WALLET_PAGE_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import Spinner from '../../../../components/Svg/Spinner';
