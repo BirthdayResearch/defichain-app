@@ -75,7 +75,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               <span>{`${poolpair.tokenA}/${poolpair.tokenB}`}</span>
             </Col>
             <Col md={5} className='text-right'>
-              <UncontrolledDropdown>
+              {/* <UncontrolledDropdown>
                 <DropdownToggle color='link' size='md'>
                   <MdMoreHoriz />
                 </DropdownToggle>
@@ -93,7 +93,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
                     );
                   })}
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
             </Col>
           </Row>
           <br />
