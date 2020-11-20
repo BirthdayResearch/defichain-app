@@ -107,3 +107,6 @@ export const LIQUIDITY_MINING_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=gDR19KNyPlc';
 export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=gDR19KNyPlc';
+
+export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
+export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
