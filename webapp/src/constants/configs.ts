@@ -105,3 +105,5 @@ export const DEFICHAIN_DEX_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=JLu16bdlYrM';
 export const LIQUIDITY_MINING_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=gDR19KNyPlc';
+export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
+  'https://www.youtube.com/watch?v=gDR19KNyPlc';

@@ -15,6 +15,7 @@ import {
 } from '../../../../constants';
 import Header from '../../../HeaderComponent';
 import PairIcon from '../../../../components/PairIcon';
+import BigNumber from 'bignumber.js';
 
 interface RouteParams {
   poolID: string;
@@ -79,6 +80,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             }?sharePercentage=${Number(poolshare.poolSharePercentage).toFixed(
               8
             )}`}
+            disabled={new BigNumber(poolshare.poolSharePercentage).eq(0)}
             tag={RRNavLink}
             color='link'
           >

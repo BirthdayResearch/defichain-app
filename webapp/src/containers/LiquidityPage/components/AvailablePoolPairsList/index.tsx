@@ -117,20 +117,21 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                         >
                           <MdAdd />
                         </Button>
-                        {!new BigNumber(poolpair.poolSharePercentage).eq(0) && (
-                          <Button
-                            to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
-                              poolpair.poolID
-                            }?sharePercentage=${Number(
-                              poolpair.poolSharePercentage
-                            ).toFixed(8)}`}
-                            tag={RRNavLink}
-                            color='link'
-                            size='sm'
-                          >
-                            <MdRemove />
-                          </Button>
-                        )}
+                        <Button
+                          to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
+                            poolpair.poolID
+                          }?sharePercentage=${Number(
+                            poolpair.poolSharePercentage
+                          ).toFixed(8)}`}
+                          disabled={new BigNumber(
+                            poolpair.poolSharePercentage
+                          ).eq(0)}
+                          tag={RRNavLink}
+                          color='link'
+                          size='sm'
+                        >
+                          <MdRemove />
+                        </Button>
                       </div>
                     </td>
                   </tr>
