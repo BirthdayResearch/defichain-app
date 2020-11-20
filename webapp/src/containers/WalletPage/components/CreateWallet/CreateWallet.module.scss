@@ -35,10 +35,6 @@
   color: $secondary;
 }
 
-.margin {
-  margin: 50px;
-}
-
 .txtWhite {
   color: #fff;
 }
@@ -60,4 +56,15 @@
 
 .error-dailog {
   color: $dfi-red !important;
+}
+.mnemonicGuidelineWarning {
+  color: #ff0000;
+}
+
+.walletRecoveryInfo {
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
 }
