@@ -54,7 +54,9 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
         </ButtonGroup>
       </header>
       {isLoadingPoolshares ? (
-        I18n.t('containers.liquidity.liquidityPage.loading')
+        <div className='content'>
+          {I18n.t('containers.liquidity.liquidityPage.loading')}
+        </div>
       ) : (
         <div className='content'>
           {!poolshares.length ? (
