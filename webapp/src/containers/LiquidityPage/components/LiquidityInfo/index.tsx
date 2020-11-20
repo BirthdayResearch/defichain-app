@@ -59,7 +59,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             {I18n.t('containers.liquidity.liquidityPage.back')}
           </span>
         </Button>
-        <div className='d-flex inline'>
+        <div className='d-flex'>
           <PairIcon poolpair={poolshare} />
           &nbsp;
           <h1>{`${poolshare.symbol} ${I18n.t(

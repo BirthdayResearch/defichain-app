@@ -311,7 +311,9 @@ export const handleAddPoolLiquidity = async (
 
 export const handleRemovePoolLiquidity = async (
   poolID: string,
-  amount: string
+  amount: string,
+  receiveAddress: string,
+  poolPair: any
 ) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListPoolShare(poolID);
@@ -331,18 +333,68 @@ export const handleRemovePoolLiquidity = async (
     return sumAmount;
   }, 0);
 
-  const hashArray = addressList.map(async (obj, index) => {
+  const addressAndAmountArray = addressList.map(async (obj, index) => {
     const txId = await rpcClient.sendToAddress(
       obj.address,
       DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
       true
     );
     await getTransactionInfo(txId);
-    const hash = await rpcClient.removePoolLiquidity(
+    await rpcClient.removePoolLiquidity(
       obj.address,
       `${Number(obj.amount).toFixed(8)}@${poolID}`
     );
-    return hash;
+    if (obj.address !== receiveAddress) {
+      return obj;
+    }
+  });
+
+  const resolvedAddressAndAmountArray: any[] = _.compact(
+    await Promise.all(addressAndAmountArray)
+  );
+
+  const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
+    const amountA =
+      (addressAndAmount.amount / poolPair.totalLiquidity) * poolPair.reserveA;
+    const amountB =
+      (addressAndAmount.amount / poolPair.totalLiquidity) * poolPair.reserveB;
+    return {
+      address: addressAndAmount.address,
+      amountA: `${amountA.toFixed(8)}@${poolPair.idTokenA}`,
+      amountB: `${amountB.toFixed(8)}@${poolPair.idTokenB}`,
+    };
+  });
+
+  finalArray.map(async (obj) => {
+    const txId1 = await rpcClient.sendToAddress(
+      obj.address,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+      true
+    );
+    const txId2 = await rpcClient.sendToAddress(
+      obj.address,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+      true
+    );
+    await getTransactionInfo(txId1);
+    await getTransactionInfo(txId2);
+  });
+
+  const hashArray = finalArray.map(async (obj) => {
+    const txId1 = await rpcClient.accountToAccount(
+      obj.address,
+      receiveAddress,
+      obj.amountA
+    );
+    const txId2 = await rpcClient.accountToAccount(
+      obj.address,
+      receiveAddress,
+      obj.amountB
+    );
+    return {
+      txId1,
+      txId2,
+    };
   });
 
   const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
