@@ -436,6 +436,7 @@
         "removeLiquidityAmount": "Amount of liquidity to remove",
         "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the Defi blockchain",
         "receive": "Receive",
+        "receiveAddress": "Receive Address",
         "cancel": "Cancel",
         "removeLiquidityPercentage": "%",
         "price": "Price",

@@ -68,7 +68,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
         </div>
       ) : (
         <div className='content'>
-          {poolshares.length ? (
+          {!poolshares.length ? (
             <>
               <section>
                 {I18n.t('containers.liquidity.liquidityPage.yourLiquidityInfo')}

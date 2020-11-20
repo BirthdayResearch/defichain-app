@@ -34,7 +34,6 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   LIQUIDITY_PATH,
-  SWAP_PATH,
 } from '../../../../constants';
 import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
 import styles from './removeLiquidity.module.scss';
@@ -387,11 +386,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <dl className='row'>
-              <dt className='col-sm-3 text-right'>
+              <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.removeLiquidity.receive')}
               </dt>
-              &nbsp;
-              <dd className='col-sm-9'>
+              <dd className='col-sm-8'>
                 <span>{`${removeLiquidityAmount(totalA)} ${
                   poolpair.tokenA
                 }`}</span>
@@ -399,6 +397,12 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 <span>{`${removeLiquidityAmount(totalB)} ${
                   poolpair.tokenB
                 }`}</span>
+              </dd>
+              <dt className='col-sm-4 text-right'>
+                {I18n.t('containers.swap.removeLiquidity.receiveAddress')}
+              </dt>
+              <dd className='col-sm-8'>
+                <span>{`${formState.receiveAddress}`}</span>
               </dd>
             </dl>
           </div>
