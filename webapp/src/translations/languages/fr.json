@@ -188,7 +188,20 @@
         "liquidity": "Liquidity",
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
-        "apy": "APY"
+        "apy": "APY",
+        "back": "BACK"
+      },
+      "liquidityInfo": {
+        "title": "Liquidity – DeFi Blockchain Client",
+        "addMore": "Add More",
+        "remove": "Remove",
+        "apy": "APY",
+        "pooled": "Pooled",
+        "pooledBTC": "Pooled BTC",
+        "btcPoolShare": "BTC pool share",
+        "totalReward": "Total Reward",
+        "pooledDFI": "Pooled DFI",
+        "dfiPoolShare": "DFI pool share"
       }
     },
     "swap": {
