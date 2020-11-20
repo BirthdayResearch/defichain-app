@@ -45,7 +45,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           </Col>
           <Col md='6'>
             <div className={`${styles.cardValue} justify-content-end`}>
-              <b className='text-dark'>{token.amount}</b>
+              <b className='text-dark'>
+                {(Number(token.amount) || 0).toFixed(8)}
+              </b>
               <span className='ml-2'>{token.symbol}</span>
             </div>
           </Col>
