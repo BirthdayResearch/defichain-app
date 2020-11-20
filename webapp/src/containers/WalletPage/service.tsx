@@ -96,7 +96,7 @@ export const handleFetchAccountDFI = async () => {
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return regularDFI + accountDFI;
+  return (regularDFI + accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -151,7 +151,7 @@ export const sendToAddress = async (
       const fromAddress = DFIObj.address;
       const txId = await rpcClient.sendToAddress(
         fromAddress,
-        (10 / 100) * amount,
+        Number((10 / 100) * amount).toFixed(8),
         subtractfeefromamount
       );
       await getTransactionInfo(txId);
