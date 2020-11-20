@@ -9,8 +9,8 @@ import Helmet from 'react-helmet';
 import {
   CREATE_POOL_PAIR_PATH,
   DEFICHAIN_DEX_YOUTUBE_LINK,
+  DEFICHAIN_IMPERMANENT_YOUTUBE_LINK,
   LIQUIDITY_MINING_YOUTUBE_LINK,
-  TELEGRAM_ENGLISH_HELP_LINK,
 } from '../../constants';
 import styles from './liquidity.module.scss';
 import LiquidityList from './components/LiquidityList';
@@ -18,6 +18,7 @@ import { fetchPoolPairListRequest, fetchPoolsharesRequest } from './reducer';
 import AvailablePoolPairsList from './components/AvailablePoolPairsList';
 import LiquidityMining from '../../assets/svg/liquidity-mining.svg';
 import DefichainDEX from '../../assets/svg/defichain-dex.svg';
+import DefichainImpermanent from '../../assets/svg/defichain-impermanent.svg';
 import openNewTab from '../../utils/openNewTab';
 
 interface LiquidityPageProps {
@@ -67,14 +68,14 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
         </div>
       ) : (
         <div className='content'>
-          {!poolshares.length ? (
+          {poolshares.length ? (
             <>
               <section>
                 {I18n.t('containers.liquidity.liquidityPage.yourLiquidityInfo')}
               </section>
               <div className='d-flex justify-content-center m-5 '>
                 <div
-                  className={`${styles.cursorPointer} justify-content-center`}
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
                   onClick={() => openNewTab(LIQUIDITY_MINING_YOUTUBE_LINK)}
                 >
                   <img src={LiquidityMining} height='96px' width='171px' />
@@ -83,10 +84,19 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
                   </div>
                 </div>
                 <div
-                  className={`${styles.cursorPointer} justify-content-center`}
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
                   onClick={() => openNewTab(DEFICHAIN_DEX_YOUTUBE_LINK)}
                 >
                   <img src={DefichainDEX} height='96px' width='171px' />
+                  <div className={`${styles.txtColor} text-center`}>
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                </div>
+                <div
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
+                  onClick={() => openNewTab(DEFICHAIN_IMPERMANENT_YOUTUBE_LINK)}
+                >
+                  <img src={DefichainImpermanent} height='96px' width='171px' />
                   <div className={`${styles.txtColor} text-center`}>
                     {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
                   </div>
