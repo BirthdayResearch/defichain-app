@@ -100,3 +100,8 @@ export const GITHUB_ISSUE_HELP_LINK =
 export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
 export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
+
+export const DEFICHAIN_DEX_YOUTUBE_LINK =
+  'https://www.youtube.com/watch?v=JLu16bdlYrM';
+export const LIQUIDITY_MINING_YOUTUBE_LINK =
+  'https://www.youtube.com/watch?v=gDR19KNyPlc';
