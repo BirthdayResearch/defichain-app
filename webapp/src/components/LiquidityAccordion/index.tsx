@@ -18,6 +18,7 @@ import {
   ADD,
   REMOVE,
   REMOVE_LIQUIDITY_BASE_PATH,
+  LIQUIDITY_INFO_BASE_PATH,
 } from '../../constants';
 import PairIcon from '../PairIcon';
 
@@ -57,11 +58,14 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
 
   const { poolpair } = props;
 
-  const toggle = () => setCollapse(!collapse);
-
   return (
     <div>
-      <Card onClick={toggle} className={`${styles.liquidityCard} mb-5`}>
+      <Card
+        onClick={() => {
+          props.history.push(`${LIQUIDITY_INFO_BASE_PATH}/${poolpair.poolID}`);
+        }}
+        className={`${styles.liquidityCard} mb-5`}
+      >
         <CardBody>
           <Row className='align-items-center'>
             <Col md={2}>

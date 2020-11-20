@@ -52,6 +52,7 @@ import {
   REMOVE_LIQUIDITY,
   LIQUIDITY_PATH,
   WALLET_SYNC_PAGE_PATH,
+  LIQUIDITY_INFO_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
@@ -62,6 +63,7 @@ import AddLiquidityPage from '../containers/LiquidityPage/components/AddLiquidit
 import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLiquidity';
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LiquidityPage from '../containers/LiquidityPage';
+import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -112,6 +114,7 @@ const routes = (location) => (
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
     <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />
+    <Route exact path={LIQUIDITY_INFO_PATH} component={LiquidityInfo} />
     <Route exact component={Error404Page} />
   </Switch>
 );
