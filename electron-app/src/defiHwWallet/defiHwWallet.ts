@@ -241,6 +241,24 @@ export default class DefiHwWallet {
     return this.transport.exchange(apdu);
   }
 
+  transformationSign(sign: Buffer) {
+    const lenR = sign[3];
+    const lenS = sign[5 + lenR];
+    const offsetR = lenR === 33 ? 1 : 0;
+    const offsetS = lenS === 33 ? 1 : 0;
+    let transaction = sign.slice(4 + offsetR, 4 + offsetR + 32);
+    transaction = Buffer.concat([
+      transaction,
+      sign.slice(4 + lenR + 2 + offsetS, 4 + lenR + 2 + offsetS + 32),
+    ]);
+    transaction = Buffer.concat([transaction, new Buffer([0x00])]);
+    if (sign[0] === 0x31) {
+      // tslint:disable-next-line:no-bitwise
+      transaction[64] = transaction[64] | 0x01;
+    }
+    return transaction;
+  }
+
   /*
   // Not works
   async getHwWalletVersion() {
