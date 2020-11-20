@@ -54,7 +54,7 @@ interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
   fetchPoolpair: (id) => void;
   poolpair: any;
   isErrorRemovingPoolLiquidity: string;
-  removePoolLiqudityRequest: (formState) => void;
+  removePoolLiqudity: (poolID, amount, address, poolpair) => void;
   isLoadingRemovePoolLiquidity: boolean;
   removePoolLiquidityHash: string;
 }
@@ -83,7 +83,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     fetchPoolpair,
     poolpair,
     isErrorRemovingPoolLiquidity,
-    removePoolLiqudityRequest,
+    removePoolLiqudity,
     isLoadingRemovePoolLiquidity,
     removePoolLiquidityHash,
   } = props;
@@ -146,10 +146,12 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   const handleRemoveLiquidity = () => {
     setAllowCalls(true);
     setRemoveLiquidityStep('loading');
-    removePoolLiqudityRequest({
-      poolID: id,
-      amount: (formState.amountPercentage * sumAmount) / 100,
-    });
+    removePoolLiqudity(
+      id,
+      (formState.amountPercentage * sumAmount) / 100,
+      formState.receiveAddress,
+      poolpair
+    );
   };
 
   const calculateTotal = (total, reserve) => {
@@ -499,7 +501,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchPoolpair,
-  removePoolLiqudityRequest,
+  removePoolLiqudity: (poolID, amount, address, poolpair) =>
+    removePoolLiqudityRequest({ poolID, amount, address, poolpair }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidity);
