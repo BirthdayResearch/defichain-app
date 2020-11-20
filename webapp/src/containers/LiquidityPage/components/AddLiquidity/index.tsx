@@ -20,18 +20,24 @@ import {
   fetchPoolsharesRequest,
 } from '../../reducer';
 import styles from './addLiquidity.module.scss';
-import { LIQUIDITY_PATH, SWAP_PATH } from '../../../../constants';
+import {
+  DEFICHAIN_MAINNET_LINK,
+  DEFICHAIN_TESTNET_LINK,
+  LIQUIDITY_PATH,
+  MAIN,
+} from '../../../../constants';
 import {
   calculateInputAddLiquidity,
   conversionRatio,
   countDecimals,
+  getNetworkType,
   getTokenAndBalanceMap,
   getTotalPoolValue,
   shareOfPool,
 } from '../../../../utils/utility';
-import KeyValueLi from '../../../../components/KeyValueLi';
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
+import openNewTab from '../../../../utils/openNewTab';
 
 interface AddLiquidityProps {
   poolshares: any[];
@@ -463,7 +469,17 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button color='link' className='mr-3'>
+              <Button
+                onClick={() => {
+                  openNewTab(
+                    getNetworkType() === MAIN
+                      ? DEFICHAIN_MAINNET_LINK
+                      : DEFICHAIN_TESTNET_LINK
+                  );
+                }}
+                color='link'
+                className='mr-3'
+              >
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
               <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
