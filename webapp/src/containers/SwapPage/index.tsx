@@ -160,7 +160,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -199,9 +199,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       formState[`amount1`] &&
       formState[`balance1`] &&
       new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
-      formState[`amount2`] &&
-      formState[`balance2`] &&
-      new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
+      // formState[`amount2`] &&
+      formState[`balance2`]
+      // new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
     ) {
       return true;
     } else {
@@ -214,7 +214,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -530,7 +530,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,
