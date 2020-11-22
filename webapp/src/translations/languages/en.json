@@ -327,7 +327,7 @@
       "liquidityPage": {
         "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your Liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralised Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading...",
         "watchVideo": "Watch Video",
