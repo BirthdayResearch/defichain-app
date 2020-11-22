@@ -9,8 +9,6 @@ import {
   Button,
   ButtonGroup,
   Col,
-  FormGroup,
-  Label,
   NavLink,
   Row,
   TabContent,
@@ -267,7 +265,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
       <header className='header-bar'>
-        <h1>{I18n.t('containers.swap.swapPage.decentralisedExchange')}</h1>
+        <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
         {/* <Nav pills className='justify-content-center'>
           <NavItem>
             <NavLink
