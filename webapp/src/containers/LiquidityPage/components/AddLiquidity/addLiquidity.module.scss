@@ -5,17 +5,23 @@
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
 
-.svg {
-  width: 30px;
-  height: 30px;
-  fill: rgba(0, 0, 0, 0.6);
-}
-
-.colSvg {
+.addLiquidityRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 30px 0px;
+}
+
+.addLiquiditySwapDirection {
+  margin: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: $secondary;
+  }
 }
 
 .error-dailog {

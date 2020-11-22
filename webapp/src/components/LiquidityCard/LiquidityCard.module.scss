@@ -6,14 +6,35 @@
 @import '../../scss/bootstrap/variables';
 
 .liquidityCard {
-  margin-bottom: 24px;
-  height: calc(100% - 24px);
-  cursor: pointer;
+  flex-grow: 1;
 }
 
-.text {
-  text-align: end;
-  line-height: 1.5rem;
+.liquidityInputGroup {
+  display: flex;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.inputCol {
+  flex-grow: 1;
+}
+
+.dropDownCol {
+  flex-grow: 0;
+}
+
+.liquidityInput,
+.liquidityInput:disabled,
+.liquidityInput:focus {
+  background-color: transparent;
+  border-color: transparent !important;
+  box-shadow: none;
+  appearance: none;
+}
+
+.liquidityInput:disabled,
+.liquidityInput:disabled::placeholder {
+  color: $gray-400;
 }
 
 .cardBody {
@@ -21,6 +42,30 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
+.cardFooter {
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  height: 48px;
+  font-size: $small-font-size;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+
+.cardFooterBalance {
+  flex-grow: 1;
+  color: $secondary;
+}
+
+.labelBalance {
+  color: $body-color;
+}
+
+.cardFooterActions {
+  flex-grow: 0;
 }
 
 .label {
@@ -66,16 +111,5 @@
 }
 
 .labelDirection {
-  color: #000000;
-  font-weight: bold;
-}
-
-.labelBalance {
-  color: #000000;
-  font-weight: bold;
-}
-
-.dropDownCol {
-  position: initial;
-  padding: 0;
+  font-weight: $font-weight-medium;
 }

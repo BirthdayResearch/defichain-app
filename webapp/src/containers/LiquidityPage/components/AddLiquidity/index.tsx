@@ -7,7 +7,7 @@ import {
   MdErrorOutline,
 } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
-import { Button, Col, FormGroup, Label, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -55,7 +55,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     amount1: '',
     hash1: '',
     symbol1: '',
-    amount2: '-',
+    amount2: '0',
     hash2: '',
     symbol2: '',
     balance1: '',
@@ -254,43 +254,39 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       </header>
       <div className='content'>
         <section>
-          <Row>
-            <Col md='5'>
-              <LiquidityCard
-                label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
-                name={1}
-                formState={formState}
-                handleChange={handleChange}
-                handleDropdown={handleDropDown}
-                setMaxValue={setMaxValue}
-                dropdownLabel={
-                  formState.symbol1
-                    ? formState.symbol1
-                    : I18n.t('components.swapCard.selectAToken')
-                }
-              />
-            </Col>
-            <Col md='2' className={styles.colSvg}>
-              <MdAdd className={styles.svg} />
-            </Col>
-            <Col md='5'>
-              <LiquidityCard
-                label={I18n.t('containers.swap.addLiquidity.input')}
-                tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
-                name={2}
-                formState={formState}
-                handleChange={handleChange}
-                handleDropdown={handleDropDown}
-                setMaxValue={setMaxValue}
-                dropdownLabel={
-                  formState.symbol2
-                    ? formState.symbol2
-                    : I18n.t('components.swapCard.selectAToken')
-                }
-              />
-            </Col>
-          </Row>
+          <div className={styles.addLiquidityRow}>
+            <LiquidityCard
+              label={I18n.t('containers.swap.addLiquidity.input')}
+              tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
+              name={1}
+              formState={formState}
+              handleChange={handleChange}
+              handleDropdown={handleDropDown}
+              setMaxValue={setMaxValue}
+              dropdownLabel={
+                formState.symbol1
+                  ? formState.symbol1
+                  : I18n.t('components.swapCard.selectAToken')
+              }
+            />
+            <div className={styles.addLiquiditySwapDirection}>
+              <MdAdd />
+            </div>
+            <LiquidityCard
+              label={I18n.t('containers.swap.addLiquidity.input')}
+              tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
+              name={2}
+              formState={formState}
+              handleChange={handleChange}
+              handleDropdown={handleDropDown}
+              setMaxValue={setMaxValue}
+              dropdownLabel={
+                formState.symbol2
+                  ? formState.symbol2
+                  : I18n.t('components.swapCard.selectAToken')
+              }
+            />
+          </div>
           {isValid() && (
             <Row>
               <Col md='12'>
@@ -364,18 +360,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         >
           <Row className='justify-content-between align-items-center'>
             <Col className='col-auto'>
-              <FormGroup check>
-                <Label check>
-                  {isValid()
-                    ? I18n.t('containers.swap.addLiquidity.readyToSupply')
-                    : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
-                </Label>
-              </FormGroup>
+              {isValid()
+                ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
                 color='link'
-                className='mr-3'
                 disabled={!isValid()}
                 onClick={AddLiquidityStepConfirm}
               >
