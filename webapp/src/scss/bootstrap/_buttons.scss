@@ -64,6 +64,11 @@
   &:focus {
     text-decoration: none;
   }
+
+  &:disabled {
+    color: $gray-400;
+    background-color: transparent;
+  }
 }
 
 //

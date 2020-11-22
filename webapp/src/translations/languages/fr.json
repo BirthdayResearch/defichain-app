@@ -19,7 +19,7 @@
       "tokens": "Tokens",
       "balance": "Balance",
       "max": "MAX",
-      "inputLabel": "Enter input"
+      "inputLabel": "0"
     }
   },
   "containers": {
@@ -261,7 +261,7 @@
         "max": "Max",
         "selectToken": "Select a Token",
         "addLiquidity": "Add Liquidity",
-        "selectInputTokens": "Select input tokens and enter an amount",
+        "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
         "input": "Input",
         "price": "Price",
