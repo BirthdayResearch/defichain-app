@@ -40,7 +40,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi Blockchain Client",
+        "title": "Blockchain – DeFi app",
         "blockchain": "Blockchain"
       },
       "blockChainTable": {
@@ -85,19 +85,19 @@
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi Blockchain Client",
+      "title": "DFI Block Processing Center – DeFi app",
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi Blockchain Client",
+      "title": "Exchange – DeFi app",
       "exchange": "Exchange",
       "section": "Section",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Help – DeFi Blockchain Client",
+      "title": "Help – DeFi app",
       "help": "Help",
       "helpPageHeader": "Connect with the community with these options:",
       "telegramEn": "Telegram community (EN)",
@@ -117,7 +117,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi Blockchain Client",
+        "title": "Masternodes – DeFi app",
         "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
@@ -191,7 +191,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi Blockchain Client",
+        "title": "Tokens – DeFi app",
         "loading": "Loading...",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -325,7 +325,7 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi Blockchain Client",
+        "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your Liquidity",
         "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralised Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -342,7 +342,7 @@
         "back": "BACK"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi Blockchain Client",
+        "title": "Liquidity – DeFi app",
         "addMore": "Add More",
         "remove": "Remove",
         "apy": "APY",
@@ -356,8 +356,8 @@
     },
     "swap": {
       "swapPage": {
-        "title": "Tokens – DeFi Blockchain Client",
-        "decentralisedExchange": "Decentralised Exchange",
+        "title": "DEX – DeFi app",
+        "decentralizedExchange": "Decentralized Exchange",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -449,7 +449,7 @@
       }
     },
     "settings": {
-      "title": "Settings – DeFi Blockchain Client",
+      "title": "Settings – DeFi app",
       "settings": "Settings",
       "general": "General",
       "display": "Display",
@@ -525,9 +525,9 @@
         "backToWalletPage": "CLOSE"
       },
       "sendPage": {
-        "sendTitle": "Send – DeFi Blockchain Client",
+        "sendTitle": "Send – DeFi app",
         "wallet": "Wallet",
-        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
+        "sendDFITitle": "Send DFI – DeFi app",
         "sendDFI": "Send DFI",
         "send": "Send",
         "amount": "Amount",
@@ -548,7 +548,7 @@
         "pleaseTransferFunds": "Please transfer some DFIs to your account"
       },
       "receivePage": {
-        "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
+        "receiveDFITitle": "Receive DFI – DeFi app",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "optional": "Optional",
@@ -582,7 +582,7 @@
         "created": "Created"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id} – DeFi Blockchain Client",
+        "paymentRequestTitle": "Payment request %{id} – DeFi app",
         "paymentRequest": "Payment request",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -595,7 +595,7 @@
       },
       "walletPage": {
         "tokens": "TOKENS",
-        "walletDefiClient": "Wallet – DeFi Blockchain Client",
+        "walletDefiClient": "Wallet – DeFi app",
         "wallet": "Wallet",
         "delete": "Delete",
         "send": "Send",
@@ -631,7 +631,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – DeFi Blockchain Client",
+        "consoleDefiClient": "Console – DeFi app",
         "defiCliCommand": "Enter Defi-cli command",
         "console": "Console",
         "submit": "Submit",

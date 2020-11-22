@@ -166,7 +166,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Токены – DeFi Blockchain Client",
+        "title": "Токены – DeFi app",
         "loading": "Загрузка...",
         "createToken": "Создать",
         "tokens": "Токены",
