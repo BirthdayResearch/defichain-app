@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Card, CardBody, CardFooter, Input, Button } from 'reactstrap';
+import classNames from 'classnames';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapDropdown from '../swapDropdown';
@@ -62,12 +63,11 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
                 disabled={!formState[`hash${name}`] || !formState[`hash2`]}
               />
             ) : (
-              <Input
-                className={styles.liquidityInput}
-                type='text'
-                value={formState[`amount2`]}
-                disabled
-              />
+              <div
+                className={classNames(styles.liquidityInput, 'form-control')}
+              >
+                {formState[`amount2`]}
+              </div>
             )}
           </div>
           <div className={styles.dropDownCol}>

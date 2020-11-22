@@ -366,7 +366,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
-                color='link'
+                color='primary'
                 disabled={!isValid()}
                 onClick={AddLiquidityStepConfirm}
               >
