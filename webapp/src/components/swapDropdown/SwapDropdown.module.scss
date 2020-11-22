@@ -21,6 +21,10 @@
   border: 0;
   font-weight: $font-weight-normal;
 
+  &:not(:disabled):hover {
+    color: $dropdown-link-hover-color !important;
+  }
+
   &:focus {
     border: 0;
   }

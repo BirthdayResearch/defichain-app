@@ -1,16 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
-import {
-  Row,
-  Card,
-  CardBody,
-  CardFooter,
-  Col,
-  FormGroup,
-  Input,
-  Label,
-  Button,
-} from 'reactstrap';
+import { Card, CardBody, CardFooter, Input, Button } from 'reactstrap';
+import classNames from 'classnames';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
 import Loader from '../Loader';
 
@@ -54,44 +45,33 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
   return (
     <Card className={styles.swapCard}>
       <CardBody className={styles.cardBody}>
-        <Row>
-          <Col className={styles.labelDirection}>{label}</Col>
-        </Row>
-        <Row>
-          <Col className='mt-2' md='12' xs='12' sm='12' lg='12' xl='6'>
+        <div className={styles.labelDirection}>{label}</div>
+        <div className={styles.swapInputGroup}>
+          <div className={styles.inputCol}>
             {name === 1 ? (
-              <FormGroup className='form-label-group'>
-                <Input
-                  type='number'
-                  placeholder={I18n.t('components.swapCard.inputLabel')}
-                  name={`amount${name}`}
-                  id='input'
-                  value={formState[`amount${name}`]}
-                  onChange={(e) => {
-                    if (Number(e.target.value) >= 0) {
-                      handleChange(e);
-                    }
-                  }}
-                  disabled={!formState[`hash${name}`] || !formState[`hash2`]}
-                />
-                <Label for='message'>
-                  {I18n.t('components.swapCard.inputLabel')}
-                </Label>
-              </FormGroup>
+              <Input
+                className={styles.swapInput}
+                type='text'
+                pattern='[0-9.,]'
+                inputmode='decimal'
+                placeholder={I18n.t('components.swapCard.inputLabel')}
+                name={`amount${name}`}
+                id='input'
+                value={formState[`amount${name}`]}
+                onChange={(e) => {
+                  if (Number(e.target.value) >= 0) {
+                    handleChange(e);
+                  }
+                }}
+                disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+              />
             ) : (
-              <div className='mt-2'>
+              <div className={classNames(styles.swapInput, 'form-control')}>
                 {!isLoadingTestPoolSwap ? formState[`amount2`] : <Loader />}
               </div>
             )}
-          </Col>
-          <Col
-            className={styles.dropDownCol}
-            md='12'
-            xs='12'
-            sm='12'
-            lg='12'
-            xl='6'
-          >
+          </div>
+          <div className={styles.dropDownCol}>
             <SwapDropdown
               tokenMap={tokenMap}
               name={name}
@@ -99,32 +79,30 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
               handleDropdown={handleDropdown}
               dropdownLabel={dropdownLabel}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
       </CardBody>
-      <CardFooter>
-        <Row>
-          <Col lg='12' md='12' xs='12' sm='12' xl='8'>
-            <span className={styles.labelBalance}>
-              {I18n.t('components.swapCard.balance')}
-            </span>
-            : {formState[`balance${name}`] || '-'}
-          </Col>
-          <Col className='text-right' lg='12' md='12' xs='12' sm='12' xl='4'>
-            {name === 1 && (
-              <Button
-                color='link'
-                size='sm'
-                disabled={!formState[`hash${name}`] || !formState[`hash2`]}
-                onClick={() =>
-                  setMaxValue(`amount${name}`, formState[`balance${name}`])
-                }
-              >
-                {I18n.t('components.swapCard.max')}
-              </Button>
-            )}
-          </Col>
-        </Row>
+      <CardFooter className={styles.cardFooter}>
+        <div className={styles.cardFooterBalance}>
+          <span className={styles.labelBalance}>
+            {I18n.t('components.swapCard.balance')}
+          </span>
+          : {formState[`balance${name}`] || '0'}
+        </div>
+        <div className={styles.cardFooterActions}>
+          {name === 1 && (
+            <Button
+              color='link'
+              size='sm'
+              disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+              onClick={() =>
+                setMaxValue(`amount${name}`, formState[`balance${name}`])
+              }
+            >
+              {I18n.t('components.swapCard.max')}
+            </Button>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );

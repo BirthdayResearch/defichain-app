@@ -7,6 +7,11 @@
 
 .liquidityCard {
   flex-grow: 1;
+  flex-basis: 0;
+}
+
+.labelDirection {
+  font-weight: $font-weight-medium;
 }
 
 .liquidityInputGroup {
@@ -103,13 +108,4 @@
 .cardLabel {
   color: rgba(0, 0, 0, 0.6);
   padding-right: 1rem;
-}
-
-.colorMax {
-  color: #ff00af;
-  text-align: right;
-}
-
-.labelDirection {
-  font-weight: $font-weight-medium;
 }
