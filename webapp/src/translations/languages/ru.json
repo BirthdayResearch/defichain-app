@@ -283,7 +283,7 @@
       "dctDistribution": {
         "back": "НАЗАД",
         "add": "ДОБАВИТЬ",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "continue": "ПРОДОЛЖИТЬ",
         "dfiRequired": "Требуется DFI",
         "chooseFile": "ВЫБРАТЬ ФАЙЛ",

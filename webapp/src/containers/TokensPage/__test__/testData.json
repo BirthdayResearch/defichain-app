@@ -3,7 +3,7 @@
     {
       "hash": "0",
       "symbol": "DFI",
-      "name": "Default Defi token",
+      "name": "Default DeFi token",
       "decimal": 8,
       "limit": 0,
       "mintable": true,
@@ -14,7 +14,7 @@
   "fetchTokenInfoSuccess": {
     "hash": "0",
     "symbol": "DFI",
-    "name": "Default Defi token",
+    "name": "Default DeFi token",
     "decimal": 8,
     "limit": 0,
     "mintable": true,
@@ -31,7 +31,7 @@
     "handleFetchToken": {
       "hash": "0",
       "symbol": "DFI",
-      "name": "Default Defi token",
+      "name": "Default DeFi token",
       "decimal": 8,
       "limit": 0,
       "mintable": true,
