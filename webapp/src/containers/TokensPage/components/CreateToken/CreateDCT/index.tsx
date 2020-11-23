@@ -266,6 +266,8 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                     >
                       <span>{I18n.t(data.address)}</span>
                       &nbsp;
+                      <span>{data.label}</span>
+                      &nbsp;
                       {formState.collateralAddress === data.address && (
                         <MdCheck />
                       )}

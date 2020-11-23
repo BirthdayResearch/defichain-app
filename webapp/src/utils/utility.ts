@@ -96,8 +96,8 @@ export const getAddressAndAmount = (
   balance
 ): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address } = addressObj;
-    return { address, amount: balance };
+    const { address, label } = addressObj;
+    return { address, amount: balance, label };
   });
 };
 
