@@ -179,15 +179,18 @@ export const handleTestPoolSwap = async (formState) => {
       dfiUTXOS
     );
   }
-
-  const testPoolSwapAmount = await rpcClient.testPoolSwap(
-    address1,
-    formState.hash1,
-    Number(formState.amount1),
-    address2,
-    formState.hash2
-  );
-  return testPoolSwapAmount.split('@')[0];
+  if (formState.amount1) {
+    const testPoolSwapAmount = await rpcClient.testPoolSwap(
+      address1,
+      formState.hash1,
+      Number(formState.amount1),
+      address2,
+      formState.hash2
+    );
+    return testPoolSwapAmount.split('@')[0];
+  } else {
+    return '-';
+  }
 };
 
 export const handlePoolSwap = async (formState) => {

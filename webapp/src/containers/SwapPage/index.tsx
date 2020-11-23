@@ -128,11 +128,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   }, [formState.amount1, formState.hash1, formState.hash2]);
 
   const isValidAmount = () => {
-    if (
-      formState[`balance1`] &&
-      formState[`amount1`] &&
-      formState[`balance2`]
-    ) {
+    if (formState[`balance1`] && formState[`balance2`]) {
       return true;
     } else {
       return false;
