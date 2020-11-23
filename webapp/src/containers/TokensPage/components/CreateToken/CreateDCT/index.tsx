@@ -15,7 +15,10 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Row,
+  Col,
 } from 'reactstrap';
+import EllipsisText from 'react-ellipsis-text';
 
 import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
@@ -248,11 +251,24 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   ? formState.collateralAddress
                   : I18n.t('containers.tokens.createToken.collateralAddress')}
               </DropdownToggle>
-              <DropdownMenu className={styles.scrollAuto}>
+              <DropdownMenu className={`${styles.scrollAuto} w-100`}>
+                <DropdownItem className='w-100'>
+                  <Row className='w-100'>
+                    <Col md='6'>
+                      {I18n.t('containers.tokens.createToken.address')}
+                    </Col>
+                    <Col md='3'>
+                      {I18n.t('containers.tokens.createToken.label')}
+                    </Col>
+                    <Col md='3'>
+                      {I18n.t('containers.tokens.createToken.selected')}
+                    </Col>
+                  </Row>
+                </DropdownItem>
                 {collateralAddresses.map((data) => {
                   return (
                     <DropdownItem
-                      className='d-flex justify-content-between ml-0'
+                      className='justify-content-between ml-0 w-100'
                       key={data.address}
                       name='collateralAddress'
                       onClick={() =>
@@ -264,13 +280,19 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                       }
                       value={data.address}
                     >
-                      <span>{I18n.t(data.address)}</span>
-                      &nbsp;
-                      <span>{data.label}</span>
-                      &nbsp;
-                      {formState.collateralAddress === data.address && (
-                        <MdCheck />
-                      )}
+                      <Row className='w-100'>
+                        <Col md='6'>
+                          <EllipsisText text={data.address} length={'42'} />
+                        </Col>
+                        <Col md='3'>
+                          <EllipsisText text={data.label} length={'20'} />
+                        </Col>
+                        <Col md='3'>
+                          {formState.collateralAddress === data.address && (
+                            <MdCheck />
+                          )}
+                        </Col>
+                      </Row>
                     </DropdownItem>
                   );
                 })}
