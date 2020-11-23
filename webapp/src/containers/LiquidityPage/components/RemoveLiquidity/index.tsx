@@ -340,6 +340,8 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   >
                     <span>{I18n.t(data.address)}</span>
                     &nbsp;
+                    <span>{data.label}</span>
+                    &nbsp;
                     {formState.receiveAddress === data.address && <MdCheck />}
                   </DropdownItem>
                 );
