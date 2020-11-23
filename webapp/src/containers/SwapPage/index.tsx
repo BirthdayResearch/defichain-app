@@ -9,8 +9,6 @@ import {
   Button,
   ButtonGroup,
   Col,
-  FormGroup,
-  Label,
   NavLink,
   Row,
   TabContent,
@@ -82,7 +80,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     amount1: '',
     hash1: '',
     symbol1: '',
-    amount2: '-',
+    amount2: '0',
     hash2: '',
     symbol2: '',
     balance1: '',
@@ -267,7 +265,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
       <header className='header-bar'>
-        <h1>{I18n.t('containers.swap.swapPage.decentralisedExchange')}</h1>
+        <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
         {/* <Nav pills className='justify-content-center'>
           <NavItem>
             <NavLink
@@ -384,18 +382,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           >
             <Row className='justify-content-between align-items-center'>
               <Col className='col-auto'>
-                <FormGroup check>
-                  <Label check>
-                    {isValid()
-                      ? I18n.t('containers.swap.swapPage.readySwap')
-                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                  </Label>
-                </FormGroup>
+                {isValid()
+                  ? I18n.t('containers.swap.swapPage.readySwap')
+                  : I18n.t('containers.swap.swapPage.enterAnAmount')}
               </Col>
               <Col className='d-flex justify-content-end'>
                 <Button
-                  color='link'
-                  className='mr-3'
+                  color='primary'
                   disabled={!isValid()}
                   onClick={swapStepConfirm}
                 >

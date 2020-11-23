@@ -48,45 +48,41 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     <>
       <div>
         <section>
-          <Row>
-            <Col md='5'>
-              <SwapCard
-                label={I18n.t('containers.swap.swapTab.from')}
-                tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
-                name={1}
-                formState={formState}
-                handleChange={handleChange}
-                handleDropdown={handleDropdown}
-                setMaxValue={setMaxValue}
-                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
-                dropdownLabel={
-                  formState.symbol1
-                    ? formState.symbol1
-                    : I18n.t('components.swapCard.selectAToken')
-                }
-              />
-            </Col>
-            <Col md='2' className={styles.colSvg}>
-              <MdCompareArrows className={styles.svg} />
-            </Col>
-            <Col md='5'>
-              <SwapCard
-                label={I18n.t('containers.swap.swapTab.to')}
-                tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
-                name={2}
-                formState={formState}
-                handleChange={handleChange}
-                handleDropdown={handleDropdown}
-                setMaxValue={setMaxValue}
-                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
-                dropdownLabel={
-                  formState.symbol2
-                    ? formState.symbol2
-                    : I18n.t('components.swapCard.selectAToken')
-                }
-              />
-            </Col>
-          </Row>
+          <div className={styles.swapRow}>
+            <SwapCard
+              label={I18n.t('containers.swap.swapTab.from')}
+              tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
+              name={1}
+              formState={formState}
+              handleChange={handleChange}
+              handleDropdown={handleDropdown}
+              setMaxValue={setMaxValue}
+              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+              dropdownLabel={
+                formState.symbol1
+                  ? formState.symbol1
+                  : I18n.t('components.swapCard.selectAToken')
+              }
+            />
+            <div className={styles.swapDirection}>
+              <MdCompareArrows />
+            </div>
+            <SwapCard
+              label={I18n.t('containers.swap.swapTab.to')}
+              tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
+              name={2}
+              formState={formState}
+              handleChange={handleChange}
+              handleDropdown={handleDropdown}
+              setMaxValue={setMaxValue}
+              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+              dropdownLabel={
+                formState.symbol2
+                  ? formState.symbol2
+                  : I18n.t('components.swapCard.selectAToken')
+              }
+            />
+          </div>
         </section>
       </div>
     </>

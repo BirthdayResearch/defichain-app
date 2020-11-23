@@ -166,7 +166,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Токены – DeFi Blockchain Client",
+        "title": "Токены – DeFi app",
         "loading": "Загрузка...",
         "createToken": "Создать",
         "tokens": "Токены",
@@ -283,7 +283,7 @@
       "dctDistribution": {
         "back": "НАЗАД",
         "add": "ДОБАВИТЬ",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "continue": "ПРОДОЛЖИТЬ",
         "dfiRequired": "Требуется DFI",
         "chooseFile": "ВЫБРАТЬ ФАЙЛ",
