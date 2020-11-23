@@ -506,7 +506,7 @@
         "continue": "Weiter",
         "receive": "Erhalten",
         "newAddressButton": "Neue Adresse",
-        "addressLabel": "Address label",
+        "addressLabel": "Adressen Bezeichnung",
         "createNewAddressNotice": "Geben Sie Ihrer neuen DFI-Adresse eine aussagekräftige Bezeichnung",
         "createNewReceiveAddressLabel": "Neue Empfangsadresse erstellen",
         "backButton": "ZURÜCK",
@@ -549,7 +549,7 @@
         "transactions": "Transaktionen",
         "availableBalance": "Verfügbares Guthaben",
         "pending": "Ausstehend",
-        "updateAvailableLabel": "Update available"
+        "updateAvailableLabel": "Update erhältlich"
       },
       "walletTxns": {
         "height": "Höhe",
@@ -627,7 +627,7 @@
     "noBackupWalletNotice": "Nein",
     "encryptWalletNoticeTitle": "Wallet sperren",
     "encryptWalletNotice": "Aus Sicherheitsgründen wird empfohlen, die Sperrung der Wallet mit einem Passwort zu aktivieren. Gebe das Passwort ein, mit dem du deine Wallet entsperren willst.",
-    "enableLocking": "ENABLE LOCKING",
+    "enableLocking": "LOCKING AKTIVIEREN",
     "later": "SPÄTER",
     "passphraseLabel": "Passwort eingeben",
     "proceed": "GESCHÜZT",
@@ -641,7 +641,7 @@
     "unlock": "ENTSPERREN",
     "enterYourPassphrase": "Gebe dein Passwort ein",
     "walletUnlockTitle": "Willkommen zurück",
-    "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
+    "walletUnlockMessage": "Gib dein Passwort ein um deine Wallet zu entsperren.",
     "lostPassphraseMessage": "ICH HABE MEIN PASSWORT VERGESSEN",
     "saveMyBackup": "Mein Backup speichern",
     "okIHaveDoneIt": "Ok, ich habe es getan.",
