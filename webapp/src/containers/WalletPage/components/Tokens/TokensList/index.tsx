@@ -104,6 +104,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
               handleCardClick={handleCardClickDefault}
               token={{
                 symbol: unit,
+                symbolKey: unit,
                 amount: props.walletBalance,
                 hash: '0',
                 address: '',

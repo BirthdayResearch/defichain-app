@@ -107,6 +107,7 @@ export interface ITokenCard {
 }
 
 export interface IWalletTokenCard {
+  symbolKey: string;
   hash: string;
   name?: string;
   symbol: string | null;
