@@ -357,7 +357,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                         <EllipsisText text={data.address} length={'42'} />
                       </Col>
                       <Col md='3'>
-                        <EllipsisText text={data.label} length={'20'} />
+                        <EllipsisText
+                          text={data.label ? data.label : '---'}
+                          length={'20'}
+                        />
                       </Col>
                       <Col md='3'>
                         {formState.receiveAddress === data.address && (
