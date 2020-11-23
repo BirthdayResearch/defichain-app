@@ -29,6 +29,7 @@ import {
 } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
+import EllipsisText from 'react-ellipsis-text';
 
 import {
   CONFIRM_BUTTON_COUNTER,
@@ -323,11 +324,24 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 ? formState.receiveAddress
                 : I18n.t('containers.swap.removeLiquidity.receiveAddress')}
             </DropdownToggle>
-            <DropdownMenu className={styles.scrollAuto}>
+            <DropdownMenu className={`${styles.scrollAuto} w-100`}>
+              <DropdownItem className='w-100'>
+                <Row className='w-100'>
+                  <Col md='6'>
+                    {I18n.t('containers.swap.removeLiquidity.address')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.removeLiquidity.label')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.removeLiquidity.selected')}
+                  </Col>
+                </Row>
+              </DropdownItem>
               {receiveAddresses.map((data) => {
                 return (
                   <DropdownItem
-                    className='d-flex justify-content-between ml-0'
+                    className='justify-content-between ml-0 w-100'
                     key={data.address}
                     name='receiveAddress'
                     onClick={() =>
@@ -338,11 +352,19 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                     }
                     value={data.address}
                   >
-                    <span>{I18n.t(data.address)}</span>
-                    &nbsp;
-                    <span>{data.label}</span>
-                    &nbsp;
-                    {formState.receiveAddress === data.address && <MdCheck />}
+                    <Row className='w-100'>
+                      <Col md='6'>
+                        <EllipsisText text={data.address} length={'42'} />
+                      </Col>
+                      <Col md='3'>
+                        <EllipsisText text={data.label} length={'20'} />
+                      </Col>
+                      <Col md='3'>
+                        {formState.receiveAddress === data.address && (
+                          <MdCheck />
+                        )}
+                      </Col>
+                    </Row>
                   </DropdownItem>
                 );
               })}
