@@ -97,6 +97,7 @@ export interface ITokenCard {
     hash: string;
     name: string;
     symbol: string;
+    symbolKey: string;
     isDAT: boolean;
     decimal: number;
     limit: number;
