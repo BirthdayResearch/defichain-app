@@ -26,6 +26,8 @@ import {
   parsedCoinPriceData,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
+import store from '../../app/rootStore';
+import { addPoolPreparingUTXOSuccess } from './reducer';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
@@ -278,6 +280,8 @@ export const handleAddPoolLiquidity = async (
       dfiUTXOS
     );
   }
+
+  store.dispatch(addPoolPreparingUTXOSuccess());
 
   if (address1 !== address2) {
     const txId1 = await rpcClient.sendToAddress(

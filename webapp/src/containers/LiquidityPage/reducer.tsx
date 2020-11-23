@@ -10,6 +10,8 @@ export const initialState = {
   poolPairList: [],
   isLoadingPoolPairList: false,
   tokenBalanceList: [],
+  isLoadingPreparingUTXO: false,
+  isLoadingAddingLiquidity: false,
   isLoadingAddPoolLiquidity: false,
   isAddPoolLiquidityLoaded: false,
   addPoolLiquidityHash: '',
@@ -75,15 +77,23 @@ const configSlice = createSlice({
     fetchTokenBalanceListFailure(state) {},
     addPoolLiquidityRequest(state, action) {
       state.isLoadingAddPoolLiquidity = true;
+      state.isLoadingPreparingUTXO = true;
+      state.isAddPoolLiquidityLoaded = false;
+    },
+    addPoolPreparingUTXOSuccess(state, action) {
+      state.isLoadingPreparingUTXO = false;
+      state.isLoadingAddingLiquidity = true;
       state.isAddPoolLiquidityLoaded = false;
     },
     addPoolLiquiditySuccess(state, action) {
       state.addPoolLiquidityHash = action.payload;
+      state.isLoadingAddingLiquidity = false;
       state.isLoadingAddPoolLiquidity = false;
       state.isAddPoolLiquidityLoaded = true;
     },
     addPoolLiquidityFailure(state, action) {
       state.isErrorAddingPoolLiquidity = action.payload;
+      state.isLoadingAddingLiquidity = false;
       state.isLoadingAddPoolLiquidity = false;
       state.isAddPoolLiquidityLoaded = true;
     },

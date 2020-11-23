@@ -333,7 +333,6 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
-
         "availablePoolPairs": "Available pool pairs",
         "noPoolPairs": "No pool pairs",
         "pair": "Pair",
@@ -413,6 +412,8 @@
         "max": "Max",
         "selectToken": "Select a token",
         "addLiquidity": "Add liquidity",
+        "preparingUTXO": "Preparing UTXO",
+        "addingLiquidity": "Adding Liquidity",
         "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
         "input": "Input",
