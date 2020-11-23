@@ -33,11 +33,11 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className='d-flex align-items-center justify-content-start'>
               <div>
-                <TokenAvatar symbol={token.symbol} />
+                <TokenAvatar symbol={token.symbolKey} />
               </div>
               <div className='ml-4'>
                 <div>
-                  <b>{token.symbol}</b>
+                  <b>{token.symbolKey}</b>
                 </div>
                 <div className={styles.cardValue}>{token.name}</div>
               </div>
@@ -48,7 +48,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
               <b className='text-dark'>
                 {(Number(token.amount) || 0).toFixed(8)}
               </b>
-              <span className='ml-2'>{token.symbol}</span>
+              <span className='ml-2'>{token.symbolKey}</span>
             </div>
           </Col>
         </Row>
