@@ -112,7 +112,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {`${poolpair.tokenA}`}
             </Col>
             <Col className={`${styles.unit} ${styles.text}`}>
-              {poolpair.reserveA}
+              {Number(poolpair.reserveA).toFixed(2)}
             </Col>
           </Row>
           <Row>
@@ -122,7 +122,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {`${poolpair.tokenB}`}
             </Col>
             <Col className={`${styles.unit} ${styles.text}`}>
-              {poolpair.reserveB}
+              {Number(poolpair.reserveB).toFixed(2)}
             </Col>
           </Row>
           <Row>
@@ -130,7 +130,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
             <Col className={`${styles.unit} ${styles.text}`}>
-              {`${Number(poolpair.poolSharePercentage)} %`}
+              {`${Number(poolpair.poolSharePercentage).toFixed(8)} %`}
             </Col>
           </Row>
         </CardBody>

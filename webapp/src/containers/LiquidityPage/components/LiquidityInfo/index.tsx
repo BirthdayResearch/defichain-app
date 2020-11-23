@@ -107,7 +107,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenA}`}
-                value={(poolshare.reserveA || '0').toString()}
+                value={Number(poolshare.reserveA || '0')
+                  .toFixed(2)
+                  .toString()}
               />
             </Col>
             <Col md='6'>
@@ -115,7 +117,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenB}`}
-                value={(poolshare.reserveB || '').toString()}
+                value={Number(poolshare.reserveB || '')
+                  .toFixed(2)
+                  .toString()}
               />
             </Col>
             <Col md='6'>
