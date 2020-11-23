@@ -1,10 +1,10 @@
 import React from 'react';
 import uid from 'uid';
 import { I18n } from 'react-redux-i18n';
-import { LEDGER_RECEIVE_PATH } from '../../../../../constants';
+import { LEDGER_RECEIVE_PATH } from '@/constants';
 import { getNewAddress, importPubKey } from '../../../service';
-import * as log from '../../../../../utils/electronLogger';
-import CreateNewAddress from '../../../../../components/CreateNewAddress';
+import * as log from '@/utils/electronLogger';
+import CreateNewAddress from '@/components/CreateNewAddress';
 import { getPubKeyLedger } from '../../../service';
 
 interface CreateNewAddressPageLedgerProps {
