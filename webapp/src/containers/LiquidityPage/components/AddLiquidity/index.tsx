@@ -397,10 +397,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <dl className='row'>
-              <dt className='col-sm-4 text-right'>
+              {/* For future purpose, don't remove */}
+              {/* <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.reward')}
               </dt>
-              <dd className='col-sm-8'>{'99,00000 DFI'}</dd>
+              <dd className='col-sm-8'>{'99,00000 DFI'}</dd> */}
               <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.deposits')}
               </dt>
