@@ -282,6 +282,9 @@
         "totalPooled": "Total pooled"
       },
       "removeLiquidity": {
+        "address": "Address",
+        "label": "Label",
+        "selected": "Selected",
         "removeLiquidity": "Remove Liquidity",
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
@@ -337,6 +340,9 @@
         "back": "Back",
         "yes": "Yes",
         "no": "No",
+        "address": "Address",
+        "label": "Label",
+        "selected": "Selected",
         "cancel": "Cancel",
         "continue": "Continue",
         "createTitle": "Create token",

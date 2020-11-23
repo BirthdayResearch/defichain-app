@@ -225,6 +225,9 @@
         "back": "Back",
         "yes": "Yes",
         "no": "No",
+        "address": "Address",
+        "label": "Label",
+        "selected": "Selected",
         "cancel": "Cancel",
         "continue": "Continue",
         "createTitle": "Create token",
@@ -399,7 +402,6 @@
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-
         "availablePoolPairs": "Available pool pairs",
         "pair": "Pair",
         "liquidity": "Liquidity",
@@ -411,7 +413,6 @@
         "max": "Max",
         "selectToken": "Select a token",
         "addLiquidity": "Add liquidity",
-
         "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
         "input": "Input",
@@ -431,6 +432,9 @@
         "totalPooled": "Total pooled"
       },
       "removeLiquidity": {
+        "address": "Address",
+        "label": "Label",
+        "selected": "Selected",
         "removeLiquidity": "Remove Liquidity",
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
