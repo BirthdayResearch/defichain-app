@@ -160,7 +160,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -214,7 +214,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
+      const finalArray = filterArray.filter(value =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -433,11 +433,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
                 </dt>
                 <dd className='col-sm-8'>
-                  {isValid() &&
-                    (
-                      selectedPoolPair(formState, poolPairList)[0].commission *
-                      100
-                    ).toString()}
+                  {isValid() && calculateLPFee(formState, poolPairList)}
                 </dd>
               </dl>
             </div>
@@ -530,7 +526,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolPairList,
     tokenBalanceList,
