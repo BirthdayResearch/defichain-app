@@ -52,6 +52,8 @@ interface AddLiquidityProps {
   addPoolLiquidityHash: string;
   isErrorAddingPoolLiquidity: string;
   walletBalance: number;
+  isLoadingPreparingUTXO: boolean;
+  isLoadingAddingLiquidity: boolean;
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
@@ -83,6 +85,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     isErrorAddingPoolLiquidity,
     fetchPoolsharesRequest,
     walletBalance,
+    isLoadingPreparingUTXO,
+    isLoadingAddingLiquidity,
   } = props;
 
   useEffect(() => {
@@ -486,8 +490,38 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           })}
         >
           <div className='footer-sheet'>
-            <div className='text-center'>
-              <Spinner />
+            <div>
+              <div className='text-center'>
+                {isLoadingPreparingUTXO ? (
+                  <Spinner />
+                ) : (
+                  <MdCheckCircle className={styles.successColor} />
+                )}
+                &nbsp;
+                <b>{I18n.t('containers.swap.addLiquidity.preparingUTXO')}</b>
+              </div>
+              <br />
+              <div className='text-center'>
+                {!isLoadingPreparingUTXO && (
+                  <>
+                    {isLoadingAddingLiquidity ? (
+                      <Spinner />
+                    ) : (
+                      <MdCheckCircle className={styles.successColor} />
+                    )}
+                  </>
+                )}
+                &nbsp;
+                {isLoadingPreparingUTXO ? (
+                  <span>
+                    {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
+                  </span>
+                ) : (
+                  <b>
+                    {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
+                  </b>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -527,6 +561,8 @@ const mapStateToProps = (state) => {
     addPoolLiquidityHash,
     isErrorAddingPoolLiquidity,
     poolshares,
+    isLoadingPreparingUTXO,
+    isLoadingAddingLiquidity,
   } = state.swap;
   const { walletBalance } = state.wallet;
   return {
@@ -538,6 +574,8 @@ const mapStateToProps = (state) => {
     isErrorAddingPoolLiquidity,
     poolshares,
     walletBalance,
+    isLoadingPreparingUTXO,
+    isLoadingAddingLiquidity,
   };
 };
 

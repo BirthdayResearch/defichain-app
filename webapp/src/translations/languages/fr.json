@@ -262,7 +262,8 @@
         "max": "Max",
         "selectToken": "Select a token",
         "addLiquidity": "Add liquidity",
-
+        "preparingUTXO": "Preparing UTXO",
+        "addingLiquidity": "Adding Liquidity",
         "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
         "input": "Input",
