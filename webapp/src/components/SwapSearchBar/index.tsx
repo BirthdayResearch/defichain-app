@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdSearch } from 'react-icons/md';
-import { Col, FormGroup, Input, InputGroup } from 'reactstrap';
+import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import styles from './SwapSearchBar.module.scss';
 
 interface SwapSearchBarProps {
@@ -13,20 +13,21 @@ const SwapSearchBar: React.FunctionComponent<SwapSearchBarProps> = (
   props: SwapSearchBarProps
 ) => {
   return (
-    <FormGroup className={`row ${styles.formGroup}`}>
-      <Col>
-        <InputGroup>
-          <Input
-            type='text'
-            placeholder={props.placeholder}
-            name='searchInput'
-            id='searchInput'
-            onChange={props.onChange}
-          />
+    <InputGroup>
+      <Input
+        className={styles.searchInput}
+        type='text'
+        placeholder={props.placeholder}
+        name='searchInput'
+        id='searchInput'
+        onChange={props.onChange}
+      />
+      <InputGroupAddon addonType='append'>
+        <InputGroupText>
           <MdSearch className={styles.searchIndicator} />
-        </InputGroup>
-      </Col>
-    </FormGroup>
+        </InputGroupText>
+      </InputGroupAddon>
+    </InputGroup>
   );
 };
 

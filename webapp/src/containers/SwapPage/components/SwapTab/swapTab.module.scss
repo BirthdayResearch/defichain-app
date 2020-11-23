@@ -5,15 +5,21 @@
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
 
-.svg {
-  width: 30px;
-  height: 30px;
-  fill: #FF00AF;
-}
-
-.colSvg {
+.swapRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 30px 0px;
+}
+
+.swapDirection {
+  margin: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: $primary;
+  }
 }

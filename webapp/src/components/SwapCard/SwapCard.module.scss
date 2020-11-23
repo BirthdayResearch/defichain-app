@@ -6,14 +6,40 @@
 @import '../../scss/bootstrap/variables';
 
 .swapCard {
-  margin-bottom: 24px;
-  height: calc(100% - 24px);
-  cursor: pointer;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
-.text {
-  text-align: end;
-  line-height: 1.5rem;
+.labelDirection {
+  font-weight: $font-weight-medium;
+}
+
+.swapInputGroup {
+  display: flex;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.inputCol {
+  flex-grow: 1;
+}
+
+.dropDownCol {
+  flex-grow: 0;
+}
+
+.swapInput,
+.swapInput:disabled,
+.swapInput:focus {
+  background-color: transparent;
+  border-color: transparent !important;
+  box-shadow: none;
+  appearance: none;
+}
+
+.swapInput:disabled,
+.swapInput:disabled::placeholder {
+  color: $gray-400;
 }
 
 .cardBody {
@@ -21,6 +47,30 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
+.cardFooter {
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  height: 48px;
+  font-size: $small-font-size;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+
+.cardFooterBalance {
+  flex-grow: 1;
+  color: $secondary;
+}
+
+.labelBalance {
+  color: $body-color;
+}
+
+.cardFooterActions {
+  flex-grow: 0;
 }
 
 .label {
@@ -58,24 +108,4 @@
 .cardLabel {
   color: rgba(0, 0, 0, 0.6);
   padding-right: 1rem;
-}
-
-.colorMax {
-  color: #ff00af;
-  text-align: right;
-}
-
-.labelDirection {
-  color: #000000;
-  font-weight: bold;
-}
-
-.labelBalance {
-  color: #000000;
-  font-weight: bold;
-}
-
-.dropDownCol {
-  position: initial;
-  padding: 0;
 }
