@@ -5,10 +5,7 @@ import { MdArrowBack, MdAdd } from 'react-icons/md';
 import PaymentRequestList from './PaymentRequestList';
 import { I18n } from 'react-redux-i18n';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
-import {
-  LEDGER_CREATE_RECEIVE_REQUEST,
-  LEDGER_PATH,
-} from '../../../../constants';
+import { LEDGER_CREATE_RECEIVE_REQUEST, LEDGER_PATH } from '@/constants';
 
 const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
