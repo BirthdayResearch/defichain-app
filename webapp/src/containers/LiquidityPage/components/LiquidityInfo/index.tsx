@@ -130,7 +130,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 value={(
                   `${
                     poolshare.poolSharePercentage
-                      ? poolshare.poolSharePercentage
+                      ? Number(poolshare.poolSharePercentage).toFixed(4)
                       : ''
                   } %` || ''
                 ).toString()}
@@ -144,7 +144,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 value={(
                   `${
                     poolshare.poolSharePercentage
-                      ? poolshare.poolSharePercentage
+                      ? Number(poolshare.poolSharePercentage).toFixed(4)
                       : ''
                   } %` || ''
                 ).toString()}

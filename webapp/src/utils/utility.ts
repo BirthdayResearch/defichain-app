@@ -842,7 +842,7 @@ export const shareOfPool = (formState, poolPairList) => {
     .div(2)
     .times(100)
     .toNumber()
-    .toFixed(8);
+    .toFixed(4);
 
   return `${shareOfPool} %`;
 };
