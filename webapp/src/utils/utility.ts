@@ -345,10 +345,14 @@ export const getMnemonicObject = () => {
 };
 
 export const getRandomWordObject = () => {
+  const randomWordArray = getRandomWordArray();
+  return getObjectFromArrayString(randomWordArray);
+};
+
+export const getRandomWordArray = () => {
   const mnemonic = new Mnemonic();
   const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
-  const randomWordArray = randomCode.split(' ');
-  return getObjectFromArrayString(randomWordArray);
+  return randomCode.split(' ');
 };
 
 export const getObjectFromArrayString = (strArray: string[]) => {
@@ -548,4 +552,17 @@ export const getIcon = (symbol: string | null) => {
   } else {
     return DefiIcon;
   }
+};
+
+export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
+  const distinctRandomNumbers: number[] = [];
+  while (distinctRandomNumbers.length < limit) {
+    const randomNum = Math.floor(
+      Math.random() * (upperBound - lowerBound) + lowerBound
+    );
+    if (distinctRandomNumbers.indexOf(randomNum) === -1) {
+      distinctRandomNumbers.push(randomNum);
+    }
+  }
+  return distinctRandomNumbers;
 };

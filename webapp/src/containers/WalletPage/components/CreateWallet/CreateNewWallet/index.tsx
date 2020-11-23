@@ -77,11 +77,11 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
                     <Row>
                       <Col
                         className={`${styles.number} text-right pl-0`}
-                        xs='4'
+                        xs='2'
                       >
                         {key}
                       </Col>
-                      <Col className='text-left pl-0' xs='8'>
+                      <Col className='text-left pl-0' xs='10'>
                         {mnemonicObj[key]}
                         <hr />
                       </Col>
