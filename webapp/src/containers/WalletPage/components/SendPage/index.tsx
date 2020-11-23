@@ -41,6 +41,7 @@ import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
   getErrorMessage,
+  getSymbolKey,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
@@ -112,7 +113,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.props.fetchSendDataRequest();
   }
 
-  updateAmountToSend = (e) => {
+  updateAmountToSend = e => {
     const { value } = e.target;
     if (isNaN(value) && value.length) return false;
 
@@ -124,7 +125,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  updateToAddress = (e) => {
+  updateToAddress = e => {
     const toAddress = e.target.value;
     this.setState(
       {
@@ -167,7 +168,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  handleScan = (data) => {
+  handleScan = data => {
     const updatedState = {
       flashed: 'flashed',
       toAddress: '',
@@ -202,7 +203,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     }, 1000);
   };
 
-  handleScanError = (err) => {
+  handleScanError = err => {
     log.error(err);
   };
 
@@ -213,7 +214,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  handleFailure = (error) => {
+  handleFailure = error => {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
@@ -280,7 +281,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         try {
           const hash = this.tokenHash || '0';
           const accountTokens = await handleFetchAccounts();
-          const DFIObj = accountTokens.find((token) => token.hash === '0');
+          const DFIObj = accountTokens.find(token => token.hash === '0');
           const address = this.tokenAddress || DFIObj.address;
           amount = this.state.amountToSendDisplayed;
           await accountToAccount(
@@ -376,7 +377,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {tokenSymbol || this.props.unit}
+            {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+              this.props.unit}
           </h1>
         </Header>
         <div className='content'>
@@ -403,7 +405,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {tokenSymbol || this.props.unit}
+                        {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                          this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -477,7 +480,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       )
                     : tokenAmount}
                   &nbsp;
-                  {tokenSymbol ? tokenSymbol : this.props.unit}
+                  {tokenSymbol
+                    ? getSymbolKey(tokenSymbol || '', tokenHash || '0')
+                    : this.props.unit}
                 </div>
               </Col>
               <Col className='col-auto'>
@@ -486,7 +491,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
-                  {tokenSymbol || this.props.unit}
+                  {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                    this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -523,7 +529,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {tokenSymbol || this.props.unit}
+                    {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                      this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -640,7 +647,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { wallet, settings } = state;
   return {
     unit: settings.appConfig.unit,

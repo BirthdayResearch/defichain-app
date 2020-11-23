@@ -95,7 +95,7 @@ export const getAddressAndAmount = (
   addresses,
   balance
 ): IAddressAndAmount[] => {
-  return addresses.map((addressObj) => {
+  return addresses.map(addressObj => {
     const { address, label } = addressObj;
     return { address, amount: balance, label };
   });
@@ -107,7 +107,7 @@ export const getTransactionURI = (
   extraData: any
 ) => {
   Object.keys(extraData).forEach(
-    (key) =>
+    key =>
       (extraData[key] === undefined ||
         extraData[key] === null ||
         extraData[key] === '') &&
@@ -121,7 +121,7 @@ export const dateTimeFormat = (date: string | Date) => {
   return moment(date).format(DATE_FORMAT);
 };
 
-export const getFromPersistentStorage = (path) => {
+export const getFromPersistentStorage = path => {
   return localStorage.getItem(path);
 };
 
@@ -133,7 +133,7 @@ export const setToPersistentStorage = (path, data) => {
   return data;
 };
 
-export const getBlockDetails = (block) => {
+export const getBlockDetails = block => {
   const blockDetails: IBlock = {
     hash: block.hash,
     size: block.size,
@@ -154,7 +154,7 @@ export const getBlockDetails = (block) => {
 export const getTxnDetails = async (txns): Promise<ITxn[]> => {
   const rpcClient = new RpcClient();
 
-  const promisedTxns = txns.map(async (txn) => {
+  const promisedTxns = txns.map(async txn => {
     let height = -1;
     const fee = txn.category === 'send' ? txn.fee : 0;
     const blockHash = txn.blockhash || '';
@@ -181,7 +181,7 @@ export const getTxnDetails = async (txns): Promise<ITxn[]> => {
   return parsedTxns;
 };
 
-const getToAddressAmountMap = (vouts) => {
+const getToAddressAmountMap = vouts => {
   const addressAmountMap = new Map<string, string>();
   for (const vout of vouts) {
     if (vout.scriptPubKey.type !== 'nulldata') {
@@ -214,7 +214,7 @@ const getToList = (vouts): IAddressAndAmount[] => {
   addressAmountMap.forEach((amount: string, address: string) => {
     toList.push({ address, amount });
   });
-  const unparsedAddressList: IAddressAndAmount[] = tos.map((to) => {
+  const unparsedAddressList: IAddressAndAmount[] = tos.map(to => {
     return { address: to.address, amount: to.amount };
   });
 
@@ -232,7 +232,7 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = (epoch) => {
+export const convertEpochToDate = epoch => {
   return moment.unix(epoch).format(DATE_FORMAT);
 };
 
@@ -305,7 +305,7 @@ export const getParams = (query: string) => {
   if (splitQuery[0] === DEFI_CLI) {
     params = splitQuery.slice(2);
   }
-  const parsedParams = params.map((param) => {
+  const parsedParams = params.map(param => {
     if (
       (param.startsWith('"') && param.endsWith('"')) ||
       (param.startsWith("'") && param.endsWith("'"))
@@ -320,8 +320,8 @@ export const getParams = (query: string) => {
 };
 
 export const filterByValue = (array, query) => {
-  return array.filter((o) =>
-    Object.keys(o).some((k) => {
+  return array.filter(o =>
+    Object.keys(o).some(k => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
     })
@@ -344,7 +344,7 @@ export const paginate = (array, pageSize, pageNo) => {
   return array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
 };
 
-export const getErrorMessage = (errorResponse) => {
+export const getErrorMessage = errorResponse => {
   let message = errorResponse.message;
   if (errorResponse.response) {
     const { data } = errorResponse.response;
@@ -429,7 +429,7 @@ export const checkElementsInArray = (
   mnemonicObject: any
 ): boolean => {
   const selectedWordArray = selectedWordObjectArray.map(
-    (wordObj) => wordObj.value
+    wordObj => wordObj.value
   );
 
   if (selectedWordArray.length < 6) {
@@ -438,7 +438,7 @@ export const checkElementsInArray = (
 
   const mnemonicWordArray = _.values(mnemonicObject);
 
-  return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
+  return selectedWordArray.every(word => mnemonicWordArray.includes(word));
 };
 
 export const getNetworkType = () => {
@@ -457,7 +457,7 @@ export const getNetworkInfo = (networkType: string) => {
   return bitcoin.networks.regtest;
 };
 
-export const getMnemonicFromObj = (mnemonicObj) => {
+export const getMnemonicFromObj = mnemonicObj => {
   const values: string[] = Object.values(mnemonicObj);
   const mnemonic = values.reduce((mnemonicCode, value) => {
     return mnemonicCode.concat(value + ' ');
@@ -515,13 +515,17 @@ export const getTokenAndBalanceMap = (
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: Number(finalBalance).toFixed(8).toString(),
+        balance: Number(finalBalance)
+          .toFixed(8)
+          .toString(),
         isPopularToken: true,
       });
     } else if (uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: Number(finalBalance).toFixed(8).toString(),
+        balance: Number(finalBalance)
+          .toFixed(8)
+          .toString(),
         isPopularToken: false,
       });
     }
@@ -529,7 +533,7 @@ export const getTokenAndBalanceMap = (
   return tokenMap;
 };
 
-const getUniqueTokenMap = (poolPairList) => {
+const getUniqueTokenMap = poolPairList => {
   return poolPairList.reduce((uniqueTokenList, poolPair) => {
     const { symbol } = poolPair;
     const symbolList: string[] = symbol.split('-');
@@ -575,7 +579,7 @@ export const fetchPoolPairDataWithPagination = async (
 
     const poolShares = await handleFetchPoolshares();
 
-    const poolShare = poolShares.find((poolshare) => {
+    const poolShare = poolShares.find(poolshare => {
       return poolshare.poolID === item;
     });
 
@@ -631,7 +635,7 @@ export const fetchPoolPairDataWithPagination = async (
 
       const poolShares = await handleFetchPoolshares();
 
-      const poolShare = poolShares.find((poolshare) => {
+      const poolShare = poolShares.find(poolshare => {
         return poolshare.poolID === item;
       });
 
@@ -682,7 +686,7 @@ export const fetchTokenDataWithPagination = async (
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
-  const transformedData = Object.keys(result).map((item) => ({
+  const transformedData = Object.keys(result).map(item => ({
     hash: item,
     ...result[item],
   }));
@@ -693,7 +697,7 @@ export const fetchTokenDataWithPagination = async (
   start = Number(transformedData[transformedData.length - 1].hash);
   while (true) {
     const result = await fetchList(start, false, limit);
-    const transformedData = Object.keys(result).map((item) => ({
+    const transformedData = Object.keys(result).map(item => ({
       hash: item,
       ...result[item],
     }));
@@ -736,7 +740,7 @@ export const fetchPoolShareDataWithPagination = async (
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
-  const transformedData = Object.keys(result).map((item) => ({
+  const transformedData = Object.keys(result).map(item => ({
     key: item.split('@')[0],
     ...result[item],
   }));
@@ -747,7 +751,7 @@ export const fetchPoolShareDataWithPagination = async (
   start = Number(transformedData[transformedData.length - 1].key);
   while (true) {
     const result = await fetchList(start, false, limit);
-    const transformedData = Object.keys(result).map((item) => ({
+    const transformedData = Object.keys(result).map(item => ({
       key: item.split('@')[0],
       ...result[item],
     }));
@@ -789,7 +793,7 @@ export const calculateInputAddLiquidity = (
   return '-';
 };
 
-export const countDecimals = (value) => {
+export const countDecimals = value => {
   if (value % 1 !== 0) return value.toString().split('.')[1].length;
   return 0;
 };
@@ -797,7 +801,7 @@ export const countDecimals = (value) => {
 export const selectedPoolPair = (formState, poolPairList) => {
   let condition1;
   let condition2;
-  const poolPair = poolPairList.find((poolpair) => {
+  const poolPair = poolPairList.find(poolpair => {
     condition1 =
       poolpair.idTokenA === formState.hash1 &&
       poolpair.idTokenB === formState.hash2;
@@ -819,7 +823,7 @@ export const conversionRatio = (formState, poolPairList) => {
   return ratio.toFixed(8);
 };
 
-export const getRatio = (poolpair) => {
+export const getRatio = poolpair => {
   const ratio = poolpair.reserveB / poolpair.reserveA;
   return ratio.toFixed(8);
 };
@@ -878,7 +882,7 @@ export const getAddressAndAmountListForAccount = async () => {
     rpcClient.listAccounts
   );
 
-  const addressAndAmountList = accountList.map(async (account) => {
+  const addressAndAmountList = accountList.map(async account => {
     const addressInfo = await getAddressInfo(account.owner.addresses[0]);
 
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
@@ -981,7 +985,7 @@ export const handleUtxoToAccountConversion = async (
   await getTransactionInfo(utxoToDfiTxId);
 };
 
-export const getAddressAndAmountListPoolShare = async (poolID) => {
+export const getAddressAndAmountListPoolShare = async poolID => {
   const rpcClient = new RpcClient();
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
@@ -993,7 +997,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
     return [];
   }
 
-  const minePoolShares = poolShares.map(async (poolShare) => {
+  const minePoolShares = poolShares.map(async poolShare => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
     if (
@@ -1019,7 +1023,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
   return sortedList;
 };
 
-export const getTotalAmountPoolShare = async (poolID) => {
+export const getTotalAmountPoolShare = async poolID => {
   const list = await getAddressAndAmountListPoolShare(poolID);
   const totalAmount = list.reduce((amount, obj) => {
     amount = amount + Number(obj.amount);
@@ -1027,4 +1031,16 @@ export const getTotalAmountPoolShare = async (poolID) => {
   }, 0);
 
   return totalAmount;
+};
+
+export const getSymbolKey = (symbol: string, key: string) => {
+  if (
+    key === DFI_SYMBOL ||
+    key === BTC_SYMBOL ||
+    key === ETH_SYMBOL ||
+    key === USDT_SYMBOL
+  ) {
+    return symbol;
+  }
+  return `${symbol}#${key}`;
 };

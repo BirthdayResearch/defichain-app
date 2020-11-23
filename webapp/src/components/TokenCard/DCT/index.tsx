@@ -18,10 +18,10 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       <CardBody className={styles.cardBody}>
         <Row className='mb-3'>
           <Col>
-            <b>{data.name}</b> <span>{data.symbol}</span>
+            <b>{data.name}</b> <span>{data.symbolKey}</span>
           </Col>
           <Col md='6' className={`${styles.tokenCardIcon}`}>
-            <TokenAvatar symbol={data.symbol} />
+            <TokenAvatar symbol={data.symbolKey} />
           </Col>
         </Row>
         {/* <Row>

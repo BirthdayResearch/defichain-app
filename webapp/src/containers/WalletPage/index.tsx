@@ -19,11 +19,8 @@ import {
 } from './reducer';
 import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import {
-  WALLET_SEND_PATH,
-  WALLET_RECEIVE_PATH,
-} from '../../constants';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
+import { getAmountInSelectedUnit, getSymbolKey } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
@@ -90,10 +87,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           </span>
         </Button>
         <div className='d-flex'>
-          <TokenAvatar symbol={tokenSymbol ? tokenSymbol : unit} />
+          <TokenAvatar
+            symbol={
+              tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit
+            }
+          />
           &nbsp;
           <h1>
-            {tokenSymbol ? tokenSymbol : unit}
+            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}
             &nbsp;
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
@@ -142,7 +143,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     ? tokenAmount
                     : getAmountInSelectedUnit(walletBalance, unit)
                 }
-                unit={tokenSymbol ? tokenSymbol : unit}
+                unit={
+                  tokenSymbol
+                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    : unit
+                }
                 refreshFlag={refreshBalance}
                 icon={
                   <MdRefresh
@@ -163,7 +168,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
                 value={getAmountInSelectedUnit(pendingBalance, unit)}
-                unit={tokenSymbol ? tokenSymbol : unit}
+                unit={
+                  tokenSymbol
+                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    : unit
+                }
                 refreshFlag={pendingRefreshBalance}
                 icon={
                   <MdRefresh
@@ -188,7 +197,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     wallet: { walletBalance, pendingBalance, blockChainInfo },
     settings: {
