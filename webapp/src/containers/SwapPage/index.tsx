@@ -4,7 +4,15 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+import {
+  MdAdd,
+  MdCheckCircle,
+  MdComputer,
+  MdErrorOutline,
+  MdPerson,
+  MdPieChart,
+  MdVpnKey,
+} from 'react-icons/md';
 import {
   Button,
   ButtonGroup,
@@ -36,11 +44,13 @@ import {
   CREATE_POOL_PAIR_PATH,
   WALLET_TOKENS_PATH,
   SWAP_PATH,
+  IS_DEX_INTRO_SEEN,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
 import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
+import PersistentStore from '../../utils/persistentStore';
 
 interface SwapPageProps {
   history?: any;
@@ -74,7 +84,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const urlParams = new URLSearchParams(props.location.search);
   const tab = urlParams.get('tab');
   const [activeTab, setActiveTab] = useState<string>(tab ? tab : SWAP);
-  const [swapStep, setSwapStep] = useState<string>('default');
+  const [swapStep, setSwapStep] = useState<string>(
+    !PersistentStore.get(IS_DEX_INTRO_SEEN) ? 'first' : 'default'
+  );
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
@@ -158,7 +170,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -212,7 +224,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -257,6 +269,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     poolSwapRequest({
       formState,
     });
+  };
+
+  const handleChangeSwap = () => {
+    PersistentStore.set(IS_DEX_INTRO_SEEN, true);
+    setSwapStep('default');
   };
 
   return (
@@ -305,76 +322,204 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           </Button>
         </ButtonGroup>
       </header>
-      <div className='content'>
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId={SWAP}>
-            <SwapTab
-              label={I18n.t('containers.swap.swapTab.from')}
-              tokenMap={tokenMap}
-              filterBySymbol={filterBySymbol}
-              name={1}
-              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
-              formState={formState}
-              handleChange={handleChange}
-              handleDropdown={handleDropDown}
-              setMaxValue={setMaxValue}
-              dropdownLabel={
-                formState.symbol1
-                  ? formState.symbol1
-                  : I18n.t('components.swapCard.selectAToken')
-              }
-            />
-          </TabPane>
-          <TabPane tabId={POOL}>
-            {/* <PoolTab history={props.history} /> */}
-          </TabPane>
-        </TabContent>
-        {isValid() && activeTab === SWAP && (
-          <Row>
-            <Col md='12'>
-              <Row className='align-items-center'>
-                <Col>
-                  <span>{I18n.t('containers.swap.swapPage.price')}</span>
+      {PersistentStore.get(IS_DEX_INTRO_SEEN) ? (
+        <div className='content'>
+          <TabContent activeTab={activeTab}>
+            <TabPane tabId={SWAP}>
+              <SwapTab
+                label={I18n.t('containers.swap.swapTab.from')}
+                tokenMap={tokenMap}
+                filterBySymbol={filterBySymbol}
+                name={1}
+                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+                formState={formState}
+                handleChange={handleChange}
+                handleDropdown={handleDropDown}
+                setMaxValue={setMaxValue}
+                dropdownLabel={
+                  formState.symbol1
+                    ? formState.symbol1
+                    : I18n.t('components.swapCard.selectAToken')
+                }
+              />
+            </TabPane>
+            <TabPane tabId={POOL}>
+              {/* <PoolTab history={props.history} /> */}
+            </TabPane>
+          </TabContent>
+          {isValid() && activeTab === SWAP && (
+            <Row>
+              <Col md='12'>
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>{I18n.t('containers.swap.swapPage.price')}</span>
+                  </Col>
+                  <Col className={`${styles.valueTxt}`}>
+                    {`${conversionRatio(formState, poolPairList)} ${
+                      formState.symbol2
+                    } per ${formState.symbol1}`}
+                    <br />
+                    {`${(
+                      1 / Number(conversionRatio(formState, poolPairList))
+                    ).toFixed(8)} ${formState.symbol1} per ${
+                      formState.symbol2
+                    }`}
+                  </Col>
+                </Row>
+                <hr />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>
+                      {I18n.t('containers.swap.swapPage.minimumReceived')}
+                    </span>
+                  </Col>
+                  <Col
+                    className={`${styles.valueTxt}`}
+                  >{`${formState.amount2} ${formState.symbol2}`}</Col>
+                </Row>
+                <hr />
+                <Row className='align-items-center'>
+                  <Col>
+                    <span>
+                      {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
+                    </span>
+                  </Col>
+                  <Col className={`${styles.valueTxt}`}>
+                    {calculateLPFee(formState, poolPairList)}
+                  </Col>
+                </Row>
+                <hr />
+              </Col>
+            </Row>
+          )}
+        </div>
+      ) : (
+        <div className='content'>
+          <>
+            <section>
+              {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
+            </section>
+            <div className='m-5 '>
+              <Row>
+                <Col xs='12' md='12' className='my-3'>
+                  <Row className={`${styles.buttonLink} p-0`}>
+                    <Col xs='1' md='1' className='vertical-middle'>
+                      <MdVpnKey />
+                    </Col>
+                    <Col xs='11' md='11' className='text-left'>
+                      <h4 className='m-0'>
+                        {I18n.t('containers.swap.swapPage.yourPrivateKey')}
+                      </h4>
+                      <span>
+                        {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
+                      </span>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col className={`${styles.valueTxt}`}>
-                  {`${conversionRatio(formState, poolPairList)} ${
-                    formState.symbol2
-                  } per ${formState.symbol1}`}
-                  <br />
-                  {`${(
-                    1 / Number(conversionRatio(formState, poolPairList))
-                  ).toFixed(8)} ${formState.symbol1} per ${formState.symbol2}`}
+                <Col xs='12' md='12' className='my-3'>
+                  <Row className={`${styles.buttonLink} p-0`}>
+                    <Col xs='1' md='1' className='vertical-middle'>
+                      <MdPerson />
+                    </Col>
+                    <Col xs='11' md='11' className='text-left'>
+                      <h4 className='m-0'>
+                        {I18n.t('containers.swap.swapPage.nonCustodial')}
+                      </h4>
+                      <span>
+                        {I18n.t('containers.swap.swapPage.nonCustodialInfo')}
+                      </span>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col xs='12' md='12' className='my-3'>
+                  <Row className={`${styles.buttonLink} p-0`}>
+                    <Col xs='1' md='1' className='vertical-middle'>
+                      <MdComputer />
+                    </Col>
+                    <Col xs='11' md='11' className='text-left'>
+                      <h4 className='m-0'>
+                        {I18n.t(
+                          'containers.swap.swapPage.decentralizedInterface'
+                        )}
+                      </h4>
+                      <span>
+                        {I18n.t(
+                          'containers.swap.swapPage.decentralizedInterfaceInfo'
+                        )}
+                      </span>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col xs='12' md='12' className='my-3'>
+                  <Row className={`${styles.buttonLink} p-0`}>
+                    <Col xs='1' md='1' className='vertical-top'>
+                      <MdPieChart />
+                    </Col>
+                    <Col xs='11' md='11' className='text-left '>
+                      <h4 className='m-0'>
+                        {I18n.t(
+                          'containers.swap.swapPage.poweredLiquidityPools'
+                        )}
+                      </h4>
+                      <span>
+                        {I18n.t(
+                          'containers.swap.swapPage.poweredLiquidityPoolsInfo'
+                        )}
+                      </span>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-              <hr />
-              <Row className='align-items-center'>
-                <Col>
-                  <span>
-                    {I18n.t('containers.swap.swapPage.minimumReceived')}
-                  </span>
-                </Col>
-                <Col
-                  className={`${styles.valueTxt}`}
-                >{`${formState.amount2} ${formState.symbol2}`}</Col>
-              </Row>
-              <hr />
-              <Row className='align-items-center'>
-                <Col>
-                  <span>
-                    {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
-                  </span>
-                </Col>
-                <Col className={`${styles.valueTxt}`}>
-                  {calculateLPFee(formState, poolPairList)}
-                </Col>
-              </Row>
-              <hr />
-            </Col>
-          </Row>
-        )}
-      </div>
+              {/* <div
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
+                  onClick={() => openNewTab(LIQUIDITY_MINING_YOUTUBE_LINK)}
+                >
+                  <img src={LiquidityMining} height='96px' width='171px' />
+                  <div className={`${styles.txtColor} text-center`}>
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                </div>
+                <div
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
+                  onClick={() => openNewTab(DEFICHAIN_DEX_YOUTUBE_LINK)}
+                >
+                  <img src={DefichainDEX} height='96px' width='171px' />
+                  <div className={`${styles.txtColor} text-center`}>
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                </div>
+                <div
+                  className={`${styles.cursorPointer} justify-content-center m-2`}
+                  onClick={() => openNewTab(DEFICHAIN_IMPERMANENT_YOUTUBE_LINK)}
+                >
+                  <img src={DefichainImpermanent} height='96px' width='171px' />
+                  <div className={`${styles.txtColor} text-center`}>
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                </div> */}
+            </div>
+          </>
+        </div>
+      )}
       {activeTab === SWAP && (
         <footer className='footer-bar'>
+          <div
+            className={classnames({
+              'd-none': swapStep !== 'first',
+            })}
+          >
+            <Row>
+              <Col className='text-center w-100'>
+                <Button
+                  color='primary'
+                  className={styles.width40}
+                  onClick={handleChangeSwap}
+                >
+                  {I18n.t('containers.swap.swapPage.continue')}
+                </Button>
+              </Col>
+            </Row>
+          </div>
           <div
             className={classnames({
               'd-none': swapStep !== 'default',
@@ -519,7 +664,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,

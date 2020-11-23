@@ -209,6 +209,7 @@
       "swapPage": {
         "title": "DEX – DeFi app",
         "decentralizedExchange": "Decentralized Exchange",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -241,7 +242,16 @@
         "apy": "APY",
         "pooled": "Pooled",
         "poolReward": "Pool reward",
-        "poolShare": "Pool share"
+        "poolShare": "Pool share",
+        "yourPrivateKey": "Your own private key",
+        "yourPrivateKeyInfo": "Be in control of your own private key.",
+        "nonCustodial": "Non-custodial",
+        "nonCustodialInfo": "Your funds stay in your wallet and never passes through a centralized exchange.",
+        "decentralizedInterface": "Decentralized interface",
+        "decentralizedInterfaceInfo": "Transact directly with the blockchain from your app, without ever touching a server.",
+        "poweredLiquidityPools": "Powered by liquidity pools",
+        "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
+        "continue": "Continue"
       },
       "swapTab": {
         "from": "From",
@@ -262,8 +272,8 @@
         "max": "Max",
         "selectToken": "Select a token",
         "addLiquidity": "Add liquidity",
-        "preparingUTXO": "Preparing UTXO",
-        "addingLiquidity": "Adding Liquidity",
+        "preparingUTXO": "UTXO prepared",
+        "addingLiquidity": "Adding liquidity",
         "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
         "input": "Input",
