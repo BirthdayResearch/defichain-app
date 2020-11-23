@@ -189,7 +189,8 @@
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
         "apy": "APY",
-        "back": "BACK"
+        "back": "BACK",
+        "addLiquidity": "Add liquidity"
       },
       "liquidityInfo": {
         "title": "Liquidity – DeFi app",
@@ -260,6 +261,7 @@
         "balance": "Balance",
         "max": "Max",
         "selectToken": "Select a token",
+        "addLiquidity": "Add liquidity",
 
         "selectInputTokens": "Select tokens and enter amounts to swap",
         "back": "Back",
