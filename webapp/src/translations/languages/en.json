@@ -363,7 +363,7 @@
       "createNewWalletPage": {
         "back": "BACK",
         "title": "Wallet - Create a new wallet",
-        "createANewWallet": "Create a new wallet",
+        "createANewWallet": "Wallet recovery seed",
         "mnemonicGuideline": "Write down the following 24 words below. It is important to write them down in the exact order as displayed. This 24 - word mnemonic seed will be used to recover or transfer your wallet. Without it, you will not be able to recover your wallet. Don't lose it.",
         "mnemonicGuidelineWarning": "Do not store your wallet receovery phrase on a computer or smartphone, and keep it secure.",
         "generateNewSet": "Generate a new set of 24 words",
@@ -379,6 +379,8 @@
         "title": "Wallet - Verify mnemonic seed",
         "verifyMnemonicSeed": "Verify mnemonic seed",
         "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please pick out 6 of the words in your mnemonic seed, in the list below.",
+        "verifyMnemonicWhichOne": "Which one is…",
+        "wordQuestion": "Word %{wordNum}?",
         "showAgain": "Show me my 24 words again",
         "creatingYourWallet": "Creating your wallet",
         "backToWalletPage": "CLOSE"
