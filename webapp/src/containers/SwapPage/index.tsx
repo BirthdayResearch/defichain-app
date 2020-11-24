@@ -267,6 +267,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     });
   };
 
+  const handleInterchange = () => {
+    setFormState({
+      amount1: formState.amount2,
+      hash1: formState.hash2,
+      symbol1: formState.symbol2,
+      amount2: formState.amount1,
+      hash2: formState.hash1,
+      symbol2: formState.symbol1,
+      balance1: formState.balance2,
+      balance2: formState.balance1,
+    });
+  };
+
   const handleChangeSwap = () => {
     PersistentStore.set(IS_DEX_INTRO_SEEN, true);
     setSwapStep('default');
@@ -332,6 +345,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 handleChange={handleChange}
                 handleDropdown={handleDropDown}
                 setMaxValue={setMaxValue}
+                handleInterchange={handleInterchange}
                 dropdownLabel={
                   formState.symbol1
                     ? formState.symbol1
