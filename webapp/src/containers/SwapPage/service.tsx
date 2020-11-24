@@ -344,7 +344,7 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async obj => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${Number(obj.amount).toFixed(8)}@${poolID}`
+      `${Number(obj.amount).toFixed(6)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;
@@ -355,14 +355,18 @@ export const handleRemovePoolLiquidity = async (
   );
 
   const finalArray = resolvedAddressAndAmountArray.map(addressAndAmount => {
-    const amountA =
-      (addressAndAmount.amount / poolPair.totalLiquidity) * poolPair.reserveA;
-    const amountB =
-      (addressAndAmount.amount / poolPair.totalLiquidity) * poolPair.reserveB;
+    const amountA = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
+      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
+      .times(new BigNumber(poolPair.reserveA).toFixed(8));
+
+    const amountB = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
+      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
+      .times(new BigNumber(poolPair.reserveB).toFixed(8));
+
     return {
       address: addressAndAmount.address,
-      amountA: `${amountA.toFixed(8)}@${poolPair.idTokenA}`,
-      amountB: `${amountB.toFixed(8)}@${poolPair.idTokenB}`,
+      amountA: `${amountA.toFixed(6)}@${poolPair.idTokenA}`,
+      amountB: `${amountB.toFixed(6)}@${poolPair.idTokenB}`,
     };
   });
 
