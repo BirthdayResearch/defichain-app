@@ -5,55 +5,29 @@
 @import '../../scss/variables';
 @import '../../scss/bootstrap/variables';
 
-.text {
-  text-align: end;
-  line-height: 1.5rem;
-}
-
 .liquidityCard {
   cursor: pointer;
 }
 
-.label {
+.bigLabel {
   font-weight: $font-weight-medium;
-  letter-spacing: 0.15px;
-  width: 100%;
-  margin-bottom: 0.5rem;
+}
+
+.bigValue {
+  font-weight: $font-weight-semibold;
+  text-align: right;
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: $font-size-sm;
 }
 
 .value {
-  font-weight: $font-weight-semibold;
-  font-size: 2.125rem;
-  line-height: 2.5rem;
-}
-
-.unit {
-  font-weight: $font-weight-medium;
-  letter-spacing: 0.15px;
+  font-size: $font-size-sm;
   color: $secondary;
+  text-align: right;
 }
 
-.apy {
-  font-size: 20px;
-  letter-spacing: 0.15px;
-  width: 100%;
-  margin-bottom: 0.5rem;
-  font-weight: $font-weight-medium;
-}
-
-.apyValue {
-  font-size: 34px;
-  letter-spacing: 0.25px;
-  font-weight: $font-weight-medium;
-  width: 100%;
-  margin-bottom: 0.5rem;
-}
-
-.imgDesign {
-  text-align: left;
-}
-
-.imgDesign img:nth-child(1) {
-  font-weight: 500 !important;
-  transform: translate(10px, 0px);
-}

@@ -106,15 +106,13 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
           ) : (
             <LiquidityList poolshares={poolshares} history={props.history} />
           )}
-          <div>
-            <section className={`${styles.sectionYourLliquidity} mb-5 mt-5`}>
-              {I18n.t('containers.liquidity.liquidityPage.availablePoolPairs')}
-            </section>
+          <section className='mb-5'>
+            <h2>{I18n.t('containers.liquidity.liquidityPage.availablePoolPairs')}</h2>
             <AvailablePoolPairsList
               searchQuery={''}
               poolPairList={poolPairList}
             />
-          </div>
+          </section>
         </div>
       )}
     </div>
