@@ -4,7 +4,6 @@ import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import { MdArrowBack, MdErrorOutline, MdWarning } from 'react-icons/md';
-import { Row, Col, Button } from 'reactstrap';
 import {
   getRandomWordArray,
   selectNfromRange,
@@ -15,11 +14,7 @@ import {
   WALLET_BASE_PATH,
   WALLET_TOKENS_PATH,
 } from '../../../../../constants';
-import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
-import { Row, Col, Button, Card } from 'reactstrap';
-import { checkElementsInArray } from '../../../../../utils/utility';
-
-import { WALLET_BASE_PATH, WALLET_TOKENS_PATH } from '../../../../../constants';
+import { Row, Col, Button } from 'reactstrap';
 
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
@@ -85,7 +80,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   }, [selected]);
 
   const quizValidator = () => {
-    const selectedKeys = Object.keys(selected).map((item) => !!selected[item]);
+    const selectedKeys = Object.keys(selected).map(item => !!selected[item]);
     if (selectedKeys.length === 6) {
       const isValidated = quiz.reduce(
         (acc, item) => acc && selected[item.wordNum] === item.correct
@@ -165,7 +160,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 </h5>
                 <Row>
                   <Col xs='12'>
-                    {item.options.map((word) => (
+                    {item.options.map(word => (
                       <span className='mr-3'>
                         <Button
                           color={
@@ -295,7 +290,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { wallet } = state;
   const { isWalletCreating, isErrorCreatingWallet } = wallet;
   return {
