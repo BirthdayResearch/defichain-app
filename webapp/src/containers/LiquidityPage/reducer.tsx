@@ -16,6 +16,10 @@ export const initialState = {
   isAddPoolLiquidityLoaded: false,
   addPoolLiquidityHash: '',
   isErrorAddingPoolLiquidity: '',
+  isLoadingRefreshUTXOS1: false,
+  isLoadingLiquidityRemoved: false,
+  isLoadingRefreshUTXOS2: false,
+  isLoadingTransferTokens: false,
   isLoadingRemovePoolLiquidity: false,
   isRemovePoolLiquidityLoaded: false,
   removePoolLiquidityHash: '',
@@ -99,7 +103,23 @@ const configSlice = createSlice({
     },
     removePoolLiqudityRequest(state, action) {
       state.isLoadingRemovePoolLiquidity = true;
+      state.isLoadingRefreshUTXOS1 = true;
       state.isRemovePoolLiquidityLoaded = false;
+    },
+    refreshUTXOS1Success(state) {
+      state.isLoadingRefreshUTXOS1 = false;
+      state.isLoadingLiquidityRemoved = true;
+    },
+    liquidityRemovedSuccess(state) {
+      state.isLoadingLiquidityRemoved = false;
+      state.isLoadingRefreshUTXOS2 = true;
+    },
+    refreshUTXOS2Success(state) {
+      state.isLoadingRefreshUTXOS2 = false;
+      state.isLoadingTransferTokens = true;
+    },
+    transferTokensSuccess(state) {
+      state.isLoadingTransferTokens = false;
     },
     removePoolLiquiditySuccess(state, action) {
       state.removePoolLiquidityHash = action.payload;
@@ -163,6 +183,10 @@ export const {
   removePoolLiqudityRequest,
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
+  refreshUTXOS1Success,
+  liquidityRemovedSuccess,
+  refreshUTXOS2Success,
+  transferTokensSuccess,
   fetchTestPoolSwapRequest,
   fetchTestPoolSwapSuccess,
   fetchTestPoolSwapFailure,
