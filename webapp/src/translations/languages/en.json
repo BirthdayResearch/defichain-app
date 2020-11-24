@@ -528,14 +528,12 @@
         "createNewWallet": "Create New Wallet"
       },
       "verifyMnemonicPage": {
-        "back": "Back",
         "title": "Wallet - Verify mnemonic seed",
         "back": "BACK",
         "verifyMnemonicSeed": "Verify mnemonic seed",
         "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please identify which 6 words are in your mnemonic seed.",
         "verifyMnemonicWhichOne": "Which one is…",
         "wordQuestion": "Word %{wordNum}?",
-        "showAgain": "Show me my 24 words again",
         "creatingYourWallet": "Creating your wallet",
         "backToWalletPage": "CLOSE",
         "skipVerificationTextHeader": "Skip at your own risk",
