@@ -15,9 +15,13 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { WALLET_TOKENS_PATH } from '../../../../../constants';
+import {
+  LEARN_MORE_ABOUT_BITCOIN_LINK,
+  WALLET_TOKENS_PATH,
+} from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
 import Header from '../../../../HeaderComponent';
+import openNewTab from '../../../../../utils/openNewTab';
 
 interface CreateNewWalletProps {
   mnemonicObj: any;
@@ -110,7 +114,11 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
                 'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2'
               )}
             </p>
-            <Button color='link' className='p-0' tag={NavLink} to={'#'}>
+            <Button
+              color='link'
+              className='p-0'
+              onClick={() => openNewTab(LEARN_MORE_ABOUT_BITCOIN_LINK)}
+            >
               {I18n.t(
                 'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn'
               )}
