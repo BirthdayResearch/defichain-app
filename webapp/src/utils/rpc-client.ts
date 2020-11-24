@@ -13,6 +13,7 @@ import {
   WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
+  LP_DAILY_DFI_REWARD,
 } from './../constants';
 import * as methodNames from '../constants/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -259,6 +260,15 @@ export default class RpcClient {
         [toAddress]: amount,
       },
       [],
+    ]);
+    return data.result;
+  };
+
+  utxosToAccount = async (toAddress: string, amount: string) => {
+    const { data } = await this.call('/', methodNames.UTXOS_TO_ACCOUNT, [
+      {
+        [toAddress]: amount,
+      },
     ]);
     return data.result;
   };
@@ -604,8 +614,13 @@ export default class RpcClient {
     return data.result;
   };
 
-  tokenInfo = async (key: string): Promise<string> => {
+  tokenInfo = async (key: string): Promise<any> => {
     const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+    return data.result;
+  };
+
+  getTokenBalances = async (): Promise<string[]> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
     return data.result;
   };
 
@@ -729,6 +744,97 @@ export default class RpcClient {
 
   walletlock = async () => {
     const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
+    return data.result;
+  };
+
+  // LP RPC call
+
+  listPoolPairs = async (
+    start: number,
+    including_start: boolean,
+    limit: number
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+      { start, including_start, limit },
+    ]);
+    return data.result;
+  };
+
+  listPoolShares = async (
+    start: number,
+    including_start: boolean,
+    limit: number
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+      { start, including_start, limit },
+    ]);
+    return data.result;
+  };
+
+  getPoolPair = async (poolID: string) => {
+    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
+    return data.result;
+  };
+
+  addPooLiquidity = async (
+    address1: string,
+    amount1: string,
+    address2: string,
+    amount2: string,
+    shareAddress: string
+  ) => {
+    const from =
+      address1 === address2
+        ? { [address1]: [amount1, amount2] }
+        : { [address1]: amount1, [address2]: amount2 };
+
+    const { data } = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
+      from,
+      shareAddress,
+    ]);
+    return data.result;
+  };
+
+  poolSwap = async (
+    from: string,
+    tokenFrom: string,
+    amountFrom: number,
+    to: string,
+    tokenTo: string
+  ) => {
+    const { data } = await this.call('/', methodNames.POOL_SWAP, [
+      { from, tokenFrom, amountFrom, to, tokenTo },
+      [],
+    ]);
+    return data.result;
+  };
+
+  removePoolLiquidity = async (from: string, amount: string) => {
+    const { data } = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [
+      from,
+      amount,
+      [],
+    ]);
+    return data.result;
+  };
+
+  testPoolSwap = async (
+    from: string,
+    tokenFrom: string,
+    amountFrom: number,
+    to: string,
+    tokenTo: string
+  ) => {
+    const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
+      { from, tokenFrom, amountFrom, to, tokenTo },
+    ]);
+    return data.result;
+  };
+
+  getGov = async () => {
+    const { data } = await this.call('/', methodNames.GET_GOV, [
+      LP_DAILY_DFI_REWARD,
+    ]);
     return data.result;
   };
 }

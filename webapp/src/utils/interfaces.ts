@@ -97,6 +97,7 @@ export interface ITokenCard {
     hash: string;
     name: string;
     symbol: string;
+    symbolKey: string;
     isDAT: boolean;
     decimal: number;
     limit: number;
@@ -107,6 +108,7 @@ export interface ITokenCard {
 }
 
 export interface IWalletTokenCard {
+  symbolKey: string;
   hash: string;
   name?: string;
   symbol: string | null;
@@ -125,4 +127,15 @@ export interface IWalletTokenCard {
 
 export interface ITokenResponse {
   hash: string;
+}
+
+export interface ITokenBalanceInfo {
+  hash: string;
+  balance: string;
+  isPopularToken: boolean;
+}
+
+export interface IAddressAndAmount {
+  amount: string;
+  address: string;
 }

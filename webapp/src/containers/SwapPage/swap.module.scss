@@ -1,0 +1,38 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.error-dailog {
+  color: $dfi-red !important;
+}
+
+.valueTxt {
+  color: rgba(0, 0, 0, 0.6);
+  text-align: right;
+}
+
+.buttonLink {
+  text-transform: none !important;
+  color: #ff00af;
+  width: 100%;
+  text-align: left;
+  justify-content: center;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  h4 {
+    color: rgb(0, 0, 0);
+  }
+  span {
+    color: $secondary;
+    font-size: 14px;
+  }
+}
+
+.width40 {
+  width: 40%;
+}

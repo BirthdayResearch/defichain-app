@@ -15,6 +15,12 @@ import {
   WALLET_BASE_PATH,
   WALLET_TOKENS_PATH,
 } from '../../../../../constants';
+import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
+import { Row, Col, Button, Card } from 'reactstrap';
+import { checkElementsInArray } from '../../../../../utils/utility';
+
+import { WALLET_BASE_PATH, WALLET_TOKENS_PATH } from '../../../../../constants';
+
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
 import { connect } from 'react-redux';

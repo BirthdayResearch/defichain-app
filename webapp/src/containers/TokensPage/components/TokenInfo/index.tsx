@@ -35,6 +35,7 @@ import {
   TOKEN_MINT_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
+import TokenAvatar from '../../../../components/TokenAvatar';
 import { getIcon } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 
@@ -148,7 +149,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             {I18n.t('containers.tokens.tokenInfo.back')}
           </span>
         </Button>
-        <h1>{tokenInfo.name}</h1>
+        <h1>{tokenInfo.symbolKey}</h1>
         {/* {tokenInfo.hash !== '0' && <ButtonGroup>
           <Button to={MINT_TOKENS_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
@@ -163,7 +164,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               <MdMoreHoriz />
             </DropdownToggle>
             <DropdownMenu right>
-              {tokenInfoMenu.map((data) => {
+              {tokenInfoMenu.map(data => {
                 return (
                   <DropdownItem
                     className='justify-content-between'
@@ -199,11 +200,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <section className='mb-5'>
           <Row className='mb-4'>
             <Col md='6'>
-              <img
-                src={getIcon(tokenInfo.symbol)}
-                height={'60px'}
-                width={'60px'}
-              />
+              <TokenAvatar symbol={tokenInfo.symbolKey} size='60px' />
             </Col>
             <Col md='6'>
               <KeyValueLi
@@ -212,7 +209,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               />
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.symbol')}
-                value={(tokenInfo.symbol || '').toString()}
+                value={(tokenInfo.symbolKey || '').toString()}
               />
             </Col>
             <Col md='6'>
@@ -344,7 +341,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { tokens } = state;
   const {
     tokenInfo,
@@ -361,7 +358,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchToken: (id) => fetchTokenInfo({ id }),
+  fetchToken: id => fetchTokenInfo({ id }),
   destroyToken: (id: string) => destroyToken({ id }),
 };
 

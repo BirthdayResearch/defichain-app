@@ -1,0 +1,43 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.addLiquidityRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.addLiquiditySwapDirection {
+  margin: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: $secondary;
+  }
+}
+
+.error-dailog {
+  color: $dfi-red !important;
+}
+
+.successColor {
+  color: #28a745;
+}
+
+.keyValueLiKey {
+  font-weight: $font-weight-medium;
+}
+
+.keyValueLiValue {
+  color: $secondary;
+  text-align: right;
+}

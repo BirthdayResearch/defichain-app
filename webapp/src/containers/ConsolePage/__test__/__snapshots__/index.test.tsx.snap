@@ -9,7 +9,7 @@ exports[`Console Page should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Console – DeFi Blockchain Client
+      Console – DeFi app
     </title>
   </HelmetWrapper>
   <header

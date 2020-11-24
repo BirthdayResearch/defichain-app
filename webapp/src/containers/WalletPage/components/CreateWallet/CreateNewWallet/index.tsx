@@ -75,7 +75,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           </p>
           <Card className={styles.margin}>
             <CardBody>
-              <Row>
+              <Row className={styles.seeds}>
                 {Object.keys(mnemonicObj).map((key) => (
                   <Col md='4' xs='12' key={key}>
                     <Row>
@@ -145,7 +145,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
-                color='link'
+                color='primary'
                 className='mr-3'
                 disabled={!isChecked}
                 onClick={() => {
