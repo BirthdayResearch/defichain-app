@@ -9,8 +9,8 @@
   appearance: none;
 
   // Disabled comes first so active can properly restyle
-  &.disabled,
-  &:disabled {
+  &:not(.btn-link).disabled,
+  &:not(.btn-link):disabled {
     background-color: $gray-300;
     border-color: transparent;
     color: rgba($white, 0.6);
@@ -66,8 +66,8 @@
   }
 
   &:disabled {
-    color: $gray-400;
-    background-color: transparent;
+    color: $gray-400 !important;
+    background-color: transparent !important;
   }
 }
 
