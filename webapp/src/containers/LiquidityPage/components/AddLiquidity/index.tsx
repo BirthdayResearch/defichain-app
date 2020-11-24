@@ -483,12 +483,20 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <div>
               <div className='text-center'>
                 {isLoadingPreparingUTXO ? (
-                  <Spinner />
+                  <>
+                    <Spinner />
+                    &nbsp;
+                    <b>
+                      {I18n.t('containers.swap.addLiquidity.preparingUTXO')}
+                    </b>
+                  </>
                 ) : (
-                  <MdCheckCircle className={styles.successColor} />
+                  <>
+                    <MdCheckCircle className={styles.successColor} />
+                    &nbsp;
+                    <b>{I18n.t('containers.swap.addLiquidity.UTXOPrepared')}</b>
+                  </>
                 )}
-                &nbsp;
-                <b>{I18n.t('containers.swap.addLiquidity.preparingUTXO')}</b>
               </div>
               <br />
               <div className='text-center'>
