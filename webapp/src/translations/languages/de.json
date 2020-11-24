@@ -252,7 +252,8 @@
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "continue": "Continue",
-        "swaping": "Swaping"
+        "swaping": "Swaping",
+        "amountInsufficient": "Insufficient Amount in your account"
       },
       "swapTab": {
         "from": "From",
@@ -293,7 +294,8 @@
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
-        "totalPooled": "Total pooled"
+        "totalPooled": "Total pooled",
+        "amountInsufficient": "Insufficient Amount in your account"
       },
       "removeLiquidity": {
         "address": "Address",

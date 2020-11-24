@@ -215,6 +215,21 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   };
 
+  const isAmountInsufficient = () => {
+    if (
+      formState[`amount1`] &&
+      formState[`balance1`] &&
+      new BigNumber(formState[`amount1`]).isGreaterThan(
+        formState[`balance1`]
+      ) &&
+      formState[`balance2`]
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
     if (isSelected && formState.hash1 ^ formState.hash2) {
@@ -536,11 +551,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              <Col className='col-auto'>
-                {isValid()
-                  ? I18n.t('containers.swap.swapPage.readySwap')
-                  : I18n.t('containers.swap.swapPage.enterAnAmount')}
-              </Col>
+              {!isAmountInsufficient() ? (
+                <Col className='col-auto'>
+                  {isValid()
+                    ? I18n.t('containers.swap.swapPage.readySwap')
+                    : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                </Col>
+              ) : (
+                <Col className='col-auto'>
+                  <span className='text-danger'>
+                    {I18n.t('containers.swap.swapPage.amountInsufficient')}
+                  </span>
+                </Col>
+              )}
               <Col className='d-flex justify-content-end'>
                 <Button
                   color='primary'

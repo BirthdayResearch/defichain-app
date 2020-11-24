@@ -196,6 +196,25 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     }
   };
 
+  const isAmountInsufficient = () => {
+    if (
+      formState[`amount1`] &&
+      formState[`balance1`] &&
+      formState[`amount2`] &&
+      formState[`balance2`] &&
+      (new BigNumber(formState[`amount2`]).isGreaterThan(
+        formState[`balance2`]
+      ) ||
+        new BigNumber(formState[`amount1`]).isGreaterThan(
+          formState[`balance1`]
+        ))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleAddLiquidity = async () => {
     setAllowCalls(true);
     setAddLiquidityStep('loading');
@@ -359,11 +378,19 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           })}
         >
           <Row className='justify-content-between align-items-center'>
-            <Col className='col-auto'>
-              {isValid()
-                ? I18n.t('containers.swap.addLiquidity.readyToSupply')
-                : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
-            </Col>
+            {!isAmountInsufficient() ? (
+              <Col className='col-auto'>
+                {isValid()
+                  ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                  : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
+              </Col>
+            ) : (
+              <Col className='col-auto'>
+                <span className='text-danger'>
+                  {I18n.t('containers.swap.addLiquidity.amountInsufficient')}
+                </span>
+              </Col>
+            )}
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
