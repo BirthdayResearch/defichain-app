@@ -5,6 +5,32 @@
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
 
+.amountRemoveInputRange {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.amountRemoveInputWrapper {
+  width: 160px;
+  padding-right: 24px;
+}
+
+.amountRemoveInput {
+  border-right: 0;
+  appearance: none;
+}
+
+.amountRemoveRangeWrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.amountRemoveRange {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .colText {
   color: rgba(0, 0, 0, 0.6);
   font-size: 16px;
@@ -15,10 +41,6 @@
 
 .logoText {
   padding-left: 10px;
-}
-
-.rangeSlider {
-  margin: 0 15px;
 }
 
 .rangeText {

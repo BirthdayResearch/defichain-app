@@ -21,6 +21,7 @@ import {
   Label,
   Row,
   UncontrolledDropdown,
+  CustomInput,
 } from 'reactstrap';
 import {
   NavLink,
@@ -158,7 +159,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     return ((total / 100) * reserve).toFixed(8);
   };
 
-  const removeLiquidityAmount = (total) => {
+  const removeLiquidityAmount = total => {
     const liquidityAmount = (Number(formState.amountPercentage) / 100) * total;
     return liquidityAmount.toFixed(8);
   };
@@ -199,7 +200,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                     id='amountPercentage'
                     value={formState.amountPercentage}
                     className='border-right-0'
-                    onChange={(e) => {
+                    onChange={e => {
                       if (
                         0 <= Number(e.target.value) &&
                         Number(e.target.value) <= 100
@@ -235,13 +236,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 >
                   {I18n.t('containers.swap.removeLiquidity.none')}
                 </span>
-                <input
+                <CustomInput
                   type='range'
                   name='removeLiquidityRange'
                   id='removeLiquidityRange'
                   value={formState.amountPercentage}
                   className='custom-range ml-5 mr-5'
-                  onChange={(e) => {
+                  onChange={e => {
                     if (Number(e.target.value) >= 0) {
                       setFormState({
                         ...formState,
@@ -276,9 +277,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  {`${removeLiquidityAmount(totalA)} of ${totalA} ${
-                    poolpair.tokenA
-                  }`}
+                  {`${Number(removeLiquidityAmount(totalA)).toFixed(
+                    6
+                  )} of ${Number(totalA).toFixed(6)} ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
@@ -292,20 +293,20 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  {`${removeLiquidityAmount(totalB)} of ${totalB} ${
-                    poolpair.tokenB
-                  }`}
+                  {`${Number(removeLiquidityAmount(totalB)).toFixed(
+                    6
+                  )} of ${Number(totalB).toFixed(6)} ${poolpair.tokenB}`}
                 </Col>
               </Row>
               <hr />
               <Row>
                 <Col>{I18n.t('containers.swap.removeLiquidity.price')}</Col>
                 <Col className={styles.colText}>
-                  {`${getRatio(poolpair)} ${poolpair.tokenA} per ${
-                    poolpair.tokenB
-                  }`}
+                  {`${Number(getRatio(poolpair)).toFixed(6)} ${
+                    poolpair.tokenA
+                  } per ${poolpair.tokenB}`}
                   <br />
-                  {`${(1 / Number(getRatio(poolpair))).toFixed(8)} ${
+                  {`${(1 / Number(getRatio(poolpair))).toFixed(6)} ${
                     poolpair.tokenB
                   } per ${poolpair.tokenA}`}
                 </Col>
@@ -338,7 +339,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   </Col>
                 </Row>
               </DropdownItem>
-              {receiveAddresses.map((data) => {
+              {receiveAddresses.map(data => {
                 return (
                   <DropdownItem
                     className='justify-content-between ml-0 w-100'
@@ -383,18 +384,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         >
           <Row className='justify-content-between align-items-center'>
             <Col className='col-auto'>
-              <FormGroup check>
-                <Label check>
-                  {I18n.t(
-                    'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
-                  )}
-                </Label>
-              </FormGroup>
+              {I18n.t(
+                'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
+              )}
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
-                color='link'
-                className='mr-3'
+                color='primary'
                 onClick={() => setRemoveLiquidityStep('confirm')}
                 disabled={
                   !Number(formState.amountPercentage) ||
@@ -417,11 +413,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 {I18n.t('containers.swap.removeLiquidity.receive')}
               </dt>
               <dd className='col-sm-8'>
-                <span>{`${removeLiquidityAmount(totalA)} ${
+                <span>{`${Number(removeLiquidityAmount(totalA)).toFixed(6)} ${
                   poolpair.tokenA
                 }`}</span>
                 <br />
-                <span>{`${removeLiquidityAmount(totalB)} ${
+                <span>{`${Number(removeLiquidityAmount(totalB)).toFixed(6)} ${
                   poolpair.tokenB
                 }`}</span>
               </dd>
@@ -515,7 +511,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolpair,
     isErrorRemovingPoolLiquidity,
