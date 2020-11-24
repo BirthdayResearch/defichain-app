@@ -15,9 +15,13 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { WALLET_TOKENS_PATH } from '../../../../../constants';
+import {
+  LEARN_MORE_ABOUT_BITCOIN_LINK,
+  WALLET_TOKENS_PATH,
+} from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
 import Header from '../../../../HeaderComponent';
+import openNewTab from '../../../../../utils/openNewTab';
 
 interface CreateNewWalletProps {
   mnemonicObj: any;
@@ -64,24 +68,60 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           <p>
             {I18n.t('containers.wallet.createNewWalletPage.mnemonicGuideline')}
           </p>
+          <p className={styles.mnemonicGuidelineWarning}>
+            {I18n.t(
+              'containers.wallet.createNewWalletPage.mnemonicGuidelineWarning'
+            )}
+          </p>
           <Card className={styles.margin}>
             <CardBody>
               <Row className={styles.seeds}>
                 {Object.keys(mnemonicObj).map((key) => (
-                  <Col className={styles.seedItem} md='4' sm='12' key={key}>
-                    <div className={styles.seedNumber}>{key}</div>
-                    <div className={styles.seedWord}>{mnemonicObj[key]}</div>
+                  <Col md='4' xs='12' key={key}>
+                    <Row>
+                      <Col
+                        className={`${styles.number} text-right pl-0`}
+                        xs='2'
+                      >
+                        {key}
+                      </Col>
+                      <Col className='text-left pl-0' xs='10'>
+                        {mnemonicObj[key]}
+                        <hr />
+                      </Col>
+                    </Row>
                   </Col>
                 ))}
               </Row>
             </CardBody>
           </Card>
-          <div className='text-center'>
+          <div className='text-center mt-4'>
             <Button color='link' size='sm' onClick={generateNewMnemonic}>
               <MdRefresh />
               <span className='d-md-inline'>
                 {I18n.t('containers.wallet.createNewWalletPage.generateNewSet')}
               </span>
+            </Button>
+          </div>
+          <div className={styles.walletRecoveryInfo}>
+            <p>
+              {I18n.t(
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine1'
+              )}
+            </p>
+            <p>
+              {I18n.t(
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2'
+              )}
+            </p>
+            <Button
+              color='link'
+              className='p-0'
+              onClick={() => openNewTab(LEARN_MORE_ABOUT_BITCOIN_LINK)}
+            >
+              {I18n.t(
+                'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn'
+              )}
             </Button>
           </div>
         </section>

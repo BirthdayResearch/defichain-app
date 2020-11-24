@@ -19,6 +19,8 @@ export const MAX_WALLET_TXN_PAGE_SIZE = 200;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const PAYMENT_REQ_LIST_SIZE = 10;
 export const QUEUE_CONCURRENCY = 5;
+export const VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT = 6;
+export const VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT = 3;
 export const BALANCE_CRON_DELAY_TIME = 120000;
 export const BITCOIN_CLI_REGEX = /bitcoin-cli/g;
 export const DEFI_CLI_TEXT = 'defi-cli';
@@ -100,6 +102,8 @@ export const GITHUB_ISSUE_HELP_LINK =
 export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
 export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
+export const LEARN_MORE_ABOUT_BITCOIN_LINK =
+  'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
 
 export const DEFICHAIN_DEX_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=JLu16bdlYrM';
