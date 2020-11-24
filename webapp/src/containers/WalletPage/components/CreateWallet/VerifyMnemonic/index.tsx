@@ -252,7 +252,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 )}
               </Col>
               <Col xs='12' md='6' className='text-right'>
-                <span>
+                {/* <span>
                   <Button
                     color='link'
                     onClick={() =>
@@ -263,7 +263,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                       ? I18n.t('containers.wallet.verifyMnemonicPage.dontSkip')
                       : I18n.t('containers.wallet.verifyMnemonicPage.skip')}
                   </Button>
-                </span>
+                </span> */}
                 <span>
                   <Button
                     color={showSkipVerification ? 'primary' : 'link'}
