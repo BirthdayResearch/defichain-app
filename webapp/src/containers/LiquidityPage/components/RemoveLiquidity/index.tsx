@@ -543,7 +543,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <>
                     <span>
                       {I18n.t(
-                        'containers.swap.removeLiquidity.refreshingUTXOS'
+                        'containers.swap.removeLiquidity.removingLiquidity'
                       )}
                     </span>
                   </>
