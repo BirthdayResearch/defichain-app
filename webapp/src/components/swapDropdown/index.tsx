@@ -48,6 +48,7 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
       if (balanceTokenInfo.isPopularToken) {
         popularTokenDropdownItems.push(
           <DropdownItem
+            className={styles.dropDownItem}
             key={symbol}
             name={`hash${name}`}
             value={balanceTokenInfo.hash}
@@ -62,20 +63,24 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
               )
             }
           >
-            <Row>
-              <Col md='2'>
-                <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
-              </Col>
-              <Col md='5'>{symbol}</Col>
-              <Col className='d-flex justify-content-end' md='5'>
-                {balanceTokenInfo.balance}
-              </Col>
-            </Row>
+            <div className={styles.dropDownItemLeft}>
+              <img
+                src={getIcon(symbol)}
+                height={'24px'}
+                width={'24px'}
+                className={styles.dropDownIcon}
+              />
+              {symbol}
+            </div>
+            <div className={styles.dropDownItemRight}>
+              {balanceTokenInfo.balance}
+            </div>
           </DropdownItem>
         );
       } else {
         normalTokenDropdownItems.push(
           <DropdownItem
+            className={styles.dropDownItem}
             key={symbol}
             name={`hash${name}`}
             value={balanceTokenInfo.hash}
@@ -90,15 +95,12 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
               )
             }
           >
-            <Row>
-              <Col md='2'>
-                <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
-              </Col>
-              <Col md='5'>{symbol}</Col>
-              <Col className='d-flex justify-content-end' md='5'>
-                {balanceTokenInfo.balance}
-              </Col>
-            </Row>
+            <div className={styles.dropDownItemLeft}>
+              <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
+            </div>
+            <div className={styles.dropDownItemRight}>
+              {balanceTokenInfo.balance}
+            </div>
           </DropdownItem>
         );
       }
@@ -131,12 +133,12 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
         <div className={styles.scrollableContainer}>
           <DropdownItem header>
             {I18n.t('components.swapCard.popular')}
-            {popularTokenDropdownItems}
           </DropdownItem>
+          {popularTokenDropdownItems}
           <DropdownItem header>
             {I18n.t('components.swapCard.tokens')}
-            {normalTokenDropdownItems}
           </DropdownItem>
+          {normalTokenDropdownItems}
         </div>
       </DropdownMenu>
     </UncontrolledDropdown>
