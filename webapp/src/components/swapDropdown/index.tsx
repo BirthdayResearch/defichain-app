@@ -121,7 +121,7 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   } = getTokenDropdownList(tableData);
 
   return (
-    <div className='d-flex'>
+    <div className='d-flex align-items-center'>
       {dropdownLabel !== I18n.t('components.swapCard.selectAToken') && (
         <TokenAvatar symbol={dropdownLabel} size='24px' />
       )}
