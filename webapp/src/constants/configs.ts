@@ -79,3 +79,5 @@ export const GITHUB_ISSUE_HELP_LINK =
 export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
 export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
+export const LEARN_MORE_ABOUT_BITCOIN_LINK =
+  'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
