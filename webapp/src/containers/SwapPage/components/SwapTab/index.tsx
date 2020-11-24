@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import { MdCompareArrows } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
@@ -15,6 +15,7 @@ interface SwapTabProps {
   name: number;
   formState: any;
   handleChange: (e) => void;
+  handleInterchange: () => void;
   setMaxValue: (field: string, value: string) => void;
   handleDropdown: (
     hash: string,
@@ -38,6 +39,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     setMaxValue,
     filterBySymbol,
     isLoadingTestPoolSwap,
+    handleInterchange,
   } = props;
 
   useEffect(() => {
@@ -64,9 +66,14 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
                   : I18n.t('components.swapCard.selectAToken')
               }
             />
-            <div className={styles.swapDirection}>
+            <Button
+              disabled={!formState.hash1 || !formState.hash2}
+              onClick={handleInterchange}
+              color='link'
+              size='sm'
+            >
               <MdCompareArrows />
-            </div>
+            </Button>
             <SwapCard
               label={I18n.t('containers.swap.swapTab.to')}
               tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
