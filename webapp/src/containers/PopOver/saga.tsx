@@ -38,6 +38,7 @@ import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 
+
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
   if (result) {
@@ -52,6 +53,7 @@ function* backupWalletBeforeNewWalletCreation() {
     yield put(openWalletRestartModal());
   }
 }
+
 
 function* encryptWallet(action) {
   try {

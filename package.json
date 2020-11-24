@@ -1,7 +1,7 @@
 {
   "name": "defi-app",
-  "version": "2.0.1",
-  "description": "Defi blockchain client ui",
+  "version": "2.1.0",
+  "description": "DeFi blockchain client ui",
   "main": "./electron-app/build/index.js",
   "author": {
     "name": "Cake",

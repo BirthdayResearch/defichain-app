@@ -12,6 +12,8 @@ import {
   MdDns,
   MdViewWeek,
   MdToll,
+  MdCompareArrows,
+  MdPieChart,
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
@@ -35,7 +37,9 @@ import {
   SETTING_PATH,
   SITE_URL,
   TOKENS_PATH,
+  SWAP_PATH,
   WALLET_TOKENS_PATH,
+  LIQUIDITY_PATH,
   HELP_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
@@ -138,16 +142,38 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.wallet')}
             </NavLink>
           </NavItem>
-          {/* NOTE: Do not remove, for future purpose */}
           <NavItem className={styles.navItem}>
             <NavLink
-              to={MASTER_NODES_PATH}
+              to={LIQUIDITY_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <MdDns />
-              {I18n.t('containers.sideBar.masterNodes')}
+              <MdPieChart />
+              {I18n.t('containers.sideBar.liquidity')}
+            </NavLink>
+          </NavItem>
+
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={SWAP_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdCompareArrows />
+              {I18n.t('containers.sideBar.dex')}
+            </NavLink>
+          </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={TOKENS_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdToll />
+              {I18n.t('containers.sideBar.tokens')}
             </NavLink>
           </NavItem>
           <NavItem className={styles.navItem}>
@@ -163,13 +189,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           </NavItem>
           <NavItem className={styles.navItem}>
             <NavLink
-              to={TOKENS_PATH}
+              to={MASTER_NODES_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <MdToll />
-              {I18n.t('containers.sideBar.tokens')}
+              <MdDns />
+              {I18n.t('containers.sideBar.masterNodes')}
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
