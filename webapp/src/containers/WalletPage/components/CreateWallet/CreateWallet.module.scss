@@ -57,8 +57,13 @@
 .error-dailog {
   color: $dfi-red !important;
 }
+
+.warning-dailog {
+  color: $dfi-orange !important;
+}
+
 .mnemonicGuidelineWarning {
-  color: #ff0000;
+  color: $dfi-red;
   margin: 2rem 0;
 }
 
