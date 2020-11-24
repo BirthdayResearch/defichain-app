@@ -639,6 +639,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             <div className='footer-sheet'>
               <div className='text-center'>
                 <Spinner />
+                &nbsp;
+                {I18n.t('containers.swap.swapPage.swaping')}
               </div>
             </div>
           </div>
