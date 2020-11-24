@@ -40,7 +40,8 @@
     "blockChainPage": {
       "blockChainPage": {
         "title": "Blockchain – DeFi Blockchain-Client",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "explorer": "Explorer"
       },
       "blockChainTable": {
         "height": "Höhe",
