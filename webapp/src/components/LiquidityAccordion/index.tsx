@@ -64,7 +64,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
         onClick={() => {
           props.history.push(`${LIQUIDITY_INFO_BASE_PATH}/${poolpair.poolID}`);
         }}
-        className={`${styles.liquidityCard} mb-5`}
+        className={`${styles.liquidityCard} mb-4`}
       >
         <CardBody>
           <Row className='align-items-center'>
@@ -72,7 +72,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               <PairIcon poolpair={poolpair} />
             </Col>
             <Col md={5}>
-              <span>{`${poolpair.tokenA}/${poolpair.tokenB}`}</span>
+              <span>{`${poolpair.tokenA}-${poolpair.tokenB}`}</span>
             </Col>
             <Col md={5} className='text-right'>
               {/* <UncontrolledDropdown>
@@ -98,30 +98,26 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
           </Row>
           <br />
           <Row>
-            <Col className={styles.apy}>
+            <Col className={styles.bigLabel}>
               {I18n.t('containers.swap.swapPage.apy')}
             </Col>
-            <Col className={`${styles.apyValue} ${styles.text}`}>
-              {`${poolpair.apy} %`}
+            <Col className={styles.bigValue}>
+              {`${poolpair.apy}%`}
             </Col>
           </Row>
           <Row>
             <Col className={styles.label}>
-              {I18n.t('containers.swap.swapPage.pooled')}
-              &nbsp;
-              {`${poolpair.tokenA}`}
+              {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenA}`}
             </Col>
-            <Col className={`${styles.unit} ${styles.text}`}>
+            <Col className={styles.value}>
               {Number(poolpair.reserveA).toFixed(2)}
             </Col>
           </Row>
           <Row>
             <Col className={styles.label}>
-              {I18n.t('containers.swap.swapPage.pooled')}
-              &nbsp;
-              {`${poolpair.tokenB}`}
+              {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenB}`}
             </Col>
-            <Col className={`${styles.unit} ${styles.text}`}>
+            <Col className={styles.value}>
               {Number(poolpair.reserveB).toFixed(2)}
             </Col>
           </Row>
@@ -129,8 +125,8 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
             <Col className={styles.label}>
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
-            <Col className={`${styles.unit} ${styles.text}`}>
-              {`${Number(poolpair.poolSharePercentage).toFixed(4)} %`}
+            <Col className={styles.value}>
+              {`${Number(poolpair.poolSharePercentage).toFixed(4)}%`}
             </Col>
           </Row>
         </CardBody>

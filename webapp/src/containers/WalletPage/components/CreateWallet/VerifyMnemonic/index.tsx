@@ -7,10 +7,7 @@ import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
 import { checkElementsInArray } from '../../../../../utils/utility';
 
-import {
-  WALLET_BASE_PATH,
-  WALLET_TOKENS_PATH,
-} from '../../../../../constants';
+import { WALLET_BASE_PATH, WALLET_TOKENS_PATH } from '../../../../../constants';
 
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
@@ -186,7 +183,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
                 <Button
-                  color='link'
+                  color='primary'
                   className='mr-3'
                   disabled={!(selectedWords.length === 6) || !mnemonicCheck}
                   onClick={() => {
