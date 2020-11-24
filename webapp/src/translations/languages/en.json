@@ -465,7 +465,13 @@
         "continue": "Continue",
         "confirm": "Confirm",
         "backToPool": "Back to pool",
-        "receiveAddress": "Receive address"
+        "receiveAddress": "Receive address",
+        "refreshingUTXOS": "Refreshing UTXOS",
+        "UTXOSRefreshed": "UTXOS refreshed",
+        "removingLiquidity": "Removing liquidity",
+        "liquidityRemoved": "Liquidity removed",
+        "transferringTokens": "Transferring tokens",
+        "tokensTransferred": "Tokens transferred"
       }
     },
     "settings": {

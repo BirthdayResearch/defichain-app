@@ -58,6 +58,14 @@ interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
   removePoolLiqudity: (poolID, amount, address, poolpair) => void;
   isLoadingRemovePoolLiquidity: boolean;
   removePoolLiquidityHash: string;
+  isLoadingRefreshUTXOS1: boolean;
+  isLoadingLiquidityRemoved: boolean;
+  isLoadingRefreshUTXOS2: boolean;
+  isLoadingTransferTokens: boolean;
+  refreshUTXOS1Loaded: boolean;
+  liquidityRemovedLoaded: boolean;
+  refreshUTXOS2Loaded: boolean;
+  transferTokensLoaded: boolean;
 }
 
 const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
@@ -87,6 +95,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     removePoolLiqudity,
     isLoadingRemovePoolLiquidity,
     removePoolLiquidityHash,
+    isLoadingRefreshUTXOS1,
+    isLoadingLiquidityRemoved,
+    isLoadingRefreshUTXOS2,
+    isLoadingTransferTokens,
+    refreshUTXOS1Loaded,
+    liquidityRemovedLoaded,
+    refreshUTXOS2Loaded,
   } = props;
 
   useEffect(() => {
@@ -159,7 +174,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     return ((total / 100) * reserve).toFixed(8);
   };
 
-  const removeLiquidityAmount = total => {
+  const removeLiquidityAmount = (total) => {
     const liquidityAmount = (Number(formState.amountPercentage) / 100) * total;
     return liquidityAmount.toFixed(8);
   };
@@ -200,7 +215,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   id='amountPercentage'
                   value={formState.amountPercentage}
                   className={styles.amountRemoveInput}
-                  onChange={e => {
+                  onChange={(e) => {
                     if (
                       0 <= Number(e.target.value) &&
                       Number(e.target.value) <= 100
@@ -239,7 +254,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   value={formState.amountPercentage}
                   className={styles.amountRemoveRange}
                   step='0.1'
-                  onChange={e => {
+                  onChange={(e) => {
                     if (Number(e.target.value) >= 0) {
                       setFormState({
                         ...formState,
@@ -336,7 +351,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   </Col>
                 </Row>
               </DropdownItem>
-              {receiveAddresses.map(data => {
+              {receiveAddresses.map((data) => {
                 return (
                   <DropdownItem
                     className='justify-content-between ml-0 w-100'
@@ -476,8 +491,136 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
           })}
         >
           <div className='footer-sheet'>
-            <div className='text-center'>
-              <Spinner />
+            <div>
+              <div className='text-center'>
+                {isLoadingRefreshUTXOS1 ? (
+                  <>
+                    <Spinner />
+                    &nbsp;
+                    <span>
+                      {I18n.t(
+                        'containers.swap.removeLiquidity.refreshingUTXOS'
+                      )}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <MdCheckCircle className={styles.successColor} />
+                    &nbsp;
+                    <b>
+                      {I18n.t('containers.swap.removeLiquidity.UTXOSRefreshed')}
+                    </b>
+                  </>
+                )}
+              </div>
+              <br />
+              <div className='text-center'>
+                {refreshUTXOS1Loaded ? (
+                  <>
+                    {isLoadingLiquidityRemoved ? (
+                      <>
+                        {<Spinner />}
+                        &nbsp;
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.removingLiquidity'
+                          )}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <MdCheckCircle className={styles.successColor} />
+                        &nbsp;
+                        <b>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.liquidityRemoved'
+                          )}
+                        </b>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {I18n.t(
+                        'containers.swap.removeLiquidity.refreshingUTXOS'
+                      )}
+                    </span>
+                  </>
+                )}
+              </div>
+              <br />
+              <div className='text-center'>
+                {liquidityRemovedLoaded ? (
+                  <>
+                    {isLoadingRefreshUTXOS2 ? (
+                      <>
+                        {<Spinner />}
+                        &nbsp;
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.refreshingUTXOS'
+                          )}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <MdCheckCircle className={styles.successColor} />
+                        &nbsp;
+                        <b>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.UTXOSRefreshed'
+                          )}
+                        </b>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {I18n.t(
+                        'containers.swap.removeLiquidity.refreshingUTXOS'
+                      )}
+                    </span>
+                  </>
+                )}
+              </div>
+              <br />
+              <div className='text-center'>
+                {refreshUTXOS2Loaded ? (
+                  <>
+                    {isLoadingTransferTokens ? (
+                      <>
+                        {<Spinner />}
+                        &nbsp;
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.transferringTokens'
+                          )}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <MdCheckCircle className={styles.successColor} />
+                        &nbsp;
+                        <b>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.tokensTransferred'
+                          )}
+                        </b>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {I18n.t(
+                        'containers.swap.removeLiquidity.transferringTokens'
+                      )}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -508,18 +651,34 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolpair,
     isErrorRemovingPoolLiquidity,
     removePoolLiquidityHash,
     isLoadingRemovePoolLiquidity,
+    isLoadingRefreshUTXOS1,
+    isLoadingLiquidityRemoved,
+    isLoadingRefreshUTXOS2,
+    isLoadingTransferTokens,
+    refreshUTXOS1Loaded,
+    liquidityRemovedLoaded,
+    refreshUTXOS2Loaded,
+    transferTokensLoaded,
   } = state.swap;
   return {
     removePoolLiquidityHash,
     isLoadingRemovePoolLiquidity,
     isErrorRemovingPoolLiquidity,
     poolpair,
+    isLoadingRefreshUTXOS1,
+    isLoadingLiquidityRemoved,
+    isLoadingRefreshUTXOS2,
+    isLoadingTransferTokens,
+    refreshUTXOS1Loaded,
+    liquidityRemovedLoaded,
+    refreshUTXOS2Loaded,
+    transferTokensLoaded,
   };
 };
 

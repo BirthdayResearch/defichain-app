@@ -27,7 +27,13 @@ import {
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
-import { addPoolPreparingUTXOSuccess } from './reducer';
+import {
+  addPoolPreparingUTXOSuccess,
+  liquidityRemovedSuccess,
+  refreshUTXOS1Success,
+  refreshUTXOS2Success,
+  transferTokensSuccess,
+} from './reducer';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
@@ -44,12 +50,12 @@ export const handleFetchPoolshares = async () => {
     return [];
   }
 
-  const minePoolShares = poolShares.map(async poolShare => {
+  const minePoolShares = poolShares.map(async (poolShare) => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
       const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
-      const poolPairData = Object.keys(poolPair).map(item => ({
+      const poolPairData = Object.keys(poolPair).map((item) => ({
         hash: item,
         ...poolPair[item],
       }));
@@ -112,7 +118,7 @@ export const handleFetchPoolshares = async () => {
 export const handleFetchPoolpair = async (id: string) => {
   const rpcClient = new RpcClient();
   const poolPair = await rpcClient.getPoolPair(id);
-  const poolPairData = Object.keys(poolPair).map(item => ({
+  const poolPairData = Object.keys(poolPair).map((item) => ({
     hash: item,
     ...poolPair[item],
   }));
@@ -135,7 +141,7 @@ export const handleFetchPoolPairList = async () => {
   return poolPairList;
 };
 
-export const handleTestPoolSwap = async formState => {
+export const handleTestPoolSwap = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
@@ -182,7 +188,7 @@ export const handleTestPoolSwap = async formState => {
   }
 };
 
-export const handlePoolSwap = async formState => {
+export const handlePoolSwap = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
@@ -341,7 +347,9 @@ export const handleRemovePoolLiquidity = async (
   }
   await Promise.all(refreshUtxosForRemoveLP);
 
-  const addressAndAmountArray = addressList.map(async obj => {
+  store.dispatch(refreshUTXOS1Success());
+
+  const addressAndAmountArray = addressList.map(async (obj) => {
     await rpcClient.removePoolLiquidity(
       obj.address,
       `${Number(obj.amount).toFixed(6)}@${poolID}`
@@ -354,7 +362,9 @@ export const handleRemovePoolLiquidity = async (
     await Promise.all(addressAndAmountArray)
   );
 
-  const finalArray = resolvedAddressAndAmountArray.map(addressAndAmount => {
+  store.dispatch(liquidityRemovedSuccess());
+
+  const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
     const amountA = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
       .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
       .times(new BigNumber(poolPair.reserveA).toFixed(8));
@@ -390,7 +400,9 @@ export const handleRemovePoolLiquidity = async (
   }
   await Promise.all(refreshUtxoForAccount);
 
-  const hashArray = finalArray.map(async obj => {
+  store.dispatch(refreshUTXOS2Success());
+
+  const hashArray = finalArray.map(async (obj) => {
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
@@ -407,6 +419,8 @@ export const handleRemovePoolLiquidity = async (
     };
   });
   const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
+
+  store.dispatch(transferTokensSuccess());
 
   return resolvedHashArray[resolvedHashArray.length - 1];
 };
