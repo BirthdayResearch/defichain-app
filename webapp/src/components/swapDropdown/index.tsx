@@ -96,7 +96,13 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             }
           >
             <div className={styles.dropDownItemLeft}>
-              <img src={getIcon(symbol)} height={'24px'} width={'24px'} />
+              <img
+                src={getIcon(symbol)}
+                height={'24px'}
+                width={'24px'}
+                className={styles.dropDownIcon}
+              />
+              {symbol}
             </div>
             <div className={styles.dropDownItemRight}>
               {balanceTokenInfo.balance}
