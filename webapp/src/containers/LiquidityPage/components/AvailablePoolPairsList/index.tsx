@@ -92,7 +92,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
               <tbody>
                 {tableData.map((poolpair, index) => (
                   <tr key={index}>
-                    <td>
+                    <td className={styles.pairIconCol}>
                       <PairIcon poolpair={poolpair} />
                     </td>
                     <td>
@@ -107,32 +107,30 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                     <td>
                       <div>{`${poolpair.apy} %`}</div>
                     </td>
-                    <td>
-                      <div>
-                        <Button
-                          to={CREATE_POOL_PAIR_PATH}
-                          tag={RRNavLink}
-                          color='link'
-                          size='sm'
-                        >
-                          <MdAdd />
-                        </Button>
-                        <Button
-                          to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
-                            poolpair.poolID
-                          }?sharePercentage=${Number(
-                            poolpair.poolSharePercentage
-                          ).toFixed(8)}`}
-                          disabled={new BigNumber(
-                            poolpair.poolSharePercentage
-                          ).eq(0)}
-                          tag={RRNavLink}
-                          color='link'
-                          size='sm'
-                        >
-                          <MdRemove />
-                        </Button>
-                      </div>
+                    <td className={styles.actionsCol}>
+                      <Button
+                        to={CREATE_POOL_PAIR_PATH}
+                        tag={RRNavLink}
+                        color='link'
+                        size='sm'
+                      >
+                        <MdAdd />
+                      </Button>
+                      <Button
+                        to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
+                          poolpair.poolID
+                        }?sharePercentage=${Number(
+                          poolpair.poolSharePercentage
+                        ).toFixed(8)}`}
+                        disabled={new BigNumber(
+                          poolpair.poolSharePercentage
+                        ).eq(0)}
+                        tag={RRNavLink}
+                        color='link'
+                        size='sm'
+                      >
+                        <MdRemove />
+                      </Button>
                     </td>
                   </tr>
                 ))}

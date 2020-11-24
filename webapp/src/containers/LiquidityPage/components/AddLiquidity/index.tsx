@@ -298,67 +298,57 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             />
           </div>
           {isValid() && (
-            <Row>
-              <Col md='12'>
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
-                  </Col>
-                  <Col className='text-right'>
-                    {`${conversionRatio(formState, poolPairList)} ${
-                      formState.symbol1
-                    } per ${formState.symbol2}`}
-                    <br />
-                    {`${1 / Number(conversionRatio(formState, poolPairList))} ${
-                      formState.symbol2
-                    } per ${formState.symbol1}`}
-                  </Col>
-                </Row>
-                <hr />
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>
-                      {I18n.t('containers.swap.addLiquidity.shareOfPool')}
-                    </span>
-                  </Col>
-                  <Col className='text-right'>
-                    {shareOfPool(formState, poolPairList)}
-                  </Col>
-                </Row>
-                <hr />
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>
-                      {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
-                      {formState.symbol1}
-                    </span>
-                  </Col>
-                  <Col className='text-right'>
-                    {getTotalPoolValue(
-                      formState,
-                      poolPairList,
-                      formState.hash1
-                    )}
-                  </Col>
-                </Row>
-                <hr />
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>
-                      {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
-                      {formState.symbol2}
-                    </span>
-                  </Col>
-                  <Col className='text-right'>
-                    {getTotalPoolValue(
-                      formState,
-                      poolPairList,
-                      formState.hash2
-                    )}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            <div>
+              <Row>
+                <Col className={styles.keyValueLiKey}>
+                  <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
+                </Col>
+                <Col className={styles.keyValueLiValue}>
+                  {`${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol1
+                  } per ${formState.symbol2}`}
+                  <br />
+                  {`${1 / Number(conversionRatio(formState, poolPairList))} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}
+                </Col>
+              </Row>
+              <hr />
+              <Row>
+                <Col className={styles.keyValueLiKey}>
+                  <span>
+                    {I18n.t('containers.swap.addLiquidity.shareOfPool')}
+                  </span>
+                </Col>
+                <Col className={styles.keyValueLiValue}>
+                  {shareOfPool(formState, poolPairList)}
+                </Col>
+              </Row>
+              <hr />
+              <Row>
+                <Col className={styles.keyValueLiKey}>
+                  <span>
+                    {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
+                    {formState.symbol1}
+                  </span>
+                </Col>
+                <Col className={styles.keyValueLiValue}>
+                  {getTotalPoolValue(formState, poolPairList, formState.hash1)}
+                </Col>
+              </Row>
+              <hr />
+              <Row>
+                <Col className={styles.keyValueLiKey}>
+                  <span>
+                    {I18n.t('containers.swap.addLiquidity.totalPooled')}&nbsp;
+                    {formState.symbol2}
+                  </span>
+                </Col>
+                <Col className={styles.keyValueLiValue}>
+                  {getTotalPoolValue(formState, poolPairList, formState.hash2)}
+                </Col>
+              </Row>
+            </div>
           )}
         </section>
       </div>

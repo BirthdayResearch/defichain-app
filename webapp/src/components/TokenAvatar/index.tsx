@@ -15,7 +15,7 @@ const TokenAvatar = (props: TokenAvatar) => {
       maxInitials={2}
       round
       src={data || ''}
-      size={size || '30px'}
+      size={size || '24px'}
     />
   );
 };
