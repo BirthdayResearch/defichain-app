@@ -821,8 +821,8 @@ export const conversionRatio = (formState, poolPairList) => {
   const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
 
   const ratio = condition1
-    ? poolPair.reserveB / poolPair.reserveA
-    : poolPair.reserveA / poolPair.reserveB;
+    ? new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA))
+    : new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA));
 
   return ratio.toFixed(8);
 };
