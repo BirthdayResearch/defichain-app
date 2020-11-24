@@ -41,7 +41,8 @@
     "blockChainPage": {
       "blockChainPage": {
         "title": "Blockchain – DeFi app",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "explorer": "Explorer"
       },
       "blockChainTable": {
         "height": "Height",
