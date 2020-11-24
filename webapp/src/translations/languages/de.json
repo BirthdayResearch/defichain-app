@@ -37,7 +37,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi Blockchain-Client",
+        "title": "Blockchain – DeFiChain Client",
         "blockchain": "Blockchain"
       },
       "blockChainTable": {
@@ -52,7 +52,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi Blockchain-Client",
+        "title": "– DeFiChain Client",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -77,30 +77,30 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiBlockChainClient": "DeFi Blockchain-Client",
+        "defiBlockChainClient": "DeFiChain Client",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi Blockchain-Client",
+      "title": "DFI Block Processing Center – DeFiChain Client",
       "header": "DFI Block Processing Center",
       "detail": "Es scheint, als wärst du zufällig hierher gestolpert. Hier stellen unsere Arbeiter sicher, dass jeder DFI-Block richtig an der Chain befestigt ist. Da dies ein Sperrgebiet ist, bitten wir Dich, wieder umzudrehen.",
       "goBack": "Gehe zurück"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi Blockchain-Client",
+      "title": "Exchange – DeFiChain Client",
       "exchange": "Exchange",
       "section": "Abschnitt",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Hilfe – DeFi Blockchain-Client",
+      "title": "Hilfe – DeFiChain Client",
       "help": "Helfen",
       "section": "Abschnitt"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi Blockchain-Client",
+        "title": "Masternodes – DeFiChain Client",
         "createMasterNode": "Erstellen",
         "masterNodes": "Masternodes",
         "statistics": "Statistik",
@@ -173,7 +173,7 @@
     },
     "swap": {
       "swapPage": {
-        "title": "Tokens – DeFi Blockchain Client",
+        "title": "Tokens – DeFiChain Client",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -194,7 +194,7 @@
         "priceImpact": "Preis Einfluss",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Bitte bestätige deine Transaktion und drücke SWAP",
-        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der Defi-Blockkette bestätigt wurde.",
+        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
         "goToWallet": "Gehe zur Wallet",
         "go": "Go",
         "ok": "OK",
@@ -239,7 +239,7 @@
         "continue": "Weiter",
         "cancel": "Abbrechen",
         "supply": "Supply",
-        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der Defi-Blockkette bestätigt wurde.",
+        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
         "viewOnChain": "Ansicht auf der Chain",
         "backToPool": "Zurück zum Pool"
       },
@@ -248,7 +248,7 @@
         "enterRemoveLiquidityAmount": "Zu entfernende Menge an Liquidity eingeben",
         "verifyTransaction": "Bitte bestätige deine Transaktion und drücke BESTÄTIGEN",
         "removeLiquidityAmount": "Menge der zu entfernenden Liquidity",
-        "transactionSuccessMsg": "Deine Liquidity-Liste wird aktualisiert, sobald die Transaktion von der Defi-Blockkette bestätigt worden ist",
+        "transactionSuccessMsg": "Deine Liquidity-Liste wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt worden ist.",
         "receive": "Erhalten",
         "cancel": "Abbrechen",
         "removeLiquidityPercentage": "%",
@@ -264,7 +264,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi Blockchain Client",
+        "title": "Tokens – DeFiChain Client",
         "loading": "Laden...",
         "createToken": "Erstellen",
         "tokens": "Tokens",
@@ -368,7 +368,7 @@
         "continue": "weiter",
         "pleaseVerifyAmount": "Bitte bestätige die Anzahl",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "Die Transaktion war ein Erfolg. Dein Token-Saldo wird aktualisiert, sobald die Transaktion von der DeFi Blockchain bestätigt wurde.",
+        "transactionSuccessMsg": "Die Transaktion war ein Erfolg. Dein Token-Saldo wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
         "backToToken": "Zurück zu Token"
       },
       "transfersList": {
@@ -397,7 +397,7 @@
       }
     },
     "settings": {
-      "title": "Einstellungen – DeFi Blockchain-Client",
+      "title": "Einstellungen – DeFiChain Client",
       "settings": "Einstellungen",
       "general": "Allgemein",
       "display": "Anzeige",
@@ -472,7 +472,7 @@
         "backToWalletPage": "SCHLIESSEN"
       },
       "sendPage": {
-        "sendDFITitle": "Senden DFI – DeFi Blockchain-Client",
+        "sendDFITitle": "Senden DFI – DeFiChain Client",
         "wallet": "Wallet",
         "sendDFI": "DFI senden",
         "amount": "Höhe",
@@ -487,12 +487,12 @@
         "pleaseVerifyAmount": "Bitte überprüfen Sie den Betrag und Empfänger",
         "completeSend": "Senden komplett",
         "sendFailed": "Beim Senden des Betrags ist ein Fehler aufgetreten",
-        "transactionSuccessMsg": "Die Transaktion war ein voller Erfolg. Dein Wallet-Guthaben wird aktualisiert, sobald die Transaktion bestätigt wurde durch die DeFi Blockchain.",
+        "transactionSuccessMsg": "Die Transaktion war ein voller Erfolg. Dein Wallet-Guthaben wird aktualisiert, sobald die Transaktion bestätigt wurde durch die DeFiChain.",
         "backToWallet": "Zurück zur Wallet",
         "dfiAddress": "DFI-Adresse"
       },
       "receivePage": {
-        "receiveDFITitle": "DFI Erhalten– DeFi Blockchain-Client",
+        "receiveDFITitle": "DFI Erhalten– DeFiChain Client",
         "wallet": "Wallet",
         "receiveDFI": "DFI Erhalten",
         "optional": "Freiwillig",
@@ -526,7 +526,7 @@
         "created": "Erstellt"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi Blockchain-Client",
+        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFiChain Client",
         "paymentRequest": "Zahlungsaufforderung",
         "wallet": "Wallet",
         "delete": "Löschen",
@@ -538,7 +538,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Wallet – DeFi Blockchain-Client",
+        "walletDefiClient": "Wallet – DeFiChain Client",
         "wallet": "Wallet",
         "delete": "Löschen",
         "send": "Senden",
@@ -562,7 +562,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Konsole – DeFi Blockchain-Client",
+        "consoleDefiClient": "Konsole – DeFiChain Client",
         "defiCliCommand": "Geben Sie Defi-cli-Befehl",
         "console": "Konsole",
         "submit": "Senden",
