@@ -8,6 +8,7 @@
 .addLiquidityRow {
   display: flex;
   align-items: center;
+  margin-bottom: 32px;
 }
 
 .addLiquiditySwapDirection {
@@ -30,4 +31,13 @@
 
 .successColor {
   color: #28a745;
+}
+
+.keyValueLiKey {
+  font-weight: $font-weight-medium;
+}
+
+.keyValueLiValue {
+  color: $secondary;
+  text-align: right;
 }
