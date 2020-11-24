@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
+import { MdArrowBack, MdErrorOutline, MdWarning } from 'react-icons/md';
 import { Row, Col, Button } from 'reactstrap';
 import {
   getRandomWordArray,
@@ -36,6 +36,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   const [quiz, setQuiz] = useState<any[]>([]);
   const [selected, setSelected] = useState<any>({});
   const [enableSubmit, setEnableSubmit] = useState(false);
+  const [showSkipVerification, setShowSkipVerification] = useState(false);
 
   const {
     isWalletTabActive,
@@ -211,30 +212,69 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
           </>
         ) : (
           <div>
-            <Row className='justify-content-between align-items-center'>
-              <Col className='d-flex justify-content-start'>
-                <Button
-                  color='link'
-                  size='sm'
-                  onClick={() => {
-                    setIsWalletTabActive(!isWalletTabActive);
-                  }}
-                >
-                  <MdArrowBack />
-                  <span className='d-md-inline'>
-                    {I18n.t('containers.wallet.verifyMnemonicPage.showAgain')}
-                  </span>
-                </Button>
+            {showSkipVerification && (
+              <div className={`footer-sheet`}>
+                <div className='text-center'>
+                  <MdWarning
+                    className={classnames({
+                      'footer-sheet-icon': true,
+                      [styles[`warning-dailog`]]: true,
+                    })}
+                  />
+                  <h3>
+                    {I18n.t(
+                      'containers.wallet.verifyMnemonicPage.skipVerificationTextHeader'
+                    )}
+                  </h3>
+                  <p>
+                    {I18n.t(
+                      'containers.wallet.verifyMnemonicPage.skipVerificationText'
+                    )}
+                  </p>
+                </div>
+              </div>
+            )}
+            <Row>
+              <Col xs='12' md='6'>
+                {!showSkipVerification && (
+                  <Button
+                    color='link'
+                    size='sm'
+                    onClick={() => {
+                      setIsWalletTabActive(!isWalletTabActive);
+                    }}
+                  >
+                    <MdArrowBack />
+                    <span className='d-md-inline'>
+                      {I18n.t('containers.wallet.verifyMnemonicPage.showAgain')}
+                    </span>
+                  </Button>
+                )}
               </Col>
-              <Col className='d-flex justify-content-end'>
-                <Button
-                  color='link'
-                  className='mr-3'
-                  disabled={!enableSubmit}
-                  onClick={() => createWallet(mnemonicCode, history)}
-                >
-                  {I18n.t('containers.wallet.createNewWalletPage.continue')}
-                </Button>
+              <Col xs='12' md='6' className='text-right'>
+                <span>
+                  <Button
+                    color='link'
+                    onClick={() =>
+                      setShowSkipVerification(!showSkipVerification)
+                    }
+                  >
+                    {showSkipVerification
+                      ? I18n.t('containers.wallet.verifyMnemonicPage.dontSkip')
+                      : I18n.t('containers.wallet.verifyMnemonicPage.skip')}
+                  </Button>
+                </span>
+                <span>
+                  <Button
+                    color={showSkipVerification ? 'primary' : 'link'}
+                    disabled={!(showSkipVerification || enableSubmit)}
+                    onClick={() => createWallet(mnemonicCode, history)}
+                  >
+                    {showSkipVerification
+                      ? I18n.t('containers.wallet.verifyMnemonicPage.skip')
+                      : I18n.t('containers.wallet.verifyMnemonicPage.continue')}
+                  </Button>
+                </span>
               </Col>
             </Row>
           </div>

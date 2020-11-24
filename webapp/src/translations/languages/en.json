@@ -375,15 +375,20 @@
         "createNewWallet": "Create New Wallet"
       },
       "verifyMnemonicPage": {
-        "back": "BACK",
         "title": "Wallet - Verify mnemonic seed",
+        "back": "BACK",
         "verifyMnemonicSeed": "Verify mnemonic seed",
         "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please pick out 6 of the words in your mnemonic seed, in the list below.",
         "verifyMnemonicWhichOne": "Which one is…",
         "wordQuestion": "Word %{wordNum}?",
-        "showAgain": "Show me my 24 words again",
         "creatingYourWallet": "Creating your wallet",
-        "backToWalletPage": "CLOSE"
+        "backToWalletPage": "CLOSE",
+        "skipVerificationTextHeader": "Skip at your own risk",
+        "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
+        "showAgain": "Show me my 24 words again",
+        "dontSkip": "Don't skip verification",
+        "skip": "Skip",
+        "continue": "Continue"
       },
       "restoreWalletPage": {
         "back": "BACK",
