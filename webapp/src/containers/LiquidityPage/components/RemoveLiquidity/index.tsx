@@ -21,6 +21,7 @@ import {
   Label,
   Row,
   UncontrolledDropdown,
+  CustomInput,
 } from 'reactstrap';
 import {
   NavLink,
@@ -191,39 +192,35 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             <Label for='removeLiquidityRange'>
               {I18n.t('containers.swap.removeLiquidity.removeLiquidityAmount')}
             </Label>
-            <Row className='align-items-center'>
-              <Col sm={2}>
-                <InputGroup className='m-2'>
-                  <Input
-                    type='number'
-                    id='amountPercentage'
-                    value={formState.amountPercentage}
-                    className='border-right-0'
-                    onChange={(e) => {
-                      if (
-                        0 <= Number(e.target.value) &&
-                        Number(e.target.value) <= 100
-                      ) {
-                        setFormState({
-                          ...formState,
-                          amountPercentage: e.target.value,
-                        });
-                      }
-                    }}
-                  />
-                  <InputGroupAddon addonType='prepend'>
-                    <InputGroupText className='border-left-0'>
-                      {I18n.t(
-                        'containers.swap.removeLiquidity.removeLiquidityPercentage'
-                      )}
-                    </InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </Col>
-              <Col
-                sm={10}
-                className='d-flex align-items-center justify-content-center'
-              >
+            <div className={styles.amountRemoveInputRange}>
+              <InputGroup className={styles.amountRemoveInputWrapper}>
+                <Input
+                  type='text'
+                  inputmode='decimal'
+                  id='amountPercentage'
+                  value={formState.amountPercentage}
+                  className={styles.amountRemoveInput}
+                  onChange={(e) => {
+                    if (
+                      0 <= Number(e.target.value) &&
+                      Number(e.target.value) <= 100
+                    ) {
+                      setFormState({
+                        ...formState,
+                        amountPercentage: e.target.value,
+                      });
+                    }
+                  }}
+                />
+                <InputGroupAddon addonType='append'>
+                  <InputGroupText className='border-left-0'>
+                    {I18n.t(
+                      'containers.swap.removeLiquidity.removeLiquidityPercentage'
+                    )}
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+              <div className={styles.amountRemoveRangeWrapper}>
                 <span
                   className={styles.rangeText}
                   onClick={() => {
@@ -235,12 +232,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 >
                   {I18n.t('containers.swap.removeLiquidity.none')}
                 </span>
-                <input
+                <CustomInput
                   type='range'
                   name='removeLiquidityRange'
                   id='removeLiquidityRange'
                   value={formState.amountPercentage}
-                  className='custom-range ml-5 mr-5'
+                  className={styles.amountRemoveRange}
+                  step='0.1'
                   onChange={(e) => {
                     if (Number(e.target.value) >= 0) {
                       setFormState({
@@ -261,8 +259,8 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 >
                   {I18n.t('containers.swap.removeLiquidity.all')}
                 </span>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </FormGroup>
           <Row>
             <Col md='12'>
@@ -383,18 +381,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         >
           <Row className='justify-content-between align-items-center'>
             <Col className='col-auto'>
-              <FormGroup check>
-                <Label check>
-                  {I18n.t(
-                    'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
-                  )}
-                </Label>
-              </FormGroup>
+              {I18n.t(
+                'containers.swap.removeLiquidity.enterRemoveLiquidityAmount'
+              )}
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
-                color='link'
-                className='mr-3'
+                color='primary'
                 onClick={() => setRemoveLiquidityStep('confirm')}
                 disabled={
                   !Number(formState.amountPercentage) ||
