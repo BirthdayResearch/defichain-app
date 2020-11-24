@@ -31,6 +31,13 @@ export default class AppMenu {
               wallet.startBackupWallet(bw);
             },
           },
+          {
+            label: 'Reset Wallet',
+            click(item, bw) {
+              const wallet = new Wallet();
+              wallet.resetWallet(bw);
+            },
+          },
         ],
       },
       {
