@@ -38,7 +38,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi Blockchain Client",
+        "title": "Blockchain – DeFiChain Client",
         "blockchain": "Blockchain"
       },
       "blockChainTable": {
@@ -53,7 +53,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi Blockchain Client",
+        "title": "– DeFiChain Client",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -78,30 +78,30 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiBlockChainClient": "DeFi Blockchain Client",
+        "defiBlockChainClient": "DeFiChain Client",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi Blockchain Client",
+      "title": "DFI Block Processing Center – DeFiChain Client",
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi Blockchain Client",
+      "title": "Exchange – DeFiChain Client",
       "exchange": "Exchange",
       "section": "Section",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Help – DeFi Blockchain Client",
+      "title": "Help – DeFiChain Client",
       "help": "Help",
       "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi Blockchain Client",
+        "title": "Masternodes – DeFiChain Client",
         "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
@@ -175,7 +175,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi Blockchain Client",
+        "title": "Tokens – DeFiChain Client",
         "loading": "Loading...",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -279,7 +279,7 @@
         "continue": "continue",
         "pleaseVerifyAmount": "Please Verify Amount",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "Transaction successful. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "Transaction successful. Your token balance will update once the transaction has been confirmed by the DeFiChain.",
         "backToToken": "Back to Tokens"
       },
       "transfersList": {
@@ -309,7 +309,7 @@
     },
     "swap": {
       "swapPage": {
-        "title": "Tokens – DeFi Blockchain Client",
+        "title": "Tokens – DeFiChain Client",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -330,7 +330,7 @@
         "priceImpact": "Price Impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFiChain",
         "goToWallet": "Go to Wallet",
         "go": "Go",
         "ok": "OK",
@@ -375,7 +375,7 @@
         "continue": "Continue",
         "cancel": "Cancel",
         "supply": "Supply",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the Defi blockchain",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DefiChain",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool"
       },
@@ -384,7 +384,7 @@
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
         "removeLiquidityAmount": "Amount of liquidity to remove",
-        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the Defi blockchain",
+        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the DefiChain",
         "receive": "Receive",
         "cancel": "Cancel",
         "removeLiquidityPercentage": "%",
@@ -399,7 +399,7 @@
       }
     },
     "settings": {
-      "title": "Settings – DeFi Blockchain Client",
+      "title": "Settings – DeFiChain Client",
       "settings": "Settings",
       "general": "General",
       "display": "Display",
@@ -474,9 +474,9 @@
         "backToWalletPage": "CLOSE"
       },
       "sendPage": {
-        "sendTitle": "Send – DeFi Blockchain Client",
+        "sendTitle": "Send – DeFiChain Client",
         "wallet": "Wallet",
-        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
+        "sendDFITitle": "Send DFI – DeFiChain Client",
         "sendDFI": "Send DFI",
         "send": "Send",
         "amount": "Amount",
@@ -491,13 +491,13 @@
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
         "sendFailed": "Error occurred while sending amount",
-        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by the DeFiChain.",
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI Address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account"
       },
       "receivePage": {
-        "receiveDFITitle": "Receive DFI – DeFi Blockchain Client",
+        "receiveDFITitle": "Receive DFI – DeFiChain Client",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "optional": "Optional",
@@ -531,7 +531,7 @@
         "created": "Created"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id} – DeFi Blockchain Client",
+        "paymentRequestTitle": "Payment request %{id} – DeFiChain Client",
         "paymentRequest": "Payment request",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -544,7 +544,7 @@
       },
       "walletPage": {
         "tokens": "TOKENS",
-        "walletDefiClient": "Wallet – DeFi Blockchain Client",
+        "walletDefiClient": "Wallet – DeFiChain Client",
         "wallet": "Wallet",
         "delete": "Delete",
         "send": "Send",
@@ -580,7 +580,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – DeFi Blockchain Client",
+        "consoleDefiClient": "Console – DeFiChain Client",
         "defiCliCommand": "Enter Defi-cli command",
         "console": "Console",
         "submit": "Submit",
