@@ -9,7 +9,12 @@ import {
   getRandomWordArray,
   selectNfromRange,
 } from '../../../../../utils/utility';
-import { WALLET_BASE_PATH, WALLET_TOKENS_PATH } from '../../../../../constants';
+import {
+  VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT,
+  VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT,
+  WALLET_BASE_PATH,
+  WALLET_TOKENS_PATH,
+} from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
 import { connect } from 'react-redux';
@@ -89,8 +94,8 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   const createWalletRecoveryQuiz = () => {
     const lowerBound = 1;
     const upperBound = Object.keys(mnemonicObj).length;
-    const limit = 6;
-    const optionsPerQuestions = 3;
+    const limit = VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT;
+    const optionsPerQuestions = VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT;
     const distinctQnum = selectNfromRange(
       lowerBound,
       upperBound,
