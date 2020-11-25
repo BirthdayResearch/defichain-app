@@ -732,6 +732,11 @@
     "restartWalletModalHeader": "Restart required",
     "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart now?",
     "yesRestartWalletNotice": "Restart now",
-    "noRestartWalletNotice": "Later"
+    "noRestartWalletNotice": "Later",
+    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletDatNotice": "Are you sure you want to reset?",
+    "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
+    "yeResetpWalletNotice": "Yes",
+    "noResetWalletNotice": "No"
   }
 }

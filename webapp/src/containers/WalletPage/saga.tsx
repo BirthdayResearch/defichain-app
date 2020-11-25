@@ -38,6 +38,8 @@ import {
   restoreWalletSuccess,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  setIsWalletCreatedRequest,
+  setIsWalletCreatedStartRequest,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -63,6 +65,7 @@ import {
   getNetworkInfo,
   getNetworkType,
   isValidMnemonic,
+  isWalletCreated,
 } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
@@ -352,6 +355,20 @@ export function* fetchInstantPendingBalance() {
     log.error(err);
   }
 }
+
+function* checkWalletCreation() {
+  try {
+    const network = yield call(getNetwork);
+    const isWalletCreatedVal = isWalletCreated(network);
+    const { isWalletCreatedFlag } = yield select((state) => state.wallet);
+    if(isWalletCreatedFlag !== isWalletCreatedVal) {
+      yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -369,6 +386,7 @@ function* mySaga() {
     fetchInstantPendingBalanceRequest.type,
     fetchInstantPendingBalance
   );
+  yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
 }
 
 export default mySaga;

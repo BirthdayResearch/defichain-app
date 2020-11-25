@@ -118,3 +118,5 @@ export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
 export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
+
+export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET'
