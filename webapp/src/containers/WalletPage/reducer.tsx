@@ -186,7 +186,7 @@ const configSlice = createSlice({
     setIsWalletCreatedRequest(state, action) {
       state.isWalletCreatedFlag = action.payload;
     },
-    setIsWalletCreatedStartRequest(state, action) {
+    setIsWalletCreatedStartRequest(state) {
       state.isWalletCreatedFlag = false;
     }
   },
