@@ -52,12 +52,22 @@
   cursor: pointer;
 }
 
-.divisibilityDropdown {
-  width: 100%;
+.receiveAddressDropdown {
   text-align: left;
+  font-weight: $font-weight-normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding-right: 32px;
+
+  &:hover {
+    color: $body-color !important;
+  }
+
   &:after {
-    float: right;
-    margin-top: 10px;
+    position: absolute;
+    right: 16px;
+    top: 21px;
   }
 }
 
@@ -69,9 +79,19 @@
   color: $dfi-red !important;
 }
 
-.scrollAuto {
+.receiveAddressMenu {
   overflow: auto;
-  height: 100px;
+  max-height: 128px;
+}
+
+.receiveAddressMenuLabel {
+  margin-left: 8px;
+  color: $secondary;
+}
+
+.receiveAddressMenuCheck {
+  margin-left: 8px;
+  float: right;
 }
 
 .successColor {
