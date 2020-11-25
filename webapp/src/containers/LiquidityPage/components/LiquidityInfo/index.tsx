@@ -39,7 +39,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
 
   const poolshare =
     poolshares.length &&
-    poolshares.find((poolShare) => {
+    poolshares.find(poolShare => {
       return poolShare.poolID === poolID;
     });
 
@@ -68,7 +68,11 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
           )}`}</h1>
         </div>
         <ButtonGroup>
-          <Button to={CREATE_POOL_PAIR_PATH} tag={RRNavLink} color='link'>
+          <Button
+            to={`${CREATE_POOL_PAIR_PATH}?idTokenA=${poolshare.idTokenA}&idTokenB=${poolshare.idTokenB}&tokenA=${poolshare.tokenA}&tokenB=${poolshare.tokenB}`}
+            tag={RRNavLink}
+            color='link'
+          >
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t('containers.liquidity.liquidityInfo.addMore')}
@@ -157,7 +161,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { poolshares } = state.swap;
   return {
     poolshares,
