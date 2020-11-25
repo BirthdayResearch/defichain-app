@@ -3,6 +3,7 @@ import {
   WALLET_BACKUP,
   BACKUP_WALLET_DAT,
   REPLACE_WALLET_DAT,
+  ENABLE_RESET_MENU,
 } from '../constants';
 import Wallet from '../controllers/wallets';
 import { responseMessage } from '../utils';
@@ -40,7 +41,7 @@ const initiateBackupImportWalletManager = (
     }
   });
 
-  ipcMain.on('enable-reset', async () => {
+  ipcMain.on(ENABLE_RESET_MENU, async () => {
     try {
       createMenu(true);
     } catch (err) {
