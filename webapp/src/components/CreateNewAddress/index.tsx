@@ -14,7 +14,7 @@ import {
 import { I18n } from 'react-redux-i18n';
 import { MdArrowBack } from 'react-icons/md';
 import * as log from '../../utils/electronLogger';
-import Header from '../../../../HeaderComponent';
+import Header from '@/containers/HeaderComponent';
 
 interface CreateNewAddressProps {
   history: {
