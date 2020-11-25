@@ -268,7 +268,8 @@
         "pair": "Pair",
         "liquidity": "Liquidity",
         "volume": "Volume",
-        "apy": "APY"
+        "apy": "APY",
+        "totalLiquidity": "Total Liquidity ( USD )"
       },
       "addLiquidity": {
         "balance": "Balance",

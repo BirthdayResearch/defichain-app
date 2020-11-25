@@ -79,7 +79,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                 <tr>
                   <th></th>
                   <th>{I18n.t('containers.swap.poolTab.pair')}</th>
-                  <th>{I18n.t('containers.swap.poolTab.liquidity')}</th>
+                  <th>{I18n.t('containers.swap.poolTab.totalLiquidity')}</th>
                   {/* <th>
                     {I18n.t(
                       'containers.swap.poolTab.volume'
