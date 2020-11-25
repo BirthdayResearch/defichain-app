@@ -32,6 +32,12 @@ export const initialState = {
   isLoadingPoolSwap: false,
   isPoolSwapLoaded: false,
   isErrorPoolSwap: '',
+  utxoDfi: 0,
+  isUtxoDfiFetching: false,
+  isUtxoDfiError: '',
+  maxAccountDfi: 0,
+  isMaxAccountDfiFetching: false,
+  isMaxAccountDfiError: '',
 };
 
 const configSlice = createSlice({
@@ -159,6 +165,34 @@ const configSlice = createSlice({
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
     },
+    fetchUtxoDfiRequest(state) {
+      state.isUtxoDfiFetching = true;
+      state.isUtxoDfiError = '';
+    },
+    fetchUtxoDfiSuccess(state, action) {
+      state.utxoDfi = action.payload;
+      state.isUtxoDfiFetching = false;
+      state.isUtxoDfiError = '';
+    },
+    fetchUtxoDfiFailure(state, action) {
+      state.utxoDfi = 0;
+      state.isUtxoDfiFetching = false;
+      state.isUtxoDfiError = action.payload;
+    },
+    fetchMaxAccountDfiRequest(state) {
+      state.isMaxAccountDfiFetching = true;
+      state.isMaxAccountDfiError = '';
+    },
+    fetchMaxAccountDfiSuccess(state, action) {
+      state.maxAccountDfi = action.payload;
+      state.isMaxAccountDfiFetching = false;
+      state.isMaxAccountDfiError = '';
+    },
+    fetchMaxAccountDfiFailure(state, action) {
+      state.maxAccountDfi = 0;
+      state.isMaxAccountDfiFetching = false;
+      state.isMaxAccountDfiError = action.payload;
+    },
   },
 });
 
@@ -193,6 +227,12 @@ export const {
   poolSwapRequest,
   poolSwapSuccess,
   poolSwapFailure,
+  fetchUtxoDfiRequest,
+  fetchUtxoDfiSuccess,
+  fetchUtxoDfiFailure,
+  fetchMaxAccountDfiRequest,
+  fetchMaxAccountDfiSuccess,
+  fetchMaxAccountDfiFailure,
 } = actions;
 
 export default reducer;

@@ -2,6 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as log from '../../utils/electronLogger';
 import { getErrorMessage } from '../../utils/utility';
+import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchPoolpair,
   fetchPoolpairSuccess,
@@ -25,6 +26,11 @@ import {
   poolSwapRequest,
   poolSwapSuccess,
   poolSwapFailure,
+  fetchUtxoDfiRequest,
+  fetchUtxoDfiFailure,
+  fetchUtxoDfiSuccess,
+  fetchMaxAccountDfiSuccess,
+  fetchMaxAccountDfiFailure,
 } from './reducer';
 import {
   handleAddPoolLiquidity,
@@ -35,6 +41,8 @@ import {
   handlePoolSwap,
   handleTestPoolSwap,
   handleFetchPoolpair,
+  handleFetchUtxoDFI,
+  handleFetchTokenDFI,
 } from './service';
 
 function* fetchPoolshares() {
@@ -164,6 +172,29 @@ function* poolSwap(action) {
   }
 }
 
+function* fetchUtxoDfi() {
+  try {
+    const data = yield call(handleFetchUtxoDFI);
+    yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e.message);
+    yield put({ type: fetchUtxoDfiFailure.type, payload: getErrorMessage(e) });
+  }
+}
+
+function* fetchMaxAccountDfi() {
+  try {
+    const data = yield call(handleFetchTokenDFI);
+    yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });
+  } catch (e) {
+    log.error(e.message);
+    yield put({
+      type: fetchMaxAccountDfiFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
@@ -173,6 +204,8 @@ function* mySaga() {
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
   yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);
   yield takeLatest(poolSwapRequest.type, poolSwap);
+  yield takeLatest(fetchUtxoDfiRequest.type, fetchUtxoDfi);
+  yield takeLatest(fetchMaxAccountDfiRequest.type, fetchMaxAccountDfi);
 }
 
 export default mySaga;

@@ -18,6 +18,8 @@ import {
   fetchTokenBalanceListRequest,
   addPoolLiquidityRequest,
   fetchPoolsharesRequest,
+  fetchUtxoDfiRequest,
+  fetchMaxAccountDfiRequest,
 } from '../../reducer';
 import styles from './addLiquidity.module.scss';
 import {
@@ -60,6 +62,10 @@ interface AddLiquidityProps {
   walletBalance: number;
   isLoadingPreparingUTXO: boolean;
   isLoadingAddingLiquidity: boolean;
+  utxoDfi: number;
+  fetchUtxoDfiRequest: () => void;
+  maxAccountDfi: number;
+  fetchMaxAccountDfiRequest: () => void;
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
@@ -99,12 +105,18 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     walletBalance,
     isLoadingPreparingUTXO,
     isLoadingAddingLiquidity,
+    utxoDfi,
+    fetchUtxoDfiRequest,
+    maxAccountDfi,
+    fetchMaxAccountDfiRequest,
   } = props;
 
   useEffect(() => {
     fetchPoolPairListRequest();
     fetchTokenBalanceListRequest();
     fetchPoolsharesRequest();
+    fetchUtxoDfiRequest();
+    fetchMaxAccountDfiRequest();
   }, []);
 
   useEffect(() => {
@@ -113,7 +125,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       let balanceA;
       const balanceB = balanceSymbolMap.get(idTokenB);
       if (idTokenA === DFI_SYMBOL) {
-        balanceA = walletBalance;
+        balanceA = new BigNumber(utxoDfi)
+          .plus(maxAccountDfi)
+          .toNumber()
+          .toFixed(8);
       } else {
         balanceA = balanceSymbolMap.get(idTokenA);
       }
@@ -136,7 +151,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         });
       }
     } else {
-      const balanceA = walletBalance;
+      const balanceA = new BigNumber(utxoDfi)
+        .plus(maxAccountDfi)
+        .toNumber()
+        .toFixed(8);
       const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
       if (!balanceB) {
         setFormState({
@@ -202,10 +220,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    walletBalance
+    utxoDfi,
+    maxAccountDfi
   );
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -295,7 +314,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
+      const finalArray = filterArray.filter(value =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -387,13 +406,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {`${conversionRatio(formState, poolPairList)} ${
-                    formState.symbol1
-                  } per ${formState.symbol2}`}
+                  {`${Number(conversionRatio(formState, poolPairList)).toFixed(
+                    8
+                  )} ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
-                  {`${1 / Number(conversionRatio(formState, poolPairList))} ${
-                    formState.symbol2
-                  } per ${formState.symbol1}`}
+                  {`${(
+                    1 / Number(conversionRatio(formState, poolPairList))
+                  ).toFixed(8)} ${formState.symbol1} per ${formState.symbol2}`}
                 </Col>
               </Row>
               <hr />
@@ -641,7 +660,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolPairList,
     tokenBalanceList,
@@ -652,6 +671,8 @@ const mapStateToProps = (state) => {
     poolshares,
     isLoadingPreparingUTXO,
     isLoadingAddingLiquidity,
+    utxoDfi,
+    maxAccountDfi,
   } = state.swap;
   const { walletBalance } = state.wallet;
   return {
@@ -665,6 +686,8 @@ const mapStateToProps = (state) => {
     walletBalance,
     isLoadingPreparingUTXO,
     isLoadingAddingLiquidity,
+    utxoDfi,
+    maxAccountDfi,
   };
 };
 
@@ -673,6 +696,8 @@ const mapDispatchToProps = {
   fetchTokenBalanceListRequest,
   addPoolLiquidityRequest,
   fetchPoolsharesRequest,
+  fetchUtxoDfiRequest,
+  fetchMaxAccountDfiRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidity);

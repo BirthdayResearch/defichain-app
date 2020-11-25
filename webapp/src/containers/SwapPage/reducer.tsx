@@ -36,6 +36,12 @@ export const initialState = {
   isLoadingPoolSwap: false,
   isPoolSwapLoaded: false,
   isErrorPoolSwap: '',
+  utxoDfi: 0,
+  isUtxoDfiFetching: false,
+  isUtxoDfiError: '',
+  maxAccountDfi: 0,
+  isMaxAccountDfiFetching: false,
+  isMaxAccountDfiError: '',
 };
 
 const configSlice = createSlice({
@@ -141,6 +147,8 @@ const configSlice = createSlice({
     },
     fetchTestPoolSwapRequest(state, action) {
       state.isLoadingTestPoolSwap = true;
+      state.isErrorTestPoolSwap = '';
+      state.isTestPoolSwapLoaded = false;
     },
     fetchTestPoolSwapSuccess(state, action) {
       state.testPoolSwap = action.payload;
@@ -153,6 +161,9 @@ const configSlice = createSlice({
       state.isLoadingTestPoolSwap = false;
       state.isTestPoolSwapLoaded = true;
       state.isErrorTestPoolSwap = action.payload;
+    },
+    resetTestPoolSwapError(state) {
+      state.isErrorTestPoolSwap = '';
     },
     poolSwapRequest(state, action) {
       state.isLoadingPoolSwap = true;
@@ -167,6 +178,34 @@ const configSlice = createSlice({
       state.isErrorPoolSwap = action.payload;
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
+    },
+    fetchUtxoDfiRequest(state) {
+      state.isUtxoDfiFetching = true;
+      state.isUtxoDfiError = '';
+    },
+    fetchUtxoDfiSuccess(state, action) {
+      state.utxoDfi = action.payload;
+      state.isUtxoDfiFetching = false;
+      state.isUtxoDfiError = '';
+    },
+    fetchUtxoDfiFailure(state, action) {
+      state.utxoDfi = 0;
+      state.isUtxoDfiFetching = false;
+      state.isUtxoDfiError = action.payload;
+    },
+    fetchMaxAccountDfiRequest(state) {
+      state.isMaxAccountDfiFetching = true;
+      state.isMaxAccountDfiError = '';
+    },
+    fetchMaxAccountDfiSuccess(state, action) {
+      state.maxAccountDfi = action.payload;
+      state.isMaxAccountDfiFetching = false;
+      state.isMaxAccountDfiError = '';
+    },
+    fetchMaxAccountDfiFailure(state, action) {
+      state.maxAccountDfi = 0;
+      state.isMaxAccountDfiFetching = false;
+      state.isMaxAccountDfiError = action.payload;
     },
   },
 });
@@ -203,6 +242,13 @@ export const {
   poolSwapRequest,
   poolSwapSuccess,
   poolSwapFailure,
+  fetchUtxoDfiRequest,
+  fetchUtxoDfiSuccess,
+  fetchUtxoDfiFailure,
+  fetchMaxAccountDfiRequest,
+  fetchMaxAccountDfiSuccess,
+  fetchMaxAccountDfiFailure,
+  resetTestPoolSwapError,
 } = actions;
 
 export default reducer;

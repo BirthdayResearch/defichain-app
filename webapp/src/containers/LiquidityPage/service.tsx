@@ -401,3 +401,17 @@ export const handleRemovePoolLiquidity = async (
 
   return resolvedHashArray[resolvedHashArray.length - 1];
 };
+
+export const handleFetchUtxoDFI = async () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getBalance();
+}
+
+export const handleFetchTokenDFI = async () => {
+  const list = await getAddressAndAmountListForAccount();
+  const { address, amount } = await getAddressForSymbol(
+    DFI_SYMBOL,
+    list
+  );
+  return amount;
+}
