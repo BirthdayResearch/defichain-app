@@ -326,66 +326,54 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <hr />
             </Col>
           </Row>
-          <UncontrolledDropdown className='w-100'>
-            <DropdownToggle
-              caret
-              color='outline-secondary'
-              className={`${styles.divisibilityDropdown}`}
-              // disabled={isUpdate}
-            >
-              {formState.receiveAddress
-                ? formState.receiveAddress
-                : I18n.t('containers.swap.removeLiquidity.receiveAddress')}
-            </DropdownToggle>
-            <DropdownMenu className={`${styles.scrollAuto} w-100`}>
-              <DropdownItem className='w-100'>
-                <Row className='w-100'>
-                  <Col md='6'>
-                    {I18n.t('containers.swap.removeLiquidity.address')}
-                  </Col>
-                  <Col md='3'>
-                    {I18n.t('containers.swap.removeLiquidity.label')}
-                  </Col>
-                  <Col md='3'>
-                    {I18n.t('containers.swap.removeLiquidity.selected')}
-                  </Col>
-                </Row>
-              </DropdownItem>
-              {receiveAddresses.map((data) => {
-                return (
-                  <DropdownItem
-                    className='justify-content-between ml-0 w-100'
-                    key={data.address}
-                    name='receiveAddress'
-                    onClick={() =>
-                      setFormState({
-                        ...formState,
-                        receiveAddress: data.address,
-                      })
-                    }
-                    value={data.address}
-                  >
-                    <Row className='w-100'>
-                      <Col md='6'>
+          <FormGroup className='form-row align-items-center'>
+            <Col md='4'>
+              {I18n.t('containers.swap.removeLiquidity.receiveAddressLabel')}
+            </Col>
+            <Col md='8'>
+              <UncontrolledDropdown>
+                <DropdownToggle
+                  caret
+                  color='outline-secondary'
+                  className={`${styles.receiveAddressDropdown}`}
+                  // disabled={isUpdate}
+                >
+                  {formState.receiveAddress
+                    ? formState.receiveAddress
+                    : I18n.t(
+                        'containers.swap.removeLiquidity.receiveAddressDropdown'
+                      )}
+                </DropdownToggle>
+                <DropdownMenu className={`${styles.receiveAddressMenu}`}>
+                  {receiveAddresses.map((data) => {
+                    return (
+                      <DropdownItem
+                        key={data.address}
+                        name='receiveAddress'
+                        onClick={() =>
+                          setFormState({
+                            ...formState,
+                            receiveAddress: data.address,
+                          })
+                        }
+                        value={data.address}
+                      >
                         <EllipsisText text={data.address} length={'42'} />
-                      </Col>
-                      <Col md='3'>
                         <EllipsisText
-                          text={data.label ? data.label : '---'}
+                          className={styles.receiveAddressMenuLabel}
+                          text={data.label ? `${data.label}` : ''}
                           length={'20'}
                         />
-                      </Col>
-                      <Col md='3'>
                         {formState.receiveAddress === data.address && (
-                          <MdCheck />
+                          <MdCheck className={styles.receiveAddressMenuCheck} />
                         )}
-                      </Col>
-                    </Row>
-                  </DropdownItem>
-                );
-              })}
-            </DropdownMenu>
-          </UncontrolledDropdown>
+                      </DropdownItem>
+                    );
+                  })}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Col>
+          </FormGroup>
         </section>
       </div>
       <footer className='footer-bar'>
