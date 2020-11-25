@@ -30,6 +30,9 @@ import {
   fetchPoolsharesRequest,
   fetchTestPoolSwapRequest,
   poolSwapRequest,
+  fetchUtxoDfiRequest,
+  fetchMaxAccountDfiRequest,
+  resetTestPoolSwapError,
 } from './reducer';
 import {
   calculateLPFee,
@@ -76,6 +79,11 @@ interface SwapPageProps {
   addPoolLiquidityHash: string;
   isErrorAddingPoolLiquidity: string;
   walletBalance: number;
+  utxoDfi: number;
+  fetchUtxoDfiRequest: () => void;
+  maxAccountDfi: number;
+  fetchMaxAccountDfiRequest: () => void;
+  resetTestPoolSwapError: () => void;
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -113,11 +121,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     isErrorPoolSwap,
     poolSwapHash,
     walletBalance,
+    utxoDfi,
+    fetchUtxoDfiRequest,
+    maxAccountDfi,
+    fetchMaxAccountDfiRequest,
+    resetTestPoolSwapError,
   } = props;
 
   useEffect(() => {
     fetchPoolPairListRequest();
     fetchTokenBalanceListRequest();
+    fetchUtxoDfiRequest();
+    fetchMaxAccountDfiRequest();
+    resetTestPoolSwapError();
   }, []);
 
   useEffect(() => {
@@ -165,10 +181,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    walletBalance
+    utxoDfi,
+    maxAccountDfi
   );
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -237,7 +254,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
+      const finalArray = filterArray.filter(value =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -382,9 +399,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     <span>{I18n.t('containers.swap.swapPage.price')}</span>
                   </Col>
                   <Col className={`${styles.valueTxt}`}>
-                    {`${conversionRatio(formState, poolPairList)} ${
-                      formState.symbol2
-                    } per ${formState.symbol1}`}
+                    {`${Number(
+                      conversionRatio(formState, poolPairList)
+                    ).toFixed(8)} ${formState.symbol2} per ${
+                      formState.symbol1
+                    }`}
                     <br />
                     {`${(
                       1 / Number(conversionRatio(formState, poolPairList))
@@ -701,7 +720,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolPairList,
     tokenBalanceList,
@@ -717,6 +736,8 @@ const mapStateToProps = (state) => {
     isErrorPoolSwap,
     isPoolSwapLoaded,
     poolSwapHash,
+    utxoDfi,
+    maxAccountDfi,
   } = state.swap;
   const { walletBalance } = state.wallet;
   return {
@@ -735,6 +756,8 @@ const mapStateToProps = (state) => {
     isPoolSwapLoaded,
     poolSwapHash,
     walletBalance,
+    utxoDfi,
+    maxAccountDfi,
   };
 };
 
@@ -745,6 +768,9 @@ const mapDispatchToProps = {
   addPoolLiquidityRequest,
   fetchPoolsharesRequest,
   poolSwapRequest,
+  fetchUtxoDfiRequest,
+  fetchMaxAccountDfiRequest,
+  resetTestPoolSwapError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapPage);

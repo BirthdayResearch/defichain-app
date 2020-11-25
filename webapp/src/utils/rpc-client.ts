@@ -671,6 +671,7 @@ export default class RpcClient {
       },
       true,
       true,
+      true
     ]);
     return data.result;
   };
