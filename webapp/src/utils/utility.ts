@@ -311,8 +311,7 @@ export const getParams = (query: string) => {
       (param.startsWith("'") && param.endsWith("'"))
     ) {
       return param.replace(/"/g, '').replace(/'/g, '');
-    }
-    else if (
+    } else if (
       (param.startsWith('{') && param.endsWith('}')) ||
       (param.startsWith('[') && param.endsWith(']'))
     ) {
