@@ -1,4 +1,5 @@
 // import TransportHid from '@ledgerhq/hw-transport-node-hid';
+// @tsc-ignore
 import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
@@ -76,7 +77,7 @@ function checkStatusCode(response: Buffer): { code: number; status: string } {
 }
 
 export default class DefiHwWallet {
-  transport: TransportHid;
+  transport: any;
   connected: boolean;
 
   async getDevices(): Promise<readonly string[]> {
@@ -84,13 +85,13 @@ export default class DefiHwWallet {
       console.log('Transport not supported');
       return;
     }
-    let devs = await TransportHid.list();
+    const devs = await TransportHid.list();
     if (devs.length === 0) {
       console.log('No devices connected');
       return undefined;
     }
     console.log('Devices avaible:');
-    devs.forEach((element) => {
+    devs.forEach((element: any) => {
       console.log(element);
     });
     return devs;
@@ -99,24 +100,22 @@ export default class DefiHwWallet {
   async connect(path?: string) {
     try {
       if (!(await TransportHid.isSupported())) {
-        console.log('Transport not supported');
-        return;
+        Promise.reject(Error('Transport not supported'));
       }
       this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
-      console.log(this.transport.info);
-    } catch (e) {
+    } catch (err) {
       this.connected = false;
-      console.log('Error: ' + e.message);
+      throw Error(err.message);
     }
   }
 
   async getDefiAppVersion(): Promise<string> {
     if (!this.connected) return '';
     try {
-      let apdu = Buffer.from([CLA, INS_GET_VERSION, 0x00, 0x00, 0x00]);
-      let response = await this.transport.exchange(apdu);
-      let { code, status } = checkStatusCode(response);
+      const apdu = Buffer.from([CLA, INS_GET_VERSION, 0x00, 0x00, 0x00]);
+      const response = await this.transport.exchange(apdu);
+      const { code, status } = checkStatusCode(response);
 
       if (code !== StatusCodes.OK) {
         console.log(status);

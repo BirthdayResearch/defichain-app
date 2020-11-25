@@ -1,9 +1,9 @@
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
-import * as log from '../../utils/electronLogger';
-import { ipcRendererFunc } from '../../utils/isElectron';
-import RpcClient from '../../utils/rpc-client';
+import * as log from '@/utils/electronLogger';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import RpcClient from '@/utils/rpc-client';
 import {
   PAYMENT_REQUEST,
   BLOCKCHAIN_INFO_CHAIN_TEST,
@@ -11,18 +11,16 @@ import {
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
 } from '../../constants';
-import PersistentStore from '../../utils/persistentStore';
+import PersistentStore from '@/utils/persistentStore';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
   getErrorMessage,
-} from '../../utils/utility';
-import {
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
-} from '../../utils/utility';
-import { GET_LEDGER_DEFI_PUB_KEY } from '../../constants';
+} from '@/utils/utility';
+import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER } from '@/constants';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -374,4 +372,9 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
 export const getPubKeyLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(GET_LEDGER_DEFI_PUB_KEY);
+};
+
+export const connectLedger = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  return ipcRenderer.sendSync(CONNECT_LEDGER);
 };

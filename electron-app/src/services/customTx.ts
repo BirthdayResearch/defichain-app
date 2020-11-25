@@ -6,6 +6,7 @@ import {
   crypto,
   util,
 } from 'bitcore-lib-dfi';
+// @tsc-ignore
 import _ from 'lodash';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 
@@ -86,7 +87,8 @@ function createZeroOutputTxFromCustomTx(
 }
 
 function signInputs(tx: Transaction, keyIndex: number) {
-  _.each(getSignatures(tx, keyIndex), (sigsInput) => {
+  // @tsc-ignore
+  _.each(getSignatures(tx, keyIndex), (sigsInput: any) => {
     tx.inputs[sigsInput.signature.inputIndex].setScript(
       Script.buildPublicKeyHashIn(
         sigsInput.signature.publicKey,
@@ -101,7 +103,8 @@ function signInputs(tx: Transaction, keyIndex: number) {
 function getSignatures(tx: Transaction, keyIndex: number) {
   const results: SigsInput[] = [];
   _.each(tx.inputs, (input: Transaction.Input, index: number) => {
-    _.each(getSigsInputs(tx, index, keyIndex), (signature) => {
+    // @tsc-ignore
+    _.each(getSigsInputs(tx, index, keyIndex), (signature: any) => {
       results.push(signature);
     });
   });
@@ -160,7 +163,14 @@ async function signTransaction(
   };
 }
 
-export function createTx(utxo, address, amount, data, keyIndex: number) {
+// @tsc-ignore
+export function createTx(
+  utxo: any,
+  address: any,
+  amount: any,
+  data: any,
+  keyIndex: number
+) {
   let tx = new Transaction().from(utxo).to(address, amount).fee(0);
   tx = createZeroOutputTxFromCustomTx(tx, data);
   tx = signInputs(tx, keyIndex);

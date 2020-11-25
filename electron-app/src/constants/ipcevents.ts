@@ -39,3 +39,4 @@ export const START_BACKUP_WALLET = 'start-backup-wallet';
 export const REPLACE_WALLET_DAT = 'replace-wallet-dat';
 
 export const GET_LEDGER_DEFI_PUB_KEY = 'get-ledger-defi-pub-key';
+export const CONNECT_LEDGER = 'connect-ledger';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
@@ -13,8 +13,9 @@ import {
   fetchInstantPendingBalanceRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { LEDGER_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import { LEDGER_RECEIVE_PATH } from '@/constants';
+import { getAmountInSelectedUnit } from '@/utils/utility';
+import { connectLedger } from '@/containers/LedgerPage/service';
 import styles from './LedgerPage.module.scss';
 
 interface WalletPageProps extends RouteComponentProps {
@@ -68,6 +69,12 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
   const { walletBalance, pendingBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
+  const [isConnect, setIsConnect] = useState(false);
+
+  const onConnectLedger = useCallback(async () => {
+    const connected = await connectLedger();
+    setIsConnect(connected);
+  }, []);
 
   return (
     <div className='main-wrapper'>
@@ -78,9 +85,15 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
         <div className='d-flex'>
           <h1>{I18n.t('containers.ledger.ledgerPage.title')}</h1>
         </div>
-        <Button color='link' size='sm' className={styles.connectButton}>
+        <Button
+          color='link'
+          size='sm'
+          className={styles.connectButton}
+          onClick={onConnectLedger}
+        >
           {I18n.t('containers.ledger.ledgerPage.connect')}
         </Button>
+        {isConnect}
         <ButtonGroup>
           <Button color='link' size='sm' disabled>
             <MdArrowUpward />
