@@ -404,7 +404,7 @@
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "continue": "Continue",
-        "swaping": "Swaping",
+        "swaping": "Swapping",
         "amountInsufficient": "Insufficient Amount in your account"
       },
       "swapTab": {
