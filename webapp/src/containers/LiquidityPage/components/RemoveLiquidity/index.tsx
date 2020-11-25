@@ -480,21 +480,23 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <div>
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {isLoadingRefreshUTXOS1 ? (
                   <>
-                    <Spinner />
-                    &nbsp;
-                    <span>
-                      {I18n.t(
-                        'containers.swap.removeLiquidity.refreshingUTXOS'
-                      )}
-                    </span>
+                    <div className='d-flex'>
+                      <div className={styles.loaderInline}>
+                        <Spinner />
+                      </div>
+                      <span>
+                        {I18n.t(
+                          'containers.swap.removeLiquidity.refreshingUTXOS'
+                        )}
+                      </span>
+                    </div>
                   </>
                 ) : (
                   <>
                     <MdCheckCircle className={styles.successColor} />
-                    &nbsp;
                     <b>
                       {I18n.t('containers.swap.removeLiquidity.UTXOSRefreshed')}
                     </b>
@@ -502,23 +504,25 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 )}
               </div>
               <br />
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {refreshUTXOS1Loaded ? (
                   <>
                     {isLoadingLiquidityRemoved ? (
                       <>
-                        {<Spinner />}
-                        &nbsp;
-                        <span>
-                          {I18n.t(
-                            'containers.swap.removeLiquidity.removingLiquidity'
-                          )}
-                        </span>
+                        <div className='d-flex'>
+                          <div className={styles.loaderInline}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t(
+                              'containers.swap.removeLiquidity.removingLiquidity'
+                            )}
+                          </span>
+                        </div>
                       </>
                     ) : (
                       <>
                         <MdCheckCircle className={styles.successColor} />
-                        &nbsp;
                         <b>
                           {I18n.t(
                             'containers.swap.removeLiquidity.liquidityRemoved'
@@ -543,18 +547,20 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <>
                     {isLoadingRefreshUTXOS2 ? (
                       <>
-                        {<Spinner />}
-                        &nbsp;
-                        <span>
-                          {I18n.t(
-                            'containers.swap.removeLiquidity.refreshingUTXOS'
-                          )}
-                        </span>
+                        <div className='d-flex position-relative'>
+                          <div className={styles.loaderInline}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t(
+                              'containers.swap.removeLiquidity.refreshingUTXOS'
+                            )}
+                          </span>
+                        </div>
                       </>
                     ) : (
                       <>
                         <MdCheckCircle className={styles.successColor} />
-                        &nbsp;
                         <b>
                           {I18n.t(
                             'containers.swap.removeLiquidity.UTXOSRefreshed'
@@ -579,18 +585,20 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <>
                     {isLoadingTransferTokens ? (
                       <>
-                        {<Spinner />}
-                        &nbsp;
-                        <span>
-                          {I18n.t(
-                            'containers.swap.removeLiquidity.transferringTokens'
-                          )}
-                        </span>
+                        <div className='d-flex position-relative'>
+                          <div className={styles.loaderInline}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t(
+                              'containers.swap.removeLiquidity.transferringTokens'
+                            )}
+                          </span>
+                        </div>
                       </>
                     ) : (
                       <>
                         <MdCheckCircle className={styles.successColor} />
-                        &nbsp;
                         <b>
                           {I18n.t(
                             'containers.swap.removeLiquidity.tokensTransferred'

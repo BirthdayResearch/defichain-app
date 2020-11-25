@@ -224,7 +224,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     maxAccountDfi
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -314,7 +314,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -591,35 +591,38 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <div>
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {isLoadingPreparingUTXO ? (
                   <>
-                    <Spinner />
-                    &nbsp;
-                    <b>
-                      {I18n.t('containers.swap.addLiquidity.preparingUTXO')}
-                    </b>
+                    <div className='d-flex'>
+                      <div className={styles.loaderInline}>
+                        <Spinner />
+                      </div>
+                      <b>
+                        {I18n.t('containers.swap.addLiquidity.preparingUTXO')}
+                      </b>
+                    </div>
                   </>
                 ) : (
                   <>
                     <MdCheckCircle className={styles.successColor} />
-                    &nbsp;
                     <b>{I18n.t('containers.swap.addLiquidity.UTXOPrepared')}</b>
                   </>
                 )}
               </div>
               <br />
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {!isLoadingPreparingUTXO && (
                   <>
                     {isLoadingAddingLiquidity ? (
-                      <Spinner />
+                      <div className={styles.loaderInline}>
+                        <Spinner />
+                      </div>
                     ) : (
                       <MdCheckCircle className={styles.successColor} />
                     )}
                   </>
                 )}
-                &nbsp;
                 {isLoadingPreparingUTXO ? (
                   <span>
                     {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
@@ -660,7 +663,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,
