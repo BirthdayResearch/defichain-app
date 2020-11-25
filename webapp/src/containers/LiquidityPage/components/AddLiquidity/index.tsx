@@ -21,8 +21,12 @@ import {
 } from '../../reducer';
 import styles from './addLiquidity.module.scss';
 import {
+  BTC,
+  BTC_SYMBOL,
   DEFICHAIN_MAINNET_LINK,
   DEFICHAIN_TESTNET_LINK,
+  DFI,
+  DFI_SYMBOL,
   LIQUIDITY_PATH,
   MAIN,
 } from '../../../../constants';
@@ -30,6 +34,7 @@ import {
   calculateInputAddLiquidity,
   conversionRatio,
   countDecimals,
+  getBalanceAndSymbolMap,
   getNetworkType,
   getTokenAndBalanceMap,
   getTotalPoolValue,
@@ -40,6 +45,7 @@ import BigNumber from 'bignumber.js';
 import openNewTab from '../../../../utils/openNewTab';
 
 interface AddLiquidityProps {
+  location: any;
   poolshares: any[];
   fetchPoolsharesRequest: () => void;
   poolPairList: any[];
@@ -59,6 +65,12 @@ interface AddLiquidityProps {
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   props: AddLiquidityProps
 ) => {
+  const urlParams = new URLSearchParams(props.location.search);
+  const idTokenA = urlParams.get('idTokenA');
+  const idTokenB = urlParams.get('idTokenB');
+  const tokenA = urlParams.get('tokenA');
+  const tokenB = urlParams.get('tokenB');
+
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: '',
@@ -93,6 +105,58 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     fetchPoolPairListRequest();
     fetchTokenBalanceListRequest();
     fetchPoolsharesRequest();
+  }, []);
+
+  useEffect(() => {
+    const balanceSymbolMap: any = getBalanceAndSymbolMap(tokenBalanceList);
+    if (idTokenA && idTokenB) {
+      let balanceA;
+      const balanceB = balanceSymbolMap.get(idTokenB);
+      if (idTokenA === DFI_SYMBOL) {
+        balanceA = walletBalance;
+      } else {
+        balanceA = balanceSymbolMap.get(idTokenA);
+      }
+      if (!balanceB) {
+        setFormState({
+          ...formState,
+          hash1: idTokenA,
+          symbol1: tokenA,
+          balance1: balanceA,
+        });
+      } else {
+        setFormState({
+          ...formState,
+          hash1: idTokenA,
+          symbol1: tokenA,
+          hash2: idTokenB,
+          symbol2: tokenB,
+          balance1: balanceA,
+          balance2: balanceB,
+        });
+      }
+    } else {
+      const balanceA = walletBalance;
+      const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
+      if (!balanceB) {
+        setFormState({
+          ...formState,
+          hash1: DFI_SYMBOL,
+          symbol1: DFI,
+          balance1: balanceA,
+        });
+      } else {
+        setFormState({
+          ...formState,
+          hash1: DFI_SYMBOL,
+          symbol1: DFI,
+          hash2: BTC_SYMBOL,
+          symbol2: BTC,
+          balance1: balanceA,
+          balance2: balanceB,
+        });
+      }
+    }
   }, []);
 
   useEffect(() => {

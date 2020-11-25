@@ -109,7 +109,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                     </td>
                     <td className={styles.actionsCol}>
                       <Button
-                        to={CREATE_POOL_PAIR_PATH}
+                        to={`${CREATE_POOL_PAIR_PATH}?idTokenA=${poolpair.idTokenA}&idTokenB=${poolpair.idTokenB}&tokenA=${poolpair.tokenA}&tokenB=${poolpair.tokenB}`}
                         tag={RRNavLink}
                         color='link'
                         size='sm'
