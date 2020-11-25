@@ -146,6 +146,7 @@ const configSlice = createSlice({
       state.testPoolSwap = action.payload;
       state.isLoadingTestPoolSwap = false;
       state.isTestPoolSwapLoaded = true;
+      state.isErrorTestPoolSwap = '';
     },
     fetchTestPoolSwapFailure(state, action) {
       state.testPoolSwap = '';

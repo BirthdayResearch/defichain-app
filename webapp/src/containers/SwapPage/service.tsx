@@ -174,7 +174,7 @@ export const handleTestPoolSwap = async (formState) => {
       dfiUTXOS
     );
   }
-  if (formState.amount1) {
+  if (new BigNumber(formState.amount1).toNumber()) {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address1,
       formState.hash1,
