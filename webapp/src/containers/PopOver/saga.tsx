@@ -41,6 +41,7 @@ import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
+import { setIsWalletCreatedRequest } from '../WalletPage/reducer';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -127,6 +128,7 @@ function* startResetWalletDat() {
     network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
   PersistentStore.set(isWalletCreated, false);
   yield call(restartAndReplaceWallet);
+  yield put(setIsWalletCreatedRequest(false));
   yield put(closeResetWalletDatModal());
 }
 

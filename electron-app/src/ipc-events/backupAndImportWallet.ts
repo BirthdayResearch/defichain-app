@@ -7,7 +7,10 @@ import {
 import Wallet from '../controllers/wallets';
 import { responseMessage } from '../utils';
 
-const initiateBackupImportWalletManager = (bw: Electron.BrowserWindow) => {
+const initiateBackupImportWalletManager = (
+  bw: Electron.BrowserWindow,
+  createMenu: Function
+) => {
   ipcMain.on(WALLET_BACKUP, async (event: Electron.IpcMainEvent) => {
     const wallet = new Wallet();
     event.returnValue = await wallet.backup(bw);
@@ -34,6 +37,14 @@ const initiateBackupImportWalletManager = (bw: Electron.BrowserWindow) => {
       event.returnValue = responseMessage(false, {
         message: err.message,
       });
+    }
+  });
+
+  ipcMain.on('enable-reset', async () => {
+    try {
+      createMenu(true);
+    } catch (err) {
+      console.log(err);
     }
   });
 };

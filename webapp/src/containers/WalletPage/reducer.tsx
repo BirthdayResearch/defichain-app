@@ -43,6 +43,7 @@ export const initialState = {
   isErrorCreatingWallet: '',
   isWalletRestoring: false,
   isErrorRestoringWallet: '',
+  isWalletCreatedFlag: false,
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -179,6 +180,12 @@ const configSlice = createSlice({
     },
     fetchInstantBalanceRequest(state) {},
     fetchInstantPendingBalanceRequest(state) {},
+    setIsWalletCreatedRequest(state, action) {
+      state.isWalletCreatedFlag = action.payload;
+    },
+    setIsWalletCreatedStartRequest(state, action) {
+      state.isWalletCreatedFlag = false;
+    }
   },
 });
 
@@ -224,6 +231,8 @@ export const {
   resetRestoreWalletError,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  setIsWalletCreatedRequest,
+  setIsWalletCreatedStartRequest,
 } = actions;
 
 export default reducer;
