@@ -14,6 +14,7 @@ import {
 import { I18n } from 'react-redux-i18n';
 import { MdArrowBack } from 'react-icons/md';
 import * as log from '../../utils/electronLogger';
+import Header from '../../../../HeaderComponent';
 
 interface CreateNewAddressProps {
   history: {
@@ -58,7 +59,7 @@ const CreateNewAddress: React.FunctionComponent<CreateNewAddressProps> = (
           {I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={props.receivePath}
           tag={NavLink}
@@ -73,7 +74,7 @@ const CreateNewAddress: React.FunctionComponent<CreateNewAddressProps> = (
         <h1>
           {I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form onSubmit={onSubmit}>

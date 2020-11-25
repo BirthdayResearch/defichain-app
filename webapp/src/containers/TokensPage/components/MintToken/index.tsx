@@ -22,13 +22,13 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   TOKENS_PATH,
-  WALLET_PAGE_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import Spinner from '../../../../components/Svg/Spinner';
 import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
+import Header from '../../../HeaderComponent';
 
 interface RouteParams {
   id?: string;
@@ -113,7 +113,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.mintToken.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={`${TOKENS_PATH}/${id}/${hash}`}
           tag={NavLink}
@@ -130,7 +130,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
           &nbsp;
           {id}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form>

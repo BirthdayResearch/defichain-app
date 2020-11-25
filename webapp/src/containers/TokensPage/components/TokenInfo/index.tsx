@@ -36,6 +36,7 @@ import {
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import { getIcon } from '../../../../utils/utility';
+import Header from '../../../HeaderComponent';
 
 interface RouteParams {
   id?: string;
@@ -72,9 +73,10 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     },
   ];
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [allowCalls, setAllowCalls] = useState(false);
   const [wait, setWait] = useState<number>(5);
 
@@ -135,7 +137,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={TOKENS_PATH}
           tag={RRNavLink}
@@ -178,7 +180,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </DropdownMenu>
           </UncontrolledDropdown>
         )}
-      </header>
+      </Header>
       {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && tokenInfo.ismine && (
         <div className={`${styles.mintAlert} m-5`}>
           <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>

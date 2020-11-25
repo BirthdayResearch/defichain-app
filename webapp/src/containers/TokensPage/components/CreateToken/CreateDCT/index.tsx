@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import { MdArrowBack, MdCheck } from 'react-icons/md';
 import {
-  Row,
-  Col,
   Button,
   Form,
   FormGroup,
@@ -17,13 +15,13 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  CustomInput,
 } from 'reactstrap';
 
 import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
+import Header from '../../../../HeaderComponent';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
@@ -72,7 +70,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
       <Helmet>
         <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={TOKENS_PATH}
           tag={NavLink}
@@ -89,7 +87,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             ? I18n.t('containers.tokens.createToken.updateTitle')
             : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form>
@@ -125,7 +123,8 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 {I18n.t('containers.tokens.createToken.symbol')}
               </Label>
             </FormGroup>
-            <FormGroup className='form-label-group'>
+            {/* NOTE: Do not remove, for future purpose */}
+            {/* <FormGroup className='form-label-group'>
               <Input
                 type='number'
                 inputMode='numeric'
@@ -236,7 +235,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   </Col>
                 </Row>
               </Col>
-            </Row>
+            </Row> */}
             <UncontrolledDropdown className='w-100'>
               <DropdownToggle
                 caret

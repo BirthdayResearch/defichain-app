@@ -15,8 +15,9 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { WALLET_PAGE_PATH } from '../../../../../constants';
+import { WALLET_TOKENS_PATH } from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
+import Header from '../../../../HeaderComponent';
 
 interface CreateNewWalletProps {
   mnemonicObj: any;
@@ -42,9 +43,9 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
       <Helmet>
         <title>{I18n.t('containers.wallet.createNewWalletPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
-          to={WALLET_PAGE_PATH}
+          to={WALLET_TOKENS_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'
@@ -57,7 +58,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.wallet.createNewWalletPage.createANewWallet')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <p>

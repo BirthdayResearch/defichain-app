@@ -19,6 +19,7 @@ import {
   TOKEN_LIST_PAGE_SIZE,
   DESTRUCTION_TX,
 } from '../../../../../constants';
+import Header from '../../../../HeaderComponent';
 
 interface TokensProps {
   tokens: any;
@@ -73,7 +74,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           {I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_TOKENS_PATH}
           tag={RRNavLink}
@@ -86,7 +87,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           </span>
         </Button>
         <h1>{I18n.t('containers.wallet.walletAddTokensPage.addTokenLabel')}</h1>
-      </header>
+      </Header>
       <div className='content'>
         <div>
           <FormGroup className={`row ${styles.formGroup}`}>

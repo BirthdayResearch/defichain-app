@@ -4,6 +4,7 @@ import ChaplinGif from '../../assets/gif/chaplin.gif';
 import { Row, Col, Button } from 'reactstrap';
 import styles from './ErrorPage.module.scss';
 import { I18n } from 'react-redux-i18n';
+import Header from '../HeaderComponent';
 
 const Error404Page: React.FunctionComponent = (props: any) => {
   const chaplinStyle = {
@@ -16,9 +17,9 @@ const Error404Page: React.FunctionComponent = (props: any) => {
       <Helmet>
         <title>{I18n.t('containers.errors.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.errors.header')}</h1>
-      </header>
+      </Header>
       <div className='content' style={chaplinStyle}></div>
       <footer className={`footer-bar ${styles.dark}`}>
         <Row className='justify-content-between align-items-center'>

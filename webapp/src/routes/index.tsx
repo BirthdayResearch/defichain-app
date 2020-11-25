@@ -47,12 +47,14 @@ import {
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
   MINT_TOKENS_PATH,
+  WALLET_SYNC_PAGE_PATH,
   LEDGER_PATH,
   LEDGER_RECEIVE_PATH,
   LEDGER_CREATE_RECEIVE_REQUEST,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
+import WalletSyncPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage/WalletSyncPage';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LedgerPage from '../containers/LedgerPage';
@@ -95,6 +97,7 @@ const routes = (location) => (
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
+    <Route exact path={WALLET_SYNC_PAGE_PATH} component={WalletSyncPage} />
     <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
     <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
     <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />

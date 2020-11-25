@@ -14,6 +14,7 @@ import {
 import { removeReceiveTxnsRequest } from '../../reducer';
 import { getTransactionURI } from '../../../../utils/utility';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import Header from '../../../HeaderComponent';
 
 interface RouteProps {
   id: string;
@@ -56,7 +57,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
           })}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_PAGE_PATH}
           tag={NavLink}
@@ -78,7 +79,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
             <span>{I18n.t('containers.wallet.paymentRequestPage.delete')}</span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi

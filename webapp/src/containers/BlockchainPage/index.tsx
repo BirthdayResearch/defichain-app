@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import BlockchainTable from './components/BlockchainTable';
 import { I18n } from 'react-redux-i18n';
+import Header from '../HeaderComponent';
 
 const BlockchainPage = () => {
   return (
@@ -11,9 +12,9 @@ const BlockchainPage = () => {
           {I18n.t('containers.blockChainPage.blockChainPage.title')}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.blockChainPage.blockChainPage.blockchain')}</h1>
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-0'>
           <BlockchainTable />
