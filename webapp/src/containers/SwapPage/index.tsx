@@ -143,10 +143,12 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   }, [testPoolSwap]);
 
   useEffect(() => {
-    setFormState({
-      ...formState,
-      amount2: '-',
-    });
+    if (!testPoolSwap) {
+      setFormState({
+        ...formState,
+        amount2: '-',
+      });
+    }
   }, [isErrorTestPoolSwap]);
 
   useEffect(() => {
@@ -551,7 +553,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              {!isAmountInsufficient() ? (
+              {!isAmountInsufficient() && !isErrorTestPoolSwap ? (
                 <Col className='col-auto'>
                   {isValid()
                     ? I18n.t('containers.swap.swapPage.readySwap')
@@ -567,7 +569,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               <Col className='d-flex justify-content-end'>
                 <Button
                   color='primary'
-                  disabled={!isValid()}
+                  disabled={!isValid() || !!isErrorTestPoolSwap}
                   onClick={swapStepConfirm}
                 >
                   {I18n.t('containers.swap.swapPage.continue')}
