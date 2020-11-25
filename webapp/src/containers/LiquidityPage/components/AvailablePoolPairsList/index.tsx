@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, CardBody, Button } from 'reactstrap';
+import {
+  Card,
+  Table,
+  CardBody,
+  Button,
+  PopoverBody,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import styles from './AvailablePoolPairList.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { filterByValue } from '../../../../utils/utility';
@@ -14,7 +21,7 @@ import { Link } from 'react-router-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
 import PairIcon from '../../../../components/PairIcon';
-import { MdAdd, MdRemove } from 'react-icons/md';
+import { MdAdd, MdInfoOutline, MdRemove } from 'react-icons/md';
 import BigNumber from 'bignumber.js';
 
 interface AvailablePoolPairsListProps {
@@ -85,7 +92,22 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       'containers.swap.poolTab.volume'
                     )}
                   </th> */}
-                  <th>{I18n.t('containers.swap.poolTab.apy')}</th>
+                  <th>
+                    {I18n.t('containers.swap.poolTab.apy')}
+                    <span id='info-text' className={styles['info-text']}>
+                      <MdInfoOutline />
+                    </span>
+                    <UncontrolledTooltip
+                      target='info-text'
+                      innerClassName='bg-white text-break w-50 h-50 border'
+                    >
+                      <PopoverBody>
+                        <small>
+                          {I18n.t('containers.swap.poolTab.apyTooltipMessage')}
+                        </small>
+                      </PopoverBody>
+                    </UncontrolledTooltip>
+                  </th>
                   <th></th>
                 </tr>
               </thead>

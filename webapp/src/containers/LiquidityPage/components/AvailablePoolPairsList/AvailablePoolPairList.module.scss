@@ -43,3 +43,10 @@
   height: 24px;
   color: $secondary;
 }
+.info-text {
+  svg {
+    width: 24px !important;
+    height: 16px !important;
+    vertical-align: baseline;
+  }
+}

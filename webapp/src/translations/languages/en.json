@@ -322,8 +322,7 @@
         "addAddressesText": "Add addresses to your initial distribution list.",
         "enterDfiAddress": "Enter DFI address",
         "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
-        "verifyingCollateral": "Verifying Collateral",
-        "chooseFile": "Choose File"
+        "verifyingCollateral": "Verifying Collateral"
       }
     },
     "liquidity": {
@@ -403,7 +402,6 @@
         "decentralizedInterfaceInfo": "Transact directly with the blockchain from your app, without ever touching a server.",
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
-        "continue": "Continue",
         "swaping": "Swapping",
         "amountInsufficient": "Insufficient Amount in your account"
       },
@@ -419,6 +417,7 @@
         "liquidity": "Liquidity",
         "volume": "Volume",
         "apy": "APY",
+        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
         "totalLiquidity": "Total Liquidity ( USD )"
       },
       "addLiquidity": {
