@@ -1,5 +1,5 @@
 import createSagaMiddleware from 'redux-saga';
-import { all, fork } from 'redux-saga/effects';
+import { all, fork, put } from 'redux-saga/effects';
 import startUpSaga from './startupSaga';
 import appSaga from '../containers/RpcConfiguration/saga';
 import blockchainSaga from '../containers/BlockchainPage/saga';
