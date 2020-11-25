@@ -311,6 +311,15 @@ export const getParams = (query: string) => {
       (param.startsWith("'") && param.endsWith("'"))
     ) {
       return param.replace(/"/g, '').replace(/'/g, '');
+    } else if (
+      (param.startsWith('{') && param.endsWith('}')) ||
+      (param.startsWith('[') && param.endsWith(']'))
+    ) {
+      try {
+        return JSON.parse(param);
+      } catch(e) {
+        return param;
+      }
     } else if (param === 'true' || param === 'false') {
       return param === 'true' ? true : false;
     }
