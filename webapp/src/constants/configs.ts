@@ -82,6 +82,7 @@ export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
 export const LP_DAILY_DFI_REWARD = 'LP_DAILY_DFI_REWARD';
 export const LP_SPLITS = 'LP_SPLITS';
 export const VS_CURRENCY = 'usd';
+export const DFI = 'DFI';
 
 export const DFI_SYMBOL = '0';
 export const BTC_SYMBOL = '1';
