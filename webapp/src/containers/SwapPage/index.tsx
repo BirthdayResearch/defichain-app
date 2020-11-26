@@ -162,7 +162,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (!testPoolSwap) {
       setFormState({
         ...formState,
-        amount2: '-',
+        amount2: '0',
       });
     }
   }, [isErrorTestPoolSwap]);
@@ -185,7 +185,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     maxAccountDfi
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -254,7 +254,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -720,7 +720,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,
