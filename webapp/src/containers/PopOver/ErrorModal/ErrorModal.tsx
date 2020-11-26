@@ -23,7 +23,7 @@ const ErrorModal: React.FunctionComponent<ErrorModalProps> = (
       )}
       {props.isRestart && (
         <div>
-          <Loader className='mb-5' size={28} />
+          <Loader className='mb-4' size={28} />
           <p>{I18n.t('alerts.restartNode')}</p>
         </div>
       )}
