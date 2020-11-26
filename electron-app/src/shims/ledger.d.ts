@@ -1,2 +1,2 @@
 declare module '@ledgerhq/hw-transport-node-speculos';
-declare module 'lodash';
+declare module '@ledgerhq/hw-transport-mocker';
