@@ -115,6 +115,10 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = true;
       state.isLoadingRefreshUTXOS1 = true;
       state.isRemovePoolLiquidityLoaded = false;
+      state.refreshUTXOS1Loaded = false;
+      state.liquidityRemovedLoaded = false;
+      state.refreshUTXOS2Loaded = false;
+      state.transferTokensLoaded = false;
     },
     refreshUTXOS1Success(state) {
       state.refreshUTXOS1Loaded = true;
