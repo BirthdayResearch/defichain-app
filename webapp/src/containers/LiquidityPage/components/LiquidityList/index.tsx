@@ -42,6 +42,7 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
   return (
     <>
       <section>
+        <h2>{I18n.t('containers.liquidity.liquidityPage.yourLiquidity')}</h2>
         <Row>
           {tableData.map((poolpair, i) => (
             <Col md='6' key={i}>
