@@ -270,7 +270,8 @@
         "volume": "Volume",
         "apy": "APY",
         "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
-        "totalLiquidity": "Total Liquidity ( USD )"
+        "totalLiquidity": "Total liquidity (USD)",
+        "addRemoveLiquidity": "Add or remove liquidity"
       },
       "addLiquidity": {
         "balance": "Balance",

@@ -108,7 +108,9 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       </PopoverBody>
                     </UncontrolledTooltip>
                   </th>
-                  <th></th>
+                  <th className={styles.actionsCol}>
+                    {I18n.t('containers.swap.poolTab.addRemoveLiquidity')}
+                  </th>
                 </tr>
               </thead>
               <tbody>
