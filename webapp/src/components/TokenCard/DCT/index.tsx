@@ -22,7 +22,9 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
             <b>{data.name}</b> <span>{data.symbolKey}</span>
           </Col>
           <Col md='6' className={`${styles.tokenCardIcon}`}>
-            {data.isDAT && <img src={VerifiedIcon} className='mr-1' />}
+            {data.isDAT && !data.isLPS && (
+              <img src={VerifiedIcon} className='mr-1' />
+            )}
             <TokenAvatar symbol={data.symbolKey} />
           </Col>
         </Row>
