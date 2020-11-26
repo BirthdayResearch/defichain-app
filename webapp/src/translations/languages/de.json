@@ -26,7 +26,7 @@
     "sideBar": {
       "balance": "Balance",
       "dfi": "DFI",
-      "wallet": "Brieftasche",
+      "wallets": "Wallets",
       "dex": "DEX",
       "masterNodes": "Masterknoten",
       "blockchain": "Blockchain",
@@ -620,6 +620,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "wallets": "Wallets",
         "walletDefiClient": "Brieftasche – DeFi Blockchain-Client",
         "wallet": "Brieftasche",
         "delete": "Löschen",

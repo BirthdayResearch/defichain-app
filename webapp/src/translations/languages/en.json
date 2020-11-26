@@ -26,7 +26,7 @@
     "sideBar": {
       "balance": "Balance",
       "dfi": "DFI",
-      "wallet": "Wallet",
+      "wallets": "Wallets",
       "dex": "DEX",
       "masterNodes": "Masternodes",
       "blockchain": "Blockchain",
@@ -635,9 +635,9 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "TOKENS",
+        "wallets": "Wallets",
         "walletDefiClient": "Wallet – DeFi app",
-        "wallet": "Wallet",
+        "wallet": "wallet",
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
@@ -649,17 +649,17 @@
         "pending": "Pending",
         "updateAvailableLabel": "Update available"
       },
-      "walletTokensPage": {
-        "walletTokens": "Wallet – Tokens",
-        "tokens": "Tokens",
-        "addToken": "Add Token"
+      "walletWalletsPage": {
+        "walletWallets": "Wallets",
+        "wallets": "Wallets",
+        "addWallet": "Add wallet"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "Wallet – Add token",
         "back": "Back",
         "add": "Add",
         "tokens": "Tokens",
-        "addTokenLabel": "Add a token"
+        "addWalletLabel": "Add a token"
       },
       "walletTxns": {
         "height": "Height",

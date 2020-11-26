@@ -146,7 +146,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               }}
             >
               <MdAccountBalanceWallet />
-              {I18n.t('containers.sideBar.wallet')}
+              {I18n.t('containers.sideBar.wallets')}
             </NavLink>
           </NavItem>
           <NavItem className={styles.navItem}>

@@ -83,7 +83,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         >
           <MdArrowBack />
           <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.walletPage.tokens')}
+            {I18n.t('containers.wallet.walletPage.wallets')}
           </span>
         </Button>
         <div className={styles.titleWithIcon}>

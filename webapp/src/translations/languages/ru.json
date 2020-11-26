@@ -18,7 +18,7 @@
     "sideBar": {
       "balance": "Средства",
       "dfi": "DFI",
-      "wallet": "Кошелек",
+      "wallets": "Кошельки",
       "masterNodes": "Мастерноды",
       "blockchain": "Блокчейн",
       "tokens": "Токены",
@@ -453,9 +453,9 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "ТОКЕНЫ",
+        "wallets": "Кошельки",
         "walletDefiClient": "Кошелек – Блокчейн-Клиент DeFi",
-        "wallet": "Кошелек",
+        "wallet": "кошелек",
         "delete": "Удалить",
         "send": "Отправить",
         "receive": "Получить",
@@ -467,17 +467,17 @@
         "pending": "В ожидании",
         "updateAvailableLabel": "Обновления доступны"
       },
-      "walletTokensPage": {
-        "walletTokens": "Кошелек – Токены",
-        "tokens": "Токены",
-        "addToken": "Добавить токен"
+      "walletWalletsPage": {
+        "walletWallets": "Кошельки",
+        "wallets": "Кошельки",
+        "addWallet": "Добавить кошелек"
       },
       "walletAddTokensPage": {
-        "walletAddTokens": "Кошелек – Добавить токен",
+        "walletAddTokens": "Кошелек – Добавить кошелек",
         "back": "НАЗАД",
         "add": "ДОБАВИТЬ",
         "tokens": "Токены",
-        "addTokenLabel": "Добавить токен"
+        "addWalletLabel": "Добавить кошелек"
       },
       "walletTxns": {
         "height": "Рост",

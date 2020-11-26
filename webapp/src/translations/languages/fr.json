@@ -26,7 +26,7 @@
     "sideBar": {
       "balance": "Solde",
       "dfi": "DFI",
-      "wallet": "Portefeuille",
+      "wallets": "Portefeuilles",
       "dex": "DEX",
       "masterNodes": "Nœuds complets",
       "blockchain": "Blockchain",
@@ -616,7 +616,7 @@
       },
       "walletPage": {
         "walletDefiClient": "Portefeuille – Client Blockchain DeFi",
-        "wallet": "Portefeuille",
+        "wallet": "portefeuille",
         "delete": "Effacer",
         "send": "Envoyer",
         "receive": "Recevoir",
