@@ -173,7 +173,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
                 <Button
-                  color='link'
+                  color='primary'
                   className='mr-3'
                   disabled={!mnemonicCheck}
                   onClick={() => {
