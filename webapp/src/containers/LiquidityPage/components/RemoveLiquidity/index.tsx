@@ -83,7 +83,6 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     'default'
   );
   const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
-  const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [sumAmount, setSumAmount] = useState<number>(0);
 
@@ -105,23 +104,6 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     refreshUTXOS2Loaded,
     history,
   } = props;
-
-  useEffect(() => {
-    let waitToSendInterval;
-    if (removeLiquidityStep === 'confirm') {
-      let counter = CONFIRM_BUTTON_COUNTER;
-      waitToSendInterval = setInterval(() => {
-        counter -= 1;
-        setWait(counter);
-        if (counter === 0) {
-          clearInterval(waitToSendInterval);
-        }
-      }, CONFIRM_BUTTON_TIMEOUT);
-    }
-    return () => {
-      clearInterval(waitToSendInterval);
-    };
-  }, [removeLiquidityStep]);
 
   useEffect(() => {
     fetchPoolpair({
@@ -446,13 +428,8 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               >
                 {I18n.t('containers.swap.removeLiquidity.cancel')}
               </Button>
-              <Button
-                color='primary'
-                onClick={() => handleRemoveLiquidity()}
-                disabled={wait > 0 ? true : false}
-              >
-                {I18n.t('containers.swap.removeLiquidity.confirm')}&nbsp;
-                <span className='timer'>{wait > 0 ? wait : ''}</span>
+              <Button color='primary' onClick={() => handleRemoveLiquidity()}>
+                {I18n.t('containers.swap.removeLiquidity.confirm')}
               </Button>
             </Col>
           </Row>
@@ -472,11 +449,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               </p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
-              {I18n.t('containers.swap.removeLiquidity.backToPool')}
-            </Button>
-          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
+                {I18n.t('containers.swap.removeLiquidity.backToPool')}
+              </Button>
+            </Col>
+          </Row>
         </div>
         <div
           className={classnames({
@@ -485,54 +464,49 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <div>
-              <div className='text-center position-relative'>
+              <div className={styles.txProgressLine}>
                 {isLoadingRefreshUTXOS1 ? (
                   <>
-                    <div className='d-flex'>
-                      <div className={styles.loaderInline}>
-                        <Spinner />
-                      </div>
-                      <span>
-                        {I18n.t(
-                          'containers.swap.removeLiquidity.refreshingUTXOS'
-                        )}
-                      </span>
+                    <div className={styles.txProgressLoader}>
+                      <Spinner />
                     </div>
+                    <span>
+                      {I18n.t(
+                        'containers.swap.removeLiquidity.refreshingUTXOS'
+                      )}
+                    </span>
                   </>
                 ) : (
                   <>
-                    <MdCheckCircle className={styles.successColor} />
-                    <b>
+                    <MdCheckCircle className={styles.txProgressSuccess} />
+                    <span>
                       {I18n.t('containers.swap.removeLiquidity.UTXOSRefreshed')}
-                    </b>
+                    </span>
                   </>
                 )}
               </div>
-              <br />
-              <div className='text-center position-relative'>
+              <div className={styles.txProgressLine}>
                 {refreshUTXOS1Loaded ? (
                   <>
                     {isLoadingLiquidityRemoved ? (
                       <>
-                        <div className='d-flex'>
-                          <div className={styles.loaderInline}>
-                            <Spinner />
-                          </div>
-                          <span>
-                            {I18n.t(
-                              'containers.swap.removeLiquidity.removingLiquidity'
-                            )}
-                          </span>
+                        <div className={styles.txProgressLoader}>
+                          <Spinner />
                         </div>
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.removingLiquidity'
+                          )}
+                        </span>
                       </>
                     ) : (
                       <>
-                        <MdCheckCircle className={styles.successColor} />
-                        <b>
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                        <span>
                           {I18n.t(
                             'containers.swap.removeLiquidity.liquidityRemoved'
                           )}
-                        </b>
+                        </span>
                       </>
                     )}
                   </>
@@ -546,31 +520,28 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   </>
                 )}
               </div>
-              <br />
-              <div className='text-center position-relative'>
+              <div className={styles.txProgressLine}>
                 {liquidityRemovedLoaded ? (
                   <>
                     {isLoadingRefreshUTXOS2 ? (
                       <>
-                        <div className='d-flex'>
-                          <div className={styles.loaderInline}>
-                            <Spinner />
-                          </div>
-                          <span>
-                            {I18n.t(
-                              'containers.swap.removeLiquidity.refreshingUTXOS'
-                            )}
-                          </span>
+                        <div className={styles.txProgressLoader}>
+                          <Spinner />
                         </div>
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.refreshingUTXOS'
+                          )}
+                        </span>
                       </>
                     ) : (
                       <>
-                        <MdCheckCircle className={styles.successColor} />
-                        <b>
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                        <span>
                           {I18n.t(
                             'containers.swap.removeLiquidity.UTXOSRefreshed'
                           )}
-                        </b>
+                        </span>
                       </>
                     )}
                   </>
@@ -584,31 +555,28 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   </>
                 )}
               </div>
-              <br />
-              <div className='text-center position-relative'>
+              <div className={styles.txProgressLine}>
                 {refreshUTXOS2Loaded ? (
                   <>
                     {isLoadingTransferTokens ? (
                       <>
-                        <div className='d-flex'>
-                          <div className={styles.loaderInline}>
-                            <Spinner />
-                          </div>
-                          <span>
-                            {I18n.t(
-                              'containers.swap.removeLiquidity.transferringTokens'
-                            )}
-                          </span>
+                        <div className={styles.txProgressLoader}>
+                          <Spinner />
                         </div>
+                        <span>
+                          {I18n.t(
+                            'containers.swap.removeLiquidity.transferringTokens'
+                          )}
+                        </span>
                       </>
                     ) : (
                       <>
-                        <MdCheckCircle className={styles.successColor} />
-                        <b>
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                        <span>
                           {I18n.t(
                             'containers.swap.removeLiquidity.tokensTransferred'
                           )}
-                        </b>
+                        </span>
                       </>
                     )}
                   </>
@@ -641,11 +609,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <p>{isErrorRemovingPoolLiquidity}</p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
-              {I18n.t('containers.swap.removeLiquidity.backToPool')}
-            </Button>
-          </div>
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
+              <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
+                {I18n.t('containers.swap.removeLiquidity.backToPool')}
+              </Button>
+            </Col>
+          </Row>
         </div>
       </footer>
     </div>
