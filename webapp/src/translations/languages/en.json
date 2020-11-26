@@ -634,6 +634,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "includeRewards": "Include Rewards",
         "tokens": "TOKENS",
         "walletDefiClient": "Wallet – DeFi app",
         "wallet": "Wallet",

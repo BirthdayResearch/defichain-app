@@ -12,7 +12,7 @@ import {
 
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
-import WalletTxns from './components/WalletTxns';
+import WalletTxns from './components/WalletTxnsNew';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
@@ -197,7 +197,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     wallet: { walletBalance, pendingBalance, blockChainInfo },
     settings: {

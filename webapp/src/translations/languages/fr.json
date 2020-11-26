@@ -614,6 +614,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "includeRewards": "Include Rewards",
         "walletDefiClient": "Portefeuille – Client Blockchain DeFi",
         "wallet": "Portefeuille",
         "delete": "Effacer",
