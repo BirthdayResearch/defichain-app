@@ -341,7 +341,7 @@
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
         "apy": "APY",
-        "back": "BACK",
+        "back": "Back",
         "addLiquidity": "Add liquidity"
       },
       "liquidityInfo": {
@@ -543,7 +543,7 @@
       },
       "verifyMnemonicPage": {
         "title": "Wallet - Verify mnemonic seed",
-        "back": "BACK",
+        "back": "Back",
         "verifyMnemonicSeed": "Verify mnemonic seed",
         "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please identify which 6 words are in your mnemonic seed.",
         "verifyMnemonicWhichOne": "Which one is…",
