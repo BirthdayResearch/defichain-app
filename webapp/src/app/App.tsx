@@ -69,7 +69,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       {isRunning ? (
         <div id='app'>
           <Helmet>
-            <title>DeFi Blockchain Client</title>
+            <title>DeFi app</title>
           </Helmet>
           <Sidebar />
           <main>

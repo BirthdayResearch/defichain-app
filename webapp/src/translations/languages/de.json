@@ -39,7 +39,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi Blockchain-Client",
+        "title": "Blockchain – DeFi app",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -55,7 +55,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi Blockchain-Client",
+        "title": "– DeFi app",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -80,30 +80,30 @@
       },
       "minerPage": {
         "miner": "Bergmann",
-        "defiBlockChainClient": "DeFi Blockchain-Client",
+        "defiApp": "DeFi app",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi Blockchain-Client",
+      "title": "DFI Block Processing Center – DeFi app",
       "header": "DFI Block Processing Center",
       "detail": "Es scheint, Sie haben stolperte zufällig hier. Dies ist, wo unsere Mitarbeiter sorgen dafür, dass jeder DFI-block ordnungsgemäß befestigt an der Kette. Denn dies ist ein Sperrgebiet, wir bitten Sie, sich umzudrehen.",
       "goBack": "Gehen Sie zurück"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi Blockchain-Client",
+      "title": "Exchange – DeFi app",
       "exchange": "Exchange",
       "section": "Abschnitt",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Hilfe – DeFi Blockchain-Client",
+      "title": "Hilfe – DeFi app",
       "help": "Helfen",
       "section": "Abschnitt"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi Blockchain-Client",
+        "title": "Masternodes – DeFi app",
         "createMasterNode": "Erstellen",
         "masterNodes": "Masternodes",
         "statistics": "Statistik",
@@ -439,7 +439,7 @@
         "continue": "continue",
         "pleaseVerifyAmount": "Please Verify Amount",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by DeFiChain.",
         "backToToken": "Back to tokens"
       },
       "transfersList": {
@@ -468,7 +468,7 @@
       }
     },
     "settings": {
-      "title": "Einstellungen – DeFi Blockchain-Client",
+      "title": "Einstellungen – DeFi app",
       "settings": "Einstellungen",
       "general": "Allgemeine",
       "display": "Anzeigen",
@@ -554,7 +554,7 @@
         "backToWalletPage": "CLOSE"
       },
       "sendPage": {
-        "sendDFITitle": "Senden DFI – DeFi Blockchain-Client",
+        "sendDFITitle": "Senden DFI – DeFi app",
         "wallet": "Brieftasche",
         "sendDFI": "Senden DFI",
         "amount": "Höhe",
@@ -574,7 +574,7 @@
         "dfiAddress": "DFI-Adresse"
       },
       "receivePage": {
-        "receiveDFITitle": "Erhalten DFI – DeFi Blockchain-Client",
+        "receiveDFITitle": "Erhalten DFI – DeFi app",
         "wallet": "Brieftasche",
         "receiveDFI": "Erhalten DFI",
         "optional": "Freiwillig",
@@ -608,7 +608,7 @@
         "created": "Created"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi Blockchain-Client",
+        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi app",
         "paymentRequest": "Zahlungsaufforderung",
         "wallet": "Brieftasche",
         "delete": "Löschen",
@@ -621,8 +621,8 @@
       },
       "walletPage": {
         "wallets": "Wallets",
-        "walletDefiClient": "Brieftasche – DeFi Blockchain-Client",
-        "wallet": "Brieftasche",
+        "walletDeFiApp": "Wallet – DeFi app",
+        "wallet": "wallet",
         "delete": "Löschen",
         "send": "Senden",
         "receive": "Erhalten",
@@ -645,7 +645,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Konsole – DeFi Blockchain-Client",
+        "consoleDeFiApp": "Konsole – DeFi app",
         "defiCliCommand": "Geben Sie Defi-cli-Befehl",
         "console": "Konsole",
         "submit": "Senden",

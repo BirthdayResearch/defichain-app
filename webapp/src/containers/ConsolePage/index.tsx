@@ -9,9 +9,7 @@ const ConsolePage: React.FunctionComponent = () => {
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>
-          {I18n.t('containers.console.consolePage.consoleDefiClient')}
-        </title>
+        <title>{I18n.t('containers.console.consolePage.consoleDeFiApp')}</title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.console.consolePage.console')}</h1>

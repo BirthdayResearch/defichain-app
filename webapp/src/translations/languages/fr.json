@@ -39,7 +39,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – Client Blockchain DeFi",
+        "title": "Blockchain – App DeFi",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -55,7 +55,7 @@
       },
       "blockPage": {
         "block": "Bloc",
-        "title": "– Client Blockchain DeFi",
+        "title": "– App DeFi",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Nombre de transactions",
@@ -80,30 +80,30 @@
       },
       "minerPage": {
         "miner": "Mineur",
-        "defiBlockChainClient": "Client Blockchain DeFi",
+        "defiApp": "App DeFi",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "Centre de traitement des blocs DFI – Client Blockchain DeFi",
+      "title": "Centre de traitement des blocs DFI – App DeFi",
       "header": "Centre de traitement des blocs DFI",
       "detail": "Vous semblez avoir atterri ici par accident. C'est ici que nos employés s'assurent que chaque bloc DFI est ajouté correctement à la chaine. Il s'agit donc d'une zone interdite et nous vous prions de faire demi-tour",
       "goBack": "Faites demi-tour"
     },
     "exchangePage": {
-      "title": "Échange – Client Blockchain DeFi",
+      "title": "Échange – App DeFi",
       "exchange": "Échange",
       "section": "Section",
       "footerBar": "Barre de pied de page"
     },
     "helpPage": {
-      "title": "Aide – Client Blockchain DeFi",
+      "title": "Aide – App DeFi",
       "help": "Aide",
       "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Nœuds complets – Client Blockchain DeFi",
+        "title": "Nœuds complets – App DeFi",
         "createMasterNode": "Créer",
         "masterNodes": "Nœuds complets",
         "statistics": "Statistiques",
@@ -439,7 +439,7 @@
         "continue": "continue",
         "pleaseVerifyAmount": "Please Verify Amount",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by DeFiChain.",
         "backToToken": "Back to tokens"
       },
       "transfersList": {
@@ -468,7 +468,7 @@
       }
     },
     "settings": {
-      "title": "Paramètres – Client Blockchain DeFi",
+      "title": "Paramètres – App DeFi",
       "settings": "Paramètres",
       "general": "Général",
       "display": "Affichage",
@@ -554,7 +554,7 @@
         "backToWalletPage": "CLOSE"
       },
       "sendPage": {
-        "sendDFITitle": "Envoi de DFI – Client Blockchain DeFi",
+        "sendDFITitle": "Envoi de DFI – App DeFi",
         "wallet": "Portefeuille",
         "sendDFI": "Envoyer DFI",
         "amount": "Montant",
@@ -574,7 +574,7 @@
         "dfiAddress": "Adresse DFI"
       },
       "receivePage": {
-        "receiveDFITitle": "Réception de DFI – Client Blockchain DeFi",
+        "receiveDFITitle": "Réception de DFI – App DeFi",
         "wallet": "Portefeuille",
         "receiveDFI": "Recevoir des DFI",
         "optional": "Optionnel",
@@ -603,7 +603,7 @@
         "cancelRequest": "Annuler la demande"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Demande de paiement %{id} – Client Blockchain DeFi",
+        "paymentRequestTitle": "Demande de paiement %{id} – App DeFi",
         "paymentRequest": "Demande de paiement",
         "wallet": "Portefeuille",
         "delete": "Effacer",
@@ -615,7 +615,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Portefeuille – Client Blockchain DeFi",
+        "walletDeFiApp": "Portefeuille – App DeFi",
         "wallet": "portefeuille",
         "delete": "Effacer",
         "send": "Envoyer",
@@ -644,7 +644,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – Client Blockchain DeFi",
+        "consoleDeFiApp": "Console – App DeFi",
         "defiCliCommand": "Entrer la commande Defi-cli",
         "console": "Console",
         "submit": "Envoyer",

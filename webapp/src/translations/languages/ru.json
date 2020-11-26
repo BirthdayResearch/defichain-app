@@ -69,7 +69,7 @@
       },
       "minerPage": {
         "miner": "Майнер",
-        "defiBlockChainClient": "Блокчейн-Клиент DeFi",
+        "defiApp": "Блокчейн-Клиент DeFi",
         "blockchain": "Блокчейн"
       }
     },
@@ -454,7 +454,7 @@
       },
       "walletPage": {
         "wallets": "Кошельки",
-        "walletDefiClient": "Кошелек – Блокчейн-Клиент DeFi",
+        "walletDeFiApp": "Кошелек – Блокчейн-Клиент DeFi",
         "wallet": "кошелек",
         "delete": "Удалить",
         "send": "Отправить",
@@ -490,7 +490,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Консоль – Блокчейн-Клиент DeFi",
+        "consoleDeFiApp": "Консоль – Блокчейн-Клиент DeFi",
         "defiCliCommand": "Введите команду Defi-cli",
         "console": "Консоль",
         "submit": "Отправить",

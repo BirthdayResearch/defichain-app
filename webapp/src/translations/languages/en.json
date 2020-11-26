@@ -56,7 +56,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi Blockchain Client",
+        "title": "– DeFi app",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -81,7 +81,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiBlockChainClient": "DeFi Blockchain Client",
+        "defiApp": "DeFi app",
         "blockchain": "Blockchain"
       }
     },
@@ -298,7 +298,7 @@
         "continue": "continue",
         "pleaseVerifyAmount": "Please Verify Amount",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "Transaction successful. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "Transaction successful. Your token balance will update once the transaction has been confirmed by DeFiChain.",
         "backToToken": "Back to tokens"
       },
       "transfersList": {
@@ -583,7 +583,7 @@
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
         "sendFailed": "Error occurred while sending amount",
-        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by DeFiChain.",
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI Address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account"
@@ -636,7 +636,7 @@
       },
       "walletPage": {
         "wallets": "Wallets",
-        "walletDefiClient": "Wallet – DeFi app",
+        "walletDeFiApp": "Wallet – DeFi app",
         "wallet": "wallet",
         "delete": "Delete",
         "send": "Send",
@@ -672,7 +672,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – DeFi app",
+        "consoleDeFiApp": "Console – DeFi app",
         "defiCliCommand": "Enter DeFi-cli command",
         "console": "Console",
         "submit": "Submit",
