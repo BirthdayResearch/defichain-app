@@ -27,18 +27,21 @@
       "balance": "Balance",
       "dfi": "DFI",
       "wallet": "Wallet",
+      "dex": "DEX",
       "masterNodes": "Masternode",
       "blockchain": "Blockchain",
       "tokens": "Tokens",
       "exchange": "Exchange",
       "help": "Hilfe",
       "settings": "Einstellungen",
-      "console": "Konsole"
+      "console": "Konsole",
+      "liquidity": "Liquidity"
     },
     "blockChainPage": {
       "blockChainPage": {
         "title": "Blockchain – DeFiChain Client",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "explorer": "Explorer"
       },
       "blockChainTable": {
         "height": "Höhe",
@@ -171,9 +174,43 @@
         "network": "Netzwerk"
       }
     },
+    "liquidity": {
+      "liquidityPage": {
+        "title": "Liquidity – DeFi app",
+        "yourLiquidity": "Your liquidity",
+        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
+        "loading": "Loading…",
+        "watchVideo": "Watch video",
+
+        "availablePoolPairs": "Available pool pairs",
+        "noPoolPairs": "No pool pairs",
+        "pair": "Pair",
+        "liquidity": "Liquidity",
+        "liquidityPools": "Liquidity pools",
+        "volume": "Volume",
+        "apy": "APY",
+        "back": "BACK",
+        "addLiquidity": "Add liquidity"
+      },
+      "liquidityInfo": {
+        "title": "Liquidity – DeFi app",
+        "addMore": "Add more",
+        "remove": "Remove",
+        "apy": "APY",
+        "pooled": "Pooled",
+        "pooledBTC": "Pooled BTC",
+        "btcPoolShare": "BTC pool share",
+        "totalReward": "Total reward",
+        "pooledDFI": "Pooled DFI",
+        "dfiPoolShare": "DFI pool share"
+      }
+    },
     "swap": {
       "swapPage": {
-        "title": "Tokens – DeFiChain Client",
+        "title": "DEX – DeFiChain Client",
+        "decentralizedExchange": "Decentralized Exchange",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -280,14 +317,14 @@
           "holders": "Holders",
           "decimal": "Decimal",
           "limit": "Limit",
-          "mintingSupport": "Minting Support",
+          "mintingSupport": "Minting support",
           "tradeable": "Tradeable"
         },
         "dctLabels": {
           "id": "ID",
           "totalInitialSupply": "Total initial supply",
           "finalSupplyLimit": "Final supply limit",
-          "mintingSupport": "Minting Support",
+          "mintingSupport": "Minting support",
           "tradeable": "Tradeable",
           "type": "Typ",
           "decimal": "Decimal",
@@ -305,7 +342,7 @@
         "name": "Token Name",
         "symbol": "Ticker Symbol",
         "decimal": "Decimal",
-        "decimalText": "Number of decimal places. Cannot be changed once set.",
+        "decimalText": "Anzahl der Dezimalstellen. Kann nach der Einstellung nicht mehr geändert werden.",
         "limit": "Limit",
         "mintingSupport": "Minting support?",
         "mintText": "Du kannst Tokens prägen, nachdem sie erstellt worden sind.",
@@ -337,7 +374,7 @@
         "minitingSupport": "Minting Support",
         "tradeable": "Handelbar?",
         "marketCap": "Market Cap",
-        "volume": "Volumen (24 H)",
+        "volume": "Volumen (24STD)",
         "officialSite": "Offizielle Seite",
         "transfers": "Transfers",
         "holders": "Holders",
@@ -441,12 +478,13 @@
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue wallet erstellen",
-        "restoreWalletFromMnemonicSeed": "Wallet wiederherstellen von Mnemonic Seed"
+        "restoreWalletFromMnemonicSeed": "Wallet wiederherstellen von Mnemonic Seed",
+        "walletSyncNotice": "Wenn die Synchronisierung abgeschlossen ist, kannst Du eine Brieftasche erstellen oder wiederherstellen."
       },
       "createNewWalletPage": {
         "back": "ZURÜCK",
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
-        "createANewWallet": "Wallet erstellen oder wiederherstellen",
+        "createANewWallet": "Neue Wallet erstellen",
         "mnemonicGuideline": "Schreiben die folgenden 24 Wörter auf. Wichtig: In der genauen Reihenfolge aufschreiben, wie sie angezeigt werden. Diese 24 - Wort mnemonischen Seed werden verwendet, um Deine Wallet wiederzufinden oder zu übertragen. Ohne den Seed  kannst Du deine Wallet nicht wiederfinden. Verliere deinen Seed auf keinen Fall.",
         "generateNewSet": "Erzeuge einen neuen Satz von 24 Wörtern",
         "copied24Words": "Ich habe die 24 Wörter in der genauen Reihenfolge notiert",
