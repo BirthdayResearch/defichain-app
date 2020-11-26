@@ -684,7 +684,7 @@
     "backupSuccess": "Brieftasche backup erfolgreich abgeschlossen",
     "importSuccess": "Import-wallet erfolgreich abgeschlossen",
     "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
-    "restartNode": "Restarting node",
+    "restartNode": "Restarting node. This may take a few minutes.",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",

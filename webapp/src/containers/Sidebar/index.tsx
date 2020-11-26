@@ -15,12 +15,13 @@ import {
   MdToll,
   MdCompareArrows,
   MdPieChart,
+  MdSettings,
+  MdHelp,
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
 } from 'react-icons/md';
-import { DiTerminal } from 'react-icons/di';
-import { AiTwotoneSetting, AiFillQuestionCircle } from 'react-icons/ai';
+import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
@@ -229,7 +230,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <DiTerminal />
+              <HiTerminal />
             </NavLink>
           </NavItem>
 
@@ -240,7 +241,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <AiFillQuestionCircle />
+              <MdHelp />
             </NavLink>
           </NavItem>
 
@@ -251,7 +252,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <AiTwotoneSetting />
+              <MdSettings />
             </NavLink>
           </NavItem>
         </Nav>
