@@ -103,6 +103,7 @@ export interface ITokenCard {
     limit: number;
     mintable: boolean;
     tradeable: boolean;
+    isLPS: boolean;
   };
   handleCardClick: (symbol: string, hash: string) => void;
 }
