@@ -263,7 +263,6 @@
         "price": "Price",
         "id": "ID",
         "decimals": "Decimals",
-        "holders": "Holders",
         "limit": "Limit",
         "minitingSupport": "Minting support",
         "tradeable": "Trade-able?",
