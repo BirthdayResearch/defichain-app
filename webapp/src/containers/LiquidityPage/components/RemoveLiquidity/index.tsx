@@ -52,6 +52,7 @@ interface RouteParams {
 }
 
 interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
+  history: any;
   fetchPoolpair: (id) => void;
   poolpair: any;
   isErrorRemovingPoolLiquidity: string;
@@ -102,6 +103,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     refreshUTXOS1Loaded,
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
+    history,
   } = props;
 
   useEffect(() => {
@@ -189,8 +191,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       </Helmet>
       <header className='header-bar'>
         <Button
-          to={LIQUIDITY_PATH}
-          tag={RRNavLink}
+          // to={LIQUIDITY_PATH}
+          // tag={RRNavLink}
+          onClick={() => {
+            history.goBack();
+          }}
           color='link'
           className='header-bar-back'
         >
@@ -422,7 +427,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 }`}</span>
               </dd>
               <dt className='col-sm-4 text-right'>
-                {I18n.t('containers.swap.removeLiquidity.receiveAddress')}
+                {I18n.t('containers.swap.removeLiquidity.receiveAddressLabel')}
               </dt>
               <dd className='col-sm-8'>
                 <span>{`${formState.receiveAddress}`}</span>
@@ -542,12 +547,12 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 )}
               </div>
               <br />
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {liquidityRemovedLoaded ? (
                   <>
                     {isLoadingRefreshUTXOS2 ? (
                       <>
-                        <div className='d-flex position-relative'>
+                        <div className='d-flex'>
                           <div className={styles.loaderInline}>
                             <Spinner />
                           </div>
@@ -580,12 +585,12 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 )}
               </div>
               <br />
-              <div className='text-center'>
+              <div className='text-center position-relative'>
                 {refreshUTXOS2Loaded ? (
                   <>
                     {isLoadingTransferTokens ? (
                       <>
-                        <div className='d-flex position-relative'>
+                        <div className='d-flex'>
                           <div className={styles.loaderInline}>
                             <Spinner />
                           </div>
