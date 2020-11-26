@@ -18,6 +18,11 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+div[disabled] {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 .iconPointer {
   cursor: pointer;
   color: #cccdcd;
@@ -94,6 +99,7 @@
 
     &:hover:not(.active) {
       color: inherit;
+
       svg {
         color: $secondary;
       }
