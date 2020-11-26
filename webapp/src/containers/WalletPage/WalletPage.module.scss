@@ -77,3 +77,12 @@
 .error-dailog {
   color: $dfi-red !important;
 }
+
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-left: 8px;
+  }
+}

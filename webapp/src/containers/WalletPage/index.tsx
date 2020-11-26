@@ -86,16 +86,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             {I18n.t('containers.wallet.walletPage.tokens')}
           </span>
         </Button>
-        <div className='d-flex'>
+        <div className={styles.titleWithIcon}>
           <TokenAvatar
             symbol={
               tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit
             }
           />
-          &nbsp;
           <h1>
-            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}
-            &nbsp;
+            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
         </div>
@@ -197,7 +195,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     wallet: { walletBalance, pendingBalance, blockChainInfo },
     settings: {
