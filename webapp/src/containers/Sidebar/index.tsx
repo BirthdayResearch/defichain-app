@@ -60,6 +60,8 @@ export interface SidebarProps extends RouteComponentProps {
   blockChainInfo: any;
   isWalletUnlocked: boolean;
   isLoadingRemovePoolLiquidity: boolean;
+  isLoadingAddPoolLiquidity: boolean;
+  isLoadingPoolSwap: boolean;
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
@@ -89,14 +91,20 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isWalletUnlocked,
     lockWalletStart,
     isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap,
   } = props;
 
   useEffect(() => {
     setBlur(!blur);
-  }, [isLoadingRemovePoolLiquidity]);
+  }, [
+    isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap,
+  ]);
 
   return (
-    <div className={`${styles.sidebar} ${blur && styles.blur}`}>
+    <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       {/* NOTE: Do not remove, for future purpose */}
       {/* <div className='text-right m-2'>
         {!isWalletEncrypted() ? (
@@ -268,6 +276,8 @@ const mapStateToProps = (state) => {
     blockChainInfo: wallet.blockChainInfo,
     isWalletUnlocked: popover.isWalletUnlocked,
     isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity: swap.isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap: swap.isLoadingPoolSwap,
   };
 };
 
