@@ -11,7 +11,11 @@ import {
 import { Link } from 'react-router-dom';
 import EllipsisText from 'react-ellipsis-text';
 import { connect } from 'react-redux';
-import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import {
+  MdArrowUpward,
+  MdArrowDownward,
+  MdCompareArrows,
+} from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchWalletTxnsRequest } from '../../reducer';
@@ -46,14 +50,27 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [includeRewards, setIncludeRewards] = useState(false);
   const pageSize = WALLET_TXN_PAGE_SIZE;
   const { walletTxnCount: total, walletTxns, stopPagination } = props;
+  const [filterWalletTxns, setFilterWalletTxns] = useState(walletTxns);
 
   useEffect(() => {
     props.fetchWalletTxns(currentPage, pageSize, true);
   }, []);
 
+  useEffect(() => {
+    if (includeRewards) {
+      const filterTxns = walletTxns.filter((txn) => txn.category !== 'reward');
+      setFilterWalletTxns(filterTxns);
+    } else {
+      setFilterWalletTxns(walletTxns);
+    }
+  }, [includeRewards]);
+
   const getTxnsTypeIcon = (type: string) => {
     if (type === 'send') {
       return <MdArrowUpward className={styles.typeIcon} />;
+    }
+    if (type === 'swap') {
+      return <MdCompareArrows className={styles.typeIcon} />;
     }
     return <MdArrowDownward className={styles.typeIconDownward} />;
   };
@@ -99,7 +116,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                 </tr>
               </thead> */}
               <tbody>
-                {walletTxns.map((txn, index) => (
+                {filterWalletTxns.map((txn, index) => (
                   <tr key={`${txn.txnId}-${index}`}>
                     <td className={styles.typeIcon}>
                       {getTxnsTypeIcon(txn.category)}
@@ -113,7 +130,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     </td> */}
                     <td>
                       <div className={styles.hash}>
-                        <EllipsisText text={txn.txnId} length={'40'} />
+                        {txn.category !== 'reward' ? (
+                          <EllipsisText text={txn.txnId} length={'40'} />
+                        ) : (
+                          '-'
+                        )}
                       </div>
                     </td>
                     <td>
