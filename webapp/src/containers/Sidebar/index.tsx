@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   NavLink as RRNavLink,
@@ -59,6 +59,7 @@ export interface SidebarProps extends RouteComponentProps {
   isErrorModalOpen: boolean;
   blockChainInfo: any;
   isWalletUnlocked: boolean;
+  isLoadingRemovePoolLiquidity: boolean;
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
@@ -66,6 +67,7 @@ export interface SidebarProps extends RouteComponentProps {
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+  const [blur, setBlur] = useState(true);
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -86,10 +88,15 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     openWalletPassphraseModal,
     isWalletUnlocked,
     lockWalletStart,
+    isLoadingRemovePoolLiquidity,
   } = props;
 
+  useEffect(() => {
+    setBlur(!blur);
+  }, [isLoadingRemovePoolLiquidity]);
+
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${blur && styles.blur}`}>
       {/* NOTE: Do not remove, for future purpose */}
       {/* <div className='text-right m-2'>
         {!isWalletEncrypted() ? (
@@ -252,7 +259,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, popover } = state;
+  const { i18n, wallet, settings, popover, swap } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
@@ -260,6 +267,7 @@ const mapStateToProps = (state) => {
     isErrorModalOpen: popover.isOpen,
     blockChainInfo: wallet.blockChainInfo,
     isWalletUnlocked: popover.isWalletUnlocked,
+    isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
   };
 };
 
