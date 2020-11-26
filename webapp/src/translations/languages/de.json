@@ -6,6 +6,7 @@
     "syncStatus": {
       "synchronized": "Synchronisiert",
       "syncing": "Synchronisieren",
+      "waitingForSyncStatus": "Warten auf den Synchronisierungsstatus…",
       "synced": "Synchronisiert",
       "justNow": "Synchronisiert gerade jetzt",
       "aMinuteAgo": "Synchronisiert vor einer minute",
