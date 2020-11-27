@@ -32,21 +32,11 @@ import EllipsisText from 'react-ellipsis-text';
 
 interface WalletTxnsProps {
   unit: string;
-  walletTxns: {
-    txnId: string;
-    category: string;
-    time: string;
-    amount: number;
-    unit: string;
-    height: number;
-  }[];
-  walletTxnCount: number;
   fetchWalletTxns: (
     currentPage: number,
     pageSize: number,
     intialLoad?: boolean
   ) => void;
-  stopPagination: boolean;
   tokenSymbol?: string;
   tokenAddress?: string;
   fetchWalletTokenTransactionsListRequestLoading: (
@@ -71,9 +61,10 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
+  const [tableData, setTableData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
   const pageSize = WALLET_TXN_PAGE_SIZE;
-  const total = data.length;
+  const total = tableData.length;
   const pagesCount = Math.ceil(total / pageSize);
   const to = (currentPage - 1) * pageSize + 1;
   const from = Math.min(total, currentPage * pageSize);
@@ -83,20 +74,27 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, []);
 
   const fetchData = (pageNum) => {
-    const newCloneTableData = cloneDeep(data);
+    const newCloneTableData = cloneDeep(tableData);
     setCurrentPage(pageNum);
-    const rows = newCloneTableData
-      .slice((pageNum - 1) * pageSize, pageNum * pageSize)
-      .filter((item) => {
-        if (!includeRewards) return item.category !== 'Rewards';
-        return !!item.category;
-      });
+    const rows = newCloneTableData.slice(
+      (pageNum - 1) * pageSize,
+      pageNum * pageSize
+    );
     setTableRows(rows);
   };
 
   useEffect(() => {
-    fetchData(currentPage);
+    setTableData(
+      data.filter((item) => {
+        if (!includeRewards) return item.category !== 'Rewards';
+        return !!item.category;
+      })
+    );
   }, [data, includeRewards]);
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [tableData]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
@@ -125,7 +123,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     if (isLoading)
       return <div>{I18n.t('containers.wallet.walletPage.loading')}</div>;
     if (isError) return <div>{isError}</div>;
-    if (!data.length)
+    if (!tableData.length)
       return (
         <Card className='table-responsive-md'>
           <CardBody>
