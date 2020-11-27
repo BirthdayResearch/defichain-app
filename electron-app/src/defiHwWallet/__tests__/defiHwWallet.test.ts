@@ -13,8 +13,9 @@ describe('DefiHwWallet', () => {
     const ledgerTransport = jest
       .spyOn(TransportHid, 'isSupported')
       .mockImplementation(() => Promise.resolve(false));
-    await expect(DefiLedger.connect()).rejects.toEqual(
-      new Error('Transport not supported')
+    await expect(DefiLedger.connect()).rejects.toHaveProperty(
+      'message',
+      'Transport not supported'
     );
     expect(DefiLedger.connected).toEqual(false);
     ledgerTransport.mockRestore();
@@ -32,7 +33,8 @@ describe('DefiHwWallet', () => {
     const ledgerTransport = jest
       .spyOn(TransportHid, 'isSupported')
       .mockImplementation(() => Promise.resolve(false));
-    await expect(DefiLedger.getDevices()).rejects.toEqual(
+    await expect(DefiLedger.getDevices()).rejects.toHaveProperty(
+      'message',
       'Transport not supported'
     );
     ledgerTransport.mockRestore();
@@ -42,9 +44,22 @@ describe('DefiHwWallet', () => {
     const ledgerTransport = jest
       .spyOn(TransportHid, 'list')
       .mockImplementation(() => Promise.resolve([]));
-    await expect(DefiLedger.getDevices()).rejects.toEqual(
+    await expect(DefiLedger.getDevices()).rejects.toHaveProperty(
+      'message',
       'No devices connected'
     );
     ledgerTransport.mockRestore();
+  });
+
+  it('should return public key at format legacy', async () => {
+    const res = await DefiLedger.getDefiPublicKey(2);
+    expect({
+      address: res.address,
+      pubkey: res.pubkey.toString('hex'),
+    }).toEqual({
+      pubkey:
+        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
+      address: '8PAX3vszViQW2vZW6uM8b6pqaNvZYDQJZt',
+    });
   });
 });

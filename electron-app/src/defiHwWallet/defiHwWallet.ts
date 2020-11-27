@@ -76,29 +76,29 @@ export default class DefiHwWallet {
   async getDevices(): Promise<readonly string[]> {
     try {
       if (!(await TransportHid.isSupported())) {
-        return Promise.reject('Transport not supported');
+        throw new Error('Transport not supported');
       }
       const devs = await TransportHid.list();
       if (devs.length === 0) {
-        return Promise.reject('No devices connected');
+        throw new Error('No devices connected');
       }
       return devs;
     } catch (err) {
-      return Promise.reject(err.message);
+      return Promise.reject(err);
     }
   }
 
   async connect() {
     try {
       if (!(await TransportHid.isSupported())) {
-        return Promise.reject('Transport not supported');
+        throw new Error('Transport not supported');
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
       this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
     } catch (err) {
       this.connected = false;
-      return Promise.reject(err.message);
+      return Promise.reject(err);
     }
   }
 
@@ -110,40 +110,42 @@ export default class DefiHwWallet {
       const { code, status } = checkStatusCode(response);
 
       if (code !== StatusCodes.OK) {
-        return Promise.reject(status);
+        throw new Error(status);
       }
 
       return response.slice(0, response.length - 2);
     } catch (err) {
-      return Promise.reject(err.message);
+      return Promise.reject(err);
     }
   }
 
   async getDefiPublicKey(
     index: number,
-    format?: AddressFormat
+    format: AddressFormat = 'legacy'
   ): Promise<{ pubkey: Buffer; address: string }> {
-    if (!format) format = 'legacy';
+    try {
+      const apdu = new encoding.BufferWriter();
+      apdu.writeUInt8(CLA);
+      apdu.writeUInt8(INS_GET_PUBKEY);
+      apdu.writeUInt8(GET_PUBKEY_P1_DISPLAY_ADDRESS);
+      apdu.writeUInt8(addressFormatToP2(format));
 
-    const apdu = new encoding.BufferWriter();
-    apdu.writeUInt8(CLA);
-    apdu.writeUInt8(INS_GET_PUBKEY);
-    apdu.writeUInt8(GET_PUBKEY_P1_DISPLAY_ADDRESS);
-    apdu.writeUInt8(addressFormatToP2(format));
-
-    // key index lenght
-    apdu.writeUInt8(4);
-    // add 4 bytes index to buffer
-    apdu.writeInt32LE(index);
-    const resposne = await this.transport.exchange(apdu.toBuffer());
-    const pubkeyLen = resposne[0];
-    const pubkey = resposne.slice(1, 1 + pubkeyLen);
-    const addrOffset = 1 + pubkeyLen + 1;
-    const addrLen = resposne[addrOffset - 1];
-    const address = resposne
-      .slice(addrOffset, addrOffset + addrLen)
-      .toString('utf-8');
-    return { pubkey, address };
+      // key index lenght
+      apdu.writeUInt8(4);
+      // add 4 bytes index to buffer
+      apdu.writeInt32LE(index);
+      const resposne = await this.transport.exchange(apdu.toBuffer());
+      const pubkeyLen = resposne[0];
+      const pubkey = resposne.slice(1, 1 + pubkeyLen);
+      const addrOffset = 1 + pubkeyLen + 1;
+      const addrLen = resposne[addrOffset - 1];
+      const address = resposne
+        .slice(addrOffset, addrOffset + addrLen)
+        .toString('utf-8');
+      return { pubkey, address };
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   async sign(keyIndex: number, msg: Buffer) {
