@@ -92,6 +92,7 @@ import {
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
+import minBy from 'lodash/minBy';
 
 export function* getNetwork() {
   const {
@@ -384,41 +385,42 @@ function* fetchWalletTokenTransactionsList(action) {
   try {
     const { symbol, owner, limit = 1000 } = action.payload;
     const {
-      listAccountHistoryData: { data: trxData },
+      listAccountHistoryData: { data: trxData, minBlockHeight },
     } = yield select((state) => state.wallet);
-    const blockHeight =
-      trxData.length > 0
-        ? trxData[trxData.length - 1].blockHeight - 1
-        : undefined;
     const data = yield call(getListAccountHistory, {
       limit,
       owner,
-      blockHeight,
+      blockHeight: minBlockHeight,
     });
+    console.log(data);
     if (!data.length) {
       yield put(fetchWalletTokenTransactionsListRequestStop());
     } else {
+      const newTrxDataMin: any = minBy(data, 'blockHeight');
+      const newBlockHeight = newTrxDataMin.blockHeight - 1;
       const newData = yield call(getListAccountHistory, {
         limit,
         owner,
-        blockHeight: data[data.length - 1].blockHeight - 1,
+        blockHeight: newBlockHeight,
       });
       if (!newData.length) {
         yield put(fetchWalletTokenTransactionsListRequestStop());
       }
+      const processedData = yield call(prepareTxDataRows, data);
+      const finalData = processedData.filter(
+        (item) => item.isValid && item.symbolKey === symbol
+      );
+      const updatedData = yield all(
+        finalData.map((item) => call(getBlockData, item))
+      );
+      console.log({updatedData: updatedData.length});
+      yield put(
+        fetchWalletTokenTransactionsListRequestSuccess({
+          data: trxData.concat(updatedData),
+          minBlockHeight: newBlockHeight,
+        })
+      );
     }
-    const processedData = yield call(prepareTxDataRows, data);
-    const finalData = processedData.filter(
-      (item) => item.isValid && item.symbolKey === symbol
-    );
-    const updatedData = yield all(
-      finalData.map((item) => call(getBlockData, item))
-    );
-    return yield put(
-      fetchWalletTokenTransactionsListRequestSuccess(
-        trxData.concat(updatedData)
-      )
-    );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
