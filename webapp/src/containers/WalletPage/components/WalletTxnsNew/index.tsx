@@ -102,14 +102,20 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     if (type === SENT_CATEGORY_LABEL) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
-    if (type === RECIEVE_CATEGORY_LABEL) {
+    if (type === RECIEVE_CATEGORY_LABEL || type === 'Rewards') {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
-    return <MdCompareArrows className={styles.typeIcon} />;
+    if (type === 'PoolSwap')
+      return <MdCompareArrows className={styles.typeIcon} />;
+    return '';
   };
 
   const getAmountClass = (type: string) => {
-    if (type === RECIEVE_CATEGORY_LABEL) {
+    if (
+      type === RECIEVE_CATEGORY_LABEL ||
+      type === 'Rewards' ||
+      type === 'PoolSwap'
+    ) {
       return styles.colorGreen;
     }
     return '';
