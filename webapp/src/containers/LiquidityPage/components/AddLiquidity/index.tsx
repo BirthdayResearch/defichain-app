@@ -125,10 +125,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       let balanceA;
       const balanceB = balanceSymbolMap.get(idTokenB);
       if (idTokenA === DFI_SYMBOL) {
-        balanceA = new BigNumber(utxoDfi)
-          .plus(maxAccountDfi)
-          .toNumber()
-          .toFixed(8);
+        balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
       } else {
         balanceA = balanceSymbolMap.get(idTokenA);
       }
@@ -151,10 +148,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         });
       }
     } else {
-      const balanceA = new BigNumber(utxoDfi)
-        .plus(maxAccountDfi)
-        .toNumber()
-        .toFixed(8);
+      const balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
       const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
       if (!balanceB) {
         setFormState({
@@ -220,11 +214,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    utxoDfi,
-    maxAccountDfi
+    walletBalance
   );
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -314,7 +307,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
+      const finalArray = filterArray.filter(value =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -663,7 +656,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolPairList,
     tokenBalanceList,

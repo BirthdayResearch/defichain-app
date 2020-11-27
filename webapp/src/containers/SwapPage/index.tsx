@@ -181,8 +181,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    utxoDfi,
-    maxAccountDfi
+    walletBalance
   );
 
   const handleChange = e => {
