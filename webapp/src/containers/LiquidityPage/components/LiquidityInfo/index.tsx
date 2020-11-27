@@ -39,7 +39,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
 
   const poolshare =
     poolshares.length &&
-    poolshares.find(poolShare => {
+    poolshares.find((poolShare) => {
       return poolShare.poolID === poolID;
     });
 
@@ -102,7 +102,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
               <KeyValueLi
                 label={I18n.t('containers.liquidity.liquidityInfo.apy')}
                 value={(
-                  `${poolshare.apy ? poolshare.apy : ''} %` || ''
+                  `${poolshare.apy ? poolshare.apy : 0} %` || ''
                 ).toString()}
               />
             </Col>
@@ -128,9 +128,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t(
-                  'containers.liquidity.liquidityInfo.btcPoolShare'
-                )}
+                label={`${poolshare.tokenA} ${I18n.t(
+                  'containers.liquidity.liquidityInfo.poolShare'
+                )}`}
                 value={(
                   `${
                     poolshare.poolSharePercentage
@@ -142,9 +142,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t(
-                  'containers.liquidity.liquidityInfo.dfiPoolShare'
-                )}
+                label={`${poolshare.tokenB} ${I18n.t(
+                  'containers.liquidity.liquidityInfo.poolShare'
+                )}`}
                 value={(
                   `${
                     poolshare.poolSharePercentage
@@ -161,7 +161,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { poolshares } = state.swap;
   return {
     poolshares,
