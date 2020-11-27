@@ -12,7 +12,7 @@ import {
 
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
-import WalletTxns from './components/WalletTxnsNew';
+import WalletTxns from './components/WalletTxns';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
@@ -38,10 +38,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
-  const tokenSymbol = urlParams.get('symbol') as string;
+  const tokenSymbol = urlParams.get('symbol');
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
-  const tokenAddress = urlParams.get('address') as string;
+  const tokenAddress = urlParams.get('address');
 
   const {
     fetchInstantBalanceRequest,
@@ -191,7 +191,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col>
           </Row>
         </section>
-        <WalletTxns tokenSymbol={tokenSymbol} tokenAddress={tokenAddress} />
+        {tokenSymbol === 'DFI' && <WalletTxns />}
       </div>
     </div>
   );

@@ -31,7 +31,6 @@ import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
   accountToAccount,
-  handleFetchAccounts,
   handleFetchRegularDFI,
   isValidAddress,
   sendToAddress,
@@ -39,9 +38,11 @@ import {
 import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
+  getAddressAndAmountListForAccount,
+  getAddressForSymbol,
   getAmountInSelectedUnit,
-  getErrorMessage,
   getSymbolKey,
+  handleAccountToAccountConversion,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
@@ -283,11 +284,21 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
+          let accountToAccountAmount = new BigNumber(0);
           const hash = this.tokenHash || '0';
-          const accountTokens = await handleFetchAccounts();
-          const DFIObj = accountTokens.find((token) => token.hash === '0');
-          const address = this.tokenAddress || DFIObj.address;
+          const addressesList = await getAddressAndAmountListForAccount();
+          const { address, amount: maxAmount } = await getAddressForSymbol(
+            hash,
+            addressesList
+          );
           amount = this.state.amountToSendDisplayed;
+          if (Number(amount) > maxAmount) {
+            accountToAccountAmount = await handleAccountToAccountConversion(
+              addressesList,
+              address,
+              hash
+            );
+          }
           txHash = await accountToAccount(
             address,
             this.state.toAddress,
@@ -580,7 +591,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
                 <div>
-                  <b>{I18n.t('containers.wallet.sendPage.txHash')}</b> :
+                  <b>{I18n.t('containers.wallet.sendPage.txHash')}</b> : &nbsp;
                   <span>{this.state.txHash}</span>
                 </div>
               </div>

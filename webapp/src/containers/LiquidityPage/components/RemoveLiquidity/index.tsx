@@ -46,6 +46,7 @@ import {
 } from '../../../../utils/utility';
 import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 import Spinner from '../../../../components/Svg/Spinner';
+import TokenAvatar from '../../../../components/TokenAvatar';
 
 interface RouteParams {
   id?: string;
@@ -286,11 +287,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             <Col md='12'>
               <Row className='align-items-center'>
                 <Col>
-                  <img
-                    src={getIcon(poolpair.tokenA)}
-                    height={'26px'}
-                    width={'26px'}
-                  />
+                  <TokenAvatar symbol={poolpair.tokenA} size={'26px'} />
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
@@ -302,11 +299,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <hr />
               <Row className='align-items-center'>
                 <Col>
-                  <img
-                    src={getIcon(poolpair.tokenB)}
-                    height={'26px'}
-                    width={'26px'}
-                  />
+                  <TokenAvatar symbol={poolpair.tokenB} size={'26px'} />
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
