@@ -52,6 +52,7 @@ export const initialState = {
     isError: '',
     data: [],
     stop: false,
+    minBlockHeight: undefined,
   },
   restartCriteria: {
     isLoading: false,
@@ -205,6 +206,7 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = [];
       state.listAccountHistoryData.stop = false;
+      state.listAccountHistoryData.minBlockHeight = undefined;
     },
     fetchWalletTokenTransactionsListRequestPaginationLoading(state, action) {
       state.listAccountHistoryData.isLoading = true;
@@ -214,7 +216,9 @@ const configSlice = createSlice({
     fetchWalletTokenTransactionsListRequestSuccess(state, action) {
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.isError = '';
-      state.listAccountHistoryData.data = action.payload;
+      state.listAccountHistoryData.data = action.payload.data;
+      state.listAccountHistoryData.minBlockHeight =
+        action.payload.minBlockHeight;
     },
     fetchWalletTokenTransactionsListRequestFailure(state, action) {
       state.listAccountHistoryData.isLoading = false;

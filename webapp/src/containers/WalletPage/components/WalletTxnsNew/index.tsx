@@ -90,32 +90,34 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const fetchData = (pageNum, disableReq = false) => {
     if (!disableReq) {
       if (pageNum > 1 && pageNum * pageSize > tableData.length) {
-        return fetchWalletTokenTransactionsListRequestPaginationLoading(
+        fetchWalletTokenTransactionsListRequestPaginationLoading(
           currentPage,
           tokenSymbol,
           tokenAddress
         );
       }
     }
+    paginate(pageNum);
+  };
+
+  const paginate = (pageNum) => {
+    setCurrentPage(pageNum);
     const newCloneTableData = cloneDeep(tableData);
     const rows = newCloneTableData.slice(
       (pageNum - 1) * pageSize,
       pageNum * pageSize
     );
-    setTableRows(rows);
-    return setCurrentPage(pageNum);
+    return setTableRows(rows);
   };
 
   useEffect(() => {
-    setTableData(
-      data.filter((item) => {
-        if (!includeRewards) return item.category !== 'Rewards';
-        return !!item.category;
-      })
-    );
+    if (data.length !== tableData.length) {
+      setTableData(data);
+    }
   }, [data, includeRewards]);
 
   useEffect(() => {
+    console.log(tableData.length);
     fetchData(currentPage, true);
   }, [tableData]);
 
@@ -168,7 +170,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   </td>
                   <td>
                     <div className={styles.txidvalue}>
-                      <EllipsisText text={item.txid} length={60} />
+                      {item.txid ? (
+                        <EllipsisText text={item.txid} length={60} />
+                      ) : (
+                        '-'
+                      )}
                     </div>
                   </td>
                   <td
@@ -189,7 +195,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           pagesCount={pagesCount}
           handlePageClick={fetchData}
           showNextOnly
-          disableNext={stop}
+          disableNext={currentPage * pageSize > tableData.length && stop}
         />
       </>
     );
@@ -199,7 +205,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     <section className='mb-5'>
       <div className={styles.container}>
         <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
-        <FormGroup>
+        {/* <FormGroup>
           <CustomInput
             type='checkbox'
             id='includeRewards'
@@ -209,7 +215,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
               setIncludeRewards(!includeRewards);
             }}
           />
-        </FormGroup>
+        </FormGroup> */}
       </div>
       <Row>
         <Col xs='12'>{walletTxnList()}</Col>
