@@ -76,29 +76,29 @@ export default class DefiHwWallet {
   async getDevices(): Promise<readonly string[]> {
     try {
       if (!(await TransportHid.isSupported())) {
-        throw new Error('Transport not supported');
+        return Promise.reject('Transport not supported');
       }
       const devs = await TransportHid.list();
       if (devs.length === 0) {
-        throw new Error('No devices connected');
+        return Promise.reject('No devices connected');
       }
       return devs;
     } catch (err) {
-      throw new Error(err.message);
+      return Promise.reject(err.message);
     }
   }
 
   async connect() {
     try {
       if (!(await TransportHid.isSupported())) {
-        throw new Error('Transport not supported');
+        return Promise.reject('Transport not supported');
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
       this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
     } catch (err) {
       this.connected = false;
-      throw new Error(err.message);
+      return Promise.reject(err.message);
     }
   }
 
@@ -110,12 +110,12 @@ export default class DefiHwWallet {
       const { code, status } = checkStatusCode(response);
 
       if (code !== StatusCodes.OK) {
-        throw new Error(status);
+        return Promise.reject(status);
       }
 
       return response.slice(0, response.length - 2);
     } catch (err) {
-      throw new Error(err.message);
+      return Promise.reject(err.message);
     }
   }
 

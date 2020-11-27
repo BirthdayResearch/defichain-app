@@ -33,7 +33,7 @@ describe('DefiHwWallet', () => {
       .spyOn(TransportHid, 'isSupported')
       .mockImplementation(() => Promise.resolve(false));
     await expect(DefiLedger.getDevices()).rejects.toEqual(
-      new Error('Transport not supported')
+      'Transport not supported'
     );
     ledgerTransport.mockRestore();
   });
@@ -43,7 +43,7 @@ describe('DefiHwWallet', () => {
       .spyOn(TransportHid, 'list')
       .mockImplementation(() => Promise.resolve([]));
     await expect(DefiLedger.getDevices()).rejects.toEqual(
-      new Error('No devices connected')
+      'No devices connected'
     );
     ledgerTransport.mockRestore();
   });
