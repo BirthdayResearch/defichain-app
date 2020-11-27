@@ -89,7 +89,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   const fetchData = (pageNum, disableReq = false) => {
     if (!disableReq) {
-      if (pageNum > 1 && (pageNum + 1) * pageSize > tableData.length) {
+      if (pageNum > 1 && pageNum * pageSize > tableData.length) {
         return fetchWalletTokenTransactionsListRequestPaginationLoading(
           currentPage,
           tokenSymbol,
