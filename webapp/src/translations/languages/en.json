@@ -263,7 +263,6 @@
         "price": "Price",
         "id": "ID",
         "decimals": "Decimals",
-        "holders": "Holders",
         "limit": "Limit",
         "minitingSupport": "Minting support",
         "tradeable": "Trade-able?",
@@ -366,7 +365,6 @@
         "pool": "Pool",
         "liquidity": "Liquidity",
         "enterAnAmount": "Enter an amount to swap",
-        "continue": "Continue",
         "cancel": "Cancel",
         "from": "From",
         "to": "To",
@@ -522,6 +520,7 @@
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Create or restore wallet",
+        "loading": "Loading...",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",

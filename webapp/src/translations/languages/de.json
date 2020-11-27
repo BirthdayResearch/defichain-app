@@ -265,7 +265,6 @@
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-
         "availablePoolPairs": "Available pool pairs",
         "pair": "Pair",
         "liquidity": "Liquidity",
@@ -511,6 +510,7 @@
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Create or restore wallet",
+        "loading": "Loading...",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
