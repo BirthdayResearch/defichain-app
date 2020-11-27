@@ -40,7 +40,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFiChain Client",
+        "title": "Blockchain – DeFi app",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -56,7 +56,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFiChain Client",
+        "title": "– DeFi Blockchain Client",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -81,24 +81,24 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiBlockChainClient": "DeFiChain Client",
+        "defiBlockChainClient": "DeFi Blockchain Client",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFiChain Client",
+      "title": "DFI Block Processing Center – DeFi app",
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
     "exchangePage": {
-      "title": "Exchange – DeFiChain Client",
+      "title": "Exchange – DeFi app",
       "exchange": "Exchange",
       "section": "Section",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Help – DeFiChain Client",
+      "title": "Help – DeFi app",
       "help": "Help",
       "helpPageHeader": "Connect with the community with these options:",
       "telegramEn": "Telegram community (EN)",
@@ -118,7 +118,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFiChain Client",
+        "title": "Masternodes – DeFi app",
         "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
@@ -162,7 +162,7 @@
         "masternodeOperatorNotOptional": "Operator Address",
         "masternodeOperatorOptional": "Operator Address (Optional)",
         "noticeMasternodeOperator": "If masternode operator is different from owner",
-        "noticeMasternodeOwner": "Owner address where collateral funds will be drawn from"
+        "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Masternode %{hash} details",
@@ -192,7 +192,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFiChain Client",
+        "title": "Tokens – DeFi app",
         "loading": "Loading…",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -223,7 +223,7 @@
         }
       },
       "createToken": {
-        "back": "Back",
+        "back": "BACK",
         "yes": "Yes",
         "no": "No",
         "address": "Address",
@@ -322,15 +322,14 @@
         "addAddressesText": "Add addresses to your initial distribution list.",
         "enterDfiAddress": "Enter DFI address",
         "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
-        "verifyingCollateral": "Verifying Collateral",
-        "chooseFile": "Choose File"
+        "verifyingCollateral": "Verifying Collateral"
       }
     },
     "liquidity": {
       "liquidityPage": {
         "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for up to 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns of up to 300%. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -345,7 +344,7 @@
         "addLiquidity": "Add liquidity"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity – DeFiChain Client",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
@@ -382,8 +381,8 @@
         "priceImpact": "Price impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by DeFiChain",
-        "transactionComplete": "Transaction complete",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
+        "transactionComplete": "Transaction Complete",
         "goToWallet": "Go to Wallet",
         "go": "Go",
         "ok": "OK",
@@ -403,9 +402,8 @@
         "decentralizedInterfaceInfo": "Transact directly with the blockchain from your app, without ever touching a server.",
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
-        "continue": "Continue",
-        "swaping": "Swaping",
-        "amountInsufficient": "Insufficient Amount in your account"
+        "swaping": "Swapping",
+        "amountInsufficient": "Insufficient amount in your account"
       },
       "swapTab": {
         "from": "From",
@@ -418,7 +416,10 @@
         "pair": "Pair",
         "liquidity": "Liquidity",
         "volume": "Volume",
-        "apy": "APY"
+        "apy": "APY",
+        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more.",
+        "totalLiquidity": "Total liquidity (USD)",
+        "addLiquidity": "ADD LIQUIDITY"
       },
       "addLiquidity": {
         "balance": "Balance",
@@ -442,11 +443,11 @@
         "continue": "Continue",
         "cancel": "Cancel",
         "supply": "Supply",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by DeFiChain",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
-        "amountInsufficient": "Insufficient Amount in your account"
+        "amountInsufficient": "Insufficient amount in your account"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -456,9 +457,10 @@
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
         "removeLiquidityAmount": "Amount of liquidity to remove",
-        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by DeFiChain",
+        "transactionSuccessMsg": "Your liquidity list will update once the transaction has been confirmed by the DeFi blockchain",
         "receive": "Receive",
-        "receiveAddress": "Receive Address",
+        "receiveAddressLabel": "Receive address",
+        "receiveAddressDropdown": "Select an address",
         "cancel": "Cancel",
         "removeLiquidityPercentage": "%",
         "price": "Price",
@@ -468,7 +470,6 @@
         "continue": "Continue",
         "confirm": "Confirm",
         "backToPool": "Back to pool",
-        "receiveAddress": "Receive address",
         "refreshingUTXOS": "Refreshing UTXOS",
         "UTXOSRefreshed": "UTXOS refreshed",
         "removingLiquidity": "Removing liquidity",
@@ -478,7 +479,7 @@
       }
     },
     "settings": {
-      "title": "Settings – DeFiChain Client",
+      "title": "Settings – DeFi app",
       "settings": "Settings",
       "general": "General",
       "display": "Display",
@@ -530,7 +531,7 @@
         "title": "Wallet - Create a new wallet",
         "createANewWallet": "Create a new wallet",
         "mnemonicGuideline": "Write down the following 24 words below. It is important to write them down in the exact numbered order. This 24-word mnemonic seed will be used to recover or transfer your wallet. Without it, you will not be able to recover your wallet. Don't lose it.",
-        "mnemonicGuidelineWarning": "Do not store your wallet receovery phrase on a computer or smartphone, and keep it secure.",
+        "mnemonicGuidelineWarning": "Do not store your wallet recovery phrase on a computer or smartphone, and keep it secure.",
         "generateNewSet": "Generate a new set of 24 words",
         "walletRecoveryInfoLine1": "A wallet recovery seed (“mnemonic seed”, “seed phrase”, “seed words”) is a way to represent your private key as a sequence of words that are easier for a human to remember. It is also used to generate extended keys for all the wallets you create in the app.",
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
@@ -544,7 +545,6 @@
         "back": "BACK",
         "verifyMnemonicSeed": "Verify mnemonic seed",
         "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please identify which 6 words are in your mnemonic seed.",
-        "showAgain": "Show me my 24 words again",
         "verifyMnemonicWhichOne": "Which one is…",
         "wordQuestion": "Word %{wordNum}?",
         "creatingYourWallet": "Creating your wallet",
@@ -566,9 +566,9 @@
         "backToWalletPage": "CLOSE"
       },
       "sendPage": {
-        "sendTitle": "Send – DeFiChain Client",
+        "sendTitle": "Send – DeFi app",
         "wallet": "Wallet",
-        "sendDFITitle": "Send DFI – DeFiChain Client",
+        "sendDFITitle": "Send DFI – DeFi app",
         "sendDFI": "Send DFI",
         "send": "Send",
         "amount": "Amount",
@@ -583,13 +583,13 @@
         "pleaseVerifyAmount": "Please verify the amount and recipient",
         "completeSend": "Complete Send",
         "sendFailed": "Error occurred while sending amount",
-        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by DeFiChain.",
+        "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by the DeFi Blockchain.",
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI Address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account"
       },
       "receivePage": {
-        "receiveDFITitle": "Receive DFI – DeFiChain Client",
+        "receiveDFITitle": "Receive DFI – DeFi app",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "optional": "Optional",
@@ -623,7 +623,7 @@
         "created": "Created"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id} – DeFiChain Client",
+        "paymentRequestTitle": "Payment request %{id} – DeFi app",
         "paymentRequest": "Payment request",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -636,7 +636,7 @@
       },
       "walletPage": {
         "tokens": "TOKENS",
-        "walletDefiClient": "Wallet – DeFiChain Client",
+        "walletDefiClient": "Wallet – DeFi app",
         "wallet": "Wallet",
         "delete": "Delete",
         "send": "Send",
@@ -672,7 +672,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – DeFiChain Client",
+        "consoleDefiClient": "Console – DeFi app",
         "defiCliCommand": "Enter DeFi-cli command",
         "console": "Console",
         "submit": "Submit",
@@ -762,6 +762,11 @@
     "restartWalletModalHeader": "Restart required",
     "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart?",
     "yesRestartWalletNotice": "Restart now",
-    "noRestartWalletNotice": "Later"
+    "noRestartWalletNotice": "Later",
+    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletDatNotice": "Are you sure you want to reset?",
+    "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
+    "yeResetpWalletNotice": "Yes",
+    "noResetWalletNotice": "No"
   }
 }
