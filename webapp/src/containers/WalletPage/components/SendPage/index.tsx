@@ -579,11 +579,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
-                <p>
-                  {`${I18n.t('containers.wallet.sendPage.txHash')}: ${
-                    this.state.txHash
-                  }`}
-                </p>
+                <div>
+                  <b>{I18n.t('containers.wallet.sendPage.txHash')}</b> :
+                  <span>{this.state.txHash}</span>
+                </div>
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>

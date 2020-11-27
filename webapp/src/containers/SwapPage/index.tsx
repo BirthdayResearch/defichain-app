@@ -656,11 +656,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <p>
                   {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
                 </p>
-                <p>
-                  {`${I18n.t(
-                    'containers.swap.swapPage.txHash'
-                  )}: ${poolSwapHash}`}
-                </p>
+                <div>
+                  <b>{I18n.t('containers.swap.swapPage.txHash')}</b> :
+                  <span>{poolSwapHash}</span>
+                </div>
               </div>
             </div>
             <Row className='justify-content-between align-items-center'>

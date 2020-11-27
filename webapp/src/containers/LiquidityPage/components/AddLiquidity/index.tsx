@@ -554,11 +554,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <p>
                 {I18n.t('containers.swap.addLiquidity.transactionSuccessMsg')}
               </p>
-              <p>
-                {`${I18n.t(
-                  'containers.liquidity.liquidityPage.txHash'
-                )}: ${addPoolLiquidityHash}`}
-              </p>
+              <div>
+                <b>{I18n.t('containers.liquidity.liquidityPage.txHash')}</b> :
+                <span>{addPoolLiquidityHash}</span>
+              </div>
             </div>
           </div>
           <Row className='justify-content-between align-items-center'>
