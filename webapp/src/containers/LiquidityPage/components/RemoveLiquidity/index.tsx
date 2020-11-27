@@ -47,6 +47,7 @@ import {
 import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 import Spinner from '../../../../components/Svg/Spinner';
 import TokenAvatar from '../../../../components/TokenAvatar';
+import Header from '../../../HeaderComponent';
 
 interface RouteParams {
   id?: string;
@@ -190,7 +191,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           // to={LIQUIDITY_PATH}
           // tag={RRNavLink}
@@ -206,7 +207,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.swap.removeLiquidity.removeLiquidity')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <FormGroup>

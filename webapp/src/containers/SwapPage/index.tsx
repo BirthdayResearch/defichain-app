@@ -54,6 +54,7 @@ import { BigNumber } from 'bignumber.js';
 import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
+import Header from '../HeaderComponent';
 
 interface SwapPageProps {
   history?: any;
@@ -323,7 +324,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
         {/* <Nav pills className='justify-content-center'>
           <NavItem>
@@ -363,7 +364,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       {PersistentStore.get(IS_DEX_INTRO_SEEN) ? (
         <div className='content'>
           <TabContent activeTab={activeTab}>
