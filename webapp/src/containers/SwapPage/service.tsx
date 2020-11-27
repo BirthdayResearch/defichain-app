@@ -74,10 +74,10 @@ export const handleFetchPoolshares = async () => {
         .times(coinPriceObj[DFI_SYMBOL]);
 
       const liquidityReserveidTokenA = new BigNumber(
-        poolPairData[0].reserveA
+        poolPairData[0].reserveA || 0
       ).times(coinPriceObj[poolPairData[0].idTokenA]);
       const liquidityReserveidTokenB = new BigNumber(
-        poolPairData[0].reserveB
+        poolPairData[0].reserveB || 0
       ).times(coinPriceObj[poolPairData[0].idTokenB]);
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
@@ -89,11 +89,13 @@ export const handleFetchPoolshares = async () => {
         poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: yearlyPoolReward
-          .div(totalLiquidity)
-          .times(100)
-          .toNumber()
-          .toFixed(2),
+        apy: totalLiquidity.toNumber()
+          ? yearlyPoolReward
+            .div(totalLiquidity)
+            .times(100)
+            .toNumber()
+            .toFixed(2)
+          : 0,
         ...poolPairData[0],
         ...poolShare,
       };
