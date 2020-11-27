@@ -360,17 +360,12 @@ export const handleRemovePoolLiquidity = async (
     return sumAmount;
   }, 0);
 
-  const refreshUtxosForRemoveLP: any = [];
+  const removeLpAmounts = {};
   for (const obj of addressList) {
-    const txId = await rpcClient.sendToAddress(
-      obj.address,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const promise = getTransactionInfo(txId);
-    refreshUtxosForRemoveLP.push(promise);
+    removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  await Promise.all(refreshUtxosForRemoveLP);
+  const refreshUtxoTxId1 = await rpcClient.sendMany(removeLpAmounts);
+  await getTransactionInfo(refreshUtxoTxId1);
 
   store.dispatch(refreshUTXOS1Success());
 
@@ -405,25 +400,14 @@ export const handleRemovePoolLiquidity = async (
     };
   });
 
-  const refreshUtxoForAccount: any[] = [];
+  const accountAmounts = {};
   for (const obj of finalArray) {
-    const txId1 = await rpcClient.sendToAddress(
-      obj.address,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const txId2 = await rpcClient.sendToAddress(
-      obj.address,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const promiseHash1 = getTransactionInfo(txId1);
-    const promiseHash2 = getTransactionInfo(txId2);
-
-    refreshUtxoForAccount.push(promiseHash1);
-    refreshUtxoForAccount.push(promiseHash2);
+    accountAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  await Promise.all(refreshUtxoForAccount);
+  const refreshUtxoTxId2 = await rpcClient.sendMany(accountAmounts);
+  const refreshUtxoTxId3 = await rpcClient.sendMany(accountAmounts);
+  await getTransactionInfo(refreshUtxoTxId2);
+  await getTransactionInfo(refreshUtxoTxId3);
 
   store.dispatch(refreshUTXOS2Success());
 
