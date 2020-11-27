@@ -74,4 +74,16 @@ describe('DefiHwWallet', () => {
       address: 'dLKhx5YCqCrUHrRA4BsaQCr3tc2gFwFr54',
     });
   });
+
+  it('should return public key at format bech32', async () => {
+    const res = await DefiLedger.getDefiPublicKey(2, 'bech32');
+    expect({
+      address: res.address,
+      pubkey: res.pubkey.toString('hex'),
+    }).toEqual({
+      pubkey:
+        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
+      address: 'df1qtz32nlzjqw8c2dzcu0k9nvfyl0209hkteseea0',
+    });
+  });
 });
