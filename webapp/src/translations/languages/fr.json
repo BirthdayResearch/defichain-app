@@ -511,6 +511,7 @@
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Create or restore wallet",
+        "loading": "Loading...",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
