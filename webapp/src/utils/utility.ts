@@ -595,10 +595,11 @@ export const fetchPoolPairDataWithPagination = async (
     });
 
     const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-      coinPriceObj[idTokenA]
+      coinPriceObj[idTokenA] || 0
     );
+
     const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-      coinPriceObj[idTokenB]
+      coinPriceObj[idTokenB] || 0
     );
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
@@ -615,11 +616,9 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: yearlyPoolReward
-        .div(totalLiquidity)
-        .times(100)
-        .toNumber()
-        .toFixed(2),
+      apy: totalLiquidity.toNumber()
+        ? yearlyPoolReward.div(totalLiquidity).times(100).toNumber().toFixed(2)
+        : 0,
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -651,10 +650,10 @@ export const fetchPoolPairDataWithPagination = async (
       });
 
       const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-        coinPriceObj[idTokenA]
+        coinPriceObj[idTokenA] || 0
       );
       const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-        coinPriceObj[idTokenB]
+        coinPriceObj[idTokenB] || 0
       );
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
@@ -671,11 +670,13 @@ export const fetchPoolPairDataWithPagination = async (
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        apy: yearlyPoolReward
-          .div(totalLiquidity)
-          .times(100)
-          .toNumber()
-          .toFixed(2),
+        apy: totalLiquidity.toNumber()
+          ? yearlyPoolReward
+              .div(totalLiquidity)
+              .times(100)
+              .toNumber()
+              .toFixed(2)
+          : 0,
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -828,8 +829,12 @@ export const conversionRatio = (formState, poolPairList) => {
   const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
 
   const ratio = condition1
-    ? new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA))
-    : new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB));
+    ? poolPair['reserveB/reserveA'] !== '0'
+      ? new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA))
+      : new BigNumber(0)
+    : poolPair['reserveA/reserveB'] !== '0'
+    ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
+    : new BigNumber(0);
 
   return ratio.toFixed(8);
 };
@@ -1036,7 +1041,7 @@ export const handleAccountToAccountConversion = async (
   return amountTransfered;
 };
 
-export const getAddressAndAmountListPoolShare = async poolID => {
+export const getAddressAndAmountListPoolShare = async (poolID) => {
   const rpcClient = new RpcClient();
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
@@ -1119,7 +1124,7 @@ export const numberWithCommas = (nStr) => {
     x1 = x1.replace(rgx, '$1' + ',' + '$2');
   }
   return x1 + x2;
-}
+};
 export const getBalanceForSymbol = async (address: string, symbol: string) => {
   const rpcClient = new RpcClient();
   const balanceArray: string[] = await rpcClient.getAccount(address);

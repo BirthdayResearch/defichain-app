@@ -349,6 +349,7 @@
         "remove": "Remove",
         "apy": "APY",
         "pooled": "Pooled",
+        "poolShare": "pool share",
         "pooledBTC": "Pooled BTC",
         "btcPoolShare": "BTC pool share",
         "totalReward": "Total reward",
@@ -403,7 +404,8 @@
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "swaping": "Swapping",
         "amountInsufficient": "Insufficient Amount in your account",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction Hash",
+        "somethingWentWrong": "Something went wrong"
       },
       "swapTab": {
         "from": "From",

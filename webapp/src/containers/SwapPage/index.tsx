@@ -54,6 +54,7 @@ import { BigNumber } from 'bignumber.js';
 import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
+import Header from '../HeaderComponent';
 
 interface SwapPageProps {
   history?: any;
@@ -323,7 +324,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
         {/* <Nav pills className='justify-content-center'>
           <NavItem>
@@ -363,7 +364,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       {PersistentStore.get(IS_DEX_INTRO_SEEN) ? (
         <div className='content'>
           <TabContent activeTab={activeTab}>
@@ -390,53 +391,58 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               {/* <PoolTab history={props.history} /> */}
             </TabPane>
           </TabContent>
-          {isValid() && activeTab === SWAP && (
-            <Row>
-              <Col md='12'>
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>{I18n.t('containers.swap.swapPage.price')}</span>
-                  </Col>
-                  <Col className={`${styles.valueTxt}`}>
-                    {`${Number(
-                      conversionRatio(formState, poolPairList)
-                    ).toFixed(8)} ${formState.symbol2} per ${
-                      formState.symbol1
-                    }`}
-                    <br />
-                    {`${(
-                      1 / Number(conversionRatio(formState, poolPairList))
-                    ).toFixed(8)} ${formState.symbol1} per ${
-                      formState.symbol2
-                    }`}
-                  </Col>
-                </Row>
-                <hr />
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>
-                      {I18n.t('containers.swap.swapPage.minimumReceived')}
-                    </span>
-                  </Col>
-                  <Col
-                    className={`${styles.valueTxt}`}
-                  >{`${formState.amount2} ${formState.symbol2}`}</Col>
-                </Row>
-                <hr />
-                <Row className='align-items-center'>
-                  <Col>
-                    <span>
-                      {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
-                    </span>
-                  </Col>
-                  <Col className={`${styles.valueTxt}`}>
-                    {calculateLPFee(formState, poolPairList)}
-                  </Col>
-                </Row>
-                <hr />
-              </Col>
-            </Row>
-          )}
+          {isValid() &&
+            activeTab === SWAP &&
+            !isAmountInsufficient() &&
+            !isErrorTestPoolSwap && (
+              <Row>
+                <Col md='12'>
+                  <Row className='align-items-center'>
+                    <Col>
+                      <span>{I18n.t('containers.swap.swapPage.price')}</span>
+                    </Col>
+                    <Col className={`${styles.valueTxt}`}>
+                      {`${Number(
+                        conversionRatio(formState, poolPairList)
+                      ).toFixed(8)} ${formState.symbol2} per ${
+                        formState.symbol1
+                      }`}
+                      <br />
+                      {`${(
+                        1 / Number(conversionRatio(formState, poolPairList))
+                      ).toFixed(8)} ${formState.symbol1} per ${
+                        formState.symbol2
+                      }`}
+                    </Col>
+                  </Row>
+                  <hr />
+                  <Row className='align-items-center'>
+                    <Col>
+                      <span>
+                        {I18n.t('containers.swap.swapPage.minimumReceived')}
+                      </span>
+                    </Col>
+                    <Col
+                      className={`${styles.valueTxt}`}
+                    >{`${formState.amount2} ${formState.symbol2}`}</Col>
+                  </Row>
+                  <hr />
+                  <Row className='align-items-center'>
+                    <Col>
+                      <span>
+                        {I18n.t(
+                          'containers.swap.swapPage.liquidityProviderFee'
+                        )}
+                      </span>
+                    </Col>
+                    <Col className={`${styles.valueTxt}`}>
+                      {calculateLPFee(formState, poolPairList)}
+                    </Col>
+                  </Row>
+                  <hr />
+                </Col>
+              </Row>
+            )}
         </div>
       ) : (
         <div className='content'>
@@ -580,7 +586,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               ) : (
                 <Col className='col-auto'>
                   <span className='text-danger'>
-                    {I18n.t('containers.swap.swapPage.amountInsufficient')}
+                    {I18n.t('containers.swap.swapPage.somethingWentWrong')}
                   </span>
                 </Col>
               )}
@@ -657,7 +663,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
                 </p>
                 <div>
-                  <b>{I18n.t('containers.swap.swapPage.txHash')}</b> :
+                  <b>{I18n.t('containers.swap.swapPage.txHash')}</b> : &nbsp;
                   <span>{poolSwapHash}</span>
                 </div>
               </div>

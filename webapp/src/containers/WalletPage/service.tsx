@@ -16,7 +16,12 @@ import _ from 'lodash';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
+  getAddressAndAmountListForAccount,
+  getAddressForSymbol,
+  getBalanceForSymbol,
   getErrorMessage,
+  getSmallerAmount,
+  handleAccountToAccountConversion,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -135,6 +140,7 @@ export const sendToAddress = async (
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
+  let accountToAccountAmount = new BigNumber(0);
   if (regularDFI >= amount) {
     try {
       const data = await rpcClient.sendToAddress(
@@ -149,25 +155,43 @@ export const sendToAddress = async (
     }
   } else {
     try {
-      const accountTokens = await handleFetchAccounts();
-      const DFIObj = accountTokens.find((token) => token.hash === '0');
-      const fromAddress = DFIObj.address;
+      const addressesList = await getAddressAndAmountListForAccount();
+      const {
+        address: fromAddress,
+        amount: maxAmount,
+      } = await getAddressForSymbol('0', addressesList);
+      if (Number(amount) > maxAmount) {
+        accountToAccountAmount = await handleAccountToAccountConversion(
+          addressesList,
+          fromAddress,
+          '0'
+        );
+      }
       const txId = await rpcClient.sendToAddress(
         fromAddress,
         Number((10 / 100) * amount).toFixed(8),
         subtractfeefromamount
       );
       await getTransactionInfo(txId);
+      const balance = await getBalanceForSymbol(fromAddress, '0');
+      const finalBalance = getSmallerAmount(
+        balance,
+        accountToAccountAmount.plus(maxAmount).toFixed(4)
+      );
       const hash = await rpcClient.accountToUtxos(
         fromAddress,
         fromAddress,
-        `${(amount - regularDFI).toFixed(4)}@DFI`
+        `${finalBalance.toFixed(2)}@DFI`
       );
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
-      const transferAmount =
-        regularDFIAfterTxFee < amount ? regularDFIAfterTxFee : amount;
-      await sendToAddress(toAddress, transferAmount, true);
+      if (regularDFIAfterTxFee < amount) {
+        throw new Error('Insufficient DFI in account');
+      } else if (regularDFIAfterTxFee === amount) {
+        return await sendToAddress(toAddress, amount, true);
+      } else {
+        return await sendToAddress(toAddress, amount, false);
+      }
     } catch (error) {
       log.error(`Got error in sendToAddress: ${error}`);
       throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
@@ -434,6 +458,7 @@ const validTrx = (item) => {
     isValid,
   };
 };
+
 export const handleRestartCriteria = async () => {
   const rpcClient = new RpcClient();
   const balance = await rpcClient.getBalance();
