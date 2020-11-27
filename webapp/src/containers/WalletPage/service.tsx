@@ -410,7 +410,7 @@ const validTrx = (item) => {
     SetGovVariable: 'SetGovVariable',
     NonTxRewards: 'Rewards',
   };
-  
+
   const SendReceiveValidTxTypeArray = [
     validType.UtxosToAccount,
     validType.AccountToUtxos,
@@ -419,12 +419,9 @@ const validTrx = (item) => {
   let isValid = true;
   let category = item.type;
   if (
-    item.type !== validType.NonTxRewards ||
-    item.type !== validType.PoolSwap
+    !(item.type === validType.NonTxRewards || item.type === validType.PoolSwap)
   ) {
-    isValid = SendReceiveValidTxTypeArray.reduce(
-      (acc, ele) => item.type === ele
-    );
+    isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
       category = new BigNumber(item.amount).gte(0)
         ? RECIEVE_CATEGORY_LABEL
@@ -436,7 +433,7 @@ const validTrx = (item) => {
     category,
     isValid,
   };
-}
+};
 export const handleRestartCriteria = async () => {
   const rpcClient = new RpcClient();
   const balance = await rpcClient.getBalance();
