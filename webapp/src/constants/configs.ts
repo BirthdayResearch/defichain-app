@@ -121,3 +121,22 @@ export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
 export const RECIEVE_CATEGORY_LABEL = 'Receive';
 export const SENT_CATEGORY_LABEL = 'Sent';
+
+export const TX_TYPES = {
+  CreateMasternode: 'CreateMasternode',
+  ResignMasternode: 'ResignMasternode',
+  CreateToken: 'CreateToken',
+  UpdateToken: 'UpdateToken',
+  UpdateTokenAny: 'UpdateTokenAny',
+  MintToken: 'MintToken',
+  CreatePoolPair: 'CreatePoolPair',
+  UpdatePoolPair: 'UpdatePoolPair',
+  PoolSwap: 'PoolSwap',
+  AddPoolLiquidity: 'AddPoolLiquidity',
+  RemovePoolLiquidity: 'RemovePoolLiquidity',
+  UtxosToAccount: 'UtxosToAccount',
+  AccountToUtxos: 'AccountToUtxos',
+  AccountToAccount: 'AccountToAccount',
+  SetGovVariable: 'SetGovVariable',
+  NonTxRewards: 'Rewards',
+};

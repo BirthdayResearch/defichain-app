@@ -46,6 +46,8 @@ import {
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
+  fetchWalletTokenTransactionsListRequestStop,
+  fetchWalletTokenTransactionsListRequestPaginationLoading,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -380,29 +382,43 @@ function* checkWalletCreation() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, owner, limit = 1000 } = action.payload;
-    let cloneArr: any[] = [];
-    let blockHeight;
-    while (true) {
-      const data: any[] = yield call(getListAccountHistory, {
+    const { symbol, owner, limit = 1000, initialLoad } = action.payload;
+    const {
+      listAccountHistoryData: { data: trxData },
+    } = yield select((state) => state.wallet);
+    const blockHeight =
+      trxData.length > 0
+        ? trxData[trxData.length - 1].blockHeight - 1
+        : undefined;
+    const data = yield call(getListAccountHistory, {
+      limit,
+      owner,
+      blockHeight,
+    });
+    if (!data.length) {
+      yield put(fetchWalletTokenTransactionsListRequestStop());
+    } else if (initialLoad) {
+      const newData = yield call(getListAccountHistory, {
         limit,
         owner,
-        blockHeight,
+        blockHeight: data[data.length - 1].blockHeight - 1,
       });
-      if (!data.length) {
-        break;
+      if (!newData.length) {
+        yield put(fetchWalletTokenTransactionsListRequestStop());
       }
-      blockHeight = data[data.length - 1].blockHeight - 1;
-      cloneArr = cloneArr.concat(data);
     }
-    const processedData = yield call(prepareTxDataRows, cloneArr);
+    const processedData = yield call(prepareTxDataRows, data);
     const finalData = processedData.filter(
       (item) => item.isValid && item.symbolKey === symbol
     );
     const updatedData = yield all(
       finalData.map((item) => call(getBlockData, item))
     );
-    yield put(fetchWalletTokenTransactionsListRequestSuccess(updatedData));
+    return yield put(
+      fetchWalletTokenTransactionsListRequestSuccess(
+        trxData.concat(updatedData)
+      )
+    );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -445,6 +461,10 @@ function* mySaga() {
   yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
   yield takeLatest(
     fetchWalletTokenTransactionsListRequestLoading.type,
+    fetchWalletTokenTransactionsList
+  );
+  yield takeLatest(
+    fetchWalletTokenTransactionsListRequestPaginationLoading.type,
     fetchWalletTokenTransactionsList
   );
   yield takeLatest(

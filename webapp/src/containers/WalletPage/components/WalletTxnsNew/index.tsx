@@ -19,6 +19,7 @@ import { I18n } from 'react-redux-i18n';
 import {
   fetchWalletTxnsRequest,
   fetchWalletTokenTransactionsListRequestLoading,
+  fetchWalletTokenTransactionsListRequestPaginationLoading,
 } from '../../reducer';
 import {
   RECIEVE_CATEGORY_LABEL,
@@ -40,12 +41,19 @@ interface WalletTxnsProps {
   tokenSymbol?: string;
   tokenAddress?: string;
   fetchWalletTokenTransactionsListRequestLoading: (
+    currentPage: number,
+    symbol?: string,
+    owner?: string
+  ) => void;
+  fetchWalletTokenTransactionsListRequestPaginationLoading: (
+    currentPage: number,
     symbol?: string,
     owner?: string
   ) => void;
   data: any[];
   isLoading: boolean;
   isError: string;
+  stop: boolean;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -53,11 +61,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 ) => {
   const {
     fetchWalletTokenTransactionsListRequestLoading,
+    fetchWalletTokenTransactionsListRequestPaginationLoading,
     tokenAddress,
     tokenSymbol,
     data,
     isLoading,
     isError,
+    stop,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
@@ -70,17 +80,30 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const from = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
-    fetchWalletTokenTransactionsListRequestLoading(tokenSymbol, tokenAddress);
+    fetchWalletTokenTransactionsListRequestLoading(
+      currentPage,
+      tokenSymbol,
+      tokenAddress
+    );
   }, []);
 
-  const fetchData = (pageNum) => {
+  const fetchData = (pageNum, disableReq = false) => {
+    if (!disableReq) {
+      if (pageNum > 1 && (pageNum + 1) * pageSize > tableData.length) {
+        return fetchWalletTokenTransactionsListRequestPaginationLoading(
+          currentPage,
+          tokenSymbol,
+          tokenAddress
+        );
+      }
+    }
     const newCloneTableData = cloneDeep(tableData);
-    setCurrentPage(pageNum);
     const rows = newCloneTableData.slice(
       (pageNum - 1) * pageSize,
       pageNum * pageSize
     );
     setTableRows(rows);
+    return setCurrentPage(pageNum);
   };
 
   useEffect(() => {
@@ -93,7 +116,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, [data, includeRewards]);
 
   useEffect(() => {
-    fetchData(currentPage);
+    fetchData(currentPage, true);
   }, [tableData]);
 
   const getTxnsTypeIcon = (type: string) => {
@@ -165,6 +188,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           currentPage={currentPage}
           pagesCount={pagesCount}
           handlePageClick={fetchData}
+          showNextOnly
+          disableNext={stop}
         />
       </>
     );
@@ -197,7 +222,7 @@ const mapStateToProps = (state) => {
   const {
     settings,
     wallet: {
-      listAccountHistoryData: { isLoading, data, isError },
+      listAccountHistoryData: { isLoading, data, isError, stop },
     },
   } = state;
   return {
@@ -205,6 +230,7 @@ const mapStateToProps = (state) => {
     isLoading,
     data,
     isError,
+    stop,
   };
 };
 
@@ -212,9 +238,26 @@ const mapDispatchToProps = {
   fetchWalletTxns: (currentPage, pageSize, intialLoad) =>
     fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
   fetchWalletTokenTransactionsListRequestLoading: (
+    currentPage: number,
     symbol?: string,
     owner?: string
-  ) => fetchWalletTokenTransactionsListRequestLoading({ symbol, owner }),
+  ) =>
+    fetchWalletTokenTransactionsListRequestLoading({
+      symbol,
+      owner,
+      currentPage,
+      initialLoad: true,
+    }),
+  fetchWalletTokenTransactionsListRequestPaginationLoading: (
+    currentPage: number,
+    symbol?: string,
+    owner?: string
+  ) =>
+    fetchWalletTokenTransactionsListRequestPaginationLoading({
+      symbol,
+      owner,
+      currentPage,
+    }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

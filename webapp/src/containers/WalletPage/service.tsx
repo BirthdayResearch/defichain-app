@@ -8,6 +8,7 @@ import {
   LIST_ACCOUNTS_PAGE_SIZE,
   RECIEVE_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  TX_TYPES,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
@@ -416,34 +417,15 @@ export const handleBlockData = async (blockHeight: number) => {
 };
 
 const validTrx = (item) => {
-  const validType = {
-    CreateMasternode: 'CreateMasternode',
-    ResignMasternode: 'ResignMasternode',
-    CreateToken: 'CreateToken',
-    UpdateToken: 'UpdateToken',
-    UpdateTokenAny: 'UpdateTokenAny',
-    MintToken: 'MintToken',
-    CreatePoolPair: 'CreatePoolPair',
-    UpdatePoolPair: 'UpdatePoolPair',
-    PoolSwap: 'PoolSwap',
-    AddPoolLiquidity: 'AddPoolLiquidity',
-    RemovePoolLiquidity: 'RemovePoolLiquidity',
-    UtxosToAccount: 'UtxosToAccount',
-    AccountToUtxos: 'AccountToUtxos',
-    AccountToAccount: 'AccountToAccount',
-    SetGovVariable: 'SetGovVariable',
-    NonTxRewards: 'Rewards',
-  };
-
   const SendReceiveValidTxTypeArray = [
-    validType.UtxosToAccount,
-    validType.AccountToUtxos,
-    validType.AccountToAccount,
+    TX_TYPES.UtxosToAccount,
+    TX_TYPES.AccountToUtxos,
+    TX_TYPES.AccountToAccount,
   ];
   let isValid = true;
   let category = item.type;
   if (
-    !(item.type === validType.NonTxRewards || item.type === validType.PoolSwap)
+    !(item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap)
   ) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {

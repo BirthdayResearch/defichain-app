@@ -51,6 +51,7 @@ export const initialState = {
     isLoading: false,
     isError: '',
     data: [],
+    stop: false,
   },
   restartCriteria: {
     isLoading: false,
@@ -203,6 +204,12 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isLoading = true;
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = [];
+      state.listAccountHistoryData.stop = false;
+    },
+    fetchWalletTokenTransactionsListRequestPaginationLoading(state, action) {
+      state.listAccountHistoryData.isLoading = true;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.stop = false;
     },
     fetchWalletTokenTransactionsListRequestSuccess(state, action) {
       state.listAccountHistoryData.isLoading = false;
@@ -213,6 +220,11 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.isError = action.payload;
       state.listAccountHistoryData.data = [];
+      state.listAccountHistoryData.stop = true;
+    },
+    fetchWalletTokenTransactionsListRequestStop(state) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.stop = true;
     },
     checkRestartCriteriaRequestLoading(state) {
       state.restartCriteria.isLoading = true;
@@ -282,6 +294,8 @@ export const {
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
+  fetchWalletTokenTransactionsListRequestStop,
+  fetchWalletTokenTransactionsListRequestPaginationLoading,
 } = actions;
 
 export default reducer;
