@@ -304,6 +304,11 @@ export default class RpcClient {
     return data.result;
   };
 
+  sendMany = async (amounts: any) => {
+    const { data } = await this.call('/', methodNames.SEND_MANY, ['', amounts]);
+    return data.result;
+  };
+
   accountToAccount = async (
     fromAddress: string | null,
     toAddress: string,
@@ -671,7 +676,7 @@ export default class RpcClient {
       },
       true,
       true,
-      true
+      true,
     ]);
     return data.result;
   };

@@ -47,6 +47,11 @@ export const initialState = {
   isWalletRestoring: false,
   isErrorRestoringWallet: '',
   isWalletCreatedFlag: false,
+  restartCriteria: {
+    isLoading: false,
+    data: true,
+    isError: '',
+  },
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -188,7 +193,22 @@ const configSlice = createSlice({
     },
     setIsWalletCreatedStartRequest(state) {
       state.isWalletCreatedFlag = false;
-    }
+    },
+    checkRestartCriteriaRequestLoading(state) {
+      state.restartCriteria.isLoading = true;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestSuccess(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = action.payload;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestFailure(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = action.payload;
+    },
   },
 });
 
@@ -236,6 +256,9 @@ export const {
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
   setIsWalletCreatedStartRequest,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
 } = actions;
 
 export default reducer;

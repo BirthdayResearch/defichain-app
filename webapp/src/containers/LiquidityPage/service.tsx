@@ -14,6 +14,7 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../WalletPage/service';
 import {
   fetchPoolPairDataWithPagination,
@@ -162,8 +163,7 @@ export const handleTestPoolSwap = async (formState) => {
       formState.hash1,
       address1,
       formState.amount1,
-      maxAmount1,
-      dfiUTXOS
+      maxAmount1
     );
   } else if (
     formState.hash2 === DFI_SYMBOL &&
@@ -173,8 +173,7 @@ export const handleTestPoolSwap = async (formState) => {
       formState.hash2,
       address2,
       formState.amount2,
-      maxAmount2,
-      dfiUTXOS
+      maxAmount2
     );
   }
 
@@ -262,21 +261,9 @@ export const handleAddPoolLiquidity = async (
 
   // convert utxo to account DFI, if don't have sufficent funds in account
   if (hash1 === DFI_SYMBOL && Number(amount1) > maxAmount1) {
-    await handleUtxoToAccountConversion(
-      hash1,
-      address1,
-      amount1,
-      maxAmount1,
-      dfiUTXOS
-    );
+    await handleUtxoToAccountConversion(hash1, address1, amount1, maxAmount1);
   } else if (hash2 === DFI_SYMBOL && Number(amount2) > maxAmount2) {
-    await handleUtxoToAccountConversion(
-      hash2,
-      address2,
-      amount2,
-      maxAmount2,
-      dfiUTXOS
-    );
+    await handleUtxoToAccountConversion(hash2, address2, amount2, maxAmount2);
   }
 
   if (address1 !== address2) {
@@ -405,13 +392,9 @@ export const handleRemovePoolLiquidity = async (
 export const handleFetchUtxoDFI = async () => {
   const rpcClient = new RpcClient();
   return rpcClient.getBalance();
-}
+};
 
 export const handleFetchTokenDFI = async () => {
-  const list = await getAddressAndAmountListForAccount();
-  const { address, amount } = await getAddressForSymbol(
-    DFI_SYMBOL,
-    list
-  );
-  return amount;
-}
+  const accountDFI = handleFetchAccountDFI();
+  return accountDFI;
+};

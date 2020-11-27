@@ -40,6 +40,9 @@ import {
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
   setIsWalletCreatedStartRequest,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -56,6 +59,7 @@ import {
   handleFetchAccounts,
   setHdSeed,
   importPrivKey,
+  handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -361,11 +365,20 @@ function* checkWalletCreation() {
     const network = yield call(getNetwork);
     const isWalletCreatedVal = isWalletCreated(network);
     const { isWalletCreatedFlag } = yield select((state) => state.wallet);
-    if(isWalletCreatedFlag !== isWalletCreatedVal) {
+    if (isWalletCreatedFlag !== isWalletCreatedVal) {
       yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
     }
   } catch (err) {
     console.log(err);
+  }
+}
+
+function* checkRestartCriteria() {
+  try {
+    const restartCriteria = yield call(handleRestartCriteria);
+    yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
+  } catch (err) {
+    yield put(checkRestartCriteriaRequestFailure(err.message));
   }
 }
 
@@ -387,6 +400,10 @@ function* mySaga() {
     fetchInstantPendingBalance
   );
   yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
+  yield takeLatest(
+    checkRestartCriteriaRequestLoading.type,
+    checkRestartCriteria
+  );
 }
 
 export default mySaga;
