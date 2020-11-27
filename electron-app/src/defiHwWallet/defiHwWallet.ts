@@ -80,20 +80,18 @@ export default class DefiHwWallet {
   connected: boolean;
 
   async getDevices(): Promise<readonly string[]> {
-    if (!(await TransportHid.isSupported())) {
-      console.log('Transport not supported');
-      return;
+    try {
+      if (!(await TransportHid.isSupported())) {
+        throw new Error('Transport not supported');
+      }
+      const devs = await TransportHid.list();
+      if (devs.length === 0) {
+        throw new Error('No devices connected');
+      }
+      return devs;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    const devs = await TransportHid.list();
-    if (devs.length === 0) {
-      console.log('No devices connected');
-      return undefined;
-    }
-    console.log('Devices avaible:');
-    devs.forEach((element: any) => {
-      console.log(element);
-    });
-    return devs;
   }
 
   async connect(path?: string) {
