@@ -2,17 +2,11 @@
 import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
-import {
-  Subscription,
-  DescriptorEvent,
-  Observer,
-  getAltStatusMessage,
-  StatusCodes,
-} from '@ledgerhq/hw-transport';
+import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
 
 const CLA = 0xe0;
 
-const INS_EXIT = 0xff;
+// const INS_EXIT = 0xff;
 const INS_GET_VERSION = 0x01;
 const INS_GET_PUBKEY = 0x02;
 const INS_SIGN_MSG = 0x04;
@@ -21,10 +15,10 @@ const INS_VERIFY_MSG = 0x08;
 // INS_GET_TXN_HASH = 0x10;
 
 // Get pubkey params
-const GET_PUBKEY_P1_NO_DISPLAY = 0x00;
+// const GET_PUBKEY_P1_NO_DISPLAY = 0x00;
 const GET_PUBKEY_P1_DISPLAY_ADDRESS = 0x01;
-const GET_PUBKEY_P1_DISPLAY_PUBKEY = 0x02;
-const GET_PUBKEY_P1_DISPLAY_BOTH = 0x03;
+// const GET_PUBKEY_P1_DISPLAY_PUBKEY = 0x02;
+// const GET_PUBKEY_P1_DISPLAY_BOTH = 0x03;
 
 /**
  * address format is one of legacy | p2sh | bech32 | cashaddr
@@ -94,11 +88,12 @@ export default class DefiHwWallet {
     }
   }
 
-  async connect(path?: string) {
+  async connect() {
     try {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
+      // TODO After develop, is will change of connect on hw-transport-node-hid
       this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
     } catch (err) {
@@ -115,13 +110,12 @@ export default class DefiHwWallet {
       const { code, status } = checkStatusCode(response);
 
       if (code !== StatusCodes.OK) {
-        console.log(status);
-        return '';
+        throw new Error(status);
       }
 
       return response.slice(0, response.length - 2);
-    } catch (e) {
-      console.log('Error: ' + e.message);
+    } catch (err) {
+      throw new Error(err.message);
     }
   }
 
@@ -141,19 +135,14 @@ export default class DefiHwWallet {
     apdu.writeUInt8(4);
     // add 4 bytes index to buffer
     apdu.writeInt32LE(index);
-    console.log('apdu: ' + apdu.toBuffer().toString('hex'));
-
     const resposne = await this.transport.exchange(apdu.toBuffer());
     const pubkeyLen = resposne[0];
     const pubkey = resposne.slice(1, 1 + pubkeyLen);
-    console.log('Pubkey: ' + pubkey.toString('hex'));
     const addrOffset = 1 + pubkeyLen + 1;
     const addrLen = resposne[addrOffset - 1];
     const address = resposne
       .slice(addrOffset, addrOffset + addrLen)
       .toString('utf-8');
-    console.log('Address: ' + address);
-
     return { pubkey, address };
   }
 
@@ -255,8 +244,8 @@ export default class DefiHwWallet {
     return transaction;
   }
 
-  /*
   // Not works
+  /*
   async getHwWalletVersion() {
     if (!this.connected)
       throw Error("Device unconnected");
@@ -271,14 +260,16 @@ export default class DefiHwWallet {
       throw Error(status);
 
     let offset = 0;
-    result.targetId = (response[offset] << 24) | (response[offset + 1] << 16) | (response[offset + 2] << 8) | response[offset + 3];
+    result.targetId = (response[offset] << 24) | (response[offset + 1] << 16) |
+      (response[offset + 2] << 8) | response[offset + 3];
     console.log("targetId: " + result.targetId.toString(16));
     offset += 4
     result.osVersion = response.slice(offset + 1, offset + 1 + response[offset]).toString('utf-8');
     console.log("osVersion: " + result.osVersion);
     offset += 1 + response[offset]
     offset += 1
-    result.flags = (response[offset] << 24) | (response[offset + 1] << 16) | (response[offset + 2] << 8) | response[offset + 3]
+    result.flags = (response[offset] << 24) | (response[offset + 1] << 16) |
+      (response[offset + 2] << 8) | response[offset + 3]
     console.log("flags: " + result.flags.toString(16));
     offset += 4
     result.mcuVersion = response.slice(offset + 1, offset + 1 + response[offset] - 1).toString('utf-8')
