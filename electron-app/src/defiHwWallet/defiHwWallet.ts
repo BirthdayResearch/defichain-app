@@ -1,5 +1,4 @@
 // import TransportHid from '@ledgerhq/hw-transport-node-hid';
-// @tsc-ignore
 import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
@@ -100,13 +99,13 @@ export default class DefiHwWallet {
   async connect(path?: string) {
     try {
       if (!(await TransportHid.isSupported())) {
-        Promise.reject(Error('Transport not supported'));
+        throw new Error('Transport not supported');
       }
       this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
     } catch (err) {
       this.connected = false;
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   }
 
