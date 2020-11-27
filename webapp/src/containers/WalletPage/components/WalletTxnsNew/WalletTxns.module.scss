@@ -77,3 +77,13 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+.txidvalue {
+  position: relative;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  color: $secondary;
+}

@@ -80,11 +80,6 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
       `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
     );
   };
-
-  const handleCardClickDefault = () => {
-    props.history.push(WALLET_PAGE_PATH);
-  };
-
   return (
     <>
       {!isWalletCreatedFlag ? (
@@ -113,7 +108,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           </Header>
           <div className='content'>
             <WalletTokenCard
-              handleCardClick={handleCardClickDefault}
+              handleCardClick={handleCardClick}
               token={{
                 symbol: unit,
                 symbolKey: unit,

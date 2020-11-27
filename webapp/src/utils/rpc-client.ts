@@ -671,7 +671,7 @@ export default class RpcClient {
       },
       true,
       true,
-      true
+      true,
     ]);
     return data.result;
   };
@@ -835,6 +835,22 @@ export default class RpcClient {
   getGov = async () => {
     const { data } = await this.call('/', methodNames.GET_GOV, [
       LP_DAILY_DFI_REWARD,
+    ]);
+    return data.result;
+  };
+
+  getListAccountHistory = async (_: {
+    blockHeight?: number;
+    limit?: number;
+    owner?: string;
+  }) => {
+    const { blockHeight, limit, owner } = _;
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+      owner || 'mine',
+      {
+        maxBlockHeight: blockHeight,
+        depth: limit,
+      },
     ]);
     return data.result;
   };

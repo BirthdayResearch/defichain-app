@@ -38,10 +38,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
-  const tokenSymbol = urlParams.get('symbol');
+  const tokenSymbol = urlParams.get('symbol') as string;
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
-  const tokenAddress = urlParams.get('address');
+  const tokenAddress = urlParams.get('address') as string;
 
   const {
     fetchInstantBalanceRequest,
@@ -191,7 +191,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col>
           </Row>
         </section>
-        {!tokenSymbol && <WalletTxns />}
+        <WalletTxns tokenSymbol={tokenSymbol} tokenAddress={tokenAddress} />
       </div>
     </div>
   );
