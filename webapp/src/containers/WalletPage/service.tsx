@@ -85,7 +85,7 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return await rpcClient.getBalance();
+  return rpcClient.getBalance();
 };
 
 export const handleFetchAccountDFI = async () => {
@@ -436,4 +436,15 @@ const validTrx = (item) => {
     category,
     isValid,
   };
+}
+export const handleRestartCriteria = async () => {
+  const rpcClient = new RpcClient();
+  const balance = await rpcClient.getBalance();
+  const txCount = await rpcClient.getWalletTxnCount();
+  const tokenBalance = await rpcClient.getTokenBalances();
+  return (
+    new BigNumber(balance).gt(0) ||
+    new BigNumber(txCount).gt(0) ||
+    tokenBalance.length > 0
+  );
 };

@@ -125,10 +125,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       let balanceA;
       const balanceB = balanceSymbolMap.get(idTokenB);
       if (idTokenA === DFI_SYMBOL) {
-        balanceA = new BigNumber(utxoDfi)
-          .plus(maxAccountDfi)
-          .toNumber()
-          .toFixed(8);
+        balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
       } else {
         balanceA = balanceSymbolMap.get(idTokenA);
       }
@@ -151,10 +148,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         });
       }
     } else {
-      const balanceA = new BigNumber(utxoDfi)
-        .plus(maxAccountDfi)
-        .toNumber()
-        .toFixed(8);
+      const balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
       const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
       if (!balanceB) {
         setFormState({
@@ -220,8 +214,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    utxoDfi,
-    maxAccountDfi
+    walletBalance
   );
 
   const handleChange = (e) => {
@@ -561,6 +554,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <p>
                 {I18n.t('containers.swap.addLiquidity.transactionSuccessMsg')}
               </p>
+              <div>
+                <b>{I18n.t('containers.liquidity.liquidityPage.txHash')}</b> :
+                <span>{addPoolLiquidityHash}</span>
+              </div>
             </div>
           </div>
           <Row className='justify-content-between align-items-center'>

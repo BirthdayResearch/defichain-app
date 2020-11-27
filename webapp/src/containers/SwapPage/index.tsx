@@ -181,11 +181,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    utxoDfi,
-    maxAccountDfi
+    walletBalance
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -254,7 +253,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -657,6 +656,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <p>
                   {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
                 </p>
+                <div>
+                  <b>{I18n.t('containers.swap.swapPage.txHash')}</b> :
+                  <span>{poolSwapHash}</span>
+                </div>
               </div>
             </div>
             <Row className='justify-content-between align-items-center'>
@@ -720,7 +723,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,

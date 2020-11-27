@@ -52,6 +52,11 @@ export const initialState = {
     isError: '',
     data: [],
   },
+  restartCriteria: {
+    isLoading: false,
+    data: true,
+    isError: '',
+  },
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -209,6 +214,21 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = action.payload;
       state.listAccountHistoryData.data = [];
     },
+    checkRestartCriteriaRequestLoading(state) {
+      state.restartCriteria.isLoading = true;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestSuccess(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = action.payload;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestFailure(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = action.payload;
+    },
   },
 });
 
@@ -259,6 +279,9 @@ export const {
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
 } = actions;
 
 export default reducer;

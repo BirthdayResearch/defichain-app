@@ -43,6 +43,9 @@ import {
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -61,6 +64,7 @@ import {
   importPrivKey,
   getListAccountHistory,
   prepareTxDataRows,
+  handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -412,6 +416,15 @@ function* getBlockData(item) {
   };
 }
 
+function* checkRestartCriteria() {
+  try {
+    const restartCriteria = yield call(handleRestartCriteria);
+    yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
+  } catch (err) {
+    yield put(checkRestartCriteriaRequestFailure(err.message));
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -433,6 +446,10 @@ function* mySaga() {
   yield takeLatest(
     fetchWalletTokenTransactionsListRequestLoading.type,
     fetchWalletTokenTransactionsList
+  );
+  yield takeLatest(
+    checkRestartCriteriaRequestLoading.type,
+    checkRestartCriteria
   );
 }
 
