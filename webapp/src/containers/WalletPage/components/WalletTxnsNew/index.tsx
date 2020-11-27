@@ -246,7 +246,6 @@ const mapDispatchToProps = {
       symbol,
       owner,
       currentPage,
-      initialLoad: true,
     }),
   fetchWalletTokenTransactionsListRequestPaginationLoading: (
     currentPage: number,

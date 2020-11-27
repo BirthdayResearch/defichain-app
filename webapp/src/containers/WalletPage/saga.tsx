@@ -382,7 +382,7 @@ function* checkWalletCreation() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, owner, limit = 1000, initialLoad } = action.payload;
+    const { symbol, owner, limit = 1000 } = action.payload;
     const {
       listAccountHistoryData: { data: trxData },
     } = yield select((state) => state.wallet);
@@ -397,7 +397,7 @@ function* fetchWalletTokenTransactionsList(action) {
     });
     if (!data.length) {
       yield put(fetchWalletTokenTransactionsListRequestStop());
-    } else if (initialLoad) {
+    } else {
       const newData = yield call(getListAccountHistory, {
         limit,
         owner,
