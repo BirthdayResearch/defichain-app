@@ -47,6 +47,7 @@ import {
   ETH_SYMBOL,
   USDT_SYMBOL,
   SHARE_POOL_PAGE_SIZE,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -317,7 +318,7 @@ export const getParams = (query: string) => {
     ) {
       try {
         return JSON.parse(param);
-      } catch(e) {
+      } catch (e) {
         return param;
       }
     } else if (param === 'true' || param === 'false') {
@@ -509,8 +510,7 @@ const getPopularSymbolList = () => {
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[],
-  utxoDfi: number,
-  maxAccountDfi: number
+  walletBalance: number
 ) => {
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
@@ -524,13 +524,7 @@ export const getTokenAndBalanceMap = (
   }
 
   balanceAndSymbolMap.forEach((balance, symbol) => {
-    const finalBalance =
-      symbol === DFI_SYMBOL
-        ? new BigNumber(utxoDfi)
-            .plus(maxAccountDfi)
-            .toNumber()
-            .toFixed(8) || 0
-        : balance;
+    const finalBalance = symbol === DFI_SYMBOL ? walletBalance : balance;
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
@@ -991,19 +985,59 @@ export const handleUtxoToAccountConversion = async (
   hash: string,
   address: string,
   amount: string,
-  maxAmount: number,
-  DfiUTXOS: number
+  maxAmount: number
 ) => {
   const rpcClient = new RpcClient();
-  if (Number(amount) > maxAmount + DfiUTXOS) {
+  const dfiUtxos = await getDfiUTXOS();
+  if (Number(amount) > maxAmount + dfiUtxos) {
     throw new Error(`Insufficent DFI in account`);
   }
+
   const transferAmount = Number(amount) - maxAmount;
   const utxoToDfiTxId = await rpcClient.utxosToAccount(
     address,
     `${transferAmount.toFixed(8)}@${hash}`
   );
   await getTransactionInfo(utxoToDfiTxId);
+};
+
+export const handleAccountToAccountConversion = async (
+  addressAndAmountList: any[],
+  toAddress: string,
+  hash: string
+) => {
+  const rpcClient = new RpcClient();
+  const amounts = {};
+  for (const obj of addressAndAmountList) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+    }
+  }
+
+  const refreshUtxoTxId = await rpcClient.sendMany(amounts);
+  await getTransactionInfo(refreshUtxoTxId);
+
+  const accountToAccountTxHashes: any[] = [];
+  let amountTransfered = new BigNumber(0);
+  for (const obj of addressAndAmountList) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]).toFixed(8);
+
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      const txId = await rpcClient.accountToAccount(
+        obj.address,
+        toAddress,
+        `${amount}@${tokenSymbol}`
+      );
+
+      const promiseHash = getTransactionInfo(txId);
+      accountToAccountTxHashes.push(promiseHash);
+      amountTransfered = amountTransfered.plus(new BigNumber(amount));
+    }
+  }
+  await Promise.all(accountToAccountTxHashes);
+  return amountTransfered;
 };
 
 export const getAddressAndAmountListPoolShare = async poolID => {
@@ -1077,4 +1111,25 @@ export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
     }
   }
   return distinctRandomNumbers;
+};
+
+export const getBalanceForSymbol = async (address: string, symbol: string) => {
+  const rpcClient = new RpcClient();
+  const balanceArray: string[] = await rpcClient.getAccount(address);
+
+  const tokenInfo = await rpcClient.tokenInfo(symbol);
+  const { symbolKey } = tokenInfo[symbol];
+
+  return balanceArray.reduce((amount, item) => {
+    const itemList: string[] = item.split('@');
+
+    if (itemList[1] === symbolKey) {
+      amount = new BigNumber(itemList[0]).toNumber().toFixed(6);
+    }
+    return amount;
+  }, '0');
+};
+
+export const getSmallerAmount = (amount1: string, amount2: string) => {
+  return Math.min(Number(amount1), Number(amount2));
 };

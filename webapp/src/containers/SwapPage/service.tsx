@@ -14,6 +14,7 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../WalletPage/service';
 import {
   fetchPoolPairDataWithPagination,
@@ -21,7 +22,10 @@ import {
   getAddressAndAmountListForAccount,
   getAddressAndAmountListPoolShare,
   getAddressForSymbol,
+  getBalanceForSymbol,
   getDfiUTXOS,
+  getSmallerAmount,
+  handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
   parsedCoinPriceData,
 } from '../../utils/utility';
@@ -153,27 +157,30 @@ export const handleTestPoolSwap = async formState => {
     list
   );
 
-  const dfiUTXOS = await getDfiUTXOS();
+  let accountToAccountAmount = new BigNumber(0);
 
-  const tokenInfo1 = await rpcClient.tokenInfo(formState.hash1);
-  const tokenInfo2 = await rpcClient.tokenInfo(formState.hash2);
-
-  const { symbol: symbol1 } = tokenInfo1[formState.hash1];
-  const { symbol: symbol2 } = tokenInfo2[formState.hash2];
+  // convert account to account, if don't have sufficient funds in one account
+  if (Number(formState.amount1) > maxAmount1) {
+    accountToAccountAmount = await handleAccountToAccountConversion(
+      list,
+      address1,
+      formState.hash1
+    );
+  }
 
   // convert utxo to account DFI, if don't have sufficent funds in account
   if (
     formState.hash1 === DFI_SYMBOL &&
-    Number(formState.amount1) > maxAmount1
+    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
   ) {
     await handleUtxoToAccountConversion(
       formState.hash1,
       address1,
       formState.amount1,
-      maxAmount1,
-      dfiUTXOS
+      accountToAccountAmount.plus(maxAmount1).toNumber()
     );
   }
+
   if (new BigNumber(formState.amount1).toNumber()) {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address1,
@@ -243,39 +250,57 @@ export const handleAddPoolLiquidity = async (
 ) => {
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
+
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
     hash1,
     addressesList
   );
+
   const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
     hash2,
     addressesList
   );
   const shareAddress = await getNewAddress('', true);
-  const dfiUTXOS = await getDfiUTXOS();
 
-  const tokenInfo1 = await rpcClient.tokenInfo(hash1);
-  const tokenInfo2 = await rpcClient.tokenInfo(hash2);
+  let accountToAccountAmount1 = new BigNumber(0);
+  let accountToAccountAmount2 = new BigNumber(0);
 
-  const { symbol: symbol1 } = tokenInfo1[hash1];
-  const { symbol: symbol2 } = tokenInfo2[hash2];
+  // convert account to account, if don't have sufficient funds in one account
+  if (Number(amount1) > maxAmount1) {
+    accountToAccountAmount1 = await handleAccountToAccountConversion(
+      addressesList,
+      address1,
+      hash1
+    );
+  }
+  if (Number(amount2) > maxAmount2) {
+    accountToAccountAmount2 = await handleAccountToAccountConversion(
+      addressesList,
+      address2,
+      hash2
+    );
+  }
 
-  // convert utxo to account DFI, if don't have sufficent funds in account
-  if (hash1 === DFI_SYMBOL && Number(amount1) > maxAmount1) {
+  // convert utxo DFI to account, if don't have sufficent funds in account
+  if (
+    hash1 === DFI_SYMBOL &&
+    new BigNumber(amount1).gt(accountToAccountAmount1.plus(maxAmount1))
+  ) {
     await handleUtxoToAccountConversion(
       hash1,
       address1,
       amount1,
-      maxAmount1,
-      dfiUTXOS
+      accountToAccountAmount1.plus(maxAmount1).toNumber()
     );
-  } else if (hash2 === DFI_SYMBOL && Number(amount2) > maxAmount2) {
+  } else if (
+    hash2 === DFI_SYMBOL &&
+    new BigNumber(amount2).gt(accountToAccountAmount2.plus(maxAmount2))
+  ) {
     await handleUtxoToAccountConversion(
       hash2,
       address2,
       amount2,
-      maxAmount2,
-      dfiUTXOS
+      accountToAccountAmount2.plus(maxAmount2).toNumber()
     );
   }
 
@@ -403,15 +428,21 @@ export const handleRemovePoolLiquidity = async (
   store.dispatch(refreshUTXOS2Success());
 
   const hashArray = finalArray.map(async obj => {
+    const balance1 = await getBalanceForSymbol(obj.address, poolPair.idTokenA);
+    const balance2 = await getBalanceForSymbol(obj.address, poolPair.idTokenB);
+
+    const amountA = getSmallerAmount(balance1, obj.amountA.split('@')[0]);
+    const amountB = getSmallerAmount(balance2, obj.amountB.split('@')[0]);
+
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
-      obj.amountA
+      `${amountA.toFixed(6)}@${poolPair.idTokenA}`
     );
     const txId2 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
-      obj.amountB
+      `${amountB.toFixed(6)}@${poolPair.idTokenB}`
     );
     return {
       txId1,
@@ -431,7 +462,6 @@ export const handleFetchUtxoDFI = async () => {
 };
 
 export const handleFetchTokenDFI = async () => {
-  const list = await getAddressAndAmountListForAccount();
-  const { address, amount } = await getAddressForSymbol(DFI_SYMBOL, list);
-  return amount;
+  const accountDFI = await handleFetchAccountDFI();
+  return accountDFI;
 };

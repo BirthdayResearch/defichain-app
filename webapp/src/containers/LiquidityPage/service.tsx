@@ -14,6 +14,7 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../WalletPage/service';
 import {
   fetchPoolPairDataWithPagination,
@@ -42,12 +43,12 @@ export const handleFetchPoolshares = async () => {
     return [];
   }
 
-  const minePoolShares = poolShares.map(async (poolShare) => {
+  const minePoolShares = poolShares.map(async poolShare => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
       const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
-      const poolPairData = Object.keys(poolPair).map((item) => ({
+      const poolPairData = Object.keys(poolPair).map(item => ({
         hash: item,
         ...poolPair[item],
       }));
@@ -110,7 +111,7 @@ export const handleFetchPoolshares = async () => {
 export const handleFetchPoolpair = async (id: string) => {
   const rpcClient = new RpcClient();
   const poolPair = await rpcClient.getPoolPair(id);
-  const poolPairData = Object.keys(poolPair).map((item) => ({
+  const poolPairData = Object.keys(poolPair).map(item => ({
     hash: item,
     ...poolPair[item],
   }));
@@ -133,7 +134,7 @@ export const handleFetchPoolPairList = async () => {
   return poolPairList;
 };
 
-export const handleTestPoolSwap = async (formState) => {
+export const handleTestPoolSwap = async formState => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
@@ -162,8 +163,7 @@ export const handleTestPoolSwap = async (formState) => {
       formState.hash1,
       address1,
       formState.amount1,
-      maxAmount1,
-      dfiUTXOS
+      maxAmount1
     );
   } else if (
     formState.hash2 === DFI_SYMBOL &&
@@ -173,8 +173,7 @@ export const handleTestPoolSwap = async (formState) => {
       formState.hash2,
       address2,
       formState.amount2,
-      maxAmount2,
-      dfiUTXOS
+      maxAmount2
     );
   }
 
@@ -188,7 +187,7 @@ export const handleTestPoolSwap = async (formState) => {
   return testPoolSwapAmount.split('@')[0];
 };
 
-export const handlePoolSwap = async (formState) => {
+export const handlePoolSwap = async formState => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
@@ -262,21 +261,9 @@ export const handleAddPoolLiquidity = async (
 
   // convert utxo to account DFI, if don't have sufficent funds in account
   if (hash1 === DFI_SYMBOL && Number(amount1) > maxAmount1) {
-    await handleUtxoToAccountConversion(
-      hash1,
-      address1,
-      amount1,
-      maxAmount1,
-      dfiUTXOS
-    );
+    await handleUtxoToAccountConversion(hash1, address1, amount1, maxAmount1);
   } else if (hash2 === DFI_SYMBOL && Number(amount2) > maxAmount2) {
-    await handleUtxoToAccountConversion(
-      hash2,
-      address2,
-      amount2,
-      maxAmount2,
-      dfiUTXOS
-    );
+    await handleUtxoToAccountConversion(hash2, address2, amount2, maxAmount2);
   }
 
   if (address1 !== address2) {
@@ -353,7 +340,7 @@ export const handleRemovePoolLiquidity = async (
     await Promise.all(addressAndAmountArray)
   );
 
-  const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
+  const finalArray = resolvedAddressAndAmountArray.map(addressAndAmount => {
     const amountA =
       (addressAndAmount.amount / poolPair.totalLiquidity) * poolPair.reserveA;
     const amountB =
@@ -365,7 +352,7 @@ export const handleRemovePoolLiquidity = async (
     };
   });
 
-  finalArray.map(async (obj) => {
+  finalArray.map(async obj => {
     const txId1 = await rpcClient.sendToAddress(
       obj.address,
       DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
@@ -380,7 +367,7 @@ export const handleRemovePoolLiquidity = async (
     await getTransactionInfo(txId2);
   });
 
-  const hashArray = finalArray.map(async (obj) => {
+  const hashArray = finalArray.map(async obj => {
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
@@ -405,13 +392,9 @@ export const handleRemovePoolLiquidity = async (
 export const handleFetchUtxoDFI = async () => {
   const rpcClient = new RpcClient();
   return rpcClient.getBalance();
-}
+};
 
 export const handleFetchTokenDFI = async () => {
-  const list = await getAddressAndAmountListForAccount();
-  const { address, amount } = await getAddressForSymbol(
-    DFI_SYMBOL,
-    list
-  );
-  return amount;
-}
+  const accountDFI = handleFetchAccountDFI();
+  return accountDFI;
+};
