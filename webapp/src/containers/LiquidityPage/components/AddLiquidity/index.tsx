@@ -217,7 +217,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     walletBalance
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -307,7 +307,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -554,6 +554,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <p>
                 {I18n.t('containers.swap.addLiquidity.transactionSuccessMsg')}
               </p>
+              <p>
+                {`${I18n.t(
+                  'containers.liquidity.liquidityPage.txHash'
+                )}: ${addPoolLiquidityHash}`}
+              </p>
             </div>
           </div>
           <Row className='justify-content-between align-items-center'>
@@ -656,7 +661,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,

@@ -82,6 +82,7 @@ interface SendPageState {
   uriData: string;
   errMessage: string;
   regularDFI: string | number;
+  txHash: string;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -107,13 +108,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     uriData: '',
     errMessage: '',
     regularDFI: '',
+    txHash: '',
   };
 
   componentDidMount() {
     this.props.fetchSendDataRequest();
   }
 
-  updateAmountToSend = e => {
+  updateAmountToSend = (e) => {
     const { value } = e.target;
     if (isNaN(value) && value.length) return false;
 
@@ -125,7 +127,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  updateToAddress = e => {
+  updateToAddress = (e) => {
     const toAddress = e.target.value;
     this.setState(
       {
@@ -168,7 +170,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
-  handleScan = data => {
+  handleScan = (data) => {
     const updatedState = {
       flashed: 'flashed',
       toAddress: '',
@@ -203,18 +205,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     }, 1000);
   };
 
-  handleScanError = err => {
+  handleScanError = (err) => {
     log.error(err);
   };
 
-  handleSuccess = () => {
+  handleSuccess = (txHash) => {
     this.setState({
       sendStep: 'success',
       showBackdrop: 'show-backdrop',
+      txHash,
     });
   };
 
-  handleFailure = error => {
+  handleFailure = (error) => {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
@@ -256,6 +259,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
     if (isAmountValid && isAddressValid) {
       let amount;
+      let txHash;
       if (
         (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
         regularDFI !== 0
@@ -269,11 +273,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
         try {
           if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
-            await sendToAddress(this.state.toAddress, amount, true);
+            txHash = await sendToAddress(this.state.toAddress, amount, true);
           } else {
-            await sendToAddress(this.state.toAddress, amount, false);
+            txHash = await sendToAddress(this.state.toAddress, amount, false);
           }
-          this.handleSuccess();
+          this.handleSuccess(txHash);
         } catch (error) {
           this.handleFailure(error);
         }
@@ -281,15 +285,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         try {
           const hash = this.tokenHash || '0';
           const accountTokens = await handleFetchAccounts();
-          const DFIObj = accountTokens.find(token => token.hash === '0');
+          const DFIObj = accountTokens.find((token) => token.hash === '0');
           const address = this.tokenAddress || DFIObj.address;
           amount = this.state.amountToSendDisplayed;
-          await accountToAccount(
+          txHash = await accountToAccount(
             address,
             this.state.toAddress,
             `${amount}@${hash}`
           );
-          this.handleSuccess();
+          this.handleSuccess(txHash);
         } catch (error) {
           this.handleFailure(error);
         }
@@ -575,6 +579,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
+                <p>
+                  {`${I18n.t('containers.wallet.sendPage.txHash')}: ${
+                    this.state.txHash
+                  }`}
+                </p>
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
@@ -647,7 +656,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet, settings } = state;
   return {
     unit: settings.appConfig.unit,

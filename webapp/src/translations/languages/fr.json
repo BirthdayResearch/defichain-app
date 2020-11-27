@@ -191,7 +191,8 @@
         "volume": "Volume",
         "apy": "APY",
         "back": "BACK",
-        "addLiquidity": "Add liquidity"
+        "addLiquidity": "Add liquidity",
+        "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
         "title": "Liquidity – DeFi app",
@@ -254,7 +255,8 @@
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "continue": "Continue",
         "swaping": "Swapping",
-        "amountInsufficient": "Insufficient Amount in your account"
+        "amountInsufficient": "Insufficient Amount in your account",
+        "txHash": "Transaction Hash"
       },
       "swapTab": {
         "from": "From",
@@ -570,7 +572,8 @@
         "sendFailed": "Une erreur s'est produite lors de l'envoi",
         "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé une fois la transaction confirmée par la Blockchain DeFi.",
         "backToWallet": "Retour au portefeuille",
-        "dfiAddress": "Adresse DFI"
+        "dfiAddress": "Adresse DFI",
+        "txHash": "Transaction Hash"
       },
       "receivePage": {
         "receiveDFITitle": "Réception de DFI – Client Blockchain DeFi",
