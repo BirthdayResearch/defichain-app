@@ -118,4 +118,6 @@ export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
-export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET'
+export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
+export const RECIEVE_CATEGORY_LABEL = 'Receive';
+export const SENT_CATEGORY_LABEL = 'Sent';
