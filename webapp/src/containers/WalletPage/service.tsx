@@ -6,6 +6,8 @@ import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
+  RECIEVE_CATEGORY_LABEL,
+  SENT_CATEGORY_LABEL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
@@ -360,6 +362,81 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
 };
 
+export const getListAccountHistory = (query: {
+  limit: number;
+  blockHeight?: number;
+  owner?: string;
+}) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getListAccountHistory(query);
+};
+
+export const prepareTxDataRows = (data: any[]) => {
+  let finalRows: any[] = [];
+  data.forEach((item) => {
+    const rows = item.amounts.map((ele) => ({
+      amount: ele.slice(0, ele.indexOf('@')),
+      symbolKey: ele.slice(ele.indexOf('@') + 1),
+      ...item,
+    }));
+    finalRows = finalRows.concat(rows);
+  });
+  return finalRows.map(validTrx);
+};
+
+export const handleBlockData = async (blockHeight: number) => {
+  const rpcClient = new RpcClient();
+  const blockHash = await rpcClient.getBlockHash(blockHeight);
+  const block = await rpcClient.getBlock(blockHash, 1);
+  return block;
+};
+
+const validTrx = (item) => {
+  const validType = {
+    CreateMasternode: 'CreateMasternode',
+    ResignMasternode: 'ResignMasternode',
+    CreateToken: 'CreateToken',
+    UpdateToken: 'UpdateToken',
+    UpdateTokenAny: 'UpdateTokenAny',
+    MintToken: 'MintToken',
+    CreatePoolPair: 'CreatePoolPair',
+    UpdatePoolPair: 'UpdatePoolPair',
+    PoolSwap: 'PoolSwap',
+    AddPoolLiquidity: 'AddPoolLiquidity',
+    RemovePoolLiquidity: 'RemovePoolLiquidity',
+    UtxosToAccount: 'UtxosToAccount',
+    AccountToUtxos: 'AccountToUtxos',
+    AccountToAccount: 'AccountToAccount',
+    SetGovVariable: 'SetGovVariable',
+    NonTxRewards: 'Rewards',
+  };
+  
+  const SendReceiveValidTxTypeArray = [
+    validType.UtxosToAccount,
+    validType.AccountToUtxos,
+    validType.AccountToAccount,
+  ];
+  let isValid = true;
+  let category = item.type;
+  if (
+    item.type !== validType.NonTxRewards ||
+    item.type !== validType.PoolSwap
+  ) {
+    isValid = SendReceiveValidTxTypeArray.reduce(
+      (acc, ele) => item.type === ele
+    );
+    if (isValid) {
+      category = new BigNumber(item.amount).gte(0)
+        ? RECIEVE_CATEGORY_LABEL
+        : SENT_CATEGORY_LABEL;
+    }
+  }
+  return {
+    ...item,
+    category,
+    isValid,
+  };
+}
 export const handleRestartCriteria = async () => {
   const rpcClient = new RpcClient();
   const balance = await rpcClient.getBalance();

@@ -47,6 +47,11 @@ export const initialState = {
   isWalletRestoring: false,
   isErrorRestoringWallet: '',
   isWalletCreatedFlag: false,
+  listAccountHistoryData: {
+    isLoading: false,
+    isError: '',
+    data: [],
+  },
   restartCriteria: {
     isLoading: false,
     data: true,
@@ -194,6 +199,21 @@ const configSlice = createSlice({
     setIsWalletCreatedStartRequest(state) {
       state.isWalletCreatedFlag = false;
     },
+    fetchWalletTokenTransactionsListRequestLoading(state, action) {
+      state.listAccountHistoryData.isLoading = true;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = [];
+    },
+    fetchWalletTokenTransactionsListRequestSuccess(state, action) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = action.payload;
+    },
+    fetchWalletTokenTransactionsListRequestFailure(state, action) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = action.payload;
+      state.listAccountHistoryData.data = [];
+    },
     checkRestartCriteriaRequestLoading(state) {
       state.restartCriteria.isLoading = true;
       state.restartCriteria.data = true;
@@ -256,6 +276,9 @@ export const {
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
   setIsWalletCreatedStartRequest,
+  fetchWalletTokenTransactionsListRequestLoading,
+  fetchWalletTokenTransactionsListRequestSuccess,
+  fetchWalletTokenTransactionsListRequestFailure,
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,

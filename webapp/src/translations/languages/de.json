@@ -622,6 +622,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "includeRewards": "Include Rewards",
         "walletDefiClient": "Brieftasche – DeFi Blockchain-Client",
         "wallet": "Brieftasche",
         "delete": "Löschen",

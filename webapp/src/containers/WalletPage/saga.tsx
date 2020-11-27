@@ -40,6 +40,9 @@ import {
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
   setIsWalletCreatedStartRequest,
+  fetchWalletTokenTransactionsListRequestLoading,
+  fetchWalletTokenTransactionsListRequestSuccess,
+  fetchWalletTokenTransactionsListRequestFailure,
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
@@ -53,12 +56,14 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
-  handleAccountFetchTokens,
+  handleBlockData,
   getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
   setHdSeed,
   importPrivKey,
+  getListAccountHistory,
+  prepareTxDataRows,
   handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
@@ -373,6 +378,44 @@ function* checkWalletCreation() {
   }
 }
 
+function* fetchWalletTokenTransactionsList(action) {
+  try {
+    const { symbol, owner, limit = 1000 } = action.payload;
+    let cloneArr: any[] = [];
+    let blockHeight;
+    while (true) {
+      const data: any[] = yield call(getListAccountHistory, {
+        limit,
+        owner,
+        blockHeight,
+      });
+      if (!data.length) {
+        break;
+      }
+      blockHeight = data[data.length - 1].blockHeight - 1;
+      cloneArr = cloneArr.concat(data);
+    }
+    const processedData = yield call(prepareTxDataRows, cloneArr);
+    const finalData = processedData.filter(
+      (item) => item.isValid && item.symbolKey === symbol
+    );
+    const updatedData = yield all(
+      finalData.map((item) => call(getBlockData, item))
+    );
+    yield put(fetchWalletTokenTransactionsListRequestSuccess(updatedData));
+  } catch (err) {
+    yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
+  }
+}
+
+function* getBlockData(item) {
+  const blockData = yield call(handleBlockData, item.blockHeight);
+  return {
+    ...item,
+    blockData,
+  };
+}
+
 function* checkRestartCriteria() {
   try {
     const restartCriteria = yield call(handleRestartCriteria);
@@ -400,6 +443,10 @@ function* mySaga() {
     fetchInstantPendingBalance
   );
   yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
+  yield takeLatest(
+    fetchWalletTokenTransactionsListRequestLoading.type,
+    fetchWalletTokenTransactionsList
+  );
   yield takeLatest(
     checkRestartCriteriaRequestLoading.type,
     checkRestartCriteria

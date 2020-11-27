@@ -636,6 +636,7 @@
         "uRI": "URI"
       },
       "walletPage": {
+        "includeRewards": "Include Rewards",
         "tokens": "TOKENS",
         "walletDefiClient": "Wallet – DeFi app",
         "wallet": "Wallet",
@@ -648,7 +649,11 @@
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
-        "updateAvailableLabel": "Update available"
+        "updateAvailableLabel": "Update available",
+        "loading": "Loading...",
+        "category": "Category",
+        "blockHeight": "BlockHeight",
+        "amount": "Amount"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",
@@ -667,7 +672,7 @@
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",
-        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "paginationRange": "%{to} – %{from} of %{total} transaction",
         "noTransactions": "No transactions available"
       }
     },

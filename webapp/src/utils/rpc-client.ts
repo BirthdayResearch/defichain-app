@@ -845,4 +845,20 @@ export default class RpcClient {
     ]);
     return data.result;
   };
+
+  getListAccountHistory = async (_: {
+    blockHeight?: number;
+    limit?: number;
+    owner?: string;
+  }) => {
+    const { blockHeight, limit, owner } = _;
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+      owner || 'mine',
+      {
+        maxBlockHeight: blockHeight,
+        depth: limit,
+      },
+    ]);
+    return data.result;
+  };
 }
