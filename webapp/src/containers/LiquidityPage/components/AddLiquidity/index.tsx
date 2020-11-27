@@ -45,6 +45,7 @@ import {
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import openNewTab from '../../../../utils/openNewTab';
+import Header from '../../../HeaderComponent';
 
 interface AddLiquidityProps {
   location: any;
@@ -123,12 +124,18 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     const balanceSymbolMap: any = getBalanceAndSymbolMap(tokenBalanceList);
     if (idTokenA && idTokenB) {
       let balanceA;
-      const balanceB = balanceSymbolMap.get(idTokenB);
+      let balanceB;
       if (idTokenA === DFI_SYMBOL) {
         balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
       } else {
         balanceA = balanceSymbolMap.get(idTokenA);
       }
+      if (idTokenB === DFI_SYMBOL) {
+        balanceB = new BigNumber(walletBalance).toNumber().toFixed(8);
+      } else {
+        balanceB = balanceSymbolMap.get(idTokenB);
+      }
+
       if (!balanceB) {
         setFormState({
           ...formState,
@@ -343,7 +350,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={LIQUIDITY_PATH}
           tag={RRNavLink}
@@ -356,7 +363,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.swap.addLiquidity.addLiquidity')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <div className={styles.addLiquidityRow}>
@@ -556,6 +563,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </p>
               <div>
                 <b>{I18n.t('containers.liquidity.liquidityPage.txHash')}</b> :
+                &nbsp;
                 <span>{addPoolLiquidityHash}</span>
               </div>
             </div>

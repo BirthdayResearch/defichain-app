@@ -65,12 +65,8 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             }
           >
             <div className={styles.dropDownItemLeft}>
-              <img
-                src={getIcon(symbol)}
-                height={'24px'}
-                width={'24px'}
-                className={styles.dropDownIcon}
-              />
+              <TokenAvatar symbol={symbol} />
+              &nbsp;
               {symbol}
             </div>
             <div className={styles.dropDownItemRight}>
@@ -97,12 +93,8 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
             }
           >
             <div className={styles.dropDownItemLeft}>
-              <img
-                src={getIcon(symbol)}
-                height={'24px'}
-                width={'24px'}
-                className={styles.dropDownIcon}
-              />
+              <TokenAvatar symbol={symbol} />
+              &nbsp;
               {symbol}
             </div>
             <div className={styles.dropDownItemRight}>

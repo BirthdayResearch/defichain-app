@@ -46,6 +46,8 @@ import {
 } from '../../../../utils/utility';
 import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 import Spinner from '../../../../components/Svg/Spinner';
+import TokenAvatar from '../../../../components/TokenAvatar';
+import Header from '../../../HeaderComponent';
 
 interface RouteParams {
   id?: string;
@@ -189,7 +191,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           // to={LIQUIDITY_PATH}
           // tag={RRNavLink}
@@ -205,7 +207,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.swap.removeLiquidity.removeLiquidity')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <FormGroup>
@@ -286,11 +288,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             <Col md='12'>
               <Row className='align-items-center'>
                 <Col>
-                  <img
-                    src={getIcon(poolpair.tokenA)}
-                    height={'26px'}
-                    width={'26px'}
-                  />
+                  <TokenAvatar symbol={poolpair.tokenA} size={'26px'} />
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
@@ -302,11 +300,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <hr />
               <Row className='align-items-center'>
                 <Col>
-                  <img
-                    src={getIcon(poolpair.tokenB)}
-                    height={'26px'}
-                    width={'26px'}
-                  />
+                  <TokenAvatar symbol={poolpair.tokenB} size={'26px'} />
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
