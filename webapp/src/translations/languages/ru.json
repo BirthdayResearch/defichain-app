@@ -243,7 +243,6 @@
         "volume": "Объем (24ч)",
         "officialSite": "Официальный сайт",
         "transfers": "Переводы",
-        "holders": "Держатели",
         "info": "Информация",
         "exchange": "Обмен",
         "dex": "DEX",
@@ -259,8 +258,7 @@
         "deleteToken": "Удалить токен",
         "editToken": "Изменить токен",
         "mint": "Чеканка",
-        "notMintedAlert": "Вы не чеканили токен",
-        "mint": "Чеканка"
+        "notMintedAlert": "Вы не чеканили токен"
       },
       "mintToken": {
         "title": "Чеканка",
@@ -295,8 +293,7 @@
         "addAddressesText": "Добавьте адреса в свой первоначальный список рассылки.",
         "enterDfiAddress": "Введите адрес DFI",
         "dragAndUploadCSV": "Перетащите или выберите файл CSV для загрузки.",
-        "verifyingCollateral": "Проверка обеспечения",
-        "chooseFile": "Выбрать файл"
+        "verifyingCollateral": "Проверка обеспечения"
       }
     },
     "settings": {
@@ -371,7 +368,7 @@
         "creatingYourWallet": "Создание кошелька",
         "skipVerificationTextHeader": "Skip at your own risk",
         "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
-        "dontSkip": "Don't skip verification",
+        "dontSkip": "Don’t skip verification",
         "skip": "Skip",
         "backToWalletPage": "ЗАКРЫТЬ"
       },
@@ -387,7 +384,6 @@
       "sendPage": {
         "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "wallet": "Кошелек",
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "sendDFI": "Отправить DFI",
         "send": "Отправить",
         "amount": "Сумма",
@@ -492,7 +488,7 @@
     "console": {
       "consolePage": {
         "consoleDeFiApp": "Консоль – Блокчейн-Клиент DeFi",
-        "defiCliCommand": "Введите команду Defi-cli",
+        "defiCliCommand": "Введите команду DeFi-cli",
         "console": "Консоль",
         "submit": "Отправить",
         "forRef": "Для справки",
@@ -582,7 +578,7 @@
     "restartWalletWarningNotice": "Вам необходимо перезапустить приложение DeFi. Вы хотите перезапустить?",
     "yesRestartWalletNotice": "Перезагрузить сейчас",
     "noRestartWalletNotice": "Позже",
-    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletNoticeTitle": "Reset wallet",
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",

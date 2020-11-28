@@ -19,7 +19,7 @@
       "popular": "Popular",
       "tokens": "Tokens",
       "balance": "Balance",
-      "max": "MAX",
+      "max": "Max",
       "inputLabel": "0"
     }
   },
@@ -96,7 +96,7 @@
       "title": "Exchange – DeFi app",
       "exchange": "Exchange",
       "section": "Section",
-      "footerBar": "Footer Bar"
+      "footerBar": "Footer bar"
     },
     "helpPage": {
       "title": "Help – DeFi app",
@@ -106,7 +106,7 @@
       "telegramEnLink": "t.me/defiblockchain",
       "telegramDe": "Telegram community (DE)",
       "telegramDeLink": "t.me/defiblockchain_DE",
-      "github": "Report an Issue",
+      "github": "Report an issue",
       "githubLink": "github.com",
       "faq": "Frequently-Asked Questions",
       "faqLink": "defichain.com/learn/#faq",
@@ -154,14 +154,14 @@
         "createNodeButton": "Create masternode",
         "noButtonText": "Cancel",
         "yesButtonText": "Continue",
-        "masternodeOperator": "Masternode Operator",
+        "masternodeOperator": "Masternode operator",
         "masternodeOwner": "Masternode owner",
         "backToMasternodePage": "Close",
         "restartNodeButton": "Restart node",
         "masterNodeSuccess": "You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.",
-        "collaterAddress": "Collateral Address",
-        "masternodeOperatorNotOptional": "Operator Address",
-        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "collaterAddress": "Collateral address",
+        "masternodeOperatorNotOptional": "Operator address",
+        "masternodeOperatorOptional": "Operator address (optional)",
         "noticeMasternodeOperator": "If masternode operator is different from owner",
         "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
@@ -177,14 +177,14 @@
         "mintedBlocks": "Minted blocks",
         "resignHeight": "Resign height",
         "resignTx": "Resign Tx",
-        "banHeight": "Ban Height",
+        "banHeight": "Ban height",
         "banTx": "Ban Tx",
         "resignMasterNode": "Resign",
         "confirmation": "Are you sure you want to resign a masternode?",
         "noButtonText": "Cancel",
         "yesButtonText": "Continue",
         "successText": "Success",
-        "backToMasternodePage": "Back to Masternode Page"
+        "backToMasternodePage": "Back to masternode"
       },
       "masternodeTab": {
         "myMasternodes": "Mine",
@@ -235,7 +235,7 @@
         "createTitle": "Create token",
         "updateTitle": "Update DCT (DeFi Custom Token)",
         "name": "Name of token",
-        "symbol": "Ticker Symbol",
+        "symbol": "Ticker symbol",
         "decimal": "Decimal",
         "decimalText": "Number of decimal places. Cannot be changed once set.",
         "limit": "Limit",
@@ -245,7 +245,7 @@
         "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
         "tradeable": "Trade-able?",
         "dfiRequired": "DFI required",
-        "collateralAddress": "Collateral Address",
+        "collateralAddress": "Collateral address",
         "collateralAddressError": "Minimum 100 DFI is required",
         "createTokenButton": "Create token",
         "createConfirmationText": "Are you sure you want to create a token?",
@@ -253,8 +253,8 @@
         "createTokenSuccess": "Token was created successfully",
         "updateTokenSuccess": "Token was updated successfully",
         "tokenHash": "Token Hash",
-        "backToTokenPage": "Back To token",
-        "updateTokenButton": "UPDATE TOKEN"
+        "backToTokenPage": "Back to token",
+        "updateTokenButton": "Update token"
       },
       "tokenInfo": {
         "back": "Back",
@@ -271,7 +271,6 @@
         "volume": "Volume (24H)",
         "officialSite": "Official site",
         "transfers": "Transfers",
-        "holders": "Holders",
         "info": "Info",
         "exchange": "Exchange",
         "dex": "DEX",
@@ -282,7 +281,7 @@
         "noButtonText": "Cancel",
         "yesButtonText": "Continue",
         "successText": "Success",
-        "backToTokenPage": "Back to Token Page",
+        "backToTokenPage": "Back to token",
         "confirmation": "Are you sure you want to destroy a token?",
         "deleteToken": "Delete token",
         "editToken": "Edit token",
@@ -296,8 +295,8 @@
         "amount": "Amount",
         "cancel": "Cancel",
         "continue": "continue",
-        "pleaseVerifyAmount": "Please Verify Amount",
-        "completeMint": "Complete Mint",
+        "pleaseVerifyAmount": "Please verify amount",
+        "completeMint": "Complete mint",
         "transactionSuccessMsg": "Transaction successful. Your token balance will update once the transaction has been confirmed by DeFiChain.",
         "backToToken": "Back to tokens"
       },
@@ -314,15 +313,15 @@
         "cancel": "Cancel",
         "continue": "Continue",
         "dfiRequired": "DFI required",
-        "chooseFile": "CHOOSE FILE",
-        "dctDistribution": "DCT Distribution",
-        "uploadCsv": "UPLOAD CSV",
-        "addAddress": "ADD ADDRESS",
+        "chooseFile": "Choose file",
+        "dctDistribution": "DCT distribution",
+        "uploadCsv": "Upload CSV",
+        "addAddress": "Add address",
         "address": "Address",
         "addAddressesText": "Add addresses to your initial distribution list.",
         "enterDfiAddress": "Enter DFI address",
         "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
-        "verifyingCollateral": "Verifying Collateral"
+        "verifyingCollateral": "Verifying collateral"
       }
     },
     "liquidity": {
@@ -341,7 +340,7 @@
         "volume": "Volume",
         "apy": "APY",
         "back": "Back",
-        "addLiquidity": "Add liquidity"
+        "addLiquidity": "Add liquidity",
         "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
@@ -383,8 +382,8 @@
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
-        "transactionComplete": "Transaction Complete",
-        "goToWallet": "Go to Wallet",
+        "transactionComplete": "Transaction complete",
+        "goToWallet": "Go to wallet",
         "go": "Go",
         "ok": "OK",
         "yourLiquidity": "Your liquidity",
@@ -404,8 +403,8 @@
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "swaping": "Swapping",
-        "amountInsufficient": "Insufficient Amount in your account",
-        "txHash": "Transaction Hash",
+        "amountInsufficient": "Insufficient amount in your account",
+        "txHash": "Transaction hash",
         "somethingWentWrong": "Something went wrong"
       },
       "swapTab": {
@@ -450,13 +449,13 @@
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
-        "amountInsufficient": "Insufficient Amount in your account"
+        "amountInsufficient": "Insufficient amount in your account"
       },
       "removeLiquidity": {
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "removeLiquidity": "Remove Liquidity",
+        "removeLiquidity": "Remove liquidity",
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
         "removeLiquidityAmount": "Amount of liquidity to remove",
@@ -473,8 +472,8 @@
         "continue": "Continue",
         "confirm": "Confirm",
         "backToPool": "Back to pool",
-        "refreshingUTXOS": "Refreshing UTXOS",
-        "UTXOSRefreshed": "UTXOS refreshed",
+        "refreshingUTXOS": "Refreshing UTXOs",
+        "UTXOSRefreshed": "UTXOs refreshed",
         "removingLiquidity": "Removing liquidity",
         "liquidityRemoved": "Liquidity removed",
         "transferringTokens": "Transferring tokens",
@@ -539,10 +538,10 @@
         "generateNewSet": "Generate a new set of 24 words",
         "walletRecoveryInfoLine1": "A wallet recovery seed (“mnemonic seed”, “seed phrase”, “seed words”) is a way to represent your private key as a sequence of words that are easier for a human to remember. It is also used to generate extended keys for all the wallets you create in the app.",
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
-        "learnMoreAtBitcoinBtn": "LEARN MORE AT BITCOIN WIKI",
+        "learnMoreAtBitcoinBtn": "Learn more at Bitcoin Wiki",
         "copied24Words": "I've have copied down 24 words in the exact order",
         "continue": "Continue",
-        "createNewWallet": "Create New Wallet"
+        "createNewWallet": "Create new wallet"
       },
       "verifyMnemonicPage": {
         "title": "Wallet - Verify mnemonic seed",
@@ -552,11 +551,11 @@
         "verifyMnemonicWhichOne": "Which one is…",
         "wordQuestion": "Word %{wordNum}?",
         "creatingYourWallet": "Creating your wallet",
-        "backToWalletPage": "CLOSE",
+        "backToWalletPage": "Close",
         "skipVerificationTextHeader": "Skip at your own risk",
         "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
         "showAgain": "Show me my 24 words again",
-        "dontSkip": "Don't skip verification",
+        "dontSkip": "Don’t skip verification",
         "skip": "Skip",
         "continue": "Continue"
       },
@@ -566,8 +565,8 @@
         "restoreWallet": "Restore wallet",
         "restoreWalletGuideLine": "Enter the 24 words in your mnemonic seed to restore wallet.",
         "restoringWallet": "Restoring wallet",
-        "restore": "RESTORE",
-        "backToWalletPage": "CLOSE"
+        "restore": "Restore",
+        "backToWalletPage": "Close"
       },
       "sendPage": {
         "sendTitle": "Send – DeFi app",
@@ -577,7 +576,7 @@
         "send": "Send",
         "amount": "Amount",
         "dFI": "DFI",
-        "max": "MAX",
+        "max": "Max",
         "toAddress": "To address",
         "walletBalance": "Wallet balance",
         "amountToSend": "Amount to send",
@@ -585,13 +584,13 @@
         "continue": "Continue",
         "to": "To",
         "pleaseVerifyAmount": "Please verify the amount and recipient",
-        "completeSend": "Complete Send",
+        "completeSend": "Complete send",
         "sendFailed": "Error occurred while sending amount",
         "transactionSuccessMsg": "Transaction successful. Your wallet balance will update once the transaction has been confirmed by DeFiChain.",
         "backToWallet": "Back to wallet",
-        "dfiAddress": "DFI Address",
+        "dfiAddress": "DFI address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction hash"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",
@@ -611,7 +610,7 @@
         "addressLabel": "Address label",
         "createNewAddressNotice": "Give your new DFI address a meaningful label",
         "createNewReceiveAddressLabel": "Create new receive address",
-        "backButton": "back",
+        "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
         "addressType": "Address type"
@@ -732,7 +731,7 @@
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
-    "startUpdateLabel": "Initiating Update",
+    "startUpdateLabel": "Initiating update",
     "closeBtnLabel": "Close",
     "minimizeBtnLabel": "Minimize",
     "downloadingUpdate": "Downloading update",
@@ -740,7 +739,7 @@
     "restartAppWithReindexNotice": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover. Do you want to restart?",
     "yesRestartAppWithReindex": "Restart app",
     "noCloseApp": "Quit app",
-    "backupWalletNoticeTitle": "Backup Wallet",
+    "backupWalletNoticeTitle": "Backup wallet",
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
     "yesBackupWalletNotice": "Yes",
@@ -750,7 +749,7 @@
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
     "enableLocking": "Enable locking",
-    "later": "LATER",
+    "later": "Later",
     "passphraseLabel": "Enter passphrase",
     "proceed": "Proceed",
     "reset": "Reset",
@@ -773,7 +772,7 @@
     "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart?",
     "yesRestartWalletNotice": "Restart now",
     "noRestartWalletNotice": "Later",
-    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletNoticeTitle": "Reset wallet",
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
