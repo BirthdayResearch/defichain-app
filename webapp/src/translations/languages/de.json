@@ -1,8 +1,6 @@
 {
   "components": {
-    "keyValueLi": {
-      "copied": "Kopiert!"
-    },
+    "keyValueLi": { "copied": "Kopiert!" },
     "syncStatus": {
       "synchronized": "Synchronisiert",
       "syncing": "Synchronisieren",
@@ -116,7 +114,7 @@
         "rewardFrequency": "Belohnung Frequenz",
         "activeMasterNodes": "Aktive masternodes",
         "supply": "Supply",
-        "lockedInCollateral": "Gesperrt in Sicherheiten",
+        "lockedInCollateral": "Gesperrt in Collateral",
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode Wert",
         "searchBar": "Suche nach Masternodes"
@@ -151,7 +149,7 @@
       "masternodeDetailPage": {
         "masternodeDetailTitle": "Masternode-Detail-Seite %{hash}",
         "masternode": "Masternode",
-        "masternodeDetail": "Masternode-Details",
+        "masternodeDetail": "Masternode Details",
         "ownerAddress": "Besitzer Adresse",
         "operatorAddress": "Betreiber-Adresse",
         "state": "Zustand",
@@ -169,52 +167,48 @@
         "successText": "Erfolg",
         "backToMasternodePage": "Zurück zu Masternode Seite"
       },
-      "masternodeTab": {
-        "myMasternodes": "Bergwerk",
-        "network": "Netzwerk"
-      }
+      "masternodeTab": { "myMasternodes": "Bergwerk", "network": "Netzwerk" }
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity – DeFiChain Client",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
-        "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-        "loading": "Loading…",
-        "watchVideo": "Watch video",
-
-        "availablePoolPairs": "Available pool pairs",
-        "noPoolPairs": "No pool pairs",
-        "pair": "Pair",
+        "yourLiquidityInfo": "Du kannst jetzt die Liquidity minen für potentiell hohe Erträge nutzen.Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um den DEX (Dezentralisierte Börse) mit Energie zu versorgen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit ausbezahlen.",
+        "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität zuführen?",
+        "loading": "Laden…",
+        "watchVideo": "Video ansehen",
+        "availablePoolPairs": "Verfügbare Pool-Paare",
+        "noPoolPairs": "Keine Pool-Paare",
+        "pair": "Paar",
         "liquidity": "Liquidity",
         "liquidityPools": "Liquidity pools",
-        "volume": "Volume",
+        "volume": "Volumen",
         "apy": "APY",
         "back": "BACK",
-        "addLiquidity": "Add liquidity"
+        "addLiquidity": "Liquidity hinzufügen"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi app",
-        "addMore": "Add more",
-        "remove": "Remove",
+        "title": "Liquidity – DeFiChain Client",
+        "addMore": "Mehr hinzufügen",
+        "remove": "Entfernen",
         "apy": "APY",
-        "pooled": "Pooled",
-        "pooledBTC": "Pooled BTC",
-        "btcPoolShare": "BTC pool share",
-        "totalReward": "Total reward",
-        "pooledDFI": "Pooled DFI",
-        "dfiPoolShare": "DFI pool share"
+        "pooled": "im Pool",
+        "pooledBTC": "Gepoolte BTC",
+        "btcPoolShare": "BTC-Pool-Anteil",
+        "totalReward": "Gesamte Belohnung",
+        "pooledDFI": "Gepoolte DFI",
+        "dfiPoolShare": "DFI-Pool-Anteil"
       }
     },
     "swap": {
       "swapPage": {
         "title": "DEX – DeFiChain Client",
         "decentralizedExchange": "Decentralized Exchange",
-        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
+        "decentralizedExchangeInfo": "Willkommen bei DefiChain DEX (Decentralized Exchange) — einem Exchange ohne Custodial, der vollständig und wirklich dezentralisiert ist.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
-        "enterAnAmount": "Enter an amount to swap",
+        "enterAnAmount": "Geb einen Betrag zum Swappen ein",
         "continue": "Weiter",
         "cancel": "Abbrechen",
         "from": "Von",
@@ -232,6 +226,7 @@
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Bitte bestätige deine Transaktion und drücke SWAP",
         "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
+        "transactionComplete": "Transaction Complete",
         "goToWallet": "Gehe zur Wallet",
         "go": "Go",
         "ok": "OK",
@@ -242,27 +237,40 @@
         "apy": "APY",
         "pooled": "Pooled",
         "poolReward": "Pool Belohnung",
-        "poolShare": "Pool Anteil"
+        "poolShare": "Pool Anteil",
+        "yourPrivateKey": "Dein eigener Private-Key",
+        "yourPrivateKeyInfo": "Behalte die Kontrolle über Deinen eigenen Private-Key.",
+        "nonCustodial": "Non-custodial",
+        "nonCustodialInfo": "Dein Geld bleibt in deiner Wallet und geht niemals durch einen zentralisierte Exchange.",
+        "decentralizedInterface": "Dezentralisierte Schnittstelle",
+        "decentralizedInterfaceInfo": "Du kannst direkt mit der Blockchain aus deiner App Transaktionen durchführen, ohne jemals einen Server zu gebrauchen.",
+        "poweredLiquidityPools": "Powered by Liquidity Pools",
+        "poweredLiquidityPoolsInfo": "Swaps werden über automatisierte Liquiditätspools abgewickelt, nicht über zentralisierte Auftragsbücher.",
+        "swaping": "Swapping",
+        "amountInsufficient": "Unzureichender Betrag auf deinem Konto"
       },
-      "swapTab": {
-        "from": "Von",
-        "to": "An"
-      },
+      "swapTab": { "from": "Von", "to": "An" },
       "poolTab": {
         "yourLiquidity": "Deine liquidity",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität zuführen?",
-        "addLiquidity": "LIQUIDITY HINZUFÜGEN",
         "availablePoolPairs": "Verfügbare Pool-Paare",
         "pair": "Paar",
         "liquidity": "Liquidity",
         "volume": "Volumen",
-        "apy": "APY"
+        "apy": "APY",
+        "apyTooltipMessage": "Der hier angegebene APY beinhaltet nur DFI-Incentives, ohne Provision. Tatsächliches APY mit Provision ist also, mehr.",
+        "totalLiquidity": "Gesamtliquidität (USD)",
+        "addLiquidity": "LIQUIDITY HINZUFÜGEN"
       },
       "addLiquidity": {
         "balance": "Kontostand",
         "max": "Max",
         "selectToken": "Token auswählen",
         "addLiquidity": "Liquidity hinzufügen",
+        "UTXOPrepared": "UTXO vorbereitet",
+        "preparingUTXO": "UTXO vorbereiten",
+        "addingLiquidity": "Liquidität wird hinzugefügt",
+        "liquidityAdded": "Liquidity added",
         "selectInputTokens": "Wähle die Input Tokens aus und gebe einen Betrag ein",
         "back": "Zurück",
         "input": "Eingabe",
@@ -278,15 +286,22 @@
         "supply": "Supply",
         "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
         "viewOnChain": "Ansicht auf der Chain",
-        "backToPool": "Zurück zum Pool"
+        "backToPool": "Zurück zum Pool",
+        "totalPooled": "Insgesamt gepoolt",
+        "amountInsufficient": "Unzureichender Betrag auf Ihrem Konto"
       },
       "removeLiquidity": {
+        "address": "Adresse",
+        "label": "Label",
+        "selected": "Ausgewählt",
         "removeLiquidity": "Liquidity entfernen",
         "enterRemoveLiquidityAmount": "Zu entfernende Menge an Liquidity eingeben",
         "verifyTransaction": "Bitte bestätige deine Transaktion und drücke BESTÄTIGEN",
         "removeLiquidityAmount": "Menge der zu entfernenden Liquidity",
         "transactionSuccessMsg": "Deine Liquidity-Liste wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt worden ist.",
         "receive": "Erhalten",
+        "receiveAddressLabel": "Empfänger Adresse",
+        "receiveAddressDropdown": "Wähle eine Adresse",
         "cancel": "Abbrechen",
         "removeLiquidityPercentage": "%",
         "price": "Preis",
@@ -296,6 +311,12 @@
         "continue": "WEITER",
         "confirm": "Bestätigen",
         "backToPool": "Back to pool",
+        "refreshingUTXOS": "Refreshing UTXOS",
+        "UTXOSRefreshed": "UTXOS refreshed",
+        "removingLiquidity": "Removing liquidity",
+        "liquidityRemoved": "Liquidity removed",
+        "transferringTokens": "Transferring tokens",
+        "tokensTransferred": "Tokens transferred",
         "receiveAddress": "Empfänger Adresse"
       }
     },
@@ -335,6 +356,9 @@
         "back": "ZURÜCK",
         "yes": "Ja",
         "no": "Nein",
+        "address": "Adresse",
+        "label": "Label",
+        "selected": "Ausgewählt",
         "cancel": "ABBRECHEN",
         "continue": "WEITER",
         "createTitle": "Token erstellen",
@@ -377,7 +401,6 @@
         "volume": "Volumen (24STD)",
         "officialSite": "Offizielle Seite",
         "transfers": "Transfers",
-        "holders": "Holders",
         "info": "Info",
         "exchange": "Exchange",
         "dex": "DEX",
@@ -393,8 +416,7 @@
         "deleteToken": "Token löschen",
         "editToken": "Token bearbeiten",
         "mint": "Mint",
-        "notMintedAlert": "Du hast den Token nicht geprägt",
-        "mint": "Mint"
+        "notMintedAlert": "Du hast den Token nicht geprägt"
       },
       "mintToken": {
         "title": "Mint",
@@ -421,7 +443,7 @@
         "cancel": "ABBRECHEN",
         "continue": "WEITER",
         "dfiRequired": "DFI erforderlich",
-        "chooseFile": "WÄHLE DIE DATEI",
+        "chooseFile": "Wähle die Datei",
         "dctDistribution": "DCT Verteilung",
         "uploadCsv": "CSV HOCHLADEN",
         "addAddress": "ADRESSE HINZUFÜGEN",
@@ -429,8 +451,7 @@
         "addAddressesText": "Füge Adressen zu deiner ursprünglichen Verteilerliste hinzu.",
         "enterDfiAddress": "DFI-Adresse eingeben",
         "dragAndUploadCSV": "Ziehe oder wähle eine CSV-Datei zum Hochladen.",
-        "verifyingCollateral": "Überprüfung des Collateral",
-        "chooseFile": "Wähle die Datei"
+        "verifyingCollateral": "Überprüfung des Collateral"
       }
     },
     "settings": {
@@ -476,6 +497,7 @@
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
+        "loading": "Laden...",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue wallet erstellen",
         "restoreWalletFromMnemonicSeed": "Wallet wiederherstellen von Mnemonic Seed",
@@ -486,7 +508,11 @@
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue Wallet erstellen",
         "mnemonicGuideline": "Schreiben die folgenden 24 Wörter auf. Wichtig: In der genauen Reihenfolge aufschreiben, wie sie angezeigt werden. Diese 24 - Wort mnemonischen Seed werden verwendet, um Deine Wallet wiederzufinden oder zu übertragen. Ohne den Seed  kannst Du deine Wallet nicht wiederfinden. Verliere deinen Seed auf keinen Fall.",
+        "mnemonicGuidelineWarning": "Speichere den Wiederherstellungssatz deiner Wallet nicht auf einem Computer oder Smartphone und bewahre ihn sicher auf.",
         "generateNewSet": "Erzeuge einen neuen Satz von 24 Wörtern",
+        "walletRecoveryInfoLine1": "Ein Wallet Wiederherstellungs-Samen (“mnemonischer Samen”, “Samen-Satz”, “Samen-Wörter”) ist eine Möglichkeit, deinen privaten Schlüssel als eine Folge von Wörtern darzustellen, die für einen Menschen leichter zu merken sind. Er wird auch verwendet, um erweiterte Schlüssel für alle Wallets, die du in der App erstellst, zu generieren.",
+        "walletRecoveryInfoLine2": "Die Wörter werden zufällig aus einer Liste von 2048 Wörtern generiert, die im BIP39-Standard definiert sind, und bieten 24 Bit Sicherheit.",
+        "learnMoreAtBitcoinBtn": "LERNE MEHR IM BITCOIN WIKI",
         "copied24Words": "Ich habe die 24 Wörter in der genauen Reihenfolge notiert",
         "continue": "WEITER",
         "createNewWallet": "Neue Wallet erstellen"
@@ -496,9 +522,15 @@
         "title": "Wallet - Mnemonic seed verifizieren",
         "verifyMnemonicSeed": "Mnemonic seed verifizieren",
         "verifyMnemonicGuideline": "Um sicherzugehen, dass Du deine 24-Wörter-Seed niedergeschrieben hast, wähle bitte 6 der Wörter in deinem mnemonic Seed aus der untenstehenden Liste aus.",
+        "verifyMnemonicWhichOne": "Welcher ist…",
+        "wordQuestion": "Word %{wordNum}?",
         "showAgain": "Zeige mir meine 24 Worte noch einmal",
         "creatingYourWallet": "Dein wallet erstellen",
-        "backToWalletPage": "SCHLIESSEN"
+        "backToWalletPage": "SCHLIESSEN",
+        "skipVerificationTextHeader": "Überspringen auf eigene Gefahr",
+        "dontSkip": "Überspringe die Verifizierung nicht",
+        "skip": "Überspringen",
+        "skipVerificationText": "Bitte vergewissere dich, dass du deinen 24-Wort-Samen für die Wiederherstellung der Wallet in der richtigen Reihenfolge aufgeschrieben hast. Ohne deinen Wallet-Wiederherstellungs-Samen kannst du deine Wallet nicht wiederherstellen."
       },
       "restoreWalletPage": {
         "back": "ZURÜCK",
@@ -618,10 +650,7 @@
           }
         ]
       },
-      "consoleResultPage": {
-        "resultPage": "CLI-Ergebnis",
-        "back": "ZURÜCK"
-      }
+      "consoleResultPage": { "resultPage": "CLI-Ergebnis", "back": "ZURÜCK" }
     }
   },
   "alerts": {
@@ -690,6 +719,11 @@
     "restartWalletModalHeader": "Neustart erforderlich",
     "restartWalletWarningNotice": "Du musst die DeFi-App neu starten. Möchtest du jetzt neu starten?",
     "yesRestartWalletNotice": "Jetzt neustarten",
-    "noRestartWalletNotice": "Später"
+    "noRestartWalletNotice": "Später",
+    "resetWalletNoticeTitle": "Wallet zurücksetzen",
+    "resetWalletDatNotice": "Bist du sicher, dass du zurücksetzen willst?",
+    "confirmResetWalletText": "Um das Zurücksetzen der Wallet zu bestätigen, gib ‘%{text}’ in das Feld ein.",
+    "yeResetpWalletNotice": "Ja",
+    "noResetWalletNotice": "Nein"
   }
 }
