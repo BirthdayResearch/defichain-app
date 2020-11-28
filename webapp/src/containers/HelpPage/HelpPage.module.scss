@@ -5,32 +5,52 @@
 @import '../../scss/variables';
 @import '../../scss/bootstrap/variables';
 
-.iconTitle {
-  display: inline-block;
-  vertical-align: middle;
+.helpOptions {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
-.buttonLink {
-  text-transform: none !important;
-  width: 100%;
-  text-align: left;
+.helpOption {
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+.helpOptionRow {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 1.5rem;
+}
+
+.helpOptionIcon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1rem;
+
   svg {
     width: 48px;
     height: 48px;
-  }
-  h4 {
-    color: rgb(0, 0, 0);
-  }
-  span {
-    color: $secondary;
-    font-size: 14px;
+    color: $primary;
   }
 }
+
+.helpOptionDescription {
+  h3 {
+    font-weight: $font-weight-normal;
+    line-height: 1.5rem;
+    font-size: $font-size-base;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $secondary;
+    margin-bottom: 0;
+    line-height: 1.25rem;
+  }
+}
+
 .footerNote {
   text-align: center;
-  span {
-    color: $secondary;
-    font-size: 14px;
-    font-weight: 500;
-  }
+  font-size: $font-size-sm;
+  color: $secondary;
 }
