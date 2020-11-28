@@ -60,23 +60,12 @@ export default class RpcClient {
   }
 
   call = async (path: string, method: string, params: any[] = []) => {
-    console.log('Calling: ' + method);
-    let response;
-
-    try {
-      response = await this.client.post(path, {
-        jsonrpc: RPC_V,
-        id: Math.random().toString().substr(2),
-        method,
-        params,
-      });
-    } catch (e) {
-      response = e.response;
-      const { request, ...errorObject } = response;
-      console.log(errorObject);
-    }
-
-    return response;
+    return await this.client.post(path, {
+      jsonrpc: RPC_V,
+      id: Math.random().toString().substr(2),
+      method,
+      params,
+    });
   };
 
   getBlockHash = async (blockNumber: number): Promise<string> => {
