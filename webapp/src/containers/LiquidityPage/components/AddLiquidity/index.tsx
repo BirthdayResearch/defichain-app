@@ -7,7 +7,7 @@ import {
   MdErrorOutline,
 } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
-import { Button, Col, Row } from 'reactstrap';
+import { Button, Col, Modal, ModalBody, Row } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -25,6 +25,7 @@ import styles from './addLiquidity.module.scss';
 import {
   BTC,
   BTC_SYMBOL,
+  CREATE_POOL_PAIR_PATH,
   DEFICHAIN_MAINNET_LINK,
   DEFICHAIN_TESTNET_LINK,
   DFI,
@@ -91,6 +92,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const [addLiquidityStep, setAddLiquidityStep] = useState<string>('default');
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
+  const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
 
   const {
     poolshares,
@@ -256,9 +259,59 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     });
   };
 
-  const AddLiquidityStepConfirm = () => {
-    setAddLiquidityStep('confirm');
+  const difference = (a, b) => {
+    return Math.abs(a - b);
   };
+
+  const AddLiquidityStepConfirm = () => {
+    fetchPoolPairListRequest();
+    const oldAmount = formState.amount2;
+    const newAmount = calculateInputAddLiquidity(
+      formState.amount1,
+      formState,
+      poolPairList
+    );
+    const diff = difference(oldAmount, newAmount);
+    const percentageChange = (diff / oldAmount) * 100;
+
+    if (Number(percentageChange) >= 1) {
+      setLiquidityChangedMsg(
+        I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
+      );
+      setLiquidityChanged(true);
+    } else if (Number(newAmount) > Number(formState.balance2)) {
+      setLiquidityChangedMsg(
+        I18n.t('containers.swap.addLiquidity.ratioChanged')
+      );
+      setLiquidityChanged(true);
+    } else {
+      setAddLiquidityStep('confirm');
+    }
+  };
+
+  const liquidityChangedModal = () => (
+    <Modal
+      isOpen={liquidityChanged}
+      centered
+      contentClassName={styles.onContentModal}
+    >
+      <ModalBody>
+        <div className={styles.errorModal}>
+          <p>{liquidityChangedMsg}</p>
+          <div className='text-right'>
+            <Button
+              to={CREATE_POOL_PAIR_PATH}
+              tag={RRNavLink}
+              color='link'
+              className='header-bar-back'
+            >
+              {I18n.t('containers.swap.addLiquidity.ok')}
+            </Button>
+          </div>
+        </div>
+      </ModalBody>
+    </Modal>
+  );
 
   const AddLiquidityStepDefault = () => {
     setAddLiquidityStep('default');
@@ -347,6 +400,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   return (
     <div className='main-wrapper'>
+      {liquidityChangedModal()}
       <Helmet>
         <title>{I18n.t('containers.swap.swapPage.title')}</title>
       </Helmet>
