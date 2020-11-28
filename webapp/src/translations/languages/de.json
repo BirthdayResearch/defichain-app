@@ -33,7 +33,8 @@
       "help": "Hilfe",
       "settings": "Einstellungen",
       "console": "Konsole",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidity",
+      "swap": "Swap"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -97,7 +98,22 @@
     "helpPage": {
       "title": "Hilfe – DeFiChain Client",
       "help": "Helfen",
-      "section": "Abschnitt"
+      "section": "Abschnitt",
+      "helpPageHeader": "Connect with the community with these options:",
+      "telegramEn": "Telegram Community (EN)",
+      "telegramEnLink": "t.me/defiblockchain",
+      "telegramDe": "Telegram Community (DE)",
+      "telegramDeLink": "t.me/defiblockchain_DE",
+      "github": "Ein Problem melden",
+      "githubLink": "github.com",
+      "faq": "Häufig gestellte Fragen",
+      "faqLink": "defichain.com/learn/#faq",
+      "defichainsite": "Offizielle Website",
+      "defichainsiteLink": "defichain.com",
+      "reddit": "Reddit Community",
+      "redditLink": "reddit.com/r/defiblockchain",
+      "helpTextFooterLine1": "DeFiChain ist ein von der Community getragenes und offenes Projekt.",
+      "helpTextFooterLine2": "Die DeFiChain Foundation bietet keinen direkten Support."
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -124,7 +140,8 @@
         "operatorAddress": "Betreiber-Adresse",
         "registered": "Registriert",
         "mintedBlocks": "Geprägt Blöcke",
-        "noMasterNodes": "Keine Masternode verfügbar"
+        "noMasterNodes": "Keine Masternode verfügbar",
+        "loading": "Laden..."
       },
       "createMasterNode": {
         "title": "Erstelle eine Masternode",
@@ -534,7 +551,8 @@
         "skipVerificationTextHeader": "Überspringen auf eigene Gefahr",
         "dontSkip": "Überspringe die Verifizierung nicht",
         "skip": "Überspringen",
-        "skipVerificationText": "Bitte vergewissere dich, dass du deinen 24-Wort-Samen für die Wiederherstellung der Wallet in der richtigen Reihenfolge aufgeschrieben hast. Ohne deinen Wallet-Wiederherstellungs-Samen kannst du deine Wallet nicht wiederherstellen."
+        "skipVerificationText": "Bitte vergewissere dich, dass du deinen 24-Wort-Samen für die Wiederherstellung der Wallet in der richtigen Reihenfolge aufgeschrieben hast. Ohne deinen Wallet-Wiederherstellungs-Samen kannst du deine Wallet nicht wiederherstellen.",
+        "continue": "Weiter"
       },
       "restoreWalletPage": {
         "back": "ZURÜCK",
@@ -564,7 +582,10 @@
         "transactionSuccessMsg": "Die Transaktion war ein voller Erfolg. Dein Wallet-Guthaben wird aktualisiert, sobald die Transaktion bestätigt wurde durch die DeFiChain.",
         "backToWallet": "Zurück zur Wallet",
         "dfiAddress": "DFI-Adresse",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction Hash",
+        "sendTitle": "Senden – DeFiChain Client",
+        "send": "Senden",
+        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFiChain Client",
@@ -625,7 +646,12 @@
         "availableBalance": "Verfügbares Guthaben",
         "pending": "Ausstehend",
         "updateAvailableLabel": "Update erhältlich",
-        "includeRewards": "Include Rewards"
+        "includeRewards": "Include Rewards",
+        "tokens": "TOKENS",
+        "loading": "Laden...",
+        "category": "Kategorie",
+        "blockHeight": "Blockhöhe",
+        "amount": "Anzahl"
       },
       "walletTxns": {
         "height": "Höhe",
@@ -634,6 +660,18 @@
         "hash": "Hash",
         "paginationRange": "%{from} – %{to} von %{total} Transaktion",
         "noTransactions": "Keine Transaktionen verfügbar"
+      },
+      "walletTokensPage": {
+        "walletTokens": "Wallet – Tokens",
+        "tokens": "Tokens",
+        "addToken": "Token hinzufügen"
+      },
+      "walletAddTokensPage": {
+        "walletAddTokens": "Wallet - Token hinzufügen",
+        "back": "Zurück",
+        "add": "Hinzufügen",
+        "tokens": "Tokens",
+        "addTokenLabel": "Einen Token hinzufügen"
       }
     },
     "console": {
