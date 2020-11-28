@@ -60,14 +60,23 @@ export default class RpcClient {
   }
 
   call = async (path: string, method: string, params: any[] = []) => {
-    return await this.client.post(path, {
-      jsonrpc: RPC_V,
-      id: Math.random()
-        .toString()
-        .substr(2),
-      method,
-      params,
-    });
+    console.log('Calling: ' + method);
+    let response;
+
+    try {
+      response = await this.client.post(path, {
+        jsonrpc: RPC_V,
+        id: Math.random().toString().substr(2),
+        method,
+        params,
+      });
+    } catch (e) {
+      response = e.response;
+      const { request, ...errorObject } = response;
+      console.log(errorObject);
+    }
+
+    return response;
   };
 
   getBlockHash = async (blockNumber: number): Promise<string> => {
@@ -775,6 +784,7 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
+      true, // verbose
     ]);
     return data.result;
   };

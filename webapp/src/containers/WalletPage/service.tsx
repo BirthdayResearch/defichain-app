@@ -126,7 +126,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
   const txInfo = await rpcClient.getTransaction(txId);
   if (!txInfo.blockhash && txInfo.confirmations === 0) {
-    await sleep(3000);
+    await sleep(1000);
     await getTransactionInfo(txId);
   } else {
     return;
