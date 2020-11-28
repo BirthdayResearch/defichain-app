@@ -112,7 +112,8 @@
       "reddit": "Reddit community",
       "redditLink": "reddit.com/r/defiblockchain",
       "helpTextFooterLine1": "DeFiChain is a community-driven and open project.",
-      "helpTextFooterLine2": "The DeFiChain Foundation does not provide direct support."
+      "helpTextFooterLine2": "The DeFiChain Foundation does not provide direct support.",
+      "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -470,7 +471,8 @@
         "removingLiquidity": "Removing liquidity",
         "liquidityRemoved": "Liquidity removed",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "receiveAddress": "Receive Address"
       }
     },
     "settings": {
