@@ -189,7 +189,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col>
           </Row>
         </section>
-        {!tokenSymbol && <WalletTxns />}
+        {tokenSymbol === 'DFI' && <WalletTxns />}
       </div>
     </div>
   );

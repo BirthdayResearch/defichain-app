@@ -20,6 +20,7 @@ import LiquidityMining from '../../assets/svg/liquidity-mining.svg';
 import DefichainDEX from '../../assets/svg/defichain-dex.svg';
 import DefichainImpermanent from '../../assets/svg/defichain-impermanent.svg';
 import openNewTab from '../../utils/openNewTab';
+import Header from '../HeaderComponent';
 
 interface LiquidityPageProps {
   history: History;
@@ -51,7 +52,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.liquidity.liquidityPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.liquidity.liquidityPage.liquidityPools')}</h1>
         <ButtonGroup>
           <Button to={CREATE_POOL_PAIR_PATH} tag={RRNavLink} color='link'>
@@ -61,7 +62,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       {isLoadingPoolshares ? (
         <div className='content'>
           {I18n.t('containers.liquidity.liquidityPage.loading')}

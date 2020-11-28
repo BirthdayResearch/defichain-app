@@ -93,6 +93,8 @@ const configSlice = createSlice({
       state.isLoadingAddPoolLiquidity = true;
       state.isLoadingPreparingUTXO = true;
       state.isAddPoolLiquidityLoaded = false;
+      state.isErrorAddingPoolLiquidity = '';
+      state.addPoolLiquidityHash = '';
     },
     addPoolPreparingUTXOSuccess(state) {
       state.isLoadingPreparingUTXO = false;
@@ -119,6 +121,8 @@ const configSlice = createSlice({
       state.liquidityRemovedLoaded = false;
       state.refreshUTXOS2Loaded = false;
       state.transferTokensLoaded = false;
+      state.isErrorRemovingPoolLiquidity = '';
+      state.removePoolLiquidityHash = '';
     },
     refreshUTXOS1Success(state) {
       state.refreshUTXOS1Loaded = true;

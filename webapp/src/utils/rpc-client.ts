@@ -62,7 +62,9 @@ export default class RpcClient {
   call = async (path: string, method: string, params: any[] = []) => {
     return await this.client.post(path, {
       jsonrpc: RPC_V,
-      id: Math.random().toString().substr(2),
+      id: Math.random()
+        .toString()
+        .substr(2),
       method,
       params,
     });
@@ -301,6 +303,11 @@ export default class RpcClient {
       '',
       subtractfeefromamount,
     ]);
+    return data.result;
+  };
+
+  sendMany = async (amounts: any) => {
+    const { data } = await this.call('/', methodNames.SEND_MANY, ['', amounts]);
     return data.result;
   };
 
@@ -671,7 +678,7 @@ export default class RpcClient {
       },
       true,
       true,
-      true
+      true,
     ]);
     return data.result;
   };
@@ -835,6 +842,22 @@ export default class RpcClient {
   getGov = async () => {
     const { data } = await this.call('/', methodNames.GET_GOV, [
       LP_DAILY_DFI_REWARD,
+    ]);
+    return data.result;
+  };
+
+  getListAccountHistory = async (_: {
+    blockHeight?: number;
+    limit?: number;
+    owner?: string;
+  }) => {
+    const { blockHeight, limit, owner } = _;
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+      owner || 'mine',
+      {
+        maxBlockHeight: blockHeight,
+        depth: limit,
+      },
     ]);
     return data.result;
   };

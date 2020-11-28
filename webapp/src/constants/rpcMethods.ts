@@ -1,5 +1,6 @@
 export const GET_BLOCKCHAIN_INFO = 'getblockchaininfo';
 export const SEND_TO_ADDRESS = 'sendtoaddress';
+export const SEND_MANY = 'sendmany';
 export const VALIDATE_ADDRESS = 'validateaddress';
 export const LIST_RECEIVED_BY_ADDRESS = 'listreceivedbyaddress';
 export const GET_NEW_ADDRESS = 'getnewaddress';
@@ -55,3 +56,4 @@ export const POOL_SWAP = 'poolswap';
 export const REMOVE_POOL_LIQUIDITY = 'removepoolliquidity';
 export const TEST_POOL_SWAP = 'testpoolswap';
 export const GET_GOV = 'getgov';
+export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
