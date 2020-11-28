@@ -664,7 +664,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 <p>{isErrorPoolSwap}</p>

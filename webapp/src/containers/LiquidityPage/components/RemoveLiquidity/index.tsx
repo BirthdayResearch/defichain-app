@@ -597,7 +597,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorRemovingPoolLiquidity}</p>
