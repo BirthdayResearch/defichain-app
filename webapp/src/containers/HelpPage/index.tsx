@@ -46,7 +46,12 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.telegramEn')}</h3>
-                    <p>{I18n.t('containers.helpPage.telegramEnLink')}</p>
+                    <p>
+                      {new URL(TELEGRAM_ENGLISH_HELP_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -62,7 +67,12 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.telegramDe')}</h3>
-                    <p>{I18n.t('containers.helpPage.telegramDeLink')}</p>
+                    <p>
+                      {new URL(TELEGRAM_GERMAN_HELP_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -78,7 +88,12 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.github')}</h3>
-                    <p>{I18n.t('containers.helpPage.githubLink')}</p>
+                    <p>
+                      {new URL(TELEGRAM_GERMAN_HELP_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -94,7 +109,12 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.faq')}</h3>
-                    <p>{I18n.t('containers.helpPage.faqLink')}</p>
+                    <p>
+                      {new URL(DEFICHAIN_FAQ_HELP_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -110,7 +130,12 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.defichainsite')}</h3>
-                    <p>{I18n.t('containers.helpPage.defichainsiteLink')}</p>
+                    <p>
+                      {new URL(DEFICHAIN_OFFICIAL_HELP_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -126,7 +151,9 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.reddit')}</h3>
-                    <p>{I18n.t('containers.helpPage.redditLink')}</p>
+                    <p>
+                      {new URL(REDDIT_HELP_LINK).hostname.replace('www.', '')}
+                    </p>
                   </div>
                 </CardBody>
               </Card>
