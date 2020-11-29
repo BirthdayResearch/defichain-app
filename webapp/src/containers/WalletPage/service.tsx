@@ -13,7 +13,7 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import _, { sortBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -398,8 +398,6 @@ export const getListAccountHistory = (query: {
 };
 
 export const prepareTxDataRows = (data: any[]) => {
-  // let finalRows: any[] = [];
-  // return finalRows.map(validTrx);
   return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
       value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toNumber(),
