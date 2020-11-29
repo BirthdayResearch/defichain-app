@@ -303,7 +303,7 @@
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
-        "amountInsufficient": "Insufficient amount in your account",
+        "amountInsufficient": "Insufficient balance",
         "ratioMoreThan1": "Ratio has moved more than 1%. Please check your amounts and re-enter",
         "ratioChanged": "Ratio has changed. Please check your amounts and re-enter"
       },

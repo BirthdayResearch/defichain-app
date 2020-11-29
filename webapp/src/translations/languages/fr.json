@@ -256,7 +256,7 @@
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
         "swaping": "Swapping",
-        "amountInsufficient": "Insufficient amount in your account",
+        "amountInsufficient": "Insufficient balance",
         "txHash": "Transaction hash",
         "somethingWentWrong": "Something went wrong"
       },
