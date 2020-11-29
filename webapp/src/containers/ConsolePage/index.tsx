@@ -1,9 +1,9 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Helmet } from 'react-helmet';
-import { Row, Col } from 'reactstrap';
 import Console from './ConsoleComponent';
 import Header from '../HeaderComponent';
+import styles from './Console.module.scss';
 
 const ConsolePage: React.FunctionComponent = () => {
   return (
@@ -14,13 +14,9 @@ const ConsolePage: React.FunctionComponent = () => {
       <Header>
         <h1>{I18n.t('containers.console.consolePage.console')}</h1>
       </Header>
-      <div className='content'>
+      <div className={`content ${styles.consoleContent}`}>
         <section>
-          <Row>
-            <Col xs={12}>
-              <Console />
-            </Col>
-          </Row>
+          <Console />
         </section>
       </div>
     </div>
