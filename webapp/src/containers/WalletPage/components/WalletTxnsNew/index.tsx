@@ -20,17 +20,20 @@ import {
   fetchWalletTxnsRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchBlockDataForTrxRequestLoading,
-  // fetchWalletTokenTransactionsListRequestPaginationLoading,
 } from '../../reducer';
 import {
+  POOL_SWAP_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
+  REWARDS_CATEEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  WALLET_TXN_PAGE_FETCH_SIZE,
   WALLET_TXN_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { numberWithCommas } from '../../../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
 import EllipsisText from 'react-ellipsis-text';
+import { prepareTxDataRows } from '../../service';
 
 interface WalletTxnsProps {
   unit: string;
@@ -40,23 +43,15 @@ interface WalletTxnsProps {
     intialLoad?: boolean
   ) => void;
   tokenSymbol: string;
-  tokenAddress: string;
   fetchWalletTokenTransactionsListRequestLoading: (
     symbol: string,
-    owner: string,
     limit: number,
     includeRewards: boolean
   ) => void;
   fetchBlockDataForTrxRequestLoading: (trxData: any[]) => void;
-  // fetchWalletTokenTransactionsListRequestPaginationLoading: (
-  //   currentPage: number,
-  //   symbol?: string,
-  //   owner?: string
-  // ) => void;
   data: any[];
   isLoading: boolean;
   isError: string;
-  stop: boolean;
   combineAccountHistoryData: any;
 }
 
@@ -66,8 +61,6 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const {
     fetchWalletTokenTransactionsListRequestLoading,
     fetchBlockDataForTrxRequestLoading,
-    // fetchWalletTokenTransactionsListRequestPaginationLoading,
-    tokenAddress,
     tokenSymbol,
     data,
     isLoading,
@@ -86,8 +79,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     fetchWalletTokenTransactionsListRequestLoading(
       tokenSymbol || '',
-      tokenAddress || '',
-      1000,
+      WALLET_TXN_PAGE_FETCH_SIZE,
       includeRewards
     );
   }, [includeRewards]);
@@ -99,7 +91,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       (pageNum - 1) * pageSize,
       pageNum * pageSize
     );
-    fetchBlockDataForTrxRequestLoading(rows);
+    const updatedRows = prepareTxDataRows(rows);
+    fetchBlockDataForTrxRequestLoading(updatedRows);
   };
 
   useEffect(() => {
@@ -107,19 +100,17 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, [combineAccountHistoryData]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      fetchData(currentPage);
-    }
+    fetchData(currentPage);
   }, [data]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
-    if (type === RECIEVE_CATEGORY_LABEL || type === 'Rewards') {
+    if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
-    if (type === 'PoolSwap')
+    if (type === POOL_SWAP_CATEGORY_LABEL)
       return <MdCompareArrows className={styles.typeIcon} />;
     return '';
   };
@@ -127,8 +118,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getAmountClass = (type: string) => {
     if (
       type === RECIEVE_CATEGORY_LABEL ||
-      type === 'Rewards' ||
-      type === 'PoolSwap'
+      type === REWARDS_CATEEGORY_LABEL ||
+      type === POOL_SWAP_CATEGORY_LABEL
     ) {
       return styles.colorGreen;
     }
@@ -167,15 +158,15 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     </div>
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
-                    <div className={item.amount[1] ? styles.colorGreen : ''}>
-                      {`${numberWithCommas(item.amount[0].value)} ${
-                        item.amount[0].symbolKey
+                    <div className={item.amounts[1] ? styles.colorGreen : ''}>
+                      {`${numberWithCommas(item.amounts[0].value)} ${
+                        item.amounts[0].symbolKey
                       }`}
                     </div>
-                    {item.amount[1] && (
+                    {item.amounts[1] && (
                       <div>
-                        {`${numberWithCommas(item.amount[1].value)} ${
-                          item.amount[1].symbolKey
+                        {`${numberWithCommas(item.amounts[1].value)} ${
+                          item.amounts[1].symbolKey
                         }`}
                       </div>
                     )}
@@ -244,28 +235,16 @@ const mapDispatchToProps = {
     fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
   fetchWalletTokenTransactionsListRequestLoading: (
     symbol: string,
-    owner: string,
     limit: number,
     includeRewards: boolean
   ) =>
     fetchWalletTokenTransactionsListRequestLoading({
       symbol,
-      owner,
       limit,
       includeRewards,
     }),
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
     fetchBlockDataForTrxRequestLoading(trxArray),
-  // fetchWalletTokenTransactionsListRequestPaginationLoading: (
-  //   currentPage: number,
-  //   symbol?: string,
-  //   owner?: string
-  // ) =>
-  //   fetchWalletTokenTransactionsListRequestPaginationLoading({
-  //     symbol,
-  //     owner,
-  //     currentPage,
-  //   }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

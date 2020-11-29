@@ -390,7 +390,6 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
 export const getListAccountHistory = (query: {
   limit: number;
   blockHeight?: number;
-  owner?: string;
   no_rewards?: boolean;
   token: string;
 }) => {
@@ -399,18 +398,21 @@ export const getListAccountHistory = (query: {
 };
 
 export const prepareTxDataRows = (data: any[]) => {
-  let finalRows: any[] = [];
-  data.forEach((item) => {
+  // let finalRows: any[] = [];
+  // return finalRows.map(validTrx);
+  return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
       value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toNumber(),
       symbolKey: ele.slice(ele.indexOf('@') + 1),
     }));
-    finalRows = finalRows.concat({
+    const { category, isValid } = validTrx(item);
+    return {
       ...item,
+      category,
+      isValid,
       amounts: sortBy(amounts, ['value']).reverse(),
-    });
+    };
   });
-  return finalRows.map(validTrx);
 };
 
 export const handleBlockData = async (blockHeight: number) => {
@@ -426,20 +428,18 @@ const validTrx = (item) => {
     TX_TYPES.AccountToUtxos,
     TX_TYPES.AccountToAccount,
   ];
-  let isValid = true;
+  let isValid =
+    item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap;
   let category = item.type;
-  if (
-    !(item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap)
-  ) {
+  if (!isValid) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amount[0].value).gte(0)
+      category = new BigNumber(item.amounts[0].value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }
   }
   return {
-    ...item,
     category,
     isValid,
   };
