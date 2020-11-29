@@ -15,6 +15,7 @@ export const MASTERNODE_LIST_PAGE_SIZE = 10;
 export const TOKEN_LIST_PAGE_SIZE = 10;
 export const TOKEN_TRANSFERS_LIST_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 8;
+export const WALLET_TXN_PAGE_FETCH_SIZE = 1000;
 export const MAX_WALLET_TXN_PAGE_SIZE = 200;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const PAYMENT_REQ_LIST_SIZE = 10;
@@ -119,5 +120,26 @@ export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
 export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
+
+export const TX_TYPES = {
+  CreateMasternode: 'CreateMasternode',
+  ResignMasternode: 'ResignMasternode',
+  CreateToken: 'CreateToken',
+  UpdateToken: 'UpdateToken',
+  UpdateTokenAny: 'UpdateTokenAny',
+  MintToken: 'MintToken',
+  CreatePoolPair: 'CreatePoolPair',
+  UpdatePoolPair: 'UpdatePoolPair',
+  PoolSwap: 'PoolSwap',
+  AddPoolLiquidity: 'AddPoolLiquidity',
+  RemovePoolLiquidity: 'RemovePoolLiquidity',
+  UtxosToAccount: 'UtxosToAccount',
+  AccountToUtxos: 'AccountToUtxos',
+  AccountToAccount: 'AccountToAccount',
+  SetGovVariable: 'SetGovVariable',
+  NonTxRewards: 'Rewards',
+};
 export const RECIEVE_CATEGORY_LABEL = 'Receive';
 export const SENT_CATEGORY_LABEL = 'Sent';
+export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
+export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;

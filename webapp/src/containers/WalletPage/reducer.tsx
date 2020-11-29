@@ -51,6 +51,13 @@ export const initialState = {
     isLoading: false,
     isError: '',
     data: [],
+    stop: false,
+    minBlockHeight: undefined,
+  },
+  combineAccountHistoryData: {
+    isLoading: false,
+    isError: '',
+    data: [],
   },
   restartCriteria: {
     isLoading: false,
@@ -214,6 +221,10 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = action.payload;
       state.listAccountHistoryData.data = [];
     },
+    fetchWalletTokenTransactionsListRequestStop(state) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.stop = true;
+    },
     checkRestartCriteriaRequestLoading(state) {
       state.restartCriteria.isLoading = true;
       state.restartCriteria.data = true;
@@ -228,6 +239,21 @@ const configSlice = createSlice({
       state.restartCriteria.isLoading = false;
       state.restartCriteria.data = true;
       state.restartCriteria.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestLoading(state, action) {
+      state.combineAccountHistoryData.isLoading = true;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestSuccess(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = action.payload;
+      state.combineAccountHistoryData.isError = '';
+    },
+    fetchBlockDataForTrxRequestFailure(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
     },
   },
 });
@@ -282,6 +308,11 @@ export const {
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
+  fetchWalletTokenTransactionsListRequestStop,
+
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } = actions;
 
 export default reducer;
