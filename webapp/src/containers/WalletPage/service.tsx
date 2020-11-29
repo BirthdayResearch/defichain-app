@@ -13,7 +13,7 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
+import _, { sortBy } from 'lodash';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -391,6 +391,8 @@ export const getListAccountHistory = (query: {
   limit: number;
   blockHeight?: number;
   owner?: string;
+  no_rewards?: boolean;
+  token: string;
 }) => {
   const rpcClient = new RpcClient();
   return rpcClient.getListAccountHistory(query);
@@ -399,12 +401,14 @@ export const getListAccountHistory = (query: {
 export const prepareTxDataRows = (data: any[]) => {
   let finalRows: any[] = [];
   data.forEach((item) => {
-    const rows = item.amounts.map((ele) => ({
-      amount: ele.slice(0, ele.indexOf('@')),
+    const amounts = item.amounts.map((ele) => ({
+      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toNumber(),
       symbolKey: ele.slice(ele.indexOf('@') + 1),
-      ...item,
     }));
-    finalRows = finalRows.concat(rows);
+    finalRows = finalRows.concat({
+      ...item,
+      amounts: sortBy(amounts, ['value']).reverse(),
+    });
   });
   return finalRows.map(validTrx);
 };
@@ -429,7 +433,7 @@ const validTrx = (item) => {
   ) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amount).gte(0)
+      category = new BigNumber(item.amount[0].value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }
