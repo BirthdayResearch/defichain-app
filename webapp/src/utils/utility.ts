@@ -1016,8 +1016,10 @@ export const handleAccountToAccountConversion = async (
     }
   }
 
-  const refreshUtxoTxId = await rpcClient.sendMany(amounts);
-  await getTransactionInfo(refreshUtxoTxId);
+  if (!isEmpty(amounts)) {
+    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
+    await getTransactionInfo(refreshUtxoTxId);
+  }
 
   const accountToAccountTxHashes: any[] = [];
   let amountTransfered = new BigNumber(0);
@@ -1136,7 +1138,7 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
     const itemList: string[] = item.split('@');
 
     if (itemList[1] === symbolKey) {
-      amount = new BigNumber(itemList[0]).toNumber().toFixed(6);
+      amount = new BigNumber(itemList[0]).toNumber().toFixed(8);
     }
     return amount;
   }, '0');
