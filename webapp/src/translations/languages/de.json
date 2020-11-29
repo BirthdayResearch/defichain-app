@@ -276,6 +276,7 @@
         "totalLiquidity": "Total Liquidity ( USD )"
       },
       "addLiquidity": {
+        "ok": "Ok",
         "balance": "Balance",
         "max": "Max",
         "selectToken": "Select a token",
@@ -301,7 +302,9 @@
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
-        "amountInsufficient": "Insufficient Amount in your account"
+        "amountInsufficient": "Insufficient Amount in your account",
+        "ratioMoreThan1": "Ratio has moved more than 1%. Please check your entry amounts and re-enter",
+        "ratioChanged": "Ratio has been changed. Please check your entry amounts and re-enter"
       },
       "removeLiquidity": {
         "address": "Address",
