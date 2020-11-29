@@ -71,10 +71,6 @@ export default class DefiProcessManager {
         // `-reindex-chainstate`
       ];
 
-      if (params && params.remotes[0].testnet == '1') {
-        configArray.push('-reindex-chainstate');
-      }
-
       if (params && params.isReindexReq) {
         configArray.push('-reindex');
       }
