@@ -46,8 +46,6 @@ import {
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
-  fetchWalletTokenTransactionsListRequestStop,
-  fetchWalletTokenTransactionsListRequestPaginationLoading,
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
@@ -68,7 +66,6 @@ import {
   setHdSeed,
   importPrivKey,
   getListAccountHistory,
-  prepareTxDataRows,
   handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
@@ -96,7 +93,6 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
-import { chunk } from 'lodash';
 
 export function* getNetwork() {
   const {
