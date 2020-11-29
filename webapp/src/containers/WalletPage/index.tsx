@@ -191,10 +191,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col>
           </Row>
         </section>
-        <WalletTxns
-          tokenSymbol={tokenSymbol || ''}
-          tokenAddress={tokenAddress || ''}
-        />
+        <WalletTxns tokenSymbol={tokenSymbol || ''} />
       </div>
     </div>
   );

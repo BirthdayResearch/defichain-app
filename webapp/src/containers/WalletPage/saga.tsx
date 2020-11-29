@@ -387,13 +387,12 @@ function* checkWalletCreation() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, owner, limit = 1000, includeRewards } = action.payload;
+    const { symbol, limit, includeRewards } = action.payload;
     let minBlockHeight;
     let cloneData: any[] = [];
     while (true) {
       const data: any[] = yield call(getListAccountHistory, {
         limit,
-        owner,
         blockHeight: minBlockHeight,
         token: symbol,
         no_rewards: !includeRewards,
@@ -401,16 +400,12 @@ function* fetchWalletTokenTransactionsList(action) {
       if (!data.length) {
         break;
       }
+      // data contains array of objects containing blockHeight in desc order. so here to paginate to next page data we will use the minimum block height - 1
       const minHeightData = minBy(data, 'blockHeight');
       minBlockHeight = minHeightData.blockHeight - 1;
       cloneData = cloneData.concat(data);
     }
-    const processedData = yield call(prepareTxDataRows, cloneData);
-    yield put(
-      fetchWalletTokenTransactionsListRequestSuccess(
-        processedData.filter((item) => item.isValid)
-      )
-    );
+    yield put(fetchWalletTokenTransactionsListRequestSuccess(cloneData));
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -465,10 +460,6 @@ function* mySaga() {
     fetchWalletTokenTransactionsListRequestLoading.type,
     fetchWalletTokenTransactionsList
   );
-  // yield takeLatest(
-  //   fetchWalletTokenTransactionsListRequestPaginationLoading.type,
-  //   fetchWalletTokenTransactionsList
-  // );
   yield takeLatest(
     checkRestartCriteriaRequestLoading.type,
     checkRestartCriteria

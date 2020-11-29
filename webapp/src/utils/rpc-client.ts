@@ -847,13 +847,12 @@ export default class RpcClient {
   getListAccountHistory = async (_: {
     blockHeight?: number;
     limit?: number;
-    owner?: string;
     no_rewards?: boolean;
     token: string;
   }) => {
-    const { blockHeight, limit, owner, no_rewards, token } = _;
+    const { blockHeight, limit, no_rewards, token } = _;
     const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      owner || 'mine',
+      'mine',
       {
         maxBlockHeight: blockHeight,
         depth: limit,
