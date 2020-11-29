@@ -48,6 +48,7 @@ import {
   WALLET_TOKENS_PATH,
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
+  LIQUIDITY_PATH,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -185,7 +186,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -254,7 +255,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
+      const finalArray = filterArray.filter(value =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -714,11 +715,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button
-                color='primary'
-                to={`${SWAP_PATH}?tab=pool`}
-                tag={NavLink}
-              >
+              <Button color='primary' to={LIQUIDITY_PATH} tag={RRNavLink}>
                 {I18n.t('containers.swap.addLiquidity.backToPool')}
               </Button>
             </div>
@@ -729,7 +726,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     poolPairList,
     tokenBalanceList,

@@ -293,8 +293,8 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 </Col>
                 <Col className={styles.colText}>
                   {`${Number(removeLiquidityAmount(totalA)).toFixed(
-                    6
-                  )} of ${Number(totalA).toFixed(6)} ${poolpair.tokenA}`}
+                    8
+                  )} of ${Number(totalA).toFixed(8)} ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
@@ -305,19 +305,19 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 </Col>
                 <Col className={styles.colText}>
                   {`${Number(removeLiquidityAmount(totalB)).toFixed(
-                    6
-                  )} of ${Number(totalB).toFixed(6)} ${poolpair.tokenB}`}
+                    8
+                  )} of ${Number(totalB).toFixed(8)} ${poolpair.tokenB}`}
                 </Col>
               </Row>
               <hr />
               <Row>
                 <Col>{I18n.t('containers.swap.removeLiquidity.price')}</Col>
                 <Col className={styles.colText}>
-                  {`${Number(getRatio(poolpair)).toFixed(6)} ${
+                  {`${Number(getRatio(poolpair)).toFixed(8)} ${
                     poolpair.tokenA
                   } per ${poolpair.tokenB}`}
                   <br />
-                  {`${(1 / Number(getRatio(poolpair))).toFixed(6)} ${
+                  {`${(1 / Number(getRatio(poolpair))).toFixed(8)} ${
                     poolpair.tokenB
                   } per ${poolpair.tokenA}`}
                 </Col>
@@ -412,11 +412,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 {I18n.t('containers.swap.removeLiquidity.receive')}
               </dt>
               <dd className='col-sm-8'>
-                <span>{`${Number(removeLiquidityAmount(totalA)).toFixed(6)} ${
+                <span>{`${Number(removeLiquidityAmount(totalA)).toFixed(8)} ${
                   poolpair.tokenA
                 }`}</span>
                 <br />
-                <span>{`${Number(removeLiquidityAmount(totalB)).toFixed(6)} ${
+                <span>{`${Number(removeLiquidityAmount(totalB)).toFixed(8)} ${
                   poolpair.tokenB
                 }`}</span>
               </dd>

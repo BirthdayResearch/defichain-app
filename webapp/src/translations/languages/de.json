@@ -284,7 +284,8 @@
         "addLiquidity": "LIQUIDITÄT HINZUFÜGEN"
       },
       "addLiquidity": {
-        "balance": "Kontostand",
+        "ok": "Ok",
+        "balance": "Balance",
         "max": "Max",
         "selectToken": "Token auswählen",
         "addLiquidity": "Liquidität hinzufügen",
@@ -305,11 +306,13 @@
         "continue": "Weiter",
         "cancel": "Abbrechen",
         "supply": "Supply",
-        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde.",
-        "viewOnChain": "Ansicht auf der Chain",
-        "backToPool": "Zurück zum Pool",
-        "totalPooled": "Insgesamt gepoolt",
-        "amountInsufficient": "Unzureichender Betrag auf Ihrem Konto"
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
+        "viewOnChain": "View on chain",
+        "backToPool": "Back to pool",
+        "totalPooled": "Total pooled",
+        "amountInsufficient": "Insufficient Amount in your account",
+        "ratioMoreThan1": "Ratio has moved more than 1%. Please check your entry amounts and re-enter",
+        "ratioChanged": "Ratio has been changed. Please check your entry amounts and re-enter"
       },
       "removeLiquidity": {
         "address": "Adresse",
