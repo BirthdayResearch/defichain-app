@@ -48,6 +48,9 @@ import {
   checkRestartCriteriaRequestFailure,
   fetchWalletTokenTransactionsListRequestStop,
   fetchWalletTokenTransactionsListRequestPaginationLoading,
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -93,6 +96,7 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
+import { chunk } from 'lodash';
 
 export function* getNetwork() {
   const {
@@ -383,44 +387,30 @@ function* checkWalletCreation() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, owner, limit = 1000 } = action.payload;
-    const {
-      listAccountHistoryData: { data: trxData, minBlockHeight },
-    } = yield select((state) => state.wallet);
-    const data = yield call(getListAccountHistory, {
-      limit,
-      owner,
-      blockHeight: minBlockHeight,
-    });
-    console.log(data);
-    if (!data.length) {
-      yield put(fetchWalletTokenTransactionsListRequestStop());
-    } else {
-      const newTrxDataMin: any = minBy(data, 'blockHeight');
-      const newBlockHeight = newTrxDataMin.blockHeight - 1;
-      const newData = yield call(getListAccountHistory, {
+    const { symbol, owner, limit = 1000, includeRewards } = action.payload;
+    let minBlockHeight;
+    let cloneData: any[] = [];
+    while (true) {
+      const data: any[] = yield call(getListAccountHistory, {
         limit,
         owner,
-        blockHeight: newBlockHeight,
+        blockHeight: minBlockHeight,
+        token: symbol,
+        no_rewards: !includeRewards,
       });
-      if (!newData.length) {
-        yield put(fetchWalletTokenTransactionsListRequestStop());
+      if (!data.length) {
+        break;
       }
-      const processedData = yield call(prepareTxDataRows, data);
-      const finalData = processedData.filter(
-        (item) => item.isValid && item.symbolKey === symbol
-      );
-      const updatedData = yield all(
-        finalData.map((item) => call(getBlockData, item))
-      );
-      console.log({updatedData: updatedData.length});
-      yield put(
-        fetchWalletTokenTransactionsListRequestSuccess({
-          data: trxData.concat(updatedData),
-          minBlockHeight: newBlockHeight,
-        })
-      );
+      const minHeightData = minBy(data, 'blockHeight');
+      minBlockHeight = minHeightData.blockHeight - 1;
+      cloneData = cloneData.concat(data);
     }
+    const processedData = yield call(prepareTxDataRows, cloneData);
+    yield put(
+      fetchWalletTokenTransactionsListRequestSuccess(
+        processedData.filter((item) => item.isValid)
+      )
+    );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -432,6 +422,16 @@ function* getBlockData(item) {
     ...item,
     blockData,
   };
+}
+
+function* fetchBlockDataForTrx(action) {
+  try {
+    const trxArray: any[] = action.payload;
+    const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
+    yield put(fetchBlockDataForTrxRequestSuccess(updated));
+  } catch (err) {
+    yield put(fetchBlockDataForTrxRequestFailure(err.message));
+  }
 }
 
 function* checkRestartCriteria() {
@@ -465,13 +465,17 @@ function* mySaga() {
     fetchWalletTokenTransactionsListRequestLoading.type,
     fetchWalletTokenTransactionsList
   );
-  yield takeLatest(
-    fetchWalletTokenTransactionsListRequestPaginationLoading.type,
-    fetchWalletTokenTransactionsList
-  );
+  // yield takeLatest(
+  //   fetchWalletTokenTransactionsListRequestPaginationLoading.type,
+  //   fetchWalletTokenTransactionsList
+  // );
   yield takeLatest(
     checkRestartCriteriaRequestLoading.type,
     checkRestartCriteria
+  );
+  yield takeLatest(
+    fetchBlockDataForTrxRequestLoading.type,
+    fetchBlockDataForTrx
   );
 }
 

@@ -54,6 +54,11 @@ export const initialState = {
     stop: false,
     minBlockHeight: undefined,
   },
+  combineAccountHistoryData: {
+    isLoading: false,
+    isError: '',
+    data: [],
+  },
   restartCriteria: {
     isLoading: false,
     data: true,
@@ -205,26 +210,16 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isLoading = true;
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = [];
-      state.listAccountHistoryData.stop = false;
-      state.listAccountHistoryData.minBlockHeight = undefined;
-    },
-    fetchWalletTokenTransactionsListRequestPaginationLoading(state, action) {
-      state.listAccountHistoryData.isLoading = true;
-      state.listAccountHistoryData.isError = '';
-      state.listAccountHistoryData.stop = false;
     },
     fetchWalletTokenTransactionsListRequestSuccess(state, action) {
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.isError = '';
-      state.listAccountHistoryData.data = action.payload.data;
-      state.listAccountHistoryData.minBlockHeight =
-        action.payload.minBlockHeight;
+      state.listAccountHistoryData.data = action.payload;
     },
     fetchWalletTokenTransactionsListRequestFailure(state, action) {
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.isError = action.payload;
       state.listAccountHistoryData.data = [];
-      state.listAccountHistoryData.stop = true;
     },
     fetchWalletTokenTransactionsListRequestStop(state) {
       state.listAccountHistoryData.isLoading = false;
@@ -244,6 +239,21 @@ const configSlice = createSlice({
       state.restartCriteria.isLoading = false;
       state.restartCriteria.data = true;
       state.restartCriteria.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestLoading(state, action) {
+      state.combineAccountHistoryData.isLoading = true;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestSuccess(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = action.payload;
+      state.combineAccountHistoryData.isError = '';
+    },
+    fetchBlockDataForTrxRequestFailure(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
     },
   },
 });
@@ -299,7 +309,10 @@ export const {
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
   fetchWalletTokenTransactionsListRequestStop,
-  fetchWalletTokenTransactionsListRequestPaginationLoading,
+
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } = actions;
 
 export default reducer;
