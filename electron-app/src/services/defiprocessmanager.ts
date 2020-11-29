@@ -68,6 +68,7 @@ export default class DefiProcessManager {
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
         `-acindex`,
+        // `-reindex-chainstate`
       ];
 
       if (params && params.isReindexReq) {
