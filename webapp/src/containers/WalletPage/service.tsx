@@ -14,6 +14,7 @@ import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import sortBy from 'lodash/sortBy';
+import compact from 'lodash/compact';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -304,7 +305,7 @@ export const handleFetchAccounts = async () => {
     }
   });
 
-  const resolvedData: any = _.compact(await Promise.all(tokensData));
+  const resolvedData: any = compact(await Promise.all(tokensData));
 
   const transformedData: any =
     resolvedData &&
