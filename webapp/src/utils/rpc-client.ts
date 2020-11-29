@@ -62,9 +62,7 @@ export default class RpcClient {
   call = async (path: string, method: string, params: any[] = []) => {
     return await this.client.post(path, {
       jsonrpc: RPC_V,
-      id: Math.random()
-        .toString()
-        .substr(2),
+      id: Math.random().toString().substr(2),
       method,
       params,
     });
@@ -775,6 +773,8 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
+      true, // verbose
+      true, // is mine only
     ]);
     return data.result;
   };
