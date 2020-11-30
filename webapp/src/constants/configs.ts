@@ -89,6 +89,10 @@ export const DFI_SYMBOL = '0';
 export const BTC_SYMBOL = '1';
 export const ETH_SYMBOL = '2';
 export const USDT_SYMBOL = '5';
+export const MAINNET_ETH_SYMBOL = '1'
+export const MAINNET_BTC_SYMBOL = '2';
+export const MAINNET_USDT_SYMBOL = '3';
+
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
