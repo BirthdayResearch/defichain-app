@@ -93,6 +93,7 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
+import orderBy from 'lodash/orderBy';
 
 export function* getNetwork() {
   const {
@@ -372,10 +373,7 @@ function* checkWalletCreation() {
   try {
     const network = yield call(getNetwork);
     const isWalletCreatedVal = isWalletCreated(network);
-    const { isWalletCreatedFlag } = yield select((state) => state.wallet);
-    if (isWalletCreatedFlag !== isWalletCreatedVal) {
-      yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
-    }
+    yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
   } catch (err) {
     console.log(err);
   }
@@ -403,7 +401,11 @@ function* fetchWalletTokenTransactionsList(action) {
       cloneData = cloneData.concat(data);
     }
 
-    yield put(fetchWalletTokenTransactionsListRequestSuccess(cloneData));
+    yield put(
+      fetchWalletTokenTransactionsListRequestSuccess(
+        orderBy(cloneData, 'blockHeight', 'desc')
+      )
+    );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }

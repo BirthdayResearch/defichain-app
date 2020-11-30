@@ -255,6 +255,11 @@ const configSlice = createSlice({
       state.combineAccountHistoryData.data = [];
       state.combineAccountHistoryData.isError = action.payload;
     },
+    fetchWalletTokenTransactionsListResetRequest(state) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = [];
+    },
   },
 });
 
@@ -309,7 +314,7 @@ export const {
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
   fetchWalletTokenTransactionsListRequestStop,
-
+  fetchWalletTokenTransactionsListResetRequest,
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
