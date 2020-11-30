@@ -141,7 +141,7 @@ export function getDefaultDebugLogFilePath(homePath: string) {
     return path.join(homePath, '/.defi');
   }
   if (platform === WIN) {
-    return path.join(homePath, 'AppData', 'Roaming', 'DeFi app');
+    return path.join(homePath, 'AppData', 'Roaming', 'DeFi Blockchain');
   }
   return path.join(homePath, 'Library', 'Application Support', 'Defi');
 }

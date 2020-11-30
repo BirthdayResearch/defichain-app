@@ -61,7 +61,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
     "react-hot-loader": "^4.12.20",
-    "react-icons": "^3.9.0",
+    "react-icons": "^4.1.0",
     "react-md-spinner": "^1.0.0",
     "react-qr-reader": "^2.2.1",
     "react-redux": "^7.2.0",
