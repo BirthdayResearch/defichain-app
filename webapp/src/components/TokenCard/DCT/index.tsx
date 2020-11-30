@@ -19,10 +19,10 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       <CardBody className={styles.cardBody}>
         <Row className='mb-3'>
           <Col>
-            <b>{data.name}</b> <span>{data.symbolKey}</span>
+            <b>{data.isLPS ? `Liquidity token for ${data.symbolKey}` : data.name}</b> <span>{data.symbolKey}</span>
           </Col>
           <Col md='6' className={`${styles.tokenCardIcon}`}>
-            {data.isDAT && !data.isLPS && (
+            {data.isDAT && (
               <img src={VerifiedIcon} className='mr-1' />
             )}
             <TokenAvatar symbol={data.symbolKey} />
