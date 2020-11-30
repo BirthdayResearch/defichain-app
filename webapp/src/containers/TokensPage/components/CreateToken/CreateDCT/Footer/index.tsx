@@ -11,6 +11,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../../constants';
 import { ITokenResponse } from '../../../../../../utils/interfaces';
+import Spinner from '../../../../../../components/Svg/Spinner';
 
 interface CreateDCTProps {
   isUpdate: boolean;
@@ -153,6 +154,17 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
               </Button>
             </Col>
           </Row>
+        </div>
+        <div
+          className={classnames({
+            'd-none': isConfirmationModalOpen !== 'loading',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <Spinner />
+            </div>
+          </div>
         </div>
         <div
           className={classnames({
