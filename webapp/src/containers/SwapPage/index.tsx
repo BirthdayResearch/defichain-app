@@ -33,6 +33,7 @@ import {
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,
   resetTestPoolSwapError,
+  resetTestPoolSwapRequest,
 } from './reducer';
 import {
   calculateLPFee,
@@ -88,6 +89,7 @@ interface SwapPageProps {
   maxAccountDfi: number;
   fetchMaxAccountDfiRequest: () => void;
   resetTestPoolSwapError: () => void;
+  resetTestPoolSwapRequest: () => void;
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -132,6 +134,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     maxAccountDfi,
     fetchMaxAccountDfiRequest,
     resetTestPoolSwapError,
+    resetTestPoolSwapRequest,
   } = props;
 
   useEffect(() => {
@@ -140,6 +143,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
     resetTestPoolSwapError();
+    resetTestPoolSwapRequest();
   }, []);
 
   useEffect(() => {
@@ -160,7 +164,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   useEffect(() => {
     setFormState({
       ...formState,
-      amount2: testPoolSwap,
+      amount2: testPoolSwap || '-',
     });
   }, [testPoolSwap]);
 
@@ -219,7 +223,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const setMaxValue = (field: string, value: string) => {
     setFormState({
       ...formState,
-      [field]: value,
+      [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
       amount2: testPoolSwap,
     });
   };
@@ -786,6 +790,7 @@ const mapDispatchToProps = {
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,
   resetTestPoolSwapError,
+  resetTestPoolSwapRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapPage);
