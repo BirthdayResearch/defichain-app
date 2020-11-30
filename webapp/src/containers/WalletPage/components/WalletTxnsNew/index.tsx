@@ -20,6 +20,7 @@ import {
   fetchWalletTxnsRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchBlockDataForTrxRequestLoading,
+  fetchWalletTokenTransactionsListResetRequest,
 } from '../../reducer';
 import {
   POOL_SWAP_CATEGORY_LABEL,
@@ -54,6 +55,7 @@ interface WalletTxnsProps {
   isLoading: boolean;
   isError: string;
   combineAccountHistoryData: any;
+  fetchWalletTokenTransactionsListResetRequest: () => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -83,6 +85,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       WALLET_TXN_PAGE_FETCH_SIZE,
       includeRewards
     );
+    return () => {
+      fetchWalletTokenTransactionsListResetRequest();
+    };
   }, [includeRewards]);
 
   const fetchData = (pageNum) => {
@@ -269,6 +274,7 @@ const mapDispatchToProps = {
     }),
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
     fetchBlockDataForTrxRequestLoading(trxArray),
+  fetchWalletTokenTransactionsListResetRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

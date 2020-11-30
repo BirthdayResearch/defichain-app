@@ -13,7 +13,7 @@ import {
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import sortBy from 'lodash/sortBy';
+import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
 import {
   fetchAccountsDataWithPagination,
@@ -409,7 +409,7 @@ export const prepareTxDataRows = (data: any[]) => {
       ...item,
       category,
       isValid,
-      amounts: sortBy(amounts, ['value']).reverse(),
+      amounts: orderBy(amounts, 'value', 'desc'),
     };
   });
 };
