@@ -46,6 +46,9 @@ import {
   checkRestartCriteriaRequestLoading,
   checkRestartCriteriaRequestSuccess,
   checkRestartCriteriaRequestFailure,
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -63,7 +66,6 @@ import {
   setHdSeed,
   importPrivKey,
   getListAccountHistory,
-  prepareTxDataRows,
   handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
@@ -90,6 +92,7 @@ import {
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
+import minBy from 'lodash/minBy';
 
 export function* getNetwork() {
   const {
@@ -380,29 +383,25 @@ function* checkWalletCreation() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, owner, limit = 1000 } = action.payload;
-    let cloneArr: any[] = [];
-    let blockHeight;
+    const { symbol, limit, includeRewards } = action.payload;
+    let minBlockHeight;
+    let cloneData: any[] = [];
     while (true) {
       const data: any[] = yield call(getListAccountHistory, {
         limit,
-        owner,
-        blockHeight,
+        blockHeight: minBlockHeight,
+        token: symbol,
+        no_rewards: !includeRewards,
       });
       if (!data.length) {
         break;
       }
-      blockHeight = data[data.length - 1].blockHeight - 1;
-      cloneArr = cloneArr.concat(data);
+      // data contains array of objects containing blockHeight in desc order. so here to paginate to next page data we will use the minimum block height - 1
+      const minHeightData = minBy(data, 'blockHeight');
+      minBlockHeight = minHeightData.blockHeight - 1;
+      cloneData = cloneData.concat(data);
     }
-    const processedData = yield call(prepareTxDataRows, cloneArr);
-    const finalData = processedData.filter(
-      (item) => item.isValid && item.symbolKey === symbol
-    );
-    const updatedData = yield all(
-      finalData.map((item) => call(getBlockData, item))
-    );
-    yield put(fetchWalletTokenTransactionsListRequestSuccess(updatedData));
+    yield put(fetchWalletTokenTransactionsListRequestSuccess(cloneData));
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -414,6 +413,16 @@ function* getBlockData(item) {
     ...item,
     blockData,
   };
+}
+
+function* fetchBlockDataForTrx(action) {
+  try {
+    const trxArray: any[] = action.payload;
+    const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
+    yield put(fetchBlockDataForTrxRequestSuccess(updated));
+  } catch (err) {
+    yield put(fetchBlockDataForTrxRequestFailure(err.message));
+  }
 }
 
 function* checkRestartCriteria() {
@@ -450,6 +459,10 @@ function* mySaga() {
   yield takeLatest(
     checkRestartCriteriaRequestLoading.type,
     checkRestartCriteria
+  );
+  yield takeLatest(
+    fetchBlockDataForTrxRequestLoading.type,
+    fetchBlockDataForTrx
   );
 }
 

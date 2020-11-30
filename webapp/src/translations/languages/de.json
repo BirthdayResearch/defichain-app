@@ -644,7 +644,7 @@
         "receive": "Erhalten",
         "paymentRequests": "Zahlungsanordnungen",
         "noPaymentRequests": "Keine Zahlung Anfragen zur Verfügung",
-        "paginationRange": "%{from} – %{to} von %{total} Zahlungsaufforderung",
+        "paginationRange": "%{to} – %{from} von %{total} Zahlungsaufforderung",
         "transactions": "Transaktionen",
         "availableBalance": "Verfügbares Guthaben",
         "pending": "Ausstehend",
