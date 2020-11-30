@@ -162,7 +162,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 }
               />
             </Col>
-            <Col>
+            {/* <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.pending')}
                 value={getAmountInSelectedUnit(pendingBalance, unit)}
@@ -186,7 +186,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                   />
                 }
               />
-            </Col>
+            </Col> */}
           </Row>
         </section>
         <WalletTxns tokenSymbol={tokenSymbol || ''} />
