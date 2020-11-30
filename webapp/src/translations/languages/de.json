@@ -405,7 +405,7 @@
         "tradeable": "Handelbar?",
         "dfiRequired": "DFI notwendig",
         "collateralAddress": "Collateral Adresse",
-        "collateralAddressError": "Minimum 100 DFI notwendig",
+        "collateralAddressError": "Minimum 101 DFI notwendig",
         "createTokenButton": "TOKEN ERSTELLEN",
         "createConfirmationText": "Bist du sicher, dass du einen Token erstellen willst?",
         "updateConfirmationText": "Bist du sicher, dass du einen Token updaten willst?",
