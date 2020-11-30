@@ -1,8 +1,6 @@
 {
   "components": {
-    "keyValueLi": {
-      "copied": "Copied!"
-    },
+    "keyValueLi": { "copied": "Copied!" },
     "syncStatus": {
       "synchronized": "Synchronized",
       "syncing": "Synchronizing",
@@ -109,7 +107,8 @@
       "defichainsite": "Official website",
       "reddit": "Reddit community",
       "helpTextFooterLine1": "DeFiChain is a community-driven and open project.",
-      "helpTextFooterLine2": "The DeFiChain Foundation does not provide direct support."
+      "helpTextFooterLine2": "The DeFiChain Foundation does not provide direct support.",
+      "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -180,10 +179,7 @@
         "successText": "Success",
         "backToMasternodePage": "Back to masternode"
       },
-      "masternodeTab": {
-        "myMasternodes": "Mine",
-        "network": "Network"
-      }
+      "masternodeTab": { "myMasternodes": "Mine", "network": "Network" }
     },
     "tokens": {
       "tokensPage": {
@@ -218,7 +214,7 @@
         }
       },
       "createToken": {
-        "back": "Back",
+        "back": "BACK",
         "yes": "Yes",
         "no": "No",
         "address": "Address",
@@ -258,6 +254,7 @@
         "price": "Price",
         "id": "ID",
         "decimals": "Decimals",
+        "holders": "Holders",
         "limit": "Limit",
         "minitingSupport": "Minting support",
         "tradeable": "Trade-able?",
@@ -322,7 +319,7 @@
       "liquidityPage": {
         "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for up to 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns of up to 300%. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -338,28 +335,29 @@
         "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity – DeFiChain Client",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
         "pooled": "Pooled",
-        "poolShare": "pool share",
         "pooledBTC": "Pooled BTC",
         "btcPoolShare": "BTC pool share",
         "totalReward": "Total reward",
         "pooledDFI": "Pooled DFI",
-        "dfiPoolShare": "DFI pool share"
+        "dfiPoolShare": "DFI pool share",
+        "poolShare": "pool share"
       }
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFi app",
+        "title": "DEX – DeFiChain Client",
         "decentralizedExchange": "Decentralized Exchange",
         "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
         "enterAnAmount": "Enter an amount to swap",
+        "continue": "Continue",
         "cancel": "Cancel",
         "from": "From",
         "to": "To",
@@ -401,10 +399,7 @@
         "txHash": "Transaction hash",
         "somethingWentWrong": "Something went wrong"
       },
-      "swapTab": {
-        "from": "From",
-        "to": "To"
-      },
+      "swapTab": { "from": "From", "to": "To" },
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -413,9 +408,10 @@
         "liquidity": "Liquidity",
         "volume": "Volume",
         "apy": "APY",
-        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
+        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more.",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity"
+        "addLiquidity": "ADD LIQUIDITY"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -474,7 +470,8 @@
         "removingLiquidity": "Removing liquidity",
         "liquidityRemoved": "Liquidity removed",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "receiveAddress": "Receive Address"
       }
     },
     "settings": {
@@ -520,18 +517,18 @@
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Create or restore wallet",
-        "loading": "Loading...",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
-        "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete"
+        "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
+        "loading": "Loading..."
       },
       "createNewWalletPage": {
         "back": "Back",
         "title": "Wallet - Create a new wallet",
         "createANewWallet": "Create a new wallet",
         "mnemonicGuideline": "Write down the following 24 words below. It is important to write them down in the exact numbered order. This 24-word mnemonic seed will be used to recover or transfer your wallet. Without it, you will not be able to recover your wallet. Don't lose it.",
-        "mnemonicGuidelineWarning": "Do not store your wallet receovery phrase on a computer or smartphone, and keep it secure.",
+        "mnemonicGuidelineWarning": "Do not store your wallet recovery phrase on a computer or smartphone, and keep it secure.",
         "generateNewSet": "Generate a new set of 24 words",
         "walletRecoveryInfoLine1": "A wallet recovery seed (“mnemonic seed”, “seed phrase”, “seed words”) is a way to represent your private key as a sequence of words that are easier for a human to remember. It is also used to generate extended keys for all the wallets you create in the app.",
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
@@ -636,20 +633,21 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "includeRewards": "Include Rewards",
-        "wallets": "Wallets",
+        "tokens": "TOKENS",
         "walletDeFiApp": "Wallet – DeFi app",
-        "wallet": "wallet",
+        "walletDefiClient": "Wallet – DeFi app",
+        "wallet": "Wallet",
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
         "paymentRequests": "Payment requests",
         "noPaymentRequests": "No payment requests available",
-        "paginationRange": "%{from} – %{to} of %{total} payment request",
+        "paginationRange": "%{to} – %{from} of %{total} payment request",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
         "updateAvailableLabel": "Update available",
+        "includeRewards": "Include Rewards",
         "loading": "Loading...",
         "category": "Category",
         "blockHeight": "BlockHeight",
@@ -672,7 +670,7 @@
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",
-        "paginationRange": "%{to} – %{from} of %{total} transaction",
+        "paginationRange": "%{from} – %{to} of %{total} transaction",
         "noTransactions": "No transactions available"
       }
     },
@@ -696,10 +694,7 @@
           }
         ]
       },
-      "consoleResultPage": {
-        "resultPage": "CLI result",
-        "back": "Back"
-      }
+      "consoleResultPage": { "resultPage": "CLI result", "back": "Back" }
     }
   },
   "alerts": {

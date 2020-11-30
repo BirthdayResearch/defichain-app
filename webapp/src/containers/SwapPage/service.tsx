@@ -91,10 +91,10 @@ export const handleFetchPoolshares = async () => {
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         apy: totalLiquidity.toNumber()
           ? yearlyPoolReward
-            .div(totalLiquidity)
-            .times(100)
-            .toNumber()
-            .toFixed(2)
+              .div(totalLiquidity)
+              .times(100)
+              .toNumber()
+              .toFixed(2)
           : 0,
         ...poolPairData[0],
         ...poolShare,
@@ -159,29 +159,29 @@ export const handleTestPoolSwap = async formState => {
     list
   );
 
-  let accountToAccountAmount = new BigNumber(0);
+  // let accountToAccountAmount = new BigNumber(0);
 
-  // convert account to account, if don't have sufficient funds in one account
-  if (Number(formState.amount1) > maxAmount1) {
-    accountToAccountAmount = await handleAccountToAccountConversion(
-      list,
-      address1,
-      formState.hash1
-    );
-  }
+  // // convert account to account, if don't have sufficient funds in one account
+  // if (Number(formState.amount1) > maxAmount1) {
+  //   accountToAccountAmount = await handleAccountToAccountConversion(
+  //     list,
+  //     address1,
+  //     formState.hash1
+  //   );
+  // }
 
   // convert utxo to account DFI, if don't have sufficent funds in account
-  if (
-    formState.hash1 === DFI_SYMBOL &&
-    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
-  ) {
-    await handleUtxoToAccountConversion(
-      formState.hash1,
-      address1,
-      formState.amount1,
-      accountToAccountAmount.plus(maxAmount1).toNumber()
-    );
-  }
+  // if (
+  //   formState.hash1 === DFI_SYMBOL &&
+  //   new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
+  // ) {
+  //   await handleUtxoToAccountConversion(
+  //     formState.hash1,
+  //     address1,
+  //     formState.amount1,
+  //     accountToAccountAmount.plus(maxAmount1).toNumber()
+  //   );
+  // }
 
   if (new BigNumber(formState.amount1).toNumber()) {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
@@ -208,6 +208,31 @@ export const handlePoolSwap = async formState => {
     formState.hash2,
     list
   );
+
+  let accountToAccountAmount = new BigNumber(0);
+
+  // convert account to account, if don't have sufficient funds in one account
+  if (Number(formState.amount1) > maxAmount1) {
+    accountToAccountAmount = await handleAccountToAccountConversion(
+      list,
+      address1,
+      formState.hash1
+    );
+  }
+
+  // convert utxo to account DFI, if don't have sufficent funds in account
+  if (
+    formState.hash1 === DFI_SYMBOL &&
+    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
+  ) {
+    await handleUtxoToAccountConversion(
+      formState.hash1,
+      address1,
+      formState.amount1,
+      accountToAccountAmount.plus(maxAmount1).toNumber()
+    );
+  }
+
   if (address1 !== address2) {
     const txId1 = await rpcClient.sendToAddress(
       address2,
@@ -374,7 +399,7 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async obj => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${Number(obj.amount).toFixed(6)}@${poolID}`
+      `${Number(obj.amount).toFixed(8)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;
@@ -397,8 +422,8 @@ export const handleRemovePoolLiquidity = async (
 
     return {
       address: addressAndAmount.address,
-      amountA: `${amountA.toFixed(6)}@${poolPair.idTokenA}`,
-      amountB: `${amountB.toFixed(6)}@${poolPair.idTokenB}`,
+      amountA: `${amountA.toFixed(8)}@${poolPair.idTokenA}`,
+      amountB: `${amountB.toFixed(8)}@${poolPair.idTokenB}`,
     };
   });
 
@@ -423,12 +448,12 @@ export const handleRemovePoolLiquidity = async (
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
-      `${amountA.toFixed(6)}@${poolPair.idTokenA}`
+      `${amountA.toFixed(8)}@${poolPair.idTokenA}`
     );
     const txId2 = await rpcClient.accountToAccount(
       obj.address,
       receiveAddress,
-      `${amountB.toFixed(6)}@${poolPair.idTokenB}`
+      `${amountB.toFixed(8)}@${poolPair.idTokenB}`
     );
     return {
       txId1,

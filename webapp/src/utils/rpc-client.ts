@@ -62,9 +62,7 @@ export default class RpcClient {
   call = async (path: string, method: string, params: any[] = []) => {
     return await this.client.post(path, {
       jsonrpc: RPC_V,
-      id: Math.random()
-        .toString()
-        .substr(2),
+      id: Math.random().toString().substr(2),
       method,
       params,
     });
@@ -775,6 +773,8 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
+      true, // verbose
+      true, // is mine only
     ]);
     return data.result;
   };
@@ -849,14 +849,17 @@ export default class RpcClient {
   getListAccountHistory = async (_: {
     blockHeight?: number;
     limit?: number;
-    owner?: string;
+    no_rewards?: boolean;
+    token: string;
   }) => {
-    const { blockHeight, limit, owner } = _;
+    const { blockHeight, limit, no_rewards, token } = _;
     const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      owner || 'mine',
+      'mine',
       {
         maxBlockHeight: blockHeight,
         depth: limit,
+        no_rewards,
+        token,
       },
     ]);
     return data.result;
