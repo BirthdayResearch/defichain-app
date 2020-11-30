@@ -38,7 +38,7 @@ import {
   calculateLPFee,
   conversionRatio,
   countDecimals,
-  getTokenAndBalanceMap,
+  getTokenListForSwap,
   selectedPoolPair,
 } from '../../utils/utility';
 import {
@@ -184,7 +184,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   }, [poolSwapHash, isErrorPoolSwap, isLoadingPoolSwap, allowCalls]);
 
-  const tokenMap = getTokenAndBalanceMap(
+  const tokenMap = getTokenListForSwap(
     poolPairList,
     tokenBalanceList,
     walletBalance
