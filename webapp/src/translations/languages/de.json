@@ -13,7 +13,7 @@
       "downloading": "Update wird heruntergeladen"
     },
     "swapCard": {
-      "selectAToken": "Wähle einen Token aus",
+      "selectAToken": "Token wählen",
       "popular": "Beliebt",
       "tokens": "Tokens",
       "balance": "Balance",
@@ -235,7 +235,7 @@
         "to": "An",
         "balance": "Balance",
         "max": "Max",
-        "selectToken": "Wähle einen Token aus",
+        "selectToken": "Token wählen",
         "searchToken": "Suche nach einem Token, Namen oder Adresse",
         "popular": "Beliebt",
         "tokens": "Tokens",
@@ -275,10 +275,6 @@
         "transferringTokens": "Übertragen von Tokens",
         "tokensTransferred": "Tokens Übertragen"
       },
-      "swapTab": {
-        "from": "From",
-        "to": "To"
-      },
       "swapTab": { "from": "Von", "to": "An" },
       "poolTab": {
         "yourLiquidity": "Deine liquidity",
@@ -290,6 +286,7 @@
         "apy": "APY",
         "apyTooltipMessage": "Der hier angegebene APY beinhaltet nur DFI-Incentives, ohne Provision. Tatsächliches APY mit Provision ist also, mehr.",
         "totalLiquidity": "Gesamtliquidität (USD)",
+        "addRemoveLiquidity": "Liquidität hinzufügen oder entfernen",
         "addLiquidity": "LIQUIDITÄT HINZUFÜGEN"
       },
       "addLiquidity": {
@@ -315,7 +312,7 @@
         "continue": "Weiter",
         "cancel": "Abbrechen",
         "supply": "Supply",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
+        "transactionSuccessMsg": "Dein Kontostand wird aktualisiert, sobald die Transaktion von der DeFiChain bestätigt wurde",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
