@@ -72,6 +72,8 @@ interface SwapPageProps {
   isLoadingPoolSwap: boolean;
   isErrorPoolSwap: string;
   isPoolSwapLoaded: boolean;
+  isLoadingRefreshUTXOS: boolean;
+  isLoadingTransferringTokens: boolean;
   poolSwapHash: string;
   fetchPoolPairListRequest: () => void;
   fetchTokenBalanceListRequest: () => void;
@@ -123,6 +125,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     isErrorPoolSwap,
     poolSwapHash,
     walletBalance,
+    isLoadingRefreshUTXOS,
+    isLoadingTransferringTokens,
     utxoDfi,
     fetchUtxoDfiRequest,
     maxAccountDfi,
@@ -186,7 +190,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
@@ -255,7 +259,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter(value =>
+      const finalArray = filterArray.filter((value) =>
         tokenArray.includes(value)
       );
       finalArray.map((symbol: string) => {
@@ -648,11 +652,55 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <div className='footer-sheet'>
-              <div className='text-center'>
+              <div>
+                <div className='text-center position-relative'>
+                  {isLoadingRefreshUTXOS ? (
+                    <>
+                      <div className='d-flex'>
+                        <div className={styles.loaderInline}>
+                          <Spinner />
+                        </div>
+                        <b>
+                          {I18n.t('containers.swap.swapPage.preparingUTXO')}
+                        </b>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <MdCheckCircle className={styles.successColor} />
+                      <b>{I18n.t('containers.swap.swapPage.UTXOPrepared')}</b>
+                    </>
+                  )}
+                </div>
+                <br />
+                <div className='text-center position-relative'>
+                  {!isLoadingRefreshUTXOS && (
+                    <>
+                      {isLoadingTransferringTokens ? (
+                        <div className={styles.loaderInline}>
+                          <Spinner />
+                        </div>
+                      ) : (
+                        <MdCheckCircle className={styles.successColor} />
+                      )}
+                    </>
+                  )}
+                  {isLoadingRefreshUTXOS ? (
+                    <span>
+                      {I18n.t('containers.swap.swapPage.transferringTokens')}
+                    </span>
+                  ) : (
+                    <b>
+                      {I18n.t('containers.swap.swapPage.transferringTokens')}
+                    </b>
+                  )}
+                </div>
+              </div>
+              {/* <div className='text-center'>
                 <Spinner />
                 &nbsp;
                 {I18n.t('containers.swap.swapPage.swaping')}
-              </div>
+              </div> */}
             </div>
           </div>
           <div
@@ -683,7 +731,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,
@@ -696,6 +744,8 @@ const mapStateToProps = state => {
     isErrorTestPoolSwap,
     isLoadingTestPoolSwap,
     isLoadingPoolSwap,
+    isLoadingRefreshUTXOS,
+    isLoadingTransferringTokens,
     isErrorPoolSwap,
     isPoolSwapLoaded,
     poolSwapHash,
@@ -715,6 +765,8 @@ const mapStateToProps = state => {
     isErrorTestPoolSwap,
     isLoadingTestPoolSwap,
     isLoadingPoolSwap,
+    isLoadingRefreshUTXOS,
+    isLoadingTransferringTokens,
     isErrorPoolSwap,
     isPoolSwapLoaded,
     poolSwapHash,

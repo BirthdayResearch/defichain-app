@@ -29,7 +29,27 @@
   width: 48px;
   height: 48px;
   margin-right: 1.5rem;
+}
 
+.successColor {
+  color: #28a745;
+  position: absolute;
+  left: -30px;
+  height: 24px;
+  width: 24px;
+}
+
+.loaderInline {
+  position: absolute;
+  left: -30px;
+}
+
+.buttonLink {
+  text-transform: none !important;
+  color: #ff00af;
+  width: 100%;
+  text-align: left;
+  justify-content: center;
   svg {
     width: 48px;
     height: 48px;
