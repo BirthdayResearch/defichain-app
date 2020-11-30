@@ -41,6 +41,7 @@ import {
 import { getFullRawTxInfo } from './transactionProcessor';
 import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
+import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 
 export default class RpcClient {
   client: any;
@@ -242,6 +243,18 @@ export default class RpcClient {
   getReceivingAddressAndAmountList = async (): Promise<IAddressAndAmount[]> => {
     const result = await this.getListreceivedAddress(1);
     const balance = await this.getBalance();
+    const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
+      result,
+      balance
+    );
+    return addressAndAmountList;
+  };
+
+  getReceivingAddressAndTotalAmountList = async (): Promise<
+    IAddressAndAmount[]
+  > => {
+    const result = await this.getListreceivedAddress(1);
+    const balance = await handleFetchWalletBalance();
     const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
       result,
       balance
