@@ -2,11 +2,22 @@ import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
 import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  DFI_SYMBOL,
   LIST_TOKEN_PAGE_SIZE,
+  MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
   UNDEFINED_STRING,
 } from '../../constants';
-import { sleep } from '../WalletPage/service';
-import { fetchTokenDataWithPagination } from '../../utils/utility';
+import { handleFetchRegularDFI, sleep } from '../WalletPage/service';
+import {
+  fetchTokenDataWithPagination,
+  getAddressAndAmountListForAccount,
+  getAddressForSymbol,
+  getBalanceForSymbol,
+  getSmallerAmount,
+  handleAccountToAccountConversion,
+} from '../../utils/utility';
+import BigNumber from 'bignumber.js';
 
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
@@ -62,6 +73,7 @@ export const handleTokenTransfers = async (id: string) => {
 };
 
 export const handleCreateTokens = async (tokenData) => {
+  let accountToAccountAmount = new BigNumber(0);
   const data = {
     name: tokenData.name,
     symbol: tokenData.symbol,
@@ -76,6 +88,41 @@ export const handleCreateTokens = async (tokenData) => {
     delete data.name;
   }
   const rpcClient = new RpcClient();
+  const regularDFI = await handleFetchRegularDFI();
+  const list = await getAddressAndAmountListForAccount();
+  const { address, amount: maxAmount } = await getAddressForSymbol(
+    DFI_SYMBOL,
+    list
+  );
+  if (regularDFI < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
+    if (
+      Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) >
+      maxAmount + regularDFI
+    ) {
+      accountToAccountAmount = await handleAccountToAccountConversion(
+        list,
+        address,
+        DFI_SYMBOL
+      );
+    }
+    const txId = await rpcClient.sendToAddress(
+      address,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
+    );
+    await getTransactionInfo(txId);
+    const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
+    const finalBalance = getSmallerAmount(
+      balance,
+      accountToAccountAmount.plus(maxAmount).toFixed(8)
+    );
+    const hash = await rpcClient.accountToUtxos(
+      address,
+      address,
+      `${finalBalance.toFixed(8)}@DFI`
+    );
+    await getTransactionInfo(hash);
+  }
+
   const hash = await rpcClient.createToken(data);
   return {
     hash,
@@ -124,7 +171,7 @@ export const handleDestroyToken = (tokenId) => {
 
 export const getReceivingAddressAndAmountList = async () => {
   const rpcClient = new RpcClient();
-  const addressAndAmountList = await rpcClient.getReceivingAddressAndAmountList();
+  const addressAndAmountList = await rpcClient.getReceivingAddressAndTotalAmountList();
   return {
     addressAndAmountList,
   };
