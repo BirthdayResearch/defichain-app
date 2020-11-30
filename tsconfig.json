@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": ["electron-app/**/*"],
   "exclude": ["electron-app/build/"]
