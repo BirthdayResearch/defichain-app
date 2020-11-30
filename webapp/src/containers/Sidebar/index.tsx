@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   NavLink as RRNavLink,
@@ -14,12 +15,13 @@ import {
   MdToll,
   MdCompareArrows,
   MdPieChart,
+  MdSettings,
+  MdHelp,
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
 } from 'react-icons/md';
-import { DiTerminal } from 'react-icons/di';
-import { AiTwotoneSetting, AiFillQuestionCircle } from 'react-icons/ai';
+import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
@@ -70,6 +72,7 @@ export interface SidebarProps extends RouteComponentProps {
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
+  const { blockChainInfo } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -103,6 +106,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isLoadingPoolSwap,
   ]);
 
+  const chainName = !isEmpty(blockChainInfo)
+    ? blockChainInfo.chain.charAt(0).toUpperCase() +
+      blockChainInfo.chain.slice(1)
+    : '';
+
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       {/* NOTE: Do not remove, for future purpose */}
@@ -127,15 +135,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           />
         )}
       </div> */}
-      <div className={styles.balance}>
-        <div className={styles.balanceLabel}>
-          {I18n.t('containers.sideBar.balance')}
+      <div className={styles.currentNetwork}>
+        <div className={styles.currentNetworkHeading}>
+          {I18n.t('components.syncStatus.network')}
         </div>
-        <div className={styles.balanceValue}>
-          {getAmountInSelectedUnit(props.walletBalance, props.unit)}
-          &nbsp;
-          {props.unit}
-        </div>
+        <div className={styles.currentNetworkValue}>{chainName}</div>
       </div>
       <div className={styles.navs}>
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
@@ -154,7 +158,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               }}
             >
               <MdAccountBalanceWallet />
-              {I18n.t('containers.sideBar.wallet')}
+              {I18n.t('containers.sideBar.wallets')}
             </NavLink>
           </NavItem>
           <NavItem className={styles.navItem}>
@@ -234,7 +238,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <DiTerminal />
+              <HiTerminal />
             </NavLink>
           </NavItem>
 
@@ -245,7 +249,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <AiFillQuestionCircle />
+              <MdHelp />
             </NavLink>
           </NavItem>
 
@@ -256,7 +260,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <AiTwotoneSetting />
+              <MdSettings />
             </NavLink>
           </NavItem>
         </Nav>

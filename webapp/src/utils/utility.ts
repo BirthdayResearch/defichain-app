@@ -810,7 +810,7 @@ export const calculateInputAddLiquidity = (
     const amount2 = ratio * Number(input1);
     return amount2.toFixed(8);
   }
-  return '-';
+  return '0';
 };
 
 export const countDecimals = value => {

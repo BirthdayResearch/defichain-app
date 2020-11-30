@@ -72,37 +72,43 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
           {!poolshares.length ? (
             <>
               <section>
-                {I18n.t('containers.liquidity.liquidityPage.yourLiquidityInfo')}
+                <p>
+                  {I18n.t(
+                    'containers.liquidity.liquidityPage.yourLiquidityInfo'
+                  )}
+                </p>
+                <div className='d-flex justify-content-center mb-5'>
+                  <div
+                    className={styles.videoThumbnailWrapper}
+                    onClick={() => openNewTab(LIQUIDITY_MINING_YOUTUBE_LINK)}
+                  >
+                    <img
+                      src={LiquidityMining}
+                      className={styles.videoThumbnail}
+                    />
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                  <div
+                    className={styles.videoThumbnailWrapper}
+                    onClick={() => openNewTab(DEFICHAIN_DEX_YOUTUBE_LINK)}
+                  >
+                    <img src={DefichainDEX} className={styles.videoThumbnail} />
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                  <div
+                    className={styles.videoThumbnailWrapper}
+                    onClick={() =>
+                      openNewTab(DEFICHAIN_IMPERMANENT_YOUTUBE_LINK)
+                    }
+                  >
+                    <img
+                      src={DefichainImpermanent}
+                      className={styles.videoThumbnail}
+                    />
+                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
+                  </div>
+                </div>
               </section>
-              <div className='d-flex justify-content-center m-5 '>
-                <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(LIQUIDITY_MINING_YOUTUBE_LINK)}
-                >
-                  <img src={LiquidityMining} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(DEFICHAIN_DEX_YOUTUBE_LINK)}
-                >
-                  <img src={DefichainDEX} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(DEFICHAIN_IMPERMANENT_YOUTUBE_LINK)}
-                >
-                  <img src={DefichainImpermanent} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div>
-              </div>
             </>
           ) : (
             <LiquidityList poolshares={poolshares} history={props.history} />

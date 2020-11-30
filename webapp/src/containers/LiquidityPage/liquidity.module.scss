@@ -24,10 +24,21 @@
   letter-spacing: 0.86px;
 }
 
-.txtColor {
-  color: rgba(0, 0, 0, 0.6);
+.videoThumbnailWrapper {
+  cursor: pointer;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  text-align: center;
+  color: $secondary;
+  font-size: $font-size-sm;
 }
 
-.cursorPointer {
-  cursor: pointer;
+.videoThumbnail {
+  width: 171px;
+  height: 96px;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius-lg;
+  box-sizing: content-box;
+  display: block;
+  margin-bottom: 0.5rem;
 }

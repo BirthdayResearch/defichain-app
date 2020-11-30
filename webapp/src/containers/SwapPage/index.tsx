@@ -164,7 +164,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     if (!testPoolSwap) {
       setFormState({
         ...formState,
-        amount2: '-',
+        amount2: '0',
       });
     }
   }, [isErrorTestPoolSwap]);
@@ -449,107 +449,64 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         <div className='content'>
           <>
             <section>
-              {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
+              <p>
+                {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
+              </p>
+              <div className={styles.features}>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdVpnKey />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.yourPrivateKey')}</h3>
+                    <p>
+                      {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPerson />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.nonCustodial')}</h3>
+                    <p>{I18n.t('containers.swap.swapPage.nonCustodialInfo')}</p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdComputer />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterface'
+                      )}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterfaceInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPieChart />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t('containers.swap.swapPage.poweredLiquidityPools')}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.poweredLiquidityPoolsInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </section>
-            <div className='m-5 '>
-              <Row>
-                <Col xs='12' md='12' className='my-3'>
-                  <Row className={`${styles.buttonLink} p-0`}>
-                    <Col xs='1' md='1' className='vertical-middle'>
-                      <MdVpnKey />
-                    </Col>
-                    <Col xs='11' md='11' className='text-left'>
-                      <h4 className='m-0'>
-                        {I18n.t('containers.swap.swapPage.yourPrivateKey')}
-                      </h4>
-                      <span>
-                        {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
-                      </span>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs='12' md='12' className='my-3'>
-                  <Row className={`${styles.buttonLink} p-0`}>
-                    <Col xs='1' md='1' className='vertical-middle'>
-                      <MdPerson />
-                    </Col>
-                    <Col xs='11' md='11' className='text-left'>
-                      <h4 className='m-0'>
-                        {I18n.t('containers.swap.swapPage.nonCustodial')}
-                      </h4>
-                      <span>
-                        {I18n.t('containers.swap.swapPage.nonCustodialInfo')}
-                      </span>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs='12' md='12' className='my-3'>
-                  <Row className={`${styles.buttonLink} p-0`}>
-                    <Col xs='1' md='1' className='vertical-middle'>
-                      <MdComputer />
-                    </Col>
-                    <Col xs='11' md='11' className='text-left'>
-                      <h4 className='m-0'>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterface'
-                        )}
-                      </h4>
-                      <span>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterfaceInfo'
-                        )}
-                      </span>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs='12' md='12' className='my-3'>
-                  <Row className={`${styles.buttonLink} p-0`}>
-                    <Col xs='1' md='1' className='vertical-top'>
-                      <MdPieChart />
-                    </Col>
-                    <Col xs='11' md='11' className='text-left '>
-                      <h4 className='m-0'>
-                        {I18n.t(
-                          'containers.swap.swapPage.poweredLiquidityPools'
-                        )}
-                      </h4>
-                      <span>
-                        {I18n.t(
-                          'containers.swap.swapPage.poweredLiquidityPoolsInfo'
-                        )}
-                      </span>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              {/* <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(LIQUIDITY_MINING_YOUTUBE_LINK)}
-                >
-                  <img src={LiquidityMining} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(DEFICHAIN_DEX_YOUTUBE_LINK)}
-                >
-                  <img src={DefichainDEX} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.cursorPointer} justify-content-center m-2`}
-                  onClick={() => openNewTab(DEFICHAIN_IMPERMANENT_YOUTUBE_LINK)}
-                >
-                  <img src={DefichainImpermanent} height='96px' width='171px' />
-                  <div className={`${styles.txtColor} text-center`}>
-                    {I18n.t('containers.liquidity.liquidityPage.watchVideo')}
-                  </div>
-                </div> */}
-            </div>
           </>
         </div>
       )}
@@ -708,7 +665,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 <p>{isErrorPoolSwap}</p>

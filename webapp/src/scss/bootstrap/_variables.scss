@@ -702,8 +702,8 @@ $zindex-tooltip: 1070;
 
 // Navs
 
-$nav-link-padding-y: 0.5rem;
-$nav-link-padding-x: 1rem;
+$nav-link-padding-y: 0.4375rem;
+$nav-link-padding-x: 0.9375rem;
 $nav-link-disabled-color: $gray-600;
 
 $nav-tabs-border-color: $gray-300;
@@ -715,8 +715,8 @@ $nav-tabs-link-active-bg: $dfi-scent;
 $nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg;
 
 $nav-pills-border-radius: $border-radius;
-$nav-pills-link-active-color: $component-active-color;
-$nav-pills-link-active-bg: $component-active-bg;
+$nav-pills-link-active-color: $component-active-bg;
+$nav-pills-link-active-bg: rgba($component-active-bg, 0.08);
 
 $nav-divider-color: $gray-200;
 $nav-divider-margin-y: $spacer / 2;
@@ -964,7 +964,7 @@ $modal-content-box-shadow-xs: 0 0.25rem 0.5rem rgba($black, 0.5);
 $modal-content-box-shadow-sm-up: 0 0.5rem 1rem rgba($black, 0.5);
 
 $modal-backdrop-bg: $black;
-$modal-backdrop-opacity: 0.1;
+$modal-backdrop-opacity: 0.2;
 $modal-header-border-color: $border-color;
 $modal-footer-border-color: $modal-header-border-color;
 $modal-header-border-width: $modal-content-border-width;

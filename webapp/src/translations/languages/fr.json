@@ -6,6 +6,7 @@
     "syncStatus": {
       "synchronized": "Synchronisé",
       "syncing": "En cours de synchronisation",
+      "waitingForSyncStatus": "En attente de l'état de synchronisation…",
       "synced": "Synchronisé",
       "justNow": "Synchronisé à l'instant",
       "aMinuteAgo": "Synchronisé il y a une minute",
@@ -18,7 +19,7 @@
       "popular": "Popular",
       "tokens": "Tokens",
       "balance": "Balance",
-      "max": "MAX",
+      "max": "Max",
       "inputLabel": "0"
     }
   },
@@ -26,7 +27,7 @@
     "sideBar": {
       "balance": "Solde",
       "dfi": "DFI",
-      "wallet": "Portefeuille",
+      "wallets": "Portefeuilles",
       "dex": "DEX",
       "masterNodes": "Nœuds complets",
       "blockchain": "Blockchain",
@@ -39,7 +40,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – Client Blockchain DeFi",
+        "title": "Blockchain – App DeFi",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -55,7 +56,7 @@
       },
       "blockPage": {
         "block": "Bloc",
-        "title": "– Client Blockchain DeFi",
+        "title": "– App DeFi",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Nombre de transactions",
@@ -80,30 +81,30 @@
       },
       "minerPage": {
         "miner": "Mineur",
-        "defiBlockChainClient": "Client Blockchain DeFi",
+        "defiApp": "App DeFi",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "Centre de traitement des blocs DFI – Client Blockchain DeFi",
+      "title": "Centre de traitement des blocs DFI – App DeFi",
       "header": "Centre de traitement des blocs DFI",
       "detail": "Vous semblez avoir atterri ici par accident. C'est ici que nos employés s'assurent que chaque bloc DFI est ajouté correctement à la chaine. Il s'agit donc d'une zone interdite et nous vous prions de faire demi-tour",
       "goBack": "Faites demi-tour"
     },
     "exchangePage": {
-      "title": "Échange – Client Blockchain DeFi",
+      "title": "Échange – App DeFi",
       "exchange": "Échange",
       "section": "Section",
       "footerBar": "Barre de pied de page"
     },
     "helpPage": {
-      "title": "Aide – Client Blockchain DeFi",
+      "title": "Aide – App DeFi",
       "help": "Aide",
       "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Nœuds complets – Client Blockchain DeFi",
+        "title": "Nœuds complets – App DeFi",
         "createMasterNode": "Créer",
         "masterNodes": "Nœuds complets",
         "statistics": "Statistiques",
@@ -142,9 +143,9 @@
         "backToMasternodePage": "Proche",
         "restartNodeButton": "Redémarrer le nœud",
         "masterNodeSuccess": "Vous pouvez définir manuellement la configuration du nœud sous defi.conf ou la définir automatiquement en redémarrant le nœud.",
-        "collaterAddress": "Collateral Address",
-        "masternodeOperatorNotOptional": "Operator Address",
-        "masternodeOperatorOptional": "Operator Address (Optional)",
+        "collaterAddress": "Collateral address",
+        "masternodeOperatorNotOptional": "Operator address",
+        "masternodeOperatorOptional": "Operator address (optional)",
         "noticeMasternodeOperator": "If masternode operator is different from owner",
         "noticeMasternodeOwner": "Owner address where collateral funds will be drawned from"
       },
@@ -190,9 +191,9 @@
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
         "apy": "APY",
-        "back": "BACK",
+        "back": "Back",
         "addLiquidity": "Add liquidity",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction hash"
       },
       "liquidityInfo": {
         "title": "Liquidity – DeFi app",
@@ -234,7 +235,7 @@
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
-        "transactionComplete": "Transaction Complete",
+        "transactionComplete": "Transaction complete",
         "goToWallet": "Go to Wallet",
         "go": "Go",
         "ok": "OK",
@@ -254,10 +255,9 @@
         "decentralizedInterfaceInfo": "Transact directly with the blockchain from your app, without ever touching a server.",
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps are fulfilled via automated liquidity pools, not centralized order books.",
-        "continue": "Continue",
         "swaping": "Swapping",
-        "amountInsufficient": "Insufficient Amount in your account",
-        "txHash": "Transaction Hash",
+        "amountInsufficient": "Insufficient balance",
+        "txHash": "Transaction hash",
         "somethingWentWrong": "Something went wrong"
       },
       "swapTab": {
@@ -274,7 +274,8 @@
         "volume": "Volume",
         "apy": "APY",
         "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
-        "totalLiquidity": "Total Liquidity ( USD )"
+        "totalLiquidity": "Total liquidity (USD)",
+        "addRemoveLiquidity": "Add or remove liquidity"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -303,15 +304,15 @@
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
-        "amountInsufficient": "Insufficient Amount in your account",
-        "ratioMoreThan1": "Ratio has moved more than 1%. Please check your entry amounts and re-enter",
-        "ratioChanged": "Ratio has been changed. Please check your entry amounts and re-enter"
+        "amountInsufficient": "Insufficient balance",
+        "ratioMoreThan1": "Ratio has moved more than 1%. Please check your amounts and re-enter",
+        "ratioChanged": "Ratio has changed. Please check your amounts and re-enter"
       },
       "removeLiquidity": {
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "removeLiquidity": "Remove Liquidity",
+        "removeLiquidity": "Remove liquidity",
         "enterRemoveLiquidityAmount": "Enter amount of liquidity to remove",
         "verifyTransaction": "Please verify transaction and press CONFIRM",
         "removeLiquidityAmount": "Amount of liquidity to remove",
@@ -328,8 +329,8 @@
         "continue": "Continue",
         "confirm": "Confirm",
         "backToPool": "Back to pool",
-        "refreshingUTXOS": "Refreshing UTXOS",
-        "UTXOSRefreshed": "UTXOS refreshed",
+        "refreshingUTXOS": "Refreshing UTXOs",
+        "UTXOSRefreshed": "UTXOs refreshed",
         "removingLiquidity": "Removing liquidity",
         "liquidityRemoved": "Liquidity removed",
         "transferringTokens": "Transferring tokens",
@@ -390,16 +391,16 @@
         "optionalFinalSupplyLimitText": "Immutable total supply limit. Leave blank for unlimited supply. Cannot be changed once set.",
         "tradeable": "Trade-able?",
         "dfiRequired": "DFI required",
-        "collateralAddress": "Collateral Address",
+        "collateralAddress": "Collateral address",
         "collateralAddressError": "Minimum 100 DFI is required",
         "createTokenButton": "Create token",
         "createConfirmationText": "Are you sure you want to create a token?",
         "updateConfirmationText": "Are you sure you want to update a token?",
         "createTokenSuccess": "Token was created successfully",
         "updateTokenSuccess": "Token was updated successfully",
-        "tokenHash": "Token Hash",
-        "backToTokenPage": "Back To token",
-        "updateTokenButton": "UPDATE TOKEN"
+        "tokenHash": "Token hash",
+        "backToTokenPage": "Back to token",
+        "updateTokenButton": "Update token"
       },
       "tokenInfo": {
         "back": "Back",
@@ -417,7 +418,6 @@
         "volume": "Volume (24H)",
         "officialSite": "Official site",
         "transfers": "Transfers",
-        "holders": "Holders",
         "info": "Info",
         "exchange": "Exchange",
         "dex": "DEX",
@@ -428,13 +428,12 @@
         "noButtonText": "Cancel",
         "yesButtonText": "Continue",
         "successText": "Success",
-        "backToTokenPage": "Back to Token Page",
+        "backToTokenPage": "Back to token",
         "confirmation": "Are you sure you want to destroy a token?",
         "deleteToken": "Delete token",
         "editToken": "Edit token",
         "mint": "Mint",
-        "notMintedAlert": "You have not minted the token",
-        "mint": "Mint"
+        "notMintedAlert": "You have not minted the token"
       },
       "mintToken": {
         "title": "Mint",
@@ -443,9 +442,9 @@
         "amount": "Amount",
         "cancel": "Cancel",
         "continue": "continue",
-        "pleaseVerifyAmount": "Please Verify Amount",
+        "pleaseVerifyAmount": "Please verify amount",
         "completeMint": "Complete Mint",
-        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by the DeFi Blockchain.",
+        "transactionSuccessMsg": "The transaction was a success. Your token balance will update once the transaction has been confirmed by DeFiChain.",
         "backToToken": "Back to tokens"
       },
       "transfersList": {
@@ -461,20 +460,19 @@
         "cancel": "Cancel",
         "continue": "Continue",
         "dfiRequired": "DFI required",
-        "chooseFile": "CHOOSE FILE",
+        "chooseFile": "Choose file",
         "dctDistribution": "DCT Distribution",
-        "uploadCsv": "UPLOAD CSV",
-        "addAddress": "ADD ADDRESS",
+        "uploadCsv": "Upload CSV",
+        "addAddress": "Add address",
         "address": "Address",
         "addAddressesText": "Add addresses to your initial distribution list.",
         "enterDfiAddress": "Enter DFI address",
         "dragAndUploadCSV": "Drag or choose a CSV file to upload.",
-        "verifyingCollateral": "Verifying Collateral",
-        "chooseFile": "Choose File"
+        "verifyingCollateral": "Verifying collateral"
       }
     },
     "settings": {
-      "title": "Paramètres – Client Blockchain DeFi",
+      "title": "Paramètres – App DeFi",
       "settings": "Paramètres",
       "general": "Général",
       "display": "Affichage",
@@ -530,11 +528,11 @@
         "mnemonicGuidelineWarning": "Do not store your wallet receovery phrase on a computer or smartphone, and keep it secure.",
         "walletRecoveryInfoLine1": "A wallet recovery seed (“mnemonic seed”, “seed phrase”, “seed words”) is a way to represent your private key as a sequence of words that are easier for a human to remember. It is also used to generate extended keys for all the wallets you create in the app.",
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
-        "learnMoreAtBitcoinBtn": "LEARN MORE AT BITCOIN WIKI",
+        "learnMoreAtBitcoinBtn": "Learn more at Bitcoin Wiki",
         "generateNewSet": "Generate a new set of 24 words",
         "copied24Words": "I've have copied down 24 words in the exact order",
         "continue": "Continue",
-        "createNewWallet": "Create New Wallet"
+        "createNewWallet": "Create new wallet"
       },
       "verifyMnemonicPage": {
         "back": "Back",
@@ -549,7 +547,7 @@
         "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
         "dontSkip": "Don't skip verification",
         "skip": "Skip",
-        "backToWalletPage": "CLOSE"
+        "backToWalletPage": "Close"
       },
       "restoreWalletPage": {
         "back": "Back",
@@ -557,16 +555,16 @@
         "restoreWallet": "Restore wallet",
         "restoreWalletGuideLine": "Enter the 24 words in your mnemonic seed to restore wallet.",
         "restoringWallet": "Restoring wallet",
-        "restore": "RESTORE",
-        "backToWalletPage": "CLOSE"
+        "restore": "Restore",
+        "backToWalletPage": "Close"
       },
       "sendPage": {
-        "sendDFITitle": "Envoi de DFI – Client Blockchain DeFi",
+        "sendDFITitle": "Envoi de DFI – App DeFi",
         "wallet": "Portefeuille",
         "sendDFI": "Envoyer DFI",
         "amount": "Montant",
         "dFI": "DFI",
-        "max": "MAX",
+        "max": "Max",
         "toAddress": "À l'adresse",
         "walletBalance": "Solde du portefeuille",
         "amountToSend": "Montant à envoyer",
@@ -582,7 +580,7 @@
         "txHash": "Transaction Hash"
       },
       "receivePage": {
-        "receiveDFITitle": "Réception de DFI – Client Blockchain DeFi",
+        "receiveDFITitle": "Réception de DFI – App DeFi",
         "wallet": "Portefeuille",
         "receiveDFI": "Recevoir des DFI",
         "optional": "Optionnel",
@@ -599,7 +597,7 @@
         "addressLabel": "Address label",
         "createNewAddressNotice": "Give your new DFI address a meaningful label",
         "createNewReceiveAddressLabel": "Create new receive address",
-        "backButton": "back",
+        "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
         "addressType": "Address type"
@@ -611,7 +609,7 @@
         "cancelRequest": "Annuler la demande"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Demande de paiement %{id} – Client Blockchain DeFi",
+        "paymentRequestTitle": "Demande de paiement %{id} – App DeFi",
         "paymentRequest": "Demande de paiement",
         "wallet": "Portefeuille",
         "delete": "Effacer",
@@ -623,9 +621,8 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "includeRewards": "Include Rewards",
-        "walletDefiClient": "Portefeuille – Client Blockchain DeFi",
-        "wallet": "Portefeuille",
+        "includeRewards": "Include rewards",
+        "walletDeFiApp": "Portefeuille – App DeFi",
         "delete": "Effacer",
         "send": "Envoyer",
         "receive": "Recevoir",
@@ -653,7 +650,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – Client Blockchain DeFi",
+        "consoleDeFiApp": "Console – App DeFi",
         "defiCliCommand": "Entrer la commande Defi-cli",
         "console": "Console",
         "submit": "Envoyer",
@@ -703,7 +700,7 @@
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
-    "startUpdateLabel": "Initiating Update",
+    "startUpdateLabel": "Initiating update",
     "closeBtnLabel": "Close",
     "minimizeBtnLabel": "Minimize",
     "downloadingUpdate": "Downloading update",
@@ -711,7 +708,7 @@
     "restartAppWithReindexNotice": "Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover. Do you want to restart?",
     "yesRestartAppWithReindex": "Restart app",
     "noCloseApp": "Quit app",
-    "backupWalletNoticeTitle": "Backup Wallet",
+    "backupWalletNoticeTitle": "Backup wallet",
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
     "yesBackupWalletNotice": "Yes",
@@ -719,7 +716,7 @@
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
     "enableLocking": "Enable locking",
-    "later": "LATER",
+    "later": "Later",
     "passphraseLabel": "Enter passphrase",
     "proceed": "Proceed",
     "reset": "Reset",
@@ -744,7 +741,7 @@
     "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart now?",
     "yesRestartWalletNotice": "Restart now",
     "noRestartWalletNotice": "Later",
-    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletNoticeTitle": "Reset wallet",
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",

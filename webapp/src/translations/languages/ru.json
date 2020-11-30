@@ -6,6 +6,7 @@
     "syncStatus": {
       "synchronized": "Синхронизировано",
       "syncing": "Синхронизация",
+      "waitingForSyncStatus": "Ожидание статуса синхронизации…",
       "downloading": "Скачивание обновления",
       "synced": "Синхронизировано",
       "justNow": "Синхронизировано только что",
@@ -18,7 +19,7 @@
     "sideBar": {
       "balance": "Средства",
       "dfi": "DFI",
-      "wallet": "Кошелек",
+      "wallets": "Кошельки",
       "masterNodes": "Мастерноды",
       "blockchain": "Блокчейн",
       "tokens": "Токены",
@@ -69,7 +70,7 @@
       },
       "minerPage": {
         "miner": "Майнер",
-        "defiBlockChainClient": "Блокчейн-Клиент DeFi",
+        "defiApp": "Блокчейн-Клиент DeFi",
         "blockchain": "Блокчейн"
       }
     },
@@ -242,7 +243,6 @@
         "volume": "Объем (24ч)",
         "officialSite": "Официальный сайт",
         "transfers": "Переводы",
-        "holders": "Держатели",
         "info": "Информация",
         "exchange": "Обмен",
         "dex": "DEX",
@@ -258,8 +258,7 @@
         "deleteToken": "Удалить токен",
         "editToken": "Изменить токен",
         "mint": "Чеканка",
-        "notMintedAlert": "Вы не чеканили токен",
-        "mint": "Чеканка"
+        "notMintedAlert": "Вы не чеканили токен"
       },
       "mintToken": {
         "title": "Чеканка",
@@ -294,8 +293,7 @@
         "addAddressesText": "Добавьте адреса в свой первоначальный список рассылки.",
         "enterDfiAddress": "Введите адрес DFI",
         "dragAndUploadCSV": "Перетащите или выберите файл CSV для загрузки.",
-        "verifyingCollateral": "Проверка обеспечения",
-        "chooseFile": "Выбрать файл"
+        "verifyingCollateral": "Проверка обеспечения"
       }
     },
     "settings": {
@@ -370,7 +368,7 @@
         "creatingYourWallet": "Создание кошелька",
         "skipVerificationTextHeader": "Skip at your own risk",
         "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
-        "dontSkip": "Don't skip verification",
+        "dontSkip": "Don’t skip verification",
         "skip": "Skip",
         "backToWalletPage": "ЗАКРЫТЬ"
       },
@@ -386,7 +384,6 @@
       "sendPage": {
         "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "wallet": "Кошелек",
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "sendDFI": "Отправить DFI",
         "send": "Отправить",
         "amount": "Сумма",
@@ -453,9 +450,9 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "ТОКЕНЫ",
-        "walletDefiClient": "Кошелек – Блокчейн-Клиент DeFi",
-        "wallet": "Кошелек",
+        "wallets": "Кошельки",
+        "walletDeFiApp": "Кошелек – Блокчейн-Клиент DeFi",
+        "wallet": "кошелек",
         "delete": "Удалить",
         "send": "Отправить",
         "receive": "Получить",
@@ -467,17 +464,17 @@
         "pending": "В ожидании",
         "updateAvailableLabel": "Обновления доступны"
       },
-      "walletTokensPage": {
-        "walletTokens": "Кошелек – Токены",
-        "tokens": "Токены",
-        "addToken": "Добавить токен"
+      "walletWalletsPage": {
+        "walletWallets": "Кошельки",
+        "wallets": "Кошельки",
+        "addWallet": "Добавить кошелек"
       },
       "walletAddTokensPage": {
-        "walletAddTokens": "Кошелек – Добавить токен",
+        "walletAddTokens": "Кошелек – Добавить кошелек",
         "back": "НАЗАД",
         "add": "ДОБАВИТЬ",
         "tokens": "Токены",
-        "addTokenLabel": "Добавить токен"
+        "addWalletLabel": "Добавить кошелек"
       },
       "walletTxns": {
         "height": "Рост",
@@ -490,8 +487,8 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Консоль – Блокчейн-Клиент DeFi",
-        "defiCliCommand": "Введите команду Defi-cli",
+        "consoleDeFiApp": "Консоль – Блокчейн-Клиент DeFi",
+        "defiCliCommand": "Введите команду DeFi-cli",
         "console": "Консоль",
         "submit": "Отправить",
         "forRef": "Для справки",
@@ -581,7 +578,7 @@
     "restartWalletWarningNotice": "Вам необходимо перезапустить приложение DeFi. Вы хотите перезапустить?",
     "yesRestartWalletNotice": "Перезагрузить сейчас",
     "noRestartWalletNotice": "Позже",
-    "resetWalletNoticeTitle": "Reset Wallet",
+    "resetWalletNoticeTitle": "Reset wallet",
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",

@@ -1,6 +1,18 @@
-.nav-pills .nav-link {
-  cursor: pointer;
-  color: $secondary;
-  letter-spacing: 0.86px;
-  font-weight: $btn-font-weight;
+.nav-link {
+  border: $btn-border-width solid transparent;
+}
+
+.nav-pills {
+  .nav-link {
+    cursor: pointer;
+    color: $secondary;
+    letter-spacing: 0.86px;
+    font-weight: $btn-font-weight;
+    box-sizing: content-box;
+  }
+
+  .nav-link.active,
+  .show > .nav-link {
+    border-color: rgba($nav-pills-link-active-bg, 0.08);
+  }
 }

@@ -164,7 +164,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               <MdMoreHoriz />
             </DropdownToggle>
             <DropdownMenu right>
-              {tokenInfoMenu.map(data => {
+              {tokenInfoMenu.map((data) => {
                 return (
                   <DropdownItem
                     className='justify-content-between'
@@ -324,7 +324,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorDestroyingToken}</p>
@@ -341,7 +341,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { tokens } = state;
   const {
     tokenInfo,
@@ -358,7 +358,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchToken: id => fetchTokenInfo({ id }),
+  fetchToken: (id) => fetchTokenInfo({ id }),
   destroyToken: (id: string) => destroyToken({ id }),
 };
 

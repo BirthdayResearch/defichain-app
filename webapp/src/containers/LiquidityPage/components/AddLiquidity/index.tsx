@@ -654,7 +654,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 {isLoadingPreparingUTXO ? (
                   <>
                     <div className='d-flex'>
-                      <div className={styles.loaderInline}>
+                      <div className={styles.txProgressLoader}>
                         <Spinner />
                       </div>
                       <b>
@@ -664,7 +664,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   </>
                 ) : (
                   <>
-                    <MdCheckCircle className={styles.successColor} />
+                    <MdCheckCircle className={styles.txProgressSuccess} />
                     <b>{I18n.t('containers.swap.addLiquidity.UTXOPrepared')}</b>
                   </>
                 )}
@@ -674,11 +674,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 {!isLoadingPreparingUTXO && (
                   <>
                     {isLoadingAddingLiquidity ? (
-                      <div className={styles.loaderInline}>
+                      <div className={styles.txProgressLoader}>
                         <Spinner />
                       </div>
                     ) : (
-                      <MdCheckCircle className={styles.successColor} />
+                      <MdCheckCircle className={styles.txProgressSuccess} />
                     )}
                   </>
                 )}
@@ -705,7 +705,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorAddingPoolLiquidity}</p>

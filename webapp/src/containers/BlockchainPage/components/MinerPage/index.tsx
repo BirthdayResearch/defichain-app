@@ -21,7 +21,7 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
         <title>
           {I18n.t('containers.blockChainPage.minerPage.miner')}
           {`${props.match.params.id} –`}
-          {I18n.t('containers.blockChainPage.minerPage.defiBlockChainClient')}
+          {I18n.t('containers.blockChainPage.minerPage.defiApp')}
         </title>
       </Helmet>
       <Header>

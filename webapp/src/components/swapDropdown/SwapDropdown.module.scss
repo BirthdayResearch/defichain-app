@@ -20,6 +20,8 @@
 .buttonDropdown {
   border: 0;
   font-weight: $font-weight-normal;
+  display: flex;
+  align-items: center;
 
   &:not(:disabled):hover {
     color: $dropdown-link-hover-color !important;
@@ -28,6 +30,11 @@
   &:focus {
     border: 0;
     box-shadow: none !important;
+  }
+
+  // Coin icon
+  > :first-child {
+    margin-right: 8px;
   }
 }
 
