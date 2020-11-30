@@ -445,7 +445,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       </span>
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
-                      {calculateLPFee(formState, poolPairList)}
+                      {`${calculateLPFee(formState, poolPairList)} DFI`}
                     </Col>
                   </Row>
                   <hr />
