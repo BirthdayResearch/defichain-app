@@ -146,6 +146,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           symbol1: tokenA,
           balance1: balanceA,
         });
+      } else if (!balanceA) {
+        setFormState({
+          ...formState,
+          hash2: idTokenB,
+          symbol2: tokenB,
+          balance2: balanceB,
+        });
       } else {
         setFormState({
           ...formState,
