@@ -15,7 +15,7 @@ export const MASTERNODE_LIST_PAGE_SIZE = 10;
 export const TOKEN_LIST_PAGE_SIZE = 10;
 export const TOKEN_TRANSFERS_LIST_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 8;
-export const WALLET_TXN_PAGE_FETCH_SIZE = 10000;
+export const WALLET_TXN_PAGE_FETCH_SIZE = 100000;
 export const MAX_WALLET_TXN_PAGE_SIZE = 200;
 export const PAYMENT_REQ_PAGE_SIZE = 5;
 export const PAYMENT_REQ_LIST_SIZE = 10;
@@ -112,11 +112,11 @@ export const LEARN_MORE_ABOUT_BITCOIN_LINK =
   'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
 
 export const DEFICHAIN_DEX_YOUTUBE_LINK =
-  'https://www.youtube.com/watch?v=G3PT0fU__mM';
+  'https://youtu.be/JLu16bdlYrM';
 export const LIQUIDITY_MINING_YOUTUBE_LINK =
-  'https://www.youtube.com/watch?v=gDR19KNyPlc';
+  'https://youtu.be/G3PT0fU__mM';
 export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
-  'https://www.youtube.com/watch?v=gDR19KNyPlc';
+  'https://youtu.be/s-3kUdErY5M';
 
 export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
 export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
