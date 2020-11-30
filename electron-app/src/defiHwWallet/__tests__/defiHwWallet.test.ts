@@ -98,4 +98,11 @@ describe('DefiHwWallet', () => {
       address: 'qpv2920u2gpclpf5tr37ckd3ynaafuk7evzlpn6yzw',
     });
   });
+
+  it('should return sign signature in format TVL', async () => {
+    const rawTVLSignature = await DefiLedger.sign(1, new Buffer('message'));
+    expect(rawTVLSignature.toString('hex')).toEqual(
+      '314402207e4ac4c697bdb1d768337b56657ceea424441620746069215508bb1e753fab9d02207327983321d4e866f9dc465658ffaedbfebd0f080162516a623df2b2188cc5c8'
+    );
+  });
 });
