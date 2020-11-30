@@ -34,6 +34,7 @@ import { numberWithCommas } from '../../../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
 import EllipsisText from 'react-ellipsis-text';
 import { prepareTxDataRows } from '../../service';
+import BigNumber from 'bignumber.js';
 
 interface WalletTxnsProps {
   unit: string;
@@ -85,12 +86,21 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, [includeRewards]);
 
   const fetchData = (pageNum) => {
-    setCurrentPage(pageNum);
     const newCloneTableData = cloneDeep(data);
-    const rows = newCloneTableData.slice(
+    let updatedPageNum = pageNum;
+    let rows = newCloneTableData.slice(
       (pageNum - 1) * pageSize,
       pageNum * pageSize
     );
+    if (newCloneTableData.length > 0 && !rows.length) {
+      const lastPage = Math.ceil(newCloneTableData.length / pageSize);
+      rows = newCloneTableData.slice(
+        (lastPage - 1) * pageSize,
+        lastPage * pageSize
+      );
+      updatedPageNum = lastPage;
+    }
+    setCurrentPage(updatedPageNum);
     const updatedRows = prepareTxDataRows(rows);
     fetchBlockDataForTrxRequestLoading(updatedRows);
   };
@@ -116,11 +126,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   };
 
   const getAmountClass = (type: string) => {
-    if (
-      type === RECIEVE_CATEGORY_LABEL ||
-      type === REWARDS_CATEEGORY_LABEL ||
-      type === POOL_SWAP_CATEGORY_LABEL
-    ) {
+    if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
+      return styles.colorGreen;
+    }
+    return '';
+  };
+
+  const getPoolSwapClass = (type: string, amount) => {
+    if (type === POOL_SWAP_CATEGORY_LABEL && new BigNumber(amount).gt(0)) {
       return styles.colorGreen;
     }
     return '';
@@ -153,12 +166,23 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     <div className={styles.unit}>{item.blockData.time}</div>
                   </td>
                   <td>
-                    <div className={styles.txidvalue}>
+                    <div
+                      className={
+                        item.txid
+                          ? styles.txidvalue
+                          : `text-center text-secondary`
+                      }
+                    >
                       <EllipsisText text={item.txid || '-'} length={60} />
                     </div>
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
-                    <div className={item.amounts[1] ? styles.colorGreen : ''}>
+                    <div
+                      className={getPoolSwapClass(
+                        item.category,
+                        item.amounts[0].value
+                      )}
+                    >
                       {`${numberWithCommas(item.amounts[0].value)} ${
                         item.amounts[0].symbolKey
                       }`}

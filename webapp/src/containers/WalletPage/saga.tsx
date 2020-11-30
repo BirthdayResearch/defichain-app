@@ -384,6 +384,7 @@ function* checkWalletCreation() {
 function* fetchWalletTokenTransactionsList(action) {
   try {
     const { symbol, limit, includeRewards } = action.payload;
+
     let minBlockHeight;
     let cloneData: any[] = [];
     while (true) {
@@ -401,6 +402,7 @@ function* fetchWalletTokenTransactionsList(action) {
       minBlockHeight = minHeightData.blockHeight - 1;
       cloneData = cloneData.concat(data);
     }
+
     yield put(fetchWalletTokenTransactionsListRequestSuccess(cloneData));
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));

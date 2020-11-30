@@ -401,7 +401,7 @@ export const getListAccountHistory = (query: {
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
-      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toNumber(),
+      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toFixed(),
       symbolKey: ele.slice(ele.indexOf('@') + 1),
     }));
     const { category, isValid } = validTrx(item);
