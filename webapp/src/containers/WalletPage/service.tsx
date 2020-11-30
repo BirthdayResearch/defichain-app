@@ -8,11 +8,13 @@ import {
   LIST_ACCOUNTS_PAGE_SIZE,
   RECIEVE_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  TX_TYPES,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
+import sortBy from 'lodash/sortBy';
+import compact from 'lodash/compact';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -303,7 +305,7 @@ export const handleFetchAccounts = async () => {
     }
   });
 
-  const resolvedData: any = _.compact(await Promise.all(tokensData));
+  const resolvedData: any = compact(await Promise.all(tokensData));
 
   const transformedData: any =
     resolvedData &&
@@ -389,23 +391,27 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
 export const getListAccountHistory = (query: {
   limit: number;
   blockHeight?: number;
-  owner?: string;
+  no_rewards?: boolean;
+  token: string;
 }) => {
   const rpcClient = new RpcClient();
   return rpcClient.getListAccountHistory(query);
 };
 
 export const prepareTxDataRows = (data: any[]) => {
-  let finalRows: any[] = [];
-  data.forEach((item) => {
-    const rows = item.amounts.map((ele) => ({
-      amount: ele.slice(0, ele.indexOf('@')),
+  return data.map((item) => {
+    const amounts = item.amounts.map((ele) => ({
+      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toNumber(),
       symbolKey: ele.slice(ele.indexOf('@') + 1),
-      ...item,
     }));
-    finalRows = finalRows.concat(rows);
+    const { category, isValid } = validTrx(item);
+    return {
+      ...item,
+      category,
+      isValid,
+      amounts: sortBy(amounts, ['value']).reverse(),
+    };
   });
-  return finalRows.map(validTrx);
 };
 
 export const handleBlockData = async (blockHeight: number) => {
@@ -416,44 +422,23 @@ export const handleBlockData = async (blockHeight: number) => {
 };
 
 const validTrx = (item) => {
-  const validType = {
-    CreateMasternode: 'CreateMasternode',
-    ResignMasternode: 'ResignMasternode',
-    CreateToken: 'CreateToken',
-    UpdateToken: 'UpdateToken',
-    UpdateTokenAny: 'UpdateTokenAny',
-    MintToken: 'MintToken',
-    CreatePoolPair: 'CreatePoolPair',
-    UpdatePoolPair: 'UpdatePoolPair',
-    PoolSwap: 'PoolSwap',
-    AddPoolLiquidity: 'AddPoolLiquidity',
-    RemovePoolLiquidity: 'RemovePoolLiquidity',
-    UtxosToAccount: 'UtxosToAccount',
-    AccountToUtxos: 'AccountToUtxos',
-    AccountToAccount: 'AccountToAccount',
-    SetGovVariable: 'SetGovVariable',
-    NonTxRewards: 'Rewards',
-  };
-
   const SendReceiveValidTxTypeArray = [
-    validType.UtxosToAccount,
-    validType.AccountToUtxos,
-    validType.AccountToAccount,
+    TX_TYPES.UtxosToAccount,
+    TX_TYPES.AccountToUtxos,
+    TX_TYPES.AccountToAccount,
   ];
-  let isValid = true;
+  let isValid =
+    item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap;
   let category = item.type;
-  if (
-    !(item.type === validType.NonTxRewards || item.type === validType.PoolSwap)
-  ) {
+  if (!isValid) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amount).gte(0)
+      category = new BigNumber(item.amounts[0].value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }
   }
   return {
-    ...item,
     category,
     isValid,
   };
