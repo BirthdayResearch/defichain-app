@@ -174,6 +174,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   const createConfirmation = () => {
     setAllowCalls(true);
     const tokenData = { ...formState };
+    setIsConfirmationModalOpen('loading');
     createToken(tokenData);
   };
 
