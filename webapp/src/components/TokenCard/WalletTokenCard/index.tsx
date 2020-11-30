@@ -12,7 +12,7 @@ interface WalletTokenCardProps {
     symbol: string | null,
     hash: string,
     amount: any,
-    address: string
+    address: string,
   ) => void;
 }
 
@@ -39,7 +39,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
                 <div>
                   <b>{token.symbolKey}</b>
                 </div>
-                <div className={styles.cardValue}>{token.name}</div>
+                <div className={styles.cardValue}>{token.isLPS ? `Liquidity token for ${token.symbolKey}` : token.name}</div>
               </div>
             </div>
           </Col>

@@ -114,6 +114,7 @@ export interface IWalletTokenCard {
   name?: string;
   symbol: string | null;
   isDAT?: boolean;
+  isLPS?: boolean;
   decimal?: number;
   limit?: number;
   mintable?: boolean;
