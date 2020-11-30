@@ -5,7 +5,7 @@
 @import '../../scss/variables';
 @import '../../scss/bootstrap/variables';
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
 }
 
@@ -14,22 +14,32 @@
   text-align: right;
 }
 
-.buttonLink {
-  text-transform: none !important;
-  color: #ff00af;
-  width: 100%;
-  text-align: left;
-  justify-content: center;
+.features {
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.feature {
+  display: flex;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1.5rem;
+
   svg {
     width: 48px;
     height: 48px;
+    color: $primary;
   }
-  h4 {
-    color: rgb(0, 0, 0);
-  }
-  span {
-    color: $secondary;
-    font-size: 14px;
+}
+
+.featureDescription {
+  h3 {
+    margin-bottom: 0.25rem;
   }
 }
 

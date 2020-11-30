@@ -28,16 +28,11 @@ div[disabled] {
   color: #cccdcd;
 }
 
-.balance {
+.currentNetwork {
   position: relative;
   height: 112px;
   border-bottom: $border-width solid $border-color;
-  padding: 28px 24px 20px;
-  display: flex;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  align-content: flex-end;
+  padding: 48px 24px 20px;
 
   &:before {
     content: '';
@@ -49,6 +44,16 @@ div[disabled] {
     z-index: -1;
     -webkit-app-region: drag;
   }
+}
+
+.currentNetworkHeading {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.currentNetworkValue {
+  font-size: $font-size-sm;
+  color: $secondary;
 }
 
 .balanceLabel,

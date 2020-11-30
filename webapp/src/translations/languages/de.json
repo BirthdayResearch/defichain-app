@@ -4,6 +4,7 @@
     "syncStatus": {
       "synchronized": "Synchronisiert",
       "syncing": "Synchronisieren",
+      "waitingForSyncStatus": "Warten auf den Synchronisierungsstatus…",
       "synced": "Synchronisiert",
       "justNow": "Hat gerade synchronisiert",
       "aMinuteAgo": "Synchronisiert vor einer minute",
@@ -16,7 +17,7 @@
       "popular": "Beliebt",
       "tokens": "Tokens",
       "balance": "Balance",
-      "max": "MAX",
+      "max": "Max",
       "inputLabel": "Wert eingeben"
     }
   },
@@ -24,7 +25,7 @@
     "sideBar": {
       "balance": "Balance",
       "dfi": "DFI",
-      "wallet": "Wallet",
+      "wallets": "Wallets",
       "dex": "DEX",
       "masterNodes": "Masternode",
       "blockchain": "Blockchain",
@@ -38,7 +39,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFiChain Client",
+        "title": "Blockchain – DeFi app",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -54,7 +55,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFiChain Client",
+        "title": "– DeFi app",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -79,24 +80,24 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiBlockChainClient": "DeFiChain Client",
+        "defiApp": "DeFi app",
         "blockchain": "Blockchain"
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFiChain Client",
+      "title": "DFI Block Processing Center – DeFi app",
       "header": "DFI Block Processing Center",
       "detail": "Es scheint, als wärst du zufällig hierher gestolpert. Hier stellen unsere Arbeiter sicher, dass jeder DFI-Block richtig an der Chain befestigt ist. Da dies ein Sperrgebiet ist, bitten wir Dich, wieder umzudrehen.",
       "goBack": "Gehe zurück"
     },
     "exchangePage": {
-      "title": "Exchange – DeFiChain Client",
+      "title": "Exchange – DeFi app",
       "exchange": "Exchange",
       "section": "Abschnitt",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Hilfe – DeFiChain Client",
+      "title": "Hilfe – DeFi app",
       "help": "Helfen",
       "section": "Abschnitt",
       "helpPageHeader": "Verbinde dich mit der Community über diese Optionen:",
@@ -117,7 +118,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFiChain Client",
+        "title": "Masternodes – DeFi app",
         "createMasterNode": "Erstellen",
         "masterNodes": "Masternodes",
         "statistics": "Statistik",
@@ -479,7 +480,7 @@
       }
     },
     "settings": {
-      "title": "Einstellungen – DeFiChain Client",
+      "title": "Einstellungen – DeFi app",
       "settings": "Einstellungen",
       "general": "Allgemein",
       "display": "Anzeige",
@@ -572,7 +573,7 @@
         "sendDFI": "DFI senden",
         "amount": "Höhe",
         "dFI": "DFI",
-        "max": "MAX",
+        "max": "Max",
         "toAddress": "Adresse",
         "walletBalance": "Wallet-Guthaben",
         "amountToSend": "Betrag senden",
@@ -591,7 +592,7 @@
         "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
       },
       "receivePage": {
-        "receiveDFITitle": "DFI Erhalten– DeFiChain Client",
+        "receiveDFITitle": "DFI Erhalten– DeFi app",
         "wallet": "Wallet",
         "receiveDFI": "DFI Erhalten",
         "optional": "Freiwillig",
@@ -625,7 +626,7 @@
         "created": "Erstellt"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFiChain Client",
+        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi app",
         "paymentRequest": "Zahlungsaufforderung",
         "wallet": "Wallet",
         "delete": "Löschen",
@@ -637,7 +638,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Wallet – DeFiChain Client",
+        "walletDefiClient": "Wallet – DeFi app",
         "wallet": "Wallet",
         "delete": "Löschen",
         "send": "Senden",
@@ -679,7 +680,8 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Konsole – DeFiChain Client",
+        "consoleDeFiApp": "Konsole – DeFi app",
+        "consoleDefiClient": "Konsole – DeFi app",
         "defiCliCommand": "Geben Sie Defi-cli-Befehl",
         "console": "Konsole",
         "submit": "Senden",

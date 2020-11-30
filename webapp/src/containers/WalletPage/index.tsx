@@ -83,19 +83,17 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         >
           <MdArrowBack />
           <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.walletPage.tokens')}
+            {I18n.t('containers.wallet.walletPage.wallets')}
           </span>
         </Button>
-        <div className='d-flex'>
+        <div className={styles.titleWithIcon}>
           <TokenAvatar
             symbol={
               tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit
             }
           />
-          &nbsp;
           <h1>
-            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}
-            &nbsp;
+            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
         </div>

@@ -42,7 +42,7 @@
   right: 5px;
 }
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
 }
 
@@ -74,6 +74,15 @@
   right: 5px;
 }
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
+}
+
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-left: 8px;
+  }
 }

@@ -113,39 +113,37 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
   } = getTokenDropdownList(tableData);
 
   return (
-    <div className='d-flex align-items-center'>
-      {dropdownLabel !== I18n.t('components.swapCard.selectAToken') && (
-        <TokenAvatar symbol={dropdownLabel} size='24px' />
-      )}
-      <UncontrolledDropdown className={styles.dropDownTokens}>
-        <DropdownToggle
-          caret
-          color='outline-secondary'
-          className={styles.buttonDropdown}
-        >
-          {dropdownLabel}
-        </DropdownToggle>
-        <DropdownMenu className={styles.dropdownMenublock}>
-          <div className={styles.dropdownItemsearch}>
-            <SwapSearchBar
-              searching=''
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={I18n.t('containers.swap.swapPage.searchToken')}
-            />
-          </div>
-          <div className={styles.scrollableContainer}>
-            <DropdownItem header>
-              {I18n.t('components.swapCard.popular')}
-            </DropdownItem>
-            {popularTokenDropdownItems}
-            <DropdownItem header>
-              {I18n.t('components.swapCard.tokens')}
-            </DropdownItem>
-            {normalTokenDropdownItems}
-          </div>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    </div>
+    <UncontrolledDropdown className={styles.dropDownTokens}>
+      <DropdownToggle
+        caret
+        color='outline-secondary'
+        className={styles.buttonDropdown}
+      >
+        {dropdownLabel !== I18n.t('components.swapCard.selectAToken') && (
+          <TokenAvatar symbol={dropdownLabel} size='24px' />
+        )}
+        <span>{dropdownLabel}</span>
+      </DropdownToggle>
+      <DropdownMenu className={styles.dropdownMenublock}>
+        <div className={styles.dropdownItemsearch}>
+          <SwapSearchBar
+            searching=''
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={I18n.t('containers.swap.swapPage.searchToken')}
+          />
+        </div>
+        <div className={styles.scrollableContainer}>
+          <DropdownItem header>
+            {I18n.t('components.swapCard.popular')}
+          </DropdownItem>
+          {popularTokenDropdownItems}
+          <DropdownItem header>
+            {I18n.t('components.swapCard.tokens')}
+          </DropdownItem>
+          {normalTokenDropdownItems}
+        </div>
+      </DropdownMenu>
+    </UncontrolledDropdown>
   );
 };
 

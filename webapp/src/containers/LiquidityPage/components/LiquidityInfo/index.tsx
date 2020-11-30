@@ -16,6 +16,7 @@ import {
 import Header from '../../../HeaderComponent';
 import PairIcon from '../../../../components/PairIcon';
 import BigNumber from 'bignumber.js';
+import styles from './LiquidityInfo.module.scss';
 
 interface RouteParams {
   poolID: string;
@@ -60,9 +61,8 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             {I18n.t('containers.liquidity.liquidityPage.back')}
           </span>
         </Button>
-        <div className='d-flex'>
+        <div className={styles.titleWithIcon}>
           <PairIcon poolpair={poolshare} />
-          &nbsp;
           <h1>{`${poolshare.symbol} ${I18n.t(
             'containers.liquidity.liquidityPage.liquidity'
           )}`}</h1>

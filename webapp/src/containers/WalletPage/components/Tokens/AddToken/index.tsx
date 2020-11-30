@@ -86,7 +86,9 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
             {I18n.t('containers.wallet.walletAddTokensPage.back')}
           </span>
         </Button>
-        <h1>{I18n.t('containers.wallet.walletAddTokensPage.addTokenLabel')}</h1>
+        <h1>
+          {I18n.t('containers.wallet.walletAddTokensPage.addWalletLabel')}
+        </h1>
       </Header>
       <div className='content'>
         <div>

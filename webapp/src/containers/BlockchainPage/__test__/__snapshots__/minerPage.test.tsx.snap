@@ -100,7 +100,7 @@ exports[`MinerPage component should check for snapshot 1`] = `
               Array [
                 "Miner",
                 "1 –",
-                "DeFi Blockchain Client",
+                "DeFi app",
               ]
             }
             titleAttributes={Object {}}
@@ -112,7 +112,7 @@ exports[`MinerPage component should check for snapshot 1`] = `
                 Array [
                   "Miner",
                   "1 –",
-                  "DeFi Blockchain Client",
+                  "DeFi app",
                 ]
               }
               titleAttributes={Object {}}

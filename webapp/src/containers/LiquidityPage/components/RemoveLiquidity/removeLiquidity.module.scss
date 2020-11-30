@@ -75,7 +75,7 @@
   box-shadow: 0 0 0 0.0625rem #dc3545 !important;
 }
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
 }
 
@@ -95,15 +95,24 @@
   float: right;
 }
 
-.successColor {
-  color: #28a745;
-  position: absolute;
-  left: -30px;
-  height: 24px;
-  width: 24px;
+.txProgressLine {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
 }
 
-.loaderInline {
+.txProgressLoader {
   position: absolute;
-  left: -30px;
+  left: 0;
+}
+
+.txProgressSuccess {
+  position: absolute;
+  left: 0;
+  color: $green;
+  height: 24px;
+  width: 24px;
 }

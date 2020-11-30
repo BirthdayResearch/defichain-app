@@ -90,17 +90,17 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
         <div className='main-wrapper'>
           <Helmet>
             <title>
-              {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
+              {I18n.t('containers.wallet.walletWalletsPage.walletWallets')}
             </title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
+            <h1>{I18n.t('containers.wallet.walletWalletsPage.wallets')}</h1>
             {/* 
             <ButtonGroup>
           <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletTokensPage.addToken')}
+              {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
             </span>
           </Button>
         </ButtonGroup> 

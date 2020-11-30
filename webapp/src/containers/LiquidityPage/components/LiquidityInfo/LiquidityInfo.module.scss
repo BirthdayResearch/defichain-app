@@ -5,11 +5,11 @@
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
 
-.inputNumber {
-  width: 48px;
-  text-align: right;
-}
+.titleWithIcon {
+  display: flex;
+  align-items: center;
 
-.error-dialog {
-  color: $dfi-red !important;
+  h1 {
+    margin-left: 8px;
+  }
 }

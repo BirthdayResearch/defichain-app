@@ -146,7 +146,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
                   name='amountToMint'
                   id='amountToMint'
                   value={amountToMint}
-                  onChange={e => setAmountToMint(e.target.value)}
+                  onChange={(e) => setAmountToMint(e.target.value)}
                 />
                 <Label for='amountToMint'>
                   {I18n.t('containers.tokens.mintToken.amount')}
@@ -272,7 +272,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorMintingToken}</p>
@@ -289,7 +289,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { tokens } = state;
   const { isTokenMinting, mintedTokenData, isErrorMintingToken } = tokens;
   return {

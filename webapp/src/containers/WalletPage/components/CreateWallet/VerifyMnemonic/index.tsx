@@ -80,7 +80,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   }, [selected]);
 
   const quizValidator = () => {
-    const selectedKeys = Object.keys(selected).map(item => !!selected[item]);
+    const selectedKeys = Object.keys(selected).map((item) => !!selected[item]);
     if (selectedKeys.length === 6) {
       const isValidated = quiz.reduce(
         (acc, item) => acc && selected[item.wordNum] === item.correct
@@ -160,7 +160,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 </h5>
                 <Row>
                   <Col xs='12'>
-                    {item.options.map(word => (
+                    {item.options.map((word) => (
                       <span className='mr-3'>
                         <Button
                           color={
@@ -196,7 +196,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 <p>{isErrorCreatingWallet}</p>
@@ -290,7 +290,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { wallet } = state;
   const { isWalletCreating, isErrorCreatingWallet } = wallet;
   return {
