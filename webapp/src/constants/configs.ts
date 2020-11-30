@@ -112,7 +112,7 @@ export const LEARN_MORE_ABOUT_BITCOIN_LINK =
   'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
 
 export const DEFICHAIN_DEX_YOUTUBE_LINK =
-  'https://www.youtube.com/watch?v=JLu16bdlYrM';
+  'https://www.youtube.com/watch?v=G3PT0fU__mM';
 export const LIQUIDITY_MINING_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=gDR19KNyPlc';
 export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
