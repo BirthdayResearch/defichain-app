@@ -232,7 +232,7 @@
         "price": "Price",
         "minimumReceived": "Minimum received",
         "priceImpact": "Price impact",
-        "liquidityProviderFee": "Liquidity provider fee",
+        "liquidityProviderFee": "Liquidity provider fee DFI",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
         "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
         "transactionComplete": "Transaction complete",
