@@ -155,6 +155,9 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = false;
       state.isRemovePoolLiquidityLoaded = true;
     },
+    resetTestPoolSwapRequest(state) {
+      state.testPoolSwap = '';
+    },
     fetchTestPoolSwapRequest(state, action) {
       state.isLoadingTestPoolSwap = true;
       state.isErrorTestPoolSwap = '';
@@ -255,6 +258,7 @@ export const {
   liquidityRemovedSuccess,
   refreshUTXOS2Success,
   transferTokensSuccess,
+  resetTestPoolSwapRequest,
   fetchTestPoolSwapRequest,
   fetchTestPoolSwapSuccess,
   fetchTestPoolSwapFailure,

@@ -255,7 +255,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const setMaxValue = (field: string, value: string) => {
     setFormState({
       ...formState,
-      [field]: value,
+      [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
     });
   };
 
