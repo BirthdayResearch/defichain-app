@@ -48,6 +48,9 @@ import {
   USDT_SYMBOL,
   SHARE_POOL_PAGE_SIZE,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  MAINNET_ETH_SYMBOL,
+  MAINNET_BTC_SYMBOL,
+  MAINNET_USDT_SYMBOL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -998,11 +1001,16 @@ export const parsedCoinPriceData = async () => {
 };
 
 export const getCoinMap = () => {
+  const networkType = getNetworkType();
+  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
+  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
-    [COINGECKO_BTC_ID, BTC_SYMBOL],
-    [COINGECKO_ETH_ID, ETH_SYMBOL],
-    [COINGECKO_USDT_ID, USDT_SYMBOL],
+    [COINGECKO_BTC_ID, btcSymbol],
+    [COINGECKO_ETH_ID, ethSymbol],
+    [COINGECKO_USDT_ID, usdtSymbol],
   ]);
   return coinMap;
 };
@@ -1139,11 +1147,15 @@ export const getTotalAmountPoolShare = async (poolID) => {
 };
 
 export const getSymbolKey = (symbol: string, key: string) => {
+  const networkType = getNetworkType();
+  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
+  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   if (
     key === DFI_SYMBOL ||
-    key === BTC_SYMBOL ||
-    key === ETH_SYMBOL ||
-    key === USDT_SYMBOL
+    key === btcSymbol ||
+    key === ethSymbol ||
+    key === usdtSymbol
   ) {
     return symbol;
   }
