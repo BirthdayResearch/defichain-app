@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   NavLink as RRNavLink,
@@ -12,10 +13,15 @@ import {
   MdDns,
   MdViewWeek,
   MdToll,
+  MdCompareArrows,
+  MdPieChart,
+  MdSettings,
+  MdHelp,
   // MdCompareArrows,
   // MdLockOpen,
   // MdLock,
 } from 'react-icons/md';
+import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
@@ -33,7 +39,10 @@ import {
   SETTING_PATH,
   SITE_URL,
   TOKENS_PATH,
+  SWAP_PATH,
   WALLET_TOKENS_PATH,
+  LIQUIDITY_PATH,
+  HELP_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -52,6 +61,9 @@ export interface SidebarProps extends RouteComponentProps {
   isErrorModalOpen: boolean;
   blockChainInfo: any;
   isWalletUnlocked: boolean;
+  isLoadingRemovePoolLiquidity: boolean;
+  isLoadingAddPoolLiquidity: boolean;
+  isLoadingPoolSwap: boolean;
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
@@ -59,6 +71,8 @@ export interface SidebarProps extends RouteComponentProps {
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+  const [blur, setBlur] = useState(true);
+  const { blockChainInfo } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -79,10 +93,26 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     openWalletPassphraseModal,
     isWalletUnlocked,
     lockWalletStart,
+    isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap,
   } = props;
 
+  useEffect(() => {
+    setBlur(!blur);
+  }, [
+    isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap,
+  ]);
+
+  const chainName = !isEmpty(blockChainInfo)
+    ? blockChainInfo.chain.charAt(0).toUpperCase() +
+      blockChainInfo.chain.slice(1)
+    : '';
+
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       {/* NOTE: Do not remove, for future purpose */}
       {/* <div className='text-right m-2'>
         {!isWalletEncrypted() ? (
@@ -105,15 +135,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
           />
         )}
       </div> */}
-      <div className={styles.balance}>
-        <div className={styles.balanceLabel}>
-          {I18n.t('containers.sideBar.balance')}
+      <div className={styles.currentNetwork}>
+        <div className={styles.currentNetworkHeading}>
+          {I18n.t('components.syncStatus.network')}
         </div>
-        <div className={styles.balanceValue}>
-          {getAmountInSelectedUnit(props.walletBalance, props.unit)}
-          &nbsp;
-          {props.unit}
-        </div>
+        <div className={styles.currentNetworkValue}>{chainName}</div>
       </div>
       <div className={styles.navs}>
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
@@ -132,19 +158,41 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               }}
             >
               <MdAccountBalanceWallet />
-              {I18n.t('containers.sideBar.wallet')}
+              {I18n.t('containers.sideBar.wallets')}
             </NavLink>
           </NavItem>
-          {/* NOTE: Do not remove, for future purpose */}
           <NavItem className={styles.navItem}>
             <NavLink
-              to={MASTER_NODES_PATH}
+              to={LIQUIDITY_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              <MdDns />
-              {I18n.t('containers.sideBar.masterNodes')}
+              <MdPieChart />
+              {I18n.t('containers.sideBar.liquidity')}
+            </NavLink>
+          </NavItem>
+
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={SWAP_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdCompareArrows />
+              {I18n.t('containers.sideBar.dex')}
+            </NavLink>
+          </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={TOKENS_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdToll />
+              {I18n.t('containers.sideBar.tokens')}
             </NavLink>
           </NavItem>
           <NavItem className={styles.navItem}>
@@ -158,17 +206,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               {I18n.t('containers.sideBar.blockchain')}
             </NavLink>
           </NavItem>
-            <NavItem className={styles.navItem}>
-              <NavLink
-                to={TOKENS_PATH}
-                tag={RRNavLink}
-                className={styles.navLink}
-                activeClassName={styles.active}
-              >
-                <MdToll />
-                {I18n.t('containers.sideBar.tokens')}
-              </NavLink>
-            </NavItem>
+          <NavItem className={styles.navItem}>
+            <NavLink
+              to={MASTER_NODES_PATH}
+              tag={RRNavLink}
+              className={styles.navLink}
+              activeClassName={styles.active}
+            >
+              <MdDns />
+              {I18n.t('containers.sideBar.masterNodes')}
+            </NavLink>
+          </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
           {/* <NavItem className={styles.navItem}>
             <NavLink
@@ -182,34 +230,37 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             </NavLink>
           </NavItem> */}
         </Nav>
-        <Nav className={`${styles.navSub} flex-column nav-pills`}>
-          <NavItem className={styles.navItem}>
+        <Nav className={`${styles.navSub} ${styles.navSubIcon}`}>
+          <NavItem>
             <NavLink
               to={CONSOLE_RPC_CALL_BASE_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.console')}
+              <HiTerminal />
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+
+          <NavItem>
             <NavLink
-              onClick={() => OpenNewTab(SITE_URL)}
+              to={HELP_PATH}
+              tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.help')}
+              <MdHelp />
             </NavLink>
           </NavItem>
-          <NavItem className={styles.navItem}>
+
+          <NavItem>
             <NavLink
               to={SETTING_PATH}
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
             >
-              {I18n.t('containers.sideBar.settings')}
+              <MdSettings />
             </NavLink>
           </NavItem>
         </Nav>
@@ -220,7 +271,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, popover } = state;
+  const { i18n, wallet, settings, popover, swap } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
@@ -228,6 +279,9 @@ const mapStateToProps = (state) => {
     isErrorModalOpen: popover.isOpen,
     blockChainInfo: wallet.blockChainInfo,
     isWalletUnlocked: popover.isWalletUnlocked,
+    isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
+    isLoadingAddPoolLiquidity: swap.isLoadingAddPoolLiquidity,
+    isLoadingPoolSwap: swap.isLoadingPoolSwap,
   };
 };
 

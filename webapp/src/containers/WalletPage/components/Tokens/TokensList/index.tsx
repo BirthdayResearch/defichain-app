@@ -3,20 +3,17 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { MdAdd } from 'react-icons/md';
-import { Button, ButtonGroup } from 'reactstrap';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
   fetchInstantBalanceRequest,
+  setIsWalletCreatedStartRequest,
 } from '../../../reducer';
-import { filterByValue, isWalletCreated } from '../../../../../utils/utility';
+import { filterByValue } from '../../../../../utils/utility';
 import {
-  WALLET_ADD_TOKEN_PATH,
   WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
-  DESTRUCTION_TX,
 } from '../../../../../constants';
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
@@ -29,12 +26,21 @@ interface WalletTokensListProps extends RouteComponentProps {
   walletBalance: any;
   fetchTokensRequest: () => void;
   fetchAccountTokensRequest: () => void;
+  isWalletCreatedFlag: boolean;
+  setIsWalletCreatedStartRequest: () => void;
+  openResetWalletDatModal: boolean;
 }
 
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
-  const { unit, history } = props;
+  const {
+    unit,
+    history,
+    isWalletCreatedFlag,
+    setIsWalletCreatedStartRequest,
+    openResetWalletDatModal,
+  } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
@@ -49,6 +55,10 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     fetchInstantBalanceRequest();
     fetchAccountTokensRequest();
   }, []);
+
+  useEffect(() => {
+    setIsWalletCreatedStartRequest();
+  }, [openResetWalletDatModal]);
 
   function paginate(pageNumber, tokensList?: any[]) {
     const clone = cloneDeep(tokensList || accountTokens);
@@ -70,14 +80,9 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
       `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
     );
   };
-
-  const handleCardClickDefault = () => {
-    props.history.push(WALLET_PAGE_PATH);
-  };
-
   return (
     <>
-      {!isWalletCreated() ? (
+      {!isWalletCreatedFlag ? (
         <div className='main-wrapper'>
           <CreateOrRestoreWalletPage history={history} />
         </div>
@@ -85,25 +90,28 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
         <div className='main-wrapper'>
           <Helmet>
             <title>
-              {I18n.t('containers.wallet.walletTokensPage.walletTokens')}
+              {I18n.t('containers.wallet.walletWalletsPage.walletWallets')}
             </title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.walletTokensPage.tokens')}</h1>
-            {/* <ButtonGroup>
+            <h1>{I18n.t('containers.wallet.walletWalletsPage.wallets')}</h1>
+            {/* 
+            <ButtonGroup>
           <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletTokensPage.addToken')}
+              {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
             </span>
           </Button>
-        </ButtonGroup> */}
+        </ButtonGroup> 
+        */}
           </Header>
           <div className='content'>
             <WalletTokenCard
-              handleCardClick={handleCardClickDefault}
+              handleCardClick={handleCardClick}
               token={{
                 symbol: unit,
+                symbolKey: unit,
                 amount: props.walletBalance,
                 hash: '0',
                 address: '',
@@ -145,10 +153,12 @@ const mapStateToProps = (state) => {
       isAccountTokensLoaded,
       isAccountLoadingTokens,
       walletBalance,
+      isWalletCreatedFlag,
     },
     settings: {
       appConfig: { unit },
     },
+    popover: { openResetWalletDatModal },
   } = state;
   return {
     unit,
@@ -159,6 +169,8 @@ const mapStateToProps = (state) => {
     isAccountTokensLoaded,
     isAccountLoadingTokens,
     walletBalance,
+    isWalletCreatedFlag,
+    openResetWalletDatModal,
   };
 };
 
@@ -166,6 +178,7 @@ const mapDispatchToProps = {
   fetchTokensRequest,
   fetchAccountTokensRequest,
   fetchInstantBalanceRequest,
+  setIsWalletCreatedStartRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTokensList);

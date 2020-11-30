@@ -4,7 +4,9 @@ import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { ITokenCard } from '../../../utils/interfaces';
-import { getIcon } from '../../../utils/utility';
+import VerifiedIcon from '../../../assets/svg/verified-icon.svg';
+
+import TokenAvatar from '../../TokenAvatar';
 
 const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
   const { data } = props;
@@ -17,10 +19,13 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       <CardBody className={styles.cardBody}>
         <Row className='mb-3'>
           <Col>
-            <b>{data.name}</b> <span>{data.symbol}</span>
+            <b>{data.isLPS ? `Liquidity token for ${data.symbolKey}` : data.name}</b> <span>{data.symbolKey}</span>
           </Col>
           <Col md='6' className={`${styles.tokenCardIcon}`}>
-            <img height={'30px'} width={'30px'} src={getIcon(data.symbol)} />
+            {data.isDAT && (
+              <img src={VerifiedIcon} className='mr-1' />
+            )}
+            <TokenAvatar symbol={data.symbolKey} />
           </Col>
         </Row>
         {/* <Row>

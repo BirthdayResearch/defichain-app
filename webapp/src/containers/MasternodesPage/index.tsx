@@ -331,7 +331,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{errorMessage}</p>

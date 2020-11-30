@@ -1,0 +1,44 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.svg {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  line-height: 100px;
+  border-radius: 100%;
+  margin-bottom: 40px;
+  margin-top: 100px;
+  padding: 20px;
+  color: #676868;
+}
+
+.labelAddLiquidity {
+  color: #ff00af;
+  margin-top: 30px;
+  letter-spacing: 0.86px;
+}
+
+.videoThumbnailWrapper {
+  cursor: pointer;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  text-align: center;
+  color: $secondary;
+  font-size: $font-size-sm;
+}
+
+.videoThumbnail {
+  width: 171px;
+  height: 96px;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius-lg;
+  box-sizing: content-box;
+  display: block;
+  margin-bottom: 0.5rem;
+}

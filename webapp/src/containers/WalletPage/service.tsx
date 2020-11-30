@@ -6,21 +6,31 @@ import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
+  RECIEVE_CATEGORY_LABEL,
+  SENT_CATEGORY_LABEL,
+  TX_TYPES,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
+import orderBy from 'lodash/orderBy';
+import compact from 'lodash/compact';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
+  getAddressAndAmountListForAccount,
+  getAddressForSymbol,
+  getBalanceForSymbol,
   getErrorMessage,
+  getSmallerAmount,
+  handleAccountToAccountConversion,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
 } from '../../utils/utility';
+import BigNumber from 'bignumber.js';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -82,7 +92,7 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return await rpcClient.getBalance();
+  return rpcClient.getBalance();
 };
 
 export const handleFetchAccountDFI = async () => {
@@ -96,7 +106,7 @@ export const handleFetchAccountDFI = async () => {
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return regularDFI + accountDFI;
+  return (regularDFI + accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -118,7 +128,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
   const txInfo = await rpcClient.getTransaction(txId);
   if (!txInfo.blockhash && txInfo.confirmations === 0) {
-    await sleep(3000);
+    await sleep(1000);
     await getTransactionInfo(txId);
   } else {
     return;
@@ -132,6 +142,7 @@ export const sendToAddress = async (
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
+  let accountToAccountAmount = new BigNumber(0);
   if (regularDFI >= amount) {
     try {
       const data = await rpcClient.sendToAddress(
@@ -146,25 +157,43 @@ export const sendToAddress = async (
     }
   } else {
     try {
-      const accountTokens = await handleFetchAccounts();
-      const DFIObj = accountTokens.find((token) => token.hash === '0');
-      const fromAddress = DFIObj.address;
+      const addressesList = await getAddressAndAmountListForAccount();
+      const {
+        address: fromAddress,
+        amount: maxAmount,
+      } = await getAddressForSymbol('0', addressesList);
+      if (Number(amount) > maxAmount) {
+        accountToAccountAmount = await handleAccountToAccountConversion(
+          addressesList,
+          fromAddress,
+          '0'
+        );
+      }
       const txId = await rpcClient.sendToAddress(
         fromAddress,
-        (10 / 100) * amount,
+        Number((10 / 100) * amount).toFixed(8),
         subtractfeefromamount
       );
       await getTransactionInfo(txId);
+      const balance = await getBalanceForSymbol(fromAddress, '0');
+      const finalBalance = getSmallerAmount(
+        balance,
+        accountToAccountAmount.plus(maxAmount).toFixed(4)
+      );
       const hash = await rpcClient.accountToUtxos(
         fromAddress,
         fromAddress,
-        `${(amount - regularDFI).toFixed(4)}@DFI`
+        `${finalBalance.toFixed(2)}@DFI`
       );
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
-      const transferAmount =
-        regularDFIAfterTxFee < amount ? regularDFIAfterTxFee : amount;
-      await sendToAddress(toAddress, transferAmount, true);
+      if (regularDFIAfterTxFee < amount) {
+        throw new Error('Insufficient DFI in account');
+      } else if (regularDFIAfterTxFee === amount) {
+        return await sendToAddress(toAddress, amount, true);
+      } else {
+        return await sendToAddress(toAddress, amount, false);
+      }
     } catch (error) {
       log.error(`Got error in sendToAddress: ${error}`);
       throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
@@ -276,7 +305,7 @@ export const handleFetchAccounts = async () => {
     }
   });
 
-  const resolvedData: any = _.compact(await Promise.all(tokensData));
+  const resolvedData: any = compact(await Promise.all(tokensData));
 
   const transformedData: any =
     resolvedData &&
@@ -357,4 +386,72 @@ export const getRandomWords = () => {
 
 export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
+};
+
+export const getListAccountHistory = (query: {
+  limit: number;
+  blockHeight?: number;
+  no_rewards?: boolean;
+  token: string;
+}) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getListAccountHistory(query);
+};
+
+export const prepareTxDataRows = (data: any[]) => {
+  return data.map((item) => {
+    const amounts = item.amounts.map((ele) => ({
+      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toFixed(),
+      symbolKey: ele.slice(ele.indexOf('@') + 1),
+    }));
+    const { category, isValid } = validTrx(item);
+    return {
+      ...item,
+      category,
+      isValid,
+      amounts: orderBy(amounts, 'value', 'desc'),
+    };
+  });
+};
+
+export const handleBlockData = async (blockHeight: number) => {
+  const rpcClient = new RpcClient();
+  const blockHash = await rpcClient.getBlockHash(blockHeight);
+  const block = await rpcClient.getBlock(blockHash, 1);
+  return block;
+};
+
+const validTrx = (item) => {
+  const SendReceiveValidTxTypeArray = [
+    TX_TYPES.UtxosToAccount,
+    TX_TYPES.AccountToUtxos,
+    TX_TYPES.AccountToAccount,
+  ];
+  let isValid =
+    item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap;
+  let category = item.type;
+  if (!isValid) {
+    isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
+    if (isValid) {
+      category = new BigNumber(item.amounts[0].value).gte(0)
+        ? RECIEVE_CATEGORY_LABEL
+        : SENT_CATEGORY_LABEL;
+    }
+  }
+  return {
+    category,
+    isValid,
+  };
+};
+
+export const handleRestartCriteria = async () => {
+  const rpcClient = new RpcClient();
+  const balance = await rpcClient.getBalance();
+  const txCount = await rpcClient.getWalletTxnCount();
+  const tokenBalance = await rpcClient.getTokenBalances();
+  return (
+    new BigNumber(balance).gt(0) ||
+    new BigNumber(txCount).gt(0) ||
+    tokenBalance.length > 0
+  );
 };
