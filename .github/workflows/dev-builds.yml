@@ -1,9 +1,8 @@
 on:
   push:
     branches:
-      - feature/implement-token-listing-ui
       - ci/*
-      - feature/implement-lp
+      - master
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
