@@ -267,9 +267,17 @@
         "poweredLiquidityPools": "Powered by liquidity pools",
         "poweredLiquidityPoolsInfo": "Swaps werden über automatisierte Liquiditätspools abgewickelt, nicht über zentralisierte Auftragsbücher.",
         "swaping": "Swapping",
-        "amountInsufficient": "Unzureichender Betrag auf deinem Konto",
-        "txHash": "Transaktions Hash",
-        "somethingWentWrong": "Etwas ist schief gelaufen"
+        "amountInsufficient": "Insufficient Amount in your account",
+        "txHash": "Transaction Hash",
+        "somethingWentWrong": "Something went wrong",
+        "preparingUTXO": "UTXO vorbereitet",
+        "UTXOPrepared": "UTXO vorbereiten",
+        "transferringTokens": "Übertragen von Tokens",
+        "tokensTransferred": "Tokens Übertragen"
+      },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
       },
       "swapTab": { "from": "Von", "to": "An" },
       "poolTab": {

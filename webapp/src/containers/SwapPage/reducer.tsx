@@ -34,6 +34,8 @@ export const initialState = {
   isErrorTestPoolSwap: '',
   poolSwapHash: '',
   isLoadingPoolSwap: false,
+  isLoadingRefreshUTXOS: false,
+  isLoadingTransferringTokens: false,
   isPoolSwapLoaded: false,
   isErrorPoolSwap: '',
   utxoDfi: 0,
@@ -176,13 +178,22 @@ const configSlice = createSlice({
     poolSwapRequest(state, action) {
       state.isLoadingPoolSwap = true;
       state.isPoolSwapLoaded = false;
+      state.poolSwapHash = '';
+      state.isErrorPoolSwap = '';
+      state.isLoadingRefreshUTXOS = true;
+    },
+    poolSwapRefreshUTXOSuccess(state) {
+      state.isLoadingRefreshUTXOS = false;
+      state.isLoadingTransferringTokens = true;
     },
     poolSwapSuccess(state, action) {
+      state.isLoadingTransferringTokens = false;
       state.poolSwapHash = action.payload;
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
     },
     poolSwapFailure(state, action) {
+      state.isLoadingTransferringTokens = false;
       state.isErrorPoolSwap = action.payload;
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
@@ -248,6 +259,7 @@ export const {
   fetchTestPoolSwapSuccess,
   fetchTestPoolSwapFailure,
   poolSwapRequest,
+  poolSwapRefreshUTXOSuccess,
   poolSwapSuccess,
   poolSwapFailure,
   fetchUtxoDfiRequest,
