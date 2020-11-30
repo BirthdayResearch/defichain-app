@@ -1,59 +1,67 @@
 // App and Bootstrap variables required
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "../../scss/variables";
-@import "../../scss/bootstrap/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
 
-.consoleTextArea {
-  height: 30vh !important;
-  overflow-y: auto;
-}
+.consoleContent {
+  padding: 0 !important; // Move padding to console itself so easier to receive focus
 
-.exampleHighlight {
-  word-break: break-word;
-  word-spacing: 5px;
-  color: #e83e8c;
-  font-size: 87.5%;
-}
-
-.consoleCmd {
-  background-color: rgb(249, 249, 249) !important;
-  border: solid 1px rgb(236, 238, 239);
-  margin: 10px 0px 10px 0px;
-  overflow: auto;
-  word-spacing: 5px;
-}
-
-.exampleComponent {
-  h2 {
-    line-height: 1rem;
-  }
-
-  margin-bottom: 2rem;
-}
-
-.detailHeight {
-  height: 30vh !important;
-  background-color: rgb(249, 249, 249) !important;
-  border: solid 1px rgb(236, 238, 239);
-  margin: 10px 0px 10px 0px;
-}
-
-.popover {
-  button {
-    padding: 0;
-    margin: 0;
-
-    svg {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      font-size: 10px;
-      display: inline-block !important;
-      position: relative;
-      top: 0px;
-      left: 5px;
-    }
+  section {
+    margin-bottom: 0 !important;
   }
 }
+
+// .consoleTextArea {
+//   height: 30vh !important;
+//   overflow-y: auto;
+// }
+
+// .exampleHighlight {
+//   word-break: break-word;
+//   word-spacing: 5px;
+//   color: #e83e8c;
+//   font-size: 87.5%;
+// }
+
+// .consoleCmd {
+//   background-color: rgb(249, 249, 249) !important;
+//   border: solid 1px rgb(236, 238, 239);
+//   margin: 10px 0px 10px 0px;
+//   overflow: auto;
+//   word-spacing: 5px;
+// }
+
+// .exampleComponent {
+//   h2 {
+//     line-height: 1rem;
+//   }
+
+//   margin-bottom: 2rem;
+// }
+
+// .detailHeight {
+//   height: 30vh !important;
+//   background-color: rgb(249, 249, 249) !important;
+//   border: solid 1px rgb(236, 238, 239);
+//   margin: 10px 0px 10px 0px;
+// }
+
+// .popover {
+//   button {
+//     padding: 0;
+//     margin: 0;
+
+//     svg {
+//       width: 14px;
+//       height: 14px;
+//       border-radius: 50%;
+//       font-size: 10px;
+//       display: inline-block !important;
+//       position: relative;
+//       top: 0px;
+//       left: 5px;
+//     }
+//   }
+// }

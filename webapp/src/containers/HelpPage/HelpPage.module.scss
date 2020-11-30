@@ -1,0 +1,56 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.helpOptions {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.helpOption {
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+.helpOptionRow {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 1.5rem;
+}
+
+.helpOptionIcon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    color: $primary;
+  }
+}
+
+.helpOptionDescription {
+  h3 {
+    font-weight: $font-weight-normal;
+    line-height: 1.5rem;
+    font-size: $font-size-base;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $secondary;
+    margin-bottom: 0;
+    line-height: 1.25rem;
+  }
+}
+
+.footerNote {
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $secondary;
+}

@@ -38,6 +38,17 @@ import {
   restoreWalletSuccess,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  setIsWalletCreatedRequest,
+  setIsWalletCreatedStartRequest,
+  fetchWalletTokenTransactionsListRequestLoading,
+  fetchWalletTokenTransactionsListRequestSuccess,
+  fetchWalletTokenTransactionsListRequestFailure,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -48,12 +59,14 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
-  handleAccountFetchTokens,
+  handleBlockData,
   getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
   setHdSeed,
   importPrivKey,
+  getListAccountHistory,
+  handleRestartCriteria,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -63,6 +76,7 @@ import {
   getNetworkInfo,
   getNetworkType,
   isValidMnemonic,
+  isWalletCreated,
 } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
@@ -78,6 +92,8 @@ import {
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
+import minBy from 'lodash/minBy';
+import orderBy from 'lodash/orderBy';
 
 export function* getNetwork() {
   const {
@@ -352,6 +368,76 @@ export function* fetchInstantPendingBalance() {
     log.error(err);
   }
 }
+
+function* checkWalletCreation() {
+  try {
+    const network = yield call(getNetwork);
+    const isWalletCreatedVal = isWalletCreated(network);
+    yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* fetchWalletTokenTransactionsList(action) {
+  try {
+    const { symbol, limit, includeRewards } = action.payload;
+
+    let minBlockHeight;
+    let cloneData: any[] = [];
+    while (true) {
+      const data: any[] = yield call(getListAccountHistory, {
+        limit,
+        blockHeight: minBlockHeight,
+        token: symbol,
+        no_rewards: !includeRewards,
+      });
+      if (!data.length) {
+        break;
+      }
+      // data contains array of objects containing blockHeight in desc order. so here to paginate to next page data we will use the minimum block height - 1
+      const minHeightData = minBy(data, 'blockHeight');
+      minBlockHeight = minHeightData.blockHeight - 1;
+      cloneData = cloneData.concat(data);
+    }
+
+    yield put(
+      fetchWalletTokenTransactionsListRequestSuccess(
+        orderBy(cloneData, 'blockHeight', 'desc')
+      )
+    );
+  } catch (err) {
+    yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
+  }
+}
+
+function* getBlockData(item) {
+  const blockData = yield call(handleBlockData, item.blockHeight);
+  return {
+    ...item,
+    blockData,
+  };
+}
+
+function* fetchBlockDataForTrx(action) {
+  try {
+    const trxArray: any[] = action.payload;
+    const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
+    yield put(fetchBlockDataForTrxRequestSuccess(updated));
+  } catch (err) {
+    yield put(fetchBlockDataForTrxRequestFailure(err.message));
+  }
+}
+
+function* checkRestartCriteria() {
+  try {
+    const restartCriteria = yield call(handleRestartCriteria);
+    yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
+  } catch (err) {
+    yield put(checkRestartCriteriaRequestFailure(err.message));
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -368,6 +454,19 @@ function* mySaga() {
   yield takeLatest(
     fetchInstantPendingBalanceRequest.type,
     fetchInstantPendingBalance
+  );
+  yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
+  yield takeLatest(
+    fetchWalletTokenTransactionsListRequestLoading.type,
+    fetchWalletTokenTransactionsList
+  );
+  yield takeLatest(
+    checkRestartCriteriaRequestLoading.type,
+    checkRestartCriteria
+  );
+  yield takeLatest(
+    fetchBlockDataForTrxRequestLoading.type,
+    fetchBlockDataForTrx
   );
 }
 

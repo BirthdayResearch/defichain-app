@@ -18,10 +18,15 @@
   box-shadow: 0 0 0 0.0625rem #dc3545 !important;
 }
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
 }
 
 .collateralFormText {
   color: #dc3545 !important;
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
 }
