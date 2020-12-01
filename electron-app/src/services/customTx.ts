@@ -6,14 +6,13 @@ import {
   crypto,
   util,
 } from 'bitcore-lib-dfi';
-// @tsc-ignore
-import _ from 'lodash';
+import * as _ from 'lodash';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 
 type CustomTransaction = {
   txType: string;
   customData: any;
-  tokenId: string;
+  tokenId: number;
 };
 
 interface SigsInput {
@@ -22,12 +21,11 @@ interface SigsInput {
   hashBuf: Buffer;
 }
 
-function createZeroOutputTxFromCustomTx(
+export function createZeroOutputTxFromCustomTx(
   tx: Transaction,
   customTx: CustomTransaction
 ) {
-  const script = new Script();
-  script.add(Opcode.map.OP_RETURN);
+  const script = new Script().add(Opcode.map.OP_RETURN);
   switch (customTx.txType) {
     case CustomTx.customTxType.createMasternode:
       script.add(new CustomTx.CreateMasternode(customTx.customData));
@@ -82,13 +80,11 @@ function createZeroOutputTxFromCustomTx(
     tokenId: customTx.tokenId,
     satoshis: 0,
   });
-  tx.addOutput(output);
-  return tx;
+  return new Transaction(tx).addOutput(output);
 }
 
-function signInputs(tx: Transaction, keyIndex: number) {
-  // @tsc-ignore
-  _.each(getSignatures(tx, keyIndex), (sigsInput: any) => {
+async function signInputs(tx: Transaction, keyIndex: number) {
+  _.each(await getSignatures(tx, keyIndex), (sigsInput: any) => {
     tx.inputs[sigsInput.signature.inputIndex].setScript(
       Script.buildPublicKeyHashIn(
         sigsInput.signature.publicKey,
@@ -100,11 +96,10 @@ function signInputs(tx: Transaction, keyIndex: number) {
   return tx;
 }
 
-function getSignatures(tx: Transaction, keyIndex: number) {
+async function getSignatures(tx: Transaction, keyIndex: number) {
   const results: SigsInput[] = [];
-  _.each(tx.inputs, (input: Transaction.Input, index: number) => {
-    // @tsc-ignore
-    _.each(getSigsInputs(tx, index, keyIndex), (signature: any) => {
+  _.each(tx.inputs, async (input: Transaction.Input, index: number) => {
+    _.each(await getSigsInputs(tx, index, keyIndex), (signature: any) => {
       results.push(signature);
     });
   });
@@ -120,7 +115,8 @@ async function getSigsInputs(
     tx,
     crypto.Signature.SIGHASH_ALL,
     index,
-    tx.inputs[index].output.script,
+    // TODO change is bugs
+    tx.inputs[index]._scriptBuffer,
     keyIndex
   );
   const txSig = new Transaction.Signature({
@@ -145,26 +141,29 @@ async function signTransaction(
   subscript: Script,
   keyIndex: number
 ) {
-  let hashBuf = Transaction.Sighash.sighash(
-    tx,
-    sighashType,
-    inputIndex,
-    subscript
-  );
-  hashBuf = util.buffer.reverse(hashBuf);
-  const wallet = new DefiHwWallet();
-  await wallet.connect();
-  let signature: Buffer = await wallet.sign(keyIndex, hashBuf);
-  signature = await wallet.transformationSign(signature);
-  return {
-    signature,
-    hashBuf,
-    keyIndex,
-  };
+  try {
+    let hashBuf = Transaction.Sighash.sighash(
+      tx,
+      sighashType,
+      inputIndex,
+      subscript
+    );
+    hashBuf = util.buffer.reverse(hashBuf);
+    const wallet = new DefiHwWallet();
+    await wallet.connect();
+    let signature: Buffer = await wallet.sign(keyIndex, hashBuf);
+    signature = await wallet.transformationSign(signature);
+    return {
+      signature,
+      hashBuf,
+      keyIndex,
+    };
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
-// @tsc-ignore
-export function createTx(
+export async function createTx(
   utxo: any,
   address: any,
   amount: any,
@@ -173,6 +172,6 @@ export function createTx(
 ) {
   let tx = new Transaction().from(utxo).to(address, amount).fee(0);
   tx = createZeroOutputTxFromCustomTx(tx, data);
-  tx = signInputs(tx, keyIndex);
+  tx = await signInputs(tx, keyIndex);
   return tx;
 }
