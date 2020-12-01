@@ -179,20 +179,16 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                           : `text-center text-secondary`
                       }
                     >
-                      <Row>
-                        <Col xs='11'>
-                          <EllipsisText text={item.txid || '-'} length={60} />
-                        </Col>
-                        <Col xs='1' className={'text-right'}>
-                          {item.txid && (
-                            <CopyToClipIcon
-                              value={item.txid}
-                              uid={`tooltip-uid-${item.txid}`}
-                            />
-                          )}
-                        </Col>
-                      </Row>
+                      <EllipsisText text={item.txid || '-'} length={60} />
                     </div>
+                  </td>
+                  <td className={styles.copyIcon}>
+                    {item.txid && (
+                      <CopyToClipIcon
+                        value={item.txid}
+                        uid={`tooltip-uid-${item.txid}`}
+                      />
+                    )}
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
                     <div
