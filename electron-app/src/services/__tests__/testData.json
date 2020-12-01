@@ -40,5 +40,14 @@
       "flags": 3
     },
     "tokenId": 0
+  },
+  "mintTokenData": {
+    "txType": "M",
+    "customData": {
+      "minted": {
+        "130": 0
+      }
+    },
+    "tokenId": 0
   }
 }
