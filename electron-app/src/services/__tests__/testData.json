@@ -1,0 +1,44 @@
+{
+  "utxo": {
+    "txId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+    "outputIndex": 0,
+    "script": "OP_DUP OP_HASH160 20 0x88d9931ea73d60eaf7e5671efc0552b912911f2a OP_EQUALVERIFY OP_CHECKSIG",
+    "satoshis": 0
+  },
+  "transaction": {
+    "fee": 0,
+    "hash": "727783fbfcdce4fd6e34d071a78d8e95177772ab23702b3dce77e1da322c3229",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 0,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      }
+    ],
+    "version": 4
+  },
+  "createTokenData": {
+    "txType": "T",
+    "customData": {
+      "symbol": "AhmedTok",
+      "name": "",
+      "decimal": 8,
+      "limit": 0,
+      "flags": 3
+    },
+    "tokenId": 0
+  }
+}
