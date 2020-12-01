@@ -77,16 +77,16 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   const urlParams = new URLSearchParams(props.location.search);
   const sharePercentage = urlParams.get('sharePercentage');
 
-  const [formState, setFormState] = useState<any>({
-    amountPercentage: '0',
-    receiveAddress: '',
-  });
   const [removeLiquidityStep, setRemoveLiquidityStep] = useState<string>(
     'default'
   );
   const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [sumAmount, setSumAmount] = useState<number>(0);
+  const [formState, setFormState] = useState<any>({
+    amountPercentage: '0',
+    receiveAddress: '',
+  });
 
   const { id } = props.match.params;
 
@@ -133,6 +133,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     async function addressAndAmount() {
       const data = await getReceivingAddressAndAmountList();
       setReceiveAddresses(data.addressAndAmountList);
+      setFormState({
+        ...formState,
+        receiveAddress: data.addressAndAmountList[0]?.address,
+      });
     }
     addressAndAmount();
   }, []);
