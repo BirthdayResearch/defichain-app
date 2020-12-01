@@ -36,6 +36,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import EllipsisText from 'react-ellipsis-text';
 import { prepareTxDataRows } from '../../service';
 import BigNumber from 'bignumber.js';
+import CopyToClipIcon from '../../../../components/CopyToClipIcon';
 
 interface WalletTxnsProps {
   unit: string;
@@ -180,6 +181,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     >
                       <EllipsisText text={item.txid || '-'} length={60} />
                     </div>
+                  </td>
+                  <td className={styles.copyIcon}>
+                    {item.txid && (
+                      <CopyToClipIcon
+                        value={item.txid}
+                        uid={`tooltip-uid-${item.txid}`}
+                      />
+                    )}
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
                     <div
