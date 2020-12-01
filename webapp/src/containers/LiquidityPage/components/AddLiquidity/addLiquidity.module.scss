@@ -58,3 +58,17 @@
   color: $secondary;
   text-align: right;
 }
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
+}

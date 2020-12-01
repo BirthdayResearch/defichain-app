@@ -3,14 +3,26 @@ import { Helmet } from 'react-helmet';
 import {
   MdAdd,
   MdArrowBack,
+  MdCheck,
   MdCheckCircle,
   MdErrorOutline,
 } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
-import { Button, Col, Modal, ModalBody, Row } from 'reactstrap';
+import {
+  Button,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Modal,
+  ModalBody,
+  Row,
+  UncontrolledDropdown,
+} from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import EllipsisText from 'react-ellipsis-text';
 
 import LiquidityCard from '../../../../components/LiquidityCard';
 import {
@@ -47,6 +59,7 @@ import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
+import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 
 interface AddLiquidityProps {
   location: any;
@@ -79,6 +92,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const tokenA = urlParams.get('tokenA');
   const tokenB = urlParams.get('tokenB');
 
+  const [addLiquidityStep, setAddLiquidityStep] = useState<string>('default');
+  const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
+  const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
+  const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
+
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: '',
@@ -88,13 +107,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     symbol2: '',
     balance1: '',
     balance2: '',
+    receiveAddress: '',
   });
-
-  const [addLiquidityStep, setAddLiquidityStep] = useState<string>('default');
-  const [allowCalls, setAllowCalls] = useState<boolean>(false);
-  const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
-  const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
-
   const {
     poolshares,
     poolPairList,
@@ -124,68 +138,78 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   }, []);
 
   useEffect(() => {
-    const balanceSymbolMap: any = getBalanceAndSymbolMap(tokenBalanceList);
-    if (idTokenA && idTokenB) {
-      let balanceA;
-      let balanceB;
-      if (idTokenA === DFI_SYMBOL) {
-        balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
-      } else {
-        balanceA = balanceSymbolMap.get(idTokenA);
-      }
-      if (idTokenB === DFI_SYMBOL) {
-        balanceB = new BigNumber(walletBalance).toNumber().toFixed(8);
-      } else {
-        balanceB = balanceSymbolMap.get(idTokenB);
-      }
+    async function addressAndAmount() {
+      const data = await getReceivingAddressAndAmountList();
+      setReceiveAddresses(data.addressAndAmountList);
+      const balanceSymbolMap: any = getBalanceAndSymbolMap(tokenBalanceList);
+      if (idTokenA && idTokenB) {
+        let balanceA;
+        let balanceB;
+        if (idTokenA === DFI_SYMBOL) {
+          balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
+        } else {
+          balanceA = balanceSymbolMap.get(idTokenA);
+        }
+        if (idTokenB === DFI_SYMBOL) {
+          balanceB = new BigNumber(walletBalance).toNumber().toFixed(8);
+        } else {
+          balanceB = balanceSymbolMap.get(idTokenB);
+        }
 
-      if (!balanceB) {
-        setFormState({
-          ...formState,
-          hash1: idTokenA,
-          symbol1: tokenA,
-          balance1: balanceA,
-        });
-      } else if (!balanceA) {
-        setFormState({
-          ...formState,
-          hash2: idTokenB,
-          symbol2: tokenB,
-          balance2: balanceB,
-        });
+        if (!balanceB) {
+          setFormState({
+            ...formState,
+            hash1: idTokenA,
+            symbol1: tokenA,
+            balance1: balanceA,
+            receiveAddress: data.addressAndAmountList[0]?.address,
+          });
+        } else if (!balanceA) {
+          setFormState({
+            ...formState,
+            hash2: idTokenB,
+            symbol2: tokenB,
+            balance2: balanceB,
+            receiveAddress: data.addressAndAmountList[0]?.address,
+          });
+        } else {
+          setFormState({
+            ...formState,
+            hash1: idTokenA,
+            symbol1: tokenA,
+            hash2: idTokenB,
+            symbol2: tokenB,
+            balance1: balanceA,
+            balance2: balanceB,
+            receiveAddress: data.addressAndAmountList[0]?.address,
+          });
+        }
       } else {
-        setFormState({
-          ...formState,
-          hash1: idTokenA,
-          symbol1: tokenA,
-          hash2: idTokenB,
-          symbol2: tokenB,
-          balance1: balanceA,
-          balance2: balanceB,
-        });
-      }
-    } else {
-      const balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
-      const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
-      if (!balanceB) {
-        setFormState({
-          ...formState,
-          hash1: DFI_SYMBOL,
-          symbol1: DFI,
-          balance1: balanceA,
-        });
-      } else {
-        setFormState({
-          ...formState,
-          hash1: DFI_SYMBOL,
-          symbol1: DFI,
-          hash2: BTC_SYMBOL,
-          symbol2: BTC,
-          balance1: balanceA,
-          balance2: balanceB,
-        });
+        const balanceA = new BigNumber(walletBalance).toNumber().toFixed(8);
+        const balanceB = balanceSymbolMap.get(BTC_SYMBOL);
+        if (!balanceB) {
+          setFormState({
+            ...formState,
+            hash1: DFI_SYMBOL,
+            symbol1: DFI,
+            balance1: balanceA,
+            receiveAddress: data.addressAndAmountList[0]?.address,
+          });
+        } else {
+          setFormState({
+            ...formState,
+            hash1: DFI_SYMBOL,
+            symbol1: DFI,
+            hash2: BTC_SYMBOL,
+            symbol2: BTC,
+            balance1: balanceA,
+            balance2: balanceB,
+            receiveAddress: data.addressAndAmountList[0]?.address,
+          });
+        }
       }
     }
+    addressAndAmount();
   }, []);
 
   useEffect(() => {
@@ -366,6 +390,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       amount1: formState.amount1,
       hash2: formState.hash2,
       amount2: formState.amount2,
+      shareAddress: formState.receiveAddress,
     });
   };
 
@@ -403,6 +428,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       return tokenArray;
     }, []);
     return filterArray;
+  };
+
+  const handleDropDowns = (data: any, field: any) => {
+    setFormState({
+      ...formState,
+      [field]: data,
+    });
   };
 
   return (
@@ -460,6 +492,63 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               }
             />
           </div>
+          <UncontrolledDropdown className='w-100'>
+            <DropdownToggle
+              caret
+              color='outline-secondary'
+              className={`${styles.divisibilityDropdown}`}
+            >
+              {formState.receiveAddress
+                ? formState.receiveAddress
+                : I18n.t('containers.swap.addLiquidity.receiveAddress')}
+            </DropdownToggle>
+            <DropdownMenu className={`${styles.scrollAuto} w-100`}>
+              <DropdownItem className='w-100'>
+                <Row className='w-100'>
+                  <Col md='6'>
+                    {I18n.t('containers.swap.addLiquidity.address')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.addLiquidity.label')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.addLiquidity.selected')}
+                  </Col>
+                </Row>
+              </DropdownItem>
+              {receiveAddresses.map((data) => {
+                return (
+                  <DropdownItem
+                    className='justify-content-between ml-0 w-100'
+                    key={data.address}
+                    name='receiveAddress'
+                    onClick={() =>
+                      handleDropDowns(data.address, 'receiveAddress')
+                    }
+                    value={data.address}
+                  >
+                    <Row className='w-100'>
+                      <Col md='6'>
+                        <EllipsisText text={data.address} length={'42'} />
+                      </Col>
+                      <Col md='3'>
+                        <EllipsisText
+                          text={data.label ? data.label : '---'}
+                          length={'20'}
+                        />
+                      </Col>
+                      <Col md='3'>
+                        {formState.receiveAddress === data.address && (
+                          <MdCheck />
+                        )}
+                      </Col>
+                    </Row>
+                  </DropdownItem>
+                );
+              })}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <br />
           {isValid() && (
             <div>
               <Row>
