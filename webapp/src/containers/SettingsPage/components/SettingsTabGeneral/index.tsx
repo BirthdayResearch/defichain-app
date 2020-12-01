@@ -1,14 +1,17 @@
 import React from 'react';
-import { TabPane, Row, Col, Form, FormGroup, Label } from 'reactstrap';
+import { TabPane, Row, Col, Form, FormGroup, Label, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
 import { connect } from 'react-redux';
+
 import SettingsRowDropDown from '../SettingsRowDropDown';
+import { openGeneralReIndexModal } from '../../../PopOver/reducer';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
+  reindexAfterSaving: boolean;
   minimizedAtLaunch: boolean;
   pruneBlockStorage: boolean;
   blockStorage: number;
@@ -23,6 +26,8 @@ interface SettingsTabGeneralProps {
   network: string;
   networkOptions: { label: string; value: string }[];
   handleDropDowns: (data: any, field: any) => any;
+  openGeneralReIndexModal: () => void;
+  handeReindexToggle: () => void;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
@@ -41,7 +46,10 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     handleToggles,
     networkOptions,
     network,
+    reindexAfterSaving,
     handleDropDowns,
+    openGeneralReIndexModal,
+    handeReindexToggle,
   } = props;
 
   return (
@@ -74,6 +82,17 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                 field={minimizedAtLaunch}
                 fieldName={'minimizedAtLaunch'}
                 hideMinimized={!launchAtLogin}
+              />
+            </Col>
+          </Row>
+          <Row className='mb-5'>
+            <Col md='4'>{I18n.t('containers.settings.reindexOption')}</Col>
+            <Col md='8' lg='6'>
+              <SettingsRowToggle
+                handleToggles={handeReindexToggle}
+                label={'reindexAfterSaving'}
+                field={reindexAfterSaving}
+                fieldName={'reindexAfterSaving'}
               />
             </Col>
           </Row>
@@ -115,6 +134,17 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </FormGroup>
             </Col>
           </Row>
+          {/* <Row className='mb-5'>
+            <Button
+              color='primary'
+              onClick={() => {
+                console.log('click reindex button');
+                openGeneralReIndexModal();
+              }}
+            >
+              REINDEX
+            </Button>
+          </Row> */}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.storage')}</Col>
@@ -200,4 +230,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SettingsTabGeneral);
+const mapDispatchToProps = {
+  openGeneralReIndexModal,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabGeneral);
