@@ -461,14 +461,16 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <div className={styles.txProgressLine}>
                 {isLoadingRefreshUTXOS1 ? (
                   <>
-                    <div className={styles.txProgressLoader}>
-                      <Spinner />
+                    <div className='d-flex'>
+                      <div className={styles.txProgressLoader}>
+                        <Spinner />
+                      </div>
+                      <span>
+                        {I18n.t(
+                          'containers.swap.removeLiquidity.refreshingUTXOS'
+                        )}
+                      </span>
                     </div>
-                    <span>
-                      {I18n.t(
-                        'containers.swap.removeLiquidity.refreshingUTXOS'
-                      )}
-                    </span>
                   </>
                 ) : (
                   <>
@@ -484,14 +486,16 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <>
                     {isLoadingLiquidityRemoved ? (
                       <>
-                        <div className={styles.txProgressLoader}>
-                          <Spinner />
+                        <div className='d-flex'>
+                          <div className={styles.txProgressLoader}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t(
+                              'containers.swap.removeLiquidity.removingLiquidity'
+                            )}
+                          </span>
                         </div>
-                        <span>
-                          {I18n.t(
-                            'containers.swap.removeLiquidity.removingLiquidity'
-                          )}
-                        </span>
                       </>
                     ) : (
                       <>
@@ -519,14 +523,16 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <>
                     {isLoadingRefreshUTXOS2 ? (
                       <>
-                        <div className={styles.txProgressLoader}>
-                          <Spinner />
+                        <div className='d-flex'>
+                          <div className={styles.txProgressLoader}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t(
+                              'containers.swap.removeLiquidity.refreshingUTXOS'
+                            )}
+                          </span>
                         </div>
-                        <span>
-                          {I18n.t(
-                            'containers.swap.removeLiquidity.refreshingUTXOS'
-                          )}
-                        </span>
                       </>
                     ) : (
                       <>

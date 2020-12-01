@@ -37,10 +37,10 @@
   }
 }
 
-.successColor {
-  color: #28a745;
+.txProgressSuccess {
   position: absolute;
-  left: -30px;
+  left: 0;
+  color: $green;
   height: 24px;
   width: 24px;
 }
