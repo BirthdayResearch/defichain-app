@@ -29,6 +29,12 @@
   width: 48px;
   height: 48px;
   margin-right: 1.5rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    color: $primary;
+  }
 }
 
 .successColor {
