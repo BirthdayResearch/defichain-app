@@ -115,7 +115,7 @@ function* fetchPoolPairList() {
 function* addPoolLiquidity(action) {
   try {
     const {
-      payload: { hash1, amount1, hash2, amount2 },
+      payload: { hash1, amount1, hash2, amount2, shareAddress },
     } = action;
 
     const data = yield call(
@@ -123,7 +123,8 @@ function* addPoolLiquidity(action) {
       hash1,
       amount1,
       hash2,
-      amount2
+      amount2,
+      shareAddress
     );
     yield put({ type: addPoolLiquiditySuccess.type, payload: data });
   } catch (e) {

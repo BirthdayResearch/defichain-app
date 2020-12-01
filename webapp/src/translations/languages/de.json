@@ -318,7 +318,11 @@
         "totalPooled": "Total pooled",
         "amountInsufficient": "Insufficient Amount in your account",
         "ratioMoreThan1": "Das Verhältnis hat sich um mehr als 1% bewegt. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge",
-        "ratioChanged": "Das Verhältnis wurde geändert. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge"
+        "ratioChanged": "Das Verhältnis wurde geändert. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge",
+        "receiveAddress": "Empfänger Adresse",
+        "address": "Adresse",
+        "label": "Label",
+        "selected": "Ausgewählt"
       },
       "removeLiquidity": {
         "address": "Adresse",

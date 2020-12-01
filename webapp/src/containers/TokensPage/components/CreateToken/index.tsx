@@ -100,6 +100,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     async function addressAndAmount() {
       const data = await getReceivingAddressAndAmountList();
       setCollateralAddresses(data.addressAndAmountList);
+      setFormState({
+        ...formState,
+        collateralAddress: data.addressAndAmountList[0]?.address,
+      });
     }
     addressAndAmount();
   }, []);
