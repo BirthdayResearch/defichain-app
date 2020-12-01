@@ -23,6 +23,7 @@ export const initialState = {
   isWalletUnlocked: false,
   isWalletRestart: false,
   isWalletReplace: false,
+  isGeneralReindexModalOpen: false,
 };
 
 const configSlice = createSlice({
@@ -155,6 +156,12 @@ const configSlice = createSlice({
     closeResetWalletDatModal(state) {
       state.openResetWalletDatModal = false;
     },
+    openGeneralReIndexModal(state) {
+      state.isGeneralReindexModalOpen = true;
+    },
+    closeGeneralReIndexModal(state) {
+      state.isGeneralReindexModalOpen = false;
+    },
   },
 });
 
@@ -200,7 +207,9 @@ export const {
   setIsWalletReplace,
   openResetWalletDatModal,
   closeResetWalletDatModal,
-  startResetWalletDatRequest
+  startResetWalletDatRequest,
+  openGeneralReIndexModal,
+  closeGeneralReIndexModal
 } = actions;
 
 export default reducer;
