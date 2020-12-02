@@ -3,6 +3,7 @@ import {
   createTokenData,
   mintTokenData,
   utxo,
+  setGovVariableData,
 } from './testData.json';
 import { createZeroOutputTxFromCustomTx, createTx } from '../customTx';
 
@@ -110,6 +111,43 @@ describe('Custom tx', () => {
         {
           satoshis: 0,
           script: '6a1944665478540841686d6564546f6b0008000000000000000003',
+        },
+      ],
+      version: 4,
+    });
+  });
+
+  it('should return createCustomTx of type createToken', async () => {
+    const tx = await createTx(
+      utxo,
+      'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
+      1989995300,
+      setGovVariableData,
+      0
+    );
+    expect(tx.toObject()).toEqual({
+      hash: '8e77021cc508d0e8c575858a388b659b675d31d6470202bd308230ebfb398575',
+      inputs: [
+        {
+          outputIndex: 0,
+          prevTxId:
+            '983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3',
+          script:
+            '4830450221008834b5a9ed2f2aa4d5bb2fa14856a1202a01334889285ea7439d6afce3dbaca402205eae3e8ef25c272423a3017f2bc881d8007a4328c9f48f9a4635f7d7eea7f2b501410414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3',
+          scriptString:
+            '72 0x30450221008834b5a9ed2f2aa4d5bb2fa14856a1202a01334889285ea7439d6afce3dbaca402205eae3e8ef25c272423a3017f2bc881d8007a4328c9f48f9a4635f7d7eea7f2b501 65 0x0414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3',
+          sequenceNumber: 4294967295,
+        },
+      ],
+      nLockTime: 0,
+      outputs: [
+        {
+          satoshis: 1989995300,
+          script: 'a914f844de65447a18e05384425a68b56813c20d99cf87',
+        },
+        {
+          satoshis: 0,
+          script: '6a194466547847134c505f4441494c595f4446495f524557415244',
         },
       ],
       version: 4,

@@ -49,5 +49,11 @@
       }
     },
     "tokenId": 0
+  },
+  "setGovVariableData": {
+    "txType": "G",
+    "customData": {
+      "name": "LP_DAILY_DFI_REWARD"
+    }
   }
 }
