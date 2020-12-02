@@ -27,6 +27,7 @@ import {
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  TRANSFER_CATEGORY_LABEL,
   WALLET_TXN_PAGE_FETCH_SIZE,
   WALLET_TXN_PAGE_SIZE,
 } from '../../../../constants';
@@ -130,6 +131,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     return '';
   };
 
+  const getTxnsType = (type: string) => {
+    if (type === SENT_CATEGORY_LABEL) {
+      return TRANSFER_CATEGORY_LABEL;
+    }
+    return type;
+  };
+
   const getAmountClass = (type: string) => {
     if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
       return styles.colorGreen;
@@ -167,7 +175,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                 <tr key={`${currentPage}-${id}`}>
                   <td>{getTxnsTypeIcon(item.category)}</td>
                   <td>
-                    <div>{item.category}</div>
+                    <div>{getTxnsType(item.category)}</div>
                     <div className={styles.unit}>{item.blockData.time}</div>
                   </td>
                   <td>
