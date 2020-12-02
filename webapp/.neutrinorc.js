@@ -72,6 +72,15 @@ module.exports = {
                 loader: 'sass-loader',
                 useId: 'sass',
               },
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  // Provide path to the file with resources
+
+                  // Or array of paths
+                  resources: ['./src/scss/_variables.scss'],
+                },
+              },
 
               // {
               //   loader: "css-loader",
