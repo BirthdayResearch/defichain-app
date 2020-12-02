@@ -200,7 +200,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <section className='mb-5'>
           <Row className='mb-4'>
             <Col md='6'>
-              <TokenAvatar symbol={tokenInfo.symbolKey} size='60px' />
+              <TokenAvatar
+                symbol={tokenInfo.symbolKey}
+                size='64px'
+                textSizeRatio={2}
+              />
             </Col>
             <Col md='6'>
               <KeyValueLi
