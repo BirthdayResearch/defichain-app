@@ -120,6 +120,8 @@ build
 # electron build directory
 dist
 
+.idea
+
 # Unnecessary folders
 .DS_Store
 
