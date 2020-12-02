@@ -660,14 +660,16 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </dt>
               <dd className='col-sm-8'>
                 {isValid() &&
-                  `${conversionRatio(formState, poolPairList)} ${
-                    formState.symbol1
-                  } per ${formState.symbol2}`}
+                  `${Number(conversionRatio(formState, poolPairList)).toFixed(
+                    8
+                  )} ${formState.symbol2} per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
-                  `${1 / Number(conversionRatio(formState, poolPairList))} ${
+                  `${(
+                    1 / Number(conversionRatio(formState, poolPairList))
+                  ).toFixed(8)} ${formState.symbol1} per ${
                     formState.symbol2
-                  } per ${formState.symbol1}`}{' '}
+                  }`}{' '}
               </dd>
               <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.shareOfPool')}
