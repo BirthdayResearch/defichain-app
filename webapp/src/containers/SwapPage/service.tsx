@@ -276,7 +276,8 @@ export const handleAddPoolLiquidity = async (
   hash1: string,
   amount1: string,
   hash2: string,
-  amount2: string
+  amount2: string,
+  shareAddress: string
 ) => {
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
@@ -290,7 +291,6 @@ export const handleAddPoolLiquidity = async (
     hash2,
     addressesList
   );
-  const shareAddress = await getNewAddress('', true);
 
   let accountToAccountAmount1 = new BigNumber(0);
   let accountToAccountAmount2 = new BigNumber(0);
