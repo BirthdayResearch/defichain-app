@@ -890,7 +890,7 @@ export const conversionRatio = (formState, poolPairList) => {
 };
 
 export const getRatio = (poolpair) => {
-  const ratio = poolpair.reserveB / poolpair.reserveA;
+  const ratio = poolpair.reserveA / poolpair.reserveB;
   return ratio.toFixed(8);
 };
 
