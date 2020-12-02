@@ -6,7 +6,6 @@ import {
   crypto,
   util,
 } from 'bitcore-lib-dfi';
-import * as _ from 'lodash';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 
 type CustomTransaction = {
@@ -84,11 +83,12 @@ export function createZeroOutputTxFromCustomTx(
 }
 
 async function signInputs(tx: Transaction, keyIndex: number) {
-  _.each(await getSignatures(tx, keyIndex), (sigsInput: any) => {
+  const signatures = await getSignatures(tx, keyIndex);
+  signatures.forEach((sigsInput) => {
     tx.inputs[sigsInput.signature.inputIndex].setScript(
       Script.buildPublicKeyHashIn(
         sigsInput.signature.publicKey,
-        sigsInput.signature.toDER(),
+        sigsInput.signature.signature.toDER(),
         sigsInput.signature.sigtype
       )
     );
@@ -98,11 +98,10 @@ async function signInputs(tx: Transaction, keyIndex: number) {
 
 async function getSignatures(tx: Transaction, keyIndex: number) {
   const results: SigsInput[] = [];
-  _.each(tx.inputs, async (input: Transaction.Input, index: number) => {
-    _.each(await getSigsInputs(tx, index, keyIndex), (signature: any) => {
-      results.push(signature);
-    });
-  });
+  for (const [index] of tx.inputs.entries()) {
+    const sigsInputs = await getSigsInputs(tx, index, keyIndex);
+    results.push(...sigsInputs);
+  }
   return results;
 }
 
@@ -110,28 +109,36 @@ async function getSigsInputs(
   tx: Transaction,
   index: number,
   keyIndex: number
-): Promise<SigsInput> {
-  const signedTx = await signTransaction(
-    tx,
-    crypto.Signature.SIGHASH_ALL,
-    index,
-    // TODO change is bugs
-    tx.inputs[index]._scriptBuffer,
-    keyIndex
-  );
-  const txSig = new Transaction.Signature({
-    prevTxId: tx.inputs[index].prevTxId,
-    outputIndex: tx.inputs[index].outputIndex,
-    inputIndex: index,
-    signature: signedTx.signature,
-    sigtype: crypto.Signature.SIGHASH_ALL,
-    publicKey: '', // TODO change is ledger done
-  });
-  return {
-    signature: txSig,
-    keyIndex: signedTx.keyIndex,
-    hashBuf: signedTx.hashBuf,
-  };
+): Promise<SigsInput[]> {
+  try {
+    const signedTx = await signTransaction(
+      tx,
+      crypto.Signature.SIGHASH_ALL,
+      index,
+      // TODO change is bugs
+      // @ts-ignore
+      tx.inputs[index]._scriptBuffer,
+      keyIndex
+    );
+    const txSig = new Transaction.Signature({
+      prevTxId: tx.inputs[index].prevTxId,
+      outputIndex: tx.inputs[index].outputIndex,
+      inputIndex: index,
+      signature: signedTx.signature,
+      sigtype: crypto.Signature.SIGHASH_ALL,
+      publicKey:
+        '0414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3', // TODO change is ledger done
+    });
+    return [
+      {
+        signature: txSig,
+        keyIndex: signedTx.keyIndex,
+        hashBuf: signedTx.hashBuf,
+      },
+    ];
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
 async function signTransaction(
@@ -151,8 +158,8 @@ async function signTransaction(
     hashBuf = util.buffer.reverse(hashBuf);
     const wallet = new DefiHwWallet();
     await wallet.connect();
-    let signature: Buffer = await wallet.sign(keyIndex, hashBuf);
-    signature = await wallet.transformationSign(signature);
+    const signature: Buffer = await wallet.sign(keyIndex, hashBuf);
+    // signature = await wallet.transformationSign(signature);
     return {
       signature,
       hashBuf,
