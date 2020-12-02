@@ -33,10 +33,9 @@ import {
 import Pagination from '../../../../components/Pagination';
 import { numberWithCommas } from '../../../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
-import EllipsisText from 'react-ellipsis-text';
 import { prepareTxDataRows } from '../../service';
 import BigNumber from 'bignumber.js';
-import CopyToClipIcon from '../../../../components/CopyToClipIcon';
+import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 
 interface WalletTxnsProps {
   unit: string;
@@ -173,22 +172,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   </td>
                   <td>
                     <div
-                      className={
+                      className={`${
                         item.txid
                           ? styles.txidvalue
                           : `text-center text-secondary`
-                      }
+                      } ${styles.copyIcon}`}
                     >
-                      <EllipsisText text={item.txid || '-'} length={60} />
+                      <ValueLi value={item.txid} copyable={true} />
                     </div>
-                  </td>
-                  <td className={styles.copyIcon}>
-                    {item.txid && (
-                      <CopyToClipIcon
-                        value={item.txid}
-                        uid={`tooltip-uid-${item.txid}`}
-                      />
-                    )}
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
                     <div
