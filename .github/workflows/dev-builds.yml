@@ -17,7 +17,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: linux-build
-          path: 'dist/defi-app-2.1.0.AppImage'
+          path: 'dist/defi-app-2.1.1.AppImage'
 
   build_mac_version:
     runs-on: macos-latest
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: mac-build
-          path: 'dist/defi-app-2.1.0.dmg'
+          path: 'dist/defi-app-2.1.1.dmg'
 
   build_windows_version:
     runs-on: windows-latest
@@ -67,4 +67,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: win-build
-          path: 'dist/defi-app Setup 2.1.0.exe'
+          path: 'dist/defi-app Setup 2.1.1.exe'
