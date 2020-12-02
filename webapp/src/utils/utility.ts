@@ -51,6 +51,7 @@ import {
   MAINNET_ETH_SYMBOL,
   MAINNET_BTC_SYMBOL,
   MAINNET_USDT_SYMBOL,
+  API_REQUEST_TIMEOUT,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -836,6 +837,7 @@ export const getTotalBlocks = async () => {
   const { data } = await axios({
     url: `${STATS_API_BASE_URL}?network=${network}net`,
     method: 'GET',
+    timeout: API_REQUEST_TIMEOUT,
   });
   return data;
 };
