@@ -22,7 +22,7 @@ import SyncStatus from '../SyncStatus';
 import {
   getAmountInSelectedUnit,
   // isWalletEncrypted,
-} from '../../utils/utility';
+} from '@/utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,
@@ -39,13 +39,14 @@ import {
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
-import { updateBalanceScheduler } from '../../worker/schedular';
+import { updateBalanceScheduler } from '@/worker/schedular';
 import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart,
 } from '../PopOver/reducer';
+import StatusLedgerConnect from '@/components/StatusLedgerConnect';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -147,6 +148,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             >
               <MdViewQuilt className={styles.ledgerIcon} />
               {I18n.t('containers.sideBar.ledger')}
+              <StatusLedgerConnect status='notConnected' />
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}

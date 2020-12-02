@@ -49,4 +49,11 @@
 .connectButton {
   flex-grow: 0 !important;
   padding-bottom: 0;
+  text-transform: capitalize;
+  border: 0;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    outline: none;
+  }
 }

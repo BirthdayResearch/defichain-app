@@ -2,10 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
 import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
-
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
+import classNames from 'classnames';
+import StatusLedgerConnect from '@/components/StatusLedgerConnect';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
 import {
@@ -82,18 +83,20 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
         <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
       </Helmet>
       <header className='header-bar'>
-        <div className='d-flex'>
+        <div className='d-flex align-items-end'>
           <h1>{I18n.t('containers.ledger.ledgerPage.title')}</h1>
+          <button
+            className={classNames(
+              styles.connectButton,
+              'd-flex',
+              'align-items-center'
+            )}
+            onClick={onConnectLedger}
+          >
+            <span>{I18n.t('containers.ledger.ledgerPage.connect')}</span>
+            <StatusLedgerConnect status='notConnected' />
+          </button>
         </div>
-        <Button
-          color='link'
-          size='sm'
-          className={styles.connectButton}
-          onClick={onConnectLedger}
-        >
-          {I18n.t('containers.ledger.ledgerPage.connect')}
-        </Button>
-        {isConnect}
         <ButtonGroup>
           <Button color='link' size='sm' disabled>
             <MdArrowUpward />
@@ -101,12 +104,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
               {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
-          <Button
-            to={LEDGER_RECEIVE_PATH}
-            tag={RRNavLink}
-            color='link'
-            size='sm'
-          >
+          <Button to={LEDGER_RECEIVE_PATH} tag={RRNavLink} color='link'>
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.receive')}
