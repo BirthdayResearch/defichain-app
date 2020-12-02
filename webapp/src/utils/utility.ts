@@ -842,12 +842,25 @@ export const getTotalBlocks = async () => {
   return data;
 };
 
+export const calculateInputAddLiquidityLeftCard = (
+  input1: string,
+  formState,
+  poolPairList
+) => {
+  const ratio: any = 1 / Number(conversionRatio(formState, poolPairList));
+  if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
+    const amount2 = ratio * Number(input1);
+    return amount2.toFixed(8);
+  }
+  return '0';
+};
+
 export const calculateInputAddLiquidity = (
   input1: string,
   formState,
   poolPairList
 ) => {
-  const ratio: any = conversionRatio(formState, poolPairList);
+  const ratio: any = Number(conversionRatio(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     const amount2 = ratio * Number(input1);
     return amount2.toFixed(8);
