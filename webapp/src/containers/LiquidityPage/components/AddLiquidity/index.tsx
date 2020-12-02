@@ -47,6 +47,7 @@ import {
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
+  calculateInputAddLiquidityLeftCard,
   conversionRatio,
   countDecimals,
   getBalanceAndSymbolMap,
@@ -238,7 +239,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           poolPairList
         ),
       });
-  }, [formState.amount1, formState.hash1, formState.hash2]);
+  }, [formState.hash1, formState.hash2]);
 
   const isValidAmount = () => {
     if (
@@ -263,6 +264,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       setFormState({
         ...formState,
         [e.target.name]: e.target.value,
+        amount2: calculateInputAddLiquidity(
+          e.target.value,
+          formState,
+          poolPairList
+        ),
       });
     }
   };
@@ -284,10 +290,31 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const setMaxValue = (field: string, value: string) => {
-    setFormState({
-      ...formState,
-      [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
-    });
+    if (field === 'amount1') {
+      const amount =
+        formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value;
+      setFormState({
+        ...formState,
+        [field]: amount,
+        amount2: calculateInputAddLiquidity(
+          amount.toString(),
+          formState,
+          poolPairList
+        ),
+      });
+    } else {
+      const amount =
+        formState.hash2 === '0' ? Math.max(Number(value) - 1, 0) : value;
+      setFormState({
+        ...formState,
+        [field]: amount,
+        amount1: calculateInputAddLiquidityLeftCard(
+          amount.toString(),
+          formState,
+          poolPairList
+        ),
+      });
+    }
   };
 
   const difference = (a, b) => {
