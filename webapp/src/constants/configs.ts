@@ -98,6 +98,7 @@ export const COINGECKO_BTC_ID = 'bitcoin';
 export const COINGECKO_ETH_ID = 'ethereum';
 export const COINGECKO_USDT_ID = 'tether';
 
+export const API_REQUEST_TIMEOUT = 5000;
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/getblockcount';
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
 export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
