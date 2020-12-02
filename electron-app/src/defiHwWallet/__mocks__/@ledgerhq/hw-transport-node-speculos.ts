@@ -3,7 +3,8 @@ import {
   RecordStore,
 } from '@ledgerhq/hw-transport-mocker';
 
-const store = RecordStore.fromString(`
+const store = RecordStore.fromString(
+  `
    => e00201000402000000
    <= 41049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e22385041583376737a5669515732765a5736754d3862367071614e765a5944514a5a74b9ca4b8ae7407037b33ba8274144026b2f9d46152f6b533dcdd79118d63f61769000
    =>e00201010402000000
@@ -20,7 +21,15 @@ const store = RecordStore.fromString(`
    <= 3045022100b8b6d9e46338d9a2be0821b57d9499fb16eda801fd24f131d869191338386b4c02207c9a638c9db7bee29f15d487d622f8e381af0914a5046100af7e9a26f1609e549000
    => e004000102030000006d657361
    <= 6b02
-`);
+   => e00400020c000000006402a701c316dccb
+   <= 3045022100ee7c8feb8db04906cfd5fc5e3fc3a2b42d4daabed4898370335ef3893b1bab1902201d18b3a8a4f70e57f6615635b24e46d3ce236ae62da3b7b9ad2b92f3db61d87c9000
+   => e004000108000000006402a701c316dccb2af627fcbe8f9e4d
+   <= 6b02
+`,
+  {
+    autoSkipUnknownApdu: true,
+  }
+);
 const Transport = createTransportReplayer(store);
 
 export default Transport;

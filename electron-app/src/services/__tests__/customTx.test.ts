@@ -79,7 +79,7 @@ describe('Custom tx', () => {
     });
   });
 
-  it('should createCustomTx', async () => {
+  it('should return createCustomTx of type createToken', async () => {
     const tx = await createTx(
       utxo,
       'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
@@ -88,14 +88,16 @@ describe('Custom tx', () => {
       0
     );
     expect(tx.toObject()).toEqual({
-      hash: 'fb04d5844c85ab6407de91f74902557fe9306b57b1e4e927c641df2fba5a5928',
+      hash: 'acf4db1b11755ef8f611018039f7610e7771a4afbfcaa681a29a0eea8931bab0',
       inputs: [
         {
           outputIndex: 0,
           prevTxId:
             '983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3',
-          script: '',
-          scriptString: '',
+          script:
+            '483045022100ee7c8feb8db04906cfd5fc5e3fc3a2b42d4daabed4898370335ef3893b1bab1902201d18b3a8a4f70e57f6615635b24e46d3ce236ae62da3b7b9ad2b92f3db61d87c01410414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3',
+          scriptString:
+            '72 0x3045022100ee7c8feb8db04906cfd5fc5e3fc3a2b42d4daabed4898370335ef3893b1bab1902201d18b3a8a4f70e57f6615635b24e46d3ce236ae62da3b7b9ad2b92f3db61d87c01 65 0x0414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3',
           sequenceNumber: 4294967295,
         },
       ],
