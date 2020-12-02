@@ -35,11 +35,14 @@ interface SettingsPageProps {
     maximumAmount: number;
     maximumCount: number;
     feeRate: number;
+    reindexAfterSaving: boolean;
   };
   isUpdating: boolean;
   isUpdated: boolean;
   launchAtLogin: boolean;
   minimizedAtLaunch: boolean;
+  reindexAfterSaving: boolean;
+  isRestart: boolean;
   getInitialSettingsRequest: () => void;
   getSettingOptionsRequest: () => void;
   updateSettings: (data: any) => void;
@@ -73,6 +76,8 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     isUnsavedChanges: false,
   });
 
+  const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
+
   useEffect(() => {
     props.getSettingOptionsRequest();
     props.getInitialSettingsRequest();
@@ -83,6 +88,12 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     const updatedState = Object.assign({}, state, updatedObject);
     setState(updatedState);
   };
+
+  useEffect(() => {
+    if (!props.isRestart) {
+      setIsReindexAfterSaving(false);
+    }
+  }, [props.isRestart]);
 
   useEffect(() => {
     const prevPropsValue =
@@ -119,6 +130,10 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     setSettingsPageState({
       [field]: !state[field],
     });
+  };
+
+  const handeReindexToggle = () => {
+    setIsReindexAfterSaving(!reindexAfterSaving);
   };
 
   const handleFractionalNumInputs = (
@@ -215,6 +230,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       maximumAmount,
       maximumCount,
       feeRate,
+      reindexAfterSaving: reindexAfterSaving,
     };
     props.updateSettings(settings);
   };
@@ -265,11 +281,13 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             maximumCount={maximumCount!}
             feeRate={feeRate!}
             scriptVerificationThreads={scriptVerificationThreads!}
+            reindexAfterSaving={reindexAfterSaving!}
             handleRegularNumInputs={handleRegularNumInputs}
             handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
             network={network!}
             handleDropDowns={handleDropDowns}
+            handeReindexToggle={handeReindexToggle}
           />
           <SettingsTabDisplay
             language={language!}
@@ -280,7 +298,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         </TabContent>
       </div>
       <SettingsTabsFooter
-        isUnsavedChanges={isUnsavedChanges}
+        isUnsavedChanges={isUnsavedChanges || reindexAfterSaving}
         saveChanges={saveChanges}
       />
     </div>
@@ -295,6 +313,7 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
   } = state.settings;
+  const { isRestart } = state.popover;
   const { locale } = state.i18n;
   return {
     isFetching,
@@ -303,6 +322,7 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     locale,
+    isRestart,
   };
 };
 

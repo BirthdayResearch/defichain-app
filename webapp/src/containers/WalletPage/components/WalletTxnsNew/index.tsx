@@ -27,15 +27,16 @@ import {
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  TRANSFER_CATEGORY_LABEL,
   WALLET_TXN_PAGE_FETCH_SIZE,
   WALLET_TXN_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { numberWithCommas } from '../../../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
-import EllipsisText from 'react-ellipsis-text';
 import { prepareTxDataRows } from '../../service';
 import BigNumber from 'bignumber.js';
+import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 
 interface WalletTxnsProps {
   unit: string;
@@ -130,6 +131,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     return '';
   };
 
+  const getTxnsType = (type: string) => {
+    if (type === SENT_CATEGORY_LABEL) {
+      return TRANSFER_CATEGORY_LABEL;
+    }
+    return type;
+  };
+
   const getAmountClass = (type: string) => {
     if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
       return styles.colorGreen;
@@ -167,18 +175,18 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                 <tr key={`${currentPage}-${id}`}>
                   <td>{getTxnsTypeIcon(item.category)}</td>
                   <td>
-                    <div>{item.category}</div>
+                    <div>{getTxnsType(item.category)}</div>
                     <div className={styles.unit}>{item.blockData.time}</div>
                   </td>
                   <td>
                     <div
-                      className={
+                      className={`${
                         item.txid
                           ? styles.txidvalue
                           : `text-center text-secondary`
-                      }
+                      } ${styles.copyIcon}`}
                     >
-                      <EllipsisText text={item.txid || '-'} length={60} />
+                      <ValueLi value={item.txid} copyable={true} />
                     </div>
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>

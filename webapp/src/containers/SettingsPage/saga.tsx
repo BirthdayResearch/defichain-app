@@ -112,6 +112,11 @@ export function* updateSettings(action) {
       if (action.payload.network !== prevNetwork) {
         yield call(changeNetworkNode, action.payload.network);
       }
+      if (data.reindexAfterSaving) {
+        yield put(restartModal());
+        yield call(shutDownBinary);
+        yield call(restartNode, { isReindexReq: true });
+      }
     } else {
       yield put({
         type: updateSettingsFailure.type,

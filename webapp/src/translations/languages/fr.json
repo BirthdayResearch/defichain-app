@@ -310,7 +310,11 @@
         "totalPooled": "Total pooled",
         "amountInsufficient": "Insufficient balance",
         "ratioMoreThan1": "Ratio has moved more than 1%. Please check your amounts and re-enter",
-        "ratioChanged": "Ratio has changed. Please check your amounts and re-enter"
+        "ratioChanged": "Ratio has changed. Please check your amounts and re-enter",
+        "receiveAddress": "Receive address",
+        "address": "Address",
+        "label": "Label",
+        "selected": "Selected"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -481,6 +485,8 @@
       "general": "Général",
       "display": "Affichage",
       "launchOptions": "Lancement des options",
+      "reindexOption": "ReIndex Option",
+      "reindexAfterSaving": "Reindex after saving",
       "launchAtLogin": "Lancement au démarage",
       "minimizedAtLaunch": "Minimisé au démarage",
       "storage": "Espace de stockage",

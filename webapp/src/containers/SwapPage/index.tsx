@@ -199,7 +199,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       setFormState({
         ...formState,
         [e.target.name]: e.target.value,
-        amount2: testPoolSwap,
+        amount2: testPoolSwap || '-',
       });
     }
   };

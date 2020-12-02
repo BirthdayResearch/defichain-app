@@ -14,8 +14,8 @@ const PairIcon: React.FunctionComponent<PairIconProps> = (
 
   return (
     <div className={styles.pairIcons}>
-      <TokenAvatar symbol={poolpair.tokenA} size='24px' />
       <TokenAvatar symbol={poolpair.tokenB} size='24px' />
+      <TokenAvatar symbol={poolpair.tokenA} size='24px' />
     </div>
   );
 };
