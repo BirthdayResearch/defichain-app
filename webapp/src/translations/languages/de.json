@@ -549,7 +549,7 @@
         "walletRecoveryInfoLine1": "Ein Wallet Wiederherstellungs-Samen (“mnemonischer Samen”, “Samen-Satz”, “Samen-Wörter”) ist eine Möglichkeit, deinen privaten Schlüssel als eine Folge von Wörtern darzustellen, die für einen Menschen leichter zu merken sind. Er wird auch verwendet, um erweiterte Schlüssel für alle Wallets, die du in der App erstellst, zu generieren.",
         "walletRecoveryInfoLine2": "Die Wörter werden zufällig aus einer Liste von 2048 Wörtern generiert, die im BIP39-Standard definiert sind, und bieten 24 Bit Sicherheit.",
         "learnMoreAtBitcoinBtn": "LERNE MEHR IM BITCOIN WIKI",
-        "copied24Words": "Ich habe die 24 Wörter in der genauen Reihenfolge notiert",
+        "copied24Words": "Ich habe 24 Wörter in der genauen Reihenfolge notiert",
         "continue": "WEITER",
         "createNewWallet": "Neue Wallet erstellen"
       },
