@@ -89,18 +89,16 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
           : {formState[`balance${name}`] || '0'}
         </div>
         <div className={styles.cardFooterActions}>
-          {name === 1 && (
-            <Button
-              color='link'
-              size='sm'
-              disabled={!formState[`hash${name}`] || !formState[`hash2`]}
-              onClick={() =>
-                setMaxValue(`amount${name}`, formState[`balance${name}`])
-              }
-            >
-              {I18n.t('components.swapCard.max')}
-            </Button>
-          )}
+          <Button
+            color='link'
+            size='sm'
+            disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+            onClick={() =>
+              setMaxValue(`amount${name}`, formState[`balance${name}`])
+            }
+          >
+            {I18n.t('components.swapCard.max')}
+          </Button>
         </div>
       </CardFooter>
     </Card>

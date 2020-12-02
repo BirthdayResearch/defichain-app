@@ -63,7 +63,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                     handleChange(e);
                   }
                 }}
-                disabled={!formState[`hash${name}`] || !formState[`hash2`]}
+                disabled={!formState[`hash${name}`]}
               />
             ) : (
               <div className={classNames(styles.swapInput, 'form-control')}>
