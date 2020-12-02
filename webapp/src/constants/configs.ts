@@ -143,5 +143,6 @@ export const TX_TYPES = {
 };
 export const RECIEVE_CATEGORY_LABEL = 'Receive';
 export const SENT_CATEGORY_LABEL = 'Sent';
+export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
