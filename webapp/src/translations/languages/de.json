@@ -495,7 +495,7 @@
       "display": "Anzeige",
       "launchOptions": "Start Optionen",
       "reindexOption": "Reindex-Option",
-      "reindexAfterSaving": "Reindex nach Soeichern",
+      "reindexAfterSaving": "Reindex nach Speichern",
       "launchAtLogin": "Start bei der Anmeldung",
       "minimizedAtLaunch": "Minimiert beim starten",
       "storage": "Lagerung",
