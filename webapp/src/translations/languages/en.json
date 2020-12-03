@@ -450,7 +450,8 @@
         "receiveAddress": "Receive address",
         "address": "Address",
         "label": "Label",
-        "selected": "Selected"
+        "selected": "Selected",
+        "receiveSharesAt": "Receive shares At"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -594,7 +595,8 @@
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account",
-        "txHash": "Transaction hash"
+        "txHash": "Transaction hash",
+        "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",

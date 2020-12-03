@@ -322,7 +322,8 @@
         "receiveAddress": "Empfänger Adresse",
         "address": "Adresse",
         "label": "Label",
-        "selected": "Ausgewählt"
+        "selected": "Ausgewählt",
+        "receiveSharesAt": "Erhalte Anteil zu"
       },
       "removeLiquidity": {
         "address": "Adresse",
@@ -600,7 +601,8 @@
         "txHash": "Transaction Hash",
         "sendTitle": "Senden – DeFiChain Client",
         "send": "Senden",
-        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
+        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
+        "insufficientUtxos": "Ungenügend UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",
