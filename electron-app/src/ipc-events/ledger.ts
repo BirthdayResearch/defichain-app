@@ -22,9 +22,9 @@ const initiateLedger = () => {
   ipcMain.on(CONNECT_LEDGER, async (event: Electron.IpcMainEvent) => {
     try {
       await DefiLedger.connect();
-      event.returnValue = {
+      event.returnValue = responseMessage(true, {
         isConnected: DefiLedger.connected,
-      };
+      });
     } catch (err) {
       event.returnValue = responseMessage(false, {
         message: err.message,

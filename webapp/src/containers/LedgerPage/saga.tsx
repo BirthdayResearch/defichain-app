@@ -1,44 +1,30 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
-import * as log from '../../utils/electronLogger';
+import { call, put, takeLatest, select, all, delay } from 'redux-saga/effects';
+import { I18n } from 'react-redux-i18n';
+import uniqBy from 'lodash/uniqBy';
+import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
+import * as log from '@/utils/electronLogger';
+import store from '@/app/rootStore';
+import showNotification from '@/utils/notifications';
 import {
-  fetchTokensSuccess,
-  fetchTokensRequest,
-  fetchTokensFailure,
-  fetchPaymentRequest,
-  fetchPaymentRequestsSuccess,
-  fetchPaymentRequestsFailure,
-  fetchWalletTxnsRequest,
-  fetchWalletTxnsSuccess,
-  fetchWalletTxnsFailure,
-  addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
-  addReceiveTxnsFailure,
-  fetchSendDataFailure,
-  fetchSendDataRequest,
-  fetchSendDataSuccess,
-  fetchWalletBalanceRequest,
-  fetchWalletBalanceSuccess,
-  fetchWalletBalanceFailure,
-  removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
-  removeReceiveTxnsFailure,
-  fetchPendingBalanceRequest,
-  fetchPendingBalanceSuccess,
-  fetchPendingBalanceFailure,
-  fetchAccountTokensRequest,
-  fetchAccountTokensSuccess,
-  fetchAccountTokensFailure,
-  stopWalletTxnPagination,
-  setBlockChainInfo,
-  createWalletFailure,
-  createWalletSuccess,
-  createWalletRequest,
-  restoreWalletFailure,
-  restoreWalletRequest,
-  restoreWalletSuccess,
-  fetchInstantBalanceRequest,
-  fetchInstantPendingBalanceRequest,
-} from './reducer';
+  getErrorMessage,
+  getMnemonicFromObj,
+  getNetworkInfo,
+  getNetworkType,
+  isValidMnemonic,
+  paginate,
+  queuePush,
+} from '@/utils/utility';
+import {
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+  MAIN,
+  MAX_WALLET_TXN_PAGE_SIZE,
+  WALLET_TOKENS_PATH,
+} from '@/constants';
+import PersistentStore from '@/utils/persistentStore';
+import { createMnemonicIpcRenderer } from '@/app/update.ipcRenderer';
+import * as reducer from './reducer';
 import {
   handleFetchTokens,
   handelGetPaymentRequest,
@@ -48,36 +34,13 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
-  handleAccountFetchTokens,
   getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
   setHdSeed,
   importPrivKey,
+  connectLedger,
 } from './service';
-import store from '../../app/rootStore';
-import showNotification from '../../utils/notifications';
-import {
-  getErrorMessage,
-  getMnemonicFromObj,
-  getNetworkInfo,
-  getNetworkType,
-  isValidMnemonic,
-} from '../../utils/utility';
-import { paginate, queuePush } from '../../utils/utility';
-import { I18n } from 'react-redux-i18n';
-import uniqBy from 'lodash/uniqBy';
-import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
-import {
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
-  MAIN,
-  MAX_WALLET_TXN_PAGE_SIZE,
-  WALLET_TOKENS_PATH,
-} from '../../constants';
-import PersistentStore from '../../utils/persistentStore';
-import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 
 export function* getNetwork() {
   const {
@@ -90,11 +53,11 @@ function fetchWalletBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
-      store.dispatch(fetchWalletBalanceFailure(err.message));
+      store.dispatch(reducer.fetchWalletBalanceFailure(err.message));
       log.error(err);
       return;
     }
-    store.dispatch(fetchWalletBalanceSuccess(result));
+    store.dispatch(reducer.fetchWalletBalanceSuccess(result));
   };
   queuePush(handleFetchWalletBalance, [], callBack);
 }
@@ -103,11 +66,11 @@ function fetchPendingBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
-      store.dispatch(fetchPendingBalanceFailure(err.message));
+      store.dispatch(reducer.fetchPendingBalanceFailure(err.message));
       log.error(err);
       return;
     }
-    store.dispatch(fetchPendingBalanceSuccess(result));
+    store.dispatch(reducer.fetchPendingBalanceSuccess(result));
   };
   queuePush(handleFetchPendingBalance, [], callBack);
 }
@@ -127,10 +90,10 @@ export function* addReceiveTxns(action: any) {
 
     cloneDeepPaymentRequests.push(action.payload);
 
-    yield put(addReceiveTxnsSuccess(cloneDeepPaymentRequests));
+    yield put(reducer.addReceiveTxnsSuccess(cloneDeepPaymentRequests));
   } catch (e) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
-    yield put(addReceiveTxnsFailure(e.message));
+    yield put(reducer.addReceiveTxnsFailure(e.message));
     log.error(e);
   }
 }
@@ -147,10 +110,10 @@ export function* removeReceiveTxns(action: any) {
       (ele) => ele.id && ele.id.toString() !== action.payload.toString()
     );
 
-    yield put(removeReceiveTxnsSuccess(result));
+    yield put(reducer.removeReceiveTxnsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
-    yield put(removeReceiveTxnsFailure(e.message));
+    yield put(reducer.removeReceiveTxnsFailure(e.message));
     log.error(e);
   }
 }
@@ -168,10 +131,13 @@ export function* fetchPayments() {
       );
       return !isEmpty(found);
     });
-    yield put(fetchPaymentRequestsSuccess(result));
+    yield put(reducer.fetchPaymentRequestsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
-    yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
+    yield put({
+      type: reducer.fetchPaymentRequestsFailure.type,
+      payload: e.message,
+    });
     log.error(e);
   }
 }
@@ -183,7 +149,7 @@ function* fetchWalletTxns(action) {
   );
   const callBack = (err, result) => {
     if (err) {
-      store.dispatch(fetchWalletTxnsFailure(err.message));
+      store.dispatch(reducer.fetchWalletTxnsFailure(err.message));
       log.error(err);
       return;
     }
@@ -192,7 +158,7 @@ function* fetchWalletTxns(action) {
       const previousFetchedTxns = intialLoad ? [] : totalFetchedTxns;
       const totalFetched = previousFetchedTxns.concat(distinct);
       store.dispatch(
-        fetchWalletTxnsSuccess({
+        reducer.fetchWalletTxnsSuccess({
           walletTxnCount: result.walletTxnCount,
           totalFetchedTxns: totalFetched,
           walletTxns: paginate(totalFetched, pageSize, pageNo),
@@ -201,11 +167,11 @@ function* fetchWalletTxns(action) {
       );
     } else {
       showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
-      store.dispatch(fetchWalletTxnsFailure('No data found'));
+      store.dispatch(reducer.fetchWalletTxnsFailure('No data found'));
     }
   };
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
-    yield put(stopWalletTxnPagination());
+    yield put(reducer.stopWalletTxnPagination());
     queuePush(
       handelFetchWalletTxns,
       [walletPageCounter, MAX_WALLET_TXN_PAGE_SIZE],
@@ -213,7 +179,7 @@ function* fetchWalletTxns(action) {
     );
   } else {
     yield put(
-      fetchWalletTxnsSuccess({
+      reducer.fetchWalletTxnsSuccess({
         totalFetchedTxns,
         walletTxnCount,
         walletTxns: paginate(totalFetchedTxns, pageSize, pageNo),
@@ -227,14 +193,14 @@ function fetchSendData() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
-      store.dispatch(fetchSendDataFailure(err.message));
+      store.dispatch(reducer.fetchSendDataFailure(err.message));
       log.error(err);
       return;
     }
-    if (result) store.dispatch(fetchSendDataSuccess({ data: result }));
+    if (result) store.dispatch(reducer.fetchSendDataSuccess({ data: result }));
     else {
       showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
-      store.dispatch(fetchSendDataFailure('No data found'));
+      store.dispatch(reducer.fetchSendDataFailure('No data found'));
     }
   };
   queuePush(handleSendData, [], callBack);
@@ -249,18 +215,18 @@ export function* fetchChainInfo() {
     log.error(err.message);
     result = {};
   }
-  yield put(setBlockChainInfo(result));
+  yield put(reducer.setBlockChainInfo(result));
 }
 
 export function* fetchTokens() {
   try {
     const data = yield call(handleFetchTokens);
     yield put({
-      type: fetchTokensSuccess.type,
+      type: reducer.fetchTokensSuccess.type,
       payload: { tokens: data },
     });
   } catch (e) {
-    yield put({ type: fetchTokensFailure.type, payload: e.message });
+    yield put({ type: reducer.fetchTokensFailure.type, payload: e.message });
     log.error(e);
   }
 }
@@ -269,12 +235,12 @@ export function* fetchAccountTokens() {
   try {
     const data = yield call(handleFetchAccounts);
     yield put({
-      type: fetchAccountTokensSuccess.type,
+      type: reducer.fetchAccountTokensSuccess.type,
       payload: { accountTokens: data },
     });
   } catch (e) {
     yield put({
-      type: fetchAccountTokensFailure.type,
+      type: reducer.fetchAccountTokensFailure.type,
       payload: getErrorMessage(e),
     });
     log.error(e);
@@ -294,12 +260,15 @@ export function* createWallet(action) {
     const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
 
     yield call(setHdSeed, hdSeed);
-    yield put({ type: createWalletSuccess.type });
+    yield put({ type: reducer.createWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
-    yield put({ type: createWalletFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: reducer.createWalletFailure.type,
+      payload: getErrorMessage(e),
+    });
   }
 }
 
@@ -324,21 +293,24 @@ export function* restoreWallet(action) {
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    yield put({ type: restoreWalletSuccess.type });
+    yield put({ type: reducer.restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
-    yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: reducer.restoreWalletFailure.type,
+      payload: getErrorMessage(e),
+    });
   }
 }
 
 export function* fetchInstantBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
-    yield put(fetchWalletBalanceSuccess(result));
+    yield put(reducer.fetchWalletBalanceSuccess(result));
   } catch (err) {
-    yield put(fetchWalletBalanceFailure(err.message));
+    yield put(reducer.fetchWalletBalanceFailure(err.message));
     log.error(err);
   }
 }
@@ -346,29 +318,51 @@ export function* fetchInstantBalance() {
 export function* fetchInstantPendingBalance() {
   try {
     const result = yield call(handleFetchPendingBalance);
-    yield put(fetchPendingBalanceSuccess(result));
+    yield put(reducer.fetchPendingBalanceSuccess(result));
   } catch (err) {
-    yield put(fetchPendingBalanceFailure(err.message));
+    yield put(reducer.fetchPendingBalanceFailure(err.message));
     log.error(err);
   }
 }
+
+export function* fetchConnectLedger() {
+  yield delay(500);
+  try {
+    const result = { success: true, data: { isConnected: true } };
+    if (result.success && result.data.isConnected) {
+      yield put(reducer.fetchConnectLedgerSuccess());
+    } else {
+      yield put(reducer.fetchConnectLedgerError({ message: result.message }));
+    }
+  } catch (err) {
+    yield put(reducer.fetchConnectLedgerError(err.messsage));
+  }
+}
+
 function* mySaga() {
-  yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
-  yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
-  yield takeLatest(fetchPaymentRequest.type, fetchPayments);
-  yield takeLatest(fetchWalletTxnsRequest.type, fetchWalletTxns);
-  yield takeLatest(fetchSendDataRequest.type, fetchSendData);
-  yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
-  yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
-  yield takeLatest(fetchTokensRequest.type, fetchTokens);
-  yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
-  yield takeLatest(createWalletRequest.type, createWallet);
-  yield takeLatest(restoreWalletRequest.type, restoreWallet);
-  yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);
+  yield takeLatest(reducer.addReceiveTxnsRequest.type, addReceiveTxns);
+  yield takeLatest(reducer.removeReceiveTxnsRequest.type, removeReceiveTxns);
+  yield takeLatest(reducer.fetchPaymentRequest.type, fetchPayments);
+  yield takeLatest(reducer.fetchWalletTxnsRequest.type, fetchWalletTxns);
+  yield takeLatest(reducer.fetchSendDataRequest.type, fetchSendData);
+  yield takeLatest(reducer.fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(
-    fetchInstantPendingBalanceRequest.type,
+    reducer.fetchPendingBalanceRequest.type,
+    fetchPendingBalance
+  );
+  yield takeLatest(reducer.fetchTokensRequest.type, fetchTokens);
+  yield takeLatest(reducer.fetchAccountTokensRequest.type, fetchAccountTokens);
+  yield takeLatest(reducer.createWalletRequest.type, createWallet);
+  yield takeLatest(reducer.restoreWalletRequest.type, restoreWallet);
+  yield takeLatest(
+    reducer.fetchInstantBalanceRequest.type,
+    fetchInstantBalance
+  );
+  yield takeLatest(
+    reducer.fetchInstantPendingBalanceRequest.type,
     fetchInstantPendingBalance
   );
+  yield takeLatest(reducer.fetchConnectLedgerRequest.type, fetchConnectLedger);
 }
 
 export default mySaga;

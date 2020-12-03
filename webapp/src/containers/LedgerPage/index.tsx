@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
@@ -12,12 +12,14 @@ import WalletTxns from './components/WalletTxns';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchConnectLedgerRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
 import { getAmountInSelectedUnit } from '@/utils/utility';
 import { connectLedger } from '@/containers/LedgerPage/service';
 import styles from './LedgerPage.module.scss';
+import { LedgerConnect } from '@/containers/LedgerPage/types';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -29,6 +31,8 @@ interface WalletPageProps extends RouteComponentProps {
   startUpdateApp: () => void;
   openBackupWallet: () => void;
   blockChainInfo: any;
+  connect: LedgerConnect;
+  fetchConnectLedgerRequest: () => void;
 }
 
 const LedgerPage: React.FunctionComponent<WalletPageProps> = (
@@ -39,6 +43,10 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const dispatch = useDispatch();
+  const {
+    connect: { status },
+  } = props;
 
   const {
     fetchInstantBalanceRequest,
@@ -48,6 +56,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
     startUpdateApp,
     openBackupWallet,
     history,
+    fetchConnectLedgerRequest,
   } = props;
 
   useEffect(() => {
@@ -70,11 +79,9 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
   const { walletBalance, pendingBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
-  const [isConnect, setIsConnect] = useState(false);
 
-  const onConnectLedger = useCallback(async () => {
-    const connected = await connectLedger();
-    setIsConnect(connected);
+  const onConnectLedger = useCallback(() => {
+    fetchConnectLedgerRequest();
   }, []);
 
   return (
@@ -93,8 +100,14 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
             )}
             onClick={onConnectLedger}
           >
-            <span>{I18n.t('containers.ledger.ledgerPage.connect')}</span>
-            <StatusLedgerConnect status='notConnected' />
+            <span>
+              {I18n.t(
+                `containers.ledger.ledgerPage.${
+                  status === 'connecting' ? 'connecting' : 'connect'
+                }`
+              )}
+            </span>
+            <StatusLedgerConnect status={status} />
           </button>
         </div>
         <ButtonGroup>
@@ -104,7 +117,12 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
               {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
-          <Button to={LEDGER_RECEIVE_PATH} tag={RRNavLink} color='link'>
+          <Button
+            to={LEDGER_RECEIVE_PATH}
+            tag={RRNavLink}
+            color='link'
+            disabled
+          >
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.receive')}
@@ -176,6 +194,7 @@ const mapStateToProps = (state) => {
       appConfig: { unit },
     },
     popover: { updateAvailableBadge },
+    ledgerWallet: { connect },
   } = state;
   return {
     unit,
@@ -183,6 +202,7 @@ const mapStateToProps = (state) => {
     pendingBalance,
     updateAvailableBadge,
     blockChainInfo,
+    connect,
   };
 };
 
@@ -191,6 +211,7 @@ const mapDispatchToProps = {
   fetchInstantPendingBalanceRequest,
   startUpdateApp,
   openBackupWallet,
+  fetchConnectLedgerRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LedgerPage);

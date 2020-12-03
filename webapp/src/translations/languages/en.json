@@ -481,6 +481,7 @@
       "ledgerPage": {
         "title": "Ledger Wallet",
         "connect": "Connect",
+        "connecting": "Connecting",
         "send": "send",
         "receive": "receive"
       }

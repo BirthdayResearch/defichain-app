@@ -463,7 +463,8 @@
     "ledger": {
       "ledgerPage": {
         "title": "Ledger Portefeuille",
-        "connect": "Relier"
+        "connect": "Relier",
+        "connecting": "De liaison"
       }
     },
     "console": {

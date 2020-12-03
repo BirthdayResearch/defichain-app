@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
+import { StatusLedger } from '@/typings/models';
 import Loader from '../Loader';
 import style from './StatusLedgerConnect.module.scss';
 
 interface StatusLedgerConnectProps {
-  status: 'connected' | 'notConnected' | 'connecting';
+  status: StatusLedger;
 }
 
 const StatusLedgerConnect: React.FC<StatusLedgerConnectProps> = ({

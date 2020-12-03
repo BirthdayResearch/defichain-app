@@ -47,6 +47,7 @@ import {
   lockWalletStart,
 } from '../PopOver/reducer';
 import StatusLedgerConnect from '@/components/StatusLedgerConnect';
+import { StatusLedger } from '@/typings/models';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -58,6 +59,7 @@ export interface SidebarProps extends RouteComponentProps {
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
+  statusLedger: StatusLedger;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
@@ -148,7 +150,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             >
               <MdViewQuilt className={styles.ledgerIcon} />
               {I18n.t('containers.sideBar.ledger')}
-              <StatusLedgerConnect status='notConnected' />
+              <StatusLedgerConnect status={props.statusLedger} />
             </NavLink>
           </NavItem>
           {/* NOTE: Do not remove, for future purpose */}
@@ -236,7 +238,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, popover } = state;
+  const { i18n, wallet, settings, popover, ledgerWallet } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
@@ -244,6 +246,7 @@ const mapStateToProps = (state) => {
     isErrorModalOpen: popover.isOpen,
     blockChainInfo: wallet.blockChainInfo,
     isWalletUnlocked: popover.isWalletUnlocked,
+    statusLedger: ledgerWallet.connect.status,
   };
 };
 

@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { LedgerState } from './types';
 
-export const initialState = {
+export const initialState: LedgerState = {
+  connect: {
+    status: 'notConnected',
+    error: null,
+    device: null,
+  },
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
@@ -45,7 +51,7 @@ export const initialState = {
   isErrorRestoringWallet: '',
 };
 const configSlice = createSlice({
-  name: 'wallet',
+  name: 'ledgerWallet',
   initialState,
   reducers: {
     fetchAccountTokensRequest(state) {
@@ -56,7 +62,7 @@ const configSlice = createSlice({
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
     },
-    fetchAccountTokensFailure(state, action) {
+    fetchAccountTokensFailure(state) {
       state.accountTokens = [];
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
@@ -80,10 +86,10 @@ const configSlice = createSlice({
     fetchPaymentRequestsSuccess(state, action) {
       state.paymentRequests = action.payload;
     },
-    fetchPaymentRequestsFailure(state, action) {
+    fetchPaymentRequestsFailure(state) {
       state.paymentRequests = [];
     },
-    fetchWalletTxnsRequest(state, action) {
+    fetchWalletTxnsRequest(state) {
       state.isWalletTxnsLoading = true;
     },
     fetchWalletTxnsSuccess(state, action) {
@@ -94,25 +100,37 @@ const configSlice = createSlice({
       state.isWalletTxnsLoading = false;
       state.stopPagination = false;
     },
-    fetchWalletTxnsFailure(state, action) {
+    fetchWalletTxnsFailure(state) {
       state.walletTxns = [];
       state.isWalletTxnsLoading = false;
     },
-    removeReceiveTxnsRequest(state, action) {},
+    removeReceiveTxnsRequest() {
+      /* */
+    },
     removeReceiveTxnsSuccess(state, action) {
       state.paymentRequests = action.payload;
     },
-    removeReceiveTxnsFailure(state, action) {},
-    addReceiveTxnsRequest(state, action) {},
+    removeReceiveTxnsFailure() {
+      /* */
+    },
+    addReceiveTxnsRequest() {
+      /* */
+    },
     addReceiveTxnsSuccess(state, action) {
       state.paymentRequests = action.payload;
     },
-    addReceiveTxnsFailure(state, action) {},
-    fetchSendDataRequest(state) {},
+    addReceiveTxnsFailure() {
+      /* */
+    },
+    fetchSendDataRequest() {
+      /* */
+    },
     fetchSendDataSuccess(state, action) {
       state.sendData = action.payload.data;
     },
-    fetchSendDataFailure(state, action) {},
+    fetchSendDataFailure() {
+      /* */
+    },
     fetchWalletBalanceRequest(state) {
       state.isBalanceFetching = true;
       state.isBalanceError = '';
@@ -145,7 +163,7 @@ const configSlice = createSlice({
     setBlockChainInfo(state, action) {
       state.blockChainInfo = action.payload;
     },
-    createWalletRequest(state, action) {
+    createWalletRequest(state) {
       state.isWalletCreating = true;
       state.isErrorCreatingWallet = '';
     },
@@ -157,11 +175,11 @@ const configSlice = createSlice({
       state.isWalletCreating = false;
       state.isErrorCreatingWallet = action.payload;
     },
-    resetCreateWalletError(state, action) {
+    resetCreateWalletError(state) {
       state.isWalletCreating = false;
       state.isErrorCreatingWallet = '';
     },
-    restoreWalletRequest(state, action) {
+    restoreWalletRequest(state) {
       state.isWalletRestoring = true;
       state.isErrorRestoringWallet = '';
     },
@@ -173,12 +191,27 @@ const configSlice = createSlice({
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = action.payload;
     },
-    resetRestoreWalletError(state, action) {
+    resetRestoreWalletError(state) {
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = '';
     },
-    fetchInstantBalanceRequest(state) {},
-    fetchInstantPendingBalanceRequest(state) {},
+    fetchInstantBalanceRequest() {
+      /* */
+    },
+    fetchInstantPendingBalanceRequest() {
+      /* */
+    },
+    fetchConnectLedgerRequest(state) {
+      state.connect.status = 'connecting';
+      state.connect.error = null;
+    },
+    fetchConnectLedgerSuccess(state) {
+      state.connect.status = 'connected';
+    },
+    fetchConnectLedgerError(state, action) {
+      state.connect.status = 'notConnected';
+      state.connect.error = action.payload;
+    },
   },
 });
 
@@ -224,6 +257,9 @@ export const {
   resetRestoreWalletError,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchConnectLedgerRequest,
+  fetchConnectLedgerSuccess,
+  fetchConnectLedgerError,
 } = actions;
 
 export default reducer;

@@ -478,7 +478,8 @@
     "ledger": {
       "ledgerPage": {
         "title": "Ledger Кошелек",
-        "connect": "Подключится"
+        "connect": "Подключится",
+        "connecting": "Подключение"
       }
     },
     "console": {

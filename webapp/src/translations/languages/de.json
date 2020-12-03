@@ -463,7 +463,8 @@
     "ledger": {
       "ledgerPage": {
         "title": "Ledger Brieftasche",
-        "connect": "Verbinden"
+        "connect": "Verbinden",
+        "connecting": "Anschließen"
       }
     },
     "console": {
