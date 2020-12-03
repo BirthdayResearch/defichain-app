@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import StatusLedgerConnect from '@/components/StatusLedgerConnect';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
+import HelpModal from './components/HelpModal';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
@@ -86,6 +87,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
 
   return (
     <div className='main-wrapper'>
+      <HelpModal isOpen={true} />
       <Helmet>
         <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
       </Helmet>

@@ -1,0 +1,12 @@
+.help-modal {
+  &__header {
+    display: flex;
+    justify-content: center;
+  }
+  &__body {
+    text-align: center;
+  }
+  &__item {
+    margin-bottom: 1rem;
+  }
+}
