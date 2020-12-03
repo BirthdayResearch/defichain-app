@@ -186,7 +186,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                           : `text-center text-secondary`
                       } ${styles.copyIcon}`}
                     >
-                      <ValueLi value={item.txid} copyable={true} />
+                      {item.txid ? (
+                        <ValueLi value={item.txid} copyable={true} />
+                      ) : (
+                        <span>{'-'}</span>
+                      )}
                     </div>
                   </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
