@@ -587,7 +587,8 @@
         "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé une fois la transaction confirmée par la Blockchain DeFi.",
         "backToWallet": "Retour au portefeuille",
         "dfiAddress": "Adresse DFI",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction Hash",
+        "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "Réception de DFI – App DeFi",
