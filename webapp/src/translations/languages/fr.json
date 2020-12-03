@@ -19,7 +19,7 @@
       "balance": "Solde",
       "dfi": "DFI",
       "wallet": "Portefeuille",
-      "ledger": "Ledger",
+      "ledger": "Ledger Wallet",
       "masterNodes": "Nœuds complets",
       "blockchain": "Blockchain",
       "tokens": "Tokens",
@@ -234,7 +234,6 @@
         "price": "Price",
         "id": "ID",
         "decimals": "Decimals",
-        "holders": "Holders",
         "limit": "Limit",
         "minitingSupport": "Minting Support",
         "tradeable": "Trade-able?",
@@ -257,7 +256,6 @@
         "confirmation": "Are you sure you want to destroy a token?",
         "deleteToken": "Delete Token",
         "editToken": "Edit Token",
-        "mint": "Mint",
         "notMintedAlert": "You have not minted the token",
         "mint": "Mint"
       },
@@ -286,7 +284,6 @@
         "cancel": "CANCEL",
         "continue": "CONTINUE",
         "dfiRequired": "DFI required",
-        "chooseFile": "CHOOSE FILE",
         "dctDistribution": "DCT Distribution",
         "uploadCsv": "UPLOAD CSV",
         "addAddress": "ADD ADDRESS",
@@ -465,7 +462,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger DFI Portefeuille",
+        "title": "Ledger Portefeuille",
         "connect": "Relier"
       }
     },

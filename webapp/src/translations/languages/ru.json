@@ -19,7 +19,7 @@
       "balance": "Средства",
       "dfi": "DFI",
       "wallet": "Кошелек",
-      "ledger": "Ledger",
+      "ledger": "Ledger кошелек",
       "masterNodes": "Мастерноды",
       "blockchain": "Блокчейн",
       "tokens": "Токены",
@@ -243,7 +243,6 @@
         "volume": "Объем (24ч)",
         "officialSite": "Официальный сайт",
         "transfers": "Переводы",
-        "holders": "Держатели",
         "info": "Информация",
         "exchange": "Обмен",
         "dex": "DEX",
@@ -258,7 +257,6 @@
         "confirmation": "Вы уверены, что хотите уничтожить токен?",
         "deleteToken": "Удалить токен",
         "editToken": "Изменить токен",
-        "mint": "Чеканка",
         "notMintedAlert": "Вы не чеканили токен",
         "mint": "Чеканка"
       },
@@ -287,7 +285,6 @@
         "cancel": "CANCEL",
         "continue": "ПРОДОЛЖИТЬ",
         "dfiRequired": "Требуется DFI",
-        "chooseFile": "ВЫБРАТЬ ФАЙЛ",
         "dctDistribution": "DCT Распределение",
         "uploadCsv": "ЗАГРУЗИТЬ CSV",
         "addAddress": "ДОБАВИТЬ АДРЕС",
@@ -377,7 +374,6 @@
       "sendPage": {
         "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "wallet": "Кошелек",
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "sendDFI": "Отправить DFI",
         "send": "Отправить",
         "amount": "Сумма",
@@ -481,7 +477,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger DFI Кошелек",
+        "title": "Ledger Кошелек",
         "connect": "Подключится"
       }
     },
