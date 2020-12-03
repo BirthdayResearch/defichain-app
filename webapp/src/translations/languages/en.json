@@ -373,7 +373,7 @@
         "priceImpact": "Price impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by DeFiChain",
         "transactionComplete": "Transaction complete",
         "goToWallet": "Go to wallet",
         "go": "Go",
@@ -440,7 +440,7 @@
         "continue": "Continue",
         "cancel": "Cancel",
         "supply": "Supply",
-        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by the DeFi blockchain",
+        "transactionSuccessMsg": "Your account balance will update once the transaction has been confirmed by DeFiChain",
         "viewOnChain": "View on chain",
         "backToPool": "Back to pool",
         "totalPooled": "Total pooled",
@@ -450,7 +450,8 @@
         "receiveAddress": "Receive address",
         "address": "Address",
         "label": "Label",
-        "selected": "Selected"
+        "selected": "Selected",
+        "receiveSharesAt": "Receive shares At"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -594,7 +595,8 @@
         "backToWallet": "Back to wallet",
         "dfiAddress": "DFI address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account",
-        "txHash": "Transaction hash"
+        "txHash": "Transaction hash",
+        "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",
