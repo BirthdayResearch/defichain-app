@@ -58,6 +58,11 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
 
   const { poolpair } = props;
 
+  const liquidityAmount = (percentage, reserve) => {
+    const liquidityAmount = (Number(percentage) / 100) * reserve;
+    return liquidityAmount.toFixed(2);
+  };
+
   return (
     <div>
       <Card
@@ -101,16 +106,14 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
             <Col className={styles.bigLabel}>
               {I18n.t('containers.swap.swapPage.apy')}
             </Col>
-            <Col className={styles.bigValue}>
-              {`${poolpair.apy}%`}
-            </Col>
+            <Col className={styles.bigValue}>{`${poolpair.apy}%`}</Col>
           </Row>
           <Row>
             <Col className={styles.label}>
               {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenA}`}
             </Col>
             <Col className={styles.value}>
-              {Number(poolpair.reserveA).toFixed(2)}
+              {liquidityAmount(poolpair.poolSharePercentage, poolpair.reserveA)}
             </Col>
           </Row>
           <Row>
@@ -118,7 +121,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenB}`}
             </Col>
             <Col className={styles.value}>
-              {Number(poolpair.reserveB).toFixed(2)}
+              {liquidityAmount(poolpair.poolSharePercentage, poolpair.reserveB)}
             </Col>
           </Row>
           <Row>
