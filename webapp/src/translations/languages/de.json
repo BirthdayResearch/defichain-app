@@ -322,7 +322,8 @@
         "receiveAddress": "Empfänger Adresse",
         "address": "Adresse",
         "label": "Label",
-        "selected": "Ausgewählt"
+        "selected": "Ausgewählt",
+        "receiveSharesAt": "Erhalte Anteil zu"
       },
       "removeLiquidity": {
         "address": "Adresse",
@@ -495,7 +496,7 @@
       "display": "Anzeige",
       "launchOptions": "Start Optionen",
       "reindexOption": "Reindex-Option",
-      "reindexAfterSaving": "Reindex nach Soeichern",
+      "reindexAfterSaving": "Reindex nach Speichern",
       "launchAtLogin": "Start bei der Anmeldung",
       "minimizedAtLaunch": "Minimiert beim starten",
       "storage": "Lagerung",
@@ -600,7 +601,8 @@
         "txHash": "Transaction Hash",
         "sendTitle": "Senden – DeFiChain Client",
         "send": "Senden",
-        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
+        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
+        "insufficientUtxos": "Ungenügend UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",
