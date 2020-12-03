@@ -56,4 +56,7 @@
     text-decoration: underline;
     outline: none;
   }
+  &:disabled {
+    text-decoration: none;
+  }
 }

@@ -99,6 +99,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
               'align-items-center'
             )}
             onClick={onConnectLedger}
+            disabled={status !== 'notConnected'}
           >
             <span>
               {I18n.t(
@@ -111,7 +112,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
           </button>
         </div>
         <ButtonGroup>
-          <Button color='link' size='sm' disabled>
+          <Button color='link' size='sm' disabled={status !== 'connected'}>
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}
@@ -121,7 +122,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
             to={LEDGER_RECEIVE_PATH}
             tag={RRNavLink}
             color='link'
-            disabled
+            disabled={status !== 'connected'}
           >
             <MdArrowDownward />
             <span className='d-md-inline'>
