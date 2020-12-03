@@ -600,7 +600,8 @@
         "txHash": "Transaction Hash",
         "sendTitle": "Senden – DeFiChain Client",
         "send": "Senden",
-        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
+        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
+        "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",
