@@ -28,6 +28,7 @@ import {
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  SWAP_CATEGORY_LABEL,
   TRANSFER_CATEGORY_LABEL,
   WALLET_TXN_PAGE_FETCH_SIZE,
   WALLET_TXN_PAGE_SIZE,
@@ -137,6 +138,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getTxnsType = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
       return TRANSFER_CATEGORY_LABEL;
+    }
+    if (type === POOL_SWAP_CATEGORY_LABEL) {
+      return SWAP_CATEGORY_LABEL;
     }
     return type;
   };
