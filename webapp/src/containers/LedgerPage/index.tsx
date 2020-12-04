@@ -11,6 +11,7 @@ import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
 import HelpModal from './components/HelpModal';
 import NotFoundLedgerModal from './components/NotFoundLedgerModal';
+import ErrorLedgerModal from './components/ErrorLedgerModal';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
@@ -89,7 +90,12 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
   return (
     <div className='main-wrapper'>
       <HelpModal isOpen={false} />
-      <NotFoundLedgerModal isOpen={true} />
+      <NotFoundLedgerModal isOpen={false} />
+      <ErrorLedgerModal
+        isOpen={true}
+        error='Listen time is out'
+        onAgainClick={onConnectLedger}
+      />
       <Helmet>
         <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
       </Helmet>
