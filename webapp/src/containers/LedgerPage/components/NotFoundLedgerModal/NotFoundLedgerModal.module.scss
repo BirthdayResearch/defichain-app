@@ -1,0 +1,23 @@
+.not-found-ledger-modal {
+  &__header {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__subheader {
+    text-align: center;
+  }
+
+  &__item {
+    margin-bottom: 0;
+  }
+
+  &__content {
+    display: grid;
+    justify-content: center;
+  }
+
+  &__help-body {
+    text-align: center;
+  }
+}
