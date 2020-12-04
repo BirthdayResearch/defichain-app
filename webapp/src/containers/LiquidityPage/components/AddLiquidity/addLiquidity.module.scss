@@ -51,6 +51,14 @@
   left: 0;
 }
 
+.txProgressSuccess {
+  position: absolute;
+  left: -30px;
+  color: $green;
+  height: 24px;
+  width: 24px;
+}
+
 .keyValueLiKey {
   font-weight: $font-weight-medium;
 }
@@ -58,4 +66,18 @@
 .keyValueLiValue {
   color: $secondary;
   text-align: right;
+}
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
 }

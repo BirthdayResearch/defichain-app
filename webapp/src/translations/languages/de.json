@@ -318,7 +318,12 @@
         "totalPooled": "Total pooled",
         "amountInsufficient": "Insufficient Amount in your account",
         "ratioMoreThan1": "Das Verhältnis hat sich um mehr als 1% bewegt. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge",
-        "ratioChanged": "Das Verhältnis wurde geändert. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge"
+        "ratioChanged": "Das Verhältnis wurde geändert. Bitte überprüfe deine Eingabebeträge und aktualisiere die Beträge",
+        "receiveAddress": "Empfänger Adresse",
+        "address": "Adresse",
+        "label": "Label",
+        "selected": "Ausgewählt",
+        "receiveSharesAt": "Erhalte Anteil zu"
       },
       "removeLiquidity": {
         "address": "Adresse",
@@ -405,7 +410,7 @@
         "tradeable": "Handelbar?",
         "dfiRequired": "DFI notwendig",
         "collateralAddress": "Collateral Adresse",
-        "collateralAddressError": "Minimum 100 DFI notwendig",
+        "collateralAddressError": "Minimum 101 DFI notwendig",
         "createTokenButton": "TOKEN ERSTELLEN",
         "createConfirmationText": "Bist du sicher, dass du einen Token erstellen willst?",
         "updateConfirmationText": "Bist du sicher, dass du einen Token updaten willst?",
@@ -490,6 +495,8 @@
       "general": "Allgemein",
       "display": "Anzeige",
       "launchOptions": "Start Optionen",
+      "reindexOption": "Reindex-Option",
+      "reindexAfterSaving": "Reindex nach Speichern",
       "launchAtLogin": "Start bei der Anmeldung",
       "minimizedAtLaunch": "Minimiert beim starten",
       "storage": "Lagerung",
@@ -543,7 +550,7 @@
         "walletRecoveryInfoLine1": "Ein Wallet Wiederherstellungs-Samen (“mnemonischer Samen”, “Samen-Satz”, “Samen-Wörter”) ist eine Möglichkeit, deinen privaten Schlüssel als eine Folge von Wörtern darzustellen, die für einen Menschen leichter zu merken sind. Er wird auch verwendet, um erweiterte Schlüssel für alle Wallets, die du in der App erstellst, zu generieren.",
         "walletRecoveryInfoLine2": "Die Wörter werden zufällig aus einer Liste von 2048 Wörtern generiert, die im BIP39-Standard definiert sind, und bieten 24 Bit Sicherheit.",
         "learnMoreAtBitcoinBtn": "LERNE MEHR IM BITCOIN WIKI",
-        "copied24Words": "Ich habe die 24 Wörter in der genauen Reihenfolge notiert",
+        "copied24Words": "Ich habe 24 Wörter in der genauen Reihenfolge notiert",
         "continue": "WEITER",
         "createNewWallet": "Neue Wallet erstellen"
       },
@@ -594,7 +601,8 @@
         "txHash": "Transaction Hash",
         "sendTitle": "Senden – DeFiChain Client",
         "send": "Senden",
-        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto"
+        "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
+        "insufficientUtxos": "Ungenügend UTXOS"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",
