@@ -28,10 +28,14 @@ export const initialState = {
   isRemovePoolLiquidityLoaded: false,
   removePoolLiquidityHash: '',
   isErrorRemovingPoolLiquidity: '',
-  testPoolSwap: '-',
-  isLoadingTestPoolSwap: false,
-  isTestPoolSwapLoaded: false,
-  isErrorTestPoolSwap: '',
+  testPoolSwapTo: '-',
+  testPoolSwapFrom: '-',
+  isLoadingTestPoolSwapTo: false,
+  isLoadingTestPoolSwapFrom: false,
+  isTestPoolSwapLoadedTo: false,
+  isTestPoolSwapLoadedFrom: false,
+  isErrorTestPoolSwapTo: '',
+  isErrorTestPoolSwapFrom: '',
   poolSwapHash: '',
   isLoadingPoolSwap: false,
   isLoadingRefreshUTXOS: false,
@@ -155,28 +159,51 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = false;
       state.isRemovePoolLiquidityLoaded = true;
     },
-    resetTestPoolSwapRequest(state) {
-      state.testPoolSwap = '';
+    resetTestPoolSwapRequestTo(state) {
+      state.testPoolSwapTo = '';
     },
-    fetchTestPoolSwapRequest(state, action) {
-      state.isLoadingTestPoolSwap = true;
-      state.isErrorTestPoolSwap = '';
-      state.isTestPoolSwapLoaded = false;
+    fetchTestPoolSwapRequestTo(state, action) {
+      state.isLoadingTestPoolSwapTo = true;
+      state.isErrorTestPoolSwapTo = '';
+      state.isTestPoolSwapLoadedTo = false;
     },
-    fetchTestPoolSwapSuccess(state, action) {
-      state.testPoolSwap = action.payload;
-      state.isLoadingTestPoolSwap = false;
-      state.isTestPoolSwapLoaded = true;
-      state.isErrorTestPoolSwap = '';
+    fetchTestPoolSwapSuccessTo(state, action) {
+      state.testPoolSwapTo = action.payload;
+      state.isLoadingTestPoolSwapTo = false;
+      state.isTestPoolSwapLoadedTo = true;
+      state.isErrorTestPoolSwapTo = '';
     },
-    fetchTestPoolSwapFailure(state, action) {
-      state.testPoolSwap = '';
-      state.isLoadingTestPoolSwap = false;
-      state.isTestPoolSwapLoaded = true;
-      state.isErrorTestPoolSwap = action.payload;
+    fetchTestPoolSwapFailureTo(state, action) {
+      state.testPoolSwapTo = '';
+      state.isLoadingTestPoolSwapTo = false;
+      state.isTestPoolSwapLoadedTo = true;
+      state.isErrorTestPoolSwapTo = action.payload;
     },
-    resetTestPoolSwapError(state) {
-      state.isErrorTestPoolSwap = '';
+    resetTestPoolSwapErrorTo(state) {
+      state.isErrorTestPoolSwapTo = '';
+    },
+    resetTestPoolSwapRequestFrom(state) {
+      state.testPoolSwapFrom = '';
+    },
+    fetchTestPoolSwapRequestFrom(state, action) {
+      state.isLoadingTestPoolSwapFrom = true;
+      state.isErrorTestPoolSwapFrom = '';
+      state.isTestPoolSwapLoadedFrom = false;
+    },
+    fetchTestPoolSwapSuccessFrom(state, action) {
+      state.testPoolSwapFrom = action.payload;
+      state.isLoadingTestPoolSwapFrom = false;
+      state.isTestPoolSwapLoadedFrom = true;
+      state.isErrorTestPoolSwapFrom = '';
+    },
+    fetchTestPoolSwapFailureFrom(state, action) {
+      state.testPoolSwapFrom = '';
+      state.isLoadingTestPoolSwapFrom = false;
+      state.isTestPoolSwapLoadedFrom = true;
+      state.isErrorTestPoolSwapFrom = action.payload;
+    },
+    resetTestPoolSwapErrorFrom(state) {
+      state.isErrorTestPoolSwapFrom = '';
     },
     poolSwapRequest(state, action) {
       state.isLoadingPoolSwap = true;
@@ -258,10 +285,16 @@ export const {
   liquidityRemovedSuccess,
   refreshUTXOS2Success,
   transferTokensSuccess,
-  resetTestPoolSwapRequest,
-  fetchTestPoolSwapRequest,
-  fetchTestPoolSwapSuccess,
-  fetchTestPoolSwapFailure,
+  resetTestPoolSwapRequestTo,
+  fetchTestPoolSwapRequestTo,
+  fetchTestPoolSwapSuccessTo,
+  fetchTestPoolSwapFailureTo,
+  resetTestPoolSwapErrorTo,
+  resetTestPoolSwapRequestFrom,
+  fetchTestPoolSwapRequestFrom,
+  fetchTestPoolSwapSuccessFrom,
+  fetchTestPoolSwapFailureFrom,
+  resetTestPoolSwapErrorFrom,
   poolSwapRequest,
   poolSwapRefreshUTXOSuccess,
   poolSwapSuccess,
@@ -272,7 +305,6 @@ export const {
   fetchMaxAccountDfiRequest,
   fetchMaxAccountDfiSuccess,
   fetchMaxAccountDfiFailure,
-  resetTestPoolSwapError,
 } = actions;
 
 export default reducer;
