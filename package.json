@@ -4,9 +4,9 @@
   "description": "DeFi blockchain client ui",
   "main": "./electron-app/build/index.js",
   "author": {
-    "name": "Cake",
-    "email": "cake@cakedefi.com",
-    "url": "http://cakedefi.com/"
+    "name": "DeFiChain Foundation",
+    "email": "engineering@defichain.com",
+    "url": "http://defichain.com/"
   },
   "homepage": "./",
   "publicPath": "./",
