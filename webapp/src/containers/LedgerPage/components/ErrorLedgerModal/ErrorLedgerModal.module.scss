@@ -1,7 +1,9 @@
 .error-ledger-modal {
   &__header {
-    display: flex;
-    justify-content: center;
+    h2 {
+      text-align: center;
+      width: 100%;
+    }
   }
   &__body {
     text-align: center;

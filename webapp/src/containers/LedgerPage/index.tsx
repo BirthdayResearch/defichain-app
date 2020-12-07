@@ -19,6 +19,7 @@ import {
   initialIsShowingInformationRequest,
   updateIsShowingInformationRequest,
   getDevicesClear,
+  fetchConnectLedgerFailure,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
@@ -51,9 +52,6 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
   const dispatch = useDispatch();
-  const {
-    connect: { status },
-  } = props;
 
   const {
     fetchInstantBalanceRequest,
@@ -66,6 +64,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     fetchConnectLedgerRequest,
     isShowingInformation,
     devices,
+    connect,
   } = props;
 
   useEffect(() => {
@@ -105,6 +104,10 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     dispatch(getDevicesClear());
   }, [dispatch]);
 
+  const onCloseErrorLedgerModal = useCallback(() => {
+    dispatch(fetchConnectLedgerFailure(null));
+  }, [dispatch]);
+
   return (
     <div className='main-wrapper'>
       <HelpModal isOpen={isShowingInformation} toggle={onCloseHelpModal} />
@@ -113,9 +116,10 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
         toggle={onCloseNotFoundLedgerModal}
       />
       <ErrorLedgerModal
-        isOpen={false}
-        error='Listen time is out'
+        isOpen={!!connect.error}
+        error={connect.error ? connect.error.message : ''}
         onAgainClick={onConnectLedger}
+        toggle={onCloseErrorLedgerModal}
       />
       <Helmet>
         <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
@@ -130,20 +134,20 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
               'align-items-center'
             )}
             onClick={onConnectLedger}
-            disabled={status !== 'notConnected'}
+            disabled={connect.status !== 'notConnected'}
           >
             <span>
               {I18n.t(
                 `containers.ledger.ledgerPage.${
-                  status === 'connecting' ? 'connecting' : 'connect'
+                  connect.status === 'connecting' ? 'connecting' : 'connect'
                 }`
               )}
             </span>
-            <StatusLedgerConnect status={status} />
+            <StatusLedgerConnect status={connect.status} />
           </button>
         </div>
         <ButtonGroup>
-          <Button color='link' size='sm' disabled={status !== 'connected'}>
+          <Button color='link' size='sm' disabled={connect.status !== 'connected'}>
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}

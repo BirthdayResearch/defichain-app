@@ -6,16 +6,18 @@ interface ErrorLedgerModalProps {
   isOpen: boolean;
   error: string;
   onAgainClick: () => void;
+  toggle: () => void;
 }
 
 const ErrorLedgerModal: React.FC<ErrorLedgerModalProps> = ({
   isOpen,
   error,
   onAgainClick,
+                                                             toggle,
 }: ErrorLedgerModalProps) => (
-  <Modal isOpen={isOpen} centered>
-    <ModalHeader className={styles['error-ledger-modal__header']}>
-      <h2>Error</h2>
+  <Modal isOpen={isOpen} centered toggle={toggle}>
+    <ModalHeader tag='h2' className={styles['error-ledger-modal__header']} toggle={toggle}>
+      Error
     </ModalHeader>
     <ModalBody className={styles['error-ledger-modal__body']}>
       <p>{error}</p>
