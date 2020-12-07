@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { IWalletTokenCard } from '../../../utils/interfaces';
@@ -12,7 +13,7 @@ interface WalletTokenCardProps {
     symbol: string | null,
     hash: string,
     amount: any,
-    address: string,
+    address: string
   ) => void;
 }
 
@@ -39,7 +40,13 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
                 <div>
                   <b>{token.symbolKey}</b>
                 </div>
-                <div className={styles.cardValue}>{token.isLPS ? `Liquidity token for ${token.symbolKey}` : token.name}</div>
+                <div className={styles.cardValue}>
+                  {token.isLPS
+                    ? `${I18n.t(
+                        'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
+                      )} ${token.symbolKey}`
+                    : token.name}
+                </div>
               </div>
             </div>
           </Col>
