@@ -1,6 +1,8 @@
 {
   "components": {
-    "keyValueLi": { "copied": "Copied!" },
+    "keyValueLi": {
+      "copied": "Copied!"
+    },
     "syncStatus": {
       "synchronized": "Synchronized",
       "syncing": "Synchronizing",
@@ -179,7 +181,10 @@
         "successText": "Success",
         "backToMasternodePage": "Back to masternode"
       },
-      "masternodeTab": { "myMasternodes": "Mine", "network": "Network" }
+      "masternodeTab": {
+        "myMasternodes": "Mine",
+        "network": "Network"
+      }
     },
     "tokens": {
       "tokensPage": {
@@ -200,7 +205,8 @@
           "decimal": "Decimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -210,7 +216,8 @@
           "tradeable": "Tradeable",
           "type": "Type",
           "decimal": "Decimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
@@ -403,7 +410,10 @@
         "transferringTokens": "Transferring tokens",
         "tokensTransferred": "Tokens transferred"
       },
-      "swapTab": { "from": "From", "to": "To" },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
+      },
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -706,7 +716,10 @@
           }
         ]
       },
-      "consoleResultPage": { "resultPage": "CLI result", "back": "Back" }
+      "consoleResultPage": {
+        "resultPage": "CLI result",
+        "back": "Back"
+      }
     }
   },
   "alerts": {
