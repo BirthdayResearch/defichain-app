@@ -8,6 +8,10 @@ export const initialState: LedgerState = {
     device: null,
   },
   isShowingInformation: false,
+  devices: {
+    list: [],
+    error: null,
+  },
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
@@ -225,6 +229,24 @@ const configSlice = createSlice({
     updateIsShowingInformationRequest(state, action) {
       /* */
     },
+    getDevicesRequest(state) {
+      state.devices = {
+        list: [],
+        error: null,
+      };
+    },
+    getDevicesSuccess(state, action) {
+      state.devices.list = action.payload;
+    },
+    getDevicesFailure(state, action) {
+      state.devices.error = action.payload;
+    },
+    getDevicesClear(state) {
+      state.devices = {
+        list: [],
+        error: null,
+      };
+    },
   },
 });
 
@@ -277,6 +299,10 @@ export const {
   setIsShowingInformationSuccess,
   setIsShowingInformationFailure,
   updateIsShowingInformationRequest,
+  getDevicesRequest,
+  getDevicesSuccess,
+  getDevicesFailure,
+  getDevicesClear,
 } = actions;
 
 export default reducer;

@@ -6,8 +6,14 @@ export interface LedgerConnect {
   device: null | string;
 }
 
+export interface DevicesLedger {
+  list: any[];
+  error: null | Error;
+}
+
 export interface LedgerState {
   connect: LedgerConnect;
   isShowingInformation: boolean;
+  devices: DevicesLedger;
   [key: string]: any;
 }

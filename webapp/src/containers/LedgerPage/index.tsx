@@ -18,12 +18,13 @@ import {
   fetchConnectLedgerRequest,
   initialIsShowingInformationRequest,
   updateIsShowingInformationRequest,
+  getDevicesClear,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
 import { getAmountInSelectedUnit } from '@/utils/utility';
 import styles from './LedgerPage.module.scss';
-import { LedgerConnect } from '@/containers/LedgerPage/types';
+import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;
@@ -38,6 +39,7 @@ interface LedgerPageProps extends RouteComponentProps {
   connect: LedgerConnect;
   fetchConnectLedgerRequest: () => void;
   isShowingInformation: boolean;
+  devices: DevicesLedger;
 }
 
 const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
@@ -63,6 +65,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     history,
     fetchConnectLedgerRequest,
     isShowingInformation,
+    devices,
   } = props;
 
   useEffect(() => {
@@ -98,10 +101,17 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     dispatch(updateIsShowingInformationRequest(false));
   }, [dispatch]);
 
+  const onCloseNotFoundLedgerModal = useCallback(() => {
+    dispatch(getDevicesClear());
+  }, [dispatch]);
+
   return (
     <div className='main-wrapper'>
       <HelpModal isOpen={isShowingInformation} toggle={onCloseHelpModal} />
-      <NotFoundLedgerModal isOpen={false} />
+      <NotFoundLedgerModal
+        isOpen={!devices.list.length && !!devices.error}
+        toggle={onCloseNotFoundLedgerModal}
+      />
       <ErrorLedgerModal
         isOpen={false}
         error='Listen time is out'
@@ -216,7 +226,7 @@ const mapStateToProps = (state) => {
       appConfig: { unit },
     },
     popover: { updateAvailableBadge },
-    ledgerWallet: { connect, isShowingInformation },
+    ledgerWallet: { connect, isShowingInformation, devices },
   } = state;
   return {
     unit,
@@ -226,6 +236,7 @@ const mapStateToProps = (state) => {
     blockChainInfo,
     connect,
     isShowingInformation,
+    devices,
   };
 };
 

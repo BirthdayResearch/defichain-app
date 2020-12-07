@@ -1,32 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import styles from './NotFoundLedgerModal.module.scss';
 
 interface NotFoundLedgerModalProps {
   isOpen: boolean;
+  toggle: () => void;
 }
 
 const NotFoundLedgerModal: React.FC<NotFoundLedgerModalProps> = ({
-  isOpen,
+  isOpen, toggle,
 }: NotFoundLedgerModalProps) => {
   const [isHelp, setIsHelp] = useState(false);
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsHelp(true);
-    }, 30000);
-    return () => clearTimeout(timeoutId);
-  }, [setIsHelp]);
+    let timeoutId: null | NodeJS.Timeout = null;
+    if (isOpen) {
+      timeoutId = setTimeout(() => {
+        setIsHelp(true);
+      }, 30000);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        setIsHelp(false);
+      }
+    }
+  }, [setIsHelp, isOpen]);
   return (
-    <Modal isOpen={isOpen} centered>
+    <Modal isOpen={isOpen} toggle={toggle} centered unmountOnClose>
       {isHelp ? (
-        <ModalBody className={styles['not-found-ledger-modal__help-body']}>
-          <p>Having a hard time connecting your device?</p>
-          <a>Help</a>
-        </ModalBody>
+        <>
+          <ModalHeader toggle={toggle} className={styles['not-found-ledger-modal__header']}>
+            Having a hard time connecting your device?
+          </ModalHeader>
+          <ModalBody className={styles['not-found-ledger-modal__help-body']}>
+            <a>Help</a>
+          </ModalBody>
+        </>
       ) : (
         <>
-          <ModalHeader className={styles['not-found-ledger-modal__header']}>
-            <h2>Error</h2>
+          <ModalHeader tag='h2' className={styles['not-found-ledger-modal__header']} toggle={toggle}>
+            Error
           </ModalHeader>
           <ModalBody className={styles['not-found-ledger-modal__body']}>
             <div className={styles['not-found-ledger-modal__subheader']}>

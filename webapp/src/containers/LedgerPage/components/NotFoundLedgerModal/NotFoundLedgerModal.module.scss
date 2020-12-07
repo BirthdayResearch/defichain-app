@@ -1,7 +1,9 @@
 .not-found-ledger-modal {
   &__header {
-    display: flex;
-    justify-content: center;
+    h2, h5 {
+      text-align: center;
+      width: 100%;
+    }
   }
 
   &__subheader {

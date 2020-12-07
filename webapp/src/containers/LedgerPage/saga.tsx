@@ -42,6 +42,7 @@ import {
   connectLedger,
   initialIsShowingInformation as initialIsShowingInformationService,
   setIsShowingInformation,
+  getListDevicesLedger,
 } from './service';
 
 export function* getNetwork() {
@@ -330,11 +331,17 @@ export function* fetchInstantPendingBalance() {
 export function* fetchConnectLedger() {
   yield delay(500);
   try {
-    const result = { success: true, data: { isConnected: true } };
-    if (result.success && result.data.isConnected) {
-      yield put(reducer.fetchConnectLedgerSuccess());
+    yield put(reducer.getDevicesRequest());
+    const devices = yield select((state) => state.ledgerWallet.devices.list);
+    if (devices.length) {
+      const result = { success: true, data: { isConnected: true } };
+      if (result.success && result.data.isConnected) {
+        yield put(reducer.fetchConnectLedgerSuccess());
+      } else {
+        yield put(reducer.fetchConnectLedgerFailure({ message: result.message }));
+      }
     } else {
-      yield put(reducer.fetchConnectLedgerFailure({ message: result.message }));
+      yield put(reducer.fetchConnectLedgerFailure(null));
     }
   } catch (err) {
     yield put(reducer.fetchConnectLedgerFailure(err.messsage));
@@ -358,6 +365,20 @@ export function* updateIsShowingInformation(action) {
   } catch (e) {
     yield put(reducer.setIsShowingInformationFailure());
     log.error(e);
+  }
+}
+
+export function* getDevices() {
+  try {
+    const devicesResult = yield call(getListDevicesLedger);
+    if (devicesResult.success) {
+      yield put(reducer.getDevicesSuccess(devicesResult.devices));
+
+    } else {
+      throw new Error(devicesResult.message);
+    }
+  } catch (err) {
+    yield put(reducer.getDevicesFailure(err));
   }
 }
 
@@ -393,6 +414,7 @@ function* mySaga() {
     reducer.updateIsShowingInformationRequest.type,
     updateIsShowingInformation
   );
+  yield takeLatest(reducer.getDevicesRequest.type, getDevices);
 }
 
 export default mySaga;
