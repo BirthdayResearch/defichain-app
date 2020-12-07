@@ -11,7 +11,7 @@
   "homepage": "./",
   "publicPath": "./",
   "scripts": {
-    "init": "npm i && cd webapp && npm run init",
+    "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc",
     "watch": "tsc -w",
     "start": "npm run init && npm run start:dev",
