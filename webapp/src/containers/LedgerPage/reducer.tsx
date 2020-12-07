@@ -7,6 +7,7 @@ export const initialState: LedgerState = {
     error: null,
     device: null,
   },
+  isShowingInformation: false,
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
@@ -208,9 +209,21 @@ const configSlice = createSlice({
     fetchConnectLedgerSuccess(state) {
       state.connect.status = 'connected';
     },
-    fetchConnectLedgerError(state, action) {
+    fetchConnectLedgerFailure(state, action) {
       state.connect.status = 'notConnected';
       state.connect.error = action.payload;
+    },
+    initialIsShowingInformationRequest(state) {
+      /* */
+    },
+    setIsShowingInformationSuccess(state, action) {
+      state.isShowingInformation = action.payload;
+    },
+    setIsShowingInformationFailure(state) {
+      state.isShowingInformation = false;
+    },
+    updateIsShowingInformationRequest(state, action) {
+      /* */
     },
   },
 });
@@ -259,7 +272,11 @@ export const {
   fetchInstantPendingBalanceRequest,
   fetchConnectLedgerRequest,
   fetchConnectLedgerSuccess,
-  fetchConnectLedgerError,
+  fetchConnectLedgerFailure,
+  initialIsShowingInformationRequest,
+  setIsShowingInformationSuccess,
+  setIsShowingInformationFailure,
+  updateIsShowingInformationRequest,
 } = actions;
 
 export default reducer;

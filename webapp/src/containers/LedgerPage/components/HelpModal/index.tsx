@@ -6,11 +6,15 @@ import styles from './HelpModal.module.scss';
 
 interface HelpModalProps {
   isOpen: boolean;
+  toggle: () => void;
 }
 
-const HelpModal: React.FC<HelpModalProps> = ({ isOpen }: HelpModalProps) => (
-  <Modal isOpen={isOpen} centered>
-    <ModalHeader className={styles['help-modal__header']}>
+const HelpModal: React.FC<HelpModalProps> = ({
+  isOpen,
+  toggle,
+}: HelpModalProps) => (
+  <Modal isOpen={isOpen} toggle={toggle} centered>
+    <ModalHeader toggle={toggle} className={styles['help-modal__header']}>
       How to connect Ledger to DeFi Wallet:
     </ModalHeader>
     <ModalBody className={styles['help-modal__body']}>

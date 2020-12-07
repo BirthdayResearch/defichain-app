@@ -72,3 +72,5 @@ export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
 export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
 
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/stats';
+
+export const IS_SHOWING_INFORMATION_LEDGER = 'isShowingInformationLedger';

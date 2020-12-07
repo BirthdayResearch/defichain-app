@@ -40,6 +40,8 @@ import {
   setHdSeed,
   importPrivKey,
   connectLedger,
+  initialIsShowingInformation as initialIsShowingInformationService,
+  setIsShowingInformation,
 } from './service';
 
 export function* getNetwork() {
@@ -332,10 +334,30 @@ export function* fetchConnectLedger() {
     if (result.success && result.data.isConnected) {
       yield put(reducer.fetchConnectLedgerSuccess());
     } else {
-      yield put(reducer.fetchConnectLedgerError({ message: result.message }));
+      yield put(reducer.fetchConnectLedgerFailure({ message: result.message }));
     }
   } catch (err) {
-    yield put(reducer.fetchConnectLedgerError(err.messsage));
+    yield put(reducer.fetchConnectLedgerFailure(err.messsage));
+  }
+}
+
+export function* initialIsShowingInformation() {
+  try {
+    const isShowingInformation = yield call(initialIsShowingInformationService);
+    yield put(reducer.setIsShowingInformationSuccess(isShowingInformation));
+  } catch (e) {
+    yield put(reducer.setIsShowingInformationFailure());
+    log.error(e);
+  }
+}
+
+export function* updateIsShowingInformation(action) {
+  try {
+    yield call(setIsShowingInformation, action.payload);
+    yield put(reducer.setIsShowingInformationSuccess(action.payload));
+  } catch (e) {
+    yield put(reducer.setIsShowingInformationFailure());
+    log.error(e);
   }
 }
 
@@ -363,6 +385,14 @@ function* mySaga() {
     fetchInstantPendingBalance
   );
   yield takeLatest(reducer.fetchConnectLedgerRequest.type, fetchConnectLedger);
+  yield takeLatest(
+    reducer.initialIsShowingInformationRequest.type,
+    initialIsShowingInformation
+  );
+  yield takeLatest(
+    reducer.updateIsShowingInformationRequest.type,
+    updateIsShowingInformation
+  );
 }
 
 export default mySaga;

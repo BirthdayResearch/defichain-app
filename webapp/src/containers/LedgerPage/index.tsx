@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col } from 'reactstrap';
 import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import classNames from 'classnames';
@@ -16,15 +16,16 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
   fetchConnectLedgerRequest,
+  initialIsShowingInformationRequest,
+  updateIsShowingInformationRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
 import { getAmountInSelectedUnit } from '@/utils/utility';
-import { connectLedger } from '@/containers/LedgerPage/service';
 import styles from './LedgerPage.module.scss';
 import { LedgerConnect } from '@/containers/LedgerPage/types';
 
-interface WalletPageProps extends RouteComponentProps {
+interface LedgerPageProps extends RouteComponentProps {
   unit: string;
   walletBalance: string;
   pendingBalance: string;
@@ -36,10 +37,11 @@ interface WalletPageProps extends RouteComponentProps {
   blockChainInfo: any;
   connect: LedgerConnect;
   fetchConnectLedgerRequest: () => void;
+  isShowingInformation: boolean;
 }
 
-const LedgerPage: React.FunctionComponent<WalletPageProps> = (
-  props: WalletPageProps
+const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
+  props: LedgerPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');
@@ -60,6 +62,7 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
     openBackupWallet,
     history,
     fetchConnectLedgerRequest,
+    isShowingInformation,
   } = props;
 
   useEffect(() => {
@@ -71,6 +74,10 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
       clearTimeout(pendingBalRefreshTimerID);
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(initialIsShowingInformationRequest());
+  }, [dispatch]);
 
   const openUpdatePopUp = () => {
     openBackupWallet();
@@ -87,12 +94,16 @@ const LedgerPage: React.FunctionComponent<WalletPageProps> = (
     fetchConnectLedgerRequest();
   }, []);
 
+  const onCloseHelpModal = useCallback(() => {
+    dispatch(updateIsShowingInformationRequest(false));
+  }, [dispatch]);
+
   return (
     <div className='main-wrapper'>
-      <HelpModal isOpen={false} />
+      <HelpModal isOpen={isShowingInformation} toggle={onCloseHelpModal} />
       <NotFoundLedgerModal isOpen={false} />
       <ErrorLedgerModal
-        isOpen={true}
+        isOpen={false}
         error='Listen time is out'
         onAgainClick={onConnectLedger}
       />
@@ -205,7 +216,7 @@ const mapStateToProps = (state) => {
       appConfig: { unit },
     },
     popover: { updateAvailableBadge },
-    ledgerWallet: { connect },
+    ledgerWallet: { connect, isShowingInformation },
   } = state;
   return {
     unit,
@@ -214,6 +225,7 @@ const mapStateToProps = (state) => {
     updateAvailableBadge,
     blockChainInfo,
     connect,
+    isShowingInformation,
   };
 };
 

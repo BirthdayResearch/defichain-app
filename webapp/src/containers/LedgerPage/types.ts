@@ -8,5 +8,6 @@ export interface LedgerConnect {
 
 export interface LedgerState {
   connect: LedgerConnect;
+  isShowingInformation: boolean;
   [key: string]: any;
 }

@@ -10,7 +10,8 @@ import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
-} from '../../constants';
+  IS_SHOWING_INFORMATION_LEDGER,
+} from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
   fetchAccountsDataWithPagination,
@@ -329,6 +330,14 @@ export const handleFetchAccounts = async () => {
   );
 
   return result;
+};
+
+export const initialIsShowingInformation = () => {
+  return PersistentStore.get(IS_SHOWING_INFORMATION_LEDGER) !== 'false';
+};
+
+export const setIsShowingInformation = (isViewInformation: boolean) => {
+  PersistentStore.set(IS_SHOWING_INFORMATION_LEDGER, isViewInformation);
 };
 
 export const getAddressInfo = (address) => {
