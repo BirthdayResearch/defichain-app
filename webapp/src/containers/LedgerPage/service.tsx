@@ -11,6 +11,7 @@ import {
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
   IS_SHOWING_INFORMATION_LEDGER,
+  LIST_DEVICES_LEDGER,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -387,3 +388,8 @@ export const connectLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(CONNECT_LEDGER);
 };
+
+export const getListDevicesLedger = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  return ipcRenderer.sendSync(LIST_DEVICES_LEDGER);
+}

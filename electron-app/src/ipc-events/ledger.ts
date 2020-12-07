@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER } from '../constants';
+import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER, LIST_DEVICES_LEDGER } from '../constants';
 import { responseMessage } from '../utils';
 import Wallet from '../controllers/wallets';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
@@ -29,6 +29,19 @@ const initiateLedger = () => {
       event.returnValue = responseMessage(false, {
         message: err.message,
         isConnected: DefiLedger.connected,
+      });
+    }
+  });
+
+  ipcMain.on(LIST_DEVICES_LEDGER, async (event: Electron.IpcMainEvent) => {
+    try {
+      const devices = await DefiLedger.getDevices();
+      event.returnValue = responseMessage(true, {
+        devices,
+      });
+    } catch (err) {
+      event.returnValue = responseMessage(false, {
+        message: err.message,
       });
     }
   });
