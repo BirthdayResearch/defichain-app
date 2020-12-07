@@ -461,7 +461,7 @@
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "receiveSharesAt": "Receive shares At"
+        "receiveSharesAt": "Receive shares at"
       },
       "removeLiquidity": {
         "address": "Address",
