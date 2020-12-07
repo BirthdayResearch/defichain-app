@@ -34,7 +34,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className='d-flex align-items-center justify-content-start'>
               <div>
-                <TokenAvatar symbol={token.symbolKey} />
+                <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} />
               </div>
               <div className='ml-4'>
                 <div>
