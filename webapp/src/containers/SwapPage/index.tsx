@@ -29,12 +29,15 @@ import {
   fetchTokenBalanceListRequest,
   addPoolLiquidityRequest,
   fetchPoolsharesRequest,
-  fetchTestPoolSwapRequest,
+  fetchTestPoolSwapRequestTo,
   poolSwapRequest,
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,
-  resetTestPoolSwapError,
-  resetTestPoolSwapRequest,
+  resetTestPoolSwapErrorTo,
+  resetTestPoolSwapRequestTo,
+  fetchTestPoolSwapRequestFrom,
+  resetTestPoolSwapErrorFrom,
+  resetTestPoolSwapRequestFrom,
 } from './reducer';
 import {
   calculateLPFee,
@@ -65,13 +68,17 @@ interface SwapPageProps {
   history?: any;
   location?: any;
   poolshares: any[];
-  fetchTestPoolSwapRequest: (formState) => void;
+  fetchTestPoolSwapRequestTo: (formState) => void;
+  fetchTestPoolSwapRequestFrom: (formState) => void;
   fetchPoolsharesRequest: () => void;
   poolPairList: any[];
   tokenBalanceList: string[];
-  testPoolSwap: string;
-  isLoadingTestPoolSwap: boolean;
-  isErrorTestPoolSwap: string;
+  testPoolSwapTo: string;
+  testPoolSwapFrom: string;
+  isLoadingTestPoolSwapTo: boolean;
+  isLoadingTestPoolSwapFrom: boolean;
+  isErrorTestPoolSwapTo: string;
+  isErrorTestPoolSwapFrom: string;
   poolSwapRequest: (formState) => void;
   isLoadingPoolSwap: boolean;
   isErrorPoolSwap: string;
@@ -91,8 +98,10 @@ interface SwapPageProps {
   fetchUtxoDfiRequest: () => void;
   maxAccountDfi: number;
   fetchMaxAccountDfiRequest: () => void;
-  resetTestPoolSwapError: () => void;
-  resetTestPoolSwapRequest: () => void;
+  resetTestPoolSwapErrorTo: () => void;
+  resetTestPoolSwapRequestTo: () => void;
+  resetTestPoolSwapErrorFrom: () => void;
+  resetTestPoolSwapRequestFrom: () => void;
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -104,6 +113,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [swapStep, setSwapStep] = useState<string>(
     !PersistentStore.get(IS_DEX_INTRO_SEEN) ? 'first' : 'default'
   );
+  const [fromTestValue, setFromTestValue] = useState<boolean>(false);
+  const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
@@ -121,11 +132,15 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchPoolPairListRequest,
     tokenBalanceList,
     fetchTokenBalanceListRequest,
-    fetchTestPoolSwapRequest,
-    testPoolSwap,
+    fetchTestPoolSwapRequestTo,
+    fetchTestPoolSwapRequestFrom,
+    testPoolSwapTo,
+    testPoolSwapFrom,
     poolSwapRequest,
-    isErrorTestPoolSwap,
-    isLoadingTestPoolSwap,
+    isErrorTestPoolSwapTo,
+    isErrorTestPoolSwapFrom,
+    isLoadingTestPoolSwapTo,
+    isLoadingTestPoolSwapFrom,
     isLoadingPoolSwap,
     isErrorPoolSwap,
     poolSwapHash,
@@ -136,8 +151,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchUtxoDfiRequest,
     maxAccountDfi,
     fetchMaxAccountDfiRequest,
-    resetTestPoolSwapError,
-    resetTestPoolSwapRequest,
+    resetTestPoolSwapErrorTo,
+    resetTestPoolSwapRequestTo,
   } = props;
 
   useEffect(() => {
@@ -145,16 +160,27 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchTokenBalanceListRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
-    resetTestPoolSwapError();
-    resetTestPoolSwapRequest();
+    resetTestPoolSwapErrorTo();
+    resetTestPoolSwapRequestTo();
+    resetTestPoolSwapErrorFrom();
+    resetTestPoolSwapRequestFrom();
   }, []);
 
   useEffect(() => {
     isValidAmount() &&
-      fetchTestPoolSwapRequest({
+      fromTestValue &&
+      fetchTestPoolSwapRequestTo({
         formState,
       });
   }, [formState.amount1, formState.hash1, formState.hash2]);
+
+  useEffect(() => {
+    isValidAmount() &&
+      toTestValue &&
+      fetchTestPoolSwapRequestFrom({
+        formState,
+      });
+  }, [formState.amount2, formState.hash1, formState.hash2]);
 
   const isValidAmount = () => {
     if (formState[`balance1`] && formState[`balance2`]) {
@@ -167,18 +193,34 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   useEffect(() => {
     setFormState({
       ...formState,
-      amount2: testPoolSwap || '-',
+      amount1: testPoolSwapFrom || '-',
     });
-  }, [testPoolSwap]);
+  }, [testPoolSwapFrom]);
 
   useEffect(() => {
-    if (!testPoolSwap) {
+    setFormState({
+      ...formState,
+      amount2: testPoolSwapTo || '-',
+    });
+  }, [testPoolSwapTo]);
+
+  useEffect(() => {
+    if (!testPoolSwapTo) {
       setFormState({
         ...formState,
         amount2: '0',
       });
     }
-  }, [isErrorTestPoolSwap]);
+  }, [isErrorTestPoolSwapTo]);
+
+  useEffect(() => {
+    if (!testPoolSwapFrom) {
+      setFormState({
+        ...formState,
+        amount1: '0',
+      });
+    }
+  }, [isErrorTestPoolSwapFrom]);
 
   useEffect(() => {
     if (allowCalls && !isLoadingPoolSwap) {
@@ -197,12 +239,26 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance
   );
 
-  const handleChange = (e) => {
+  const handleChangeFrom = (e) => {
+    setToTestValue(false);
+    setFromTestValue(true);
     if (countDecimals(e.target.value) <= 8) {
       setFormState({
         ...formState,
         [e.target.name]: e.target.value,
-        amount2: testPoolSwap || '-',
+        amount2: testPoolSwapTo || '-',
+      });
+    }
+  };
+
+  const handleChangeTo = (e) => {
+    setFromTestValue(false);
+    setToTestValue(true);
+    if (countDecimals(e.target.value) <= 8) {
+      setFormState({
+        ...formState,
+        [e.target.name]: e.target.value,
+        amount1: testPoolSwapFrom || '-',
       });
     }
   };
@@ -227,7 +283,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setFormState({
       ...formState,
       [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
-      amount2: testPoolSwap,
+      amount2: testPoolSwapTo,
     });
   };
 
@@ -401,9 +457,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 tokenMap={tokenMap}
                 filterBySymbol={filterBySymbol}
                 name={1}
-                isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+                isLoadingTestPoolSwapTo={isLoadingTestPoolSwapTo}
+                isLoadingTestPoolSwapFrom={isLoadingTestPoolSwapFrom}
                 formState={formState}
-                handleChange={handleChange}
+                handleChangeFrom={handleChangeFrom}
+                handleChangeTo={handleChangeTo}
                 handleDropdown={handleDropDown}
                 setMaxValue={setMaxValue}
                 handleInterchange={handleInterchange}
@@ -421,7 +479,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           {isValid() &&
             activeTab === SWAP &&
             !isAmountInsufficient() &&
-            !isErrorTestPoolSwap && (
+            !isErrorTestPoolSwapTo &&
+            !isErrorTestPoolSwapFrom && (
               <Row>
                 <Col md='12'>
                   <Row className='align-items-center'>
@@ -561,7 +620,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              {!isAmountInsufficient() && !isErrorTestPoolSwap ? (
+              {!isAmountInsufficient() &&
+              !isErrorTestPoolSwapTo &&
+              !isErrorTestPoolSwapFrom ? (
                 <Col className='col-auto'>
                   {isValid()
                     ? I18n.t('containers.swap.swapPage.readySwap')
@@ -577,7 +638,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               <Col className='d-flex justify-content-end'>
                 <Button
                   color='primary'
-                  disabled={!isValid() || !!isErrorTestPoolSwap}
+                  disabled={
+                    !isValid() ||
+                    !!isErrorTestPoolSwapTo ||
+                    !!isErrorTestPoolSwapFrom
+                  }
                   onClick={swapStepConfirm}
                 >
                   {I18n.t('containers.swap.swapPage.continue')}
@@ -764,9 +829,12 @@ const mapStateToProps = (state) => {
     addPoolLiquidityHash,
     isErrorAddingPoolLiquidity,
     poolshares,
-    testPoolSwap,
-    isErrorTestPoolSwap,
-    isLoadingTestPoolSwap,
+    testPoolSwapTo,
+    testPoolSwapFrom,
+    isErrorTestPoolSwapTo,
+    isErrorTestPoolSwapFrom,
+    isLoadingTestPoolSwapTo,
+    isLoadingTestPoolSwapFrom,
     isLoadingPoolSwap,
     isLoadingRefreshUTXOS,
     isLoadingTransferringTokens,
@@ -785,9 +853,12 @@ const mapStateToProps = (state) => {
     addPoolLiquidityHash,
     isErrorAddingPoolLiquidity,
     poolshares,
-    testPoolSwap,
-    isErrorTestPoolSwap,
-    isLoadingTestPoolSwap,
+    testPoolSwapTo,
+    testPoolSwapFrom,
+    isErrorTestPoolSwapTo,
+    isErrorTestPoolSwapFrom,
+    isLoadingTestPoolSwapTo,
+    isLoadingTestPoolSwapFrom,
     isLoadingPoolSwap,
     isLoadingRefreshUTXOS,
     isLoadingTransferringTokens,
@@ -801,7 +872,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchTestPoolSwapRequest,
+  fetchTestPoolSwapRequestTo,
+  fetchTestPoolSwapRequestFrom,
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
   addPoolLiquidityRequest,
@@ -809,8 +881,10 @@ const mapDispatchToProps = {
   poolSwapRequest,
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,
-  resetTestPoolSwapError,
-  resetTestPoolSwapRequest,
+  resetTestPoolSwapErrorTo,
+  resetTestPoolSwapRequestTo,
+  resetTestPoolSwapErrorFrom,
+  resetTestPoolSwapRequestFrom,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapPage);
