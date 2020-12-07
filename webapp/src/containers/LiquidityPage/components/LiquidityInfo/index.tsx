@@ -38,6 +38,11 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
     props.fetchPoolsharesRequest();
   }, []);
 
+  const liquidityAmount = (percentage, reserve) => {
+    const liquidityAmount = (Number(percentage) / 100) * reserve;
+    return liquidityAmount.toFixed(2).toString() || '0';
+  };
+
   const poolshare =
     poolshares.length &&
     poolshares.find((poolShare) => {
@@ -111,9 +116,10 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenA}`}
-                value={Number(poolshare.reserveA || '0')
-                  .toFixed(2)
-                  .toString()}
+                value={liquidityAmount(
+                  poolshare.poolSharePercentage,
+                  poolshare.reserveA
+                )}
               />
             </Col>
             <Col md='6'>
@@ -121,9 +127,10 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenB}`}
-                value={Number(poolshare.reserveB || '')
-                  .toFixed(2)
-                  .toString()}
+                value={liquidityAmount(
+                  poolshare.poolSharePercentage,
+                  poolshare.reserveB
+                )}
               />
             </Col>
             <Col md='6'>

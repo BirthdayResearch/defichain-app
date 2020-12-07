@@ -23,10 +23,12 @@ import {
   fetchWalletTokenTransactionsListResetRequest,
 } from '../../reducer';
 import {
+  ACCOUNT_TO_UTXOS_LABEL,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   SENT_CATEGORY_LABEL,
+  SWAP_CATEGORY_LABEL,
   TRANSFER_CATEGORY_LABEL,
   WALLET_TXN_PAGE_FETCH_SIZE,
   WALLET_TXN_PAGE_SIZE,
@@ -128,12 +130,17 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     }
     if (type === POOL_SWAP_CATEGORY_LABEL)
       return <MdCompareArrows className={styles.typeIcon} />;
+    if (type === ACCOUNT_TO_UTXOS_LABEL)
+      return <MdArrowUpward className={styles.typeIcon} />;
     return '';
   };
 
   const getTxnsType = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
       return TRANSFER_CATEGORY_LABEL;
+    }
+    if (type === POOL_SWAP_CATEGORY_LABEL) {
+      return SWAP_CATEGORY_LABEL;
     }
     return type;
   };

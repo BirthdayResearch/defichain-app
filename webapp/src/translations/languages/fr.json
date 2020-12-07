@@ -365,7 +365,8 @@
           "decimal": "Decimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -375,7 +376,8 @@
           "tradeable": "Tradeable",
           "type": "Type",
           "decimal": "Decimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
