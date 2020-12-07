@@ -408,7 +408,8 @@
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "dexExplorer": "Dex Explorer"
       },
       "swapTab": {
         "from": "From",
