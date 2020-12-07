@@ -326,7 +326,7 @@
       "liquidityPage": {
         "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for up to 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns of up to 300%. You may withdraw at any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -359,7 +359,7 @@
       "swapPage": {
         "title": "DEX – DeFiChain Client",
         "decentralizedExchange": "Decentralized Exchange",
-        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -655,10 +655,11 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "TOKENS",
+        "tokens": "Tokens",
         "walletDeFiApp": "Wallet – DeFi app",
         "walletDefiClient": "Wallet – DeFi app",
-        "wallet": "Wallet",
+        "wallet": "wallet",
+        "wallets": "Wallets",
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
@@ -669,7 +670,7 @@
         "availableBalance": "Available balance",
         "pending": "Pending",
         "updateAvailableLabel": "Update available",
-        "includeRewards": "Include Rewards",
+        "includeRewards": "Include rewards",
         "loading": "Loading...",
         "category": "Category",
         "blockHeight": "BlockHeight",

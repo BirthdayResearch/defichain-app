@@ -17,20 +17,28 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       onClick={() => props.handleCardClick(data.symbol, data.hash)}
     >
       <CardBody className={styles.cardBody}>
-        <Row className='mb-3'>
-          <Col>
-            <b>
-              {data.isLPS
+        <Row className='mb-2'>
+          <Col md='8' className='d-flex align-items-center'>
+            <div>
+              <span className={styles.tokenName}>
+                {data.isLPS
                 ? `${I18n.t(
                     'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
                   )} ${data.symbolKey}`
                 : data.name}
-            </b>
-            <span>{data.symbolKey}</span>
+              </span>{' '}
+              <span className={styles.tokenSymbol}>{data.symbolKey}</span>
+            </div>
           </Col>
-          <Col md='6' className={`${styles.tokenCardIcon}`}>
-            {data.isDAT && <img src={VerifiedIcon} className='mr-1' />}
-            <TokenAvatar symbol={data.symbolKey} />
+          <Col md='4' className={`${styles.tokenCardIcon}`}>
+            {data.isDAT && (
+              <img src={VerifiedIcon} className={styles.verifiedIcon} />
+            )}
+            <TokenAvatar
+              symbol={data.symbolKey}
+              size='32px'
+              textSizeRatio={2}
+            />
           </Col>
         </Row>
         {/* <Row>
