@@ -53,6 +53,7 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   LIQUIDITY_PATH,
+  MINIMUM_UTXOS_FOR_LIQUIDITY,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -60,6 +61,7 @@ import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
+import { handleFetchRegularDFI } from '../WalletPage/service';
 
 interface SwapPageProps {
   history?: any;
@@ -113,6 +115,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [fromTestValue, setFromTestValue] = useState<boolean>(false);
   const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: '',
@@ -161,6 +164,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapRequestTo();
     resetTestPoolSwapErrorFrom();
     resetTestPoolSwapRequestFrom();
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      const regularDFI = await handleFetchRegularDFI();
+      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
+    }
+    getData();
   }, []);
 
   useEffect(() => {
@@ -602,20 +613,28 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              {!isAmountInsufficient() &&
-              !isErrorTestPoolSwapTo &&
-              !isErrorTestPoolSwapFrom ? (
-                <Col className='col-auto'>
-                  {isValid()
-                    ? I18n.t('containers.swap.swapPage.readySwap')
-                    : I18n.t('containers.swap.swapPage.enterAnAmount')}
+              {!sufficientUtxos ? (
+                <Col className={`${styles['error-dialog']} col-auto`}>
+                  {I18n.t('containers.swap.swapPage.insufficientUtxos')}
                 </Col>
               ) : (
-                <Col className='col-auto'>
-                  <span className='text-danger'>
-                    {I18n.t('containers.swap.swapPage.somethingWentWrong')}
-                  </span>
-                </Col>
+                <>
+                  {!isAmountInsufficient() &&
+                  !isErrorTestPoolSwapTo &&
+                  !isErrorTestPoolSwapFrom ? (
+                    <Col className='col-auto'>
+                      {isValid()
+                        ? I18n.t('containers.swap.swapPage.readySwap')
+                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                    </Col>
+                  ) : (
+                    <Col className='col-auto'>
+                      <span className='text-danger'>
+                        {I18n.t('containers.swap.swapPage.somethingWentWrong')}
+                      </span>
+                    </Col>
+                  )}
+                </>
               )}
               <Col className='d-flex justify-content-end'>
                 <Button
@@ -623,7 +642,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   disabled={
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
-                    !!isErrorTestPoolSwapFrom
+                    !!isErrorTestPoolSwapFrom ||
+                    !sufficientUtxos
                   }
                   onClick={swapStepConfirm}
                 >
