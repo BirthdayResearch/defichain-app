@@ -152,7 +152,7 @@ function* fetchWalletTxns(action) {
   );
   const callBack = (err, result) => {
     if (err) {
-      store.dispatch(reducer.fetchWalletTxnsFailure(err.message));
+      store.dispatch(reducer.fetchWalletTxnsFailure());
       log.error(err);
       return;
     }
@@ -170,7 +170,7 @@ function* fetchWalletTxns(action) {
       );
     } else {
       showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
-      store.dispatch(reducer.fetchWalletTxnsFailure('No data found'));
+      store.dispatch(reducer.fetchWalletTxnsFailure());
     }
   };
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
@@ -196,14 +196,14 @@ function fetchSendData() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
-      store.dispatch(reducer.fetchSendDataFailure(err.message));
+      store.dispatch(reducer.fetchSendDataFailure());
       log.error(err);
       return;
     }
     if (result) store.dispatch(reducer.fetchSendDataSuccess({ data: result }));
     else {
       showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
-      store.dispatch(reducer.fetchSendDataFailure('No data found'));
+      store.dispatch(reducer.fetchSendDataFailure());
     }
   };
   queuePush(handleSendData, [], callBack);
@@ -334,11 +334,13 @@ export function* fetchConnectLedger() {
     yield put(reducer.getDevicesRequest());
     const devices = yield select((state) => state.ledgerWallet.devices.list);
     if (devices.length) {
-      const result = { success: true, data: { isConnected: true } };
+      const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
         yield put(reducer.fetchConnectLedgerSuccess());
       } else {
-        yield put(reducer.fetchConnectLedgerFailure({ message: result.message }));
+        yield put(
+          reducer.fetchConnectLedgerFailure({ message: result.message })
+        );
       }
     } else {
       yield put(reducer.fetchConnectLedgerFailure(null));
@@ -373,7 +375,6 @@ export function* getDevices() {
     const devicesResult = yield call(getListDevicesLedger);
     if (devicesResult.success) {
       yield put(reducer.getDevicesSuccess(devicesResult.devices));
-
     } else {
       throw new Error(devicesResult.message);
     }

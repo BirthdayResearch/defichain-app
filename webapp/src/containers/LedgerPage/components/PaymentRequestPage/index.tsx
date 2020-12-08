@@ -12,8 +12,7 @@ import {
   PAYMENT_REQUEST_DETAIL_DATE_FORMAT,
 } from '../../../../constants';
 import { removeReceiveTxnsRequest } from '../../reducer';
-import { getTransactionURI } from '../../../../utils/utility';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import { getTransactionURI, getAmountInSelectedUnit } from '@/utils/utility';
 
 interface RouteProps {
   id: string;
@@ -136,7 +135,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  removeReceiveTxns: () => removeReceiveTxnsRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestPage);

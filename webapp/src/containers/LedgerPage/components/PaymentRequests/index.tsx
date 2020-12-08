@@ -22,7 +22,7 @@ import {
   PAYMENT_REQ_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import { getAmountInSelectedUnit } from '@/utils/utility';
 
 interface PaymentRequestsProps {
   unit: string;
@@ -166,7 +166,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchPaymentRequest,
-  removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  removeReceiveTxns: () => removeReceiveTxnsRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequests);

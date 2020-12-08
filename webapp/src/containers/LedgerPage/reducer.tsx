@@ -115,7 +115,7 @@ const configSlice = createSlice({
     removeReceiveTxnsSuccess(state, action) {
       state.paymentRequests = action.payload;
     },
-    removeReceiveTxnsFailure() {
+    removeReceiveTxnsFailure(state, action) {
       /* */
     },
     addReceiveTxnsRequest() {
@@ -124,7 +124,7 @@ const configSlice = createSlice({
     addReceiveTxnsSuccess(state, action) {
       state.paymentRequests = action.payload;
     },
-    addReceiveTxnsFailure() {
+    addReceiveTxnsFailure(state, action) {
       /* */
     },
     fetchSendDataRequest() {

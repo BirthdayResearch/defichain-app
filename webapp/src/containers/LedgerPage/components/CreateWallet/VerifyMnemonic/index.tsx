@@ -5,14 +5,14 @@ import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import { MdArrowBack, MdErrorOutline } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
-import { checkElementsInArray } from '../../../../../utils/utility';
+import { checkElementsInArray } from '@/utils/utility';
 
-import { WALLET_BASE_PATH, WALLET_PAGE_PATH } from '../../../../../constants';
+import { WALLET_BASE_PATH, WALLET_PAGE_PATH } from '@/constants';
 
 import styles from '../CreateWallet.module.scss';
 import { createWalletRequest, resetCreateWalletError } from '../../../reducer';
 import { connect } from 'react-redux';
-import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
+import WalletLoadingFooter from '@/components/WalletLoadingFooter';
 
 interface VerifyMnemonicProps {
   mnemonicObj: any;
@@ -210,9 +210,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  createWallet: (mnemonicCode, history) =>
-    createWalletRequest({ mnemonicCode, history }),
-  resetCreateWalletError: () => resetCreateWalletError({}),
+  createWallet: () => createWalletRequest(),
+  resetCreateWalletError: () => resetCreateWalletError(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);

@@ -18,7 +18,7 @@ import {
   fetchPaymentRequest,
   removeReceiveTxnsRequest,
 } from '../../../reducer';
-import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
+import { PAYMENT_REQ_LIST_SIZE } from '@/constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  removeReceiveTxns: () => removeReceiveTxnsRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);

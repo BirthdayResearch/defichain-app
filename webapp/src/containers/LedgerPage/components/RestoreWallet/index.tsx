@@ -15,7 +15,7 @@ import {
 import classnames from 'classnames';
 
 import styles from './RestoreWallet.module.scss';
-import { WALLET_PAGE_PATH } from '../../../../constants';
+import { WALLET_PAGE_PATH } from '@/constants';
 import { resetRestoreWalletError, restoreWalletRequest } from '../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
@@ -200,9 +200,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  restoreWallet: (mnemonicObj, history) =>
-    restoreWalletRequest({ mnemonicObj, history }),
-  resetRestoreWalletError: () => resetRestoreWalletError({}),
+  restoreWallet: () => restoreWalletRequest(),
+  resetRestoreWalletError: () => resetRestoreWalletError(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestoreWallet);

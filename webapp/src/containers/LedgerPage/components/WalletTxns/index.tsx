@@ -6,10 +6,9 @@ import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchWalletTxnsRequest } from '../../reducer';
-import { WALLET_TXN_PAGE_SIZE } from '../../../../constants';
+import { WALLET_TXN_PAGE_SIZE, BLOCKCHAIN_BLOCK_BASE_PATH } from '@/constants';
 import Pagination from '../../../../components/Pagination';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
-import { BLOCKCHAIN_BLOCK_BASE_PATH } from '../../../../constants';
+import { getAmountInSelectedUnit } from '@/utils/utility';
 
 interface WalletTxnsProps {
   unit: string;
@@ -149,8 +148,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletTxns: (currentPage, pageSize, intialLoad) =>
-    fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
+  fetchWalletTxns: () => fetchWalletTxnsRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
