@@ -205,25 +205,19 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                       </div>
                     )}
                   </td>
-                  <td>
-                    <div
-                      className={`${
-                        item.txid
-                          ? styles.txidvalue
-                          : `text-center text-secondary`
-                      } ${styles.copyIcon}`}
-                    >
-                      {item.txid ? (
+                  {item.txid ? (
+                    <td>
+                      <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
                         <ValueLi
                           value={item.txid}
                           copyable={true}
                           textLimit={textLimit}
                         />
-                      ) : (
-                        <span>{'-'}</span>
-                      )}
-                    </div>
-                  </td>
+                      </div>
+                    </td>
+                  ) : (
+                    <td />
+                  )}
                 </tr>
               ))}
             </tbody>
