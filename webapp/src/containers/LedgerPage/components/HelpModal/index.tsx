@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import LedgerDownloadImg from '@/assets/img/LedgerDownload.png';
-import LedgerConnectImg from '@/assets/img/LedgerConnect.png';
+import LedgerDownloadImg from '@/assets/img/ledgerDownload.png';
+import LedgerConnectImg from '@/assets/img/ledgerConnect.png';
 import styles from './HelpModal.module.scss';
 
 interface HelpModalProps {
