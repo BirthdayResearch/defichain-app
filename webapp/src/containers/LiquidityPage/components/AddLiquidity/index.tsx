@@ -44,6 +44,7 @@ import {
   DFI_SYMBOL,
   LIQUIDITY_PATH,
   MAIN,
+  MINIMUM_UTXOS_FOR_LIQUIDITY,
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
@@ -61,6 +62,7 @@ import BigNumber from 'bignumber.js';
 import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
 import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
+import { handleFetchRegularDFI } from '../../../WalletPage/service';
 
 interface AddLiquidityProps {
   location: any;
@@ -98,6 +100,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
   const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
+  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<any>({
     amount1: '',
@@ -136,6 +139,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     fetchPoolsharesRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      const regularDFI = await handleFetchRegularDFI();
+      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
+    }
+    getData();
   }, []);
 
   useEffect(() => {
@@ -647,23 +658,35 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           })}
         >
           <Row className='justify-content-between align-items-center'>
-            {!isAmountInsufficient() ? (
-              <Col className='col-auto'>
-                {isValid()
-                  ? I18n.t('containers.swap.addLiquidity.readyToSupply')
-                  : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
+            {!sufficientUtxos ? (
+              <Col className={`${styles['error-dialog']} col-auto`}>
+                {I18n.t('containers.swap.addLiquidity.insufficientUtxos')}
               </Col>
             ) : (
-              <Col className='col-auto'>
-                <span className='text-danger'>
-                  {I18n.t('containers.swap.addLiquidity.amountInsufficient')}
-                </span>
-              </Col>
+              <>
+                {!isAmountInsufficient() ? (
+                  <Col className='col-auto'>
+                    {isValid()
+                      ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                      : I18n.t(
+                          'containers.swap.addLiquidity.selectInputTokens'
+                        )}
+                  </Col>
+                ) : (
+                  <Col className='col-auto'>
+                    <span className='text-danger'>
+                      {I18n.t(
+                        'containers.swap.addLiquidity.amountInsufficient'
+                      )}
+                    </span>
+                  </Col>
+                )}
+              </>
             )}
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!isValid()}
+                disabled={!isValid() || !sufficientUtxos}
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
