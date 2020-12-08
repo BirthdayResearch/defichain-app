@@ -39,7 +39,6 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
-  setIsWalletCreatedStartRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,
@@ -266,6 +265,8 @@ export function* fetchChainInfo() {
     result = {};
   }
   yield put(setBlockChainInfo(result));
+  const isWalletCreatedVal = isWalletCreated(result.chain);
+  yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
 }
 
 export function* fetchTokens() {
@@ -369,16 +370,6 @@ export function* fetchInstantPendingBalance() {
   }
 }
 
-function* checkWalletCreation() {
-  try {
-    const network = yield call(getNetwork);
-    const isWalletCreatedVal = isWalletCreated(network);
-    yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 function* fetchWalletTokenTransactionsList(action) {
   try {
     const { symbol, limit, includeRewards } = action.payload;
@@ -455,7 +446,6 @@ function* mySaga() {
     fetchInstantPendingBalanceRequest.type,
     fetchInstantPendingBalance
   );
-  yield takeLatest(setIsWalletCreatedStartRequest.type, checkWalletCreation);
   yield takeLatest(
     fetchWalletTokenTransactionsListRequestLoading.type,
     fetchWalletTokenTransactionsList
