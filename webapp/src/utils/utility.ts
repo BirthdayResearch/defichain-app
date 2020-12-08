@@ -1219,3 +1219,17 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
 export const getSmallerAmount = (amount1: string, amount2: string) => {
   return Math.min(Number(amount1), Number(amount2));
 };
+
+export const getDfiTokenBalance = async () => {
+  const addressAndAmountList = await getAddressAndAmountListForAccount();
+
+  const amount = addressAndAmountList.reduce((currentAmount, obj) => {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]);
+    if (tokenSymbol === DFI_SYMBOL) {
+      currentAmount = currentAmount.plus(amount);
+    }
+    return currentAmount;
+  }, new BigNumber('0'));
+  return Number(amount);
+};
