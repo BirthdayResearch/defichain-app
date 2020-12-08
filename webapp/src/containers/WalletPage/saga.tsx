@@ -313,6 +313,7 @@ export function* createWallet(action) {
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
+    yield put(setIsWalletCreatedRequest(true));
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
@@ -343,6 +344,7 @@ export function* restoreWallet(action) {
     yield call(importPrivKey, hdSeed);
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
+    yield put(setIsWalletCreatedRequest(true));
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
@@ -386,7 +388,8 @@ function* fetchWalletTokenTransactionsList(action) {
       if (!data.length) {
         break;
       }
-      // data contains array of objects containing blockHeight in desc order. so here to paginate to next page data we will use the minimum block height - 1
+      // data contains array of objects containing blockHeight in desc order.
+      //  so here to paginate to next page data we will use the minimum block height - 1
       const minHeightData = minBy(data, 'blockHeight');
       minBlockHeight = minHeightData.blockHeight - 1;
       cloneData = cloneData.concat(data);
