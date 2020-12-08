@@ -674,7 +674,8 @@
         "loading": "Loading...",
         "category": "Category",
         "blockHeight": "BlockHeight",
-        "amount": "Amount"
+        "amount": "Amount",
+        "txidNotApplicable": "Transaction ID not applicable"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
