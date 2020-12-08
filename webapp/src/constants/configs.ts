@@ -119,6 +119,8 @@ export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
 export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
 export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 
+export const DEX_EXPLORER_BASE_LINK = 'https://dex.defichain.com/';
+
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
 export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';

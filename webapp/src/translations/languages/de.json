@@ -273,7 +273,8 @@
         "preparingUTXO": "UTXO vorbereitet",
         "UTXOPrepared": "UTXO vorbereiten",
         "transferringTokens": "Übertragen von Tokens",
-        "tokensTransferred": "Tokens Übertragen"
+        "tokensTransferred": "Tokens Übertragen",
+        "dexExplorer": "Dex Explorer"
       },
       "swapTab": { "from": "Von", "to": "An" },
       "poolTab": {

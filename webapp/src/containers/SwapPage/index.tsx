@@ -9,6 +9,7 @@ import {
   MdCheckCircle,
   MdComputer,
   MdErrorOutline,
+  MdLaunch,
   MdPerson,
   MdPieChart,
   MdVpnKey,
@@ -39,8 +40,8 @@ import {
   calculateLPFee,
   conversionRatio,
   countDecimals,
-  getTokenListForSwap,
-  selectedPoolPair,
+  getNetworkType,
+  getTokenListForSwap
 } from '../../utils/utility';
 import {
   SWAP,
@@ -50,6 +51,7 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   LIQUIDITY_PATH,
+  DEX_EXPLORER_BASE_LINK,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -57,6 +59,7 @@ import Spinner from '../../components/Svg/Spinner';
 import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
+import openNewTab from '../../utils/openNewTab';
 
 interface SwapPageProps {
   history?: any;
@@ -328,6 +331,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setSwapStep('default');
   };
 
+  const network = getNetworkType();
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -370,6 +375,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t('containers.swap.swapPage.liquidity')}
+            </span>
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button
+            color='link'
+            onClick={() =>
+              openNewTab(`${DEX_EXPLORER_BASE_LINK}${network}net/pool`)
+            }
+          >
+            <MdLaunch />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.swap.swapPage.dexExplorer')}
             </span>
           </Button>
         </ButtonGroup>
