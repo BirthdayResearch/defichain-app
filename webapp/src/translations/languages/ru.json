@@ -480,6 +480,11 @@
         "title": "Ledger Кошелек",
         "connect": "Подключится",
         "connecting": "Подключение"
+      },
+      "helpModal": {
+        "title": "Как подключить Ledger к кошельку DeFi",
+        "downloadItem": "Загрузите приложение Ledger",
+        "plugItem": "Подключи и разблокируй свое устройство"
       }
     },
     "console": {

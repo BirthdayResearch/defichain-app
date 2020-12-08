@@ -19,7 +19,7 @@
       "balance": "Solde",
       "dfi": "DFI",
       "wallet": "Portefeuille",
-      "ledger": "Ledger Wallet",
+      "ledger": "Ledger Portefeuille",
       "masterNodes": "Nœuds complets",
       "blockchain": "Blockchain",
       "tokens": "Tokens",
@@ -465,6 +465,11 @@
         "title": "Ledger Portefeuille",
         "connect": "Relier",
         "connecting": "De liaison"
+      },
+      "helpModal": {
+        "title": "Comment connecter Ledger à DeFi Bourse",
+        "downloadItem": "Téléchargez l'application Ledger",
+        "plugItem": "Branchez et déverrouillez votre appareil"
       }
     },
     "console": {

@@ -55,7 +55,7 @@ describe('wallet slice', () => {
 
   describe('fetchWalletTxnsRequest reducers and actions', () => {
     it('should properly set isWalletTxnsLoading information when fetchWalletTxnsRequest is made', () => {
-      const nextState = reducer(initialState, fetchWalletTxnsRequest());
+      const nextState = reducer(initialState, fetchWalletTxnsRequest({}));
       const rootState = { wallet: nextState };
       expect(rootState.wallet.walletTxns).toEqual([]);
       expect(rootState.wallet.walletTxnCount).toEqual(0);

@@ -484,6 +484,11 @@
         "connecting": "Connecting",
         "send": "send",
         "receive": "receive"
+      },
+      "helpModal": {
+        "title": "How to connect Ledger to DeFi Wallet",
+        "downloadItem": "Download the Ledger App",
+        "plugItem": "Plug and unlock your device"
       }
     },
     "console": {

@@ -19,7 +19,7 @@
       "balance": "Balance",
       "dfi": "DFI",
       "wallet": "Brieftasche",
-      "ledger": "Ledger Wallet",
+      "ledger": "Ledger Brieftasche",
       "masterNodes": "Masterknoten",
       "blockchain": "Blockchain",
       "tokens": "Zeichen",
@@ -465,6 +465,11 @@
         "title": "Ledger Brieftasche",
         "connect": "Verbinden",
         "connecting": "Anschließen"
+      },
+      "helpModal": {
+        "title": "So verbinden Sie Ledger mit DeFi Brieftasche",
+        "downloadItem": "Laden Sie die Ledger App herunter",
+        "plugItem": "Schließen Sie Ihr Gerät an und entsperren Sie es"
       }
     },
     "console": {

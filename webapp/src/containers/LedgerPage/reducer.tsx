@@ -94,7 +94,7 @@ const configSlice = createSlice({
     fetchPaymentRequestsFailure(state) {
       state.paymentRequests = [];
     },
-    fetchWalletTxnsRequest(state) {
+    fetchWalletTxnsRequest(state, action) {
       state.isWalletTxnsLoading = true;
     },
     fetchWalletTxnsSuccess(state, action) {

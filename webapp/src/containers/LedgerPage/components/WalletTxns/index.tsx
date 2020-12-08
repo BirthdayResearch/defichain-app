@@ -148,7 +148,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchWalletTxns: () => fetchWalletTxnsRequest(),
+  fetchWalletTxns: (currentPage, pageSize, intialLoad) =>
+    fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
