@@ -216,7 +216,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                       </div>
                     </td>
                   ) : (
-                    <td />
+                    <td className={`${styles.txid__na}`}>
+                      {I18n.t('containers.wallet.walletPage.txidNotApplicable')}
+                    </td>
                   )}
                 </tr>
               ))}
