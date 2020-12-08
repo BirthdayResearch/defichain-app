@@ -179,7 +179,7 @@
       "liquidityPage": {
         "title": "Liquidity – DeFi app",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -213,7 +213,7 @@
       "swapPage": {
         "title": "DEX – DeFi app",
         "decentralizedExchange": "Decentralized Exchange",
-        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -365,7 +365,8 @@
           "decimal": "Decimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -375,7 +376,8 @@
           "tradeable": "Tradeable",
           "type": "Type",
           "decimal": "Decimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
@@ -541,7 +543,7 @@
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
         "learnMoreAtBitcoinBtn": "Learn more at Bitcoin Wiki",
         "generateNewSet": "Generate a new set of 24 words",
-        "copied24Words": "I've have copied down 24 words in the exact order",
+        "copied24Words": "I’ve copied down 24 words in the exact order",
         "continue": "Continue",
         "createNewWallet": "Create new wallet"
       },
@@ -635,6 +637,8 @@
       "walletPage": {
         "includeRewards": "Include rewards",
         "walletDeFiApp": "Portefeuille – App DeFi",
+        "wallet": "wallet",
+        "wallets": "Wallets",
         "delete": "Effacer",
         "send": "Envoyer",
         "receive": "Recevoir",

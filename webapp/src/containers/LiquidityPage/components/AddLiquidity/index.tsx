@@ -784,47 +784,50 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         >
           <div className='footer-sheet'>
             <div>
-              <div className='text-center position-relative'>
+              <div className={styles.txProgressLine}>
                 {isLoadingPreparingUTXO ? (
                   <>
                     <div className='d-flex'>
                       <div className={styles.txProgressLoader}>
                         <Spinner />
                       </div>
-                      <b>
+                      <span>
                         {I18n.t('containers.swap.addLiquidity.preparingUTXO')}
-                      </b>
+                      </span>
                     </div>
                   </>
                 ) : (
                   <>
                     <MdCheckCircle className={styles.txProgressSuccess} />
-                    <b>{I18n.t('containers.swap.addLiquidity.UTXOPrepared')}</b>
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.UTXOPrepared')}
+                    </span>
                   </>
                 )}
               </div>
-              <br />
-              <div className='text-center position-relative'>
-                {!isLoadingPreparingUTXO && (
-                  <>
-                    {isLoadingAddingLiquidity ? (
-                      <div className={styles.txProgressLoader}>
-                        <Spinner />
-                      </div>
-                    ) : (
-                      <MdCheckCircle className={styles.txProgressSuccess} />
-                    )}
-                  </>
-                )}
-                {isLoadingPreparingUTXO ? (
-                  <span>
-                    {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
-                  </span>
-                ) : (
-                  <b>
-                    {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
-                  </b>
-                )}
+              <div className={styles.txProgressLine}>
+                <div className='d-flex'>
+                  {!isLoadingPreparingUTXO && (
+                    <>
+                      {isLoadingAddingLiquidity ? (
+                        <div className={styles.txProgressLoader}>
+                          <Spinner />
+                        </div>
+                      ) : (
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                      )}
+                    </>
+                  )}
+                  {isLoadingPreparingUTXO ? (
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
+                    </span>
+                  ) : (
+                    <span>
+                      {I18n.t('containers.swap.addLiquidity.addingLiquidity')}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>

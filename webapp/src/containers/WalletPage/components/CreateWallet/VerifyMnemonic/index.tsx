@@ -240,8 +240,8 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 </div>
               </div>
             )}
-            <Row>
-              <Col xs='12' md='6'>
+            <Row className='justify-content-between align-items-center'>
+              <Col>
                 {!showSkipVerification && (
                   <Button
                     color='link'
@@ -257,30 +257,26 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                   </Button>
                 )}
               </Col>
-              <Col xs='12' md='6' className='text-right'>
-                {/* <span>
-                  <Button
-                    color='link'
-                    onClick={() =>
-                      setShowSkipVerification(!showSkipVerification)
-                    }
-                  >
-                    {showSkipVerification
-                      ? I18n.t('containers.wallet.verifyMnemonicPage.dontSkip')
-                      : I18n.t('containers.wallet.verifyMnemonicPage.skip')}
-                  </Button>
-                </span> */}
-                <span>
-                  <Button
-                    color={showSkipVerification ? 'primary' : 'link'}
-                    disabled={!(showSkipVerification || enableSubmit)}
-                    onClick={() => createWallet(mnemonicCode, history)}
-                  >
-                    {showSkipVerification
-                      ? I18n.t('containers.wallet.verifyMnemonicPage.skip')
-                      : I18n.t('containers.wallet.verifyMnemonicPage.continue')}
-                  </Button>
-                </span>
+              <Col className='d-flex justify-content-end'>
+                {/* <Button
+                  color='link'
+                  onClick={() =>
+                    setShowSkipVerification(!showSkipVerification)
+                  }
+                >
+                  {showSkipVerification
+                    ? I18n.t('containers.wallet.verifyMnemonicPage.dontSkip')
+                    : I18n.t('containers.wallet.verifyMnemonicPage.skip')}
+                </Button> */}
+                <Button
+                  color={showSkipVerification ? 'primary' : 'primary'}
+                  disabled={!(showSkipVerification || enableSubmit)}
+                  onClick={() => createWallet(mnemonicCode, history)}
+                >
+                  {showSkipVerification
+                    ? I18n.t('containers.wallet.verifyMnemonicPage.skip')
+                    : I18n.t('containers.wallet.verifyMnemonicPage.continue')}
+                </Button>
               </Col>
             </Row>
           </div>

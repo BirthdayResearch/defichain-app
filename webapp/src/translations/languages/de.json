@@ -374,7 +374,8 @@
           "decimal": "Dezimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Handelbar"
+          "tradeable": "Handelbar",
+          "liquidityTokenFor": "Liquidity Token für"
         },
         "dctLabels": {
           "id": "ID",
@@ -384,7 +385,8 @@
           "tradeable": "Tradeable",
           "type": "Typ",
           "decimal": "Dezimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity Token für"
         }
       },
       "createToken": {
@@ -652,7 +654,8 @@
       },
       "walletPage": {
         "walletDefiClient": "Wallet – DeFi app",
-        "wallet": "Wallet",
+        "wallet": "wallet",
+        "wallets": "Wallets",
         "delete": "Löschen",
         "send": "Senden",
         "receive": "Erhalten",
@@ -663,8 +666,8 @@
         "availableBalance": "Verfügbares Guthaben",
         "pending": "Ausstehend",
         "updateAvailableLabel": "Update erhältlich",
-        "includeRewards": "Include Rewards",
-        "tokens": "TOKENS",
+        "includeRewards": "Include rewards",
+        "tokens": "Tokens",
         "loading": "Laden...",
         "category": "Kategorie",
         "blockHeight": "Blockhöhe",
