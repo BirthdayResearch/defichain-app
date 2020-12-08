@@ -672,7 +672,7 @@
         "category": "Kategorie",
         "blockHeight": "Blockhöhe",
         "amount": "Anzahl",
-        "txidNotApplicable": "Transaction ID not applicable"
+        "txidNotApplicable": "Transaktions-ID nicht anwendbar"
       },
       "walletTxns": {
         "height": "Höhe",
