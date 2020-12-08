@@ -664,15 +664,17 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                         <div className={styles.loaderInline}>
                           <Spinner />
                         </div>
-                        <b>
+                        <span>
                           {I18n.t('containers.swap.swapPage.preparingUTXO')}
-                        </b>
+                        </span>
                       </div>
                     </>
                   ) : (
                     <>
-                      <MdCheckCircle className={styles.successColor} />
-                      <b>{I18n.t('containers.swap.swapPage.UTXOPrepared')}</b>
+                      <MdCheckCircle className={styles.txProgressSuccess} />
+                      <span>
+                        {I18n.t('containers.swap.swapPage.UTXOPrepared')}
+                      </span>
                     </>
                   )}
                 </div>
@@ -685,7 +687,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                           <Spinner />
                         </div>
                       ) : (
-                        <MdCheckCircle className={styles.successColor} />
+                        <MdCheckCircle className={styles.txProgressSuccess} />
                       )}
                     </>
                   )}

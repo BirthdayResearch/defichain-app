@@ -45,6 +45,7 @@ import {
   getAddressAndAmountListForAccount,
   getAddressForSymbol,
   getAmountInSelectedUnit,
+  getErrorMessage,
   getSymbolKey,
   handleAccountToAccountConversion,
   isLessThanDustAmount,
@@ -302,6 +303,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             hash,
             addressesList
           );
+          log.info("*******token send **********");
+          log.info({ address, maxAmount });
+          log.info("*******token send **********");
           amount = this.state.amountToSendDisplayed;
           if (Number(amount) > maxAmount) {
             accountToAccountAmount = await handleAccountToAccountConversion(
@@ -315,8 +319,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             this.state.toAddress,
             `${amount}@${hash}`
           );
+          log.info("*******token send **********");
+          log.info(`accountToAccount tx hash ${txHash}`);
+          log.info("*******token send **********");
           this.handleSuccess(txHash);
         } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(`Got error in token send: ${errorMessage}`);
           this.handleFailure(error);
         }
       }

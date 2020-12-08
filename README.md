@@ -8,6 +8,14 @@ For direct download, check the [Releases](https://github.com/DeFiCh/app/releases
 
 `npm run init` initialize and install npm dependency for electron and webapp
 
+## Setup binary
+
+Fetch and extract binary file
+
+Mac: `sh ./pre-build-mac.sh`
+Linux: `sh ./pre-build-linux.sh`
+Windows: `sh ./pre-build-win.sh`
+
 ### Run Electron desktop app with webapp
 
 `npm start`

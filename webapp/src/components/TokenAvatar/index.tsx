@@ -4,10 +4,11 @@ import Avatar from 'react-avatar';
 interface TokenAvatar {
   symbol?: any;
   size?: string;
+  textSizeRatio?: number;
 }
 
 const TokenAvatar = (props: TokenAvatar) => {
-  const { symbol, size } = props;
+  const { symbol, size, textSizeRatio } = props;
   const data = getIcon(symbol);
   return (
     <Avatar
@@ -16,6 +17,7 @@ const TokenAvatar = (props: TokenAvatar) => {
       round
       src={data || ''}
       size={size || '24px'}
+      textSizeRatio={textSizeRatio || 3}
     />
   );
 };

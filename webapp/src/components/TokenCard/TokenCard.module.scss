@@ -18,7 +18,6 @@
 
 .text {
   text-align: end;
-  line-height: 1.5rem;
 }
 
 .cardBody {
@@ -28,27 +27,38 @@
   align-items: flex-end;
 }
 
-.label {
+.tokenName {
   font-weight: $font-weight-medium;
+}
+
+.tokenSymbol {
+  color: $secondary;
+}
+
+.label {
   letter-spacing: 0.15px;
   width: 100%;
-  margin-bottom: 0.5rem;
 }
 
 .value {
-  font-weight: $font-weight-semibold;
   font-size: 2.125rem;
   line-height: 2.5rem;
 }
 
 .unit {
-  font-weight: $font-weight-medium;
   letter-spacing: 0.15px;
   color: $secondary;
 }
 
+.verifiedIcon {
+  margin-right: 8px;
+}
+
 .tokenCardIcon {
-  text-align: end;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .keyValueLi {
