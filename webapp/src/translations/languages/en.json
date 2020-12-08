@@ -409,7 +409,8 @@
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
         "tokensTransferred": "Tokens transferred",
-        "dexExplorer": "Dex Explorer"
+        "dexExplorer": "Dex Explorer",
+        "insufficientUtxos": "Insufficient UTXOS to perform swap"
       },
       "swapTab": {
         "from": "From",
@@ -462,7 +463,8 @@
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "receiveSharesAt": "Receive shares At"
+        "receiveSharesAt": "Receive shares at",
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
       },
       "removeLiquidity": {
         "address": "Address",
