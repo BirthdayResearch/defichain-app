@@ -1,5 +1,9 @@
 import { ipcMain } from 'electron';
-import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER, LIST_DEVICES_LEDGER } from '../constants';
+import {
+  GET_LEDGER_DEFI_PUB_KEY,
+  CONNECT_LEDGER,
+  LIST_DEVICES_LEDGER,
+} from '../constants';
 import { responseMessage } from '../utils';
 import Wallet from '../controllers/wallets';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';

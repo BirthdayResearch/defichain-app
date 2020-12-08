@@ -482,6 +482,7 @@
         "title": "Ledger Wallet",
         "connect": "Connect",
         "connecting": "Connecting",
+        "connected": "is connected",
         "send": "send",
         "receive": "receive"
       },

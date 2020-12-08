@@ -82,7 +82,7 @@ export default class Wallet {
     console.log('connectHwWallet');
     let devsPath = await defiHwWallet.getDevices();
     console.log('devs: ' + devsPath.toLocaleString());
-    await defiHwWallet.connect(devsPath[0]);
+    await defiHwWallet.connect();
     for (let i = 0; i < 5; i++) {
       let ret: { pubkey: Buffer; address: String };
       ret = await defiHwWallet.getDefiPublicKey(i, 'legacy');

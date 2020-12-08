@@ -91,6 +91,21 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   const { walletBalance, pendingBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
+  const [connectLabel, setConnectLabel] = useState(
+    I18n.t('containers.ledger.ledgerPage.connect')
+  );
+
+  useEffect(() => {
+    if (connect.status === 'notConnected') {
+      setConnectLabel(I18n.t('containers.ledger.ledgerPage.connect'));
+    } else if (connect.status === 'connecting') {
+      setConnectLabel(I18n.t('containers.ledger.ledgerPage.connecting'));
+    } else if (connect.status === 'connected') {
+      setConnectLabel(
+        `${devices.list[0]} ${I18n.t('containers.ledger.ledgerPage.connected')}`
+      );
+    }
+  });
 
   const onConnectLedger = useCallback(() => {
     fetchConnectLedgerRequest();
@@ -136,18 +151,16 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             onClick={onConnectLedger}
             disabled={connect.status !== 'notConnected'}
           >
-            <span>
-              {I18n.t(
-                `containers.ledger.ledgerPage.${
-                  connect.status === 'connecting' ? 'connecting' : 'connect'
-                }`
-              )}
-            </span>
+            <span>{connectLabel}</span>
             <StatusLedgerConnect status={connect.status} />
           </button>
         </div>
         <ButtonGroup>
-          <Button color='link' size='sm' disabled={connect.status !== 'connected'}>
+          <Button
+            color='link'
+            size='sm'
+            disabled={connect.status !== 'connected'}
+          >
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}
@@ -157,7 +170,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             to={LEDGER_RECEIVE_PATH}
             tag={RRNavLink}
             color='link'
-            disabled={status !== 'connected'}
+            disabled={connect.status !== 'connected'}
           >
             <MdArrowDownward />
             <span className='d-md-inline'>
