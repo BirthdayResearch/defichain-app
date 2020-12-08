@@ -58,6 +58,7 @@ export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
 export const ENTROPY_BITS = 256;
 export const RANDOM_WORD_ENTROPY_BITS = 128;
 export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
+export const MINIMUM_UTXOS_FOR_LIQUIDITY = 0.05;
 export const UNDEFINED_STRING = 'undefined';
 export const LIST_TOKEN_PAGE_SIZE = 500;
 export const LIST_ACCOUNTS_PAGE_SIZE = 100000;
