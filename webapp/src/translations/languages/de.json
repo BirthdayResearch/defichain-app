@@ -674,7 +674,8 @@
         "loading": "Laden...",
         "category": "Kategorie",
         "blockHeight": "Blockhöhe",
-        "amount": "Anzahl"
+        "amount": "Anzahl",
+        "txidNotApplicable": "Transaktions-ID nicht anwendbar"
       },
       "walletTxns": {
         "height": "Höhe",

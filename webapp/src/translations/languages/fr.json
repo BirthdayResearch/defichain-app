@@ -650,7 +650,8 @@
         "transactions": "Transactions",
         "availableBalance": "Solde disponible",
         "pending": "En attente",
-        "updateAvailableLabel": "Update available"
+        "updateAvailableLabel": "Update available",
+        "txidNotApplicable": "Transaction ID not applicable"
       },
       "walletTxns": {
         "height": "Hauteur",
