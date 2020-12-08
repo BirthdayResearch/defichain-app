@@ -82,6 +82,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const pagesCount = Math.ceil(total / pageSize);
   const to = (currentPage - 1) * pageSize + 1;
   const from = Math.min(total, currentPage * pageSize);
+  const textLimit = 26;
 
   useEffect(() => {
     fetchWalletTokenTransactionsListRequestLoading(
@@ -189,21 +190,6 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     <div>{getTxnsType(item.category)}</div>
                     <div className={styles.unit}>{item.blockData.time}</div>
                   </td>
-                  <td>
-                    <div
-                      className={`${
-                        item.txid
-                          ? styles.txidvalue
-                          : `text-center text-secondary`
-                      } ${styles.copyIcon}`}
-                    >
-                      {item.txid ? (
-                        <ValueLi value={item.txid} copyable={true} />
-                      ) : (
-                        <span>{'-'}</span>
-                      )}
-                    </div>
-                  </td>
                   <td className={`text-right ${getAmountClass(item.category)}`}>
                     <div
                       className={getPoolSwapClass(
@@ -223,6 +209,21 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                       </div>
                     )}
                   </td>
+                  {item.txid ? (
+                    <td>
+                      <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
+                        <ValueLi
+                          value={item.txid}
+                          copyable={true}
+                          textLimit={textLimit}
+                        />
+                      </div>
+                    </td>
+                  ) : (
+                    <td className={`${styles.txid__na}`}>
+                      {I18n.t('containers.wallet.walletPage.txidNotApplicable')}
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
