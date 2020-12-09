@@ -352,7 +352,7 @@
         "totalReward": "Total reward",
         "pooledDFI": "Pooled DFI",
         "dfiPoolShare": "DFI pool share",
-        "poolShare": "pool share"
+        "poolShare": "Pool share percentage"
       }
     },
     "swap": {
@@ -376,7 +376,7 @@
         "tokens": "Tokens",
         "readySwap": "Ready to swap",
         "price": "Price",
-        "minimumReceived": "Minimum received",
+        "minimumReceived": "Amount received (Subject to slippage)",
         "priceImpact": "Price impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",

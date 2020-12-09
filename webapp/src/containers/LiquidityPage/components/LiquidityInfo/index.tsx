@@ -135,21 +135,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={`${poolshare.tokenA} ${I18n.t(
-                  'containers.liquidity.liquidityInfo.poolShare'
-                )}`}
-                value={(
-                  `${
-                    poolshare.poolSharePercentage
-                      ? Number(poolshare.poolSharePercentage).toFixed(4)
-                      : ''
-                  } %` || ''
-                ).toString()}
-              />
-            </Col>
-            <Col md='6'>
-              <KeyValueLi
-                label={`${poolshare.tokenB} ${I18n.t(
+                label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.poolShare'
                 )}`}
                 value={(
