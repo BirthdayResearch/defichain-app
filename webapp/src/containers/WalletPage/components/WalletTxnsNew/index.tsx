@@ -27,6 +27,7 @@ import {
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
+  REWARD_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
   SWAP_CATEGORY_LABEL,
   TRANSFER_CATEGORY_LABEL,
@@ -142,6 +143,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     }
     if (type === POOL_SWAP_CATEGORY_LABEL) {
       return SWAP_CATEGORY_LABEL;
+    }
+    if (type === REWARDS_CATEEGORY_LABEL) {
+      return REWARD_CATEGORY_LABEL;
     }
     return type;
   };

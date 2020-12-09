@@ -203,9 +203,6 @@ const configSlice = createSlice({
     setIsWalletCreatedRequest(state, action) {
       state.isWalletCreatedFlag = action.payload;
     },
-    setIsWalletCreatedStartRequest(state) {
-      state.isWalletCreatedFlag = false;
-    },
     fetchWalletTokenTransactionsListRequestLoading(state, action) {
       state.listAccountHistoryData.isLoading = true;
       state.listAccountHistoryData.isError = '';
@@ -306,7 +303,6 @@ export const {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
   setIsWalletCreatedRequest,
-  setIsWalletCreatedStartRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,

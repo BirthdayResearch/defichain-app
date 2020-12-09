@@ -58,6 +58,7 @@ export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
 export const ENTROPY_BITS = 256;
 export const RANDOM_WORD_ENTROPY_BITS = 128;
 export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
+export const MINIMUM_UTXOS_FOR_LIQUIDITY = 0.05;
 export const UNDEFINED_STRING = 'undefined';
 export const LIST_TOKEN_PAGE_SIZE = 500;
 export const LIST_ACCOUNTS_PAGE_SIZE = 100000;
@@ -119,6 +120,8 @@ export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
 export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
 export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 
+export const DEX_EXPLORER_BASE_LINK = 'https://dex.defichain.com/';
+
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
 export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
@@ -145,6 +148,7 @@ export const RECIEVE_CATEGORY_LABEL = 'Receive';
 export const SENT_CATEGORY_LABEL = 'Sent';
 export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const ACCOUNT_TO_UTXOS_LABEL = 'AccountToUtxos';
+export const REWARD_CATEGORY_LABEL = 'Reward';
 export const SWAP_CATEGORY_LABEL = 'Swap';
 export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
