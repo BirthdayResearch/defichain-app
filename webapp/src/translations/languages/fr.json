@@ -262,7 +262,8 @@
         "preparimgUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "insufficientUtxos": "Insufficient UTXOS to perform swap"
       },
       "swapTab": {
         "from": "From",
@@ -315,7 +316,8 @@
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "receiveSharesAt": "Receive shares At"
+        "receiveSharesAt": "Receive shares At",
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
       },
       "removeLiquidity": {
         "address": "Address",
