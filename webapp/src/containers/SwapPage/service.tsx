@@ -286,27 +286,27 @@ export const handlePoolSwap = async (formState) => {
 
   store.dispatch(poolSwapRefreshUTXOSuccess());
 
-  if (address1 !== address2) {
-    const txId1 = await rpcClient.sendToAddress(
-      address2,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const txId2 = await rpcClient.sendToAddress(
-      address1,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId1);
-    await getTransactionInfo(txId2);
-  } else {
-    const txId = await rpcClient.sendToAddress(
-      address1,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId);
-  }
+  // if (address1 !== address2) {
+  //   const txId1 = await rpcClient.sendToAddress(
+  //     address2,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   const txId2 = await rpcClient.sendToAddress(
+  //     address1,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   await getTransactionInfo(txId1);
+  //   await getTransactionInfo(txId2);
+  // } else {
+  //   const txId = await rpcClient.sendToAddress(
+  //     address1,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   await getTransactionInfo(txId);
+  // }
   const hash = await rpcClient.poolSwap(
     address1,
     formState.hash1,
@@ -386,27 +386,27 @@ export const handleAddPoolLiquidity = async (
 
   store.dispatch(addPoolPreparingUTXOSuccess());
 
-  if (address1 !== address2) {
-    const txId1 = await rpcClient.sendToAddress(
-      address2,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const txId2 = await rpcClient.sendToAddress(
-      address1,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId1);
-    await getTransactionInfo(txId2);
-  } else {
-    const txId = await rpcClient.sendToAddress(
-      address1,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId);
-  }
+  // if (address1 !== address2) {
+  //   const txId1 = await rpcClient.sendToAddress(
+  //     address2,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   const txId2 = await rpcClient.sendToAddress(
+  //     address1,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   await getTransactionInfo(txId1);
+  //   await getTransactionInfo(txId2);
+  // } else {
+  //   const txId = await rpcClient.sendToAddress(
+  //     address1,
+  //     DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //     true
+  //   );
+  //   await getTransactionInfo(txId);
+  // }
   return await rpcClient.addPooLiquidity(
     address1,
     `${Number(amount1).toFixed(8)}@${hash1}`,
@@ -444,8 +444,8 @@ export const handleRemovePoolLiquidity = async (
   for (const obj of addressList) {
     removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  const refreshUtxoTxId1 = await rpcClient.sendMany(removeLpAmounts);
-  await getTransactionInfo(refreshUtxoTxId1);
+  // const refreshUtxoTxId1 = await rpcClient.sendMany(removeLpAmounts);
+  // await getTransactionInfo(refreshUtxoTxId1);
 
   store.dispatch(refreshUTXOS1Success());
 
@@ -484,10 +484,10 @@ export const handleRemovePoolLiquidity = async (
   for (const obj of finalArray) {
     accountAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  const refreshUtxoTxId2 = await rpcClient.sendMany(accountAmounts);
-  const refreshUtxoTxId3 = await rpcClient.sendMany(accountAmounts);
-  await getTransactionInfo(refreshUtxoTxId2);
-  await getTransactionInfo(refreshUtxoTxId3);
+  // const refreshUtxoTxId2 = await rpcClient.sendMany(accountAmounts);
+  // const refreshUtxoTxId3 = await rpcClient.sendMany(accountAmounts);
+  // await getTransactionInfo(refreshUtxoTxId2);
+  // await getTransactionInfo(refreshUtxoTxId3);
 
   store.dispatch(refreshUTXOS2Success());
 

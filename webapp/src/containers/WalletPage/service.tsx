@@ -173,7 +173,9 @@ export const sendToAddress = async (
       } = await getAddressForSymbol('0', addressesList);
       log.info({ address: fromAddress, maxAmount });
 
-      if (Number(amount) >= regularDFI + maxAmount) {
+      if (
+        new BigNumber(amount).isGreaterThanOrEqualTo(regularDFI + maxAmount)
+      ) {
         accountToAccountAmount = await handleAccountToAccountConversion(
           addressesList,
           fromAddress,
@@ -181,13 +183,13 @@ export const sendToAddress = async (
         );
         log.info({ accountToAccountAmount: Number(accountToAccountAmount) });
       }
-      const txId = await rpcClient.sendToAddress(
-        fromAddress,
-        Number((10 / 100) * amount).toFixed(8),
-        subtractfeefromamount
-      );
-      log.info(`account to account refresh utxo tx id=======${txId}`);
-      await getTransactionInfo(txId);
+      // const txId = await rpcClient.sendToAddress(
+      //   fromAddress,
+      //   Number((10 / 100) * amount).toFixed(8),
+      //   subtractfeefromamount
+      // );
+      // log.info(`account to account refresh utxo tx id=======${txId}`);
+      // await getTransactionInfo(txId);
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
 
@@ -222,12 +224,12 @@ export const accountToAccount = async (
 ) => {
   try {
     const rpcClient = new RpcClient();
-    const txId = await rpcClient.sendToAddress(
-      fromAddress,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId);
+    // const txId = await rpcClient.sendToAddress(
+    //   fromAddress,
+    //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+    //   true
+    // );
+    // await getTransactionInfo(txId);
     const data = await rpcClient.accountToAccount(
       fromAddress,
       toAddress,

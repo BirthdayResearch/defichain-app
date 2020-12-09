@@ -113,6 +113,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       WALLET_TXN_PAGE_FETCH_SIZE,
       includeRewards
     );
+    fetchWalletTxns(currentPage, pageSize, true);
     return () => {
       fetchWalletTokenTransactionsListResetRequest();
     };
@@ -150,7 +151,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [data]);
+  }, [data, walletTxnCount]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
@@ -224,8 +225,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
               {tableRows
                 .sort(
                   (a, b) =>
-                    new Date(a.time || a.blockData.time).getTime() -
-                    new Date(b.time || b.blockData.time).getTime()
+                    new Date(b.time || b.blockData.time).getTime() -
+                    new Date(a.time || a.blockData.time).getTime()
                 )
                 .map((item, id) => (
                   <tr key={`${currentPage}-${id}`}>
