@@ -10,7 +10,7 @@
   "homepage": "./",
   "publicPath": "./",
   "scripts": {
-    "init": "npm ci",
+    "init": "npm i",
     "test:watch": "jest --watchAll",
     "test": "jest --silent",
     "test:console": "jest",
