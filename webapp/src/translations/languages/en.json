@@ -352,7 +352,7 @@
         "totalReward": "Total reward",
         "pooledDFI": "Pooled DFI",
         "dfiPoolShare": "DFI pool share",
-        "poolShare": "pool share"
+        "poolShare": "Pool share percentage"
       }
     },
     "swap": {
