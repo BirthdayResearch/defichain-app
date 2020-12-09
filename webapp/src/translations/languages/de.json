@@ -217,7 +217,7 @@
         "totalReward": "Gesamte Belohnung",
         "pooledDFI": "Gepoolte DFI",
         "dfiPoolShare": "DFI-Pool-Anteil",
-        "poolShare": "pool share"
+        "poolShare": "Anteil des Pools in Prozent"
       }
     },
     "swap": {
@@ -241,7 +241,7 @@
         "tokens": "Tokens",
         "readySwap": "Bereit zum swapen",
         "price": "Preis",
-        "minimumReceived": "Minimum empfangen",
+        "minimumReceived": "Erhaltener Betrag (mögliche Abweichungen)",
         "priceImpact": "Preis Einfluss",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Bitte bestätige deine Transaktion und drücke SWAP",
