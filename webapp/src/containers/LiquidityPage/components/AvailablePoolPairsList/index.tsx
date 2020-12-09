@@ -123,7 +123,11 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       <div>{poolpair.symbol}</div>
                     </td>
                     <td>
-                      <div>{poolpair.totalLiquidityInUSDT}</div>
+                      <div>
+                        {poolpair.totalLiquidityInUSDT
+                          ? Number(poolpair.totalLiquidityInUSDT).toFixed(2)
+                          : 0}
+                      </div>
                     </td>
                     {/* <td>
                       <div>{poolpair.operatorAuthAddress}</div>
