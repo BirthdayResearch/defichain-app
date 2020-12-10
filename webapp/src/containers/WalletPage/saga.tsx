@@ -344,7 +344,6 @@ export function* restoreWallet(action) {
     PersistentStore.set(isWalletCreated, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
-    log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
   }
 }
