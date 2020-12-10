@@ -96,6 +96,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [pageSizeForFetch, setPageSizeForFetch] = useState(5);
   const total = data || walletTxnCount ? data.length + walletTxnCount : 0;
   const pagesCount = Math.ceil(total / pageSize);
+  const textLimit = 26;
   // const to = (currentPage - 1) * pageSize + 1;
   // const from = Math.min(total, currentPage * pageSize);
 
@@ -237,24 +238,6 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                         {item.time || item.blockData.time}
                       </div>
                     </td>
-                    <td>
-                      <div
-                        className={`${
-                          item.txid
-                            ? styles.txidvalue
-                            : `text-center text-secondary`
-                        } ${styles.copyIcon}`}
-                      >
-                        {item.txid || item.txnId ? (
-                          <ValueLi
-                            value={item.txid || item.txnId}
-                            copyable={true}
-                          />
-                        ) : (
-                          <span>{'-'}</span>
-                        )}
-                      </div>
-                    </td>
                     {item.unit ? (
                       <td>
                         <div className={styles.amount}>
@@ -289,6 +272,25 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                               item.amounts[1].symbolKey
                             }`}
                           </div>
+                        )}
+                      </td>
+                    )}
+                    {item.txid ? (
+                      <td>
+                        <div
+                          className={`${styles.txidvalue} ${styles.copyIcon}`}
+                        >
+                          <ValueLi
+                            value={item.txid}
+                            copyable={true}
+                            textLimit={textLimit}
+                          />
+                        </div>
+                      </td>
+                    ) : (
+                      <td className={`${styles.txid__na}`}>
+                        {I18n.t(
+                          'containers.wallet.walletPage.txidNotApplicable'
                         )}
                       </td>
                     )}
