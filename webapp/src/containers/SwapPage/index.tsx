@@ -44,7 +44,7 @@ import {
   conversionRatio,
   countDecimals,
   getNetworkType,
-  getTokenListForSwap
+  getTokenListForSwap,
 } from '../../utils/utility';
 import {
   SWAP,
@@ -254,11 +254,25 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setToTestValue(false);
     setFromTestValue(true);
     if (countDecimals(e.target.value) <= 8) {
-      setFormState({
-        ...formState,
-        [e.target.name]: e.target.value,
-        amount2: testPoolSwapTo || '-',
-      });
+      if (formState.hash1 === '0') {
+        if (
+          new BigNumber(e.target.value).lte(
+            Math.max(Number(formState.balance1) - 1, 0)
+          )
+        ) {
+          setFormState({
+            ...formState,
+            [e.target.name]: e.target.value,
+            amount2: testPoolSwapTo || '-',
+          });
+        }
+      } else {
+        setFormState({
+          ...formState,
+          [e.target.name]: e.target.value,
+          amount2: testPoolSwapTo || '-',
+        });
+      }
     }
   };
 
@@ -533,7 +547,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       </span>
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
-                      {`${calculateLPFee(formState, poolPairList)} ${formState.symbol1}`}
+                      {`${calculateLPFee(formState, poolPairList)} ${
+                        formState.symbol1
+                      }`}
                     </Col>
                   </Row>
                   <hr />
