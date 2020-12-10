@@ -1,8 +1,11 @@
-// import TransportHid from '@ledgerhq/hw-transport-node-hid';
-import TransportHid from '@ledgerhq/hw-transport-node-speculos';
+import TransportHid from '@ledgerhq/hw-transport-node-hid';
+import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
+import { identifyUSBProductId } from '@ledgerhq/devices';
+// import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
+import * as log from '../services/electronLogger';
 
 const CLA = 0xe0;
 
@@ -73,31 +76,38 @@ export default class DefiHwWallet {
   transport: any;
   connected: boolean;
 
-  async getDevices(): Promise<readonly string[]> {
+  async getDevices(): Promise<string> {
     try {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
-      const devs = await TransportHid.list();
-      if (devs.length === 0) {
+      const devices = await getDevices();
+      if (devices.length === 0) {
         throw new Error('No devices connected');
       }
-      return devs;
+      // @ts-ignore
+      return devices.map((device) => ({
+        ...device,
+        deviceModel: identifyUSBProductId(device.productId),
+      }));
     } catch (err) {
+      log.error(err.message);
       return Promise.reject(err);
     }
   }
 
-  async connect() {
+  async connect(path?: string) {
     try {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
-      this.transport = await TransportHid.open({ apduPort: 9999 });
+      this.transport = await TransportHid.open(path !== undefined ? path : '');
       this.connected = true;
+      log.info('Ledger is connected');
     } catch (err) {
       this.connected = false;
+      log.error(err.message);
       return Promise.reject(err);
     }
   }

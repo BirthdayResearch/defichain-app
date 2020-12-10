@@ -7,6 +7,7 @@ import {
 import { responseMessage } from '../utils';
 import Wallet from '../controllers/wallets';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
+import * as log from '../services/electronLogger';
 
 const DefiLedger = new DefiHwWallet();
 
@@ -25,11 +26,14 @@ const initiateLedger = () => {
 
   ipcMain.on(CONNECT_LEDGER, async (event: Electron.IpcMainEvent) => {
     try {
+      log.info('Ledger connecting');
       await DefiLedger.connect();
       event.returnValue = responseMessage(true, {
         isConnected: DefiLedger.connected,
       });
+      log.info('Ledger connected');
     } catch (err) {
+      log.error(err.message);
       event.returnValue = responseMessage(false, {
         message: err.message,
         isConnected: DefiLedger.connected,
@@ -38,12 +42,15 @@ const initiateLedger = () => {
   });
 
   ipcMain.on(LIST_DEVICES_LEDGER, async (event: Electron.IpcMainEvent) => {
+    log.info('Ledger list');
     try {
       const devices = await DefiLedger.getDevices();
       event.returnValue = responseMessage(true, {
         devices,
       });
+      log.info(`List devices: ${JSON.stringify(devices)}`);
     } catch (err) {
+      log.error(`Error ledger list: ${err.message}`);
       event.returnValue = responseMessage(false, {
         message: err.message,
       });

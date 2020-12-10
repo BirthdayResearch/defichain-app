@@ -1,4 +1,11 @@
-import { call, put, takeLatest, select, all, delay } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  takeLatest,
+  select,
+  all,
+  takeLeading,
+} from 'redux-saga/effects';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
@@ -329,23 +336,25 @@ export function* fetchInstantPendingBalance() {
 }
 
 export function* fetchConnectLedger() {
-  yield delay(500);
   try {
-    yield put(reducer.getDevicesRequest());
-    const devices = yield select((state) => state.ledgerWallet.devices.list);
-    if (devices.length) {
+    const {
+      data: { devices },
+      error,
+    } = yield call(getDevices);
+    if (devices.length && !error) {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
         yield put(reducer.fetchConnectLedgerSuccess());
       } else {
         yield put(
-          reducer.fetchConnectLedgerFailure({ message: result.message })
+          reducer.fetchConnectLedgerFailure({ message: result.data.message })
         );
       }
     } else {
-      yield put(reducer.fetchConnectLedgerFailure(null));
+      yield put(reducer.fetchConnectLedgerFailure(error));
     }
   } catch (err) {
+    log.error(`Fetch connect ${err.messsage}`);
     yield put(reducer.fetchConnectLedgerFailure(err.messsage));
   }
 }
@@ -372,14 +381,17 @@ export function* updateIsShowingInformation(action) {
 
 export function* getDevices() {
   try {
+    yield put(reducer.getDevicesRequest());
     const devicesResult = yield call(getListDevicesLedger);
     if (devicesResult.success) {
-      yield put(reducer.getDevicesSuccess(devicesResult.devices));
+      yield put(reducer.getDevicesSuccess(devicesResult.data.devices));
+      return devicesResult;
     } else {
       throw new Error(devicesResult.message);
     }
-  } catch (err) {
-    yield put(reducer.getDevicesFailure(err));
+  } catch (error) {
+    yield put(reducer.getDevicesFailure(error));
+    return { error };
   }
 }
 
@@ -406,7 +418,7 @@ function* mySaga() {
     reducer.fetchInstantPendingBalanceRequest.type,
     fetchInstantPendingBalance
   );
-  yield takeLatest(reducer.fetchConnectLedgerRequest.type, fetchConnectLedger);
+  yield takeLeading(reducer.fetchConnectLedgerRequest.type, fetchConnectLedger);
   yield takeLatest(
     reducer.initialIsShowingInformationRequest.type,
     initialIsShowingInformation
@@ -415,7 +427,6 @@ function* mySaga() {
     reducer.updateIsShowingInformationRequest.type,
     updateIsShowingInformation
   );
-  yield takeLatest(reducer.getDevicesRequest.type, getDevices);
 }
 
 export default mySaga;

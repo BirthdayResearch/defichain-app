@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LedgerState } from './types';
+import * as log from '@/utils/electronLogger';
 
 export const initialState: LedgerState = {
   connect: {
