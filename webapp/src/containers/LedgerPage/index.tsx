@@ -102,7 +102,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
       setConnectLabel(I18n.t('containers.ledger.ledgerPage.connecting'));
     } else if (connect.status === 'connected') {
       setConnectLabel(
-        `${devices.list[0].deviceModel} ${I18n.t(
+        `${devices.list[0].deviceModel.productName} ${I18n.t(
           'containers.ledger.ledgerPage.connected'
         )}`
       );

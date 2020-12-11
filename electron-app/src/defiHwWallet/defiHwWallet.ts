@@ -5,6 +5,7 @@ import { identifyUSBProductId } from '@ledgerhq/devices';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
+import { LedgerDevice } from '../types/ledger';
 import * as log from '../services/electronLogger';
 
 const CLA = 0xe0;
@@ -76,7 +77,7 @@ export default class DefiHwWallet {
   transport: any;
   connected: boolean;
 
-  async getDevices(): Promise<string> {
+  async getDevices(): Promise<LedgerDevice[]> {
     try {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
@@ -85,7 +86,6 @@ export default class DefiHwWallet {
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
-      // @ts-ignore
       return devices.map((device) => ({
         ...device,
         deviceModel: identifyUSBProductId(device.productId),
