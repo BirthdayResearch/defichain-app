@@ -28,6 +28,7 @@ const initiateLedger = () => {
     try {
       log.info('Ledger connecting');
       await DefiLedger.connect();
+      DefiLedger.onDetach(event.sender);
       event.returnValue = responseMessage(true, {
         isConnected: DefiLedger.connected,
       });

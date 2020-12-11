@@ -52,7 +52,7 @@ const configSlice = createSlice({
     },
     startNodeFailure(state, action) {
       state.isFetching = false;
-      state.isRunning = false;
+      state.isRunning = true;
       state.nodeError = action.payload;
     },
     storeConfigurationData(state, action) {

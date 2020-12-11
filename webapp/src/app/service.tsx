@@ -1,15 +1,15 @@
-import { isElectron, ipcRendererFunc } from '../utils/isElectron';
+import { isElectron, ipcRendererFunc } from '@/utils/isElectron';
 import HttpStatus from 'http-status-codes';
 import RpcClient from '../utils/rpc-client';
 import showNotification from '../utils/notifications';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
-import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
+import { isBlockchainStarted } from '@/containers/RpcConfiguration/service';
 import { eventChannel } from 'redux-saga';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
-} from '../containers/WalletPage/reducer';
+} from '@/containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
 import {
@@ -24,7 +24,8 @@ import {
   openReIndexModal,
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
-} from '../containers/PopOver/reducer';
+} from '@/containers/PopOver/reducer';
+import { fetchConnectLedgerFailure } from '@/containers/LedgerPage/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 
 export const getRpcConfig = () => {
@@ -163,6 +164,12 @@ export const openBackupWalletDat = () => {
 export const startBackupModal = () => {
   if (isRunning()) return backupWalletIpcRenderer();
   return openBackupWalletDat();
+};
+
+export const detachDeviceLedger = () => {
+  return store.dispatch(
+    fetchConnectLedgerFailure({ message: 'Listen time is out' })
+  );
 };
 
 export const showErrorNotification = (res) =>

@@ -5,8 +5,10 @@ import { identifyUSBProductId } from '@ledgerhq/devices';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
+import usb from 'usb';
 import { LedgerDevice } from '../types/ledger';
 import * as log from '../services/electronLogger';
+import { DETACH_DEVICE_LEDGER } from '../constants';
 
 const CLA = 0xe0;
 
@@ -76,6 +78,7 @@ function checkStatusCode(response: Buffer): { code: number; status: string } {
 export default class DefiHwWallet {
   transport: any;
   connected: boolean;
+  devices: LedgerDevice[];
 
   async getDevices(): Promise<LedgerDevice[]> {
     try {
@@ -86,10 +89,11 @@ export default class DefiHwWallet {
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
-      return devices.map((device) => ({
+      this.devices = devices.map((device) => ({
         ...device,
         deviceModel: identifyUSBProductId(device.productId),
       }));
+      return this.devices;
     } catch (err) {
       log.error(err.message);
       return Promise.reject(err);
@@ -110,6 +114,18 @@ export default class DefiHwWallet {
       log.error(err.message);
       return Promise.reject(err);
     }
+  }
+
+  onDetach(wc: Electron.WebContents) {
+    log.info('Detach ledger');
+    usb.on('detach', (device) => {
+      log.info(
+        `Compare devices - ${device.deviceDescriptor.idVendor}: ${this.devices[0].vendorId}`
+      );
+      if (device.deviceDescriptor.idVendor === this.devices[0].vendorId) {
+        wc.send(DETACH_DEVICE_LEDGER);
+      }
+    });
   }
 
   async getDefiAppVersion(): Promise<string> {

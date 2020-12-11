@@ -1,4 +1,4 @@
-import { isElectron } from '../utils/isElectron';
+import { isElectron } from '@/utils/isElectron';
 import initMenuIpcRenderers from './menu.ipcRenderer';
 import initUpdateIpcRenderers from './update.ipcRenderer';
 

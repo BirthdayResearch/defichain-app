@@ -334,6 +334,7 @@ export const handleFetchAccounts = async () => {
 };
 
 export const initialIsShowingInformation = () => {
+  log.info(`localStorage: ${JSON.stringify(localStorage)}`);
   return PersistentStore.get(IS_SHOWING_INFORMATION_LEDGER) !== 'false';
 };
 
@@ -392,4 +393,4 @@ export const connectLedger = async () => {
 export const getListDevicesLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(LIST_DEVICES_LEDGER);
-}
+};

@@ -7,9 +7,11 @@ import {
   handleClosePostUpdate,
   handleCloseUpdateApp,
   showErrorNotification,
+  detachDeviceLedger,
 } from './service';
-import { ipcRendererFunc, isElectron } from '../utils/isElectron';
-import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
+import { ipcRendererFunc, isElectron } from '@/utils/isElectron';
+import { UPDATE_MODAL_CLOSE_TIMEOUT } from '@/constants';
+import * as log from '@/utils/electronLogger';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -28,6 +30,10 @@ const initUpdateAppIpcRenderers = () => {
 
   ipcRenderer.on('update-downloaded-error', async (event: any, args: any) => {
     handleUpdateError(args);
+  });
+
+  ipcRenderer.on('detach-device-ledger', async (event: any) => {
+    detachDeviceLedger();
   });
 };
 

@@ -362,6 +362,7 @@ export function* fetchConnectLedger() {
 export function* initialIsShowingInformation() {
   try {
     const isShowingInformation = yield call(initialIsShowingInformationService);
+    log.info(`isShowingInformation: ${isShowingInformation}`);
     yield put(reducer.setIsShowingInformationSuccess(isShowingInformation));
   } catch (e) {
     yield put(reducer.setIsShowingInformationFailure());
