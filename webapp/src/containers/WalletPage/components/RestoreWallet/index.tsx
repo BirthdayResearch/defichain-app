@@ -61,7 +61,8 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   const [mnemonicCheck, setMnemonicCheck] = useState(false);
 
   const onchangeHandle = (event, key) => {
-    const tempObj = { ...mnemonicObj, [key]: event.target.value };
+    const { value } = event.target;
+    const tempObj = { ...mnemonicObj, [key]: value.trim() };
     setMnemonicObj(tempObj);
 
     const isFilled = isMnemonicObjFilled(tempObj);
