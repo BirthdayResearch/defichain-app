@@ -3,7 +3,6 @@ import RpcClient from '../../utils/rpc-client';
 import {
   PAYMENT_REQUEST,
   BLOCKCHAIN_INFO_CHAIN_TEST,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
   RECIEVE_CATEGORY_LABEL,
@@ -22,8 +21,6 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  getSmallerAmount,
-  handleAccountToAccountConversion,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -176,20 +173,18 @@ export const sendToAddress = async (
       if (
         new BigNumber(amount).isGreaterThanOrEqualTo(regularDFI + maxAmount)
       ) {
-        accountToAccountAmount = await handleAccountToAccountConversion(
-          addressesList,
-          fromAddress,
-          '0'
-        );
+        // accountToAccountAmount = await handleAccountToAccountConversion(
+        //   addressesList,
+        //   fromAddress,
+        //   '0'
+        // );
+        const amountNeedToTransfer = new BigNumber(amount)
+          .minus(regularDFI + maxAmount)
+          .toNumber();
+        await sendTokensToAddress(fromAddress, `${amountNeedToTransfer}@$DFI`);
         log.info({ accountToAccountAmount: Number(accountToAccountAmount) });
       }
-      // const txId = await rpcClient.sendToAddress(
-      //   fromAddress,
-      //   Number((10 / 100) * amount).toFixed(8),
-      //   subtractfeefromamount
-      // );
-      // log.info(`account to account refresh utxo tx id=======${txId}`);
-      // await getTransactionInfo(txId);
+
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
 
@@ -224,12 +219,7 @@ export const accountToAccount = async (
 ) => {
   try {
     const rpcClient = new RpcClient();
-    // const txId = await rpcClient.sendToAddress(
-    //   fromAddress,
-    //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-    //   true
-    // );
-    // await getTransactionInfo(txId);
+
     const data = await rpcClient.accountToAccount(
       fromAddress,
       toAddress,
@@ -238,6 +228,20 @@ export const accountToAccount = async (
     return data;
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
+    throw new Error(getErrorMessage(err));
+  }
+};
+
+export const sendTokensToAddress = async (
+  toAddress: string,
+  amount: string
+) => {
+  try {
+    const rpcClient = new RpcClient();
+    const data = await rpcClient.sendTokensToAddress(toAddress, amount);
+    return data;
+  } catch (err) {
+    log.error(`Got error in sendTokensToAddress: ${err}`);
     throw new Error(getErrorMessage(err));
   }
 };
