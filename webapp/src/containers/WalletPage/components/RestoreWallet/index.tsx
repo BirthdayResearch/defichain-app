@@ -61,7 +61,8 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   const [mnemonicCheck, setMnemonicCheck] = useState(false);
 
   const onchangeHandle = (event, key) => {
-    const tempObj = { ...mnemonicObj, [key]: event.target.value };
+    const { value } = event.target;
+    const tempObj = { ...mnemonicObj, [key]: value.trim() };
     setMnemonicObj(tempObj);
 
     const isFilled = isMnemonicObjFilled(tempObj);
@@ -150,7 +151,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 <p>{isErrorRestoringWallet}</p>
@@ -173,7 +174,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
                 <Button
-                  color='link'
+                  color='primary'
                   className='mr-3'
                   disabled={!mnemonicCheck}
                   onClick={() => {

@@ -13,6 +13,7 @@ import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
+import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
 import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
@@ -69,7 +70,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       {isRunning ? (
         <div id='app'>
           <Helmet>
-            <title>DeFi Blockchain Client</title>
+            <title>DeFi app</title>
           </Helmet>
           <Sidebar />
           <main>
@@ -102,6 +103,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <EncryptWalletModel />
       <WalletPassphraseModel />
       <RestartWalletModel />
+      <GeneralReIndexModal />
     </>
   );
 };

@@ -21,6 +21,7 @@ import styles from '../../token.module.scss';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
+  DFI_SYMBOL,
   TOKENS_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
@@ -29,6 +30,7 @@ import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
+import { getSymbolKey } from '../../../../utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -128,7 +130,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
         <h1>
           {I18n.t('containers.tokens.mintToken.title')}
           &nbsp;
-          {id}
+          {getSymbolKey(id || '', hash || DFI_SYMBOL)}
         </h1>
       </Header>
       <div className='content'>
@@ -150,7 +152,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
                   {I18n.t('containers.tokens.mintToken.amount')}
                 </Label>
                 <InputGroupAddon addonType='append'>
-                  <InputGroupText>{id}</InputGroupText>
+                  <InputGroupText>
+                    {getSymbolKey(id || '', hash || DFI_SYMBOL)}
+                  </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
             </FormGroup>
@@ -170,7 +174,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               </div>
               <div>
                 {amountToMint}&nbsp;
-                {id}
+                {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </div>
             </Col>
             <Col className='d-flex justify-content-end'>
@@ -205,7 +209,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               &nbsp;
               <dd className='col-sm-9'>
                 {amountToMint}&nbsp;
-                {id}
+                {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </dd>
             </dl>
           </div>
@@ -268,7 +272,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorMintingToken}</p>

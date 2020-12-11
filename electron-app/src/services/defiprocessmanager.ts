@@ -67,6 +67,8 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
+        `-acindex`,
+        // `-reindex-chainstate`
       ];
 
       if (params && params.isReindexReq) {
@@ -180,7 +182,7 @@ export default class DefiProcessManager {
       const updatedConfigData = ini.encode(args.updatedConf);
       writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
-    const startResponse = await this.start({}, event);
+    const startResponse = await this.start(args || {}, event);
     if (
       stopResponse &&
       startResponse &&

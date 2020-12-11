@@ -24,6 +24,7 @@ import {
   openReIndexModal,
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
+  openResetWalletDatModal,
 } from '@/containers/PopOver/reducer';
 import { fetchConnectLedgerFailure } from '@/containers/LedgerPage/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
@@ -164,6 +165,10 @@ export const openBackupWalletDat = () => {
 export const startBackupModal = () => {
   if (isRunning()) return backupWalletIpcRenderer();
   return openBackupWalletDat();
+};
+
+export const resetBackupModal = () => {
+  return store.dispatch(openResetWalletDatModal());
 };
 
 export const detachDeviceLedger = () => {

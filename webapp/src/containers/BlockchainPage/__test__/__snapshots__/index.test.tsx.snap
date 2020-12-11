@@ -9,7 +9,7 @@ exports[`BlockChainPage component should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Blockchain – DeFi Blockchain Client
+      Blockchain – DeFi app
     </title>
   </HelmetWrapper>
   <header

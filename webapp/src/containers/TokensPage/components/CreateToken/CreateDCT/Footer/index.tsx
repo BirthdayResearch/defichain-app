@@ -11,6 +11,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../../constants';
 import { ITokenResponse } from '../../../../../../utils/interfaces';
+import Spinner from '../../../../../../components/Svg/Spinner';
 
 interface CreateDCTProps {
   isUpdate: boolean;
@@ -156,6 +157,17 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
         </div>
         <div
           className={classnames({
+            'd-none': isConfirmationModalOpen !== 'loading',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <Spinner />
+            </div>
+          </div>
+        </div>
+        <div
+          className={classnames({
             'd-none': isConfirmationModalOpen !== 'success',
           })}
         >
@@ -192,7 +204,7 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isUpdate ? isErrorUpdatingToken : isErrorCreatingToken}</p>

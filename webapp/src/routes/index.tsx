@@ -46,8 +46,13 @@ import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_CREATE_PATH,
+  SWAP_PATH,
+  CREATE_POOL_PAIR_PATH,
   MINT_TOKENS_PATH,
+  REMOVE_LIQUIDITY,
+  LIQUIDITY_PATH,
   WALLET_SYNC_PAGE_PATH,
+  LIQUIDITY_INFO_PATH,
   LEDGER_PATH,
   LEDGER_RECEIVE_PATH,
   LEDGER_CREATE_RECEIVE_REQUEST,
@@ -56,7 +61,12 @@ import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
 import WalletSyncPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage/WalletSyncPage';
 import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
+import SwapPage from '../containers/SwapPage';
+import AddLiquidityPage from '../containers/LiquidityPage/components/AddLiquidity';
+import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLiquidity';
 import MintToken from '../containers/TokensPage/components/MintToken';
+import LiquidityPage from '../containers/LiquidityPage';
+import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
 import LedgerPage from '../containers/LedgerPage';
 import CreateNewAddressLedgerPage from '../containers/LedgerPage/components/LedgerReceivePage/CreateNewAddressLedgerPage';
 import LedgerReceivePage from '../containers/LedgerPage/components/LedgerReceivePage';
@@ -94,6 +104,8 @@ const routes = (location) => (
     {/* <Route exact path={EXCHANGE_PATH} component={ExchangePage} /> */}
     <Route exact path={BLOCKCHAIN_BASE_PATH} component={BlockchainPage} />
     <Route exact path={TOKENS_PATH} component={TokensPage} />
+    <Route exact path={SWAP_PATH} component={SwapPage} />
+    <Route exact path={LIQUIDITY_PATH} component={LiquidityPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
@@ -106,6 +118,9 @@ const routes = (location) => (
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
+    <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
+    <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />
+    <Route exact path={LIQUIDITY_INFO_PATH} component={LiquidityInfo} />
     <Route exact path={LEDGER_PATH} component={LedgerPage} />
     <Route exact path={LEDGER_RECEIVE_PATH} component={LedgerReceivePage} />
     <Route

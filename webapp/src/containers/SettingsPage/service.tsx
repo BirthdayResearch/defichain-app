@@ -36,7 +36,7 @@ export const getLanguage = () => {
   return [
     { label: 'containers.settings.english', value: ENGLISH },
     { label: 'containers.settings.german', value: GERMAN },
-    { label: 'containers.settings.french', value: FRENCH },
+    // { label: 'containers.settings.french', value: FRENCH },
   ];
 };
 
