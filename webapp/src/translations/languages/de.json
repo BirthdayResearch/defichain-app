@@ -1,6 +1,8 @@
 {
   "components": {
-    "keyValueLi": { "copied": "Kopiert!" },
+    "keyValueLi": {
+      "copied": "Kopiert!"
+    },
     "syncStatus": {
       "synchronized": "Synchronisiert",
       "syncing": "Synchronisieren",
@@ -16,7 +18,7 @@
       "selectAToken": "Token wählen",
       "popular": "Beliebt",
       "tokens": "Tokens",
-      "balance": "Balance",
+      "balance": "Guthaben",
       "max": "Max",
       "inputLabel": "Wert eingeben"
     }
@@ -185,13 +187,16 @@
         "successText": "Erfolg",
         "backToMasternodePage": "Zurück zu Masternode Seite"
       },
-      "masternodeTab": { "myMasternodes": "Bergwerk", "network": "Netzwerk" }
+      "masternodeTab": {
+        "myMasternodes": "Bergwerk",
+        "network": "Netzwerk"
+      }
     },
     "liquidity": {
       "liquidityPage": {
         "title": "Liquidity – DeFiChain Client",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "Du kannst jetzt die Liquidity minen für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um den DEX (Dezentralisierte Börse) mit Energie zu versorgen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit ausbezahlen.",
+        "yourLiquidityInfo": "Du kannst jetzt das Liquidity Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (Dezentralisierte Börse) zu unterstützen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit ausbezahlen.",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität zuführen?",
         "loading": "Laden…",
         "watchVideo": "Video ansehen",
@@ -269,7 +274,7 @@
         "swaping": "Swapping",
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
-        "somethingWentWrong": "Something went wrong",
+        "somethingWentWrong": "Das Guthaben ist nicht ausreichend",
         "preparingUTXO": "UTXO vorbereitet",
         "UTXOPrepared": "UTXO vorbereiten",
         "transferringTokens": "Übertragen von Tokens",
@@ -277,7 +282,10 @@
         "dexExplorer": "Dex Explorer",
         "insufficientUtxos": "Insufficient UTXOS to perform swap"
       },
-      "swapTab": { "from": "Von", "to": "An" },
+      "swapTab": {
+        "from": "Von",
+        "to": "In"
+      },
       "poolTab": {
         "yourLiquidity": "Deine liquidity",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität zuführen?",
@@ -367,7 +375,7 @@
         "searchTokens": "Tokens suchen",
         "dat": "DAT",
         "dct": "DCT",
-        "paginationRange": "%{from} – %{to} of %{total} tokens",
+        "paginationRange": "%{from} – %{to} von %{total} Token",
         "datLabels": {
           "type": "Typ",
           "price": "Preis",
@@ -719,7 +727,10 @@
           }
         ]
       },
-      "consoleResultPage": { "resultPage": "CLI-Ergebnis", "back": "ZURÜCK" }
+      "consoleResultPage": {
+        "resultPage": "CLI-Ergebnis",
+        "back": "ZURÜCK"
+      }
     }
   },
   "alerts": {
@@ -791,7 +802,7 @@
     "noRestartWalletNotice": "Später",
     "resetWalletNoticeTitle": "Wallet zurücksetzen",
     "resetWalletDatNotice": "Bist du sicher, dass du zurücksetzen willst?",
-    "confirmResetWalletText": "Um das Zurücksetzen der Wallet zu bestätigen, gib ‘%{text}’ in das Feld ein.",
+    "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein"
   }
