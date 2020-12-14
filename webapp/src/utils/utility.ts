@@ -52,6 +52,7 @@ import {
   MAINNET_BTC_SYMBOL,
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
+  APY_MULTIPLICATION_FACTOR,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -653,8 +654,6 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
-    // NOTE: APY calculation to use 37 second block time
-    const multiplicationFactor = 100 * (30 / 37);
     return {
       key: item,
       poolID: item,
@@ -666,13 +665,7 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: totalLiquidity.toNumber()
-        ? yearlyPoolReward
-            .div(totalLiquidity)
-            .times(multiplicationFactor)
-            .toNumber()
-            .toFixed(2)
-        : 0,
+      apy: calculateAPY(totalLiquidity, yearlyPoolReward),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -712,8 +705,6 @@ export const fetchPoolPairDataWithPagination = async (
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-      // NOTE: APY calculation to use 37 second block time
-      const multiplicationFactor = 100 * (30 / 37);
       return {
         key: item,
         poolID: item,
@@ -725,13 +716,7 @@ export const fetchPoolPairDataWithPagination = async (
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        apy: totalLiquidity.toNumber()
-          ? yearlyPoolReward
-              .div(totalLiquidity)
-              .times(multiplicationFactor)
-              .toNumber()
-              .toFixed(2)
-          : 0,
+        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -1238,4 +1223,17 @@ export const getDfiTokenBalance = async () => {
     return currentAmount;
   }, new BigNumber('0'));
   return Number(amount);
+};
+
+export const calculateAPY = (
+  totalLiquidity: BigNumber,
+  yearlyPoolReward: BigNumber
+) => {
+  return totalLiquidity.toNumber()
+    ? yearlyPoolReward
+        .div(totalLiquidity)
+        .times(APY_MULTIPLICATION_FACTOR)
+        .toNumber()
+        .toFixed(2)
+    : 0;
 };

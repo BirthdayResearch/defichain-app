@@ -12,11 +12,11 @@ import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
 import {
   getAddressInfo,
-  getNewAddress,
   getTransactionInfo,
   handleFetchAccountDFI,
 } from '../WalletPage/service';
 import {
+  calculateAPY,
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
@@ -83,21 +83,13 @@ export const handleFetchPoolshares = async () => {
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-      // NOTE: APY calculation to use 37 second block time
-      const multiplicationFactor = 100 * (30 / 37);
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: totalLiquidity.toNumber()
-          ? yearlyPoolReward
-              .div(totalLiquidity)
-              .times(multiplicationFactor)
-              .toNumber()
-              .toFixed(2)
-          : 0,
+        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
         ...poolPairData[0],
         ...poolShare,
       };
