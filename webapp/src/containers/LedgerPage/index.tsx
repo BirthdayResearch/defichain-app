@@ -209,27 +209,6 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
                 }
               />
             </Col>
-            <Col>
-              <StatCard
-                label={I18n.t('containers.wallet.walletPage.pending')}
-                value={getAmountInSelectedUnit(pendingBalance, unit)}
-                unit={tokenSymbol ? tokenSymbol : unit}
-                refreshFlag={pendingRefreshBalance}
-                icon={
-                  <MdRefresh
-                    className={styles.iconPointer}
-                    size={30}
-                    onClick={() => {
-                      setPendingRefreshBalance(true);
-                      pendingBalRefreshTimerID = setTimeout(() => {
-                        setPendingRefreshBalance(false);
-                      }, 2000);
-                      fetchInstantPendingBalanceRequest();
-                    }}
-                  />
-                }
-              />
-            </Col>
           </Row>
         </section>
         {!tokenSymbol && <WalletTxns />}
