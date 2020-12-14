@@ -5,8 +5,8 @@ cd ..
 mkdir -p temp
 cd temp && rm -rf mac
 mkdir mac && cd mac
-wget https://github.com/DeFiCh/ain/releases/download/v1.3.9/defichain-1.3.9-x86_64-apple-darwin11.tar.gz
-tar -xvf defichain-1.3.9-x86_64-apple-darwin11.tar.gz
-cp defichain-1.3.9/bin/defid .
+wget https://github.com/DeFiCh/ain/releases/download/v1.3.12/defichain-1.3.12-x86_64-apple-darwin11.tar.gz
+tar -xvf defichain-1.3.12-x86_64-apple-darwin11.tar.gz
+cp defichain-1.3.12/bin/defid .
 cd ../.. && cp temp/mac/defid binary/mac/defid
 chmod 777 binary/mac/defid
