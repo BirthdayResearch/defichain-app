@@ -328,7 +328,7 @@ export function* restoreWallet(action) {
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
     const isValid = isValidMnemonic(mnemonicCode);
     if (!isValid) {
-      throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
+      throw new Error(`Not a valid mnemonic`);
     }
 
     const networkType = getNetworkType();
@@ -344,6 +344,7 @@ export function* restoreWallet(action) {
     PersistentStore.set(isWalletCreated, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
+    log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
   }
 }
@@ -374,7 +375,7 @@ function* checkWalletCreation() {
     const isWalletCreatedVal = isWalletCreated(network);
     yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
   } catch (err) {
-    console.log(err);
+    log.error(err);
   }
 }
 
@@ -394,7 +395,8 @@ function* fetchWalletTokenTransactionsList(action) {
       if (!data.length) {
         break;
       }
-      // data contains array of objects containing blockHeight in desc order. so here to paginate to next page data we will use the minimum block height - 1
+      // data contains array of objects containing blockHeight in desc order.
+      // so here to paginate to next page data we will use the minimum block height - 1
       const minHeightData = minBy(data, 'blockHeight');
       minBlockHeight = minHeightData.blockHeight - 1;
       cloneData = cloneData.concat(data);
