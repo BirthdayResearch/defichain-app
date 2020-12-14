@@ -653,7 +653,8 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
-
+    // NOTE: APY calculation to use 37 second block time
+    const multiplicationFactor = 100 * (30 / 37);
     return {
       key: item,
       poolID: item,
@@ -666,7 +667,11 @@ export const fetchPoolPairDataWithPagination = async (
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       apy: totalLiquidity.toNumber()
-        ? yearlyPoolReward.div(totalLiquidity).times(100).toNumber().toFixed(2)
+        ? yearlyPoolReward
+            .div(totalLiquidity)
+            .times(multiplicationFactor)
+            .toNumber()
+            .toFixed(2)
         : 0,
     };
   });
@@ -707,7 +712,8 @@ export const fetchPoolPairDataWithPagination = async (
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-
+      // NOTE: APY calculation to use 37 second block time
+      const multiplicationFactor = 100 * (30 / 37);
       return {
         key: item,
         poolID: item,
@@ -722,7 +728,7 @@ export const fetchPoolPairDataWithPagination = async (
         apy: totalLiquidity.toNumber()
           ? yearlyPoolReward
               .div(totalLiquidity)
-              .times(100)
+              .times(multiplicationFactor)
               .toNumber()
               .toFixed(2)
           : 0,
