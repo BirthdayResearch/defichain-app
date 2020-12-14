@@ -24,6 +24,7 @@ export const initialState = {
   isWalletRestart: false,
   isWalletReplace: false,
   isGeneralReindexModalOpen: false,
+  isQueueResetRoute: false,
 };
 
 const configSlice = createSlice({
@@ -162,6 +163,9 @@ const configSlice = createSlice({
     closeGeneralReIndexModal(state) {
       state.isGeneralReindexModalOpen = false;
     },
+    setIsQueueResetRoute(state, action) {
+      state.isQueueResetRoute = action.payload;
+    },
   },
 });
 
@@ -209,7 +213,8 @@ export const {
   closeResetWalletDatModal,
   startResetWalletDatRequest,
   openGeneralReIndexModal,
-  closeGeneralReIndexModal
+  closeGeneralReIndexModal,
+  setIsQueueResetRoute,
 } = actions;
 
 export default reducer;
