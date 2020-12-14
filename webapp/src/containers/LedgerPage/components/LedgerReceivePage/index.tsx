@@ -19,7 +19,7 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.receivePage.receivePage')}</title>
+        <title>{I18n.t('containers.ledger.receivePage.receivePage')}</title>
       </Helmet>
       <header className='header-bar'>
         <Button
@@ -30,10 +30,10 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
         >
           <MdArrowBack />
           <span className='d-lg-inline text-uppercase'>
-            {I18n.t('containers.wallet.receivePage.backButton')}
+            {I18n.t('containers.ledger.receivePage.backButton')}
           </span>
         </Button>
-        <h1>{I18n.t('containers.wallet.receivePage.receive')}</h1>
+        <h1>{I18n.t('containers.ledger.receivePage.receive')}</h1>
         <ButtonGroup>
           <Button
             to={LEDGER_CREATE_RECEIVE_REQUEST}
@@ -42,7 +42,7 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
           >
             <MdAdd />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.receivePage.newAddressButton')}
+              {I18n.t('containers.ledger.receivePage.newAddressButton')}
             </span>
           </Button>
         </ButtonGroup>
