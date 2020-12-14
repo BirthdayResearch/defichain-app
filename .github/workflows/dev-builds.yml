@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - ci/*
+      - fix/issues-liquidity
       - master
 jobs:
   build_linux_version:
