@@ -35,7 +35,10 @@ import {
   WALLET_TXN_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
-import { numberWithCommas } from '../../../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  numberWithCommas,
+} from '../../../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
 import { prepareTxDataRows } from '../../service';
 import BigNumber from 'bignumber.js';
@@ -43,6 +46,15 @@ import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 
 interface WalletTxnsProps {
   unit: string;
+  walletTxnCount: number;
+  walletTxns: {
+    txnId: string;
+    category: string;
+    time: string;
+    amount: number;
+    unit: string;
+    height: number;
+  }[];
   fetchWalletTxns: (
     currentPage: number,
     pageSize: number,
@@ -66,6 +78,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   props: WalletTxnsProps
 ) => {
   const {
+    walletTxnCount,
+    fetchWalletTxns,
+    walletTxns,
     fetchWalletTokenTransactionsListRequestLoading,
     fetchBlockDataForTrxRequestLoading,
     tokenSymbol,
@@ -77,12 +92,21 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
-  const pageSize = WALLET_TXN_PAGE_SIZE;
-  const total = data ? data.length : 0;
+  const [pageSize, setPageSize] = useState(10);
+  const [pageSizeForFetch, setPageSizeForFetch] = useState(5);
+  const total = data || walletTxnCount ? data.length + walletTxnCount : 0;
   const pagesCount = Math.ceil(total / pageSize);
-  const to = (currentPage - 1) * pageSize + 1;
-  const from = Math.min(total, currentPage * pageSize);
   const textLimit = 26;
+  // const to = (currentPage - 1) * pageSize + 1;
+  // const from = Math.min(total, currentPage * pageSize);
+
+  // useEffect(() => {
+  //   if (!walletTxns.length || !combineAccountHistoryData.data) {
+  //     setPageSizeForFetch(5);
+  //   } else {
+  //     setPageSizeForFetch(10);
+  //   }
+  // }, [walletTxns, combineAccountHistoryData.data]);
 
   useEffect(() => {
     fetchWalletTokenTransactionsListRequestLoading(
@@ -90,23 +114,30 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       WALLET_TXN_PAGE_FETCH_SIZE,
       includeRewards
     );
+    fetchWalletTxns(currentPage, pageSize, true);
     return () => {
       fetchWalletTokenTransactionsListResetRequest();
     };
   }, [includeRewards]);
 
+  const fetchDataTxns = (pageNumber: number) => {
+    fetchWalletTxns(pageNumber, pageSizeForFetch);
+    setCurrentPage(pageNumber);
+  };
+
   const fetchData = (pageNum) => {
+    fetchDataTxns(pageNum);
     const newCloneTableData = cloneDeep(data);
     let updatedPageNum = pageNum;
     let rows = newCloneTableData.slice(
-      (pageNum - 1) * pageSize,
-      pageNum * pageSize
+      (pageNum - 1) * pageSizeForFetch,
+      pageNum * pageSizeForFetch
     );
     if (newCloneTableData.length > 0 && !rows.length) {
-      const lastPage = Math.ceil(newCloneTableData.length / pageSize);
+      const lastPage = Math.ceil(newCloneTableData.length / pageSizeForFetch);
       rows = newCloneTableData.slice(
-        (lastPage - 1) * pageSize,
-        lastPage * pageSize
+        (lastPage - 1) * pageSizeForFetch,
+        lastPage * pageSizeForFetch
       );
       updatedPageNum = lastPage;
     }
@@ -116,12 +147,12 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   };
 
   useEffect(() => {
-    setTableRows(combineAccountHistoryData.data);
-  }, [combineAccountHistoryData]);
+    setTableRows([...combineAccountHistoryData.data, ...walletTxns]);
+  }, [combineAccountHistoryData, walletTxns]);
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [data]);
+  }, [data, walletTxnCount]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
@@ -134,6 +165,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       return <MdCompareArrows className={styles.typeIcon} />;
     if (type === ACCOUNT_TO_UTXOS_LABEL)
       return <MdArrowUpward className={styles.typeIcon} />;
+    if (type === 'send') return <MdArrowUpward className={styles.typeIcon} />;
+    if (type === 'receive')
+      return <MdArrowDownward className={styles.typeIcon} />;
     return '';
   };
 
@@ -146,6 +180,12 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     }
     if (type === REWARDS_CATEEGORY_LABEL) {
       return REWARD_CATEGORY_LABEL;
+    }
+    if (type === 'send') {
+      return 'Send';
+    }
+    if (type === 'receive') {
+      return 'Receive';
     }
     return type;
   };
@@ -183,58 +223,88 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         <Card className={`${styles.card} table-responsive-md`}>
           <Table className={styles.table}>
             <tbody>
-              {tableRows.map((item, id) => (
-                <tr key={`${currentPage}-${id}`}>
-                  <td>{getTxnsTypeIcon(item.category)}</td>
-                  <td>
-                    <div>{getTxnsType(item.category)}</div>
-                    <div className={styles.unit}>{item.blockData.time}</div>
-                  </td>
-                  <td className={`text-right ${getAmountClass(item.category)}`}>
-                    <div
-                      className={getPoolSwapClass(
-                        item.category,
-                        item.amounts[0].value
-                      )}
-                    >
-                      {`${numberWithCommas(item.amounts[0].value)} ${
-                        item.amounts[0].symbolKey
-                      }`}
-                    </div>
-                    {item.amounts[1] && (
-                      <div>
-                        {`${numberWithCommas(item.amounts[1].value)} ${
-                          item.amounts[1].symbolKey
-                        }`}
-                      </div>
-                    )}
-                  </td>
-                  {item.txid ? (
+              {tableRows
+                .sort(
+                  (a, b) =>
+                    new Date(b.time || b.blockData.time).getTime() -
+                    new Date(a.time || a.blockData.time).getTime()
+                )
+                .map((item, id) => (
+                  <tr key={`${currentPage}-${id}`}>
+                    <td>{getTxnsTypeIcon(item.category)}</td>
                     <td>
-                      <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <ValueLi
-                          value={item.txid}
-                          copyable={true}
-                          textLimit={textLimit}
-                        />
+                      <div>{getTxnsType(item.category)}</div>
+                      <div className={styles.unit}>
+                        {item.time || item.blockData.time}
                       </div>
                     </td>
-                  ) : (
-                    <td className={`${styles.txid__na}`}>
-                      {I18n.t('containers.wallet.walletPage.txidNotApplicable')}
-                    </td>
-                  )}
-                </tr>
-              ))}
+                    {item.unit ? (
+                      <td>
+                        <div className={styles.amount}>
+                          {getAmountInSelectedUnit(
+                            item.amount,
+                            item.unit,
+                            item.unit
+                          )}
+                          &nbsp;
+                          <span className={styles.unit}>{item.unit}</span>
+                        </div>
+                      </td>
+                    ) : (
+                      <td
+                        className={`text-right ${getAmountClass(
+                          item.category
+                        )}`}
+                      >
+                        <div
+                          className={getPoolSwapClass(
+                            item.category,
+                            item.amounts[0].value
+                          )}
+                        >
+                          {`${numberWithCommas(item.amounts[0].value)} ${
+                            item.amounts[0].symbolKey
+                          }`}
+                        </div>
+                        {item.amounts[1] && (
+                          <div>
+                            {`${numberWithCommas(item.amounts[1].value)} ${
+                              item.amounts[1].symbolKey
+                            }`}
+                          </div>
+                        )}
+                      </td>
+                    )}
+                    {item.txid ? (
+                      <td>
+                        <div
+                          className={`${styles.txidvalue} ${styles.copyIcon}`}
+                        >
+                          <ValueLi
+                            value={item.txid}
+                            copyable={true}
+                            textLimit={textLimit}
+                          />
+                        </div>
+                      </td>
+                    ) : (
+                      <td className={`${styles.txid__na}`}>
+                        {I18n.t(
+                          'containers.wallet.walletPage.txidNotApplicable'
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </Card>
         <Pagination
-          label={I18n.t('containers.wallet.walletPage.paginationRange', {
-            to,
-            total,
-            from,
-          })}
+          // label={I18n.t('containers.wallet.walletPage.paginationRange', {
+          //   to,
+          //   total,
+          //   from,
+          // })}
           currentPage={currentPage}
           pagesCount={pagesCount}
           handlePageClick={fetchData}
@@ -272,9 +342,13 @@ const mapStateToProps = (state) => {
     wallet: {
       listAccountHistoryData: { isLoading, data, isError },
       combineAccountHistoryData,
+      walletTxns,
+      walletTxnCount,
     },
   } = state;
   return {
+    walletTxns,
+    walletTxnCount,
     unit: settings.appConfig.unit,
     combineAccountHistoryData,
     isLoading,
