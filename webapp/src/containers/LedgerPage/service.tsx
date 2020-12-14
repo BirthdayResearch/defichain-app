@@ -206,7 +206,9 @@ export const getNewAddress = async (
   const rpcClient = new RpcClient();
   try {
     const params: string[] = [];
-    addressTypeChecked && params.push('legacy');
+    if (addressTypeChecked) {
+      params.push('legacy');
+    }
     return rpcClient.getNewAddress(label, ...params);
   } catch (err) {
     log.error(`Got error in getNewAddress: ${err}`);
