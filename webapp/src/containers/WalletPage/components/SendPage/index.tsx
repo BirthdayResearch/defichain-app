@@ -303,11 +303,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             hash,
             addressesList
           );
-          log.info("*******token send **********");
+          log.info('*******token send **********');
           log.info({ address, maxAmount });
-          log.info("*******token send **********");
+          log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
-          if (Number(amount) > maxAmount) {
+          if (new BigNumber(amount).isGreaterThan(maxAmount)) {
             accountToAccountAmount = await handleAccountToAccountConversion(
               addressesList,
               address,
@@ -319,9 +319,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             this.state.toAddress,
             `${amount}@${hash}`
           );
-          log.info("*******token send **********");
+          log.info('*******token send **********');
           log.info(`accountToAccount tx hash ${txHash}`);
-          log.info("*******token send **********");
+          log.info('*******token send **********');
           this.handleSuccess(txHash);
         } catch (error) {
           const errorMessage = getErrorMessage(error);
