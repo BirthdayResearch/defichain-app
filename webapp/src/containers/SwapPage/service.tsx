@@ -83,7 +83,8 @@ export const handleFetchPoolshares = async () => {
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-
+      // NOTE: APY calculation to use 37 second block time
+      const multiplicationFactor = 100 * (30 / 37);
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
@@ -93,7 +94,7 @@ export const handleFetchPoolshares = async () => {
         apy: totalLiquidity.toNumber()
           ? yearlyPoolReward
               .div(totalLiquidity)
-              .times(100)
+              .times(multiplicationFactor)
               .toNumber()
               .toFixed(2)
           : 0,
