@@ -18,6 +18,7 @@ import {
   setIsWalletReplace,
   closeResetWalletDatModal,
   startResetWalletDatRequest,
+  setIsQueueResetRoute,
 } from './reducer';
 import {
   autoLockTimer,
@@ -137,6 +138,7 @@ function* restartAndReplaceWallet() {
   yield call(replaceWalletDat);
   yield call(shutDownBinary);
   yield call(restartNode);
+  yield put(setIsQueueResetRoute(true));
 }
 
 function* mySaga() {
