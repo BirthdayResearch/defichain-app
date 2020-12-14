@@ -1075,11 +1075,6 @@ export const handleAccountToAccountConversion = async (
     }
   }
 
-  if (!isEmpty(amounts)) {
-    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
-    await getTransactionInfo(refreshUtxoTxId);
-  }
-
   const accountToAccountTxHashes: any[] = [];
   let amountTransfered = new BigNumber(0);
   for (const obj of addressAndAmountList) {

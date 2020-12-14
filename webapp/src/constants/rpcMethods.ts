@@ -37,6 +37,7 @@ export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
+export const SEND_TOKENS_TO_ADDRESS = 'sendtokenstoaddress';
 export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
 export const UTXOS_TO_ACCOUNT = 'utxostoaccount';
 export const GET_TRANSACTION = 'gettransaction';
