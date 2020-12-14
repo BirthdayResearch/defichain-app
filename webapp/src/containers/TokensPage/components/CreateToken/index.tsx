@@ -52,6 +52,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     mintable: 'true',
     tradeable: 'true',
     collateralAddress: '',
+    collateralLabel: ''
   });
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
     string
@@ -103,6 +104,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       setFormState({
         ...formState,
         collateralAddress: data.addressAndAmountList[0]?.address,
+        collateralLabel: data.addressAndAmountList[0]?.label
       });
     }
     addressAndAmount();
@@ -154,13 +156,13 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     });
   };
 
-  const handleDropDowns = (data: any, field: any, amount: any) => {
+  const handleDropDowns = (newData: any, amount: any) => {
     if (amount < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
       setIsCollateralAddressValid(false);
     } else {
       setFormState({
         ...formState,
-        [field]: data,
+        ...newData
       });
       setIsCollateralAddressValid(true);
     }

@@ -55,6 +55,7 @@ import {
   getNetworkType,
   getTokenAndBalanceMap,
   getTotalPoolValue,
+  getTransactionAddressLabel,
   shareOfPool,
 } from '../../../../utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
@@ -483,11 +484,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const getTransactionLabel = (formState: any) => {
-    let label = `${formState.receiveLabel ? formState.receiveLabel + ' ' : ''}`;
-    label = label + formState.receiveAddress;
-    return formState.receiveAddress
-      ? label
-      : I18n.t('containers.swap.addLiquidity.receiveAddress');
+    return getTransactionAddressLabel(formState.receiveLabel, formState.receiveAddress, I18n.t('containers.swap.addLiquidity.receiveAddress'));
   };
 
   return (

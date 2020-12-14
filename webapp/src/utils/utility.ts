@@ -1239,3 +1239,12 @@ export const getDfiTokenBalance = async () => {
   }, new BigNumber('0'));
   return Number(amount);
 };
+
+
+export const getTransactionAddressLabel = (receiveLabel: string, receiveAddress: string, fallback: string) => {
+  let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
+  label = label + receiveAddress;
+  return receiveAddress
+    ? label
+    : fallback;
+};

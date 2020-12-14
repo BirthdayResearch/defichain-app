@@ -25,6 +25,7 @@ import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
 import Header from '../../../../HeaderComponent';
+import { getTransactionAddressLabel } from '../../../../../utils/utility';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
@@ -39,12 +40,16 @@ interface CreateDCTProps {
   setWait: (wait: number) => void;
   createConfirmation: () => void;
   updateConfirmation: () => void;
-  handleDropDowns: (data: any, field: any, amount: any) => void;
+  handleDropDowns: (newData: any, amount: any) => void;
   cancelConfirmation: () => void;
   isErrorCreatingToken: string;
   isErrorUpdatingToken: string;
   isUpdate: boolean;
 }
+
+const getTransactionLabel = (formState: any) => {
+  return getTransactionAddressLabel(formState.collateralLabel, formState.collateralAddress, I18n.t('containers.tokens.createToken.collateralAddress'));
+};
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   props: CreateDCTProps
@@ -247,9 +252,11 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
                 disabled={isUpdate}
               >
-                {formState.collateralAddress
-                  ? formState.collateralAddress
-                  : I18n.t('containers.tokens.createToken.collateralAddress')}
+                <div
+                    className={`${styles.ellipsisValue} ${styles.dropdownContent}`}
+                  >
+                    {getTransactionLabel(formState)}
+                  </div>
               </DropdownToggle>
               <DropdownMenu className={`${styles.scrollAuto} w-100`}>
                 <DropdownItem className='w-100'>
@@ -273,8 +280,10 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                       name='collateralAddress'
                       onClick={() =>
                         handleDropDowns(
-                          data.address,
-                          'collateralAddress',
+                          {
+                            collateralAddress: data.address,
+                            collateralLabel: data.label
+                          },
                           data.amount
                         )
                       }
@@ -282,13 +291,14 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                     >
                       <Row className='w-100'>
                         <Col md='6'>
-                          <EllipsisText text={data.address} length={'42'} />
+                            <div className={styles.ellipsisValue}>
+                              {data.address}
+                            </div>
                         </Col>
                         <Col md='3'>
-                          <EllipsisText
-                            text={data.label ? data.label : '---'}
-                            length={'20'}
-                          />
+                            <div className={styles.ellipsisValue}>
+                              {data.label ? data.label : '---'}
+                            </div>
                         </Col>
                         <Col md='3'>
                           {formState.collateralAddress === data.address && (

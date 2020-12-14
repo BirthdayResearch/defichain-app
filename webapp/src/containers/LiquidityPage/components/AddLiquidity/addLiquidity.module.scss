@@ -4,6 +4,7 @@
 @import '~bootstrap/scss/mixins';
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/utility';
 
 .addLiquidityRow {
   display: flex;
@@ -79,15 +80,4 @@
 .scrollAuto {
   overflow: auto;
   height: 100px;
-}
-
-.ellipsisValue {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.dropdownContent {
-  width: 95%;
-  display: inline-flex;
 }
