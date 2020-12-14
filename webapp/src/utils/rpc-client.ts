@@ -348,6 +348,19 @@ export default class RpcClient {
     return data.result;
   };
 
+  sendTokensToAddress = async (
+    toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SEND_TOKENS_TO_ADDRESS, [
+      {},
+      {
+        [toAddress]: amount,
+      },
+    ]);
+    return data.result;
+  };
+
   isValidAddress = async (address: string): Promise<boolean> => {
     const { data } = await this.call('/', methodNames.VALIDATE_ADDRESS, [
       address,
