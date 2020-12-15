@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { MdAdd } from 'react-icons/md';
 import { Button, ButtonGroup } from 'reactstrap';
@@ -78,7 +78,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 
   return (
     <>
-      {!isWalletCreated() ? (
+      {!isWalletCreated('main') ? (
         <div className='main-wrapper'>
           <CreateOrRestoreWalletPage history={history} />
         </div>
@@ -104,6 +104,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             <WalletTokenCard
               handleCardClick={handleCardClickDefault}
               token={{
+                symbolKey: '',
                 symbol: unit,
                 amount: props.walletBalance,
                 hash: '0',

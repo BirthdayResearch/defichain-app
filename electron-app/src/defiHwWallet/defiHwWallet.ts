@@ -1,7 +1,7 @@
-import TransportHid from '@ledgerhq/hw-transport-node-hid';
+// import TransportHid from '@ledgerhq/hw-transport-node-hid';
 import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import { identifyUSBProductId } from '@ledgerhq/devices';
-// import TransportHid from '@ledgerhq/hw-transport-node-speculos';
+import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
@@ -106,7 +106,8 @@ export default class DefiHwWallet {
         throw new Error('Transport not supported');
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
-      this.transport = await TransportHid.open(path !== undefined ? path : '');
+      // this.transport = await TransportHid.open(path !== undefined ? path : '');
+      this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
       log.info('Ledger is connected');
     } catch (err) {
@@ -160,7 +161,9 @@ export default class DefiHwWallet {
       apdu.writeUInt8(4);
       // add 4 bytes index to buffer
       apdu.writeInt32LE(index);
+      log.info(`APDU: ${apdu}`);
       const resposne = await this.transport.exchange(apdu.toBuffer());
+      log.info(`resposne: ${resposne}`);
       const pubkeyLen = resposne[0];
       const pubkey = resposne.slice(1, 1 + pubkeyLen);
       const addrOffset = 1 + pubkeyLen + 1;

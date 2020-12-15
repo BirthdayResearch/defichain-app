@@ -86,7 +86,7 @@ function fetchPendingBalance() {
 }
 
 function* getPaymentRequestState() {
-  const { paymentRequests = [] } = yield select((state) => state.wallet);
+  const { paymentRequests = [] } = yield select((state) => state.ledgerWallet);
   return cloneDeep(paymentRequests);
 }
 

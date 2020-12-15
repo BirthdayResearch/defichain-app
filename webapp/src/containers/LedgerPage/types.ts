@@ -1,4 +1,4 @@
-import { StatusLedger } from '@/typings/models';
+import { StatusLedger, PaymentRequest } from '@/typings/models';
 
 export interface LedgerConnect {
   status: StatusLedger;
@@ -15,5 +15,6 @@ export interface LedgerState {
   connect: LedgerConnect;
   isShowingInformation: boolean;
   devices: DevicesLedger;
+  paymentRequests: PaymentRequest[];
   [key: string]: any;
 }

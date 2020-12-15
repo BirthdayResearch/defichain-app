@@ -5,18 +5,20 @@ import {
   LIST_DEVICES_LEDGER,
 } from '../constants';
 import { responseMessage } from '../utils';
-import Wallet from '../controllers/wallets';
-import DefiHwWallet from '../defiHwWallet/defiHwWallet';
+import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
 
 const DefiLedger = new DefiHwWallet();
 
 const initiateLedger = () => {
-  ipcMain.on(GET_LEDGER_DEFI_PUB_KEY, async (event: Electron.IpcMainEvent) => {
+  ipcMain.on(GET_LEDGER_DEFI_PUB_KEY, async (event: Electron.IpcMainEvent, keyIndex: number, format: AddressFormat) => {
     try {
-      const wallet = new Wallet();
-      // TODO Replace the query logic when the connection is ready to Ledger
-      event.returnValue = await wallet.connectHwWallet();
+      log.info(`keyIndex: ${keyIndex}, format: ${format}`);
+      const { pubkey, address } = await DefiLedger.getDefiPublicKey(keyIndex, format);
+      log.info(`pubkey: ${pubkey}, address: ${address}`);
+      event.returnValue = responseMessage(true, {
+        pubkey, address,
+      })
     } catch (err) {
       event.returnValue = responseMessage(false, {
         message: err.message,

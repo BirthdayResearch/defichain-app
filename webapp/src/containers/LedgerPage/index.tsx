@@ -172,7 +172,6 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             to={LEDGER_RECEIVE_PATH}
             tag={RRNavLink}
             color='link'
-            disabled={connect.status !== 'connected'}
           >
             <MdArrowDownward />
             <span className='d-md-inline'>

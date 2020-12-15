@@ -24,6 +24,7 @@ describe('Ledger page service unit test', () => {
     ipc.mockReturnValue({
       sendSync,
     });
+    // @ts-ignore
     const data = await service.getPubKeyLedger();
     expect(data).toEqual(getpubkey);
   });

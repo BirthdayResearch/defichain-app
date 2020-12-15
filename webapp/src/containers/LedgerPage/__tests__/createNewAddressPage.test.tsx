@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import CreateNewAddressPage from '../components/LedgerReceivePage/CreateNewAddressLedgerPage';
 import { history } from '../../../utils/testUtils/routeComponentProps';
@@ -11,6 +12,7 @@ describe('PaymentRequests component', () => {
     const wrapper = mount(
       <Router>
         <Provider store={store}>
+          {/* @ts-ignore */}
           <CreateNewAddressPage history={history} />
         </Provider>
       </Router>

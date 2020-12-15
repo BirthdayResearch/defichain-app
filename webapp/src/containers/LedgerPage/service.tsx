@@ -26,7 +26,7 @@ import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER } from '@/constants';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
-    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}`.toLowerCase();
+    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
   }
   return PAYMENT_REQUEST;
 };
@@ -219,6 +219,8 @@ export const getNewAddress = async (
 export const importPubKey = async (pubKey: string, keyIndex: number) => {
   const rpcClient = new RpcClient();
   try {
+    log.info('importPubKey');
+    log.info(`rpcClient: ${rpcClient}`)
     return rpcClient.importPubKey(pubKey, `ledger_pas:${keyIndex}`);
   } catch (err) {
     log.error(`Got error in importPubKey: ${err}`);
@@ -382,9 +384,9 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
 };
 
-export const getPubKeyLedger = async () => {
+export const getPubKeyLedger = async (keyIndex: number, format: string) => {
   const ipcRenderer = ipcRendererFunc();
-  return ipcRenderer.sendSync(GET_LEDGER_DEFI_PUB_KEY);
+  return ipcRenderer.sendSync(GET_LEDGER_DEFI_PUB_KEY, keyIndex, format);
 };
 
 export const connectLedger = async () => {

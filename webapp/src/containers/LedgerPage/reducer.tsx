@@ -241,6 +241,11 @@ const configSlice = createSlice({
     },
     getDevicesFailure(state, action) {
       state.devices.error = action.payload;
+      state.devices.list = [{
+        deviceModel: {
+          productName: 'Ledger',
+        },
+      }];
     },
     getDevicesClear(state) {
       state.devices = {
