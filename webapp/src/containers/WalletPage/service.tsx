@@ -28,7 +28,6 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
-import { PaymentRequestModel } from './components/ReceivePage/PaymentRequestList';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -41,13 +40,6 @@ export const handleGetPaymentRequest = (networkName) => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
-};
-
-export const handleGetReceivedAddress = async (): Promise<
-  PaymentRequestModel[]
-> => {
-  const rpcClient = new RpcClient();
-  return await rpcClient.getListreceivedAddress();
 };
 
 export const handelAddReceiveTxns = (data, networkName) => {
