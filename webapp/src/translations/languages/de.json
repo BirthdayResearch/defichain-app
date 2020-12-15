@@ -696,7 +696,8 @@
       "ledgerPage": {
         "title": "Ledger Brieftasche",
         "connect": "Verbinden",
-        "connecting": "Anschließen"
+        "connecting": "Anschließen",
+        "availableBalance": "Verfügbares Guthaben"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",

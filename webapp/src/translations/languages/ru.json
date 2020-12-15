@@ -490,7 +490,8 @@
       "ledgerPage": {
         "title": "Ledger Кошелек",
         "connect": "Подключится",
-        "connecting": "Подключение"
+        "connecting": "Подключение",
+        "availableBalance": "Доступные средства"
       },
       "receivePage": {
         "receiveDFITitle": "Получить DFI – Блокчейн-Клиент DeFi",

@@ -694,7 +694,8 @@
         "connecting": "Connecting",
         "connected": "is connected",
         "send": "send",
-        "receive": "receive"
+        "receive": "receive",
+        "availableBalance": "Available balance"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",

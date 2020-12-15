@@ -185,7 +185,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           <Row>
             <Col>
               <StatCard
-                label={I18n.t('containers.wallet.walletPage.availableBalance')}
+                label={I18n.t('containers.ledger.ledgerPage.availableBalance')}
                 value={
                   tokenAmount
                     ? tokenAmount

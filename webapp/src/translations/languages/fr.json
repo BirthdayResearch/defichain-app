@@ -665,7 +665,8 @@
       "ledgerPage": {
         "title": "Ledger Portefeuille",
         "connect": "Relier",
-        "connecting": "De liaison"
+        "connecting": "De liaison",
+        "availableBalance": "Solde disponible"
       },
       "receivePage": {
         "receiveDFITitle": "Réception de DFI – App DeFi",
