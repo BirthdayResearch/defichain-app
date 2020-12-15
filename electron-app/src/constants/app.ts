@@ -32,3 +32,4 @@ export const DEFAULT_ELECTRON_FORMAT =
 export const DISCLAIMER_DIALOG_TIMER = 10000;
 export const STOP_BINARY_INTERVAL = 500;
 export const REINDEX_ERROR_STRING = 'restart with -reindex';
+export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING = 'Account history needs rebuild';
