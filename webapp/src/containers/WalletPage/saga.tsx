@@ -330,7 +330,7 @@ export function* restoreWallet(action) {
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
     const isValid = isValidMnemonic(mnemonicCode);
     if (!isValid) {
-      throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
+      throw new Error(`Not a valid mnemonic`);
     }
 
     const networkType = getNetworkType();
@@ -389,7 +389,7 @@ function* fetchWalletTokenTransactionsList(action) {
         break;
       }
       // data contains array of objects containing blockHeight in desc order.
-      //  so here to paginate to next page data we will use the minimum block height - 1
+      // so here to paginate to next page data we will use the minimum block height - 1
       const minHeightData = minBy(data, 'blockHeight');
       minBlockHeight = minHeightData.blockHeight - 1;
       cloneData = cloneData.concat(data);
