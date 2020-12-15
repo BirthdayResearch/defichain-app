@@ -14,7 +14,6 @@ import NotFoundLedgerModal from './components/NotFoundLedgerModal';
 import ErrorLedgerModal from './components/ErrorLedgerModal';
 import {
   fetchInstantBalanceRequest,
-  fetchInstantPendingBalanceRequest,
   fetchConnectLedgerRequest,
   initialIsShowingInformationRequest,
   updateIsShowingInformationRequest,
@@ -23,15 +22,14 @@ import {
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
-import { getAmountInSelectedUnit } from '@/utils/utility';
+import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;
   walletBalance: string;
-  pendingBalance: string;
-  fetchInstantBalanceRequest: () => void;
+  fetchInstantBalance: () => void;
   fetchInstantPendingBalanceRequest: () => void;
   updateAvailableBadge: boolean;
   startUpdateApp: () => void;
@@ -54,13 +52,8 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   const dispatch = useDispatch();
 
   const {
-    fetchInstantBalanceRequest,
+    fetchInstantBalance,
     unit,
-    fetchInstantPendingBalanceRequest,
-    updateAvailableBadge,
-    startUpdateApp,
-    openBackupWallet,
-    history,
     fetchConnectLedgerRequest,
     isShowingInformation,
     devices,
@@ -68,29 +61,19 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   } = props;
 
   useEffect(() => {
-    fetchInstantBalanceRequest();
-    fetchInstantPendingBalanceRequest();
-
+    fetchInstantBalance();
     return () => {
       clearTimeout(balanceRefreshTimerID);
-      clearTimeout(pendingBalRefreshTimerID);
     };
-  }, []);
+  }, [fetchInstantBalance]);
 
   useEffect(() => {
     dispatch(initialIsShowingInformationRequest());
   }, [dispatch]);
 
-  const openUpdatePopUp = () => {
-    openBackupWallet();
-    startUpdateApp();
-  };
-
   let balanceRefreshTimerID;
-  let pendingBalRefreshTimerID;
-  const { walletBalance, pendingBalance } = props;
+  const { walletBalance } = props;
   const [refreshBalance, setRefreshBalance] = useState(false);
-  const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
   const [connectLabel, setConnectLabel] = useState(
     I18n.t('containers.ledger.ledgerPage.connect')
   );
@@ -168,11 +151,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
               {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
-          <Button
-            to={LEDGER_RECEIVE_PATH}
-            tag={RRNavLink}
-            color='link'
-          >
+          <Button to={LEDGER_RECEIVE_PATH} tag={RRNavLink} color='link'>
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.receive')}
@@ -191,7 +170,11 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
                     ? tokenAmount
                     : getAmountInSelectedUnit(walletBalance, unit)
                 }
-                unit={tokenSymbol ? tokenSymbol : unit}
+                unit={
+                  tokenSymbol
+                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    : unit
+                }
                 refreshFlag={refreshBalance}
                 icon={
                   <MdRefresh
@@ -202,7 +185,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
                       balanceRefreshTimerID = setTimeout(() => {
                         setRefreshBalance(false);
                       }, 2000);
-                      fetchInstantBalanceRequest();
+                      fetchInstantBalance();
                     }}
                   />
                 }
@@ -218,17 +201,21 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
 
 const mapStateToProps = (state) => {
   const {
-    wallet: { walletBalance, pendingBalance, blockChainInfo },
     settings: {
       appConfig: { unit },
     },
     popover: { updateAvailableBadge },
-    ledgerWallet: { connect, isShowingInformation, devices },
+    ledgerWallet: {
+      connect,
+      isShowingInformation,
+      devices,
+      walletBalance,
+      blockChainInfo,
+    },
   } = state;
   return {
     unit,
     walletBalance,
-    pendingBalance,
     updateAvailableBadge,
     blockChainInfo,
     connect,
@@ -238,8 +225,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchInstantBalanceRequest,
-  fetchInstantPendingBalanceRequest,
+  fetchInstantBalance: fetchInstantBalanceRequest,
   startUpdateApp,
   openBackupWallet,
   fetchConnectLedgerRequest,
