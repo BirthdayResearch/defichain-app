@@ -51,7 +51,7 @@ import {
 } from './reducer';
 import {
   handleFetchTokens,
-  handelGetPaymentRequest,
+  handleGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
   handleSendData,
@@ -93,6 +93,7 @@ import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
+import uid from 'uid';
 
 export function* getNetwork() {
   const {
@@ -173,9 +174,12 @@ export function* removeReceiveTxns(action: any) {
 export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
-    const data = yield call(handelGetPaymentRequest, networkName);
+    const data = yield call(handleGetPaymentRequest, networkName);
     const list = yield all(
-      data.map((item) => call(getAddressInfo, item.address))
+      data.map((item) => {
+        item.id = item.id ?? uid();
+        return call(getAddressInfo, item.address);
+      })
     );
     const result = data.filter((item) => {
       const found = list.find(

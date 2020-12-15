@@ -22,7 +22,6 @@ import {
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import EllipsisText from 'react-ellipsis-text';
 
 import LiquidityCard from '../../../../components/LiquidityCard';
 import {
@@ -62,8 +61,8 @@ import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
-import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 import { handleFetchRegularDFI } from '../../../WalletPage/service';
+import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface AddLiquidityProps {
   location: any;
@@ -85,6 +84,7 @@ interface AddLiquidityProps {
   fetchUtxoDfiRequest: () => void;
   maxAccountDfi: number;
   fetchMaxAccountDfiRequest: () => void;
+  paymentRequests: PaymentRequestModel[];
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
@@ -100,7 +100,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
-  const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
   const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<any>({
@@ -116,7 +115,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     receiveLabel: '',
   });
   const {
-    poolshares,
     poolPairList,
     fetchPoolPairListRequest,
     tokenBalanceList,
@@ -129,10 +127,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     walletBalance,
     isLoadingPreparingUTXO,
     isLoadingAddingLiquidity,
-    utxoDfi,
     fetchUtxoDfiRequest,
-    maxAccountDfi,
     fetchMaxAccountDfiRequest,
+    paymentRequests,
   } = props;
 
   useEffect(() => {
@@ -153,8 +150,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   useEffect(() => {
     async function addressAndAmount() {
-      const data = await getReceivingAddressAndAmountList();
-      setReceiveAddresses(data.addressAndAmountList);
       const balanceSymbolMap: any = getBalanceAndSymbolMap(tokenBalanceList);
       if (idTokenA && idTokenB) {
         let balanceA;
@@ -176,8 +171,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash1: idTokenA,
             symbol1: tokenA,
             balance1: balanceA,
-            receiveAddress: data.addressAndAmountList[0]?.address,
-            receiveLabel: data.addressAndAmountList[0]?.label,
+            receiveAddress: paymentRequests[0]?.address,
+            receiveLabel: paymentRequests[0]?.label,
           });
         } else if (!balanceA) {
           setFormState({
@@ -185,8 +180,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash2: idTokenB,
             symbol2: tokenB,
             balance2: balanceB,
-            receiveAddress: data.addressAndAmountList[0]?.address,
-            receiveLabel: data.addressAndAmountList[0]?.label,
+            receiveAddress: paymentRequests[0]?.address,
+            receiveLabel: paymentRequests[0]?.label,
           });
         } else {
           setFormState({
@@ -197,8 +192,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol2: tokenB,
             balance1: balanceA,
             balance2: balanceB,
-            receiveAddress: data.addressAndAmountList[0]?.address,
-            receiveLabel: data.addressAndAmountList[0]?.label,
+            receiveAddress: paymentRequests[0]?.address,
+            receiveLabel: paymentRequests[0]?.label,
           });
         }
       } else {
@@ -210,8 +205,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash1: DFI_SYMBOL,
             symbol1: DFI,
             balance1: balanceA,
-            receiveAddress: data.addressAndAmountList[0]?.address,
-            receiveLabel: data.addressAndAmountList[0]?.label,
+            receiveAddress: paymentRequests[0]?.address,
+            receiveLabel: paymentRequests[0]?.label,
           });
         } else {
           setFormState({
@@ -222,8 +217,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol2: BTC,
             balance1: balanceA,
             balance2: balanceB,
-            receiveAddress: data.addressAndAmountList[0]?.address,
-            receiveLabel: data.addressAndAmountList[0]?.label,
+            receiveAddress: paymentRequests[0]?.address,
+            receiveLabel: paymentRequests[0]?.label,
           });
         }
       }
@@ -504,7 +499,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const getTransactionLabel = (formState: any) => {
-    return getTransactionAddressLabel(formState.receiveLabel, formState.receiveAddress, I18n.t('containers.swap.addLiquidity.receiveAddress'));
+    return getTransactionAddressLabel(
+      formState.receiveLabel,
+      formState.receiveAddress,
+      I18n.t('containers.swap.addLiquidity.receiveAddress')
+    );
   };
 
   return (
@@ -595,7 +594,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                       </Col>
                     </Row>
                   </DropdownItem>
-                  {receiveAddresses.map((data) => {
+                  {paymentRequests.map((data) => {
                     return (
                       <DropdownItem
                         className='justify-content-between ml-0 w-100'
@@ -929,7 +928,7 @@ const mapStateToProps = (state) => {
     utxoDfi,
     maxAccountDfi,
   } = state.swap;
-  const { walletBalance } = state.wallet;
+  const { walletBalance, paymentRequests } = state.wallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -943,6 +942,7 @@ const mapStateToProps = (state) => {
     isLoadingAddingLiquidity,
     utxoDfi,
     maxAccountDfi,
+    paymentRequests,
   };
 };
 
