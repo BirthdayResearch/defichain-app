@@ -4,7 +4,6 @@ on:
       - ci/*
       - fix/issues-liquidity
       - master
-      - feature/devDep_updates
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
