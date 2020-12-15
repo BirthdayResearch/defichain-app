@@ -132,16 +132,16 @@ export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
     const data = yield call(handelGetPaymentRequest, networkName);
-    const list = yield all(
-      data.map((item) => call(getAddressInfo, item.address))
-    );
-    const result = data.filter((item) => {
-      const found = list.find(
-        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
-      );
-      return !isEmpty(found);
-    });
-    yield put(reducer.fetchPaymentRequestsSuccess(result));
+    // const list = yield all(
+    //   data.map((item) => call(getAddressInfo, item.address))
+    // );
+    // const result = data.filter((item) => {
+    //   const found = list.find(
+    //     (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
+    //   );
+    //   return !isEmpty(found);
+    // });
+    yield put(reducer.fetchPaymentRequestsSuccess(data));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({

@@ -7,7 +7,7 @@ import { importPubKey } from '../../../service';
 import * as log from '@/utils/electronLogger';
 import CreateNewAddress from '@/components/CreateNewAddress';
 import { getPubKeyLedger } from '../../../service';
-import { addReceiveTxnsRequest } from '@/containers/WalletPage/reducer';
+import { addReceiveTxnsRequest } from '../../../reducer';
 import { PaymentRequest } from '@/typings/models';
 
 interface CreateNewAddressPageLedgerProps extends RouteComponentProps {

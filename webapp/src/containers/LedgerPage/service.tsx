@@ -28,7 +28,7 @@ const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
     return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
   }
-  return PAYMENT_REQUEST;
+  return `${PAYMENT_REQUEST}-ledger`;
 };
 
 export const handelGetPaymentRequest = (networkName) => {

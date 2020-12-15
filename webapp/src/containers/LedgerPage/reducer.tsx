@@ -110,7 +110,7 @@ const configSlice = createSlice({
       state.walletTxns = [];
       state.isWalletTxnsLoading = false;
     },
-    removeReceiveTxnsRequest() {
+    removeReceiveTxnsRequest(state, action) {
       /* */
     },
     removeReceiveTxnsSuccess(state, action) {
@@ -119,7 +119,7 @@ const configSlice = createSlice({
     removeReceiveTxnsFailure(state, action) {
       /* */
     },
-    addReceiveTxnsRequest() {
+    addReceiveTxnsRequest(state, action) {
       /* */
     },
     addReceiveTxnsSuccess(state, action) {

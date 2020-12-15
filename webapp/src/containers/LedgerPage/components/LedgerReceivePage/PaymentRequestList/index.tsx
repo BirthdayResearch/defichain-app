@@ -22,18 +22,12 @@ import { PAYMENT_REQ_LIST_SIZE } from '@/constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
+import { PaymentRequest } from '@/typings/models';
 
 interface PaymentRequestsProps {
-  paymentRequests: {
-    label: string;
-    id: string;
-    time: string;
-    address: string;
-    message: string;
-    amount: number;
-    unit: string;
-  }[];
-  removeReceiveTxns: (id: string | number) => void;
+  paymentRequests: PaymentRequest[];
+  removeReceiveTxns: (id: string) => void;
+  fetchPayment: () => void;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
@@ -54,6 +48,11 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
       changeCopied(false);
     }, 600);
   };
+
+  useEffect(() => {
+    props.fetchPayment();
+  }, [props.fetchPayment]);
+
   return (
     <section className='mb-5'>
       {total ? (
@@ -64,13 +63,13 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                 <tr>
                   <th></th>
                   <th>
-                    {I18n.t('containers.wallet.paymentRequestList.label')}
+                    {I18n.t('containers.ledger.paymentRequestList.label')}
                   </th>
                   <th>
-                    {I18n.t('containers.wallet.paymentRequestList.address')}
+                    {I18n.t('containers.ledger.paymentRequestList.address')}
                   </th>
                   <th>
-                    {I18n.t('containers.wallet.paymentRequestList.created')}
+                    {I18n.t('containers.ledger.paymentRequestList.created')}
                   </th>
                   <th></th>
                   <th></th>
@@ -116,7 +115,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                               <MdDelete />
                               <span>
                                 {I18n.t(
-                                  'containers.wallet.paymentRequests.cancelRequest'
+                                  'containers.ledger.paymentRequests.cancelRequest'
                                 )}
                               </span>
                             </DropdownItem>
@@ -130,7 +129,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
             </Table>
           </Card>
           <Pagination
-            label={I18n.t('containers.wallet.walletPage.paginationRange', {
+            label={I18n.t('containers.ledger.ledgerPage.paginationRange', {
               to,
               total,
               from: from + 1,
@@ -143,7 +142,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
       ) : (
         <Card className='table-responsive-md'>
           <CardBody>
-            {I18n.t('containers.wallet.walletPage.noPaymentRequests')}
+            {I18n.t('containers.ledger.ledgerPage.noPaymentRequests')}
           </CardBody>
         </Card>
       )}
@@ -152,14 +151,15 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { wallet } = state;
+  const { ledgerWallet } = state;
   return {
-    paymentRequests: wallet.paymentRequests,
+    paymentRequests: ledgerWallet.paymentRequests,
   };
 };
 
 const mapDispatchToProps = {
-  removeReceiveTxns: () => removeReceiveTxnsRequest(),
+  fetchPayment: () => fetchPaymentRequest(),
+  removeReceiveTxns: (id: string) => removeReceiveTxnsRequest(id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);
