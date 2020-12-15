@@ -16,6 +16,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
+import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface RouteParams {
   id?: string;
@@ -32,13 +33,13 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   isErrorUpdatingToken: string;
   isTokenCreating: boolean;
   isErrorCreatingToken: string;
+  paymentRequests: PaymentRequestModel[];
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   props: CreateTokenProps
 ) => {
   const { id } = props.match.params;
-  const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
   const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
     boolean
@@ -52,7 +53,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     mintable: 'true',
     tradeable: 'true',
     collateralAddress: '',
-    collateralLabel: ''
+    collateralLabel: '',
   });
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
     string
@@ -95,16 +96,15 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     isErrorCreatingToken,
     isTokenUpdating,
     isErrorUpdatingToken,
+    paymentRequests,
   } = props;
 
   useEffect(() => {
     async function addressAndAmount() {
-      const data = await getReceivingAddressAndAmountList();
-      setCollateralAddresses(data.addressAndAmountList);
       setFormState({
         ...formState,
-        collateralAddress: data.addressAndAmountList[0]?.address,
-        collateralLabel: data.addressAndAmountList[0]?.label
+        collateralAddress: paymentRequests[0]?.address,
+        collateralLabel: paymentRequests[0]?.label,
       });
     }
     addressAndAmount();
@@ -162,7 +162,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     } else {
       setFormState({
         ...formState,
-        ...newData
+        ...newData,
       });
       setIsCollateralAddressValid(true);
     }
@@ -203,7 +203,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
             isUpdate={!isEmpty(tokenInfo) && !!id}
             handleChange={handleChange}
             formState={formState}
-            collateralAddresses={collateralAddresses}
+            collateralAddresses={paymentRequests}
             isErrorCreatingToken={isErrorCreatingToken}
             createdTokenData={createdTokenData}
             updatedTokenData={updatedTokenData}
@@ -239,7 +239,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { tokens } = state;
+  const { tokens, wallet } = state;
   return {
     tokenInfo: tokens.tokenInfo,
     isTokenCreating: tokens.isTokenCreating,
@@ -248,6 +248,7 @@ const mapStateToProps = (state) => {
     isTokenUpdating: tokens.isTokenUpdating,
     updatedTokenData: tokens.updatedTokenData,
     isErrorUpdatingToken: tokens.isErrorUpdatingToken,
+    paymentRequests: wallet.paymentRequests,
   };
 };
 
