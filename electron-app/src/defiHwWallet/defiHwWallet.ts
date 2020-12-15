@@ -149,7 +149,7 @@ export default class DefiHwWallet {
   async getDefiPublicKey(
     index: number,
     format: AddressFormat = 'legacy'
-  ): Promise<{ pubkey: Buffer; address: string }> {
+  ): Promise<{ pubkey: string; address: string }> {
     try {
       const apdu = new encoding.BufferWriter();
       apdu.writeUInt8(CLA);
@@ -171,7 +171,7 @@ export default class DefiHwWallet {
       const address = resposne
         .slice(addrOffset, addrOffset + addrLen)
         .toString('utf-8');
-      return { pubkey, address };
+      return { pubkey: pubkey.toString('hex'), address };
     } catch (err) {
       return Promise.reject(err);
     }
