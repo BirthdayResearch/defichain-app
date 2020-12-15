@@ -1232,3 +1232,11 @@ export const calculateAPY = (
         .toFixed(2)
     : 0;
 };
+
+export const getTransactionAddressLabel = (receiveLabel: string, receiveAddress: string, fallback: string) => {
+  let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
+  label = label + receiveAddress;
+  return receiveAddress
+    ? label
+    : fallback;
+};
