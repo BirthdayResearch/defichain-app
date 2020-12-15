@@ -55,6 +55,7 @@ import {
   getNetworkType,
   getTokenAndBalanceMap,
   getTotalPoolValue,
+  getTransactionAddressLabel,
   shareOfPool,
 } from '../../../../utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
@@ -112,6 +113,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     balance1: '',
     balance2: '',
     receiveAddress: '',
+    receiveLabel: '',
   });
   const {
     poolshares,
@@ -175,6 +177,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol1: tokenA,
             balance1: balanceA,
             receiveAddress: data.addressAndAmountList[0]?.address,
+            receiveLabel: data.addressAndAmountList[0]?.label,
           });
         } else if (!balanceA) {
           setFormState({
@@ -183,6 +186,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol2: tokenB,
             balance2: balanceB,
             receiveAddress: data.addressAndAmountList[0]?.address,
+            receiveLabel: data.addressAndAmountList[0]?.label,
           });
         } else {
           setFormState({
@@ -194,6 +198,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             balance1: balanceA,
             balance2: balanceB,
             receiveAddress: data.addressAndAmountList[0]?.address,
+            receiveLabel: data.addressAndAmountList[0]?.label,
           });
         }
       } else {
@@ -206,6 +211,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol1: DFI,
             balance1: balanceA,
             receiveAddress: data.addressAndAmountList[0]?.address,
+            receiveLabel: data.addressAndAmountList[0]?.label,
           });
         } else {
           setFormState({
@@ -217,6 +223,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             balance1: balanceA,
             balance2: balanceB,
             receiveAddress: data.addressAndAmountList[0]?.address,
+            receiveLabel: data.addressAndAmountList[0]?.label,
           });
         }
       }
@@ -488,11 +495,16 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     return filterArray;
   };
 
-  const handleDropDowns = (data: any, field: any) => {
+  const handleAddressDropdown = (data: any) => {
     setFormState({
       ...formState,
-      [field]: data,
+      receiveAddress: data.address,
+      receiveLabel: data.label,
     });
+  };
+
+  const getTransactionLabel = (formState: any) => {
+    return getTransactionAddressLabel(formState.receiveLabel, formState.receiveAddress, I18n.t('containers.swap.addLiquidity.receiveAddress'));
   };
 
   return (
@@ -563,9 +575,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   color='outline-secondary'
                   className={`${styles.divisibilityDropdown}`}
                 >
-                  {formState.receiveAddress
-                    ? formState.receiveAddress
-                    : I18n.t('containers.swap.addLiquidity.receiveAddress')}
+                  <div
+                    className={`${styles.ellipsisValue} ${styles.dropdownContent}`}
+                  >
+                    {getTransactionLabel(formState)}
+                  </div>
                 </DropdownToggle>
                 <DropdownMenu className={`${styles.scrollAuto} w-100`}>
                   <DropdownItem className='w-100'>
@@ -587,20 +601,19 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                         className='justify-content-between ml-0 w-100'
                         key={data.address}
                         name='receiveAddress'
-                        onClick={() =>
-                          handleDropDowns(data.address, 'receiveAddress')
-                        }
+                        onClick={() => handleAddressDropdown(data)}
                         value={data.address}
                       >
                         <Row className='w-100'>
                           <Col md='6'>
-                            <EllipsisText text={data.address} length={'42'} />
+                            <div className={styles.ellipsisValue}>
+                              {data.address}
+                            </div>
                           </Col>
                           <Col md='3'>
-                            <EllipsisText
-                              text={data.label ? data.label : '---'}
-                              length={'20'}
-                            />
+                            <div className={styles.ellipsisValue}>
+                              {data.label ? data.label : '---'}
+                            </div>
                           </Col>
                           <Col md='3'>
                             {formState.receiveAddress === data.address && (
