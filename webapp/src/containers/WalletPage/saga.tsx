@@ -66,7 +66,6 @@ import {
   importPrivKey,
   getListAccountHistory,
   handleRestartCriteria,
-  handleGetReceivedAddress,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -174,7 +173,8 @@ export function* removeReceiveTxns(action: any) {
 
 export function* fetchPayments() {
   try {
-    const data = yield call(handleGetReceivedAddress);
+    const networkName = yield call(getNetwork);
+    const data = yield call(handleGetPaymentRequest, networkName);
     const list = yield all(
       data.map((item) => {
         item.id = item.id ?? uid();
