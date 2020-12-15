@@ -272,15 +272,33 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
-      setFormState({
-        ...formState,
-        [e.target.name]: e.target.value,
-        amount2: calculateInputAddLiquidity(
-          e.target.value,
-          formState,
-          poolPairList
-        ),
-      });
+      if (formState.hash1 === '0') {
+        if (
+          new BigNumber(e.target.value).lte(
+            Math.max(Number(formState.balance1) - 1, 0)
+          )
+        ) {
+          setFormState({
+            ...formState,
+            [e.target.name]: e.target.value,
+            amount2: calculateInputAddLiquidity(
+              e.target.value,
+              formState,
+              poolPairList
+            ),
+          });
+        }
+      } else {
+        setFormState({
+          ...formState,
+          [e.target.name]: e.target.value,
+          amount2: calculateInputAddLiquidity(
+            e.target.value,
+            formState,
+            poolPairList
+          ),
+        });
+      }
     }
   };
 
@@ -390,7 +408,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (
       formState[`amount1`] &&
       formState[`balance1`] &&
-      new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
+      new BigNumber(formState[`amount1`]).lte(
+        Math.max(Number(formState[`balance1`]) - 1, 0)
+      ) &&
       formState[`amount2`] &&
       formState[`balance2`] &&
       new BigNumber(formState[`amount2`]).lte(formState[`balance2`])

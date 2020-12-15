@@ -152,3 +152,6 @@ export const REWARD_CATEGORY_LABEL = 'Reward';
 export const SWAP_CATEGORY_LABEL = 'Swap';
 export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
+
+// NOTE: APY calculation to use 37 second block time
+export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
