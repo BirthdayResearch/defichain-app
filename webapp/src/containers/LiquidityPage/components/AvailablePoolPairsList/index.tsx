@@ -23,6 +23,7 @@ import { connect } from 'react-redux';
 import PairIcon from '../../../../components/PairIcon';
 import { MdAdd, MdInfoOutline, MdRemove } from 'react-icons/md';
 import BigNumber from 'bignumber.js';
+import NumberMask from '../../../../components/NumberMask';
 
 interface AvailablePoolPairsListProps {
   searchQuery: string;
@@ -124,9 +125,12 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                     </td>
                     <td>
                       <div>
-                        {poolpair.totalLiquidityInUSDT
-                          ? Number(poolpair.totalLiquidityInUSDT).toFixed(2)
-                          : 0}
+                        <NumberMask
+                          value={Number(poolpair.totalLiquidityInUSDT).toFixed(
+                            2
+                          )}
+                          defaultValue={0}
+                        />
                       </div>
                     </td>
                     {/* <td>
