@@ -13,6 +13,7 @@ import {
   DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
+  ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
 } from '../constants';
 import {
   checkPathExists,
@@ -97,8 +98,11 @@ export default class DefiProcessManager {
 
       // on STDERR
       child.stderr.on('data', (err) => {
-        const regex = new RegExp(REINDEX_ERROR_STRING, 'g');
-        const res = regex.test(err?.toString('utf8').trim());
+        const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
+        const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
+
+        const errorString = err?.toString('utf8').trim();
+        const res = regex.test(errorString) || regex1.test(errorString);
 
         // change value of isReindexReq variable based on regex evaluation
         if (res) {
