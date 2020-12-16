@@ -406,9 +406,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (
       formState[`amount1`] &&
       formState[`balance1`] &&
-      new BigNumber(formState[`amount1`]).lte(
-        Math.max(Number(formState[`balance1`]) - 1, 0)
-      ) &&
+      new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
       formState[`amount2`] &&
       formState[`balance2`] &&
       new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
@@ -680,7 +678,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!isValid() || !sufficientUtxos}
+                disabled={
+                  !Number(formState.amount1) || !isValid() || !sufficientUtxos
+                }
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}

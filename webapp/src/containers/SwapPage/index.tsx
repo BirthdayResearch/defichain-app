@@ -680,6 +680,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <Button
                   color='primary'
                   disabled={
+                    !Number(formState.amount1) ||
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
