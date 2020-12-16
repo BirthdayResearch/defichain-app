@@ -375,7 +375,7 @@
         "searchTokens": "Tokens suchen",
         "dat": "DAT",
         "dct": "DCT",
-        "paginationRange": "%{from} – %{to} von %{total} Token",
+        "paginationRange": "deutsch. %{from} – %{to} von %{total} Token",
         "datLabels": {
           "type": "Typ",
           "price": "Preis",

@@ -3,22 +3,11 @@ import { Helmet } from 'react-helmet';
 import {
   MdAdd,
   MdArrowBack,
-  MdCheck,
   MdCheckCircle,
   MdErrorOutline,
 } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
-import {
-  Button,
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Modal,
-  ModalBody,
-  Row,
-  UncontrolledDropdown,
-} from 'reactstrap';
+import { Button, Col, Modal, ModalBody, Row } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -32,6 +21,7 @@ import {
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,
 } from '../../reducer';
+import AddressDropdown from '../../../../components/AddressDropdown';
 import styles from './addLiquidity.module.scss';
 import {
   BTC,
@@ -63,6 +53,8 @@ import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
 import { handleFetchRegularDFI } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { AddressModel } from '../../../../model/address.model';
+import NumberMask from '../../../../components/NumberMask';
 
 interface AddLiquidityProps {
   location: any;
@@ -86,6 +78,9 @@ interface AddLiquidityProps {
   fetchMaxAccountDfiRequest: () => void;
   paymentRequests: PaymentRequestModel[];
 }
+export interface AddLiquidityFormState extends AddressModel {
+  [key: string]: any;
+}
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   props: AddLiquidityProps
@@ -102,7 +97,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
   const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
 
-  const [formState, setFormState] = useState<any>({
+  const [formState, setFormState] = useState<AddLiquidityFormState>({
     amount1: '',
     hash1: '',
     symbol1: '',
@@ -171,8 +166,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash1: idTokenA,
             symbol1: tokenA,
             balance1: balanceA,
-            receiveAddress: paymentRequests[0]?.address,
-            receiveLabel: paymentRequests[0]?.label,
+            receiveAddress: (paymentRequests ?? [])[0]?.address,
+            receiveLabel: (paymentRequests ?? [])[0]?.label,
           });
         } else if (!balanceA) {
           setFormState({
@@ -180,8 +175,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash2: idTokenB,
             symbol2: tokenB,
             balance2: balanceB,
-            receiveAddress: paymentRequests[0]?.address,
-            receiveLabel: paymentRequests[0]?.label,
+            receiveAddress: (paymentRequests ?? [])[0]?.address,
+            receiveLabel: (paymentRequests ?? [])[0]?.label,
           });
         } else {
           setFormState({
@@ -192,8 +187,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol2: tokenB,
             balance1: balanceA,
             balance2: balanceB,
-            receiveAddress: paymentRequests[0]?.address,
-            receiveLabel: paymentRequests[0]?.label,
+            receiveAddress: (paymentRequests ?? [])[0]?.address,
+            receiveLabel: (paymentRequests ?? [])[0]?.label,
           });
         }
       } else {
@@ -205,8 +200,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             hash1: DFI_SYMBOL,
             symbol1: DFI,
             balance1: balanceA,
-            receiveAddress: paymentRequests[0]?.address,
-            receiveLabel: paymentRequests[0]?.label,
+            receiveAddress: (paymentRequests ?? [])[0]?.address,
+            receiveLabel: (paymentRequests ?? [])[0]?.label,
           });
         } else {
           setFormState({
@@ -217,8 +212,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             symbol2: BTC,
             balance1: balanceA,
             balance2: balanceB,
-            receiveAddress: paymentRequests[0]?.address,
-            receiveLabel: paymentRequests[0]?.label,
+            receiveAddress: (paymentRequests ?? [])[0]?.address,
+            receiveLabel: (paymentRequests ?? [])[0]?.label,
           });
         }
       }
@@ -278,7 +273,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         if (
           new BigNumber(e.target.value).lte(
             Math.max(Number(formState.balance1) - 1, 0)
-          )
+          ) ||
+          !e.target.value
         ) {
           setFormState({
             ...formState,
@@ -410,9 +406,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (
       formState[`amount1`] &&
       formState[`balance1`] &&
-      new BigNumber(formState[`amount1`]).lte(
-        Math.max(Number(formState[`balance1`]) - 1, 0)
-      ) &&
+      new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
       formState[`amount2`] &&
       formState[`balance2`] &&
       new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
@@ -568,63 +562,11 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </span>
             </Col>
             <Col md='8'>
-              <UncontrolledDropdown className='w-100'>
-                <DropdownToggle
-                  caret
-                  color='outline-secondary'
-                  className={`${styles.divisibilityDropdown}`}
-                >
-                  <div
-                    className={`${styles.ellipsisValue} ${styles.dropdownContent}`}
-                  >
-                    {getTransactionLabel(formState)}
-                  </div>
-                </DropdownToggle>
-                <DropdownMenu className={`${styles.scrollAuto} w-100`}>
-                  <DropdownItem className='w-100'>
-                    <Row className='w-100'>
-                      <Col md='6'>
-                        {I18n.t('containers.swap.addLiquidity.address')}
-                      </Col>
-                      <Col md='3'>
-                        {I18n.t('containers.swap.addLiquidity.label')}
-                      </Col>
-                      <Col md='3'>
-                        {I18n.t('containers.swap.addLiquidity.selected')}
-                      </Col>
-                    </Row>
-                  </DropdownItem>
-                  {paymentRequests.map((data) => {
-                    return (
-                      <DropdownItem
-                        className='justify-content-between ml-0 w-100'
-                        key={data.address}
-                        name='receiveAddress'
-                        onClick={() => handleAddressDropdown(data)}
-                        value={data.address}
-                      >
-                        <Row className='w-100'>
-                          <Col md='6'>
-                            <div className={styles.ellipsisValue}>
-                              {data.address}
-                            </div>
-                          </Col>
-                          <Col md='3'>
-                            <div className={styles.ellipsisValue}>
-                              {data.label ? data.label : '---'}
-                            </div>
-                          </Col>
-                          <Col md='3'>
-                            {formState.receiveAddress === data.address && (
-                              <MdCheck />
-                            )}
-                          </Col>
-                        </Row>
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              <AddressDropdown
+                formState={formState}
+                getTransactionLabel={getTransactionLabel}
+                onSelectAddress={handleAddressDropdown}
+              />
             </Col>
           </Row>
           <br />
@@ -635,13 +577,19 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {`${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
-                  )} ${formState.symbol2} per ${formState.symbol1}`}
+                  <NumberMask
+                    value={Number(
+                      conversionRatio(formState, poolPairList)
+                    ).toFixed(8)}
+                  />
+                  {` ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
-                  {`${(
-                    1 / Number(conversionRatio(formState, poolPairList))
-                  ).toFixed(8)} ${formState.symbol1} per ${formState.symbol2}`}
+                  <NumberMask
+                    value={(
+                      1 / Number(conversionRatio(formState, poolPairList))
+                    ).toFixed(8)}
+                  />
+                  {` ${formState.symbol1} per ${formState.symbol2}`}
                 </Col>
               </Row>
               <hr />
@@ -664,7 +612,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   </span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {getTotalPoolValue(formState, poolPairList, formState.hash1)}
+                  <NumberMask
+                    value={getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash1
+                    )}
+                  />
                 </Col>
               </Row>
               <hr />
@@ -676,7 +630,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   </span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {getTotalPoolValue(formState, poolPairList, formState.hash2)}
+                  <NumberMask
+                    value={getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash2
+                    )}
+                  />
                 </Col>
               </Row>
             </div>
@@ -718,7 +678,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!isValid() || !sufficientUtxos}
+                disabled={
+                  !Number(formState.amount1) || !isValid() || !sufficientUtxos
+                }
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
