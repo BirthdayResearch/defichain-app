@@ -54,6 +54,7 @@ import Header from '../../../HeaderComponent';
 import { handleFetchRegularDFI } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
+import NumberMask from '../../../../components/NumberMask';
 
 interface AddLiquidityProps {
   location: any;
@@ -578,13 +579,19 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   <span>{I18n.t('containers.swap.addLiquidity.price')}</span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {`${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
-                  )} ${formState.symbol2} per ${formState.symbol1}`}
+                  <NumberMask
+                    value={Number(
+                      conversionRatio(formState, poolPairList)
+                    ).toFixed(8)}
+                  />
+                  {` ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
-                  {`${(
-                    1 / Number(conversionRatio(formState, poolPairList))
-                  ).toFixed(8)} ${formState.symbol1} per ${formState.symbol2}`}
+                  <NumberMask
+                    value={(
+                      1 / Number(conversionRatio(formState, poolPairList))
+                    ).toFixed(8)}
+                  />
+                  {` ${formState.symbol1} per ${formState.symbol2}`}
                 </Col>
               </Row>
               <hr />
@@ -607,7 +614,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   </span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {getTotalPoolValue(formState, poolPairList, formState.hash1)}
+                  <NumberMask
+                    value={getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash1
+                    )}
+                  />
                 </Col>
               </Row>
               <hr />
@@ -619,7 +632,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   </span>
                 </Col>
                 <Col className={styles.keyValueLiValue}>
-                  {getTotalPoolValue(formState, poolPairList, formState.hash2)}
+                  <NumberMask
+                    value={getTotalPoolValue(
+                      formState,
+                      poolPairList,
+                      formState.hash2
+                    )}
+                  />
                 </Col>
               </Row>
             </div>

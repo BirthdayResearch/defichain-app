@@ -61,7 +61,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
 
   const liquidityAmount = (percentage, reserve) => {
     const liquidityAmount = (Number(percentage) / 100) * reserve;
-    return liquidityAmount.toFixed(2);
+    return liquidityAmount.toFixed(8);
   };
 
   return (

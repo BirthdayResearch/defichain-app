@@ -65,6 +65,7 @@ import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import { handleFetchRegularDFI } from '../WalletPage/service';
+import NumberMask from '../../components/NumberMask';
 
 interface SwapPageProps {
   history?: any;
@@ -514,17 +515,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       <span>{I18n.t('containers.swap.swapPage.price')}</span>
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
-                      {`${Number(
-                        conversionRatio(formState, poolPairList)
-                      ).toFixed(8)} ${formState.symbol2} per ${
-                        formState.symbol1
-                      }`}
+                      <NumberMask
+                        value={Number(
+                          conversionRatio(formState, poolPairList)
+                        ).toFixed(8)}
+                      />
+                      {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
-                      {`${(
-                        1 / Number(conversionRatio(formState, poolPairList))
-                      ).toFixed(8)} ${formState.symbol1} per ${
-                        formState.symbol2
-                      }`}
+                      <NumberMask
+                        value={(
+                          1 / Number(conversionRatio(formState, poolPairList))
+                        ).toFixed(8)}
+                      />
+                      {` ${formState.symbol1} per ${formState.symbol2}`}
                     </Col>
                   </Row>
                   <hr />
@@ -534,9 +537,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                         {I18n.t('containers.swap.swapPage.minimumReceived')}
                       </span>
                     </Col>
-                    <Col
-                      className={`${styles.valueTxt}`}
-                    >{`${formState.amount2} ${formState.symbol2}`}</Col>
+                    <Col className={`${styles.valueTxt}`}>
+                      <NumberMask value={formState.amount2} />
+                      {` ${formState.symbol2}`}
+                    </Col>
                   </Row>
                   <hr />
                   <Row className='align-items-center'>
@@ -548,9 +552,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       </span>
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
-                      {`${calculateLPFee(formState, poolPairList)} ${
-                        formState.symbol1
-                      }`}
+                      <NumberMask
+                        value={calculateLPFee(formState, poolPairList)}
+                      />
+                      {` ${formState.symbol1}`}
                     </Col>
                   </Row>
                   <hr />
