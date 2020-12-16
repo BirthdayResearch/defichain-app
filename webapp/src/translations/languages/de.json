@@ -638,7 +638,15 @@
         "backButton": "ZURÜCK",
         "createButton": "Erstellen",
         "legacyAddress": "Legacy Adresse",
-        "addressType": "Adressen Typ"
+        "addressType": "Adressen Type",
+        "automaticallyGenerateNewAddress": "Automatisch eine neue Adresse erzeugen",
+        "showAdvanceOptions": "Erweiterte Optionen anzeigen ",
+        "default": "Standard",
+        "legacy": "Legacy",
+        "addReceiveAddress": "Eine Empfangsadresse hinzufügen",
+        "address": "Adresse",
+        "enterAnAddress": "Gib eine Adresse in dein Konto ein",
+        "invalidAddress": "Invalid Address or check address account"
       },
       "paymentRequests": {
         "time": "Zeit",

@@ -944,6 +944,14 @@ export const getIcon = (symbol: string) => {
   return symbolIconObj[symbol];
 };
 
+export const isAddressMine = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  if (addressInfo.ismine && !addressInfo.iswatchonly) {
+    return true;
+  }
+  return false;
+};
+
 export const getAddressAndAmountListForAccount = async () => {
   const rpcClient = new RpcClient();
   const accountList = await fetchAccountsDataWithPagination(
@@ -1233,10 +1241,12 @@ export const calculateAPY = (
     : 0;
 };
 
-export const getTransactionAddressLabel = (receiveLabel: string, receiveAddress: string, fallback: string) => {
+export const getTransactionAddressLabel = (
+  receiveLabel: string,
+  receiveAddress: string,
+  fallback: string
+) => {
   let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
   label = label + receiveAddress;
-  return receiveAddress
-    ? label
-    : fallback;
+  return receiveAddress ? label : fallback;
 };
