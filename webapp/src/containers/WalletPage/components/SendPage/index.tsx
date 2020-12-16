@@ -54,6 +54,7 @@ import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
+import NumberMask from '../../../../components/NumberMask';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -508,12 +509,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {!tokenSymbol
-                    ? getAmountInSelectedUnit(
-                        this.props.sendData.walletBalance,
-                        this.props.unit
-                      )
-                    : tokenAmount}
+                  <NumberMask
+                    value={
+                      (!tokenSymbol
+                        ? getAmountInSelectedUnit(
+                            this.props.sendData.walletBalance,
+                            this.props.unit
+                          )
+                        : tokenAmount) ?? '0'
+                    }
+                  />
                   &nbsp;
                   {tokenSymbol
                     ? getSymbolKey(tokenSymbol || '', tokenHash || '0')
@@ -525,7 +530,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.amountToSend')}
                 </div>
                 <div>
-                  {this.state.amountToSendDisplayed}&nbsp;
+                  <NumberMask
+                    value={this.state.amountToSendDisplayed.toString()}
+                  />
+                  &nbsp;
                   {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
                     this.props.unit}
                 </div>

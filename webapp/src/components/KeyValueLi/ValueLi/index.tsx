@@ -37,7 +37,10 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
             {I18n.t('components.keyValueLi.copied')}
           </div>
           {props.value ? (
-            <EllipsisText text={props.value} length={props.textLimit ?? `50`} />
+            <EllipsisText
+              text={props.value}
+              length={Number(props.textLimit ?? `50`)}
+            />
           ) : (
             '-'
           )}

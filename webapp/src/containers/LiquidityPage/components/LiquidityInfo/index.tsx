@@ -40,7 +40,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
 
   const liquidityAmount = (percentage, reserve) => {
     const liquidityAmount = (Number(percentage) / 100) * reserve;
-    return liquidityAmount.toFixed(2).toString() || '0';
+    return liquidityAmount.toFixed(8).toString() || '0';
   };
 
   const poolshare =
