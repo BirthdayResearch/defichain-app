@@ -262,6 +262,10 @@ export default class RpcClient {
     return addressAndAmountList;
   };
 
+  getReceivedByAddress = async (address: string): Promise<number> => {
+    return await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [address]);
+  };
+
   accountToUtxos = async (
     fromAddress: string | null,
     toAddress: string,
@@ -721,6 +725,19 @@ export default class RpcClient {
   ) => {
     const { data } = await this.call('/', methodNames.IMPORT_PUB_KEY, [
       pubKey,
+      label,
+      rescan,
+    ]);
+    return data.result;
+  };
+
+  importAddress = async (
+    address: string,
+    label: string = '',
+    rescan: boolean = false
+  ) => {
+    const { data } = await this.call('/', methodNames.IMPORT_ADDRESS, [
+      address,
       label,
       rescan,
     ]);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import uid from 'uid';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
-import { importPubKey } from '../../../service';
+import { importPubKey, importAddress } from '../../../service';
 import * as log from '@/utils/electronLogger';
 import CreateNewAddress from '@/components/CreateNewAddress';
 import { getPubKeyLedger } from '../../../service';
@@ -15,14 +15,21 @@ interface CreateNewAddressPageLedgerProps extends RouteComponentProps {
   paymentRequests: PaymentRequest[];
 }
 
-const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLedgerProps> = (
-  { history, addReceiveTxns, paymentRequests }: CreateNewAddressPageLedgerProps
-) => {
+const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLedgerProps> = ({
+  history,
+  addReceiveTxns,
+  paymentRequests,
+}: CreateNewAddressPageLedgerProps) => {
   const onSubmit = async (label: string, addressTypeChecked: boolean) => {
     try {
       log.info('Create address ledger');
       const keyIndex = paymentRequests.length;
-      const { data: { pubkey, address } } = await getPubKeyLedger(keyIndex, addressTypeChecked ? 'legacy' : 'p2sh');
+      const {
+        data: { pubkey, address },
+      } = await getPubKeyLedger(
+        keyIndex,
+        addressTypeChecked ? 'legacy' : 'p2sh'
+      );
       const data = {
         label,
         id: uid(),
@@ -30,6 +37,7 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         address,
       };
       await importPubKey(pubkey, keyIndex);
+      await importAddress(address, keyIndex);
       addReceiveTxns(data);
       history.push(LEDGER_RECEIVE_PATH);
       log.info('Created address ledger');
@@ -58,4 +66,7 @@ const mapDispatchToProps = {
   addReceiveTxns: (data: any) => addReceiveTxnsRequest(data),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateNewAddressLedgerPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateNewAddressLedgerPage);

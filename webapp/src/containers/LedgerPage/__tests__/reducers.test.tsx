@@ -1,3 +1,4 @@
+// @ts-nocheck
 import reducer, {
   initialState,
   fetchPaymentRequest,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
@@ -95,10 +96,14 @@ export const handleFetchAccountDFI = async () => {
   return accountDFI;
 };
 
-export const handleFetchWalletBalance = async () => {
-  const regularDFI = await handleFetchRegularDFI();
-  const accountDFI = await handleFetchAccountDFI();
-  return regularDFI + accountDFI;
+export const handleFetchWalletBalance = async (addresses: string[]) => {
+  log.info('handleFetchWalletBalance');
+  const amountsPromise = addresses.map(async (address) => {
+    return await getReceivedByAddress(address);
+  });
+  const amounts = await Promise.all(amountsPromise);
+  log.info(`Amounts addresses ledger: ${amounts}`);
+  return amounts.reduce((acc, amount) => acc + amount);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -220,10 +225,21 @@ export const importPubKey = async (pubKey: string, keyIndex: number) => {
   const rpcClient = new RpcClient();
   try {
     log.info('importPubKey');
-    log.info(`rpcClient: ${rpcClient}`)
+    log.info(`rpcClient: ${rpcClient}`);
     return rpcClient.importPubKey(pubKey, `ledger_pas:${keyIndex}`);
   } catch (err) {
     log.error(`Got error in importPubKey: ${err}`);
+    throw err;
+  }
+};
+
+export const importAddress = async (address: string, keyIndex: number) => {
+  const rpcClient = new RpcClient();
+  try {
+    log.info('importAddress');
+    return rpcClient.importAddress(address, `ledger_pas:${keyIndex}`);
+  } catch (err) {
+    log.error(`Got error in importAddress: ${err}`);
     throw err;
   }
 };
@@ -364,6 +380,11 @@ export const setHdSeed = (hdSeed: string) => {
 export const importPrivKey = (privKey: string) => {
   const rpcClient = new RpcClient();
   return rpcClient.importPrivKey(privKey);
+};
+
+export const getReceivedByAddress = (address: string) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getReceivedByAddress(address);
 };
 
 export const sleep = (ms: number) => {

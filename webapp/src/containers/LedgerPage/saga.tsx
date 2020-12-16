@@ -59,32 +59,6 @@ export function* getNetwork() {
   return chain;
 }
 
-function fetchWalletBalance() {
-  const callBack = (err, result) => {
-    if (err) {
-      showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
-      store.dispatch(reducer.fetchWalletBalanceFailure(err.message));
-      log.error(err);
-      return;
-    }
-    store.dispatch(reducer.fetchWalletBalanceSuccess(result));
-  };
-  queuePush(handleFetchWalletBalance, [], callBack);
-}
-
-function fetchPendingBalance() {
-  const callBack = (err, result) => {
-    if (err) {
-      showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
-      store.dispatch(reducer.fetchPendingBalanceFailure(err.message));
-      log.error(err);
-      return;
-    }
-    store.dispatch(reducer.fetchPendingBalanceSuccess(result));
-  };
-  queuePush(handleFetchPendingBalance, [], callBack);
-}
-
 function* getPaymentRequestState() {
   const { paymentRequests = [] } = yield select((state) => state.ledgerWallet);
   return cloneDeep(paymentRequests);
@@ -132,16 +106,16 @@ export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
     const data = yield call(handelGetPaymentRequest, networkName);
-    // const list = yield all(
-    //   data.map((item) => call(getAddressInfo, item.address))
-    // );
-    // const result = data.filter((item) => {
-    //   const found = list.find(
-    //     (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
-    //   );
-    //   return !isEmpty(found);
-    // });
-    yield put(reducer.fetchPaymentRequestsSuccess(data));
+    const list = yield all(
+      data.map((item) => call(getAddressInfo, item.address))
+    );
+    const result = data.filter((item) => {
+      const found = list.find(
+        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
+      );
+      return !isEmpty(found);
+    });
+    yield put(reducer.fetchPaymentRequestsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({
@@ -317,7 +291,15 @@ export function* restoreWallet(action) {
 
 export function* fetchInstantBalance() {
   try {
-    const result = yield call(handleFetchWalletBalance);
+    log.info('fetchInstantBalance');
+    const paymentRequests = yield select(
+      (state) => state.ledgerWallet.paymentRequests
+    );
+    const result = yield call(
+      handleFetchWalletBalance,
+      paymentRequests.map((paymentRequest) => paymentRequest.address)
+    );
+    log.info(`Ledger balance: ${result}`);
     yield put(reducer.fetchWalletBalanceSuccess(result));
   } catch (err) {
     yield put(reducer.fetchWalletBalanceFailure(err.message));
@@ -402,11 +384,6 @@ function* mySaga() {
   yield takeLatest(reducer.fetchPaymentRequest.type, fetchPayments);
   yield takeLatest(reducer.fetchWalletTxnsRequest.type, fetchWalletTxns);
   yield takeLatest(reducer.fetchSendDataRequest.type, fetchSendData);
-  yield takeLatest(reducer.fetchWalletBalanceRequest.type, fetchWalletBalance);
-  yield takeLatest(
-    reducer.fetchPendingBalanceRequest.type,
-    fetchPendingBalance
-  );
   yield takeLatest(reducer.fetchTokensRequest.type, fetchTokens);
   yield takeLatest(reducer.fetchAccountTokensRequest.type, fetchAccountTokens);
   yield takeLatest(reducer.createWalletRequest.type, createWallet);
