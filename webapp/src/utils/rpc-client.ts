@@ -883,9 +883,19 @@ export default class RpcClient {
       'mine',
       {
         maxBlockHeight: blockHeight,
-        depth: limit,
+        limit,
         no_rewards,
         token,
+      },
+    ]);
+    return data.result;
+  };
+
+  accountHistoryCount = async (no_rewards: boolean): Promise<string> => {
+    const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
+      'mine',
+      {
+        no_rewards,
       },
     ]);
     return data.result;
