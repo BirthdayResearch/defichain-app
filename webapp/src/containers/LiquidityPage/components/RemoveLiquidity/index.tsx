@@ -291,7 +291,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <NumberMask
                     value={Number(removeLiquidityAmount(totalA)).toFixed(8)}
                   />
-                  {` of ${Number(totalA).toFixed(8)} ${poolpair.tokenA}`}
+                  {` of `}
+                  <NumberMask value={Number(totalA).toFixed(8)} />
+                  {` ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
@@ -304,7 +306,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <NumberMask
                     value={Number(removeLiquidityAmount(totalB)).toFixed(8)}
                   />
-                  {` of ${Number(totalB).toFixed(8)} ${poolpair.tokenB}`}
+                  {` of `}
+                  <NumberMask value={Number(totalB).toFixed(8)} />
+                  {` ${poolpair.tokenB}`}
                 </Col>
               </Row>
               <hr />
