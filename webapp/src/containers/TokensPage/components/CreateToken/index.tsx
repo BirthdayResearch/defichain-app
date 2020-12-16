@@ -178,6 +178,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setActiveTab(active);
   };
 
+  const createTokenData = () => {
+    return { ...formState, collateralAddress: formState.receiveAddress };
+  };
+
   const cancelConfirmation = () => {
     setWait(5);
     setIsConfirmationModalOpen('default');
@@ -185,19 +189,19 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 
   const createConfirmation = () => {
     setAllowCalls(true);
-    const tokenData = { ...formState };
+    const tokenData = createTokenData();
     setIsConfirmationModalOpen('loading');
     createToken(tokenData);
   };
 
   const updateConfirmation = () => {
     setAllowCalls(true);
-    const tokenData = { ...formState };
+    const tokenData = createTokenData();
     updateToken(tokenData);
   };
 
   const handleSubmit = async () => {
-    const tokenData = { ...formState };
+    const tokenData = createTokenData();
     createToken(tokenData);
   };
 
