@@ -6,6 +6,7 @@ import styles from '../TokenCard.module.scss';
 import { IWalletTokenCard } from '../../../utils/interfaces';
 
 import TokenAvatar from '../../TokenAvatar';
+import NumberMask from '../../NumberMask';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -53,7 +54,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className={`${styles.cardValue} justify-content-end`}>
               <b className='text-dark'>
-                {(Number(token.amount) || 0).toFixed(8)}
+                <NumberMask value={(Number(token.amount) || 0).toFixed(8)} />
               </b>
               <span className='ml-2'>{token.symbolKey}</span>
             </div>
