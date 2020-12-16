@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {
-  MdArrowBack,
-  MdCheck,
-  MdCheckCircle,
-  MdErrorOutline,
-} from 'react-icons/md';
+import { MdArrowBack, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import {
   Button,
   Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   FormGroup,
   Input,
   InputGroup,
@@ -20,7 +12,6 @@ import {
   InputGroupText,
   Label,
   Row,
-  UncontrolledDropdown,
   CustomInput,
 } from 'reactstrap';
 import {
@@ -30,24 +21,21 @@ import {
 } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import EllipsisText from 'react-ellipsis-text';
 
-import {
-  CONFIRM_BUTTON_COUNTER,
-  CONFIRM_BUTTON_TIMEOUT,
-  LIQUIDITY_PATH,
-} from '../../../../constants';
+import { LIQUIDITY_PATH } from '../../../../constants';
 import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
 import styles from './removeLiquidity.module.scss';
 import {
-  getIcon,
   getRatio,
   getTotalAmountPoolShare,
+  getTransactionAddressLabel,
 } from '../../../../utils/utility';
-import { getReceivingAddressAndAmountList } from '../../../TokensPage/service';
 import Spinner from '../../../../components/Svg/Spinner';
 import TokenAvatar from '../../../../components/TokenAvatar';
 import Header from '../../../HeaderComponent';
+import AddressDropdown from '../../../../components/AddressDropdown';
+import { AddressModel } from '../../../../model/address.model';
+import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface RouteParams {
   id?: string;
@@ -69,6 +57,11 @@ interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
   liquidityRemovedLoaded: boolean;
   refreshUTXOS2Loaded: boolean;
   transferTokensLoaded: boolean;
+  paymentRequests: PaymentRequestModel[];
+}
+
+export interface RemoveLiquidityFormState extends AddressModel {
+  [key: string]: any;
 }
 
 const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
@@ -80,12 +73,12 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   const [removeLiquidityStep, setRemoveLiquidityStep] = useState<string>(
     'default'
   );
-  const [receiveAddresses, setReceiveAddresses] = useState<any>([]);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [sumAmount, setSumAmount] = useState<number>(0);
-  const [formState, setFormState] = useState<any>({
+  const [formState, setFormState] = useState<RemoveLiquidityFormState>({
     amountPercentage: '0',
     receiveAddress: '',
+    receiveLabel: '',
   });
 
   const { id } = props.match.params;
@@ -105,6 +98,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
     history,
+    paymentRequests,
   } = props;
 
   useEffect(() => {
@@ -131,11 +125,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
 
   useEffect(() => {
     async function addressAndAmount() {
-      const data = await getReceivingAddressAndAmountList();
-      setReceiveAddresses(data.addressAndAmountList);
       setFormState({
         ...formState,
-        receiveAddress: data.addressAndAmountList[0]?.address,
+        receiveAddress: (paymentRequests ?? [])[0]?.address,
+        receiveLabel: (paymentRequests ?? [])[0]?.label,
       });
     }
     addressAndAmount();
@@ -171,6 +164,22 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
 
   const totalA = calculateTotal(sharePercentage, poolpair.reserveA);
   const totalB = calculateTotal(sharePercentage, poolpair.reserveB);
+
+  const getTransactionLabel = (formState: any) => {
+    return getTransactionAddressLabel(
+      formState.receiveLabel,
+      formState.receiveAddress,
+      I18n.t('containers.swap.removeLiquidity.receiveAddressDropdown')
+    );
+  };
+
+  const handleAddressDropdown = (data: any) => {
+    setFormState({
+      ...formState,
+      receiveAddress: data.address,
+      receiveLabel: data.label,
+    });
+  };
 
   return (
     <div className='main-wrapper'>
@@ -316,47 +325,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               {I18n.t('containers.swap.removeLiquidity.receiveAddressLabel')}
             </Col>
             <Col md='8'>
-              <UncontrolledDropdown>
-                <DropdownToggle
-                  caret
-                  color='outline-secondary'
-                  className={`${styles.receiveAddressDropdown}`}
-                  // disabled={isUpdate}
-                >
-                  {formState.receiveAddress
-                    ? formState.receiveAddress
-                    : I18n.t(
-                        'containers.swap.removeLiquidity.receiveAddressDropdown'
-                      )}
-                </DropdownToggle>
-                <DropdownMenu className={`${styles.receiveAddressMenu}`}>
-                  {receiveAddresses.map((data) => {
-                    return (
-                      <DropdownItem
-                        key={data.address}
-                        name='receiveAddress'
-                        onClick={() =>
-                          setFormState({
-                            ...formState,
-                            receiveAddress: data.address,
-                          })
-                        }
-                        value={data.address}
-                      >
-                        <EllipsisText text={data.address} length={'42'} />
-                        <EllipsisText
-                          className={styles.receiveAddressMenuLabel}
-                          text={data.label ? `${data.label}` : ''}
-                          length={'20'}
-                        />
-                        {formState.receiveAddress === data.address && (
-                          <MdCheck className={styles.receiveAddressMenuCheck} />
-                        )}
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              <AddressDropdown
+                formState={formState}
+                getTransactionLabel={getTransactionLabel}
+                onSelectAddress={handleAddressDropdown}
+              />
             </Col>
           </FormGroup>
         </section>
@@ -641,6 +614,7 @@ const mapStateToProps = (state) => {
     refreshUTXOS2Loaded,
     transferTokensLoaded,
   } = state.swap;
+  const { paymentRequests } = state.wallet;
   return {
     removePoolLiquidityHash,
     isLoadingRemovePoolLiquidity,
@@ -654,6 +628,7 @@ const mapStateToProps = (state) => {
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
     transferTokensLoaded,
+    paymentRequests,
   };
 };
 
