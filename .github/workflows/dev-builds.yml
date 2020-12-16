@@ -3,6 +3,7 @@ on:
     branches:
       - ci/*
       - fix/issues-liquidity
+      - feature/add-receive-address-manually
       - master
 jobs:
   build_linux_version:
