@@ -27,6 +27,7 @@ import {
   ACCOUNT_TO_UTXOS_LABEL,
   DFI_SYMBOL,
   POOL_SWAP_CATEGORY_LABEL,
+  RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   REWARD_CATEGORY_LABEL,
@@ -99,9 +100,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     accountHistoryCountRequest({
-      no_rewards: includeRewards,
+      no_rewards: !includeRewards,
     });
-  }, []);
+  }, [includeRewards]);
 
   const fetchData = (pageNum) => {
     setCurrentPage(pageNum);
@@ -127,13 +128,17 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     fetchData(currentPage);
-  }, []);
+  }, [includeRewards]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
-    if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
+    if (
+      type === RECIEVE_CATEGORY_LABEL ||
+      type === REWARDS_CATEEGORY_LABEL ||
+      type === REWARD_CATEGORY_LABEL
+    ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
     if (type === POOL_SWAP_CATEGORY_LABEL)
@@ -142,7 +147,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       return <MdArrowUpward className={styles.typeIcon} />;
     if (type === 'send') return <MdArrowUpward className={styles.typeIcon} />;
     if (type === 'receive')
-      return <MdArrowDownward className={styles.typeIcon} />;
+      return <MdArrowDownward className={styles.typeIconDownward} />;
     return <MdArrowUpward className={styles.typeIcon} />;
   };
 
@@ -153,7 +158,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     if (type === POOL_SWAP_CATEGORY_LABEL) {
       return SWAP_CATEGORY_LABEL;
     }
-    if (type === REWARDS_CATEEGORY_LABEL) {
+    if (type === REWARDS_CATEEGORY_LABEL || type === REWARD_CATEGORY_LABEL) {
       return REWARD_CATEGORY_LABEL;
     }
     if (type === 'send') {
@@ -206,7 +211,15 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     <div className={styles.unit}>{item.blockTime}</div>
                   </td>
                   <td>
-                    <div className={styles.amount}>
+                    <div
+                      className={
+                        item.type === REWARD_CATEGORY_LABEL ||
+                        item.type === RECIEVEE_CATEGORY_LABEL ||
+                        item.type === REWARDS_CATEEGORY_LABEL
+                          ? `${styles.colorGreen} ${styles.amount}`
+                          : styles.amount
+                      }
+                    >
                       {item.unit === 'DFI'
                         ? getAmountInSelectedUnit(item.amount, item.unit)
                         : item.amount}

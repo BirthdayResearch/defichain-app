@@ -145,6 +145,7 @@ export const TX_TYPES = {
   NonTxRewards: 'Rewards',
 };
 export const RECIEVE_CATEGORY_LABEL = 'Receive';
+export const RECIEVEE_CATEGORY_LABEL = 'receive';
 export const SENT_CATEGORY_LABEL = 'Sent';
 export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const ACCOUNT_TO_UTXOS_LABEL = 'AccountToUtxos';
