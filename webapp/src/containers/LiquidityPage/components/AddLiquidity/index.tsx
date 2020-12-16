@@ -272,7 +272,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         if (
           new BigNumber(e.target.value).lte(
             Math.max(Number(formState.balance1) - 1, 0)
-          )
+          ) ||
+          !e.target.value
         ) {
           setFormState({
             ...formState,
