@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty';
 import DCTDistribution from './DCTDistribution';
 import CreateDCT from './CreateDCT';
 import { createToken, fetchTokenInfo, updateToken } from '../../reducer';
-import { getReceivingAddressAndAmountList } from '../../service';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
@@ -17,6 +16,7 @@ import {
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { AddressModel } from '../../../../model/address.model';
 
 interface RouteParams {
   id?: string;
@@ -36,6 +36,10 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   paymentRequests: PaymentRequestModel[];
 }
 
+export interface CreateTokenFormState extends AddressModel {
+  [key: string]: any;
+}
+
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   props: CreateTokenProps
 ) => {
@@ -44,7 +48,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
     boolean
   >(true);
-  const [formState, setFormState] = useState<any>({
+  const [formState, setFormState] = useState<CreateTokenFormState>({
     name: '',
     symbol: '',
     isDAT: false,
@@ -52,8 +56,8 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     limit: '0',
     mintable: 'true',
     tradeable: 'true',
-    collateralAddress: '',
-    collateralLabel: '',
+    receiveAddress: '',
+    receiveLabel: '',
   });
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
     string
@@ -72,21 +76,6 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     fetchToken(id);
   }, []);
 
-  useEffect(() => {
-    if (!isEmpty(tokenInfo) && id) {
-      const data = {
-        name: tokenInfo.name,
-        symbol: tokenInfo.symbol,
-        isDAT: tokenInfo.isDAT,
-        decimal: tokenInfo.decimal.toString(),
-        limit: tokenInfo.limit.toString(),
-        mintable: tokenInfo.mintable.toString(),
-        tradeable: tokenInfo.tradeable.toString(),
-      };
-      setFormState(data);
-    }
-  }, [tokenInfo]);
-
   const {
     createToken,
     updateToken,
@@ -100,11 +89,28 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   } = props;
 
   useEffect(() => {
+    if (!isEmpty(tokenInfo) && id) {
+      const data: CreateTokenFormState = {
+        name: tokenInfo.name,
+        symbol: tokenInfo.symbol,
+        isDAT: tokenInfo.isDAT,
+        decimal: tokenInfo.decimal.toString(),
+        limit: tokenInfo.limit.toString(),
+        mintable: tokenInfo.mintable.toString(),
+        tradeable: tokenInfo.tradeable.toString(),
+        receiveAddress: (paymentRequests ?? [])[0]?.address,
+        receiveLabel: (paymentRequests ?? [])[0]?.label,
+      };
+      setFormState(data);
+    }
+  }, [tokenInfo]);
+
+  useEffect(() => {
     async function addressAndAmount() {
       setFormState({
         ...formState,
-        collateralAddress: paymentRequests[0]?.address,
-        collateralLabel: paymentRequests[0]?.label,
+        receiveAddress: (paymentRequests ?? [])[0]?.address,
+        receiveLabel: (paymentRequests ?? [])[0]?.label,
       });
     }
     addressAndAmount();
@@ -203,7 +209,6 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
             isUpdate={!isEmpty(tokenInfo) && !!id}
             handleChange={handleChange}
             formState={formState}
-            collateralAddresses={paymentRequests}
             isErrorCreatingToken={isErrorCreatingToken}
             createdTokenData={createdTokenData}
             updatedTokenData={updatedTokenData}
