@@ -110,10 +110,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
 
   useEffect(() => {
     if (allowCalls && !isLoadingRemovePoolLiquidity) {
-      if (!isErrorRemovingPoolLiquidity && removePoolLiquidityHash) {
+      if (!isErrorRemovingPoolLiquidity) {
         setRemoveLiquidityStep('success');
       }
-      if (isErrorRemovingPoolLiquidity && !removePoolLiquidityHash) {
+      if (isErrorRemovingPoolLiquidity) {
         setRemoveLiquidityStep('failure');
       }
     }
