@@ -639,13 +639,13 @@
         "createButton": "Erstellen",
         "legacyAddress": "Legacy Adresse",
         "addressType": "Adressen Type",
-        "automaticallyGenerateNewAddress": "Automatically generate a new address",
-        "showAdvanceOptions": "Show advance options",
-        "default": "Default",
+        "automaticallyGenerateNewAddress": "Automatisch eine neue Adresse erzeugen",
+        "showAdvanceOptions": "Erweiterte Optionen anzeigen ",
+        "default": "Standard",
         "legacy": "Legacy",
-        "addReceiveAddress": "Add a receive address",
+        "addReceiveAddress": "Eine Empfangsadresse hinzufügen",
         "address": "Adresse",
-        "enterAnAddress": "Enter an address in your account",
+        "enterAnAddress": "Gib eine Adresse in dein Konto ein",
         "invalidAddress": "Invalid Address or check address account"
       },
       "paymentRequests": {
