@@ -413,7 +413,7 @@ function* fetchWalletTokenTransactionsList(action) {
       blockHeight: minBlockHeight,
     });
 
-    const minHeightData = minBy(data, 'blockHeight');
+    const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
     const minBlockHeightData = minHeightData.blockHeight - 1;
 
     const parsedData = data.map((d) => {
