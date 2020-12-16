@@ -82,7 +82,7 @@ export const handleCreateTokens = async (tokenData) => {
     limit: Number(tokenData.limit),
     mintable: JSON.parse(tokenData.mintable),
     tradeable: JSON.parse(tokenData.tradeable),
-    collateralAddress: tokenData.collateralAddress,
+    collateralAddress: tokenData.collateralAddress ?? tokenData.receiveAddress,
   };
   if (!tokenData.name) {
     delete data.name;
