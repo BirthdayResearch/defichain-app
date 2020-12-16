@@ -36,6 +36,7 @@ import Header from '../../../HeaderComponent';
 import AddressDropdown from '../../../../components/AddressDropdown';
 import { AddressModel } from '../../../../model/address.model';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import NumberMask from '../../../../components/NumberMask';
 
 interface RouteParams {
   id?: string;
@@ -287,9 +288,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  {`${Number(removeLiquidityAmount(totalA)).toFixed(
-                    8
-                  )} of ${Number(totalA).toFixed(8)} ${poolpair.tokenA}`}
+                  <NumberMask
+                    value={Number(removeLiquidityAmount(totalA)).toFixed(8)}
+                  />
+                  {` of ${Number(totalA).toFixed(8)} ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
@@ -299,22 +301,23 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  {`${Number(removeLiquidityAmount(totalB)).toFixed(
-                    8
-                  )} of ${Number(totalB).toFixed(8)} ${poolpair.tokenB}`}
+                  <NumberMask
+                    value={Number(removeLiquidityAmount(totalB)).toFixed(8)}
+                  />
+                  {` of ${Number(totalB).toFixed(8)} ${poolpair.tokenB}`}
                 </Col>
               </Row>
               <hr />
               <Row>
                 <Col>{I18n.t('containers.swap.removeLiquidity.price')}</Col>
                 <Col className={styles.colText}>
-                  {`${Number(getRatio(poolpair)).toFixed(8)} ${
-                    poolpair.tokenA
-                  } per ${poolpair.tokenB}`}
+                  <NumberMask value={Number(getRatio(poolpair)).toFixed(8)} />
+                  {` ${poolpair.tokenA} per ${poolpair.tokenB}`}
                   <br />
-                  {`${(1 / Number(getRatio(poolpair))).toFixed(8)} ${
-                    poolpair.tokenB
-                  } per ${poolpair.tokenA}`}
+                  <NumberMask
+                    value={(1 / Number(getRatio(poolpair))).toFixed(8)}
+                  />
+                  {` ${poolpair.tokenB} per ${poolpair.tokenA}`}
                 </Col>
               </Row>
               <hr />
