@@ -45,7 +45,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
   const [
     automaticallyGenerateNewAddress,
     setAutomaticallyGenerateNewAddress,
-  ] = useState(false);
+  ] = useState(true);
   const [advanceOpen, setAdvanceOption] = useState(false);
   const [isAddressValidBoolean, setIsAddressValidBoolean] = useState(false);
 
