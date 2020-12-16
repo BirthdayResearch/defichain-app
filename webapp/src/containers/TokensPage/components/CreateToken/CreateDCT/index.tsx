@@ -18,7 +18,6 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import EllipsisText from 'react-ellipsis-text';
 
 import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
@@ -26,11 +25,12 @@ import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
 import Header from '../../../../HeaderComponent';
 import { getTransactionAddressLabel } from '../../../../../utils/utility';
+import AddressDropdown from '../../../../../components/AddressDropdown';
+import { CreateTokenFormState } from '..';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
-  formState: any;
-  collateralAddresses: any;
+  formState: CreateTokenFormState;
   IsCollateralAddressValid: boolean;
   isConfirmationModalOpen: string;
   setIsConfirmationModalOpen: (state: string) => void;
@@ -47,8 +47,12 @@ interface CreateDCTProps {
   isUpdate: boolean;
 }
 
-const getTransactionLabel = (formState: any) => {
-  return getTransactionAddressLabel(formState.collateralLabel, formState.collateralAddress, I18n.t('containers.tokens.createToken.collateralAddress'));
+const getTransactionLabel = (formState: CreateTokenFormState) => {
+  return getTransactionAddressLabel(
+    formState.receiveLabel,
+    formState.receiveAddress,
+    I18n.t('containers.tokens.createToken.collateralAddress')
+  );
 };
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
@@ -58,7 +62,6 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     isUpdate,
     handleChange,
     formState,
-    collateralAddresses,
     IsCollateralAddressValid,
     handleDropDowns,
     isConfirmationModalOpen,
@@ -244,73 +247,15 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 </Row>
               </Col>
             </Row> */}
-            <UncontrolledDropdown className='w-100'>
-              <DropdownToggle
-                caret
-                color='outline-secondary'
-                className={`${styles.divisibilityDropdown}
-                ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
-                disabled={isUpdate}
-              >
-                <div
-                    className={`${styles.ellipsisValue} ${styles.dropdownContent}`}
-                  >
-                    {getTransactionLabel(formState)}
-                  </div>
-              </DropdownToggle>
-              <DropdownMenu className={`${styles.scrollAuto} w-100`}>
-                <DropdownItem className='w-100'>
-                  <Row className='w-100'>
-                    <Col md='6'>
-                      {I18n.t('containers.tokens.createToken.address')}
-                    </Col>
-                    <Col md='3'>
-                      {I18n.t('containers.tokens.createToken.label')}
-                    </Col>
-                    <Col md='3'>
-                      {I18n.t('containers.tokens.createToken.selected')}
-                    </Col>
-                  </Row>
-                </DropdownItem>
-                {collateralAddresses.map((data) => {
-                  return (
-                    <DropdownItem
-                      className='justify-content-between ml-0 w-100'
-                      key={data.address}
-                      name='collateralAddress'
-                      onClick={() =>
-                        handleDropDowns(
-                          {
-                            collateralAddress: data.address,
-                            collateralLabel: data.label
-                          },
-                          data.amount
-                        )
-                      }
-                      value={data.address}
-                    >
-                      <Row className='w-100'>
-                        <Col md='6'>
-                            <div className={styles.ellipsisValue}>
-                              {data.address}
-                            </div>
-                        </Col>
-                        <Col md='3'>
-                            <div className={styles.ellipsisValue}>
-                              {data.label ? data.label : '---'}
-                            </div>
-                        </Col>
-                        <Col md='3'>
-                          {formState.collateralAddress === data.address && (
-                            <MdCheck />
-                          )}
-                        </Col>
-                      </Row>
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <AddressDropdown
+              formState={formState}
+              getTransactionLabel={getTransactionLabel}
+              onSelectAddress={handleDropDowns}
+              additionalClass={() =>
+                !IsCollateralAddressValid ? styles.collateralDropdown : ''
+              }
+              isDisabled={isUpdate}
+            />
             {!IsCollateralAddressValid && (
               <FormText className={`${styles.collateralFormText} mt-2`}>
                 {I18n.t('containers.tokens.createToken.collateralAddressError')}

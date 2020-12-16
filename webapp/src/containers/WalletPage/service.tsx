@@ -36,7 +36,7 @@ const handleLocalStorageName = (networkName) => {
   return PAYMENT_REQUEST;
 };
 
-export const handelGetPaymentRequest = (networkName) => {
+export const handleGetPaymentRequest = (networkName) => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
