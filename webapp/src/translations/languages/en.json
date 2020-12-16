@@ -632,7 +632,15 @@
         "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
-        "addressType": "Address type"
+        "addressType": "Address type",
+        "automaticallyGenerateNewAddress": "Automatically generate a new address",
+        "showAdvanceOptions": "Show advance options",
+        "default": "Default",
+        "legacy": "Legacy",
+        "addReceiveAddress": "Add a receive address",
+        "address": "Address",
+        "enterAnAddress": "Enter an address in your account",
+        "invalidAddress": "Invalid Address or check address account"
       },
       "paymentRequests": {
         "time": "Time",

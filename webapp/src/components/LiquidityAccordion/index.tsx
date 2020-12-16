@@ -21,6 +21,7 @@ import {
   LIQUIDITY_INFO_BASE_PATH,
 } from '../../constants';
 import PairIcon from '../PairIcon';
+import NumberMask from '../NumberMask';
 
 interface LiquidityAccordionProps {
   history: any;
@@ -60,7 +61,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
 
   const liquidityAmount = (percentage, reserve) => {
     const liquidityAmount = (Number(percentage) / 100) * reserve;
-    return liquidityAmount.toFixed(2);
+    return liquidityAmount.toFixed(8);
   };
 
   return (
@@ -113,7 +114,12 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenA}`}
             </Col>
             <Col className={styles.value}>
-              {liquidityAmount(poolpair.poolSharePercentage, poolpair.reserveA)}
+              <NumberMask
+                value={liquidityAmount(
+                  poolpair.poolSharePercentage,
+                  poolpair.reserveA
+                )}
+              />
             </Col>
           </Row>
           <Row>
@@ -121,7 +127,12 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.pooled')} {`${poolpair.tokenB}`}
             </Col>
             <Col className={styles.value}>
-              {liquidityAmount(poolpair.poolSharePercentage, poolpair.reserveB)}
+              <NumberMask
+                value={liquidityAmount(
+                  poolpair.poolSharePercentage,
+                  poolpair.reserveB
+                )}
+              />
             </Col>
           </Row>
           <Row>

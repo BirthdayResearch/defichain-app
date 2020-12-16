@@ -3,6 +3,7 @@ on:
     branches:
       - ci/*
       - fix/issues-liquidity
+      - feature/add-receive-address-manually
       - master
 jobs:
   build_linux_version:
@@ -18,7 +19,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: linux-build
-          path: 'dist/defi-app-2.1.3.AppImage'
+          path: 'dist/defi-app-2.1.4.AppImage'
 
   build_mac_version:
     runs-on: macos-latest
@@ -35,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: mac-build
-          path: 'dist/defi-app-2.1.3.dmg'
+          path: 'dist/defi-app-2.1.4.dmg'
 
   build_windows_version:
     runs-on: windows-latest
@@ -57,9 +58,9 @@ jobs:
           rm -r -fo win -ErrorAction Ignore
           mkdir win
           cd win
-          curl https://github.com/DeFiCh/ain/releases/download/v1.3.12/defichain-1.3.12-x86_64-w64-mingw32.zip -O defichain-1.3.12-x86_64-w64-mingw32.zip
-          Expand-Archive -LiteralPath .\defichain-1.3.12-x86_64-w64-mingw32.zip -DestinationPath .
-          Copy-Item .\defichain-1.3.12\bin\defid.exe .
+          curl https://github.com/DeFiCh/ain/releases/download/v1.3.14/defichain-1.3.14-x86_64-w64-mingw32.zip -O defichain-1.3.14-x86_64-w64-mingw32.zip
+          Expand-Archive -LiteralPath .\defichain-1.3.14-x86_64-w64-mingw32.zip -DestinationPath .
+          Copy-Item .\defichain-1.3.14\bin\defid.exe .
           cd ..\..
           Copy-Item temp\win\defid.exe binary\win\defid.exe
           icacls binary\win\defid.exe /grant everyone:F
@@ -68,4 +69,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: win-build
-          path: 'dist/defi-app Setup 2.1.3.exe'
+          path: 'dist/defi-app Setup 2.1.4.exe'

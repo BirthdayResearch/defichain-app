@@ -916,7 +916,7 @@ export const shareOfPool = (formState, poolPairList) => {
     .div(2)
     .times(100)
     .toNumber()
-    .toFixed(4);
+    .toFixed(8);
 
   return `${shareOfPool} %`;
 };
@@ -942,6 +942,14 @@ export const getIcon = (symbol: string) => {
     DFI: DefiIcon,
   };
   return symbolIconObj[symbol];
+};
+
+export const isAddressMine = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  if (addressInfo.ismine && !addressInfo.iswatchonly) {
+    return true;
+  }
+  return false;
 };
 
 export const getAddressAndAmountListForAccount = async () => {
@@ -1233,10 +1241,12 @@ export const calculateAPY = (
     : 0;
 };
 
-export const getTransactionAddressLabel = (receiveLabel: string, receiveAddress: string, fallback: string) => {
+export const getTransactionAddressLabel = (
+  receiveLabel: string,
+  receiveAddress: string,
+  fallback: string
+) => {
   let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
   label = label + receiveAddress;
-  return receiveAddress
-    ? label
-    : fallback;
+  return receiveAddress ? label : fallback;
 };

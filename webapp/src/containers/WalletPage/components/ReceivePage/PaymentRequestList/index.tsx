@@ -23,16 +23,18 @@ import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
 
+export interface PaymentRequestModel {
+  label: string;
+  id: string;
+  time: string;
+  address: string;
+  message?: string;
+  amount?: number;
+  unit?: string;
+}
+
 interface PaymentRequestsProps {
-  paymentRequests: {
-    label: string;
-    id: string;
-    time: string;
-    address: string;
-    message: string;
-    amount: number;
-    unit: string;
-  }[];
+  paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
 }
 
