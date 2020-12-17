@@ -298,29 +298,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
-          // let accountToAccountAmount = new BigNumber(0);
           const hash = this.tokenHash || '0';
-          // const addressesList = await getAddressAndAmountListForAccount();
-          // const { address, amount: maxAmount } = await getAddressForSymbol(
-          //   hash,
-          //   addressesList
-          // );
+
           log.info('*******token send **********');
           log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
           log.info({ amount, hash, address: this.state.toAddress });
-          // if (new BigNumber(amount).isGreaterThan(maxAmount)) {
-          //   accountToAccountAmount = await handleAccountToAccountConversion(
-          //     addressesList,
-          //     address,
-          //     hash
-          //   );
-          // }
-          // txHash = await accountToAccount(
-          //   address,
-          //   this.state.toAddress,
-          //   `${amount}@${hash}`
-          // );
+
           txHash = await sendTokensToAddress(
             this.state.toAddress,
             `${amount}@${hash}`
