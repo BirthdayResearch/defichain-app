@@ -98,7 +98,7 @@ import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
-import uid from 'uid';
+import { uid } from 'uid';
 
 export function* getNetwork() {
   const {
