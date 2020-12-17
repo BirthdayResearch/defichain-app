@@ -38,8 +38,8 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             {currentPage}
           </PaginationLink>
         </PaginationItem>
-        {!(data.length < 10) && (
-          <PaginationItem disabled={disableNextLink()}>
+        {
+          <PaginationItem disabled={disableNextLink() || data.length < 10}>
             <PaginationLink
               next
               onClick={(e) => props.handlePageClick(currentPage + 1)}
@@ -48,7 +48,7 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
               <MdChevronRight />
             </PaginationLink>
           </PaginationItem>
-        )}
+        }
       </Pagination>
     </div>
   );
