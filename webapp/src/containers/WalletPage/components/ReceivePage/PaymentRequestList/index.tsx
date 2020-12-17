@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import uid from 'uid';
+import { uid } from 'uid';
 import {
   Card,
   CardBody,

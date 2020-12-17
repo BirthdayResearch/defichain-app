@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import uid from 'uid';
+import { uid } from 'uid';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import {
