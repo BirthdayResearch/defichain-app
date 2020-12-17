@@ -164,7 +164,7 @@ export const sendToAddress = async (
     }
   } else {
     try {
-      const accountBalance = handleFetchAccountDFI();
+      const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
       const {
         address: fromAddress,
@@ -185,7 +185,7 @@ export const sendToAddress = async (
       //   .toNumber();
       const txHash = await sendTokensToAddress(
         fromAddress,
-        `${accountBalance}@DFI`
+        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
       );
       log.info({ accountBalance, sendTokenTxHash: txHash });
       await getTransactionInfo(txHash);
