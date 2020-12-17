@@ -723,6 +723,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 </dt>
                 <dd className='col-sm-8'>
                   {isValid() && calculateLPFee(formState, poolPairList)}
+                  {` ${formState.symbol1}`}
                 </dd>
               </dl>
             </div>
