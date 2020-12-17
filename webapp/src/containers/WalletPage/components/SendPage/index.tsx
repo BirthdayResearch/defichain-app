@@ -30,24 +30,25 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
-  accountToAccount,
+  // accountToAccount,
   handleFetchRegularDFI,
   isValidAddress,
   sendToAddress,
+  sendTokensToAddress,
 } from '../../service';
 import {
   WALLET_PAGE_PATH,
   DEFAULT_UNIT,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  // DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
 } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
-  getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  // getAddressAndAmountListForAccount,
+  // getAddressForSymbol,
   getAmountInSelectedUnit,
   getErrorMessage,
   getSymbolKey,
-  handleAccountToAccountConversion,
+  // handleAccountToAccountConversion,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
@@ -297,26 +298,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
-          let accountToAccountAmount = new BigNumber(0);
           const hash = this.tokenHash || '0';
-          const addressesList = await getAddressAndAmountListForAccount();
-          const { address, amount: maxAmount } = await getAddressForSymbol(
-            hash,
-            addressesList
-          );
+
           log.info('*******token send **********');
-          log.info({ address, maxAmount });
           log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
-          if (new BigNumber(amount).isGreaterThan(maxAmount)) {
-            accountToAccountAmount = await handleAccountToAccountConversion(
-              addressesList,
-              address,
-              hash
-            );
-          }
-          txHash = await accountToAccount(
-            address,
+          log.info({ amount, hash, address: this.state.toAddress });
+
+          txHash = await sendTokensToAddress(
             this.state.toAddress,
             `${amount}@${hash}`
           );
