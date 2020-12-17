@@ -140,7 +140,6 @@ export const sendToAddress = async (
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
-  let accountToAccountAmount = new BigNumber(0);
 
   log.info({
     toAddress,
@@ -164,27 +163,21 @@ export const sendToAddress = async (
     }
   } else {
     try {
+      const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
       const {
         address: fromAddress,
         amount: maxAmount,
       } = await getAddressForSymbol('0', addressesList);
-      log.info({ address: fromAddress, maxAmount });
+      log.info({ address: fromAddress, maxAmount, accountBalance });
 
-      if (
-        new BigNumber(amount).isGreaterThanOrEqualTo(regularDFI + maxAmount)
-      ) {
-        accountToAccountAmount = await handleAccountToAccountConversion(
-          addressesList,
-          fromAddress,
-          '0'
-        );
-        // const amountNeedToTransfer = new BigNumber(amount)
-        //   .minus(regularDFI + maxAmount)
-        //   .toNumber();
-        // await sendTokensToAddress(fromAddress, `${amountNeedToTransfer}@DFI`);
-        log.info({ accountToAccountAmount: Number(accountToAccountAmount) });
-      }
+      const txHash = await sendTokensToAddress(
+        fromAddress,
+        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+      );
+      log.info({ accountBalance, sendTokenTxHash: txHash });
+      await getTransactionInfo(txHash);
+      // }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
