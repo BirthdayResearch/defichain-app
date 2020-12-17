@@ -140,7 +140,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
             <Col className={styles.value}>
-              {`${Number(poolpair.poolSharePercentage).toFixed(4)}%`}
+              {`${Number(poolpair.poolSharePercentage).toFixed(8)}%`}
             </Col>
           </Row>
         </CardBody>
