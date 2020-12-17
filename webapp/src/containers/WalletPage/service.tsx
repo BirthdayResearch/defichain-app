@@ -21,6 +21,7 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
+  handleAccountToAccountConversion,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -173,15 +174,15 @@ export const sendToAddress = async (
       if (
         new BigNumber(amount).isGreaterThanOrEqualTo(regularDFI + maxAmount)
       ) {
-        // accountToAccountAmount = await handleAccountToAccountConversion(
-        //   addressesList,
-        //   fromAddress,
-        //   '0'
-        // );
-        const amountNeedToTransfer = new BigNumber(amount)
-          .minus(regularDFI + maxAmount)
-          .toNumber();
-        await sendTokensToAddress(fromAddress, `${amountNeedToTransfer}@$DFI`);
+        accountToAccountAmount = await handleAccountToAccountConversion(
+          addressesList,
+          fromAddress,
+          '0'
+        );
+        // const amountNeedToTransfer = new BigNumber(amount)
+        //   .minus(regularDFI + maxAmount)
+        //   .toNumber();
+        // await sendTokensToAddress(fromAddress, `${amountNeedToTransfer}@DFI`);
         log.info({ accountToAccountAmount: Number(accountToAccountAmount) });
       }
 
@@ -306,6 +307,12 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
   return await Promise.all(transformedData);
 };
 
+export const handleFetchAccountHistoryCount = async (no_rewards) => {
+  const rpcClient = new RpcClient();
+  const count = await rpcClient.accountHistoryCount(no_rewards);
+  return count;
+};
+
 export const handleFetchAccounts = async () => {
   const rpcClient = new RpcClient();
   const accounts = await fetchAccountsDataWithPagination(
@@ -410,9 +417,9 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
 
 export const getListAccountHistory = (query: {
   limit: number;
-  blockHeight?: number;
-  no_rewards?: boolean;
   token: string;
+  no_rewards?: boolean;
+  blockHeight?: number;
 }) => {
   const rpcClient = new RpcClient();
   return rpcClient.getListAccountHistory(query);
