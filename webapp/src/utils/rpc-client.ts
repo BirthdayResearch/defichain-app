@@ -326,6 +326,13 @@ export default class RpcClient {
     return data.result;
   };
 
+  sendRawTransaction = async (txid: string) => {
+    const { data } = await this.call('/', methodNames.SEND_RAW_TRANSACTION, [
+      txid,
+    ]);
+    return data.result;
+  };
+
   accountToAccount = async (
     fromAddress: string | null,
     toAddress: string,
@@ -800,22 +807,22 @@ export default class RpcClient {
 
   listPoolPairs = async (
     start: number,
-    including_start: boolean,
+    includingStart: boolean,
     limit: number
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
-      { start, including_start, limit },
+      { start, including_start: includingStart, limit },
     ]);
     return data.result;
   };
 
   listPoolShares = async (
     start: number,
-    including_start: boolean,
+    includingStart: boolean,
     limit: number
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
-      { start, including_start, limit },
+      { start, including_start: includingStart, limit },
       true, // verbose
       true, // is mine only
     ]);

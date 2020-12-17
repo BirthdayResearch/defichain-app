@@ -60,3 +60,5 @@ export const REMOVE_POOL_LIQUIDITY = 'removepoolliquidity';
 export const TEST_POOL_SWAP = 'testpoolswap';
 export const GET_GOV = 'getgov';
 export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
+
+export const SEND_RAW_TRANSACTION = 'sendrawtransaction';
