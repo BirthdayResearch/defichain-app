@@ -48,6 +48,9 @@ import {
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
+  accountHistoryCountRequest,
+  accountHistoryCountSuccess,
+  accountHistoryCountFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -66,10 +69,12 @@ import {
   importPrivKey,
   getListAccountHistory,
   handleRestartCriteria,
+  handleFetchAccountHistoryCount,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
 import {
+  convertEpochToDate,
   getErrorMessage,
   getMnemonicFromObj,
   getNetworkInfo,
@@ -286,6 +291,26 @@ export function* fetchTokens() {
   }
 }
 
+export function* accountHistoryCount(action) {
+  const {
+    payload: { no_rewards },
+  } = action;
+
+  try {
+    const data = yield call(handleFetchAccountHistoryCount, no_rewards);
+    yield put({
+      type: accountHistoryCountSuccess.type,
+      payload: { accountHistoryCount: data },
+    });
+  } catch (e) {
+    yield put({
+      type: accountHistoryCountFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
+
 export function* fetchAccountTokens() {
   try {
     const data = yield call(handleFetchAccounts);
@@ -301,6 +326,7 @@ export function* fetchAccountTokens() {
     log.error(e);
   }
 }
+
 export function* createWallet(action) {
   try {
     const {
@@ -378,31 +404,37 @@ export function* fetchInstantPendingBalance() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, limit, includeRewards } = action.payload;
+    const { symbol, limit, includeRewards, minBlockHeight } = action.payload;
 
-    let minBlockHeight;
-    let cloneData: any[] = [];
-    while (true) {
-      const data: any[] = yield call(getListAccountHistory, {
-        limit,
-        blockHeight: minBlockHeight,
-        token: symbol,
-        no_rewards: !includeRewards,
-      });
-      if (!data.length) {
-        break;
-      }
-      // data contains array of objects containing blockHeight in desc order.
-      // so here to paginate to next page data we will use the minimum block height - 1
-      const minHeightData = minBy(data, 'blockHeight');
-      minBlockHeight = minHeightData.blockHeight - 1;
-      cloneData = cloneData.concat(data);
-    }
+    const data: any[] = yield call(getListAccountHistory, {
+      limit,
+      token: symbol,
+      no_rewards: !includeRewards,
+      blockHeight: minBlockHeight,
+    });
+
+    const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
+    const minBlockHeightData = minHeightData.blockHeight - 1;
+
+    const parsedData = data.map((d) => {
+      return {
+        owner: d.owner,
+        blockHeight: d.blockHeight,
+        blockHash: d.blockHash,
+        blockTime: convertEpochToDate(d.blockTime),
+        type: d.type,
+        txn: d.txn,
+        txid: d.txid,
+        unit: d.amounts[0].split('@')[1],
+        amount: d.amounts[0].split('@')[0],
+      };
+    });
 
     yield put(
-      fetchWalletTokenTransactionsListRequestSuccess(
-        orderBy(cloneData, 'blockHeight', 'desc')
-      )
+      fetchWalletTokenTransactionsListRequestSuccess({
+        data: orderBy(parsedData, 'blockHeight', 'desc'),
+        minBlockHeight: minBlockHeightData,
+      })
     );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
@@ -446,6 +478,7 @@ function* mySaga() {
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
+  yield takeLatest(accountHistoryCountRequest.type, accountHistoryCount);
   yield takeLatest(createWalletRequest.type, createWallet);
   yield takeLatest(restoreWalletRequest.type, restoreWallet);
   yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);
