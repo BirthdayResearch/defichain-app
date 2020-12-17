@@ -4,6 +4,10 @@ export const initialState = {
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
+  accountHistoryCount: '',
+  accountHistoryCountLoaded: false,
+  accountHistoryCountLoading: false,
+  minBlockHeight: 0,
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
@@ -52,7 +56,6 @@ export const initialState = {
     isError: '',
     data: [],
     stop: false,
-    minBlockHeight: undefined,
   },
   combineAccountHistoryData: {
     isLoading: false,
@@ -81,6 +84,19 @@ const configSlice = createSlice({
       state.accountTokens = [];
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
+    },
+    accountHistoryCountRequest(state, action) {
+      state.accountHistoryCount = '';
+    },
+    accountHistoryCountSuccess(state, action) {
+      state.accountHistoryCount = action.payload.accountHistoryCount;
+      state.accountHistoryCountLoading = false;
+      state.accountHistoryCountLoaded = true;
+    },
+    accountHistoryCountFailure(state, action) {
+      state.accountTokens = [];
+      state.accountHistoryCountLoading = false;
+      state.accountHistoryCountLoaded = true;
     },
     fetchTokensRequest(state) {
       state.isLoadingTokens = true;
@@ -211,7 +227,8 @@ const configSlice = createSlice({
     fetchWalletTokenTransactionsListRequestSuccess(state, action) {
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.isError = '';
-      state.listAccountHistoryData.data = action.payload;
+      state.listAccountHistoryData.data = action.payload.data;
+      state.minBlockHeight = action.payload.minBlockHeight;
     },
     fetchWalletTokenTransactionsListRequestFailure(state, action) {
       state.listAccountHistoryData.isLoading = false;
@@ -266,6 +283,9 @@ export const {
   fetchAccountTokensRequest,
   fetchAccountTokensSuccess,
   fetchAccountTokensFailure,
+  accountHistoryCountRequest,
+  accountHistoryCountSuccess,
+  accountHistoryCountFailure,
   fetchTokensRequest,
   fetchTokensSuccess,
   fetchTokensFailure,
