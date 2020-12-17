@@ -646,7 +646,7 @@
         "addReceiveAddress": "Eine Empfangsadresse hinzufügen",
         "address": "Adresse",
         "enterAnAddress": "Gib eine Adresse in dein Konto ein",
-        "invalidAddress": "Invalid Address or check address account"
+        "invalidAddress": "Ungültige Adresse oder Adresskonto prüfen or Already used"
       },
       "paymentRequests": {
         "time": "Zeit",
