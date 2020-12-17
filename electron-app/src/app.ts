@@ -70,9 +70,12 @@ export default class App {
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
-    
+
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
-    initiateBackupImportWalletManager(this.mainWindow, this.createMenu.bind(this));
+    initiateBackupImportWalletManager(
+      this.mainWindow,
+      this.createMenu.bind(this)
+    );
     createMnemonicAction();
   };
 
@@ -103,6 +106,7 @@ export default class App {
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
+        enableRemoteModule: true,
       },
     });
 
