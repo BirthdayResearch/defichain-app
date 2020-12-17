@@ -293,11 +293,11 @@ export function* fetchTokens() {
 
 export function* accountHistoryCount(action) {
   const {
-    payload: { no_rewards },
+    payload: { no_rewards, token },
   } = action;
 
   try {
-    const data = yield call(handleFetchAccountHistoryCount, no_rewards);
+    const data = yield call(handleFetchAccountHistoryCount, no_rewards, token);
     yield put({
       type: accountHistoryCountSuccess.type,
       payload: { accountHistoryCount: data },

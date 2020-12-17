@@ -71,7 +71,7 @@ interface WalletTxnsProps {
   isError: string;
   combineAccountHistoryData: any;
   fetchWalletTokenTransactionsListResetRequest: () => void;
-  accountHistoryCountRequest: (no_rewards) => void;
+  accountHistoryCountRequest: ({ no_rewards, token }) => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -101,6 +101,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     accountHistoryCountRequest({
       no_rewards: !includeRewards,
+      token: tokenSymbol,
     });
   }, [includeRewards]);
 
@@ -328,8 +329,8 @@ const mapDispatchToProps = {
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
     fetchBlockDataForTrxRequestLoading(trxArray),
   fetchWalletTokenTransactionsListResetRequest,
-  accountHistoryCountRequest: (no_rewards) =>
-    accountHistoryCountRequest(no_rewards),
+  accountHistoryCountRequest: ({ no_rewards, token }) =>
+    accountHistoryCountRequest({ no_rewards, token }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
