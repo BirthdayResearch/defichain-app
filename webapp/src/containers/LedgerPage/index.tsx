@@ -21,7 +21,7 @@ import {
   fetchConnectLedgerFailure,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { LEDGER_RECEIVE_PATH } from '@/constants';
+import { LEDGER_RECEIVE_PATH, LEDGER_SEND_PATH } from '@/constants';
 import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
@@ -141,17 +141,18 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           </button>
         </div>
         <ButtonGroup>
-          <Button
-            color='link'
-            size='sm'
-            disabled={connect.status !== 'connected'}
-          >
+          <Button color='link' size='sm' to={LEDGER_SEND_PATH} tag={RRNavLink}>
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}
             </span>
           </Button>
-          <Button to={LEDGER_RECEIVE_PATH} tag={RRNavLink} color='link'>
+          <Button
+            to={LEDGER_RECEIVE_PATH}
+            tag={RRNavLink}
+            color='link'
+            disabled={connect.status !== 'connected'}
+          >
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.receive')}

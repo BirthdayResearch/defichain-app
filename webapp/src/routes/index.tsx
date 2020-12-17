@@ -56,6 +56,7 @@ import {
   LEDGER_PATH,
   LEDGER_RECEIVE_PATH,
   LEDGER_CREATE_RECEIVE_REQUEST,
+  LEDGER_SEND_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
@@ -70,6 +71,7 @@ import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo'
 import LedgerPage from '../containers/LedgerPage';
 import CreateNewAddressLedgerPage from '../containers/LedgerPage/components/LedgerReceivePage/CreateNewAddressLedgerPage';
 import LedgerReceivePage from '../containers/LedgerPage/components/LedgerReceivePage';
+import LedgerSendPage from '@/containers/LedgerPage/components/SendPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -128,6 +130,7 @@ const routes = (location) => (
       path={LEDGER_CREATE_RECEIVE_REQUEST}
       component={CreateNewAddressLedgerPage}
     />
+    <Route exact path={LEDGER_SEND_PATH} component={LedgerSendPage} />
     <Route exact component={Error404Page} />
   </Switch>
 );

@@ -42,3 +42,4 @@ export const REMOVE_LIQUIDITY = `${REMOVE_LIQUIDITY_BASE_PATH}/:id`;
 export const LEDGER_PATH = '/ledger';
 export const LEDGER_RECEIVE_PATH = `${LEDGER_PATH}/receive`;
 export const LEDGER_CREATE_RECEIVE_REQUEST = `${LEDGER_RECEIVE_PATH}/request`;
+export const LEDGER_SEND_PATH = `${LEDGER_PATH}/send`;

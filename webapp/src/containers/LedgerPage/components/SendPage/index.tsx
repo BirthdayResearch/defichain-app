@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import * as log from '../../../../utils/electronLogger';
 import {
   Row,
   Col,
@@ -28,6 +27,7 @@ import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
+import * as log from '@/utils/electronLogger';
 import { fetchSendDataRequest } from '../../reducer';
 import {
   accountToAccount,
@@ -36,16 +36,16 @@ import {
   isValidAddress,
   sendToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
-import shutterSound from './../../../../assets/audio/shutter.mp3';
+import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '@/constants';
+import shutterSound from '@/assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
   getErrorMessage,
   isLessThanDustAmount,
-} from '../../../../utils/utility';
+} from '@/utils/utility';
 import qs from 'querystring';
-import styles from '../../WalletPage.module.scss';
-import Spinner from '../../../../components/Svg/Spinner';
+import styles from '../../LedgerPage.module.scss';
+import Spinner from '@/components/Svg/Spinner';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
