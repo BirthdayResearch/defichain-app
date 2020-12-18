@@ -13,7 +13,7 @@
       "network": "网络"
     },
     "swapCard": {
-      "selectAToken": "选择·代笔",
+      "selectAToken": "选择代币",
       "popular": "人气",
       "tokens": "代币",
       "balance": "金额",
@@ -489,7 +489,7 @@
       "general": "一般",
       "display": "显示",
       "launchOptions": "开启选项",
-      "launchAtLogin": "登陆时开启·",
+      "launchAtLogin": "登陆时开启",
       "reindexOption": "重新编制索引选项",
       "reindexAfterSaving": "保存后重新编制索引",
       "minimizedAtLaunch": "开启后缩小窗口",
