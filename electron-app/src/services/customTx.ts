@@ -82,8 +82,12 @@ export function createZeroOutputTxFromCustomTx(
   return new Transaction(tx).addOutput(output);
 }
 
-async function signInputs(tx: Transaction, keyIndex: number) {
-  const signatures = await getSignatures(tx, keyIndex);
+async function signInputs(
+  tx: Transaction,
+  keyIndex: number,
+  DefiLedger: DefiHwWallet
+) {
+  const signatures = await getSignatures(tx, keyIndex, DefiLedger);
   signatures.forEach((sigsInput) => {
     tx.inputs[sigsInput.signature.inputIndex].setScript(
       Script.buildPublicKeyHashIn(
@@ -96,10 +100,14 @@ async function signInputs(tx: Transaction, keyIndex: number) {
   return tx;
 }
 
-async function getSignatures(tx: Transaction, keyIndex: number) {
+async function getSignatures(
+  tx: Transaction,
+  keyIndex: number,
+  DefiLedger: DefiHwWallet
+) {
   const results: SigsInput[] = [];
   for (const [index] of tx.inputs.entries()) {
-    const sigsInputs = await getSigsInputs(tx, index, keyIndex);
+    const sigsInputs = await getSigsInputs(tx, index, keyIndex, DefiLedger);
     results.push(...sigsInputs);
   }
   return results;
@@ -108,7 +116,8 @@ async function getSignatures(tx: Transaction, keyIndex: number) {
 async function getSigsInputs(
   tx: Transaction,
   index: number,
-  keyIndex: number
+  keyIndex: number,
+  DefiLedger: DefiHwWallet
 ): Promise<SigsInput[]> {
   try {
     const signedTx = await signTransaction(
@@ -118,7 +127,8 @@ async function getSigsInputs(
       // TODO change is bugs
       // @ts-ignore
       tx.inputs[index]._scriptBuffer,
-      keyIndex
+      keyIndex,
+      DefiLedger
     );
     const txSig = new Transaction.Signature({
       prevTxId: tx.inputs[index].prevTxId,
@@ -146,7 +156,8 @@ async function signTransaction(
   sighashType: number,
   inputIndex: number,
   subscript: Script,
-  keyIndex: number
+  keyIndex: number,
+  DefiLedger: DefiHwWallet
 ) {
   try {
     let hashBuf = Transaction.Sighash.sighash(
@@ -156,12 +167,10 @@ async function signTransaction(
       subscript
     );
     hashBuf = util.buffer.reverse(hashBuf);
-    const wallet = new DefiHwWallet();
-    await wallet.connect();
-    const signature: Buffer = await wallet.sign(keyIndex, hashBuf);
-    // signature = await wallet.transformationSign(signature);
+    const signature: Buffer = await DefiLedger.sign(keyIndex, hashBuf);
+    const transformationSign = await DefiLedger.transformationSign(signature);
     return {
-      signature,
+      signature: transformationSign,
       hashBuf,
       keyIndex,
     };
@@ -175,10 +184,11 @@ export async function createTx(
   address: any,
   amount: any,
   data: any,
-  keyIndex: number
+  keyIndex: number,
+  DefiLedger: DefiHwWallet
 ) {
   let tx = new Transaction().from(utxo).to(address, amount).fee(0);
   tx = createZeroOutputTxFromCustomTx(tx, data);
-  tx = await signInputs(tx, keyIndex);
+  tx = await signInputs(tx, keyIndex, DefiLedger);
   return tx;
 }
