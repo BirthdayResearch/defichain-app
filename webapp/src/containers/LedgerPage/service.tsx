@@ -13,6 +13,12 @@ import {
   LIST_ACCOUNTS_PAGE_SIZE,
   IS_SHOWING_INFORMATION_LEDGER,
   LIST_DEVICES_LEDGER,
+  MAXIMUM_AMOUNT,
+  DEFAULT_MAXIMUM_AMOUNT,
+  MAXIMUM_COUNT,
+  DEFAULT_MAXIMUM_COUNT,
+  FEE_RATE,
+  DEFAULT_FEE_RATE,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -23,7 +29,10 @@ import {
   getMnemonicObject,
   getRandomWordObject,
 } from '@/utils/utility';
-import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER } from '@/constants';
+import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER, CUSTOM_TX_LEDGER } from '@/constants';
+import { construct } from '@/utils/cutxo';
+import { PaymentRequest } from '@/typings/models';
+import BigNumber from 'bignumber.js';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -69,7 +78,7 @@ export const handelFetchWalletTxns = async (
 
 export const handleSendData = async () => {
   const walletBalance = await handleFetchWalletBalance();
-  const data = {
+  return {
     walletBalance,
     amountToSend: '',
     amountToSendDisplayed: 0,
@@ -80,7 +89,6 @@ export const handleSendData = async () => {
     sendStep: 'default',
     waitToSend: 5,
   };
-  return data;
 };
 
 export const handleFetchRegularDFI = async () => {
@@ -182,8 +190,10 @@ export const sendToAddress = async (
 export const accountToAccount = async (
   fromAddress: string | null,
   toAddress: string,
-  amount: string
+  amount: string,
+  keyIndex: number,
 ) => {
+  log.info('Service accounttoaccount is started');
   try {
     const rpcClient = new RpcClient();
     const txId = await rpcClient.sendToAddress(
@@ -191,13 +201,27 @@ export const accountToAccount = async (
       DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
       true
     );
-    await getTransactionInfo(txId);
-    const data = await rpcClient.accountToAccount(
-      fromAddress,
-      toAddress,
-      amount
-    );
-    return data;
+    const cutxo = await construct({
+      maximumAmount:
+        PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+      maximumCount:
+        PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+      feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+    });
+    const data = {
+      from: fromAddress,
+      to: {
+        [toAddress]: {'0': amount}
+      }
+    };
+    const ipcRenderer = ipcRendererFunc();
+    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, cutxo, toAddress, amount, data, keyIndex);
+    if (res.success) {
+      await rpcClient.sendRawTransaction(res.data.tx);
+      return res.data.tx;
+    } else {
+      throw new Error(res.message);
+    }
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
     throw new Error(getErrorMessage(err));
@@ -351,6 +375,75 @@ export const handleFetchAccounts = async () => {
   );
 
   return result;
+};
+
+export const getAddressForSymbol = async (key: string, list: PaymentRequest[]) => {
+  log.info('getAddressForSymbol ledger')
+  const rpcClient = new RpcClient();
+  let maxAmount = 0;
+  let address = '';
+  let keyIndex = 0;
+  for (const [i, obj] of list.entries()) {
+    const tokenSymbol = obj.unit;
+    const amount = await rpcClient.getReceivedByAddress(obj.address);
+    if (key === tokenSymbol && maxAmount <= amount) {
+      maxAmount = amount;
+      address = obj.address;
+      keyIndex = i;
+    }
+  }
+  log.info(`getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`)
+  return { address, maxAmount, keyIndex };
+};
+
+export const accountToAccountConversion = async (
+  addressList: PaymentRequest[],
+  toAddress: string,
+  hash: string
+) => {
+  log.info('accountToAccountConversion ledger')
+  const rpcClient = new RpcClient();
+  const amounts = {};
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+    }
+  }
+
+  if (!isEmpty(amounts)) {
+    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
+    await getTransactionInfo(refreshUtxoTxId);
+  }
+
+  const accountToAccountTxHashes: any[] = [];
+  let amountTransfered = new BigNumber(0);
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    const amount = Number(obj.amount).toFixed(8);
+
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      const data = {
+        from: fromAddress,
+        to: {
+          [toAddress]: {'0': amount}
+        }
+      };
+      const ipcRenderer = ipcRendererFunc();
+      const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, cutxo, toAddress, amount, data, keyIndex);
+      if (res.success) {
+        const txId = rpcClient.sendRawTransaction(res.data.tx);
+        const promiseHash = getTransactionInfo(txId);
+        accountToAccountTxHashes.push(promiseHash);
+        amountTransfered = amountTransfered.plus(new BigNumber(amount));
+      } else {
+        log.error(`accountToAccountConversion error: ${res.message}`);
+        throw new Error(res.message);
+      }
+    }
+  }
+  await Promise.all(accountToAccountTxHashes);
+  return amountTransfered;
 };
 
 export const initialIsShowingInformation = () => {

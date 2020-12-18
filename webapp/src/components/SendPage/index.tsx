@@ -27,16 +27,8 @@ import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
-
-import {
-  WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-} from '@/constants';
 import shutterSound from '@/assets/audio/shutter.mp3';
 import {
-  getAddressAndAmountListForAccount,
-  getAddressForSymbol,
   getAmountInSelectedUnit,
   getSymbolKey,
   handleAccountToAccountConversion,
@@ -46,6 +38,9 @@ import qs from 'querystring';
 import styles from '@/containers/WalletPage/WalletPage.module.scss';
 import Spinner from '@/components/Svg/Spinner';
 import Header from '@/containers/HeaderComponent';
+import { PaymentRequest } from '@/typings/models';
+import { accountToAccountConversion } from '@/containers/LedgerPage/service';
+
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -62,19 +57,17 @@ interface SendPageProps {
     sendStep: string;
     waitToSend: number;
   };
+  paymentRequests: PaymentRequest[];
   fetchSendData: () => void;
   accountToAccount: (
     fromAddress: string | null,
     toAddress: string,
-    amount: string
+    amount: string,
+    keyIndex: number,
   ) => void;
-  handleFetchRegularDFI: () => string | number;
   isValidAddress: (toAddress: string) => boolean;
-  sendToAddress: (
-    toAddress: string,
-    amount: number,
-    subtractfeefromamount: boolean
-  ) => void;
+  getAddressForSymbol: (hash: string, list: any[]) => {  address: string, maxAmount: number, keyIndex: number };
+  accountToAccountConversion: (addressList: PaymentRequest[], toAddress: string, hash: string) => Promise<any>;
   cancelPagePath: string;
 }
 
@@ -270,24 +263,25 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       try {
         let accountToAccountAmount = new BigNumber(0);
         const hash = this.tokenHash || '0';
-        const addressesList = await getAddressAndAmountListForAccount();
-        const { address, amount: maxAmount } = await getAddressForSymbol(
+        const { address, maxAmount, keyIndex } = await this.props.getAddressForSymbol(
           hash,
-          addressesList
+          this.props.paymentRequests
         );
         amount = this.state.amountToSendDisplayed;
         if (Number(amount) > maxAmount) {
-          accountToAccountAmount = await handleAccountToAccountConversion(
-            addressesList,
-            address,
+          accountToAccountAmount = await this.props.accountToAccountConversion(
+            this.props.paymentRequests,
+            this.state.toAddress,
             hash
           );
+        } else {
+          txHash = await this.props.accountToAccount(
+            address,
+            this.state.toAddress,
+            `${amount}@${hash}`,
+            keyIndex,
+          );
         }
-        txHash = await this.props.accountToAccount(
-          address,
-          this.state.toAddress,
-          `${amount}@${hash}`
-        );
         this.handleSuccess(txHash);
       } catch (error) {
         this.handleFailure(error);
@@ -361,8 +355,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-                : WALLET_PAGE_PATH
+                ? `${this.props.cancelPagePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                : this.props.cancelPagePath
             }
             tag={NavLink}
             color='link'
@@ -584,8 +578,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-                    : WALLET_PAGE_PATH
+                    ? `${this.props.cancelPagePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : this.props.cancelPagePath
                 }
                 tag={NavLink}
               >
@@ -630,8 +624,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
-                    : WALLET_PAGE_PATH
+                    ? `${this.props.cancelPagePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    : this.props.cancelPagePath
                 }
                 tag={NavLink}
               >

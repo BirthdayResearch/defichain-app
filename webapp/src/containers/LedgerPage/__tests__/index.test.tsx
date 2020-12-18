@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import WalletPage from '../index';
 import { Provider } from 'react-redux';

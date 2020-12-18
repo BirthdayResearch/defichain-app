@@ -4,9 +4,9 @@ import SendPage from '@/components/SendPage';
 import { fetchSendDataRequest } from '../../reducer';
 import {
   accountToAccount,
-  handleFetchRegularDFI,
-  sendToAddress,
   isValidAddress,
+  getAddressForSymbol,
+  accountToAccountConversion
 } from '../../service';
 import { LEDGER_PATH } from '@/constants';
 
@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
   const { ledgerWallet, settings } = state;
   return {
     unit: settings.appConfig.unit,
-    sendData: ledgerWallet.sendData,
+    sendData:ledgerWallet.sendData,
+    paymentRequests: ledgerWallet.paymentRequests,
   };
 };
 
@@ -27,9 +28,9 @@ const mergerProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   accountToAccount,
-  handleFetchRegularDFI,
   isValidAddress,
-  sendToAddress,
+  getAddressForSymbol,
+  accountToAccountConversion,
   cancelPagePath: LEDGER_PATH,
 });
 
