@@ -31,6 +31,7 @@ export interface PaymentRequestModel {
   message?: string;
   amount?: number;
   unit?: string;
+  hdSeed?: boolean;
 }
 
 interface PaymentRequestsProps {
@@ -85,7 +86,17 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                     <tr key={request.id}>
                       <td></td>
                       <td>{request.label}</td>
-                      <td>{request.address}</td>
+                      <td>
+                        {request.address}
+                        &nbsp;
+                        {!request.hdSeed && (
+                          <span className={styles.colorRed}>
+                            {I18n.t(
+                              'containers.wallet.paymentRequestList.warningSeedPhrase'
+                            )}
+                          </span>
+                        )}
+                      </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
                         <div className={styles.qrCc}>

@@ -79,6 +79,7 @@ import {
   getMnemonicFromObj,
   getNetworkInfo,
   getNetworkType,
+  hdWalletCheckAndSet,
   isValidMnemonic,
   isWalletCreated,
 } from '../../utils/utility';
@@ -138,6 +139,17 @@ function* getPaymentRequestState() {
   return cloneDeep(paymentRequests);
 }
 
+async function addHdSeedCheck(list) {
+  const result = list.map(async (data) => {
+    return {
+      ...data,
+      hdSeed: await hdWalletCheckAndSet(data.address),
+    };
+  });
+  const resolvedData = await Promise.all(result);
+  return resolvedData;
+}
+
 export function* addReceiveTxns(action: any) {
   try {
     const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
@@ -192,7 +204,8 @@ export function* fetchPayments() {
       );
       return !isEmpty(found);
     });
-    yield put(fetchPaymentRequestsSuccess(result));
+    const finalResult = yield call(addHdSeedCheck, result);
+    yield put(fetchPaymentRequestsSuccess(finalResult));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
