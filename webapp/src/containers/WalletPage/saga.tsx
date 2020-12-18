@@ -425,8 +425,12 @@ function* fetchWalletTokenTransactionsList(action) {
         type: d.type,
         txn: d.txn,
         txid: d.txid,
-        unit: d.amounts[0].split('@')[1],
-        amount: d.amounts[0].split('@')[0],
+        amountData: d.amounts.map((amount) => {
+          return {
+            unit: amount.split('@')[1],
+            amount: amount.split('@')[0],
+          };
+        }),
       };
     });
 
