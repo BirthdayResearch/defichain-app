@@ -6,8 +6,10 @@ import {
   setGovVariableData,
 } from './testData.json';
 import { createZeroOutputTxFromCustomTx, createTx } from '../customTx';
+import DefiHwWallet from '../../defiHwWallet/defiHwWallet';
 
 describe('Custom tx', () => {
+  const DefiLedger = new DefiHwWallet();
   it('should return object of transaction at type createToken', () => {
     const tx = createZeroOutputTxFromCustomTx(
       transaction as any,
@@ -86,7 +88,8 @@ describe('Custom tx', () => {
       'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
       0,
       createTokenData,
-      0
+      0,
+      DefiLedger
     );
     expect(tx.toObject()).toEqual({
       hash: 'acf4db1b11755ef8f611018039f7610e7771a4afbfcaa681a29a0eea8931bab0',
@@ -123,7 +126,8 @@ describe('Custom tx', () => {
       'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
       1989995300,
       setGovVariableData,
-      0
+      0,
+      DefiLedger
     );
     expect(tx.toObject()).toEqual({
       hash: '8e77021cc508d0e8c575858a388b659b675d31d6470202bd308230ebfb398575',
