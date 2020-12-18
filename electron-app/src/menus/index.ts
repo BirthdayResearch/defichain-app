@@ -39,13 +39,6 @@ export default class AppMenu {
               wallet.resetWallet(bw);
             },
           },
-          {
-            label: 'Connect HW Wallet',
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.connectHwWallet();
-            },
-          },
         ],
       },
       {
