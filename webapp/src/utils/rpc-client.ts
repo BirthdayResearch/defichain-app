@@ -891,11 +891,15 @@ export default class RpcClient {
     return data.result;
   };
 
-  accountHistoryCount = async (no_rewards: boolean): Promise<string> => {
+  accountHistoryCount = async (
+    no_rewards: boolean,
+    token: string
+  ): Promise<string> => {
     const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
       'mine',
       {
         no_rewards,
+        token,
       },
     ]);
     return data.result;
