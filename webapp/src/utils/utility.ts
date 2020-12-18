@@ -53,6 +53,8 @@ import {
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
   APY_MULTIPLICATION_FACTOR,
+  DEFAULT_MAIN,
+  DEFAULT_TEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -947,6 +949,31 @@ export const getIcon = (symbol: string) => {
 export const isAddressMine = async (address) => {
   const addressInfo = await getAddressInfo(address);
   if (addressInfo.ismine && !addressInfo.iswatchonly) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheck = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheckAndSet = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (!PersistentStore.get(hdseedidKey)) {
+    const address = await getNewAddress('', false);
+    const addressInfo = await getAddressInfo(address);
+    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
+  }
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
     return true;
   }
   return false;
