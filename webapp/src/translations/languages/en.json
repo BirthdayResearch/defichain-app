@@ -651,7 +651,8 @@
       "paymentRequestList": {
         "label": "Label",
         "address": "Address",
-        "created": "Created"
+        "created": "Created",
+        "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
         "paymentRequestTitle": "Payment request %{id} – DeFi app",
