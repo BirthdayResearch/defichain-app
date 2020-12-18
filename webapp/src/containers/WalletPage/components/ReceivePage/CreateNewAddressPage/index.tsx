@@ -15,19 +15,14 @@ import {
   CustomInput,
 } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import {
-  MdArrowBack,
-  MdArrowDropDown,
-  MdArrowDropUp,
-  MdCompareArrows,
-} from 'react-icons/md';
+import { MdArrowBack, MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import { WALLET_RECEIVE_PATH } from '../../../../../constants';
 import { addReceiveTxnsRequest } from '../../../reducer';
 import { getNewAddress, isValidAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
-import { isAddressMine } from '../../../../../utils/utility';
+import { hdWalletCheck, isAddressMine } from '../../../../../utils/utility';
 
 export interface PaymentRequestModel {
   label: string;
@@ -102,7 +97,8 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
       isAddressValid =
         (await isValidAddress(value)) &&
         (await isAddressMine(value)) &&
-        isAddressAlreadyExists(value);
+        isAddressAlreadyExists(value) &&
+        (await hdWalletCheck(value));
     }
     setIsAddressValidBoolean(isAddressValid);
   };
