@@ -658,7 +658,7 @@
         "label": "Label",
         "address": "Adresse",
         "created": "Erstellt",
-        "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
+        "warningSeedPhrase": "(Warnung: Nicht durch Seed-Phrase gespeichert)"
       },
       "paymentRequestPage": {
         "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi app",
