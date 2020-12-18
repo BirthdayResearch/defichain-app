@@ -21,10 +21,10 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
     return props.disableNext;
   };
 
-  const { currentPage, pagesCount, data } = props;
+  const { currentPage, pagesCount, data, label } = props;
   return (
     <div className='d-flex text-right justify-content-between align-items-center mt-3'>
-      <div>{''}</div>
+      <div>{label}</div>
       <Pagination className={styles.pagination}>
         {!props.showNextOnly && (
           <PaginationItem disabled={currentPage <= 1}>
@@ -38,8 +38,8 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             {currentPage}
           </PaginationLink>
         </PaginationItem>
-        {!(data.length < 10) && (
-          <PaginationItem disabled={disableNextLink()}>
+        {
+          <PaginationItem disabled={disableNextLink() || data.length < 10}>
             <PaginationLink
               next
               onClick={(e) => props.handlePageClick(currentPage + 1)}
@@ -48,7 +48,7 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
               <MdChevronRight />
             </PaginationLink>
           </PaginationItem>
-        )}
+        }
       </Pagination>
     </div>
   );

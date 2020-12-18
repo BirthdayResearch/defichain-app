@@ -300,9 +300,9 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
   return await Promise.all(transformedData);
 };
 
-export const handleFetchAccountHistoryCount = async (no_rewards) => {
+export const handleFetchAccountHistoryCount = async (no_rewards, token) => {
   const rpcClient = new RpcClient();
-  const count = await rpcClient.accountHistoryCount(no_rewards);
+  const count = await rpcClient.accountHistoryCount(no_rewards, token);
   return count;
 };
 
