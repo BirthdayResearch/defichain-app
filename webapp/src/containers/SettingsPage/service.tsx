@@ -15,6 +15,7 @@ import {
   GERMAN,
   FRENCH,
   CHINESE,
+  CHINESE_TRADITIONAL,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -39,6 +40,10 @@ export const getLanguage = () => {
     { label: 'containers.settings.german', value: GERMAN },
     // { label: 'containers.settings.french', value: FRENCH },
     { label: 'containers.settings.chinese', value: CHINESE },
+    {
+      label: 'containers.settings.chinese_traditional',
+      value: CHINESE_TRADITIONAL,
+    },
   ];
 };
 
