@@ -425,6 +425,16 @@ export default class RpcClient {
     return txnList;
   };
 
+  listTransactions = async (pageNo: number = 0, pageSize: number = 1) => {
+    const skip = pageNo * pageSize;
+    const { data } = await this.call('/', methodNames.LIST_TRANSACTIONS, [
+      '*',
+      pageSize,
+      skip,
+    ]);
+    return data.result;
+  };
+
   listUnspent = async (maximumAmount: number, maximumCount?: number) => {
     const queryOptions = maximumCount
       ? { maximumAmount, maximumCount: Number(maximumCount) }
