@@ -427,6 +427,28 @@
         "legacyAddress": "Старый адрес",
         "addressType": "Тип адреса"
       },
+      "sendPage": {
+        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
+        "wallet": "Кошелек Ledger",
+        "sendDFI": "Отправить DFI",
+        "send": "Отправить",
+        "amount": "Сумма",
+        "dFI": "DFI",
+        "max": "МАКС",
+        "toAddress": "На адрес",
+        "walletBalance": "Баланс кошелька",
+        "amountToSend": "Сумма для отправки",
+        "cancel": "Отменить",
+        "continue": "Продолжить",
+        "to": "На",
+        "pleaseVerifyAmount": "Пожалуйста, проверьте сумму и получателя",
+        "completeSend": "Завершить отправку",
+        "sendFailed": "Ошибка при отправке суммы",
+        "transactionSuccessMsg": "Транзакция прошла успешно. Баланс вашего кошелька обновится после того, как транзакция будет подтверждена блокчейном DeFi.",
+        "backToWallet": "Вернуться в кошелек",
+        "dfiAddress": "Адрес DFI",
+        "pleaseTransferFunds": "Перенесите несколько DFI на свой счет"
+      },
       "paymentRequests": {
         "time": "Время",
         "amount": "Сумма",

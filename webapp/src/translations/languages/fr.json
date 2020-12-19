@@ -691,6 +691,28 @@
         "legacyAddress": "Legacy address",
         "addressType": "Address type"
       },
+      "sendPage": {
+        "sendDFITitle": "Envoi de DFI – App DeFi",
+        "wallet": "Ledger Portefeuille",
+        "sendDFI": "Envoyer DFI",
+        "amount": "Montant",
+        "dFI": "DFI",
+        "max": "Max",
+        "toAddress": "À l'adresse",
+        "walletBalance": "Solde du portefeuille",
+        "amountToSend": "Montant à envoyer",
+        "cancel": "Annuler",
+        "continue": "Continuer",
+        "to": "À",
+        "pleaseVerifyAmount": "Merci de vérifier le montant et le bénéficiaire",
+        "completeSend": "Finaliser l'envoi",
+        "sendFailed": "Une erreur s'est produite lors de l'envoi",
+        "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé une fois la transaction confirmée par la Blockchain DeFi.",
+        "backToWallet": "Retour au portefeuille",
+        "dfiAddress": "Adresse DFI",
+        "txHash": "Transaction Hash",
+        "insufficientUtxos": "Insufficient UTXOS"
+      },
       "helpModal": {
         "title": "Comment connecter Ledger à DeFi Bourse",
         "downloadItem": "Téléchargez l'application Ledger",

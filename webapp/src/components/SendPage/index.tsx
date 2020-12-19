@@ -63,11 +63,18 @@ interface SendPageProps {
     fromAddress: string | null,
     toAddress: string,
     amount: string,
-    keyIndex: number,
+    keyIndex: number
   ) => void;
   isValidAddress: (toAddress: string) => boolean;
-  getAddressForSymbol: (hash: string, list: any[]) => {  address: string, maxAmount: number, keyIndex: number };
-  accountToAccountConversion: (addressList: PaymentRequest[], toAddress: string, hash: string) => Promise<any>;
+  getAddressForSymbol: (
+    hash: string,
+    list: any[]
+  ) => { address: string; maxAmount: number; keyIndex: number };
+  accountToAccountConversion: (
+    addressList: PaymentRequest[],
+    toAddress: string,
+    hash: string
+  ) => Promise<any>;
   cancelPagePath: string;
 }
 
@@ -263,7 +270,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       try {
         let accountToAccountAmount = new BigNumber(0);
         const hash = this.tokenHash || '0';
-        const { address, maxAmount, keyIndex } = await this.props.getAddressForSymbol(
+        const {
+          address,
+          maxAmount,
+          keyIndex,
+        } = await this.props.getAddressForSymbol(
           hash,
           this.props.paymentRequests
         );
@@ -279,7 +290,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             address,
             this.state.toAddress,
             `${amount}@${hash}`,
-            keyIndex,
+            keyIndex
           );
         }
         this.handleSuccess(txHash);
@@ -349,7 +360,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
+          <title>{I18n.t('containers.ledger.sendPage.sendTitle')}</title>
         </Helmet>
         <Header>
           <Button
@@ -364,11 +375,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           >
             <MdArrowBack />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.sendPage.wallet')}
+              {I18n.t('containers.ledger.sendPage.wallet')}
             </span>
           </Button>
           <h1>
-            {I18n.t('containers.wallet.sendPage.send')}{' '}
+            {I18n.t('containers.ledger.sendPage.send')}{' '}
             {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
               this.props.unit}
           </h1>
@@ -384,7 +395,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       type='text'
                       inputMode='numeric'
                       placeholder={I18n.t(
-                        'containers.wallet.sendPage.amountToSend'
+                        'containers.ledger.sendPage.amountToSend'
                       )}
                       name='amountToSend'
                       id='amountToSend'
@@ -393,7 +404,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       autoFocus
                     />
                     <Label for='amountToSend'>
-                      {I18n.t('containers.wallet.sendPage.amount')}
+                      {I18n.t('containers.ledger.sendPage.amount')}
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
@@ -408,7 +419,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     color='outline-primary'
                     onClick={this.maxAmountToSend}
                   >
-                    {I18n.t('containers.wallet.sendPage.MAX')}
+                    {I18n.t('containers.ledger.sendPage.MAX')}
                   </Button>
                 </Col>
               </FormGroup>
@@ -417,7 +428,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   <Input
                     type='text'
                     placeholder={I18n.t(
-                      'containers.wallet.sendPage.dfiAddress'
+                      'containers.ledger.sendPage.dfiAddress'
                     )}
                     name='toAddress'
                     id='toAddress'
@@ -425,7 +436,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     onChange={this.updateToAddress}
                   />
                   <Label for='toAddress'>
-                    {I18n.t('containers.wallet.sendPage.toAddress')}
+                    {I18n.t('containers.ledger.sendPage.toAddress')}
                   </Label>
                   <InputGroupAddon addonType='append'>
                     <Button color='outline-primary' onClick={this.openScanner}>
@@ -462,7 +473,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             <Row className='justify-content-between align-items-center'>
               <Col className='col-auto'>
                 <div className='caption-secondary'>
-                  {I18n.t('containers.wallet.sendPage.walletBalance')}
+                  {I18n.t('containers.ledger.sendPage.walletBalance')}
                 </div>
                 <div>
                   {!tokenSymbol
@@ -479,7 +490,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </Col>
               <Col className='col-auto'>
                 <div className='caption-secondary'>
-                  {I18n.t('containers.wallet.sendPage.amountToSend')}
+                  {I18n.t('containers.ledger.sendPage.amountToSend')}
                 </div>
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
@@ -494,7 +505,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   color='link'
                   className='mr-3'
                 >
-                  {I18n.t('containers.wallet.sendPage.cancel')}
+                  {I18n.t('containers.ledger.sendPage.cancel')}
                 </Button>
                 <Button
                   color='primary'
@@ -503,7 +514,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   }
                   onClick={this.sendStepConfirm}
                 >
-                  {I18n.t('containers.wallet.sendPage.continue')}
+                  {I18n.t('containers.ledger.sendPage.continue')}
                 </Button>
               </Col>
             </Row>
@@ -516,7 +527,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             <div className='footer-sheet'>
               <dl className='row'>
                 <dt className='col-sm-3 text-right'>
-                  {I18n.t('containers.wallet.sendPage.amount')}
+                  {I18n.t('containers.ledger.sendPage.amount')}
                 </dt>
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
@@ -526,14 +537,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
-                  {I18n.t('containers.wallet.sendPage.to')}
+                  {I18n.t('containers.ledger.sendPage.to')}
                 </dt>
                 <dd className='col-sm-9'>{this.state.toAddress}</dd>
               </dl>
             </div>
             <Row className='justify-content-between align-items-center'>
               <Col className='col'>
-                {I18n.t('containers.wallet.sendPage.pleaseVerifyAmount')}
+                {I18n.t('containers.ledger.sendPage.pleaseVerifyAmount')}
               </Col>
               <Col className='d-flex justify-content-end'>
                 <Button
@@ -541,14 +552,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   className='mr-3'
                   onClick={this.sendStepDefault}
                 >
-                  {I18n.t('containers.wallet.sendPage.cancel')}
+                  {I18n.t('containers.ledger.sendPage.cancel')}
                 </Button>
                 <Button
                   color='primary'
                   onClick={this.sendTransaction}
                   disabled={this.state.waitToSend > 0}
                 >
-                  {I18n.t('containers.wallet.sendPage.completeSend')}&nbsp;
+                  {I18n.t('containers.ledger.sendPage.completeSend')}&nbsp;
                   <span className='timer'>
                     {this.state.waitToSend > 0 ? this.state.waitToSend : ''}
                   </span>
@@ -565,10 +576,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               <div className='text-center'>
                 <MdCheckCircle className='footer-sheet-icon' />
                 <p>
-                  {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
+                  {I18n.t('containers.ledger.sendPage.transactionSuccessMsg')}
                 </p>
                 <div>
-                  <b>{I18n.t('containers.wallet.sendPage.txHash')}</b> : &nbsp;
+                  <b>{I18n.t('containers.ledger.sendPage.txHash')}</b> : &nbsp;
                   <span>{this.state.txHash}</span>
                 </div>
               </div>
@@ -583,7 +594,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 }
                 tag={NavLink}
               >
-                {I18n.t('containers.wallet.sendPage.backToWallet')}
+                {I18n.t('containers.ledger.sendPage.backToWallet')}
               </Button>
             </div>
           </div>
@@ -613,7 +624,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 />
                 {!this.state.regularDFI && (
                   <p>
-                    {I18n.t('containers.wallet.sendPage.pleaseTransferFunds')}
+                    {I18n.t('containers.ledger.sendPage.pleaseTransferFunds')}
                   </p>
                 )}
                 <p>{this.state.errMessage}</p>
@@ -629,7 +640,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 }
                 tag={NavLink}
               >
-                {I18n.t('containers.wallet.sendPage.backToWallet')}
+                {I18n.t('containers.ledger.sendPage.backToWallet')}
               </Button>
             </div>
           </div>
