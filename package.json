@@ -78,6 +78,7 @@
     "random-string": "^0.2.0",
     "react-ellipsis-text": "^1.2.1",
     "react-md-spinner": "^1.0.0",
+    "socket.io": "^3.0.4",
     "uid": "^1.0.0",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
@@ -96,7 +97,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "electron": "^8.2.0",
-    "electron-builder": "^22.4.1",
+    "electron-builder": "^22.9.1",
     "eslint": "^6.8.0",
     "file-loader": "^6.0.0",
     "husky": "^4.2.5",
