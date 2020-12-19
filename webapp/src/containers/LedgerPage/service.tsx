@@ -67,10 +67,24 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
 
 export const handelFetchWalletTxns = async (
   pageNo: number,
-  pageSize: number
+  pageSize: number,
+  addressesLedger: string[],
 ) => {
   const rpcClient = new RpcClient();
-  const walletTxns = await rpcClient.getWalletTxns(pageNo - 1, pageSize);
+  const listTransactions = await rpcClient.listTransactions(pageNo - 1, pageSize);
+  const txs = [];
+  // TODO finish up
+  const promiseRawTransactions = listTransactions.filter((tx) => new Promise((resolve, reject) => {
+    rpcClient.getRawTransaction(tx.txid, false).then(rawTransaction => {
+      for (const vout of rawTransaction.vout) {
+        if (vout.scriptPubKey.addresses.some(address => addressesLedger.indexOf(address)!== -1)) {
+          resolve(tx);
+        }
+      }
+    });
+  }));
+  const rawTransactions = await Promise.all(promiseRawTransactions);
+
   const walletTxnCount = await rpcClient.getWalletTxnCount();
   const data = { walletTxns: walletTxns.reverse(), walletTxnCount };
   return data;

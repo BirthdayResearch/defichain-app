@@ -7,19 +7,13 @@ import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { fetchWalletTxnsRequest } from '../../reducer';
 import { WALLET_TXN_PAGE_SIZE, BLOCKCHAIN_BLOCK_BASE_PATH } from '@/constants';
-import Pagination from '../../../../components/Pagination';
+import Pagination from '@/components/Pagination';
 import { getAmountInSelectedUnit } from '@/utils/utility';
+import { WalletTxn } from '@/typings/models';
 
 interface WalletTxnsProps {
   unit: string;
-  walletTxns: {
-    txnId: string;
-    category: string;
-    time: string;
-    amount: number;
-    unit: string;
-    height: number;
-  }[];
+  walletTxns: WalletTxn[];
   walletTxnCount: number;
   fetchWalletTxns: (
     currentPage: number,
@@ -138,12 +132,12 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { settings, wallet } = state;
+  const { settings, ledgerWallet } = state;
   return {
     unit: settings.appConfig.unit,
-    walletTxns: wallet.walletTxns,
-    walletTxnCount: wallet.walletTxnCount,
-    stopPagination: wallet.stopPagination,
+    walletTxns: ledgerWallet.walletTxns,
+    walletTxnCount: ledgerWallet.walletTxnCount,
+    stopPagination: ledgerWallet.stopPagination,
   };
 };
 
