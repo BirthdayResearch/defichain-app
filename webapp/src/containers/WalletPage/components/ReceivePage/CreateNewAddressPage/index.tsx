@@ -15,21 +15,27 @@ import {
   CustomInput,
 } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import {
-  MdArrowBack,
-  MdArrowDropDown,
-  MdArrowDropUp,
-  MdCompareArrows,
-} from 'react-icons/md';
+import { MdArrowBack, MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import { WALLET_RECEIVE_PATH } from '../../../../../constants';
 import { addReceiveTxnsRequest } from '../../../reducer';
 import { getNewAddress, isValidAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
-import { isAddressMine } from '../../../../../utils/utility';
+import { hdWalletCheck, isAddressMine } from '../../../../../utils/utility';
+
+export interface PaymentRequestModel {
+  label: string;
+  id: string;
+  time: string;
+  address: string;
+  message?: string;
+  amount?: number;
+  unit?: string;
+}
 
 interface CreateNewAddressPageProps {
+  paymentRequests: PaymentRequestModel[];
   addReceiveTxns: (data: any) => void;
   history: {
     push(url: string): void;
@@ -72,6 +78,16 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     }
   };
 
+  const isAddressAlreadyExists = (address) => {
+    const paymentRequestObj = props.paymentRequests.find(
+      (paymentRequest) => paymentRequest.address === address
+    );
+    if (paymentRequestObj) {
+      return false;
+    }
+    return true;
+  };
+
   const isAddressValid = async (value) => {
     let isAddressValid = false;
     if (
@@ -79,7 +95,10 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
       value.length <= 35
     ) {
       isAddressValid =
-        (await isValidAddress(value)) && (await isAddressMine(value));
+        (await isValidAddress(value)) &&
+        (await isAddressMine(value)) &&
+        isAddressAlreadyExists(value) &&
+        (await hdWalletCheck(value));
     }
     setIsAddressValidBoolean(isAddressValid);
   };
@@ -299,7 +318,11 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  const { wallet } = state;
+
+  return {
+    paymentRequests: wallet.paymentRequests,
+  };
 };
 
 const mapDispatchToProps = {

@@ -71,7 +71,7 @@ interface WalletTxnsProps {
   isError: string;
   combineAccountHistoryData: any;
   fetchWalletTokenTransactionsListResetRequest: () => void;
-  accountHistoryCountRequest: (no_rewards) => void;
+  accountHistoryCountRequest: ({ no_rewards, token }) => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -101,6 +101,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     accountHistoryCountRequest({
       no_rewards: !includeRewards,
+      token: tokenSymbol,
     });
   }, [includeRewards]);
 
@@ -211,21 +212,27 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     <div className={styles.unit}>{item.blockTime}</div>
                   </td>
                   <td>
-                    <div
-                      className={
-                        item.type === REWARD_CATEGORY_LABEL ||
-                        item.type === RECIEVEE_CATEGORY_LABEL ||
-                        item.type === REWARDS_CATEEGORY_LABEL
-                          ? `${styles.colorGreen} ${styles.amount}`
-                          : styles.amount
-                      }
-                    >
-                      {item.unit === 'DFI'
-                        ? getAmountInSelectedUnit(item.amount, item.unit)
-                        : item.amount}
-                      &nbsp;
-                      <span className={styles.unit}>{item.unit}</span>
-                    </div>
+                    {item.amountData.map((amountD) => (
+                      <div
+                        className={
+                          item.type === REWARD_CATEGORY_LABEL ||
+                          item.type === RECIEVEE_CATEGORY_LABEL ||
+                          item.type === REWARDS_CATEEGORY_LABEL ||
+                          Number(amountD.amount) > 0
+                            ? `${styles.colorGreen} ${styles.amount}`
+                            : styles.amount
+                        }
+                      >
+                        {amountD.unit === 'DFI'
+                          ? getAmountInSelectedUnit(
+                              amountD.amount,
+                              amountD.unit
+                            )
+                          : amountD.amount}
+                        &nbsp;
+                        <span className={styles.unit}>{amountD.unit}</span>
+                      </div>
+                    ))}
                   </td>
                   {item.txid ? (
                     <td>
@@ -328,8 +335,8 @@ const mapDispatchToProps = {
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
     fetchBlockDataForTrxRequestLoading(trxArray),
   fetchWalletTokenTransactionsListResetRequest,
-  accountHistoryCountRequest: (no_rewards) =>
-    accountHistoryCountRequest(no_rewards),
+  accountHistoryCountRequest: ({ no_rewards, token }) =>
+    accountHistoryCountRequest({ no_rewards, token }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
