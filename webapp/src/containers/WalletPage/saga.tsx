@@ -79,6 +79,7 @@ import {
   getMnemonicFromObj,
   getNetworkInfo,
   getNetworkType,
+  hdWalletCheckAndSet,
   isValidMnemonic,
   isWalletCreated,
 } from '../../utils/utility';
@@ -138,6 +139,17 @@ function* getPaymentRequestState() {
   return cloneDeep(paymentRequests);
 }
 
+async function addHdSeedCheck(list) {
+  const result = list.map(async (data) => {
+    return {
+      ...data,
+      hdSeed: await hdWalletCheckAndSet(data.address),
+    };
+  });
+  const resolvedData = await Promise.all(result);
+  return resolvedData;
+}
+
 export function* addReceiveTxns(action: any) {
   try {
     const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
@@ -192,7 +204,8 @@ export function* fetchPayments() {
       );
       return !isEmpty(found);
     });
-    yield put(fetchPaymentRequestsSuccess(result));
+    const finalResult = yield call(addHdSeedCheck, result);
+    yield put(fetchPaymentRequestsSuccess(finalResult));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -293,11 +306,11 @@ export function* fetchTokens() {
 
 export function* accountHistoryCount(action) {
   const {
-    payload: { no_rewards },
+    payload: { no_rewards, token },
   } = action;
 
   try {
-    const data = yield call(handleFetchAccountHistoryCount, no_rewards);
+    const data = yield call(handleFetchAccountHistoryCount, no_rewards, token);
     yield put({
       type: accountHistoryCountSuccess.type,
       payload: { accountHistoryCount: data },
@@ -425,8 +438,12 @@ function* fetchWalletTokenTransactionsList(action) {
         type: d.type,
         txn: d.txn,
         txid: d.txid,
-        unit: d.amounts[0].split('@')[1],
-        amount: d.amounts[0].split('@')[0],
+        amountData: d.amounts.map((amount) => {
+          return {
+            unit: amount.split('@')[1],
+            amount: amount.split('@')[0],
+          };
+        }),
       };
     });
 
