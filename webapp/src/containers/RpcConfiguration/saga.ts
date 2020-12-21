@@ -22,12 +22,8 @@ import {
   closeRestartLoader,
   setIsQueueResetRoute,
 } from '../PopOver/reducer';
-import {
-  fetchPaymentRequest,
-  setIsWalletCreatedRequest,
-} from '../WalletPage/reducer';
+import { fetchPaymentRequest } from '../WalletPage/reducer';
 import { fetchChainInfo } from '../WalletPage/saga';
-import { isWalletCreated } from '../../utils/utility';
 import { enableMenuResetWalletBtn } from '../../app/update.ipcRenderer';
 import { history } from '../../utils/history';
 import { WALLET_TOKENS_PATH } from '../../constants';
@@ -87,7 +83,8 @@ export function* getConfig() {
 export function* preCheck() {
   yield call(fetchChainInfo);
   yield put(fetchPaymentRequest());
-  yield call(enableMenuResetWalletBtn);
+  const { isWalletCreatedFlag } = yield select((state) => state.wallet);
+  yield call(enableMenuResetWalletBtn, isWalletCreatedFlag);
 }
 
 function* mySaga() {
