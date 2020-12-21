@@ -24,11 +24,14 @@ import {
   accountHistoryCountRequest,
 } from '../../reducer';
 import {
+  ACCOUNT_TO_ACCOUNT_LABEL,
   ACCOUNT_TO_UTXOS_LABEL,
+  ADD_POOL_LIQUIDITY_LABEL,
   DFI_SYMBOL,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
+  REMOVE_LIQUIDITY_LABEL,
   REWARDS_CATEEGORY_LABEL,
   REWARD_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
@@ -154,13 +157,25 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   const getTxnsType = (type: string) => {
     if (type === SENT_CATEGORY_LABEL) {
-      return TRANSFER_CATEGORY_LABEL;
+      return I18n.t('containers.wallet.walletTxns.sent');
     }
     if (type === POOL_SWAP_CATEGORY_LABEL) {
       return SWAP_CATEGORY_LABEL;
     }
     if (type === REWARDS_CATEEGORY_LABEL || type === REWARD_CATEGORY_LABEL) {
       return REWARD_CATEGORY_LABEL;
+    }
+    if (type === ACCOUNT_TO_UTXOS_LABEL) {
+      return I18n.t('containers.wallet.walletTxns.accountToAccount');
+    }
+    if (type === ACCOUNT_TO_ACCOUNT_LABEL) {
+      return I18n.t('containers.wallet.walletTxns.utxosToAccount');
+    }
+    if (type === ADD_POOL_LIQUIDITY_LABEL) {
+      return I18n.t('containers.wallet.walletTxns.addPoolLiquidity');
+    }
+    if (type === REMOVE_LIQUIDITY_LABEL) {
+      return I18n.t('containers.wallet.walletTxns.removePoolLiquidity');
     }
     if (type === 'send') {
       return 'Send';
