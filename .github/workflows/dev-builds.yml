@@ -5,6 +5,7 @@ on:
       - fix/issues-liquidity
       - feature/add-receive-address-manually
       - master
+      - feature/devDev_updates
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
