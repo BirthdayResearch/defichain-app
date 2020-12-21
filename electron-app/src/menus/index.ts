@@ -12,13 +12,14 @@ import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
 
 export default class AppMenu {
-  getTemplate(enableReset?: boolean) {
+  getTemplate(isWalletLoaded?: boolean) {
     const template: Electron.MenuItemConstructorOptions[] = [
       {
         label: 'Wallet',
         submenu: [
           {
             label: 'Import Wallet',
+            enabled: !!isWalletLoaded,
             click(item, bw) {
               const wallet = new Wallet();
               wallet.load(bw);
@@ -26,6 +27,7 @@ export default class AppMenu {
           },
           {
             label: 'Backup Wallet',
+            enabled: !!isWalletLoaded,
             click(item, bw) {
               const wallet = new Wallet();
               wallet.startBackupWallet(bw);
@@ -33,7 +35,7 @@ export default class AppMenu {
           },
           {
             label: 'Reset Wallet',
-            enabled: !!enableReset,
+            enabled: !!isWalletLoaded,
             click(item, bw) {
               const wallet = new Wallet();
               wallet.resetWallet(bw);
