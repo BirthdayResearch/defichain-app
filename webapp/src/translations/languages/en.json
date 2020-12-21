@@ -707,7 +707,12 @@
         "amount": "Amount",
         "hash": "Hash",
         "paginationRange": "%{from} – %{to} of %{total} transaction",
-        "noTransactions": "No transactions available"
+        "noTransactions": "No transactions available",
+        "accountToAccount": "Account to account",
+        "utxosToAccount": "UTXOs to account",
+        "addPoolLiquidity": "Add liquidity",
+        "sent": "Sent",
+        "removePoolLiquidity": "Remove liquidity"
       }
     },
     "console": {
