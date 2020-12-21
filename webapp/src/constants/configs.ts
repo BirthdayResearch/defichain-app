@@ -146,7 +146,7 @@ export const TX_TYPES = {
 };
 export const RECIEVE_CATEGORY_LABEL = 'Receive';
 export const RECIEVEE_CATEGORY_LABEL = 'receive';
-export const SENT_CATEGORY_LABEL = 'Sent';
+export const SENT_CATEGORY_LABEL = 'sent';
 export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const ACCOUNT_TO_UTXOS_LABEL = 'AccountToUtxos';
 export const ACCOUNT_TO_ACCOUNT_LABEL = 'AccountToAccount';
@@ -154,6 +154,8 @@ export const REWARD_CATEGORY_LABEL = 'Reward';
 export const SWAP_CATEGORY_LABEL = 'Swap';
 export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
+export const ADD_POOL_LIQUIDITY_LABEL = TX_TYPES.AddPoolLiquidity;
+export const REMOVE_LIQUIDITY_LABEL = TX_TYPES.RemovePoolLiquidity;
 
 // NOTE: APY calculation to use 37 second block time
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
