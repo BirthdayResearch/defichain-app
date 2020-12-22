@@ -298,7 +298,7 @@
         "totalLiquidity": "Gesamtliquidität (USD)",
         "addRemoveLiquidity": "Liquidität hinzufügen oder entfernen",
         "addLiquidity": "LIQUIDITÄT HINZUFÜGEN",
-        "totalValueLocked": "Total Value Locked (USD)"
+        "totalValueLocked": "Gesperrter Gesamtwert (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -707,7 +707,8 @@
         "utxosToAccount": "UTXOs auf Konto",
         "addPoolLiquidity": "Liquidität hinzufügen",
         "sent": "Gesendet",
-        "removePoolLiquidity": "Liquidität entfernen"
+        "removePoolLiquidity": "Liquidität entfernen",
+        "accountToUtxos": "Konto zu UTXOs"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",
@@ -821,7 +822,7 @@
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein"
-  },  
+  },
   "general": {
     "defiApp": "DeFi app"
   }
