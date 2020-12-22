@@ -297,7 +297,8 @@
         "apyTooltipMessage": "Der hier angegebene APY beinhaltet nur DFI-Incentives, ohne Provision. Tatsächliches APY mit Provision ist also, mehr.",
         "totalLiquidity": "Gesamtliquidität (USD)",
         "addRemoveLiquidity": "Liquidität hinzufügen oder entfernen",
-        "addLiquidity": "LIQUIDITÄT HINZUFÜGEN"
+        "addLiquidity": "LIQUIDITÄT HINZUFÜGEN",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
