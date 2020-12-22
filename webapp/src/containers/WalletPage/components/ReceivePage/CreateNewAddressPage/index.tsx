@@ -122,6 +122,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
         id: uid(),
         time: new Date().toString(),
         address: newAddress,
+        automaticallyGenerateNewAddress,
       };
       props.addReceiveTxns(data);
       props.history.push(WALLET_RECEIVE_PATH);

@@ -700,7 +700,12 @@
         "amount": "Höhe",
         "hash": "Hash",
         "paginationRange": "%{from} – %{to} von %{total} Transaktion",
-        "noTransactions": "Keine Transaktionen verfügbar"
+        "noTransactions": "Keine Transaktionen verfügbar",
+        "accountToAccount": "Konto zu Konto",
+        "utxosToAccount": "UTXOs auf Konto",
+        "addPoolLiquidity": "Liquidität hinzufügen",
+        "sent": "Gesendet",
+        "removePoolLiquidity": "Liquidität entfernen"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",

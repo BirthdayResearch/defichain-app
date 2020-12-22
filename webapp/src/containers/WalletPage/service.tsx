@@ -22,6 +22,7 @@ import {
   getBalanceForSymbol,
   getErrorMessage,
   handleAccountToAccountConversion,
+  hdWalletCheck,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -43,10 +44,15 @@ export const handleGetPaymentRequest = (networkName) => {
   );
 };
 
-export const handelAddReceiveTxns = (data, networkName) => {
+export const handelAddReceiveTxns = async (data, networkName) => {
   const localStorageName = handleLocalStorageName(networkName);
   const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+  data.hdSeed = await hdWalletCheck(data.address);
   const paymentData = [data, ...initialData];
+  if (!data.automaticallyGenerateNewAddress) {
+    const rpcClient = new RpcClient();
+    await rpcClient.setLabel(data.address, data.label);
+  }
   PersistentStore.set(localStorageName, paymentData);
   return paymentData;
 };

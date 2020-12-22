@@ -41,6 +41,7 @@ export const SEND_TOKENS_TO_ADDRESS = 'sendtokenstoaddress';
 export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
 export const UTXOS_TO_ACCOUNT = 'utxostoaccount';
 export const GET_TRANSACTION = 'gettransaction';
+export const SET_LABEL = 'setlabel';
 export const SET_HD_SEED = 'sethdseed';
 
 // wallet lock/unlock methods

@@ -96,7 +96,10 @@ import {
   WALLET_TOKENS_PATH,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
+import {
+  createMnemonicIpcRenderer,
+  enableMenuResetWalletBtn,
+} from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { uid } from 'uid';
@@ -388,6 +391,7 @@ export function* restoreWallet(action) {
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
+    yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);

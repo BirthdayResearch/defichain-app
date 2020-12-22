@@ -132,9 +132,9 @@ export default class App {
   }
 
   // Create menu
-  createMenu(enableReset?: boolean) {
+  createMenu(isWalletLoaded?: boolean) {
     const appMenu = new AppMenu();
-    const template = appMenu.getTemplate(enableReset);
+    const template = appMenu.getTemplate(isWalletLoaded);
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   }
