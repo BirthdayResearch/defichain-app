@@ -291,6 +291,14 @@ export default class RpcClient {
     return data.result;
   };
 
+  setLabel = async (address: string, label: string): Promise<any> => {
+    const { data } = await this.call('/', methodNames.SET_LABEL, [
+      address,
+      label,
+    ]);
+    return data.result;
+  };
+
   sendToAddress = async (
     toAddress: string | null,
     amount: number | string,

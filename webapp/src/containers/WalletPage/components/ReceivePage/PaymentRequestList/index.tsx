@@ -37,6 +37,7 @@ export interface PaymentRequestModel {
 interface PaymentRequestsProps {
   paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
+  fetchPaymentRequest: () => void;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
@@ -173,6 +174,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  fetchPaymentRequest: () => fetchPaymentRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);
