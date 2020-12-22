@@ -91,7 +91,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         <div className={styles.ellipsisValue}>{request.address}</div>
                         <div className={styles.ellipsisValue}>
                           {!request.hdSeed && (
-                            <span className={styles.colorRed}>
+                            <span className='text-danger'>
                               {I18n.t(
                                 'containers.wallet.paymentRequestList.warningSeedPhrase'
                               )}
