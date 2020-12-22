@@ -175,6 +175,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         label = I18n.t(`${swapLabel}.addLiquidity.reward`);
         break;
       case ACCOUNT_TO_UTXOS_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.accountToUtxos`);
+        break;
       case ACCOUNT_TO_ACCOUNT_LABEL:
         label = I18n.t(`${walletTxnsLabel}.accountToAccount`);
         break;

@@ -713,7 +713,8 @@
         "utxosToAccount": "UTXOs to account",
         "addPoolLiquidity": "Add liquidity",
         "sent": "Sent",
-        "removePoolLiquidity": "Remove liquidity"
+        "removePoolLiquidity": "Remove liquidity",
+        "accountToUtxos": "Account to UTXOs"
       }
     },
     "console": {
@@ -814,7 +815,7 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
-  },  
+  },
   "general": {
     "defiApp": "DeFi app"
   }
