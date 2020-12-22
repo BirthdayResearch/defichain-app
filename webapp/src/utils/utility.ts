@@ -55,6 +55,7 @@ import {
   APY_MULTIPLICATION_FACTOR,
   DEFAULT_MAIN,
   DEFAULT_TEST,
+  APP_TITLE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -74,6 +75,7 @@ import {
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/SwapPage/service';
+import { I18n } from 'react-redux-i18n';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1276,4 +1278,11 @@ export const getTransactionAddressLabel = (
   let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
   label = label + receiveAddress;
   return receiveAddress ? label : fallback;
+};
+
+export const getPageTitle = (
+  pageTitle?: string
+) => {
+  const appTitle = I18n.t('general.defiApp');
+  return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };

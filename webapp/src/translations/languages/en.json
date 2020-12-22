@@ -41,7 +41,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi app",
+        "title": "Blockchain",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -87,19 +87,19 @@
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi app",
+      "title": "DFI Block Processing Center",
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi app",
+      "title": "Exchange",
       "exchange": "Exchange",
       "section": "Section",
       "footerBar": "Footer bar"
     },
     "helpPage": {
-      "title": "Help – DeFi app",
+      "title": "Help",
       "help": "Help",
       "helpPageHeader": "Connect with the community with these options:",
       "telegramEn": "Telegram community (EN)",
@@ -114,7 +114,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi app",
+        "title": "Masternodes",
         "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
@@ -188,7 +188,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi app",
+        "title": "Tokens",
         "loading": "Loading…",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -324,7 +324,7 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "yourLiquidity": "Your liquidity",
         "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -342,7 +342,7 @@
         "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFiChain Client",
+        "title": "Liquidity",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
@@ -357,7 +357,7 @@
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFiChain Client",
+        "title": "DEX",
         "decentralizedExchange": "Decentralized Exchange",
         "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
@@ -427,7 +427,8 @@
         "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more.",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
-        "addLiquidity": "ADD LIQUIDITY"
+        "addLiquidity": "ADD LIQUIDITY",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -497,7 +498,7 @@
       }
     },
     "settings": {
-      "title": "Settings – DeFi app",
+      "title": "Settings",
       "settings": "Settings",
       "general": "General",
       "display": "Display",
@@ -587,9 +588,9 @@
         "backToWalletPage": "Close"
       },
       "sendPage": {
-        "sendTitle": "Send – DeFi app",
+        "sendTitle": "Send",
         "wallet": "Wallet",
-        "sendDFITitle": "Send DFI – DeFi app",
+        "sendDFITitle": "Send DFI",
         "sendDFI": "Send DFI",
         "send": "Send",
         "amount": "Amount",
@@ -612,7 +613,7 @@
         "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
-        "receiveDFITitle": "Receive DFI – DeFi app",
+        "receiveDFITitle": "Receive DFI",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "optional": "Optional",
@@ -655,7 +656,7 @@
         "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id} – DeFi app",
+        "paymentRequestTitle": "Payment request %{id}",
         "paymentRequest": "Payment request",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -668,8 +669,8 @@
       },
       "walletPage": {
         "tokens": "Tokens",
-        "walletDeFiApp": "Wallet – DeFi app",
-        "walletDefiClient": "Wallet – DeFi app",
+        "walletDeFiApp": "Wallet",
+        "walletDefiClient": "Wallet",
         "wallet": "wallet",
         "wallets": "Wallets",
         "delete": "Delete",
@@ -717,7 +718,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "Console – DeFi app",
+        "consoleDeFiApp": "Console",
         "defiCliCommand": "Enter DeFi-cli command",
         "console": "Console",
         "submit": "Submit",
@@ -813,5 +814,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
+  },  
+  "general": {
+    "defiApp": "DeFi app"
   }
 }

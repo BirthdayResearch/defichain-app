@@ -18,6 +18,7 @@ import Popover from '../containers/PopOver';
 
 import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
+import { getPageTitle } from '../utils/utility';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -70,7 +71,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       {isRunning ? (
         <div id='app'>
           <Helmet>
-            <title>DeFi app</title>
+            <title>{getPageTitle()}</title>
           </Helmet>
           <Sidebar />
           <main>

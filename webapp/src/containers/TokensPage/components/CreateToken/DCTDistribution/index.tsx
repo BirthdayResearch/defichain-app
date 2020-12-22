@@ -15,6 +15,7 @@ import AddressList from './AddressList';
 import * as log from '../../../../../utils/electronLogger';
 import { TOKENS_PATH, CREATE_DCT } from '../../../../../constants';
 import Header from '../../../../HeaderComponent';
+import { getPageTitle } from '../../../../../utils/utility';
 
 interface DCTDistributionProps {
   handleActiveTab: (active: string) => void;
@@ -118,7 +119,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
   return (
     <>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
       </Helmet>
       <Header>
         <Button
