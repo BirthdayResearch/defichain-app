@@ -177,7 +177,7 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "yourLiquidity": "Your liquidity",
         "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -196,7 +196,7 @@
         "txHash": "Transaction hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
@@ -211,7 +211,7 @@
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFi app",
+        "title": "DEX",
         "decentralizedExchange": "Decentralized Exchange",
         "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
@@ -350,7 +350,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi app",
+        "title": "Tokens",
         "loading": "Loading…",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -765,5 +765,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
+  },  
+  "general": {
+    "defiApp": "App DeFi"
   }
 }

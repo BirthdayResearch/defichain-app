@@ -35,7 +35,7 @@ const KeyValueLi: React.FunctionComponent<KeyValueLiProps> = (
         >
           {I18n.t('components.keyValueLi.copied')}
         </div>
-        <EllipsisText text={props.value} length={'50'} />
+        <EllipsisText text={props.value} length={50} />
         {props.popsQR && (
           <QrCode value={props.value} uid={props.uid} qrClass={styles.qr} />
         )}

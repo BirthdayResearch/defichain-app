@@ -19,6 +19,7 @@ import {
   REDDIT_HELP_LINK,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
+import { getPageTitle } from '../../utils/utility';
 
 const HelpPage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -26,7 +27,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.helpPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.helpPage.title'))}</title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.helpPage.help')}</h1>

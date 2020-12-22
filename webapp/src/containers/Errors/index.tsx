@@ -5,6 +5,7 @@ import { Row, Col, Button } from 'reactstrap';
 import styles from './ErrorPage.module.scss';
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
+import { getPageTitle } from '../../utils/utility';
 
 const Error404Page: React.FunctionComponent = (props: any) => {
   const chaplinStyle = {
@@ -15,7 +16,7 @@ const Error404Page: React.FunctionComponent = (props: any) => {
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.errors.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.errors.title'))}</title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.errors.header')}</h1>

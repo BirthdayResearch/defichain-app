@@ -9,7 +9,7 @@ import {
   fetchAccountTokensRequest,
   fetchInstantBalanceRequest,
 } from '../../../reducer';
-import { filterByValue } from '../../../../../utils/utility';
+import { filterByValue, getPageTitle } from '../../../../../utils/utility';
 import {
   WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
@@ -77,7 +77,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
       ) : (
         <div className='main-wrapper'>
           <Helmet>
-            <title>{I18n.t('containers.wallet.walletPage.wallet')}</title>
+            <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
           </Helmet>
           <Header>
             <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
