@@ -38,7 +38,7 @@ Electron config is in [electron-app/index.ts](electron-app/index.ts)
 
 ## License
 
-The DeFi Blockchain App is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
+The DeFi Blockchain App is released under the terms of the MIT license. For more
+information see https://opensource.org/licenses/MIT.
 
 QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com). Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).
