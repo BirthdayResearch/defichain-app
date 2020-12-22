@@ -3,21 +3,21 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import BigNumber from 'bignumber.js';
 import { MdArrowBack, MdAdd, MdRemove } from 'react-icons/md';
 import { Button, Row, Col, ButtonGroup } from 'reactstrap';
 
 import KeyValueLi from '../../../../components/KeyValueLi';
 import { fetchPoolsharesRequest } from '../../reducer';
+import Header from '../../../HeaderComponent';
+import PairIcon from '../../../../components/PairIcon';
+import styles from './LiquidityInfo.module.scss';
+import { getPageTitle } from '../../../../utils/utility';
 import {
   CREATE_POOL_PAIR_PATH,
   LIQUIDITY_PATH,
   REMOVE_LIQUIDITY_BASE_PATH,
 } from '../../../../constants';
-import Header from '../../../HeaderComponent';
-import PairIcon from '../../../../components/PairIcon';
-import BigNumber from 'bignumber.js';
-import styles from './LiquidityInfo.module.scss';
-import { getPageTitle } from '../../../../utils/utility';
 
 interface RouteParams {
   poolID: string;

@@ -7,8 +7,6 @@ import {
   fetchPoolpair,
   fetchPoolpairSuccess,
   fetchPoolpairFailure,
-  fetchTestPoolSwapRequestTo,
-  fetchTestPoolSwapRequestFrom,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,
@@ -22,13 +20,6 @@ import {
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
   removePoolLiqudityRequest,
-  fetchTestPoolSwapSuccessTo,
-  fetchTestPoolSwapSuccessFrom,
-  fetchTestPoolSwapFailureTo,
-  fetchTestPoolSwapFailureFrom,
-  poolSwapRequest,
-  poolSwapSuccess,
-  poolSwapFailure,
   fetchUtxoDfiRequest,
   fetchUtxoDfiFailure,
   fetchUtxoDfiSuccess,
@@ -41,9 +32,6 @@ import {
   handleFetchPoolshares,
   handleFetchTokenBalanceList,
   handleRemovePoolLiquidity,
-  handlePoolSwap,
-  handleTestPoolSwapTo,
-  handleTestPoolSwapFrom,
   handleFetchPoolpair,
   handleFetchUtxoDFI,
   handleFetchTokenDFI,
@@ -71,40 +59,6 @@ function* fetchTokenBalanceList() {
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
   } catch (e) {
     log.error(e);
-  }
-}
-
-function* fetchTestPoolSwapTo(action) {
-  try {
-    const {
-      payload: { formState },
-    } = action;
-
-    const data = yield call(handleTestPoolSwapTo, formState);
-    yield put({ type: fetchTestPoolSwapSuccessTo.type, payload: data });
-  } catch (e) {
-    log.error(e);
-    yield put({
-      type: fetchTestPoolSwapFailureTo.type,
-      payload: getErrorMessage(e),
-    });
-  }
-}
-
-function* fetchTestPoolSwapFrom(action) {
-  try {
-    const {
-      payload: { formState },
-    } = action;
-
-    const data = yield call(handleTestPoolSwapFrom, formState);
-    yield put({ type: fetchTestPoolSwapSuccessFrom.type, payload: data });
-  } catch (e) {
-    log.error(e);
-    yield put({
-      type: fetchTestPoolSwapFailureFrom.type,
-      payload: getErrorMessage(e),
-    });
   }
 }
 
@@ -179,20 +133,6 @@ function* removePoolLiquidity(action) {
   }
 }
 
-function* poolSwap(action) {
-  try {
-    const {
-      payload: { formState },
-    } = action;
-
-    const data = yield call(handlePoolSwap, formState);
-    yield put({ type: poolSwapSuccess.type, payload: data });
-  } catch (e) {
-    log.error(e.message);
-    yield put({ type: poolSwapFailure.type, payload: getErrorMessage(e) });
-  }
-}
-
 function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
@@ -220,12 +160,9 @@ function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
   yield takeLatest(fetchPoolpair.type, fetchPoolPair);
-  yield takeLatest(fetchTestPoolSwapRequestTo.type, fetchTestPoolSwapTo);
-  yield takeLatest(fetchTestPoolSwapRequestFrom.type, fetchTestPoolSwapFrom);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
   yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);
-  yield takeLatest(poolSwapRequest.type, poolSwap);
   yield takeLatest(fetchUtxoDfiRequest.type, fetchUtxoDfi);
   yield takeLatest(fetchMaxAccountDfiRequest.type, fetchMaxAccountDfi);
 }
