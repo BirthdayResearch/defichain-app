@@ -218,7 +218,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       return <div>{I18n.t('containers.wallet.walletPage.loading')}</div>;
     if (isError || combineAccountHistoryData.isError)
       return <div>{isError || combineAccountHistoryData.isError}</div>;
-    if (!data.length)
+    if (!data.length || !tableRows.length)
       return (
         <Card className='table-responsive-md'>
           <CardBody>
@@ -240,8 +240,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     <div className={styles.unit}>{item.blockTime}</div>
                   </td>
                   <td>
-                    {item.amountData.map((amountD) => (
+                    {item.amountData.map((amountD, amountId) => (
                       <div
+                        key={`${amountD.unit}-${amountId}`}
                         className={
                           item.type === REWARD_CATEGORY_LABEL ||
                           item.type === RECIEVEE_CATEGORY_LABEL ||

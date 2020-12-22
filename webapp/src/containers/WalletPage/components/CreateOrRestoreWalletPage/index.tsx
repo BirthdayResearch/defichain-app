@@ -17,6 +17,7 @@ import {
 } from '../../../PopOver/reducer';
 import Header from '../../../HeaderComponent';
 import { checkRestartCriteriaRequestLoading } from '../../reducer';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -68,7 +69,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     <div>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.createOrRestoreWalletPage.title')}
+          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
         </title>
       </Helmet>
       <Header>

@@ -22,7 +22,7 @@ import { getNewAddress, isValidAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
-import { hdWalletCheck, isAddressMine } from '../../../../../utils/utility';
+import { getPageTitle, hdWalletCheck, isAddressMine } from '../../../../../utils/utility';
 
 export interface PaymentRequestModel {
   label: string;
@@ -135,7 +135,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')}
+          {getPageTitle(I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel'))}
         </title>
       </Helmet>
       <Header>
@@ -254,7 +254,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
                 </Col>
                 <Col md='8' lg='6'>
                   <Row className='mb-5'>
-                    <Col md='2'>
+                    <Col md='4'>
                       <FormGroup>
                         <CustomInput
                           type='radio'
@@ -269,7 +269,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
                         />
                       </FormGroup>
                     </Col>
-                    <Col>
+                    <Col md='4'>
                       <FormGroup>
                         <CustomInput
                           type='radio'
