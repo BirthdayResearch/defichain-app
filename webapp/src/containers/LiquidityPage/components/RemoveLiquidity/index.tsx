@@ -26,6 +26,7 @@ import { LIQUIDITY_PATH } from '../../../../constants';
 import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
 import styles from './removeLiquidity.module.scss';
 import {
+  getPageTitle,
   getRatio,
   getTotalAmountPoolShare,
   getTransactionAddressLabel,
@@ -185,7 +186,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.swap.swapPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.swap.swapPage.title'))}</title>
       </Helmet>
       <Header>
         <Button
@@ -214,7 +215,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <InputGroup className={styles.amountRemoveInputWrapper}>
                 <Input
                   type='text'
-                  inputmode='decimal'
+                  inputMode='decimal'
                   id='amountPercentage'
                   value={formState.amountPercentage}
                   className={styles.amountRemoveInput}

@@ -17,6 +17,7 @@ import Header from '../../../HeaderComponent';
 import PairIcon from '../../../../components/PairIcon';
 import BigNumber from 'bignumber.js';
 import styles from './LiquidityInfo.module.scss';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface RouteParams {
   poolID: string;
@@ -52,7 +53,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.liquidity.liquidityPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
       </Helmet>
       <Header>
         <Button

@@ -30,7 +30,7 @@ import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
-import { getSymbolKey } from '../../../../utils/utility';
+import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -113,7 +113,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.mintToken.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.tokens.mintToken.title'))}</title>
       </Helmet>
       <Header>
         <Button

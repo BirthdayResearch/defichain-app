@@ -18,6 +18,7 @@ import { MasterNodeObject } from '../../masterNodeInterface';
 import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
 import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 interface RouteProps {
   hash: string;
 }
@@ -113,12 +114,12 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t(
+          {getPageTitle(I18n.t(
             'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
             {
               hash,
             }
-          )}
+          ))}
         </title>
       </Helmet>
       <Header>

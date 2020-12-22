@@ -4,6 +4,7 @@
 @import '~bootstrap/scss/mixins';
 @import '../../../../../scss/variables';
 @import '../../../../../scss/bootstrap/variables';
+@import '../../../../../scss/utility';
 
 .table {
   margin-bottom: 0;
@@ -27,6 +28,6 @@
   color: $black;
 }
 
-.colorRed {
-  color: $red;
+.addressContainer {
+  max-width: 175px;
 }

@@ -156,6 +156,7 @@ export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
 export const ADD_POOL_LIQUIDITY_LABEL = TX_TYPES.AddPoolLiquidity;
 export const REMOVE_LIQUIDITY_LABEL = TX_TYPES.RemovePoolLiquidity;
+export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 
 // NOTE: APY calculation to use 37 second block time
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);

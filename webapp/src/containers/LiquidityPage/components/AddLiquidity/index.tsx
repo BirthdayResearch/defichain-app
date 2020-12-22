@@ -42,6 +42,7 @@ import {
   countDecimals,
   getBalanceAndSymbolMap,
   getNetworkType,
+  getPageTitle,
   getTokenAndBalanceMap,
   getTotalPoolValue,
   getTransactionAddressLabel,
@@ -504,7 +505,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     <div className='main-wrapper'>
       {liquidityChangedModal()}
       <Helmet>
-        <title>{I18n.t('containers.swap.swapPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.swap.swapPage.title'))}</title>
       </Helmet>
       <Header>
         <Button

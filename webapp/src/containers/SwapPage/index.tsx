@@ -44,6 +44,7 @@ import {
   conversionRatio,
   countDecimals,
   getNetworkType,
+  getPageTitle,
   getTokenListForSwap,
 } from '../../utils/utility';
 import {
@@ -419,7 +420,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.swap.swapPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.swap.swapPage.title'))}</title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
