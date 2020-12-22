@@ -38,6 +38,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
   const { searchQuery, poolPairList, isLoadingPoolPairList } = props;
   const [tableData, settableData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
+  const [totalValueLocked, setTotalValueLocked] = useState<number>(0);
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = poolPairList.length;
@@ -65,6 +66,15 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     }
   }, [poolPairList, searchQuery]);
 
+  useEffect(() => {
+    let tvl = 0;
+    tableData.forEach((pool) => {
+        const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
+        tvl += +poolAmt|| 0;
+    });
+    setTotalValueLocked(tvl);
+  }, [tableData]);
+
   const loadHtml = () => {
     if (isLoadingPoolPairList) {
       return I18n.t('containers.liquidity.liquidityPage.loading');
@@ -80,6 +90,12 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     }
     return (
       <>
+        <div>
+          <label htmlFor="totalLiquidity">{I18n.t('containers.swap.poolTab.totalValueLocked')}</label>
+          <h6 id="totalLiquidity">
+            <NumberMask value={Number(totalValueLocked).toFixed(2)} defaultValue={0} />
+          </h6>
+        </div>
         <Card className={styles.card}>
           <div className={`${styles.tableResponsive} table-responsive-xl`}>
             <Table className={styles.table}>

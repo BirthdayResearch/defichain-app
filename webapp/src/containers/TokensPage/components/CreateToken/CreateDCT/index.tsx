@@ -24,7 +24,7 @@ import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
 import Header from '../../../../HeaderComponent';
-import { getTransactionAddressLabel } from '../../../../../utils/utility';
+import { getPageTitle, getTransactionAddressLabel } from '../../../../../utils/utility';
 import AddressDropdown from '../../../../../components/AddressDropdown';
 import { CreateTokenFormState } from '..';
 
@@ -79,7 +79,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   return (
     <>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
       </Helmet>
       <Header>
         <Button

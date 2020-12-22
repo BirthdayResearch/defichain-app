@@ -87,16 +87,17 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                     <tr key={request.id}>
                       <td></td>
                       <td>{request.label}</td>
-                      <td>
-                        {request.address}
-                        &nbsp;
-                        {!request.hdSeed && (
-                          <span className={styles.colorRed}>
-                            {I18n.t(
-                              'containers.wallet.paymentRequestList.warningSeedPhrase'
-                            )}
-                          </span>
-                        )}
+                      <td className={styles.addressContainer}>
+                        <div className={styles.ellipsisValue}>{request.address}</div>
+                        <div className={styles.ellipsisValue}>
+                          {!request.hdSeed && (
+                            <span className='text-danger'>
+                              {I18n.t(
+                                'containers.wallet.paymentRequestList.warningSeedPhrase'
+                              )}
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
