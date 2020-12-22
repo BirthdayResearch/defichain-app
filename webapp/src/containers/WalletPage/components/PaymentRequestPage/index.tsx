@@ -12,7 +12,7 @@ import {
   PAYMENT_REQUEST_DETAIL_DATE_FORMAT,
 } from '../../../../constants';
 import { removeReceiveTxnsRequest } from '../../reducer';
-import { getTransactionURI } from '../../../../utils/utility';
+import { getPageTitle, getTransactionURI } from '../../../../utils/utility';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 
@@ -52,9 +52,9 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
+          {getPageTitle(I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
             id: label || address,
-          })}
+          }))}
         </title>
       </Helmet>
       <Header>

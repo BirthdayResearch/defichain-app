@@ -21,6 +21,7 @@ import DefichainDEX from '../../assets/svg/defichain-dex.svg';
 import DefichainImpermanent from '../../assets/svg/defichain-impermanent.svg';
 import openNewTab from '../../utils/openNewTab';
 import Header from '../HeaderComponent';
+import { getPageTitle } from '../../utils/utility';
 
 interface LiquidityPageProps {
   history: History;
@@ -50,7 +51,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.liquidity.liquidityPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.liquidity.liquidityPage.liquidityPools')}</h1>
@@ -114,7 +115,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
             <LiquidityList poolshares={poolshares} history={props.history} />
           )}
           <section className='mb-5'>
-            <h2>
+            <h2 className='mb-1'>
               {I18n.t('containers.liquidity.liquidityPage.availablePoolPairs')}
             </h2>
             <AvailablePoolPairsList

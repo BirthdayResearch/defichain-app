@@ -41,7 +41,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi app",
+        "title": "Blockchain",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -87,19 +87,19 @@
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi app",
+      "title": "DFI Block Processing Center",
       "header": "DFI Block Processing Center",
       "detail": "Es scheint, als wärst du zufällig hierher gestolpert. Hier stellen unsere Arbeiter sicher, dass jeder DFI-Block richtig an der Chain befestigt ist. Da dies ein Sperrgebiet ist, bitten wir Dich, wieder umzudrehen.",
       "goBack": "Gehe zurück"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi app",
+      "title": "Exchange",
       "exchange": "Exchange",
       "section": "Abschnitt",
       "footerBar": "Footer Bar"
     },
     "helpPage": {
-      "title": "Hilfe – DeFi app",
+      "title": "Hilfe",
       "help": "Helfen",
       "section": "Abschnitt",
       "helpPageHeader": "Verbinde dich mit der Community über diese Optionen:",
@@ -120,7 +120,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi app",
+        "title": "Masternodes",
         "createMasterNode": "Erstellen",
         "masterNodes": "Masternodes",
         "statistics": "Statistik",
@@ -194,7 +194,7 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFiChain Client",
+        "title": "Liquidity",
         "yourLiquidity": "Your liquidity",
         "yourLiquidityInfo": "Du kannst jetzt das Liquidity Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (Dezentralisierte Börse) zu unterstützen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit ausbezahlen.",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität zuführen?",
@@ -212,7 +212,7 @@
         "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFiChain Client",
+        "title": "Liquidity",
         "addMore": "Mehr hinzufügen",
         "remove": "Entfernen",
         "apy": "APY",
@@ -227,7 +227,7 @@
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFiChain Client",
+        "title": "DEX",
         "decentralizedExchange": "Decentralized Exchange",
         "decentralizedExchangeInfo": "Willkommen bei DefiChain DEX (Decentralized Exchange) — einem Exchange ohne Custodial, der vollständig und wirklich dezentralisiert ist.",
         "swap": "Swap",
@@ -297,7 +297,8 @@
         "apyTooltipMessage": "Der hier angegebene APY beinhaltet nur DFI-Incentives, ohne Provision. Tatsächliches APY mit Provision ist also, mehr.",
         "totalLiquidity": "Gesamtliquidität (USD)",
         "addRemoveLiquidity": "Liquidität hinzufügen oder entfernen",
-        "addLiquidity": "LIQUIDITÄT HINZUFÜGEN"
+        "addLiquidity": "LIQUIDITÄT HINZUFÜGEN",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -368,7 +369,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFiChain Client",
+        "title": "Tokens",
         "loading": "Laden...",
         "createToken": "Erstellen",
         "tokens": "Tokens",
@@ -503,7 +504,7 @@
       }
     },
     "settings": {
-      "title": "Einstellungen – DeFi app",
+      "title": "Einstellungen",
       "settings": "Einstellungen",
       "general": "Allgemein",
       "display": "Anzeige",
@@ -593,7 +594,7 @@
         "backToWalletPage": "SCHLIESSEN"
       },
       "sendPage": {
-        "sendDFITitle": "Senden DFI – DeFiChain Client",
+        "sendDFITitle": "Senden DFI",
         "wallet": "Wallet",
         "sendDFI": "DFI senden",
         "amount": "Höhe",
@@ -612,7 +613,7 @@
         "backToWallet": "Zurück zur Wallet",
         "dfiAddress": "DFI-Adresse",
         "txHash": "Transaction Hash",
-        "sendTitle": "Senden – DeFiChain Client",
+        "sendTitle": "Senden",
         "send": "Senden",
         "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
         "insufficientUtxos": "Ungenügend UTXOS"
@@ -661,7 +662,7 @@
         "warningSeedPhrase": "(Warnung: Nicht durch Seed-Phrase gespeichert)"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Zahlungsaufforderung %{id} – DeFi app",
+        "paymentRequestTitle": "Zahlungsaufforderung %{id}",
         "paymentRequest": "Zahlungsaufforderung",
         "wallet": "Wallet",
         "delete": "Löschen",
@@ -673,7 +674,8 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "walletDefiClient": "Wallet – DeFi app",
+        "walletDeFiApp": "Wallet",
+        "walletDefiClient": "Wallet",
         "wallet": "wallet",
         "wallets": "Wallets",
         "delete": "Löschen",
@@ -722,8 +724,8 @@
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "Konsole – DeFi app",
-        "consoleDefiClient": "Konsole – DeFi app",
+        "consoleDeFiApp": "Konsole",
+        "consoleDefiClient": "Konsole",
         "defiCliCommand": "Geben Sie Defi-cli-Befehl",
         "console": "Konsole",
         "submit": "Senden",
@@ -819,5 +821,8 @@
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein"
+  },  
+  "general": {
+    "defiApp": "DeFi app"
   }
 }

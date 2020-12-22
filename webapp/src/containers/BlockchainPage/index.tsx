@@ -11,7 +11,7 @@ import {
   DEFICHAIN_TESTNET_LINK,
   MAIN,
 } from '../../constants';
-import { getNetworkType } from '../../utils/utility';
+import { getNetworkType, getPageTitle } from '../../utils/utility';
 
 const BlockchainPage = () => {
   const explorerLink =
@@ -20,7 +20,7 @@ const BlockchainPage = () => {
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.blockChainPage.blockChainPage.title')}
+          {getPageTitle(I18n.t('containers.blockChainPage.blockChainPage.title'))}
         </title>
       </Helmet>
       <Header>
