@@ -621,7 +621,7 @@ const mapStateToProps = (state) => {
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
     transferTokensLoaded,
-  } = state.swap;
+  } = state.liquidity;
   const { paymentRequests } = state.wallet;
   return {
     removePoolLiquidityHash,

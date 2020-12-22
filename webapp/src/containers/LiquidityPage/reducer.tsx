@@ -17,19 +17,29 @@ export const initialState = {
   addPoolLiquidityHash: '',
   isErrorAddingPoolLiquidity: '',
   isLoadingRefreshUTXOS1: false,
+  refreshUTXOS1Loaded: false,
   isLoadingLiquidityRemoved: false,
+  liquidityRemovedLoaded: false,
   isLoadingRefreshUTXOS2: false,
+  refreshUTXOS2Loaded: false,
   isLoadingTransferTokens: false,
+  transferTokensLoaded: false,
   isLoadingRemovePoolLiquidity: false,
   isRemovePoolLiquidityLoaded: false,
   removePoolLiquidityHash: '',
   isErrorRemovingPoolLiquidity: '',
-  testPoolSwap: '-',
-  isLoadingTestPoolSwap: false,
-  isTestPoolSwapLoaded: false,
-  isErrorTestPoolSwap: '',
+  testPoolSwapTo: '-',
+  testPoolSwapFrom: '-',
+  isLoadingTestPoolSwapTo: false,
+  isLoadingTestPoolSwapFrom: false,
+  isTestPoolSwapLoadedTo: false,
+  isTestPoolSwapLoadedFrom: false,
+  isErrorTestPoolSwapTo: '',
+  isErrorTestPoolSwapFrom: '',
   poolSwapHash: '',
   isLoadingPoolSwap: false,
+  isLoadingRefreshUTXOS: false,
+  isLoadingTransferringTokens: false,
   isPoolSwapLoaded: false,
   isErrorPoolSwap: '',
   utxoDfi: 0,
@@ -41,7 +51,7 @@ export const initialState = {
 };
 
 const configSlice = createSlice({
-  name: 'swap',
+  name: 'liquidity',
   initialState,
   reducers: {
     fetchPoolpair(state, action) {
@@ -89,8 +99,10 @@ const configSlice = createSlice({
       state.isLoadingAddPoolLiquidity = true;
       state.isLoadingPreparingUTXO = true;
       state.isAddPoolLiquidityLoaded = false;
+      state.isErrorAddingPoolLiquidity = '';
+      state.addPoolLiquidityHash = '';
     },
-    addPoolPreparingUTXOSuccess(state, action) {
+    addPoolPreparingUTXOSuccess(state) {
       state.isLoadingPreparingUTXO = false;
       state.isLoadingAddingLiquidity = true;
       state.isAddPoolLiquidityLoaded = false;
@@ -111,20 +123,30 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = true;
       state.isLoadingRefreshUTXOS1 = true;
       state.isRemovePoolLiquidityLoaded = false;
+      state.refreshUTXOS1Loaded = false;
+      state.liquidityRemovedLoaded = false;
+      state.refreshUTXOS2Loaded = false;
+      state.transferTokensLoaded = false;
+      state.isErrorRemovingPoolLiquidity = '';
+      state.removePoolLiquidityHash = '';
     },
     refreshUTXOS1Success(state) {
+      state.refreshUTXOS1Loaded = true;
       state.isLoadingRefreshUTXOS1 = false;
       state.isLoadingLiquidityRemoved = true;
     },
     liquidityRemovedSuccess(state) {
+      state.liquidityRemovedLoaded = true;
       state.isLoadingLiquidityRemoved = false;
       state.isLoadingRefreshUTXOS2 = true;
     },
     refreshUTXOS2Success(state) {
+      state.refreshUTXOS2Loaded = true;
       state.isLoadingRefreshUTXOS2 = false;
       state.isLoadingTransferTokens = true;
     },
     transferTokensSuccess(state) {
+      state.transferTokensLoaded = true;
       state.isLoadingTransferTokens = false;
     },
     removePoolLiquiditySuccess(state, action) {
@@ -137,30 +159,71 @@ const configSlice = createSlice({
       state.isLoadingRemovePoolLiquidity = false;
       state.isRemovePoolLiquidityLoaded = true;
     },
-    fetchTestPoolSwapRequest(state, action) {
-      state.isLoadingTestPoolSwap = true;
+    resetTestPoolSwapRequestTo(state) {
+      state.testPoolSwapTo = '';
     },
-    fetchTestPoolSwapSuccess(state, action) {
-      state.testPoolSwap = action.payload;
-      state.isLoadingTestPoolSwap = false;
-      state.isTestPoolSwapLoaded = true;
+    fetchTestPoolSwapRequestTo(state, action) {
+      state.isLoadingTestPoolSwapTo = true;
+      state.isErrorTestPoolSwapTo = '';
+      state.isTestPoolSwapLoadedTo = false;
     },
-    fetchTestPoolSwapFailure(state, action) {
-      state.testPoolSwap = '';
-      state.isLoadingTestPoolSwap = false;
-      state.isTestPoolSwapLoaded = true;
-      state.isErrorTestPoolSwap = action.payload;
+    fetchTestPoolSwapSuccessTo(state, action) {
+      state.testPoolSwapTo = action.payload;
+      state.isLoadingTestPoolSwapTo = false;
+      state.isTestPoolSwapLoadedTo = true;
+      state.isErrorTestPoolSwapTo = '';
+    },
+    fetchTestPoolSwapFailureTo(state, action) {
+      state.testPoolSwapTo = '';
+      state.isLoadingTestPoolSwapTo = false;
+      state.isTestPoolSwapLoadedTo = true;
+      state.isErrorTestPoolSwapTo = action.payload;
+    },
+    resetTestPoolSwapErrorTo(state) {
+      state.isErrorTestPoolSwapTo = '';
+    },
+    resetTestPoolSwapRequestFrom(state) {
+      state.testPoolSwapFrom = '';
+    },
+    fetchTestPoolSwapRequestFrom(state, action) {
+      state.isLoadingTestPoolSwapFrom = true;
+      state.isErrorTestPoolSwapFrom = '';
+      state.isTestPoolSwapLoadedFrom = false;
+    },
+    fetchTestPoolSwapSuccessFrom(state, action) {
+      state.testPoolSwapFrom = action.payload;
+      state.isLoadingTestPoolSwapFrom = false;
+      state.isTestPoolSwapLoadedFrom = true;
+      state.isErrorTestPoolSwapFrom = '';
+    },
+    fetchTestPoolSwapFailureFrom(state, action) {
+      state.testPoolSwapFrom = '';
+      state.isLoadingTestPoolSwapFrom = false;
+      state.isTestPoolSwapLoadedFrom = true;
+      state.isErrorTestPoolSwapFrom = action.payload;
+    },
+    resetTestPoolSwapErrorFrom(state) {
+      state.isErrorTestPoolSwapFrom = '';
     },
     poolSwapRequest(state, action) {
       state.isLoadingPoolSwap = true;
       state.isPoolSwapLoaded = false;
+      state.poolSwapHash = '';
+      state.isErrorPoolSwap = '';
+      state.isLoadingRefreshUTXOS = true;
+    },
+    poolSwapRefreshUTXOSuccess(state) {
+      state.isLoadingRefreshUTXOS = false;
+      state.isLoadingTransferringTokens = true;
     },
     poolSwapSuccess(state, action) {
+      state.isLoadingTransferringTokens = false;
       state.poolSwapHash = action.payload;
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
     },
     poolSwapFailure(state, action) {
+      state.isLoadingTransferringTokens = false;
       state.isErrorPoolSwap = action.payload;
       state.isLoadingPoolSwap = false;
       state.isPoolSwapLoaded = true;
@@ -212,6 +275,7 @@ export const {
   fetchTokenBalanceListSuccess,
   fetchTokenBalanceListFailure,
   addPoolLiquidityRequest,
+  addPoolPreparingUTXOSuccess,
   addPoolLiquiditySuccess,
   addPoolLiquidityFailure,
   removePoolLiqudityRequest,
@@ -221,10 +285,18 @@ export const {
   liquidityRemovedSuccess,
   refreshUTXOS2Success,
   transferTokensSuccess,
-  fetchTestPoolSwapRequest,
-  fetchTestPoolSwapSuccess,
-  fetchTestPoolSwapFailure,
+  resetTestPoolSwapRequestTo,
+  fetchTestPoolSwapRequestTo,
+  fetchTestPoolSwapSuccessTo,
+  fetchTestPoolSwapFailureTo,
+  resetTestPoolSwapErrorTo,
+  resetTestPoolSwapRequestFrom,
+  fetchTestPoolSwapRequestFrom,
+  fetchTestPoolSwapSuccessFrom,
+  fetchTestPoolSwapFailureFrom,
+  resetTestPoolSwapErrorFrom,
   poolSwapRequest,
+  poolSwapRefreshUTXOSuccess,
   poolSwapSuccess,
   poolSwapFailure,
   fetchUtxoDfiRequest,
