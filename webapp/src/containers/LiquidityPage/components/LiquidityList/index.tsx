@@ -3,9 +3,8 @@ import { I18n } from 'react-redux-i18n';
 import { Row, Col } from 'reactstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
-// import Pagination from '../../../../components/Pagination';
-import { TOKEN_LIST_PAGE_SIZE } from '../../../../constants';
 import LiquidityAccordion from '../../../../components/LiquidityAccordion';
+import { TOKEN_LIST_PAGE_SIZE } from '../../../../constants';
 
 interface LiquidityListProps {
   poolshares: any;
@@ -20,10 +19,6 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const { poolshares } = props;
   const pageSize = TOKEN_LIST_PAGE_SIZE;
-  const total = poolshares.length;
-  const pagesCount = Math.ceil(total / pageSize);
-  const from = (currentPage - 1) * pageSize;
-  const to = Math.min(total, currentPage * pageSize);
 
   function paginate(pageNumber, poolsharesList?: any[]) {
     const clone = cloneDeep(poolsharesList || poolshares);
@@ -51,16 +46,6 @@ const LiquidityList: React.FunctionComponent<LiquidityListProps> = (
           ))}
         </Row>
       </section>
-      {/* <Pagination
-        label={I18n.t('containers.tokens.tokensPage.paginationRange', {
-          to,
-          total,
-          from: from + 1,
-        })}
-        currentPage={currentPage}
-        pagesCount={pagesCount}
-        handlePageClick={paginate}
-      /> */}
     </>
   );
 };

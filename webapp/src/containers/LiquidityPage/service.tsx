@@ -29,7 +29,6 @@ import store from '../../app/rootStore';
 import {
   addPoolPreparingUTXOSuccess,
   liquidityRemovedSuccess,
-  poolSwapRefreshUTXOSuccess,
   refreshUTXOS1Success,
   refreshUTXOS2Success,
   transferTokensSuccess,
@@ -134,130 +133,6 @@ export const handleFetchPoolPairList = async () => {
     rpcClient.listPoolPairs
   );
   return poolPairList;
-};
-
-export const handleTestPoolSwapTo = async (formState) => {
-  const rpcClient = new RpcClient();
-  const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    formState.hash1,
-    list
-  );
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    formState.hash2,
-    list
-  );
-
-  if (new BigNumber(formState.amount1).toNumber()) {
-    const testPoolSwapAmount = await rpcClient.testPoolSwap(
-      address1,
-      formState.hash1,
-      Number(formState.amount1),
-      address2,
-      formState.hash2
-    );
-    return testPoolSwapAmount.split('@')[0];
-  } else {
-    return '-';
-  }
-};
-
-export const handleTestPoolSwapFrom = async (formState) => {
-  const rpcClient = new RpcClient();
-  const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    formState.hash1,
-    list
-  );
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    formState.hash2,
-    list
-  );
-
-  // let accountToAccountAmount = new BigNumber(0);
-
-  // // convert account to account, if don't have sufficient funds in one account
-  // if (Number(formState.amount1) > maxAmount1) {
-  //   accountToAccountAmount = await handleAccountToAccountConversion(
-  //     list,
-  //     address1,
-  //     formState.hash1
-  //   );
-  // }
-
-  // convert utxo to account DFI, if don't have sufficent funds in account
-  // if (
-  //   formState.hash1 === DFI_SYMBOL &&
-  //   new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
-  // ) {
-  //   await handleUtxoToAccountConversion(
-  //     formState.hash1,
-  //     address1,
-  //     formState.amount1,
-  //     accountToAccountAmount.plus(maxAmount1).toNumber()
-  //   );
-  // }
-
-  if (new BigNumber(formState.amount2).toNumber()) {
-    const testPoolSwapAmount = await rpcClient.testPoolSwap(
-      address2,
-      formState.hash2,
-      Number(formState.amount2),
-      address1,
-      formState.hash1
-    );
-    return testPoolSwapAmount.split('@')[0];
-  } else {
-    return '-';
-  }
-};
-
-export const handlePoolSwap = async (formState) => {
-  const rpcClient = new RpcClient();
-  const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    formState.hash1,
-    list
-  );
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    formState.hash2,
-    list
-  );
-
-  let accountToAccountAmount = new BigNumber(0);
-
-  // convert account to account, if don't have sufficient funds in one account
-  if (Number(formState.amount1) > maxAmount1) {
-    accountToAccountAmount = await handleAccountToAccountConversion(
-      list,
-      address1,
-      formState.hash1
-    );
-  }
-
-  // convert utxo to account DFI, if don't have sufficent funds in account
-  if (
-    formState.hash1 === DFI_SYMBOL &&
-    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
-  ) {
-    await handleUtxoToAccountConversion(
-      formState.hash1,
-      address1,
-      formState.amount1,
-      accountToAccountAmount.plus(maxAmount1).toNumber()
-    );
-  }
-
-  store.dispatch(poolSwapRefreshUTXOSuccess());
-
-  const hash = await rpcClient.poolSwap(
-    address1,
-    formState.hash1,
-    Number(formState.amount1),
-    address2,
-    formState.hash2
-  );
-  return hash;
 };
 
 export const handleFetchTokenBalanceList = async () => {
