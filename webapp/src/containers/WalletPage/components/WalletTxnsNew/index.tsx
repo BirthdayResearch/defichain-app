@@ -37,6 +37,7 @@ import {
   SENT_CATEGORY_LABEL,
   SWAP_CATEGORY_LABEL,
   TRANSFER_CATEGORY_LABEL,
+  UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
 import BigNumber from 'bignumber.js';
@@ -156,34 +157,46 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   };
 
   const getTxnsType = (type: string) => {
-    if (type === SENT_CATEGORY_LABEL) {
-      return I18n.t('containers.wallet.walletTxns.sent');
+    const SEND = 'send';
+    const RECEIVE = 'receive';
+    const walletTxnsLabel = 'containers.wallet.walletTxns';
+    const swapLabel = 'containers.swap';
+    const walletLabel = 'containers.wallet.walletPage';
+    let label = type;
+    switch (type) {
+      case SENT_CATEGORY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.sent`);
+        break;
+      case POOL_SWAP_CATEGORY_LABEL:
+        label = I18n.t(`${swapLabel}.swapPage.swap`);
+        break;
+      case REWARDS_CATEEGORY_LABEL:
+      case REWARD_CATEGORY_LABEL:
+        label = I18n.t(`${swapLabel}.addLiquidity.reward`);
+        break;
+      case ACCOUNT_TO_UTXOS_LABEL:
+      case ACCOUNT_TO_ACCOUNT_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.accountToAccount`);
+        break;
+      case UTXOS_TO_ACCOUNT_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.utxosToAccount`);
+        break;
+      case ADD_POOL_LIQUIDITY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.addPoolLiquidity`);
+        break;
+      case REMOVE_LIQUIDITY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.removePoolLiquidity`);
+        break;
+      case SEND:
+        label = I18n.t(`${walletLabel}.send`);
+        break;
+      case RECEIVE:
+        label = I18n.t(`${walletLabel}.receive`);
+        break;
+      default:
+        break;
     }
-    if (type === POOL_SWAP_CATEGORY_LABEL) {
-      return SWAP_CATEGORY_LABEL;
-    }
-    if (type === REWARDS_CATEEGORY_LABEL || type === REWARD_CATEGORY_LABEL) {
-      return REWARD_CATEGORY_LABEL;
-    }
-    if (type === ACCOUNT_TO_UTXOS_LABEL) {
-      return I18n.t('containers.wallet.walletTxns.accountToAccount');
-    }
-    if (type === ACCOUNT_TO_ACCOUNT_LABEL) {
-      return I18n.t('containers.wallet.walletTxns.utxosToAccount');
-    }
-    if (type === ADD_POOL_LIQUIDITY_LABEL) {
-      return I18n.t('containers.wallet.walletTxns.addPoolLiquidity');
-    }
-    if (type === REMOVE_LIQUIDITY_LABEL) {
-      return I18n.t('containers.wallet.walletTxns.removePoolLiquidity');
-    }
-    if (type === 'send') {
-      return 'Send';
-    }
-    if (type === 'receive') {
-      return 'Receive';
-    }
-    return type;
+    return label;
   };
 
   const getAmountClass = (type: string) => {
