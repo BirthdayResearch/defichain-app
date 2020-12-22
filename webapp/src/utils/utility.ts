@@ -74,7 +74,7 @@ import {
   getTransactionInfo,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
-import { handleFetchPoolshares } from '../containers/SwapPage/service';
+import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 
 export const validateSchema = (schema, data) => {
@@ -1280,9 +1280,7 @@ export const getTransactionAddressLabel = (
   return receiveAddress ? label : fallback;
 };
 
-export const getPageTitle = (
-  pageTitle?: string
-) => {
+export const getPageTitle = (pageTitle?: string) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };
