@@ -2,11 +2,13 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as log from '../../utils/electronLogger';
 import { getErrorMessage } from '../../utils/utility';
+import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchPoolpair,
   fetchPoolpairSuccess,
   fetchPoolpairFailure,
-  fetchTestPoolSwapRequest,
+  fetchTestPoolSwapRequestTo,
+  fetchTestPoolSwapRequestFrom,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,
@@ -20,17 +22,18 @@ import {
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
   removePoolLiqudityRequest,
-  fetchTestPoolSwapSuccess,
-  fetchTestPoolSwapFailure,
+  fetchTestPoolSwapSuccessTo,
+  fetchTestPoolSwapSuccessFrom,
+  fetchTestPoolSwapFailureTo,
+  fetchTestPoolSwapFailureFrom,
   poolSwapRequest,
   poolSwapSuccess,
   poolSwapFailure,
   fetchUtxoDfiRequest,
-  fetchUtxoDfiSuccess,
   fetchUtxoDfiFailure,
+  fetchUtxoDfiSuccess,
   fetchMaxAccountDfiSuccess,
   fetchMaxAccountDfiFailure,
-  fetchMaxAccountDfiRequest,
 } from './reducer';
 import {
   handleAddPoolLiquidity,
@@ -39,7 +42,8 @@ import {
   handleFetchTokenBalanceList,
   handleRemovePoolLiquidity,
   handlePoolSwap,
-  handleTestPoolSwap,
+  handleTestPoolSwapTo,
+  handleTestPoolSwapFrom,
   handleFetchPoolpair,
   handleFetchUtxoDFI,
   handleFetchTokenDFI,
@@ -70,18 +74,35 @@ function* fetchTokenBalanceList() {
   }
 }
 
-function* fetchTestPoolSwap(action) {
+function* fetchTestPoolSwapTo(action) {
   try {
     const {
       payload: { formState },
     } = action;
 
-    const data = yield call(handleTestPoolSwap, formState);
-    yield put({ type: fetchTestPoolSwapSuccess.type, payload: data });
+    const data = yield call(handleTestPoolSwapTo, formState);
+    yield put({ type: fetchTestPoolSwapSuccessTo.type, payload: data });
   } catch (e) {
     log.error(e);
     yield put({
-      type: fetchTestPoolSwapFailure.type,
+      type: fetchTestPoolSwapFailureTo.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
+function* fetchTestPoolSwapFrom(action) {
+  try {
+    const {
+      payload: { formState },
+    } = action;
+
+    const data = yield call(handleTestPoolSwapFrom, formState);
+    yield put({ type: fetchTestPoolSwapSuccessFrom.type, payload: data });
+  } catch (e) {
+    log.error(e);
+    yield put({
+      type: fetchTestPoolSwapFailureFrom.type,
       payload: getErrorMessage(e),
     });
   }
@@ -199,7 +220,8 @@ function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
   yield takeLatest(fetchPoolpair.type, fetchPoolPair);
-  yield takeLatest(fetchTestPoolSwapRequest.type, fetchTestPoolSwap);
+  yield takeLatest(fetchTestPoolSwapRequestTo.type, fetchTestPoolSwapTo);
+  yield takeLatest(fetchTestPoolSwapRequestFrom.type, fetchTestPoolSwapFrom);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
   yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);

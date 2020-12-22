@@ -53,7 +53,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -156,7 +158,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { poolshares } = state.swap;
+  const { poolshares } = state.liquidity;
   return {
     poolshares,
   };
