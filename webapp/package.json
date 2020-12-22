@@ -31,7 +31,7 @@
     "@storybook/react": "^6.1.11",
     "ajv": "^6.12.6",
     "async": "^3.2.0",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
     "bip39": "^3.0.3",
     "bitcoinjs-lib": "^5.2.0",
