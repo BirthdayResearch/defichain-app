@@ -1,4 +1,4 @@
-mkdir -p binary
+mkdir -p binary/mac
 cd binary && rm -rf win mac linux
 mkdir mac
 cd ..
@@ -9,4 +9,5 @@ wget https://github.com/DeFiCh/ain/releases/download/v1.3.15/defichain-1.3.15-x8
 tar -xvf defichain-1.3.15-x86_64-apple-darwin11.tar.gz
 cp defichain-1.3.15/bin/defid .
 cd ../.. && cp temp/mac/defid binary/mac/defid
+rm -rf temp/
 chmod 777 binary/mac/defid

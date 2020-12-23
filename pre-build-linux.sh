@@ -9,4 +9,5 @@ wget https://github.com/DeFiCh/ain/releases/download/v1.3.15/defichain-1.3.15-x8
 tar -xvf defichain-1.3.15-x86_64-pc-linux-gnu.tar.gz
 cp defichain-1.3.15/bin/defid .
 cd ../.. && cp temp/linux/defid binary/linux/defid
+rm -rf temp/
 chmod 777 binary/linux/defid
