@@ -1,5 +1,6 @@
-import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
+import BigNumber from 'bignumber.js';
+import RpcClient from '../../utils/rpc-client';
 import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DFI_SYMBOL,
@@ -16,8 +17,9 @@ import {
   getBalanceForSymbol,
   getSmallerAmount,
   handleAccountToAccountConversion,
-} from '../../utils/utility';
-import BigNumber from 'bignumber.js';
+} from '@/utils/utility';
+import { PaymentRequest } from '@/typings/models';
+import { IAddressAndAmount } from '@/utils/interfaces';
 
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
@@ -174,5 +176,21 @@ export const getReceivingAddressAndAmountList = async () => {
   const addressAndAmountList = await rpcClient.getReceivingAddressAndTotalAmountList();
   return {
     addressAndAmountList,
+  };
+};
+
+export const getReceivingAddressAndAmountListLedger = async (
+  payments: PaymentRequest[]
+) => {
+  const rpcClient = new RpcClient();
+  const receivedPromisses = payments.map(({ address }) => {
+    return rpcClient.getReceivedByAddress(address);
+  });
+  const amounts = await Promise.all(receivedPromisses);
+  return {
+    addressAndAmountList: payments.map(({ address }, index) => ({
+      address,
+      amount: amounts[index],
+    })),
   };
 };

@@ -117,14 +117,20 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
-                to={{ pathname: CREATE_TOKENS_PATH, search: 'wallet' }}
+                to={{
+                  pathname: CREATE_TOKENS_PATH,
+                  search: 'typeWallet=wallet',
+                }}
                 tag={RRNavLink}
                 color='link'
               >
                 Use wallet
               </DropdownItem>
               <DropdownItem
-                to={{ pathname: CREATE_TOKENS_PATH, search: 'ledger' }}
+                to={{
+                  pathname: CREATE_TOKENS_PATH,
+                  search: 'typeWallet=ledger',
+                }}
                 tag={RRNavLink}
                 color='link'
               >

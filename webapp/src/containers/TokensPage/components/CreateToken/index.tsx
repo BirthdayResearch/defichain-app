@@ -7,7 +7,10 @@ import isEmpty from 'lodash/isEmpty';
 import DCTDistribution from './DCTDistribution';
 import CreateDCT from './CreateDCT';
 import { createToken, fetchTokenInfo, updateToken } from '../../reducer';
-import { getReceivingAddressAndAmountList } from '../../service';
+import {
+  getReceivingAddressAndAmountList,
+  getReceivingAddressAndAmountListLedger,
+} from '../../service';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
@@ -16,6 +19,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '@/constants';
 import { ITokenResponse } from '@/utils/interfaces';
+import { PaymentRequest } from '@/typings/models';
 
 interface RouteParams {
   id?: string;
@@ -32,11 +36,14 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   isErrorUpdatingToken: string;
   isTokenCreating: boolean;
   isErrorCreatingToken: string;
+  paymentRequests: PaymentRequest[];
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   props: CreateTokenProps
 ) => {
+  const urlParams = new URLSearchParams(props.location.search);
+  const typeWallet = urlParams.get('typeWallet');
   const { id } = props.match.params;
   const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
@@ -100,7 +107,14 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 
   useEffect(() => {
     async function addressAndAmount() {
-      const data = await getReceivingAddressAndAmountList();
+      let data;
+      if (typeWallet === 'ledger') {
+        data = await getReceivingAddressAndAmountListLedger(
+          props.paymentRequests
+        );
+      } else {
+        data = await getReceivingAddressAndAmountList();
+      }
       setCollateralAddresses(data.addressAndAmountList);
       setFormState({
         ...formState,
@@ -239,7 +253,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const { tokens } = state;
+  const { tokens, ledgerWallet } = state;
   return {
     tokenInfo: tokens.tokenInfo,
     isTokenCreating: tokens.isTokenCreating,
@@ -248,6 +262,7 @@ const mapStateToProps = (state) => {
     isTokenUpdating: tokens.isTokenUpdating,
     updatedTokenData: tokens.updatedTokenData,
     isErrorUpdatingToken: tokens.isErrorUpdatingToken,
+    paymentRequests: ledgerWallet.paymentRequests,
   };
 };
 
