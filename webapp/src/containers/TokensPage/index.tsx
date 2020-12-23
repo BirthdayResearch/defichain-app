@@ -12,6 +12,10 @@ import {
   // NavLink,
   TabContent,
   TabPane,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from 'reactstrap';
 
 import classnames from 'classnames';
@@ -45,6 +49,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>(DCT_TOKEN);
+  const [isOpenMenuCreate, setIsOpenMenuCreate] = useState(false);
   const { tokens, fetchTokensRequest, isLoadingTokens } = props;
 
   useEffect(() => {
@@ -61,6 +66,8 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   const handleCardClick = (symbol: string, hash: string) => {
     return props.history.push(`${TOKENS_PATH}/${symbol}/${hash}`);
   };
+
+  const toggleMenuCreate = () => setIsOpenMenuCreate(!isOpenMenuCreate);
 
   return (
     <div className='main-wrapper'>
@@ -101,12 +108,30 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
-            <MdAdd />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokensPage.createToken')}
-            </span>
-          </Button>
+          <ButtonDropdown isOpen={isOpenMenuCreate} toggle={toggleMenuCreate}>
+            <DropdownToggle color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokensPage.createToken')}
+              </span>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                to={{ pathname: CREATE_TOKENS_PATH, search: 'wallet' }}
+                tag={RRNavLink}
+                color='link'
+              >
+                Use wallet
+              </DropdownItem>
+              <DropdownItem
+                to={{ pathname: CREATE_TOKENS_PATH, search: 'ledger' }}
+                tag={RRNavLink}
+                color='link'
+              >
+                Use ledger
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
         </ButtonGroup>
         <SearchBar
           onChange={(e) => setSearchQuery(e.target.value)}
