@@ -32,7 +32,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     props.fetchWalletTxns(currentPage, pageSize, true);
-  }, []);
+  }, [props.fetchWalletTxns]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === 'send') {

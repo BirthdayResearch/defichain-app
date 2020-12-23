@@ -28,8 +28,13 @@ import {
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
+  getTxnDetails,
 } from '@/utils/utility';
-import { GET_LEDGER_DEFI_PUB_KEY, CONNECT_LEDGER, CUSTOM_TX_LEDGER } from '@/constants';
+import {
+  GET_LEDGER_DEFI_PUB_KEY,
+  CONNECT_LEDGER,
+  CUSTOM_TX_LEDGER,
+} from '@/constants';
 import { construct } from '@/utils/cutxo';
 import { PaymentRequest } from '@/typings/models';
 import BigNumber from 'bignumber.js';
@@ -67,27 +72,35 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
 
 export const handelFetchWalletTxns = async (
   pageNo: number,
-  pageSize: number,
-  addressesLedger: string[],
+  pageSize: number
 ) => {
+  const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+  const addressesLedger = paymentData.map((payment) => payment.address);
   const rpcClient = new RpcClient();
-  const listTransactions = await rpcClient.listTransactions(pageNo - 1, pageSize);
-  const txs = [];
-  // TODO finish up
-  const promiseRawTransactions = listTransactions.filter((tx) => new Promise((resolve, reject) => {
-    rpcClient.getRawTransaction(tx.txid, false).then(rawTransaction => {
-      for (const vout of rawTransaction.vout) {
-        if (vout.scriptPubKey.addresses.some(address => addressesLedger.indexOf(address)!== -1)) {
-          resolve(tx);
-        }
-      }
-    });
-  }));
+  const listTransactions = await rpcClient.listTransactions(
+    pageNo - 1,
+    pageSize
+  );
+  const promiseRawTransactions = listTransactions.filter(
+    (tx) =>
+      new Promise((resolve, reject) => {
+        rpcClient.getRawTransaction(tx.txid, false).then((rawTransaction) => {
+          for (const vout of rawTransaction.vout) {
+            if (
+              vout.scriptPubKey.addresses.some(
+                (address) => addressesLedger.indexOf(address) !== -1
+              )
+            ) {
+              resolve(tx);
+            }
+          }
+        });
+      })
+  );
   const rawTransactions = await Promise.all(promiseRawTransactions);
-
+  const txList = await getTxnDetails(rawTransactions);
   const walletTxnCount = await rpcClient.getWalletTxnCount();
-  const data = { walletTxns: walletTxns.reverse(), walletTxnCount };
-  return data;
+  return { walletTxns: txList.reverse(), walletTxnCount };
 };
 
 export const handleSendData = async () => {
@@ -124,7 +137,6 @@ export const handleFetchWalletBalance = async (addresses: string[]) => {
     return await getReceivedByAddress(address);
   });
   const amounts = await Promise.all(amountsPromise);
-  log.info(`Amounts addresses ledger: ${amounts}`);
   return amounts.reduce((acc, amount) => acc + amount);
 };
 
@@ -205,7 +217,7 @@ export const accountToAccount = async (
   fromAddress: string | null,
   toAddress: string,
   amount: string,
-  keyIndex: number,
+  keyIndex: number
 ) => {
   log.info('Service accounttoaccount is started');
   try {
@@ -218,18 +230,24 @@ export const accountToAccount = async (
     const cutxo = await construct({
       maximumAmount:
         PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-      maximumCount:
-        PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+      maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
       feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
     });
     const data = {
       from: fromAddress,
       to: {
-        [toAddress]: {'0': amount}
-      }
+        [toAddress]: { '0': amount },
+      },
     };
     const ipcRenderer = ipcRendererFunc();
-    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, cutxo, toAddress, amount, data, keyIndex);
+    const res = await ipcRenderer.sendSync(
+      CUSTOM_TX_LEDGER,
+      cutxo,
+      toAddress,
+      amount,
+      data,
+      keyIndex
+    );
     if (res.success) {
       await rpcClient.sendRawTransaction(res.data.tx);
       return res.data.tx;
@@ -391,8 +409,11 @@ export const handleFetchAccounts = async () => {
   return result;
 };
 
-export const getAddressForSymbol = async (key: string, list: PaymentRequest[]) => {
-  log.info('getAddressForSymbol ledger')
+export const getAddressForSymbol = async (
+  key: string,
+  list: PaymentRequest[]
+) => {
+  log.info('getAddressForSymbol ledger');
   const rpcClient = new RpcClient();
   let maxAmount = 0;
   let address = '';
@@ -406,7 +427,9 @@ export const getAddressForSymbol = async (key: string, list: PaymentRequest[]) =
       keyIndex = i;
     }
   }
-  log.info(`getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`)
+  log.info(
+    `getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`
+  );
   return { address, maxAmount, keyIndex };
 };
 
@@ -415,7 +438,7 @@ export const accountToAccountConversion = async (
   toAddress: string,
   hash: string
 ) => {
-  log.info('accountToAccountConversion ledger')
+  log.info('accountToAccountConversion ledger');
   const rpcClient = new RpcClient();
   const amounts = {};
   for (const obj of addressList) {
@@ -440,11 +463,18 @@ export const accountToAccountConversion = async (
       const data = {
         from: fromAddress,
         to: {
-          [toAddress]: {'0': amount}
-        }
+          [toAddress]: { '0': amount },
+        },
       };
       const ipcRenderer = ipcRendererFunc();
-      const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, cutxo, toAddress, amount, data, keyIndex);
+      const res = await ipcRenderer.sendSync(
+        CUSTOM_TX_LEDGER,
+        cutxo,
+        toAddress,
+        amount,
+        data,
+        keyIndex
+      );
       if (res.success) {
         const txId = rpcClient.sendRawTransaction(res.data.tx);
         const promiseHash = getTransactionInfo(txId);
