@@ -4,6 +4,7 @@
 @import '~bootstrap/scss/mixins';
 @import '../../../../../scss/variables';
 @import '../../../../../scss/bootstrap/variables';
+@import '../../../../../scss/utility';
 
 .table {
   margin-bottom: 0;
@@ -25,4 +26,8 @@
 
 .qrCc svg {
   color: $black;
+}
+
+.addressContainer {
+  max-width: 175px;
 }

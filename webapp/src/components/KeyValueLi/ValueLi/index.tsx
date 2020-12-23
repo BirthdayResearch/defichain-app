@@ -12,6 +12,7 @@ interface KeyValueLiProps {
   popsQR?: any;
   uid?: any;
   label?: string;
+  textLimit?: number | string;
 }
 
 const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
@@ -29,28 +30,26 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
   return (
     <div className={styles.keyValueLi}>
       <div className={styles.value}>
-        <Row>
-          <Col md='10'>
-            <div
-              className={classnames(
-                { 'd-flex': copied },
-                styles.copiedIndicator
-              )}
-            >
-              {I18n.t('components.keyValueLi.copied')}
-            </div>
-            {props.value ? (
-              <EllipsisText text={props.value} length={'50'} />
-            ) : (
-              '-'
-            )}
-          </Col>
-          <Col md='2'>
-            {props.value && props.copyable && (
-              <CopyToClipboard value={props.value!} handleCopy={handleCopy} />
-            )}
-          </Col>
-        </Row>
+        <div>
+          <div
+            className={classnames({ 'd-flex': copied }, styles.copiedIndicator)}
+          >
+            {I18n.t('components.keyValueLi.copied')}
+          </div>
+          {props.value ? (
+            <EllipsisText
+              text={props.value}
+              length={Number(props.textLimit ?? `50`)}
+            />
+          ) : (
+            '-'
+          )}
+        </div>
+        <div>
+          {props.value && props.copyable && (
+            <CopyToClipboard value={props.value!} handleCopy={handleCopy} />
+          )}
+        </div>
       </div>
     </div>
   );

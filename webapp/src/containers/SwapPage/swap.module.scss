@@ -29,12 +29,18 @@
   width: 48px;
   height: 48px;
   margin-right: 1.5rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    color: $primary;
+  }
 }
 
-.successColor {
-  color: #28a745;
+.txProgressSuccess {
   position: absolute;
   left: -30px;
+  color: $green;
   height: 24px;
   width: 24px;
 }

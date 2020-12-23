@@ -14,6 +14,7 @@ import { TabContent } from 'reactstrap';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
+import { getPageTitle } from '../../utils/utility';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -256,7 +257,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.settings.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
       <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='content'>

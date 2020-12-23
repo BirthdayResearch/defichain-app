@@ -41,13 +41,16 @@ const initiateBackupImportWalletManager = (
     }
   });
 
-  ipcMain.on(ENABLE_RESET_MENU, async () => {
-    try {
-      createMenu(true);
-    } catch (err) {
-      console.log(err);
+  ipcMain.on(
+    ENABLE_RESET_MENU,
+    async (event: Electron.IpcMainEvent, arg: any) => {
+      try {
+        createMenu(arg?.isWalletCreatedFlag);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 };
 
 export default initiateBackupImportWalletManager;

@@ -291,6 +291,14 @@ export default class RpcClient {
     return data.result;
   };
 
+  setLabel = async (address: string, label: string): Promise<any> => {
+    const { data } = await this.call('/', methodNames.SET_LABEL, [
+      address,
+      label,
+    ]);
+    return data.result;
+  };
+
   sendToAddress = async (
     toAddress: string | null,
     amount: number | string,
@@ -344,6 +352,19 @@ export default class RpcClient {
         [toAddress]: amount,
       },
       [],
+    ]);
+    return data.result;
+  };
+
+  sendTokensToAddress = async (
+    toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SEND_TOKENS_TO_ADDRESS, [
+      {},
+      {
+        [toAddress]: amount,
+      },
     ]);
     return data.result;
   };
@@ -870,7 +891,21 @@ export default class RpcClient {
       'mine',
       {
         maxBlockHeight: blockHeight,
-        depth: limit,
+        limit,
+        no_rewards,
+        token,
+      },
+    ]);
+    return data.result;
+  };
+
+  accountHistoryCount = async (
+    no_rewards: boolean,
+    token: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
+      'mine',
+      {
         no_rewards,
         token,
       },

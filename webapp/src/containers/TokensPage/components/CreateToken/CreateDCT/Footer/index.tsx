@@ -12,10 +12,11 @@ import {
 } from '../../../../../../constants';
 import { ITokenResponse } from '../../../../../../utils/interfaces';
 import Spinner from '../../../../../../components/Svg/Spinner';
+import { CreateTokenFormState } from '../..';
 
 interface CreateDCTProps {
   isUpdate: boolean;
-  formState: any;
+  formState: CreateTokenFormState;
   isConfirmationModalOpen: string;
   setIsConfirmationModalOpen: (state: string) => void;
   cancelConfirmation: () => void;
@@ -94,7 +95,7 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
                 <Button
                   disabled={
                     !formState.symbol ||
-                    !formState.collateralAddress ||
+                    !formState.receiveAddress ||
                     formState.symbol.length > 8 ||
                     formState.name.length > 128 ||
                     !IsCollateralAddressValid
