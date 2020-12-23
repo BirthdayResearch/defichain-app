@@ -1,0 +1,10 @@
+.ellipsisValue {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dropdownContent {
+  width: 95%;
+  display: inline-flex;
+}
