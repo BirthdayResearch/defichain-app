@@ -14,8 +14,8 @@ import {
   CREATE_DCT,
   DCT_DISTRIBUTION,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
-} from '../../../../constants';
-import { ITokenResponse } from '../../../../utils/interfaces';
+} from '@/constants';
+import { ITokenResponse } from '@/utils/interfaces';
 
 interface RouteParams {
   id?: string;
@@ -40,9 +40,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   const { id } = props.match.params;
   const [collateralAddresses, setCollateralAddresses] = useState<any>([]);
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
-  const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
-    boolean
-  >(true);
+  const [
+    IsCollateralAddressValid,
+    setIsCollateralAddressValid,
+  ] = useState<boolean>(true);
   const [formState, setFormState] = useState<any>({
     name: '',
     symbol: '',
@@ -53,9 +54,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     tradeable: 'true',
     collateralAddress: '',
   });
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [

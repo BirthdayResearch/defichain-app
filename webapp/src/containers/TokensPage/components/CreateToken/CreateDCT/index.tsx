@@ -22,9 +22,9 @@ import EllipsisText from 'react-ellipsis-text';
 
 import Footer from './Footer';
 import styles from './CreateDCT.module.scss';
-import { TOKENS_PATH } from '../../../../../constants';
-import { ITokenResponse } from '../../../../../utils/interfaces';
-import Header from '../../../../HeaderComponent';
+import { TOKENS_PATH } from '@/constants';
+import { ITokenResponse } from '@/utils/interfaces';
+import Header from '@/containers/HeaderComponent';
 
 interface CreateDCTProps {
   handleChange: (e) => void;

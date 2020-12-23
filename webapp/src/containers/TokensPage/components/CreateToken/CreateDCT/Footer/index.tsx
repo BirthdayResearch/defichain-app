@@ -10,8 +10,8 @@ import {
   TOKENS_PATH,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../../constants';
-import { ITokenResponse } from '../../../../../../utils/interfaces';
-import Spinner from '../../../../../../components/Svg/Spinner';
+import { ITokenResponse } from '@/utils/interfaces';
+import Spinner from '@/components/Svg/Spinner';
 
 interface CreateDCTProps {
   isUpdate: boolean;
