@@ -8,11 +8,11 @@ import * as log from '@/utils/electronLogger';
 import CreateNewAddress from '@/components/CreateNewAddress';
 import { getPubKeyLedger } from '../../../service';
 import { addReceiveTxnsRequest } from '../../../reducer';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 
 interface CreateNewAddressPageLedgerProps extends RouteComponentProps {
   addReceiveTxns: (data: any) => void;
-  paymentRequests: PaymentRequest[];
+  paymentRequests: PaymentRequestLedger[];
 }
 
 const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLedgerProps> = ({

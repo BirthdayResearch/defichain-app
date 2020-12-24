@@ -1,6 +1,6 @@
 export type StatusLedger = 'connected' | 'notConnected' | 'connecting';
 
-export interface PaymentRequest {
+export interface PaymentRequestLedger {
   label: string;
   id: string;
   time: string;
@@ -8,6 +8,7 @@ export interface PaymentRequest {
   message: string;
   amount: number;
   unit: string;
+  keyIndex: number;
 }
 
 export interface WalletTxn {

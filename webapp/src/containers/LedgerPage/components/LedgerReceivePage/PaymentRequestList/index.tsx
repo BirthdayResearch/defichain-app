@@ -22,10 +22,10 @@ import { PAYMENT_REQ_LIST_SIZE } from '@/constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 
 interface PaymentRequestsProps {
-  paymentRequests: PaymentRequest[];
+  paymentRequests: PaymentRequestLedger[];
   removeReceiveTxns: (id: string) => void;
   fetchPayment: () => void;
 }

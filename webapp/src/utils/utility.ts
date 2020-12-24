@@ -52,6 +52,12 @@ import {
   MAINNET_BTC_SYMBOL,
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
+  CUSTOM_TX_LEDGER,
+  MAXIMUM_AMOUNT,
+  DEFAULT_MAXIMUM_AMOUNT,
+  MAXIMUM_COUNT,
+  DEFAULT_MAXIMUM_COUNT,
+  FEE_RATE, DEFAULT_FEE_RATE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -68,10 +74,12 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
-} from '../containers/WalletPage/service';
-import { handleFetchToken } from '../containers/TokensPage/service';
-import { handleFetchPoolshares } from '../containers/SwapPage/service';
-import { PaymentRequest } from '@/typings/models';
+} from '@/containers/WalletPage/service';
+import { handleFetchToken } from '@/containers/TokensPage/service';
+import { handleFetchPoolshares } from '@/containers/SwapPage/service';
+import { PaymentRequestLedger } from '@/typings/models';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import { construct } from '@/utils/cutxo';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1001,7 +1009,7 @@ export const getAddressForSymbol = async (key: string, list: any) => {
 
 export const getAddressForSymbolLedger = async (
   key: string,
-  list: PaymentRequest[]
+  list: PaymentRequestLedger[]
 ) => {
   log.info('getAddressForSymbol ledger');
   const rpcClient = new RpcClient();
@@ -1136,6 +1144,69 @@ export const handleAccountToAccountConversion = async (
       const promiseHash = getTransactionInfo(txId);
       accountToAccountTxHashes.push(promiseHash);
       amountTransfered = amountTransfered.plus(new BigNumber(amount));
+    }
+  }
+  await Promise.all(accountToAccountTxHashes);
+  return amountTransfered;
+};
+
+export const accountToAccountConversionLedger = async (
+  addressList: PaymentRequestLedger[],
+  toAddress: string,
+  hash: string
+) => {
+  log.info('accountToAccountConversion ledger');
+  const rpcClient = new RpcClient();
+  const amounts = {};
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+    }
+  }
+
+  if (!isEmpty(amounts)) {
+    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
+    await getTransactionInfo(refreshUtxoTxId);
+  }
+
+  const accountToAccountTxHashes: any[] = [];
+  const cutxo = await construct({
+    maximumAmount:
+      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+  });
+  let amountTransfered = new BigNumber(0);
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    const amount = Number(obj.amount).toFixed(8);
+
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      const data = {
+        from: obj.address,
+        to: {
+          [toAddress]: { '0': amount },
+        },
+      };
+      const ipcRenderer = ipcRendererFunc();
+      const res = await ipcRenderer.sendSync(
+        CUSTOM_TX_LEDGER,
+        cutxo,
+        toAddress,
+        amount,
+        data,
+        obj.keyIndex
+      );
+      if (res.success) {
+        const txId = rpcClient.sendRawTransaction(res.data.tx);
+        const promiseHash = getTransactionInfo(txId);
+        accountToAccountTxHashes.push(promiseHash);
+        amountTransfered = amountTransfered.plus(new BigNumber(amount));
+      } else {
+        log.error(`accountToAccountConversion error: ${res.message}`);
+        throw new Error(res.message);
+      }
     }
   }
   await Promise.all(accountToAccountTxHashes);

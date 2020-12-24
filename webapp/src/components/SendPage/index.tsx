@@ -38,7 +38,7 @@ import qs from 'querystring';
 import styles from '@/containers/WalletPage/WalletPage.module.scss';
 import Spinner from '@/components/Svg/Spinner';
 import Header from '@/containers/HeaderComponent';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 import { accountToAccountConversion } from '@/containers/LedgerPage/service';
 
 const shutterSnap = new UIfx(shutterSound);
@@ -57,7 +57,7 @@ interface SendPageProps {
     sendStep: string;
     waitToSend: number;
   };
-  paymentRequests: PaymentRequest[];
+  paymentRequests: PaymentRequestLedger[];
   fetchSendData: () => void;
   accountToAccount: (
     fromAddress: string | null,
@@ -71,7 +71,7 @@ interface SendPageProps {
     list: any[]
   ) => { address: string; maxAmount: number; keyIndex: number };
   accountToAccountConversion: (
-    addressList: PaymentRequest[],
+    addressList: PaymentRequestLedger[],
     toAddress: string,
     hash: string
   ) => Promise<any>;

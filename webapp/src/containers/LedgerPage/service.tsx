@@ -36,7 +36,7 @@ import {
   CUSTOM_TX_LEDGER,
 } from '@/constants';
 import { construct } from '@/utils/cutxo';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
 
 const handleLocalStorageName = (networkName) => {
@@ -410,7 +410,7 @@ export const handleFetchAccounts = async () => {
 };
 
 export const accountToAccountConversion = async (
-  addressList: PaymentRequest[],
+  addressList: PaymentRequestLedger[],
   toAddress: string,
   hash: string
 ) => {
