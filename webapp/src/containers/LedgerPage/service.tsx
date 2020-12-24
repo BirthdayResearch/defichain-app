@@ -409,30 +409,6 @@ export const handleFetchAccounts = async () => {
   return result;
 };
 
-export const getAddressForSymbol = async (
-  key: string,
-  list: PaymentRequest[]
-) => {
-  log.info('getAddressForSymbol ledger');
-  const rpcClient = new RpcClient();
-  let maxAmount = 0;
-  let address = '';
-  let keyIndex = 0;
-  for (const [i, obj] of list.entries()) {
-    const tokenSymbol = obj.unit;
-    const amount = await rpcClient.getReceivedByAddress(obj.address);
-    if (key === tokenSymbol && maxAmount <= amount) {
-      maxAmount = amount;
-      address = obj.address;
-      keyIndex = i;
-    }
-  }
-  log.info(
-    `getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`
-  );
-  return { address, maxAmount, keyIndex };
-};
-
 export const accountToAccountConversion = async (
   addressList: PaymentRequest[],
   toAddress: string,

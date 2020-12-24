@@ -5,10 +5,10 @@ import { fetchSendDataRequest } from '../../reducer';
 import {
   accountToAccount,
   isValidAddress,
-  getAddressForSymbol,
   accountToAccountConversion
 } from '../../service';
 import { LEDGER_PATH } from '@/constants';
+import { getAddressForSymbolLedger } from '@/utils/utility';
 
 const mapStateToProps = (state) => {
   const { ledgerWallet, settings } = state;
@@ -29,7 +29,7 @@ const mergerProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   accountToAccount,
   isValidAddress,
-  getAddressForSymbol,
+  getAddressForSymbol: getAddressForSymbolLedger,
   accountToAccountConversion,
   cancelPagePath: LEDGER_PATH,
 });

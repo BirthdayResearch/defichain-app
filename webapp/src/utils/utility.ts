@@ -71,6 +71,7 @@ import {
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/SwapPage/service';
+import { PaymentRequest } from '@/typings/models';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -996,6 +997,30 @@ export const getAddressForSymbol = async (key: string, list: any) => {
     address = await getNewAddress('', true);
   }
   return { address, amount: maxAmount };
+};
+
+export const getAddressForSymbolLedger = async (
+  key: string,
+  list: PaymentRequest[]
+) => {
+  log.info('getAddressForSymbol ledger');
+  const rpcClient = new RpcClient();
+  let maxAmount = 0;
+  let address = '';
+  let keyIndex = 0;
+  for (const [i, obj] of list.entries()) {
+    const tokenSymbol = obj.unit;
+    const amount = await rpcClient.getReceivedByAddress(obj.address);
+    if (key === tokenSymbol && maxAmount <= amount) {
+      maxAmount = amount;
+      address = obj.address;
+      keyIndex = i;
+    }
+  }
+  log.info(
+    `getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`
+  );
+  return { address, maxAmount, keyIndex };
 };
 
 export const getCoinPriceInUSD = async (conversionCurrency: string) => {
