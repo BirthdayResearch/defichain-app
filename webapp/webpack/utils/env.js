@@ -3,7 +3,7 @@ import {join} from 'path';
 import {parseArguments} from './helpers';
 
 const parsedArguments = parseArguments();
-export const mode = parsedArguments.mode ?? 'production';
+export const mode = process.env.NODE_ENV || 'production';
 export const isProd = mode === 'production';
 export const isDev = !isProd;
 export const rootDir = join(__dirname, '../../');

@@ -4,14 +4,16 @@ import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
 import * as plugins from './plugins';
 import * as rules from './rules';
-import {isProd, outputPath} from './utils/env';
+import {isProd} from './utils/env';
 import {arrayFilterEmpty} from './utils/helpers';
 
 export default {
+    target: 'web',
     context: __dirname,
     entry,
     output: {
-        path: outputPath,
+        path: path.join(__dirname, '../dist'),
+        publicPath: './',
         filename: '[name].[contenthash].js',
     },
     module: {
@@ -43,6 +45,8 @@ export default {
         fallback: {
             crypto: require.resolve('crypto-browserify'),
             stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer/'),
+            process: require.resolve('process/browser'),
         },
     },
 };

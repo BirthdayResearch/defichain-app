@@ -82,7 +82,6 @@ export const babelLoader = {
 
 export const cssModulesSupportLoaderItems = [
     miniCssExtractLoader,
-    typingsCssModulesLoader,
     {
         ...cssLoader,
         options: {

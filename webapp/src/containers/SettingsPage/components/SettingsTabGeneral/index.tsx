@@ -1,140 +1,146 @@
 import React from 'react';
-import { TabPane, Row, Col, Form, FormGroup, Label, Button } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import {TabPane, Row, Col, Form, FormGroup, Label, Button} from 'reactstrap';
+import {I18n} from 'react-redux-i18n';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.scss';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import SettingsRowDropDown from '../SettingsRowDropDown';
-import { openGeneralReIndexModal } from '../../../PopOver/reducer';
+import {openGeneralReIndexModal} from '../../../PopOver/reducer';
 
 interface SettingsTabGeneralProps {
-  launchAtLogin: boolean;
-  reindexAfterSaving: boolean;
-  minimizedAtLaunch: boolean;
-  pruneBlockStorage: boolean;
-  blockStorage: number;
-  databaseCache: number;
-  maximumAmount: number;
-  maximumCount: number;
-  feeRate: number | string;
-  scriptVerificationThreads: number;
-  handleRegularNumInputs: any;
-  handleFractionalInputs: any;
-  handleToggles: any;
-  network: string;
-  networkOptions: { label: string; value: string }[];
-  handleDropDowns: (data: any, field: any) => any;
-  openGeneralReIndexModal: () => void;
-  handeReindexToggle: () => void;
+    launchAtLogin: boolean;
+    reindexAfterSaving: boolean;
+    minimizedAtLaunch: boolean;
+    pruneBlockStorage: boolean;
+    blockStorage: number;
+    databaseCache: number;
+    maximumAmount: number;
+    maximumCount: number;
+    feeRate: number | string;
+    scriptVerificationThreads: number;
+    handleRegularNumInputs: any;
+    handleFractionalInputs: any;
+    handleToggles: any;
+    network: string;
+    networkOptions: {label: string; value: string}[];
+    handleDropDowns: (data: any, field: any) => any;
+    openGeneralReIndexModal: () => void;
+    handeReindexToggle: () => void;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
-  const {
-    launchAtLogin,
-    minimizedAtLaunch,
-    pruneBlockStorage,
-    blockStorage,
-    databaseCache,
-    maximumAmount,
-    maximumCount,
-    feeRate,
-    scriptVerificationThreads,
-    handleRegularNumInputs,
-    handleFractionalInputs,
-    handleToggles,
-    networkOptions,
-    network,
-    reindexAfterSaving,
-    handleDropDowns,
-    openGeneralReIndexModal,
-    handeReindexToggle,
-  } = props;
+    const {
+        launchAtLogin,
+        minimizedAtLaunch,
+        pruneBlockStorage,
+        blockStorage,
+        databaseCache,
+        maximumAmount,
+        maximumCount,
+        feeRate,
+        scriptVerificationThreads,
+        handleRegularNumInputs,
+        handleFractionalInputs,
+        handleToggles,
+        networkOptions,
+        network,
+        reindexAfterSaving,
+        handleDropDowns,
+        openGeneralReIndexModal,
+        handeReindexToggle,
+    } = props;
 
-  return (
-    <TabPane tabId='general'>
-      <section>
-        <Form>
-          <Row className='mb-5'>
-            <Col md='12'>
-              <SettingsRowDropDown
-                label={'containers.settings.network'}
-                data={networkOptions}
-                field={network}
-                handleDropDowns={handleDropDowns}
-                fieldName={'network'}
-              />
-            </Col>
-          </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.launchOptions')}</Col>
-            <Col md='8' lg='6'>
-              <SettingsRowToggle
-                handleToggles={handleToggles}
-                label={'launchAtLogin'}
-                field={launchAtLogin}
-                fieldName={'launchAtLogin'}
-              />
-              <SettingsRowToggle
-                handleToggles={handleToggles}
-                label={'minimizedAtLaunch'}
-                field={minimizedAtLaunch}
-                fieldName={'minimizedAtLaunch'}
-                hideMinimized={!launchAtLogin}
-              />
-            </Col>
-          </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.reindexOption')}</Col>
-            <Col md='8' lg='6'>
-              <SettingsRowToggle
-                handleToggles={handeReindexToggle}
-                label={'reindexAfterSaving'}
-                field={reindexAfterSaving}
-                fieldName={'reindexAfterSaving'}
-              />
-            </Col>
-          </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.utxoConsolidator')}</Col>
-            <Col md='8' lg='6'>
-              <FormGroup className='form-label-group mb-5'>
-                <SettingsRowInput
-                  field={maximumAmount}
-                  fieldName={'maximumAmount'}
-                  label={'maximumAmount'}
-                  name={'maximumAmount'}
-                  id={'maximumAmount'}
-                  placeholder={'Number'}
-                  handleInputs={handleRegularNumInputs}
-                />
-              </FormGroup>
-              <FormGroup className='form-label-group mb-5'>
-                <SettingsRowInput
-                  field={maximumCount}
-                  fieldName={'maximumCount'}
-                  label={'maximumCount'}
-                  name={'maximumCount'}
-                  id={'maximumCount'}
-                  placeholder={'Number'}
-                  handleInputs={handleRegularNumInputs}
-                />
-              </FormGroup>
-              <FormGroup className='form-label-group mb-5'>
-                <SettingsRowInput
-                  field={feeRate}
-                  fieldName={'feeRate'}
-                  label={'feeRate'}
-                  name={'feeRate'}
-                  id={'feeRate'}
-                  placeholder={'Number'}
-                  handleInputs={handleFractionalInputs}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-          {/* <Row className='mb-5'>
+    return (
+        <TabPane tabId="general">
+            <section>
+                <Form>
+                    <Row className="mb-5">
+                        <Col md="12">
+                            <SettingsRowDropDown
+                                label={'containers.settings.network'}
+                                data={networkOptions}
+                                field={network}
+                                handleDropDowns={handleDropDowns}
+                                fieldName={'network'}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-5">
+                        <Col md="4">
+                            {I18n.t('containers.settings.launchOptions')}
+                        </Col>
+                        <Col md="8" lg="6">
+                            <SettingsRowToggle
+                                handleToggles={handleToggles}
+                                label={'launchAtLogin'}
+                                field={launchAtLogin}
+                                fieldName={'launchAtLogin'}
+                            />
+                            <SettingsRowToggle
+                                handleToggles={handleToggles}
+                                label={'minimizedAtLaunch'}
+                                field={minimizedAtLaunch}
+                                fieldName={'minimizedAtLaunch'}
+                                hideMinimized={!launchAtLogin}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-5">
+                        <Col md="4">
+                            {I18n.t('containers.settings.reindexOption')}
+                        </Col>
+                        <Col md="8" lg="6">
+                            <SettingsRowToggle
+                                handleToggles={handeReindexToggle}
+                                label={'reindexAfterSaving'}
+                                field={reindexAfterSaving}
+                                fieldName={'reindexAfterSaving'}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-5">
+                        <Col md="4">
+                            {I18n.t('containers.settings.utxoConsolidator')}
+                        </Col>
+                        <Col md="8" lg="6">
+                            <FormGroup className="form-label-group mb-5">
+                                <SettingsRowInput
+                                    field={maximumAmount}
+                                    fieldName={'maximumAmount'}
+                                    label={'maximumAmount'}
+                                    name={'maximumAmount'}
+                                    id={'maximumAmount'}
+                                    placeholder={'Number'}
+                                    handleInputs={handleRegularNumInputs}
+                                />
+                            </FormGroup>
+                            <FormGroup className="form-label-group mb-5">
+                                <SettingsRowInput
+                                    field={maximumCount}
+                                    fieldName={'maximumCount'}
+                                    label={'maximumCount'}
+                                    name={'maximumCount'}
+                                    id={'maximumCount'}
+                                    placeholder={'Number'}
+                                    handleInputs={handleRegularNumInputs}
+                                />
+                            </FormGroup>
+                            <FormGroup className="form-label-group mb-5">
+                                <SettingsRowInput
+                                    field={feeRate}
+                                    fieldName={'feeRate'}
+                                    label={'feeRate'}
+                                    name={'feeRate'}
+                                    id={'feeRate'}
+                                    placeholder={'Number'}
+                                    handleInputs={handleFractionalInputs}
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    {/* <Row className='mb-5'>
             <Button
               color='primary'
               onClick={() => {
@@ -145,8 +151,8 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               REINDEX
             </Button>
           </Row> */}
-          {/* NOTE: Do not remove, for future purpose */}
-          {/* <Row className='mb-5'>
+                    {/* NOTE: Do not remove, for future purpose */}
+                    {/* <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.storage')}</Col>
             <Col md='8'>
               <SettingsRowToggle
@@ -216,22 +222,22 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </FormGroup>
             </Col>
           </Row> */}
-        </Form>
-      </section>
-    </TabPane>
-  );
+                </Form>
+            </section>
+        </TabPane>
+    );
 };
 
 const mapStateToProps = (state) => {
-  const { networkOptions } = state.settings;
+    const {networkOptions} = state.settings;
 
-  return {
-    networkOptions,
-  };
+    return {
+        networkOptions,
+    };
 };
 
 const mapDispatchToProps = {
-  openGeneralReIndexModal,
+    openGeneralReIndexModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabGeneral);
