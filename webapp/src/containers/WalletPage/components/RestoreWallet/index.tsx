@@ -90,7 +90,9 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -163,7 +165,6 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 color='primary'
                 onClick={() => {
                   resetRestoreWalletError();
-                  history.push(WALLET_TOKENS_PATH);
                 }}
               >
                 {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}
