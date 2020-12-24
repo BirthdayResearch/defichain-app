@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import { getErrorMessage, getNetwork, handelGetPaymentRequestLedger } from '@/utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -36,6 +36,7 @@ import {
   handleUpdateTokens,
   handleMintTokens,
 } from './service';
+import { handelGetPaymentRequest } from '@/containers/WalletPage/service';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -94,9 +95,11 @@ export function* fetchTransfers(action) {
 export function* createTokens(action) {
   try {
     const {
-      payload: { tokenData },
+      payload: { tokenData, typeWallet },
     } = action;
-    const data = yield call(handleCreateTokens, tokenData);
+    const networkName = yield call(getNetwork);
+    const paymentsLedger = yield call(handelGetPaymentRequest, networkName);
+    const data = yield call(handleCreateTokens, tokenData, typeWallet, paymentsLedger);
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });

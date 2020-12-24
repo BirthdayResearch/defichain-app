@@ -19,7 +19,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '@/constants';
 import { ITokenResponse } from '@/utils/interfaces';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 
 interface RouteParams {
   id?: string;
@@ -28,7 +28,7 @@ interface RouteParams {
 interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   tokenInfo: any;
   fetchToken: (id: string | undefined) => void;
-  createToken: (tokenData) => void;
+  createToken: (tokenData, typeWallet: string | null) => void;
   updateToken: (tokenData) => void;
   createdTokenData: ITokenResponse;
   updatedTokenData: ITokenResponse;
@@ -36,7 +36,7 @@ interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   isErrorUpdatingToken: string;
   isTokenCreating: boolean;
   isErrorCreatingToken: string;
-  paymentRequests: PaymentRequest[];
+  paymentRequests: PaymentRequestLedger[];
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
@@ -195,7 +195,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setAllowCalls(true);
     const tokenData = { ...formState };
     setIsConfirmationModalOpen('loading');
-    createToken(tokenData);
+    createToken(tokenData, typeWallet);
   };
 
   const updateConfirmation = () => {
@@ -206,7 +206,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 
   const handleSubmit = async () => {
     const tokenData = { ...formState };
-    createToken(tokenData);
+    createToken(tokenData, typeWallet);
   };
 
   return (
@@ -268,7 +268,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchToken: (id) => fetchTokenInfo({ id }),
-  createToken: (tokenData) => createToken({ tokenData }),
+  createToken: (tokenData, typeWallet: string | null) => createToken({ tokenData,typeWallet }),
   updateToken: (tokenData) => updateToken({ tokenData }),
 };
 

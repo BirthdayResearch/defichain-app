@@ -1,10 +1,12 @@
 import isEmpty from 'lodash/isEmpty';
 import BigNumber from 'bignumber.js';
+import { CustomTx } from 'bitcore-lib-dfi';
 import RpcClient from '../../utils/rpc-client';
 import {
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  DFI_SYMBOL,
-  LIST_TOKEN_PAGE_SIZE,
+  CUSTOM_TX_LEDGER,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT, DEFAULT_FEE_RATE, DEFAULT_MAXIMUM_AMOUNT, DEFAULT_MAXIMUM_COUNT,
+  DFI_SYMBOL, FEE_RATE,
+  LIST_TOKEN_PAGE_SIZE, MAXIMUM_AMOUNT, MAXIMUM_COUNT,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
   UNDEFINED_STRING,
@@ -17,9 +19,14 @@ import {
   getBalanceForSymbol,
   getSmallerAmount,
   handleAccountToAccountConversion,
+  getAddressForSymbolLedger,
+  accountToAccountConversionLedger,
 } from '@/utils/utility';
-import { PaymentRequest } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 import { IAddressAndAmount } from '@/utils/interfaces';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import { construct } from '@/utils/cutxo';
+import PersistentStore from '@/utils/persistentStore';
 
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
@@ -74,21 +81,8 @@ export const handleTokenTransfers = async (id: string) => {
   return [];
 };
 
-export const handleCreateTokens = async (tokenData) => {
+export const createTokenUseWallet = async (tokenData) => {
   let accountToAccountAmount = new BigNumber(0);
-  const data = {
-    name: tokenData.name,
-    symbol: tokenData.symbol,
-    isDAT: tokenData.isDAT,
-    decimal: Number(tokenData.decimal),
-    limit: Number(tokenData.limit),
-    mintable: JSON.parse(tokenData.mintable),
-    tradeable: JSON.parse(tokenData.tradeable),
-    collateralAddress: tokenData.collateralAddress,
-  };
-  if (!tokenData.name) {
-    delete data.name;
-  }
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
   const list = await getAddressAndAmountListForAccount();
@@ -125,10 +119,109 @@ export const handleCreateTokens = async (tokenData) => {
     await getTransactionInfo(hash);
   }
 
-  const hash = await rpcClient.createToken(data);
+  const hash = await rpcClient.createToken(tokenData);
   return {
     hash,
   };
+}
+
+export const createTokenUseLedger = async (tokenData, paymentsLedger: PaymentRequestLedger[]) => {
+  const rpcClient = new RpcClient();
+  let accountToAccountAmount = new BigNumber(0);
+  const cutxo = await construct({
+    maximumAmount:
+      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+  });
+
+  const { address,  maxAmount } = await getAddressForSymbolLedger(
+    DFI_SYMBOL,
+    paymentsLedger,
+  );
+
+  if (Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) > maxAmount) {
+    accountToAccountAmount = await accountToAccountConversionLedger(
+      paymentsLedger,
+      address,
+      DFI_SYMBOL
+    );
+    const txId = await rpcClient.sendToAddress(
+      address,
+      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
+    );
+    const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
+    const finalBalance = getSmallerAmount(
+      balance,
+      accountToAccountAmount.plus(maxAmount).toFixed(8)
+    );
+    const ipcRenderer = ipcRendererFunc();
+    const dataAccountToUtxos = {
+      txType: CustomTx.customTxType.accountToUtxos,
+      customData: {
+        from: address,
+        balances: [{ balance: finalBalance, token: DFI_SYMBOL}],
+        mintingOutputsStart: 0,
+      },
+    };
+    const keyIndex = paymentsLedger.find((payment) => payment.address === address)?.keyIndex;
+    const resAccountToUtxos = await ipcRenderer.sendSync(
+      CUSTOM_TX_LEDGER,
+      cutxo,
+      address,
+      finalBalance,
+      dataAccountToUtxos,
+      keyIndex
+    );
+    if (resAccountToUtxos.success) {
+      await rpcClient.sendRawTransaction(resAccountToUtxos.data.tx);
+      return resAccountToUtxos.data.tx;
+    } else {
+      throw new Error(resAccountToUtxos.message);
+    }
+    const dataCreateToken = {
+      txType: CustomTx.customTxType.createToken,
+      customData: tokenData,
+    };
+    const resCreateToken = await ipcRenderer.sendSync(
+      CUSTOM_TX_LEDGER,
+      cutxo,
+      address,
+      finalBalance,
+      dataCreateToken,
+      keyIndex
+    );
+    if (resCreateToken.success) {
+      return await rpcClient.sendRawTransaction(resCreateToken.data.tx);
+    } else {
+      throw new Error(resCreateToken.message);
+    }
+  }
+  return null;
+}
+
+export const handleCreateTokens = async (
+  tokenData,
+  typeWallet: string|null,
+  paymentsLedger: PaymentRequestLedger[],
+) => {
+  const data = {
+    name: tokenData.name,
+    symbol: tokenData.symbol,
+    isDAT: tokenData.isDAT,
+    decimal: Number(tokenData.decimal),
+    limit: Number(tokenData.limit),
+    mintable: JSON.parse(tokenData.mintable),
+    tradeable: JSON.parse(tokenData.tradeable),
+    collateralAddress: tokenData.collateralAddress,
+  };
+  if (!tokenData.name) {
+    delete data.name;
+  }
+  if (typeWallet === 'ledger') {
+    return await createTokenUseLedger(data, paymentsLedger);
+  }
+  return await createTokenUseWallet(data);
 };
 
 export const handleMintTokens = async (tokenData) => {
@@ -180,7 +273,7 @@ export const getReceivingAddressAndAmountList = async () => {
 };
 
 export const getReceivingAddressAndAmountListLedger = async (
-  payments: PaymentRequest[]
+  payments: PaymentRequestLedger[]
 ) => {
   const rpcClient = new RpcClient();
   const receivedPromisses = payments.map(({ address }) => {

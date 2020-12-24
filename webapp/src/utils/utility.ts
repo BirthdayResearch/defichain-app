@@ -1224,7 +1224,7 @@ export const accountToAccountConversionLedger = async (
       const data = {
         from: obj.address,
         to: {
-          [toAddress]: { '0': amount },
+          [toAddress]: [{ balance: amount, token: DFI_SYMBOL }],
         },
       };
       const ipcRenderer = ipcRendererFunc();
