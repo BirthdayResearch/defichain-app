@@ -8,7 +8,7 @@ import { TOKEN_LIST_PAGE_SIZE } from '../../../../constants';
 
 interface LiquidityListProps {
   poolshares: any;
-  history: History;
+  history?: History;
 }
 
 const LiquidityList: React.FunctionComponent<LiquidityListProps> = (

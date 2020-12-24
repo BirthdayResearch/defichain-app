@@ -37,6 +37,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
     >
       <Connect(PaymentRequestList)>
         <PaymentRequestList
+          fetchPaymentRequest={[Function]}
           paymentRequests={Array []}
           removeReceiveTxns={[Function]}
         >

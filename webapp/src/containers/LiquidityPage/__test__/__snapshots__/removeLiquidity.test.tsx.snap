@@ -1,0 +1,1737 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoveLiquidity component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(RemoveLiquidity)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <RemoveLiquidity
+          fetchPoolpair={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          isErrorRemovingPoolLiquidity=""
+          isLoadingLiquidityRemoved={false}
+          isLoadingRefreshUTXOS1={false}
+          isLoadingRefreshUTXOS2={false}
+          isLoadingRemovePoolLiquidity={false}
+          isLoadingTransferTokens={false}
+          liquidityRemovedLoaded={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          paymentRequests={Array []}
+          poolpair={Object {}}
+          refreshUTXOS1Loaded={false}
+          refreshUTXOS2Loaded={false}
+          removePoolLiqudity={[Function]}
+          removePoolLiquidityHash=""
+          transferTokensLoaded={false}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="DEX - DeFi app"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="DEX - DeFi app"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <Connect(Header)>
+              <Header
+                openBackupWallet={[Function]}
+                startUpdateApp={[Function]}
+                updateAvailableBadge={false}
+              >
+                <header
+                  className="header-bar"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="link"
+                    onClick={[Function]}
+                    tag="button"
+                  >
+                    <button
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <MdArrowBack>
+                        <IconBase
+                          attr={
+                            Object {
+                              "viewBox": "0 0 24 24",
+                            }
+                          }
+                        >
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            strokeWidth="0"
+                            style={
+                              Object {
+                                "color": undefined,
+                              }
+                            }
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                              key="0"
+                            />
+                          </svg>
+                        </IconBase>
+                      </MdArrowBack>
+                      <span>
+                        Back
+                      </span>
+                    </button>
+                  </Button>
+                  <h1
+                    className=""
+                  >
+                    Remove liquidity
+                  </h1>
+                </header>
+              </Header>
+            </Connect(Header)>
+            <div
+              className="content"
+            >
+              <section>
+                <FormGroup
+                  tag="div"
+                >
+                  <div
+                    className="form-group"
+                  >
+                    <Label
+                      for="removeLiquidityRange"
+                      tag="label"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <label
+                        className=""
+                        htmlFor="removeLiquidityRange"
+                      >
+                        Amount of liquidity to remove
+                      </label>
+                    </Label>
+                    <div>
+                      <InputGroup
+                        tag="div"
+                      >
+                        <div
+                          className="input-group"
+                        >
+                          <Input
+                            id="amountPercentage"
+                            inputMode="decimal"
+                            onChange={[Function]}
+                            type="text"
+                            value="0"
+                          >
+                            <input
+                              className="form-control"
+                              id="amountPercentage"
+                              inputMode="decimal"
+                              onChange={[Function]}
+                              type="text"
+                              value="0"
+                            />
+                          </Input>
+                          <InputGroupAddon
+                            addonType="append"
+                            tag="div"
+                          >
+                            <div
+                              className="input-group-append"
+                            >
+                              <InputGroupText
+                                className="border-left-0"
+                                tag="span"
+                              >
+                                <span
+                                  className="border-left-0 input-group-text"
+                                >
+                                  %
+                                </span>
+                              </InputGroupText>
+                            </div>
+                          </InputGroupAddon>
+                        </div>
+                      </InputGroup>
+                      <div>
+                        <span
+                          onClick={[Function]}
+                        >
+                          None
+                        </span>
+                        <CustomInput
+                          id="removeLiquidityRange"
+                          name="removeLiquidityRange"
+                          onChange={[Function]}
+                          step="0.1"
+                          type="range"
+                          value="0"
+                        >
+                          <input
+                            className="custom-range"
+                            id="removeLiquidityRange"
+                            name="removeLiquidityRange"
+                            onChange={[Function]}
+                            step="0.1"
+                            type="range"
+                            value="0"
+                          />
+                        </CustomInput>
+                        <span
+                          onClick={[Function]}
+                        >
+                          All
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </FormGroup>
+                <Row
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      md="12"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-12"
+                      >
+                        <Row
+                          className="align-items-center"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="align-items-center row"
+                          >
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                <TokenAvatar
+                                  size="26px"
+                                >
+                                  <ForwardRef(withAvatarConfig)
+                                    maxInitials={2}
+                                    round={true}
+                                    size="26px"
+                                    src=""
+                                    textSizeRatio={3}
+                                  >
+                                    <Avatar
+                                      avatarRedirectUrl={null}
+                                      cache={
+                                        Cache {
+                                          "cachePrefix": "react-avatar/",
+                                          "sourceSize": 20,
+                                          "sourceTTL": 604800000,
+                                        }
+                                      }
+                                      className=""
+                                      colors={
+                                        Array [
+                                          "#d73d32",
+                                          "#7e3794",
+                                          "#4285f4",
+                                          "#67ae3f",
+                                          "#d61a7f",
+                                          "#ff4080",
+                                        ]
+                                      }
+                                      fgColor="#FFF"
+                                      initials={[Function]}
+                                      maxInitials={2}
+                                      round={true}
+                                      size="26px"
+                                      src=""
+                                      textMarginRatio={0.15}
+                                      textSizeRatio={3}
+                                      unstyled={false}
+                                    >
+                                      <div
+                                        className=" sb-avatar"
+                                        style={
+                                          Object {
+                                            "borderRadius": "100%",
+                                            "display": "inline-block",
+                                            "fontFamily": "Helvetica, Arial, sans-serif",
+                                            "height": "26px",
+                                            "verticalAlign": "middle",
+                                            "width": "26px",
+                                          }
+                                        }
+                                      >
+                                        <div
+                                          className=" sb-avatar__text"
+                                          style={
+                                            Object {
+                                              "background": undefined,
+                                              "borderRadius": "100%",
+                                              "color": "#FFF",
+                                              "height": "26px",
+                                              "lineHeight": "initial",
+                                              "textAlign": "center",
+                                              "width": "26px",
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "table",
+                                                "height": "100%",
+                                                "tableLayout": "fixed",
+                                                "width": "100%",
+                                              }
+                                            }
+                                          >
+                                            <span
+                                              style={
+                                                Object {
+                                                  "display": "table-cell",
+                                                  "fontSize": "100%",
+                                                  "verticalAlign": "middle",
+                                                  "whiteSpace": "nowrap",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                key="26px"
+                                              />
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Avatar>
+                                  </ForwardRef(withAvatarConfig)>
+                                </TokenAvatar>
+                                <span />
+                              </div>
+                            </Col>
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 of 
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 undefined
+                              </div>
+                            </Col>
+                          </div>
+                        </Row>
+                        <hr />
+                        <Row
+                          className="align-items-center"
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="align-items-center row"
+                          >
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                <TokenAvatar
+                                  size="26px"
+                                >
+                                  <ForwardRef(withAvatarConfig)
+                                    maxInitials={2}
+                                    round={true}
+                                    size="26px"
+                                    src=""
+                                    textSizeRatio={3}
+                                  >
+                                    <Avatar
+                                      avatarRedirectUrl={null}
+                                      cache={
+                                        Cache {
+                                          "cachePrefix": "react-avatar/",
+                                          "sourceSize": 20,
+                                          "sourceTTL": 604800000,
+                                        }
+                                      }
+                                      className=""
+                                      colors={
+                                        Array [
+                                          "#d73d32",
+                                          "#7e3794",
+                                          "#4285f4",
+                                          "#67ae3f",
+                                          "#d61a7f",
+                                          "#ff4080",
+                                        ]
+                                      }
+                                      fgColor="#FFF"
+                                      initials={[Function]}
+                                      maxInitials={2}
+                                      round={true}
+                                      size="26px"
+                                      src=""
+                                      textMarginRatio={0.15}
+                                      textSizeRatio={3}
+                                      unstyled={false}
+                                    >
+                                      <div
+                                        className=" sb-avatar"
+                                        style={
+                                          Object {
+                                            "borderRadius": "100%",
+                                            "display": "inline-block",
+                                            "fontFamily": "Helvetica, Arial, sans-serif",
+                                            "height": "26px",
+                                            "verticalAlign": "middle",
+                                            "width": "26px",
+                                          }
+                                        }
+                                      >
+                                        <div
+                                          className=" sb-avatar__text"
+                                          style={
+                                            Object {
+                                              "background": undefined,
+                                              "borderRadius": "100%",
+                                              "color": "#FFF",
+                                              "height": "26px",
+                                              "lineHeight": "initial",
+                                              "textAlign": "center",
+                                              "width": "26px",
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "table",
+                                                "height": "100%",
+                                                "tableLayout": "fixed",
+                                                "width": "100%",
+                                              }
+                                            }
+                                          >
+                                            <span
+                                              style={
+                                                Object {
+                                                  "display": "table-cell",
+                                                  "fontSize": "100%",
+                                                  "verticalAlign": "middle",
+                                                  "whiteSpace": "nowrap",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                key="26px"
+                                              />
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Avatar>
+                                  </ForwardRef(withAvatarConfig)>
+                                </TokenAvatar>
+                                <span />
+                              </div>
+                            </Col>
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 of 
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 undefined
+                              </div>
+                            </Col>
+                          </div>
+                        </Row>
+                        <hr />
+                        <Row
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="row"
+                          >
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                Price
+                              </div>
+                            </Col>
+                            <Col
+                              tag="div"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <div
+                                className="col"
+                              >
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 undefined per undefined
+                                <br />
+                                <NumberMask
+                                  value="NaN"
+                                >
+                                  <NumberFormat
+                                    allowEmptyFormatting={false}
+                                    allowLeadingZeros={false}
+                                    allowNegative={true}
+                                    decimalSeparator="."
+                                    defaultValue={0}
+                                    displayType="text"
+                                    fixedDecimalScale={false}
+                                    isAllowed={[Function]}
+                                    isNumericString={true}
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onValueChange={[Function]}
+                                    prefix=""
+                                    suffix=""
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="thousand"
+                                    type="text"
+                                    value="NaN"
+                                  >
+                                    <span>
+                                      NaN
+                                    </span>
+                                  </NumberFormat>
+                                </NumberMask>
+                                 undefined per undefined
+                              </div>
+                            </Col>
+                          </div>
+                        </Row>
+                        <hr />
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+                <FormGroup
+                  className="form-row align-items-center"
+                  tag="div"
+                >
+                  <div
+                    className="form-row align-items-center form-group"
+                  >
+                    <Col
+                      md="4"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-4"
+                      >
+                        Receive address
+                      </div>
+                    </Col>
+                    <Col
+                      md="8"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-8"
+                      >
+                        <Connect(AddressDropdown)
+                          formState={
+                            Object {
+                              "amountPercentage": "0",
+                              "receiveAddress": undefined,
+                              "receiveLabel": undefined,
+                            }
+                          }
+                          getTransactionLabel={[Function]}
+                          onSelectAddress={[Function]}
+                        >
+                          <AddressDropdown
+                            dispatch={[Function]}
+                            formState={
+                              Object {
+                                "amountPercentage": "0",
+                                "receiveAddress": undefined,
+                                "receiveLabel": undefined,
+                              }
+                            }
+                            getTransactionLabel={[Function]}
+                            onSelectAddress={[Function]}
+                            paymentRequests={Array []}
+                          >
+                            <UncontrolledDropdown
+                              className="w-100"
+                            >
+                              <Dropdown
+                                a11y={true}
+                                active={false}
+                                addonType={false}
+                                className="w-100"
+                                direction="down"
+                                inNavbar={false}
+                                isOpen={false}
+                                nav={false}
+                                setActiveFromChild={false}
+                                toggle={[Function]}
+                              >
+                                <Manager>
+                                  <div
+                                    className="w-100 dropdown"
+                                    onKeyDown={[Function]}
+                                  >
+                                    <DropdownToggle
+                                      aria-haspopup={true}
+                                      caret={true}
+                                      className="undefined "
+                                      color="outline-secondary"
+                                      disabled={false}
+                                    >
+                                      <Reference>
+                                        <InnerReference
+                                          setReferenceNode={[Function]}
+                                        >
+                                          <Button
+                                            aria-expanded={false}
+                                            aria-haspopup={true}
+                                            className="undefined  dropdown-toggle"
+                                            color="outline-secondary"
+                                            disabled={false}
+                                            innerRef={[Function]}
+                                            onClick={[Function]}
+                                            tag="button"
+                                          >
+                                            <button
+                                              aria-expanded={false}
+                                              aria-haspopup={true}
+                                              aria-label={null}
+                                              className="undefined  dropdown-toggle btn btn-outline-secondary"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <div
+                                                className="undefined undefined"
+                                              >
+                                                Select an address
+                                              </div>
+                                            </button>
+                                          </Button>
+                                        </InnerReference>
+                                      </Reference>
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      className="undefined w-100"
+                                      flip={true}
+                                      tag="div"
+                                    >
+                                      <div
+                                        aria-hidden={true}
+                                        className="undefined w-100 dropdown-menu"
+                                        role="menu"
+                                        tabIndex="-1"
+                                      >
+                                        <DropdownItem
+                                          className="w-100"
+                                          tag="button"
+                                          toggle={true}
+                                        >
+                                          <button
+                                            className="w-100 dropdown-item"
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
+                                          >
+                                            <Row
+                                              className="w-100"
+                                              tag="div"
+                                              widths={
+                                                Array [
+                                                  "xs",
+                                                  "sm",
+                                                  "md",
+                                                  "lg",
+                                                  "xl",
+                                                ]
+                                              }
+                                            >
+                                              <div
+                                                className="w-100 row"
+                                              >
+                                                <Col
+                                                  md="6"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-6"
+                                                  >
+                                                    Address
+                                                  </div>
+                                                </Col>
+                                                <Col
+                                                  md="3"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-3"
+                                                  >
+                                                    Label
+                                                  </div>
+                                                </Col>
+                                                <Col
+                                                  md="3"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-3"
+                                                  >
+                                                    Selected
+                                                  </div>
+                                                </Col>
+                                              </div>
+                                            </Row>
+                                          </button>
+                                        </DropdownItem>
+                                      </div>
+                                    </DropdownMenu>
+                                  </div>
+                                </Manager>
+                              </Dropdown>
+                            </UncontrolledDropdown>
+                          </AddressDropdown>
+                        </Connect(AddressDropdown)>
+                      </div>
+                    </Col>
+                  </div>
+                </FormGroup>
+              </section>
+            </div>
+            <footer
+              className="footer-bar"
+            >
+              <div
+                className=""
+              >
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="col-auto"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-auto col"
+                      >
+                        Enter amount of liquidity to remove
+                      </div>
+                    </Col>
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          color="primary"
+                          disabled={true}
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-primary disabled"
+                            disabled={true}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Continue
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <dl
+                    className="row"
+                  >
+                    <dt
+                      className="col-sm-4 text-right"
+                    >
+                      Receive
+                    </dt>
+                    <dd
+                      className="col-sm-8"
+                    >
+                      <span>
+                        NaN undefined
+                      </span>
+                      <br />
+                      <span>
+                        NaN undefined
+                      </span>
+                    </dd>
+                    <dt
+                      className="col-sm-4 text-right"
+                    >
+                      Receive address
+                    </dt>
+                    <dd
+                      className="col-sm-8"
+                    >
+                      <span>
+                        undefined
+                      </span>
+                    </dd>
+                  </dl>
+                </div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="col"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col col"
+                      >
+                        Please verify transaction and press CONFIRM
+                      </div>
+                    </Col>
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          className="mr-3"
+                          color="link"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="mr-3 btn btn-link"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Cancel
+                          </button>
+                        </Button>
+                        <Button
+                          color="primary"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-primary"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Confirm
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div
+                    className="text-center"
+                  >
+                    <MdCheckCircle
+                      className="footer-sheet-icon"
+                    >
+                      <IconBase
+                        attr={
+                          Object {
+                            "viewBox": "0 0 24 24",
+                          }
+                        }
+                        className="footer-sheet-icon"
+                      >
+                        <svg
+                          className="footer-sheet-icon"
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            key="0"
+                          />
+                        </svg>
+                      </IconBase>
+                    </MdCheckCircle>
+                    <p>
+                      Your liquidity list will update once the transaction has been confirmed by the DeFi blockchain
+                    </p>
+                  </div>
+                </div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          color="primary"
+                          tag={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "propTypes": Object {
+                                "activeClassName": [Function],
+                                "activeStyle": [Function],
+                                "aria-current": [Function],
+                                "className": [Function],
+                                "exact": [Function],
+                                "innerRef": [Function],
+                                "isActive": [Function],
+                                "location": [Function],
+                                "onClick": [Function],
+                                "replace": [Function],
+                                "sensitive": [Function],
+                                "strict": [Function],
+                                "style": [Function],
+                                "target": [Function],
+                                "to": [Function],
+                              },
+                              "render": [Function],
+                            }
+                          }
+                          to="/liquidity"
+                        >
+                          <NavLink
+                            aria-label={null}
+                            className="btn btn-primary"
+                            onClick={[Function]}
+                            to="/liquidity"
+                          >
+                            <Link
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-primary"
+                              onClick={[Function]}
+                              to={
+                                Object {
+                                  "hash": "",
+                                  "pathname": "/liquidity",
+                                  "search": "",
+                                  "state": null,
+                                }
+                              }
+                            >
+                              <LinkAnchor
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-primary"
+                                href="/liquidity"
+                                navigate={[Function]}
+                                onClick={[Function]}
+                              >
+                                <a
+                                  aria-current={null}
+                                  aria-label={null}
+                                  className="btn btn-primary"
+                                  href="/liquidity"
+                                  onClick={[Function]}
+                                >
+                                  Back to pool
+                                </a>
+                              </LinkAnchor>
+                            </Link>
+                          </NavLink>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div>
+                    <div>
+                      <MdCheckCircle>
+                        <IconBase
+                          attr={
+                            Object {
+                              "viewBox": "0 0 24 24",
+                            }
+                          }
+                        >
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            strokeWidth="0"
+                            style={
+                              Object {
+                                "color": undefined,
+                              }
+                            }
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                              key="0"
+                            />
+                          </svg>
+                        </IconBase>
+                      </MdCheckCircle>
+                      <span>
+                        UTXOs refreshed
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        Removing liquidity
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        Refreshing UTXOs
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        Transferring tokens
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div
+                    className="text-center"
+                  >
+                    <MdErrorOutline
+                      className="footer-sheet-icon undefined"
+                    >
+                      <IconBase
+                        attr={
+                          Object {
+                            "viewBox": "0 0 24 24",
+                          }
+                        }
+                        className="footer-sheet-icon undefined"
+                      >
+                        <svg
+                          className="footer-sheet-icon undefined"
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                            key="0"
+                          />
+                        </svg>
+                      </IconBase>
+                    </MdErrorOutline>
+                    <p />
+                  </div>
+                </div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          color="primary"
+                          tag={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "propTypes": Object {
+                                "activeClassName": [Function],
+                                "activeStyle": [Function],
+                                "aria-current": [Function],
+                                "className": [Function],
+                                "exact": [Function],
+                                "innerRef": [Function],
+                                "isActive": [Function],
+                                "location": [Function],
+                                "onClick": [Function],
+                                "replace": [Function],
+                                "sensitive": [Function],
+                                "strict": [Function],
+                                "style": [Function],
+                                "target": [Function],
+                                "to": [Function],
+                              },
+                              "render": [Function],
+                            }
+                          }
+                          to="/liquidity"
+                        >
+                          <NavLink
+                            aria-label={null}
+                            className="btn btn-primary"
+                            onClick={[Function]}
+                            to="/liquidity"
+                          >
+                            <Link
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-primary"
+                              onClick={[Function]}
+                              to={
+                                Object {
+                                  "hash": "",
+                                  "pathname": "/liquidity",
+                                  "search": "",
+                                  "state": null,
+                                }
+                              }
+                            >
+                              <LinkAnchor
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-primary"
+                                href="/liquidity"
+                                navigate={[Function]}
+                                onClick={[Function]}
+                              >
+                                <a
+                                  aria-current={null}
+                                  aria-label={null}
+                                  className="btn btn-primary"
+                                  href="/liquidity"
+                                  onClick={[Function]}
+                                >
+                                  Back to pool
+                                </a>
+                              </LinkAnchor>
+                            </Link>
+                          </NavLink>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+            </footer>
+          </div>
+        </RemoveLiquidity>
+      </Connect(RemoveLiquidity)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;
