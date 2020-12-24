@@ -149,7 +149,7 @@ describe('Wallet page service unit test', () => {
   it('should check for error if invalid data is comming from getNewAddress', async () => {
     const spy = jest.spyOn(log, 'error');
     const testData = Object.assign({}, getNewAddress);
-    delete testData.result;
+    (testData as any).result = null;
     try {
       const post = jest.fn().mockResolvedValueOnce({
         data: testData,
@@ -189,7 +189,7 @@ describe('Wallet page service unit test', () => {
   it('should check for error handleFetchPendingBalance', async () => {
     const spy = jest.spyOn(log, 'error');
     const testBalancesData = Object.assign({}, getBalances);
-    delete testBalancesData.result.mine.immature;
+    delete (testBalancesData as any).result.mine.immature;
     try {
       const post = jest.fn().mockResolvedValueOnce({
         data: testBalancesData,
@@ -204,7 +204,7 @@ describe('Wallet page service unit test', () => {
 
   it('should check for error handleFetchWalletBalance', async () => {
     const testBalance = Object.assign({}, getBalance);
-    delete testBalance.result;
+    delete (testBalance as any).result;
     const spy = jest.spyOn(log, 'error');
     try {
       const post = jest.fn().mockResolvedValueOnce({
@@ -261,7 +261,7 @@ describe('Wallet page service unit test', () => {
   it('should check if list data is not valid is throwing error handelFetchWalletTxns', async () => {
     const spy = jest.spyOn(log, 'error');
     const testListTransaction = Object.assign({}, listtransaction);
-    delete testListTransaction.result[0].address;
+    delete (testListTransaction as any).result[0].address;
     try {
       const post = jest
         .fn()
@@ -282,7 +282,7 @@ describe('Wallet page service unit test', () => {
   it('should check if get wallet data is not valid is throwing error handelFetchWalletTxns', async () => {
     const spy = jest.spyOn(log, 'error');
     const testWalletInfo = Object.assign({}, walletInfo);
-    delete testWalletInfo.result.balance;
+    delete (testWalletInfo as any).result.balance;
     try {
       const post = jest
         .fn()
