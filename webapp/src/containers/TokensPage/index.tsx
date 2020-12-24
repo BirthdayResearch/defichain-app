@@ -34,6 +34,8 @@ import {
   TOKENS_PATH,
 } from '../../constants';
 import Header from '../HeaderComponent';
+import { RootState } from '@/app/rootReducer';
+import { StatusLedger } from '@/typings/models';
 
 interface TokensProps {
   tokens: any;
@@ -41,6 +43,7 @@ interface TokensProps {
   history: any;
   fetchTokensRequest: () => void;
   isLoadingTokens: boolean;
+  statusLedger: StatusLedger;
 }
 
 const TokensPage: React.FunctionComponent<TokensProps> = (
@@ -133,6 +136,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
                 }}
                 tag={RRNavLink}
                 color='link'
+                disabled={props.statusLedger !== 'connected'}
               >
                 Use ledger
               </DropdownItem>
@@ -178,12 +182,14 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const { tokens, isTokensLoaded, isLoadingTokens } = state.tokens;
+  const { connect } = state.ledgerWallet;
   return {
     tokens,
     isTokensLoaded,
     isLoadingTokens,
+    statusLedger: connect.status,
   };
 };
 

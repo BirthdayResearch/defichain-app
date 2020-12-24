@@ -122,7 +122,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       });
     }
     addressAndAmount();
-  }, []);
+  }, [props.paymentRequests]);
 
   useEffect(() => {
     if (allowCalls && !isTokenCreating) {

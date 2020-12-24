@@ -184,6 +184,7 @@ export const getReceivingAddressAndAmountListLedger = async (
 ) => {
   const rpcClient = new RpcClient();
   const receivedPromisses = payments.map(({ address }) => {
+    // return new Promise(resolve => resolve(5))
     return rpcClient.getReceivedByAddress(address);
   });
   const amounts = await Promise.all(receivedPromisses);
