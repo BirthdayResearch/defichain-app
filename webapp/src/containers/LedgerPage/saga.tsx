@@ -35,7 +35,6 @@ import { createMnemonicIpcRenderer } from '@/app/update.ipcRenderer';
 import * as reducer from './reducer';
 import {
   handleFetchTokens,
-  handelGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
   handleSendData,
@@ -52,6 +51,8 @@ import {
   setIsShowingInformation,
   getListDevicesLedger,
 } from './service';
+
+import { handelGetPaymentRequestLedger } from '@/utils/utility';
 
 function* getPaymentRequestState() {
   const { paymentRequests = [] } = yield select((state) => state.ledgerWallet);
@@ -99,7 +100,7 @@ export function* removeReceiveTxns(action: any) {
 export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
-    const data = yield call(handelGetPaymentRequest, networkName);
+    const data = yield call(handelGetPaymentRequestLedger, networkName);
     const list = yield all(
       data.map((item) => call(getAddressInfo, item.address))
     );

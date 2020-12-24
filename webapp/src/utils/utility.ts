@@ -59,7 +59,7 @@ import {
   MAXIMUM_COUNT,
   DEFAULT_MAXIMUM_COUNT,
   FEE_RATE,
-  DEFAULT_FEE_RATE,
+  DEFAULT_FEE_RATE, BLOCKCHAIN_INFO_CHAIN_TEST, PAYMENT_REQUEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -82,6 +82,19 @@ import { handleFetchPoolshares } from '@/containers/SwapPage/service';
 import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import { construct } from '@/utils/cutxo';
+
+const handleLocalStorageNameLedger = (networkName) => {
+  if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
+    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
+  }
+  return `${PAYMENT_REQUEST}-ledger`;
+};
+
+export const handelGetPaymentRequestLedger = (networkName) => {
+  return JSON.parse(
+    PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]'
+  );
+};
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
