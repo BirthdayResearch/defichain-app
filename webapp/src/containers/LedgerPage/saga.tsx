@@ -21,6 +21,7 @@ import {
   isValidMnemonic,
   paginate,
   queuePush,
+  getNetwork,
 } from '@/utils/utility';
 import {
   IS_WALLET_CREATED_MAIN,
@@ -51,13 +52,6 @@ import {
   setIsShowingInformation,
   getListDevicesLedger,
 } from './service';
-
-export function* getNetwork() {
-  const {
-    blockChainInfo: { chain },
-  } = yield select((state) => state.wallet);
-  return chain;
-}
 
 function* getPaymentRequestState() {
   const { paymentRequests = [] } = yield select((state) => state.ledgerWallet);

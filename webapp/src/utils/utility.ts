@@ -1,12 +1,13 @@
 import Ajv from 'ajv';
 import axios from 'axios';
-
-import * as log from './electronLogger';
+import { select } from 'redux-saga/effects';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
+
+import * as log from './electronLogger';
 
 import {
   IAddressAndAmount,
@@ -467,6 +468,13 @@ export const checkElementsInArray = (
 
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
+
+export function* getNetwork() {
+  const {
+    blockChainInfo: { chain },
+  } = yield select((state) => state.wallet);
+  return chain;
+}
 
 export const getNetworkType = () => {
   const state = store.getState();

@@ -93,13 +93,7 @@ import PersistentStore from '../../utils/persistentStore';
 import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
-
-export function* getNetwork() {
-  const {
-    blockChainInfo: { chain },
-  } = yield select((state) => state.wallet);
-  return chain;
-}
+import { getNetwork } from '@/utils/utility';
 
 function fetchWalletBalance() {
   const callBack = (err, result) => {
