@@ -1,24 +1,14 @@
 import path from 'path';
 
-import {aliasItems} from './config';
 import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
 import * as plugins from './plugins';
 import * as rules from './rules';
-import {isProd} from './utils/env';
+import {isProd, outputPath} from './utils/env';
 import {arrayFilterEmpty} from './utils/helpers';
-
-let outputPath = process.env.WEBPACK_OUTPUT_PATH;
-if (!outputPath) {
-    outputPath = isProd ? './build/release' : './build/debug';
-}
-if (outputPath.startsWith('./')) {
-    outputPath = path.resolve(__dirname, outputPath);
-}
 
 export default {
     context: __dirname,
-    mode: isProd ? 'production' : 'development',
     entry,
     output: {
         path: outputPath,
@@ -43,12 +33,16 @@ export default {
         plugins.providePlugin,
         plugins.definePlugin,
         plugins.forkTsCheckerWebpackPlugin,
-        plugins.esLintPlugin,
+        // plugins.esLintPlugin,
         plugins.copyPlugin,
     ]),
-    resolve: {
-        alias: aliasItems,
-        extensions: ['.tsx', '.ts'],
-    },
     optimization,
+    resolve: {
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+        modules: [path.join(__dirname, '../src'), 'node_modules'],
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            stream: require.resolve('stream-browserify'),
+        },
+    },
 };

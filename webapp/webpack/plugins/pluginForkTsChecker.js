@@ -9,7 +9,7 @@ const config = {
     typescript: {
         configFile: join(rootDir, '/tsconfig.json'),
     },
-    eslint: {enabled: true, files: '../src/**/*.{ts,tsx}'},
+    eslint: {enabled: false, files: '../src/**/*.{ts,tsx}'},
     logger: {infrastructure: 'silent', issues: 'console'},
 };
 

@@ -5,11 +5,10 @@ import {devServerConfig} from './config';
 
 export default {
     devtool: 'inline-source-map',
-    mode: 'production',
+    mode: 'development',
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new ReactRefreshWebpackPlugin(),
     ],
     devServer: devServerConfig,
-    mode: 'development',
 };
