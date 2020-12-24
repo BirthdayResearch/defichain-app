@@ -12,7 +12,7 @@ import ledgerWalletReducer from '@/containers/LedgerPage/reducer';
 import { i18nReducer } from 'react-redux-i18n';
 import swapReducer from '../containers/SwapPage/reducer';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   app: appReducer,
   wallet: walletReducer,
   settings: settingsReducer,
@@ -26,3 +26,7 @@ export default combineReducers({
   swap: swapReducer,
   ledgerWallet: ledgerWalletReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default rootReducer;
