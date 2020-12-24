@@ -4,6 +4,7 @@ import * as plugins from './plugins';
 
 export default {
     devtool: 'nosources-source-map',
+    mode: 'production',
     optimization: {
         minimize: true,
         minimizer: [new TerserJSPlugin({})],

@@ -1,16 +1,15 @@
 import path from 'path';
-
+import {outputPath} from '../utils/env';
 export const devServerConfig = {
-    publicPath: '/',
     compress: true,
     noInfo: false,
-    stats: 'none',
+    stats: 'errors-only',
     inline: true,
     lazy: false,
     hot: true,
     overlay: false,
     headers: {'Access-Control-Allow-Origin': '*'},
-    contentBase: path.join(__dirname, 'build'),
+    contentBase: outputPath,
     watchOptions: {
         aggregateTimeout: 300,
         ignored: /node_modules/,
