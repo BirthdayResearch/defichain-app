@@ -58,7 +58,8 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   MAXIMUM_COUNT,
   DEFAULT_MAXIMUM_COUNT,
-  FEE_RATE, DEFAULT_FEE_RATE,
+  FEE_RATE,
+  DEFAULT_FEE_RATE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -635,7 +636,11 @@ export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
 export const fetchPoolPairDataWithPagination = async (
   start: number,
   limit: number,
-  fetchList: Function
+  fetchList: (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ) => Promise<any>
 ) => {
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
@@ -766,7 +771,11 @@ export const fetchPoolPairDataWithPagination = async (
 export const fetchTokenDataWithPagination = async (
   start: number,
   limit: number,
-  fetchList: Function
+  fetchList: (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ) => Promise<any>
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -797,7 +806,11 @@ export const fetchTokenDataWithPagination = async (
 export const fetchAccountsDataWithPagination = async (
   start: string,
   limit: number,
-  fetchList: Function
+  fetchList: (
+    includingStart: boolean,
+    limit: number,
+    start?: string
+  ) => Promise<any>
 ) => {
   const list: any[] = [];
   const result = await fetchList(true, limit);
@@ -820,7 +833,11 @@ export const fetchAccountsDataWithPagination = async (
 export const fetchPoolShareDataWithPagination = async (
   start: number,
   limit: number,
-  fetchList: Function
+  fetchList: (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ) => Promise<any>
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
