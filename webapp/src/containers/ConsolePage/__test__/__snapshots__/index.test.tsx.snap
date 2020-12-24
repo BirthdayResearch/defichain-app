@@ -9,48 +9,19 @@ exports[`Console Page should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Console – DeFi app
+      Console - DeFi app
     </title>
   </HelmetWrapper>
-  <header
-    className="header-bar"
-  >
+  <Connect(Header)>
     <h1>
       Console
     </h1>
-  </header>
+  </Connect(Header)>
   <div
-    className="content"
+    className="content undefined"
   >
     <section>
-      <Row
-        tag="div"
-        widths={
-          Array [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl",
-          ]
-        }
-      >
-        <Col
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
-          xs={12}
-        >
-          <Connect(EchoConsole) />
-        </Col>
-      </Row>
+      <Connect(EchoConsole) />
     </section>
   </div>
 </div>

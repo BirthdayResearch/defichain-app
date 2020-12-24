@@ -76,8 +76,8 @@
     "uifx": "^2.0.7"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.12.7",
     "@babel/plugin-proposal-decorators": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.7",
     "@neutrinojs/airbnb": "^9.4.0",
     "@neutrinojs/copy": "^9.4.0",
     "@neutrinojs/dev-server": "9.4.0",
@@ -100,6 +100,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-transition-group": "^4.4.0",
     "@types/redux-logger": "^3.0.8",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "autoprefixer": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",

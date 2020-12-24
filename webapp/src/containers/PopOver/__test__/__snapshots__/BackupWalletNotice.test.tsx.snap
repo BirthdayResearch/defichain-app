@@ -27,7 +27,7 @@ exports[`BackupWalletNotice should check for snapshot 1`] = `
           <h1
             className="h4"
           >
-            Backup Wallet
+            Backup wallet
           </h1>
           Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?
         </div>

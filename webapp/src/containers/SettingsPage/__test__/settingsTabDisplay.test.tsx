@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingsTabDisplayComponent from '../components/SettingsTabDisplay';
-import { mount } from 'enzyme';
+import Enzyme from '../../../utils/testUtils/enzyme';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
 import { settingTabDisplay } from './testData.json';
@@ -11,7 +11,7 @@ describe('SettingsTabDisplayComponent', () => {
       ...settingTabDisplay,
       handleDropDowns: () => {},
     };
-    const wrapper = mount(
+    const wrapper = Enzyme.mount(
       <Provider store={store}>
         <SettingsTabDisplayComponent {...props} />
       </Provider>

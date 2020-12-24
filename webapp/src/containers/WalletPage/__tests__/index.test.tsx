@@ -3,7 +3,7 @@ import WalletPage from '../index';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from '../../../app/rootStore';
-import { mount } from 'enzyme';
+import Enzyme from '../../../utils/testUtils/enzyme';
 import {
   history,
   match,
@@ -12,7 +12,7 @@ import {
 
 describe('WalletPage component', () => {
   it('should check for snapshot', () => {
-    const wrapper = mount(
+    const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>
           <WalletPage history={history} location={location} match={match} />
