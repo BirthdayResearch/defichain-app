@@ -1,6 +1,6 @@
-import path from 'path';
-import {outputPath} from '../utils/env';
 export const devServerConfig = {
+    publicPath: '/',
+    port: 8080,
     compress: true,
     noInfo: false,
     stats: 'errors-only',
@@ -9,7 +9,6 @@ export const devServerConfig = {
     hot: true,
     overlay: false,
     headers: {'Access-Control-Allow-Origin': '*'},
-    contentBase: outputPath,
     watchOptions: {
         aggregateTimeout: 300,
         ignored: /node_modules/,
