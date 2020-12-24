@@ -890,7 +890,7 @@ const mapStateToProps = (state) => {
     isLoadingAddingLiquidity,
     utxoDfi,
     maxAccountDfi,
-  } = state.swap;
+  } = state.liquidity;
   const { walletBalance, paymentRequests } = state.wallet;
   return {
     poolPairList,
