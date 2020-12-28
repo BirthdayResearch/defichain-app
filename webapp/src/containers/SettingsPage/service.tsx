@@ -29,6 +29,7 @@ import {
   TESTNET,
   LIST_ACCOUNTS_PAGE_SIZE,
   DEFAULT_DFI_FOR_REFRESH_UTXOS,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
@@ -137,7 +138,7 @@ export const refreshUtxosAfterSavingData = async () => {
 
   const refrestUtxosAmounts = {};
   for (const address of resolvedData) {
-    refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_REFRESH_UTXOS;
+    refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
 
   const refreshUtxoTxId = await rpcClient.sendMany(refrestUtxosAmounts);
