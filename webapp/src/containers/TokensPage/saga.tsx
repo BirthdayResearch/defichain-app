@@ -3,7 +3,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage, getNetwork, handelGetPaymentRequestLedger } from '@/utils/utility';
+import {
+  getErrorMessage,
+  getNetwork,
+  handelGetPaymentRequestLedger,
+} from '@/utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -20,7 +24,7 @@ import {
   destroyToken,
   destroyTokenFailure,
   destroyTokenSuccess,
-  updateToken,
+  updateTokenRequest,
   updateTokenSuccess,
   updateTokenFailure,
   mintToken,
@@ -33,7 +37,7 @@ import {
   handleTokenTransfers,
   handleCreateTokens,
   handleDestroyToken,
-  handleUpdateTokens,
+  updateToken,
   handleMintTokens,
 } from './service';
 import { handelGetPaymentRequest } from '@/containers/WalletPage/service';
@@ -98,8 +102,16 @@ export function* createTokens(action) {
       payload: { tokenData, typeWallet },
     } = action;
     const networkName = yield call(getNetwork);
-    const paymentsLedger = yield call(handelGetPaymentRequest, networkName);
-    const data = yield call(handleCreateTokens, tokenData, typeWallet, paymentsLedger);
+    const paymentsLedger = yield call(
+      handelGetPaymentRequestLedger,
+      networkName
+    );
+    const data = yield call(
+      handleCreateTokens,
+      tokenData,
+      typeWallet,
+      paymentsLedger
+    );
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
@@ -123,9 +135,10 @@ export function* mintTokens(action) {
 export function* updateTokens(action) {
   try {
     const {
-      payload: { tokenData },
+      payload: { tokenData, typeWallet },
     } = action;
-    const data = yield call(handleUpdateTokens, tokenData);
+    const networkName = yield call(getNetwork);
+    const data = yield call(updateToken, tokenData, networkName, typeWallet);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
@@ -155,7 +168,7 @@ function* mySaga() {
   yield takeLatest(createToken.type, createTokens);
   yield takeLatest(mintToken.type, mintTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
-  yield takeLatest(updateToken.type, updateTokens);
+  yield takeLatest(updateTokenRequest.type, updateTokens);
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
 }
 

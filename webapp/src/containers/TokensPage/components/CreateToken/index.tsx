@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import DCTDistribution from './DCTDistribution';
 import CreateDCT from './CreateDCT';
-import { createToken, fetchTokenInfo, updateToken } from '../../reducer';
+import { createToken, fetchTokenInfo, updateTokenRequest } from '../../reducer';
 import {
   getReceivingAddressAndAmountList,
   getReceivingAddressAndAmountListLedger,
@@ -20,6 +20,7 @@ import {
 } from '@/constants';
 import { ITokenResponse } from '@/utils/interfaces';
 import { PaymentRequestLedger } from '@/typings/models';
+import { TypeWallet } from '@/typings/entities';
 
 interface RouteParams {
   id?: string;
@@ -28,8 +29,8 @@ interface RouteParams {
 interface CreateTokenProps extends RouteComponentProps<RouteParams> {
   tokenInfo: any;
   fetchToken: (id: string | undefined) => void;
-  createToken: (tokenData, typeWallet: string | null) => void;
-  updateToken: (tokenData) => void;
+  createToken: (tokenData, typeWallet: TypeWallet) => void;
+  updateToken: (tokenData, typeWallet: TypeWallet) => void;
   createdTokenData: ITokenResponse;
   updatedTokenData: ITokenResponse;
   isTokenUpdating: boolean;
@@ -77,7 +78,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
 
   useEffect(() => {
     fetchToken(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (!isEmpty(tokenInfo) && id) {
@@ -195,18 +196,18 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     setAllowCalls(true);
     const tokenData = { ...formState };
     setIsConfirmationModalOpen('loading');
-    createToken(tokenData, typeWallet);
+    createToken(tokenData, typeWallet as TypeWallet);
   };
 
   const updateConfirmation = () => {
     setAllowCalls(true);
     const tokenData = { ...formState };
-    updateToken(tokenData);
+    updateToken(tokenData, typeWallet as TypeWallet);
   };
 
   const handleSubmit = async () => {
     const tokenData = { ...formState };
-    createToken(tokenData, typeWallet);
+    createToken(tokenData, typeWallet as TypeWallet);
   };
 
   return (
@@ -268,8 +269,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchToken: (id) => fetchTokenInfo({ id }),
-  createToken: (tokenData, typeWallet: string | null) => createToken({ tokenData,typeWallet }),
-  updateToken: (tokenData) => updateToken({ tokenData }),
+  createToken: (tokenData, typeWallet: TypeWallet) =>
+    createToken({ tokenData, typeWallet }),
+  updateToken: (tokenData, typeWallet: TypeWallet) =>
+    updateTokenRequest({ tokenData, typeWallet }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateToken);

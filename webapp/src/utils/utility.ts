@@ -59,7 +59,9 @@ import {
   MAXIMUM_COUNT,
   DEFAULT_MAXIMUM_COUNT,
   FEE_RATE,
-  DEFAULT_FEE_RATE, BLOCKCHAIN_INFO_CHAIN_TEST, PAYMENT_REQUEST,
+  DEFAULT_FEE_RATE,
+  BLOCKCHAIN_INFO_CHAIN_TEST,
+  PAYMENT_REQUEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -93,6 +95,14 @@ const handleLocalStorageNameLedger = (networkName) => {
 export const handelGetPaymentRequestLedger = (networkName) => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]'
+  );
+};
+
+export const getKeyIndexAddressLedger = (networkName, address) => {
+  return (
+    handelGetPaymentRequestLedger(networkName).find(
+      (payment) => payment.address === address
+    )?.keyIndex || 0
   );
 };
 

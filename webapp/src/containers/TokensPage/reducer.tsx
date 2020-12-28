@@ -97,7 +97,7 @@ const configSlice = createSlice({
       state.mintedTokenData = {};
       state.isErrorMintingToken = action.payload;
     },
-    updateToken(state, action) {
+    updateTokenRequest(state, action) {
       state.isTokenUpdating = true;
       state.updatedTokenData = {};
       state.isErrorUpdatingToken = '';
@@ -148,7 +148,7 @@ export const {
   mintToken,
   mintTokenFailure,
   mintTokenSuccess,
-  updateToken,
+  updateTokenRequest,
   updateTokenSuccess,
   updateTokenFailure,
   destroyToken,
