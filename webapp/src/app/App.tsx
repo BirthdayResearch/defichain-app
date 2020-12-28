@@ -19,6 +19,7 @@ import Popover from '../containers/PopOver';
 import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
 import { getPageTitle } from '../utils/utility';
+import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -105,6 +106,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <WalletPassphraseModel />
       <RestartWalletModel />
       <GeneralReIndexModal />
+      <RefreshUtxosModal />
     </>
   );
 };
