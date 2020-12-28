@@ -12,6 +12,7 @@ import { openGeneralReIndexModal } from '../../../PopOver/reducer';
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
   reindexAfterSaving: boolean;
+  refreshUtxosAfterSaving: boolean;
   minimizedAtLaunch: boolean;
   pruneBlockStorage: boolean;
   blockStorage: number;
@@ -28,6 +29,7 @@ interface SettingsTabGeneralProps {
   handleDropDowns: (data: any, field: any) => any;
   openGeneralReIndexModal: () => void;
   handeReindexToggle: () => void;
+  handeRefreshUtxosToggle: () => void;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
@@ -47,9 +49,11 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     networkOptions,
     network,
     reindexAfterSaving,
+    refreshUtxosAfterSaving,
     handleDropDowns,
     openGeneralReIndexModal,
     handeReindexToggle,
+    handeRefreshUtxosToggle,
   } = props;
 
   return (
@@ -93,6 +97,17 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                 label={'reindexAfterSaving'}
                 field={reindexAfterSaving}
                 fieldName={'reindexAfterSaving'}
+              />
+            </Col>
+          </Row>
+          <Row className='mb-5'>
+            <Col md='4'>{I18n.t('containers.settings.refreshUtxos')}</Col>
+            <Col md='8' lg='6'>
+              <SettingsRowToggle
+                handleToggles={handeRefreshUtxosToggle}
+                label={'refreshUtxosAfterSaving'}
+                field={refreshUtxosAfterSaving}
+                fieldName={'refreshUtxosAfterSaving'}
               />
             </Col>
           </Row>
