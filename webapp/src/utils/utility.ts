@@ -102,7 +102,7 @@ export const getKeyIndexAddressLedger = (networkName, address) => {
   return (
     handelGetPaymentRequestLedger(networkName).find(
       (payment) => payment.address === address
-    )?.keyIndex || 0
+    )?.keyIndex
   );
 };
 

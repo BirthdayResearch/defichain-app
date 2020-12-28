@@ -23,7 +23,7 @@ import {
 } from 'reactstrap';
 
 import styles from '../../token.module.scss';
-import KeyValueLi from '../../../../components/KeyValueLi';
+import KeyValueLi from '@/components/KeyValueLi';
 import { fetchTokenInfo, destroyToken } from '../../reducer';
 import {
   CONFIRM_BUTTON_COUNTER,
@@ -34,9 +34,8 @@ import {
   TOKEN_EDIT_PATH,
   TOKEN_MINT_PATH,
 } from '../../../../constants';
-import { ITokenResponse } from '../../../../utils/interfaces';
+import { ITokenResponse } from '@/utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
-import { getIcon } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 
 interface RouteParams {

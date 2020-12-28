@@ -121,10 +121,11 @@ export function* createTokens(action) {
 
 export function* mintTokens(action) {
   try {
+    const networkName = yield call(getNetwork);
     const {
       payload: { tokenData },
     } = action;
-    const data = yield call(handleMintTokens, tokenData);
+    const data = yield call(handleMintTokens, tokenData, networkName);
     yield put({ type: mintTokenSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });

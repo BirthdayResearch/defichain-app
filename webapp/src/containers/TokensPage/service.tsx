@@ -237,7 +237,44 @@ export const handleCreateTokens = async (
   return await createTokenUseWallet(data);
 };
 
-export const handleMintTokens = async (tokenData) => {
+export const mintTokenWithWallet = async (tokenData) => {
+  const rpcClient = new RpcClient();
+  const hash = await rpcClient.mintToken(tokenData);
+  return {
+    hash,
+  };
+}
+
+export const mintTokenWithLedger = async (tokenData, keyIndex) => {
+  const rpcClient = new RpcClient();
+  const cutxo = await construct({
+    maximumAmount:
+      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
+    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
+    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+  });
+  const data = {
+    txType: CustomTx.customTxType.mintToken,
+    customData: tokenData,
+  };
+  const ipcRenderer = ipcRendererFunc();
+  const res = await ipcRenderer.sendSync(
+    CUSTOM_TX_LEDGER,
+    cutxo,
+    tokenData.address,
+    0,
+    data,
+    keyIndex
+  );
+  if (res.success) {
+    await rpcClient.sendRawTransaction(res.data.tx);
+    return res.data.tx;
+  } else {
+    throw new Error(res.message);
+  }
+}
+
+export const handleMintTokens = async (tokenData, networkName) => {
   const { address } = tokenData;
   const rpcClient = new RpcClient();
   const txId = await rpcClient.sendToAddress(
@@ -246,10 +283,11 @@ export const handleMintTokens = async (tokenData) => {
     true
   );
   await getTransactionInfo(txId);
-  const hash = await rpcClient.mintToken(tokenData);
-  return {
-    hash,
-  };
+  const keyIndex = getKeyIndexAddressLedger(networkName, address)
+  if (keyIndex) {
+    return await mintTokenWithLedger(tokenData, keyIndex);
+  }
+  return await mintTokenWithWallet(tokenData);
 };
 
 export const updateTokenWithWallet = async (tokenData) => {
@@ -272,14 +310,18 @@ export const updateTokenWithUseLedger = async (
     maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
     feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
   });
-  const keyIndex = getKeyIndexAddressLedger(networkName, collateralAddress);
+  const keyIndex = getKeyIndexAddressLedger(networkName, collateralAddress) || 0;
   const ipcRenderer = ipcRendererFunc();
+  const data = {
+    txType: CustomTx.customTxType.updateToken,
+    customData: tokenData,
+  };
   const res = await ipcRenderer.sendSync(
     CUSTOM_TX_LEDGER,
     cutxo,
     collateralAddress,
     0,
-    tokenData,
+    data,
     keyIndex
   );
   if (res.success) {
@@ -308,13 +350,13 @@ export const updateToken = async (
     delete data.name;
   }
   if (typeWallet === 'ledger') {
-    return updateTokenWithUseLedger(
+    return await updateTokenWithUseLedger(
       data,
       networkName,
       tokenData.collateralAddress
     );
   }
-  return updateTokenWithWallet(data);
+  return await updateTokenWithWallet(data);
 };
 
 export const handleDestroyToken = (tokenId) => {

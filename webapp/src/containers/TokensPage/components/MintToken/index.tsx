@@ -24,13 +24,13 @@ import {
   DFI_SYMBOL,
   TOKENS_PATH,
 } from '../../../../constants';
-import { ITokenResponse } from '../../../../utils/interfaces';
-import Spinner from '../../../../components/Svg/Spinner';
+import { ITokenResponse } from '@/utils/interfaces';
+import Spinner from '@/components/Svg/Spinner';
 import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
-import { getSymbolKey } from '../../../../utils/utility';
+import { getSymbolKey } from '@/utils/utility';
 
 interface RouteParams {
   id?: string;
