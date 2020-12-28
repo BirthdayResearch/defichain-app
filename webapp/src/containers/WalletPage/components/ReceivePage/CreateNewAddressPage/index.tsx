@@ -22,7 +22,11 @@ import { getNewAddress, isValidAddress } from '../../../service';
 import * as log from '../../../../../utils/electronLogger';
 import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
-import { getPageTitle, hdWalletCheck, isAddressMine } from '../../../../../utils/utility';
+import {
+  getPageTitle,
+  hdWalletCheck,
+  isAddressMine,
+} from '../../../../../utils/utility';
 
 export interface PaymentRequestModel {
   label: string;
@@ -97,8 +101,9 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
       isAddressValid =
         (await isValidAddress(value)) &&
         (await isAddressMine(value)) &&
-        isAddressAlreadyExists(value) &&
-        (await hdWalletCheck(value));
+        isAddressAlreadyExists(value);
+      // No need to check address belongs to HD wallet
+      // && (await hdWalletCheck(value));
     }
     setIsAddressValidBoolean(isAddressValid);
   };
@@ -135,7 +140,9 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.receivePage.createNewReceiveAddressLabel')
+          )}
         </title>
       </Helmet>
       <Header>
