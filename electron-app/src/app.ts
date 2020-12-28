@@ -61,9 +61,9 @@ export default class App {
     this.makeSingleInstance();
   }
 
-  onAppReady = () => {
+  onAppReady = async () => {
     this.initiateInterceptFileProtocol();
-    this.createWindow();
+    await this.createWindow();
     this.createMenu();
     // initiate ipcMain events
     initiateIpcEvents(autoUpdater);
@@ -72,7 +72,6 @@ export default class App {
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
-
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
     initiateBackupImportWalletManager(
       this.mainWindow,
@@ -132,7 +131,6 @@ export default class App {
         enableRemoteModule: true,
       },
     });
-
     const loadUrl =
       process.env.ELECTRON_START_URL ||
       url.format({
