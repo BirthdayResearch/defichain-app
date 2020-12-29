@@ -339,13 +339,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                               className="dropdown-toggle btn btn-outline-secondary"
                                               onClick={[Function]}
                                               type="button"
-                                            >
-                                              <span
-                                                className="sr-only"
-                                              >
-                                                Toggle Dropdown
-                                              </span>
-                                            </button>
+                                            />
                                           </Button>
                                         </InnerReference>
                                       </Reference>
@@ -471,13 +465,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                               className="dropdown-toggle btn btn-outline-secondary"
                                               onClick={[Function]}
                                               type="button"
-                                            >
-                                              <span
-                                                className="sr-only"
-                                              >
-                                                Toggle Dropdown
-                                              </span>
-                                            </button>
+                                            />
                                           </Button>
                                         </InnerReference>
                                       </Reference>

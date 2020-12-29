@@ -27,10 +27,19 @@ import {
   DEFAULT_FEE_RATE,
   MAINNET,
   TESTNET,
+  LIST_ACCOUNTS_PAGE_SIZE,
+  DEFAULT_DFI_FOR_REFRESH_UTXOS,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import PersistentStore from '../../utils/persistentStore';
+import RpcClient from '../../utils/rpc-client';
+import { fetchAccountsDataWithPagination } from '../../utils/utility';
+import { getAddressInfo } from '../TokensPage/service';
+import compact from 'lodash/compact';
+import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
+import store from '../../app/rootStore';
 
 export const getLanguage = () => {
   return [
@@ -106,6 +115,35 @@ export const updateSettingsData = (settingsData) => {
   PersistentStore.set(MAXIMUM_COUNT, settingsData.maximumCount);
   PersistentStore.set(FEE_RATE, settingsData.feeRate);
   return settingsData;
+};
+
+export const refreshUtxosAfterSavingData = async () => {
+  const rpcClient = new RpcClient();
+  store.dispatch(refreshUtxosRequest());
+  const accounts = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts
+  );
+
+  const addressesList = accounts.map(async (account) => {
+    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+
+    if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      return account.owner.addresses[0];
+    }
+  });
+
+  const resolvedData: any = compact(await Promise.all(addressesList));
+
+  const refrestUtxosAmounts = {};
+  for (const address of resolvedData) {
+    refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+  }
+
+  const refreshUtxoTxId = await rpcClient.sendMany(refrestUtxosAmounts);
+  store.dispatch(refreshUtxosSuccess());
+  return refreshUtxoTxId;
 };
 
 const getPreLaunchStatus = () => {
