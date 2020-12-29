@@ -48,10 +48,13 @@ import {
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
+  accountHistoryCountRequest,
+  accountHistoryCountSuccess,
+  accountHistoryCountFailure,
 } from './reducer';
 import {
   handleFetchTokens,
-  handelGetPaymentRequest,
+  handleGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
   handleSendData,
@@ -66,14 +69,17 @@ import {
   importPrivKey,
   getListAccountHistory,
   handleRestartCriteria,
+  handleFetchAccountHistoryCount,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
 import {
+  convertEpochToDate,
   getErrorMessage,
   getMnemonicFromObj,
   getNetworkInfo,
   getNetworkType,
+  hdWalletCheckAndSet,
   isValidMnemonic,
   isWalletCreated,
 } from '../../utils/utility';
@@ -90,10 +96,14 @@ import {
   WALLET_TOKENS_PATH,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
+import {
+  createMnemonicIpcRenderer,
+  enableMenuResetWalletBtn,
+} from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { getNetwork } from '@/utils/utility';
+import uid from 'uid';
 
 function fetchWalletBalance() {
   const callBack = (err, result) => {
@@ -124,6 +134,17 @@ function fetchPendingBalance() {
 function* getPaymentRequestState() {
   const { paymentRequests = [] } = yield select((state) => state.wallet);
   return cloneDeep(paymentRequests);
+}
+
+async function addHdSeedCheck(list) {
+  const result = list.map(async (data) => {
+    return {
+      ...data,
+      hdSeed: await hdWalletCheckAndSet(data.address),
+    };
+  });
+  const resolvedData = await Promise.all(result);
+  return resolvedData;
 }
 
 export function* addReceiveTxns(action: any) {
@@ -167,9 +188,12 @@ export function* removeReceiveTxns(action: any) {
 export function* fetchPayments() {
   try {
     const networkName = yield call(getNetwork);
-    const data = yield call(handelGetPaymentRequest, networkName);
+    const data = yield call(handleGetPaymentRequest, networkName);
     const list = yield all(
-      data.map((item) => call(getAddressInfo, item.address))
+      data.map((item) => {
+        item.id = item.id ?? uid();
+        return call(getAddressInfo, item.address);
+      })
     );
     const result = data.filter((item) => {
       const found = list.find(
@@ -177,7 +201,8 @@ export function* fetchPayments() {
       );
       return !isEmpty(found);
     });
-    yield put(fetchPaymentRequestsSuccess(result));
+    const finalResult = yield call(addHdSeedCheck, result);
+    yield put(fetchPaymentRequestsSuccess(finalResult));
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -276,6 +301,26 @@ export function* fetchTokens() {
   }
 }
 
+export function* accountHistoryCount(action) {
+  const {
+    payload: { no_rewards, token },
+  } = action;
+
+  try {
+    const data = yield call(handleFetchAccountHistoryCount, no_rewards, token);
+    yield put({
+      type: accountHistoryCountSuccess.type,
+      payload: { accountHistoryCount: data },
+    });
+  } catch (e) {
+    yield put({
+      type: accountHistoryCountFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
+
 export function* fetchAccountTokens() {
   try {
     const data = yield call(handleFetchAccounts);
@@ -291,6 +336,7 @@ export function* fetchAccountTokens() {
     log.error(e);
   }
 }
+
 export function* createWallet(action) {
   try {
     const {
@@ -324,7 +370,7 @@ export function* restoreWallet(action) {
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
     const isValid = isValidMnemonic(mnemonicCode);
     if (!isValid) {
-      throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
+      throw new Error(`Not a valid mnemonic`);
     }
 
     const networkType = getNetworkType();
@@ -339,8 +385,10 @@ export function* restoreWallet(action) {
     yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
+    yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
+    log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
   }
 }
@@ -367,31 +415,41 @@ export function* fetchInstantPendingBalance() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, limit, includeRewards } = action.payload;
+    const { symbol, limit, includeRewards, minBlockHeight } = action.payload;
 
-    let minBlockHeight;
-    let cloneData: any[] = [];
-    while (true) {
-      const data: any[] = yield call(getListAccountHistory, {
-        limit,
-        blockHeight: minBlockHeight,
-        token: symbol,
-        no_rewards: !includeRewards,
-      });
-      if (!data.length) {
-        break;
-      }
-      // data contains array of objects containing blockHeight in desc order.
-      //  so here to paginate to next page data we will use the minimum block height - 1
-      const minHeightData = minBy(data, 'blockHeight');
-      minBlockHeight = minHeightData.blockHeight - 1;
-      cloneData = cloneData.concat(data);
-    }
+    const data: any[] = yield call(getListAccountHistory, {
+      limit,
+      token: symbol,
+      no_rewards: !includeRewards,
+      blockHeight: minBlockHeight,
+    });
+
+    const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
+    const minBlockHeightData = minHeightData.blockHeight - 1;
+
+    const parsedData = data.map((d) => {
+      return {
+        owner: d.owner,
+        blockHeight: d.blockHeight,
+        blockHash: d.blockHash,
+        blockTime: convertEpochToDate(d.blockTime),
+        type: d.type,
+        txn: d.txn,
+        txid: d.txid,
+        amountData: d.amounts.map((amount) => {
+          return {
+            unit: amount.split('@')[1],
+            amount: amount.split('@')[0],
+          };
+        }),
+      };
+    });
 
     yield put(
-      fetchWalletTokenTransactionsListRequestSuccess(
-        orderBy(cloneData, 'blockHeight', 'desc')
-      )
+      fetchWalletTokenTransactionsListRequestSuccess({
+        data: orderBy(parsedData, 'blockHeight', 'desc'),
+        minBlockHeight: minBlockHeightData,
+      })
     );
   } catch (err) {
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
@@ -435,6 +493,7 @@ function* mySaga() {
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
+  yield takeLatest(accountHistoryCountRequest.type, accountHistoryCount);
   yield takeLatest(createWalletRequest.type, createWallet);
   yield takeLatest(restoreWalletRequest.type, restoreWallet);
   yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);

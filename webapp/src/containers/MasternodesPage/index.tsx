@@ -33,6 +33,7 @@ import { MasterNodeObject } from './masterNodeInterface';
 import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
+import { getPageTitle } from '@/utils/utility';
 import { RootState } from '@/app/rootReducer';
 import { StatusLedger } from '@/typings/models';
 import { TypeWallet } from '@/typings/entities';
@@ -212,7 +213,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.masterNodes.masterNodesPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}</title>
       </Helmet>
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>

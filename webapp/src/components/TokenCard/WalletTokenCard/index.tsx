@@ -1,10 +1,12 @@
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { IWalletTokenCard } from '../../../utils/interfaces';
 
 import TokenAvatar from '../../TokenAvatar';
+import NumberMask from '../../NumberMask';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -33,7 +35,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className='d-flex align-items-center justify-content-start'>
               <div>
-                <TokenAvatar symbol={token.symbolKey} />
+                <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} />
               </div>
               <div className='ml-4'>
                 <div>
@@ -41,7 +43,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
                 </div>
                 <div className={styles.cardValue}>
                   {token.isLPS
-                    ? `Liquidity token for ${token.symbolKey}`
+                    ? `${I18n.t(
+                        'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
+                      )} ${token.symbolKey}`
                     : token.name}
                 </div>
               </div>
@@ -50,7 +54,7 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className={`${styles.cardValue} justify-content-end`}>
               <b className='text-dark'>
-                {(Number(token.amount) || 0).toFixed(8)}
+                <NumberMask value={(Number(token.amount) || 0).toFixed(8)} />
               </b>
               <span className='ml-2'>{token.symbolKey}</span>
             </div>

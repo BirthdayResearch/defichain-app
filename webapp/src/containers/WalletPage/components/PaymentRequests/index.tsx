@@ -40,10 +40,6 @@ interface PaymentRequestsProps {
 const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   props: PaymentRequestsProps
 ) => {
-  useEffect(() => {
-    props.fetchPaymentRequest();
-  }, []);
-
   const [currentPage, handlePageClick] = useState(1);
   const pageSize = PAYMENT_REQ_PAGE_SIZE;
   const total = props.paymentRequests.length;
@@ -51,6 +47,10 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
   const data = props.paymentRequests.slice(from, to);
+
+  useEffect(() => {
+    props.fetchPaymentRequest();
+  }, [total]);
 
   return (
     <section className='mb-5'>

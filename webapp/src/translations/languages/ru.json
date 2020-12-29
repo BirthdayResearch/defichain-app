@@ -168,7 +168,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Токены – DeFi app",
+        "title": "Токены",
         "loading": "Загрузка...",
         "createToken": "Создать",
         "tokens": "Токены",
@@ -642,5 +642,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
+  },
+  "general": {
+    "defiApp": "Блокчейн-Клиент DeFi"
   }
 }

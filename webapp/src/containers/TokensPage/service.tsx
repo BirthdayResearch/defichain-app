@@ -66,14 +66,14 @@ export const handleFetchToken = async (id: string) => {
 };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
-  const rpcClient = new RpcClient();
-  const txInfo = await rpcClient.getTransaction(txId);
-  if (!txInfo.blockhash && txInfo.confirmations === 0) {
-    await sleep(3000);
-    await getTransactionInfo(txId);
-  } else {
-    return;
-  }
+  // const rpcClient = new RpcClient();
+  // const txInfo = await rpcClient.getTransaction(txId);
+  // if (!txInfo.blockhash && txInfo.confirmations === 0) {
+  //   await sleep(3000);
+  //   await getTransactionInfo(txId);
+  // } else {
+  return;
+  // }
 };
 
 export const handleFetchTokens = async () => {
@@ -109,11 +109,11 @@ export const createTokenUseWallet = async (tokenData) => {
         DFI_SYMBOL
       );
     }
-    const txId = await rpcClient.sendToAddress(
-      address,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
-    );
-    await getTransactionInfo(txId);
+    // const txId = await rpcClient.sendToAddress(
+    //   address,
+    //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
+    // );
+    // await getTransactionInfo(txId);
     const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
     const finalBalance = getSmallerAmount(
       balance,
@@ -277,12 +277,12 @@ export const mintTokenWithLedger = async (tokenData, keyIndex) => {
 export const handleMintTokens = async (tokenData, networkName) => {
   const { address } = tokenData;
   const rpcClient = new RpcClient();
-  const txId = await rpcClient.sendToAddress(
-    address,
-    DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-    true
-  );
-  await getTransactionInfo(txId);
+  // const txId = await rpcClient.sendToAddress(
+  //   address,
+  //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  //   true
+  // );
+  // await getTransactionInfo(txId);
   const keyIndex = getKeyIndexAddressLedger(networkName, address)
   if (keyIndex) {
     return await mintTokenWithLedger(tokenData, keyIndex);

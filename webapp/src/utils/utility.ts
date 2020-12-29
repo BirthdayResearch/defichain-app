@@ -6,6 +6,7 @@ import SHA256 from 'crypto-js/sha256';
 import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
+import { I18n } from 'react-redux-i18n';
 
 import * as log from './electronLogger';
 
@@ -53,6 +54,10 @@ import {
   MAINNET_BTC_SYMBOL,
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
+  APY_MULTIPLICATION_FACTOR,
+  DEFAULT_MAIN,
+  DEFAULT_TEST,
+  APP_TITLE,
   CUSTOM_TX_LEDGER,
   MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_AMOUNT,
@@ -698,8 +703,6 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
-    // NOTE: APY calculation to use 37 second block time
-    const multiplicationFactor = 100 * (30 / 37);
     return {
       key: item,
       poolID: item,
@@ -711,13 +714,7 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: totalLiquidity.toNumber()
-        ? yearlyPoolReward
-            .div(totalLiquidity)
-            .times(multiplicationFactor)
-            .toNumber()
-            .toFixed(2)
-        : 0,
+      apy: calculateAPY(totalLiquidity, yearlyPoolReward),
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -757,8 +754,6 @@ export const fetchPoolPairDataWithPagination = async (
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-      // NOTE: APY calculation to use 37 second block time
-      const multiplicationFactor = 100 * (30 / 37);
       return {
         key: item,
         poolID: item,
@@ -770,13 +765,7 @@ export const fetchPoolPairDataWithPagination = async (
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        apy: totalLiquidity.toNumber()
-          ? yearlyPoolReward
-              .div(totalLiquidity)
-              .times(multiplicationFactor)
-              .toNumber()
-              .toFixed(2)
-          : 0,
+        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -988,7 +977,7 @@ export const shareOfPool = (formState, poolPairList) => {
     .div(2)
     .times(100)
     .toNumber()
-    .toFixed(4);
+    .toFixed(8);
 
   return `${shareOfPool} %`;
 };
@@ -1014,6 +1003,39 @@ export const getIcon = (symbol: string) => {
     DFI: DefiIcon,
   };
   return symbolIconObj[symbol];
+};
+
+export const isAddressMine = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  if (addressInfo.ismine && !addressInfo.iswatchonly) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheck = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheckAndSet = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (!PersistentStore.get(hdseedidKey)) {
+    const address = await getNewAddress('', false);
+    const addressInfo = await getAddressInfo(address);
+    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
+  }
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+    return true;
+  }
+  return false;
 };
 
 export const getAddressAndAmountListForAccount = async () => {
@@ -1169,11 +1191,6 @@ export const handleAccountToAccountConversion = async (
     if (tokenSymbol === hash && obj.address !== toAddress) {
       amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
     }
-  }
-
-  if (!isEmpty(amounts)) {
-    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
-    await getTransactionInfo(refreshUtxoTxId);
   }
 
   const accountToAccountTxHashes: any[] = [];
@@ -1368,4 +1385,48 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
 
 export const getSmallerAmount = (amount1: string, amount2: string) => {
   return Math.min(Number(amount1), Number(amount2));
+};
+
+export const getDfiTokenBalance = async () => {
+  const addressAndAmountList = await getAddressAndAmountListForAccount();
+
+  const amount = addressAndAmountList.reduce((currentAmount, obj) => {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]);
+    if (tokenSymbol === DFI_SYMBOL) {
+      currentAmount = currentAmount.plus(amount);
+    }
+    return currentAmount;
+  }, new BigNumber('0'));
+  return Number(amount);
+};
+
+export const calculateAPY = (
+  totalLiquidity: BigNumber,
+  yearlyPoolReward: BigNumber
+) => {
+  return totalLiquidity.toNumber()
+    ? yearlyPoolReward
+        .div(totalLiquidity)
+        .times(APY_MULTIPLICATION_FACTOR)
+        .toNumber()
+        .toFixed(2)
+    : 0;
+};
+
+export const getTransactionAddressLabel = (
+  receiveLabel: string,
+  receiveAddress: string,
+  fallback: string
+) => {
+  let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
+  label = label + receiveAddress;
+  return receiveAddress ? label : fallback;
+};
+
+export const getPageTitle = (
+  pageTitle?: string
+) => {
+  const appTitle = I18n.t('general.defiApp');
+  return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };

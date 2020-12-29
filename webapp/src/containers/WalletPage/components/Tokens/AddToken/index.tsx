@@ -13,7 +13,7 @@ import Pagination from '../../../../../components/Pagination';
 import WalletAddTokenCard from '../../../../../components/TokenCard/WalletAddTokenCard';
 import styles from '../../../WalletPage.module.scss';
 import { fetchTokensRequest } from '../../../reducer';
-import { filterByValue } from '../../../../../utils/utility';
+import { filterByValue, getPageTitle } from '../../../../../utils/utility';
 import {
   WALLET_TOKENS_PATH,
   TOKEN_LIST_PAGE_SIZE,
@@ -71,7 +71,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens')}
+          {getPageTitle(I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens'))}
         </title>
       </Helmet>
       <Header>

@@ -8,6 +8,14 @@ For direct download, check the [Releases](https://github.com/DeFiCh/app/releases
 
 `npm run init` initialize and install npm dependency for electron and webapp
 
+## Setup binary
+
+Fetch and extract binary file
+
+Mac: `sh ./pre-build-mac.sh`
+Linux: `sh ./pre-build-linux.sh`
+Windows: `sh ./pre-build-win.sh`
+
 ### Run Electron desktop app with webapp
 
 `npm start`
@@ -36,8 +44,9 @@ For direct download, check the [Releases](https://github.com/DeFiCh/app/releases
 
 Electron config is in [electron-app/index.ts](electron-app/index.ts)
 
-## Copyright and license
+## License
 
-Copyright 2020 DeFiChain Foundation.
+The DeFi Blockchain App is released under the terms of the MIT license. For more
+information see https://opensource.org/licenses/MIT.
 
 QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com). Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).

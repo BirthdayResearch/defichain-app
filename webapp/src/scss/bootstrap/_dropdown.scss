@@ -6,6 +6,12 @@
 //
 // `<button>`-specific styles are denoted with `// For <button>s`
 .dropdown-item {
+  &:active {
+    svg {
+      color: $dropdown-link-active-color;
+    }
+  }
+
   svg {
     width: 24px;
     height: 24px;
