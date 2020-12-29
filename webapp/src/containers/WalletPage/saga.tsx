@@ -421,12 +421,19 @@ export function* fetchInstantPendingBalance() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, limit, includeRewards, minBlockHeight } = action.payload;
+    const {
+      symbol,
+      limit,
+      includeRewards,
+      minBlockHeight,
+      cancelToken,
+    } = action.payload;
 
     const data: any[] = yield call(getListAccountHistory, {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
+      cancelToken: cancelToken,
       blockHeight: minBlockHeight,
     });
 
