@@ -1,7 +1,7 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
 
-import {devServerConfig} from './config';
+import { devServerConfig } from './config';
 
 export default {
     devtool: 'inline-source-map',

@@ -4,15 +4,15 @@ import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
 import * as plugins from './plugins';
 import * as rules from './rules';
-import {isProd} from './utils/env';
-import {arrayFilterEmpty} from './utils/helpers';
+import { isProd } from './utils/env';
+import { arrayFilterEmpty } from './utils/helpers';
 
 export default {
     target: 'web',
     context: __dirname,
     entry,
     output: {
-        path: path.join(__dirname, '../dist'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: './',
         filename: '[name].[contenthash].js',
     },
@@ -27,7 +27,6 @@ export default {
             rules.mp3Rule,
             rules.workerRule(isProd),
             ...rules.sassRules,
-            ...rules.svgRules,
         ]),
     },
     plugins: arrayFilterEmpty([

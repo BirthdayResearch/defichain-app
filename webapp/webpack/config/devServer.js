@@ -1,6 +1,8 @@
+export const defaultPort = 5000;
+
 export const devServerConfig = {
     publicPath: '/',
-    port: 8080,
+    port: defaultPort,
     compress: true,
     noInfo: false,
     stats: 'errors-only',
@@ -8,7 +10,7 @@ export const devServerConfig = {
     lazy: false,
     hot: true,
     overlay: false,
-    headers: {'Access-Control-Allow-Origin': '*'},
+    headers: { 'Access-Control-Allow-Origin': '*' },
     watchOptions: {
         aggregateTimeout: 300,
         ignored: /node_modules/,
@@ -16,6 +18,6 @@ export const devServerConfig = {
     },
     historyApiFallback: {
         verbose: true,
-        disableDotRule: false,
+        disableDotRule: true,
     },
 };

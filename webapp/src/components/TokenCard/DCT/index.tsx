@@ -1,18 +1,15 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-(window as any).$RefreshReg$ = () => {};
-(window as any).$RefreshSig$ = () => () => {};
-
 import React from 'react';
-import {Card, CardBody, Col, Row} from 'reactstrap';
-import {I18n} from 'react-redux-i18n';
+import { Card, CardBody, Col, Row } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
-import {ITokenCard} from '../../../utils/interfaces';
+import { ITokenCard } from '../../../utils/interfaces';
+import VerifiedIcon from '../../../assets/svg/verified-icon.svg';
 
 import TokenAvatar from '../../TokenAvatar';
 
 const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
-    const {data} = props;
+    const { data } = props;
 
     return (
         <Card
@@ -36,6 +33,12 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
                         </div>
                     </Col>
                     <Col md="4" className={`${styles.tokenCardIcon}`}>
+                        {data.isDAT && (
+                            <img
+                                src={VerifiedIcon}
+                                className={styles.verifiedIcon}
+                            />
+                        )}
                         <TokenAvatar
                             symbol={data.symbolKey}
                             size="32px"

@@ -23,7 +23,7 @@ export const htmlRule = {
  * @see https://webpack.js.org/guides/asset-modules/
  */
 export const imagesRule = {
-    test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+    test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
     type: 'asset/resource',
 };
 /**
