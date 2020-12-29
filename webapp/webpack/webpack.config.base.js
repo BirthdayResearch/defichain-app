@@ -1,5 +1,4 @@
 import path from 'path';
-import WebpackBar from 'webpackbar';
 
 import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
@@ -35,11 +34,10 @@ export default {
         plugins.providePlugin,
         plugins.definePlugin,
         plugins.forkTsCheckerWebpackPlugin,
-        // plugins.esLintPlugin,
+        plugins.imageMinPlugin,
         plugins.copyPlugin,
-        new WebpackBar({
-            color: '#ff00af',
-        }),
+        plugins.webpackBarPlugin,
+        // plugins.esLintPlugin,
     ]),
     optimization,
     resolve: {

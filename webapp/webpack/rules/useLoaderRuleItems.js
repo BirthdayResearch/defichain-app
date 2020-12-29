@@ -14,8 +14,7 @@ export const sassLoaderItems = [
     {
         loader: 'sass-loader',
         options: {
-            sourceMap: true,
-            // Prefer `dart-sassRules`
+            sourceMap: !isProd,
             implementation: require('sass'),
         },
     },
@@ -27,7 +26,7 @@ export const postCssLoader = {
         postcssOptions: {
             config: join(webpackDir, './config/postcss.js'),
         },
-        sourceMap: true,
+        sourceMap: !isProd,
     },
 };
 
@@ -56,7 +55,7 @@ export const miniCssExtractLoader = isProd
 export const resolveUrlLoader = {
     loader: 'resolve-url-loader',
     options: {
-        sourceMap: true,
+        sourceMap: !isProd,
     },
 };
 
