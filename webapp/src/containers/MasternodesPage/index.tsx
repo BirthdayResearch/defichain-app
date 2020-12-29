@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  Row,
+  Col,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
 import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   RESIGNED_STATE,
   CONFIRM_BUTTON_TIMEOUT,
   CONFIRM_BUTTON_COUNTER,
-} from '../../constants';
-import { connect } from 'react-redux';
+} from '@/constants';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import { createMasterNode, startRestartNodeWithMasterNode } from './reducer';
 import styles from './masternode.module.scss';
@@ -24,9 +33,12 @@ import { MasterNodeObject } from './masterNodeInterface';
 import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
+import { RootState } from '@/app/rootReducer';
+import { StatusLedger } from '@/typings/models';
+import { TypeWallet } from '@/typings/entities';
 
 interface MasternodesPageProps extends RouteComponentProps {
-  createMasterNode: () => void;
+  createMasterNode: (typeWallet: TypeWallet) => void;
   startRestartNodeWithMasterNode: () => void;
   walletBalance: string | number;
   isMasterNodeCreating: boolean;
@@ -38,6 +50,8 @@ interface MasternodesPageProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
   isOpen: boolean;
   isRestart: boolean;
+  ledgerBalance: number;
+  statusLedger: StatusLedger;
 }
 
 const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
@@ -56,8 +70,8 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     fetchInstantBalanceRequest,
     isOpen,
     isRestart,
+    ledgerBalance,
   } = props;
-
   const prevIsOpen = usePrevious(isOpen);
   const prevIsRestart = usePrevious(isRestart);
   const [searching, setSearching] = useState<boolean>(false);
@@ -76,6 +90,10 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+  const [isOpenMenuCreate, setIsOpenMenuCreate] = useState(false);
+  const [typeWallet, setTypeWallet] = useState<TypeWallet>(null);
+
+  const toggleMenuCreate = () => setIsOpenMenuCreate(!isOpenMenuCreate);
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
@@ -172,15 +190,16 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       setIsRestartButtonDisable(true);
     } else {
       setAllowCalls(true);
-      createMasterNode();
+      createMasterNode(typeWallet);
     }
   };
 
-  const createMasterNodeFunc = () => {
-    const showForm = new BigNumber(walletBalance).gte(
+  const createMasterNodeFunc = (wallet: TypeWallet) => {
+    const showForm = new BigNumber(wallet === 'ledger' ? ledgerBalance : walletBalance).gte(
       MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
     );
     if (showForm) {
+      setTypeWallet(wallet);
       setIsConfirmationModalOpen('confirm');
     } else {
       setErrorMessage(
@@ -206,14 +225,33 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link'>
-            <MdAdd />
-            <span className='d-lg-inline'>
-              {I18n.t(
-                'containers.masterNodes.masterNodesPage.createMasterNode'
-              )}
-            </span>
-          </Button>
+          <ButtonDropdown isOpen={isOpenMenuCreate} toggle={toggleMenuCreate}>
+            <DropdownToggle color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+             {I18n.t(
+               'containers.masterNodes.masterNodesPage.createMasterNode'
+             )}
+              </span>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                color='link'
+                onClick={() => createMasterNodeFunc('wallet')}
+              >
+                Use wallet
+              </DropdownItem>
+              <DropdownItem
+                to={{
+                  search: 'typeWallet=ledger',
+                }}
+                onClick={() => createMasterNodeFunc('ledger')}
+                disabled={props.statusLedger !== 'connected'}
+              >
+                Use ledger
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
         </ButtonGroup>
         <SearchBar
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -351,7 +389,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     wallet: { walletBalance },
     masterNodes: {
@@ -361,6 +399,7 @@ const mapStateToProps = (state) => {
       isErrorCreatingMasterNode,
       isLoadingMasternodes,
     },
+    ledgerWallet: { walletBalance: ledgerBalance, connect },
     popover: { isOpen, isRestart },
   } = state;
   return {
@@ -372,6 +411,8 @@ const mapStateToProps = (state) => {
     isErrorCreatingMasterNode,
     isOpen,
     isRestart,
+    ledgerBalance,
+    statusLedger: connect.status,
   };
 };
 

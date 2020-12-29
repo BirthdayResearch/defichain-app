@@ -17,4 +17,5 @@ export interface LedgerState {
   devices: DevicesLedger;
   paymentRequests: PaymentRequestLedger[];
   [key: string]: any;
+  walletBalance: number;
 }

@@ -29,6 +29,7 @@ import { getErrorMessage } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 import { RESIGNED_STATE } from '../../constants';
+import { TypeWallet } from '@/typings/entities';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -67,9 +68,9 @@ export function* fetchMasterNodes() {
   }
 }
 
-export function* createMasterNodes() {
+export function* createMasterNodes({ payload }: { payload: TypeWallet }) {
   try {
-    const data = yield call(handelCreateMasterNodes);
+    const data = yield call(handelCreateMasterNodes, payload);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({
