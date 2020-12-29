@@ -1,6 +1,6 @@
-import {DefinePlugin} from 'webpack';
+import { DefinePlugin } from 'webpack';
 
-import {isDev, isProd, mode} from '../utils/env';
+import { isDev, isProd, mode } from '../utils/env';
 
 const config = {
     'process.env': {

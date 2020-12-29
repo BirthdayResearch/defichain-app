@@ -1,5 +1,5 @@
-import {isProd} from '../utils/env';
-import {arrayFilterEmpty} from '../utils/helpers';
+import { isProd } from '../utils/env';
+import { arrayFilterEmpty } from '../utils/helpers';
 
 module.exports = () => {
     const plugins = arrayFilterEmpty([
