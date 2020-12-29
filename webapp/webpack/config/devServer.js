@@ -5,7 +5,7 @@ export const devServerConfig = {
     port: defaultPort,
     compress: true,
     noInfo: false,
-    stats: 'normal',
+    stats: 'errors-only',
     inline: true,
     lazy: false,
     hot: true,

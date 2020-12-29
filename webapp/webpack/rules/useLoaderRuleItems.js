@@ -73,8 +73,12 @@ export const cssModulesSupportLoaderItems = [
         options: {
             esModule: false,
             modules: {
-                exportLocalsConvention: 'camelCaseOnly',
-                localIdentName: '[local]__[contenthash:base64:5]',
+                auto: true,
+                compileType: 'module',
+                localIdentName: isProd
+                    ? '[hash:base64]'
+                    : '[path][name]__[local]',
+                exportLocalsConvention: 'asIs',
             },
         },
     },
