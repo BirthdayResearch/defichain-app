@@ -37,7 +37,9 @@ export default {
         plugins.forkTsCheckerWebpackPlugin,
         // plugins.esLintPlugin,
         plugins.copyPlugin,
-        new WebpackBar(),
+        new WebpackBar({
+            color: '#ff00af',
+        }),
     ]),
     optimization,
     resolve: {

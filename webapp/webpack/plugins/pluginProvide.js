@@ -1,4 +1,4 @@
-import {ProvidePlugin} from 'webpack';
+import { ProvidePlugin } from 'webpack';
 
 const config = {
     Buffer: ['buffer', 'Buffer'],

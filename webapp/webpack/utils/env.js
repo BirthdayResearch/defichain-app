@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-export const mode = process.env.NODE_ENV;
+export const mode = process.env.NODE_ENV || 'development';
 export const isProd = mode === 'production';
 export const isDev = !isProd;
 export const rootDir = join(__dirname, '../../');

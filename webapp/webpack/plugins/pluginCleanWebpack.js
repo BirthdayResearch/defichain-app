@@ -1,4 +1,4 @@
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const config = {
     cleanOnceBeforeBuildPatterns: ['**/*'],

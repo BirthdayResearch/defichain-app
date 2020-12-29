@@ -1,4 +1,4 @@
-import {arrayFilterEmpty} from '../utils/helpers';
+import { arrayFilterEmpty } from '../utils/helpers';
 import {
     cssLoader,
     cssLoaderItems,
