@@ -5,7 +5,7 @@ export const devServerConfig = {
     port: defaultPort,
     compress: true,
     noInfo: false,
-    stats: 'errors-only',
+    stats: 'normal',
     inline: true,
     lazy: false,
     hot: true,
@@ -14,10 +14,10 @@ export const devServerConfig = {
     watchOptions: {
         aggregateTimeout: 300,
         ignored: /node_modules/,
-        poll: 100,
+        poll: 1000,
     },
     historyApiFallback: {
-        verbose: true,
         disableDotRule: true,
     },
+    open: true,
 };
