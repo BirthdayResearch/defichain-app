@@ -18,7 +18,9 @@ import Popover from '../containers/PopOver';
 
 import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
-import {getPageTitle} from '../utils/utility';
+import { getPageTitle } from '../utils/utility';
+import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
+
 interface AppProps extends RouteComponentProps {
     isRunning: boolean;
     getRpcConfigsRequest: () => void;
@@ -65,47 +67,48 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
     const transition = determineTransition(location, prevDepth.current);
 
-    return (
-        <>
-            {isRunning ? (
-                <div id="app">
-                    <Helmet>
-                        <title>{getPageTitle()}</title>
-                    </Helmet>
-                    <Sidebar />
-                    <main>
-                        <TransitionGroup
-                            className="transition-group"
-                            childFactory={(child) =>
-                                React.cloneElement(child, {
-                                    classNames: transition[0],
-                                    timeout: transition[1],
-                                })
-                            }
-                        >
-                            <CSSTransition timeout={300} key={location.key}>
-                                {routes(location)}
-                            </CSSTransition>
-                        </TransitionGroup>
-                    </main>
-                    <ErrorModal />
-                </div>
-            ) : (
-                <LaunchScreen
-                    message={nodeError}
-                    isLoading={isFetching}
-                    isRestart={isRestart}
-                />
-            )}
-            <ReIndexModel />
-            <BackupWalletWarningModel />
-            <Popover />
-            <EncryptWalletModel />
-            <WalletPassphraseModel />
-            <RestartWalletModel />
-            <GeneralReIndexModal />
-        </>
-    );
+  return (
+    <>
+      {isRunning ? (
+        <div id='app'>
+          <Helmet>
+            <title>{getPageTitle()}</title>
+          </Helmet>
+          <Sidebar />
+          <main>
+            <TransitionGroup
+              className='transition-group'
+              childFactory={(child) =>
+                React.cloneElement(child, {
+                  classNames: transition[0],
+                  timeout: transition[1],
+                })
+              }
+            >
+              <CSSTransition timeout={300} key={location.key}>
+                {routes(location)}
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
+          <ErrorModal />
+        </div>
+      ) : (
+        <LaunchScreen
+          message={nodeError}
+          isLoading={isFetching}
+          isRestart={isRestart}
+        />
+      )}
+      <ReIndexModel />
+      <BackupWalletWarningModel />
+      <Popover />
+      <EncryptWalletModel />
+      <WalletPassphraseModel />
+      <RestartWalletModel />
+      <GeneralReIndexModal />
+      <RefreshUtxosModal />
+    </>
+  );
 };
 
 const mapStateToProps = ({app, popover}) => ({
