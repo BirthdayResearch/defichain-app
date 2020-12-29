@@ -18,8 +18,8 @@
     "start:dev": "nf start",
     "start:react": "cd webapp && npm run start:dev",
     "start:electron": "node initiate-electron",
-    "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron .",
-    "electron": "npm run transpile && NODE_ENV=development electron . -d true",
+    "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron --inspect .",
+    "electron": "npm run transpile && NODE_ENV=development electron --inspect . -d true",
     "build:react": "cd webapp && npm run build:react",
     "pre:build:linux": "sh pre-build-linux.sh",
     "pre:build:mac": "sh pre-build-mac.sh",
@@ -165,7 +165,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && lint-staged"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }

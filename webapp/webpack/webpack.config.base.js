@@ -1,4 +1,5 @@
 import path from 'path';
+import WebpackBar from 'webpackbar';
 
 import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
@@ -13,7 +14,7 @@ export default {
     entry,
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: './',
+        publicPath: '/',
         filename: '[name].[contenthash].js',
     },
     module: {
@@ -36,6 +37,7 @@ export default {
         plugins.forkTsCheckerWebpackPlugin,
         // plugins.esLintPlugin,
         plugins.copyPlugin,
+        new WebpackBar(),
     ]),
     optimization,
     resolve: {
