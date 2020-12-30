@@ -30,6 +30,7 @@ import {
   TOKENS_PATH,
 } from '../../constants';
 import Header from '../HeaderComponent';
+import { getPageTitle } from '../../utils/utility';
 
 interface TokensProps {
   tokens: any;
@@ -65,7 +66,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
       </Helmet>
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>

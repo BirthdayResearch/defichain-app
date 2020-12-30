@@ -14,6 +14,7 @@ import { TabContent } from 'reactstrap';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
+import { getPageTitle } from '../../utils/utility';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -47,6 +48,7 @@ interface SettingsPageProps {
   getSettingOptionsRequest: () => void;
   updateSettings: (data: any) => void;
   changeLanguage: () => void;
+  isRefreshUtxosModalOpen: boolean;
 }
 
 interface SettingsPageState {
@@ -77,6 +79,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   });
 
   const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
+  const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
+    false
+  );
 
   useEffect(() => {
     props.getSettingOptionsRequest();
@@ -93,7 +98,10 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     if (!props.isRestart) {
       setIsReindexAfterSaving(false);
     }
-  }, [props.isRestart]);
+    if (!props.isRefreshUtxosModalOpen) {
+      setIsRefreshUtxosAfterSaving(false);
+    }
+  }, [props.isRestart, props.isRefreshUtxosModalOpen]);
 
   useEffect(() => {
     const prevPropsValue =
@@ -134,6 +142,10 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
 
   const handeReindexToggle = () => {
     setIsReindexAfterSaving(!reindexAfterSaving);
+  };
+
+  const handeRefreshUtxosToggle = () => {
+    setIsRefreshUtxosAfterSaving(!refreshUtxosAfterSaving);
   };
 
   const handleFractionalNumInputs = (
@@ -231,6 +243,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       maximumCount,
       feeRate,
       reindexAfterSaving: reindexAfterSaving,
+      refreshUtxosAfterSaving,
     };
     props.updateSettings(settings);
   };
@@ -256,7 +269,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.settings.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
       <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='content'>
@@ -282,12 +295,14 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             feeRate={feeRate!}
             scriptVerificationThreads={scriptVerificationThreads!}
             reindexAfterSaving={reindexAfterSaving!}
+            refreshUtxosAfterSaving={refreshUtxosAfterSaving}
             handleRegularNumInputs={handleRegularNumInputs}
             handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
             network={network!}
             handleDropDowns={handleDropDowns}
             handeReindexToggle={handeReindexToggle}
+            handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
           <SettingsTabDisplay
             language={language!}
@@ -298,7 +313,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         </TabContent>
       </div>
       <SettingsTabsFooter
-        isUnsavedChanges={isUnsavedChanges || reindexAfterSaving}
+        isUnsavedChanges={
+          isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
+        }
         saveChanges={saveChanges}
       />
     </div>
@@ -312,6 +329,7 @@ const mapStateToProps = (state) => {
     appConfig,
     isUpdating,
     isUpdated,
+    isRefreshUtxosModalOpen,
   } = state.settings;
   const { isRestart } = state.popover;
   const { locale } = state.i18n;
@@ -323,6 +341,7 @@ const mapStateToProps = (state) => {
     isUpdated,
     locale,
     isRestart,
+    isRefreshUtxosModalOpen,
   };
 };
 

@@ -17,6 +17,7 @@ import Header from '../../../HeaderComponent';
 import PairIcon from '../../../../components/PairIcon';
 import BigNumber from 'bignumber.js';
 import styles from './LiquidityInfo.module.scss';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface RouteParams {
   poolID: string;
@@ -38,6 +39,11 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
     props.fetchPoolsharesRequest();
   }, []);
 
+  const liquidityAmount = (percentage, reserve) => {
+    const liquidityAmount = (Number(percentage) / 100) * reserve;
+    return liquidityAmount.toFixed(8).toString() || '0';
+  };
+
   const poolshare =
     poolshares.length &&
     poolshares.find((poolShare) => {
@@ -47,7 +53,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.liquidity.liquidityPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
       </Helmet>
       <Header>
         <Button
@@ -111,9 +117,10 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenA}`}
-                value={Number(poolshare.reserveA || '0')
-                  .toFixed(2)
-                  .toString()}
+                value={liquidityAmount(
+                  poolshare.poolSharePercentage,
+                  poolshare.reserveA
+                )}
               />
             </Col>
             <Col md='6'>
@@ -121,28 +128,15 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.pooled'
                 )} ${poolshare.tokenB}`}
-                value={Number(poolshare.reserveB || '')
-                  .toFixed(2)
-                  .toString()}
+                value={liquidityAmount(
+                  poolshare.poolSharePercentage,
+                  poolshare.reserveB
+                )}
               />
             </Col>
             <Col md='6'>
               <KeyValueLi
-                label={`${poolshare.tokenA} ${I18n.t(
-                  'containers.liquidity.liquidityInfo.poolShare'
-                )}`}
-                value={(
-                  `${
-                    poolshare.poolSharePercentage
-                      ? Number(poolshare.poolSharePercentage).toFixed(4)
-                      : ''
-                  } %` || ''
-                ).toString()}
-              />
-            </Col>
-            <Col md='6'>
-              <KeyValueLi
-                label={`${poolshare.tokenB} ${I18n.t(
+                label={`${I18n.t(
                   'containers.liquidity.liquidityInfo.poolShare'
                 )}`}
                 value={(

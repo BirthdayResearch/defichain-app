@@ -177,9 +177,9 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for upto 300% APY. Pick a pool pair below, supply liquidity to power the DEX (decentralized Exchange) to start earning fees and anual returns of up to 300%. Withdraw any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -196,12 +196,12 @@
         "txHash": "Transaction hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
         "pooled": "Pooled",
-        "poolShare": "pool share",
+        "poolShare": "Pool share percentage",
         "pooledBTC": "Pooled BTC",
         "btcPoolShare": "BTC pool share",
         "totalReward": "Total reward",
@@ -211,9 +211,9 @@
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFi app",
+        "title": "DEX",
         "decentralizedExchange": "Decentralized Exchange",
-        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -230,7 +230,7 @@
         "tokens": "Tokens",
         "readySwap": "Ready to swap",
         "price": "Price",
-        "minimumReceived": "Minimum received",
+        "minimumReceived": "Amount received (Subject to slippage)",
         "priceImpact": "Price impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
@@ -262,7 +262,8 @@
         "preparimgUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "insufficientUtxos": "Insufficient UTXOS to perform swap"
       },
       "swapTab": {
         "from": "From",
@@ -279,7 +280,8 @@
         "apy": "APY",
         "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
         "totalLiquidity": "Total liquidity (USD)",
-        "addRemoveLiquidity": "Add or remove liquidity"
+        "addRemoveLiquidity": "Add or remove liquidity",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -315,7 +317,8 @@
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "receiveSharesAt": "Receive shares At"
+        "receiveSharesAt": "Receive shares At",
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -348,7 +351,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi app",
+        "title": "Tokens",
         "loading": "Loading…",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -365,7 +368,8 @@
           "decimal": "Decimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -375,7 +379,8 @@
           "tradeable": "Tradeable",
           "type": "Type",
           "decimal": "Decimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
@@ -541,7 +546,7 @@
         "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
         "learnMoreAtBitcoinBtn": "Learn more at Bitcoin Wiki",
         "generateNewSet": "Generate a new set of 24 words",
-        "copied24Words": "I've have copied down 24 words in the exact order",
+        "copied24Words": "I’ve copied down 24 words in the exact order",
         "continue": "Continue",
         "createNewWallet": "Create new wallet"
       },
@@ -635,6 +640,8 @@
       "walletPage": {
         "includeRewards": "Include rewards",
         "walletDeFiApp": "Portefeuille – App DeFi",
+        "wallet": "wallet",
+        "wallets": "Wallets",
         "delete": "Effacer",
         "send": "Envoyer",
         "receive": "Recevoir",
@@ -644,7 +651,8 @@
         "transactions": "Transactions",
         "availableBalance": "Solde disponible",
         "pending": "En attente",
-        "updateAvailableLabel": "Update available"
+        "updateAvailableLabel": "Update available",
+        "txidNotApplicable": "Transaction ID not applicable"
       },
       "walletTxns": {
         "height": "Hauteur",
@@ -758,5 +766,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
+  },  
+  "general": {
+    "defiApp": "App DeFi"
   }
 }

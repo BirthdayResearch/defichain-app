@@ -44,7 +44,6 @@
 
 .copyIcon {
   text-align: left;
-  width: 500px;
 }
 
 .colorGreen {
@@ -87,8 +86,13 @@
   position: relative;
   overflow: hidden;
   overflow-wrap: break-word;
-  text-align: right;
+  text-align: left;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   color: $secondary;
+}
+
+.txid__na {
+  color: $disabled;
 }

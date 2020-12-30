@@ -4,6 +4,7 @@
 @import '~bootstrap/scss/mixins';
 @import '../../../../scss/variables';
 @import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/utility';
 
 .addLiquidityRow {
   display: flex;
@@ -29,22 +30,30 @@
   color: $dfi-red !important;
 }
 
-.successColor {
-  color: #28a745;
+.txProgressLine {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+}
+
+.txProgressSuccess {
   position: absolute;
-  left: -30px;
+  left: 0;
+  color: $green;
   height: 24px;
   width: 24px;
 }
 
 .txProgressLoader {
   position: absolute;
-  left: -30px;
+  left: 0;
 }
 
 .txProgressSuccess {
   position: absolute;
-  left: -30px;
   color: $green;
   height: 24px;
   width: 24px;

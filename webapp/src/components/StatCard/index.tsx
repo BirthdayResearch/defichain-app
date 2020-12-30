@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import NumberMask from '../NumberMask';
 import styles from './StatCard.module.scss';
 
 interface StatCardProps {
@@ -29,7 +30,9 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
           )}
         </Row>
         <Row className={styles.valueUnit}>
-          <Col className={styles.value}>{props.value}</Col>
+          <Col className={styles.value}>
+            <NumberMask value={props.value} defaultValue={0} />
+          </Col>
           <Col className={`${styles.unit} ${styles.text}`}>{props.unit}</Col>
         </Row>
       </CardBody>

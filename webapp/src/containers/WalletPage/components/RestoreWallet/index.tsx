@@ -20,6 +20,7 @@ import { resetRestoreWalletError, restoreWalletRequest } from '../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
 import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface RestoreWalletProps extends RouteComponentProps {
   isWalletRestoring: boolean;
@@ -89,7 +90,9 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.restoreWalletPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -162,7 +165,6 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 color='primary'
                 onClick={() => {
                   resetRestoreWalletError();
-                  history.push(WALLET_TOKENS_PATH);
                 }}
               >
                 {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}

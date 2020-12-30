@@ -36,7 +36,7 @@ import {
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
-import { getIcon } from '../../../../utils/utility';
+import { getIcon, getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 
 interface RouteParams {
@@ -135,7 +135,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
       </Helmet>
       <Header>
         <Button
@@ -200,7 +200,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <section className='mb-5'>
           <Row className='mb-4'>
             <Col md='6'>
-              <TokenAvatar symbol={tokenInfo.symbolKey} size='60px' />
+              <TokenAvatar
+                symbol={tokenInfo.symbolKey}
+                size='64px'
+                textSizeRatio={2}
+              />
             </Col>
             <Col md='6'>
               <KeyValueLi

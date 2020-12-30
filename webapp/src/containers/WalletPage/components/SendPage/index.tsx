@@ -30,29 +30,33 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
-  accountToAccount,
+  // accountToAccount,
   handleFetchRegularDFI,
   isValidAddress,
   sendToAddress,
+  sendTokensToAddress,
 } from '../../service';
 import {
   WALLET_PAGE_PATH,
   DEFAULT_UNIT,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  // DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
 } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
-  getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  // getAddressAndAmountListForAccount,
+  // getAddressForSymbol,
   getAmountInSelectedUnit,
+  getErrorMessage,
+  getPageTitle,
   getSymbolKey,
-  handleAccountToAccountConversion,
+  // handleAccountToAccountConversion,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
+import NumberMask from '../../../../components/NumberMask';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -295,28 +299,24 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
-          let accountToAccountAmount = new BigNumber(0);
           const hash = this.tokenHash || '0';
-          const addressesList = await getAddressAndAmountListForAccount();
-          const { address, amount: maxAmount } = await getAddressForSymbol(
-            hash,
-            addressesList
-          );
+
+          log.info('*******token send **********');
+          log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
-          if (Number(amount) > maxAmount) {
-            accountToAccountAmount = await handleAccountToAccountConversion(
-              addressesList,
-              address,
-              hash
-            );
-          }
-          txHash = await accountToAccount(
-            address,
+          log.info({ amount, hash, address: this.state.toAddress });
+
+          txHash = await sendTokensToAddress(
             this.state.toAddress,
             `${amount}@${hash}`
           );
+          log.info('*******token send **********');
+          log.info(`accountToAccount tx hash ${txHash}`);
+          log.info('*******token send **********');
           this.handleSuccess(txHash);
         } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(`Got error in token send: ${errorMessage}`);
           this.handleFailure(error);
         }
       }
@@ -383,7 +383,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
+          <title>{getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}</title>
         </Helmet>
         <Header>
           <Button
@@ -499,12 +499,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {!tokenSymbol
-                    ? getAmountInSelectedUnit(
-                        this.props.sendData.walletBalance,
-                        this.props.unit
-                      )
-                    : tokenAmount}
+                  <NumberMask
+                    value={
+                      (!tokenSymbol
+                        ? getAmountInSelectedUnit(
+                            this.props.sendData.walletBalance,
+                            this.props.unit
+                          )
+                        : tokenAmount) ?? '0'
+                    }
+                  />
                   &nbsp;
                   {tokenSymbol
                     ? getSymbolKey(tokenSymbol || '', tokenHash || '0')
@@ -516,7 +520,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.amountToSend')}
                 </div>
                 <div>
-                  {this.state.amountToSendDisplayed}&nbsp;
+                  <NumberMask
+                    value={this.state.amountToSendDisplayed.toString()}
+                  />
+                  &nbsp;
                   {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
                     this.props.unit}
                 </div>
