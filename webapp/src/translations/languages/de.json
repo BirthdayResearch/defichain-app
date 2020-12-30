@@ -788,7 +788,7 @@
     "yesRestartAppWithReindex": "App neustarten",
     "noCloseApp": "App schliessen",
     "backupWalletNoticeTitle": "Wallet wiederherstellen",
-    "backupWalletNotice": "Bitte sichere Deine Brieftasche, bevor Du deine Anwendung akuallisierst! Möchtest Du ein Backup von deiner Wallet erstellen?",
+    "backupWalletNotice": "Bitte sichere Deine Brieftasche, bevor Du deine Anwendung aktualisierst! Möchtest Du ein Backup von deiner Wallet erstellen?",
     "backupWalletDatNotice": "Deine Wallet ist noch nicht fertig. Möchtest Du Deine wallet.dat-Datei sichern?",
     "yesBackupWalletNotice": "Ja",
     "noBackupWalletNotice": "Nein",
