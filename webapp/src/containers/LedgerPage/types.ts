@@ -1,3 +1,5 @@
+import { Device } from 'node-hid';
+import { DeviceModel } from '@ledgerhq/devices';
 import { StatusLedger, PaymentRequestLedger } from '@/typings/models';
 
 export interface LedgerConnect {
@@ -6,8 +8,12 @@ export interface LedgerConnect {
   device: null | string;
 }
 
+export interface LedgerDevice extends Device {
+  deviceModel: DeviceModel;
+}
+
 export interface DevicesLedger {
-  list: any[];
+  list: LedgerDevice[];
   error: null | Error;
 }
 

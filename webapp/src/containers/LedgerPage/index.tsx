@@ -141,7 +141,13 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           </button>
         </div>
         <ButtonGroup>
-          <Button color='link' size='sm' to={LEDGER_SEND_PATH} tag={RRNavLink}>
+          <Button
+            color='link'
+            size='sm'
+            to={LEDGER_SEND_PATH}
+            tag={RRNavLink}
+            disabled={connect.status !== 'connected'}
+          >
             <MdArrowUpward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.send')}
