@@ -11,7 +11,8 @@ describe('SwapTab component', () => {
     const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>
-          {/* <SwapTab
+          {/* //to be fix         
+           <SwapTab 
             label={I18n.t('containers.swap.swapTab.from')}
             tokenMap={new Map()}
             filterBySymbol={() => ''}
