@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
 import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
-import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import classNames from 'classnames';
 import StatusLedgerConnect from '@/components/StatusLedgerConnect';
 import StatCard from '../../components/StatCard';
@@ -21,14 +21,19 @@ import {
   fetchConnectLedgerFailure,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
-import { LEDGER_RECEIVE_PATH, LEDGER_SEND_PATH } from '@/constants';
+import {
+  LEDGER_RECEIVE_PATH,
+  LEDGER_SEND_PATH,
+  LEDGER_SYNC_PATH,
+} from '@/constants';
 import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
+import { RootState } from '@/app/rootReducer';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;
-  walletBalance: string;
+  walletBalance: number;
   fetchInstantBalance: () => void;
   fetchInstantPendingBalanceRequest: () => void;
   updateAvailableBadge: boolean;
@@ -39,6 +44,8 @@ interface LedgerPageProps extends RouteComponentProps {
   fetchConnectLedgerRequest: () => void;
   isShowingInformation: boolean;
   devices: DevicesLedger;
+  latestBlock: number;
+  latestSyncedBlock: number;
 }
 
 const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
@@ -58,6 +65,9 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     isShowingInformation,
     devices,
     connect,
+    history,
+    latestSyncedBlock,
+    latestBlock,
   } = props;
 
   useEffect(() => {
@@ -108,6 +118,22 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     dispatch(fetchConnectLedgerFailure(null));
   }, [dispatch]);
 
+  const handleSendRedirect = useCallback(() => {
+    if (latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock) {
+      history.push(LEDGER_SEND_PATH);
+    } else {
+      history.push(LEDGER_SYNC_PATH);
+    }
+  }, [latestSyncedBlock, latestBlock]);
+
+  const handleReceiveRedirect = useCallback(() => {
+    if (latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock) {
+      history.push(LEDGER_RECEIVE_PATH);
+    } else {
+      history.push(LEDGER_SYNC_PATH);
+    }
+  }, [latestSyncedBlock, latestBlock]);
+
   return (
     <div className='main-wrapper'>
       <HelpModal isOpen={isShowingInformation} toggle={onCloseHelpModal} />
@@ -144,8 +170,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           <Button
             color='link'
             size='sm'
-            to={LEDGER_SEND_PATH}
-            tag={RRNavLink}
+            onClick={handleSendRedirect}
             disabled={connect.status !== 'connected'}
           >
             <MdArrowUpward />
@@ -154,8 +179,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             </span>
           </Button>
           <Button
-            to={LEDGER_RECEIVE_PATH}
-            tag={RRNavLink}
+            onClick={handleReceiveRedirect}
             color='link'
             disabled={connect.status !== 'connected'}
           >
@@ -206,7 +230,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     settings: {
       appConfig: { unit },
@@ -219,6 +243,7 @@ const mapStateToProps = (state) => {
       walletBalance,
       blockChainInfo,
     },
+    syncstatus: { latestBlock, latestSyncedBlock },
   } = state;
   return {
     unit,
@@ -228,6 +253,8 @@ const mapStateToProps = (state) => {
     connect,
     isShowingInformation,
     devices,
+    latestBlock,
+    latestSyncedBlock,
   };
 };
 
