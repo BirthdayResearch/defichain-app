@@ -54,9 +54,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   const typeWallet = urlParams.get('typeWallet');
   const { id } = props.match.params;
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
-  const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
-    boolean
-  >(true);
+  const [
+    IsCollateralAddressValid,
+    setIsCollateralAddressValid,
+  ] = useState<boolean>(true);
   const [formState, setFormState] = useState<CreateTokenFormState>({
     name: '',
     symbol: '',
@@ -216,12 +217,12 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   const updateConfirmation = () => {
     setAllowCalls(true);
     const tokenData = createTokenData();
-    updateToken(tokenData, typeWallet);
+    updateToken(tokenData, typeWallet as TypeWallet);
   };
 
   const handleSubmit = async () => {
     const tokenData = createTokenData();
-    createToken(tokenData, typeWallet);
+    createToken(tokenData, typeWallet as TypeWallet);
   };
 
   return (
