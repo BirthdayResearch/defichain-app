@@ -783,6 +783,12 @@
         "title": "So verbinden Sie Ledger mit DeFi Brieftasche",
         "downloadItem": "Laden Sie die Ledger App herunter",
         "plugItem": "Schließen Sie Ihr Gerät an und entsperren Sie es"
+      },
+      "syncPage": {
+        "title": "Ledger Wallet - Synchronisieren",
+        "sync": "Mit Knoten synchronisieren",
+        "syncNotice": "Nach Abschluss der Synchronisierung können Sie eine Ledger-Brieftasche senden oder empfangen",
+        "loading": "Wird geladen..."
       }
     },
     "console": {

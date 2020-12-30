@@ -725,6 +725,12 @@
         "title": "Comment connecter Ledger à DeFi Bourse",
         "downloadItem": "Téléchargez l'application Ledger",
         "plugItem": "Branchez et déverrouillez votre appareil"
+      },
+      "syncPage": {
+        "title": "Ledger Wallet - Synchroniser",
+        "sync": "Synchroniser avec le nœud",
+        "syncNotice": "Vous pourrez envoyer ou recevoir un portefeuille de grand livre une fois la synchronisation terminée",
+        "loading": "Chargement..."
       }
     },
     "console": {
@@ -825,7 +831,7 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
-  },  
+  },
   "general": {
     "defiApp": "App DeFi"
   }

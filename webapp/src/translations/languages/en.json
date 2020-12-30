@@ -780,6 +780,12 @@
         "title": "How to connect Ledger to DeFi Wallet",
         "downloadItem": "Download the Ledger App",
         "plugItem": "Plug and unlock your device"
+      },
+      "syncPage": {
+        "title": "Ledger Wallet - Sync",
+        "sync": "Sync with node",
+        "syncNotice": "You will be able to send or receive a ledger wallet when sync is complete",
+        "loading": "Loading..."
       }
     },
     "console": {
