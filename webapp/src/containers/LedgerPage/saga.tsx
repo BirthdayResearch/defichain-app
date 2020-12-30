@@ -331,8 +331,8 @@ export function* fetchConnectLedger() {
       yield put(reducer.fetchConnectLedgerFailure(error));
     }
   } catch (err) {
-    log.error(`Fetch connect ${err.messsage}`);
-    yield put(reducer.fetchConnectLedgerFailure(err.messsage));
+    log.error(`Fetch connect ${err.message}`);
+    yield put(reducer.fetchConnectLedgerFailure(err.message));
   }
 }
 
