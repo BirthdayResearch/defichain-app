@@ -78,10 +78,7 @@ module.exports = {
                   // Provide path to the file with resources
 
                   // Or array of paths
-                  resources: [
-                    './src/scss/_variables.scss',
-                    './src/scss/bootstrap/_variables.scss',
-                  ],
+                  resources: ['./src/scss/_variables.scss'],
                 },
               },
 
