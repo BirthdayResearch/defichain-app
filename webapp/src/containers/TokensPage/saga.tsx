@@ -40,7 +40,6 @@ import {
   updateToken,
   handleMintTokens,
 } from './service';
-import { handelGetPaymentRequest } from '@/containers/WalletPage/service';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);

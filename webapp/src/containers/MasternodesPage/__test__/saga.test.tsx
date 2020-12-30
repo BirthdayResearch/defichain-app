@@ -20,10 +20,10 @@ import {
   finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
-import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
+import { dispatchedFunc, mockAxios } from '@/utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
 import { restartModal } from '../../PopOver/reducer';
-import { shutDownBinary } from '../../../worker/queue';
+import { shutDownBinary } from '@/worker/queue';
 
 const errorObj = {
   message: 'error occurred',
@@ -39,7 +39,10 @@ describe('Masternode page saga unit test', () => {
   });
 
   it('should wait for every fetchMasternodesRequest action and call createMasterNode', () => {
+    // @ts-ignore
+    // @ts-ignore
     expect(genObject.next().value).toEqual(
+      // @ts-ignore
       takeLatest(createMasterNode.type, createMasterNodes)
     );
   });

@@ -138,6 +138,7 @@ function* MasterNodeOwnerInfo(masterNode: any) {
 
 function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
+  // @ts-ignore
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
   yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
