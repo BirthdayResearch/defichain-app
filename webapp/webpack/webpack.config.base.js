@@ -36,7 +36,6 @@ export default {
         plugins.forkTsCheckerWebpackPlugin,
         plugins.imageMinPlugin,
         plugins.copyPlugin,
-        plugins.webpackBarPlugin,
         // plugins.esLintPlugin,
     ]),
     optimization,
