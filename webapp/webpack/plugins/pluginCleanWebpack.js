@@ -1,7 +1,7 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const config = {
-    cleanOnceBeforeBuildPatterns: ['**/*'],
+    cleanOnceBeforeBuildPatterns: ['**/*', '!profile.json'],
 };
 
 export const cleanWebpackPlugin = new CleanWebpackPlugin(config);
