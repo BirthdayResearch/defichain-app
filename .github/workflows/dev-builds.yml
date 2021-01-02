@@ -3,7 +3,7 @@ on:
     branches:
       - ci/master
       - master
-      - feature/devDep_updates
+      - code-refactoring
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
