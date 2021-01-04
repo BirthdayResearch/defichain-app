@@ -383,7 +383,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}</title>
+          <title>
+            {getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}
+          </title>
         </Helmet>
         <Header>
           <Button
