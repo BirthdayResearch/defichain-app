@@ -29,7 +29,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi Blockchain Client",
+        "title": "Blockchain",
         "blockchain": "Blockchain"
       },
       "blockChainTable": {
@@ -74,25 +74,25 @@
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi Blockchain Client",
+      "title": "DFI Block Processing Center",
       "header": "DFI Block Processing Center",
-      "detail": "Het lijkt erop dat je hier per ongeluk terecht gekomen bent. Hier zorgen onze medewerkers ervoor dat elk DFI-blok op de juiste manier aan de "Chain" wordt bevestigd. Aangezien dit een beperkt gebied is, vragen wij u vriendelijk om terug te keren.",
+      "detail": "Het lijkt erop dat je hier per ongeluk terecht gekomen bent. Hier zorgen onze medewerkers ervoor dat elk DFI-blok op de juiste manier aan de \"Chain\" wordt bevestigd. Aangezien dit een beperkt gebied is, vragen wij u vriendelijk om terug te keren.",
       "goBack": "Ga terug"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi Blockchain Client",
+      "title": "Exchange",
       "exchange": "Exchange",
       "section": "Sectie",
       "footerBar": "Voettekstbalk"
     },
     "helpPage": {
-      "title": "Help – DeFi Blockchain Client",
+      "title": "Help",
       "help": "Help",
       "section": "Sectie"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi Blockchain Client",
+        "title": "Masternodes",
         "createMasterNode": "Creëer",
         "masterNodes": "Masternodes",
         "statistics": "Statistieken",
@@ -166,7 +166,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi Blockchain client",
+        "title": "Tokens",
         "loading": "Laden...",
         "createToken": "Creëren",
         "tokens": "Tokens",
@@ -299,7 +299,7 @@
       }
     },
     "settings": {
-      "title": "Instellingen – DeFi Blockchain Client",
+      "title": "Instellingen",
       "settings": "Instellingen",
       "general": "Algemeen",
       "display": "Tonen",
@@ -322,6 +322,9 @@
       "english": "Engels",
       "german": "Duits",
       "french": "Frans",
+      "chinese": "Chinese (Simplified)",
+      "chinese_traditional": "Chinese (Traditional)",
+      "dutch": "Dutch",
       "displayAmount": "Bedrag eenheid",
       "dFI": "DFI",
       "fi": "fi",
@@ -374,9 +377,9 @@
         "backToWalletPage": "SLUITEN"
       },
       "sendPage": {
-        "sendTitle": "Versturen – DeFi Blockchain Client",
+        "sendTitle": "Versturen",
         "wallet": "Wallet",
-        "sendDFITitle": "Stuur DFI – DeFi Blockchain Client",
+        "sendDFITitle": "Stuur DFI",
         "sendDFI": "Stuur DFI",
         "send": "Stuur",
         "amount": "Bedrag",
@@ -397,7 +400,7 @@
         "pleaseTransferFunds": "Zet enkele DFI's over naar uw account"
       },
       "receivePage": {
-        "receiveDFITitle": "Ontvangen DFI – DeFi Blockchain Client",
+        "receiveDFITitle": "Ontvangen DFI",
         "wallet": "Wallet",
         "receiveDFI": "Ontvangen DFI",
         "optional": "Optioneel",
@@ -431,7 +434,7 @@
         "created": "gecreëerd"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Betaalverzoek %{id} – DeFi Blockchain Client",
+        "paymentRequestTitle": "Betaalverzoek %{id}",
         "paymentRequest": "Betaalverzoek",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -444,7 +447,7 @@
       },
       "walletPage": {
         "tokens": "TOKENS",
-        "walletDefiClient": "Wallet – DeFi Blockchain Client",
+        "walletDefiClient": "Wallet",
         "wallet": "Wallet",
         "delete": "Delete",
         "send": "Versturen",
@@ -480,7 +483,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Console – DeFi Blockchain Client",
+        "consoleDefiClient": "Console",
         "defiCliCommand": "Defi-cli command invoeren",
         "console": "Console",
         "submit": "Verzenden",
@@ -571,5 +574,8 @@
     "restartWalletWarningNotice": "U moet de DeFi-app opnieuw opstarten. Wilt u opnieuw opstarten?",
     "yesRestartWalletNotice": "Herstart nu ",
     "noRestartWalletNotice": "Later"
+  },
+  "general": {
+    "defiApp": "DeFi app"
   }
 }

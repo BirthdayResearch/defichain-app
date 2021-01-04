@@ -36,7 +36,13 @@ export const Dropdowns = () => (
             >
               <span>German</span>
             </DropdownItem>
-            <DropdownItem className='d-flex justify-content-between' value='zh'>
+            <DropdownItem className='d-flex justify-content-between' value='fr'>
+              <span>French</span>
+            </DropdownItem>
+            <DropdownItem
+              className='d-flex justify-content-between'
+              value='zhs'
+            >
               <span>Chinese (Simplified)</span>
             </DropdownItem>
             <DropdownItem
@@ -44,6 +50,9 @@ export const Dropdowns = () => (
               value='zht'
             >
               <span>Chinese (Traditional)</span>
+            </DropdownItem>
+            <DropdownItem className='d-flex justify-content-between' value='nl'>
+              <span>Dutch</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

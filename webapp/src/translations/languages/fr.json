@@ -40,7 +40,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – App DeFi",
+        "title": "Blockchain",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -86,25 +86,25 @@
       }
     },
     "errors": {
-      "title": "Centre de traitement des blocs DFI – App DeFi",
+      "title": "Centre de traitement des blocs DFI",
       "header": "Centre de traitement des blocs DFI",
       "detail": "Vous semblez avoir atterri ici par accident. C'est ici que nos employés s'assurent que chaque bloc DFI est ajouté correctement à la chaine. Il s'agit donc d'une zone interdite et nous vous prions de faire demi-tour",
       "goBack": "Faites demi-tour"
     },
     "exchangePage": {
-      "title": "Échange – App DeFi",
+      "title": "Échange",
       "exchange": "Échange",
       "section": "Section",
       "footerBar": "Barre de pied de page"
     },
     "helpPage": {
-      "title": "Aide – App DeFi",
+      "title": "Aide",
       "help": "Aide",
       "section": "Section"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – App DeFi",
+        "title": "Masternodes",
         "createMasterNode": "Créer",
         "masterNodes": "Masternodes",
         "statistics": "Statistiques",
@@ -482,7 +482,7 @@
       }
     },
     "settings": {
-      "title": "Paramètres – App DeFi",
+      "title": "Paramètres",
       "settings": "Paramètres",
       "general": "Général",
       "display": "Affichage",
@@ -507,6 +507,9 @@
       "english": "Anglais",
       "german": "Allemand",
       "french": "Français",
+      "chinese": "Chinese (Simplified)",
+      "chinese_traditional": "Chinese (Traditional)",
+      "dutch": "Dutch",
       "displayAmount": "Afficher les montants en unité",
       "dFI": "DFI",
       "fi": "fi",
@@ -571,7 +574,7 @@
         "backToWalletPage": "FERMER"
       },
       "sendPage": {
-        "sendDFITitle": "Envoi de DFI – App DeFi",
+        "sendDFITitle": "Envoi de DFI",
         "wallet": "Portefeuille",
         "sendDFI": "Envoyer DFI",
         "amount": "Montant",
@@ -593,7 +596,7 @@
         "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
-        "receiveDFITitle": "Réception de DFI – App DeFi",
+        "receiveDFITitle": "Réception de DFI",
         "wallet": "Portefeuille",
         "receiveDFI": "Recevoir des DFI",
         "optional": "Optionnel",
@@ -622,7 +625,7 @@
         "cancelRequest": "Annuler la demande"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Demande de paiement %{id} – App DeFi",
+        "paymentRequestTitle": "Demande de paiement %{id}",
         "paymentRequest": "Demande de paiement",
         "wallet": "Portefeuille",
         "delete": "Effacer",
@@ -635,7 +638,7 @@
       },
       "walletPage": {
         "includeRewards": "Include rewards",
-        "walletDeFiApp": "Portefeuille – App DeFi",
+        "walletDeFiApp": "Portefeuille",
         "wallet": "wallet",
         "wallets": "Wallets",
         "delete": "Effacer",
@@ -666,7 +669,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "Console – App DeFi",
+        "consoleDeFiApp": "Console",
         "defiCliCommand": "Entrer la commande Defi-cli",
         "console": "Console",
         "submit": "Envoyer",
@@ -757,5 +760,8 @@
     "restartWalletWarningNotice": " Vous devez redémarrer l'app DeFi. Voulez-vous redémarrer maintenant?",
     "yesRestartWalletNotice": "Redémarrer maintenant",
     "noRestartWalletNotice": "Plus tard"
+  },
+  "general": {
+    "defiApp": "App DeFi"
   }
 }
