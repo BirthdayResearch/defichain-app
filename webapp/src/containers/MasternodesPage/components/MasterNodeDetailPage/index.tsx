@@ -112,7 +112,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   }, [isConfirmationModalOpen]);
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(
@@ -129,11 +129,11 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         <Button
           to={MASTER_NODES_PATH}
           tag={NavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.masterNodes.masternodeDetailPage.masternode')}
           </span>
         </Button>
@@ -146,7 +146,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         {isMyMasternode && (
           <ButtonGroup>
             <Button
-              color="link"
+              color='link'
               onClick={() => setIsConfirmationModalOpen('confirm')}
             >
               <MdDelete />
@@ -159,8 +159,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           </ButtonGroup>
         )}
       </Header>
-      <div className="content">
-        <section className="mb-5">
+      <div className='content'>
+        <section className='mb-5'>
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.state')}
             value={state}
@@ -195,7 +195,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             )}
             value={ownerAuthAddress}
             copyable={true!}
-            uid="address"
+            uid='address'
           />
           <KeyValueLi
             label={I18n.t(
@@ -203,7 +203,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             )}
             value={operatorAuthAddress}
             copyable={true!}
-            uid="address"
+            uid='address'
           />
           <KeyValueLi
             label={I18n.t(
@@ -225,16 +225,16 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           />
         </section>
       </div>
-      <footer className="footer-bar">
+      <footer className='footer-bar'>
         <div
           className={classnames({
             'd-none': isConfirmationModalOpen !== 'confirm',
           })}
         >
-          <div className="footer-sheet">
-            <dl className="row">
-              <dd className="col-12">
-                <span className="h2 mb-0">
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dd className='col-12'>
+                <span className='h2 mb-0'>
                   {I18n.t(
                     'containers.masterNodes.masternodeDetailPage.confirmation',
                   )}
@@ -242,11 +242,11 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               </dd>
             </dl>
           </div>
-          <Row className="justify-content-between align-items-center">
-            <Col className="d-flex justify-content-end">
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
               <Button
-                color="link"
-                className="mr-3"
+                color='link'
+                className='mr-3'
                 onClick={() => setIsConfirmationModalOpen('default')}
               >
                 {I18n.t(
@@ -254,7 +254,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
                 )}
               </Button>
               <Button
-                color="primary"
+                color='primary'
                 onClick={() => {
                   setAllowCalls(true);
                   resignMasterNode(hash);
@@ -265,7 +265,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
                   'containers.masterNodes.masternodeDetailPage.yesButtonText',
                 )}
                 &nbsp;
-                <span className="timer">{wait > 0 ? wait : ''}</span>
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
               </Button>
             </Col>
           </Row>
@@ -275,9 +275,9 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             'd-none': isConfirmationModalOpen !== 'success',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
-              <MdCheckCircle className="footer-sheet-icon" />
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t(
                   'containers.masterNodes.masternodeDetailPage.successText',
@@ -286,8 +286,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <p>{resignedMasterNodeData}</p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={MASTER_NODES_PATH} tag={NavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
                 'containers.masterNodes.masternodeDetailPage.backToMasternodePage',
               )}
@@ -299,8 +299,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             'd-none': isConfirmationModalOpen !== 'failure',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
+          <div className='footer-sheet'>
+            <div className='text-center'>
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
@@ -310,8 +310,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <p>{isErrorResigningMasterNode}</p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={MASTER_NODES_PATH} tag={NavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
                 'containers.masterNodes.masternodeDetailPage.backToMasternodePage',
               )}
