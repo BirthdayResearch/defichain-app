@@ -8,45 +8,45 @@ import { isProd, outputPath } from './utils/env';
 import { arrayFilterEmpty } from './utils/helpers';
 
 export default {
-    target: 'web',
-    context: __dirname,
-    entry,
-    output: {
-        path: path.resolve(__dirname, outputPath),
-        publicPath: '/',
-        filename: '[name].[contenthash].js',
-    },
-    module: {
-        rules: arrayFilterEmpty([
-            rules.typescriptRule,
-            rules.htmlRule,
-            rules.imagesRule,
-            rules.fontsRule,
-            rules.cssRule,
-            rules.txtRule,
-            rules.mp3Rule,
-            rules.workerRule(isProd),
-            ...rules.sassRules,
-        ]),
-    },
-    plugins: arrayFilterEmpty([
-        plugins.htmlWebpackPlugin,
-        plugins.providePlugin,
-        plugins.definePlugin,
-        plugins.forkTsCheckerWebpackPlugin,
-        plugins.imageMinPlugin,
-        plugins.copyPlugin,
-        // plugins.esLintPlugin,
+  target: 'web',
+  context: __dirname,
+  entry,
+  output: {
+    path: path.resolve(__dirname, outputPath),
+    publicPath: '/',
+    filename: '[name].[contenthash].js',
+  },
+  module: {
+    rules: arrayFilterEmpty([
+      rules.typescriptRule,
+      rules.htmlRule,
+      rules.imagesRule,
+      rules.fontsRule,
+      rules.cssRule,
+      rules.txtRule,
+      rules.mp3Rule,
+      rules.workerRule(isProd),
+      ...rules.sassRules,
     ]),
-    optimization,
-    resolve: {
-        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-        modules: [path.join(__dirname, '../src'), 'node_modules'],
-        fallback: {
-            crypto: require.resolve('crypto-browserify'),
-            stream: require.resolve('stream-browserify'),
-            buffer: require.resolve('buffer/'),
-            process: require.resolve('process/browser'),
-        },
+  },
+  plugins: arrayFilterEmpty([
+    plugins.htmlWebpackPlugin,
+    plugins.providePlugin,
+    plugins.definePlugin,
+    plugins.forkTsCheckerWebpackPlugin,
+    plugins.imageMinPlugin,
+    plugins.copyPlugin,
+    // plugins.esLintPlugin,
+  ]),
+  optimization,
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    modules: [path.join(__dirname, '../src'), 'node_modules'],
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer/'),
+      process: require.resolve('process/browser'),
     },
+  },
 };

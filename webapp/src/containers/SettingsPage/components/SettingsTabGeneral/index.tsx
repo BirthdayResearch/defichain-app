@@ -1,13 +1,13 @@
 import React from 'react';
-import {TabPane, Row, Col, Form, FormGroup, Label, Button} from 'reactstrap';
-import {I18n} from 'react-redux-i18n';
+import { TabPane, Row, Col, Form, FormGroup, Label, Button } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.scss';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import SettingsRowDropDown from '../SettingsRowDropDown';
-import {openGeneralReIndexModal} from '../../../PopOver/reducer';
+import { openGeneralReIndexModal } from '../../../PopOver/reducer';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
@@ -57,11 +57,11 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   } = props;
 
   return (
-    <TabPane tabId='general'>
+    <TabPane tabId="general">
       <section>
         <Form>
-          <Row className='mb-5'>
-            <Col md='12'>
+          <Row className="mb-5">
+            <Col md="12">
               <SettingsRowDropDown
                 label={'containers.settings.network'}
                 data={networkOptions}
@@ -71,9 +71,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               />
             </Col>
           </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.launchOptions')}</Col>
-            <Col md='8' lg='6'>
+          <Row className="mb-5">
+            <Col md="4">{I18n.t('containers.settings.launchOptions')}</Col>
+            <Col md="8" lg="6">
               <SettingsRowToggle
                 handleToggles={handleToggles}
                 label={'launchAtLogin'}
@@ -89,9 +89,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               />
             </Col>
           </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.reindexOption')}</Col>
-            <Col md='8' lg='6'>
+          <Row className="mb-5">
+            <Col md="4">{I18n.t('containers.settings.reindexOption')}</Col>
+            <Col md="8" lg="6">
               <SettingsRowToggle
                 handleToggles={handeReindexToggle}
                 label={'reindexAfterSaving'}
@@ -100,9 +100,9 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               />
             </Col>
           </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.refreshUtxos')}</Col>
-            <Col md='8' lg='6'>
+          <Row className="mb-5">
+            <Col md="4">{I18n.t('containers.settings.refreshUtxos')}</Col>
+            <Col md="8" lg="6">
               <SettingsRowToggle
                 handleToggles={handeRefreshUtxosToggle}
                 label={'refreshUtxosAfterSaving'}
@@ -111,10 +111,10 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               />
             </Col>
           </Row>
-          <Row className='mb-5'>
-            <Col md='4'>{I18n.t('containers.settings.utxoConsolidator')}</Col>
-            <Col md='8' lg='6'>
-              <FormGroup className='form-label-group mb-5'>
+          <Row className="mb-5">
+            <Col md="4">{I18n.t('containers.settings.utxoConsolidator')}</Col>
+            <Col md="8" lg="6">
+              <FormGroup className="form-label-group mb-5">
                 <SettingsRowInput
                   field={maximumAmount}
                   fieldName={'maximumAmount'}
@@ -125,7 +125,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                   handleInputs={handleRegularNumInputs}
                 />
               </FormGroup>
-              <FormGroup className='form-label-group mb-5'>
+              <FormGroup className="form-label-group mb-5">
                 <SettingsRowInput
                   field={maximumCount}
                   fieldName={'maximumCount'}
@@ -136,7 +136,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                   handleInputs={handleRegularNumInputs}
                 />
               </FormGroup>
-              <FormGroup className='form-label-group mb-5'>
+              <FormGroup className="form-label-group mb-5">
                 <SettingsRowInput
                   field={feeRate}
                   fieldName={'feeRate'}
@@ -160,8 +160,8 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               REINDEX
             </Button>
           </Row> */}
-                    {/* NOTE: Do not remove, for future purpose */}
-                    {/* <Row className='mb-5'>
+          {/* NOTE: Do not remove, for future purpose */}
+          {/* <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.storage')}</Col>
             <Col md='8'>
               <SettingsRowToggle
@@ -231,22 +231,22 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </FormGroup>
             </Col>
           </Row> */}
-                </Form>
-            </section>
-        </TabPane>
-    );
+        </Form>
+      </section>
+    </TabPane>
+  );
 };
 
 const mapStateToProps = (state) => {
-    const {networkOptions} = state.settings;
+  const { networkOptions } = state.settings;
 
-    return {
-        networkOptions,
-    };
+  return {
+    networkOptions,
+  };
 };
 
 const mapDispatchToProps = {
-    openGeneralReIndexModal,
+  openGeneralReIndexModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabGeneral);

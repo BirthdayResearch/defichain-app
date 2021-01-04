@@ -8,5 +8,5 @@ export const webpackDir = join(__dirname, '../');
 
 export let outputPath = isProd ? '../../build/release' : '../../build/debug';
 if (outputPath.startsWith('../..')) {
-    outputPath = join(__dirname, outputPath);
+  outputPath = join(__dirname, outputPath);
 }
