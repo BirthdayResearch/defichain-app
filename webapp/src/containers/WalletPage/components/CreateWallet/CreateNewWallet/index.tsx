@@ -32,7 +32,7 @@ interface CreateNewWalletProps {
 }
 
 const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
-  props: CreateNewWalletProps,
+  props: CreateNewWalletProps
 ) => {
   const {
     mnemonicObj,
@@ -73,7 +73,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           </p>
           <p className={styles.mnemonicGuidelineWarning}>
             {I18n.t(
-              'containers.wallet.createNewWalletPage.mnemonicGuidelineWarning',
+              'containers.wallet.createNewWalletPage.mnemonicGuidelineWarning'
             )}
           </p>
           <Card className={styles.margin}>
@@ -109,12 +109,12 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           <div className={styles.walletRecoveryInfo}>
             <p>
               {I18n.t(
-                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine1',
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine1'
               )}
             </p>
             <p>
               {I18n.t(
-                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2',
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2'
               )}
             </p>
             <Button
@@ -123,7 +123,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
               onClick={() => openNewTab(LEARN_MORE_ABOUT_BITCOIN_LINK)}
             >
               {I18n.t(
-                'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn',
+                'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn'
               )}
             </Button>
           </div>
@@ -141,7 +141,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
                   />
                   &nbsp;
                   {I18n.t(
-                    'containers.wallet.createNewWalletPage.copied24Words',
+                    'containers.wallet.createNewWalletPage.copied24Words'
                   )}
                 </Label>
               </FormGroup>

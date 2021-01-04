@@ -41,7 +41,7 @@ interface PaymentRequestsProps {
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
-  props: PaymentRequestsProps,
+  props: PaymentRequestsProps
 ) => {
   const [currentPage, handlePageClick] = useState(1);
   const pageSize = PAYMENT_REQ_LIST_SIZE;
@@ -95,7 +95,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                           {!request.hdSeed && (
                             <span className='text-danger'>
                               {I18n.t(
-                                'containers.wallet.paymentRequestList.warningSeedPhrase',
+                                'containers.wallet.paymentRequestList.warningSeedPhrase'
                               )}
                             </span>
                           )}
@@ -133,7 +133,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                               <MdDelete />
                               <span>
                                 {I18n.t(
-                                  'containers.wallet.paymentRequests.cancelRequest',
+                                  'containers.wallet.paymentRequests.cancelRequest'
                                 )}
                               </span>
                             </DropdownItem>

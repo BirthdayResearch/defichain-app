@@ -142,7 +142,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       {
         toAddress,
       },
-      this.isAddressValid,
+      this.isAddressValid
     );
   };
 
@@ -151,7 +151,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     if (!this.tokenSymbol) {
       amount = getAmountInSelectedUnit(
         this.props.sendData.walletBalance,
-        this.props.unit,
+        this.props.unit
       );
     } else {
       amount = this.tokenAmount;
@@ -163,7 +163,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       },
       () => {
         this.isAmountValid();
-      },
+      }
     );
   };
 
@@ -284,7 +284,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         amount = getAmountInSelectedUnit(
           this.state.amountToSendDisplayed,
           DEFAULT_UNIT,
-          this.props.unit,
+          this.props.unit
         );
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
         try {
@@ -308,7 +308,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
           txHash = await sendTokensToAddress(
             this.state.toAddress,
-            `${amount}@${hash}`,
+            `${amount}@${hash}`
           );
           log.info('*******token send **********');
           log.info(`accountToAccount tx hash ${txHash}`);
@@ -328,14 +328,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     if (!this.tokenSymbol) {
       amount = getAmountInSelectedUnit(
         this.props.sendData.walletBalance,
-        this.props.unit,
+        this.props.unit
       );
     } else {
       amount = this.tokenAmount;
     }
 
     const isLessThanBalance = new BigNumber(
-      this.state.amountToSendDisplayed,
+      this.state.amountToSendDisplayed
     ).lte(amount);
 
     const isAmountValid =
@@ -356,7 +356,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       const params = qs.parse(queryData);
       const amountData = getAmountInSelectedUnit(
         params.amount as string,
-        this.props.unit,
+        this.props.unit
       );
       this.updateAmountToSend({ target: { value: amountData } });
       this.setState({
@@ -420,7 +420,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       type='text'
                       inputMode='numeric'
                       placeholder={I18n.t(
-                        'containers.wallet.sendPage.amountToSend',
+                        'containers.wallet.sendPage.amountToSend'
                       )}
                       name='amountToSend'
                       id='amountToSend'
@@ -453,7 +453,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   <Input
                     type='text'
                     placeholder={I18n.t(
-                      'containers.wallet.sendPage.dfiAddress',
+                      'containers.wallet.sendPage.dfiAddress'
                     )}
                     name='toAddress'
                     id='toAddress'
@@ -506,7 +506,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                       (!tokenSymbol
                         ? getAmountInSelectedUnit(
                             this.props.sendData.walletBalance,
-                            this.props.unit,
+                            this.props.unit
                           )
                         : tokenAmount) ?? '0'
                     }

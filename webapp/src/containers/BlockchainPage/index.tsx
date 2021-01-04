@@ -21,7 +21,7 @@ const BlockchainPage = () => {
       <Helmet>
         <title>
           {getPageTitle(
-            I18n.t('containers.blockChainPage.blockChainPage.title'),
+            I18n.t('containers.blockChainPage.blockChainPage.title')
           )}
         </title>
       </Helmet>

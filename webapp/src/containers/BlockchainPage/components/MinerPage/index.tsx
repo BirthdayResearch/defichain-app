@@ -14,7 +14,7 @@ interface RouteParams {
 }
 
 const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
-  props: RouteComponentProps<RouteParams>,
+  props: RouteComponentProps<RouteParams>
 ) => {
   return (
     <div className='main-wrapper'>
@@ -23,7 +23,7 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
           {getPageTitle(
             `${I18n.t('containers.blockChainPage.minerPage.miner')} ${
               props.match.params.id
-            }`,
+            }`
           )}
         </title>
       </Helmet>

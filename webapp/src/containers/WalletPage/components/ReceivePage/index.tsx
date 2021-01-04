@@ -13,7 +13,7 @@ import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps,
+  props: RouteComponentProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');

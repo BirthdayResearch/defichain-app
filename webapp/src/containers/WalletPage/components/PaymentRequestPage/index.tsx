@@ -27,7 +27,7 @@ interface PaymentRequestPageProps extends RouteComponentProps<RouteProps> {
 }
 
 const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
-  props: PaymentRequestPageProps,
+  props: PaymentRequestPageProps
 ) => {
   const { match, paymentRequests = [] } = props;
   const id = match.params.id;
@@ -55,7 +55,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
           {getPageTitle(
             I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
               id: label || address,
-            }),
+            })
           )}
         </title>
       </Helmet>

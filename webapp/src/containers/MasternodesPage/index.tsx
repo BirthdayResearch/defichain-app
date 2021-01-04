@@ -42,7 +42,7 @@ interface MasternodesPageProps extends RouteComponentProps {
 }
 
 const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
-  props: MasternodesPageProps,
+  props: MasternodesPageProps
 ) => {
   const {
     createMasterNode,
@@ -103,7 +103,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     if (!isLoadingMasternodes) {
       const myMasternodes = masternodes.filter(
         (masternode) =>
-          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode,
+          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
       );
       if (myMasternodes.length > 0) {
         setDisableTab(false);
@@ -179,13 +179,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
 
   const createMasterNodeFunc = () => {
     const showForm = new BigNumber(walletBalance).gte(
-      MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+      MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
     );
     if (showForm) {
       setIsConfirmationModalOpen('confirm');
     } else {
       setErrorMessage(
-        I18n.t('containers.masterNodes.createMasterNode.lackOfBalanceMsg'),
+        I18n.t('containers.masterNodes.createMasterNode.lackOfBalanceMsg')
       );
       setIsConfirmationModalOpen('failure');
     }
@@ -213,7 +213,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t(
-                'containers.masterNodes.masterNodesPage.createMasterNode',
+                'containers.masterNodes.masterNodesPage.createMasterNode'
               )}
             </span>
           </Button>
@@ -245,10 +245,10 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 <span className='h2 mb-0'>
                   {restartNodeConfirm
                     ? I18n.t(
-                        'containers.masterNodes.createMasterNode.restartNodeConfirmationText',
+                        'containers.masterNodes.createMasterNode.restartNodeConfirmationText'
                       )
                     : I18n.t(
-                        'containers.masterNodes.createMasterNode.confirmationText',
+                        'containers.masterNodes.createMasterNode.confirmationText'
                       )}
                 </span>
               </dd>
@@ -269,7 +269,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 disabled={isRestartButtonDisable || (wait > 0 ? true : false)}
               >
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.yesButtonText',
+                  'containers.masterNodes.createMasterNode.yesButtonText'
                 )}
                 &nbsp;
                 <span className='timer'>{wait > 0 ? wait : ''}</span>
@@ -286,18 +286,18 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             <div className='text-center'>
               <p>
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.masterNodeSuccess',
+                  'containers.masterNodes.createMasterNode.masterNodeSuccess'
                 )}
               </p>
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t(
-                  'containers.masterNodes.createMasterNode.masternodeOperator',
+                  'containers.masterNodes.createMasterNode.masternodeOperator'
                 )}: ${createdMasterNodeData.masternodeOperator}`}
               </p>
               <p>
                 {`${I18n.t(
-                  'containers.masterNodes.createMasterNode.masternodeOwner',
+                  'containers.masterNodes.createMasterNode.masternodeOwner'
                 )}: ${createdMasterNodeData.masternodeOwner}`}
               </p>
             </div>
@@ -306,7 +306,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             <Col className='d-flex justify-content-end'>
               <Button color='primary' onClick={resetConfirmationModal}>
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.backToMasternodePage',
+                  'containers.masterNodes.createMasterNode.backToMasternodePage'
                 )}
               </Button>
               <Button
@@ -319,7 +319,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 }}
               >
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.restartNodeButton',
+                  'containers.masterNodes.createMasterNode.restartNodeButton'
                 )}
               </Button>
             </Col>
@@ -344,7 +344,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           <div className='d-flex align-items-center justify-content-center'>
             <Button color='primary' onClick={resetConfirmationModal}>
               {I18n.t(
-                'containers.masterNodes.createMasterNode.backToMasternodePage',
+                'containers.masterNodes.createMasterNode.backToMasternodePage'
               )}
             </Button>
           </div>

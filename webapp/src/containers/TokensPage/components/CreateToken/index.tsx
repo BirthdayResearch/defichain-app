@@ -41,7 +41,7 @@ export interface CreateTokenFormState extends AddressModel {
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
-  props: CreateTokenProps,
+  props: CreateTokenProps
 ) => {
   const { id } = props.match.params;
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);

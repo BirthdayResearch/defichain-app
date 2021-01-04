@@ -27,7 +27,7 @@ interface TokensProps {
 }
 
 const WalletAddToken: React.FunctionComponent<TokensProps> = (
-  props: TokensProps,
+  props: TokensProps
 ) => {
   const defaultPage = 1;
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -41,14 +41,14 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   const filteredTokens = tokens.filter(
-    (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX,
+    (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
   );
 
   function paginate(pageNumber, tokensList?: any[]) {
     const clone = cloneDeep(tokensList || filteredTokens);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
-      pageNumber * pageSize,
+      pageNumber * pageSize
     );
     setCurrentPage(pageNumber);
     settableData(tableData);
@@ -72,7 +72,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
       <Helmet>
         <title>
           {getPageTitle(
-            I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens'),
+            I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens')
           )}
         </title>
       </Helmet>

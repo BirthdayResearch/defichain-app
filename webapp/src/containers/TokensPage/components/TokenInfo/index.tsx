@@ -55,7 +55,7 @@ interface TokenInfoProps extends RouteComponentProps<RouteParams> {
 }
 
 const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
-  props: TokenInfoProps,
+  props: TokenInfoProps
 ) => {
   const { id, hash } = props.match.params;
 
@@ -128,7 +128,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     } else {
       // history.push(`${TOKEN_EDIT_PATH}/${id}`);
       history.push(
-        `${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`,
+        `${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`
       );
     }
   };
