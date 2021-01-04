@@ -39,7 +39,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "区块链 – DeFi 应用程式",
+        "title": "区块链",
         "blockchain": "区块链",
         "explorer": "探索"
       },
@@ -85,19 +85,19 @@
       }
     },
     "errors": {
-      "title": "DFI 区块处理中心 – DeFi 应用程式",
+      "title": "DFI 区块处理中心",
       "header": "DFI 区块处理中心",
       "detail": "您意外间达到了这里。这是我们工作人员把区块牢牢地串在区块链上的岗位。由于这是个禁区，请您转回头。",
       "goBack": "回返"
     },
     "exchangePage": {
-      "title": "兑换 – DeFi 应用程式",
+      "title": "兑换",
       "exchange": "兑换",
       "section": "Section",
       "footerBar": "Footer bar"
     },
     "helpPage": {
-      "title": "支援 – DeFi 应用程式",
+      "title": "支援",
       "help": "支援",
       "helpPageHeader": "联系社区的各种选项",
       "telegramEn": "Telegram 社区 (英)",
@@ -112,7 +112,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "主节点 – DeFi 应用程式",
+        "title": "主节点",
         "createMasterNode": "创建",
         "masterNodes": "主节点",
         "statistics": "统计",
@@ -183,7 +183,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "代币 – DeFi 应用程式",
+        "title": "代币",
         "loading": "加载中…",
         "createToken": "创建",
         "tokens": "代币",
@@ -317,7 +317,7 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "流动资金 – DeFi 应用程式",
+        "title": "流动资金",
         "yourLiquidity": "您的流动资金",
         "yourLiquidityInfo": "您现在能够通过流动资金采矿获取高红丽。选择一下任何一个流动资金币对，为去中心化兑换交易所（DEX）提供流动资金，以赚取交易费和高达300%的年益率。随时可以退出。",
         "noLiquidity": "没有流动资金。您是否要为流动资金池提流动供资金吗？",
@@ -484,7 +484,7 @@
       }
     },
     "settings": {
-      "title": "设定 – DeFi 应用程式",
+      "title": "设定",
       "settings": "设定",
       "general": "一般",
       "display": "显示",
@@ -510,6 +510,8 @@
       "german": "德文",
       "french": "法文",
       "chinese": "中文",
+      "chinese_traditional": "Chinese (Traditional)",
+      "dutch": "Dutch",
       "displayAmount": "数目显示单位",
       "dFI": "DFI",
       "fi": "fi",
@@ -575,9 +577,9 @@
         "backToWalletPage": "关闭"
       },
       "sendPage": {
-        "sendTitle": "发送 – DeFi 应用程式",
+        "sendTitle": "发送",
         "wallet": "钱包",
-        "sendDFITitle": "发送 DFI – DeFi 应用程式",
+        "sendDFITitle": "发送 DFI",
         "sendDFI": "发送 DFI",
         "send": "发送",
         "amount": "数目",
@@ -600,7 +602,7 @@
         "insufficientUtxos": "UTXO 不足"
       },
       "receivePage": {
-        "receiveDFITitle": "接收 DFI – DeFi 应用程式",
+        "receiveDFITitle": "接收 DFI",
         "wallet": "钱包",
         "receiveDFI": "接收 DFI",
         "optional": "可选",
@@ -634,7 +636,7 @@
         "created": "创建日期"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "接收地址 %{id} – DeFi 应用程式",
+        "paymentRequestTitle": "接收地址 %{id}",
         "paymentRequest": "接收地址",
         "wallet": "钱包",
         "delete": "删除",
@@ -647,8 +649,8 @@
       },
       "walletPage": {
         "tokens": "代币",
-        "walletDeFiApp": "钱包 – DeFi 应用程式",
-        "walletDefiClient": "钱包 – DeFi 应用程式",
+        "walletDeFiApp": "钱包",
+        "walletDefiClient": "钱包",
         "wallet": "钱包",
         "delete": "删除",
         "send": "发送",
@@ -689,7 +691,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "命令行界面 – DeFi 应用程式",
+        "consoleDeFiApp": "命令行界面",
         "defiCliCommand": "输入 DeFi-cli 命令",
         "console": "命令行界面",
         "submit": "提交",
@@ -782,5 +784,8 @@
     "confirmResetWalletText": "请把 ‘%{text}’ 输入在文本域里，以确定刷新。",
     "yeResetpWalletNotice": "是的",
     "noResetWalletNotice": "否定"
+  },
+  "general": {
+    "defiApp": "DeFi 应用程式"
   }
 }
