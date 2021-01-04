@@ -64,7 +64,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   };
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
@@ -101,12 +101,12 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           </NavItem>
         </Nav> */}
         <ButtonGroup className={classnames({ 'd-none': searching })}>
-          <Button color="link" size="sm" onClick={toggleSearch}>
+          <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color="link">
+          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.tokens.tokensPage.createToken')}
             </span>
           </Button>
@@ -118,7 +118,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           placeholder={I18n.t('containers.tokens.tokensPage.searchTokens')}
         />
       </Header>
-      <div className="content">
+      <div className='content'>
         <TabContent activeTab={activeTab}>
           <TabPane tabId={DAT_TOKEN}>
             <TokensList

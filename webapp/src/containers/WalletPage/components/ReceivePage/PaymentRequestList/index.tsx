@@ -59,10 +59,10 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
     }, 600);
   };
   return (
-    <section className="mb-5">
+    <section className='mb-5'>
       {total ? (
         <>
-          <Card className="table-responsive-md">
+          <Card className='table-responsive-md'>
             <Table className={styles.table}>
               <thead>
                 <tr>
@@ -93,7 +93,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         </div>
                         <div className={styles.ellipsisValue}>
                           {!request.hdSeed && (
-                            <span className="text-danger">
+                            <span className='text-danger'>
                               {I18n.t(
                                 'containers.wallet.paymentRequestList.warningSeedPhrase',
                               )}
@@ -121,7 +121,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                       </td>
                       <td className={`${styles.actionCell} ${styles.qrCc}`}>
                         <UncontrolledDropdown>
-                          <DropdownToggle className="padless" color="link">
+                          <DropdownToggle className='padless' color='link'>
                             <MdMoreHoriz />
                           </DropdownToggle>
                           <DropdownMenu right>
@@ -158,7 +158,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
           />
         </>
       ) : (
-        <Card className="table-responsive-md">
+        <Card className='table-responsive-md'>
           <CardBody>
             {I18n.t('containers.wallet.walletPage.noPaymentRequests')}
           </CardBody>

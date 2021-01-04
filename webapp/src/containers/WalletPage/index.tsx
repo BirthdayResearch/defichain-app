@@ -71,7 +71,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}
@@ -84,11 +84,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             unit,
           )}&unit=${unit}`}
           tag={RRNavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.wallet.walletPage.wallets')}
           </span>
         </Button>
@@ -111,11 +111,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
-            color="link"
-            size="sm"
+            color='link'
+            size='sm'
           >
             <MdArrowUpward />
-            <span className="d-md-inline">
+            <span className='d-md-inline'>
               {I18n.t('containers.wallet.walletPage.send')}
             </span>
           </Button>
@@ -126,17 +126,17 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 : WALLET_RECEIVE_PATH
             }
             tag={RRNavLink}
-            color="link"
-            size="sm"
+            color='link'
+            size='sm'
           >
             <MdArrowDownward />
-            <span className="d-md-inline">
+            <span className='d-md-inline'>
               {I18n.t('containers.wallet.walletPage.receive')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className="content">
+      <div className='content'>
         <section>
           <Row>
             <Col>

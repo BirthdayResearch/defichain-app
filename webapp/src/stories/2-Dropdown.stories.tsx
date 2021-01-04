@@ -15,43 +15,43 @@ export default {
 };
 
 export const Dropdowns = () => (
-  <div className="container mt-5">
-    <FormGroup className="form-row align-items-center">
-      <Col md="4">App language</Col>
-      <Col md="8">
+  <div className='container mt-5'>
+    <FormGroup className='form-row align-items-center'>
+      <Col md='4'>App language</Col>
+      <Col md='8'>
         <UncontrolledDropdown>
-          <DropdownToggle caret color="outline-secondary">
+          <DropdownToggle caret color='outline-secondary'>
             English
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="English"
+              className='d-flex justify-content-between'
+              value='English'
             >
               <span>English</span> <MdCheck />
             </DropdownItem>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="German"
+              className='d-flex justify-content-between'
+              value='German'
             >
               <span>German</span>
             </DropdownItem>
-            <DropdownItem className="d-flex justify-content-between" value="fr">
+            <DropdownItem className='d-flex justify-content-between' value='fr'>
               <span>French</span>
             </DropdownItem>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="zhs"
+              className='d-flex justify-content-between'
+              value='zhs'
             >
               <span>Chinese (Simplified)</span>
             </DropdownItem>
             <DropdownItem
-              className="d-flex justify-content-between"
-              value="zht"
+              className='d-flex justify-content-between'
+              value='zht'
             >
               <span>Chinese (Traditional)</span>
             </DropdownItem>
-            <DropdownItem className="d-flex justify-content-between" value="nl">
+            <DropdownItem className='d-flex justify-content-between' value='nl'>
               <span>Dutch</span>
             </DropdownItem>
             <DropdownItem className='d-flex justify-content-between' value='ru'>

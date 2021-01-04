@@ -381,7 +381,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   render() {
     const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
     return (
-      <div className="main-wrapper">
+      <div className='main-wrapper'>
         <Helmet>
           <title>
             {getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}
@@ -395,11 +395,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
-            color="link"
-            className="header-bar-back"
+            color='link'
+            className='header-bar-back'
           >
             <MdArrowBack />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.wallet.sendPage.wallet')}
             </span>
           </Button>
@@ -409,29 +409,29 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               this.props.unit}
           </h1>
         </Header>
-        <div className="content">
+        <div className='content'>
           <section>
             <Form>
-              <FormGroup className="form-label-group form-row">
+              <FormGroup className='form-label-group form-row'>
                 <Col>
                   <InputGroup>
                     {/* TODO: show inline error for failed vaildation */}
                     <Input
-                      type="text"
-                      inputMode="numeric"
+                      type='text'
+                      inputMode='numeric'
                       placeholder={I18n.t(
                         'containers.wallet.sendPage.amountToSend',
                       )}
-                      name="amountToSend"
-                      id="amountToSend"
+                      name='amountToSend'
+                      id='amountToSend'
                       value={this.state.amountToSend}
                       onChange={this.updateAmountToSend}
                       autoFocus
                     />
-                    <Label for="amountToSend">
+                    <Label for='amountToSend'>
                       {I18n.t('containers.wallet.sendPage.amount')}
                     </Label>
-                    <InputGroupAddon addonType="append">
+                    <InputGroupAddon addonType='append'>
                       <InputGroupText>
                         {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
                           this.props.unit}
@@ -439,32 +439,32 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </InputGroupAddon>
                   </InputGroup>
                 </Col>
-                <Col className="col-auto">
+                <Col className='col-auto'>
                   <Button
-                    color="outline-primary"
+                    color='outline-primary'
                     onClick={this.maxAmountToSend}
                   >
                     {I18n.t('containers.wallet.sendPage.MAX')}
                   </Button>
                 </Col>
               </FormGroup>
-              <FormGroup className="form-label-group">
+              <FormGroup className='form-label-group'>
                 <InputGroup>
                   <Input
-                    type="text"
+                    type='text'
                     placeholder={I18n.t(
                       'containers.wallet.sendPage.dfiAddress',
                     )}
-                    name="toAddress"
-                    id="toAddress"
+                    name='toAddress'
+                    id='toAddress'
                     value={this.state.toAddress}
                     onChange={this.updateToAddress}
                   />
-                  <Label for="toAddress">
+                  <Label for='toAddress'>
                     {I18n.t('containers.wallet.sendPage.toAddress')}
                   </Label>
-                  <InputGroupAddon addonType="append">
-                    <Button color="outline-primary" onClick={this.openScanner}>
+                  <InputGroupAddon addonType='append'>
+                    <Button color='outline-primary' onClick={this.openScanner}>
                       <MdCropFree />
                     </Button>
                   </InputGroupAddon>
@@ -483,21 +483,21 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   onError={this.handleScanError}
                   onScan={this.handleScan}
                   showViewFinder={false}
-                  className="qr-scanner-preview w-100"
+                  className='qr-scanner-preview w-100'
                 />
               </ModalBody>
             </Modal>
           </section>
         </div>
-        <footer className="footer-bar">
+        <footer className='footer-bar'>
           <div
             className={classnames({
               'd-none': this.state.sendStep !== 'default',
             })}
           >
-            <Row className="justify-content-between align-items-center">
-              <Col className="col-auto">
-                <div className="caption-secondary">
+            <Row className='justify-content-between align-items-center'>
+              <Col className='col-auto'>
+                <div className='caption-secondary'>
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
@@ -517,8 +517,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     : this.props.unit}
                 </div>
               </Col>
-              <Col className="col-auto">
-                <div className="caption-secondary">
+              <Col className='col-auto'>
+                <div className='caption-secondary'>
                   {I18n.t('containers.wallet.sendPage.amountToSend')}
                 </div>
                 <div>
@@ -530,17 +530,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     this.props.unit}
                 </div>
               </Col>
-              <Col className="d-flex justify-content-end">
+              <Col className='d-flex justify-content-end'>
                 <Button
                   to={WALLET_PAGE_PATH}
                   tag={NavLink}
-                  color="link"
-                  className="mr-3"
+                  color='link'
+                  className='mr-3'
                 >
                   {I18n.t('containers.wallet.sendPage.cancel')}
                 </Button>
                 <Button
-                  color="primary"
+                  color='primary'
                   disabled={
                     !this.state.isAmountValid || !this.state.isAddressValid
                   }
@@ -556,43 +556,43 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               'd-none': this.state.sendStep !== 'confirm',
             })}
           >
-            <div className="footer-sheet">
-              <dl className="row">
-                <dt className="col-sm-3 text-right">
+            <div className='footer-sheet'>
+              <dl className='row'>
+                <dt className='col-sm-3 text-right'>
                   {I18n.t('containers.wallet.sendPage.amount')}
                 </dt>
-                <dd className="col-sm-9">
-                  <span className="h2 mb-0">
+                <dd className='col-sm-9'>
+                  <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
                     {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
                       this.props.unit}
                   </span>
                 </dd>
-                <dt className="col-sm-3 text-right">
+                <dt className='col-sm-3 text-right'>
                   {I18n.t('containers.wallet.sendPage.to')}
                 </dt>
-                <dd className="col-sm-9">{this.state.toAddress}</dd>
+                <dd className='col-sm-9'>{this.state.toAddress}</dd>
               </dl>
             </div>
-            <Row className="justify-content-between align-items-center">
-              <Col className="col">
+            <Row className='justify-content-between align-items-center'>
+              <Col className='col'>
                 {I18n.t('containers.wallet.sendPage.pleaseVerifyAmount')}
               </Col>
-              <Col className="d-flex justify-content-end">
+              <Col className='d-flex justify-content-end'>
                 <Button
-                  color="link"
-                  className="mr-3"
+                  color='link'
+                  className='mr-3'
                   onClick={this.sendStepDefault}
                 >
                   {I18n.t('containers.wallet.sendPage.cancel')}
                 </Button>
                 <Button
-                  color="primary"
+                  color='primary'
                   onClick={this.sendTransaction}
                   disabled={this.state.waitToSend > 0 ? true : false}
                 >
                   {I18n.t('containers.wallet.sendPage.completeSend')}&nbsp;
-                  <span className="timer">
+                  <span className='timer'>
                     {this.state.waitToSend > 0 ? this.state.waitToSend : ''}
                   </span>
                 </Button>
@@ -604,9 +604,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               'd-none': this.state.sendStep !== 'success',
             })}
           >
-            <div className="footer-sheet">
-              <div className="text-center">
-                <MdCheckCircle className="footer-sheet-icon" />
+            <div className='footer-sheet'>
+              <div className='text-center'>
+                <MdCheckCircle className='footer-sheet-icon' />
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
@@ -616,9 +616,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </div>
               </div>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            <div className='d-flex align-items-center justify-content-center'>
               <Button
-                color="primary"
+                color='primary'
                 to={
                   tokenSymbol
                     ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
@@ -635,8 +635,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               'd-none': this.state.sendStep !== 'loading',
             })}
           >
-            <div className="footer-sheet">
-              <div className="text-center">
+            <div className='footer-sheet'>
+              <div className='text-center'>
                 <Spinner />
               </div>
             </div>
@@ -646,8 +646,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               'd-none': this.state.sendStep !== 'failure',
             })}
           >
-            <div className="footer-sheet">
-              <div className="text-center">
+            <div className='footer-sheet'>
+              <div className='text-center'>
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
@@ -662,9 +662,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>{this.state.errMessage}</p>
               </div>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            <div className='d-flex align-items-center justify-content-center'>
               <Button
-                color="primary"
+                color='primary'
                 to={
                   tokenSymbol
                     ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`

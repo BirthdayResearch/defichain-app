@@ -111,7 +111,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
   };
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(I18n.t('containers.tokens.mintToken.title'))}
@@ -121,11 +121,11 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
         <Button
           to={`${TOKENS_PATH}/${id}/${hash}`}
           tag={NavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.tokens.mintToken.back')}
           </span>
         </Button>
@@ -135,25 +135,25 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
           {getSymbolKey(id || '', hash || DFI_SYMBOL)}
         </h1>
       </Header>
-      <div className="content">
+      <div className='content'>
         <section>
           <Form>
-            <FormGroup className="form-label-group form-row">
+            <FormGroup className='form-label-group form-row'>
               <InputGroup>
                 <Input
-                  type="number"
+                  type='number'
                   placeholder={I18n.t(
                     'containers.tokens.mintToken.amountToMint',
                   )}
-                  name="amountToMint"
-                  id="amountToMint"
+                  name='amountToMint'
+                  id='amountToMint'
                   value={amountToMint}
                   onChange={(e) => setAmountToMint(e.target.value)}
                 />
-                <Label for="amountToMint">
+                <Label for='amountToMint'>
                   {I18n.t('containers.tokens.mintToken.amount')}
                 </Label>
-                <InputGroupAddon addonType="append">
+                <InputGroupAddon addonType='append'>
                   <InputGroupText>
                     {getSymbolKey(id || '', hash || DFI_SYMBOL)}
                   </InputGroupText>
@@ -163,15 +163,15 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
           </Form>
         </section>
       </div>
-      <footer className="footer-bar">
+      <footer className='footer-bar'>
         <div
           className={classnames({
             'd-none': mintStep !== 'default',
           })}
         >
-          <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">
-              <div className="caption-secondary">
+          <Row className='justify-content-between align-items-center'>
+            <Col className='col-auto'>
+              <div className='caption-secondary'>
                 {I18n.t('containers.tokens.mintToken.amountToMint')}
               </div>
               <div>
@@ -179,17 +179,17 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
                 {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </div>
             </Col>
-            <Col className="d-flex justify-content-end">
+            <Col className='d-flex justify-content-end'>
               <Button
                 to={TOKENS_PATH}
                 tag={NavLink}
-                color="link"
-                className="mr-3"
+                color='link'
+                className='mr-3'
               >
                 {I18n.t('containers.tokens.mintToken.cancel')}
               </Button>
               <Button
-                color="primary"
+                color='primary'
                 disabled={!amountToMint}
                 onClick={mintStepConfirm}
               >
@@ -203,33 +203,33 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             'd-none': mintStep !== 'confirm',
           })}
         >
-          <div className="footer-sheet">
-            <dl className="row">
-              <dt className="col-sm-3 text-right">
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dt className='col-sm-3 text-right'>
                 {I18n.t('containers.tokens.mintToken.amount')}
               </dt>
               &nbsp;
-              <dd className="col-sm-9">
+              <dd className='col-sm-9'>
                 {amountToMint}&nbsp;
                 {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </dd>
             </dl>
           </div>
-          <Row className="justify-content-between align-items-center">
-            <Col className="col">
+          <Row className='justify-content-between align-items-center'>
+            <Col className='col'>
               {I18n.t('containers.tokens.mintToken.pleaseVerifyAmount')}
             </Col>
-            <Col className="d-flex justify-content-end">
-              <Button color="link" className="mr-3" onClick={mintStepDefault}>
+            <Col className='d-flex justify-content-end'>
+              <Button color='link' className='mr-3' onClick={mintStepDefault}>
                 {I18n.t('containers.tokens.mintToken.cancel')}
               </Button>
               <Button
-                color="primary"
+                color='primary'
                 onClick={() => handleMintToken()}
                 disabled={wait > 0 ? true : false}
               >
                 {I18n.t('containers.tokens.mintToken.completeMint')}&nbsp;
-                <span className="timer">{wait > 0 ? wait : ''}</span>
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
               </Button>
             </Col>
           </Row>
@@ -239,16 +239,16 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             'd-none': mintStep !== 'success',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
-              <MdCheckCircle className="footer-sheet-icon" />
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {I18n.t('containers.tokens.mintToken.transactionSuccessMsg')}
               </p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={TOKENS_PATH} tag={NavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>
           </div>
@@ -258,8 +258,8 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             'd-none': mintStep !== 'loading',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
+          <div className='footer-sheet'>
+            <div className='text-center'>
               <Spinner />
             </div>
           </div>
@@ -269,8 +269,8 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             'd-none': mintStep !== 'failure',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
+          <div className='footer-sheet'>
+            <div className='text-center'>
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
@@ -280,8 +280,8 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               <p>{isErrorMintingToken}</p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={TOKENS_PATH} tag={NavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>
           </div>
