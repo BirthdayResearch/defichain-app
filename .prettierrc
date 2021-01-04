@@ -19,7 +19,7 @@
       "options": {
         "parser": "typescript",
         "jsxBracketSameLine": false,
-        "jsxSingleQuote": false
+        "jsxSingleQuote": true
       }
     },
     {

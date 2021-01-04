@@ -68,7 +68,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
   }, []);
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(
@@ -80,11 +80,11 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
         <Button
           to={WALLET_TOKENS_PATH}
           tag={RRNavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.wallet.walletAddTokensPage.back')}
           </span>
         </Button>
@@ -92,16 +92,16 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           {I18n.t('containers.wallet.walletAddTokensPage.addWalletLabel')}
         </h1>
       </Header>
-      <div className="content">
+      <div className='content'>
         <div>
           <FormGroup className={`row ${styles.formGroup}`}>
             <Col>
               <InputGroup>
                 <Input
-                  type="text"
+                  type='text'
                   placeholder={'Search Tokens'}
-                  name="searchInput"
-                  id="searchInput"
+                  name='searchInput'
+                  id='searchInput'
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <MdSearch className={styles.searchIndicator} />

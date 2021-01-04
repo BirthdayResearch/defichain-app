@@ -126,11 +126,11 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
       <Header>
         <Button
           onClick={() => handleActiveTab(CREATE_DCT)}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.tokens.dctDistribution.back')}
           </span>
         </Button>
@@ -138,22 +138,22 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
           {I18n.t('containers.tokens.dctDistribution.dctDistribution')}
         </h1>
         <ButtonGroup>
-          <Button color="link" onClick={() => setuploadCsv(true)}>
+          <Button color='link' onClick={() => setuploadCsv(true)}>
             <MdFileUpload />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.tokens.dctDistribution.uploadCsv')}
             </span>
           </Button>
-          <Button color="link" onClick={() => handleAddNewAddress()}>
+          <Button color='link' onClick={() => handleAddNewAddress()}>
             <MdAdd />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.tokens.dctDistribution.addAddress')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className="content">
-        <section className="h-100">
+      <div className='content'>
+        <section className='h-100'>
           <AddressList
             csvData={csvData}
             handleDeleteAll={handleDeleteAll}
@@ -167,7 +167,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
             centered={true}
             toggle={() => setuploadCsv(false)}
           >
-            <ModalBody className="p-5">
+            <ModalBody className='p-5'>
               <CsvReader
                 handleOnDrop={handleOnDrop}
                 handleOnError={handleOnError}
@@ -187,21 +187,21 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
                 onError={handleScanError}
                 onScan={handleScan}
                 showViewFinder={false}
-                className="qr-scanner-preview w-100"
+                className='qr-scanner-preview w-100'
               />
             </ModalBody>
           </Modal>
         </section>
       </div>
-      <footer className="footer-bar">
+      <footer className='footer-bar'>
         <div
           className={classnames({
             'd-none': IsVerifyingCollateralModalOpen,
           })}
         >
-          <Row className="justify-content-between align-items-center">
-            <Col className="col-auto">
-              <div className="caption-secondary">
+          <Row className='justify-content-between align-items-center'>
+            <Col className='col-auto'>
+              <div className='caption-secondary'>
                 {I18n.t('containers.tokens.createToken.dfiRequired')}
               </div>
               <div>
@@ -210,17 +210,17 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
                 {'DFI'}
               </div>
             </Col>
-            <Col className="d-flex justify-content-end">
+            <Col className='d-flex justify-content-end'>
               <Button
                 to={TOKENS_PATH}
                 tag={NavLink}
-                color="link"
-                className="mr-3"
+                color='link'
+                className='mr-3'
               >
                 {I18n.t('containers.tokens.createToken.cancel')}
               </Button>
               <Button
-                color="primary"
+                color='primary'
                 disabled={!csvData.length}
                 onClick={() => {
                   setIsVerifyingCollateralModalOpen(true);
@@ -237,11 +237,11 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
             'd-none': !IsVerifyingCollateralModalOpen,
           })}
         >
-          <div className="footer-sheet">
-            <dl className="row">
-              <dd className="col-12">
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dd className='col-12'>
                 <Spinner />
-                <span className="mb-0">
+                <span className='mb-0'>
                   {I18n.t(
                     'containers.tokens.dctDistribution.verifyingCollateral',
                   )}

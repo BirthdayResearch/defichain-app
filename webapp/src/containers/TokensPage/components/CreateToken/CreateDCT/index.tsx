@@ -90,11 +90,11 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
         <Button
           to={TOKENS_PATH}
           tag={NavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.tokens.createToken.back')}
           </span>
         </Button>
@@ -104,30 +104,30 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
       </Header>
-      <div className="content">
+      <div className='content'>
         <section>
           <Form>
-            <FormGroup className="form-label-group">
+            <FormGroup className='form-label-group'>
               <Input
-                type="text"
+                type='text'
                 placeholder={I18n.t('containers.tokens.createToken.name')}
-                name="name"
-                id="name"
+                name='name'
+                id='name'
                 value={formState.name}
                 onChange={handleChange}
                 valid={formState.name.length > 0}
                 invalid={formState.name.length > 128}
               />
-              <Label for="message">
+              <Label for='message'>
                 {I18n.t('containers.tokens.createToken.name')}
               </Label>
             </FormGroup>
-            <FormGroup className="form-label-group">
+            <FormGroup className='form-label-group'>
               <Input
-                type="text"
+                type='text'
                 placeholder={I18n.t('containers.tokens.createToken.symbol')}
-                name="symbol"
-                id="symbol"
+                name='symbol'
+                id='symbol'
                 value={formState.symbol}
                 onChange={handleChange}
                 required
@@ -135,7 +135,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 invalid={formState.symbol.length > 8}
                 disabled={isUpdate}
               />
-              <Label for="message">
+              <Label for='message'>
                 {I18n.t('containers.tokens.createToken.symbol')}
               </Label>
             </FormGroup>

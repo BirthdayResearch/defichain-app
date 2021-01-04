@@ -210,7 +210,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   return (
     <TabContent activeTab={activeTab}>
       <TabPane tabId={CREATE_DCT}>
-        <div className="main-wrapper position-relative">
+        <div className='main-wrapper position-relative'>
           <CreateDCT
             isUpdate={!isEmpty(tokenInfo) && !!id}
             handleChange={handleChange}
@@ -232,7 +232,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
         </div>
       </TabPane>
       <TabPane tabId={DCT_DISTRIBUTION}>
-        <div className="main-wrapper position-relative">
+        <div className='main-wrapper position-relative'>
           <DCTDistribution
             setIsVerifyingCollateralModalOpen={
               setIsVerifyingCollateralModalOpen

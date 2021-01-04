@@ -134,7 +134,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   };
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
@@ -144,11 +144,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         <Button
           to={TOKENS_PATH}
           tag={RRNavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.tokens.tokenInfo.back')}
           </span>
         </Button>
@@ -163,16 +163,16 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
         </ButtonGroup>} */}
         {tokenInfo.hash !== '0' && tokenInfo.ismine && (
           <UncontrolledDropdown>
-            <DropdownToggle color="link" size="md">
+            <DropdownToggle color='link' size='md'>
               <MdMoreHoriz />
             </DropdownToggle>
             <DropdownMenu right>
               {tokenInfoMenu.map((data) => {
                 return (
                   <DropdownItem
-                    className="justify-content-between"
+                    className='justify-content-between'
                     key={data.value}
-                    name="collateralAddress"
+                    name='collateralAddress'
                     value={data.value}
                     onClick={() => handleDropDowns(data.value)}
                   >
@@ -190,26 +190,26 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           <Button
             to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
             tag={RRNavLink}
-            color="link"
-            className="text-right"
+            color='link'
+            className='text-right'
           >
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.tokens.tokenInfo.mint')}
             </span>
           </Button>
         </div>
       )}
-      <div className="content">
-        <section className="mb-5">
-          <Row className="mb-4">
-            <Col md="6">
+      <div className='content'>
+        <section className='mb-5'>
+          <Row className='mb-4'>
+            <Col md='6'>
               <TokenAvatar
                 symbol={tokenInfo.symbolKey}
-                size="64px"
+                size='64px'
                 textSizeRatio={2}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.name')}
                 value={(tokenInfo.name || '').toString()}
@@ -219,25 +219,25 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
                 value={(tokenInfo.symbolKey || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.decimals')}
                 value={(tokenInfo.decimal || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.limit')}
                 value={(tokenInfo.limit || '0').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.minitingSupport')}
                 value={(tokenInfo.mintable || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.tradeable')}
                 value={(tokenInfo.tradeable || '').toString()}
@@ -264,32 +264,32 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           setActiveTab={setActiveTab}
         /> */}
       </div>
-      <footer className="footer-bar">
+      <footer className='footer-bar'>
         <div
           className={classnames({
             'd-none': isConfirmationModalOpen !== 'confirm',
           })}
         >
-          <div className="footer-sheet">
-            <dl className="row">
-              <dd className="col-12">
-                <span className="h2 mb-0">
+          <div className='footer-sheet'>
+            <dl className='row'>
+              <dd className='col-12'>
+                <span className='h2 mb-0'>
                   {I18n.t('containers.tokens.tokenInfo.confirmation')}
                 </span>
               </dd>
             </dl>
           </div>
-          <Row className="justify-content-between align-items-center">
-            <Col className="d-flex justify-content-end">
+          <Row className='justify-content-between align-items-center'>
+            <Col className='d-flex justify-content-end'>
               <Button
-                color="link"
-                className="mr-3"
+                color='link'
+                className='mr-3'
                 onClick={() => setIsConfirmationModalOpen('default')}
               >
                 {I18n.t('containers.tokens.tokenInfo.noButtonText')}
               </Button>
               <Button
-                color="primary"
+                color='primary'
                 onClick={() => {
                   setAllowCalls(true);
                   destroyToken(`${id}#${hash}`);
@@ -298,7 +298,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               >
                 {I18n.t('containers.tokens.tokenInfo.yesButtonText')}
                 &nbsp;
-                <span className="timer">{wait > 0 ? wait : ''}</span>
+                <span className='timer'>{wait > 0 ? wait : ''}</span>
               </Button>
             </Col>
           </Row>
@@ -308,15 +308,15 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             'd-none': isConfirmationModalOpen !== 'success',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
-              <MdCheckCircle className="footer-sheet-icon" />
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <MdCheckCircle className='footer-sheet-icon' />
               <p>{`${I18n.t('containers.tokens.tokenInfo.successText')}`}</p>
               <p>{destroyTokenData}</p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={TOKENS_PATH} tag={RRNavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
               {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
             </Button>
           </div>
@@ -326,8 +326,8 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             'd-none': isConfirmationModalOpen !== 'failure',
           })}
         >
-          <div className="footer-sheet">
-            <div className="text-center">
+          <div className='footer-sheet'>
+            <div className='text-center'>
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
@@ -337,8 +337,8 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               <p>{isErrorDestroyingToken}</p>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <Button color="primary" to={TOKENS_PATH} tag={RRNavLink}>
+          <div className='d-flex align-items-center justify-content-center'>
+            <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
               {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
             </Button>
           </div>

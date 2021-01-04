@@ -71,11 +71,11 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   return (
     <>
       {!isWalletCreatedFlag ? (
-        <div className="main-wrapper">
+        <div className='main-wrapper'>
           <CreateOrRestoreWalletPage history={history} />
         </div>
       ) : (
-        <div className="main-wrapper">
+        <div className='main-wrapper'>
           <Helmet>
             <title>
               {getPageTitle(
@@ -94,7 +94,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </Button>
           </ButtonGroup> */}
           </Header>
-          <div className="content">
+          <div className='content'>
             <WalletTokenCard
               handleCardClick={handleCardClick}
               token={{
