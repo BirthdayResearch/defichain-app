@@ -16,8 +16,8 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       onClick={() => props.handleCardClick(data.symbol, data.hash)}
     >
       <CardBody className={styles.cardBody}>
-        <Row className="mb-2">
-          <Col md="8" className="d-flex align-items-center">
+        <Row className='mb-2'>
+          <Col md='8' className='d-flex align-items-center'>
             <div>
               <span className={styles.tokenName}>
                 {data.isLPS
@@ -30,10 +30,10 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
             </div>
           </Col>
           {
-            <Col md="4" className={`${styles.tokenCardIcon}`}>
+            <Col md='4' className={`${styles.tokenCardIcon}`}>
               <TokenAvatar
                 symbol={data.symbolKey}
-                size="32px"
+                size='32px'
                 textSizeRatio={2}
               />
             </Col>
