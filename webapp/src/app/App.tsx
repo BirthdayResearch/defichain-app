@@ -70,14 +70,14 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   return (
     <>
       {isRunning ? (
-        <div id="app">
+        <div id='app'>
           <Helmet>
             <title>{getPageTitle()}</title>
           </Helmet>
           <Sidebar />
           <main>
             <TransitionGroup
-              className="transition-group"
+              className='transition-group'
               childFactory={(child) =>
                 React.cloneElement(child, {
                   classNames: transition[0],
