@@ -9,6 +9,7 @@ import frTranslationMessages from './languages/fr.json';
 import zhsTranslationMessages from './languages/zhs.json';
 import zhtTranslationMessages from './languages/zht.json';
 import nlTranslationMessages from './languages/nl.json';
+import rsTranslationMessages from './languages/ru.json';
 import {
   LANG_VARIABLE,
   ENGLISH,
@@ -18,8 +19,10 @@ import {
   CHINESE_SIMPLIFIED,
   CHINESE_TRADITIONAL,
   DUTCH,
+  RUSSIAN,
 } from '../constants';
 import PersistentStore from '../utils/persistentStore';
+import _ from 'lodash';
 
 const formatTranslationMessages = (locale, messages) => {
   const flattenFormattedMessages = (formattedMessages, key) => {
@@ -44,6 +47,7 @@ const translationsObject = {
     zhtTranslationMessages
   ),
   [DUTCH]: formatTranslationMessages(DUTCH, nlTranslationMessages),
+  [RUSSIAN]: formatTranslationMessages(RUSSIAN, rsTranslationMessages),
 };
 
 export const setupI18n = (store) => {
@@ -79,6 +83,8 @@ export const getLocales = (lang: string) => {
       return CHINESE_TRADITIONAL;
     case DUTCH:
       return DUTCH;
+    case RUSSIAN:
+      return RUSSIAN;
     default:
       return ENGLISH;
   }
