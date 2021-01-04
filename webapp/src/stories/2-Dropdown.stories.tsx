@@ -54,6 +54,9 @@ export const Dropdowns = () => (
             <DropdownItem className='d-flex justify-content-between' value='nl'>
               <span>Dutch</span>
             </DropdownItem>
+            <DropdownItem className='d-flex justify-content-between' value='ru'>
+              <span>Russian</span>
+            </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       </Col>
