@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   padding: $table-cell-padding-y 0;
+  width: 100%;
 }
 
 .label {
@@ -19,11 +20,9 @@
 
 .value {
   position: relative;
-  overflow: hidden;
-  overflow-wrap: break-word;
-  text-align: right;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  width: inherit;
 
   svg {
     display: block;

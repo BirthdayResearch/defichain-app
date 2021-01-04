@@ -20,9 +20,9 @@ import * as Utility from '../../../utils/utility';
 import { MAINNET } from '../../../constants';
 const networkName = MAINNET.toLowerCase();
 describe('Wallet page service unit test', () => {
-  it('should check for handelGetPaymentRequest', () => {
+  it('should check for handleGetPaymentRequest', () => {
     const PersistentStore = mockPersistentStore(null, null);
-    service.handelGetPaymentRequest(networkName);
+    service.handleGetPaymentRequest(networkName);
     expect(PersistentStore.get).toBeCalledTimes(1);
   });
 

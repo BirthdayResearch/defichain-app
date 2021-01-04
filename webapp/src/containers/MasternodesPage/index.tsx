@@ -24,6 +24,7 @@ import { MasterNodeObject } from './masterNodeInterface';
 import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
+import { getPageTitle } from '../../utils/utility';
 
 interface MasternodesPageProps extends RouteComponentProps {
   createMasterNode: () => void;
@@ -192,7 +193,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.masterNodes.masterNodesPage.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}</title>
       </Helmet>
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>

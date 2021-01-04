@@ -23,6 +23,7 @@ import { connect } from 'react-redux';
 import PairIcon from '../../../../components/PairIcon';
 import { MdAdd, MdInfoOutline, MdRemove } from 'react-icons/md';
 import BigNumber from 'bignumber.js';
+import NumberMask from '../../../../components/NumberMask';
 
 interface AvailablePoolPairsListProps {
   searchQuery: string;
@@ -37,6 +38,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
   const { searchQuery, poolPairList, isLoadingPoolPairList } = props;
   const [tableData, settableData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
+  const [totalValueLocked, setTotalValueLocked] = useState<number>(0);
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = poolPairList.length;
@@ -64,6 +66,15 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     }
   }, [poolPairList, searchQuery]);
 
+  useEffect(() => {
+    let tvl = 0;
+    tableData.forEach((pool) => {
+        const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
+        tvl += +poolAmt|| 0;
+    });
+    setTotalValueLocked(tvl);
+  }, [tableData]);
+
   const loadHtml = () => {
     if (isLoadingPoolPairList) {
       return I18n.t('containers.liquidity.liquidityPage.loading');
@@ -79,6 +90,12 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     }
     return (
       <>
+        <div>
+          <label htmlFor="totalLiquidity">{I18n.t('containers.swap.poolTab.totalValueLocked')}</label>
+          <h6 id="totalLiquidity">
+            <NumberMask value={Number(totalValueLocked).toFixed(2)} defaultValue={0} />
+          </h6>
+        </div>
         <Card className={styles.card}>
           <div className={`${styles.tableResponsive} table-responsive-xl`}>
             <Table className={styles.table}>
@@ -123,7 +140,14 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       <div>{poolpair.symbol}</div>
                     </td>
                     <td>
-                      <div>{poolpair.totalLiquidityInUSDT}</div>
+                      <div>
+                        <NumberMask
+                          value={Number(poolpair.totalLiquidityInUSDT).toFixed(
+                            2
+                          )}
+                          defaultValue={0}
+                        />
+                      </div>
                     </td>
                     {/* <td>
                       <div>{poolpair.operatorAuthAddress}</div>

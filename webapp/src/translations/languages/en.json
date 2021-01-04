@@ -1,6 +1,8 @@
 {
   "components": {
-    "keyValueLi": { "copied": "Copied!" },
+    "keyValueLi": {
+      "copied": "Copied!"
+    },
     "syncStatus": {
       "synchronized": "Synchronized",
       "syncing": "Synchronizing",
@@ -39,7 +41,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Blockchain – DeFi app",
+        "title": "Blockchain",
         "blockchain": "Blockchain",
         "explorer": "Explorer"
       },
@@ -85,19 +87,19 @@
       }
     },
     "errors": {
-      "title": "DFI Block Processing Center – DeFi app",
+      "title": "DFI Block Processing Center",
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back"
     },
     "exchangePage": {
-      "title": "Exchange – DeFi app",
+      "title": "Exchange",
       "exchange": "Exchange",
       "section": "Section",
       "footerBar": "Footer bar"
     },
     "helpPage": {
-      "title": "Help – DeFi app",
+      "title": "Help",
       "help": "Help",
       "helpPageHeader": "Connect with the community with these options:",
       "telegramEn": "Telegram community (EN)",
@@ -112,7 +114,7 @@
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Masternodes – DeFi app",
+        "title": "Masternodes",
         "createMasterNode": "Create",
         "masterNodes": "Masternodes",
         "statistics": "Statistics",
@@ -179,11 +181,14 @@
         "successText": "Success",
         "backToMasternodePage": "Back to masternode"
       },
-      "masternodeTab": { "myMasternodes": "Mine", "network": "Network" }
+      "masternodeTab": {
+        "myMasternodes": "Mine",
+        "network": "Network"
+      }
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens – DeFi app",
+        "title": "Tokens",
         "loading": "Loading…",
         "createToken": "Create",
         "tokens": "Tokens",
@@ -200,7 +205,8 @@
           "decimal": "Decimal",
           "limit": "Limit",
           "mintingSupport": "Minting support",
-          "tradeable": "Tradeable"
+          "tradeable": "Tradeable",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -210,7 +216,8 @@
           "tradeable": "Tradeable",
           "type": "Type",
           "decimal": "Decimal",
-          "limit": "Limit"
+          "limit": "Limit",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
@@ -317,9 +324,9 @@
     },
     "liquidity": {
       "liquidityPage": {
-        "title": "Liquidity – DeFi app",
+        "title": "Liquidity",
         "yourLiquidity": "Your liquidity",
-        "yourLiquidityInfo": "You can now liquidity mine for up to 300% APY. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns of up to 300%. You may withdraw at any time.",
+        "yourLiquidityInfo": "You can now liquidity mine for potential high yields. Pick a pool pair below, supply liquidity to power the DEX (Decentralized Exchange) to start earning fees and annual returns. You may withdraw at any time.",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
@@ -335,7 +342,7 @@
         "txHash": "Transaction Hash"
       },
       "liquidityInfo": {
-        "title": "Liquidity – DeFiChain Client",
+        "title": "Liquidity",
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
@@ -345,14 +352,14 @@
         "totalReward": "Total reward",
         "pooledDFI": "Pooled DFI",
         "dfiPoolShare": "DFI pool share",
-        "poolShare": "pool share"
+        "poolShare": "Pool share percentage"
       }
     },
     "swap": {
       "swapPage": {
-        "title": "DEX – DeFiChain Client",
+        "title": "DEX",
         "decentralizedExchange": "Decentralized Exchange",
-        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) - a non-custodial exchange that is completely and truly decentralized.",
+        "decentralizedExchangeInfo": "Welcome to the DefiChain DEX (Decentralized Exchange) – a non-custodial exchange that is completely and truly decentralized.",
         "swap": "Swap",
         "pool": "Pool",
         "liquidity": "Liquidity",
@@ -369,7 +376,7 @@
         "tokens": "Tokens",
         "readySwap": "Ready to swap",
         "price": "Price",
-        "minimumReceived": "Minimum received",
+        "minimumReceived": "Amount received (Subject to slippage)",
         "priceImpact": "Price impact",
         "liquidityProviderFee": "Liquidity provider fee",
         "verifyTransactionSwap": "Please verify transaction and press SWAP",
@@ -401,9 +408,14 @@
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
-        "tokensTransferred": "Tokens transferred"
+        "tokensTransferred": "Tokens transferred",
+        "dexExplorer": "Dex Explorer",
+        "insufficientUtxos": "Insufficient UTXOs to swap"
       },
-      "swapTab": { "from": "From", "to": "To" },
+      "swapTab": {
+        "from": "From",
+        "to": "To"
+      },
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
@@ -415,7 +427,8 @@
         "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more.",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
-        "addLiquidity": "ADD LIQUIDITY"
+        "addLiquidity": "ADD LIQUIDITY",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -451,7 +464,8 @@
         "address": "Address",
         "label": "Label",
         "selected": "Selected",
-        "receiveSharesAt": "Receive shares At"
+        "receiveSharesAt": "Receive shares at",
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
       },
       "removeLiquidity": {
         "address": "Address",
@@ -484,7 +498,7 @@
       }
     },
     "settings": {
-      "title": "Settings – DeFi app",
+      "title": "Settings",
       "settings": "Settings",
       "general": "General",
       "display": "Display",
@@ -492,6 +506,8 @@
       "launchAtLogin": "Launch at login",
       "reindexOption": "ReIndex Option",
       "reindexAfterSaving": "Reindex after saving",
+      "refreshUtxos": "Refresh UTXOs",
+      "refreshUtxosAfterSaving": "Refresh Utxos after saving",
       "minimizedAtLaunch": "Minimized at launch",
       "storage": "Storage",
       "pruneBlockStorage": "Prune block storage",
@@ -576,9 +592,9 @@
         "backToWalletPage": "Close"
       },
       "sendPage": {
-        "sendTitle": "Send – DeFi app",
+        "sendTitle": "Send",
         "wallet": "Wallet",
-        "sendDFITitle": "Send DFI – DeFi app",
+        "sendDFITitle": "Send DFI",
         "sendDFI": "Send DFI",
         "send": "Send",
         "amount": "Amount",
@@ -601,7 +617,7 @@
         "insufficientUtxos": "Insufficient UTXOS"
       },
       "receivePage": {
-        "receiveDFITitle": "Receive DFI – DeFi app",
+        "receiveDFITitle": "Receive DFI",
         "wallet": "Wallet",
         "receiveDFI": "Receive DFI",
         "optional": "Optional",
@@ -621,7 +637,15 @@
         "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
-        "addressType": "Address type"
+        "addressType": "Address type",
+        "automaticallyGenerateNewAddress": "Automatically generate a new address",
+        "showAdvanceOptions": "Show advance options",
+        "default": "Default",
+        "legacy": "Legacy",
+        "addReceiveAddress": "Add a receive address",
+        "address": "Address",
+        "enterAnAddress": "Enter an address in your account",
+        "invalidAddress": "Invalid address. Please check this belongs to you, the current address has been used."
       },
       "paymentRequests": {
         "time": "Time",
@@ -632,10 +656,11 @@
       "paymentRequestList": {
         "label": "Label",
         "address": "Address",
-        "created": "Created"
+        "created": "Created",
+        "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id} – DeFi app",
+        "paymentRequestTitle": "Payment request %{id}",
         "paymentRequest": "Payment request",
         "wallet": "Wallet",
         "delete": "Delete",
@@ -647,10 +672,11 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "TOKENS",
-        "walletDeFiApp": "Wallet – DeFi app",
-        "walletDefiClient": "Wallet – DeFi app",
-        "wallet": "Wallet",
+        "tokens": "Tokens",
+        "walletDeFiApp": "Wallet",
+        "walletDefiClient": "Wallet",
+        "wallet": "wallet",
+        "wallets": "Wallets",
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
@@ -661,11 +687,12 @@
         "availableBalance": "Available balance",
         "pending": "Pending",
         "updateAvailableLabel": "Update available",
-        "includeRewards": "Include Rewards",
+        "includeRewards": "Include rewards",
         "loading": "Loading...",
         "category": "Category",
         "blockHeight": "BlockHeight",
-        "amount": "Amount"
+        "amount": "Amount",
+        "txidNotApplicable": "Transaction ID not applicable"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -685,12 +712,18 @@
         "amount": "Amount",
         "hash": "Hash",
         "paginationRange": "%{from} – %{to} of %{total} transaction",
-        "noTransactions": "No transactions available"
+        "noTransactions": "No transactions available",
+        "accountToAccount": "Account to account",
+        "utxosToAccount": "UTXOs to account",
+        "addPoolLiquidity": "Add liquidity",
+        "sent": "Sent",
+        "removePoolLiquidity": "Remove liquidity",
+        "accountToUtxos": "Account to UTXOs"
       }
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "Console – DeFi app",
+        "consoleDeFiApp": "Console",
         "defiCliCommand": "Enter DeFi-cli command",
         "console": "Console",
         "submit": "Submit",
@@ -708,7 +741,10 @@
           }
         ]
       },
-      "consoleResultPage": { "resultPage": "CLI result", "back": "Back" }
+      "consoleResultPage": {
+        "resultPage": "CLI result",
+        "back": "Back"
+      }
     }
   },
   "alerts": {
@@ -726,6 +762,7 @@
     "importSuccess": "Wallet imported successfully",
     "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
     "restartNode": "Restarting node. This may take a few minutes.",
+    "refreshUtxos": "Refreshing Utxos it may take some time.",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
@@ -783,5 +820,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
+  },
+  "general": {
+    "defiApp": "DeFi app"
   }
 }

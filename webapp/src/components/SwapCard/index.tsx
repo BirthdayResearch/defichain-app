@@ -16,7 +16,8 @@ interface SwapCardProps {
   formState: any;
   handleChange: (e) => void;
   setMaxValue: (field: string, value: string) => void;
-  isLoadingTestPoolSwap: boolean;
+  isLoadingTestPoolSwapTo: boolean;
+  isLoadingTestPoolSwapFrom: boolean;
   handleDropdown: (
     hash: string,
     field1: string,
@@ -39,7 +40,8 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
     handleDropdown,
     dropdownLabel,
     setMaxValue,
-    isLoadingTestPoolSwap,
+    isLoadingTestPoolSwapTo,
+    isLoadingTestPoolSwapFrom,
   } = props;
 
   return (
@@ -49,11 +51,34 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
         <div className={styles.swapInputGroup}>
           <div className={styles.inputCol}>
             {name === 1 ? (
+              !isLoadingTestPoolSwapFrom ? (
+                <Input
+                  className={styles.swapInput}
+                  type='text'
+                  pattern='[0-9.,]'
+                  inputMode='decimal'
+                  placeholder={I18n.t('components.swapCard.inputLabel')}
+                  name={`amount${name}`}
+                  id='input'
+                  value={formState[`amount${name}`]}
+                  onChange={(e) => {
+                    if (Number(e.target.value) >= 0) {
+                      handleChange(e);
+                    }
+                  }}
+                  disabled={!formState[`hash${name}`]}
+                />
+              ) : (
+                <div className={classNames(styles.swapInput, 'form-control')}>
+                  <Loader />
+                </div>
+              )
+            ) : !isLoadingTestPoolSwapTo ? (
               <Input
                 className={styles.swapInput}
                 type='text'
                 pattern='[0-9.,]'
-                inputmode='decimal'
+                inputMode='decimal'
                 placeholder={I18n.t('components.swapCard.inputLabel')}
                 name={`amount${name}`}
                 id='input'
@@ -67,7 +92,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
               />
             ) : (
               <div className={classNames(styles.swapInput, 'form-control')}>
-                {!isLoadingTestPoolSwap ? formState[`amount2`] : <Loader />}
+                <Loader />
               </div>
             )}
           </div>

@@ -71,10 +71,10 @@ export const createMnemonicIpcRenderer = async (mnemonic, network) => {
   }
 };
 
-export const enableMenuResetWalletBtn = () => {
+export const enableMenuResetWalletBtn = (isWalletCreatedFlag: boolean) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('enable-reset');
+    ipcRenderer.send('enable-reset', { isWalletCreatedFlag });
   }
 };
 export default initUpdateAppIpcRenderers;

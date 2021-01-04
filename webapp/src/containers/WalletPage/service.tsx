@@ -3,7 +3,6 @@ import RpcClient from '../../utils/rpc-client';
 import {
   PAYMENT_REQUEST,
   BLOCKCHAIN_INFO_CHAIN_TEST,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
   RECIEVE_CATEGORY_LABEL,
@@ -22,8 +21,8 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  getSmallerAmount,
   handleAccountToAccountConversion,
+  hdWalletCheck,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -39,16 +38,21 @@ const handleLocalStorageName = (networkName) => {
   return PAYMENT_REQUEST;
 };
 
-export const handelGetPaymentRequest = (networkName) => {
+export const handleGetPaymentRequest = (networkName) => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
 };
 
-export const handelAddReceiveTxns = (data, networkName) => {
+export const handelAddReceiveTxns = async (data, networkName) => {
   const localStorageName = handleLocalStorageName(networkName);
   const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+  data.hdSeed = await hdWalletCheck(data.address);
   const paymentData = [data, ...initialData];
+  if (!data.automaticallyGenerateNewAddress) {
+    const rpcClient = new RpcClient();
+    await rpcClient.setLabel(data.address, data.label);
+  }
   PersistentStore.set(localStorageName, paymentData);
   return paymentData;
 };
@@ -142,7 +146,13 @@ export const sendToAddress = async (
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
-  let accountToAccountAmount = new BigNumber(0);
+
+  log.info({
+    toAddress,
+    sendAmount: amount,
+    subtractfeefromamount,
+    utxoDFI: regularDFI,
+  });
   if (regularDFI >= amount) {
     try {
       const data = await rpcClient.sendToAddress(
@@ -150,43 +160,43 @@ export const sendToAddress = async (
         amount,
         subtractfeefromamount
       );
+      log.info(`sent dfi successfull=======${data}`);
       return data;
     } catch (err) {
-      log.error(`Got error in sendToAddress: ${err}`);
+      const errorMessage = getErrorMessage(err);
+      log.error(`Got error in sendToAddress: ${errorMessage}`);
       throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
     }
   } else {
     try {
+      const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
       const {
         address: fromAddress,
         amount: maxAmount,
       } = await getAddressForSymbol('0', addressesList);
-      if (Number(amount) > maxAmount) {
-        accountToAccountAmount = await handleAccountToAccountConversion(
-          addressesList,
-          fromAddress,
-          '0'
-        );
-      }
-      const txId = await rpcClient.sendToAddress(
+      log.info({ address: fromAddress, maxAmount, accountBalance });
+
+      const txHash = await sendTokensToAddress(
         fromAddress,
-        Number((10 / 100) * amount).toFixed(8),
-        subtractfeefromamount
+        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
       );
-      await getTransactionInfo(txId);
+      log.info({ accountBalance, sendTokenTxHash: txHash });
+      await getTransactionInfo(txHash);
+      // }
+
       const balance = await getBalanceForSymbol(fromAddress, '0');
-      const finalBalance = getSmallerAmount(
-        balance,
-        accountToAccountAmount.plus(maxAmount).toFixed(4)
-      );
+      log.info({ consolidateAccountBalance: balance });
+
       const hash = await rpcClient.accountToUtxos(
         fromAddress,
         fromAddress,
-        `${finalBalance.toFixed(2)}@DFI`
+        `${balance}@DFI`
       );
+      log.info(`account to utxo tx id=======${hash}`);
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
+      log.info({ regularDFIAfterTxFee });
       if (regularDFIAfterTxFee < amount) {
         throw new Error('Insufficient DFI in account');
       } else if (regularDFIAfterTxFee === amount) {
@@ -195,7 +205,8 @@ export const sendToAddress = async (
         return await sendToAddress(toAddress, amount, false);
       }
     } catch (error) {
-      log.error(`Got error in sendToAddress: ${error}`);
+      const errorMessage = getErrorMessage(error);
+      log.error(`Got error in sendToAddress: ${errorMessage}`);
       throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
     }
   }
@@ -208,12 +219,7 @@ export const accountToAccount = async (
 ) => {
   try {
     const rpcClient = new RpcClient();
-    const txId = await rpcClient.sendToAddress(
-      fromAddress,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId);
+
     const data = await rpcClient.accountToAccount(
       fromAddress,
       toAddress,
@@ -222,6 +228,20 @@ export const accountToAccount = async (
     return data;
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
+    throw new Error(getErrorMessage(err));
+  }
+};
+
+export const sendTokensToAddress = async (
+  toAddress: string,
+  amount: string
+) => {
+  try {
+    const rpcClient = new RpcClient();
+    const data = await rpcClient.sendTokensToAddress(toAddress, amount);
+    return data;
+  } catch (err) {
+    log.error(`Got error in sendTokensToAddress: ${err}`);
     throw new Error(getErrorMessage(err));
   }
 };
@@ -284,6 +304,12 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
   });
 
   return await Promise.all(transformedData);
+};
+
+export const handleFetchAccountHistoryCount = async (no_rewards, token) => {
+  const rpcClient = new RpcClient();
+  const count = await rpcClient.accountHistoryCount(no_rewards, token);
+  return count;
 };
 
 export const handleFetchAccounts = async () => {
@@ -390,9 +416,9 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
 
 export const getListAccountHistory = (query: {
   limit: number;
-  blockHeight?: number;
-  no_rewards?: boolean;
   token: string;
+  no_rewards?: boolean;
+  blockHeight?: number;
 }) => {
   const rpcClient = new RpcClient();
   return rpcClient.getListAccountHistory(query);

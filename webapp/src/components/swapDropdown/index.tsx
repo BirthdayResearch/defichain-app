@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
 import { filterByValueMap, getIcon } from '../../utils/utility';
+import NumberMask from '../NumberMask';
 
 import SwapSearchBar from '../SwapSearchBar';
 import TokenAvatar from '../TokenAvatar';
@@ -70,7 +71,7 @@ const SwapDropdown: React.FunctionComponent<SwapDropdownProps> = (
               {symbol}
             </div>
             <div className={styles.dropDownItemRight}>
-              {balanceTokenInfo.balance}
+              <NumberMask value={balanceTokenInfo.balance} />
             </div>
           </DropdownItem>
         );

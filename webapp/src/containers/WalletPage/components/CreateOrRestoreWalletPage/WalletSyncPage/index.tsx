@@ -4,13 +4,14 @@ import { I18n } from 'react-redux-i18n';
 import { MdSync } from 'react-icons/md';
 import Header from '../../../../HeaderComponent';
 import styles from './walletSyncPage.module.scss';
+import { getPageTitle } from '../../../../../utils/utility';
 
 const WalletSyncPage: React.FunctionComponent = () => {
   return (
     <div>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.createOrRestoreWalletPage.title')}
+          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
         </title>
       </Helmet>
       <Header>
