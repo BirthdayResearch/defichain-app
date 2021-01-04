@@ -20,7 +20,9 @@ const BlockchainPage = () => {
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.blockChainPage.blockChainPage.title'))}
+          {getPageTitle(
+            I18n.t('containers.blockChainPage.blockChainPage.title')
+          )}
         </title>
       </Helmet>
       <Header>

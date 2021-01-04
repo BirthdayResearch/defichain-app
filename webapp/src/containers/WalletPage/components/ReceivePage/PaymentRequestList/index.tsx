@@ -88,7 +88,9 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                       <td></td>
                       <td>{request.label}</td>
                       <td className={styles.addressContainer}>
-                        <div className={styles.ellipsisValue}>{request.address}</div>
+                        <div className={styles.ellipsisValue}>
+                          {request.address}
+                        </div>
                         <div className={styles.ellipsisValue}>
                           {!request.hdSeed && (
                             <span className='text-danger'>

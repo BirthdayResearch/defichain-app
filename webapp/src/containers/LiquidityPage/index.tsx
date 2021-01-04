@@ -51,7 +51,9 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.liquidity.liquidityPage.liquidityPools')}</h1>

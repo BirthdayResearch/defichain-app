@@ -11,7 +11,9 @@ const WalletSyncPage: React.FunctionComponent = () => {
     <div>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.createOrRestoreWalletPage.title')
+          )}
         </title>
       </Helmet>
       <Header>

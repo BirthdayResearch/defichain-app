@@ -69,8 +69,8 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
   useEffect(() => {
     let tvl = 0;
     tableData.forEach((pool) => {
-        const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
-        tvl += +poolAmt|| 0;
+      const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
+      tvl += +poolAmt || 0;
     });
     setTotalValueLocked(tvl);
   }, [tableData]);
@@ -91,9 +91,14 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     return (
       <>
         <div>
-          <label htmlFor="totalLiquidity">{I18n.t('containers.swap.poolTab.totalValueLocked')}</label>
-          <h6 id="totalLiquidity">
-            <NumberMask value={Number(totalValueLocked).toFixed(2)} defaultValue={0} />
+          <label htmlFor='totalLiquidity'>
+            {I18n.t('containers.swap.poolTab.totalValueLocked')}
+          </label>
+          <h6 id='totalLiquidity'>
+            <NumberMask
+              value={Number(totalValueLocked).toFixed(2)}
+              defaultValue={0}
+            />
           </h6>
         </div>
         <Card className={styles.card}>
