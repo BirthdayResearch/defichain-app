@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {
-  restartNode,
-} from '../../../utils/isElectron';
+import { restartNode } from '../../../utils/isElectron';
 import {
   closeGeneralReIndexModal,
   isRestartLoader,
@@ -20,7 +18,7 @@ interface GeneralReIndexModalProps {
 }
 
 const GeneralReIndexModal: React.FunctionComponent<GeneralReIndexModalProps> = (
-  props: GeneralReIndexModalProps
+  props: GeneralReIndexModalProps,
 ) => {
   const {
     closeGeneralReIndexModal,
@@ -38,14 +36,14 @@ const GeneralReIndexModal: React.FunctionComponent<GeneralReIndexModalProps> = (
   return (
     <Modal isOpen={isGeneralReindexModalOpen} centered>
       <ModalBody>
-        <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
+        <h1 className="h4">{I18n.t('alerts.reindexModelHeader')}</h1>
         <p>{I18n.t('alerts.restartAppWithReindexNotice')}</p>
       </ModalBody>
       <ModalFooter>
-        <Button size='sm' color='primary' onClick={restartAppWithReIndexing}>
+        <Button size="sm" color="primary" onClick={restartAppWithReIndexing}>
           {I18n.t('alerts.yesRestartAppWithReindex')}
         </Button>
-        <Button size='sm' className='ml-4' onClick={closeGeneralReIndexModal}>
+        <Button size="sm" className="ml-4" onClick={closeGeneralReIndexModal}>
           {I18n.t('alerts.noCloseApp')}
         </Button>
       </ModalFooter>
@@ -69,5 +67,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(GeneralReIndexModal);

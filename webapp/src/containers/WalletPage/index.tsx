@@ -20,7 +20,11 @@ import {
 import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit, getPageTitle, getSymbolKey } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  getPageTitle,
+  getSymbolKey,
+} from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
@@ -35,7 +39,7 @@ interface WalletPageProps extends RouteComponentProps {
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
-  props: WalletPageProps
+  props: WalletPageProps,
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');
@@ -67,22 +71,24 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const [pendingRefreshBalance, setPendingRefreshBalance] = useState(false);
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}
+        </title>
       </Helmet>
       <Header>
         <Button
           to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
             walletBalance,
-            unit
+            unit,
           )}&unit=${unit}`}
           tag={RRNavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.wallet.walletPage.wallets')}
           </span>
         </Button>
@@ -105,11 +111,11 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
-            color='link'
-            size='sm'
+            color="link"
+            size="sm"
           >
             <MdArrowUpward />
-            <span className='d-md-inline'>
+            <span className="d-md-inline">
               {I18n.t('containers.wallet.walletPage.send')}
             </span>
           </Button>
@@ -120,17 +126,17 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 : WALLET_RECEIVE_PATH
             }
             tag={RRNavLink}
-            color='link'
-            size='sm'
+            color="link"
+            size="sm"
           >
             <MdArrowDownward />
-            <span className='d-md-inline'>
+            <span className="d-md-inline">
               {I18n.t('containers.wallet.walletPage.receive')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <Row>
             <Col>

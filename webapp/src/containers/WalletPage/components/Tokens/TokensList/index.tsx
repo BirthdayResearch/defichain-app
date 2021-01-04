@@ -30,7 +30,7 @@ interface WalletTokensListProps extends RouteComponentProps {
 }
 
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
-  props: WalletTokensListProps
+  props: WalletTokensListProps,
 ) => {
   const { unit, history, isWalletCreatedFlag, openResetWalletDatModal } = props;
   const defaultPage = 1;
@@ -52,7 +52,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     const clone = cloneDeep(tokensList || accountTokens);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
-      pageNumber * pageSize
+      pageNumber * pageSize,
     );
     setCurrentPage(pageNumber);
     settableData(tableData);
@@ -65,19 +65,23 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 
   const handleCardClick = (symbol, hash, amount, address) => {
     props.history.push(
-      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
+      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`,
     );
   };
   return (
     <>
       {!isWalletCreatedFlag ? (
-        <div className='main-wrapper'>
+        <div className="main-wrapper">
           <CreateOrRestoreWalletPage history={history} />
         </div>
       ) : (
-        <div className='main-wrapper'>
+        <div className="main-wrapper">
           <Helmet>
-            <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
+            <title>
+              {getPageTitle(
+                I18n.t('containers.wallet.walletPage.walletDeFiApp'),
+              )}
+            </title>
           </Helmet>
           <Header>
             <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
@@ -90,7 +94,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </Button>
           </ButtonGroup> */}
           </Header>
-          <div className='content'>
+          <div className="content">
             <WalletTokenCard
               handleCardClick={handleCardClick}
               token={{

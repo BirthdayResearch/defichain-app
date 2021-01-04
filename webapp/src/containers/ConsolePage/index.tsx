@@ -8,9 +8,13 @@ import { getPageTitle } from '../../utils/utility';
 
 const ConsolePage: React.FunctionComponent = () => {
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.console.consolePage.consoleDeFiApp'))}</title>
+        <title>
+          {getPageTitle(
+            I18n.t('containers.console.consolePage.consoleDeFiApp'),
+          )}
+        </title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.console.consolePage.console')}</h1>

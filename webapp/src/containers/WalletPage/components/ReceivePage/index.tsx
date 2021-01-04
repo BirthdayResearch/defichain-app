@@ -13,7 +13,7 @@ import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
+  props: RouteComponentProps,
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');
@@ -22,9 +22,11 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenAddress = urlParams.get('address');
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -34,11 +36,11 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
               : WALLET_PAGE_PATH
           }
           tag={RRNavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline text-uppercase'>
+          <span className="d-lg-inline text-uppercase">
             {I18n.t('containers.wallet.receivePage.backButton')}
           </span>
         </Button>
@@ -47,16 +49,16 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
           <Button
             to={WALLET_CREATE_RECEIVE_REQUEST}
             tag={RRNavLink}
-            color='link'
+            color="link"
           >
             <MdAdd />
-            <span className='d-lg-inline'>
+            <span className="d-lg-inline">
               {I18n.t('containers.wallet.receivePage.newAddressButton')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <PaymentRequestList />
         </section>

@@ -42,7 +42,7 @@ interface MasternodesPageProps extends RouteComponentProps {
 }
 
 const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
-  props: MasternodesPageProps
+  props: MasternodesPageProps,
 ) => {
   const {
     createMasterNode,
@@ -63,9 +63,10 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const prevIsRestart = usePrevious(isRestart);
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(CONFIRM_BUTTON_COUNTER);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
@@ -102,7 +103,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     if (!isLoadingMasternodes) {
       const myMasternodes = masternodes.filter(
         (masternode) =>
-          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
+          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode,
       );
       if (myMasternodes.length > 0) {
         setDisableTab(false);
@@ -178,22 +179,24 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
 
   const createMasterNodeFunc = () => {
     const showForm = new BigNumber(walletBalance).gte(
-      MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
+      MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
     );
     if (showForm) {
       setIsConfirmationModalOpen('confirm');
     } else {
       setErrorMessage(
-        I18n.t('containers.masterNodes.createMasterNode.lackOfBalanceMsg')
+        I18n.t('containers.masterNodes.createMasterNode.lackOfBalanceMsg'),
       );
       setIsConfirmationModalOpen('failure');
     }
   };
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>
@@ -203,14 +206,14 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
         )}
         <ButtonGroup className={classnames({ 'd-none': searching })}>
-          <Button color='link' size='sm' onClick={toggleSearch}>
+          <Button color="link" size="sm" onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link'>
+          <Button onClick={createMasterNodeFunc} color="link">
             <MdAdd />
-            <span className='d-lg-inline'>
+            <span className="d-lg-inline">
               {I18n.t(
-                'containers.masterNodes.masterNodesPage.createMasterNode'
+                'containers.masterNodes.masterNodesPage.createMasterNode',
               )}
             </span>
           </Button>
@@ -222,7 +225,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           placeholder={'Search masternodes'}
         />
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <MasternodesList
             searchQuery={searchQuery}
@@ -230,46 +233,46 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           />
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer className="footer-bar">
         <div
           className={classnames({
             'd-none': isConfirmationModalOpen !== 'confirm',
           })}
         >
-          <div className='footer-sheet'>
-            <dl className='row'>
-              <dd className='col-12'>
-                <span className='h2 mb-0'>
+          <div className="footer-sheet">
+            <dl className="row">
+              <dd className="col-12">
+                <span className="h2 mb-0">
                   {restartNodeConfirm
                     ? I18n.t(
-                        'containers.masterNodes.createMasterNode.restartNodeConfirmationText'
+                        'containers.masterNodes.createMasterNode.restartNodeConfirmationText',
                       )
                     : I18n.t(
-                        'containers.masterNodes.createMasterNode.confirmationText'
+                        'containers.masterNodes.createMasterNode.confirmationText',
                       )}
                 </span>
               </dd>
             </dl>
           </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
+          <Row className="justify-content-between align-items-center">
+            <Col className="d-flex justify-content-end">
               <Button
-                color='link'
-                className='mr-3'
+                color="link"
+                className="mr-3"
                 onClick={() => cancelConfirmation()}
               >
                 {I18n.t('containers.masterNodes.createMasterNode.noButtonText')}
               </Button>
               <Button
-                color='primary'
+                color="primary"
                 onClick={() => confirmation()}
                 disabled={isRestartButtonDisable || (wait > 0 ? true : false)}
               >
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.yesButtonText'
+                  'containers.masterNodes.createMasterNode.yesButtonText',
                 )}
                 &nbsp;
-                <span className='timer'>{wait > 0 ? wait : ''}</span>
+                <span className="timer">{wait > 0 ? wait : ''}</span>
               </Button>
             </Col>
           </Row>
@@ -279,36 +282,36 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             'd-none': isConfirmationModalOpen !== 'success',
           })}
         >
-          <div className='footer-sheet'>
-            <div className='text-center'>
+          <div className="footer-sheet">
+            <div className="text-center">
               <p>
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.masterNodeSuccess'
+                  'containers.masterNodes.createMasterNode.masterNodeSuccess',
                 )}
               </p>
-              <MdCheckCircle className='footer-sheet-icon' />
+              <MdCheckCircle className="footer-sheet-icon" />
               <p>
                 {`${I18n.t(
-                  'containers.masterNodes.createMasterNode.masternodeOperator'
+                  'containers.masterNodes.createMasterNode.masternodeOperator',
                 )}: ${createdMasterNodeData.masternodeOperator}`}
               </p>
               <p>
                 {`${I18n.t(
-                  'containers.masterNodes.createMasterNode.masternodeOwner'
+                  'containers.masterNodes.createMasterNode.masternodeOwner',
                 )}: ${createdMasterNodeData.masternodeOwner}`}
               </p>
             </div>
           </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
-              <Button color='primary' onClick={resetConfirmationModal}>
+          <Row className="justify-content-between align-items-center">
+            <Col className="d-flex justify-content-end">
+              <Button color="primary" onClick={resetConfirmationModal}>
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.backToMasternodePage'
+                  'containers.masterNodes.createMasterNode.backToMasternodePage',
                 )}
               </Button>
               <Button
-                className='ml-4'
-                color='primary'
+                className="ml-4"
+                color="primary"
                 onClick={() => {
                   setWait(CONFIRM_BUTTON_COUNTER);
                   setRestartNodeConfirm(true);
@@ -316,7 +319,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 }}
               >
                 {I18n.t(
-                  'containers.masterNodes.createMasterNode.restartNodeButton'
+                  'containers.masterNodes.createMasterNode.restartNodeButton',
                 )}
               </Button>
             </Col>
@@ -327,8 +330,8 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             'd-none': isConfirmationModalOpen !== 'failure',
           })}
         >
-          <div className='footer-sheet'>
-            <div className='text-center'>
+          <div className="footer-sheet">
+            <div className="text-center">
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
@@ -338,10 +341,10 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
               <p>{errorMessage}</p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' onClick={resetConfirmationModal}>
+          <div className="d-flex align-items-center justify-content-center">
+            <Button color="primary" onClick={resetConfirmationModal}>
               {I18n.t(
-                'containers.masterNodes.createMasterNode.backToMasternodePage'
+                'containers.masterNodes.createMasterNode.backToMasternodePage',
               )}
             </Button>
           </div>

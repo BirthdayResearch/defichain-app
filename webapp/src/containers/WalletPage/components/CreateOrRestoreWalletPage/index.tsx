@@ -32,7 +32,7 @@ interface CreateOrRestoreWalletPageProps {
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
-  props: CreateOrRestoreWalletPageProps
+  props: CreateOrRestoreWalletPageProps,
 ) => {
   const {
     history,
@@ -69,17 +69,19 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     <div>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.createOrRestoreWalletPage.title'),
+          )}
         </title>
       </Helmet>
       <Header>
         <h1>
           {I18n.t(
-            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
+            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet',
           )}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           {isLoading ? (
             <div>
@@ -87,23 +89,23 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
             </div>
           ) : (
             <Row>
-              <Col lg='4' sm='12' md='6'>
+              <Col lg="4" sm="12" md="6">
                 <div onClick={createWallet}>
                   <WalletStatCard
                     label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.createANewWallet'
+                      'containers.wallet.createOrRestoreWalletPage.createANewWallet',
                     )}
-                    icon={<MdAccountBalanceWallet size={48} color='#ff00af' />}
+                    icon={<MdAccountBalanceWallet size={48} color="#ff00af" />}
                   />
                 </div>
               </Col>
-              <Col lg='4' sm='12' md='6'>
+              <Col lg="4" sm="12" md="6">
                 <div onClick={restoreWallet}>
                   <WalletStatCard
                     label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
+                      'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed',
                     )}
-                    icon={<MdFormatListBulleted size={48} color='#ff00af' />}
+                    icon={<MdFormatListBulleted size={48} color="#ff00af" />}
                   />
                 </div>
               </Col>
@@ -139,5 +141,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CreateOrRestoreWalletPage);

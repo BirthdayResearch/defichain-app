@@ -1,3 +1,5 @@
+#!/bin/sh
+#!/usr/bin/env fish
 mkdir -p binary
 cd binary && rm -rf win mac linux
 mkdir linux
