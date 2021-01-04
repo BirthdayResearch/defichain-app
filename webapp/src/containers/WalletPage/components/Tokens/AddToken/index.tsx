@@ -27,7 +27,7 @@ interface TokensProps {
 }
 
 const WalletAddToken: React.FunctionComponent<TokensProps> = (
-  props: TokensProps
+  props: TokensProps,
 ) => {
   const defaultPage = 1;
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -41,14 +41,14 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   const filteredTokens = tokens.filter(
-    (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX
+    (data) => !data.isDAT && data.destructionTx === DESTRUCTION_TX,
   );
 
   function paginate(pageNumber, tokensList?: any[]) {
     const clone = cloneDeep(tokensList || filteredTokens);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
-      pageNumber * pageSize
+      pageNumber * pageSize,
     );
     setCurrentPage(pageNumber);
     settableData(tableData);
@@ -68,21 +68,23 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
   }, []);
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens'),
+          )}
         </title>
       </Helmet>
       <Header>
         <Button
           to={WALLET_TOKENS_PATH}
           tag={RRNavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.wallet.walletAddTokensPage.back')}
           </span>
         </Button>
@@ -90,16 +92,16 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           {I18n.t('containers.wallet.walletAddTokensPage.addWalletLabel')}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <div>
           <FormGroup className={`row ${styles.formGroup}`}>
             <Col>
               <InputGroup>
                 <Input
-                  type='text'
+                  type="text"
                   placeholder={'Search Tokens'}
-                  name='searchInput'
-                  id='searchInput'
+                  name="searchInput"
+                  id="searchInput"
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <MdSearch className={styles.searchIndicator} />

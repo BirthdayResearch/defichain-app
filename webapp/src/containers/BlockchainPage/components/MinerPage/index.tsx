@@ -14,24 +14,28 @@ interface RouteParams {
 }
 
 const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
-  props: RouteComponentProps<RouteParams>
+  props: RouteComponentProps<RouteParams>,
 ) => {
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
         <title>
-          {getPageTitle(`${I18n.t('containers.blockChainPage.minerPage.miner')} ${props.match.params.id}`)}
+          {getPageTitle(
+            `${I18n.t('containers.blockChainPage.minerPage.miner')} ${
+              props.match.params.id
+            }`,
+          )}
         </title>
       </Helmet>
       <Header>
         <Button
           to={BLOCKCHAIN_BASE_PATH}
           tag={NavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.blockChainPage.minerPage.blockchain')}
           </span>
         </Button>
@@ -40,7 +44,7 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
           {props.match.params.id}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>{I18n.t('containers.blockChainPage.minerPage.miner')}</section>
       </div>
     </div>

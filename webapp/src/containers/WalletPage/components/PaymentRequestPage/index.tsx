@@ -27,7 +27,7 @@ interface PaymentRequestPageProps extends RouteComponentProps<RouteProps> {
 }
 
 const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
-  props: PaymentRequestPageProps
+  props: PaymentRequestPageProps,
 ) => {
   const { match, paymentRequests = [] } = props;
   const id = match.params.id;
@@ -49,23 +49,25 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   }
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
-            id: label || address,
-          }))}
+          {getPageTitle(
+            I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
+              id: label || address,
+            }),
+          )}
         </title>
       </Helmet>
       <Header>
         <Button
           to={WALLET_PAGE_PATH}
           tag={NavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.wallet.paymentRequestPage.wallet')}
           </span>
         </Button>
@@ -74,14 +76,14 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
           &nbsp;
         </h1>
         <ButtonGroup>
-          <Button color='link' onClick={() => removeReceiveTrans(id)}>
+          <Button color="link" onClick={() => removeReceiveTrans(id)}>
             <MdDelete />
             <span>{I18n.t('containers.wallet.paymentRequestPage.delete')}</span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className='content'>
-        <section className='mb-5'>
+      <div className="content">
+        <section className="mb-5">
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.label')}
             value={label}
@@ -109,7 +111,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
             value={address}
             popsQR={true}
             copyable={true!}
-            uid='address'
+            uid="address"
           />
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.uRI')}
@@ -120,7 +122,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
             })}
             popsQR={true}
             copyable={true}
-            uid='uri'
+            uid="uri"
           />
         </section>
       </div>

@@ -32,7 +32,7 @@ interface CreateNewWalletProps {
 }
 
 const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
-  props: CreateNewWalletProps
+  props: CreateNewWalletProps,
 ) => {
   const {
     mnemonicObj,
@@ -46,17 +46,19 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
   return (
     <>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.createNewWalletPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.createNewWalletPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
           to={WALLET_TOKENS_PATH}
           tag={NavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.wallet.createNewWalletPage.back')}
           </span>
         </Button>
@@ -64,29 +66,29 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           {I18n.t('containers.wallet.createNewWalletPage.createANewWallet')}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <p>
             {I18n.t('containers.wallet.createNewWalletPage.mnemonicGuideline')}
           </p>
           <p className={styles.mnemonicGuidelineWarning}>
             {I18n.t(
-              'containers.wallet.createNewWalletPage.mnemonicGuidelineWarning'
+              'containers.wallet.createNewWalletPage.mnemonicGuidelineWarning',
             )}
           </p>
           <Card className={styles.margin}>
             <CardBody>
               <Row className={styles.seeds}>
                 {Object.keys(mnemonicObj).map((key) => (
-                  <Col md='4' xs='12' key={key}>
+                  <Col md="4" xs="12" key={key}>
                     <Row>
                       <Col
                         className={`${styles.number} text-right pl-0`}
-                        xs='2'
+                        xs="2"
                       >
                         {key}
                       </Col>
-                      <Col className='text-left pl-0' xs='10'>
+                      <Col className="text-left pl-0" xs="10">
                         {mnemonicObj[key]}
                         <hr />
                       </Col>
@@ -96,10 +98,10 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
               </Row>
             </CardBody>
           </Card>
-          <div className='text-center mt-4'>
-            <Button color='link' size='sm' onClick={generateNewMnemonic}>
+          <div className="text-center mt-4">
+            <Button color="link" size="sm" onClick={generateNewMnemonic}>
               <MdRefresh />
-              <span className='d-md-inline'>
+              <span className="d-md-inline">
                 {I18n.t('containers.wallet.createNewWalletPage.generateNewSet')}
               </span>
             </Button>
@@ -107,47 +109,47 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
           <div className={styles.walletRecoveryInfo}>
             <p>
               {I18n.t(
-                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine1'
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine1',
               )}
             </p>
             <p>
               {I18n.t(
-                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2'
+                'containers.wallet.createNewWalletPage.walletRecoveryInfoLine2',
               )}
             </p>
             <Button
-              color='link'
-              className='p-0'
+              color="link"
+              className="p-0"
               onClick={() => openNewTab(LEARN_MORE_ABOUT_BITCOIN_LINK)}
             >
               {I18n.t(
-                'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn'
+                'containers.wallet.createNewWalletPage.learnMoreAtBitcoinBtn',
               )}
             </Button>
           </div>
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer className="footer-bar">
         <div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='col-auto'>
+          <Row className="justify-content-between align-items-center">
+            <Col className="col-auto">
               <FormGroup check>
                 <Label check>
                   <Input
-                    type='checkbox'
+                    type="checkbox"
                     onClick={() => setIsChecked(!isChecked)}
                   />
                   &nbsp;
                   {I18n.t(
-                    'containers.wallet.createNewWalletPage.copied24Words'
+                    'containers.wallet.createNewWalletPage.copied24Words',
                   )}
                 </Label>
               </FormGroup>
             </Col>
-            <Col className='d-flex justify-content-end'>
+            <Col className="d-flex justify-content-end">
               <Button
-                color='primary'
-                className='mr-3'
+                color="primary"
+                className="mr-3"
                 disabled={!isChecked}
                 onClick={() => {
                   setIsWalletTabActive(!isWalletTabActive);

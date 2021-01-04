@@ -24,7 +24,10 @@ import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '../../../../../constants';
 import { ITokenResponse } from '../../../../../utils/interfaces';
 import Header from '../../../../HeaderComponent';
-import { getPageTitle, getTransactionAddressLabel } from '../../../../../utils/utility';
+import {
+  getPageTitle,
+  getTransactionAddressLabel,
+} from '../../../../../utils/utility';
 import AddressDropdown from '../../../../../components/AddressDropdown';
 import { CreateTokenFormState } from '..';
 
@@ -51,12 +54,12 @@ const getTransactionLabel = (formState: CreateTokenFormState) => {
   return getTransactionAddressLabel(
     formState.receiveLabel,
     formState.receiveAddress,
-    I18n.t('containers.tokens.createToken.collateralAddress')
+    I18n.t('containers.tokens.createToken.collateralAddress'),
   );
 };
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
-  props: CreateDCTProps
+  props: CreateDCTProps,
 ) => {
   const {
     isUpdate,
@@ -79,17 +82,19 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   return (
     <>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
           to={TOKENS_PATH}
           tag={NavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
-          <span className='d-lg-inline'>
+          <span className="d-lg-inline">
             {I18n.t('containers.tokens.createToken.back')}
           </span>
         </Button>
@@ -99,30 +104,30 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <Form>
-            <FormGroup className='form-label-group'>
+            <FormGroup className="form-label-group">
               <Input
-                type='text'
+                type="text"
                 placeholder={I18n.t('containers.tokens.createToken.name')}
-                name='name'
-                id='name'
+                name="name"
+                id="name"
                 value={formState.name}
                 onChange={handleChange}
                 valid={formState.name.length > 0}
                 invalid={formState.name.length > 128}
               />
-              <Label for='message'>
+              <Label for="message">
                 {I18n.t('containers.tokens.createToken.name')}
               </Label>
             </FormGroup>
-            <FormGroup className='form-label-group'>
+            <FormGroup className="form-label-group">
               <Input
-                type='text'
+                type="text"
                 placeholder={I18n.t('containers.tokens.createToken.symbol')}
-                name='symbol'
-                id='symbol'
+                name="symbol"
+                id="symbol"
                 value={formState.symbol}
                 onChange={handleChange}
                 required
@@ -130,7 +135,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 invalid={formState.symbol.length > 8}
                 disabled={isUpdate}
               />
-              <Label for='message'>
+              <Label for="message">
                 {I18n.t('containers.tokens.createToken.symbol')}
               </Label>
             </FormGroup>

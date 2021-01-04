@@ -14,6 +14,9 @@ import {
   ENGLISH,
   GERMAN,
   FRENCH,
+  CHINESE_SIMPLIFIED,
+  CHINESE_TRADITIONAL,
+  DUTCH,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -45,7 +48,13 @@ export const getLanguage = () => {
   return [
     { label: 'containers.settings.english', value: ENGLISH },
     { label: 'containers.settings.german', value: GERMAN },
-    // { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.chinese', value: CHINESE_SIMPLIFIED },
+    {
+      label: 'containers.settings.chinese_traditional',
+      value: CHINESE_TRADITIONAL,
+    },
+    { label: 'containers.settings.dutch', value: DUTCH },
   ];
 };
 
@@ -107,7 +116,7 @@ export const updateSettingsData = (settingsData) => {
   PersistentStore.set(PRUNE_BLOCK_STORAGE, settingsData.pruneBlockStorage);
   PersistentStore.set(
     SCRIPT_VERIFICATION,
-    settingsData.scriptVerificationThreads
+    settingsData.scriptVerificationThreads,
   );
   PersistentStore.set(BLOCK_STORAGE, settingsData.blockStorage);
   PersistentStore.set(DATABASE_CACHE, settingsData.databaseCache);
@@ -123,7 +132,7 @@ export const refreshUtxosAfterSavingData = async () => {
   const accounts = await fetchAccountsDataWithPagination(
     '',
     LIST_ACCOUNTS_PAGE_SIZE,
-    rpcClient.listAccounts
+    rpcClient.listAccounts,
   );
 
   const addressesList = accounts.map(async (account) => {

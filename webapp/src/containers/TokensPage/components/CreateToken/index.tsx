@@ -41,13 +41,14 @@ export interface CreateTokenFormState extends AddressModel {
 }
 
 const CreateToken: React.FunctionComponent<CreateTokenProps> = (
-  props: CreateTokenProps
+  props: CreateTokenProps,
 ) => {
   const { id } = props.match.params;
   const [activeTab, setActiveTab] = useState<string>(CREATE_DCT);
-  const [IsCollateralAddressValid, setIsCollateralAddressValid] = useState<
-    boolean
-  >(true);
+  const [
+    IsCollateralAddressValid,
+    setIsCollateralAddressValid,
+  ] = useState<boolean>(true);
   const [formState, setFormState] = useState<CreateTokenFormState>({
     name: '',
     symbol: '',
@@ -59,9 +60,10 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     receiveAddress: '',
     receiveLabel: '',
   });
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [
@@ -208,7 +210,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
   return (
     <TabContent activeTab={activeTab}>
       <TabPane tabId={CREATE_DCT}>
-        <div className='main-wrapper position-relative'>
+        <div className="main-wrapper position-relative">
           <CreateDCT
             isUpdate={!isEmpty(tokenInfo) && !!id}
             handleChange={handleChange}
@@ -230,7 +232,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
         </div>
       </TabPane>
       <TabPane tabId={DCT_DISTRIBUTION}>
-        <div className='main-wrapper position-relative'>
+        <div className="main-wrapper position-relative">
           <DCTDistribution
             setIsVerifyingCollateralModalOpen={
               setIsVerifyingCollateralModalOpen

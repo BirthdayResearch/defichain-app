@@ -11,22 +11,24 @@ const WalletSyncPage: React.FunctionComponent = () => {
     <div>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.createOrRestoreWalletPage.title'),
+          )}
         </title>
       </Helmet>
       <Header>
         <h1>
           {I18n.t(
-            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
+            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet',
           )}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section className={styles.syncSection}>
           <MdSync size={20} className={styles.syncIcon} />
           <span className={styles.syncContent}>
             {I18n.t(
-              'containers.wallet.createOrRestoreWalletPage.walletSyncNotice'
+              'containers.wallet.createOrRestoreWalletPage.walletSyncNotice',
             )}
           </span>
         </section>
