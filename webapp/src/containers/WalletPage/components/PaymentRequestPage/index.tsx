@@ -12,8 +12,9 @@ import {
   PAYMENT_REQUEST_DETAIL_DATE_FORMAT,
 } from '../../../../constants';
 import { removeReceiveTxnsRequest } from '../../reducer';
-import { getTransactionURI } from '../../../../utils/utility';
+import { getPageTitle, getTransactionURI } from '../../../../utils/utility';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import Header from '../../../HeaderComponent';
 
 interface RouteProps {
   id: string;
@@ -51,12 +52,12 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
+          {getPageTitle(I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
             id: label || address,
-          })}
+          }))}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={WALLET_PAGE_PATH}
           tag={NavLink}
@@ -78,7 +79,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
             <span>{I18n.t('containers.wallet.paymentRequestPage.delete')}</span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi

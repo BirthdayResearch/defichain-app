@@ -70,8 +70,12 @@ export default class App {
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
+
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
-    initiateBackupImportWalletManager(this.mainWindow);
+    initiateBackupImportWalletManager(
+      this.mainWindow,
+      this.createMenu.bind(this)
+    );
     createMnemonicAction();
   };
 
@@ -127,9 +131,9 @@ export default class App {
   }
 
   // Create menu
-  createMenu() {
+  createMenu(isWalletLoaded?: boolean) {
     const appMenu = new AppMenu();
-    const template = appMenu.getTemplate();
+    const template = appMenu.getTemplate(isWalletLoaded);
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   }

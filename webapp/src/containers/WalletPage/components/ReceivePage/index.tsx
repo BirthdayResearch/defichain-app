@@ -9,6 +9,8 @@ import {
   WALLET_PAGE_PATH,
   WALLET_CREATE_RECEIVE_REQUEST,
 } from '../../../../constants';
+import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -22,9 +24,9 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.receivePage.receivePage')}</title>
+        <title>{getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={
             tokenSymbol
@@ -53,7 +55,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <PaymentRequestList />

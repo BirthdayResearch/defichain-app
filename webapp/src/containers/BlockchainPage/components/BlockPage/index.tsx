@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Card, CardBody } from 'reactstrap';
-import { MdArrowBack, MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { Button, Row, Col, Card, CardBody, ButtonGroup } from 'reactstrap';
+import {
+  MdArrowBack,
+  MdChevronLeft,
+  MdChevronRight,
+  MdLaunch,
+} from 'react-icons/md';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import BlockTxn from '../BlockTxn';
@@ -16,11 +21,16 @@ import {
   BLOCKCHAIN_BASE_PATH,
   BLOCKCHAIN_BLOCK_BASE_PATH,
   BLOCK_TXN_PAGE_SIZE,
+  DEFICHAIN_MAINNET_LINK,
+  DEFICHAIN_TESTNET_LINK,
+  MAIN,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { ITxn, IBlockData } from '../../interfaces';
-import { toSha256 } from '../../../../utils/utility';
+import { getNetworkType, getPageTitle, toSha256 } from '../../../../utils/utility';
 import LruCache from '../../../../utils/lruCache';
+import Header from '../../../HeaderComponent';
+import openNewTab from '../../../../utils/openNewTab';
 
 interface RouteParams {
   id?: string;
@@ -63,7 +73,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
 
   const blockNumber = Number(height);
 
-  const fetchData = (pageNumber) => {
+  const fetchData = pageNumber => {
     setCurrentPage(pageNumber);
     props.fetchBlockCountRequest();
     const key = toSha256(`${blockNumber} ${pageNumber} ${pageSize}`);
@@ -79,16 +89,20 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
   const key = toSha256(`${blockNumber} ${currentPage} ${pageSize}`);
   const txns: ITxn[] = LruCache.get(key) || props.txns;
 
+  const network = getNetworkType();
+  const explorerLink =
+    network === MAIN ? DEFICHAIN_MAINNET_LINK : DEFICHAIN_TESTNET_LINK;
+
   return (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.blockChainPage.blockPage.title', {
+          {getPageTitle(I18n.t('containers.blockChainPage.blockPage.title', {
             blockNo: blockNumber,
-          })}
+          }))}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={BLOCKCHAIN_BASE_PATH}
           tag={NavLink}
@@ -104,7 +118,20 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
           {I18n.t('containers.blockChainPage.blockPage.block')}&nbsp;
           {blockNumber}
         </h1>
-      </header>
+        <ButtonGroup>
+          <Button
+            color='link'
+            onClick={() =>
+              openNewTab(`${explorerLink}#/DFI/${network}net/block/${hash}`)
+            }
+          >
+            <MdLaunch />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.blockChainPage.blockChainPage.explorer')}
+            </span>
+          </Button>
+        </ButtonGroup>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
@@ -228,7 +255,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { blockchain, settings } = state;
   const { unit } = settings.appConfig;
   const {
@@ -255,7 +282,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchTxns: (blockNumber, pageNo, pageSize) =>
     fetchTxnsRequest({ blockNumber, pageNo, pageSize }),
-  fetchBlockData: (blockNumber) => fetchBlockDataRequest({ blockNumber }),
+  fetchBlockData: blockNumber => fetchBlockDataRequest({ blockNumber }),
   fetchBlockCountRequest,
 };
 

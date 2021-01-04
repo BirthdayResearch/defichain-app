@@ -4,12 +4,19 @@ export const initialState = {
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
+  accountHistoryCount: '',
+  accountHistoryCountLoaded: false,
+  accountHistoryCountLoading: false,
+  minBlockHeight: 0,
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
   walletBalance: 0,
   isBalanceFetching: false,
   isBalanceError: '',
+  utxoDfi: 0,
+  isUtxoDfiFetching: false,
+  isUtxoDfiError: '',
   pendingBalance: 0,
   isPendingBalanceFetching: false,
   isPendingBalanceError: '',
@@ -43,6 +50,23 @@ export const initialState = {
   isErrorCreatingWallet: '',
   isWalletRestoring: false,
   isErrorRestoringWallet: '',
+  isWalletCreatedFlag: false,
+  listAccountHistoryData: {
+    isLoading: false,
+    isError: '',
+    data: [],
+    stop: false,
+  },
+  combineAccountHistoryData: {
+    isLoading: false,
+    isError: '',
+    data: [],
+  },
+  restartCriteria: {
+    isLoading: false,
+    data: true,
+    isError: '',
+  },
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -60,6 +84,19 @@ const configSlice = createSlice({
       state.accountTokens = [];
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
+    },
+    accountHistoryCountRequest(state, action) {
+      state.accountHistoryCount = '';
+    },
+    accountHistoryCountSuccess(state, action) {
+      state.accountHistoryCount = action.payload.accountHistoryCount;
+      state.accountHistoryCountLoading = false;
+      state.accountHistoryCountLoaded = true;
+    },
+    accountHistoryCountFailure(state, action) {
+      state.accountTokens = [];
+      state.accountHistoryCountLoading = false;
+      state.accountHistoryCountLoaded = true;
     },
     fetchTokensRequest(state) {
       state.isLoadingTokens = true;
@@ -179,6 +216,64 @@ const configSlice = createSlice({
     },
     fetchInstantBalanceRequest(state) {},
     fetchInstantPendingBalanceRequest(state) {},
+    setIsWalletCreatedRequest(state, action) {
+      state.isWalletCreatedFlag = action.payload;
+    },
+    fetchWalletTokenTransactionsListRequestLoading(state, action) {
+      state.listAccountHistoryData.isLoading = true;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = [];
+    },
+    fetchWalletTokenTransactionsListRequestSuccess(state, action) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = action.payload.data;
+      state.minBlockHeight = action.payload.minBlockHeight;
+    },
+    fetchWalletTokenTransactionsListRequestFailure(state, action) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = action.payload;
+      state.listAccountHistoryData.data = [];
+    },
+    fetchWalletTokenTransactionsListRequestStop(state) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.stop = true;
+    },
+    checkRestartCriteriaRequestLoading(state) {
+      state.restartCriteria.isLoading = true;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestSuccess(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = action.payload;
+      state.restartCriteria.isError = '';
+    },
+    checkRestartCriteriaRequestFailure(state, action) {
+      state.restartCriteria.isLoading = false;
+      state.restartCriteria.data = true;
+      state.restartCriteria.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestLoading(state, action) {
+      state.combineAccountHistoryData.isLoading = true;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
+    },
+    fetchBlockDataForTrxRequestSuccess(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = action.payload;
+      state.combineAccountHistoryData.isError = '';
+    },
+    fetchBlockDataForTrxRequestFailure(state, action) {
+      state.combineAccountHistoryData.isLoading = false;
+      state.combineAccountHistoryData.data = [];
+      state.combineAccountHistoryData.isError = action.payload;
+    },
+    fetchWalletTokenTransactionsListResetRequest(state) {
+      state.listAccountHistoryData.isLoading = false;
+      state.listAccountHistoryData.isError = '';
+      state.listAccountHistoryData.data = [];
+    },
   },
 });
 
@@ -188,6 +283,9 @@ export const {
   fetchAccountTokensRequest,
   fetchAccountTokensSuccess,
   fetchAccountTokensFailure,
+  accountHistoryCountRequest,
+  accountHistoryCountSuccess,
+  accountHistoryCountFailure,
   fetchTokensRequest,
   fetchTokensSuccess,
   fetchTokensFailure,
@@ -224,6 +322,18 @@ export const {
   resetRestoreWalletError,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  setIsWalletCreatedRequest,
+  fetchWalletTokenTransactionsListRequestLoading,
+  fetchWalletTokenTransactionsListRequestSuccess,
+  fetchWalletTokenTransactionsListRequestFailure,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
+  fetchWalletTokenTransactionsListRequestStop,
+  fetchWalletTokenTransactionsListResetRequest,
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
 } = actions;
 
 export default reducer;

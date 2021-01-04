@@ -14,21 +14,25 @@
   z-index: 2;
 }
 
+.blur {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+div[disabled] {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 .iconPointer {
   cursor: pointer;
   color: #cccdcd;
 }
 
-.balance {
+.currentNetwork {
   position: relative;
   height: 112px;
   border-bottom: $border-width solid $border-color;
-  padding: 28px 24px 20px;
-  display: flex;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  align-content: flex-end;
+  padding: 48px 24px 20px;
 
   &:before {
     content: '';
@@ -40,6 +44,16 @@
     z-index: -1;
     -webkit-app-region: drag;
   }
+}
+
+.currentNetworkHeading {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.currentNetworkValue {
+  font-size: $font-size-sm;
+  color: $secondary;
 }
 
 .balanceLabel,
@@ -90,6 +104,7 @@
 
     &:hover:not(.active) {
       color: inherit;
+
       svg {
         color: $secondary;
       }
@@ -109,5 +124,11 @@
     svg {
       color: $primary;
     }
+  }
+}
+
+.navSubIcon {
+  svg {
+    margin-right: 0px !important;
   }
 }
