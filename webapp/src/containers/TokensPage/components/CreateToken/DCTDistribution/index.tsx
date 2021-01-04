@@ -119,7 +119,9 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
   return (
     <>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
