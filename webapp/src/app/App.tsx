@@ -13,10 +13,13 @@ import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
+import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
 import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
+import { getPageTitle } from '../utils/utility';
+import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -69,7 +72,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       {isRunning ? (
         <div id='app'>
           <Helmet>
-            <title>DeFi Blockchain Client</title>
+            <title>{getPageTitle()}</title>
           </Helmet>
           <Sidebar />
           <main>
@@ -102,6 +105,8 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <EncryptWalletModel />
       <WalletPassphraseModel />
       <RestartWalletModel />
+      <GeneralReIndexModal />
+      <RefreshUtxosModal />
     </>
   );
 };

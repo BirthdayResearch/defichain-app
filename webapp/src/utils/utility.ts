@@ -4,11 +4,17 @@ import axios from 'axios';
 import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
 
-import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
+import {
+  IAddressAndAmount,
+  ITxn,
+  IBlock,
+  IParseTxn,
+  ITokenBalanceInfo,
+} from './interfaces';
 import {
   DATE_FORMAT,
   DEFAULT_UNIT,
@@ -28,6 +34,28 @@ import {
   IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
   STATS_API_BASE_URL,
+  LIST_ACCOUNTS_PAGE_SIZE,
+  COINGECKO_API_BASE_URL,
+  LP_DAILY_DFI_REWARD,
+  VS_CURRENCY,
+  COINGECKO_DFI_ID,
+  COINGECKO_BTC_ID,
+  COINGECKO_ETH_ID,
+  COINGECKO_USDT_ID,
+  DFI_SYMBOL,
+  BTC_SYMBOL,
+  ETH_SYMBOL,
+  USDT_SYMBOL,
+  SHARE_POOL_PAGE_SIZE,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  MAINNET_ETH_SYMBOL,
+  MAINNET_BTC_SYMBOL,
+  MAINNET_USDT_SYMBOL,
+  API_REQUEST_TIMEOUT,
+  APY_MULTIPLICATION_FACTOR,
+  DEFAULT_MAIN,
+  DEFAULT_TEST,
+  APP_TITLE,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -40,6 +68,14 @@ import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
+import {
+  getAddressInfo,
+  getNewAddress,
+  getTransactionInfo,
+} from '../containers/WalletPage/service';
+import { handleFetchToken } from '../containers/TokensPage/service';
+import { handleFetchPoolshares } from '../containers/SwapPage/service';
+import { I18n } from 'react-redux-i18n';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -70,8 +106,8 @@ export const getAddressAndAmount = (
   balance
 ): IAddressAndAmount[] => {
   return addresses.map((addressObj) => {
-    const { address } = addressObj;
-    return { address, amount: balance };
+    const { address, label } = addressObj;
+    return { address, amount: balance, label };
   });
 };
 
@@ -285,6 +321,15 @@ export const getParams = (query: string) => {
       (param.startsWith("'") && param.endsWith("'"))
     ) {
       return param.replace(/"/g, '').replace(/'/g, '');
+    } else if (
+      (param.startsWith('{') && param.endsWith('}')) ||
+      (param.startsWith('[') && param.endsWith(']'))
+    ) {
+      try {
+        return JSON.parse(param);
+      } catch (e) {
+        return param;
+      }
     } else if (param === 'true' || param === 'false') {
       return param === 'true' ? true : false;
     }
@@ -300,6 +345,17 @@ export const filterByValue = (array, query) => {
       return stringer.toLowerCase().includes(query.toLowerCase());
     })
   );
+};
+
+export const filterByValueMap = (map, query) => {
+  const filteredMap: Map<string, ITokenBalanceInfo> = new Map();
+  const keys: string[] = Array.from(map.keys());
+  keys.map((key: string) => {
+    if (key.toLowerCase().includes(query.toLowerCase())) {
+      filteredMap.set(key, map.get(key));
+    }
+  });
+  return filteredMap;
 };
 
 export const paginate = (array, pageSize, pageNo) => {
@@ -345,10 +401,14 @@ export const getMnemonicObject = () => {
 };
 
 export const getRandomWordObject = () => {
+  const randomWordArray = getRandomWordArray();
+  return getObjectFromArrayString(randomWordArray);
+};
+
+export const getRandomWordArray = () => {
   const mnemonic = new Mnemonic();
   const randomCode = mnemonic.createMnemonic(RANDOM_WORD_ENTROPY_BITS);
-  const randomWordArray = randomCode.split(' ');
-  return getObjectFromArrayString(randomWordArray);
+  return randomCode.split(' ');
 };
 
 export const getObjectFromArrayString = (strArray: string[]) => {
@@ -446,11 +506,233 @@ export const queuePush = (
   }
 };
 
-export const isWalletCreated = () => {
-  const networkType = getNetworkType();
+export const isWalletCreated = (network) => {
   const key =
-    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  return PersistentStore.get(key) || false;
+    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  return PersistentStore.get(key) === 'true';
+};
+
+const getPopularSymbolList = () => {
+  return ['0', '1', '2'];
+};
+
+export const getTokenListForSwap = (
+  poolPairList: any[],
+  tokenBalanceList: string[],
+  walletBalance: number
+) => {
+  const tokenMap = new Map<string, ITokenBalanceInfo>();
+  const popularSymbolList = getPopularSymbolList();
+
+  const uniqueTokenMap = getUniqueTokenMap(poolPairList);
+  const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
+
+  if (!balanceAndSymbolMap.has(DFI_SYMBOL)) {
+    balanceAndSymbolMap.set(DFI_SYMBOL, '0');
+  }
+
+  uniqueTokenMap.forEach((symbolKey, tokenId) => {
+    const finalBalance =
+      tokenId === DFI_SYMBOL
+        ? walletBalance
+        : balanceAndSymbolMap.get(DFI_SYMBOL);
+    if (popularSymbolList.includes(tokenId)) {
+      if (tokenId === DFI_SYMBOL) {
+        tokenMap.set(symbolKey, {
+          hash: tokenId,
+          balance: Number(finalBalance).toFixed(8).toString(),
+          isPopularToken: true,
+        });
+      } else {
+        tokenMap.set(symbolKey, {
+          hash: tokenId,
+          balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+          isPopularToken: true,
+        });
+      }
+    } else {
+      tokenMap.set(symbolKey, {
+        hash: tokenId,
+        balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+        isPopularToken: false,
+      });
+    }
+  });
+  return tokenMap;
+};
+
+export const getTokenAndBalanceMap = (
+  poolPairList: any[],
+  tokenBalanceList: string[],
+  walletBalance: number
+) => {
+  const tokenMap = new Map<string, ITokenBalanceInfo>();
+  const popularSymbolList = getPopularSymbolList();
+
+  const uniqueTokenMap = getUniqueTokenMap(poolPairList);
+  const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
+
+  // Add DFI to list if DFI tokens are not present already
+  if (!balanceAndSymbolMap.has(DFI_SYMBOL)) {
+    balanceAndSymbolMap.set(DFI_SYMBOL, '0');
+  }
+
+  balanceAndSymbolMap.forEach((balance, symbol) => {
+    const finalBalance = symbol === DFI_SYMBOL ? walletBalance : balance;
+    if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
+      tokenMap.set(uniqueTokenMap.get(symbol), {
+        hash: symbol,
+        balance: Number(finalBalance).toFixed(8).toString(),
+        isPopularToken: true,
+      });
+    } else if (uniqueTokenMap.has(symbol)) {
+      tokenMap.set(uniqueTokenMap.get(symbol), {
+        hash: symbol,
+        balance: Number(finalBalance).toFixed(8).toString(),
+        isPopularToken: false,
+      });
+    }
+  });
+  return tokenMap;
+};
+
+const getUniqueTokenMap = (poolPairList) => {
+  return poolPairList.reduce((uniqueTokenList, poolPair) => {
+    const { symbol } = poolPair;
+    const symbolList: string[] = symbol.split('-');
+    if (!uniqueTokenList.has(poolPair.idTokenA)) {
+      uniqueTokenList.set(poolPair.idTokenA, symbolList[0]);
+    }
+    if (!uniqueTokenList.has(poolPair.idTokenB)) {
+      uniqueTokenList.set(poolPair.idTokenB, symbolList[1]);
+    }
+    return uniqueTokenList;
+  }, new Map<string, string>());
+};
+
+export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
+  return tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
+    const itemList: string[] = item.split('@');
+    if (itemList[1] !== DFI_SYMBOL) {
+      balanceAndSymbolMap.set(itemList[1], itemList[0]);
+    }
+    return balanceAndSymbolMap;
+  }, new Map<string, string>());
+};
+
+export const fetchPoolPairDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const rpcClient = new RpcClient();
+  const govResult = await rpcClient.getGov();
+  const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const coinPriceObj = await parsedCoinPriceData();
+
+  const list: any[] = [];
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map(async (item: any) => {
+    const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[item];
+    const tokenAData = await handleFetchToken(idTokenA);
+    const tokenBData = await handleFetchToken(idTokenB);
+
+    const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+      .times(rewardPct)
+      .times(365)
+      .times(coinPriceObj[DFI_SYMBOL]);
+
+    const poolShares = await handleFetchPoolshares();
+
+    const poolShare = poolShares.find((poolshare) => {
+      return poolshare.poolID === item;
+    });
+
+    const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+      coinPriceObj[idTokenA] || 0
+    );
+
+    const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+      coinPriceObj[idTokenB] || 0
+    );
+    const totalLiquidity = liquidityReserveidTokenA.plus(
+      liquidityReserveidTokenB
+    );
+    return {
+      key: item,
+      poolID: item,
+      tokenA: tokenAData.symbol,
+      tokenB: tokenBData.symbol,
+      ...result[item],
+      poolSharePercentage: poolShare
+        ? Number(poolShare.poolSharePercentage).toFixed(8)
+        : '0',
+      totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
+      yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+      apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+    };
+  });
+  const resolvedTransformedData = await Promise.all(transformedData);
+  if (resolvedTransformedData.length === 0) {
+    return [];
+  }
+  list.push(...resolvedTransformedData);
+  start = Number(
+    resolvedTransformedData[resolvedTransformedData.length - 1].key
+  );
+  while (true) {
+    const result = await fetchList(start, false, limit);
+    const transformedData = Object.keys(result).map(async (item: any) => {
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
+        item
+      ];
+      const tokenAData = await handleFetchToken(idTokenA);
+      const tokenBData = await handleFetchToken(idTokenB);
+
+      const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+        .times(rewardPct)
+        .times(365)
+        .times(coinPriceObj[DFI_SYMBOL]);
+
+      const poolShares = await handleFetchPoolshares();
+
+      const poolShare = poolShares.find((poolshare) => {
+        return poolshare.poolID === item;
+      });
+
+      const liquidityReserveidTokenA = new BigNumber(reserveA).times(
+        coinPriceObj[idTokenA] || 0
+      );
+      const liquidityReserveidTokenB = new BigNumber(reserveB).times(
+        coinPriceObj[idTokenB] || 0
+      );
+      const totalLiquidity = liquidityReserveidTokenA.plus(
+        liquidityReserveidTokenB
+      );
+      return {
+        key: item,
+        poolID: item,
+        tokenA: tokenAData.symbol,
+        tokenB: tokenBData.symbol,
+        ...result[item],
+        poolSharePercentage: poolShare
+          ? Number(poolShare.poolSharePercentage).toFixed(8)
+          : '0',
+        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
+        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+      };
+    });
+    const resolvedTransformedData = await Promise.all(transformedData);
+    if (resolvedTransformedData.length === 0) {
+      break;
+    }
+    list.push(...resolvedTransformedData);
+    start = Number(
+      resolvedTransformedData[resolvedTransformedData.length - 1].key
+    );
+  }
+  return list;
 };
 
 export const fetchTokenDataWithPagination = async (
@@ -459,36 +741,28 @@ export const fetchTokenDataWithPagination = async (
   fetchList: Function
 ) => {
   const list: any[] = [];
-
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
     hash: item,
     ...result[item],
   }));
-
   if (transformedData.length === 0) {
     return [];
   }
-
   list.push(...transformedData);
   start = Number(transformedData[transformedData.length - 1].hash);
-
   while (true) {
     const result = await fetchList(start, false, limit);
-
     const transformedData = Object.keys(result).map((item) => ({
       hash: item,
       ...result[item],
     }));
-
     if (transformedData.length === 0) {
       break;
     }
-
     list.push(...transformedData);
     start = Number(transformedData[transformedData.length - 1].hash);
   }
-
   return list;
 };
 
@@ -498,27 +772,51 @@ export const fetchAccountsDataWithPagination = async (
   fetchList: Function
 ) => {
   const list: any[] = [];
-
   const result = await fetchList(true, limit);
-
   if (result.length === 0) {
     return [];
   }
-
   list.push(...result);
   start = result[result.length - 1].key;
-
   while (true) {
     const result = await fetchList(false, limit, start);
-
     if (result.length === 0) {
       break;
     }
-
     list.push(...result);
     start = result[result.length - 1].key;
   }
+  return list;
+};
 
+export const fetchPoolShareDataWithPagination = async (
+  start: number,
+  limit: number,
+  fetchList: Function
+) => {
+  const list: any[] = [];
+  const result = await fetchList(start, true, limit);
+  const transformedData = Object.keys(result).map((item) => ({
+    key: item.split('@')[0],
+    ...result[item],
+  }));
+  if (transformedData.length === 0) {
+    return [];
+  }
+  list.push(...transformedData);
+  start = Number(transformedData[transformedData.length - 1].key);
+  while (true) {
+    const result = await fetchList(start, false, limit);
+    const transformedData = Object.keys(result).map((item) => ({
+      key: item.split('@')[0],
+      ...result[item],
+    }));
+    if (transformedData.length === 0) {
+      break;
+    }
+    list.push(...transformedData);
+    start = Number(transformedData[transformedData.length - 1].key);
+  }
   return list;
 };
 
@@ -534,18 +832,455 @@ export const getTotalBlocks = async () => {
   const { data } = await axios({
     url: `${STATS_API_BASE_URL}?network=${network}net`,
     method: 'GET',
+    timeout: API_REQUEST_TIMEOUT,
   });
   return data;
 };
 
-export const getIcon = (symbol: string | null) => {
-  if (symbol === 'BTC') {
-    return BTCIcon;
-  } else if (symbol === 'ETH') {
-    return EthIcon;
-  } else if (symbol === 'USDT') {
-    return USDTIcon;
-  } else {
-    return DefiIcon;
+export const calculateInputAddLiquidityLeftCard = (
+  input1: string,
+  formState,
+  poolPairList
+) => {
+  const ratio: any = 1 / Number(conversionRatio(formState, poolPairList));
+  if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
+    const amount2 = ratio * Number(input1);
+    return amount2.toFixed(8);
   }
+  return '0';
+};
+
+export const calculateInputAddLiquidity = (
+  input1: string,
+  formState,
+  poolPairList
+) => {
+  const ratio: any = Number(conversionRatio(formState, poolPairList));
+  if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
+    const amount2 = ratio * Number(input1);
+    return amount2.toFixed(8);
+  }
+  return '0';
+};
+
+export const countDecimals = (value) => {
+  if (value % 1 !== 0) return value.toString().split('.')[1].length;
+  return 0;
+};
+
+export const selectedPoolPair = (formState, poolPairList) => {
+  let condition1;
+  let condition2;
+  const poolPair = poolPairList.find((poolpair) => {
+    condition1 =
+      poolpair.idTokenA === formState.hash1 &&
+      poolpair.idTokenB === formState.hash2;
+    condition2 =
+      poolpair.idTokenA === formState.hash2 &&
+      poolpair.idTokenB === formState.hash1;
+    return condition1 || condition2;
+  });
+  return [poolPair, condition1];
+};
+
+export const conversionRatio = (formState, poolPairList) => {
+  const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
+
+  const ratio = condition1
+    ? poolPair['reserveB/reserveA'] !== '0'
+      ? new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA))
+      : new BigNumber(0)
+    : poolPair['reserveA/reserveB'] !== '0'
+    ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
+    : new BigNumber(0);
+
+  return ratio.toFixed(8);
+};
+
+export const getRatio = (poolpair) => {
+  const ratio = poolpair.reserveA / poolpair.reserveB;
+  return ratio.toFixed(8);
+};
+
+export const shareOfPool = (formState, poolPairList) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+
+  const shareA =
+    formState.hash1 === poolPair.idTokenA
+      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
+      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
+
+  const shareB =
+    formState.hash2 === poolPair.idTokenB
+      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
+      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
+
+  const shareOfPool = shareA
+    .plus(shareB)
+    .div(2)
+    .times(100)
+    .toNumber()
+    .toFixed(8);
+
+  return `${shareOfPool} %`;
+};
+
+export const getTotalPoolValue = (formState, poolPairList, hash) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  return hash === poolPair.idTokenA ? poolPair.reserveA : poolPair.reserveB;
+};
+
+export const calculateLPFee = (formState, poolPairList) => {
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  return new BigNumber(formState.amount1)
+    .times(poolPair.commission)
+    .toNumber()
+    .toFixed(8);
+};
+
+export const getIcon = (symbol: string) => {
+  const symbolIconObj = {
+    BTC: BTCIcon,
+    ETH: EthIcon,
+    USDT: USDTIcon,
+    DFI: DefiIcon,
+  };
+  return symbolIconObj[symbol];
+};
+
+export const isAddressMine = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  if (addressInfo.ismine && !addressInfo.iswatchonly) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheck = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+    return true;
+  }
+  return false;
+};
+
+export const hdWalletCheckAndSet = async (address) => {
+  const addressInfo = await getAddressInfo(address);
+  const networkType = getNetworkType();
+  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
+  if (!PersistentStore.get(hdseedidKey)) {
+    const address = await getNewAddress('', false);
+    const addressInfo = await getAddressInfo(address);
+    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
+  }
+  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+    return true;
+  }
+  return false;
+};
+
+export const getAddressAndAmountListForAccount = async () => {
+  const rpcClient = new RpcClient();
+  const accountList = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts
+  );
+
+  const addressAndAmountList = accountList.map(async (account) => {
+    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+
+    if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      return {
+        amount: account.amount,
+        address: account.owner.addresses[0],
+      };
+    }
+  });
+  return _.compact(await Promise.all(addressAndAmountList));
+};
+
+export const getAddressForSymbol = async (key: string, list: any) => {
+  const rpcClient = new RpcClient();
+  let maxAmount = 0;
+  let address = '';
+  for (const obj of list) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]);
+    if (key === tokenSymbol && maxAmount <= amount) {
+      maxAmount = amount;
+      address = obj.address;
+    }
+  }
+  if (address === '') {
+    address = await getNewAddress('', true);
+  }
+  return { address, amount: maxAmount };
+};
+
+export const getCoinPriceInUSD = async (conversionCurrency: string) => {
+  const ids = getIDs();
+  const { data } = await axios({
+    url: `${COINGECKO_API_BASE_URL}/simple/price`,
+    method: 'GET',
+    params: {
+      ids,
+      vs_currencies: conversionCurrency,
+    },
+  });
+  return data;
+};
+
+export const parsedCoinPriceData = async () => {
+  const result = await getCoinPriceInUSD(VS_CURRENCY);
+  const coinMap = getCoinMap();
+  return Object.keys(result).reduce((coinPriceObj: any, item) => {
+    const symbol = coinMap.get(item) || '0';
+    coinPriceObj[symbol] = result[item][VS_CURRENCY];
+    return coinPriceObj;
+  }, {});
+};
+
+export const getCoinMap = () => {
+  const networkType = getNetworkType();
+  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
+  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+
+  const coinMap: Map<string, string> = new Map<string, string>([
+    [COINGECKO_DFI_ID, DFI_SYMBOL],
+    [COINGECKO_BTC_ID, btcSymbol],
+    [COINGECKO_ETH_ID, ethSymbol],
+    [COINGECKO_USDT_ID, usdtSymbol],
+  ]);
+  return coinMap;
+};
+
+export const getCoinIds = () => {
+  return [
+    COINGECKO_DFI_ID,
+    COINGECKO_BTC_ID,
+    COINGECKO_ETH_ID,
+    COINGECKO_USDT_ID,
+  ];
+};
+
+export const getIDs = () => {
+  const coinIdList = getCoinIds();
+  const parsedIds = '' + coinIdList;
+  return parsedIds;
+};
+
+export const getDfiUTXOS = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getBalance();
+};
+
+export const handleUtxoToAccountConversion = async (
+  hash: string,
+  address: string,
+  amount: string,
+  maxAmount: number
+) => {
+  const rpcClient = new RpcClient();
+  const dfiUtxos = await getDfiUTXOS();
+  if (Number(amount) > maxAmount + dfiUtxos) {
+    throw new Error(`Insufficent DFI in account`);
+  }
+
+  const transferAmount = Number(amount) - maxAmount;
+  const utxoToDfiTxId = await rpcClient.utxosToAccount(
+    address,
+    `${transferAmount.toFixed(8)}@${hash}`
+  );
+  await getTransactionInfo(utxoToDfiTxId);
+};
+
+export const handleAccountToAccountConversion = async (
+  addressAndAmountList: any[],
+  toAddress: string,
+  hash: string
+) => {
+  const rpcClient = new RpcClient();
+  const amounts = {};
+  for (const obj of addressAndAmountList) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+    }
+  }
+
+  const accountToAccountTxHashes: any[] = [];
+  let amountTransfered = new BigNumber(0);
+  for (const obj of addressAndAmountList) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]).toFixed(8);
+
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      const txId = await rpcClient.accountToAccount(
+        obj.address,
+        toAddress,
+        `${amount}@${tokenSymbol}`
+      );
+
+      const promiseHash = getTransactionInfo(txId);
+      accountToAccountTxHashes.push(promiseHash);
+      amountTransfered = amountTransfered.plus(new BigNumber(amount));
+    }
+  }
+  await Promise.all(accountToAccountTxHashes);
+  return amountTransfered;
+};
+
+export const getAddressAndAmountListPoolShare = async (poolID) => {
+  const rpcClient = new RpcClient();
+  const poolShares = await fetchPoolShareDataWithPagination(
+    0,
+    SHARE_POOL_PAGE_SIZE,
+    rpcClient.listPoolShares
+  );
+
+  if (isEmpty(poolShares)) {
+    return [];
+  }
+
+  const minePoolShares = poolShares.map(async (poolShare) => {
+    const addressInfo = await getAddressInfo(poolShare.owner);
+
+    if (
+      addressInfo.ismine &&
+      !addressInfo.iswatchonly &&
+      poolShare.poolID === poolID
+    ) {
+      return {
+        amount: poolShare.amount,
+        address: poolShare.owner,
+      };
+    }
+  });
+
+  const resolvedMineAddressAndAmountListPoolShare = _.compact(
+    await Promise.all(minePoolShares)
+  );
+
+  const sortedList = resolvedMineAddressAndAmountListPoolShare.sort(
+    (a, b) => parseFloat(b.amount) - parseFloat(a.amount)
+  );
+
+  return sortedList;
+};
+
+export const getTotalAmountPoolShare = async (poolID) => {
+  const list = await getAddressAndAmountListPoolShare(poolID);
+  const totalAmount = list.reduce((amount, obj) => {
+    amount = amount + Number(obj.amount);
+    return amount;
+  }, 0);
+
+  return totalAmount;
+};
+
+export const getSymbolKey = (symbol: string, key: string) => {
+  const networkType = getNetworkType();
+  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
+  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+  if (
+    key === DFI_SYMBOL ||
+    key === btcSymbol ||
+    key === ethSymbol ||
+    key === usdtSymbol
+  ) {
+    return symbol;
+  }
+  return `${symbol}#${key}`;
+};
+
+export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
+  const distinctRandomNumbers: number[] = [];
+  while (distinctRandomNumbers.length < limit) {
+    const randomNum = Math.floor(
+      Math.random() * (upperBound - lowerBound) + lowerBound
+    );
+    if (distinctRandomNumbers.indexOf(randomNum) === -1) {
+      distinctRandomNumbers.push(randomNum);
+    }
+  }
+  return distinctRandomNumbers;
+};
+
+export const numberWithCommas = (nStr) => {
+  nStr += '';
+  const x = nStr.split('.');
+  let x1 = x[0];
+  const x2 = x.length > 1 ? `.${x[1]}` : '';
+  const rgx = /(\d+)(\d{3})/;
+  while (rgx.test(x1)) {
+    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  }
+  return x1 + x2;
+};
+export const getBalanceForSymbol = async (address: string, symbol: string) => {
+  const rpcClient = new RpcClient();
+  const balanceArray: string[] = await rpcClient.getAccount(address);
+
+  const tokenInfo = await rpcClient.tokenInfo(symbol);
+  const { symbolKey } = tokenInfo[symbol];
+
+  return balanceArray.reduce((amount, item) => {
+    const itemList: string[] = item.split('@');
+
+    if (itemList[1] === symbolKey) {
+      amount = new BigNumber(itemList[0]).toNumber().toFixed(8);
+    }
+    return amount;
+  }, '0');
+};
+
+export const getSmallerAmount = (amount1: string, amount2: string) => {
+  return Math.min(Number(amount1), Number(amount2));
+};
+
+export const getDfiTokenBalance = async () => {
+  const addressAndAmountList = await getAddressAndAmountListForAccount();
+
+  const amount = addressAndAmountList.reduce((currentAmount, obj) => {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const amount = Number(obj.amount[tokenSymbol]);
+    if (tokenSymbol === DFI_SYMBOL) {
+      currentAmount = currentAmount.plus(amount);
+    }
+    return currentAmount;
+  }, new BigNumber('0'));
+  return Number(amount);
+};
+
+export const calculateAPY = (
+  totalLiquidity: BigNumber,
+  yearlyPoolReward: BigNumber
+) => {
+  return totalLiquidity.toNumber()
+    ? yearlyPoolReward
+        .div(totalLiquidity)
+        .times(APY_MULTIPLICATION_FACTOR)
+        .toNumber()
+        .toFixed(2)
+    : 0;
+};
+
+export const getTransactionAddressLabel = (
+  receiveLabel: string,
+  receiveAddress: string,
+  fallback: string
+) => {
+  let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
+  label = label + receiveAddress;
+  return receiveAddress ? label : fallback;
+};
+
+export const getPageTitle = (pageTitle?: string) => {
+  const appTitle = I18n.t('general.defiApp');
+  return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };

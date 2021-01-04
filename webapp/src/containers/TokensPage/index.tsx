@@ -26,8 +26,11 @@ import {
   DAT_TOKEN,
   DCT_TOKEN,
   DESTRUCTION_TX,
+  DFI,
   TOKENS_PATH,
 } from '../../constants';
+import Header from '../HeaderComponent';
+import { getPageTitle } from '../../utils/utility';
 
 interface TokensProps {
   tokens: any;
@@ -63,9 +66,11 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.tokens.tokensPage.tokens')}
         </h1>
@@ -112,7 +117,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           toggleSearch={toggleSearch}
           placeholder={I18n.t('containers.tokens.tokensPage.searchTokens')}
         />
-      </header>
+      </Header>
       <div className='content'>
         <TabContent activeTab={activeTab}>
           <TabPane tabId={DAT_TOKEN}>
@@ -128,7 +133,9 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
               tokens={tokens.filter(
-                (data) => data.destructionTx === DESTRUCTION_TX
+                (data) =>
+                  data.destructionTx === DESTRUCTION_TX &&
+                  data.symbolKey !== DFI
               )}
               history={history}
               searchQuery={searchQuery}

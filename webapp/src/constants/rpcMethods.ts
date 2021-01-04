@@ -1,5 +1,6 @@
 export const GET_BLOCKCHAIN_INFO = 'getblockchaininfo';
 export const SEND_TO_ADDRESS = 'sendtoaddress';
+export const SEND_MANY = 'sendmany';
 export const VALIDATE_ADDRESS = 'validateaddress';
 export const LIST_RECEIVED_BY_ADDRESS = 'listreceivedbyaddress';
 export const GET_NEW_ADDRESS = 'getnewaddress';
@@ -28,6 +29,7 @@ export const GET_ACCOUNT = 'getaccount';
 export const LIST_ACCOUNTS = 'listaccounts';
 export const RESIGN_MASTER_NODE = 'resignmasternode';
 export const GET_TOKEN_NODE = 'gettoken';
+export const GET_TOKEN_BALANCES = 'gettokenbalances';
 export const DUMP_PRIV_KEY = 'dumpprivkey';
 export const IMPORT_PRIV_KEY = 'importprivkey';
 export const GET_ADDRESS_INFO = 'getaddressinfo';
@@ -35,9 +37,26 @@ export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
+export const SEND_TOKENS_TO_ADDRESS = 'sendtokenstoaddress';
 export const ACCOUNT_TO_UTXOS = 'accounttoutxos';
+export const UTXOS_TO_ACCOUNT = 'utxostoaccount';
 export const GET_TRANSACTION = 'gettransaction';
+export const SET_LABEL = 'setlabel';
 export const SET_HD_SEED = 'sethdseed';
+
+// wallet lock/unlock methods
 export const ENCRYPT_WALLET = 'encryptwallet';
 export const WALLET_PASSPHRASE = 'walletpassphrase';
 export const WALLET_LOCK = 'walletlock';
+
+// LP RPC Methods
+export const LIST_POOL_PAIRS = 'listpoolpairs';
+export const LIST_POOL_SHARES = 'listpoolshares';
+export const GET_POOL_PAIR = 'getpoolpair';
+export const ADD_POOL_LIQUIDITY = 'addpoolliquidity';
+export const POOL_SWAP = 'poolswap';
+export const REMOVE_POOL_LIQUIDITY = 'removepoolliquidity';
+export const TEST_POOL_SWAP = 'testpoolswap';
+export const GET_GOV = 'getgov';
+export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
+export const ACCOUNT_HISTORY_COUNT = 'accounthistorycount';

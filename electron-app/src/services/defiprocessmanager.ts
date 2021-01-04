@@ -13,6 +13,7 @@ import {
   DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
+  ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
 } from '../constants';
 import {
   checkPathExists,
@@ -67,6 +68,8 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
+        `-acindex`,
+        // `-reindex-chainstate`
       ];
 
       if (params && params.isReindexReq) {
@@ -95,8 +98,11 @@ export default class DefiProcessManager {
 
       // on STDERR
       child.stderr.on('data', (err) => {
-        const regex = new RegExp(REINDEX_ERROR_STRING, 'g');
-        const res = regex.test(err?.toString('utf8').trim());
+        const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
+        const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
+
+        const errorString = err?.toString('utf8').trim();
+        const res = regex.test(errorString) || regex1.test(errorString);
 
         // change value of isReindexReq variable based on regex evaluation
         if (res) {
@@ -180,7 +186,7 @@ export default class DefiProcessManager {
       const updatedConfigData = ini.encode(args.updatedConf);
       writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
-    const startResponse = await this.start({}, event);
+    const startResponse = await this.start(args || {}, event);
     if (
       stopResponse &&
       startResponse &&

@@ -9,8 +9,8 @@
   appearance: none;
 
   // Disabled comes first so active can properly restyle
-  &.disabled,
-  &:disabled {
+  &:not(.btn-link).disabled,
+  &:not(.btn-link):disabled {
     background-color: $gray-300;
     border-color: transparent;
     color: rgba($white, 0.6);
@@ -64,6 +64,11 @@
   &:focus {
     text-decoration: none;
   }
+
+  &:disabled {
+    color: $gray-400 !important;
+    background-color: transparent !important;
+  }
 }
 
 //
@@ -77,7 +82,7 @@
 
     &:not(:disabled):not(.disabled):hover,
     &:not(:disabled):not(.disabled):active {
-      color: $link-hover-color;
+      color: map-get($theme-colors, $color);
       background-color: $input-bg;
       border-color: $input-border-color;
     }

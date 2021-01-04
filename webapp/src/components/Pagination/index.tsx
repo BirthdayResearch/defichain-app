@@ -39,6 +39,11 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
     );
   };
 
+  const disableNextLink = () => {
+    if (props.disableNext === undefined) return currentPage >= pagesCount;
+    return props.disableNext;
+  };
+
   const { currentPage, pagesCount, label } = props;
   return (
     <div className='d-flex justify-content-between align-items-center mt-3'>
@@ -60,7 +65,7 @@ const PaginationComponent: React.FunctionComponent<IPaginationComponentProps> = 
           </PaginationLink>
         </PaginationItem>
         {paginatedItems(currentPage, pagesCount)}
-        <PaginationItem disabled={currentPage >= pagesCount}>
+        <PaginationItem disabled={disableNextLink()}>
           <PaginationLink
             next
             onClick={(e) => props.handlePageClick(currentPage + 1)}

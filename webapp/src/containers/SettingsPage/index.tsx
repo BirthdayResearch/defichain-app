@@ -14,6 +14,7 @@ import { TabContent } from 'reactstrap';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
+import { getPageTitle } from '../../utils/utility';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -35,15 +36,19 @@ interface SettingsPageProps {
     maximumAmount: number;
     maximumCount: number;
     feeRate: number;
+    reindexAfterSaving: boolean;
   };
   isUpdating: boolean;
   isUpdated: boolean;
   launchAtLogin: boolean;
   minimizedAtLaunch: boolean;
+  reindexAfterSaving: boolean;
+  isRestart: boolean;
   getInitialSettingsRequest: () => void;
   getSettingOptionsRequest: () => void;
   updateSettings: (data: any) => void;
   changeLanguage: () => void;
+  isRefreshUtxosModalOpen: boolean;
 }
 
 interface SettingsPageState {
@@ -73,6 +78,11 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     isUnsavedChanges: false,
   });
 
+  const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
+  const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
+    false
+  );
+
   useEffect(() => {
     props.getSettingOptionsRequest();
     props.getInitialSettingsRequest();
@@ -83,6 +93,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     const updatedState = Object.assign({}, state, updatedObject);
     setState(updatedState);
   };
+
+  useEffect(() => {
+    if (!props.isRestart) {
+      setIsReindexAfterSaving(false);
+    }
+    if (!props.isRefreshUtxosModalOpen) {
+      setIsRefreshUtxosAfterSaving(false);
+    }
+  }, [props.isRestart, props.isRefreshUtxosModalOpen]);
 
   useEffect(() => {
     const prevPropsValue =
@@ -119,6 +138,14 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     setSettingsPageState({
       [field]: !state[field],
     });
+  };
+
+  const handeReindexToggle = () => {
+    setIsReindexAfterSaving(!reindexAfterSaving);
+  };
+
+  const handeRefreshUtxosToggle = () => {
+    setIsRefreshUtxosAfterSaving(!refreshUtxosAfterSaving);
   };
 
   const handleFractionalNumInputs = (
@@ -215,6 +242,8 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       maximumAmount,
       maximumCount,
       feeRate,
+      reindexAfterSaving: reindexAfterSaving,
+      refreshUtxosAfterSaving,
     };
     props.updateSettings(settings);
   };
@@ -240,7 +269,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.settings.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
       <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='content'>
@@ -265,11 +294,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             maximumCount={maximumCount!}
             feeRate={feeRate!}
             scriptVerificationThreads={scriptVerificationThreads!}
+            reindexAfterSaving={reindexAfterSaving!}
+            refreshUtxosAfterSaving={refreshUtxosAfterSaving}
             handleRegularNumInputs={handleRegularNumInputs}
             handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
             network={network!}
             handleDropDowns={handleDropDowns}
+            handeReindexToggle={handeReindexToggle}
+            handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
           <SettingsTabDisplay
             language={language!}
@@ -280,7 +313,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         </TabContent>
       </div>
       <SettingsTabsFooter
-        isUnsavedChanges={isUnsavedChanges}
+        isUnsavedChanges={
+          isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
+        }
         saveChanges={saveChanges}
       />
     </div>
@@ -294,7 +329,9 @@ const mapStateToProps = (state) => {
     appConfig,
     isUpdating,
     isUpdated,
+    isRefreshUtxosModalOpen,
   } = state.settings;
+  const { isRestart } = state.popover;
   const { locale } = state.i18n;
   return {
     isFetching,
@@ -303,6 +340,8 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     locale,
+    isRestart,
+    isRefreshUtxosModalOpen,
   };
 };
 

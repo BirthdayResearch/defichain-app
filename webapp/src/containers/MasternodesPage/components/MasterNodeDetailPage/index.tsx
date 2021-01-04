@@ -17,7 +17,8 @@ import { MASTER_NODES_PATH } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
-
+import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 interface RouteProps {
   hash: string;
 }
@@ -62,9 +63,10 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   if (isEmpty(masternode)) {
     return <Redirect to={MASTER_NODES_PATH} />;
   }
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
 
@@ -113,15 +115,17 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t(
-            'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
-            {
-              hash,
-            }
+          {getPageTitle(
+            I18n.t(
+              'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
+              {
+                hash,
+              }
+            )
           )}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={MASTER_NODES_PATH}
           tag={NavLink}
@@ -154,7 +158,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             </Button>
           </ButtonGroup>
         )}
-      </header>
+      </Header>
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi
@@ -300,7 +304,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorResigningMasterNode}</p>

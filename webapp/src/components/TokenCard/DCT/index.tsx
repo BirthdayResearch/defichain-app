@@ -4,7 +4,9 @@ import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { ITokenCard } from '../../../utils/interfaces';
-import { getIcon } from '../../../utils/utility';
+import VerifiedIcon from '../../../assets/svg/verified-icon.svg';
+
+import TokenAvatar from '../../TokenAvatar';
 
 const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
   const { data } = props;
@@ -15,12 +17,28 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
       onClick={() => props.handleCardClick(data.symbol, data.hash)}
     >
       <CardBody className={styles.cardBody}>
-        <Row className='mb-3'>
-          <Col>
-            <b>{data.name}</b> <span>{data.symbol}</span>
+        <Row className='mb-2'>
+          <Col md='8' className='d-flex align-items-center'>
+            <div>
+              <span className={styles.tokenName}>
+                {data.isLPS
+                  ? `${I18n.t(
+                      'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
+                    )} ${data.symbolKey}`
+                  : data.name}
+              </span>{' '}
+              <span className={styles.tokenSymbol}>{data.symbolKey}</span>
+            </div>
           </Col>
-          <Col md='6' className={`${styles.tokenCardIcon}`}>
-            <img height={'30px'} width={'30px'} src={getIcon(data.symbol)} />
+          <Col md='4' className={`${styles.tokenCardIcon}`}>
+            {data.isDAT && (
+              <img src={VerifiedIcon} className={styles.verifiedIcon} />
+            )}
+            <TokenAvatar
+              symbol={data.symbolKey}
+              size='32px'
+              textSizeRatio={2}
+            />
           </Col>
         </Row>
         {/* <Row>
