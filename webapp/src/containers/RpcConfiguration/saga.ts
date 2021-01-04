@@ -20,14 +20,26 @@ import {
   openErrorModal,
   closeErrorModal,
   closeRestartLoader,
+  setIsQueueResetRoute,
 } from '../PopOver/reducer';
 import { fetchPaymentRequest } from '../WalletPage/reducer';
 import { fetchChainInfo } from '../WalletPage/saga';
+import { enableMenuResetWalletBtn } from '../../app/update.ipcRenderer';
+import { history } from '../../utils/history';
+import { WALLET_TOKENS_PATH } from '../../constants';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
   if (!isRunning) yield put(startNodeFailure(message));
   else yield put(openErrorModal());
+}
+
+function* resetAppRoute() {
+  const { isQueueResetRoute } = yield select((state) => state.popover);
+  if (isQueueResetRoute) {
+    yield put(setIsQueueResetRoute(false));
+    history.push(WALLET_TOKENS_PATH);
+  }
 }
 
 export function* getConfig() {
@@ -46,6 +58,7 @@ export function* getConfig() {
             yield put(storeConfigurationData(blockchainStatus.conf));
             yield put(closeErrorModal());
             yield put(setQueueReady());
+            yield call(resetAppRoute);
           } else {
             yield call(blockChainNotStarted, blockchainStatus.message);
           }
@@ -70,6 +83,8 @@ export function* getConfig() {
 export function* preCheck() {
   yield call(fetchChainInfo);
   yield put(fetchPaymentRequest());
+  const { isWalletCreatedFlag } = yield select((state) => state.wallet);
+  yield call(enableMenuResetWalletBtn, isWalletCreatedFlag);
 }
 
 function* mySaga() {

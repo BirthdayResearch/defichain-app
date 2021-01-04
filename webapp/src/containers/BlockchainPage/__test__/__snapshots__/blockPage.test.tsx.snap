@@ -181,13 +181,13 @@ exports[`Block Page should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="– DeFi Blockchain Client"
+                title="– DeFi app"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="– DeFi Blockchain Client"
+                  title="– DeFi app"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>

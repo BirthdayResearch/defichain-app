@@ -1,27 +1,27 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Helmet } from 'react-helmet';
-import { Row, Col } from 'reactstrap';
 import Console from './ConsoleComponent';
+import Header from '../HeaderComponent';
+import styles from './Console.module.scss';
+import { getPageTitle } from '../../utils/utility';
 
 const ConsolePage: React.FunctionComponent = () => {
   return (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.console.consolePage.consoleDefiClient')}
+          {getPageTitle(
+            I18n.t('containers.console.consolePage.consoleDeFiApp')
+          )}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1>{I18n.t('containers.console.consolePage.console')}</h1>
-      </header>
-      <div className='content'>
+      </Header>
+      <div className={`content ${styles.consoleContent}`}>
         <section>
-          <Row>
-            <Col xs={12}>
-              <Console />
-            </Col>
-          </Row>
+          <Console />
         </section>
       </div>
     </div>

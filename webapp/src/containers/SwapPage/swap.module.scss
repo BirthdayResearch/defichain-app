@@ -1,0 +1,74 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.error-dialog {
+  color: $dfi-red !important;
+}
+
+.valueTxt {
+  color: rgba(0, 0, 0, 0.6);
+  text-align: right;
+}
+
+.features {
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.feature {
+  display: flex;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1.5rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    color: $primary;
+  }
+}
+
+.txProgressSuccess {
+  position: absolute;
+  left: -30px;
+  color: $green;
+  height: 24px;
+  width: 24px;
+}
+
+.loaderInline {
+  position: absolute;
+  left: -30px;
+}
+
+.buttonLink {
+  text-transform: none !important;
+  color: #ff00af;
+  width: 100%;
+  text-align: left;
+  justify-content: center;
+  svg {
+    width: 48px;
+    height: 48px;
+    color: $primary;
+  }
+}
+
+.featureDescription {
+  h3 {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.width40 {
+  width: 40%;
+}

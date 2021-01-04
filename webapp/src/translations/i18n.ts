@@ -20,7 +20,7 @@ const formatTranslationMessages = (locale, messages) => {
 const translationsObject = {
   [ENGLISH]: formatTranslationMessages(ENGLISH, enTranslationMessages),
   [GERMAN]: formatTranslationMessages(GERMAN, deTranslationMessages),
-  [FRENCH]: formatTranslationMessages(FRENCH, frTranslationMessages),
+  // [FRENCH]: formatTranslationMessages(FRENCH, frTranslationMessages),
 };
 
 export const setupI18n = (store) => {
@@ -48,8 +48,8 @@ export const getLocales = (lang: string) => {
       return ENGLISH;
     case 'de':
       return GERMAN;
-    case 'fr':
-      return FRENCH;
+    // case 'fr':
+    //   return FRENCH;
     default:
       return ENGLISH;
   }
