@@ -86,7 +86,7 @@ export interface AddLiquidityFormState extends AddressModel {
 }
 
 const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
-  props: AddLiquidityProps
+  props: AddLiquidityProps,
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const idTokenA = urlParams.get('idTokenA');
@@ -247,7 +247,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         amount2: calculateInputAddLiquidity(
           formState.amount1,
           formState,
-          poolPairList
+          poolPairList,
         ),
       });
   }, [formState.hash1, formState.hash2]);
@@ -267,7 +267,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const tokenMap = getTokenAndBalanceMap(
     poolPairList,
     tokenBalanceList,
-    walletBalance
+    walletBalance,
   );
 
   const handleChange = (e) => {
@@ -275,7 +275,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       if (formState.hash1 === '0') {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            Math.max(Number(formState.balance1) - 1, 0),
           ) ||
           !e.target.value
         ) {
@@ -285,7 +285,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             amount2: calculateInputAddLiquidity(
               e.target.value,
               formState,
-              poolPairList
+              poolPairList,
             ),
           });
         }
@@ -296,7 +296,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           amount2: calculateInputAddLiquidity(
             e.target.value,
             formState,
-            poolPairList
+            poolPairList,
           ),
         });
       }
@@ -309,7 +309,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     symbol: string,
     field2: string,
     balance: string,
-    field3: string
+    field3: string,
   ) => {
     setFormState({
       ...formState,
@@ -329,7 +329,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         amount2: calculateInputAddLiquidity(
           amount.toString(),
           formState,
-          poolPairList
+          poolPairList,
         ),
       });
     } else {
@@ -341,7 +341,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         amount1: calculateInputAddLiquidityLeftCard(
           amount.toString(),
           formState,
-          poolPairList
+          poolPairList,
         ),
       });
     }
@@ -357,19 +357,19 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     const newAmount = calculateInputAddLiquidity(
       formState.amount1,
       formState,
-      poolPairList
+      poolPairList,
     );
     const diff = difference(oldAmount, newAmount);
     const percentageChange = (diff / oldAmount) * 100;
 
     if (Number(percentageChange) >= 1) {
       setLiquidityChangedMsg(
-        I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
+        I18n.t('containers.swap.addLiquidity.ratioMoreThan1'),
       );
       setLiquidityChanged(true);
     } else if (Number(newAmount) > Number(formState.balance2)) {
       setLiquidityChangedMsg(
-        I18n.t('containers.swap.addLiquidity.ratioChanged')
+        I18n.t('containers.swap.addLiquidity.ratioChanged'),
       );
       setLiquidityChanged(true);
     } else {
@@ -386,12 +386,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       <ModalBody>
         <div className={styles.errorModal}>
           <p>{liquidityChangedMsg}</p>
-          <div className='text-right'>
+          <div className="text-right">
             <Button
               to={CREATE_POOL_PAIR_PATH}
               tag={RRNavLink}
-              color='link'
-              className='header-bar-back'
+              color="link"
+              className="header-bar-back"
             >
               {I18n.t('containers.swap.addLiquidity.ok')}
             </Button>
@@ -427,10 +427,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       formState[`amount2`] &&
       formState[`balance2`] &&
       (new BigNumber(formState[`amount2`]).isGreaterThan(
-        formState[`balance2`]
+        formState[`balance2`],
       ) ||
         new BigNumber(formState[`amount1`]).isGreaterThan(
-          formState[`balance1`]
+          formState[`balance1`],
         ))
     ) {
       return true;
@@ -457,7 +457,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
-        tokenArray.includes(value)
+        tokenArray.includes(value),
       );
       finalArray.map((symbol: string) => {
         if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
@@ -499,7 +499,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     return getTransactionAddressLabel(
       formState.receiveLabel,
       formState.receiveAddress,
-      I18n.t('containers.swap.addLiquidity.receiveAddress')
+      I18n.t('containers.swap.addLiquidity.receiveAddress'),
     );
   };
 
@@ -509,12 +509,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         ? [DEFICHAIN_MAINNET_LINK, MAINNET]
         : [DEFICHAIN_TESTNET_LINK, TESTNET];
     openNewTab(
-      `${url}/#/DFI/${net.toLowerCase()}/tx/${addPoolLiquidityHash ?? ''}`
+      `${url}/#/DFI/${net.toLowerCase()}/tx/${addPoolLiquidityHash ?? ''}`,
     );
   };
 
   return (
-    <div className='main-wrapper'>
+    <div className="main-wrapper">
       {liquidityChangedModal()}
       <Helmet>
         <title>{getPageTitle(I18n.t('containers.swap.swapPage.title'))}</title>
@@ -523,8 +523,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         <Button
           to={LIQUIDITY_PATH}
           tag={RRNavLink}
-          color='link'
-          className='header-bar-back'
+          color="link"
+          className="header-bar-back"
         >
           <MdArrowBack />
           <span>{I18n.t('containers.swap.addLiquidity.back')}</span>
@@ -533,7 +533,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           {I18n.t('containers.swap.addLiquidity.addLiquidity')}
         </h1>
       </Header>
-      <div className='content'>
+      <div className="content">
         <section>
           <div className={styles.addLiquidityRow}>
             <LiquidityCard
@@ -569,12 +569,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             />
           </div>
           <Row>
-            <Col md='4' className={styles.keyValueLiKey}>
+            <Col md="4" className={styles.keyValueLiKey}>
               <span>
                 {I18n.t('containers.swap.addLiquidity.receiveSharesAt')}
               </span>
             </Col>
-            <Col md='8'>
+            <Col md="8">
               <AddressDropdown
                 formState={formState}
                 getTransactionLabel={getTransactionLabel}
@@ -592,7 +592,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 <Col className={styles.keyValueLiValue}>
                   <NumberMask
                     value={Number(
-                      conversionRatio(formState, poolPairList)
+                      conversionRatio(formState, poolPairList),
                     ).toFixed(8)}
                   />
                   {` ${formState.symbol2} per ${formState.symbol1}`}
@@ -629,7 +629,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                     value={getTotalPoolValue(
                       formState,
                       poolPairList,
-                      formState.hash1
+                      formState.hash1,
                     )}
                   />
                 </Col>
@@ -647,7 +647,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                     value={getTotalPoolValue(
                       formState,
                       poolPairList,
-                      formState.hash2
+                      formState.hash2,
                     )}
                   />
                 </Col>
@@ -656,13 +656,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           )}
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer className="footer-bar">
         <div
           className={classnames({
             'd-none': addLiquidityStep !== 'default',
           })}
         >
-          <Row className='justify-content-between align-items-center'>
+          <Row className="justify-content-between align-items-center">
             {!sufficientUtxos ? (
               <Col className={`${styles['error-dialog']} col-auto`}>
                 {I18n.t('containers.swap.addLiquidity.insufficientUtxos')}
@@ -670,27 +670,27 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             ) : (
               <>
                 {!isAmountInsufficient() ? (
-                  <Col className='col-auto'>
+                  <Col className="col-auto">
                     {isValid()
                       ? I18n.t('containers.swap.addLiquidity.readyToSupply')
                       : I18n.t(
-                          'containers.swap.addLiquidity.selectInputTokens'
+                          'containers.swap.addLiquidity.selectInputTokens',
                         )}
                   </Col>
                 ) : (
-                  <Col className='col-auto'>
-                    <span className='text-danger'>
+                  <Col className="col-auto">
+                    <span className="text-danger">
                       {I18n.t(
-                        'containers.swap.addLiquidity.amountInsufficient'
+                        'containers.swap.addLiquidity.amountInsufficient',
                       )}
                     </span>
                   </Col>
                 )}
               </>
             )}
-            <Col className='d-flex justify-content-end'>
+            <Col className="d-flex justify-content-end">
               <Button
-                color='primary'
+                color="primary"
                 disabled={
                   !Number(formState.amount1) || !isValid() || !sufficientUtxos
                 }
@@ -706,28 +706,28 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             'd-none': addLiquidityStep !== 'confirm',
           })}
         >
-          <div className='footer-sheet'>
-            <dl className='row'>
+          <div className="footer-sheet">
+            <dl className="row">
               {/* For future purpose, don't remove */}
               {/* <dt className='col-sm-4 text-right'>
                 {I18n.t('containers.swap.addLiquidity.reward')}
               </dt>
               <dd className='col-sm-8'>{'99,00000 DFI'}</dd> */}
-              <dt className='col-sm-4 text-right'>
+              <dt className="col-sm-4 text-right">
                 {I18n.t('containers.swap.addLiquidity.deposits')}
               </dt>
-              <dd className='col-sm-8'>
+              <dd className="col-sm-8">
                 {`${formState.amount1} ${formState.symbol1}`}
                 <br />
                 {`${formState.amount2} ${formState.symbol2}`}
               </dd>
-              <dt className='col-sm-4 text-right'>
+              <dt className="col-sm-4 text-right">
                 {I18n.t('containers.swap.addLiquidity.rates')}
               </dt>
-              <dd className='col-sm-8'>
+              <dd className="col-sm-8">
                 {isValid() &&
                   `${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
+                    8,
                   )} ${formState.symbol2} per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
@@ -737,28 +737,28 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                     formState.symbol2
                   }`}{' '}
               </dd>
-              <dt className='col-sm-4 text-right'>
+              <dt className="col-sm-4 text-right">
                 {I18n.t('containers.swap.addLiquidity.shareOfPool')}
               </dt>
-              <dd className='col-sm-8'>
+              <dd className="col-sm-8">
                 {isValid() && shareOfPool(formState, poolPairList)}
               </dd>
             </dl>
           </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='col'>
+          <Row className="justify-content-between align-items-center">
+            <Col className="col">
               {I18n.t('containers.swap.addLiquidity.verifyTransactionSupply')}
             </Col>
-            <Col className='d-flex justify-content-end'>
+            <Col className="d-flex justify-content-end">
               <Button
-                color='link'
-                className='mr-3'
+                color="link"
+                className="mr-3"
                 onClick={AddLiquidityStepDefault}
               >
                 {I18n.t('containers.swap.addLiquidity.cancel')}
               </Button>
               <Button
-                color='primary'
+                color="primary"
                 onClick={() => handleAddLiquidity()}
                 // disabled={wait > 0 ? true : false}
               >
@@ -773,9 +773,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             'd-none': addLiquidityStep !== 'success',
           })}
         >
-          <div className='footer-sheet'>
-            <div className='text-center'>
-              <MdCheckCircle className='footer-sheet-icon' />
+          <div className="footer-sheet">
+            <div className="text-center">
+              <MdCheckCircle className="footer-sheet-icon" />
               <p>
                 {I18n.t('containers.swap.addLiquidity.transactionSuccessMsg')}
               </p>
@@ -786,12 +786,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </div>
             </div>
           </div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
-              <Button onClick={onViewOnChain} color='link' className='mr-3'>
+          <Row className="justify-content-between align-items-center">
+            <Col className="d-flex justify-content-end">
+              <Button onClick={onViewOnChain} color="link" className="mr-3">
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
-              <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
+              <Button to={LIQUIDITY_PATH} tag={RRNavLink} color="primary">
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
               </Button>
             </Col>
@@ -802,12 +802,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             'd-none': addLiquidityStep !== 'loading',
           })}
         >
-          <div className='footer-sheet'>
+          <div className="footer-sheet">
             <div>
               <div className={styles.txProgressLine}>
                 {isLoadingPreparingUTXO ? (
                   <>
-                    <div className='d-flex'>
+                    <div className="d-flex">
                       <div className={styles.txProgressLoader}>
                         <Spinner />
                       </div>
@@ -826,7 +826,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 )}
               </div>
               <div className={styles.txProgressLine}>
-                <div className='d-flex'>
+                <div className="d-flex">
                   {!isLoadingPreparingUTXO && (
                     <>
                       {isLoadingAddingLiquidity ? (
@@ -857,8 +857,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             'd-none': addLiquidityStep !== 'failure',
           })}
         >
-          <div className='footer-sheet'>
-            <div className='text-center'>
+          <div className="footer-sheet">
+            <div className="text-center">
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
@@ -868,8 +868,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               <p>{isErrorAddingPoolLiquidity}</p>
             </div>
           </div>
-          <div className='d-flex align-items-center justify-content-center'>
-            <Button color='primary' to={LIQUIDITY_PATH} tag={RRNavLink}>
+          <div className="d-flex align-items-center justify-content-center">
+            <Button color="primary" to={LIQUIDITY_PATH} tag={RRNavLink}>
               {I18n.t('containers.swap.addLiquidity.backToPool')}
             </Button>
           </div>
