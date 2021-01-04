@@ -7,7 +7,15 @@ import enTranslationMessages from './languages/en.json';
 import deTranslationMessages from './languages/de.json';
 import frTranslationMessages from './languages/fr.json';
 import zhTranslationMessages from './languages/zh.json';
-import { LANG_VARIABLE, ENGLISH, GERMAN, FRENCH, CHINESE } from '../constants';
+import zhtTranslationMessages from './languages/zht.json';
+import {
+  LANG_VARIABLE,
+  ENGLISH,
+  GERMAN,
+  FRENCH,
+  CHINESE,
+  CHINESE_TRADITIONAL,
+} from '../constants';
 import PersistentStore from '../utils/persistentStore';
 
 const formatTranslationMessages = (locale, messages) => {
@@ -23,6 +31,10 @@ const translationsObject = {
   [GERMAN]: formatTranslationMessages(GERMAN, deTranslationMessages),
   // [FRENCH]: formatTranslationMessages(FRENCH, frTranslationMessages),
   [CHINESE]: formatTranslationMessages(CHINESE, zhTranslationMessages),
+  [CHINESE_TRADITIONAL]: formatTranslationMessages(
+    CHINESE_TRADITIONAL,
+    zhtTranslationMessages
+  ),
 };
 
 export const setupI18n = (store) => {
@@ -54,6 +66,8 @@ export const getLocales = (lang: string) => {
     //   return FRENCH;
     case 'zh':
       return CHINESE;
+    case 'zht':
+      return CHINESE_TRADITIONAL;
     default:
       return ENGLISH;
   }

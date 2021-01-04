@@ -17,6 +17,7 @@ export const SCRIPT_VERIFICATION = 'scriptVerification';
 export const GERMAN = 'de';
 export const FRENCH = 'fr';
 export const CHINESE = 'zh';
+export const CHINESE_TRADITIONAL = 'zht';
 export const LIGHT_DISPLAY = 'LIGHT';
 export const DARK_DISPLAY = 'DARK';
 export const SAME_AS_SYSTEM_DISPLAY = 'SAME_AS_SYSTEM';

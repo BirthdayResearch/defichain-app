@@ -525,6 +525,8 @@
       "english": "English",
       "german": "German",
       "french": "French",
+      "chinese": "Chinese (Simplified)",
+      "chinese_traditional": "Chinese (Traditional)",
       "displayAmount": "Display amounts in unit",
       "dFI": "DFI",
       "fi": "fi",
