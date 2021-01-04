@@ -30,13 +30,45 @@
   line-height: 2.5rem;
 }
 
-.number {
-  font-weight: $font-weight-medium;
+.seeds {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: $card-bg;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.seedItem {
+  display: flex;
+}
+
+.seedNumber {
+  text-align: right;
+  padding-right: 16px;
+  width: 32px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-top: 8px;
+  padding-bottom: 8px;
   color: $secondary;
 }
 
-.margin {
-  margin: 50px;
+.seedWord {
+  border-bottom: $border-width solid $border-color;
+  flex-grow: 1;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.number {
+  font-weight: $font-weight-medium;
+  color: $secondary;
 }
 
 .txtWhite {
@@ -58,6 +90,37 @@
   text-align: end;
 }
 
-.error-dailog {
+.error-dialog {
   color: $dfi-red !important;
+}
+
+.warning-dailog {
+  color: $dfi-orange !important;
+}
+
+.mnemonicGuidelineWarning {
+  color: $dfi-red;
+  margin: 2rem 0;
+}
+
+.walletRecoveryInfo {
+  background-color: rgba(255, 255, 255, 0);
+  color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.verifyHeadLine6 {
+  font-weight: $font-weight-semibold;
+  font-size: 20px;
+}
+
+.verifySubtitle {
+  font-weight: $font-weight-medium;
+}
+
+.optionText {
+  text-transform: none !important;
 }

@@ -12,7 +12,7 @@
   $active-border: rgba($border, 0.24)
 ) {
   color: $background;
-  @include button-bg($background);
+  background-color: rgba($background, 0.08);
   border-color: rgba($border, 0.08);
   @include box-shadow($btn-box-shadow);
 

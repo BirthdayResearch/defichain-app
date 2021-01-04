@@ -1,0 +1,15 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-left: 8px;
+  }
+}

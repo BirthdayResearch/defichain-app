@@ -15,10 +15,12 @@ import {
 import classnames from 'classnames';
 
 import styles from './RestoreWallet.module.scss';
-import { WALLET_PAGE_PATH } from '../../../../constants';
+import { WALLET_TOKENS_PATH } from '../../../../constants';
 import { resetRestoreWalletError, restoreWalletRequest } from '../../reducer';
 import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface RestoreWalletProps extends RouteComponentProps {
   isWalletRestoring: boolean;
@@ -60,7 +62,8 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   const [mnemonicCheck, setMnemonicCheck] = useState(false);
 
   const onchangeHandle = (event, key) => {
-    const tempObj = { ...mnemonicObj, [key]: event.target.value };
+    const { value } = event.target;
+    const tempObj = { ...mnemonicObj, [key]: value.trim() };
     setMnemonicObj(tempObj);
 
     const isFilled = isMnemonicObjFilled(tempObj);
@@ -87,11 +90,13 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.restoreWalletPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
-          to={WALLET_PAGE_PATH}
+          to={WALLET_TOKENS_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'
@@ -104,7 +109,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
         <h1 className={classnames({ 'd-none': false })}>
           {I18n.t('containers.wallet.restoreWalletPage.restoreWallet')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <p>
@@ -149,7 +154,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 <p>{isErrorRestoringWallet}</p>
@@ -160,7 +165,6 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 color='primary'
                 onClick={() => {
                   resetRestoreWalletError();
-                  history.push(WALLET_PAGE_PATH);
                 }}
               >
                 {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}
@@ -172,7 +176,7 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
                 <Button
-                  color='link'
+                  color='primary'
                   className='mr-3'
                   disabled={!mnemonicCheck}
                   onClick={() => {

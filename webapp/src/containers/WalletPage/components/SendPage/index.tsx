@@ -30,22 +30,33 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
-  accountToAccount,
-  handleFetchAccounts,
+  // accountToAccount,
   handleFetchRegularDFI,
   isValidAddress,
   sendToAddress,
+  sendTokensToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
+import {
+  WALLET_PAGE_PATH,
+  DEFAULT_UNIT,
+  // DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+} from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
+  // getAddressAndAmountListForAccount,
+  // getAddressForSymbol,
   getAmountInSelectedUnit,
   getErrorMessage,
+  getPageTitle,
+  getSymbolKey,
+  // handleAccountToAccountConversion,
   isLessThanDustAmount,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
+import Header from '../../../HeaderComponent';
+import NumberMask from '../../../../components/NumberMask';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -80,6 +91,7 @@ interface SendPageState {
   uriData: string;
   errMessage: string;
   regularDFI: string | number;
+  txHash: string;
 }
 
 class SendPage extends Component<SendPageProps, SendPageState> {
@@ -105,6 +117,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     uriData: '',
     errMessage: '',
     regularDFI: '',
+    txHash: '',
   };
 
   componentDidMount() {
@@ -205,10 +218,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     log.error(err);
   };
 
-  handleSuccess = () => {
+  handleSuccess = (txHash) => {
     this.setState({
       sendStep: 'success',
       showBackdrop: 'show-backdrop',
+      txHash,
     });
   };
 
@@ -252,8 +266,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       regularDFI,
     });
+    // if (regularDFI <= DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT) {
+    //   try {
+    //     throw new Error(I18n.t('containers.wallet.sendPage.insufficientUtxos'));
+    //   } catch (error) {
+    //     return this.handleFailure(error);
+    //   }
+    // }
     if (isAmountValid && isAddressValid) {
       let amount;
+      let txHash;
       if (
         (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
         regularDFI !== 0
@@ -267,28 +289,34 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
         try {
           if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
-            await sendToAddress(this.state.toAddress, amount, true);
+            txHash = await sendToAddress(this.state.toAddress, amount, true);
           } else {
-            await sendToAddress(this.state.toAddress, amount, false);
+            txHash = await sendToAddress(this.state.toAddress, amount, false);
           }
-          this.handleSuccess();
+          this.handleSuccess(txHash);
         } catch (error) {
           this.handleFailure(error);
         }
       } else {
         try {
           const hash = this.tokenHash || '0';
-          const accountTokens = await handleFetchAccounts();
-          const DFIObj = accountTokens.find((token) => token.hash === '0');
-          const address = this.tokenAddress || DFIObj.address;
+
+          log.info('*******token send **********');
+          log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
-          await accountToAccount(
-            address,
+          log.info({ amount, hash, address: this.state.toAddress });
+
+          txHash = await sendTokensToAddress(
             this.state.toAddress,
             `${amount}@${hash}`
           );
-          this.handleSuccess();
+          log.info('*******token send **********');
+          log.info(`accountToAccount tx hash ${txHash}`);
+          log.info('*******token send **********');
+          this.handleSuccess(txHash);
         } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(`Got error in token send: ${errorMessage}`);
           this.handleFailure(error);
         }
       }
@@ -355,9 +383,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{I18n.t('containers.wallet.sendPage.sendTitle')}</title>
+          <title>{getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}</title>
         </Helmet>
-        <header className='header-bar'>
+        <Header>
           <Button
             to={
               tokenSymbol
@@ -375,9 +403,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {tokenSymbol || this.props.unit}
+            {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+              this.props.unit}
           </h1>
-        </header>
+        </Header>
         <div className='content'>
           <section>
             <Form>
@@ -402,7 +431,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {tokenSymbol || this.props.unit}
+                        {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                          this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -469,14 +499,20 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.walletBalance')}
                 </div>
                 <div>
-                  {!tokenSymbol
-                    ? getAmountInSelectedUnit(
-                        this.props.sendData.walletBalance,
-                        this.props.unit
-                      )
-                    : tokenAmount}
+                  <NumberMask
+                    value={
+                      (!tokenSymbol
+                        ? getAmountInSelectedUnit(
+                            this.props.sendData.walletBalance,
+                            this.props.unit
+                          )
+                        : tokenAmount) ?? '0'
+                    }
+                  />
                   &nbsp;
-                  {tokenSymbol ? tokenSymbol : this.props.unit}
+                  {tokenSymbol
+                    ? getSymbolKey(tokenSymbol || '', tokenHash || '0')
+                    : this.props.unit}
                 </div>
               </Col>
               <Col className='col-auto'>
@@ -484,8 +520,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   {I18n.t('containers.wallet.sendPage.amountToSend')}
                 </div>
                 <div>
-                  {this.state.amountToSendDisplayed}&nbsp;
-                  {tokenSymbol || this.props.unit}
+                  <NumberMask
+                    value={this.state.amountToSendDisplayed.toString()}
+                  />
+                  &nbsp;
+                  {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                    this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -522,7 +562,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {tokenSymbol || this.props.unit}
+                    {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                      this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -567,6 +608,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <p>
                   {I18n.t('containers.wallet.sendPage.transactionSuccessMsg')}
                 </p>
+                <div>
+                  <b>{I18n.t('containers.wallet.sendPage.txHash')}</b> : &nbsp;
+                  <span>{this.state.txHash}</span>
+                </div>
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
@@ -604,7 +649,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <MdErrorOutline
                   className={classnames({
                     'footer-sheet-icon': true,
-                    [styles[`error-dailog`]]: true,
+                    [styles[`error-dialog`]]: true,
                   })}
                 />
                 {!this.state.regularDFI && (

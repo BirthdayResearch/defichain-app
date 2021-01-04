@@ -5,6 +5,8 @@ import { MdArrowBack } from 'react-icons/md';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { BLOCKCHAIN_BASE_PATH } from '../../../../constants';
+import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -18,12 +20,10 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {I18n.t('containers.blockChainPage.minerPage.miner')}
-          {`${props.match.params.id} –`}
-          {I18n.t('containers.blockChainPage.minerPage.defiBlockChainClient')}
+          {getPageTitle(`${I18n.t('containers.blockChainPage.minerPage.miner')} ${props.match.params.id}`)}
         </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={BLOCKCHAIN_BASE_PATH}
           tag={NavLink}
@@ -39,7 +39,7 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
           {I18n.t('containers.blockChainPage.minerPage.miner')}&nbsp;
           {props.match.params.id}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>{I18n.t('containers.blockChainPage.minerPage.miner')}</section>
       </div>

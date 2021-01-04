@@ -23,6 +23,7 @@ export const initialState = {
   amountUnits: [],
   displayModes: [],
   networkOptions: [],
+  isRefreshUtxosModalOpen: false,
 };
 
 const configSlice = createSlice({
@@ -66,6 +67,12 @@ const configSlice = createSlice({
       state.isUpdating = false;
       state.settingsError = action.payload;
     },
+    refreshUtxosRequest(state) {
+      state.isRefreshUtxosModalOpen = true;
+    },
+    refreshUtxosSuccess(state) {
+      state.isRefreshUtxosModalOpen = false;
+    },
   },
 });
 
@@ -81,6 +88,8 @@ export const {
   updateSettingsRequest,
   updateSettingsSuccess,
   updateSettingsFailure,
+  refreshUtxosRequest,
+  refreshUtxosSuccess,
 } = actions;
 
 export default reducer;

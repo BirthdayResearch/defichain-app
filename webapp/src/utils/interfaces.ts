@@ -97,20 +97,24 @@ export interface ITokenCard {
     hash: string;
     name: string;
     symbol: string;
+    symbolKey: string;
     isDAT: boolean;
     decimal: number;
     limit: number;
     mintable: boolean;
     tradeable: boolean;
+    isLPS: boolean;
   };
   handleCardClick: (symbol: string, hash: string) => void;
 }
 
 export interface IWalletTokenCard {
+  symbolKey: string;
   hash: string;
   name?: string;
   symbol: string | null;
   isDAT?: boolean;
+  isLPS?: boolean;
   decimal?: number;
   limit?: number;
   mintable?: boolean;
@@ -125,4 +129,16 @@ export interface IWalletTokenCard {
 
 export interface ITokenResponse {
   hash: string;
+}
+
+export interface ITokenBalanceInfo {
+  hash: string;
+  balance: string;
+  isPopularToken: boolean;
+}
+
+export interface IAddressAndAmount {
+  amount: string;
+  address: string;
+  label?: string;
 }

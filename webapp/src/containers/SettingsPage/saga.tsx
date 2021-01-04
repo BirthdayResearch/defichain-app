@@ -20,6 +20,7 @@ import {
   getAmountUnits,
   getDisplayModes,
   getNetWorkList,
+  refreshUtxosAfterSavingData,
 } from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
@@ -111,6 +112,14 @@ export function* updateSettings(action) {
       yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
       if (action.payload.network !== prevNetwork) {
         yield call(changeNetworkNode, action.payload.network);
+      }
+      if (data.reindexAfterSaving) {
+        yield put(restartModal());
+        yield call(shutDownBinary);
+        yield call(restartNode, { isReindexReq: true });
+      }
+      if (data.refreshUtxosAfterSaving) {
+        yield call(refreshUtxosAfterSavingData);
       }
     } else {
       yield put({
