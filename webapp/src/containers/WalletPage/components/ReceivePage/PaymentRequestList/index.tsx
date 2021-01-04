@@ -23,17 +23,21 @@ import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
 
+export interface PaymentRequestModel {
+  label: string;
+  id: string;
+  time: string;
+  address: string;
+  message?: string;
+  amount?: number;
+  unit?: string;
+  hdSeed?: boolean;
+}
+
 interface PaymentRequestsProps {
-  paymentRequests: {
-    label: string;
-    id: string;
-    time: string;
-    address: string;
-    message: string;
-    amount: number;
-    unit: string;
-  }[];
+  paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
+  fetchPaymentRequest: () => void;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
@@ -83,7 +87,18 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                     <tr key={request.id}>
                       <td></td>
                       <td>{request.label}</td>
-                      <td>{request.address}</td>
+                      <td className={styles.addressContainer}>
+                        <div className={styles.ellipsisValue}>{request.address}</div>
+                        <div className={styles.ellipsisValue}>
+                          {!request.hdSeed && (
+                            <span className='text-danger'>
+                              {I18n.t(
+                                'containers.wallet.paymentRequestList.warningSeedPhrase'
+                              )}
+                            </span>
+                          )}
+                        </div>
+                      </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
                         <div className={styles.qrCc}>
@@ -160,6 +175,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  fetchPaymentRequest: () => fetchPaymentRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);

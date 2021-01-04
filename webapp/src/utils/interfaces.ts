@@ -140,4 +140,5 @@ export interface ITokenBalanceInfo {
 export interface IAddressAndAmount {
   amount: string;
   address: string;
+  label?: string;
 }

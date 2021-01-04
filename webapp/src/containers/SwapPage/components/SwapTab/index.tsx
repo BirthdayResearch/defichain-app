@@ -14,7 +14,8 @@ interface SwapTabProps {
   tokenMap: Map<string, ITokenBalanceInfo>;
   name: number;
   formState: any;
-  handleChange: (e) => void;
+  handleChangeFrom: (e) => void;
+  handleChangeTo: (e) => void;
   handleInterchange: () => void;
   setMaxValue: (field: string, value: string) => void;
   handleDropdown: (
@@ -26,7 +27,8 @@ interface SwapTabProps {
     field3: string
   ) => void;
   filterBySymbol: any;
-  isLoadingTestPoolSwap: boolean;
+  isLoadingTestPoolSwapTo: boolean;
+  isLoadingTestPoolSwapFrom: boolean;
 }
 
 const SwapTab: React.FunctionComponent<SwapTabProps> = (
@@ -34,11 +36,13 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
 ) => {
   const {
     formState,
-    handleChange,
+    handleChangeFrom,
+    handleChangeTo,
     handleDropdown,
     setMaxValue,
     filterBySymbol,
-    isLoadingTestPoolSwap,
+    isLoadingTestPoolSwapTo,
+    isLoadingTestPoolSwapFrom,
     handleInterchange,
   } = props;
 
@@ -56,10 +60,11 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
               name={1}
               formState={formState}
-              handleChange={handleChange}
+              handleChange={handleChangeFrom}
               handleDropdown={handleDropdown}
               setMaxValue={setMaxValue}
-              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+              isLoadingTestPoolSwapTo={isLoadingTestPoolSwapTo}
+              isLoadingTestPoolSwapFrom={isLoadingTestPoolSwapFrom}
               dropdownLabel={
                 formState.symbol1
                   ? formState.symbol1
@@ -79,10 +84,11 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
               name={2}
               formState={formState}
-              handleChange={handleChange}
+              handleChange={handleChangeTo}
               handleDropdown={handleDropdown}
               setMaxValue={setMaxValue}
-              isLoadingTestPoolSwap={isLoadingTestPoolSwap}
+              isLoadingTestPoolSwapTo={isLoadingTestPoolSwapTo}
+              isLoadingTestPoolSwapFrom={isLoadingTestPoolSwapFrom}
               dropdownLabel={
                 formState.symbol2
                   ? formState.symbol2

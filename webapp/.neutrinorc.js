@@ -28,7 +28,7 @@ module.exports = {
           clean: true,
           devtool: {
             production: 'nosources-source-map',
-            development: 'cheap-module-eval-source-map',
+            development: 'inline-source-map',
           },
           env: {
             DEBUG: process.env.DEBUG || true,
