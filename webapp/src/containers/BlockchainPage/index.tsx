@@ -17,7 +17,7 @@ const BlockchainPage = () => {
   const explorerLink =
     getNetworkType() === MAIN ? DEFICHAIN_MAINNET_LINK : DEFICHAIN_TESTNET_LINK;
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(
@@ -28,16 +28,16 @@ const BlockchainPage = () => {
       <Header>
         <h1>{I18n.t('containers.blockChainPage.blockChainPage.blockchain')}</h1>
         <ButtonGroup>
-          <Button color="link" onClick={() => openNewTab(explorerLink)}>
+          <Button color='link' onClick={() => openNewTab(explorerLink)}>
             <MdLaunch />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.blockChainPage.blockChainPage.explorer')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className="content">
-        <section className="mb-0">
+      <div className='content'>
+        <section className='mb-0'>
           <BlockchainTable />
         </section>
       </div>

@@ -98,7 +98,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
     network === MAIN ? DEFICHAIN_MAINNET_LINK : DEFICHAIN_TESTNET_LINK;
 
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(
@@ -112,11 +112,11 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
         <Button
           to={BLOCKCHAIN_BASE_PATH}
           tag={NavLink}
-          color="link"
-          className="header-bar-back"
+          color='link'
+          className='header-bar-back'
         >
           <MdArrowBack />
-          <span className="d-lg-inline">
+          <span className='d-lg-inline'>
             {I18n.t('containers.blockChainPage.blockPage.blockchain')}
           </span>
         </Button>
@@ -126,22 +126,22 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
         </h1>
         <ButtonGroup>
           <Button
-            color="link"
+            color='link'
             onClick={() =>
               openNewTab(`${explorerLink}#/DFI/${network}net/block/${hash}`)
             }
           >
             <MdLaunch />
-            <span className="d-lg-inline">
+            <span className='d-lg-inline'>
               {I18n.t('containers.blockChainPage.blockChainPage.explorer')}
             </span>
           </Button>
         </ButtonGroup>
       </Header>
-      <div className="content">
-        <section className="mb-5">
-          <Row className="mb-4">
-            <Col md="6">
+      <div className='content'>
+        <section className='mb-5'>
+          <Row className='mb-4'>
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t(
                   'containers.blockChainPage.blockPage.noOfTransactions',
@@ -149,31 +149,31 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
                 value={(nTxns || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.difficulty')}
                 value={(difficulty || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.height')}
                 value={(blockNumber || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.bits')}
                 value={bits}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.version')}
                 value={(version || '').toString()}
               />
             </Col>
-            <Col md="6">
+            <Col md='6'>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.nonce')}
                 value={(nonce || '').toString()}
@@ -183,27 +183,27 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.blockHash')}
                 value={hash}
-                copyable="true"
+                copyable='true'
               />
             </Col>
             <Col>
               <KeyValueLi
                 label={I18n.t('containers.blockChainPage.blockPage.merkleRoot')}
                 value={merkleRoot}
-                copyable="true"
+                copyable='true'
               />
             </Col>
           </Row>
-          <div className="d-flex justify-content-between">
+          <div className='d-flex justify-content-between'>
             {blockNumber - 1 > 0 ? (
               <Button
                 to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${blockNumber - 1}`}
                 tag={NavLink}
-                color="outline-primary"
-                className="header-bar-back"
+                color='outline-primary'
+                className='header-bar-back'
               >
                 <MdChevronLeft />
-                <span className="d-lg-inline">{blockNumber - 1}</span>
+                <span className='d-lg-inline'>{blockNumber - 1}</span>
               </Button>
             ) : (
               <a></a>
@@ -212,10 +212,10 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
               <Button
                 to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${blockNumber + 1}`}
                 tag={NavLink}
-                color="outline-primary"
-                className="header-bar-back"
+                color='outline-primary'
+                className='header-bar-back'
               >
-                <span className="d-lg-inline">{blockNumber + 1}</span>
+                <span className='d-lg-inline'>{blockNumber + 1}</span>
                 <MdChevronRight />
               </Button>
             )}
@@ -249,7 +249,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
               />
             </>
           ) : (
-            <Card className="table-responsive-md">
+            <Card className='table-responsive-md'>
               <CardBody>
                 {I18n.t('containers.blockChainPage.blockTxn.noTransactions')}
               </CardBody>

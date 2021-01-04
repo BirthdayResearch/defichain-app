@@ -8,7 +8,7 @@ import { getPageTitle } from '../../utils/utility';
 
 const ConsolePage: React.FunctionComponent = () => {
   return (
-    <div className="main-wrapper">
+    <div className='main-wrapper'>
       <Helmet>
         <title>
           {getPageTitle(
