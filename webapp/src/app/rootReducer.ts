@@ -22,5 +22,5 @@ export default combineReducers({
   i18n: i18nReducer,
   cli: cliReducer,
   popover: popoverReducer,
-  swap: swapReducer
+  swap: swapReducer,
 });

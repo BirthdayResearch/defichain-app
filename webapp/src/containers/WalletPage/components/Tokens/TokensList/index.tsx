@@ -77,7 +77,11 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
       ) : (
         <div className='main-wrapper'>
           <Helmet>
-            <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
+            <title>
+              {getPageTitle(
+                I18n.t('containers.wallet.walletPage.walletDeFiApp')
+              )}
+            </title>
           </Helmet>
           <Header>
             <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
