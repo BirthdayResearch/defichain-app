@@ -63,9 +63,10 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const prevIsRestart = usePrevious(isRestart);
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(CONFIRM_BUTTON_COUNTER);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
@@ -193,7 +194,9 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.masterNodes.masterNodesPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>

@@ -52,9 +52,11 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
-            id: label || address,
-          }))}
+          {getPageTitle(
+            I18n.t('containers.wallet.paymentRequestPage.paymentRequestTitle', {
+              id: label || address,
+            })
+          )}
         </title>
       </Helmet>
       <Header>
