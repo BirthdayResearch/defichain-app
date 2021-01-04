@@ -30,7 +30,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Блокчейн – Блокчейн-Клиент DeFi",
+        "title": "Блокчейн",
         "blockchain": "Блокчейн"
       },
       "blockChainTable": {
@@ -75,25 +75,25 @@
       }
     },
     "errors": {
-      "title": "Центр обработки блоков DFI – Блокчейн-Клиент DeFi",
+      "title": "Центр обработки блоков DFI",
       "header": "Центр обработки блоков DFI",
       "detail": "Похоже, вы попали сюда случайно. Наши сотрудники следят за тем, чтобы каждый блок DFI был прикреплен к цепи правильно. Поскольку это запретная зона, мы просим вас вернуться назад.",
       "goBack": "Назад"
     },
     "exchangePage": {
-      "title": "Обменник – Блокчейн-Клиент DeFi",
+      "title": "Обменник",
       "exchange": "Обменник",
       "section": "Раздел",
       "footerBar": "Подвал"
     },
     "helpPage": {
-      "title": "Помощь – Блокчейн-Клиент DeFi",
+      "title": "Помощь",
       "help": "Помощь",
       "section": "Раздел"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Мастерноды – Блокчейн-Клиент DeFi",
+        "title": "Мастерноды",
         "createMasterNode": "Создать",
         "masterNodes": "Мастерноды",
         "statistics": "Статистика",
@@ -297,7 +297,7 @@
       }
     },
     "settings": {
-      "title": "Настройки – Блокчейн-Клиент DeFi",
+      "title": "Настройки",
       "settings": "Настройки",
       "general": "Общее",
       "display": "Отображение",
@@ -382,7 +382,7 @@
         "backToWalletPage": "ЗАКРЫТЬ"
       },
       "sendPage": {
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
+        "sendDFITitle": "Отправить DFI",
         "wallet": "Кошелек",
         "sendDFI": "Отправить DFI",
         "send": "Отправить",
@@ -404,7 +404,7 @@
         "pleaseTransferFunds": "Перенесите несколько DFI на свой счет"
       },
       "receivePage": {
-        "receiveDFITitle": "Получить DFI – Блокчейн-Клиент DeFi",
+        "receiveDFITitle": "Получить DFI",
         "wallet": "Кошелек",
         "receiveDFI": "Получить DFI",
         "optional": "По желанию",
@@ -438,7 +438,7 @@
         "created": "Создано"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Платежный запрос %{id} – Блокчейн-Клиент DeFi",
+        "paymentRequestTitle": "Платежный запрос %{id}",
         "paymentRequest": "Платежный запрос",
         "wallet": "Кошелек",
         "delete": "Удалить",
@@ -451,7 +451,7 @@
       },
       "walletPage": {
         "wallets": "Кошельки",
-        "walletDeFiApp": "Кошелек – Блокчейн-Клиент DeFi",
+        "walletDeFiApp": "Кошелек",
         "wallet": "кошелек",
         "delete": "Удалить",
         "send": "Отправить",
@@ -487,7 +487,7 @@
     },
     "console": {
       "consolePage": {
-        "consoleDeFiApp": "Консоль – Блокчейн-Клиент DeFi",
+        "consoleDeFiApp": "Консоль",
         "defiCliCommand": "Введите команду DeFi-cli",
         "console": "Консоль",
         "submit": "Отправить",
