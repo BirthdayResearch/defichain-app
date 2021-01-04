@@ -17,6 +17,7 @@ import {
   CHINESE_SIMPLIFIED,
   CHINESE_TRADITIONAL,
   DUTCH,
+  RUSSIAN,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -55,6 +56,7 @@ export const getLanguage = () => {
       value: CHINESE_TRADITIONAL,
     },
     { label: 'containers.settings.dutch', value: DUTCH },
+    { label: 'containers.settings.russian', value: RUSSIAN },
   ];
 };
 
