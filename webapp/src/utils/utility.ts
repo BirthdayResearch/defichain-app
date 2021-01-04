@@ -1280,9 +1280,7 @@ export const getTransactionAddressLabel = (
   return receiveAddress ? label : fallback;
 };
 
-export const getPageTitle = (
-  pageTitle?: string
-) => {
+export const getPageTitle = (pageTitle?: string) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };

@@ -24,7 +24,9 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}
+        </title>
       </Helmet>
       <Header>
         <Button
