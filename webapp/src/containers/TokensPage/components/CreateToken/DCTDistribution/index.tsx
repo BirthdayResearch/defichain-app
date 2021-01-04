@@ -27,7 +27,7 @@ interface DCTDistributionProps {
 }
 
 const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
-  props: DCTDistributionProps,
+  props: DCTDistributionProps
 ) => {
   const [newAddressFlag, setNewAddressFlag] = React.useState<boolean>(false);
   const [flashed, setFlashed] = React.useState<string>('');
@@ -243,7 +243,7 @@ const DCTDistribution: React.FunctionComponent<DCTDistributionProps> = (
                 <Spinner />
                 <span className='mb-0'>
                   {I18n.t(
-                    'containers.tokens.dctDistribution.verifyingCollateral',
+                    'containers.tokens.dctDistribution.verifyingCollateral'
                   )}
                 </span>
               </dd>

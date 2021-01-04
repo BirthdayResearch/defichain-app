@@ -54,12 +54,12 @@ const getTransactionLabel = (formState: CreateTokenFormState) => {
   return getTransactionAddressLabel(
     formState.receiveLabel,
     formState.receiveAddress,
-    I18n.t('containers.tokens.createToken.collateralAddress'),
+    I18n.t('containers.tokens.createToken.collateralAddress')
   );
 };
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
-  props: CreateDCTProps,
+  props: CreateDCTProps
 ) => {
   const {
     isUpdate,

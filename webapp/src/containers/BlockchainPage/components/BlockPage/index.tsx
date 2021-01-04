@@ -54,7 +54,7 @@ interface BlockPageProps extends RouteComponentProps<RouteParams> {
 }
 
 const BlockPage: React.FunctionComponent<BlockPageProps> = (
-  props: BlockPageProps,
+  props: BlockPageProps
 ) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = BLOCK_TXN_PAGE_SIZE;
@@ -104,7 +104,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
           {getPageTitle(
             I18n.t('containers.blockChainPage.blockPage.title', {
               blockNo: blockNumber,
-            }),
+            })
           )}
         </title>
       </Helmet>
@@ -144,7 +144,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
             <Col md='6'>
               <KeyValueLi
                 label={I18n.t(
-                  'containers.blockChainPage.blockPage.noOfTransactions',
+                  'containers.blockChainPage.blockPage.noOfTransactions'
                 )}
                 value={(nTxns || '').toString()}
               />
@@ -241,7 +241,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
                     to,
                     total,
                     from: from + 1,
-                  },
+                  }
                 )}
                 currentPage={currentPage}
                 pagesCount={pagesCount}

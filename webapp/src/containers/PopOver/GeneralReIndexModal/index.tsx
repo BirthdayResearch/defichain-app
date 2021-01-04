@@ -18,7 +18,7 @@ interface GeneralReIndexModalProps {
 }
 
 const GeneralReIndexModal: React.FunctionComponent<GeneralReIndexModalProps> = (
-  props: GeneralReIndexModalProps,
+  props: GeneralReIndexModalProps
 ) => {
   const {
     closeGeneralReIndexModal,
@@ -67,5 +67,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(GeneralReIndexModal);

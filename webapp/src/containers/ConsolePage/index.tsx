@@ -12,7 +12,7 @@ const ConsolePage: React.FunctionComponent = () => {
       <Helmet>
         <title>
           {getPageTitle(
-            I18n.t('containers.console.consolePage.consoleDeFiApp'),
+            I18n.t('containers.console.consolePage.consoleDeFiApp')
           )}
         </title>
       </Helmet>

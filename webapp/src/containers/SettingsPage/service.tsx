@@ -118,7 +118,7 @@ export const updateSettingsData = (settingsData) => {
   PersistentStore.set(PRUNE_BLOCK_STORAGE, settingsData.pruneBlockStorage);
   PersistentStore.set(
     SCRIPT_VERIFICATION,
-    settingsData.scriptVerificationThreads,
+    settingsData.scriptVerificationThreads
   );
   PersistentStore.set(BLOCK_STORAGE, settingsData.blockStorage);
   PersistentStore.set(DATABASE_CACHE, settingsData.databaseCache);
@@ -134,7 +134,7 @@ export const refreshUtxosAfterSavingData = async () => {
   const accounts = await fetchAccountsDataWithPagination(
     '',
     LIST_ACCOUNTS_PAGE_SIZE,
-    rpcClient.listAccounts,
+    rpcClient.listAccounts
   );
 
   const addressesList = accounts.map(async (account) => {

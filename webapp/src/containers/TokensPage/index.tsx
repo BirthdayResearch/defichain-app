@@ -41,7 +41,7 @@ interface TokensProps {
 }
 
 const TokensPage: React.FunctionComponent<TokensProps> = (
-  props: TokensProps,
+  props: TokensProps
 ) => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -135,7 +135,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
               tokens={tokens.filter(
                 (data) =>
                   data.destructionTx === DESTRUCTION_TX &&
-                  data.symbolKey !== DFI,
+                  data.symbolKey !== DFI
               )}
               history={history}
               searchQuery={searchQuery}

@@ -39,7 +39,7 @@ interface WalletPageProps extends RouteComponentProps {
 }
 
 const WalletPage: React.FunctionComponent<WalletPageProps> = (
-  props: WalletPageProps,
+  props: WalletPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');
@@ -81,7 +81,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <Button
           to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
             walletBalance,
-            unit,
+            unit
           )}&unit=${unit}`}
           tag={RRNavLink}
           color='link'

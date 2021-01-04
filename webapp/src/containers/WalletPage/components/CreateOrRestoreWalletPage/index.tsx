@@ -32,7 +32,7 @@ interface CreateOrRestoreWalletPageProps {
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
-  props: CreateOrRestoreWalletPageProps,
+  props: CreateOrRestoreWalletPageProps
 ) => {
   const {
     history,
@@ -70,14 +70,14 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       <Helmet>
         <title>
           {getPageTitle(
-            I18n.t('containers.wallet.createOrRestoreWalletPage.title'),
+            I18n.t('containers.wallet.createOrRestoreWalletPage.title')
           )}
         </title>
       </Helmet>
       <Header>
         <h1>
           {I18n.t(
-            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet',
+            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
           )}
         </h1>
       </Header>
@@ -93,7 +93,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                 <div onClick={createWallet}>
                   <WalletStatCard
                     label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.createANewWallet',
+                      'containers.wallet.createOrRestoreWalletPage.createANewWallet'
                     )}
                     icon={<MdAccountBalanceWallet size={48} color='#ff00af' />}
                   />
@@ -103,7 +103,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                 <div onClick={restoreWallet}>
                   <WalletStatCard
                     label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed',
+                      'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
                     )}
                     icon={<MdFormatListBulleted size={48} color='#ff00af' />}
                   />
@@ -141,5 +141,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(CreateOrRestoreWalletPage);

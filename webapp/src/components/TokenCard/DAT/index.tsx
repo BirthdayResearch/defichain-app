@@ -22,7 +22,7 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
               <span className={styles.tokenName}>
                 {data.isLPS
                   ? `${I18n.t(
-                      'containers.tokens.tokensPage.datLabels.datLabels',
+                      'containers.tokens.tokensPage.datLabels.datLabels'
                     )} ${data.symbolKey}`
                   : data.name}
               </span>{' '}

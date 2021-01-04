@@ -46,7 +46,7 @@ interface MintTokenProps extends RouteComponentProps<RouteParams> {
 }
 
 const MintToken: React.FunctionComponent<MintTokenProps> = (
-  props: MintTokenProps,
+  props: MintTokenProps
 ) => {
   const { id, hash, address } = props.match.params;
 
@@ -143,7 +143,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
                 <Input
                   type='number'
                   placeholder={I18n.t(
-                    'containers.tokens.mintToken.amountToMint',
+                    'containers.tokens.mintToken.amountToMint'
                   )}
                   name='amountToMint'
                   id='amountToMint'

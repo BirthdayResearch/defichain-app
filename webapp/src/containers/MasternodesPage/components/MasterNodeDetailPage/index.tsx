@@ -32,7 +32,7 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
-  props: MasterNodeDetailPageProps,
+  props: MasterNodeDetailPageProps
 ) => {
   const {
     match,
@@ -120,8 +120,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
               {
                 hash,
-              },
-            ),
+              }
+            )
           )}
         </title>
       </Helmet>
@@ -139,7 +139,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         </Button>
         <h1>
           {I18n.t(
-            'containers.masterNodes.masternodeDetailPage.masternodeDetail',
+            'containers.masterNodes.masternodeDetailPage.masternodeDetail'
           )}
           &nbsp;
         </h1>
@@ -152,7 +152,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <MdDelete />
               <span>
                 {I18n.t(
-                  'containers.masterNodes.masternodeDetailPage.resignMasterNode',
+                  'containers.masterNodes.masternodeDetailPage.resignMasterNode'
                 )}
               </span>
             </Button>
@@ -167,31 +167,31 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.registered',
+              'containers.masterNodes.masternodeDetailPage.registered'
             )}
             value={`${creationHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.mintedBlocks',
+              'containers.masterNodes.masternodeDetailPage.mintedBlocks'
             )}
             value={`${mintedBlocks}`}
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.resignHeight',
+              'containers.masterNodes.masternodeDetailPage.resignHeight'
             )}
             value={`${resignHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.banHeight',
+              'containers.masterNodes.masternodeDetailPage.banHeight'
             )}
             value={`${banHeight}`}
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.ownerAddress',
+              'containers.masterNodes.masternodeDetailPage.ownerAddress'
             )}
             value={ownerAuthAddress}
             copyable={true!}
@@ -199,7 +199,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.operatorAddress',
+              'containers.masterNodes.masternodeDetailPage.operatorAddress'
             )}
             value={operatorAuthAddress}
             copyable={true!}
@@ -207,7 +207,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           />
           <KeyValueLi
             label={I18n.t(
-              'containers.masterNodes.masternodeDetailPage.resignTx',
+              'containers.masterNodes.masternodeDetailPage.resignTx'
             )}
             copyable={true!}
             value={resignTx}
@@ -236,7 +236,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <dd className='col-12'>
                 <span className='h2 mb-0'>
                   {I18n.t(
-                    'containers.masterNodes.masternodeDetailPage.confirmation',
+                    'containers.masterNodes.masternodeDetailPage.confirmation'
                   )}
                 </span>
               </dd>
@@ -250,7 +250,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
                 onClick={() => setIsConfirmationModalOpen('default')}
               >
                 {I18n.t(
-                  'containers.masterNodes.masternodeDetailPage.noButtonText',
+                  'containers.masterNodes.masternodeDetailPage.noButtonText'
                 )}
               </Button>
               <Button
@@ -262,7 +262,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
                 disabled={wait > 0 ? true : false}
               >
                 {I18n.t(
-                  'containers.masterNodes.masternodeDetailPage.yesButtonText',
+                  'containers.masterNodes.masternodeDetailPage.yesButtonText'
                 )}
                 &nbsp;
                 <span className='timer'>{wait > 0 ? wait : ''}</span>
@@ -280,7 +280,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <MdCheckCircle className='footer-sheet-icon' />
               <p>
                 {`${I18n.t(
-                  'containers.masterNodes.masternodeDetailPage.successText',
+                  'containers.masterNodes.masternodeDetailPage.successText'
                 )}`}
               </p>
               <p>{resignedMasterNodeData}</p>
@@ -289,7 +289,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           <div className='d-flex align-items-center justify-content-center'>
             <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
-                'containers.masterNodes.masternodeDetailPage.backToMasternodePage',
+                'containers.masterNodes.masternodeDetailPage.backToMasternodePage'
               )}
             </Button>
           </div>
@@ -313,7 +313,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           <div className='d-flex align-items-center justify-content-center'>
             <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
-                'containers.masterNodes.masternodeDetailPage.backToMasternodePage',
+                'containers.masterNodes.masternodeDetailPage.backToMasternodePage'
               )}
             </Button>
           </div>
@@ -347,5 +347,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(MasterNodeDetailPage);

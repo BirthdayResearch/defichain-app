@@ -40,11 +40,11 @@ const translationsObject = {
   [FRENCH]: formatTranslationMessages(FRENCH, frTranslationMessages),
   [CHINESE_SIMPLIFIED]: formatTranslationMessages(
     CHINESE_SIMPLIFIED,
-    zhsTranslationMessages,
+    zhsTranslationMessages
   ),
   [CHINESE_TRADITIONAL]: formatTranslationMessages(
     CHINESE_TRADITIONAL,
-    zhtTranslationMessages,
+    zhtTranslationMessages
   ),
   [DUTCH]: formatTranslationMessages(DUTCH, nlTranslationMessages),
   [RUSSIAN]: formatTranslationMessages(RUSSIAN, rsTranslationMessages),
