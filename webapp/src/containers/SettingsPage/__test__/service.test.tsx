@@ -14,7 +14,7 @@ describe('Settings page service', () => {
     it('should check for get language', () => {
       const data = service.getLanguage();
       expect(data).toBeInstanceOf(Array);
-      expect(data.length).toBe(2);
+      expect(data.length).toBe(7);
     });
   });
 
