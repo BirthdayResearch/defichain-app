@@ -418,9 +418,10 @@ export const getListAccountHistory = (query: {
   limit: number;
   token: string;
   no_rewards?: boolean;
+  cancelToken?: string;
   blockHeight?: number;
 }) => {
-  const rpcClient = new RpcClient();
+  const rpcClient = new RpcClient(query.cancelToken);
   return rpcClient.getListAccountHistory(query);
 };
 

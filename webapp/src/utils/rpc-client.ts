@@ -45,7 +45,7 @@ import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 
 export default class RpcClient {
   client: any;
-  constructor() {
+  constructor(cancelToken?) {
     const state = store.getState();
     const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
 
@@ -57,6 +57,7 @@ export default class RpcClient {
       headers: {
         'cache-control': 'no-cache',
       },
+      cancelToken: cancelToken,
     });
   }
 
