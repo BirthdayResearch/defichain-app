@@ -1,23 +1,49 @@
 import { takeLatest } from 'redux-saga/effects';
 import * as testData from './testData.json';
-import mySaga from // tokenDestroy, // createTokens, // fetchTokens,
-// fetchToken,
-'../saga';
-import // fetchTokensRequest,
-// fetchTokensSuccess,
-// fetchTokensFailure,
-// createToken,
-// createTokenSuccess,
-// createTokenFailure,
-// destroyToken,
-// destroyTokenSuccess,
-// destroyTokenFailure,
-// fetchTokenInfo,
-// fetchTokenInfoSuccess,
-// fetchTokenInfoFailure,
-'../reducer';
+import mySaga, {
+  fetchPoolshares,
+  fetchPoolPairList,
+  fetchPoolPair,
+  fetchTokenBalanceList,
+  addPoolLiquidity,
+  removePoolLiquidity,
+  fetchUtxoDfi,
+  fetchMaxAccountDfi,
+} from '../saga';
+import {
+  fetchPoolpair,
+  fetchPoolpairSuccess,
+  fetchPoolpairFailure,
+  fetchPoolsharesRequest,
+  fetchPoolsharesSuccess,
+  fetchPoolsharesFailure,
+  fetchPoolPairListRequest,
+  fetchPoolPairListSuccess,
+  fetchPoolPairListFailure,
+  fetchTokenBalanceListRequest,
+  fetchTokenBalanceListSuccess,
+  fetchTokenBalanceListFailure,
+  addPoolLiquidityRequest,
+  addPoolPreparingUTXOSuccess,
+  addPoolLiquiditySuccess,
+  addPoolLiquidityFailure,
+  removePoolLiqudityRequest,
+  removePoolLiquiditySuccess,
+  removePoolLiquidityFailure,
+  refreshUTXOS1Success,
+  liquidityRemovedSuccess,
+  refreshUTXOS2Success,
+  transferTokensSuccess,
+  fetchUtxoDfiRequest,
+  fetchUtxoDfiSuccess,
+  fetchUtxoDfiFailure,
+  fetchMaxAccountDfiRequest,
+  fetchMaxAccountDfiSuccess,
+  fetchMaxAccountDfiFailure,
+} from '../reducer';
 import * as service from '../service';
 import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
+import { fromPairs } from 'lodash';
 
 const errorObj = {
   message: 'error occurred',
@@ -26,168 +52,307 @@ const errorObj = {
 describe('Liquidity page saga unit test', () => {
   const genObject = mySaga();
 
-  it('should wait for every fetchTokenInfo action and call fetchToken', () => {
-    expect(true).toEqual(true);
+  it('should wait for every fetchPoolsharesRequest action and call fetchPoolshares', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchPoolsharesRequest.type, fetchPoolshares)
+    );
   });
 
-  // it('should wait for every fetchTokenInfo action and call fetchToken', () => {
-  //   expect(genObject.next().value).toEqual(
-  //     takeLatest(fetchTokenInfo.type, fetchToken)
-  //   );
-  // });
+  it('should wait for every fetchPoolPairListRequest action and call fetchPoolPairList', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList)
+    );
+  });
 
-  // it('should wait for every fetchTokensRequest action and call fetchTokens', () => {
-  //   expect(genObject.next().value).toEqual(
-  //     takeLatest(fetchTokensRequest.type, fetchTokens)
-  //   );
-  // });
+  it('should wait for every fetchPoolpair action and call fetchPoolPair', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchPoolpair.type, fetchPoolPair)
+    );
+  });
 
-  // it('should wait for every createToken action and call createTokens', () => {
-  //   expect(genObject.next().value).toEqual(
-  //     takeLatest(createToken.type, createTokens)
-  //   );
-  // });
+  it('should wait for every fetchTokenBalanceListRequest action and call fetchTokenBalanceList', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList)
+    );
+  });
 
-  // it('should wait for every destroyToken action and call tokenDestroy', () => {
-  //   expect(genObject.next().value).toEqual(
-  //     takeLatest(destroyToken.type, tokenDestroy)
-  //   );
-  // });
+  it('should wait for every addPoolLiquidityRequest action and call addPoolLiquidity', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity)
+    );
+  });
 
-  // describe('fetchTokens', () => {
-  //   let handleFetchTokens;
-  //   beforeEach(() => {
-  //     handleFetchTokens = jest.spyOn(service, 'handleFetchTokens');
-  //   });
-  //   afterEach(() => {
-  //     handleFetchTokens.mockRestore();
-  //   });
-  //   afterAll(jest.clearAllMocks);
-  //   it('should call api and dispatch success action', async () => {
-  //     handleFetchTokens.mockImplementation(() =>
-  //       Promise.resolve(testData.fetchTokensSuccess)
-  //     );
-  //     await dispatchedFunc(fetchTokens);
-  //     expect(handleFetchTokens).toBeCalledTimes(1);
-  //   });
+  it('should wait for every removePoolLiqudityRequest action and call removePoolLiquidity', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity)
+    );
+  });
 
-  //   it('should call api and dispatch success action when no data found', async () => {
-  //     handleFetchTokens.mockImplementation(() => Promise.resolve([]));
-  //     const dispatched = await dispatchedFunc(fetchTokens);
-  //     expect(handleFetchTokens).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([
-  //       fetchTokensSuccess({
-  //         tokens: [],
-  //       }),
-  //     ]);
-  //   });
+  it('should wait for every fetchUtxoDfiRequest action and call fetchUtxoDfi', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchUtxoDfiRequest.type, fetchUtxoDfi)
+    );
+  });
 
-  //   it('should call api and dispatch failure action', async () => {
-  //     handleFetchTokens.mockImplementation(() => Promise.reject(errorObj));
-  //     const dispatched = await dispatchedFunc(fetchTokens);
-  //     expect(handleFetchTokens).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([fetchTokensFailure(errorObj.message)]);
-  //   });
-  // });
+  it('should wait for every fetchMaxAccountDfiRequest action and call fetchMaxAccountDfi', () => {
+    expect(genObject.next().value).toEqual(
+      takeLatest(fetchMaxAccountDfiRequest.type, fetchMaxAccountDfi)
+    );
+  });
 
-  // describe('createTokens method', () => {
-  //   let handleCreateTokens;
-  //   const tokenData = {};
-  //   beforeEach(() => {
-  //     handleCreateTokens = jest.spyOn(service, 'handleCreateTokens');
-  //   });
-  //   afterEach(() => {
-  //     handleCreateTokens.mockRestore();
-  //   });
-  //   afterAll(jest.clearAllMocks);
-  //   it('should call api and dispatch success action', async () => {
-  //     handleCreateTokens.mockImplementation(() =>
-  //       Promise.resolve(testData.saga.handleCreateTokens)
-  //     );
-  //     const dispatched = await dispatchedFunc(createTokens, {
-  //       payload: { tokenData },
-  //     });
-  //     expect(handleCreateTokens).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([
-  //       createTokenSuccess(testData.saga.handleCreateTokens),
-  //     ]);
-  //   });
+  describe('fetchPoolshares', () => {
+    let handleFetchPoolshares;
+    beforeEach(() => {
+      handleFetchPoolshares = jest.spyOn(service, 'handleFetchPoolshares');
+    });
+    afterEach(() => {
+      handleFetchPoolshares.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchPoolshares.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleFetchPoolshares)
+      );
+      await dispatchedFunc(fetchPoolshares);
+      expect(handleFetchPoolshares).toBeCalledTimes(1);
+    });
 
-  //   it('should call api and dispatch failure action', async () => {
-  //     handleCreateTokens.mockImplementation(() => Promise.reject(errorObj));
-  //     const dispatched = await dispatchedFunc(createTokens, {
-  //       payload: { tokenData },
-  //     });
-  //     expect(handleCreateTokens).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([createTokenFailure(errorObj.message)]);
-  //   });
-  // });
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchPoolshares.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchPoolshares);
+      expect(handleFetchPoolshares).toBeCalledTimes(1);
+      expect(dispatched).toEqual([
+        fetchPoolsharesSuccess({
+          poolshares: [],
+        }),
+      ]);
+    });
 
-  // describe('destroyToken method', () => {
-  //   let handleDestroyToken;
-  //   const tokenSymbol = 'DAT';
-  //   beforeEach(() => {
-  //     handleDestroyToken = jest.spyOn(service, 'handleDestroyToken');
-  //   });
-  //   afterEach(() => {
-  //     handleDestroyToken.mockRestore();
-  //   });
-  //   afterAll(jest.clearAllMocks);
-  //   it('should call api and dispatch success action', async () => {
-  //     handleDestroyToken.mockImplementation(() =>
-  //       Promise.resolve(testData.saga.handleDestroyToken)
-  //     );
-  //     const dispatched = await dispatchedFunc(tokenDestroy, {
-  //       payload: { tokenSymbol },
-  //     });
-  //     expect(handleDestroyToken).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([
-  //       destroyTokenSuccess(testData.saga.handleDestroyToken),
-  //     ]);
-  //   });
+    it('should call api and dispatch failure action', async () => {
+      handleFetchPoolshares.mockImplementation(() => Promise.reject(errorObj));
+      const dispatched = await dispatchedFunc(fetchPoolshares);
+      expect(handleFetchPoolshares).toBeCalledTimes(1);
+      // expect(dispatched).toEqual([fetchPoolsharesFailure(errorObj.message)]);
+    });
+  });
 
-  //   it('should call api and dispatch failure action', async () => {
-  //     handleDestroyToken.mockImplementation(() => Promise.reject(errorObj));
-  //     const dispatched = await dispatchedFunc(tokenDestroy, {
-  //       payload: { tokenSymbol },
-  //     });
-  //     expect(handleDestroyToken).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([destroyTokenFailure(errorObj.message)]);
-  //   });
-  // });
+  describe('fetchPoolPairList', () => {
+    let handleFetchPoolPairList;
+    beforeEach(() => {
+      handleFetchPoolPairList = jest.spyOn(service, 'handleFetchPoolPairList');
+    });
+    afterEach(() => {
+      handleFetchPoolPairList.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchPoolPairList.mockImplementation(() =>
+        Promise.resolve(testData.poolPairList)
+      );
+      await dispatchedFunc(fetchPoolPairList);
+      expect(handleFetchPoolPairList).toBeCalledTimes(1);
+    });
 
-  // describe('fetchToken method', () => {
-  //   let handleFetchToken;
-  //   const tokenSymbol = 'DAT';
-  //   beforeEach(() => {
-  //     handleFetchToken = jest.spyOn(service, 'handleFetchToken');
-  //   });
-  //   afterEach(() => {
-  //     handleFetchToken.mockRestore();
-  //   });
-  //   afterAll(jest.clearAllMocks);
-  //   it('should call api and dispatch success action', async () => {
-  //     handleFetchToken.mockImplementation(() =>
-  //       Promise.resolve(testData.saga.handleFetchToken)
-  //     );
-  //     const dispatched = await dispatchedFunc(fetchToken, {
-  //       payload: { tokenSymbol },
-  //     });
-  //     expect(handleFetchToken).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([
-  //       fetchTokenInfoSuccess({
-  //         tokenInfo: testData.saga.handleFetchToken,
-  //       }),
-  //     ]);
-  //   });
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchPoolPairList.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchPoolPairList);
+      expect(handleFetchPoolPairList).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchPoolPairListSuccess([])]);
+    });
+  });
 
-  //   it('should call api and dispatch failure action', async () => {
-  //     handleFetchToken.mockImplementation(() => Promise.reject(errorObj));
-  //     const dispatched = await dispatchedFunc(fetchToken, {
-  //       payload: { tokenSymbol },
-  //     });
-  //     expect(handleFetchToken).toBeCalledTimes(1);
-  //     expect(dispatched).toEqual([fetchTokenInfoFailure(errorObj.message)]);
-  //   });
-  // });
+  describe('fetchPoolPair', () => {
+    let handleFetchPoolpair;
+    beforeEach(() => {
+      handleFetchPoolpair = jest.spyOn(service, 'handleFetchPoolpair');
+    });
+    afterEach(() => {
+      handleFetchPoolpair.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchPoolpair.mockImplementation(() =>
+        Promise.resolve(testData.poolPairList)
+      );
+      await dispatchedFunc(fetchPoolPair);
+      expect(handleFetchPoolpair).toBeCalledTimes(1);
+    });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchPoolpair.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchPoolPair);
+      expect(handleFetchPoolpair).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchPoolpairSuccess({ poolpair: [] })]);
+    });
+
+    it('should call api and dispatch failure action', async () => {
+      handleFetchPoolpair.mockImplementation(() => Promise.reject(errorObj));
+      const dispatched = await dispatchedFunc(fetchPoolPair);
+      expect(handleFetchPoolpair).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchPoolpairFailure(errorObj.message)]);
+    });
+  });
+
+  describe('fetchTokenBalanceList', () => {
+    let handleFetchTokenBalanceList;
+    beforeEach(() => {
+      handleFetchTokenBalanceList = jest.spyOn(
+        service,
+        'handleFetchTokenBalanceList'
+      );
+    });
+    afterEach(() => {
+      handleFetchTokenBalanceList.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchTokenBalanceList.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleFetchTokenBalanceList)
+      );
+      await dispatchedFunc(fetchTokenBalanceList);
+      expect(handleFetchTokenBalanceList).toBeCalledTimes(1);
+    });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchTokenBalanceList.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchTokenBalanceList);
+      expect(handleFetchTokenBalanceList).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchTokenBalanceListSuccess([])]);
+    });
+  });
+
+  describe('addPoolLiquidity', () => {
+    let handleAddPoolLiquidity;
+    beforeEach(() => {
+      handleAddPoolLiquidity = jest.spyOn(service, 'handleAddPoolLiquidity');
+    });
+    afterEach(() => {
+      handleAddPoolLiquidity.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    // it('should call api and dispatch success action', async () => {
+    //   handleAddPoolLiquidity.mockImplementation(() =>
+    //     Promise.resolve(testData.saga.handleAddPoolLiquidity)
+    //   );
+    //   await dispatchedFunc(addPoolLiquidity);
+    //   expect(handleAddPoolLiquidity).toBeCalledTimes(1);
+    // });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleAddPoolLiquidity.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(addPoolLiquidity);
+      expect(handleAddPoolLiquidity).toBeCalledTimes(1);
+      expect(dispatched).toEqual([addPoolLiquiditySuccess([])]);
+    });
+
+    it('should call api and dispatch failure action', async () => {
+      handleAddPoolLiquidity.mockImplementation(() => Promise.reject(errorObj));
+      const dispatched = await dispatchedFunc(addPoolLiquidity);
+      expect(handleAddPoolLiquidity).toBeCalledTimes(1);
+      expect(dispatched).toEqual([addPoolLiquidityFailure(errorObj.message)]);
+    });
+  });
+
+  describe('removePoolLiquidity', () => {
+    let handleRemovePoolLiquidity;
+    beforeEach(() => {
+      handleRemovePoolLiquidity = jest.spyOn(
+        service,
+        'handleRemovePoolLiquidity'
+      );
+    });
+    afterEach(() => {
+      handleRemovePoolLiquidity.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    // it('should call api and dispatch success action', async () => {
+    //   handleRemovePoolLiquidity.mockImplementation(() =>
+    //     Promise.resolve(testData.saga.handleRemovePoolLiquidity)
+    //   );
+    //   await dispatchedFunc(removePoolLiquidity);
+    //   expect(handleRemovePoolLiquidity).toBeCalledTimes(1);
+    // });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleRemovePoolLiquidity.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(removePoolLiquidity);
+      expect(handleRemovePoolLiquidity).toBeCalledTimes(1);
+      expect(dispatched).toEqual([removePoolLiquiditySuccess([])]);
+    });
+
+    it('should call api and dispatch failure action', async () => {
+      handleRemovePoolLiquidity.mockImplementation(() =>
+        Promise.reject(errorObj)
+      );
+      const dispatched = await dispatchedFunc(removePoolLiquidity);
+      expect(handleRemovePoolLiquidity).toBeCalledTimes(1);
+      expect(dispatched).toEqual([
+        removePoolLiquidityFailure(errorObj.message),
+      ]);
+    });
+  });
+
+  describe('fetchUtxoDfi', () => {
+    let handleFetchUtxoDFI;
+    beforeEach(() => {
+      handleFetchUtxoDFI = jest.spyOn(service, 'handleFetchUtxoDFI');
+    });
+    afterEach(() => {
+      handleFetchUtxoDFI.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchUtxoDFI.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleFetchUtxoDFI)
+      );
+      await dispatchedFunc(fetchUtxoDfi);
+      expect(handleFetchUtxoDFI).toBeCalledTimes(1);
+    });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchUtxoDFI.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchUtxoDfi);
+      expect(handleFetchUtxoDFI).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchUtxoDfiSuccess([])]);
+    });
+
+    it('should call api and dispatch failure action', async () => {
+      handleFetchUtxoDFI.mockImplementation(() => Promise.reject(errorObj));
+      const dispatched = await dispatchedFunc(fetchUtxoDfi);
+      expect(handleFetchUtxoDFI).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchUtxoDfiFailure(errorObj.message)]);
+    });
+  });
+
+  describe('fetchMaxAccountDfi', () => {
+    let handleFetchTokenDFI;
+    beforeEach(() => {
+      handleFetchTokenDFI = jest.spyOn(service, 'handleFetchTokenDFI');
+    });
+    afterEach(() => {
+      handleFetchTokenDFI.mockRestore();
+    });
+    afterAll(jest.clearAllMocks);
+    it('should call api and dispatch success action', async () => {
+      handleFetchTokenDFI.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleFetchTokenDFI)
+      );
+      await dispatchedFunc(fetchMaxAccountDfi);
+      expect(handleFetchTokenDFI).toBeCalledTimes(1);
+    });
+
+    it('should call api and dispatch success action when no data found', async () => {
+      handleFetchTokenDFI.mockImplementation(() => Promise.resolve([]));
+      const dispatched = await dispatchedFunc(fetchMaxAccountDfi);
+      expect(handleFetchTokenDFI).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchMaxAccountDfiSuccess([])]);
+    });
+
+    it('should call api and dispatch failure action', async () => {
+      handleFetchTokenDFI.mockImplementation(() => Promise.reject(errorObj));
+      const dispatched = await dispatchedFunc(fetchMaxAccountDfi);
+      expect(handleFetchTokenDFI).toBeCalledTimes(1);
+      expect(dispatched).toEqual([fetchMaxAccountDfiFailure(errorObj.message)]);
+    });
+  });
 });
