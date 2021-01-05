@@ -30,7 +30,7 @@ import reducer, {
   fetchMaxAccountDfiSuccess,
   fetchMaxAccountDfiFailure,
 } from '../reducer';
-import { poolPairList } from './testData.json';
+import * as payload from './testData.json';
 
 describe('liquidity slice', () => {
   const nextState = initialState;
@@ -45,9 +45,32 @@ describe('liquidity slice', () => {
       const rootState = { liquidity: nextState };
       expect(rootState.liquidity.isLoadingPoolpair).toBeTruthy();
     });
+
+    it('should be check for fetchPoolpairSuccess', () => {
+      const poolpair = payload.poolpair;
+      const nextState = reducer(
+        initialState,
+        fetchPoolpairSuccess({ poolpair })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolpair).toEqual(payload.poolpair);
+      expect(rootState.liquidity.isLoadingPoolpair).toBeFalsy();
+      expect(rootState.liquidity.isPoolpairLoaded).toBeTruthy();
+    });
+
+    it('should be check for fetchPoolpairFailure', () => {
+      const poolpair = {};
+      const nextState = reducer(
+        initialState,
+        fetchPoolpairFailure({ poolpair })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolpair).toEqual(poolpair);
+      expect(rootState.liquidity.isLoadingPoolpair).toBeFalsy();
+      expect(rootState.liquidity.isPoolpairLoaded).toBeTruthy();
+    });
   });
-  // fetchPoolpairSuccess
-  // fetchPoolpairFailure
+
   describe('fetchPoolsharesRequest reducers and actions', () => {
     it('should be check  isLoadingPoolshares', () => {
       const nextState = reducer(initialState, fetchPoolsharesRequest());
@@ -88,10 +111,10 @@ describe('liquidity slice', () => {
     it('should be check fetchPoolPairListSuccess', () => {
       const nextState = reducer(
         initialState,
-        fetchPoolPairListSuccess(poolPairList)
+        fetchPoolPairListSuccess(payload.poolPairList)
       );
       const rootState = { liquidity: nextState };
-      expect(rootState.liquidity.poolPairList).toEqual(poolPairList);
+      expect(rootState.liquidity.poolPairList).toEqual(payload.poolPairList);
       expect(rootState.liquidity.isLoadingPoolPairList).toBeFalsy();
     });
 
@@ -145,15 +168,30 @@ describe('liquidity slice', () => {
       expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeFalsy();
     });
 
-    // it('should be check addPoolLiquiditySuccess', () => {
-    //   const nextState = reducer(initialState, addPoolLiquiditySuccess());
-    //   const rootState = { liquidity: nextState };
-    // });
+    it('should be check addPoolLiquiditySuccess', () => {
+      const nextState = reducer(
+        initialState,
+        addPoolLiquiditySuccess(payload.addPoolLiquidityHash)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.addPoolLiquidityHash).toEqual(
+        payload.addPoolLiquidityHash
+      );
+      expect(rootState.liquidity.isLoadingAddingLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isLoadingAddPoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeTruthy();
+    });
 
-    // it('should be check addPoolLiquidityFailure', () => {
-    //   const nextState = reducer(initialState, addPoolLiquidityFailure());
-    //   const rootState = { liquidity: nextState };
-    // });
+    it('should be check addPoolLiquidityFailure', () => {
+      const nextState = reducer(
+        initialState,
+        addPoolLiquidityFailure({ payload: {} })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingAddingLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isLoadingAddPoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeTruthy();
+    });
 
     it('should be check removePoolLiqudityRequest', () => {
       const nextState = reducer(
@@ -203,19 +241,31 @@ describe('liquidity slice', () => {
       expect(rootState.liquidity.isLoadingTransferTokens).toBeFalsy();
     });
 
-    // it('should be check removePoolLiquiditySuccess', () => {
-    //   const nextState = reducer(initialState, removePoolLiquiditySuccess());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeTruthy();
-    //   expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeFalsy();
-    // });
+    it('should be check removePoolLiquiditySuccess', () => {
+      const nextState = reducer(
+        initialState,
+        removePoolLiquiditySuccess(payload.removePoolLiquidityHash)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.removePoolLiquidityHash).toEqual(
+        payload.removePoolLiquidityHash
+      );
+      expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeTruthy();
+    });
 
-    // it('should be check removePoolLiquidityFailure', () => {
-    //   const nextState = reducer(initialState, removePoolLiquidityFailure());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeTruthy();
-    //   expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeFalsy();
-    // });
+    it('should be check removePoolLiquidityFailure', () => {
+      const nextState = reducer(
+        initialState,
+        removePoolLiquidityFailure(payload.isErrorRemovingPoolLiquidity)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isErrorRemovingPoolLiquidity).toEqual(
+        payload.isErrorRemovingPoolLiquidity
+      );
+      expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeTruthy();
+    });
   });
 
   describe('fetchUtxoDfi reducers and actions', () => {
@@ -226,19 +276,29 @@ describe('liquidity slice', () => {
       expect(rootState.liquidity.isUtxoDfiError).toEqual('');
     });
 
-    // it('should be check fetchUtxoDfiSuccess', () => {
-    //   const nextState = reducer(initialState, fetchUtxoDfiSuccess());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
-    //   expect(rootState.liquidity.isUtxoDfiError).toEqual('');
-    // });
+    it('should be check fetchUtxoDfiSuccess', () => {
+      const nextState = reducer(
+        initialState,
+        fetchUtxoDfiSuccess(payload.utxoDfi)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.utxoDfi).toEqual(payload.utxoDfi);
+      expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isUtxoDfiError).toEqual('');
+    });
 
-    // it('should be check fetchUtxoDfiFailure', () => {
-    //   const nextState = reducer(initialState, fetchUtxoDfiFailure());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.utxoDfi).toEqual(0);
-    //   expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
-    // });
+    it('should be check fetchUtxoDfiFailure', () => {
+      const nextState = reducer(
+        initialState,
+        fetchUtxoDfiFailure(payload.isUtxoDfiError)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.utxoDfi).toEqual(0);
+      expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isUtxoDfiError).toEqual(
+        payload.isUtxoDfiError
+      );
+    });
   });
 
   describe('fetchMaxAccountDfi reducers and actions', () => {
@@ -249,18 +309,25 @@ describe('liquidity slice', () => {
       expect(rootState.liquidity.isMaxAccountDfiError).toEqual('');
     });
 
-    // it('should be check fetchMaxAccountDfiSuccess', () => {
-    //   const nextState = reducer(initialState, fetchMaxAccountDfiSuccess());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
-    //   expect(rootState.liquidity.isMaxAccountDfiError).toEqual('');
-    // });
+    it('should be check fetchMaxAccountDfiSuccess', () => {
+      const nextState = reducer(
+        initialState,
+        fetchMaxAccountDfiSuccess(payload.maxAccountDfi)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.maxAccountDfi).toEqual(payload.maxAccountDfi);
+      expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isMaxAccountDfiError).toEqual('');
+    });
 
-    // it('should be check fetchMaxAccountDfiFailure', () => {
-    //   const nextState = reducer(initialState, fetchMaxAccountDfiFailure());
-    //   const rootState = { liquidity: nextState };
-    //   expect(rootState.liquidity.maxAccountDfi).toEqual(0);
-    //   expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
-    // });
+    it('should be check fetchMaxAccountDfiFailure', () => {
+      const nextState = reducer(
+        initialState,
+        fetchMaxAccountDfiFailure(payload.MaxAccountDfiError)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.maxAccountDfi).toEqual(0);
+      expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
+    });
   });
 });
