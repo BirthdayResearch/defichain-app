@@ -82,6 +82,26 @@
         {
           "label": "containers.settings.german",
           "value": "de"
+        },
+        {
+          "label": "containers.settings.french",
+          "value": "fr"
+        },
+        {
+          "label": "containers.settings.chinese",
+          "value": "zhs"
+        },
+        {
+          "label": "containers.settings.chinese_traditional",
+          "value": "zht"
+        },
+        {
+          "label": "containers.settings.dutch",
+          "value": "nl"
+        },
+        {
+          "label": "containers.settings.russian",
+          "value": "ru"
         }
       ],
       "amountUnits": [
