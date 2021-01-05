@@ -113,5 +113,12 @@
       "yearlyPoolReward": "0.00000000"
     }
   ],
-  "poolsharesSuccess": []
+  "saga": {
+    "handleFetchPoolshares": [],
+    "handleFetchTokenBalanceList": [],
+    "handleAddPoolLiquidity": [],
+    "handleRemovePoolLiquidity": [],
+    "handleFetchUtxoDFI": 0,
+    "handleFetchTokenDFI": 0
+  }
 }
