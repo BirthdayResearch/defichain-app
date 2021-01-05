@@ -110,7 +110,8 @@
       "totalLiquidity": 31.31348449,
       "totalLiquidityInUSDT": "108.57984820",
       "tradeEnabled": true,
-      "yearlyPoolReward": "0.00000000"
+      "yearlyPoolReward": "0.00000000",
+      "handleAddPoolLiquidity": "13a9ecc88c034e3a4482b0d13c0630466056d38152fafd3b694714ea11459efd"
     }
   ],
   "saga": {
