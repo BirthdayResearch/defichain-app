@@ -72,6 +72,7 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
@@ -1283,4 +1284,19 @@ export const getTransactionAddressLabel = (
 export const getPageTitle = (pageTitle?: string) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
+};
+
+export const handleFetchTokenDFI = async () => {
+  const accountDFI = await handleFetchAccountDFI();
+  return accountDFI;
+};
+
+export const handleFetchUtxoDFI = async () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getBalance();
+};
+
+export const handleFetchTokenBalanceList = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getTokenBalances();
 };
