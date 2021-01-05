@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./dist",
     "sourceMap": true,
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,8 +17,12 @@
     "noEmit": true,
     "jsx": "react",
     "noImplicitAny": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "declaration": true,
+    "declarationMap": true,
+    "pretty": true
   },
+  "exclude": ["node_modules", "webpack"],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabPane, Row, Col, Form, FormGroup, Label, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.scss';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
 import { connect } from 'react-redux';

@@ -3,7 +3,7 @@ on:
     branches:
       - ci/master
       - master
-      - code-refactoring
+      - feature/webpack_migration
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest

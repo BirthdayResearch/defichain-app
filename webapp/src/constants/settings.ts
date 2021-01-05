@@ -1,4 +1,4 @@
-import { version, name } from '../../package.json';
+import packageInfo from '../../package.json';
 
 export const PAYMENT_REQUEST = 'paymentRequests';
 export const UNIT = 'unit';
@@ -24,10 +24,10 @@ export const RUSSIAN = 'ru';
 export const LIGHT_DISPLAY = 'LIGHT';
 export const DARK_DISPLAY = 'DARK';
 export const SAME_AS_SYSTEM_DISPLAY = 'SAME_AS_SYSTEM';
-export const CONSOLE_PROMPT_LABEL = `${name}_v${version}`;
+export const CONSOLE_PROMPT_LABEL = `${packageInfo.name}_v${packageInfo.version}`;
 export const DEFI_CHAIN_HOMEPAGE = `https://www.defichain.io/`;
-export const PACKAGE_VERSION = version;
-export const PACKAGE_NAME = name;
+export const PACKAGE_VERSION = packageInfo.version;
+export const PACKAGE_NAME = packageInfo.name;
 export const APP_TITLE = 'DeFi app';
 export const SITE_URL = 'https://defichain.com/';
 export const MAINNET = 'Mainnet';
