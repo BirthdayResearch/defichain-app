@@ -31,12 +31,12 @@ describe('utility', () => {
 
   it('convertEpochToDate feature', () => {
     const data = utility.convertEpochToDate(1590584379);
-    expect(data).toBe('May 27, 06:29 pm');
+    expect(data).toBe('May 27, 08:59 pm');
   });
 
   it('convertEpochToDate feature when value is null', () => {
     const data = utility.convertEpochToDate(null);
-    expect(data).toBe('Jan 1, 05:30 am');
+    expect(data).toBe('Jan 1, 07:30 am');
   });
 
   it('range feature value is valid', () => {

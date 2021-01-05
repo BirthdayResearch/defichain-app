@@ -10,7 +10,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const middleware = [...getDefaultMiddleware(), sagaMiddleware];
 
 if (!isProduction) {
-  middleware.push(logger);
+  // middleware.push(logger);
   log.setDefaultLevel(DEBUG_LOG_LEVEL);
 } else {
   log.setDefaultLevel(DEFAULT_LOG_LEVEL);
