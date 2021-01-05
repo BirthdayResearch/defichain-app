@@ -135,11 +135,6 @@ export const handleFetchPoolPairList = async () => {
   return poolPairList;
 };
 
-export const handleFetchTokenBalanceList = async () => {
-  const rpcClient = new RpcClient();
-  return await rpcClient.getTokenBalances();
-};
-
 export const handleAddPoolLiquidity = async (
   hash1: string,
   amount1: string,
@@ -311,14 +306,4 @@ export const handleRemovePoolLiquidity = async (
   store.dispatch(transferTokensSuccess());
 
   return resolvedHashArray[resolvedHashArray.length - 1];
-};
-
-export const handleFetchUtxoDFI = async () => {
-  const rpcClient = new RpcClient();
-  return rpcClient.getBalance();
-};
-
-export const handleFetchTokenDFI = async () => {
-  const accountDFI = await handleFetchAccountDFI();
-  return accountDFI;
 };
