@@ -5,16 +5,13 @@ import reducer, {
   fetchPoolPairListFailure,
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
-  fetchTokenBalanceListFailure,
   resetTestPoolSwapRequestTo,
   fetchTestPoolSwapRequestTo,
   fetchTestPoolSwapSuccessTo,
-  fetchTestPoolSwapFailureTo,
   resetTestPoolSwapErrorTo,
   resetTestPoolSwapRequestFrom,
   fetchTestPoolSwapRequestFrom,
   fetchTestPoolSwapSuccessFrom,
-  fetchTestPoolSwapFailureFrom,
   resetTestPoolSwapErrorFrom,
   poolSwapRequest,
   poolSwapRefreshUTXOSuccess,
@@ -109,15 +106,6 @@ describe('swap slice', () => {
       expect(rootState.swap.isErrorTestPoolSwapTo).toEqual('');
     });
 
-    // it('should be check fetchTestPoolSwapFailureTo', () => {
-    //   const nextState = reducer(initialState, fetchTestPoolSwapFailureTo(payload.));
-    //   const rootState = { swap: nextState };
-    //   expect(rootState.swap.testPoolSwapTo).toEqual('');
-    //   expect(rootState.swap.isLoadingTestPoolSwapTo).toBeFalsy();
-    //   expect(rootState.swap.isTestPoolSwapLoadedTo).toBeFalsy();
-    //   expect(rootState.swap.isErrorTestPoolSwapTo).toEqual(payload.);
-    // });
-
     it('should be check resetTestPoolSwapErrorTo ', () => {
       const nextState = reducer(initialState, resetTestPoolSwapErrorTo());
       const rootState = { swap: nextState };
@@ -154,15 +142,6 @@ describe('swap slice', () => {
       expect(rootState.swap.isTestPoolSwapLoadedFrom).toBeTruthy();
       expect(rootState.swap.isErrorTestPoolSwapFrom).toEqual('');
     });
-
-    // it('should be check fetchTestPoolSwapFailureFrom', () => {
-    //   const nextState = reducer(initialState, fetchTestPoolSwapFailureFrom(payload.));
-    //   const rootState = { swap: nextState };
-    //   expect(rootState.swap.testPoolSwapFrom).toEqual('');
-    //   expect(rootState.swap.isLoadingTestPoolSwapFrom).toBeFalsy();
-    //   expect(rootState.swap.isTestPoolSwapLoadedFrom).toBeTruthy();
-    //   expect(rootState.swap.isErrorTestPoolSwapFrom).toEqual(payload.);
-    // });
 
     it('should be check resetTestPoolSwapErrorFrom ', () => {
       const nextState = reducer(initialState, resetTestPoolSwapErrorFrom());

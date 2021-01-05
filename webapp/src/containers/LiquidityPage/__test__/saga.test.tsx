@@ -16,24 +16,16 @@ import {
   fetchPoolpairFailure,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
-  fetchPoolsharesFailure,
   fetchPoolPairListRequest,
   fetchPoolPairListSuccess,
-  fetchPoolPairListFailure,
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
-  fetchTokenBalanceListFailure,
   addPoolLiquidityRequest,
-  addPoolPreparingUTXOSuccess,
   addPoolLiquiditySuccess,
   addPoolLiquidityFailure,
   removePoolLiqudityRequest,
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
-  refreshUTXOS1Success,
-  liquidityRemovedSuccess,
-  refreshUTXOS2Success,
-  transferTokensSuccess,
   fetchUtxoDfiRequest,
   fetchUtxoDfiSuccess,
   fetchUtxoDfiFailure,
@@ -43,7 +35,6 @@ import {
 } from '../reducer';
 import * as service from '../service';
 import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
-import { fromPairs } from 'lodash';
 
 const errorObj = {
   message: 'error occurred',
@@ -230,13 +221,13 @@ describe('Liquidity page saga unit test', () => {
       handleAddPoolLiquidity.mockRestore();
     });
     afterAll(jest.clearAllMocks);
-    // it('should call api and dispatch success action', async () => {
-    //   handleAddPoolLiquidity.mockImplementation(() =>
-    //     Promise.resolve(testData.saga.handleAddPoolLiquidity)
-    //   );
-    //   await dispatchedFunc(addPoolLiquidity);
-    //   expect(handleAddPoolLiquidity).toBeCalledTimes(1);
-    // });
+    it('should call api and dispatch success action', async () => {
+      handleAddPoolLiquidity.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleAddPoolLiquidity)
+      );
+      await dispatchedFunc(addPoolLiquidity);
+      expect(handleAddPoolLiquidity).toBeCalledTimes(1);
+    });
 
     it('should call api and dispatch success action when no data found', async () => {
       handleAddPoolLiquidity.mockImplementation(() => Promise.resolve([]));
@@ -265,13 +256,13 @@ describe('Liquidity page saga unit test', () => {
       handleRemovePoolLiquidity.mockRestore();
     });
     afterAll(jest.clearAllMocks);
-    // it('should call api and dispatch success action', async () => {
-    //   handleRemovePoolLiquidity.mockImplementation(() =>
-    //     Promise.resolve(testData.saga.handleRemovePoolLiquidity)
-    //   );
-    //   await dispatchedFunc(removePoolLiquidity);
-    //   expect(handleRemovePoolLiquidity).toBeCalledTimes(1);
-    // });
+    it('should call api and dispatch success action', async () => {
+      handleRemovePoolLiquidity.mockImplementation(() =>
+        Promise.resolve(testData.saga.handleRemovePoolLiquidity)
+      );
+      await dispatchedFunc(removePoolLiquidity);
+      expect(handleRemovePoolLiquidity).toBeCalledTimes(1);
+    });
 
     it('should call api and dispatch success action when no data found', async () => {
       handleRemovePoolLiquidity.mockImplementation(() => Promise.resolve([]));
