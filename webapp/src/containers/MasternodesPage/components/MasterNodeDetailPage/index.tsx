@@ -63,9 +63,10 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   if (isEmpty(masternode)) {
     return <Redirect to={MASTER_NODES_PATH} />;
   }
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
 
@@ -114,12 +115,14 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t(
-            'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
-            {
-              hash,
-            }
-          ))}
+          {getPageTitle(
+            I18n.t(
+              'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
+              {
+                hash,
+              }
+            )
+          )}
         </title>
       </Helmet>
       <Header>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {
-  restartNode,
-} from '../../../utils/isElectron';
+import { restartNode } from '../../../utils/isElectron';
 import {
   closeGeneralReIndexModal,
   isRestartLoader,
