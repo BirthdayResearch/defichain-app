@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { DFI_SYMBOL, POOL_PAIR_PAGE_SIZE } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
-import { handleFetchAccountDFI } from '../WalletPage/service';
 import {
   fetchPoolPairDataWithPagination,
   getAddressAndAmountListForAccount,
@@ -44,7 +43,7 @@ export const handleTestPoolSwapTo = async (formState) => {
       address2,
       formState.hash2
     );
-    return testPoolSwapAmount.split('@')[0];
+    return testPoolSwapAmount.split('@')[0]; //1.2@dfi
   } else {
     return '-';
   }
@@ -122,19 +121,4 @@ export const handlePoolSwap = async (formState) => {
     formState.hash2
   );
   return hash;
-};
-
-export const handleFetchTokenBalanceList = async () => {
-  const rpcClient = new RpcClient();
-  return await rpcClient.getTokenBalances();
-};
-
-export const handleFetchUtxoDFI = async () => {
-  const rpcClient = new RpcClient();
-  return rpcClient.getBalance();
-};
-
-export const handleFetchTokenDFI = async () => {
-  const accountDFI = await handleFetchAccountDFI();
-  return accountDFI;
 };
