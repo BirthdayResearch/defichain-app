@@ -20,7 +20,11 @@ const MinerPage: React.FunctionComponent<RouteComponentProps<RouteParams>> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(`${I18n.t('containers.blockChainPage.minerPage.miner')} ${props.match.params.id}`)}
+          {getPageTitle(
+            `${I18n.t('containers.blockChainPage.minerPage.miner')} ${
+              props.match.params.id
+            }`
+          )}
         </title>
       </Helmet>
       <Header>
