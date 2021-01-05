@@ -40,8 +40,10 @@ export default class App {
   mainWindow: Electron.BrowserWindow;
   allowQuit: boolean;
   parseOptions: Options;
+  isDevMode: boolean;
 
   constructor() {
+    this.isDevMode = process.env.NODE_ENV === 'development';
     this.parseOptions = parseOptions();
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
@@ -59,9 +61,9 @@ export default class App {
     this.makeSingleInstance();
   }
 
-  onAppReady = () => {
+  onAppReady = async () => {
     this.initiateInterceptFileProtocol();
-    this.createWindow();
+    await this.createWindow();
     this.createMenu();
     // initiate ipcMain events
     initiateIpcEvents(autoUpdater);
@@ -70,7 +72,6 @@ export default class App {
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
       log.error(e);
     });
-
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
     initiateBackupImportWalletManager(
       this.mainWindow,
@@ -84,7 +85,7 @@ export default class App {
       /* all urls start with 'file://' */
       const fileUrl = request.url.substr(7);
       const basePath = path.normalize(`${__dirname}/../../../webapp`);
-      if (process.env.NODE_ENV === 'development') {
+      if (this.isDevMode) {
         callback(path.normalize(`${basePath}/build/release/${fileUrl}`));
       } else {
         callback(path.normalize(`${basePath}/${fileUrl}`));
@@ -92,7 +93,28 @@ export default class App {
     });
   }
 
-  createWindow() {
+  installDevelopmentTools = async () => {
+    require('electron-debug')();
+    const installer = require('electron-devtools-installer');
+    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+    const extensions = [
+      'REACT_DEVELOPER_TOOLS',
+      'REDUX_DEVTOOLS',
+      'REACT_PERF',
+    ];
+
+    return installer
+      .default(
+        extensions.map((name) => installer[name]),
+        forceDownload
+      )
+      .catch(console.log);
+  };
+
+  createWindow = async () => {
+    if (this.isDevMode) {
+      await this.installDevelopmentTools();
+    }
     this.mainWindow = new BrowserWindow({
       width: 1024,
       height: 768,
@@ -106,9 +128,9 @@ export default class App {
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
+        enableRemoteModule: true,
       },
     });
-
     const loadUrl =
       process.env.ELECTRON_START_URL ||
       url.format({
@@ -128,7 +150,7 @@ export default class App {
     */
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
-  }
+  };
 
   // Create menu
   createMenu(isWalletLoaded?: boolean) {

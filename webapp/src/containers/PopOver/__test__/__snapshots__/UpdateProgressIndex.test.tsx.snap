@@ -27,6 +27,7 @@ exports[`UpdateProgress Index should check for snapshot 1`] = `
           }
         }
         centered={true}
+        container="body"
         fade={true}
         isOpen={false}
         keyboard={true}

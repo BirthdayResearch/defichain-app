@@ -1,9 +1,9 @@
 const copy = require('@neutrinojs/copy');
-const react = require('@neutrinojs/react');
 const web = require('@neutrinojs/web');
 const jest = require('@neutrinojs/jest');
 const airbnb = require('@neutrinojs/airbnb');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devServer = require('@neutrinojs/dev-server');
 const { defaults } = require('jest-config');
 
 const path = require('path');
@@ -23,6 +23,12 @@ module.exports = {
       let opts = neutrino.options;
       opts.root = __dirname;
       opts.output = outputPath;
+      neutrino.use(
+        devServer({
+          open: true,
+          publicPath,
+        })
+      );
       neutrino.use(
         web({
           clean: true,
@@ -52,6 +58,7 @@ module.exports = {
             plugins: [
               ['@babel/plugin-proposal-decorators', { legacy: true }],
               ['@babel/plugin-proposal-class-properties', { loose: true }],
+              ['@babel/plugin-proposal-private-methods', { loose: true }],
               '@babel/plugin-proposal-object-rest-spread',
             ],
           },
@@ -65,7 +72,9 @@ module.exports = {
               {
                 loader: 'postcss-loader',
                 options: {
-                  plugins: [require('autoprefixer')],
+                  postcssOptions: {
+                    plugins: [[require('autoprefixer')]],
+                  },
                 },
               },
               {
@@ -160,7 +169,6 @@ module.exports = {
       snapshotSerializers: ['enzyme-to-json/serializer'],
       moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
     }),
-
     copy({
       patterns: [{ from: 'favicon.ico', context: './src/assets/img', to: '.' }],
     }),
@@ -192,8 +200,7 @@ function createTypeScriptPreset(options = {}) {
         .plugin('fork-ts-checker')
         .use(require('fork-ts-checker-webpack-plugin'), [
           {
-            checkSyntacticErrors: true,
-            tslint: false,
+            typescript: true,
             ...options.forkChecker,
           },
         ]);

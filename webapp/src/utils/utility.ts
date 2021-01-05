@@ -74,7 +74,7 @@ import {
   getTransactionInfo,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
-import { handleFetchPoolshares } from '../containers/SwapPage/service';
+import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 
 export const validateSchema = (schema, data) => {

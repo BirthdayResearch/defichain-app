@@ -1,3 +1,8 @@
+import Enzyme from 'enzyme';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+
+Enzyme.configure({ adapter: new Adapter() });
+
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import PaymentRequestPage from '../components/PaymentRequestPage';
