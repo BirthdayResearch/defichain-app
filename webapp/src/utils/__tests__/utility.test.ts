@@ -237,4 +237,12 @@ describe('utility', () => {
     expect(isValid).toBeFalsy();
     expect(spy).toBeCalledTimes(1);
   });
+
+  it('should return empty array for token balances when there are no tokens', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.handleFetchTokenBalanceList();
+    expect(result).toEqual([]);
+    expect(post).toBeCalledTimes(1);
+  });
 });
