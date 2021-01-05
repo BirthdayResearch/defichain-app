@@ -1,0 +1,44 @@
+{
+  "formState": {
+    "amount1": "",
+    "amount2": "0",
+    "balance1": "0.00000000",
+    "balance2": "",
+    "hash1": "0",
+    "hash2": "",
+    "receiveAddress": "undefined",
+    "receiveLabel": "undefined",
+    "symbol1": "DFI",
+    "symbol2": ""
+  },
+  "getAddressAndAmountListForAccount": {
+    "result": [
+      {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4je",
+        "amount": 10
+      },
+      {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4j4",
+        "amount": 10
+      },
+      {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jh",
+        "amount": 10
+      }
+    ],
+    "error": null,
+    "id": "curltest"
+  },
+  "getAddressForSymbol": {
+    "result": {
+      "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4ja",
+      "amount": 10
+    }
+  },
+  "expected": {
+    "getAddressForSymbol": {
+      "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+      "amount": 10
+    }
+  }
+}
