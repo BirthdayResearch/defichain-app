@@ -245,4 +245,51 @@ describe('utility', () => {
     expect(result).toEqual([]);
     expect(post).toBeCalledTimes(1);
   });
+
+  it('should return smaller amount among between two numbers', () => {
+    const result = utility.getSmallerAmount('10', '20');
+    expect(result).toBe(10);
+  });
+
+  it('should return smaller amount among between two numbers', () => {
+    const result = utility.getSmallerAmount('abc', 'def');
+    expect(result).toBeNaN;
+  });
+
+  it('should return label if recieveAddress is present', () => {
+    const result = utility.getTransactionAddressLabel(
+      'receiveLabel',
+      'receiveAddress',
+      'fallback'
+    );
+    expect(result).toBe('receiveLabel receiveAddress');
+  });
+
+  it('should return fallback if recieveAddress is not present', () => {
+    const result = utility.getTransactionAddressLabel(
+      'receiveLabel',
+      '',
+      'fallback'
+    );
+    expect(result).toBe('fallback');
+  });
+
+  it('should return pageTitle with appTitle when pageTitle is present', () => {
+    const result = utility.getPageTitle('abcdefgh');
+    expect(result).toBe('abcdefgh - DeFi app');
+  });
+
+  it('should return appTitle when pageTitle is not present', () => {
+    const result = utility.getPageTitle('');
+    expect(result).toBe('DeFi app');
+  });
+
+  it('should return token balance', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: { result: 13123 },
+    });
+    mockAxios(post);
+    const result = await utility.handleFetchUtxoDFI();
+    expect(result).toBe(13123);
+  });
 });
