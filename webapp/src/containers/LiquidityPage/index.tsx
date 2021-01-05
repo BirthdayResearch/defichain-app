@@ -24,7 +24,7 @@ import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
 
 interface LiquidityPageProps {
-  history: History;
+  history: any;
   poolshares: any;
   poolPairList: any;
   fetchPoolsharesRequest: () => void;
@@ -137,7 +137,7 @@ const mapStateToProps = (state) => {
     isPoolsharesLoaded,
     isLoadingPoolshares,
     poolPairList,
-  } = state.swap;
+  } = state.liquidity;
   return {
     poolPairList,
     poolshares,

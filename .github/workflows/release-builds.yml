@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install dependecies
+      - name: install dependencies
         run: npm cache clean --force && npm run init
 
       - name: Build app
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install dependecies
+      - name: install dependencies
         run: npm cache clean --force && npm run init
 
       - name: Build app
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install dependecies
+      - name: install dependencies
         run: npm cache clean --force && npm run init
 
       - name: Build app

@@ -147,6 +147,7 @@
   "handelAddReceiveTxns": {
     "label": "",
     "message": "",
+    "automaticallyGenerateNewAddress": true,
     "id": "v6nxywkudwd",
     "time": "Fri May 29 2020 22:35:00 GMT+0530 (India Standard Time)",
     "unit": "DFI",
