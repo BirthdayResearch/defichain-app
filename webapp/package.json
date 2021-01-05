@@ -61,7 +61,7 @@
     "react-hot-loader": "^4.13.0",
     "react-icons": "^4.1.0",
     "react-md-spinner": "^1.0.0",
-    "react-number-format": "4.4.1",
+    "react-number-format": "4.4.3",
     "react-qr-reader": "^2.2.1",
     "react-redux": "^7.2.2",
     "react-redux-i18n": "^1.9.3",
