@@ -19,19 +19,17 @@ describe('liquidity page service unit test', () => {
     expect(true).toBe(true);
   });
 
-  it('should return pool swap amount if amount1 is available', async () => {
-    const result = service.handleTestPoolSwapTo(formState);
-  });
-
   // TODO : check
-  // it('should return -(dash) if amount1 is not present', async() => {
+  // it.only('should return -(dash) if amount1 is not present', async() => {
   //   const post = jest.fn()
+  //       .mockResolvedValue({data:getAddressAndAmountListForAccount})
   //       .mockResolvedValueOnce({data: getAddressForSymbol})
-  //       .mockResolvedValueOnce({data: getAddressForSymbol});
+  //       .mockResolvedValueOnce({data: getAddressForSymbol})
+  //       .mockResolvedValueOnce({data: {result:"12"}});
   //   mockAxios(post);
   //   const result = await service.handleTestPoolSwapTo(formState);
   //   console.log(result);
-  // })
+  // });
 
   it('should check for error handleTestPoolSwapTo', async () => {
     const spy = jest.spyOn(log, 'error');
