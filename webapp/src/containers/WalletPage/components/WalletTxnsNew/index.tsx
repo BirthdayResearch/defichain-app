@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Card,
   Table,
@@ -16,6 +16,7 @@ import {
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
+import axios from 'axios';
 import {
   fetchWalletTxnsRequest,
   fetchWalletTokenTransactionsListRequestLoading,
@@ -67,6 +68,7 @@ interface WalletTxnsProps {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    cancelToken?: string,
     minBlockHeight?: number
   ) => void;
   fetchBlockDataForTrxRequestLoading: (trxData: any[]) => void;
@@ -102,6 +104,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const to = (currentPage - 1) * pageSize + 1;
   const from = Math.min(total, currentPage * pageSize);
 
+  const sourceArray: any = useRef([]);
+  let source;
+
   useEffect(() => {
     accountHistoryCountRequest({
       no_rewards: !includeRewards,
@@ -109,30 +114,42 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     });
   }, [includeRewards]);
 
-  const fetchData = (pageNum) => {
+  const fetchData = (pageNum, cancelToken) => {
     setCurrentPage(pageNum);
     if (pageNum === 1) {
       fetchWalletTokenTransactionsListRequestLoading(
         tokenSymbol,
         pageSize,
-        includeRewards
+        includeRewards,
+        cancelToken
       );
     } else {
       fetchWalletTokenTransactionsListRequestLoading(
         tokenSymbol,
         pageSize,
         includeRewards,
+        cancelToken,
         minBlockHeight
       );
     }
   };
 
   useEffect(() => {
+    return () => {
+      sourceArray.current.map((source) => {
+        source.cancel('reqest cancel');
+      });
+    };
+  }, []);
+
+  useEffect(() => {
     setTableRows([...data]);
   }, [data]);
 
   useEffect(() => {
-    fetchData(currentPage);
+    source = axios.CancelToken.source();
+    sourceArray.current.push(source);
+    fetchData(currentPage, source.token);
   }, [includeRewards]);
 
   const getTxnsTypeIcon = (type: string) => {
@@ -295,6 +312,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           currentPage={currentPage}
           pagesCount={pagesCount}
           handlePageClick={fetchData}
+          cancelToken={source?.token}
         />
       </>
     );
@@ -355,12 +373,14 @@ const mapDispatchToProps = {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    cancelToken?: string,
     minBlockHeight?: number
   ) =>
     fetchWalletTokenTransactionsListRequestLoading({
       symbol,
       limit,
       includeRewards,
+      cancelToken,
       minBlockHeight,
     }),
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
