@@ -548,7 +548,7 @@
     "backupWalletNoticeTitle": "Резервное копирование кошелька",
     "backupWalletNotice": "Пожалуйста, сделайте резервную копию своего кошелька перед обновлением приложения, чтобы избежать сбоев. Вы хотите сделать резервную копию своего кошелька?",
     "backupWalletDatNotice": "Ваш кошелек еще не готов. Вы хотите сделать резервную копию файла wallet.dat?",
-    "yesBackupWalletNotice": "Да",
+    "yesBackupWalletNotice": "Да, резервную",
     "noBackupWalletNotice": "Нет",
     "saveMyBackup": "Сохранить резервную копию",
     "okIHaveDoneIt": "Хорошо, я сделал это",
