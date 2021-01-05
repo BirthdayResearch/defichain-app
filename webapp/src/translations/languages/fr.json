@@ -731,8 +731,8 @@
     "backupWalletNoticeTitle": "Backup wallet",
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
-    "yesBackupWalletNotice": "Yes",
-    "noBackupWalletNotice": "No",
+    "yesBackupWalletNotice": "Yes, backup",
+    "noBackupWalletNotice": "Don’t backup",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
     "enableLocking": "Enable locking",
@@ -766,7 +766,7 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No"
-  },  
+  },
   "general": {
     "defiApp": "App DeFi"
   }
