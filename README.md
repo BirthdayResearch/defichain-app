@@ -1,8 +1,8 @@
 # DeFi app
 
-![Image](https://i.imgur.com/F7tpKU5.png)
+Use DeFi app to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more. [Download the desktop app](https://defichain.com/downloads/) or [check releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
 
-For direct download, check the [Releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
+![Image](https://defichain.com/img/app/liquidity@2x.png)
 
 ## Scripts
 
@@ -44,7 +44,7 @@ Windows: `sh ./pre-build-win.sh`
 
 Electron config is in [electron-app/index.ts](electron-app/index.ts)
 
-## License
+## Licenses
 
 The DeFi Blockchain App is released under the terms of the MIT license. For more
 information see https://opensource.org/licenses/MIT.
