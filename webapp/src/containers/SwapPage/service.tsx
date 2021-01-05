@@ -43,7 +43,7 @@ export const handleTestPoolSwapTo = async (formState) => {
       address2,
       formState.hash2
     );
-    return testPoolSwapAmount.split('@')[0]; //1.2@dfi
+    return testPoolSwapAmount.split('@')[0];
   } else {
     return '-';
   }
