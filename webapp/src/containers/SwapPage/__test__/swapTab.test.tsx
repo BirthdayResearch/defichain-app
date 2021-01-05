@@ -7,7 +7,7 @@ import Enzyme from '../../../utils/testUtils/enzyme';
 import { I18n } from 'react-redux-i18n';
 
 describe('SwapTab component', () => {
-  it('should check for snapshot', () => {
+  it.skip('should check for snapshot', () => {
     const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>

@@ -114,7 +114,7 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-# Neutrino build directory
+# Webpack build directory
 build
 
 # electron build directory
