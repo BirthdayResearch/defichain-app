@@ -5,6 +5,7 @@ import reducer, {
   fetchPoolPairListFailure,
   fetchTokenBalanceListRequest,
   fetchTokenBalanceListSuccess,
+  fetchTokenBalanceListFailure,
   resetTestPoolSwapRequestTo,
   fetchTestPoolSwapRequestTo,
   fetchTestPoolSwapSuccessTo,
@@ -71,8 +72,8 @@ describe('swap slice', () => {
       expect(rootState.swap.tokenBalanceList).toEqual(payload.tokenBalanceList);
       expect(rootState.swap.isLoadingTokenBalanceList).toBeFalsy();
     });
-    it('should be check fetchPoolPairListFailure', () => {
-      const nextState = reducer(initialState, fetchPoolPairListFailure());
+    it('should be check fetchTokenBalanceListFailure', () => {
+      const nextState = reducer(initialState, fetchTokenBalanceListFailure());
       const rootState = { swap: nextState };
       expect(rootState.swap.isLoadingTokenBalanceList).toBeFalsy();
     });

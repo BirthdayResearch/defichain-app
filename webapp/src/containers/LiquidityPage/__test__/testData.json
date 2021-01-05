@@ -114,6 +114,38 @@
       "handleAddPoolLiquidity": "13a9ecc88c034e3a4482b0d13c0630466056d38152fafd3b694714ea11459efd"
     }
   ],
+  "poolpair": [
+    {
+      "blockCommissionA": 4.2e-7,
+      "blockCommissionB": 3e-8,
+      "commission": 0.002,
+      "creationHeight": 18145,
+      "creationTx": "b2bb09ffe9f9b292f13d23bafa1225ef26d0b9906da7af194c5738b63839b235",
+      "hash": "3",
+      "idTokenA": "0",
+      "idTokenB": "1",
+      "name": "Default Defi token-",
+      "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+      "reserveA": 23500.25210905,
+      "reserveA/reserveB": 2.77693382,
+      "reserveB": 8462.66191877,
+      "reserveB/reserveA": 0.3601094,
+      "rewardPct": 0.85,
+      "status": true,
+      "symbol": "DFI-BTC",
+      "tokenA": "DFI",
+      "tokenB": "BTC",
+      "totalLiquidity": 1726.8492621,
+      "tradeEnabled": true
+    }
+  ],
+  "addPoolLiquidityHash": "13a9ecc88c034e3a4482b0d13c0630466056d38152fafd3b694714ea11459efd",
+  "removePoolLiquidityHash": "13a9ecc88c034e3a4482b0d13c0630466056d38152fafd3b694714ea11459efd",
+  "isErrorRemovingPoolLiquidity": "Error Message",
+  "utxoDfi": 626.44518901,
+  "isUtxoDfiError": "Error Message",
+  "maxAccountDfi": 1.0,
+  "MaxAccountDfiError": "Error Message",
   "saga": {
     "handleFetchPoolshares": [],
     "handleFetchTokenBalanceList": [],
