@@ -39,6 +39,21 @@ exports[`BackupWalletNotice should check for snapshot 1`] = `
           className="modal-footer"
         >
           <Button
+            color="link"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-link btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Don’t backup
+            </button>
+          </Button>
+          <Button
             color="primary"
             onClick={[Function]}
             size="sm"
@@ -50,22 +65,7 @@ exports[`BackupWalletNotice should check for snapshot 1`] = `
               onClick={[Function]}
               type="button"
             >
-              Yes
-            </button>
-          </Button>
-          <Button
-            color="secondary"
-            onClick={[Function]}
-            size="sm"
-            tag="button"
-          >
-            <button
-              aria-label={null}
-              className="btn btn-secondary btn-sm"
-              onClick={[Function]}
-              type="button"
-            >
-              No
+              Yes, backup
             </button>
           </Button>
         </div>
