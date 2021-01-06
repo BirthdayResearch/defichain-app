@@ -17,7 +17,7 @@ const logger = () => {
   return false;
 };
 
-const info = text => {
+const info = (text) => {
   const electronLogger = logger();
   if (electronLogger) {
     electronLogger.log(text);
@@ -25,12 +25,20 @@ const info = text => {
   log.info(text);
 };
 
-const error = text => {
-  const electronLogger = logger();
-  if (electronLogger) {
-    electronLogger.error(text);
+const error = (text: any, methodSource?: string): void => {
+  try {
+    const electronLogger = logger();
+    const errorMessage = `${
+      methodSource ? `[${methodSource}]` : ''
+    } ${text?.toString()}`;
+    if (electronLogger) {
+      electronLogger.error(errorMessage);
+    }
+    log.error(errorMessage);
+  } catch (error) {
+    log.error(text);
+    log.error(error);
   }
-  log.error(text);
 };
 
 const logFilePath = () => {
