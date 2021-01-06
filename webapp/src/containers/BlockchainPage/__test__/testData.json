@@ -107,7 +107,7 @@
           "nonce": 2,
           "bits": "207fffff",
           "difficulty": 4.656542373906925e-10,
-          "time": "May 26, 07:00 pm",
+          "time": "May 26, 04:30 pm",
           "nTxns": 1
         }
       ],
@@ -117,7 +117,7 @@
       "txns": [
         {
           "hash": "a3a67b2ff2ea4cf86807e1c6eaa26d050297c2699a820b743807000c1bf66351",
-          "time": "May 26, 07:00 pm",
+          "time": "May 26, 04:30 pm",
           "tos": [
             {
               "amount": "50",
