@@ -11,6 +11,6 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["electron-app/**/*"],
+  "include": ["electron-app/**/*", "typings/**/*"],
   "exclude": ["electron-app/build/"]
 }
