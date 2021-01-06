@@ -8,7 +8,7 @@ export const isValidAddress = async (toAddress: string) => {
   try {
     return rpcClient.isValidAddress(toAddress);
   } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
+    log.error(err, 'isValidAddress');
     return false;
   }
 };
