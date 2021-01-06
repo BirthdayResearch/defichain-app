@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
 
@@ -377,13 +378,11 @@ export const getErrorMessage = (errorResponse) => {
 };
 
 export const setIntervalSynchronous = (func, delay) => {
-  let intervalFunction;
   let timeoutId;
-  let clear;
-  clear = () => {
+  const clear = () => {
     clearTimeout(timeoutId);
   };
-  intervalFunction = () => {
+  const intervalFunction = () => {
     func();
     timeoutId = setTimeout(intervalFunction, delay);
   };
@@ -621,6 +620,7 @@ export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   }, new Map<string, string>());
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const fetchPoolPairDataWithPagination = async (
   start: number,
   limit: number,

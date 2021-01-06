@@ -30,8 +30,10 @@ import { WALLET_TOKENS_PATH } from '../../constants';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
-  if (!isRunning) yield put(startNodeFailure(message));
-  else yield put(openErrorModal());
+  if (!isRunning) {
+    yield put(startNodeFailure(message));
+    log.error(`${message ?? ''}`, 'startNodeFailure - blockChainNotStarted');
+  } else yield put(openErrorModal());
 }
 
 function* resetAppRoute() {
@@ -67,16 +69,18 @@ export function* getConfig() {
         yield put(startNodeSuccess());
       }
     } else {
-      showNotification(I18n.t('alerts.configurationFailure'), res.message);
+      const resMessage = res.message || 'No data found';
+      showNotification(I18n.t('alerts.configurationFailure'), resMessage);
       yield put({
         type: getRpcConfigsFailure.type,
-        payload: res.message || 'No data found',
+        payload: resMessage,
       });
+      log.error(resMessage, 'getConfig');
     }
   } catch (e) {
     showNotification(I18n.t('alerts.configurationFailure'), e.message);
     yield put({ type: getRpcConfigsFailure.type, payload: e.message });
-    log.error(e);
+    log.error(e, 'getConfig');
   }
 }
 

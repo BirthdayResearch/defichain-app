@@ -1,5 +1,4 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-
 import * as log from '../../utils/electronLogger';
 import {
   getErrorMessage,
@@ -39,7 +38,7 @@ import {
   handleFetchPoolpair,
 } from './service';
 
-function* fetchPoolshares() {
+export function* fetchPoolshares() {
   try {
     const data = yield call(handleFetchPoolshares);
     yield put({
@@ -55,7 +54,7 @@ function* fetchPoolshares() {
   }
 }
 
-function* fetchTokenBalanceList() {
+export function* fetchTokenBalanceList() {
   try {
     const data = yield call(handleFetchTokenBalanceList);
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
@@ -70,6 +69,7 @@ export function* fetchPoolPair(action) {
   } = action;
   try {
     const data = yield call(handleFetchPoolpair, id);
+
     yield put({
       type: fetchPoolpairSuccess.type,
       payload: { poolpair: data },
@@ -80,7 +80,7 @@ export function* fetchPoolPair(action) {
   }
 }
 
-function* fetchPoolPairList() {
+export function* fetchPoolPairList() {
   try {
     const data = yield call(handleFetchPoolPairList);
     yield put({ type: fetchPoolPairListSuccess.type, payload: data });
@@ -89,7 +89,7 @@ function* fetchPoolPairList() {
   }
 }
 
-function* addPoolLiquidity(action) {
+export function* addPoolLiquidity(action) {
   try {
     const {
       payload: { hash1, amount1, hash2, amount2, shareAddress },
@@ -113,7 +113,7 @@ function* addPoolLiquidity(action) {
   }
 }
 
-function* removePoolLiquidity(action) {
+export function* removePoolLiquidity(action) {
   try {
     const {
       payload: { poolID, amount, address, poolpair },
@@ -135,7 +135,7 @@ function* removePoolLiquidity(action) {
   }
 }
 
-function* fetchUtxoDfi() {
+export function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
     yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
@@ -145,7 +145,7 @@ function* fetchUtxoDfi() {
   }
 }
 
-function* fetchMaxAccountDfi() {
+export function* fetchMaxAccountDfi() {
   try {
     const data = yield call(handleFetchTokenDFI);
     yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });
