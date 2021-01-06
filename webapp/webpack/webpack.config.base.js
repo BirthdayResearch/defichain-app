@@ -1,4 +1,5 @@
 import path from 'path';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 import entry from './webpack.config.entry';
 import optimization from './webpack.config.optimization';
@@ -40,6 +41,7 @@ export default {
   ]),
   optimization,
   resolve: {
+    plugins: [new TsconfigPathsPlugin()],
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [path.join(__dirname, '../src'), 'node_modules'],
     fallback: {
