@@ -153,7 +153,8 @@
       "repo": "app",
       "owner": "DeFiCh",
       "releaseType": "release"
-    }
+    },
+    "extends": null
   },
   "lint-staged": {
     "webapp/**/*.ts": "npm run lint:webapp",
