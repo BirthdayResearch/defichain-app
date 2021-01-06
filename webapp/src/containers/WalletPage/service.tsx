@@ -165,7 +165,7 @@ export const sendToAddress = async (
     } catch (err) {
       const errorMessage = getErrorMessage(err);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
   } else {
     try {
@@ -207,7 +207,7 @@ export const sendToAddress = async (
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
   }
 };
