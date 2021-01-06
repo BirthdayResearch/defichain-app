@@ -42,6 +42,7 @@ import { getFullRawTxInfo } from './transactionProcessor';
 import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
+import RPCMethods from '@defi_types/rpcMethods';
 
 export default class RpcClient {
   client: any;
@@ -660,7 +661,7 @@ export default class RpcClient {
   };
 
   getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+    const { data } = await this.call('/', RPCMethods.GET_TOKEN_BALANCES);
     return data.result;
   };
 

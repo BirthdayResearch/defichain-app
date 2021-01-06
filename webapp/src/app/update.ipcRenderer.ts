@@ -10,23 +10,34 @@ import {
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
+import {
+  CREATE_MNEMONIC,
+  ENABLE_RESET_MENU,
+  POST_UPDATE_ACTION,
+  SHOW_UPDATE_AVAILABLE,
+  START_DOWNLOAD_UPDATE,
+  UPDATE_PROGRESS_COMPLETED,
+  UPDATE_PROGRESS_FAILURE,
+  UPDATE_PROGRESS_VALUE,
+  WALLET_BACKUP,
+} from '@defi_types/ipcEvents';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
 
-  ipcRenderer.on('show-update-available', async () => {
+  ipcRenderer.on(SHOW_UPDATE_AVAILABLE, async () => {
     handleShowUpdateAvailableBadge();
   });
 
-  ipcRenderer.on('download-progress', async (event: any, arg: any) => {
+  ipcRenderer.on(UPDATE_PROGRESS_VALUE, async (event: any, arg: any) => {
     updateProgress(arg);
   });
 
-  ipcRenderer.on('update-downloaded', async (event: any) => {
+  ipcRenderer.on(UPDATE_PROGRESS_COMPLETED, async (event: any) => {
     updateComplete();
   });
 
-  ipcRenderer.on('update-downloaded-error', async (event: any, args: any) => {
+  ipcRenderer.on(UPDATE_PROGRESS_FAILURE, async (event: any, args: any) => {
     handleUpdateError(args);
   });
 };
@@ -34,7 +45,7 @@ const initUpdateAppIpcRenderers = () => {
 export const sendUpdateResponse = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('post-update-action');
+    ipcRenderer.send(POST_UPDATE_ACTION);
   }
   closeUpdateModal(handleClosePostUpdate);
 };
@@ -42,7 +53,7 @@ export const sendUpdateResponse = () => {
 export const showAvailableUpdateResponse = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('start-download-update');
+    ipcRenderer.send(START_DOWNLOAD_UPDATE);
   }
   closeUpdateModal(handleCloseUpdateAvailable);
 };
@@ -55,7 +66,7 @@ export const closeUpdateModal = (closingFunc) => {
 export const backupWallet = async () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const resp = await ipcRenderer.sendSync('wallet-backup');
+    const resp = await ipcRenderer.sendSync(WALLET_BACKUP);
     if (!resp.success) {
       showErrorNotification(resp);
     }
@@ -67,14 +78,14 @@ export const backupWallet = async () => {
 export const createMnemonicIpcRenderer = async (mnemonic, network) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return await ipcRenderer.sendSync('create-mnemonic', { mnemonic, network });
+    return await ipcRenderer.sendSync(CREATE_MNEMONIC, { mnemonic, network });
   }
 };
 
 export const enableMenuResetWalletBtn = (isWalletCreatedFlag: boolean) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('enable-reset', { isWalletCreatedFlag });
+    ipcRenderer.send(ENABLE_RESET_MENU, { isWalletCreatedFlag });
   }
 };
 export default initUpdateAppIpcRenderers;

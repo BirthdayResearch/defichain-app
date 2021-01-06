@@ -13,7 +13,6 @@ export const ACTIVATE = 'activate';
 export const CLOSE = 'close';
 export const CLOSED = 'closed';
 export const SECOND_INSTANCE = 'second-instance';
-export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
 export const MAC = 'mac';
