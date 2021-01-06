@@ -2,7 +2,7 @@
   "name": "defi-app",
   "version": "2.1.5",
   "description": "DeFi blockchain client ui",
-  "main": "./electron-app/build/index.js",
+  "main": "./electron-app/build/electron-app/index.js",
   "author": {
     "name": "DeFiChain Foundation",
     "email": "engineering@defichain.com",
@@ -153,8 +153,7 @@
       "repo": "app",
       "owner": "DeFiCh",
       "releaseType": "release"
-    },
-    "extends": null
+    }
   },
   "lint-staged": {
     "webapp/**/*.ts": "npm run lint:webapp",
