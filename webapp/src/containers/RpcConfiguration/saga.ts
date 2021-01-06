@@ -30,8 +30,10 @@ import { WALLET_TOKENS_PATH } from '../../constants';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
-  if (!isRunning) yield put(startNodeFailure(message));
-  else yield put(openErrorModal());
+  if (!isRunning) {
+    yield put(startNodeFailure(message));
+    log.error(`Got error in startNode: ${message}`);
+  } else yield put(openErrorModal());
 }
 
 function* resetAppRoute() {
