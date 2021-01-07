@@ -16,18 +16,21 @@ For direct app downloads, check the [Releases](https://github.com/DeFiCh/app/rel
 
 ## Initial Setup
 
-##### 1. Run `npm run init` to install all dependencies for both Electron and WebApp
+##### Install all dependencies for both Electron and WebApp
 
-##### 2. Setup the required binary
+```bash
+npm run init
+```
 
-- To connect to the node, you need to setup the binary.
-- Run the command below that matches your Operating System
+##### Setup the required binary
 
-  | Operating System | Command                   |
-  | ---------------- | ------------------------- |
-  | Windows          | `npm run pre:build:win`   |
-  | Mac              | `npm run pre:build:mac`   |
-  | Linux            | `npm run pre:build:linux` |
+To connect to the node, you need to setup the binary. Run the command below that matches your Operating System.
+
+| Operating System | Command                   |
+| ---------------- | ------------------------- |
+| Windows          | `npm run pre:build:win`   |
+| Mac              | `npm run pre:build:mac`   |
+| Linux            | `npm run pre:build:linux` |
 
 ## Running Apps
 
