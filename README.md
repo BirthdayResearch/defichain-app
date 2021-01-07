@@ -10,39 +10,40 @@
 
 # Getting Started
 
-For direct downloads, check the [Releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
+For direct app downloads, check the [Releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
 
 # Development
 
 ## Initial Setup
 
-##### 1. Run the `npm run init` to install all dependencies for both Electron and WebApp
+##### 1. Run `npm run init` to install all dependencies for both Electron and WebApp
 
 ##### 2. Setup the required binary
 
 - To connect to the node, you need to setup the binary.
 - Run the command below that matches your Operating System
-  Operating System | NPM Command
-  ------------- | -------------
-  Windows | `npm run pre:build:win`
-  Mac | `npm run pre:build:mac`
-  Linux | `npm run pre:build:linux`
+
+  | Operating System | Command                   |
+  | ---------------- | ------------------------- |
+  | Windows          | `npm run pre:build:win`   |
+  | Mac              | `npm run pre:build:mac`   |
+  | Linux            | `npm run pre:build:linux` |
 
 ## Running Apps
 
-##### - To run both apps in Dev Mode
+##### To run both apps in Dev Mode
 
 ```bash
 npm run start:dev
 ```
 
-##### - To run WebApp only
+##### To run WebApp only
 
 ```bash
 npm run start:react
 ```
 
-##### - To run Electron only
+##### To run Electron only
 
 ```bash
 npm run start:electron
@@ -50,13 +51,13 @@ npm run start:electron
 
 ## Building Apps
 
-##### - To build the app using native platform
+##### To build the app using native platform
 
 ```bash
 npm run build
 ```
 
-##### - To build the app for all platforms
+##### To build the app for all platforms
 
 ```bash
 npm run build:all
