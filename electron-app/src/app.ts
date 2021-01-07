@@ -84,7 +84,7 @@ export default class App {
     protocol.interceptFileProtocol('file', (request, callback) => {
       /* all urls start with 'file://' */
       const fileUrl = request.url.substr(7);
-      const basePath = path.normalize(`${__dirname}/../../../webapp`);
+      const basePath = path.normalize(`${__dirname}/../../../../webapp`);
       if (this.isDevMode) {
         callback(path.normalize(`${basePath}/build/release/${fileUrl}`));
       } else {
