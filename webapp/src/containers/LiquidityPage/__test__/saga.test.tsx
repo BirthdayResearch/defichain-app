@@ -33,6 +33,7 @@ import {
   fetchMaxAccountDfiSuccess,
   fetchMaxAccountDfiFailure,
 } from '../reducer';
+import * as utility from '../../../utils/utility';
 import * as service from '../service';
 import { dispatchedFunc } from '../../../utils/testUtils/mockUtils';
 
@@ -188,7 +189,7 @@ describe('Liquidity page saga unit test', () => {
     let handleFetchTokenBalanceList;
     beforeEach(() => {
       handleFetchTokenBalanceList = jest.spyOn(
-        service,
+        utility,
         'handleFetchTokenBalanceList'
       );
     });
@@ -286,7 +287,7 @@ describe('Liquidity page saga unit test', () => {
   describe('fetchUtxoDfi', () => {
     let handleFetchUtxoDFI;
     beforeEach(() => {
-      handleFetchUtxoDFI = jest.spyOn(service, 'handleFetchUtxoDFI');
+      handleFetchUtxoDFI = jest.spyOn(utility, 'handleFetchUtxoDFI');
     });
     afterEach(() => {
       handleFetchUtxoDFI.mockRestore();
@@ -318,7 +319,7 @@ describe('Liquidity page saga unit test', () => {
   describe('fetchMaxAccountDfi', () => {
     let handleFetchTokenDFI;
     beforeEach(() => {
-      handleFetchTokenDFI = jest.spyOn(service, 'handleFetchTokenDFI');
+      handleFetchTokenDFI = jest.spyOn(utility, 'handleFetchTokenDFI');
     });
     afterEach(() => {
       handleFetchTokenDFI.mockRestore();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
 
@@ -72,6 +73,7 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
@@ -376,13 +378,11 @@ export const getErrorMessage = (errorResponse) => {
 };
 
 export const setIntervalSynchronous = (func, delay) => {
-  let intervalFunction;
   let timeoutId;
-  let clear;
-  clear = () => {
+  const clear = () => {
     clearTimeout(timeoutId);
   };
-  intervalFunction = () => {
+  const intervalFunction = () => {
     func();
     timeoutId = setTimeout(intervalFunction, delay);
   };
@@ -620,6 +620,7 @@ export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   }, new Map<string, string>());
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const fetchPoolPairDataWithPagination = async (
   start: number,
   limit: number,
@@ -1283,4 +1284,19 @@ export const getTransactionAddressLabel = (
 export const getPageTitle = (pageTitle?: string) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
+};
+
+export const handleFetchTokenDFI = async () => {
+  const accountDFI = await handleFetchAccountDFI();
+  return accountDFI;
+};
+
+export const handleFetchUtxoDFI = async () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getBalance();
+};
+
+export const handleFetchTokenBalanceList = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getTokenBalances();
 };
