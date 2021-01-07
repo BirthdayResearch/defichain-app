@@ -25,7 +25,7 @@ export const BINARY_FILE_NAME = getPlatform() === 'win' ? 'defid.exe' : 'defid';
 export const BINARY_FILE_PATH = IS_DEV
   ? path.join(rootPath, './binary', getPlatform())
   : IS_PACKAGED
-  ? path.join(__dirname, '../../../../..', 'binary', getPlatform())
+  ? path.join(__dirname, '../../../../../..', 'binary', getPlatform())
   : path.join(rootPath, '../', 'binary', getPlatform());
 
 export const CONFIG_FILE_PATH = path.join(HOME_PATH, '/.defi', 'defi.conf');

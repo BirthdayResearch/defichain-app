@@ -164,7 +164,6 @@ export default class DefiProcessManager {
 
   static async stop() {
     try {
-      log.info('**** before stop ****');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
         const processLists: any = await getProcesses({
@@ -180,13 +179,7 @@ export default class DefiProcessManager {
         }
       }
     } catch (err) {
-      log.info('**** on error stop() ****');
       log.error(err);
-      const regex = new RegExp('no such file or directory', 'gi');
-      if (regex.test(err)) {
-        log.info('**** trigger start ****');
-        this.start({}, null);
-      }
       return responseMessage(false, err);
     }
   }
