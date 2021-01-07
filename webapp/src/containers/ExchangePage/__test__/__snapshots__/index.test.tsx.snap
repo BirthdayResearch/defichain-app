@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExchangePage Page should check for snapshot 1`] = `
+<div
+  className="main-wrapper"
+>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Exchange - DeFi app
+    </title>
+  </HelmetWrapper>
+  <Connect(Header)>
+    <h1>
+      Exchange
+    </h1>
+  </Connect(Header)>
+  <div
+    className="content"
+  >
+    <section>
+      Section
+    </section>
+  </div>
+  <footer
+    className="footer-bar"
+  >
+    Footer bar
+  </footer>
+</div>
+`;
