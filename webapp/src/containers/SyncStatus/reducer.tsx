@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  isLoading: false,
+  syncedPercentage: 0,
+  latestBlock: 0,
+  latestSyncedBlock: 0,
+  syncingError: '',
+};
 const configSlice = createSlice({
   name: 'syncstatus',
-  initialState: {
-    isLoading: false,
-    syncedPercentage: 0,
-    latestBlock: 0,
-    latestSyncedBlock: 0,
-    syncingError: '',
-  },
+  initialState,
   reducers: {
     syncStatusRequest(state) {
       state.isLoading = true;
