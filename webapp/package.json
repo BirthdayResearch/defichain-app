@@ -5,7 +5,7 @@
   "author": {
     "name": "DeFiChain Foundation",
     "email": "engineering@defichain.com",
-    "url": "http://defichain.com/"
+    "url": "https://defichain.com/"
   },
   "homepage": "/",
   "publicPath": "/",
@@ -65,7 +65,7 @@
     "react-helmet": "^6.1.0",
     "react-icons": "^4.1.0",
     "react-md-spinner": "^1.0.0",
-    "react-number-format": "4.4.3",
+    "react-number-format": "4.4.4",
     "react-qr-reader": "^2.2.1",
     "react-redux": "^7.2.2",
     "react-redux-i18n": "^1.9.3",
@@ -95,7 +95,7 @@
     "@storybook/preset-typescript": "^3.0.0",
     "@types/classnames": "^2.2.11",
     "@types/enzyme": "^3.10.8",
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.167",
     "@types/react": "^17.0.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
@@ -154,7 +154,7 @@
     "react-test-renderer": "^17.0.1",
     "regenerator-runtime": "~0.13.7",
     "resolve-url-loader": "3.1.2",
-    "sass": "1.32.0",
+    "sass": "1.32.2",
     "sass-loader": "^10.1.0",
     "stream-browserify": "3.0.0",
     "style-loader": "~2.0.0",
