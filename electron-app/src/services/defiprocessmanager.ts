@@ -69,7 +69,7 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
-        `-acindex`,
+        // `-acindex`,
         // `-reindex-chainstate`
       ];
 
