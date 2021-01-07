@@ -1,4 +1,4 @@
-# DeFi app
+# DeFi App
 
 ![Image](https://i.imgur.com/F7tpKU5.png)
 
@@ -32,7 +32,7 @@ To connect to the node, you need to setup the binary. Run the command below that
 | Mac              | `npm run pre:build:mac`   |
 | Linux            | `npm run pre:build:linux` |
 
-## Running Apps
+## Running Apps (Electron and WebApp)
 
 ##### To run both apps in Dev Mode
 
