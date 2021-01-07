@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTabGeneral should check for snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <Connect(SettingsTabGeneral)
+    blockStorage={12}
+    databaseCache={12}
+    feeRate={0.1}
+    handeRefreshUtxosToggle={[Function]}
+    handeReindexToggle={[Function]}
+    handleDropDowns={[Function]}
+    handleFractionalInputs={[Function]}
+    handleRegularNumInputs={[Function]}
+    handleToggles={[Function]}
+    launchAtLogin={true}
+    maximumAmount={1000}
+    maximumCount={650}
+    minimizedAtLaunch={true}
+    network="Testnet"
+    networkOptions={Array []}
+    openGeneralReIndexModal={[Function]}
+    pruneBlockStorage={true}
+    refreshUtxosAfterSaving={true}
+    reindexAfterSaving={true}
+    scriptVerificationThreads={12}
+  />
+</ContextProvider>
+`;
