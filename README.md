@@ -65,7 +65,7 @@ npm run build:all
 
 ## Electron Configuration
 
-##### - Electron configuration is in [electron-app/index.ts](electron-app/index.ts)
+##### Electron configuration is in [electron-app/index.ts](electron-app/index.ts)
 
 ## License
 
