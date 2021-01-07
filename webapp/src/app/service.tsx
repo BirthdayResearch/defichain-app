@@ -11,7 +11,7 @@ import {
   fetchInstantPendingBalanceRequest,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
-import { DUMP_WALLET, IMPORT_WALLET } from '../constants/rpcMethods';
+import { DUMP_WALLET, IMPORT_WALLET } from '@defi_types/rpcMethods';
 import {
   startUpdateApp,
   updateApp,

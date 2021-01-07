@@ -15,7 +15,7 @@ import {
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
 } from './../constants';
-import * as methodNames from '../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import {
   IAddressAndAmount,
@@ -42,7 +42,6 @@ import { getFullRawTxInfo } from './transactionProcessor';
 import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
-import RPCMethods from '@defi_types/rpcMethods';
 
 export default class RpcClient {
   client: any;
@@ -661,7 +660,7 @@ export default class RpcClient {
   };
 
   getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', RPCMethods.GET_TOKEN_BALANCES);
+    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
     return data.result;
   };
 
