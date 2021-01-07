@@ -1,6 +1,5 @@
 import path from 'path';
 
-export const SITE_URL = 'https://defichain.com/';
 export const ICON = path.join(
   __dirname,
   '/electron-app/assets/icon/icon-512.png'

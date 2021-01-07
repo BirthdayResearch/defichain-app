@@ -8,8 +8,6 @@ import {
   BINARY_FILE_PATH,
   CONFIG_FILE_NAME,
   PID_FILE_NAME,
-  DEFAULT_FALLBACK_FEE,
-  DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
@@ -26,6 +24,10 @@ import {
   getIniData,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
+import {
+  DEFAULT_FALLBACK_FEE,
+  DEFAULT_RPC_ALLOW_IP,
+} from '@defi_types/settings';
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
