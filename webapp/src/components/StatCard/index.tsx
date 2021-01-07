@@ -31,7 +31,10 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
         </Row>
         <Row className={styles.valueUnit}>
           <Col className={styles.value}>
-            <NumberMask value={props.value} defaultValue={0} />
+            <NumberMask
+              value={Number(props.value).toFixed(8)}
+              defaultValue={0}
+            />
           </Col>
           <Col className={`${styles.unit} ${styles.text}`}>{props.unit}</Col>
         </Row>
