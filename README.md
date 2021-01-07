@@ -10,7 +10,7 @@
 
 # Getting Started
 
-For direct app downloads, check the [Releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
+For direct app downloads, check the [GitHub Releases](https://github.com/DeFiCh/app/releases) page for latest downloadable installers for Windows, Mac and Linux.
 
 # Development
 
@@ -65,10 +65,6 @@ npm run build
 ```bash
 npm run build:all
 ```
-
-## Electron Configuration
-
-##### Electron configuration is in [electron-app/index.ts](electron-app/index.ts)
 
 ## License
 
