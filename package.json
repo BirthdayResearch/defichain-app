@@ -40,7 +40,8 @@
     "test:react": "cd webapp/ && npm run test",
     "test:react:snapshot": "cd webapp/ && npm run test:snapshot:update",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "set_env:prod": "cross-env NODE_ENV=production"
+    "set_env:prod": "cross-env NODE_ENV=production",
+    "test:jem": "cd webapp/ && jest --coverage"
   },
   "keywords": [],
   "license": "ISC",
