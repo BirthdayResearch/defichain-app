@@ -1,6 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import {
+  getErrorMessage,
+  handleFetchTokenDFI,
+  handleFetchUtxoDFI,
+  handleFetchTokenBalanceList,
+} from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchPoolpair,
@@ -29,11 +34,8 @@ import {
   handleAddPoolLiquidity,
   handleFetchPoolPairList,
   handleFetchPoolshares,
-  handleFetchTokenBalanceList,
   handleRemovePoolLiquidity,
   handleFetchPoolpair,
-  handleFetchUtxoDFI,
-  handleFetchTokenDFI,
 } from './service';
 
 export function* fetchPoolshares() {
