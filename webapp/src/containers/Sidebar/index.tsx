@@ -39,6 +39,7 @@ import {
   WALLET_TOKENS_PATH,
   LIQUIDITY_PATH,
   HELP_PATH,
+  SETTING_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
