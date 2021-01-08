@@ -13,7 +13,7 @@ jobs:
       - uses: loveloper44/render-json-action@v2.0.2
         id: render
         with:
-          json: package.json
+          json: '../../package.json'
       - name: Get the output
         run: echo "${{ steps.render.outputs.result.version }}"
       - uses: actions/checkout@v2
