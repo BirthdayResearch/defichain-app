@@ -10,6 +10,7 @@
   },
   "homepage": "./",
   "publicPath": "./",
+  "ainVersion": "1.3.17rc3",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc",
