@@ -17,10 +17,8 @@ jobs:
         with:
           path: 'package.json'
           prop_path: 'ainVersion'
-      - name: Get the output
-        run: echo "${{ steps.version.outputs.prop }}"
-        env:
-          AIN_VERSION: ${{ steps.version.outputs.prop }}
+      - name: Set Variables
+        run: echo 'AIN_VERSION=${{ steps.version.outputs.prop }}' >> $GITHUB_ENV
       - name: Test interpollation
         run: echo 'dist/defi-app-$AIN_VERSION.AppImage'
       # - name: install dependencies
