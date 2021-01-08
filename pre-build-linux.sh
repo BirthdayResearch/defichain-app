@@ -1,6 +1,6 @@
 #!/bin/sh
 #!/usr/bin/env fish
-$ainVersion = $args[0]
+$ainVersion = $1
 $url = "https://github.com/DeFiCh/ain/releases/download/v${ainVersion}/defichain-${ainVersion}-x86_64-pc-linux-gnu.tar.gz"
 $outfile = "defichain-${ainVersion}-x86_64-pc-linux-gnu.tar.gz";
 mkdir -p binary
