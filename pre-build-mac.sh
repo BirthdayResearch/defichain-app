@@ -1,6 +1,6 @@
-$ainVersion = $1
-$url = "https://github.com/DeFiCh/ain/releases/download/v${ainVersion}/defichain-${ainVersion}-x86_64-apple-darwin11.tar.gz"
-$outfile = "defichain-${ainVersion}-x86_64-apple-darwin11.tar.gz";
+ainVersion=$1
+url="https://github.com/DeFiCh/ain/releases/download/v${ainVersion}/defichain-${ainVersion}-x86_64-apple-darwin11.tar.gz"
+outfile="defichain-${ainVersion}-x86_64-apple-darwin11.tar.gz";
 mkdir -p binary/mac
 cd binary && rm -rf win mac linux
 mkdir mac
