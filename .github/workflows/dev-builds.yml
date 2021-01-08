@@ -11,6 +11,11 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@v2
+      - name: Get App Version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+        with:
+          path: package.json
       - name: install dependencies
         run: npm cache clean --force && npm run init
       - name: Build app
@@ -18,37 +23,47 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: linux-build
-          path: 'dist/defi-app-2.1.6.AppImage'
+          path: 'dist/defi-app-${{ steps.package-version.outputs.current-version}}.AppImage'
 
-  build_mac_version:
-    runs-on: macos-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-      CSC_LINK: ${{ secrets.CSC_LINK}}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-      - name: Build app
-        run: npm run build:mac
-      - uses: actions/upload-artifact@v2
-        with:
-          name: mac-build
-          path: 'dist/defi-app-2.1.6.dmg'
+  # build_mac_version:
+  #   runs-on: macos-latest
+  #   env:
+  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
+  #     CSC_LINK: ${{ secrets.CSC_LINK}}
+  #     CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Get App Version
+  #       id: package-version
+  #       uses: martinbeentjes/npm-get-version-action@master
+  #       with:
+  #         path: package.json
+  #     - name: install dependencies
+  #       run: npm cache clean --force && npm run init
+  #     - name: Build app
+  #       run: npm run build:mac
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: mac-build
+  #         path: 'dist/defi-app-${{ steps.package-version.outputs.current-version}}.dmg'
 
-  build_windows_version:
-    runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-      - name: Build app
-        run: npm run build:win
-        shell: powershell
-      - uses: actions/upload-artifact@v2
-        with:
-          name: win-build
-          path: 'dist/defi-app Setup 2.1.6.exe'
+  # build_windows_version:
+  #   runs-on: windows-latest
+  #   env:
+  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Get App Version
+  #       id: package-version
+  #       uses: martinbeentjes/npm-get-version-action@master
+  #       with:
+  #         path: package.json
+  #     - name: install dependencies
+  #       run: npm cache clean --force && npm run init
+  #     - name: Build app
+  #       run: npm run build:win
+  #       shell: powershell
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: win-build
+  #         path: 'dist/defi-app Setup ${{ steps.package-version.outputs.current-version}}.exe'
