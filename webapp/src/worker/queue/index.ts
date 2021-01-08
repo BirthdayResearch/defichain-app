@@ -14,11 +14,15 @@ const worker = (task, callback) => {
       callback(null, result);
     })
     .catch((e) => {
+      log.error(JSON.stringify(e), 'queueWorker');
       callback(e);
     });
 };
 
 const q = queue(worker, QUEUE_CONCURRENCY);
+q.error((e, task) => {
+  log.error(JSON.stringify(e), `${task?.methodName ?? 'queueWorker'}`);
+});
 
 const isRunning = () => {
   const {
@@ -47,7 +51,7 @@ export const shutDownBinary = async () => {
     log.info(JSON.stringify(result));
     return result;
   } catch (err) {
-    log.error(JSON.stringify(err));
+    log.error(JSON.stringify(err), 'shutDownBinary');
     if (isElectron()) {
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
         const ipcRenderer = ipcRendererFunc();

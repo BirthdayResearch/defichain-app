@@ -20,7 +20,11 @@ import {
 import { WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit, getPageTitle, getSymbolKey } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  getPageTitle,
+  getSymbolKey,
+} from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
@@ -69,7 +73,9 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}
+        </title>
       </Helmet>
       <Header>
         <Button

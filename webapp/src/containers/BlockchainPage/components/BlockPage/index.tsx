@@ -27,7 +27,11 @@ import {
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { ITxn, IBlockData } from '../../interfaces';
-import { getNetworkType, getPageTitle, toSha256 } from '../../../../utils/utility';
+import {
+  getNetworkType,
+  getPageTitle,
+  toSha256,
+} from '../../../../utils/utility';
 import LruCache from '../../../../utils/lruCache';
 import Header from '../../../HeaderComponent';
 import openNewTab from '../../../../utils/openNewTab';
@@ -73,7 +77,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
 
   const blockNumber = Number(height);
 
-  const fetchData = pageNumber => {
+  const fetchData = (pageNumber) => {
     setCurrentPage(pageNumber);
     props.fetchBlockCountRequest();
     const key = toSha256(`${blockNumber} ${pageNumber} ${pageSize}`);
@@ -97,9 +101,11 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.blockChainPage.blockPage.title', {
-            blockNo: blockNumber,
-          }))}
+          {getPageTitle(
+            I18n.t('containers.blockChainPage.blockPage.title', {
+              blockNo: blockNumber,
+            })
+          )}
         </title>
       </Helmet>
       <Header>
@@ -255,7 +261,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { blockchain, settings } = state;
   const { unit } = settings.appConfig;
   const {
@@ -282,7 +288,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchTxns: (blockNumber, pageNo, pageSize) =>
     fetchTxnsRequest({ blockNumber, pageNo, pageSize }),
-  fetchBlockData: blockNumber => fetchBlockDataRequest({ blockNumber }),
+  fetchBlockData: (blockNumber) => fetchBlockDataRequest({ blockNumber }),
   fetchBlockCountRequest,
 };
 

@@ -14,11 +14,7 @@ import {
   Row,
   CustomInput,
 } from 'reactstrap';
-import {
-  NavLink,
-  NavLink as RRNavLink,
-  RouteComponentProps,
-} from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 
@@ -621,7 +617,7 @@ const mapStateToProps = (state) => {
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
     transferTokensLoaded,
-  } = state.swap;
+  } = state.liquidity;
   const { paymentRequests } = state.wallet;
   return {
     removePoolLiquidityHash,

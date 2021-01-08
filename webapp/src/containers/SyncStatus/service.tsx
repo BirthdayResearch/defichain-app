@@ -1,5 +1,6 @@
 import RpcClient from '../../utils/rpc-client';
 import { getTotalBlocks } from '../../utils/utility';
+import * as log from '../../utils/electronLogger';
 
 export const getBlockSyncInfo = async () => {
   const rpcClient = new RpcClient();
@@ -19,6 +20,7 @@ export const getBlockSyncInfo = async () => {
           )
         )
       : 0;
+    log.error(e, 'getBlockSyncInfo');
   }
 
   const percentage = (latestSyncedBlock / latestBlock) * 100;

@@ -69,7 +69,9 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     <div>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.createOrRestoreWalletPage.title'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.createOrRestoreWalletPage.title')
+          )}
         </title>
       </Helmet>
       <Header>

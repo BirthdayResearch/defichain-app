@@ -1,0 +1,909 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiquidityInfo component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(LiquidityInfo)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "poolID": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <LiquidityInfo
+          fetchPoolsharesRequest={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "poolID": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          poolshares={Array []}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Liquidity - DeFi app"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Liquidity - DeFi app"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <Connect(Header)>
+              <Header
+                openBackupWallet={[Function]}
+                startUpdateApp={[Function]}
+                updateAvailableBadge={false}
+              >
+                <header
+                  className="header-bar"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "sensitive": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/liquidity"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      onClick={[Function]}
+                      to="/liquidity"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/liquidity",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-link"
+                          href="/liquidity"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-link"
+                            href="/liquidity"
+                            onClick={[Function]}
+                          >
+                            <MdArrowBack>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowBack>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              Back
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <div>
+                    <PairIcon
+                      poolpair={0}
+                    >
+                      <div>
+                        <TokenAvatar
+                          size="24px"
+                        >
+                          <ForwardRef(withAvatarConfig)
+                            maxInitials={2}
+                            round={true}
+                            size="24px"
+                            src=""
+                            textSizeRatio={3}
+                          >
+                            <Avatar
+                              avatarRedirectUrl={null}
+                              cache={
+                                Cache {
+                                  "cachePrefix": "react-avatar/",
+                                  "sourceSize": 20,
+                                  "sourceTTL": 604800000,
+                                }
+                              }
+                              className=""
+                              colors={
+                                Array [
+                                  "#d73d32",
+                                  "#7e3794",
+                                  "#4285f4",
+                                  "#67ae3f",
+                                  "#d61a7f",
+                                  "#ff4080",
+                                ]
+                              }
+                              fgColor="#FFF"
+                              initials={[Function]}
+                              maxInitials={2}
+                              round={true}
+                              size="24px"
+                              src=""
+                              textMarginRatio={0.15}
+                              textSizeRatio={3}
+                              unstyled={false}
+                            >
+                              <div
+                                className=" sb-avatar"
+                                style={
+                                  Object {
+                                    "borderRadius": "100%",
+                                    "display": "inline-block",
+                                    "fontFamily": "Helvetica, Arial, sans-serif",
+                                    "height": "24px",
+                                    "verticalAlign": "middle",
+                                    "width": "24px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className=" sb-avatar__text"
+                                  style={
+                                    Object {
+                                      "background": undefined,
+                                      "borderRadius": "100%",
+                                      "color": "#FFF",
+                                      "height": "24px",
+                                      "lineHeight": "initial",
+                                      "textAlign": "center",
+                                      "width": "24px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "display": "table",
+                                        "height": "100%",
+                                        "tableLayout": "fixed",
+                                        "width": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "table-cell",
+                                          "fontSize": "100%",
+                                          "verticalAlign": "middle",
+                                          "whiteSpace": "nowrap",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        key="24px"
+                                      />
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </Avatar>
+                          </ForwardRef(withAvatarConfig)>
+                        </TokenAvatar>
+                        <TokenAvatar
+                          size="24px"
+                        >
+                          <ForwardRef(withAvatarConfig)
+                            maxInitials={2}
+                            round={true}
+                            size="24px"
+                            src=""
+                            textSizeRatio={3}
+                          >
+                            <Avatar
+                              avatarRedirectUrl={null}
+                              cache={
+                                Cache {
+                                  "cachePrefix": "react-avatar/",
+                                  "sourceSize": 20,
+                                  "sourceTTL": 604800000,
+                                }
+                              }
+                              className=""
+                              colors={
+                                Array [
+                                  "#d73d32",
+                                  "#7e3794",
+                                  "#4285f4",
+                                  "#67ae3f",
+                                  "#d61a7f",
+                                  "#ff4080",
+                                ]
+                              }
+                              fgColor="#FFF"
+                              initials={[Function]}
+                              maxInitials={2}
+                              round={true}
+                              size="24px"
+                              src=""
+                              textMarginRatio={0.15}
+                              textSizeRatio={3}
+                              unstyled={false}
+                            >
+                              <div
+                                className=" sb-avatar"
+                                style={
+                                  Object {
+                                    "borderRadius": "100%",
+                                    "display": "inline-block",
+                                    "fontFamily": "Helvetica, Arial, sans-serif",
+                                    "height": "24px",
+                                    "verticalAlign": "middle",
+                                    "width": "24px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className=" sb-avatar__text"
+                                  style={
+                                    Object {
+                                      "background": undefined,
+                                      "borderRadius": "100%",
+                                      "color": "#FFF",
+                                      "height": "24px",
+                                      "lineHeight": "initial",
+                                      "textAlign": "center",
+                                      "width": "24px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "display": "table",
+                                        "height": "100%",
+                                        "tableLayout": "fixed",
+                                        "width": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "table-cell",
+                                          "fontSize": "100%",
+                                          "verticalAlign": "middle",
+                                          "whiteSpace": "nowrap",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        key="24px"
+                                      />
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </Avatar>
+                          </ForwardRef(withAvatarConfig)>
+                        </TokenAvatar>
+                      </div>
+                    </PairIcon>
+                    <h1>
+                      undefined Liquidity
+                    </h1>
+                  </div>
+                  <ButtonGroup
+                    role="group"
+                    tag="div"
+                  >
+                    <div
+                      className="btn-group"
+                      role="group"
+                    >
+                      <Button
+                        color="link"
+                        tag={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "propTypes": Object {
+                              "activeClassName": [Function],
+                              "activeStyle": [Function],
+                              "aria-current": [Function],
+                              "className": [Function],
+                              "exact": [Function],
+                              "innerRef": [Function],
+                              "isActive": [Function],
+                              "location": [Function],
+                              "onClick": [Function],
+                              "replace": [Function],
+                              "sensitive": [Function],
+                              "strict": [Function],
+                              "style": [Function],
+                              "target": [Function],
+                              "to": [Function],
+                            },
+                            "render": [Function],
+                          }
+                        }
+                        to="/liquidity/createpoolpair?idTokenA=undefined&idTokenB=undefined&tokenA=undefined&tokenB=undefined"
+                      >
+                        <NavLink
+                          aria-label={null}
+                          className="btn btn-link"
+                          onClick={[Function]}
+                          to="/liquidity/createpoolpair?idTokenA=undefined&idTokenB=undefined&tokenA=undefined&tokenB=undefined"
+                        >
+                          <Link
+                            aria-current={null}
+                            aria-label={null}
+                            className="btn btn-link"
+                            onClick={[Function]}
+                            to={
+                              Object {
+                                "hash": "",
+                                "pathname": "/liquidity/createpoolpair",
+                                "search": "?idTokenA=undefined&idTokenB=undefined&tokenA=undefined&tokenB=undefined",
+                                "state": null,
+                              }
+                            }
+                          >
+                            <LinkAnchor
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-link"
+                              href="/liquidity/createpoolpair?idTokenA=undefined&idTokenB=undefined&tokenA=undefined&tokenB=undefined"
+                              navigate={[Function]}
+                              onClick={[Function]}
+                            >
+                              <a
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-link"
+                                href="/liquidity/createpoolpair?idTokenA=undefined&idTokenB=undefined&tokenA=undefined&tokenB=undefined"
+                                onClick={[Function]}
+                              >
+                                <MdAdd>
+                                  <IconBase
+                                    attr={
+                                      Object {
+                                        "viewBox": "0 0 24 24",
+                                      }
+                                    }
+                                  >
+                                    <svg
+                                      fill="currentColor"
+                                      height="1em"
+                                      stroke="currentColor"
+                                      strokeWidth="0"
+                                      style={
+                                        Object {
+                                          "color": undefined,
+                                        }
+                                      }
+                                      viewBox="0 0 24 24"
+                                      width="1em"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                                        key="0"
+                                      />
+                                    </svg>
+                                  </IconBase>
+                                </MdAdd>
+                                <span
+                                  className="d-lg-inline"
+                                >
+                                  Add more
+                                </span>
+                              </a>
+                            </LinkAnchor>
+                          </Link>
+                        </NavLink>
+                      </Button>
+                      <Button
+                        color="link"
+                        disabled={false}
+                        tag={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "propTypes": Object {
+                              "activeClassName": [Function],
+                              "activeStyle": [Function],
+                              "aria-current": [Function],
+                              "className": [Function],
+                              "exact": [Function],
+                              "innerRef": [Function],
+                              "isActive": [Function],
+                              "location": [Function],
+                              "onClick": [Function],
+                              "replace": [Function],
+                              "sensitive": [Function],
+                              "strict": [Function],
+                              "style": [Function],
+                              "target": [Function],
+                              "to": [Function],
+                            },
+                            "render": [Function],
+                          }
+                        }
+                        to="/liquidity/removeliquidity/undefined?sharePercentage=NaN"
+                      >
+                        <NavLink
+                          aria-label={null}
+                          className="btn btn-link"
+                          disabled={false}
+                          onClick={[Function]}
+                          to="/liquidity/removeliquidity/undefined?sharePercentage=NaN"
+                        >
+                          <Link
+                            aria-current={null}
+                            aria-label={null}
+                            className="btn btn-link"
+                            disabled={false}
+                            onClick={[Function]}
+                            to={
+                              Object {
+                                "hash": "",
+                                "pathname": "/liquidity/removeliquidity/undefined",
+                                "search": "?sharePercentage=NaN",
+                                "state": null,
+                              }
+                            }
+                          >
+                            <LinkAnchor
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-link"
+                              disabled={false}
+                              href="/liquidity/removeliquidity/undefined?sharePercentage=NaN"
+                              navigate={[Function]}
+                              onClick={[Function]}
+                            >
+                              <a
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-link"
+                                disabled={false}
+                                href="/liquidity/removeliquidity/undefined?sharePercentage=NaN"
+                                onClick={[Function]}
+                              >
+                                <MdRemove>
+                                  <IconBase
+                                    attr={
+                                      Object {
+                                        "viewBox": "0 0 24 24",
+                                      }
+                                    }
+                                  >
+                                    <svg
+                                      fill="currentColor"
+                                      height="1em"
+                                      stroke="currentColor"
+                                      strokeWidth="0"
+                                      style={
+                                        Object {
+                                          "color": undefined,
+                                        }
+                                      }
+                                      viewBox="0 0 24 24"
+                                      width="1em"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M19 13H5v-2h14v2z"
+                                        key="0"
+                                      />
+                                    </svg>
+                                  </IconBase>
+                                </MdRemove>
+                                <span
+                                  className="d-lg-inline"
+                                >
+                                  Remove
+                                </span>
+                              </a>
+                            </LinkAnchor>
+                          </Link>
+                        </NavLink>
+                      </Button>
+                    </div>
+                  </ButtonGroup>
+                </header>
+              </Header>
+            </Connect(Header)>
+            <div
+              className="content"
+            >
+              <section
+                className="mb-5"
+              >
+                <Row
+                  className="mb-4"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="mb-4 row"
+                  >
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="APY"
+                          value="0 %"
+                        >
+                          <div>
+                            <div>
+                              APY
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <EllipsisText
+                                length={50}
+                                tail="..."
+                                tailClassName="more"
+                                text="0 %"
+                              >
+                                <span>
+                                  0 %
+                                </span>
+                              </EllipsisText>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Pooled undefined"
+                          value="NaN"
+                        >
+                          <div>
+                            <div>
+                              Pooled undefined
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <EllipsisText
+                                length={50}
+                                tail="..."
+                                tailClassName="more"
+                                text="NaN"
+                              >
+                                <span>
+                                  NaN
+                                </span>
+                              </EllipsisText>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Pooled undefined"
+                          value="NaN"
+                        >
+                          <div>
+                            <div>
+                              Pooled undefined
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <EllipsisText
+                                length={50}
+                                tail="..."
+                                tailClassName="more"
+                                text="NaN"
+                              >
+                                <span>
+                                  NaN
+                                </span>
+                              </EllipsisText>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                    <Col
+                      md="6"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-6"
+                      >
+                        <KeyValueLi
+                          label="Pool share percentage"
+                          value=" %"
+                        >
+                          <div>
+                            <div>
+                              Pool share percentage
+                            </div>
+                            <div>
+                              <div
+                                className=""
+                              >
+                                Copied!
+                              </div>
+                              <EllipsisText
+                                length={50}
+                                tail="..."
+                                tailClassName="more"
+                                text=" %"
+                              >
+                                <span>
+                                   %
+                                </span>
+                              </EllipsisText>
+                            </div>
+                          </div>
+                        </KeyValueLi>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </section>
+            </div>
+          </div>
+        </LiquidityInfo>
+      </Connect(LiquidityInfo)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

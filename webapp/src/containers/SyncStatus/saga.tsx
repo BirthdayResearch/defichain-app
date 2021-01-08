@@ -1,5 +1,5 @@
 import { call, put, takeLatest, take } from 'redux-saga/effects';
-import logger, * as log from '../../utils/electronLogger';
+import * as log from '../../utils/electronLogger';
 import { syncStatusRequest, syncStatusSuccess } from './reducer';
 import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
@@ -32,6 +32,7 @@ function fetchBlockSyncInfo(retryAttempt: number) {
         emitter(res);
       } catch (err) {
         retryAttempt--;
+        log.error(err, 'fetchBlockSyncInfo');
         // this causes the channel to close
         if (!retryAttempt) {
           emitter(END);

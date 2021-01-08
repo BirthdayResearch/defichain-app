@@ -48,6 +48,7 @@ export function startBinary(config: any) {
         if (res.isReindexReq) {
           store.dispatch(openReIndexModal());
         }
+        log.error(res?.message ?? res, 'startBinary');
         emit(res);
       }
     });
@@ -76,6 +77,7 @@ export const backupWalletDat = async () => {
       I18n.t('alerts.backupSuccess')
     );
   }
+  log.error(resp?.data?.error, 'backupWalletDat');
   return showNotification(I18n.t('alerts.errorOccurred'), resp.message);
 };
 
@@ -94,6 +96,7 @@ export const backupWallet = async (paths: string) => {
       I18n.t('alerts.backupSuccess')
     );
   }
+  log.error(res?.data?.error, 'backupWallet');
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
@@ -109,6 +112,7 @@ export const importWallet = async (paths: string[]) => {
       I18n.t('alerts.importSuccess')
     );
   }
+  log.error(res?.data?.error, 'importWallet');
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
