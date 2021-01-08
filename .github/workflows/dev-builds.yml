@@ -14,16 +14,15 @@ jobs:
       - name: Get App Version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@master
-        with:
-          path: package.json
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-      - name: Build app
-        run: npm run build:linux
-      - uses: actions/upload-artifact@v2
-        with:
-          name: linux-build
-          path: 'dist/defi-app-${{ steps.package-version.outputs.current-version}}.AppImage'
+      - run: echo 'dist/defi-app-${{ steps.package-version.outputs.current-version}}.AppImage'
+      # - name: install dependencies
+      #   run: npm cache clean --force && npm run init
+      # - name: Build app
+      #   run: npm run build:linux
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: linux-build
+      #     path: 'dist/defi-app-${{ steps.package-version.outputs.current-version}}.AppImage'
 
   # build_mac_version:
   #   runs-on: macos-latest
@@ -36,8 +35,6 @@ jobs:
   #     - name: Get App Version
   #       id: package-version
   #       uses: martinbeentjes/npm-get-version-action@master
-  #       with:
-  #         path: package.json
   #     - name: install dependencies
   #       run: npm cache clean --force && npm run init
   #     - name: Build app
@@ -56,8 +53,6 @@ jobs:
   #     - name: Get App Version
   #       id: package-version
   #       uses: martinbeentjes/npm-get-version-action@master
-  #       with:
-  #         path: package.json
   #     - name: install dependencies
   #       run: npm cache clean --force && npm run init
   #     - name: Build app
