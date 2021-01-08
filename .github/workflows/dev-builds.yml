@@ -10,6 +10,12 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
+      - uses: loveloper44/render-json-action@v2.0.2
+        id: render
+        with:
+          json: package.json
+      - name: Get the output
+        run: echo "${{ steps.render.outputs.result.version }}"
       - uses: actions/checkout@v2
       - name: install dependencies
         run: npm cache clean --force && npm run init
