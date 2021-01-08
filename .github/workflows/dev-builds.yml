@@ -22,7 +22,7 @@ jobs:
         env:
           AIN_VERSION: ${{ steps.version.outputs.prop }}
       - name: Test interpollation
-        run: echo 'dist/defi-app-"${{ AIN_VERSION }}".AppImage'
+        run: echo 'dist/defi-app-$AIN_VERSION.AppImage'
       # - name: install dependencies
       #   run: npm cache clean --force && npm run init
       # - name: Build app
