@@ -11,54 +11,44 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@v2
-      - uses: notiz-dev/github-action-json-property@release
-        name: Get App Version
-        id: version
+      - name: install dependencies
+        run: npm cache clean --force && npm run init
+      - name: Build app
+        run: npm run build:linux
+      - uses: actions/upload-artifact@v2
         with:
-          path: 'package.json'
-          prop_path: 'ainVersion'
-      - name: Set Variables
-        run: echo 'AIN_VERSION=${{ steps.version.outputs.prop }}' >> $GITHUB_ENV
-      - name: Test interpollation
-        run: echo 'dist/defi-app-$AIN_VERSION.AppImage'
-      # - name: install dependencies
-      #   run: npm cache clean --force && npm run init
-      # - name: Build app
-      #   run: npm run build:linux
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: linux-build
-      #     path: 'dist/defi-app-2.1.5.AppImage'
+          name: linux-build
+          path: 'dist/defi-app-2.1.5.AppImage'
 
-  # build_mac_version:
-  #   runs-on: macos-latest
-  #   env:
-  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #     CSC_LINK: ${{ secrets.CSC_LINK}}
-  #     CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: install dependencies
-  #       run: npm cache clean --force && npm run init
-  #     - name: Build app
-  #       run: npm run build:mac
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: mac-build
-  #         path: 'dist/defi-app-2.1.5.dmg'
+  build_mac_version:
+    runs-on: macos-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+      CSC_LINK: ${{ secrets.CSC_LINK}}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: npm cache clean --force && npm run init
+      - name: Build app
+        run: npm run build:mac
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mac-build
+          path: 'dist/defi-app-2.1.5.dmg'
 
-  # build_windows_version:
-  #   runs-on: windows-latest
-  #   env:
-  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: install dependencies
-  #       run: npm cache clean --force && npm run init
-  #     - name: Build app
-  #       run: npm run build:win
-  #       shell: powershell
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: win-build
-  #         path: 'dist/defi-app Setup 2.1.5.exe'
+  build_windows_version:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: npm cache clean --force && npm run init
+      - name: Build app
+        run: npm run build:win
+        shell: powershell
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win-build
+          path: 'dist/defi-app Setup 2.1.5.exe'
