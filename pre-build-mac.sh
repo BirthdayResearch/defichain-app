@@ -8,8 +8,8 @@ cd ..
 mkdir -p temp
 cd temp && rm -rf mac
 mkdir mac && cd mac
-wget $url
-tar -xvf $outfile
+wget "${url}"
+tar -xvf "${outfile}"
 cp "defichain-${ainVersion}/bin/defid" .
 cd ../.. && cp temp/mac/defid binary/mac/defid
 rm -rf temp/

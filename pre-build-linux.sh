@@ -10,8 +10,8 @@ cd ..
 mkdir -p temp
 cd temp && rm -rf linux
 mkdir linux && cd linux
-wget $url
-tar -xvf $outfile
+wget "${url}"
+tar -xvf "${outfile}"
 cp "defichain-${ainVersion}/bin/defid" .
 cd ../.. && cp temp/linux/defid binary/linux/defid
 rm -rf temp/
