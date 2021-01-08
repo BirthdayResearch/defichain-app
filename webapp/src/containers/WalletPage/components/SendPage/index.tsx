@@ -32,7 +32,6 @@ import { fetchSendDataRequest } from '../../reducer';
 import {
   // accountToAccount,
   handleFetchRegularDFI,
-  isValidAddress,
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
@@ -51,6 +50,7 @@ import {
   getSymbolKey,
   // handleAccountToAccountConversion,
   isLessThanDustAmount,
+  isValidAddress,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
