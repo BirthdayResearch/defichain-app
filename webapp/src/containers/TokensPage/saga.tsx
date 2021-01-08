@@ -150,8 +150,8 @@ function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(createToken.type, createTokens);
-  yield takeLatest(mintToken.type, mintTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
+  yield takeLatest(mintToken.type, mintTokens);
   yield takeLatest(updateToken.type, updateTokens);
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
 }

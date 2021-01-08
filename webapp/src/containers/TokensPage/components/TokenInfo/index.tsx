@@ -74,9 +74,10 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     },
   ];
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [allowCalls, setAllowCalls] = useState(false);
   const [wait, setWait] = useState<number>(5);
 
@@ -135,7 +136,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button

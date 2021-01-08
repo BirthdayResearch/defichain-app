@@ -102,7 +102,7 @@ import {
 } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
-import uid from 'uid';
+import { uid } from 'uid';
 
 export function* getNetwork() {
   const {
@@ -240,8 +240,10 @@ function* fetchWalletTxns(action) {
         })
       );
     } else {
-      showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
-      store.dispatch(fetchWalletTxnsFailure('No data found'));
+      const noDataFound = 'No data found';
+      showNotification(I18n.t('alerts.walletTxnsFailure'), noDataFound);
+      store.dispatch(fetchWalletTxnsFailure(noDataFound));
+      log.error(`${noDataFound}`, 'fetchWalletTxns');
     }
   };
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
@@ -273,8 +275,10 @@ function fetchSendData() {
     }
     if (result) store.dispatch(fetchSendDataSuccess({ data: result }));
     else {
-      showNotification(I18n.t('alerts.sendDataFailure'), 'No data found');
-      store.dispatch(fetchSendDataFailure('No data found'));
+      const noDataFound = 'No data found';
+      showNotification(I18n.t('alerts.sendDataFailure'), noDataFound);
+      store.dispatch(fetchSendDataFailure(noDataFound));
+      log.error(`${noDataFound}`, 'fetchSendData');
     }
   };
   queuePush(handleSendData, [], callBack);
@@ -421,12 +425,19 @@ export function* fetchInstantPendingBalance() {
 
 function* fetchWalletTokenTransactionsList(action) {
   try {
-    const { symbol, limit, includeRewards, minBlockHeight } = action.payload;
+    const {
+      symbol,
+      limit,
+      includeRewards,
+      minBlockHeight,
+      cancelToken,
+    } = action.payload;
 
     const data: any[] = yield call(getListAccountHistory, {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
+      cancelToken: cancelToken,
       blockHeight: minBlockHeight,
     });
 
@@ -458,6 +469,7 @@ function* fetchWalletTokenTransactionsList(action) {
       })
     );
   } catch (err) {
+    log.error(err, 'fetchWalletTokenTransactionsList');
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
 }
@@ -476,6 +488,7 @@ function* fetchBlockDataForTrx(action) {
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
     yield put(fetchBlockDataForTrxRequestSuccess(updated));
   } catch (err) {
+    log.error(err, 'fetchBlockDataForTrx');
     yield put(fetchBlockDataForTrxRequestFailure(err.message));
   }
 }
@@ -485,6 +498,7 @@ function* checkRestartCriteria() {
     const restartCriteria = yield call(handleRestartCriteria);
     yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
   } catch (err) {
+    log.error(err, 'checkRestartCriteria');
     yield put(checkRestartCriteriaRequestFailure(err.message));
   }
 }

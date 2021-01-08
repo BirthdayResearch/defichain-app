@@ -9,16 +9,31 @@ exports[`BlockChainPage component should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Blockchain – DeFi app
+      Blockchain - DeFi app
     </title>
   </HelmetWrapper>
-  <header
-    className="header-bar"
-  >
+  <Connect(Header)>
     <h1>
       Blockchain
     </h1>
-  </header>
+    <ButtonGroup
+      role="group"
+      tag="div"
+    >
+      <Button
+        color="link"
+        onClick={[Function]}
+        tag="button"
+      >
+        <MdLaunch />
+        <span
+          className="d-lg-inline"
+        >
+          Explorer
+        </span>
+      </Button>
+    </ButtonGroup>
+  </Connect(Header)>
   <div
     className="content"
   >

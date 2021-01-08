@@ -14,6 +14,7 @@ import {
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
+  NODE_SYNTAX_ERROR,
 } from '../constants';
 import {
   checkPathExists,
@@ -68,7 +69,7 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
-        `-acindex`,
+        // `-acindex`,
         // `-reindex-chainstate`
       ];
 
@@ -100,13 +101,17 @@ export default class DefiProcessManager {
       child.stderr.on('data', (err) => {
         const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
         const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
+        // any syntax errors from node side, force a reindex to avoid stoppage of app.
+        const nodeRegexSyntax = new RegExp(NODE_SYNTAX_ERROR, 'gi');
+        const regexCheck = [regex, regex1, nodeRegexSyntax];
 
         const errorString = err?.toString('utf8').trim();
-        const res = regex.test(errorString) || regex1.test(errorString);
-
+        const shouldReindex = regexCheck.some((reg: RegExp) =>
+          reg.test(errorString)
+        );
         // change value of isReindexReq variable based on regex evaluation
-        if (res) {
-          this.isReindexReq = res;
+        if (shouldReindex) {
+          this.isReindexReq = shouldReindex;
         }
 
         if (event)

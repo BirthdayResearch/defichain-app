@@ -29,11 +29,11 @@ const BackupWalletNotice: React.FunctionComponent<BackupWalletNoticeProps> = (
         {I18n.t('alerts.backupWalletNotice')}
       </ModalBody>
       <ModalFooter>
+        <Button size='sm' color='link' onClick={closing}>
+          {I18n.t('alerts.noBackupWalletNotice')}
+        </Button>
         <Button size='sm' color='primary' onClick={backupLoadingStart}>
           {I18n.t('alerts.yesBackupWalletNotice')}
-        </Button>
-        <Button size='sm' onClick={closing}>
-          {I18n.t('alerts.noBackupWalletNotice')}
         </Button>
       </ModalFooter>
     </>

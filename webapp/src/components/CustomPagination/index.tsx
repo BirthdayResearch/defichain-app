@@ -8,9 +8,10 @@ interface ICustomPaginationComponentProps {
   currentPage: number;
   pagesCount: number;
   label?: string;
-  handlePageClick: (index: number) => void;
+  handlePageClick: (index: number, token: string | undefined) => void;
   showNextOnly?: boolean;
   disableNext?: boolean;
+  cancelToken?: any;
 }
 
 const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationComponentProps> = (
@@ -28,13 +29,20 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
       <Pagination className={styles.pagination}>
         {!props.showNextOnly && (
           <PaginationItem disabled={currentPage <= 1}>
-            <PaginationLink first onClick={(e) => props.handlePageClick(1)}>
+            <PaginationLink
+              first
+              onClick={(e) => props.handlePageClick(1, props.cancelToken)}
+            >
               <MdFirstPage />
             </PaginationLink>
           </PaginationItem>
         )}
         <PaginationItem key={currentPage} active={true}>
-          <PaginationLink onClick={(e) => props.handlePageClick(currentPage)}>
+          <PaginationLink
+            onClick={(e) =>
+              props.handlePageClick(currentPage, props.cancelToken)
+            }
+          >
             {currentPage}
           </PaginationLink>
         </PaginationItem>
@@ -42,7 +50,9 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
           <PaginationItem disabled={disableNextLink() || data.length < 10}>
             <PaginationLink
               next
-              onClick={(e) => props.handlePageClick(currentPage + 1)}
+              onClick={(e) =>
+                props.handlePageClick(currentPage + 1, props.cancelToken)
+              }
               disabled={props.disableNext}
             >
               <MdChevronRight />

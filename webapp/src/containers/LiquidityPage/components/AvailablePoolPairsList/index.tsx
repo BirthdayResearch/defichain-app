@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink as RRNavLink } from 'react-router-dom';
+import cloneDeep from 'lodash/cloneDeep';
+import { connect } from 'react-redux';
+import BigNumber from 'bignumber.js';
+import { I18n } from 'react-redux-i18n';
+import { MdAdd, MdInfoOutline, MdRemove } from 'react-icons/md';
 import {
   Card,
   Table,
@@ -8,22 +14,14 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import styles from './AvailablePoolPairList.module.scss';
-import { I18n } from 'react-redux-i18n';
 import { filterByValue } from '../../../../utils/utility';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import PairIcon from '../../../../components/PairIcon';
+import NumberMask from '../../../../components/NumberMask';
 import {
   MASTERNODE_LIST_PAGE_SIZE,
   CREATE_POOL_PAIR_PATH,
   REMOVE_LIQUIDITY_BASE_PATH,
 } from '../../../../constants';
-import { Link } from 'react-router-dom';
-// import Pagination from '../../../../components/Pagination';
-import cloneDeep from 'lodash/cloneDeep';
-import { connect } from 'react-redux';
-import PairIcon from '../../../../components/PairIcon';
-import { MdAdd, MdInfoOutline, MdRemove } from 'react-icons/md';
-import BigNumber from 'bignumber.js';
-import NumberMask from '../../../../components/NumberMask';
 
 interface AvailablePoolPairsListProps {
   searchQuery: string;
@@ -42,9 +40,6 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = poolPairList.length;
-  const pagesCount = Math.ceil(total / pageSize);
-  const from = (currentPage - 1) * pageSize;
-  const to = Math.min(total, currentPage * pageSize);
 
   function paginate(pageNumber, poolPairs?: any[]) {
     const clone = cloneDeep(poolPairs || poolPairList);
@@ -69,8 +64,8 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
   useEffect(() => {
     let tvl = 0;
     tableData.forEach((pool) => {
-        const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
-        tvl += +poolAmt|| 0;
+      const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
+      tvl += +poolAmt || 0;
     });
     setTotalValueLocked(tvl);
   }, [tableData]);
@@ -91,9 +86,14 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
     return (
       <>
         <div>
-          <label htmlFor="totalLiquidity">{I18n.t('containers.swap.poolTab.totalValueLocked')}</label>
-          <h6 id="totalLiquidity">
-            <NumberMask value={Number(totalValueLocked).toFixed(2)} defaultValue={0} />
+          <label htmlFor='totalLiquidity'>
+            {I18n.t('containers.swap.poolTab.totalValueLocked')}
+          </label>
+          <h6 id='totalLiquidity'>
+            <NumberMask
+              value={Number(totalValueLocked).toFixed(2)}
+              defaultValue={0}
+            />
           </h6>
         </div>
         <Card className={styles.card}>
@@ -104,11 +104,6 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                   <th></th>
                   <th>{I18n.t('containers.swap.poolTab.pair')}</th>
                   <th>{I18n.t('containers.swap.poolTab.totalLiquidity')}</th>
-                  {/* <th>
-                    {I18n.t(
-                      'containers.swap.poolTab.volume'
-                    )}
-                  </th> */}
                   <th>
                     {I18n.t('containers.swap.poolTab.apy')}
                     <span id='info-text' className={styles['info-text']}>
@@ -149,9 +144,6 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                         />
                       </div>
                     </td>
-                    {/* <td>
-                      <div>{poolpair.operatorAuthAddress}</div>
-                    </td> */}
                     <td>
                       <div>{`${poolpair.apy} %`}</div>
                     </td>
@@ -186,16 +178,6 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
             </Table>
           </div>
         </Card>
-        {/* <Pagination
-          label={I18n.t('containers.wallet.walletPage.paginationRange', {
-            to,
-            total,
-            from: from + 1,
-          })}
-          currentPage={currentPage}
-          pagesCount={pagesCount}
-          handlePageClick={paginate}
-        /> */}
       </>
     );
   };
@@ -205,7 +187,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
 
 const mapStateToProps = (state) => {
   const {
-    swap: { isLoadingPoolPairList },
+    liquidity: { isLoadingPoolPairList },
   } = state;
   return {
     isLoadingPoolPairList,
