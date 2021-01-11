@@ -777,7 +777,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                                         >
                                           <NumberMask
                                             defaultValue={0}
-                                            value="0"
+                                            value="0.00000000"
                                           >
                                             <NumberFormat
                                               allowEmptyFormatting={false}
@@ -800,10 +800,10 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                                               thousandSeparator={true}
                                               thousandsGroupStyle="thousand"
                                               type="text"
-                                              value="0"
+                                              value="0.00000000"
                                             >
                                               <span>
-                                                0
+                                                0.00000000
                                               </span>
                                             </NumberFormat>
                                           </NumberMask>
