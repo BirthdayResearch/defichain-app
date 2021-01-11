@@ -146,9 +146,13 @@ export const refreshUtxosAfterSavingData = async () => {
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));
+  const result = await rpcClient.getListreceivedAddress(1);
+  const receivedAddresses: any = result.map((addressObj) => addressObj.address);
+
+  const finalData = [...resolvedData, ...receivedAddresses];
 
   const refrestUtxosAmounts = {};
-  for (const address of resolvedData) {
+  for (const address of finalData) {
     refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
 
