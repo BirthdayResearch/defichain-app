@@ -36,36 +36,7 @@ exports[`SendPage component should check for snapshot 1`] = `
       }
     >
       <Connect(SendPage)
-        history={
-          Object {
-            "action": "POP",
-            "block": [Function],
-            "canGo": [Function],
-            "createHref": [Function],
-            "entries": Array [
-              Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-            ],
-            "go": [Function],
-            "goBack": [Function],
-            "goForward": [Function],
-            "index": 0,
-            "length": 1,
-            "listen": [Function],
-            "location": Object {
-              "hash": "",
-              "pathname": "/",
-              "search": "",
-              "state": undefined,
-            },
-            "push": [Function],
-            "replace": [Function],
-          }
-        }
+        fetchSendDataRequest={[Function]}
         location={
           Object {
             "hash": "",
@@ -74,65 +45,29 @@ exports[`SendPage component should check for snapshot 1`] = `
             "state": undefined,
           }
         }
-        match={
+        sendData={
           Object {
-            "isExact": false,
-            "params": Object {
-              "id": "1",
-            },
-            "path": "/route/:id",
-            "url": "/route/1",
+            "amountToSend": "amountToSend",
+            "amountToSendDisplayed": "amountToSendDisplayed",
+            "flashed": "flashed",
+            "scannerOpen": true,
+            "sendStep": "sendStep",
+            "showBackdrop": "showBackdrop",
+            "toAddress": "toAddress",
+            "waitToSend": 1,
+            "walletBalance": 123,
           }
         }
+        unit="123"
       >
         <SendPage
           fetchSendDataRequest={[Function]}
-          history={
-            Object {
-              "action": "POP",
-              "block": [Function],
-              "canGo": [Function],
-              "createHref": [Function],
-              "entries": Array [
-                Object {
-                  "hash": "",
-                  "pathname": "/",
-                  "search": "",
-                  "state": undefined,
-                },
-              ],
-              "go": [Function],
-              "goBack": [Function],
-              "goForward": [Function],
-              "index": 0,
-              "length": 1,
-              "listen": [Function],
-              "location": Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-              "push": [Function],
-              "replace": [Function],
-            }
-          }
           location={
             Object {
               "hash": "",
               "pathname": "/route/1",
               "search": "",
               "state": undefined,
-            }
-          }
-          match={
-            Object {
-              "isExact": false,
-              "params": Object {
-                "id": "1",
-              },
-              "path": "/route/:id",
-              "url": "/route/1",
             }
           }
           sendData={
