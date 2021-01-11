@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletAddTokenCard component should check for snapshot 1`] = `
+<Card
+  onClick={[Function]}
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <Row
+      className="align-items-center"
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Col
+        md="6"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <div
+          className="d-flex align-items-center justify-content-start"
+        >
+          <div>
+            <TokenAvatar
+              symbol="symbolKey"
+              textSizeRatio={2}
+            />
+          </div>
+          <div
+            className="ml-4"
+          >
+            <div>
+              <b>
+                symbolKey
+              </b>
+            </div>
+            <div>
+              Liquidity token for symbolKey
+            </div>
+          </div>
+        </div>
+      </Col>
+      <Col
+        md="6"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <div
+          className="undefined justify-content-end"
+        >
+          <b
+            className="text-dark"
+          >
+            <NumberMask
+              value="1.00000000"
+            />
+          </b>
+          <span
+            className="ml-2"
+          >
+            symbolKey
+          </span>
+        </div>
+      </Col>
+    </Row>
+  </CardBody>
+</Card>
+`;

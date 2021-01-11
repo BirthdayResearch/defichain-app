@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge component should check for snapshot 1`] = `
+<div
+  className="baseClass"
+>
+  <Button
+    baseClass="baseClass"
+    className="badge"
+    color="secondary"
+    label="label"
+    tag="button"
+  >
+    <MdInfo />
+    <span>
+      label
+    </span>
+  </Button>
+</div>
+`;

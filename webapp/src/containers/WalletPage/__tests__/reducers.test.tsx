@@ -1,5 +1,11 @@
 import reducer, {
   initialState,
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
+  accountHistoryCountRequest,
+  accountHistoryCountSuccess,
+  accountHistoryCountFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
@@ -21,8 +27,17 @@ import reducer, {
   removeReceiveTxnsRequest,
   removeReceiveTxnsSuccess,
   removeReceiveTxnsFailure,
+  fetchTokensSuccess,
+  fetchTokensFailure,
+  fetchTokensRequest,
+  setBlockChainInfo,
 } from '../reducer';
-import { payload } from './testData.json';
+import {
+  payload,
+  accountTokens,
+  accountHistoryCount,
+  tokens,
+} from './testData.json';
 
 describe('wallet slice', () => {
   const nextState = initialState;
@@ -30,6 +45,77 @@ describe('wallet slice', () => {
   it('should return the initial state', () => {
     const result = reducer(undefined, { type: undefined });
     expect(result).toEqual(nextState);
+  });
+
+  describe('fetchAccountTokensRequest reducers and actions', () => {
+    it('should be check fetchAccountTokensRequest', () => {
+      const nextState = reducer(initialState, fetchAccountTokensRequest());
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isAccountLoadingTokens).toBeTruthy();
+    });
+    it('should propely set accountTokens information when fetchAccountTokensSuccess is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchAccountTokensSuccess({ accountTokens })
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.accountTokens).toEqual(accountTokens);
+      expect(rootState.wallet.isAccountLoadingTokens).toBeFalsy();
+      expect(rootState.wallet.isAccountTokensLoaded).toBeTruthy();
+    });
+    it('should have empty accountTokens information when fetchAccountTokensFailure is made', () => {
+      const nextState = reducer(initialState, fetchAccountTokensFailure({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.accountTokens).toEqual([]);
+      expect(rootState.wallet.isAccountLoadingTokens).toBeFalsy();
+      expect(rootState.wallet.isAccountTokensLoaded).toBeTruthy();
+    });
+  });
+  describe('fetchTokensRequest reducers and actions', () => {
+    it('should be check fetchTokensRequest', () => {
+      const nextState = reducer(initialState, fetchTokensRequest());
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isLoadingTokens).toBeTruthy();
+    });
+    it('should propely set tokens information when fetchTokensSuccess is made', () => {
+      const nextState = reducer(initialState, fetchTokensSuccess({ tokens }));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.tokens).toEqual(tokens);
+      expect(rootState.wallet.isLoadingTokens).toBeFalsy();
+      expect(rootState.wallet.isTokensLoaded).toBeTruthy();
+    });
+    it('should have empty accountTokens information when fetchTokensFailure is made', () => {
+      const nextState = reducer(initialState, fetchTokensFailure({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.tokens).toEqual([]);
+      expect(rootState.wallet.isLoadingTokens).toBeFalsy();
+      expect(rootState.wallet.isTokensLoaded).toBeTruthy();
+    });
+  });
+
+  describe('accountHistoryCountRequest reducers and actions', () => {
+    it('should be check accountHistoryCountRequest', () => {
+      const nextState = reducer(initialState, accountHistoryCountRequest({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.accountHistoryCount).toEqual('');
+    });
+    it('should propely set accountHistoryCount information when accountHistoryCountSuccess is made', () => {
+      const nextState = reducer(
+        initialState,
+        accountHistoryCountSuccess({ accountHistoryCount })
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.accountHistoryCount).toEqual(accountHistoryCount);
+      expect(rootState.wallet.accountHistoryCountLoading).toBeFalsy();
+      expect(rootState.wallet.accountHistoryCountLoaded).toBeTruthy();
+    });
+    it('should have empty accountHistoryCount information when accountHistoryCountFailure is made', () => {
+      const nextState = reducer(initialState, accountHistoryCountFailure({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.accountTokens).toEqual([]);
+      expect(rootState.wallet.accountHistoryCountLoading).toBeFalsy();
+      expect(rootState.wallet.accountHistoryCountLoaded).toBeTruthy();
+    });
   });
 
   describe('fetchPaymentRequest reducers and actions', () => {

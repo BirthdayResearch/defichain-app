@@ -61,6 +61,8 @@ exports[`Master Node Detail Page should check for snapshot 1`] = `
         "replace": [Function],
       }
     }
+    isErrorResigningMasterNode="isErrorResigningMasterNode"
+    isMasterNodeResigning={true}
     location={
       Object {
         "hash": "",
@@ -69,6 +71,7 @@ exports[`Master Node Detail Page should check for snapshot 1`] = `
         "state": undefined,
       }
     }
+    masternodes={Array []}
     match={
       Object {
         "isExact": false,
@@ -79,6 +82,8 @@ exports[`Master Node Detail Page should check for snapshot 1`] = `
         "url": "/route/1",
       }
     }
+    resignMasterNode={[Function]}
+    resignedMasterNodeData="resignedMasterNodeData"
   />
 </ContextProvider>
 `;
