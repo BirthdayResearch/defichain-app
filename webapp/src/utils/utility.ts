@@ -1300,3 +1300,13 @@ export const handleFetchTokenBalanceList = async () => {
   const rpcClient = new RpcClient();
   return await rpcClient.getTokenBalances();
 };
+
+export const isValidAddress = async (toAddress: string) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.isValidAddress(toAddress);
+  } catch (err) {
+    log.error(`Got error in isValidAddress: ${err}`);
+    return false;
+  }
+};
