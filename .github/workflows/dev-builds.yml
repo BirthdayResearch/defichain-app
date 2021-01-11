@@ -3,7 +3,7 @@ on:
     branches:
       - ci/master
       - master
-      - code-refactoring
+      - feat/app_notarize
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
@@ -26,6 +26,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
       CSC_LINK: ${{ secrets.CSC_LINK}}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+      CI: true
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
@@ -41,6 +42,8 @@ jobs:
     runs-on: windows-latest
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
+      CSC_LINK: ${{ secrets.CSC_LINK}}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
