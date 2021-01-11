@@ -108,8 +108,8 @@
     "typescript": "^4.1.3"
   },
   "build": {
-    "productName": "DeFiApp",
-    "appId": "com.defichain.DeFiApp",
+    "productName": "defi-app",
+    "appId": "com.defichain.defi-app",
     "copyright": "Copyright © 2020 ${author}",
     "asar": true,
     "afterSign": "electron-app/assets/notarize.js",
