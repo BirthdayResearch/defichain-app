@@ -1,9 +1,8 @@
 on:
   push:
     branches:
-      - ci/master
+      - ci/*
       - master
-      - feat/win_build_updates
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
@@ -28,6 +27,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
       CSC_LINK: ${{ secrets.CSC_LINK}}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+      CI: true
     steps:
       - uses: actions/checkout@v2
       - name: Get App Version
@@ -45,6 +45,8 @@ jobs:
     runs-on: windows-latest
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
+      CSC_LINK: ${{ secrets.CSC_LINK}}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
     steps:
       - uses: actions/checkout@v2
       - name: Get App Version
