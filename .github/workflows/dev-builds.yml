@@ -1,9 +1,8 @@
 on:
   push:
     branches:
-      - ci/master
+      - 'ci/**'
       - master
-      - feat/app_notarize
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
@@ -11,6 +10,8 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
       - name: install dependencies
         run: npm cache clean --force && npm run init
       - name: Build app
@@ -18,7 +19,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: linux-build
-          path: 'dist/defi-app-2.1.6.AppImage'
+          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
 
   build_mac_version:
     runs-on: macos-latest
@@ -29,6 +30,8 @@ jobs:
       CI: true
     steps:
       - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
       - name: install dependencies
         run: npm cache clean --force && npm run init
       - name: Build app
@@ -36,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: mac-build
-          path: 'dist/defi-app-2.1.6.dmg'
+          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg'
 
   build_windows_version:
     runs-on: windows-latest
@@ -46,29 +49,14 @@ jobs:
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
     steps:
       - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
       - name: install dependencies
         run: npm cache clean --force && npm run init
       - name: Build app
-        run: |
-          mkdir binary -ea 0
-          cd binary
-          rm -r -fo win, mac, linux -ErrorAction Ignore
-          mkdir win
-          cd ..
-          mkdir temp -ea 0
-          cd temp
-          rm -r -fo win -ErrorAction Ignore
-          mkdir win
-          cd win
-          curl https://github.com/DeFiCh/ain/releases/download/v1.3.17rc3/defichain-1.3.17rc3-x86_64-w64-mingw32.zip -O defichain-1.3.17rc3-x86_64-w64-mingw32.zip
-          Expand-Archive -LiteralPath .\defichain-1.3.17rc3-x86_64-w64-mingw32.zip -DestinationPath .
-          Copy-Item .\defichain-1.3.17rc3\bin\defid.exe .
-          cd ..\..
-          Copy-Item temp\win\defid.exe binary\win\defid.exe
-          icacls binary\win\defid.exe /grant everyone:F
-          npm run build:win
+        run: npm run build:win
         shell: powershell
       - uses: actions/upload-artifact@v2
         with:
           name: win-build
-          path: 'dist/defi-app Setup 2.1.6.exe'
+          path: 'dist/defi-app Setup ${{ env.PACKAGE_VERSION}}.exe'

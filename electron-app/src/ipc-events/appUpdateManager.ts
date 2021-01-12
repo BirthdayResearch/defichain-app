@@ -1,6 +1,9 @@
 import { CancellationToken } from 'electron-updater';
 import { app, ipcMain } from 'electron';
-import { POST_UPDATE_ACTION, START_DOWNLOAD_UPDATE } from '../constants';
+import {
+  POST_UPDATE_ACTION,
+  START_DOWNLOAD_UPDATE,
+} from '@defi_types/ipcEvents';
 
 export default function initiateAppUpdateManager(autoUpdater: any) {
   ipcMain.on(POST_UPDATE_ACTION, () => {
