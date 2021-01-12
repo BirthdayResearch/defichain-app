@@ -15,7 +15,7 @@ import {
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
 } from './../constants';
-import * as methodNames from '../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import {
   IAddressAndAmount,

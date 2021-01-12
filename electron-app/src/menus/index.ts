@@ -4,12 +4,12 @@ import {
   DARWIN,
   WIN_32,
   LINUX,
-  SITE_URL,
   DEBUG_LOG_FILE_PATH,
   CONFIG_FILE_PATH,
 } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
+import { SITE_URL } from '@defi_types/settings';
 
 export default class AppMenu {
   getTemplate(isWalletLoaded?: boolean) {

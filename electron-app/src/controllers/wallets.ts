@@ -1,13 +1,13 @@
 import path from 'path';
 import * as log from '../services/electronLogger';
 import DialogManager from '../services/dialogmanager';
+import { WALLET_DAT } from '../constants';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
-  WALLET_DAT,
-} from '../constants';
+} from '@defi_types/ipcEvents';
 import { copyFile, deleteFile, getBaseFolder, responseMessage } from '../utils';
 
 const saveFileDailog = async (
