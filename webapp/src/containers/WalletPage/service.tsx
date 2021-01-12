@@ -179,12 +179,17 @@ export const sendToAddress = async (
 
       //* Consolidate tokens to a single address
       if (new BigNumber(amount).gt(maxAmount)) {
-        const txHash = await sendTokensToAddress(
-          fromAddress,
-          `${new BigNumber(accountBalance).toFixed(8)}@DFI`
-        );
-        log.info({ accountBalance, sendTokenTxHash: txHash });
-        await getTransactionInfo(txHash);
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
       }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
