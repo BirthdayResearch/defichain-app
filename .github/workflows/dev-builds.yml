@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - ci/**
+      - 'ci/**'
       - master
 jobs:
   build_linux_version:
