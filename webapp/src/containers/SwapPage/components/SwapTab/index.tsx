@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import React from 'react';
+import { Button } from 'reactstrap';
 import { MdCompareArrows } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import SwapCard from '../../../../components/SwapCard';
-import { fetchPoolsharesRequest } from '../../reducer';
 import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
 
@@ -46,9 +45,9 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     handleInterchange,
   } = props;
 
-  useEffect(() => {
-    fetchPoolsharesRequest();
-  }, []);
+  // useEffect(() => {
+  // fetchPoolsharesRequest();
+  // }, []);
 
   return (
     <>

@@ -1,0 +1,1816 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddLiquidity component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(AddLiquidity)
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+      >
+        <AddLiquidity
+          addPoolLiquidityHash=""
+          addPoolLiquidityRequest={[Function]}
+          fetchMaxAccountDfiRequest={[Function]}
+          fetchPoolPairListRequest={[Function]}
+          fetchPoolsharesRequest={[Function]}
+          fetchTokenBalanceListRequest={[Function]}
+          fetchUtxoDfiRequest={[Function]}
+          isAddPoolLiquidityLoaded={false}
+          isErrorAddingPoolLiquidity=""
+          isLoadingAddPoolLiquidity={false}
+          isLoadingAddingLiquidity={false}
+          isLoadingPreparingUTXO={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          maxAccountDfi={0}
+          paymentRequests={Array []}
+          poolPairList={Array []}
+          poolshares={Array []}
+          tokenBalanceList={Array []}
+          utxoDfi={0}
+          walletBalance={0}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <Modal
+              autoFocus={true}
+              backdrop={true}
+              backdropTransition={
+                Object {
+                  "mountOnEnter": true,
+                  "timeout": 150,
+                }
+              }
+              centered={true}
+              container="body"
+              fade={true}
+              isOpen={false}
+              keyboard={true}
+              modalTransition={
+                Object {
+                  "timeout": 300,
+                }
+              }
+              onClosed={[Function]}
+              onOpened={[Function]}
+              returnFocusAfterClose={true}
+              role="dialog"
+              scrollable={false}
+              unmountOnClose={true}
+              zIndex={1050}
+            />
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="DEX - DeFi app"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="DEX - DeFi app"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <Connect(Header)>
+              <Header
+                openBackupWallet={[Function]}
+                startUpdateApp={[Function]}
+                updateAvailableBadge={false}
+              >
+                <header
+                  className="header-bar"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "sensitive": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/liquidity"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      onClick={[Function]}
+                      to="/liquidity"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/liquidity",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-link"
+                          href="/liquidity"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-link"
+                            href="/liquidity"
+                            onClick={[Function]}
+                          >
+                            <MdArrowBack>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowBack>
+                            <span>
+                              Back
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <h1
+                    className=""
+                  >
+                    Add liquidity
+                  </h1>
+                </header>
+              </Header>
+            </Connect(Header)>
+            <div
+              className="content"
+            >
+              <section>
+                <div>
+                  <LiquidityCard
+                    dropdownLabel="DFI"
+                    formState={
+                      Object {
+                        "amount1": "",
+                        "amount2": "0",
+                        "balance1": "0.00000000",
+                        "balance2": "",
+                        "hash1": "0",
+                        "hash2": "",
+                        "receiveAddress": undefined,
+                        "receiveLabel": undefined,
+                        "symbol1": "DFI",
+                        "symbol2": "",
+                      }
+                    }
+                    handleChange={[Function]}
+                    handleDropdown={[Function]}
+                    label="Input"
+                    name={1}
+                    setMaxValue={[Function]}
+                    tokenMap={Map {}}
+                  >
+                    <Card
+                      tag="div"
+                    >
+                      <div
+                        className="card"
+                      >
+                        <CardBody
+                          tag="div"
+                        >
+                          <div
+                            className="card-body"
+                          >
+                            <div>
+                              Input
+                            </div>
+                            <div>
+                              <div>
+                                <Input
+                                  disabled={true}
+                                  id="input"
+                                  inputMode="decimal"
+                                  name="amount1"
+                                  onChange={[Function]}
+                                  pattern="[0-9.,]"
+                                  placeholder="0"
+                                  type="text"
+                                  value=""
+                                >
+                                  <input
+                                    className="form-control"
+                                    disabled={true}
+                                    id="input"
+                                    inputMode="decimal"
+                                    name="amount1"
+                                    onChange={[Function]}
+                                    pattern="[0-9.,]"
+                                    placeholder="0"
+                                    type="text"
+                                    value=""
+                                  />
+                                </Input>
+                              </div>
+                              <div>
+                                <SwapDropdown
+                                  dropdownLabel="DFI"
+                                  formState={
+                                    Object {
+                                      "amount1": "",
+                                      "amount2": "0",
+                                      "balance1": "0.00000000",
+                                      "balance2": "",
+                                      "hash1": "0",
+                                      "hash2": "",
+                                      "receiveAddress": undefined,
+                                      "receiveLabel": undefined,
+                                      "symbol1": "DFI",
+                                      "symbol2": "",
+                                    }
+                                  }
+                                  handleDropdown={[Function]}
+                                  name={1}
+                                  tokenMap={Map {}}
+                                >
+                                  <UncontrolledDropdown>
+                                    <Dropdown
+                                      a11y={true}
+                                      active={false}
+                                      addonType={false}
+                                      direction="down"
+                                      inNavbar={false}
+                                      isOpen={false}
+                                      nav={false}
+                                      setActiveFromChild={false}
+                                      toggle={[Function]}
+                                    >
+                                      <Manager>
+                                        <div
+                                          className="dropdown"
+                                          onKeyDown={[Function]}
+                                        >
+                                          <DropdownToggle
+                                            aria-haspopup={true}
+                                            caret={true}
+                                            color="outline-secondary"
+                                          >
+                                            <Reference>
+                                              <InnerReference
+                                                setReferenceNode={[Function]}
+                                              >
+                                                <Button
+                                                  aria-expanded={false}
+                                                  aria-haspopup={true}
+                                                  className="dropdown-toggle"
+                                                  color="outline-secondary"
+                                                  innerRef={[Function]}
+                                                  onClick={[Function]}
+                                                  tag="button"
+                                                >
+                                                  <button
+                                                    aria-expanded={false}
+                                                    aria-haspopup={true}
+                                                    aria-label={null}
+                                                    className="dropdown-toggle btn btn-outline-secondary"
+                                                    onClick={[Function]}
+                                                    type="button"
+                                                  >
+                                                    <TokenAvatar
+                                                      size="24px"
+                                                      symbol="DFI"
+                                                    >
+                                                      <ForwardRef(withAvatarConfig)
+                                                        maxInitials={2}
+                                                        name="DFI"
+                                                        round={true}
+                                                        size="24px"
+                                                        src="test-file-stub"
+                                                        textSizeRatio={3}
+                                                      >
+                                                        <Avatar
+                                                          avatarRedirectUrl={null}
+                                                          cache={
+                                                            Cache {
+                                                              "cachePrefix": "react-avatar/",
+                                                              "sourceSize": 20,
+                                                              "sourceTTL": 604800000,
+                                                            }
+                                                          }
+                                                          className=""
+                                                          colors={
+                                                            Array [
+                                                              "#d73d32",
+                                                              "#7e3794",
+                                                              "#4285f4",
+                                                              "#67ae3f",
+                                                              "#d61a7f",
+                                                              "#ff4080",
+                                                            ]
+                                                          }
+                                                          fgColor="#FFF"
+                                                          initials={[Function]}
+                                                          maxInitials={2}
+                                                          name="DFI"
+                                                          round={true}
+                                                          size="24px"
+                                                          src="test-file-stub"
+                                                          textMarginRatio={0.15}
+                                                          textSizeRatio={3}
+                                                          unstyled={false}
+                                                        >
+                                                          <div
+                                                            className=" sb-avatar"
+                                                            style={
+                                                              Object {
+                                                                "borderRadius": "100%",
+                                                                "display": "inline-block",
+                                                                "fontFamily": "Helvetica, Arial, sans-serif",
+                                                                "height": "24px",
+                                                                "verticalAlign": "middle",
+                                                                "width": "24px",
+                                                              }
+                                                            }
+                                                          >
+                                                            <div
+                                                              className=" sb-avatar__text"
+                                                              style={
+                                                                Object {
+                                                                  "background": undefined,
+                                                                  "borderRadius": "100%",
+                                                                  "color": "#FFF",
+                                                                  "height": "24px",
+                                                                  "lineHeight": "initial",
+                                                                  "textAlign": "center",
+                                                                  "width": "24px",
+                                                                }
+                                                              }
+                                                              title="DFI"
+                                                            >
+                                                              <div
+                                                                style={
+                                                                  Object {
+                                                                    "display": "table",
+                                                                    "height": "100%",
+                                                                    "tableLayout": "fixed",
+                                                                    "width": "100%",
+                                                                  }
+                                                                }
+                                                              >
+                                                                <span
+                                                                  style={
+                                                                    Object {
+                                                                      "display": "table-cell",
+                                                                      "fontSize": "100%",
+                                                                      "verticalAlign": "middle",
+                                                                      "whiteSpace": "nowrap",
+                                                                    }
+                                                                  }
+                                                                >
+                                                                  <span
+                                                                    key="24px"
+                                                                  />
+                                                                </span>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </Avatar>
+                                                      </ForwardRef(withAvatarConfig)>
+                                                    </TokenAvatar>
+                                                    <span>
+                                                      DFI
+                                                    </span>
+                                                  </button>
+                                                </Button>
+                                              </InnerReference>
+                                            </Reference>
+                                          </DropdownToggle>
+                                          <DropdownMenu
+                                            flip={true}
+                                            tag="div"
+                                          >
+                                            <div
+                                              aria-hidden={true}
+                                              className="dropdown-menu"
+                                              role="menu"
+                                              tabIndex="-1"
+                                            >
+                                              <div>
+                                                <SwapSearchBar
+                                                  onChange={[Function]}
+                                                  placeholder="Search token name or address"
+                                                  searching=""
+                                                >
+                                                  <InputGroup
+                                                    tag="div"
+                                                  >
+                                                    <div
+                                                      className="input-group"
+                                                    >
+                                                      <Input
+                                                        id="searchInput"
+                                                        name="searchInput"
+                                                        onChange={[Function]}
+                                                        placeholder="Search token name or address"
+                                                        type="text"
+                                                      >
+                                                        <input
+                                                          className="form-control"
+                                                          id="searchInput"
+                                                          name="searchInput"
+                                                          onChange={[Function]}
+                                                          placeholder="Search token name or address"
+                                                          type="text"
+                                                        />
+                                                      </Input>
+                                                      <InputGroupAddon
+                                                        addonType="append"
+                                                        tag="div"
+                                                      >
+                                                        <div
+                                                          className="input-group-append"
+                                                        >
+                                                          <InputGroupText
+                                                            tag="span"
+                                                          >
+                                                            <span
+                                                              className="input-group-text"
+                                                            >
+                                                              <MdSearch>
+                                                                <IconBase
+                                                                  attr={
+                                                                    Object {
+                                                                      "viewBox": "0 0 24 24",
+                                                                    }
+                                                                  }
+                                                                >
+                                                                  <svg
+                                                                    fill="currentColor"
+                                                                    height="1em"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="0"
+                                                                    style={
+                                                                      Object {
+                                                                        "color": undefined,
+                                                                      }
+                                                                    }
+                                                                    viewBox="0 0 24 24"
+                                                                    width="1em"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                  >
+                                                                    <path
+                                                                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                                                      key="0"
+                                                                    />
+                                                                  </svg>
+                                                                </IconBase>
+                                                              </MdSearch>
+                                                            </span>
+                                                          </InputGroupText>
+                                                        </div>
+                                                      </InputGroupAddon>
+                                                    </div>
+                                                  </InputGroup>
+                                                </SwapSearchBar>
+                                              </div>
+                                              <div>
+                                                <DropdownItem
+                                                  header={true}
+                                                  tag="button"
+                                                  toggle={true}
+                                                >
+                                                  <h6
+                                                    className="dropdown-header"
+                                                    onClick={[Function]}
+                                                    tabIndex="-1"
+                                                  >
+                                                    Popular
+                                                  </h6>
+                                                </DropdownItem>
+                                                <DropdownItem
+                                                  header={true}
+                                                  tag="button"
+                                                  toggle={true}
+                                                >
+                                                  <h6
+                                                    className="dropdown-header"
+                                                    onClick={[Function]}
+                                                    tabIndex="-1"
+                                                  >
+                                                    Tokens
+                                                  </h6>
+                                                </DropdownItem>
+                                              </div>
+                                            </div>
+                                          </DropdownMenu>
+                                        </div>
+                                      </Manager>
+                                    </Dropdown>
+                                  </UncontrolledDropdown>
+                                </SwapDropdown>
+                              </div>
+                            </div>
+                          </div>
+                        </CardBody>
+                        <CardFooter
+                          tag="div"
+                        >
+                          <div
+                            className="card-footer"
+                          >
+                            <div>
+                              <span>
+                                Balance
+                              </span>
+                              : 
+                              0.00000000
+                            </div>
+                            <div>
+                              <Button
+                                color="link"
+                                disabled={true}
+                                onClick={[Function]}
+                                size="sm"
+                                tag="button"
+                              >
+                                <button
+                                  aria-label={null}
+                                  className="btn btn-link btn-sm disabled"
+                                  disabled={true}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  Max
+                                </button>
+                              </Button>
+                            </div>
+                          </div>
+                        </CardFooter>
+                      </div>
+                    </Card>
+                  </LiquidityCard>
+                  <div>
+                    <MdAdd>
+                      <IconBase
+                        attr={
+                          Object {
+                            "viewBox": "0 0 24 24",
+                          }
+                        }
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                            key="0"
+                          />
+                        </svg>
+                      </IconBase>
+                    </MdAdd>
+                  </div>
+                  <LiquidityCard
+                    dropdownLabel="Select a token"
+                    formState={
+                      Object {
+                        "amount1": "",
+                        "amount2": "0",
+                        "balance1": "0.00000000",
+                        "balance2": "",
+                        "hash1": "0",
+                        "hash2": "",
+                        "receiveAddress": undefined,
+                        "receiveLabel": undefined,
+                        "symbol1": "DFI",
+                        "symbol2": "",
+                      }
+                    }
+                    handleChange={[Function]}
+                    handleDropdown={[Function]}
+                    label="Input"
+                    name={2}
+                    setMaxValue={[Function]}
+                    tokenMap={Map {}}
+                  >
+                    <Card
+                      tag="div"
+                    >
+                      <div
+                        className="card"
+                      >
+                        <CardBody
+                          tag="div"
+                        >
+                          <div
+                            className="card-body"
+                          >
+                            <div>
+                              Input
+                            </div>
+                            <div>
+                              <div>
+                                <div
+                                  className="form-control"
+                                >
+                                  0
+                                </div>
+                              </div>
+                              <div>
+                                <SwapDropdown
+                                  dropdownLabel="Select a token"
+                                  formState={
+                                    Object {
+                                      "amount1": "",
+                                      "amount2": "0",
+                                      "balance1": "0.00000000",
+                                      "balance2": "",
+                                      "hash1": "0",
+                                      "hash2": "",
+                                      "receiveAddress": undefined,
+                                      "receiveLabel": undefined,
+                                      "symbol1": "DFI",
+                                      "symbol2": "",
+                                    }
+                                  }
+                                  handleDropdown={[Function]}
+                                  name={2}
+                                  tokenMap={Map {}}
+                                >
+                                  <UncontrolledDropdown>
+                                    <Dropdown
+                                      a11y={true}
+                                      active={false}
+                                      addonType={false}
+                                      direction="down"
+                                      inNavbar={false}
+                                      isOpen={false}
+                                      nav={false}
+                                      setActiveFromChild={false}
+                                      toggle={[Function]}
+                                    >
+                                      <Manager>
+                                        <div
+                                          className="dropdown"
+                                          onKeyDown={[Function]}
+                                        >
+                                          <DropdownToggle
+                                            aria-haspopup={true}
+                                            caret={true}
+                                            color="outline-secondary"
+                                          >
+                                            <Reference>
+                                              <InnerReference
+                                                setReferenceNode={[Function]}
+                                              >
+                                                <Button
+                                                  aria-expanded={false}
+                                                  aria-haspopup={true}
+                                                  className="dropdown-toggle"
+                                                  color="outline-secondary"
+                                                  innerRef={[Function]}
+                                                  onClick={[Function]}
+                                                  tag="button"
+                                                >
+                                                  <button
+                                                    aria-expanded={false}
+                                                    aria-haspopup={true}
+                                                    aria-label={null}
+                                                    className="dropdown-toggle btn btn-outline-secondary"
+                                                    onClick={[Function]}
+                                                    type="button"
+                                                  >
+                                                    <span>
+                                                      Select a token
+                                                    </span>
+                                                  </button>
+                                                </Button>
+                                              </InnerReference>
+                                            </Reference>
+                                          </DropdownToggle>
+                                          <DropdownMenu
+                                            flip={true}
+                                            tag="div"
+                                          >
+                                            <div
+                                              aria-hidden={true}
+                                              className="dropdown-menu"
+                                              role="menu"
+                                              tabIndex="-1"
+                                            >
+                                              <div>
+                                                <SwapSearchBar
+                                                  onChange={[Function]}
+                                                  placeholder="Search token name or address"
+                                                  searching=""
+                                                >
+                                                  <InputGroup
+                                                    tag="div"
+                                                  >
+                                                    <div
+                                                      className="input-group"
+                                                    >
+                                                      <Input
+                                                        id="searchInput"
+                                                        name="searchInput"
+                                                        onChange={[Function]}
+                                                        placeholder="Search token name or address"
+                                                        type="text"
+                                                      >
+                                                        <input
+                                                          className="form-control"
+                                                          id="searchInput"
+                                                          name="searchInput"
+                                                          onChange={[Function]}
+                                                          placeholder="Search token name or address"
+                                                          type="text"
+                                                        />
+                                                      </Input>
+                                                      <InputGroupAddon
+                                                        addonType="append"
+                                                        tag="div"
+                                                      >
+                                                        <div
+                                                          className="input-group-append"
+                                                        >
+                                                          <InputGroupText
+                                                            tag="span"
+                                                          >
+                                                            <span
+                                                              className="input-group-text"
+                                                            >
+                                                              <MdSearch>
+                                                                <IconBase
+                                                                  attr={
+                                                                    Object {
+                                                                      "viewBox": "0 0 24 24",
+                                                                    }
+                                                                  }
+                                                                >
+                                                                  <svg
+                                                                    fill="currentColor"
+                                                                    height="1em"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="0"
+                                                                    style={
+                                                                      Object {
+                                                                        "color": undefined,
+                                                                      }
+                                                                    }
+                                                                    viewBox="0 0 24 24"
+                                                                    width="1em"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                  >
+                                                                    <path
+                                                                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                                                      key="0"
+                                                                    />
+                                                                  </svg>
+                                                                </IconBase>
+                                                              </MdSearch>
+                                                            </span>
+                                                          </InputGroupText>
+                                                        </div>
+                                                      </InputGroupAddon>
+                                                    </div>
+                                                  </InputGroup>
+                                                </SwapSearchBar>
+                                              </div>
+                                              <div>
+                                                <DropdownItem
+                                                  header={true}
+                                                  tag="button"
+                                                  toggle={true}
+                                                >
+                                                  <h6
+                                                    className="dropdown-header"
+                                                    onClick={[Function]}
+                                                    tabIndex="-1"
+                                                  >
+                                                    Popular
+                                                  </h6>
+                                                </DropdownItem>
+                                                <DropdownItem
+                                                  header={true}
+                                                  tag="button"
+                                                  toggle={true}
+                                                >
+                                                  <h6
+                                                    className="dropdown-header"
+                                                    onClick={[Function]}
+                                                    tabIndex="-1"
+                                                  >
+                                                    Tokens
+                                                  </h6>
+                                                </DropdownItem>
+                                              </div>
+                                            </div>
+                                          </DropdownMenu>
+                                        </div>
+                                      </Manager>
+                                    </Dropdown>
+                                  </UncontrolledDropdown>
+                                </SwapDropdown>
+                              </div>
+                            </div>
+                          </div>
+                        </CardBody>
+                        <CardFooter
+                          tag="div"
+                        >
+                          <div
+                            className="card-footer"
+                          >
+                            <div>
+                              <span>
+                                Balance
+                              </span>
+                              : 
+                              0
+                            </div>
+                            <div>
+                              <Button
+                                color="link"
+                                disabled={true}
+                                onClick={[Function]}
+                                size="sm"
+                                tag="button"
+                              >
+                                <button
+                                  aria-label={null}
+                                  className="btn btn-link btn-sm disabled"
+                                  disabled={true}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  Max
+                                </button>
+                              </Button>
+                            </div>
+                          </div>
+                        </CardFooter>
+                      </div>
+                    </Card>
+                  </LiquidityCard>
+                </div>
+                <Row
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      md="4"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-4"
+                      >
+                        <span>
+                          Receive shares at
+                        </span>
+                      </div>
+                    </Col>
+                    <Col
+                      md="8"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-8"
+                      >
+                        <Connect(AddressDropdown)
+                          formState={
+                            Object {
+                              "amount1": "",
+                              "amount2": "0",
+                              "balance1": "0.00000000",
+                              "balance2": "",
+                              "hash1": "0",
+                              "hash2": "",
+                              "receiveAddress": undefined,
+                              "receiveLabel": undefined,
+                              "symbol1": "DFI",
+                              "symbol2": "",
+                            }
+                          }
+                          getTransactionLabel={[Function]}
+                          onSelectAddress={[Function]}
+                        >
+                          <AddressDropdown
+                            dispatch={[Function]}
+                            formState={
+                              Object {
+                                "amount1": "",
+                                "amount2": "0",
+                                "balance1": "0.00000000",
+                                "balance2": "",
+                                "hash1": "0",
+                                "hash2": "",
+                                "receiveAddress": undefined,
+                                "receiveLabel": undefined,
+                                "symbol1": "DFI",
+                                "symbol2": "",
+                              }
+                            }
+                            getTransactionLabel={[Function]}
+                            onSelectAddress={[Function]}
+                            paymentRequests={Array []}
+                          >
+                            <UncontrolledDropdown
+                              className="w-100"
+                            >
+                              <Dropdown
+                                a11y={true}
+                                active={false}
+                                addonType={false}
+                                className="w-100"
+                                direction="down"
+                                inNavbar={false}
+                                isOpen={false}
+                                nav={false}
+                                setActiveFromChild={false}
+                                toggle={[Function]}
+                              >
+                                <Manager>
+                                  <div
+                                    className="w-100 dropdown"
+                                    onKeyDown={[Function]}
+                                  >
+                                    <DropdownToggle
+                                      aria-haspopup={true}
+                                      caret={true}
+                                      className="undefined "
+                                      color="outline-secondary"
+                                      disabled={false}
+                                    >
+                                      <Reference>
+                                        <InnerReference
+                                          setReferenceNode={[Function]}
+                                        >
+                                          <Button
+                                            aria-expanded={false}
+                                            aria-haspopup={true}
+                                            className="undefined  dropdown-toggle"
+                                            color="outline-secondary"
+                                            disabled={false}
+                                            innerRef={[Function]}
+                                            onClick={[Function]}
+                                            tag="button"
+                                          >
+                                            <button
+                                              aria-expanded={false}
+                                              aria-haspopup={true}
+                                              aria-label={null}
+                                              className="undefined  dropdown-toggle btn btn-outline-secondary"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <div
+                                                className="undefined undefined"
+                                              >
+                                                Receive address
+                                              </div>
+                                            </button>
+                                          </Button>
+                                        </InnerReference>
+                                      </Reference>
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      className="undefined w-100"
+                                      flip={true}
+                                      tag="div"
+                                    >
+                                      <div
+                                        aria-hidden={true}
+                                        className="undefined w-100 dropdown-menu"
+                                        role="menu"
+                                        tabIndex="-1"
+                                      >
+                                        <DropdownItem
+                                          className="w-100"
+                                          tag="button"
+                                          toggle={true}
+                                        >
+                                          <button
+                                            className="w-100 dropdown-item"
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
+                                          >
+                                            <Row
+                                              className="w-100"
+                                              tag="div"
+                                              widths={
+                                                Array [
+                                                  "xs",
+                                                  "sm",
+                                                  "md",
+                                                  "lg",
+                                                  "xl",
+                                                ]
+                                              }
+                                            >
+                                              <div
+                                                className="w-100 row"
+                                              >
+                                                <Col
+                                                  md="6"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-6"
+                                                  >
+                                                    Address
+                                                  </div>
+                                                </Col>
+                                                <Col
+                                                  md="3"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-3"
+                                                  >
+                                                    Label
+                                                  </div>
+                                                </Col>
+                                                <Col
+                                                  md="3"
+                                                  tag="div"
+                                                  widths={
+                                                    Array [
+                                                      "xs",
+                                                      "sm",
+                                                      "md",
+                                                      "lg",
+                                                      "xl",
+                                                    ]
+                                                  }
+                                                >
+                                                  <div
+                                                    className="col-md-3"
+                                                  >
+                                                    Selected
+                                                  </div>
+                                                </Col>
+                                              </div>
+                                            </Row>
+                                          </button>
+                                        </DropdownItem>
+                                      </div>
+                                    </DropdownMenu>
+                                  </div>
+                                </Manager>
+                              </Dropdown>
+                            </UncontrolledDropdown>
+                          </AddressDropdown>
+                        </Connect(AddressDropdown)>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+                <br />
+              </section>
+            </div>
+            <footer
+              className="footer-bar"
+            >
+              <div
+                className=""
+              >
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="undefined col-auto"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="undefined col-auto col"
+                      >
+                        Insufficient UTXOS to perform add liquidity
+                      </div>
+                    </Col>
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          color="primary"
+                          disabled={true}
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-primary disabled"
+                            disabled={true}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Continue
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <dl
+                    className="row"
+                  >
+                    <dt
+                      className="col-sm-4 text-right"
+                    >
+                      Deposits
+                    </dt>
+                    <dd
+                      className="col-sm-8"
+                    >
+                       DFI
+                      <br />
+                      0 
+                    </dd>
+                    <dt
+                      className="col-sm-4 text-right"
+                    >
+                      Rates
+                    </dt>
+                    <dd
+                      className="col-sm-8"
+                    >
+                      <br />
+                       
+                    </dd>
+                    <dt
+                      className="col-sm-4 text-right"
+                    >
+                      Share of pool
+                    </dt>
+                    <dd
+                      className="col-sm-8"
+                    />
+                  </dl>
+                </div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="col"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col col"
+                      >
+                        Please verify transaction and press SUPPLY
+                      </div>
+                    </Col>
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          className="mr-3"
+                          color="link"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="mr-3 btn btn-link"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Cancel
+                          </button>
+                        </Button>
+                        <Button
+                          color="primary"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-primary"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Supply
+                             
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div
+                    className="text-center"
+                  >
+                    <MdCheckCircle
+                      className="footer-sheet-icon"
+                    >
+                      <IconBase
+                        attr={
+                          Object {
+                            "viewBox": "0 0 24 24",
+                          }
+                        }
+                        className="footer-sheet-icon"
+                      >
+                        <svg
+                          className="footer-sheet-icon"
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            key="0"
+                          />
+                        </svg>
+                      </IconBase>
+                    </MdCheckCircle>
+                    <p>
+                      Your account balance will update once the transaction has been confirmed by DeFiChain
+                    </p>
+                    <div>
+                      <b>
+                        Transaction Hash
+                      </b>
+                       :  
+                      <span />
+                    </div>
+                  </div>
+                </div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          className="mr-3"
+                          color="link"
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="mr-3 btn btn-link"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            View on chain
+                          </button>
+                        </Button>
+                        <Button
+                          color="primary"
+                          tag={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "propTypes": Object {
+                                "activeClassName": [Function],
+                                "activeStyle": [Function],
+                                "aria-current": [Function],
+                                "className": [Function],
+                                "exact": [Function],
+                                "innerRef": [Function],
+                                "isActive": [Function],
+                                "location": [Function],
+                                "onClick": [Function],
+                                "replace": [Function],
+                                "sensitive": [Function],
+                                "strict": [Function],
+                                "style": [Function],
+                                "target": [Function],
+                                "to": [Function],
+                              },
+                              "render": [Function],
+                            }
+                          }
+                          to="/liquidity"
+                        >
+                          <NavLink
+                            aria-label={null}
+                            className="btn btn-primary"
+                            onClick={[Function]}
+                            to="/liquidity"
+                          >
+                            <Link
+                              aria-current={null}
+                              aria-label={null}
+                              className="btn btn-primary"
+                              onClick={[Function]}
+                              to={
+                                Object {
+                                  "hash": "",
+                                  "pathname": "/liquidity",
+                                  "search": "",
+                                  "state": null,
+                                }
+                              }
+                            >
+                              <LinkAnchor
+                                aria-current={null}
+                                aria-label={null}
+                                className="btn btn-primary"
+                                href="/liquidity"
+                                navigate={[Function]}
+                                onClick={[Function]}
+                              >
+                                <a
+                                  aria-current={null}
+                                  aria-label={null}
+                                  className="btn btn-primary"
+                                  href="/liquidity"
+                                  onClick={[Function]}
+                                >
+                                  Back to pool
+                                   
+                                </a>
+                              </LinkAnchor>
+                            </Link>
+                          </NavLink>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div>
+                    <div>
+                      <MdCheckCircle>
+                        <IconBase
+                          attr={
+                            Object {
+                              "viewBox": "0 0 24 24",
+                            }
+                          }
+                        >
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            strokeWidth="0"
+                            style={
+                              Object {
+                                "color": undefined,
+                              }
+                            }
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                              key="0"
+                            />
+                          </svg>
+                        </IconBase>
+                      </MdCheckCircle>
+                      <span>
+                        UTXO prepared
+                      </span>
+                    </div>
+                    <div>
+                      <div
+                        className="d-flex"
+                      >
+                        <MdCheckCircle>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdCheckCircle>
+                        <span>
+                          Adding liquidity
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="d-none"
+              >
+                <div
+                  className="footer-sheet"
+                >
+                  <div
+                    className="text-center"
+                  >
+                    <MdErrorOutline
+                      className="footer-sheet-icon undefined"
+                    >
+                      <IconBase
+                        attr={
+                          Object {
+                            "viewBox": "0 0 24 24",
+                          }
+                        }
+                        className="footer-sheet-icon undefined"
+                      >
+                        <svg
+                          className="footer-sheet-icon undefined"
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                            key="0"
+                          />
+                        </svg>
+                      </IconBase>
+                    </MdErrorOutline>
+                    <p />
+                  </div>
+                </div>
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                >
+                  <Button
+                    color="primary"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "sensitive": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/liquidity"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="btn btn-primary"
+                      onClick={[Function]}
+                      to="/liquidity"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="btn btn-primary"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/liquidity",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="btn btn-primary"
+                          href="/liquidity"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="btn btn-primary"
+                            href="/liquidity"
+                            onClick={[Function]}
+                          >
+                            Back to pool
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </AddLiquidity>
+      </Connect(AddLiquidity)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

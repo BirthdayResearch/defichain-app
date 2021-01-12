@@ -8,13 +8,12 @@ import {
   getRpcAuth,
   createDir,
 } from '../utils';
+import { APP_DIR, CONFIG_FILE_NAME } from '../constants';
 import {
-  APP_DIR,
-  CONFIG_FILE_NAME,
   DEFAULT_RPC_BIND,
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
-} from '../constants';
+} from '@defi_types/settings';
 
 export default class UiConfig {
   async get() {

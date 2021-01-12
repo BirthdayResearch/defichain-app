@@ -14,21 +14,11 @@ import {
   MdPieChart,
   MdVpnKey,
 } from 'react-icons/md';
-import {
-  Button,
-  ButtonGroup,
-  Col,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane,
-} from 'reactstrap';
+import { Button, ButtonGroup, Col, Row, TabContent, TabPane } from 'reactstrap';
 
 import {
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
-  addPoolLiquidityRequest,
-  fetchPoolsharesRequest,
   fetchTestPoolSwapRequestTo,
   poolSwapRequest,
   fetchUtxoDfiRequest,
@@ -71,10 +61,8 @@ import NumberMask from '../../components/NumberMask';
 interface SwapPageProps {
   history?: any;
   location?: any;
-  poolshares: any[];
   fetchTestPoolSwapRequestTo: (formState) => void;
   fetchTestPoolSwapRequestFrom: (formState) => void;
-  fetchPoolsharesRequest: () => void;
   poolPairList: any[];
   tokenBalanceList: string[];
   testPoolSwapTo: string;
@@ -92,10 +80,6 @@ interface SwapPageProps {
   poolSwapHash: string;
   fetchPoolPairListRequest: () => void;
   fetchTokenBalanceListRequest: () => void;
-  addPoolLiquidityRequest: (poolData) => void;
-  isLoadingAddPoolLiquidity: boolean;
-  isAddPoolLiquidityLoaded: boolean;
-  addPoolLiquidityHash: string;
   isErrorAddingPoolLiquidity: string;
   walletBalance: number;
   utxoDfi: number;
@@ -113,7 +97,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tab = urlParams.get('tab');
-  const [activeTab, setActiveTab] = useState<string>(tab ? tab : SWAP);
+  const [activeTab] = useState<string>(tab ? tab : SWAP);
   const [swapStep, setSwapStep] = useState<string>(
     !PersistentStore.get(IS_DEX_INTRO_SEEN) ? 'first' : 'default'
   );
@@ -152,9 +136,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     walletBalance,
     isLoadingRefreshUTXOS,
     isLoadingTransferringTokens,
-    utxoDfi,
     fetchUtxoDfiRequest,
-    maxAccountDfi,
     fetchMaxAccountDfiRequest,
     resetTestPoolSwapErrorTo,
     resetTestPoolSwapRequestTo,
@@ -320,9 +302,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       formState[`amount1`] &&
       formState[`balance1`] &&
       new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
-      // formState[`amount2`] &&
       formState[`balance2`]
-      // new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
     ) {
       return true;
     } else {
@@ -424,32 +404,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.swap.swapPage.decentralizedExchange')}</h1>
-        {/* <Nav pills className='justify-content-center'>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: activeTab === SWAP,
-              })}
-              onClick={() => {
-                setActiveTab(SWAP);
-              }}
-            >
-              {I18n.t('containers.swap.swapPage.swap')}
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: activeTab === POOL,
-              })}
-              onClick={() => {
-                setActiveTab(POOL);
-              }}
-            >
-              {I18n.t('containers.swap.swapPage.pool')}
-            </NavLink>
-          </NavItem>
-        </Nav> */}
         <ButtonGroup
           style={{
             visibility: activeTab !== POOL ? 'hidden' : 'visible',
@@ -499,9 +453,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     : I18n.t('components.swapCard.selectAToken')
                 }
               />
-            </TabPane>
-            <TabPane tabId={POOL}>
-              {/* <PoolTab history={props.history} /> */}
             </TabPane>
           </TabContent>
           {isValid() &&
@@ -830,11 +781,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   )}
                 </div>
               </div>
-              {/* <div className='text-center'>
-                <Spinner />
-                &nbsp;
-                {I18n.t('containers.swap.swapPage.swaping')}
-              </div> */}
             </div>
           </div>
           <div
@@ -869,11 +815,6 @@ const mapStateToProps = (state) => {
   const {
     poolPairList,
     tokenBalanceList,
-    isLoadingAddPoolLiquidity,
-    isAddPoolLiquidityLoaded,
-    addPoolLiquidityHash,
-    isErrorAddingPoolLiquidity,
-    poolshares,
     testPoolSwapTo,
     testPoolSwapFrom,
     isErrorTestPoolSwapTo,
@@ -893,11 +834,6 @@ const mapStateToProps = (state) => {
   return {
     poolPairList,
     tokenBalanceList,
-    isLoadingAddPoolLiquidity,
-    isAddPoolLiquidityLoaded,
-    addPoolLiquidityHash,
-    isErrorAddingPoolLiquidity,
-    poolshares,
     testPoolSwapTo,
     testPoolSwapFrom,
     isErrorTestPoolSwapTo,
@@ -921,8 +857,6 @@ const mapDispatchToProps = {
   fetchTestPoolSwapRequestFrom,
   fetchPoolPairListRequest,
   fetchTokenBalanceListRequest,
-  addPoolLiquidityRequest,
-  fetchPoolsharesRequest,
   poolSwapRequest,
   fetchUtxoDfiRequest,
   fetchMaxAccountDfiRequest,

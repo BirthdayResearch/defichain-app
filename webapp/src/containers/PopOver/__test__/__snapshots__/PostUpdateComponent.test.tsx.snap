@@ -30,7 +30,9 @@ exports[`PostUpdateComponent should check for snapshot 1`] = `
           >
             Update complete
           </h1>
-          You need to restart app to see the new update. Do you want to restart?
+          <p>
+            You need to restart DeFi app to apply new update. Do you want to restart?
+          </p>
         </div>
       </ModalBody>
       <ModalFooter
@@ -51,7 +53,7 @@ exports[`PostUpdateComponent should check for snapshot 1`] = `
               onClick={[Function]}
               type="button"
             >
-              Yes
+              Restart now
             </button>
           </Button>
           <Button
@@ -66,7 +68,7 @@ exports[`PostUpdateComponent should check for snapshot 1`] = `
               onClick={[Function]}
               type="button"
             >
-              No
+              Later
             </button>
           </Button>
         </div>

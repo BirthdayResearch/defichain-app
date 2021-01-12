@@ -14,6 +14,10 @@ import {
   ENGLISH,
   GERMAN,
   FRENCH,
+  CHINESE_SIMPLIFIED,
+  CHINESE_TRADITIONAL,
+  DUTCH,
+  RUSSIAN,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -40,12 +44,24 @@ import { getAddressInfo } from '../TokensPage/service';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
 import store from '../../app/rootStore';
+import {
+  PRELAUNCH_PREFERENCE_DISABLE,
+  PRELAUNCH_PREFERENCE_ENABLE,
+  PRELAUNCH_PREFERENCE_STATUS,
+} from '@defi_types/ipcEvents';
 
 export const getLanguage = () => {
   return [
     { label: 'containers.settings.english', value: ENGLISH },
     { label: 'containers.settings.german', value: GERMAN },
-    // { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.chinese', value: CHINESE_SIMPLIFIED },
+    {
+      label: 'containers.settings.chinese_traditional',
+      value: CHINESE_TRADITIONAL,
+    },
+    { label: 'containers.settings.dutch', value: DUTCH },
+    { label: 'containers.settings.russian', value: RUSSIAN },
   ];
 };
 
@@ -149,7 +165,7 @@ export const refreshUtxosAfterSavingData = async () => {
 const getPreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_STATUS, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
@@ -162,7 +178,7 @@ const getPreLaunchStatus = () => {
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_ENABLE, {
       minimize,
     });
     if (res.success && res.data) {
@@ -177,7 +193,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_DISABLE, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }

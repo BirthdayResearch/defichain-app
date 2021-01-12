@@ -21,6 +21,7 @@ import {
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
 } from './constants';
+import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -48,7 +49,7 @@ export const getBinaryParameter = (obj: any = {}) => {
     rpcbind: '',
     datadir: '',
   };
-  remote.rpcallowip = '0.0.0.0/0';
+  remote.rpcallowip = DEFAULT_RPC_ALLOW_IP;
   if (!!obj && Array.isArray(obj.remotes)) {
     remote = Object.assign({}, remote, obj.remotes[0]);
     remote.rpcbind = obj.remotes[0].rpcconnect;

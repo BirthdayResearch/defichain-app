@@ -1,6 +1,5 @@
 import path from 'path';
 
-export const SITE_URL = 'https://defichain.com/';
 export const ICON = path.join(
   __dirname,
   '/electron-app/assets/icon/icon-512.png'
@@ -13,7 +12,6 @@ export const ACTIVATE = 'activate';
 export const CLOSE = 'close';
 export const CLOSED = 'closed';
 export const SECOND_INSTANCE = 'second-instance';
-export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
 export const MAC = 'mac';
@@ -32,4 +30,6 @@ export const DEFAULT_ELECTRON_FORMAT =
 export const DISCLAIMER_DIALOG_TIMER = 10000;
 export const STOP_BINARY_INTERVAL = 500;
 export const REINDEX_ERROR_STRING = 'restart with -reindex';
-export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING = 'Account history needs rebuild';
+export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING =
+  'Account history needs rebuild';
+export const NODE_SYNTAX_ERROR = '.cpp';
