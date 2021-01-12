@@ -1,7 +1,7 @@
 {
   "name": "defi-app",
   "version": "2.1.6",
-  "description": "DeFi blockchain client ui",
+  "description": "DeFi Blockchain App",
   "author": {
     "name": "DeFiChain Foundation",
     "email": "engineering@defichain.com",
@@ -154,7 +154,7 @@
     "react-test-renderer": "^17.0.1",
     "regenerator-runtime": "~0.13.7",
     "resolve-url-loader": "3.1.2",
-    "sass": "1.32.3",
+    "sass": "1.32.4",
     "sass-loader": "^10.1.1",
     "stream-browserify": "3.0.0",
     "style-loader": "~2.0.0",
