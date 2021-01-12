@@ -3,16 +3,6 @@ import * as log from '../../utils/electronLogger';
 import isEmpty from 'lodash/isEmpty';
 import { GET_NEW_ADDRESS_TYPE } from '../../constants';
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(err, 'isValidAddress');
-    return false;
-  }
-};
-
 export const handelFetchMasterNodes = async () => {
   const rpcClient = new RpcClient();
   const masternodes = await rpcClient.listMasterNodes();

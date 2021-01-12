@@ -118,15 +118,15 @@ export const handleFetchPendingBalance = async (): Promise<number> => {
   return await rpcClient.getPendingBalance();
 };
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
-};
+// export const isValidAddress = async (toAddress: string) => {
+//   const rpcClient = new RpcClient();
+//   try {
+//     return rpcClient.isValidAddress(toAddress);
+//   } catch (err) {
+//     log.error(`Got error in isValidAddress: ${err}`);
+//     return false;
+//   }
+// };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();

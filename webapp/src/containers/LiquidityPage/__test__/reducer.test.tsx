@@ -1,208 +1,333 @@
 import reducer, {
   initialState,
-  // fetchPaymentRequest,
-  // fetchPaymentRequestsSuccess,
-  // fetchPaymentRequestsFailure,
-  // fetchWalletTxnsRequest,
-  // fetchWalletTxnsSuccess,
-  // fetchWalletTxnsFailure,
-  // fetchWalletBalanceRequest,
-  // fetchWalletBalanceSuccess,
-  // fetchWalletBalanceFailure,
-  // fetchPendingBalanceRequest,
-  // fetchPendingBalanceSuccess,
-  // fetchPendingBalanceFailure,
-  // fetchSendDataRequest,
-  // fetchSendDataSuccess,
-  // fetchSendDataFailure,
-  // addReceiveTxnsRequest,
-  // addReceiveTxnsSuccess,
-  // addReceiveTxnsFailure,
-  // removeReceiveTxnsRequest,
-  // removeReceiveTxnsSuccess,
-  // removeReceiveTxnsFailure,
+  fetchPoolpair,
+  fetchPoolpairSuccess,
+  fetchPoolpairFailure,
+  fetchPoolsharesRequest,
+  fetchPoolsharesSuccess,
+  fetchPoolsharesFailure,
+  fetchPoolPairListRequest,
+  fetchPoolPairListSuccess,
+  fetchPoolPairListFailure,
+  fetchTokenBalanceListRequest,
+  fetchTokenBalanceListSuccess,
+  fetchTokenBalanceListFailure,
+  addPoolLiquidityRequest,
+  addPoolPreparingUTXOSuccess,
+  addPoolLiquiditySuccess,
+  addPoolLiquidityFailure,
+  removePoolLiqudityRequest,
+  removePoolLiquiditySuccess,
+  removePoolLiquidityFailure,
+  refreshUTXOS1Success,
+  liquidityRemovedSuccess,
+  refreshUTXOS2Success,
+  transferTokensSuccess,
+  fetchUtxoDfiRequest,
+  fetchUtxoDfiSuccess,
+  fetchUtxoDfiFailure,
+  fetchMaxAccountDfiRequest,
+  fetchMaxAccountDfiSuccess,
+  fetchMaxAccountDfiFailure,
 } from '../reducer';
-// import { payload } from './testData.json';
+import * as payload from './testData.json';
 
 describe('liquidity slice', () => {
   const nextState = initialState;
-
   it('should return the initial state', () => {
     const result = reducer(undefined, { type: undefined });
     expect(result).toEqual(nextState);
   });
 
-  // describe('fetchPaymentRequest reducers and actions', () => {
-  //   it('should have empty paymentRequest information when fetchPaymentRequest is made', () => {
-  //     const nextState = reducer(initialState, fetchPaymentRequest());
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  //   it('should propely set paymentRequest information when fetchPaymentRequestsSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchPaymentRequestsSuccess(payload.paymentRequests)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual(payload.paymentRequests);
-  //   });
-  //   it('should have empty paymentRequest information when fetchPaymentRequestsfailure is made', () => {
-  //     const nextState = reducer(initialState, fetchPaymentRequestsFailure({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  // });
+  describe('fetchPoolpair reducers and actions', () => {
+    it('should be check  isLoadingPoolpair', () => {
+      const nextState = reducer(initialState, fetchPoolpair({}));
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingPoolpair).toBeTruthy();
+    });
 
-  // describe('fetchWalletTxnsRequest reducers and actions', () => {
-  //   it('should properly set isWalletTxnsLoading information when fetchWalletTxnsRequest is made', () => {
-  //     const nextState = reducer(initialState, fetchWalletTxnsRequest({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.walletTxns).toEqual([]);
-  //     expect(rootState.wallet.walletTxnCount).toEqual(0);
-  //     expect(rootState.wallet.isWalletTxnsLoading).toEqual(true);
-  //   });
-  //   it('should propely set isWalletTxnsLoading, walletTxns and walletTxnCount information when fetchWalletTxnsSuccess is made', () => {
-  //     const { walletTxns, walletTxnCount } = payload;
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchWalletTxnsSuccess({ walletTxns, walletTxnCount })
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.walletTxns).toEqual(walletTxns);
-  //     expect(rootState.wallet.walletTxnCount).toEqual(walletTxnCount);
-  //     expect(rootState.wallet.isWalletTxnsLoading).toEqual(false);
-  //   });
-  //   it('should properly set isWalletTxnsLoading and walletTxns information when fetchWalletTxnsFailure is made', () => {
-  //     const nextState = reducer(initialState, fetchWalletTxnsFailure({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.walletTxns).toEqual([]);
-  //     expect(rootState.wallet.walletTxnCount).toEqual(0);
-  //     expect(rootState.wallet.isWalletTxnsLoading).toEqual(false);
-  //   });
-  // });
+    it('should be check for fetchPoolpairSuccess', () => {
+      const poolpair = payload.poolpair;
+      const nextState = reducer(
+        initialState,
+        fetchPoolpairSuccess({ poolpair })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolpair).toEqual(payload.poolpair);
+      expect(rootState.liquidity.isLoadingPoolpair).toBeFalsy();
+      expect(rootState.liquidity.isPoolpairLoaded).toBeTruthy();
+    });
 
-  // describe('fetchWalletBalanceRequest reducers and actions', () => {
-  //   // tslint:disable-next-line: max-line-length
-  //   it('should properly set isBalanceFetching and isBalanceError information when fetchWalletBalanceRequest is made', () => {
-  //     const nextState = reducer(initialState, fetchWalletBalanceRequest());
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.isBalanceError).toEqual('');
-  //     expect(rootState.wallet.isBalanceFetching).toEqual(true);
-  //   });
-  //   // tslint:disable-next-line: max-line-length
-  //   it('should properly set isBalanceFetching and walletBalance information when fetchWalletBalanceSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchWalletBalanceSuccess(payload.walletBalance)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.walletBalance).toEqual(payload.walletBalance);
-  //     expect(rootState.wallet.isBalanceFetching).toEqual(false);
-  //   });
-  //   it('should properly set isBalanceFetching, walletBalance and isBalanceError information when fetchWalletBalanceFailure is made', () => {
-  //     const error = new Error('Error while fetching balance');
-  //     const payload = error.message;
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchWalletBalanceFailure(payload)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.isBalanceError).toEqual(payload);
-  //     expect(rootState.wallet.walletBalance).toEqual(0);
-  //     expect(rootState.wallet.isBalanceFetching).toEqual(false);
-  //   });
-  // });
+    it('should be check for fetchPoolpairFailure', () => {
+      const poolpair = {};
+      const nextState = reducer(
+        initialState,
+        fetchPoolpairFailure({ poolpair })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolpair).toEqual(poolpair);
+      expect(rootState.liquidity.isLoadingPoolpair).toBeFalsy();
+      expect(rootState.liquidity.isPoolpairLoaded).toBeTruthy();
+    });
+  });
 
-  // describe('fetchPendingBalanceRequest reducers and actions', () => {
-  //   it('should properly set isPendingBalanceFetching and isPendingBalanceError information when fetchPendingBalanceRequest is made', () => {
-  //     const nextState = reducer(initialState, fetchPendingBalanceRequest());
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.isPendingBalanceError).toEqual('');
-  //     expect(rootState.wallet.isPendingBalanceFetching).toEqual(true);
-  //   });
-  //   it('should properly set isPendingBalanceFetching and pendingBalance information when fetchPendingBalanceSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchPendingBalanceSuccess(payload.pendingBalance)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.pendingBalance).toEqual(payload.pendingBalance);
-  //     expect(rootState.wallet.isPendingBalanceFetching).toEqual(false);
-  //   });
-  //   it('should properly set isPendingBalanceFetching, pendingBalance and isPendingBalanceError information when fetchPendingBalanceFailure is made', () => {
-  //     const error = new Error('Error while fetching pending balance');
-  //     const payload = error.message;
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchPendingBalanceFailure(payload)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.isPendingBalanceError).toEqual(payload);
-  //     expect(rootState.wallet.pendingBalance).toEqual(0);
-  //     expect(rootState.wallet.isPendingBalanceFetching).toEqual(false);
-  //   });
-  // });
+  describe('fetchPoolsharesRequest reducers and actions', () => {
+    it('should be check  isLoadingPoolshares', () => {
+      const nextState = reducer(initialState, fetchPoolsharesRequest());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingPoolshares).toBeTruthy();
+    });
+  });
 
-  // describe('fetchSendDataRequest reducers and actions', () => {
-  //   it('should have default information when fetchSendDataRequest is made', () => {
-  //     const nextState = reducer(initialState, fetchSendDataRequest());
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.sendData).toEqual(initialState.sendData);
-  //   });
-  //   it('should properly set sendData information when fetchSendDataSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       fetchSendDataSuccess({ data: payload.sendData })
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.sendData).toEqual(payload.sendData);
-  //   });
-  //   it('should properly set sendData information when fetchSendDataFailure is made', () => {
-  //     const nextState = reducer(initialState, fetchSendDataFailure({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.sendData).toEqual(initialState.sendData);
-  //   });
-  // });
+  describe('fetchPoolsharesSuccess reducers and actions', () => {
+    it('should be check for fetchPoolsharesSuccess', () => {
+      const poolshares = [];
+      const nextState = reducer(
+        initialState,
+        fetchPoolsharesSuccess({ poolshares })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolshares).toEqual(poolshares);
+      expect(rootState.liquidity.isLoadingPoolshares).toBeFalsy();
+      expect(rootState.liquidity.isPoolsharesLoaded).toBeTruthy();
+    });
 
-  // describe('addReceiveTxnsRequest reducers and actions', () => {
-  //   it('should have empty paymentRequest information when addReceiveTxnsRequest is made', () => {
-  //     const nextState = reducer(initialState, addReceiveTxnsRequest({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  //   it('should propely set paymentRequest information when addReceiveTxnsSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       addReceiveTxnsSuccess(payload.paymentRequests)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual(payload.paymentRequests);
-  //   });
-  //   it('should have empty paymentRequest information when addReceiveTxnsFailure is made', () => {
-  //     const nextState = reducer(initialState, addReceiveTxnsFailure({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  // });
+    it('should be check for fetchPoolsharesFailure', () => {
+      const nextState = reducer(initialState, fetchPoolsharesFailure());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolshares).toEqual([]);
+      expect(rootState.liquidity.isLoadingPoolshares).toBeFalsy();
+      expect(rootState.liquidity.isPoolsharesLoaded).toBeTruthy();
+    });
+  });
 
-  // describe('removeReceiveTxnsRequest reducers and actions', () => {
-  //   it('should have empty paymentRequest information when removeReceiveTxnsRequest is made', () => {
-  //     const nextState = reducer(initialState, removeReceiveTxnsRequest({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  //   it('should propely set paymentRequest information when removeReceiveTxnsSuccess is made', () => {
-  //     const nextState = reducer(
-  //       initialState,
-  //       removeReceiveTxnsSuccess(payload.paymentRequests)
-  //     );
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual(payload.paymentRequests);
-  //   });
-  //   it('should have empty paymentRequest information when removeReceiveTxnsFailure is made', () => {
-  //     const nextState = reducer(initialState, removeReceiveTxnsFailure({}));
-  //     const rootState = { wallet: nextState };
-  //     expect(rootState.wallet.paymentRequests).toEqual([]);
-  //   });
-  // });
+  describe('fetchPoolPairList reducers and actions', () => {
+    it('should be check fetchPoolPairListRequest', () => {
+      const nextState = reducer(initialState, fetchPoolPairListRequest());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingPoolPairList).toBeTruthy();
+    });
+
+    it('should be check fetchPoolPairListSuccess', () => {
+      const nextState = reducer(
+        initialState,
+        fetchPoolPairListSuccess(payload.poolPairList)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.poolPairList).toEqual(payload.poolPairList);
+      expect(rootState.liquidity.isLoadingPoolPairList).toBeFalsy();
+    });
+
+    it('should be check fetchPoolPairListFailure', () => {
+      const nextState = reducer(initialState, fetchPoolPairListFailure());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingPoolPairList).toBeFalsy();
+    });
+  });
+
+  describe('fetchTokenBalance reducers and actions', () => {
+    it('should be check fetchTokenBalanceListRequest', () => {
+      const nextState = reducer(initialState, fetchTokenBalanceListRequest());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingTokenBalanceList).toBeTruthy();
+    });
+
+    it('should be check fetchTokenBalanceListSuccess', () => {
+      const nextState = reducer(initialState, fetchTokenBalanceListSuccess([]));
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.tokenBalanceList).toEqual([]);
+      expect(rootState.liquidity.isLoadingTokenBalanceList).toBeFalsy();
+    });
+
+    it('should be check fetchTokenBalanceListFailure', () => {
+      const nextState = reducer(initialState, fetchTokenBalanceListFailure());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingTokenBalanceList).toBeFalsy();
+    });
+  });
+
+  describe('addPoolLiquidity reducers and actions', () => {
+    it('should be check addPoolLiquidityRequest', () => {
+      const nextState = reducer(
+        initialState,
+        addPoolLiquidityRequest({ payload: {} })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingAddPoolLiquidity).toBeTruthy();
+      expect(rootState.liquidity.isLoadingPreparingUTXO).toBeTruthy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeFalsy();
+      expect(rootState.liquidity.isErrorAddingPoolLiquidity).toEqual('');
+      expect(rootState.liquidity.addPoolLiquidityHash).toEqual('');
+    });
+
+    it('should be check addPoolPreparingUTXOSuccess', () => {
+      const nextState = reducer(initialState, addPoolPreparingUTXOSuccess());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingPreparingUTXO).toBeFalsy();
+      expect(rootState.liquidity.isLoadingAddingLiquidity).toBeTruthy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeFalsy();
+    });
+
+    it('should be check addPoolLiquiditySuccess', () => {
+      const nextState = reducer(
+        initialState,
+        addPoolLiquiditySuccess(payload.addPoolLiquidityHash)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.addPoolLiquidityHash).toEqual(
+        payload.addPoolLiquidityHash
+      );
+      expect(rootState.liquidity.isLoadingAddingLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isLoadingAddPoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeTruthy();
+    });
+
+    it('should be check addPoolLiquidityFailure', () => {
+      const nextState = reducer(
+        initialState,
+        addPoolLiquidityFailure({ payload: {} })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingAddingLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isLoadingAddPoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isAddPoolLiquidityLoaded).toBeTruthy();
+    });
+
+    it('should be check removePoolLiqudityRequest', () => {
+      const nextState = reducer(
+        initialState,
+        removePoolLiqudityRequest({ payload: {} })
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeTruthy();
+      expect(rootState.liquidity.isLoadingRefreshUTXOS1).toBeTruthy();
+      expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeFalsy();
+      expect(rootState.liquidity.refreshUTXOS1Loaded).toBeFalsy();
+      expect(rootState.liquidity.liquidityRemovedLoaded).toBeFalsy();
+      expect(rootState.liquidity.refreshUTXOS2Loaded).toBeFalsy();
+      expect(rootState.liquidity.transferTokensLoaded).toBeFalsy();
+      expect(rootState.liquidity.isErrorRemovingPoolLiquidity).toEqual('');
+      expect(rootState.liquidity.removePoolLiquidityHash).toEqual('');
+    });
+
+    it('should be check refreshUTXOS1Success', () => {
+      const nextState = reducer(initialState, refreshUTXOS1Success());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.refreshUTXOS1Loaded).toBeTruthy();
+      expect(rootState.liquidity.isLoadingRefreshUTXOS1).toBeFalsy();
+      expect(rootState.liquidity.isLoadingLiquidityRemoved).toBeTruthy();
+    });
+
+    it('should be check liquidityRemovedSuccess', () => {
+      const nextState = reducer(initialState, liquidityRemovedSuccess());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.liquidityRemovedLoaded).toBeTruthy();
+      expect(rootState.liquidity.isLoadingLiquidityRemoved).toBeFalsy();
+      expect(rootState.liquidity.isLoadingRefreshUTXOS2).toBeTruthy();
+    });
+
+    it('should be check refreshUTXOS2Success', () => {
+      const nextState = reducer(initialState, refreshUTXOS2Success());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.refreshUTXOS2Loaded).toBeTruthy();
+      expect(rootState.liquidity.isLoadingRefreshUTXOS2).toBeFalsy();
+      expect(rootState.liquidity.isLoadingTransferTokens).toBeTruthy();
+    });
+
+    it('should be check transferTokensSuccess', () => {
+      const nextState = reducer(initialState, transferTokensSuccess());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.transferTokensLoaded).toBeTruthy();
+      expect(rootState.liquidity.isLoadingTransferTokens).toBeFalsy();
+    });
+
+    it('should be check removePoolLiquiditySuccess', () => {
+      const nextState = reducer(
+        initialState,
+        removePoolLiquiditySuccess(payload.removePoolLiquidityHash)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.removePoolLiquidityHash).toEqual(
+        payload.removePoolLiquidityHash
+      );
+      expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeTruthy();
+    });
+
+    it('should be check removePoolLiquidityFailure', () => {
+      const nextState = reducer(
+        initialState,
+        removePoolLiquidityFailure(payload.isErrorRemovingPoolLiquidity)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isErrorRemovingPoolLiquidity).toEqual(
+        payload.isErrorRemovingPoolLiquidity
+      );
+      expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeFalsy();
+      expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeTruthy();
+    });
+  });
+
+  describe('fetchUtxoDfi reducers and actions', () => {
+    it('should be check fetchUtxoDfiRequest', () => {
+      const nextState = reducer(initialState, fetchUtxoDfiRequest());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isUtxoDfiFetching).toBeTruthy();
+      expect(rootState.liquidity.isUtxoDfiError).toEqual('');
+    });
+
+    it('should be check fetchUtxoDfiSuccess', () => {
+      const nextState = reducer(
+        initialState,
+        fetchUtxoDfiSuccess(payload.utxoDfi)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.utxoDfi).toEqual(payload.utxoDfi);
+      expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isUtxoDfiError).toEqual('');
+    });
+
+    it('should be check fetchUtxoDfiFailure', () => {
+      const nextState = reducer(
+        initialState,
+        fetchUtxoDfiFailure(payload.isUtxoDfiError)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.utxoDfi).toEqual(0);
+      expect(rootState.liquidity.isUtxoDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isUtxoDfiError).toEqual(
+        payload.isUtxoDfiError
+      );
+    });
+  });
+
+  describe('fetchMaxAccountDfi reducers and actions', () => {
+    it('should be check fetchMaxAccountDfiRequest', () => {
+      const nextState = reducer(initialState, fetchMaxAccountDfiRequest());
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.isMaxAccountDfiFetching).toBeTruthy();
+      expect(rootState.liquidity.isMaxAccountDfiError).toEqual('');
+    });
+
+    it('should be check fetchMaxAccountDfiSuccess', () => {
+      const nextState = reducer(
+        initialState,
+        fetchMaxAccountDfiSuccess(payload.maxAccountDfi)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.maxAccountDfi).toEqual(payload.maxAccountDfi);
+      expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
+      expect(rootState.liquidity.isMaxAccountDfiError).toEqual('');
+    });
+
+    it('should be check fetchMaxAccountDfiFailure', () => {
+      const nextState = reducer(
+        initialState,
+        fetchMaxAccountDfiFailure(payload.MaxAccountDfiError)
+      );
+      const rootState = { liquidity: nextState };
+      expect(rootState.liquidity.maxAccountDfi).toEqual(0);
+      expect(rootState.liquidity.isMaxAccountDfiFetching).toBeFalsy();
+    });
+  });
 });

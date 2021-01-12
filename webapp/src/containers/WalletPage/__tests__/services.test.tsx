@@ -98,16 +98,16 @@ describe('Wallet page service unit test', () => {
     expect(post).toBeCalledTimes(1);
   });
 
-  it('should check for isValidAddress', async () => {
-    const post = jest.fn().mockResolvedValueOnce({
-      data: validateAddress,
-    });
-    const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
-    mockAxios(post);
-    const test = await service.isValidAddress(param);
-    expect(test).toBeTruthy();
-    expect(post).toBeCalledTimes(1);
-  });
+  // it('should check for isValidAddress', async () => {
+  //   const post = jest.fn().mockResolvedValueOnce({
+  //     data: validateAddress,
+  //   });
+  //   const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+  //   mockAxios(post);
+  //   const test = await service.isValidAddress(param);
+  //   expect(test).toBeTruthy();
+  //   expect(post).toBeCalledTimes(1);
+  // });
 
   // it('should check for sendToAddress if getTxnSize is 0', async () => {
   //   const utilMock = jest.spyOn(Utility, 'getTxnSize').mockResolvedValueOnce(0);
@@ -176,16 +176,16 @@ describe('Wallet page service unit test', () => {
     }
   });
 
-  it('should check for error isValidAddress', async () => {
-    try {
-      const post = jest.fn().mockRejectedValueOnce('Error');
-      const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
-      mockAxios(post);
-      const test = await service.isValidAddress(param);
-    } catch (err) {
-      expect(err).toBeTruthy();
-    }
-  });
+  // it('should check for error isValidAddress', async () => {
+  //   try {
+  //     const post = jest.fn().mockRejectedValueOnce('Error');
+  //     const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+  //     mockAxios(post);
+  //     const test = await service.isValidAddress(param);
+  //   } catch (err) {
+  //     expect(err).toBeTruthy();
+  //   }
+  // });
 
   it('should check for error handleFetchPendingBalance', async () => {
     const spy = jest.spyOn(log, 'error');
