@@ -237,4 +237,93 @@ describe('utility', () => {
     expect(isValid).toBeFalsy();
     expect(spy).toBeCalledTimes(1);
   });
+
+  it('should return empty array for token balances when there are no tokens', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.handleFetchTokenBalanceList();
+    expect(result).toEqual([]);
+    expect(post).toBeCalledTimes(1);
+  });
+
+  it('should return smaller amount among between two numbers', () => {
+    const result = utility.getSmallerAmount('10', '20');
+    expect(result).toBe(10);
+  });
+
+  it('should return smaller amount among between two numbers', () => {
+    const result = utility.getSmallerAmount('abc', 'def');
+    expect(result).toBeNaN;
+  });
+
+  it('should return label if recieveAddress is present', () => {
+    const result = utility.getTransactionAddressLabel(
+      'receiveLabel',
+      'receiveAddress',
+      'fallback'
+    );
+    expect(result).toBe('receiveLabel receiveAddress');
+  });
+
+  it('should return fallback if recieveAddress is not present', () => {
+    const result = utility.getTransactionAddressLabel(
+      'receiveLabel',
+      '',
+      'fallback'
+    );
+    expect(result).toBe('fallback');
+  });
+
+  it('should return pageTitle with appTitle when pageTitle is present', () => {
+    const result = utility.getPageTitle('abcdefgh');
+    expect(result).toBe('abcdefgh - DeFi app');
+  });
+
+  it('should return appTitle when pageTitle is not present', () => {
+    const result = utility.getPageTitle('');
+    expect(result).toBe('DeFi app');
+  });
+
+  it('should return token balance', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: { result: 13123 },
+    });
+    mockAxios(post);
+    const result = await utility.handleFetchUtxoDFI();
+    expect(result).toBe(13123);
+  });
+
+  it('should check for isValidAddress', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: {
+        result: {
+          isvalid: true,
+          address: 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk',
+          scriptPubKey: '001472903c101c2c92d7206842c3d801ec6adccce164',
+          isscript: false,
+          iswitness: true,
+          witness_version: 0,
+          witness_program: '72903c101c2c92d7206842c3d801ec6adccce164',
+        },
+        error: null,
+        id: 'curltest',
+      },
+    });
+    const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+    mockAxios(post);
+    const test = await utility.isValidAddress(param);
+    expect(test).toBeTruthy();
+    expect(post).toBeCalledTimes(1);
+  });
+
+  it('should check for error isValidAddress', async () => {
+    try {
+      const post = jest.fn().mockRejectedValueOnce('Error');
+      const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+      mockAxios(post);
+      const test = await utility.isValidAddress(param);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
+  });
 });
