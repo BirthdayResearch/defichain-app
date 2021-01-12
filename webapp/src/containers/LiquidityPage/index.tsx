@@ -24,7 +24,7 @@ import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
 
 interface LiquidityPageProps {
-  history: History;
+  history: any;
   poolshares: any;
   poolPairList: any;
   fetchPoolsharesRequest: () => void;
@@ -51,7 +51,9 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.liquidity.liquidityPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <h1>{I18n.t('containers.liquidity.liquidityPage.liquidityPools')}</h1>
@@ -135,7 +137,7 @@ const mapStateToProps = (state) => {
     isPoolsharesLoaded,
     isLoadingPoolshares,
     poolPairList,
-  } = state.swap;
+  } = state.liquidity;
   return {
     poolPairList,
     poolshares,

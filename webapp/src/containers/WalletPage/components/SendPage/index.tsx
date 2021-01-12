@@ -32,7 +32,6 @@ import { fetchSendDataRequest } from '../../reducer';
 import {
   // accountToAccount,
   handleFetchRegularDFI,
-  isValidAddress,
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
@@ -51,6 +50,7 @@ import {
   getSymbolKey,
   // handleAccountToAccountConversion,
   isLessThanDustAmount,
+  isValidAddress,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -383,7 +383,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     return (
       <div className='main-wrapper'>
         <Helmet>
-          <title>{getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}</title>
+          <title>
+            {getPageTitle(I18n.t('containers.wallet.sendPage.sendTitle'))}
+          </title>
         </Helmet>
         <Header>
           <Button

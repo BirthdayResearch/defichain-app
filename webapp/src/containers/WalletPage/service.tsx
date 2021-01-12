@@ -118,15 +118,15 @@ export const handleFetchPendingBalance = async (): Promise<number> => {
   return await rpcClient.getPendingBalance();
 };
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
-};
+// export const isValidAddress = async (toAddress: string) => {
+//   const rpcClient = new RpcClient();
+//   try {
+//     return rpcClient.isValidAddress(toAddress);
+//   } catch (err) {
+//     log.error(`Got error in isValidAddress: ${err}`);
+//     return false;
+//   }
+// };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
@@ -165,7 +165,7 @@ export const sendToAddress = async (
     } catch (err) {
       const errorMessage = getErrorMessage(err);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
   } else {
     try {
@@ -177,13 +177,20 @@ export const sendToAddress = async (
       } = await getAddressForSymbol('0', addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
-      const txHash = await sendTokensToAddress(
-        fromAddress,
-        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
-      );
-      log.info({ accountBalance, sendTokenTxHash: txHash });
-      await getTransactionInfo(txHash);
-      // }
+      //* Consolidate tokens to a single address
+      if (new BigNumber(amount).gt(maxAmount)) {
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
+      }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
@@ -207,7 +214,7 @@ export const sendToAddress = async (
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
   }
 };
@@ -418,9 +425,10 @@ export const getListAccountHistory = (query: {
   limit: number;
   token: string;
   no_rewards?: boolean;
+  cancelToken?: string;
   blockHeight?: number;
 }) => {
-  const rpcClient = new RpcClient();
+  const rpcClient = new RpcClient(query.cancelToken);
   return rpcClient.getListAccountHistory(query);
 };
 

@@ -6,6 +6,10 @@ import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
 import store from '../../app/rootStore';
 import { killQueue } from '../../containers/RpcConfiguration/reducer';
+import {
+  FORCE_KILL_QUEUE_AND_SHUTDOWN,
+  STOP_BINARY_AND_QUEUE,
+} from '@defi_types/ipcEvents';
 
 const worker = (task, callback) => {
   task
@@ -14,11 +18,15 @@ const worker = (task, callback) => {
       callback(null, result);
     })
     .catch((e) => {
+      log.error(JSON.stringify(e), 'queueWorker');
       callback(e);
     });
 };
 
 const q = queue(worker, QUEUE_CONCURRENCY);
+q.error((e, task) => {
+  log.error(JSON.stringify(e), `${task?.methodName ?? 'queueWorker'}`);
+});
 
 const isRunning = () => {
   const {
@@ -29,12 +37,12 @@ const isRunning = () => {
 
 if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
-  ipcRenderer.on('stop-binary-and-queue', () => {
-    ipcRenderer.removeAllListeners('stop-binary-and-queue');
+  ipcRenderer.on(STOP_BINARY_AND_QUEUE, () => {
+    ipcRenderer.removeAllListeners(STOP_BINARY_AND_QUEUE);
     if (isRunning()) {
       return shutDownBinary();
     }
-    return ipcRenderer.send('force-kill-queue-and-shutdown');
+    return ipcRenderer.send(FORCE_KILL_QUEUE_AND_SHUTDOWN);
   });
 }
 
@@ -47,11 +55,11 @@ export const shutDownBinary = async () => {
     log.info(JSON.stringify(result));
     return result;
   } catch (err) {
-    log.error(JSON.stringify(err));
+    log.error(JSON.stringify(err), 'shutDownBinary');
     if (isElectron()) {
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
         const ipcRenderer = ipcRendererFunc();
-        ipcRenderer.send('force-kill-queue-and-shutdown');
+        ipcRenderer.send(FORCE_KILL_QUEUE_AND_SHUTDOWN);
       }
     }
   }

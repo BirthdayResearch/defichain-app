@@ -187,7 +187,7 @@ describe('Blockchain Page', () => {
     it('should check for error if invalid data is passed to handelFetchTxns', async () => {
       const spy = jest.spyOn(log, 'error');
       const updatedGetrawtransaction = Object.assign({}, getrawtransaction);
-      delete updatedGetrawtransaction.result;
+      delete (updatedGetrawtransaction as any).result;
       const post = jest
         .fn()
         .mockResolvedValueOnce({

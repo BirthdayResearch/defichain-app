@@ -33,7 +33,9 @@ import {
   DFI_SYMBOL,
   LIQUIDITY_PATH,
   MAIN,
+  MAINNET,
   MINIMUM_UTXOS_FOR_LIQUIDITY,
+  TESTNET,
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
@@ -501,6 +503,16 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     );
   };
 
+  const onViewOnChain = () => {
+    const [url, net] =
+      getNetworkType() === MAIN
+        ? [DEFICHAIN_MAINNET_LINK, MAINNET]
+        : [DEFICHAIN_TESTNET_LINK, TESTNET];
+    openNewTab(
+      `${url}/#/DFI/${net.toLowerCase()}/tx/${addPoolLiquidityHash ?? ''}`
+    );
+  };
+
   return (
     <div className='main-wrapper'>
       {liquidityChangedModal()}
@@ -776,17 +788,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button
-                onClick={() => {
-                  openNewTab(
-                    getNetworkType() === MAIN
-                      ? DEFICHAIN_MAINNET_LINK
-                      : DEFICHAIN_TESTNET_LINK
-                  );
-                }}
-                color='link'
-                className='mr-3'
-              >
+              <Button onClick={onViewOnChain} color='link' className='mr-3'>
                 {I18n.t('containers.swap.addLiquidity.viewOnChain')}
               </Button>
               <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
@@ -890,7 +892,7 @@ const mapStateToProps = (state) => {
     isLoadingAddingLiquidity,
     utxoDfi,
     maxAccountDfi,
-  } = state.swap;
+  } = state.liquidity;
   const { walletBalance, paymentRequests } = state.wallet;
   return {
     poolPairList,

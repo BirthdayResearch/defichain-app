@@ -29,23 +29,5 @@ exports[`SettingsTabGeneralComponent should check for snapshot 1`] = `
       },
     }
   }
->
-  <Connect(SettingsTabGeneral)
-    blockStorage={12}
-    databaseCache={12}
-    feeRate={0.1}
-    handleDropDowns={[Function]}
-    handleFractionalInputs={[Function]}
-    handleRegularNumInputs={[Function]}
-    handleToggles={[Function]}
-    launchAtLogin={true}
-    maximumAmount={1000}
-    maximumCount={650}
-    minimizedAtLaunch={true}
-    network="Testnet"
-    networkOptions={Array []}
-    pruneBlockStorage={true}
-    scriptVerificationThreads={12}
-  />
-</ContextProvider>
+/>
 `;

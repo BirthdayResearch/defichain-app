@@ -1,52 +1,73 @@
-# DeFi app
+# DeFi App
 
-Use DeFi app to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more. [Download the desktop app](https://defichain.com/downloads/) or [check releases](https://github.com/DeFiCh/app/releases) for latest downloadable binaries for Windows, Mac and Linux.
-
+Use DeFi app to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more. 
 ![Image](https://defichain.com/img/app/liquidity@2x.png)
 
-## Scripts
+# Documentation
+- [Getting started](#getting-started)
+- [Development](#development)
+- [About Us](https://defichain.com/)
 
-`npm run init` initialize and install npm dependency for electron and webapp
+# Getting Started
+[Download the desktop app](https://defichain.com/downloads/) or [check releases](https://github.com/DeFiCh/app/releases) for latest downloadable installers for Windows, Mac and Linux.
 
-## Setup binary
+# Development
 
-Fetch and extract binary file
+## Initial Setup
 
-Mac: `sh ./pre-build-mac.sh`
-Linux: `sh ./pre-build-linux.sh`
-Windows: `sh ./pre-build-win.sh`
+##### Install all dependencies for both Electron and WebApp
 
-### Run Electron desktop app with webapp
+```bash
+npm run init
+```
 
-`npm start`
+##### Setup the required binary
 
-### Run Electron desktop app with webapp in dev mode
+To connect to the node, you need to setup the binary. Run the command below that matches your Operating System.
 
-`npm run start:dev`
+| Operating System | Command                   |
+| ---------------- | ------------------------- |
+| Windows          | `npm run pre:build:win`   |
+| Mac              | `npm run pre:build:mac`   |
+| Linux            | `npm run pre:build:linux` |
 
-### Run webapp
+## Running Apps (Electron and WebApp)
 
-`npm run start:react`
+##### To run both apps in Dev Mode
 
-### Build react app
+```bash
+npm run start:dev
+```
 
-`npm run build:react`
+##### To run WebApp only
 
-### Build electron app for native platform
+```bash
+npm run start:react
+```
 
-`npm run build`
+##### To run Electron only
 
-### Build electron app for all platform
+```bash
+npm run start:electron
+```
 
-`npm run build:all`
+## Building Apps
 
-## Electron configuration
+##### To build the app using native platform
 
-Electron config is in [electron-app/index.ts](electron-app/index.ts)
+```bash
+npm run build
+```
+
+##### To build the app for all platforms
+
+```bash
+npm run build:all
+```
 
 ## Licenses
 
-The DeFi Blockchain App is released under the terms of the MIT license. For more
-information see https://opensource.org/licenses/MIT.
+The DeFi Blockchain App is released under the terms of the MIT license. For more information see https://opensource.org/licenses/MIT.
 
-QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com). Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).
+QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com).
+Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).

@@ -38,5 +38,83 @@
       "tradeable": true,
       "isDAT": true
     }
+  },
+  "handleUpdateTokens": {
+    "result": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+  },
+  "handleMintTokens": {
+    "result": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+  },
+  "getAddressInfo": {
+    "result": {
+      "address": "address",
+      "scriptPubKey": "hex",
+      "ismine": true,
+      "iswatchonly": true,
+      "solvable": true,
+      "desc": "desc",
+      "isscript": true,
+      "ischange": true,
+      "iswitness": true,
+      "witness_version": "version",
+      "witness_program": "hex",
+      "script": "type",
+      "hex": "hex",
+      "pubkeys": [],
+      "sigsrequired": "xxxxx",
+      "pubkey": "publickeyhex",
+      "embedded": {},
+      "iscompressed": true,
+      "label": "label",
+      "timestamp": "timestamp",
+      "hdkeypath": "keypath",
+      "hdseedid": "<hash160>",
+      "hdmasterfingerprint": "<hash160>",
+      "labels": [
+        {
+          "name": "labelname",
+          "purpose": "string"
+        }
+      ]
+    }
+  },
+  "expected": {
+    "getAddressInfo": {
+      "address": "address",
+      "scriptPubKey": "hex",
+      "ismine": true,
+      "iswatchonly": true,
+      "solvable": true,
+      "desc": "desc",
+      "isscript": true,
+      "ischange": true,
+      "iswitness": true,
+      "witness_version": "version",
+      "witness_program": "hex",
+      "script": "type",
+      "hex": "hex",
+      "pubkeys": [],
+      "sigsrequired": "xxxxx",
+      "pubkey": "publickeyhex",
+      "embedded": {},
+      "iscompressed": true,
+      "label": "label",
+      "timestamp": "timestamp",
+      "hdkeypath": "keypath",
+      "hdseedid": "<hash160>",
+      "hdmasterfingerprint": "<hash160>",
+      "labels": [
+        {
+          "name": "labelname",
+          "purpose": "string"
+        }
+      ]
+    },
+    "handleUpdateTokens": {
+      "hash": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+    },
+    "handleMintTokens": {
+      "hash": "86f2da5af660ff7afeebc3ca9a41da26fd378319562d2c432d5d4e4b2c94c949"
+    }
   }
 }

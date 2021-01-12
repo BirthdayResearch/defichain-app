@@ -1,12 +1,16 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import {
+  getErrorMessage,
+  handleFetchTokenDFI,
+  handleFetchUtxoDFI,
+  handleFetchTokenBalanceList,
+} from '../../utils/utility';
+import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchPoolpair,
   fetchPoolpairSuccess,
   fetchPoolpairFailure,
-  fetchTestPoolSwapRequest,
   fetchPoolsharesRequest,
   fetchPoolsharesSuccess,
   fetchPoolsharesFailure,
@@ -20,32 +24,21 @@ import {
   removePoolLiquiditySuccess,
   removePoolLiquidityFailure,
   removePoolLiqudityRequest,
-  fetchTestPoolSwapSuccess,
-  fetchTestPoolSwapFailure,
-  poolSwapRequest,
-  poolSwapSuccess,
-  poolSwapFailure,
   fetchUtxoDfiRequest,
-  fetchUtxoDfiSuccess,
   fetchUtxoDfiFailure,
+  fetchUtxoDfiSuccess,
   fetchMaxAccountDfiSuccess,
   fetchMaxAccountDfiFailure,
-  fetchMaxAccountDfiRequest,
 } from './reducer';
 import {
   handleAddPoolLiquidity,
   handleFetchPoolPairList,
   handleFetchPoolshares,
-  handleFetchTokenBalanceList,
   handleRemovePoolLiquidity,
-  handlePoolSwap,
-  handleTestPoolSwap,
   handleFetchPoolpair,
-  handleFetchUtxoDFI,
-  handleFetchTokenDFI,
 } from './service';
 
-function* fetchPoolshares() {
+export function* fetchPoolshares() {
   try {
     const data = yield call(handleFetchPoolshares);
     yield put({
@@ -61,29 +54,12 @@ function* fetchPoolshares() {
   }
 }
 
-function* fetchTokenBalanceList() {
+export function* fetchTokenBalanceList() {
   try {
     const data = yield call(handleFetchTokenBalanceList);
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
   } catch (e) {
     log.error(e);
-  }
-}
-
-function* fetchTestPoolSwap(action) {
-  try {
-    const {
-      payload: { formState },
-    } = action;
-
-    const data = yield call(handleTestPoolSwap, formState);
-    yield put({ type: fetchTestPoolSwapSuccess.type, payload: data });
-  } catch (e) {
-    log.error(e);
-    yield put({
-      type: fetchTestPoolSwapFailure.type,
-      payload: getErrorMessage(e),
-    });
   }
 }
 
@@ -93,6 +69,7 @@ export function* fetchPoolPair(action) {
   } = action;
   try {
     const data = yield call(handleFetchPoolpair, id);
+
     yield put({
       type: fetchPoolpairSuccess.type,
       payload: { poolpair: data },
@@ -103,7 +80,7 @@ export function* fetchPoolPair(action) {
   }
 }
 
-function* fetchPoolPairList() {
+export function* fetchPoolPairList() {
   try {
     const data = yield call(handleFetchPoolPairList);
     yield put({ type: fetchPoolPairListSuccess.type, payload: data });
@@ -112,7 +89,7 @@ function* fetchPoolPairList() {
   }
 }
 
-function* addPoolLiquidity(action) {
+export function* addPoolLiquidity(action) {
   try {
     const {
       payload: { hash1, amount1, hash2, amount2, shareAddress },
@@ -136,7 +113,7 @@ function* addPoolLiquidity(action) {
   }
 }
 
-function* removePoolLiquidity(action) {
+export function* removePoolLiquidity(action) {
   try {
     const {
       payload: { poolID, amount, address, poolpair },
@@ -158,21 +135,7 @@ function* removePoolLiquidity(action) {
   }
 }
 
-function* poolSwap(action) {
-  try {
-    const {
-      payload: { formState },
-    } = action;
-
-    const data = yield call(handlePoolSwap, formState);
-    yield put({ type: poolSwapSuccess.type, payload: data });
-  } catch (e) {
-    log.error(e.message);
-    yield put({ type: poolSwapFailure.type, payload: getErrorMessage(e) });
-  }
-}
-
-function* fetchUtxoDfi() {
+export function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
     yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
@@ -182,7 +145,7 @@ function* fetchUtxoDfi() {
   }
 }
 
-function* fetchMaxAccountDfi() {
+export function* fetchMaxAccountDfi() {
   try {
     const data = yield call(handleFetchTokenDFI);
     yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });
@@ -199,11 +162,9 @@ function* mySaga() {
   yield takeLatest(fetchPoolsharesRequest.type, fetchPoolshares);
   yield takeLatest(fetchPoolPairListRequest.type, fetchPoolPairList);
   yield takeLatest(fetchPoolpair.type, fetchPoolPair);
-  yield takeLatest(fetchTestPoolSwapRequest.type, fetchTestPoolSwap);
   yield takeLatest(fetchTokenBalanceListRequest.type, fetchTokenBalanceList);
   yield takeLatest(addPoolLiquidityRequest.type, addPoolLiquidity);
   yield takeLatest(removePoolLiqudityRequest.type, removePoolLiquidity);
-  yield takeLatest(poolSwapRequest.type, poolSwap);
   yield takeLatest(fetchUtxoDfiRequest.type, fetchUtxoDfi);
   yield takeLatest(fetchMaxAccountDfiRequest.type, fetchMaxAccountDfi);
 }
