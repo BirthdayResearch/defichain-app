@@ -177,13 +177,20 @@ export const sendToAddress = async (
       } = await getAddressForSymbol('0', addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
-      const txHash = await sendTokensToAddress(
-        fromAddress,
-        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
-      );
-      log.info({ accountBalance, sendTokenTxHash: txHash });
-      await getTransactionInfo(txHash);
-      // }
+      //* Consolidate tokens to a single address
+      if (new BigNumber(amount).gt(maxAmount)) {
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
+      }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
