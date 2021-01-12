@@ -42,7 +42,6 @@ import {
   fetchAccountsDataWithPagination,
   getNetworkType,
 } from '../../utils/utility';
-import { getAddressInfo } from '../TokensPage/service';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
 import store from '../../app/rootStore';
@@ -146,11 +145,7 @@ export const refreshUtxosAfterSavingData = async () => {
   );
 
   const addressesList = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return account.owner.addresses[0];
-    }
+    return account.owner.addresses[0];
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));

@@ -328,14 +328,10 @@ export const handleFetchAccounts = async () => {
   );
 
   const tokensData = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
 
   const resolvedData: any = compact(await Promise.all(tokensData));
