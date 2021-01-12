@@ -18,21 +18,30 @@ import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard
 import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
+import { IToken } from 'src/utils/interfaces';
 interface WalletTokensListProps extends RouteComponentProps {
-  tokens: any;
+  tokens: IToken[];
   unit: string;
-  accountTokens: any;
+  accountTokens: IToken[];
   walletBalance: any;
   fetchTokensRequest: () => void;
   fetchAccountTokensRequest: () => void;
   isWalletCreatedFlag: boolean;
   openResetWalletDatModal: boolean;
+  isLoadingTokens: boolean;
 }
 
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
-  props: WalletTokensListProps,
+  props: WalletTokensListProps
 ) => {
-  const { unit, history, isWalletCreatedFlag, openResetWalletDatModal } = props;
+  const {
+    unit,
+    history,
+    isWalletCreatedFlag,
+    tokens,
+    isLoadingTokens,
+    fetchTokensRequest,
+  } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
@@ -44,31 +53,59 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const to = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
+    fetchTokensRequest();
     fetchInstantBalanceRequest();
     fetchAccountTokensRequest();
   }, []);
 
-  function paginate(pageNumber, tokensList?: any[]) {
-    const clone = cloneDeep(tokensList || accountTokens);
+  function paginate(
+    pageNumber,
+    tokensList?: IToken[],
+    appTokens: IToken[] = []
+  ) {
+    let clone = cloneDeep(tokensList || accountTokens);
+    const keys = {};
+    clone.forEach((t) => {
+      clearDFITokenName(t);
+      keys[t.hash] = t.symbol;
+    });
+    appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
+    clone = [...clone, ...appTokens].sort(
+      (a: IToken, b: IToken) => +a.hash - +b.hash
+    );
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
-      pageNumber * pageSize,
+      pageNumber * pageSize
     );
     setCurrentPage(pageNumber);
     settableData(tableData);
   }
 
+  const clearDFITokenName = (token: IToken) => {
+    //* Remove default text for DFI
+    if (token.hash == '0') {
+      token.name = '';
+    }
+  };
+
   useEffect(() => {
-    const tokensList: any[] = filterByValue(accountTokens, '');
-    paginate(defaultPage, tokensList);
-  }, [accountTokens]);
+    const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
+      clearDFITokenName(t);
+      t.amount = 0;
+      return t.isDAT && !t.isLPS;
+    });
+    const tokensList: IToken[] = filterByValue(accountTokens, '');
+    paginate(defaultPage, tokensList, verifiedTokens);
+  }, [accountTokens, isLoadingTokens]);
 
   const handleCardClick = (symbol, hash, amount, address) => {
     props.history.push(
-      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`,
+      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
     );
   };
-  return (
+  return isLoadingTokens ? (
+    <div>{I18n.t('containers.tokens.tokensPage.loading')}</div>
+  ) : (
     <>
       {!isWalletCreatedFlag ? (
         <div className='main-wrapper'>
@@ -79,7 +116,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           <Helmet>
             <title>
               {getPageTitle(
-                I18n.t('containers.wallet.walletPage.walletDeFiApp'),
+                I18n.t('containers.wallet.walletPage.walletDeFiApp')
               )}
             </title>
           </Helmet>
@@ -95,25 +132,13 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           </ButtonGroup> */}
           </Header>
           <div className='content'>
-            <WalletTokenCard
-              handleCardClick={handleCardClick}
-              token={{
-                symbol: unit,
-                symbolKey: unit,
-                amount: props.walletBalance,
-                hash: '0',
-                address: '',
-              }}
-            />
-            {tableData
-              .filter((data) => data.hash !== '0')
-              .map((token, index) => (
-                <WalletTokenCard
-                  handleCardClick={handleCardClick}
-                  key={index}
-                  token={token}
-                />
-              ))}
+            {tableData.map((token, index) => (
+              <WalletTokenCard
+                handleCardClick={handleCardClick}
+                key={index}
+                token={token}
+              />
+            ))}
             <Pagination
               label={I18n.t('containers.tokens.tokensPage.paginationRange', {
                 to,
