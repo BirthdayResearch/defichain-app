@@ -44,6 +44,11 @@ import { getAddressInfo } from '../TokensPage/service';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
 import store from '../../app/rootStore';
+import {
+  PRELAUNCH_PREFERENCE_DISABLE,
+  PRELAUNCH_PREFERENCE_ENABLE,
+  PRELAUNCH_PREFERENCE_STATUS,
+} from '@defi_types/ipcEvents';
 
 export const getLanguage = () => {
   return [
@@ -160,7 +165,7 @@ export const refreshUtxosAfterSavingData = async () => {
 const getPreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_STATUS, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
@@ -173,7 +178,7 @@ const getPreLaunchStatus = () => {
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_ENABLE, {
       minimize,
     });
     if (res.success && res.data) {
@@ -188,7 +193,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_DISABLE, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }

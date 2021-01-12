@@ -161,6 +161,7 @@
     "terser-webpack-plugin": "^5.1.1",
     "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.14",
+    "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "^4.1.3",
     "url-loader": "^4.1.1",
     "webpack": "5.13.0",

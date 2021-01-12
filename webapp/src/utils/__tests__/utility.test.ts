@@ -1,6 +1,6 @@
 import * as utility from '../utility';
 import { rpcResponseSchemaMap } from '../schemas/rpcMethodSchemaMapping';
-import * as methodNames from '../../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import {
   validateSchema,
   getTxnDetails,
