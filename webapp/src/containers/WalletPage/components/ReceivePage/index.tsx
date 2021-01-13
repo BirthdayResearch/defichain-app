@@ -11,6 +11,7 @@ import {
 } from '../../../../constants';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
+import { getWalletPathAddress } from '../SendPage';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -20,6 +21,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const isLPS = urlParams.get('isLPS') == 'true';
 
   return (
     <div className='main-wrapper'>
@@ -32,7 +34,13 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
         <Button
           to={
             tokenSymbol
-              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+              ? getWalletPathAddress(
+                  tokenSymbol,
+                  tokenHash || '',
+                  tokenAmount || '',
+                  tokenAddress || '',
+                  isLPS
+                )
               : WALLET_PAGE_PATH
           }
           tag={RRNavLink}
