@@ -1015,9 +1015,6 @@ export const getAddressForSymbol = async (key: string, list: any) => {
       address = obj.address;
     }
   }
-  if (address === '') {
-    address = await getNewAddress('', true);
-  }
   return { address, amount: maxAmount };
 };
 
@@ -1040,9 +1037,6 @@ export const getHighestAmountAddressForSymbol = async (
       maxAmount = tokenAmount;
       address = tokenAddress;
     }
-  }
-  if (address === '') {
-    address = await getNewAddress('', true);
   }
   return { address, amount: maxAmount };
 };
