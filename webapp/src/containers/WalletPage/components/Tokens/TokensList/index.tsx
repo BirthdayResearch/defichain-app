@@ -67,7 +67,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     let clone = cloneDeep(tokensList || accountTokens);
     const keys = {};
     clone.forEach((t) => {
-      clearDFITokenName(t);
+      updateDFIToken(t);
       keys[t.hash] = t.symbol;
     });
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
@@ -82,16 +82,17 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     settableData(tableData);
   }
 
-  const clearDFITokenName = (token: IToken) => {
+  const updateDFIToken = (token: IToken) => {
     //* Remove default text for DFI
     if (token.hash == '0') {
       token.name = '';
+      token.amount = props.walletBalance;
     }
   };
 
   useEffect(() => {
     const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
-      clearDFITokenName(t);
+      updateDFIToken(t);
       t.amount = 0;
       return t.isDAT && !t.isLPS;
     });
