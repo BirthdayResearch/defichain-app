@@ -31,12 +31,35 @@ import reducer, {
   fetchTokensFailure,
   fetchTokensRequest,
   setBlockChainInfo,
+  createWalletRequest,
+  createWalletSuccess,
+  createWalletFailure,
+  resetCreateWalletError,
+  restoreWalletRequest,
+  restoreWalletSuccess,
+  restoreWalletFailure,
+  resetRestoreWalletError,
+  setIsWalletCreatedRequest,
+  fetchWalletTokenTransactionsListRequestSuccess,
+  fetchWalletTokenTransactionsListRequestFailure,
+  fetchWalletTokenTransactionsListRequestStop,
+  checkRestartCriteriaRequestLoading,
+  checkRestartCriteriaRequestSuccess,
+  checkRestartCriteriaRequestFailure,
+  fetchBlockDataForTrxRequestLoading,
+  fetchBlockDataForTrxRequestSuccess,
+  fetchBlockDataForTrxRequestFailure,
+  fetchWalletTokenTransactionsListResetRequest,
 } from '../reducer';
 import {
   payload,
   accountTokens,
   accountHistoryCount,
   tokens,
+  blockChainInfo,
+  listAccountHistoryDataError,
+  restartCriteria,
+  combineAccountHistoryData,
 } from './testData.json';
 
 describe('wallet slice', () => {
@@ -289,6 +312,212 @@ describe('wallet slice', () => {
       const nextState = reducer(initialState, removeReceiveTxnsFailure({}));
       const rootState = { wallet: nextState };
       expect(rootState.wallet.paymentRequests).toEqual([]);
+    });
+  });
+
+  describe('setBlockChainInfo reducers and actions', () => {
+    it('should propely set blockChainInfo information when setBlockChainInfo is made', () => {
+      const nextState = reducer(
+        initialState,
+        setBlockChainInfo(blockChainInfo)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.blockChainInfo).toEqual(blockChainInfo);
+    });
+  });
+
+  describe('createWalletRequest reducers and actions', () => {
+    it('should have empty paymentRequest information when createWalletRequest is made', () => {
+      const nextState = reducer(initialState, createWalletRequest({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletCreating).toBeTruthy();
+      expect(rootState.wallet.isErrorCreatingWallet).toEqual('');
+    });
+    it('should be check createWalletSuccess ', () => {
+      const nextState = reducer(initialState, createWalletSuccess());
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletCreating).toBeFalsy();
+      expect(rootState.wallet.isErrorCreatingWallet).toEqual('');
+    });
+    it('should have empty isErrorCreatingWallet information when createWalletFailure is made', () => {
+      const nextState = reducer(
+        initialState,
+        createWalletFailure(payload.ErrorCreatingWallet)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletCreating).toBeFalsy();
+      expect(rootState.wallet.isErrorCreatingWallet).toEqual(
+        payload.ErrorCreatingWallet
+      );
+    });
+    it('should be check resetCreateWalletError ', () => {
+      const nextState = reducer(initialState, resetCreateWalletError({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletCreating).toBeFalsy();
+      expect(rootState.wallet.isErrorCreatingWallet).toEqual('');
+    });
+  });
+
+  describe('restoreWalletRequest reducers and actions', () => {
+    it('should be check restoreWalletRequest is made', () => {
+      const nextState = reducer(initialState, restoreWalletRequest({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletRestoring).toBeTruthy();
+      expect(rootState.wallet.isErrorRestoringWallet).toEqual('');
+    });
+    it('should be check removeReceiveTxnsSuccess is made', () => {
+      const nextState = reducer(initialState, restoreWalletSuccess());
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletRestoring).toBeFalsy();
+      expect(rootState.wallet.isErrorRestoringWallet).toEqual('');
+    });
+    it('should have empty isErrorRestoringWallet information when restoreWalletFailure is made', () => {
+      const nextState = reducer(
+        initialState,
+        restoreWalletFailure(payload.ErrorRestoringWallet)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletRestoring).toBeFalsy();
+      expect(rootState.wallet.isErrorRestoringWallet).toEqual(
+        payload.ErrorRestoringWallet
+      );
+    });
+    it('should be check resetRestoreWalletError is made', () => {
+      const nextState = reducer(initialState, resetRestoreWalletError({}));
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletRestoring).toBeFalsy();
+      expect(rootState.wallet.isErrorRestoringWallet).toEqual('');
+    });
+  });
+
+  describe('setIsWalletCreatedRequest reducers and actions', () => {
+    it('should propely set isWalletCreatedFlag information when setIsWalletCreatedRequest is made', () => {
+      const nextState = reducer(
+        initialState,
+        setIsWalletCreatedRequest(payload['walletCreatedFlag '])
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.isWalletCreatedFlag).toEqual(
+        payload['walletCreatedFlag ']
+      );
+    });
+  });
+
+  describe('fetchWalletTokenTransactionsListRequestSuccess reducers and actions', () => {
+    it('should propely set listAccountHistoryData information when addReceiveTxnsRequest is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchWalletTokenTransactionsListRequestSuccess(payload)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.listAccountHistoryData.isLoading).toBeFalsy();
+      expect(rootState.wallet.listAccountHistoryData.isError).toEqual('');
+      // expect(rootState.wallet.listAccountHistoryData.data).toEqual([]);
+      expect(rootState.wallet.minBlockHeight).toEqual(payload.minBlockHeight);
+    });
+    it('should have empty listAccountHistoryData information when fetchWalletTokenTransactionsListRequestFailure is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchWalletTokenTransactionsListRequestFailure(payload)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.listAccountHistoryData.isLoading).toBeFalsy();
+      expect(rootState.wallet.listAccountHistoryData.isError).toEqual(
+        listAccountHistoryDataError
+      );
+      expect(rootState.wallet.listAccountHistoryData.data).toEqual([]);
+    });
+    it('should be check  fetchWalletTokenTransactionsListRequestStop is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchWalletTokenTransactionsListRequestStop()
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.listAccountHistoryData.isLoading).toBeFalsy();
+      expect(rootState.wallet.listAccountHistoryData.stop).toBeTruthy();
+    });
+  });
+
+  describe('checkRestartCriteriaRequestLoading reducers and actions', () => {
+    it('should have empty restartCriteria information when removeReceiveTxnsRequest is made', () => {
+      const nextState = reducer(
+        initialState,
+        checkRestartCriteriaRequestLoading()
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.restartCriteria.isLoading).toBeTruthy();
+      expect(rootState.wallet.restartCriteria.data).toBeTruthy();
+      expect(rootState.wallet.restartCriteria.isError).toEqual('');
+    });
+    it('should propely set restartCriteria information when checkRestartCriteriaRequestSuccess is made', () => {
+      const nextState = reducer(
+        initialState,
+        checkRestartCriteriaRequestSuccess(restartCriteria)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.restartCriteria.isLoading).toBeFalsy();
+      expect(rootState.wallet.restartCriteria.data).toEqual(restartCriteria);
+      expect(rootState.wallet.restartCriteria.isError).toEqual('');
+    });
+    it('should have empty restartCriteria information when checkRestartCriteriaRequestFailure is made', () => {
+      const nextState = reducer(
+        initialState,
+        checkRestartCriteriaRequestFailure({})
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.restartCriteria.isLoading).toBeFalsy();
+      expect(rootState.wallet.restartCriteria.data).toBeTruthy();
+      expect(rootState.wallet.restartCriteria.isError).toEqual({});
+    });
+  });
+
+  describe('fetchBlockDataForTrxRequestLoading reducers and actions', () => {
+    it('should have empty combineAccountHistoryData information when fetchBlockDataForTrxRequestLoading is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchBlockDataForTrxRequestLoading(combineAccountHistoryData)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.combineAccountHistoryData.isLoading).toBeTruthy();
+      expect(rootState.wallet.combineAccountHistoryData.data).toEqual([]);
+      expect(rootState.wallet.combineAccountHistoryData.isError).toEqual(
+        combineAccountHistoryData
+      );
+    });
+    it('should propely set combineAccountHistoryData information when fetchBlockDataForTrxRequestSuccess is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchBlockDataForTrxRequestSuccess(combineAccountHistoryData)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.combineAccountHistoryData.isLoading).toBeFalsy();
+      expect(rootState.wallet.combineAccountHistoryData.data).toEqual(
+        combineAccountHistoryData
+      );
+      expect(rootState.wallet.combineAccountHistoryData.isError).toEqual('');
+    });
+    it('should have empty combineAccountHistoryData information when fetchBlockDataForTrxRequestFailure is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchBlockDataForTrxRequestFailure(combineAccountHistoryData)
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.restartCriteria.isLoading).toBeFalsy();
+      expect(rootState.wallet.restartCriteria.data).toBeTruthy();
+      expect(rootState.wallet.restartCriteria.isError).toEqual('');
+    });
+  });
+
+  describe('fetchWalletTokenTransactionsListResetRequest reducers and actions', () => {
+    it('should propely set listAccountHistoryData information when fetchWalletTokenTransactionsListResetRequest is made', () => {
+      const nextState = reducer(
+        initialState,
+        fetchWalletTokenTransactionsListResetRequest()
+      );
+      const rootState = { wallet: nextState };
+      expect(rootState.wallet.listAccountHistoryData.isLoading).toBeFalsy();
+      expect(rootState.wallet.listAccountHistoryData.isError).toEqual('');
+      expect(rootState.wallet.listAccountHistoryData.data).toEqual([]);
     });
   });
 });
