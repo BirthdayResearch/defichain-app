@@ -34,6 +34,7 @@ import AddressDropdown from '../../../../components/AddressDropdown';
 import { AddressModel } from '../../../../model/address.model';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import NumberMask from '../../../../components/NumberMask';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -426,6 +427,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
+              {removePoolLiquidityHash != null && (
+                <ViewOnChain txid={removePoolLiquidityHash} />
+              )}
               <Button color='primary' to={LIQUIDITY_PATH} tag={NavLink}>
                 {I18n.t('containers.swap.removeLiquidity.backToPool')}
               </Button>
