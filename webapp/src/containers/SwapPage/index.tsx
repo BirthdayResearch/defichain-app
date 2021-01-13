@@ -57,6 +57,7 @@ import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import { handleFetchRegularDFI } from '../WalletPage/service';
 import NumberMask from '../../components/NumberMask';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface SwapPageProps {
   history?: any;
@@ -715,6 +716,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </div>
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
+                <ViewOnChain txid={poolSwapHash} />
                 <Button
                   to={WALLET_TOKENS_PATH}
                   color='link'
