@@ -152,10 +152,11 @@ function* fetchWalletTxns(action) {
     }
   };
   if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
+    const networkName = yield call(getNetwork);
     yield put(reducer.stopWalletTxnPagination());
     queuePush(
       handelFetchWalletTxns,
-      [walletPageCounter, MAX_WALLET_TXN_PAGE_SIZE],
+      [walletPageCounter, MAX_WALLET_TXN_PAGE_SIZE, networkName],
       callBack
     );
   } else {
@@ -292,12 +293,12 @@ export function* fetchInstantBalance() {
     const paymentRequests = yield select(
       (state) => state.ledgerWallet.paymentRequests
     );
-    const result = yield call(
+    const { data } = yield call(
       handleFetchWalletBalance,
       paymentRequests.map((paymentRequest) => paymentRequest.address)
     );
-    log.info(`Ledger balance: ${result}`);
-    yield put(reducer.fetchWalletBalanceSuccess(result));
+    log.info(`Ledger balance: ${JSON.stringify(data)}`);
+    yield put(reducer.fetchWalletBalanceSuccess(data.result));
   } catch (err) {
     yield put(reducer.fetchWalletBalanceFailure(err.message));
     log.error(err);

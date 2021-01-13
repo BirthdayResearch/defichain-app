@@ -61,8 +61,10 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
 
 export const handelFetchWalletTxns = async (
   pageNo: number,
-  pageSize: number
+  pageSize: number,
+  networkName: string,
 ) => {
+  const localStorageName = handleLocalStorageNameLedger(networkName);
   const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
   const addressesLedger = paymentData.map((payment) => payment.address);
   const rpcClient = new RpcClient();
