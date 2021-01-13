@@ -57,6 +57,10 @@ import {
   DEFAULT_MAIN,
   DEFAULT_TEST,
   APP_TITLE,
+  DEFICHAIN_MAINNET_LINK,
+  DEFICHAIN_TESTNET_LINK,
+  MAINNET,
+  TESTNET,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -78,6 +82,7 @@ import {
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
+import openNewTab from './openNewTab';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1305,4 +1310,16 @@ export const isValidAddress = async (toAddress: string) => {
     log.error(`Got error in isValidAddress: ${err}`);
     return false;
   }
+};
+
+export const createChainURL = (tx: string): string => {
+  const [url, net] =
+    getNetworkType() === MAIN
+      ? [DEFICHAIN_MAINNET_LINK, MAINNET]
+      : [DEFICHAIN_TESTNET_LINK, TESTNET];
+  return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
+};
+
+export const onViewOnChain = (tx: string): void => {
+  openNewTab(createChainURL(tx));
 };

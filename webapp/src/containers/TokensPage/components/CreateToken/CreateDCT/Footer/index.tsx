@@ -13,6 +13,7 @@ import {
 import { ITokenResponse } from '../../../../../../utils/interfaces';
 import Spinner from '../../../../../../components/Svg/Spinner';
 import { CreateTokenFormState } from '../..';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface CreateDCTProps {
   isUpdate: boolean;
@@ -189,6 +190,9 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
+              <ViewOnChain
+                txid={isUpdate ? updatedTokenData.hash : createdTokenData.hash}
+              />
               <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
                 {I18n.t('containers.tokens.createToken.backToTokenPage')}
               </Button>

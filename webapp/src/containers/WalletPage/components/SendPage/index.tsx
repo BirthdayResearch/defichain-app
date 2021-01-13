@@ -58,6 +58,7 @@ import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
+import ViewOnChain from 'src/components/ViewOnChain';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -657,6 +658,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
+              <ViewOnChain txid={this.state.txHash} />
               <Button
                 color='primary'
                 to={
