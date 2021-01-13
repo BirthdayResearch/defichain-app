@@ -113,7 +113,7 @@
   },
   "build": {
     "productName": "defi-app",
-    "appId": "com.defichain.defi-app",
+    "appId": "defi-electron-v1",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "files": [
@@ -151,6 +151,11 @@
       "target": ["AppImage"]
     },
     "win": {
+      "publisherName": [
+        "Apple Development: sumit@cakedefi.com (X56Z365G82)",
+        "sumit@cakedefi.com",
+        "(X56Z365G82)"
+      ],
       "target": "NSIS"
     },
     "publish": {
