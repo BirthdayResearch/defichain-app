@@ -11,6 +11,16 @@
         "amount": "50DFI"
       }
     ],
+    "ErrorCreatingWallet": "Error Message",
+    "ErrorRestoringWallet": "Error Message",
+    "walletCreatedFlag ": true,
+    "minBlockHeight": 0,
+    "listAccountHistoryData": {
+      "data": [],
+      "isError": "Request failed with status code 500",
+      "isLoading": false,
+      "stop": false
+    },
     "sendData": {
       "walletBalance": 50,
       "amountToSend": "",
@@ -531,26 +541,26 @@
   "accountHistoryCount": "",
   "tokens": [],
   "blockChainInfo": {
-    "bestblockhash": "1312e9f7fb1d794e482258ed695a28b614c9805196bc2f558db4509d576a10b2",
-    "blocks": 141768,
+    "bestblockhash": "57b4c4ef000ff429706a8ec33d6a4a089e59ee907a0b8ead0d2debbe9af916cb",
+    "blocks": 148784,
     "chain": "test",
-    "chainwork": "000000000000000000000000000000000000000000000063cd2d7278059cfd5f",
-    "difficulty": 717591.3166540704,
-    "headers": 141768,
-    "initialblockdownload": true,
-    "mediantime": 1610110614,
+    "chainwork": "000000000000000000000000000000000000000000000065434a51ad1dcdc50d",
+    "difficulty": 618895.7151951853,
+    "headers": 148784,
+    "initialblockdownload": false,
+    "mediantime": 1610374499,
     "pruned": false,
-    "size_on_disk": 146851111,
+    "size_on_disk": 150008311,
     "softforks": {
       "amk": {
+        "type": "buried",
         "active": true,
-        "height": 150,
-        "type": "buried"
+        "height": 150
       },
       "bayfront": {
+        "type": "buried",
         "active": true,
-        "height": 3000,
-        "type": "buried"
+        "height": 3000
       },
       "bip34": {
         "type": "buried",
@@ -576,9 +586,91 @@
         "type": "buried",
         "active": true,
         "height": 0
-      },
-      "verificationprogress": 1,
-      "warnings": ""
+      }
     }
+  },
+  "listAccountHistoryDataError": {
+    "ErrorCreatingWallet": "Error Message",
+    "ErrorRestoringWallet": "Error Message",
+    "listAccountHistoryData": {
+      "data": [],
+      "isError": "Request failed with status code 500",
+      "isLoading": false,
+      "stop": false
+    },
+    "minBlockHeight": 0,
+    "paymentRequests": [
+      {
+        "address": "bcrt1qpneu4759jp5xc7we4xzgrmskxteqeewytnxqm9",
+        "amount": "50DFI",
+        "id": "v6nxywkudwd",
+        "label": "test label",
+        "message": "test message",
+        "time": "Fri May 29 2020 22:35:00 GMT+0530 (India Standard Time)",
+        "unit": "DFI"
+      }
+    ],
+    "pendingBalance": 20,
+    "sendData": {
+      "amountToSend": "",
+      "amountToSendDisplayed": 0,
+      "flashed": "",
+      "scannerOpen": false,
+      "sendStep": "default",
+      "showBackdrop": "",
+      "toAddress": "",
+      "waitToSend": 5,
+      "walletBalance": 50
+    },
+    "walletBalance": 50,
+    "walletCreatedFlag ": true,
+    "walletTxnCount": 1,
+    "walletTxns": [
+      {
+        "address": "bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk",
+        "amount": -15,
+        "blockHash": "00000000000000000006e82a20db8ba7adeb8a8b032c02f324b96fe5f4c779e8",
+        "category": "send",
+        "confirmations": 0,
+        "fee": -0.00010152,
+        "time": "May 29, 11:16 am",
+        "timeReceived": "May 29, 11:16 am",
+        "txnId": "6d4a37d4ee74b2b7c3ffef7947c30eb3bd39858bcce10c7ec2f7f91a0f1194cf",
+        "unit": "DFI"
+      }
+    ]
+  },
+  "restartCriteria": {
+    "data": true,
+    "isError": "",
+    "isLoading": false
+  },
+  "combineAccountHistoryData": {
+    "data": [],
+    "isError": "",
+    "isLoading": false,
+    "isAccountLoadingTokens": false,
+    "isAccountTokensLoaded": true,
+    "isBalanceError": "",
+    "isBalanceFetching": false,
+    "isErrorCreatingWallet": "",
+    "isErrorRestoringWallet": "",
+    "isLoadingTokens": false,
+    "isPendingBalanceError": "",
+    "isPendingBalanceFetching": false,
+    "isTokensLoaded": false,
+    "isUtxoDfiError": "",
+    "isUtxoDfiFetching": false,
+    "isWalletCreatedFlag": false,
+    "isWalletCreating": false,
+    "isWalletRestoring": false,
+    "isWalletTxnsLoading": false
+  },
+  "saga": {
+    "networkName": "networkName",
+    "handleFetchTokens": [],
+    "handleFetchAccounts": [],
+    "handleFetchWalletBalance": [],
+    "handleFetchPendingBalance": []
   }
 }

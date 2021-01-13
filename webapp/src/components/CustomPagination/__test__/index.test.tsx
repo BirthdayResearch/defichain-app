@@ -12,7 +12,7 @@ describe('CustomPaginationComponent component', () => {
       handlePageClick: () => {},
       showNextOnly: true,
       disableNext: false,
-      cancelToken: 'yes',
+      cancelToken: 1,
     };
 
     const wrapper = shallow(
