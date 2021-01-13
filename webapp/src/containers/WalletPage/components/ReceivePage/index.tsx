@@ -35,6 +35,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
           to={
             tokenSymbol
               ? getWalletPathAddress(
+                  WALLET_PAGE_PATH,
                   tokenSymbol,
                   tokenHash || '',
                   tokenAmount || '',

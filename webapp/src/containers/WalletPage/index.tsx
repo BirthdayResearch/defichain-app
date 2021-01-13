@@ -28,6 +28,7 @@ import {
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
+import { getWalletPathAddress } from './components/SendPage';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -46,7 +47,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
-  const isLPS = urlParams.get('isLPS');
+  const isLPS = urlParams.get('isLPS') == 'true';
 
   const {
     fetchInstantBalanceRequest,
@@ -108,7 +109,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
+                ? getWalletPathAddress(
+                    WALLET_SEND_PATH,
+                    tokenSymbol,
+                    tokenHash || '',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
@@ -123,7 +131,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
+                ? getWalletPathAddress(
+                    WALLET_RECEIVE_PATH,
+                    tokenSymbol,
+                    tokenHash || '',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_RECEIVE_PATH
             }
             tag={RRNavLink}

@@ -101,7 +101,14 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
-      getWalletPathAddress(symbol, hash, amount, address, isLPS)
+      getWalletPathAddress(
+        WALLET_PAGE_PATH,
+        symbol,
+        hash,
+        amount,
+        address,
+        isLPS
+      )
     );
   };
   return isLoadingTokens ? (
