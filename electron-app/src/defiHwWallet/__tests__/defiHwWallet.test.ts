@@ -102,4 +102,13 @@ describe('DefiHwWallet', () => {
       'b8b6d9e46338d9a2be0821b57d9499fb16eda801fd24f131d869191338386b4c7c9a638c9db7bee29f15d487d622f8e381af0914a5046100af7e9a26f1609e5400'
     );
   });
+
+  it('should return empty array getBackupIndexes', async () => {
+    const indexes = await DefiLedger.getBackupIndexes();
+    expect(
+      indexes
+    ).toEqual(
+      []
+    );
+  });
 });

@@ -4,6 +4,7 @@ import {
   CONNECT_LEDGER,
   LIST_DEVICES_LEDGER,
   CUSTOM_TX_LEDGER,
+  BACKUP_IDXS_LEDGER,
 } from '../constants';
 import { responseMessage } from '../utils';
 import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
@@ -97,6 +98,22 @@ const initiateLedger = () => {
       }
     }
   );
+
+  ipcMain.on(BACKUP_IDXS_LEDGER, async (event: Electron.IpcMainEvent) => {
+    log.info('Ledger backup idxs');
+    try {
+      const indexes = await DefiLedger.getBackupIndexes();
+      event.returnValue = responseMessage(true, {
+        indexes,
+      });
+      log.info(`Ledger backup: ${JSON.stringify(indexes)}`);
+    } catch (err) {
+      log.error(`Error ledger backup: ${err.message}`);
+      event.returnValue = responseMessage(false, {
+        message: err.message,
+      });
+    }
+  });
 };
 
 export default initiateLedger;

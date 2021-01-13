@@ -29,6 +29,8 @@ const store = RecordStore.fromString(
    <= 30450221008834b5a9ed2f2aa4d5bb2fa14856a1202a01334889285ea7439d6afce3dbaca402205eae3e8ef25c272423a3017f2bc881d8007a4328c9f48f9a4635f7d7eea7f2b59000
    => e004000108000000008ad488a260b1d92f011fe859cb060d39
    <= 6b02
+   => e0200000
+   <= 009000
 `,
   {
     autoSkipUnknownApdu: true,

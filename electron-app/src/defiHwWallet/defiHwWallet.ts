@@ -17,6 +17,7 @@ const INS_GET_VERSION = 0x01;
 const INS_GET_PUBKEY = 0x02;
 const INS_SIGN_MSG = 0x04;
 const INS_VERIFY_MSG = 0x08;
+const INS_GET_IDXS_BACKUP = 0x20;
 // not implemented yet
 // INS_GET_TXN_HASH = 0x10;
 
@@ -85,13 +86,14 @@ export default class DefiHwWallet {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
-      const devices = await getDevices();
+      const devices = [{productId: 'sdfdf'}];
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
+      // @ts-ignore
       this.devices = devices.map((device) => ({
         ...device,
-        deviceModel: identifyUSBProductId(device.productId),
+        deviceModel: 'Ledger',
       }));
       return this.devices;
     } catch (err) {
@@ -273,6 +275,26 @@ export default class DefiHwWallet {
       transaction[64] = transaction[64] | 0x01;
     }
     return transaction;
+  }
+
+  async getBackupIndexes() {
+    const p1 = 0x00;
+    const apdu = new Buffer(new Buffer([CLA, INS_GET_IDXS_BACKUP, p1, 0]));
+    const response = await this.transport.exchange(apdu);
+    const { code, status } = checkStatusCode(response);
+    if (code !== StatusCodes.OK) {
+      throw new Error(status);
+    } else {
+      const nufOfIdxs = response[0];
+      const idxsBytes = new encoding.BufferReader(response.slice(1, 1 + 4 * nufOfIdxs));
+      const idxSize = 4; // 4 bytes
+      const idxs = [];
+      for (let i = 0; i< nufOfIdxs; i++) {
+        idxs.push(idxsBytes.read(idxSize).toString());
+      }
+      return idxs;
+    }
+
   }
 
   // Not works
