@@ -31,6 +31,7 @@ import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
 import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -248,6 +249,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {mintedTokenData?.hash && (
+              <ViewOnChain txid={mintedTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>
