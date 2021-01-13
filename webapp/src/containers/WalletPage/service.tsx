@@ -21,6 +21,7 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
+  getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   hdWalletCheck,
 } from '../../utils/utility';
@@ -229,7 +230,7 @@ export const handleFallbackSendToken = async (
     const {
       address: fromAddress,
       amount: maxAmount,
-    } = await getAddressForSymbol(hash, addressesList);
+    } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
     if (new BigNumber(maxAmount).gt(sendAmount)) {
       try {
         const txHash = await accountToAccount(

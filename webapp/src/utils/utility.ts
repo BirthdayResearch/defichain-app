@@ -1005,7 +1005,6 @@ export const getAddressAndAmountListForAccount = async () => {
 };
 
 export const getAddressForSymbol = async (key: string, list: any) => {
-  const rpcClient = new RpcClient();
   let maxAmount = 0;
   let address = '';
   for (const obj of list) {
@@ -1014,6 +1013,32 @@ export const getAddressForSymbol = async (key: string, list: any) => {
     if (key === tokenSymbol && maxAmount <= amount) {
       maxAmount = amount;
       address = obj.address;
+    }
+  }
+  if (address === '') {
+    address = await getNewAddress('', true);
+  }
+  return { address, amount: maxAmount };
+};
+
+export const getHighestAmountAddressForSymbol = async (
+  key: string,
+  sendAmount: string,
+  list: any
+) => {
+  let maxAmount = 0;
+  let address = '';
+  for (const obj of list) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const tokenAmount = Number(obj.amount[tokenSymbol]);
+    const tokenAddress = obj.address;
+    if (
+      key === tokenSymbol &&
+      new BigNumber(sendAmount).lte(tokenAmount) &&
+      new BigNumber(tokenAmount).gt(maxAmount)
+    ) {
+      maxAmount = tokenAmount;
+      address = tokenAddress;
     }
   }
   if (address === '') {
