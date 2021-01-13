@@ -235,7 +235,7 @@ export const handleFallbackSendToken = async (
         const txHash = await accountToAccount(
           fromAddress,
           sendAddress,
-          `${sendAmount}:${hash}`
+          `${sendAmount}@${hash}`
         );
         log.info({ handleFallbackSendToken: txHash });
         return txHash;
