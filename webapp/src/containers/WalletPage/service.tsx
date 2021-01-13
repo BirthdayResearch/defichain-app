@@ -21,6 +21,7 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
+  getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   hdWalletCheck,
 } from '../../utils/utility';
@@ -216,6 +217,43 @@ export const sendToAddress = async (
       log.error(`Got error in sendToAddress: ${errorMessage}`);
       throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
+  }
+};
+
+export const handleFallbackSendToken = async (
+  sendAddress: string,
+  sendAmount: string,
+  hash: string
+): Promise<string> => {
+  try {
+    const addressesList = await getAddressAndAmountListForAccount();
+    const {
+      address: fromAddress,
+      amount: maxAmount,
+    } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
+    if (new BigNumber(maxAmount).gt(sendAmount)) {
+      try {
+        const txHash = await accountToAccount(
+          fromAddress,
+          sendAddress,
+          `${sendAmount}@${hash}`
+        );
+        log.info({ handleFallbackSendToken: txHash });
+        return txHash;
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        log.error(errorMessage, `handleFallbackSendToken`);
+        throw new Error(
+          `Got error in handleFallbackSendToken: ${errorMessage}`
+        );
+      }
+    } else {
+      throw new Error('Insufficient token in account');
+    }
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(`${errorMessage}`, 'handleFallbackSendToken');
+    throw new Error(`Got error in handleFallbackSendToken: ${errorMessage}`);
   }
 };
 

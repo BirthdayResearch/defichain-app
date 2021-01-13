@@ -30,6 +30,7 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
+  handleFallbackSendToken,
   // accountToAccount,
   handleFetchRegularDFI,
   sendToAddress,
@@ -290,13 +291,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       regularDFI,
     });
-    // if (regularDFI <= DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT) {
-    //   try {
-    //     throw new Error(I18n.t('containers.wallet.sendPage.insufficientUtxos'));
-    //   } catch (error) {
-    //     return this.handleFailure(error);
-    //   }
-    // }
     if (isAmountValid && isAddressValid) {
       let amount;
       let txHash;
@@ -324,26 +318,45 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       } else {
         try {
           const hash = this.tokenHash || '0';
-
-          log.info('*******token send **********');
           log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
           log.info({ amount, hash, address: this.state.toAddress });
-
-          txHash = await sendTokensToAddress(
-            this.state.toAddress,
-            `${amount}@${hash}`
-          );
-          log.info('*******token send **********');
-          log.info(`accountToAccount tx hash ${txHash}`);
-          log.info('*******token send **********');
-          this.handleSuccess(txHash);
+          try {
+            txHash = await sendTokensToAddress(
+              this.state.toAddress,
+              `${amount}@${hash}`
+            );
+            log.info('*******token send **********');
+            log.info(`accountToAccount tx hash ${txHash}`);
+            log.info('*******token send **********');
+            this.handleSuccess(txHash);
+          } catch (error) {
+            const errorMessage = getErrorMessage(error);
+            log.error(errorMessage, 'sendTokensToAddress');
+            log.info(`sendTransaction: Will try fallback option`);
+            this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+          }
         } catch (error) {
           const errorMessage = getErrorMessage(error);
           log.error(`Got error in token send: ${errorMessage}`);
           this.handleFailure(error);
         }
       }
+    }
+  };
+
+  handleFallbackSendToken = async (
+    address: string,
+    amount: string,
+    hash: string
+  ) => {
+    try {
+      const txHash = await handleFallbackSendToken(address, amount, hash);
+      this.handleSuccess(txHash);
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      log.error(errorMessage, 'handleFallbackSendToken');
+      this.handleFailure(error);
     }
   };
 
