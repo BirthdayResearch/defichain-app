@@ -19,6 +19,7 @@ import {
   DEFAULT_MAXIMUM_COUNT,
   FEE_RATE,
   DEFAULT_FEE_RATE,
+  BACKUP_IDXS_LEDGER,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -38,6 +39,13 @@ import {
 import { construct } from '@/utils/cutxo';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
+
+const handleLocalStorageName = (networkName) => {
+  if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
+    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
+  }
+  return PAYMENT_REQUEST;
+};
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const localStorageName = handleLocalStorageName(networkName);
@@ -519,3 +527,8 @@ export const getListDevicesLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(LIST_DEVICES_LEDGER);
 };
+
+export const getBackupIndexesLedger = async () => {
+  const ipcRenderer = ipcRendererFunc();
+  return ipcRenderer.sendSync(BACKUP_IDXS_LEDGER);
+}
