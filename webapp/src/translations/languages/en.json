@@ -616,7 +616,9 @@
         "dfiAddress": "DFI address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account",
         "txHash": "Transaction hash",
-        "insufficientUtxos": "Insufficient UTXOS"
+        "insufficientUtxos": "Insufficient UTXOS",
+        "sendLPWarning": "It appears you are sending liquidity pools share (LP) tokens. Please be aware that sending your LP tokens to another DeFiChain address will transfer your liquidity pool share to that address. Sending LP tokens anywhere other than another DeFiChain wallet, such as an exchange, may result in irreversible loss of funds.",
+        "sendLPConfirm": "I confirm that I intend to send LP tokens and I acknowledge that sending LP tokens to addresses that are not DeFiChain wallets may result in irreversible loss of funds."
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI",

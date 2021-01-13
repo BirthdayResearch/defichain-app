@@ -98,9 +98,9 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     paginate(defaultPage, tokensList, verifiedTokens);
   }, [accountTokens, isLoadingTokens]);
 
-  const handleCardClick = (symbol, hash, amount, address) => {
+  const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
-      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}`
+      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}&isLPS=${isLPS}`
     );
   };
   return isLoadingTokens ? (

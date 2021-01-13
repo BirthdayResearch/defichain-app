@@ -57,6 +57,7 @@ import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
+import SendLPWarning from './SendLPWarning';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -92,8 +93,10 @@ interface SendPageState {
   errMessage: string;
   regularDFI: string | number;
   txHash: string;
+  isSendLPConfirmed: boolean;
 }
 
+//* TODO Convert to React Hooks
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
   urlParams = new URLSearchParams(this.props.location.search);
@@ -101,6 +104,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenHash = this.urlParams.get('hash');
   tokenAmount = this.urlParams.get('amount');
   tokenAddress = this.urlParams.get('address');
+  isLPS = this.urlParams.get('isLPS') == 'true';
 
   state = {
     walletBalance: 0,
@@ -118,6 +122,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     errMessage: '',
     regularDFI: '',
     txHash: '',
+    isSendLPConfirmed: false,
   };
 
   componentDidMount() {
@@ -259,6 +264,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
+  handleSendLPConfirm = (e) => {
+    const { checked } = e.target;
+    this.setState({
+      isSendLPConfirmed: checked,
+    });
+  };
+
   sendTransaction = async () => {
     this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
@@ -379,7 +391,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -391,7 +403,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
@@ -488,6 +500,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </ModalBody>
             </Modal>
           </section>
+          {this.isLPS && (
+            <section>
+              <SendLPWarning
+                isSendLPConfirmed={this.state.isSendLPConfirmed}
+                handleChange={this.handleSendLPConfirm}
+              />
+            </section>
+          )}
         </div>
         <footer className='footer-bar'>
           <div
@@ -542,7 +562,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <Button
                   color='primary'
                   disabled={
-                    !this.state.isAmountValid || !this.state.isAddressValid
+                    !this.state.isAmountValid ||
+                    !this.state.isAddressValid ||
+                    (this.isLPS && !this.state.isSendLPConfirmed)
                   }
                   onClick={this.sendStepConfirm}
                 >
