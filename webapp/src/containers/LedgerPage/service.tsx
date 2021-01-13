@@ -506,7 +506,7 @@ export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
 };
 
-export const getPubKeyLedger = async (keyIndex: number, format: string) => {
+export const getPubKeyLedger = async (keyIndex: number, format?: string) => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(GET_LEDGER_DEFI_PUB_KEY, keyIndex, format);
 };

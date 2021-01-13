@@ -22,6 +22,7 @@ import {
   paginate,
   queuePush,
   getNetwork,
+  handleLocalStorageNameLedger,
 } from '@/utils/utility';
 import {
   IS_WALLET_CREATED_MAIN,
@@ -374,16 +375,14 @@ export function* getDevices() {
   }
 }
 
-export function* getIndexesKeyLedger() {
+export function* clearReceiveTxns() {
   try {
-    const res = yield call(getBackupIndexesLedger);
-    if (res.success) {
-      yield put(reducer.getBackupIndexesLedgerSuccess(res.data));
-    } else {
-      throw new Error(res.message);
-    }
+    const networkName = yield call(getNetwork);
+    const localStorageName = handleLocalStorageNameLedger(networkName);
+    PersistentStore.set(localStorageName, []);
+    yield put(reducer.clearReceiveTxnsSuccess())
   } catch (error) {
-    yield put(reducer.getBackupIndexesLedgerFailure(error));
+    log.error(`Error clear clearReceiveTxns: ${error.message}`);
   }
 }
 
@@ -414,7 +413,10 @@ function* mySaga() {
     reducer.updateIsShowingInformationRequest.type,
     updateIsShowingInformation
   );
-  yield takeLatest(reducer.getBackupIndexesLedger, getIndexesKeyLedger);
+  yield takeLatest(
+    reducer.clearReceiveTxns.type,
+    clearReceiveTxns
+  );
 }
 
 export default mySaga;

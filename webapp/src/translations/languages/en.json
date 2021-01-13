@@ -726,7 +726,8 @@
         "connected": "is connected",
         "send": "send",
         "receive": "receive",
-        "availableBalance": "Available balance"
+        "availableBalance": "Available balance",
+        "restore": "restore keys"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",

@@ -128,7 +128,6 @@ const configSlice = createSlice({
       /* */
     },
     addReceiveTxnsSuccess(state, action) {
-      console.log(action.payload)
       state.paymentRequests = action.payload;
     },
     addReceiveTxnsFailure(state, action) {
@@ -260,18 +259,12 @@ const configSlice = createSlice({
       };
     },
 
-    getBackupIndexesLedger(state) {
-      state.indexesKeyLedger.isLoading = true;
+    clearReceiveTxns(state) {
+      /* */
     },
 
-    getBackupIndexesLedgerSuccess(state, action) {
-      state.indexesKeyLedger.isLoading = false;
-      state.indexesKeyLedger.data = action.payload;
-    },
-
-    getBackupIndexesLedgerFailure(state, action) {
-      state.indexesKeyLedger.isLoading = false;
-      state.indexesKeyLedger.error = action.payload;
+    clearReceiveTxnsSuccess(state) {
+      state.paymentRequests = [];
     }
   },
 });
@@ -329,9 +322,8 @@ export const {
   getDevicesSuccess,
   getDevicesFailure,
   getDevicesClear,
-  getBackupIndexesLedger,
-  getBackupIndexesLedgerFailure,
-  getBackupIndexesLedgerSuccess,
+  clearReceiveTxns,
+  clearReceiveTxnsSuccess,
 } = actions;
 
 export default reducer;

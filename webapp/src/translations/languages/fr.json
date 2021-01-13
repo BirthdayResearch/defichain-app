@@ -674,7 +674,8 @@
         "title": "Ledger Portefeuille",
         "connect": "Relier",
         "connecting": "De liaison",
-        "availableBalance": "Solde disponible"
+        "availableBalance": "Solde disponible",
+        "restore": "restaurer les clés"
       },
       "receivePage": {
         "receiveDFITitle": "Réception de DFI – App DeFi",

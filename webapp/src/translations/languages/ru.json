@@ -513,7 +513,8 @@
         "title": "Ledger Кошелек",
         "connect": "Подключится",
         "connecting": "Подключение",
-        "availableBalance": "Доступные средства"
+        "availableBalance": "Доступные средства",
+        "restore": "Востановить ключи"
       },
       "receivePage": {
         "receiveDFITitle": "Получить DFI – Блокчейн-Клиент DeFi",

@@ -729,7 +729,8 @@
         "title": "Ledger Brieftasche",
         "connect": "Verbinden",
         "connecting": "Anschließen",
-        "availableBalance": "Verfügbares Guthaben"
+        "availableBalance": "Verfügbares Guthaben",
+        "restore": "Schlüssel wiederherstellen"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",

@@ -19,6 +19,8 @@ import {
   updateIsShowingInformationRequest,
   getDevicesClear,
   fetchConnectLedgerFailure,
+  clearReceiveTxns,
+  addReceiveTxnsRequest,
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
@@ -27,9 +29,12 @@ import {
   LEDGER_SYNC_PATH,
 } from '@/constants';
 import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
+import * as log from '@/utils/electronLogger';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 import { RootState } from '@/app/rootReducer';
+import { getBackupIndexesLedger, getPubKeyLedger } from './service';
+import uid from 'uid';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;
@@ -46,6 +51,8 @@ interface LedgerPageProps extends RouteComponentProps {
   devices: DevicesLedger;
   latestBlock: number;
   latestSyncedBlock: number;
+  clearReceiveTxns: () => void;
+  addReceiveTxns: (data: any) => void;
 }
 
 const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
@@ -134,6 +141,25 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     }
   }, [latestSyncedBlock, latestBlock]);
 
+  const handleRestoreKeys = useCallback(async () => {
+    log.info('Restore keys');
+    props.clearReceiveTxns();
+    const indexes = await getBackupIndexesLedger();
+    log.info(`Indexes keys: ${indexes}`);
+    for (const keyIndex of indexes) {
+      const { data: { pubkey, address }, } = await getPubKeyLedger(keyIndex);
+      const data = {
+        id: uid(),
+        keyIndex,
+        time: new Date().toString(),
+        address,
+        pubkey,
+      };
+      props.addReceiveTxns(data);
+      log.info(`Restore keys is finish for ${keyIndex}`);
+    }
+  }, [getBackupIndexesLedger]);
+
   return (
     <div className='main-wrapper'>
       <HelpModal isOpen={isShowingInformation} toggle={onCloseHelpModal} />
@@ -186,6 +212,15 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             <MdArrowDownward />
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.receive')}
+            </span>
+          </Button>
+          <Button
+            onClick={handleRestoreKeys}
+            color='link'
+            disabled={connect.status !== 'connected'}
+          >
+            <span className='d-md-inline'>
+              {I18n.t('containers.ledger.ledgerPage.restore')}
             </span>
           </Button>
         </ButtonGroup>
@@ -263,6 +298,8 @@ const mapDispatchToProps = {
   startUpdateApp,
   openBackupWallet,
   fetchConnectLedgerRequest,
+  clearReceiveTxns,
+  addReceiveTxns: (data: any) => addReceiveTxnsRequest(data),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LedgerPage);
