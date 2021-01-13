@@ -55,6 +55,11 @@ export const initialState: LedgerState = {
   isErrorCreatingWallet: '',
   isWalletRestoring: false,
   isErrorRestoringWallet: '',
+  indexesKeyLedger: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
 };
 const configSlice = createSlice({
   name: 'ledgerWallet',
@@ -123,6 +128,7 @@ const configSlice = createSlice({
       /* */
     },
     addReceiveTxnsSuccess(state, action) {
+      console.log(action.payload)
       state.paymentRequests = action.payload;
     },
     addReceiveTxnsFailure(state, action) {
@@ -253,6 +259,20 @@ const configSlice = createSlice({
         error: null,
       };
     },
+
+    getBackupIndexesLedger(state) {
+      state.indexesKeyLedger.isLoading = true;
+    },
+
+    getBackupIndexesLedgerSuccess(state, action) {
+      state.indexesKeyLedger.isLoading = false;
+      state.indexesKeyLedger.data = action.payload;
+    },
+
+    getBackupIndexesLedgerFailure(state, action) {
+      state.indexesKeyLedger.isLoading = false;
+      state.indexesKeyLedger.error = action.payload;
+    }
   },
 });
 
@@ -309,6 +329,9 @@ export const {
   getDevicesSuccess,
   getDevicesFailure,
   getDevicesClear,
+  getBackupIndexesLedger,
+  getBackupIndexesLedgerFailure,
+  getBackupIndexesLedgerSuccess,
 } = actions;
 
 export default reducer;

@@ -90,9 +90,9 @@ import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import { construct } from '@/utils/cutxo';
 
-const handleLocalStorageNameLedger = (networkName) => {
+export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
-    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
+    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-ledger`.toLowerCase();
   }
   return `${PAYMENT_REQUEST}-ledger`;
 };

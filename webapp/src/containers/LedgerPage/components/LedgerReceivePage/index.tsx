@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdArrowBack, MdAdd } from 'react-icons/md';
-import PaymentRequestList from './PaymentRequestList';
 import { I18n } from 'react-redux-i18n';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import { LEDGER_CREATE_RECEIVE_REQUEST, LEDGER_PATH } from '@/constants';
+import { RootState } from '@/app/rootReducer';
+import Loader from '@/components/Loader';
+import { getBackupIndexesLedger } from '../../reducer';
+import PaymentRequestList from './PaymentRequestList';
+import styles from './LedgerReceovePage.module.scss';
 
-const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
+interface LedgerReceivePageProps extends RouteComponentProps {
+  isLoading: boolean;
+  error: null | Error;
+  data: any;
+  getBackupIndexesLedger: () => void
+}
+
+const LedgerReceivePage: React.FunctionComponent<LedgerReceivePageProps> = (
+  props: LedgerReceivePageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tokenSymbol = urlParams.get('symbol');
@@ -16,8 +28,17 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
 
+  useEffect(() => {
+    props.getBackupIndexesLedger();
+  }, [])
+
   return (
     <div className='main-wrapper'>
+      { props.isLoading &&
+        <div className={styles['loader-container']}>
+          <Loader className={styles.loader} />
+        </div>
+      }
       <Helmet>
         <title>{I18n.t('containers.ledger.receivePage.receivePage')}</title>
       </Helmet>
@@ -56,4 +77,15 @@ const LedgerReceivePage: React.FunctionComponent<RouteComponentProps> = (
   );
 };
 
-export default LedgerReceivePage;
+const mapStateToProps = (state: RootState) => {
+  const { ledgerWallet } = state;
+  return {
+    ...ledgerWallet.indexesKeyLedger,
+  };
+};
+
+const mapDispatchToProps = {
+  getBackupIndexesLedger,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LedgerReceivePage);

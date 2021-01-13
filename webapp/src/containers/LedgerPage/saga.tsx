@@ -50,6 +50,7 @@ import {
   initialIsShowingInformation as initialIsShowingInformationService,
   setIsShowingInformation,
   getListDevicesLedger,
+  getBackupIndexesLedger,
 } from './service';
 
 import { handelGetPaymentRequestLedger } from '@/utils/utility';
@@ -106,7 +107,7 @@ export function* fetchPayments() {
     );
     const result = data.filter((item) => {
       const found = list.find(
-        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
+        (ele) => ele.address === item.address
       );
       return !isEmpty(found);
     });
@@ -373,6 +374,19 @@ export function* getDevices() {
   }
 }
 
+export function* getIndexesKeyLedger() {
+  try {
+    const res = yield call(getBackupIndexesLedger);
+    if (res.success) {
+      yield put(reducer.getBackupIndexesLedgerSuccess(res.data));
+    } else {
+      throw new Error(res.message);
+    }
+  } catch (error) {
+    yield put(reducer.getBackupIndexesLedgerFailure(error));
+  }
+}
+
 function* mySaga() {
   yield takeLatest(reducer.addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(reducer.removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -400,6 +414,7 @@ function* mySaga() {
     reducer.updateIsShowingInformationRequest.type,
     updateIsShowingInformation
   );
+  yield takeLatest(reducer.getBackupIndexesLedger, getIndexesKeyLedger);
 }
 
 export default mySaga;

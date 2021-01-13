@@ -30,6 +30,7 @@ import {
   getMnemonicObject,
   getRandomWordObject,
   getTxnDetails,
+  handleLocalStorageNameLedger,
 } from '@/utils/utility';
 import {
   GET_LEDGER_DEFI_PUB_KEY,
@@ -40,15 +41,8 @@ import { construct } from '@/utils/cutxo';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
 
-const handleLocalStorageName = (networkName) => {
-  if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
-    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}-Ledger`.toLowerCase();
-  }
-  return PAYMENT_REQUEST;
-};
-
 export const handelAddReceiveTxns = (data, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
+  const localStorageName = handleLocalStorageNameLedger(networkName);
   const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
   const paymentData = [data, ...initialData];
   PersistentStore.set(localStorageName, paymentData);
@@ -56,7 +50,7 @@ export const handelAddReceiveTxns = (data, networkName) => {
 };
 
 export const handelRemoveReceiveTxns = (id, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
+  const localStorageName = handleLocalStorageNameLedger(networkName);
   const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
   const paymentData = initialData.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
@@ -272,23 +266,22 @@ export const getNewAddress = async (
   }
 };
 
-export const importPubKey = async (pubKey: string, keyIndex: number) => {
+export const importPubKey = async (pubKey: string, keyIndex: number, label: string) => {
   const rpcClient = new RpcClient();
   try {
     log.info('importPubKey');
-    log.info(`rpcClient: ${rpcClient}`);
-    return rpcClient.importPubKey(pubKey, `ledger_pas:${keyIndex}`);
+    return rpcClient.importPubKey(pubKey, label);
   } catch (err) {
     log.error(`Got error in importPubKey: ${err}`);
     throw err;
   }
 };
 
-export const importAddress = async (address: string, keyIndex: number) => {
+export const importAddress = async (address: string, keyIndex: number, label: string) => {
   const rpcClient = new RpcClient();
   try {
     log.info('importAddress');
-    return rpcClient.importAddress(address, `ledger_pas:${keyIndex}`);
+    return rpcClient.importAddress(address, label);
   } catch (err) {
     log.error(`Got error in importAddress: ${err}`);
     throw err;

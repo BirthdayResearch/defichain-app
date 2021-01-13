@@ -38,8 +38,8 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         address,
         pubkey,
       };
-      await importPubKey(pubkey, keyIndex);
-      await importAddress(address, keyIndex);
+      await importPubKey(pubkey, keyIndex, label);
+      await importAddress(address, keyIndex, label);
       addReceiveTxns(data);
       history.push(LEDGER_RECEIVE_PATH);
       log.info('Created address ledger');

@@ -11,6 +11,12 @@ export interface DevicesLedger {
   error: null | Error;
 }
 
+export interface IndexesKeyLedger {
+  data: any;
+  isLoading: boolean;
+  error: null | Error;
+}
+
 export interface LedgerState {
   connect: LedgerConnect;
   isShowingInformation: boolean;
@@ -18,4 +24,5 @@ export interface LedgerState {
   paymentRequests: PaymentRequestLedger[];
   [key: string]: any;
   walletBalance: number;
+  indexesKeyLedger: IndexesKeyLedger;
 }
