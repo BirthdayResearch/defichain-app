@@ -162,7 +162,7 @@
       "provider": "github",
       "repo": "app",
       "owner": "DeFiCh",
-      "releaseType": "release"
+      "releaseType": "prerelease"
     }
   },
   "lint-staged": {
