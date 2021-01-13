@@ -219,6 +219,43 @@ export const sendToAddress = async (
   }
 };
 
+export const handleFallbackSendToken = async (
+  sendAddress: string,
+  sendAmount: string,
+  hash: string
+): Promise<string> => {
+  try {
+    const addressesList = await getAddressAndAmountListForAccount();
+    const {
+      address: fromAddress,
+      amount: maxAmount,
+    } = await getAddressForSymbol(hash, addressesList);
+    if (new BigNumber(maxAmount).gt(sendAmount)) {
+      try {
+        const txHash = await accountToAccount(
+          fromAddress,
+          sendAddress,
+          sendAmount
+        );
+        log.info({ handleFallbackSendToken: txHash });
+        return txHash;
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        log.error(errorMessage, `handleFallbackSendToken`);
+        throw new Error(
+          `Got error in handleFallbackSendToken: ${errorMessage}`
+        );
+      }
+    } else {
+      throw new Error('Insufficient token in account');
+    }
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(`${errorMessage}`, 'handleFallbackSendToken');
+    throw new Error(`Got error in handleFallbackSendToken: ${errorMessage}`);
+  }
+};
+
 export const accountToAccount = async (
   fromAddress: string | null,
   toAddress: string,
