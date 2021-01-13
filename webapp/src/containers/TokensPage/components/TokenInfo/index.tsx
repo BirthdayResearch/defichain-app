@@ -38,6 +38,7 @@ import { ITokenResponse } from '../../../../utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
 import { getIcon, getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -316,6 +317,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {destroyTokenData?.hash && (
+              <ViewOnChain txid={destroyTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
               {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
             </Button>

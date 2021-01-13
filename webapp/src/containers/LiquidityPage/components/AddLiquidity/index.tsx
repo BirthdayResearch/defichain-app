@@ -27,15 +27,10 @@ import {
   BTC,
   BTC_SYMBOL,
   CREATE_POOL_PAIR_PATH,
-  DEFICHAIN_MAINNET_LINK,
-  DEFICHAIN_TESTNET_LINK,
   DFI,
   DFI_SYMBOL,
   LIQUIDITY_PATH,
-  MAIN,
-  MAINNET,
   MINIMUM_UTXOS_FOR_LIQUIDITY,
-  TESTNET,
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
@@ -43,7 +38,6 @@ import {
   conversionRatio,
   countDecimals,
   getBalanceAndSymbolMap,
-  getNetworkType,
   getPageTitle,
   getTokenAndBalanceMap,
   getTotalPoolValue,
@@ -52,12 +46,13 @@ import {
 } from '../../../../utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
-import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
 import { handleFetchRegularDFI } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
+import { onViewOnChain } from '../../../../utils/utility';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface AddLiquidityProps {
   location: any;
@@ -503,16 +498,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     );
   };
 
-  const onViewOnChain = () => {
-    const [url, net] =
-      getNetworkType() === MAIN
-        ? [DEFICHAIN_MAINNET_LINK, MAINNET]
-        : [DEFICHAIN_TESTNET_LINK, TESTNET];
-    openNewTab(
-      `${url}/#/DFI/${net.toLowerCase()}/tx/${addPoolLiquidityHash ?? ''}`
-    );
-  };
-
   return (
     <div className='main-wrapper'>
       {liquidityChangedModal()}
@@ -788,9 +773,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button onClick={onViewOnChain} color='link' className='mr-3'>
-                {I18n.t('containers.swap.addLiquidity.viewOnChain')}
-              </Button>
+              <ViewOnChain txid={addPoolLiquidityHash} />
               <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
               </Button>

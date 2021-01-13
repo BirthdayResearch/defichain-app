@@ -40,7 +40,11 @@ import {
   TRANSFER_CATEGORY_LABEL,
   UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import {
+  createChainURL,
+  getAmountInSelectedUnit,
+  onViewOnChain,
+} from '../../../../utils/utility';
 import BigNumber from 'bignumber.js';
 import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
@@ -285,11 +289,20 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   {item.txid ? (
                     <td>
                       <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <ValueLi
-                          value={item.txid}
-                          copyable={true}
-                          textLimit={textLimit}
-                        />
+                        <a
+                          href='#'
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onViewOnChain(item.txid);
+                          }}
+                        >
+                          <ValueLi
+                            value={item.txid}
+                            copyable={true}
+                            textLimit={textLimit}
+                          />
+                        </a>
                       </div>
                     </td>
                   ) : (

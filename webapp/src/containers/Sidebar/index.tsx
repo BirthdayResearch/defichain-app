@@ -34,15 +34,12 @@ import {
   WALLET_PAGE_PATH,
   WALLET_BASE_PATH,
   MASTER_NODES_PATH,
-  // EXCHANGE_PATH,
-  // HELP_PATH,
-  SETTING_PATH,
-  SITE_URL,
   TOKENS_PATH,
   SWAP_PATH,
   WALLET_TOKENS_PATH,
   LIQUIDITY_PATH,
   HELP_PATH,
+  SETTING_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
