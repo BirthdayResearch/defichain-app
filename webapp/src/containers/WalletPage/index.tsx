@@ -46,6 +46,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const isLPS = urlParams.get('isLPS');
 
   const {
     fetchInstantBalanceRequest,
@@ -107,7 +108,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
@@ -122,7 +123,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
                 : WALLET_RECEIVE_PATH
             }
             tag={RRNavLink}
