@@ -33,8 +33,10 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
       const data = {
         label,
         id: uid(),
+        keyIndex,
         time: new Date().toString(),
         address,
+        pubkey,
       };
       await importPubKey(pubkey, keyIndex);
       await importAddress(address, keyIndex);
