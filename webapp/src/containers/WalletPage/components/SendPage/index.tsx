@@ -97,13 +97,14 @@ interface SendPageState {
 }
 
 export const getWalletPathAddress = (
+  basePath: string,
   tokenSymbol: string,
   tokenHash: string,
   tokenAmount: string,
   tokenAddress: string,
   isLPS: boolean
 ): string => {
-  return `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
+  return `${basePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
 };
 
 //* TODO Convert to React Hooks
@@ -414,6 +415,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             to={
               tokenSymbol
                 ? getWalletPathAddress(
+                    WALLET_PAGE_PATH,
                     tokenSymbol,
                     tokenHash || '0',
                     tokenAmount || '',
@@ -660,6 +662,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 to={
                   tokenSymbol
                     ? getWalletPathAddress(
+                        WALLET_PAGE_PATH,
                         tokenSymbol,
                         tokenHash || '0',
                         tokenAmount || '',
@@ -712,6 +715,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 to={
                   tokenSymbol
                     ? getWalletPathAddress(
+                        WALLET_PAGE_PATH,
                         tokenSymbol,
                         tokenHash || '0',
                         tokenAmount || '',
