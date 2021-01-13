@@ -96,6 +96,16 @@ interface SendPageState {
   isSendLPConfirmed: boolean;
 }
 
+export const getWalletPathAddress = (
+  tokenSymbol: string,
+  tokenHash: string,
+  tokenAmount: string,
+  tokenAddress: string,
+  isLPS: boolean
+): string => {
+  return `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
+};
+
 //* TODO Convert to React Hooks
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
@@ -403,7 +413,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`
+                ? getWalletPathAddress(
+                    tokenSymbol,
+                    tokenHash || '0',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
@@ -643,7 +659,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    ? getWalletPathAddress(
+                        tokenSymbol,
+                        tokenHash || '0',
+                        tokenAmount || '',
+                        tokenAddress || '',
+                        isLPS
+                      )
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}
@@ -689,7 +711,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    ? getWalletPathAddress(
+                        tokenSymbol,
+                        tokenHash || '0',
+                        tokenAmount || '',
+                        tokenAddress || '',
+                        isLPS
+                      )
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}

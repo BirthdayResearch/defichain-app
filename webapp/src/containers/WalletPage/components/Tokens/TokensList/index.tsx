@@ -19,6 +19,7 @@ import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
 import { IToken } from 'src/utils/interfaces';
+import { getWalletPathAddress } from '../../SendPage';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
   unit: string;
@@ -100,7 +101,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
-      `${WALLET_PAGE_PATH}?symbol=${symbol}&hash=${hash}&amount=${amount}&address=${address}&isLPS=${isLPS}`
+      getWalletPathAddress(symbol, hash, amount, address, isLPS)
     );
   };
   return isLoadingTokens ? (
