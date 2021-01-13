@@ -14,7 +14,8 @@ interface WalletTokenCardProps {
     symbol: string | null,
     hash: string,
     amount: any,
-    address: string
+    address: string,
+    isLPS: boolean
   ) => void;
 }
 
@@ -27,7 +28,13 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
     <Card
       className={styles.tokenBalanceCard}
       onClick={() =>
-        handleCardClick(token.symbol, token.hash, token.amount, token.address)
+        handleCardClick(
+          token.symbol,
+          token.hash,
+          token.amount,
+          token.address,
+          token.isLPS ?? false
+        )
       }
     >
       <CardBody className={styles.cardBody}>

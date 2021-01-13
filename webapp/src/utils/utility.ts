@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
 
@@ -56,6 +57,10 @@ import {
   DEFAULT_MAIN,
   DEFAULT_TEST,
   APP_TITLE,
+  DEFICHAIN_MAINNET_LINK,
+  DEFICHAIN_TESTNET_LINK,
+  MAINNET,
+  TESTNET,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -72,10 +77,12 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
+import openNewTab from './openNewTab';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -376,13 +383,11 @@ export const getErrorMessage = (errorResponse) => {
 };
 
 export const setIntervalSynchronous = (func, delay) => {
-  let intervalFunction;
   let timeoutId;
-  let clear;
-  clear = () => {
+  const clear = () => {
     clearTimeout(timeoutId);
   };
-  intervalFunction = () => {
+  const intervalFunction = () => {
     func();
     timeoutId = setTimeout(intervalFunction, delay);
   };
@@ -620,6 +625,7 @@ export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   }, new Map<string, string>());
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const fetchPoolPairDataWithPagination = async (
   start: number,
   limit: number,
@@ -990,20 +996,15 @@ export const getAddressAndAmountListForAccount = async () => {
   );
 
   const addressAndAmountList = accountList.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
 export const getAddressForSymbol = async (key: string, list: any) => {
-  const rpcClient = new RpcClient();
   let maxAmount = 0;
   let address = '';
   for (const obj of list) {
@@ -1014,8 +1015,28 @@ export const getAddressForSymbol = async (key: string, list: any) => {
       address = obj.address;
     }
   }
-  if (address === '') {
-    address = await getNewAddress('', true);
+  return { address, amount: maxAmount };
+};
+
+export const getHighestAmountAddressForSymbol = async (
+  key: string,
+  sendAmount: string,
+  list: any
+) => {
+  let maxAmount = 0;
+  let address = '';
+  for (const obj of list) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const tokenAmount = Number(obj.amount[tokenSymbol]);
+    const tokenAddress = obj.address;
+    if (
+      key === tokenSymbol &&
+      new BigNumber(sendAmount).lte(tokenAmount) &&
+      new BigNumber(tokenAmount).gt(maxAmount)
+    ) {
+      maxAmount = tokenAmount;
+      address = tokenAddress;
+    }
   }
   return { address, amount: maxAmount };
 };
@@ -1283,4 +1304,41 @@ export const getTransactionAddressLabel = (
 export const getPageTitle = (pageTitle?: string) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
+};
+
+export const handleFetchTokenDFI = async () => {
+  const accountDFI = await handleFetchAccountDFI();
+  return accountDFI;
+};
+
+export const handleFetchUtxoDFI = async () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getBalance();
+};
+
+export const handleFetchTokenBalanceList = async () => {
+  const rpcClient = new RpcClient();
+  return await rpcClient.getTokenBalances();
+};
+
+export const isValidAddress = async (toAddress: string) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.isValidAddress(toAddress);
+  } catch (err) {
+    log.error(`Got error in isValidAddress: ${err}`);
+    return false;
+  }
+};
+
+export const createChainURL = (tx: string): string => {
+  const [url, net] =
+    getNetworkType() === MAIN
+      ? [DEFICHAIN_MAINNET_LINK, MAINNET]
+      : [DEFICHAIN_TESTNET_LINK, TESTNET];
+  return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
+};
+
+export const onViewOnChain = (tx: string): void => {
+  openNewTab(createChainURL(tx));
 };

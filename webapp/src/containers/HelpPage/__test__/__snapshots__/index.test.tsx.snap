@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpPage Page should check for snapshot 1`] = `
+<div
+  className="main-wrapper"
+>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Help - DeFi app
+    </title>
+  </HelmetWrapper>
+  <Connect(Header)>
+    <h1>
+      Help
+    </h1>
+  </Connect(Header)>
+  <div
+    className="content"
+  >
+    <section>
+      <p>
+        Connect with the community with these options:
+      </p>
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <FaTelegram />
+              </div>
+              <div>
+                <h3>
+                  Telegram community (EN)
+                </h3>
+                <p>
+                  t.me
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <FaTelegram />
+              </div>
+              <div>
+                <h3>
+                  Telegram community (DE)
+                </h3>
+                <p>
+                  t.me
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <GoMarkGithub />
+              </div>
+              <div>
+                <h3>
+                  Report an issue
+                </h3>
+                <p>
+                  t.me
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <MdHelp />
+              </div>
+              <div>
+                <h3>
+                  Frequently-Asked Questions
+                </h3>
+                <p>
+                  defichain.com
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <Logo />
+              </div>
+              <div>
+                <h3>
+                  Official website
+                </h3>
+                <p>
+                  defichain.com
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <FaReddit />
+              </div>
+              <div>
+                <h3>
+                  Reddit community
+                </h3>
+                <p>
+                  reddit.com
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+      <p>
+        DeFiChain is a community-driven and open project.
+        <br />
+        The DeFiChain Foundation does not provide direct support.
+      </p>
+    </section>
+  </div>
+</div>
+`;

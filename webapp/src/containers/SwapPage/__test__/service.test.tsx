@@ -1,16 +1,9 @@
 import * as service from '../service';
-// import
-//   getBalance,
-//   getBalances,
-//   validateAddress,
-//   sendToAddress,
-//   getNewAddress,
-//   listtransaction,
-//   walletInfo,
-//   expected,
-//   handelRemoveReceiveTxns,
-//   handelAddReceiveTxns,
-// './testData.json';
+import {
+  formState,
+  getAddressForSymbol,
+  getAddressAndAmountListForAccount,
+} from './testData.json';
 import * as log from '../../../utils/electronLogger';
 import {
   mockPersistentStore,
@@ -24,6 +17,60 @@ describe('liquidity page service unit test', () => {
     const PersistentStore = mockPersistentStore(null, null);
     // service.handleGetPaymentRequest(networkName);
     expect(true).toBe(true);
+  });
+
+  // TODO : check
+  // it.only('should return -(dash) if amount1 is not present', async() => {
+  //   const post = jest.fn()
+  //       .mockResolvedValue({data:getAddressAndAmountListForAccount})
+  //       .mockResolvedValueOnce({data: getAddressForSymbol})
+  //       .mockResolvedValueOnce({data: getAddressForSymbol})
+  //       .mockResolvedValueOnce({data: {result:"12"}});
+  //   mockAxios(post);
+  //   const result = await service.handleTestPoolSwapTo(formState);
+  //   console.log(result);
+  // });
+
+  it('should check for error handleTestPoolSwapTo', async () => {
+    const spy = jest.spyOn(log, 'error');
+    try {
+      const post = jest
+        .fn()
+        .mockResolvedValueOnce({ data: getAddressForSymbol })
+        .mockResolvedValueOnce({ data: getAddressForSymbol });
+      mockAxios(post);
+      const result = await service.handleTestPoolSwapTo(formState);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
+  });
+
+  it('should check for error handleTestPoolSwapFrom', async () => {
+    const spy = jest.spyOn(log, 'error');
+    try {
+      const post = jest
+        .fn()
+        .mockResolvedValueOnce({ data: getAddressForSymbol })
+        .mockResolvedValueOnce({ data: getAddressForSymbol });
+      mockAxios(post);
+      const result = await service.handleTestPoolSwapFrom(formState);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
+  });
+
+  it('should check for error handlePoolSwap', async () => {
+    const spy = jest.spyOn(log, 'error');
+    try {
+      const post = jest
+        .fn()
+        .mockResolvedValueOnce({ data: getAddressForSymbol })
+        .mockResolvedValueOnce({ data: getAddressForSymbol });
+      mockAxios(post);
+      const result = await service.handlePoolSwap(formState);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
   });
 
   // it('should check for handelAddReceiveTxns', async () => {

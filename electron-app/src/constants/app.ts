@@ -1,6 +1,5 @@
 import path from 'path';
 
-export const SITE_URL = 'https://defichain.com/';
 export const ICON = path.join(
   __dirname,
   '/electron-app/assets/icon/icon-512.png'
@@ -13,7 +12,6 @@ export const ACTIVATE = 'activate';
 export const CLOSE = 'close';
 export const CLOSED = 'closed';
 export const SECOND_INSTANCE = 'second-instance';
-export const RESTART_APP = 'restart-app';
 
 export const DARWIN = 'darwin';
 export const MAC = 'mac';

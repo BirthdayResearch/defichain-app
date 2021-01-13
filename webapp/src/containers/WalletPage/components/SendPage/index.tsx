@@ -30,9 +30,9 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
+  handleFallbackSendToken,
   // accountToAccount,
   handleFetchRegularDFI,
-  isValidAddress,
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
@@ -51,12 +51,15 @@ import {
   getSymbolKey,
   // handleAccountToAccountConversion,
   isLessThanDustAmount,
+  isValidAddress,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
+import SendLPWarning from './SendLPWarning';
+import ViewOnChain from 'src/components/ViewOnChain';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -92,8 +95,21 @@ interface SendPageState {
   errMessage: string;
   regularDFI: string | number;
   txHash: string;
+  isSendLPConfirmed: boolean;
 }
 
+export const getWalletPathAddress = (
+  basePath: string,
+  tokenSymbol: string,
+  tokenHash: string,
+  tokenAmount: string,
+  tokenAddress: string,
+  isLPS: boolean
+): string => {
+  return `${basePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
+};
+
+//* TODO Convert to React Hooks
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
   urlParams = new URLSearchParams(this.props.location.search);
@@ -101,6 +117,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenHash = this.urlParams.get('hash');
   tokenAmount = this.urlParams.get('amount');
   tokenAddress = this.urlParams.get('address');
+  isLPS = this.urlParams.get('isLPS') == 'true';
 
   state = {
     walletBalance: 0,
@@ -118,6 +135,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     errMessage: '',
     regularDFI: '',
     txHash: '',
+    isSendLPConfirmed: false,
   };
 
   componentDidMount() {
@@ -259,6 +277,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     });
   };
 
+  handleSendLPConfirm = (e) => {
+    const { checked } = e.target;
+    this.setState({
+      isSendLPConfirmed: checked,
+    });
+  };
+
   sendTransaction = async () => {
     this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
@@ -266,13 +291,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       regularDFI,
     });
-    // if (regularDFI <= DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT) {
-    //   try {
-    //     throw new Error(I18n.t('containers.wallet.sendPage.insufficientUtxos'));
-    //   } catch (error) {
-    //     return this.handleFailure(error);
-    //   }
-    // }
     if (isAmountValid && isAddressValid) {
       let amount;
       let txHash;
@@ -300,26 +318,45 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       } else {
         try {
           const hash = this.tokenHash || '0';
-
-          log.info('*******token send **********');
           log.info('*******token send **********');
           amount = this.state.amountToSendDisplayed;
           log.info({ amount, hash, address: this.state.toAddress });
-
-          txHash = await sendTokensToAddress(
-            this.state.toAddress,
-            `${amount}@${hash}`
-          );
-          log.info('*******token send **********');
-          log.info(`accountToAccount tx hash ${txHash}`);
-          log.info('*******token send **********');
-          this.handleSuccess(txHash);
+          try {
+            txHash = await sendTokensToAddress(
+              this.state.toAddress,
+              `${amount}@${hash}`
+            );
+            log.info('*******token send **********');
+            log.info(`accountToAccount tx hash ${txHash}`);
+            log.info('*******token send **********');
+            this.handleSuccess(txHash);
+          } catch (error) {
+            const errorMessage = getErrorMessage(error);
+            log.error(errorMessage, 'sendTokensToAddress');
+            log.info(`sendTransaction: Will try fallback option`);
+            this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+          }
         } catch (error) {
           const errorMessage = getErrorMessage(error);
           log.error(`Got error in token send: ${errorMessage}`);
           this.handleFailure(error);
         }
       }
+    }
+  };
+
+  handleFallbackSendToken = async (
+    address: string,
+    amount: string,
+    hash: string
+  ) => {
+    try {
+      const txHash = await handleFallbackSendToken(address, amount, hash);
+      this.handleSuccess(txHash);
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      log.error(errorMessage, 'handleFallbackSendToken');
+      this.handleFailure(error);
     }
   };
 
@@ -379,7 +416,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress } = this;
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -391,7 +428,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? getWalletPathAddress(
+                    WALLET_PAGE_PATH,
+                    tokenSymbol,
+                    tokenHash || '0',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_PAGE_PATH
             }
             tag={NavLink}
@@ -488,6 +532,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </ModalBody>
             </Modal>
           </section>
+          {this.isLPS && (
+            <section>
+              <SendLPWarning
+                isSendLPConfirmed={this.state.isSendLPConfirmed}
+                handleChange={this.handleSendLPConfirm}
+              />
+            </section>
+          )}
         </div>
         <footer className='footer-bar'>
           <div
@@ -542,7 +594,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <Button
                   color='primary'
                   disabled={
-                    !this.state.isAmountValid || !this.state.isAddressValid
+                    !this.state.isAmountValid ||
+                    !this.state.isAddressValid ||
+                    (this.isLPS && !this.state.isSendLPConfirmed)
                   }
                   onClick={this.sendStepConfirm}
                 >
@@ -617,11 +671,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
+              <ViewOnChain txid={this.state.txHash} />
               <Button
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    ? getWalletPathAddress(
+                        WALLET_PAGE_PATH,
+                        tokenSymbol,
+                        tokenHash || '0',
+                        tokenAmount || '',
+                        tokenAddress || '',
+                        isLPS
+                      )
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}
@@ -667,7 +729,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 color='primary'
                 to={
                   tokenSymbol
-                    ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                    ? getWalletPathAddress(
+                        WALLET_PAGE_PATH,
+                        tokenSymbol,
+                        tokenHash || '0',
+                        tokenAmount || '',
+                        tokenAddress || '',
+                        isLPS
+                      )
                     : WALLET_PAGE_PATH
                 }
                 tag={NavLink}

@@ -1,7 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import {
+  getErrorMessage,
+  handleFetchTokenDFI,
+  handleFetchUtxoDFI,
+  handleFetchTokenBalanceList,
+} from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchTestPoolSwapRequestTo,
@@ -25,15 +29,12 @@ import {
 } from './reducer';
 import {
   handleFetchPoolPairList,
-  handleFetchTokenBalanceList,
   handlePoolSwap,
   handleTestPoolSwapTo,
   handleTestPoolSwapFrom,
-  handleFetchUtxoDFI,
-  handleFetchTokenDFI,
 } from './service';
 
-function* fetchTokenBalanceList() {
+export function* fetchTokenBalanceList() {
   try {
     const data = yield call(handleFetchTokenBalanceList);
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
@@ -42,7 +43,7 @@ function* fetchTokenBalanceList() {
   }
 }
 
-function* fetchTestPoolSwapTo(action) {
+export function* fetchTestPoolSwapTo(action) {
   try {
     const {
       payload: { formState },
@@ -59,7 +60,7 @@ function* fetchTestPoolSwapTo(action) {
   }
 }
 
-function* fetchTestPoolSwapFrom(action) {
+export function* fetchTestPoolSwapFrom(action) {
   try {
     const {
       payload: { formState },
@@ -76,7 +77,7 @@ function* fetchTestPoolSwapFrom(action) {
   }
 }
 
-function* fetchPoolPairList() {
+export function* fetchPoolPairList() {
   try {
     const data = yield call(handleFetchPoolPairList);
     yield put({ type: fetchPoolPairListSuccess.type, payload: data });
@@ -85,7 +86,7 @@ function* fetchPoolPairList() {
   }
 }
 
-function* poolSwap(action) {
+export function* poolSwap(action) {
   try {
     const {
       payload: { formState },
@@ -99,7 +100,7 @@ function* poolSwap(action) {
   }
 }
 
-function* fetchUtxoDfi() {
+export function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
     yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
@@ -109,7 +110,7 @@ function* fetchUtxoDfi() {
   }
 }
 
-function* fetchMaxAccountDfi() {
+export function* fetchMaxAccountDfi() {
   try {
     const data = yield call(handleFetchTokenDFI);
     yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });

@@ -142,7 +142,8 @@ const configSlice = createSlice({
       state.isLoadingTransferTokens = false;
     },
     removePoolLiquiditySuccess(state, action) {
-      state.removePoolLiquidityHash = action.payload;
+      state.removePoolLiquidityHash =
+        action.payload?.txId1 ?? action.payload?.txId2;
       state.isLoadingRemovePoolLiquidity = false;
       state.isRemovePoolLiquidityLoaded = true;
     },
