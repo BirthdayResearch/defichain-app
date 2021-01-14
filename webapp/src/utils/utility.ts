@@ -976,10 +976,13 @@ export const hdWalletCheckAndSet = async (address) => {
   const addressInfo = await getAddressInfo(address);
   const networkType = getNetworkType();
   const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
-  if (!PersistentStore.get(hdseedidKey)) {
-    const address = await getNewAddress('', false);
-    const addressInfo = await getAddressInfo(address);
-    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
+  const walletAddress = await getNewAddress('', false);
+  const walletAddressInfo = await getAddressInfo(walletAddress);
+  if (
+    !PersistentStore.get(hdseedidKey) ||
+    PersistentStore.get(hdseedidKey) !== walletAddressInfo.hdseedid
+  ) {
+    PersistentStore.set(hdseedidKey, walletAddressInfo.hdseedid);
   }
   if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
     return true;
