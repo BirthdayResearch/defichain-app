@@ -79,7 +79,7 @@ import {
   getMnemonicFromObj,
   getNetworkInfo,
   getNetworkType,
-  hdWalletCheckAndSet,
+  hdWalletCheck,
   isValidMnemonic,
   isWalletCreated,
 } from '../../utils/utility';
@@ -146,7 +146,7 @@ export async function addHdSeedCheck(list) {
   const result = list.map(async (data) => {
     return {
       ...data,
-      hdSeed: await hdWalletCheckAndSet(data.address),
+      hdSeed: await hdWalletCheck(data.address),
     };
   });
   const resolvedData = await Promise.all(result);
