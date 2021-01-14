@@ -75,7 +75,6 @@ import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import {
   getAddressInfo,
-  getNewAddress,
   getTransactionInfo,
   handleFetchAccountDFI,
 } from '../containers/WalletPage/service';
@@ -963,16 +962,6 @@ export const isAddressMine = async (address) => {
 };
 
 export const hdWalletCheck = async (address) => {
-  const addressInfo = await getAddressInfo(address);
-  const networkType = getNetworkType();
-  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
-  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
-    return true;
-  }
-  return false;
-};
-
-export const hdWalletCheckAndSet = async (address) => {
   const rpcClient = new RpcClient();
   const addressInfo = await getAddressInfo(address);
   const walletInfo = await rpcClient.getWalletInfo();
