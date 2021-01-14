@@ -151,11 +151,6 @@
       "target": ["AppImage"]
     },
     "win": {
-      "publisherName": [
-        "Apple Development: sumit@cakedefi.com (X56Z365G82)",
-        "sumit@cakedefi.com",
-        "(X56Z365G82)"
-      ],
       "target": "NSIS"
     },
     "publish": {
