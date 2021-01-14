@@ -3,7 +3,7 @@
 <!-- Please ensure you've completed the following steps by replacing [ ] with [x]-->
 
 - [ ] I have searched the issue tracker for an issue that matches the one I want to file, without success.
-- [ ] I have read the [submit issue guide](https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App)
+- [ ] I have read the [issue submission guide](https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App)
 
 ### Issue Details
 
