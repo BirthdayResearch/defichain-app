@@ -101,6 +101,11 @@ export default class RpcClient {
     return data.result;
   };
 
+  getWalletInfo = async (): Promise<any> => {
+    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
+    return data.result;
+  };
+
   getRawTransactionOfBlock = async (
     txid: string,
     verbose: boolean,
