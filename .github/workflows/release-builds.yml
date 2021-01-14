@@ -44,8 +44,6 @@ jobs:
     runs-on: windows-latest
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
-      CSC_LINK: ${{ secrets.CSC_LINK}}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v2
