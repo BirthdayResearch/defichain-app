@@ -98,7 +98,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     });
     const tokensList: IToken[] = filterByValue(accountTokens, '');
     paginate(defaultPage, tokensList, verifiedTokens);
-  }, [accountTokens, isLoadingTokens]);
+  }, [accountTokens, isLoadingTokens, props.walletBalance]);
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
