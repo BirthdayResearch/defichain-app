@@ -973,15 +973,10 @@ export const hdWalletCheck = async (address) => {
 };
 
 export const hdWalletCheckAndSet = async (address) => {
+  const rpcClient = new RpcClient();
   const addressInfo = await getAddressInfo(address);
-  const networkType = getNetworkType();
-  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
-  if (!PersistentStore.get(hdseedidKey)) {
-    const address = await getNewAddress('', false);
-    const addressInfo = await getAddressInfo(address);
-    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
-  }
-  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+  const walletInfo = await rpcClient.getWalletInfo();
+  if (addressInfo.hdseedid === walletInfo.hdseedid) {
     return true;
   }
   return false;

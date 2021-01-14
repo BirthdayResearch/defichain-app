@@ -142,7 +142,7 @@ function* getPaymentRequestState() {
   return cloneDeep(paymentRequests);
 }
 
-async function addHdSeedCheck(list) {
+export async function addHdSeedCheck(list) {
   const result = list.map(async (data) => {
     return {
       ...data,
