@@ -57,7 +57,10 @@ import {
 import { handelGetPaymentRequestLedger } from '@/utils/utility';
 
 function* getPaymentRequestState() {
-  const { paymentRequests = [] } = yield select((state) => state.ledgerWallet);
+  const { paymentRequests = [] } = yield select((state) => {
+    log.info(state);
+    return state.ledgerWallet
+  });
   return cloneDeep(paymentRequests);
 }
 
@@ -290,9 +293,7 @@ export function* restoreWallet(action) {
 export function* fetchInstantBalance() {
   try {
     log.info('fetchInstantBalance');
-    const paymentRequests = yield select(
-      (state) => state.ledgerWallet.paymentRequests
-    );
+    const paymentRequests = yield call(getPaymentRequestState);
     const { data } = yield call(
       handleFetchWalletBalance,
       paymentRequests.map((paymentRequest) => paymentRequest.address)
@@ -325,6 +326,7 @@ export function* fetchConnectLedger() {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
         yield put(reducer.fetchConnectLedgerSuccess());
+        yield put(reducer.fetchPaymentRequest());
       } else {
         yield put(
           reducer.fetchConnectLedgerFailure({ message: result.data.message })
