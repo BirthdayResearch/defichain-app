@@ -20,6 +20,40 @@ jobs:
       - name: Publish app
         run: npm run publish:linux
 
+  create-linux-checksum:
+    needs:
+      - publish_linux_version
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: Fetch Release Asset
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: 'tags/v${{ env.PACKAGE_VERSION}}'
+          file: './defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+          token: ${{ secrets.GH_TOKEN}}
+      - name: Generate SHA256 checksum
+        run: |
+          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+      - name: Get Release Info with Tag Name
+        id: latest_release_info
+        uses: leahlundqvist/get-release@v1.3.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ env.PACKAGE_VERSION}}'
+      - name: Upload checksum - Linux
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_content_type: text/plain
+
   publish_mac_version:
     runs-on: macos-latest
     env:
@@ -40,6 +74,40 @@ jobs:
       - name: Publish app
         run: npm run publish:mac
 
+  create-mac-checksum:
+    needs:
+      - publish_mac_version
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: Fetch Release Asset
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: 'tags/v${{ env.PACKAGE_VERSION}}'
+          file: './defi-app-${{ env.PACKAGE_VERSION}}.dmg'
+          token: ${{ secrets.GH_TOKEN}}
+      - name: Generate SHA256 checksum
+        run: |
+          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.dmg > ./defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+      - name: Get Release Info with Tag Name
+        id: latest_release_info
+        uses: leahlundqvist/get-release@v1.3.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ env.PACKAGE_VERSION}}'
+      - name: Upload checksum - Mac
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          asset_content_type: text/plain
+
   publish_windows_version:
     runs-on: windows-latest
     env:
@@ -56,3 +124,37 @@ jobs:
 
       - name: Publish app
         run: npm run publish:win
+
+  create-windows-checksum:
+    needs:
+      - publish_windows_version
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: Fetch Release Asset
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: 'tags/v${{ env.PACKAGE_VERSION}}'
+          file: './defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe'
+          token: ${{ secrets.GH_TOKEN}}
+      - name: Generate SHA256 checksum
+        run: |
+          sha256sum ./defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe > ./defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+      - name: Get Release Info with Tag Name
+        id: latest_release_info
+        uses: leahlundqvist/get-release@v1.3.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ env.PACKAGE_VERSION}}'
+      - name: Upload checksum - Windows
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          asset_name: defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          asset_content_type: text/plain
