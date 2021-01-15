@@ -30,7 +30,6 @@ import {
   DFI,
   DFI_SYMBOL,
   LIQUIDITY_PATH,
-  MINIMUM_UTXOS_FOR_LIQUIDITY,
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
@@ -47,7 +46,6 @@ import {
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import Header from '../../../HeaderComponent';
-import { handleFetchWalletBalance } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
