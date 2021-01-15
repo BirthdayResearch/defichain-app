@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.1.9",
+  "version": "2.1.7",
   "description": "DeFi Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -114,7 +114,7 @@
   },
   "build": {
     "productName": "defi-app",
-    "appId": "defi-electron-v1",
+    "appId": "com.defichain.defi-app",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "files": [
