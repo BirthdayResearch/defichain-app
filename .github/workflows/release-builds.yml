@@ -25,6 +25,21 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
+      - name: Generate SHA256 checksum
+        run: |
+          cd ./dist
+          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+
+      - name: Upload checksum - Linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN}}
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_content_type: text/plain
+
   # publish_mac_version:
   #   runs-on: macos-latest
   #   env:
@@ -61,37 +76,3 @@ jobs:
 
   #     - name: Publish app
   #       run: npm run publish:win
-
-  # create-release:
-  #   needs:
-  #     - publish_linux_version
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Get App Version
-  #       uses: nyaayaya/package-version@v1
-  #     - name: get all build artifacts
-  #       uses: actions/download-artifact@v2
-  #     - name: Display structure of downloaded files
-  #       run: ls -R
-  #     - name: Generate SHA256 checksum
-  #       run: |
-  #         sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-  #     - name: Upload release asset - linux
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #       with:
-  #         upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-  #         asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage
-  #         asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage
-  #         asset_content_type: application/octet-stream
-  #     - name: Upload checksum - linux
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #       with:
-  #         upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-  #         asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-  #         asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-  #         asset_content_type: text/plain
