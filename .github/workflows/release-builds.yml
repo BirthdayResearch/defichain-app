@@ -20,23 +20,30 @@ jobs:
       - name: Publish app
         run: npm run publish:linux
 
-      - name: get all build artifacts
-        uses: actions/download-artifact@v2
-      - name: Display structure of downloaded files
-        run: ls -R
-
+  create-linux-checksum:
+    needs:
+      - publish_linux_version
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: Fetch Release Asset
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: 'tags/v${{ env.PACKAGE_VERSION}}'
+          file: './defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+          token: ${{ secrets.GH_TOKEN}}
       - name: Generate SHA256 checksum
         run: |
-          cd ./dist
           sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-
       - name: Upload checksum - Linux
         uses: actions/upload-release-asset@v1
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN}}
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           asset_content_type: text/plain
 
