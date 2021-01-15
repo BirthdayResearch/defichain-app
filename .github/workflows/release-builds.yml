@@ -20,39 +20,75 @@ jobs:
       - name: Publish app
         run: npm run publish:linux
 
-  publish_mac_version:
-    runs-on: macos-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-      CSC_LINK: ${{ secrets.CSC_LINK}}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-      CI: true
+  # publish_mac_version:
+  #   runs-on: macos-latest
+  #   env:
+  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
+  #     CSC_LINK: ${{ secrets.CSC_LINK}}
+  #     CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+  #     CI: true
 
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependencies
+  #       run: npm cache clean --force && npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:mac
+
+  #     - name: Publish app
+  #       run: npm run publish:mac
+
+  # publish_windows_version:
+  #   runs-on: windows-latest
+  #   env:
+  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install dependencies
+  #       run: npm cache clean --force && npm run init
+
+  #     - name: Build app
+  #       run: npm run pre:build:win
+
+  #     - name: Publish app
+  #       run: npm run publish:win
+
+  create-release:
+    needs:
+      - publish_linux_version
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-
-      - name: Build app
-        run: npm run pre:build:mac
-
-      - name: Publish app
-        run: npm run publish:mac
-
-  publish_windows_version:
-    runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-
-      - name: Build app
-        run: npm run pre:build:win
-
-      - name: Publish app
-        run: npm run publish:win
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: cleanup work dir
+        run: rm -rf *
+      - name: get all build artifacts
+        uses: actions/download-artifact@v2
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Generate SHA256 checksum
+        run: |
+          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+      - name: Upload release asset - linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN}}
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage
+          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage
+          asset_content_type: application/octet-stream
+      - name: Upload checksum - linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN}}
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_content_type: text/plain
