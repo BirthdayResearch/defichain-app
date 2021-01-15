@@ -831,9 +831,11 @@
     "resetWalletDatNotice": "Bist du sicher, dass du zurücksetzen willst?",
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
-    "noResetWalletNotice": "Nein"
+    "noResetWalletNotice": "Nein",
+    "download": "Herunterladen"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi app",
+    "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)"
   }
 }
