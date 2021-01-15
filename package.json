@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "DeFi Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -77,6 +77,7 @@
     "ps-node": "^0.1.6",
     "random-binary": "^1.0.3",
     "random-string": "^0.2.0",
+    "os-name": "4.0.0",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
   },

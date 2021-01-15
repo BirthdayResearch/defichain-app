@@ -20,6 +20,8 @@ import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
 import { getPageTitle } from '../utils/utility';
 import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
+import * as logger from '../utils/electronLogger';
+import { PACKAGE_VERSION } from 'src/constants';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -58,6 +60,9 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   const prevDepth = useRef(getPathDepth(location));
 
   useEffect(() => {
+    logger.info(
+      `[Starting App] App is running with version ${PACKAGE_VERSION}`
+    );
     getRpcConfigsRequest();
   }, []);
 

@@ -21,6 +21,8 @@ import {
   UPDATE_PROGRESS_VALUE,
   WALLET_BACKUP,
 } from '@defi_types/ipcEvents';
+import * as log from '../utils/electronLogger';
+import { I18n } from 'react-redux-i18n';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -38,7 +40,8 @@ const initUpdateAppIpcRenderers = () => {
   });
 
   ipcRenderer.on(UPDATE_PROGRESS_FAILURE, async (event: any, args: any) => {
-    handleUpdateError(args);
+    log.error(args, 'Update failed');
+    handleUpdateError(I18n.t('general.updateFailed'));
   });
 };
 
