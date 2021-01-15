@@ -826,6 +826,7 @@
     "noResetWalletNotice": "No"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi app",
+    "updateFailed": "An error occurred while checking for a software update."
   }
 }
