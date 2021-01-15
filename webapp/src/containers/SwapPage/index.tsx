@@ -46,7 +46,6 @@ import {
   IS_DEX_INTRO_SEEN,
   LIQUIDITY_PATH,
   DEX_EXPLORER_BASE_LINK,
-  MINIMUM_UTXOS_FOR_LIQUIDITY,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -55,7 +54,6 @@ import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
-import { handleFetchWalletBalance } from '../WalletPage/service';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from 'src/components/ViewOnChain';
 
