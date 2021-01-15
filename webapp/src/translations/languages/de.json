@@ -285,7 +285,7 @@
       "swapTab": {
         "from": "Von",
         "to": "In",
-        "receiveTokensAt": "Receive tokens at",
+        "receiveTokensAt": "Token erhalten bei",
         "receiveAddress": "Empfänger Adresse"
       },
       "poolTab": {
