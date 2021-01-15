@@ -39,6 +39,11 @@ jobs:
       - name: Generate SHA256 checksum
         run: |
           sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage > ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+      - name: Gets latest created release info
+        id: latest_release_info
+        uses: jossef/action-latest-release-info@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload checksum - Linux
         uses: actions/upload-release-asset@v1
         with:
