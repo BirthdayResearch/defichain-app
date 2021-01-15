@@ -149,11 +149,14 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
               />
             ))}
             <Pagination
-              label={I18n.t('containers.tokens.tokensPage.paginationRange', {
-                to,
-                total,
-                from: from + 1,
-              })}
+              label={I18n.t(
+                'containers.wallet.walletPage.walletPaginationRange',
+                {
+                  to,
+                  total,
+                  from: from + 1,
+                }
+              )}
               currentPage={currentPage}
               pagesCount={pagesCount}
               handlePageClick={paginate}
