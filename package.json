@@ -114,7 +114,7 @@
   },
   "build": {
     "productName": "defi-app",
-    "appId": "com.defichain.defi-app",
+    "appId": "defi-electron-v1",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "files": [
