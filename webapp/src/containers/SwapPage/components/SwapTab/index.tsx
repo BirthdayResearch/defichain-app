@@ -1,13 +1,16 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { MdCompareArrows } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import SwapCard from '../../../../components/SwapCard';
 import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
+import AddressDropdown from 'src/components/AddressDropdown';
+import { getTransactionAddressLabel } from 'src/utils/utility';
 
 interface SwapTabProps {
+  handleAddressDropdown?: any;
   label: string;
   dropdownLabel: string;
   tokenMap: Map<string, ITokenBalanceInfo>;
@@ -34,6 +37,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
   props: SwapTabProps
 ) => {
   const {
+    handleAddressDropdown,
     formState,
     handleChangeFrom,
     handleChangeTo,
@@ -45,9 +49,13 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
     handleInterchange,
   } = props;
 
-  // useEffect(() => {
-  // fetchPoolsharesRequest();
-  // }, []);
+  const getTransactionLabel = (formState: any) => {
+    return getTransactionAddressLabel(
+      formState.receiveLabel,
+      formState.receiveAddress,
+      I18n.t('containers.swap.swapTab.receiveAddress')
+    );
+  };
 
   return (
     <>
@@ -95,6 +103,19 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               }
             />
           </div>
+          <br />
+          <Row>
+            <Col md='4' className={styles.keyValueLiKey}>
+              <span>{I18n.t('containers.swap.swapTab.receiveTokensAt')}</span>
+            </Col>
+            <Col md='8'>
+              <AddressDropdown
+                formState={formState}
+                getTransactionLabel={getTransactionLabel}
+                onSelectAddress={handleAddressDropdown}
+              />
+            </Col>
+          </Row>
         </section>
       </div>
     </>
