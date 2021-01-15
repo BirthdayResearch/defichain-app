@@ -67,13 +67,12 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     let clone = cloneDeep(tokensList || accountTokens);
     const keys = {};
     clone.forEach((t) => {
-      updateDFIToken(t);
       keys[t.hash] = t.symbol;
     });
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
-    clone = [...clone, ...appTokens].sort(
-      (a: IToken, b: IToken) => +a.hash - +b.hash
-    );
+    clone = [...clone, ...appTokens]
+      .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
+      .filter((t: IToken) => t.hash != '0');
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
@@ -82,17 +81,8 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     settableData(tableData);
   }
 
-  const updateDFIToken = (token: IToken) => {
-    //* Remove default text for DFI
-    if (token.hash == '0') {
-      token.name = '';
-      token.amount = props.walletBalance;
-    }
-  };
-
   useEffect(() => {
     const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
-      updateDFIToken(t);
       t.amount = 0;
       return t.isDAT && !t.isLPS;
     });
@@ -141,6 +131,16 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           </ButtonGroup> */}
           </Header>
           <div className='content'>
+            <WalletTokenCard
+              handleCardClick={handleCardClick}
+              token={{
+                symbol: unit,
+                symbolKey: unit,
+                amount: props.walletBalance,
+                hash: '0',
+                address: '',
+              }}
+            />
             {tableData.map((token, index) => (
               <WalletTokenCard
                 handleCardClick={handleCardClick}
