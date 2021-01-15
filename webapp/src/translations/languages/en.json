@@ -664,8 +664,8 @@
         "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id}",
-        "paymentRequest": "Payment request",
+        "paymentRequestTitle": "Receive address %{id}",
+        "paymentRequest": "Receive address",
         "wallet": "Wallet",
         "delete": "Delete",
         "label": "Label",
@@ -684,9 +684,9 @@
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
-        "paymentRequests": "Payment requests",
-        "noPaymentRequests": "No payment requests available",
-        "paginationRange": "%{to} – %{from} of %{total} payment request",
+        "paymentRequests": "Receive addresses",
+        "noPaymentRequests": "No receive addresses available",
+        "paginationRange": "%{to} – %{from} of %{total} receive addresses",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
@@ -696,7 +696,8 @@
         "category": "Category",
         "blockHeight": "BlockHeight",
         "amount": "Amount",
-        "txidNotApplicable": "Transaction ID not applicable"
+        "txidNotApplicable": "Transaction ID not applicable",
+        "walletPaginationRange": "%{from} – %{to} of %{total} wallets"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -757,7 +758,7 @@
     "pendingBalanceFailure": "Pending balance failure",
     "addReceiveTxnsFailure": "Add receive transactions  failure",
     "removeReceiveTxnsFailure": "Remove receive transactions failure",
-    "paymentRequestsFailure": "Payment requests failure",
+    "paymentRequestsFailure": "Receive addresses failure",
     "walletTxnsFailure": "Wallet transactions  failure",
     "sendDataFailure": "Send data failure",
     "errorOccurred": "Error occurred",
