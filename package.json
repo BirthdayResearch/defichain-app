@@ -158,7 +158,7 @@
       "provider": "github",
       "repo": "app",
       "owner": "DeFiCh",
-      "releaseType": "prerelease"
+      "releaseType": "release"
     }
   },
   "lint-staged": {
