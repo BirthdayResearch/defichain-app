@@ -47,11 +47,10 @@ import {
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import Header from '../../../HeaderComponent';
-import { handleFetchRegularDFI } from '../../../WalletPage/service';
+import { handleFetchWalletBalance } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
-import { onViewOnChain } from '../../../../utils/utility';
 import ViewOnChain from 'src/components/ViewOnChain';
 
 interface AddLiquidityProps {
@@ -135,7 +134,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   useEffect(() => {
     async function getData() {
-      const regularDFI = await handleFetchRegularDFI();
+      const regularDFI = await handleFetchWalletBalance();
       setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
     }
     getData();

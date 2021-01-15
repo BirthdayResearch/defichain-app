@@ -55,7 +55,7 @@ import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
-import { handleFetchRegularDFI } from '../WalletPage/service';
+import { handleFetchWalletBalance } from '../WalletPage/service';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from 'src/components/ViewOnChain';
 
@@ -156,7 +156,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 
   useEffect(() => {
     async function getData() {
-      const regularDFI = await handleFetchRegularDFI();
+      const regularDFI = await handleFetchWalletBalance();
       setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
     }
     getData();
