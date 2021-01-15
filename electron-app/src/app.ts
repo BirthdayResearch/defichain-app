@@ -1,5 +1,7 @@
 import log from 'loglevel';
 import * as path from 'path';
+import * as os from 'os';
+import osName from 'os-name';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
@@ -150,6 +152,9 @@ export default class App {
     */
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
+    ElectronLogger.info(
+      `[Starting Electron App] OS ${osName()} - ${os.release()}`
+    );
   };
 
   // Create menu
