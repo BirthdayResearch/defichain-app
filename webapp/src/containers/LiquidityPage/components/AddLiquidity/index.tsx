@@ -92,7 +92,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
-  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<AddLiquidityFormState>({
     amount1: '',
@@ -130,14 +129,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     fetchPoolsharesRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
-  }, []);
-
-  useEffect(() => {
-    async function getData() {
-      const regularDFI = await handleFetchWalletBalance();
-      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
-    }
-    getData();
   }, []);
 
   useEffect(() => {
@@ -647,37 +638,25 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           })}
         >
           <Row className='justify-content-between align-items-center'>
-            {!sufficientUtxos ? (
-              <Col className={`${styles['error-dialog']} col-auto`}>
-                {I18n.t('containers.swap.addLiquidity.insufficientUtxos')}
-              </Col>
-            ) : (
-              <>
-                {!isAmountInsufficient() ? (
-                  <Col className='col-auto'>
-                    {isValid()
-                      ? I18n.t('containers.swap.addLiquidity.readyToSupply')
-                      : I18n.t(
-                          'containers.swap.addLiquidity.selectInputTokens'
-                        )}
-                  </Col>
-                ) : (
-                  <Col className='col-auto'>
-                    <span className='text-danger'>
-                      {I18n.t(
-                        'containers.swap.addLiquidity.amountInsufficient'
-                      )}
-                    </span>
-                  </Col>
-                )}
-              </>
-            )}
+            <>
+              {!isAmountInsufficient() ? (
+                <Col className='col-auto'>
+                  {isValid()
+                    ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                    : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
+                </Col>
+              ) : (
+                <Col className='col-auto'>
+                  <span className='text-danger'>
+                    {I18n.t('containers.swap.addLiquidity.amountInsufficient')}
+                  </span>
+                </Col>
+              )}
+            </>
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={
-                  !Number(formState.amount1) || !isValid() || !sufficientUtxos
-                }
+                disabled={!Number(formState.amount1) || !isValid()}
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}

@@ -105,7 +105,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [fromTestValue, setFromTestValue] = useState<boolean>(false);
   const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
-  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: '',
@@ -152,14 +151,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapRequestTo();
     resetTestPoolSwapErrorFrom();
     resetTestPoolSwapRequestFrom();
-  }, []);
-
-  useEffect(() => {
-    async function getData() {
-      const regularDFI = await handleFetchWalletBalance();
-      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
-    }
-    getData();
   }, []);
 
   useEffect(() => {
@@ -606,29 +597,23 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              {!sufficientUtxos ? (
-                <Col className={`${styles['error-dialog']} col-auto`}>
-                  {I18n.t('containers.swap.swapPage.insufficientUtxos')}
-                </Col>
-              ) : (
-                <>
-                  {!isAmountInsufficient() &&
-                  !isErrorTestPoolSwapTo &&
-                  !isErrorTestPoolSwapFrom ? (
-                    <Col className='col-auto'>
-                      {isValid()
-                        ? I18n.t('containers.swap.swapPage.readySwap')
-                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                    </Col>
-                  ) : (
-                    <Col className='col-auto'>
-                      <span className='text-danger'>
-                        {I18n.t('containers.swap.swapPage.somethingWentWrong')}
-                      </span>
-                    </Col>
-                  )}
-                </>
-              )}
+              <>
+                {!isAmountInsufficient() &&
+                !isErrorTestPoolSwapTo &&
+                !isErrorTestPoolSwapFrom ? (
+                  <Col className='col-auto'>
+                    {isValid()
+                      ? I18n.t('containers.swap.swapPage.readySwap')
+                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                  </Col>
+                ) : (
+                  <Col className='col-auto'>
+                    <span className='text-danger'>
+                      {I18n.t('containers.swap.swapPage.somethingWentWrong')}
+                    </span>
+                  </Col>
+                )}
+              </>
               <Col className='d-flex justify-content-end'>
                 <Button
                   color='primary'
@@ -636,8 +621,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !Number(formState.amount1) ||
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
-                    !!isErrorTestPoolSwapFrom ||
-                    !sufficientUtxos
+                    !!isErrorTestPoolSwapFrom
                   }
                   onClick={swapStepConfirm}
                 >
