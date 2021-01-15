@@ -31,6 +31,21 @@ exports[`ErrorComponent should check for snapshot 1`] = `
           className="modal-footer"
         >
           <Button
+            color="link"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-secondary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Download
+            </button>
+          </Button>
+          <Button
             color="secondary"
             onClick={[Function]}
             size="sm"

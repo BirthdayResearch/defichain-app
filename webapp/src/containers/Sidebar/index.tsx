@@ -40,6 +40,7 @@ import {
   LIQUIDITY_PATH,
   HELP_PATH,
   SETTING_PATH,
+  PACKAGE_VERSION,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
@@ -136,7 +137,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         <div className={styles.currentNetworkHeading}>
           {I18n.t('components.syncStatus.network')}
         </div>
-        <div className={styles.currentNetworkValue}>{chainName}</div>
+        <div className={styles.currentNetworkValue}>
+          <div>{chainName}</div>
+          <div className='ml-auto'>{PACKAGE_VERSION}</div>
+        </div>
       </div>
       <div className={styles.navs}>
         <Nav className={`${styles.navMain} flex-column nav-pills`}>
