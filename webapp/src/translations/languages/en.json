@@ -414,7 +414,9 @@
       },
       "swapTab": {
         "from": "From",
-        "to": "To"
+        "to": "To",
+        "receiveTokensAt": "Receive tokens at",
+        "receiveAddress": "Receive Address"
       },
       "poolTab": {
         "yourLiquidity": "Your liquidity",

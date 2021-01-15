@@ -115,6 +115,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     symbol2: '',
     balance1: '',
     balance2: '',
+    receiveAddress: '',
+    receiveLabel: '',
   });
 
   const {
@@ -290,6 +292,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     });
   };
 
+  const handleAddressDropdown = (data: any) => {
+    setFormState({
+      ...formState,
+      receiveAddress: data.address,
+      receiveLabel: data.label,
+    });
+  };
+
   const setMaxValue = (field: string, value: string) => {
     setFormState({
       ...formState,
@@ -436,6 +446,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           <TabContent activeTab={activeTab}>
             <TabPane tabId={SWAP}>
               <SwapTab
+                handleAddressDropdown={handleAddressDropdown}
                 label={I18n.t('containers.swap.swapTab.from')}
                 tokenMap={tokenMap}
                 filterBySymbol={filterBySymbol}
@@ -637,7 +648,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
-                    !sufficientUtxos
+                    !sufficientUtxos ||
+                    !formState.receiveAddress
                   }
                   onClick={swapStepConfirm}
                 >
