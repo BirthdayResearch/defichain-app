@@ -113,7 +113,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           <WalletAddTokenCard token={token} />
         ))}
         <Pagination
-          label={I18n.t('containers.tokens.tokensPage.paginationRange', {
+          label={I18n.t('containers.wallet.walletPage.walletPaginationRange', {
             to,
             total,
             from: from + 1,
