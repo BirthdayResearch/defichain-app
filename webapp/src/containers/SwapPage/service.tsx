@@ -82,10 +82,6 @@ export const handlePoolSwap = async (formState) => {
     formState.hash1,
     list
   );
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    formState.hash2,
-    list
-  );
 
   let accountToAccountAmount = new BigNumber(0);
 
@@ -117,7 +113,7 @@ export const handlePoolSwap = async (formState) => {
     address1,
     formState.hash1,
     Number(formState.amount1),
-    address2,
+    formState.receiveAddress,
     formState.hash2
   );
   return hash;
