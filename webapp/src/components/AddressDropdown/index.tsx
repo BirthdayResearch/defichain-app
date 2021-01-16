@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MdCheck } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
@@ -13,14 +14,17 @@ import {
 import { PaymentRequestModel } from '../../containers/WalletPage/components/ReceivePage/PaymentRequestList';
 import styles from './AddressDropdown.module.scss';
 import { AddressModel } from '../../model/address.model';
+import { RootState } from '@/app/rootReducer';
 
-export interface AddressDropdownProps {
+export interface AddressDropdownProps extends RouteComponentProps {
   formState: AddressModel;
   paymentRequests: PaymentRequestModel[];
   isDisabled?: boolean;
   additionalClass?: () => string;
   getTransactionLabel: (formState: any) => string;
   onSelectAddress: (data: PaymentRequestModel, amount?: number) => void;
+  paymentRequestsLedger: PaymentRequestModel[];
+  typeWallet: string | null;
 }
 
 const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
@@ -33,7 +37,17 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
     paymentRequests,
     additionalClass,
     isDisabled,
+    paymentRequestsLedger,
+    typeWallet,
   } = props;
+  const [addresses, setAddresses] = useState<PaymentRequestModel[]>([]);
+  useEffect(() => {
+    if (typeWallet === 'ledger') {
+      setAddresses(paymentRequestsLedger)
+    } else {
+      setAddresses(paymentRequests)
+    }
+  }, [typeWallet])
   return (
     <UncontrolledDropdown className='w-100'>
       <DropdownToggle
@@ -56,7 +70,7 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
             <Col md='3'>{I18n.t('containers.swap.addLiquidity.selected')}</Col>
           </Row>
         </DropdownItem>
-        {paymentRequests.map((data) => {
+        {addresses.map((data) => {
           return (
             <DropdownItem
               className='justify-content-between ml-0 w-100'
@@ -86,10 +100,12 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const { paymentRequests } = state.wallet;
+  const { paymentRequests: paymentRequestsLedger} = state.ledgerWallet
   return {
     paymentRequests,
+    paymentRequestsLedger,
   };
 };
 

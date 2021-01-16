@@ -138,71 +138,30 @@ export const createTokenUseLedger = async (
   paymentsLedger: PaymentRequestLedger[]
 ) => {
   const rpcClient = new RpcClient();
-  let accountToAccountAmount = new BigNumber(0);
-  const cutxo = await construct({
-    maximumAmount:
-      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-  });
-
+  const ipcRenderer = ipcRendererFunc();
+  const cutxo = await rpcClient.listUnspent(1, 9999999, tokenData.receiveAddress);
   const { address, maxAmount } = await getAddressForSymbolLedger(
     DFI_SYMBOL,
     paymentsLedger
   );
+  const keyIndex = paymentsLedger.find(
+    (payment) => payment.address === address
+  )?.keyIndex;
 
   if (Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) > maxAmount) {
-    accountToAccountAmount = await accountToAccountConversionLedger(
-      paymentsLedger,
-      address,
-      DFI_SYMBOL
-    );
-    const txId = await rpcClient.sendToAddress(
-      address,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
-    );
-    const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
-    const finalBalance = getSmallerAmount(
-      balance,
-      accountToAccountAmount.plus(maxAmount).toFixed(8)
-    );
-    const ipcRenderer = ipcRendererFunc();
-    const dataAccountToUtxos = {
-      txType: CustomTx.customTxType.accountToUtxos,
-      customData: {
-        from: address,
-        balances: [{ balance: finalBalance, token: DFI_SYMBOL }],
-        mintingOutputsStart: 0,
-      },
-    };
-    const keyIndex = paymentsLedger.find(
-      (payment) => payment.address === address
-    )?.keyIndex;
-    const resAccountToUtxos = await ipcRenderer.sendSync(
-      CUSTOM_TX_LEDGER,
-      cutxo,
-      address,
-      finalBalance,
-      dataAccountToUtxos,
-      keyIndex
-    );
-    if (resAccountToUtxos.success) {
-      await rpcClient.sendRawTransaction(resAccountToUtxos.data.tx);
-      return resAccountToUtxos.data.tx;
-    } else {
-      throw new Error(resAccountToUtxos.message);
-    }
+    throw new Error('The cost is more than the balance of the address')
+  } else {
     const dataCreateToken = {
       txType: CustomTx.customTxType.createToken,
       customData: tokenData,
     };
     const resCreateToken = await ipcRenderer.sendSync(
       CUSTOM_TX_LEDGER,
-      cutxo,
+      {
+      utxo: cutxo,
       address,
-      finalBalance,
-      dataCreateToken,
-      keyIndex
+      data: dataCreateToken,
+      keyIndex}
     );
     if (resCreateToken.success) {
       return await rpcClient.sendRawTransaction(resCreateToken.data.tx);

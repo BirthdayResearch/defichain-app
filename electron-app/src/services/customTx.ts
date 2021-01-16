@@ -7,6 +7,7 @@ import {
   util,
 } from 'bitcore-lib-dfi';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
+import * as log from '../services/electronLogger';
 
 type CustomTransaction = {
   txType: string;
@@ -106,10 +107,11 @@ async function getSignatures(
   DefiLedger: DefiHwWallet
 ) {
   const results: SigsInput[] = [];
-  for (const [index] of tx.inputs.entries()) {
-    const sigsInputs = await getSigsInputs(tx, index, keyIndex, DefiLedger);
-    results.push(...sigsInputs);
+  for (let index=0; index < tx.inputs.length; index++) {
+    const res = await getSigsInputs(tx, index, keyIndex, DefiLedger);
+    results.push(...res);
   }
+  log.info(`getSignatures: ${JSON.stringify(results)}`);
   return results;
 }
 
@@ -124,7 +126,6 @@ async function getSigsInputs(
       tx,
       crypto.Signature.SIGHASH_ALL,
       index,
-      // TODO change is bugs
       // @ts-ignore
       tx.inputs[index]._scriptBuffer,
       keyIndex,
@@ -137,8 +138,9 @@ async function getSigsInputs(
       signature: signedTx.signature,
       sigtype: crypto.Signature.SIGHASH_ALL,
       publicKey:
-        '0414fae33369bc05ded35edcfebf3c69e63df4d3ee3335b52d4e2800a672397843a827b01967dbfd6c0469e32a1babb5dfed081cd8d2d6ab14d23cfb9d7b5cd4b3', // TODO change is ledger done
+        '042d73dc8afe02ce3360f801f9bbea5a5453a75fb4488814c2db502ada1d95b53c4a9b41b4341bc7439759dc0b8e3faa51395255bd6e40bb43f17185265be2bf04', // TODO change is ledger done
     });
+    log.info(`getSigsInputs txSig: ${JSON.stringify(signedTx)}`);
     return [
       {
         signature: txSig,
@@ -168,9 +170,10 @@ async function signTransaction(
     );
     hashBuf = util.buffer.reverse(hashBuf);
     const signature: Buffer = await DefiLedger.sign(keyIndex, hashBuf);
-    const transformationSign = await DefiLedger.transformationSign(signature);
+    // const transformationSign = await DefiLedger.transformationSign(signature);
+    log.info(`signTransaction: ${JSON.stringify(signature)}`);
     return {
-      signature: transformationSign,
+      signature,
       hashBuf,
       keyIndex,
     };
@@ -182,12 +185,13 @@ async function signTransaction(
 export async function createTx(
   utxo: any,
   address: any,
-  amount: any,
   data: any,
   keyIndex: number,
   DefiLedger: DefiHwWallet
 ) {
-  let tx = new Transaction().from(utxo).to(address, amount).fee(0);
+  log.info('Custom TX')
+  let tx = new Transaction().from(utxo);
+  log.info(`tx: ${tx}`)
   tx = createZeroOutputTxFromCustomTx(tx, data);
   tx = await signInputs(tx, keyIndex, DefiLedger);
   return tx;

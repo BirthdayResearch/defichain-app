@@ -78,17 +78,19 @@ const initiateLedger = () => {
     CUSTOM_TX_LEDGER,
     async (
       event: Electron.IpcMainEvent,
-      utxo: any,
-      address: string,
-      amount: string,
-      data: any,
-      keyIndex: number
+      {utxo,
+      address,
+      amount,
+      data,
+      keyIndex}
     ) => {
       log.info('Generate custom tx of ledger');
       try {
-        const tx = await createTx(utxo, address, amount, data, 0, DefiLedger);
+        log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`)
+        const tx = await createTx(utxo, address, amount, data, keyIndex, DefiLedger);
+        log.info(JSON.stringify(tx.toString()));
         event.returnValue = responseMessage(true, {
-          tx,
+          tx: tx.toString(),
         });
       } catch (err) {
         log.error(`Error custom tx of ledger: ${err.message}`);

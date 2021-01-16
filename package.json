@@ -19,7 +19,7 @@
     "start:react": "cd webapp && npm run start:dev",
     "start:electron": "node initiate-electron",
     "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron .",
-    "electron": "npm run transpile && NODE_ENV=development electron . -d true",
+    "electron": "npm run transpile && NODE_ENV=development electron --inspect=5858 . -d true",
     "build:react": "cd webapp && npm run build:react",
     "pre:build:linux": "sh pre-build-linux.sh",
     "pre:build:mac": "sh pre-build-mac.sh",

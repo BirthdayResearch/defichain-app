@@ -110,8 +110,8 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
         limit: tokenInfo.limit.toString(),
         mintable: tokenInfo.mintable.toString(),
         tradeable: tokenInfo.tradeable.toString(),
-        receiveAddress: (paymentRequests ?? [])[0]?.address,
-        receiveLabel: (paymentRequests ?? [])[0]?.label,
+        receiveAddress: (typeWallet ? paymentRequestsLedger : paymentRequests ?? [])[0]?.address,
+        receiveLabel: (typeWallet ? paymentRequestsLedger : paymentRequests ?? [])[0]?.label,
       };
       setFormState(data);
     }
@@ -129,12 +129,12 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       }
       setFormState({
         ...formState,
-        receiveAddress: (paymentRequests ?? [])[0]?.address,
-        receiveLabel: (paymentRequests ?? [])[0]?.label,
+        receiveAddress:data.addressAndAmountList[0]?.address,
+        receiveLabel: data.addressAndAmountList[0]?.label,
       });
     }
     addressAndAmount();
-  }, [props.paymentRequests, paymentRequestsLedger]);
+  }, []);
 
   useEffect(() => {
     if (allowCalls && !isTokenCreating) {
@@ -246,6 +246,7 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
             isConfirmationModalOpen={isConfirmationModalOpen}
             setIsConfirmationModalOpen={setIsConfirmationModalOpen}
             handleDropDowns={handleDropDowns}
+            typeWallet={typeWallet}
           />
         </div>
       </TabPane>

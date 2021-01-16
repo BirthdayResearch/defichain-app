@@ -45,6 +45,7 @@ interface CreateDCTProps {
   isErrorCreatingToken: string;
   isErrorUpdatingToken: string;
   isUpdate: boolean;
+  typeWallet: string | null;
 }
 
 const getTransactionLabel = (formState: CreateTokenFormState) => {
@@ -74,6 +75,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     isErrorCreatingToken,
     updatedTokenData,
     isErrorUpdatingToken,
+    typeWallet,
   } = props;
 
   return (
@@ -255,6 +257,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 !IsCollateralAddressValid ? styles.collateralDropdown : ''
               }
               isDisabled={isUpdate}
+              typeWallet={typeWallet}
             />
             {!IsCollateralAddressValid && (
               <FormText className={`${styles.collateralFormText} mt-2`}>
