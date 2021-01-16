@@ -129,7 +129,7 @@ export function* fetchPayments() {
 function* fetchWalletTxns(action) {
   const { currentPage: pageNo, pageSize, intialLoad } = action.payload;
   const { totalFetchedTxns, walletTxnCount, walletPageCounter } = yield select(
-    (state) => state.wallet
+    (state) => state.ledgerWallet
   );
   const callBack = (err, result) => {
     if (err) {
@@ -174,7 +174,7 @@ function* fetchWalletTxns(action) {
   }
 }
 
-function fetchSendData() {
+function* fetchSendData() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
@@ -188,7 +188,9 @@ function fetchSendData() {
       store.dispatch(reducer.fetchSendDataFailure());
     }
   };
-  queuePush(handleSendData, [], callBack);
+  const paymentRequests = yield call(getPaymentRequestState);
+  const addresses = paymentRequests.map(paymentRequest => paymentRequest.address);
+  queuePush(handleSendData, [addresses], callBack);
 }
 
 export function* fetchChainInfo() {
@@ -294,12 +296,12 @@ export function* fetchInstantBalance() {
   try {
     log.info('fetchInstantBalance');
     const paymentRequests = yield call(getPaymentRequestState);
-    const { data } = yield call(
+    const data = yield call(
       handleFetchWalletBalance,
       paymentRequests.map((paymentRequest) => paymentRequest.address)
     );
     log.info(`Ledger balance: ${JSON.stringify(data)}`);
-    yield put(reducer.fetchWalletBalanceSuccess(data.result));
+    yield put(reducer.fetchWalletBalanceSuccess(data));
   } catch (err) {
     yield put(reducer.fetchWalletBalanceFailure(err.message));
     log.error(err);

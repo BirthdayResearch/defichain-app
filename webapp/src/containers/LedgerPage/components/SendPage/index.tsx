@@ -8,9 +8,10 @@ import {
 } from '../../service';
 import { LEDGER_PATH } from '@/constants';
 import { getAddressForSymbolLedger, accountToAccountConversionLedger } from '@/utils/utility';
+import { RootState } from '@/app/rootReducer';
 
-const mapStateToProps = (state) => {
-  const { ledgerWallet, settings } = state;
+const mapStateToProps = (state: RootState) => {
+  const { ledgerWallet, settings, wallet } = state;
   return {
     unit: settings.appConfig.unit,
     sendData:ledgerWallet.sendData,

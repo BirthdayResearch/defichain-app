@@ -263,7 +263,8 @@ export default class RpcClient {
   };
 
   getReceivedByAddress = async (address: string): Promise<number> => {
-    return await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [address]);
+    const { data } = await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [address]);
+    return data.result;
   };
 
   accountToUtxos = async (
@@ -456,7 +457,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  listUnspent = async (maximumAmount: number, maximumCount?: number) => {
+  listUnspent = async (maximumAmount: number, maximumCount?: number, addresses: string[] = []) => {
     const queryOptions = maximumCount
       ? { maximumAmount, maximumCount: Number(maximumCount) }
       : { maximumAmount };
@@ -464,7 +465,7 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
       1,
       9999999,
-      [],
+      addresses,
       true,
       queryOptions,
     ]);

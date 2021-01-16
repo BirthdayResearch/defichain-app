@@ -63,7 +63,8 @@ interface SendPageProps {
     fromAddress: string | null,
     toAddress: string,
     amount: string,
-    keyIndex: number
+    keyIndex: number,
+    addresses: string[]
   ) => void;
   isValidAddress: (toAddress: string) => boolean;
   getAddressForSymbol: (
@@ -76,6 +77,7 @@ interface SendPageProps {
     hash: string
   ) => Promise<any>;
   cancelPagePath: string;
+  networkName: string;
 }
 
 interface SendPageState {
@@ -289,8 +291,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           txHash = await this.props.accountToAccount(
             address,
             this.state.toAddress,
-            `${amount}@${hash}`,
-            keyIndex
+            amount*100000000,
+            hash,
+            keyIndex,
+            this.props.paymentRequests.map((paymentRequest) => paymentRequest.address)
           );
         }
         this.handleSuccess(txHash);
@@ -622,11 +626,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     [styles[`error-dialog`]]: true,
                   })}
                 />
-                {!this.state.regularDFI && (
-                  <p>
-                    {I18n.t('containers.ledger.sendPage.pleaseTransferFunds')}
-                  </p>
-                )}
                 <p>{this.state.errMessage}</p>
               </div>
             </div>

@@ -2,6 +2,7 @@
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import _ from 'lodash';
+import { CustomTx } from 'bitcore-lib-dfi';
 import * as log from '@/utils/electronLogger';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import RpcClient from '@/utils/rpc-client';
@@ -31,13 +32,13 @@ import {
   getRandomWordObject,
   getTxnDetails,
   handleLocalStorageNameLedger,
+  handelGetPaymentRequestLedger
 } from '@/utils/utility';
 import {
   GET_LEDGER_DEFI_PUB_KEY,
   CONNECT_LEDGER,
   CUSTOM_TX_LEDGER,
 } from '@/constants';
-import { construct } from '@/utils/cutxo';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
 
@@ -94,8 +95,8 @@ export const handelFetchWalletTxns = async (
   return { walletTxns: txList.reverse(), walletTxnCount };
 };
 
-export const handleSendData = async () => {
-  const walletBalance = await handleFetchWalletBalance();
+export const handleSendData = async (addresses) => {
+  const walletBalance = await handleFetchWalletBalance(addresses);
   return {
     walletBalance,
     amountToSend: '',
@@ -128,7 +129,11 @@ export const handleFetchWalletBalance = async (addresses: string[]) => {
     return await getReceivedByAddress(address);
   });
   const amounts = await Promise.all(amountsPromise);
-  return amounts.reduce((acc, amount) => acc + amount);
+  let count = 0;
+  amounts.forEach((amount) => {
+    count += amount;
+  })
+  return count;
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -207,8 +212,10 @@ export const sendToAddress = async (
 export const accountToAccount = async (
   fromAddress: string | null,
   toAddress: string,
-  amount: string,
-  keyIndex: number
+  amount: number,
+  token: string,
+  keyIndex: number,
+  addresses: string[],
 ) => {
   log.info('Service accounttoaccount is started');
   try {
@@ -218,26 +225,24 @@ export const accountToAccount = async (
       DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
       true
     );
-    const cutxo = await construct({
-      maximumAmount:
-        PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-      maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-      feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-    });
+    const cutxo = await rpcClient.listUnspent(1, 9999999,addresses);
     const data = {
-      from: fromAddress,
-      to: {
-        [toAddress]: { '0': amount },
-      },
+      txType: CustomTx.customTxType.accountToAccount,
+      customData: {
+        from: fromAddress,
+        to: {
+          [toAddress]: { '0': { balance: amount, token } },
+        },
+      }
     };
     const ipcRenderer = ipcRendererFunc();
     const res = await ipcRenderer.sendSync(
       CUSTOM_TX_LEDGER,
-      cutxo,
-      toAddress,
+      {utxo: cutxo,
+      address: toAddress,
       amount,
       data,
-      keyIndex
+      keyIndex}
     );
     if (res.success) {
       await rpcClient.sendRawTransaction(res.data.tx);
@@ -386,10 +391,10 @@ export const handleFetchAccounts = async () => {
               maxAmount = item.amount;
               maxAmountAddress = item.address;
             }
-            const val = output['amount'] === undefined ? 0 : output['amount'];
+            const val = output.amount === undefined ? 0 : output.amount;
             output = { ...item };
-            output['amount'] = item.amount + val;
-            output['address'] = maxAmountAddress;
+            output.amount = item.amount + val;
+            output.address = maxAmountAddress;
             return output;
           }, {})
       );
