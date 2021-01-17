@@ -86,7 +86,6 @@ describe('Custom tx', () => {
     const tx = await createTx(
       utxo,
       'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
-      0,
       createTokenData,
       0,
       DefiLedger
@@ -124,7 +123,6 @@ describe('Custom tx', () => {
     const tx = await createTx(
       utxo,
       'tttw7ZHJumuaLG8wSwQLDJ6B6jj2uqFnmR',
-      1989995300,
       setGovVariableData,
       0,
       DefiLedger

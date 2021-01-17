@@ -7,7 +7,7 @@ import {
   BACKUP_IDXS_LEDGER,
 } from '../constants';
 import { responseMessage } from '../utils';
-import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
+import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
 import { createTx } from '../services/customTx';
 
@@ -87,7 +87,7 @@ const initiateLedger = () => {
       log.info('Generate custom tx of ledger');
       try {
         log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`)
-        const tx = await createTx(utxo, address, amount, data, keyIndex, DefiLedger);
+        const tx = await createTx(utxo, address, data, keyIndex, DefiLedger);
         log.info(JSON.stringify(tx.toString()));
         event.returnValue = responseMessage(true, {
           tx: tx.toString(),

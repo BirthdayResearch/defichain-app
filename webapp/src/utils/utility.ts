@@ -1087,7 +1087,7 @@ export const getAddressForSymbolLedger = async (
   let address = '';
   let keyIndex = 0;
   for (const [i, obj] of list.entries()) {
-    const tokenSymbol = obj.unit || "0";
+    const tokenSymbol = obj.unit || '0';
     const amount = await rpcClient.getReceivedByAddress(obj.address);
     if (key === tokenSymbol && maxAmount <= amount) {
       maxAmount = amount;
@@ -1236,13 +1236,13 @@ export const accountToAccountConversionLedger = async (
   }
 
   const accountToAccountTxHashes: any[] = [];
-  const cutxo = await rpcClient.listUnspent(1, 9999999, address);
   let amountTransfered = new BigNumber(0);
   for (const obj of addressList) {
     const tokenSymbol = obj.unit;
     const amount = Number(obj.amount).toFixed(8);
 
     if (tokenSymbol === hash && obj.address !== toAddress) {
+      const cutxo = await rpcClient.listUnspent(1, 9999999, [obj.address]);
       const data = {
         from: obj.address,
         to: {

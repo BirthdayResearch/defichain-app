@@ -31,7 +31,6 @@ import shutterSound from '@/assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
   getSymbolKey,
-  handleAccountToAccountConversion,
   isLessThanDustAmount,
 } from '@/utils/utility';
 import qs from 'querystring';
@@ -39,7 +38,6 @@ import styles from '@/containers/WalletPage/WalletPage.module.scss';
 import Spinner from '@/components/Svg/Spinner';
 import Header from '@/containers/HeaderComponent';
 import { PaymentRequestLedger } from '@/typings/models';
-import { accountToAccountConversion } from '@/containers/LedgerPage/service';
 
 const shutterSnap = new UIfx(shutterSound);
 
@@ -62,7 +60,8 @@ interface SendPageProps {
   accountToAccount: (
     fromAddress: string | null,
     toAddress: string,
-    amount: string,
+    amount: number,
+    token: string,
     keyIndex: number,
     addresses: string[]
   ) => void;

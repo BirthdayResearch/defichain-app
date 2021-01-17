@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MdCheck } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
@@ -11,12 +10,12 @@ import {
   Col,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { PaymentRequestModel } from '../../containers/WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@/containers/WalletPage/components/ReceivePage/PaymentRequestList';
 import styles from './AddressDropdown.module.scss';
-import { AddressModel } from '../../model/address.model';
+import { AddressModel } from '@/model/address.model';
 import { RootState } from '@/app/rootReducer';
 
-export interface AddressDropdownProps extends RouteComponentProps {
+export interface AddressDropdownProps {
   formState: AddressModel;
   paymentRequests: PaymentRequestModel[];
   isDisabled?: boolean;
@@ -24,7 +23,7 @@ export interface AddressDropdownProps extends RouteComponentProps {
   getTransactionLabel: (formState: any) => string;
   onSelectAddress: (data: PaymentRequestModel, amount?: number) => void;
   paymentRequestsLedger: PaymentRequestModel[];
-  typeWallet: string | null;
+  typeWallet?: string | null;
 }
 
 const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
@@ -38,7 +37,7 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
     additionalClass,
     isDisabled,
     paymentRequestsLedger,
-    typeWallet,
+    typeWallet = 'wallet',
   } = props;
   const [addresses, setAddresses] = useState<PaymentRequestModel[]>([]);
   useEffect(() => {
