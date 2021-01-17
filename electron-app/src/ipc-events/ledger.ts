@@ -7,7 +7,7 @@ import {
   BACKUP_IDXS_LEDGER,
 } from '../constants';
 import { responseMessage } from '../utils';
-import DefiHwWallet from '../defiHwWallet/defiHwWallet';
+import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
 import { createTx } from '../services/customTx';
 

@@ -52,6 +52,7 @@ import {
   setIsShowingInformation,
   getListDevicesLedger,
   getBackupIndexesLedger,
+  importAddresses,
 } from './service';
 
 import { handelGetPaymentRequestLedger } from '@/utils/utility';
@@ -327,6 +328,8 @@ export function* fetchConnectLedger() {
     if (devices.length && !error) {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
+        const networkName = yield call(getNetwork);
+        yield call(importAddresses, networkName);
         yield put(reducer.fetchConnectLedgerSuccess());
         yield put(reducer.fetchPaymentRequest());
       } else {

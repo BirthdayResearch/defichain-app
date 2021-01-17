@@ -97,7 +97,7 @@ export const handleLocalStorageNameLedger = (networkName) => {
   return `${PAYMENT_REQUEST}-ledger`;
 };
 
-export const handelGetPaymentRequestLedger = (networkName) => {
+export const handelGetPaymentRequestLedger = (networkName): PaymentRequestLedger[] => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]'
   );

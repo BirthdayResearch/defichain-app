@@ -60,6 +60,15 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
   return paymentData;
 };
 
+export const importAddresses = async (networkName: string) => {
+  const paymentRequests = handelGetPaymentRequestLedger(networkName);
+  const rpcClient = new RpcClient();
+  const queryImportPubKey = paymentRequests.map((paymentRequest) => rpcClient.importPubKey(paymentRequest.pubkey, paymentRequest.label));
+  const queryImportAddress = paymentRequests.map((paymentRequest) => rpcClient.importAddress(paymentRequest.address, paymentRequest.label));
+  await Promise.all(queryImportPubKey);
+  await Promise.all(queryImportAddress);
+}
+
 export const handelFetchWalletTxns = async (
   pageNo: number,
   pageSize: number,
