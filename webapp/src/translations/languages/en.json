@@ -699,7 +699,8 @@
         "blockHeight": "BlockHeight",
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
-        "walletPaginationRange": "%{from} – %{to} of %{total} wallets"
+        "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
+        "txPaginationRange": "%{to} – %{from} of %{total} transactions"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
