@@ -46,7 +46,6 @@ import {
   IS_DEX_INTRO_SEEN,
   LIQUIDITY_PATH,
   DEX_EXPLORER_BASE_LINK,
-  MINIMUM_UTXOS_FOR_LIQUIDITY,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -55,8 +54,9 @@ import styles from './swap.module.scss';
 import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
-import { handleFetchRegularDFI } from '../WalletPage/service';
 import NumberMask from '../../components/NumberMask';
+import ViewOnChain from 'src/components/ViewOnChain';
+import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface SwapPageProps {
   history?: any;
@@ -90,6 +90,7 @@ interface SwapPageProps {
   resetTestPoolSwapRequestTo: () => void;
   resetTestPoolSwapErrorFrom: () => void;
   resetTestPoolSwapRequestFrom: () => void;
+  paymentRequests: PaymentRequestModel[];
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -104,7 +105,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [fromTestValue, setFromTestValue] = useState<boolean>(false);
   const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
-  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: '',
@@ -114,6 +114,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     symbol2: '',
     balance1: '',
     balance2: '',
+    receiveAddress: '',
+    receiveLabel: '',
   });
 
   const {
@@ -140,6 +142,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchMaxAccountDfiRequest,
     resetTestPoolSwapErrorTo,
     resetTestPoolSwapRequestTo,
+    paymentRequests,
   } = props;
 
   useEffect(() => {
@@ -151,14 +154,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapRequestTo();
     resetTestPoolSwapErrorFrom();
     resetTestPoolSwapRequestFrom();
-  }, []);
-
-  useEffect(() => {
-    async function getData() {
-      const regularDFI = await handleFetchRegularDFI();
-      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
-    }
-    getData();
   }, []);
 
   useEffect(() => {
@@ -228,6 +223,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   }, [poolSwapHash, isErrorPoolSwap, isLoadingPoolSwap, allowCalls]);
 
+  useEffect(() => {
+    handleAddressDropdown((paymentRequests ?? [])[0]);
+  }, []);
+
   const tokenMap = getTokenListForSwap(
     poolPairList,
     tokenBalanceList,
@@ -286,6 +285,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       [field1]: hash,
       [field2]: symbol,
       [field3]: balance,
+    });
+  };
+
+  const handleAddressDropdown = (data: any) => {
+    setFormState({
+      ...formState,
+      receiveAddress: data.address,
+      receiveLabel: data.label,
     });
   };
 
@@ -435,6 +442,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           <TabContent activeTab={activeTab}>
             <TabPane tabId={SWAP}>
               <SwapTab
+                handleAddressDropdown={handleAddressDropdown}
                 label={I18n.t('containers.swap.swapTab.from')}
                 tokenMap={tokenMap}
                 filterBySymbol={filterBySymbol}
@@ -605,29 +613,23 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             })}
           >
             <Row className='justify-content-between align-items-center'>
-              {!sufficientUtxos ? (
-                <Col className={`${styles['error-dialog']} col-auto`}>
-                  {I18n.t('containers.swap.swapPage.insufficientUtxos')}
-                </Col>
-              ) : (
-                <>
-                  {!isAmountInsufficient() &&
-                  !isErrorTestPoolSwapTo &&
-                  !isErrorTestPoolSwapFrom ? (
-                    <Col className='col-auto'>
-                      {isValid()
-                        ? I18n.t('containers.swap.swapPage.readySwap')
-                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                    </Col>
-                  ) : (
-                    <Col className='col-auto'>
-                      <span className='text-danger'>
-                        {I18n.t('containers.swap.swapPage.somethingWentWrong')}
-                      </span>
-                    </Col>
-                  )}
-                </>
-              )}
+              <>
+                {!isAmountInsufficient() &&
+                !isErrorTestPoolSwapTo &&
+                !isErrorTestPoolSwapFrom ? (
+                  <Col className='col-auto'>
+                    {isValid()
+                      ? I18n.t('containers.swap.swapPage.readySwap')
+                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                  </Col>
+                ) : (
+                  <Col className='col-auto'>
+                    <span className='text-danger'>
+                      {I18n.t('containers.swap.swapPage.somethingWentWrong')}
+                    </span>
+                  </Col>
+                )}
+              </>
               <Col className='d-flex justify-content-end'>
                 <Button
                   color='primary'
@@ -636,7 +638,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
-                    !sufficientUtxos
+                    !formState.receiveAddress
                   }
                   onClick={swapStepConfirm}
                 >
@@ -715,6 +717,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </div>
             <Row className='justify-content-between align-items-center'>
               <Col className='d-flex justify-content-end'>
+                <ViewOnChain txid={poolSwapHash} />
                 <Button
                   to={WALLET_TOKENS_PATH}
                   color='link'
@@ -830,7 +833,7 @@ const mapStateToProps = (state) => {
     utxoDfi,
     maxAccountDfi,
   } = state.swap;
-  const { walletBalance } = state.wallet;
+  const { walletBalance, paymentRequests } = state.wallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -849,6 +852,7 @@ const mapStateToProps = (state) => {
     walletBalance,
     utxoDfi,
     maxAccountDfi,
+    paymentRequests,
   };
 };
 

@@ -4,7 +4,7 @@ import {
   BACKUP_WALLET_DAT,
   REPLACE_WALLET_DAT,
   ENABLE_RESET_MENU,
-} from '../constants';
+} from '@defi_types/ipcEvents';
 import Wallet from '../controllers/wallets';
 import { responseMessage } from '../utils';
 

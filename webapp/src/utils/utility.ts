@@ -57,6 +57,10 @@ import {
   DEFAULT_MAIN,
   DEFAULT_TEST,
   APP_TITLE,
+  DEFICHAIN_MAINNET_LINK,
+  DEFICHAIN_TESTNET_LINK,
+  MAINNET,
+  TESTNET,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -71,13 +75,13 @@ import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import {
   getAddressInfo,
-  getNewAddress,
   getTransactionInfo,
   handleFetchAccountDFI,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
+import openNewTab from './openNewTab';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -958,25 +962,10 @@ export const isAddressMine = async (address) => {
 };
 
 export const hdWalletCheck = async (address) => {
+  const rpcClient = new RpcClient();
   const addressInfo = await getAddressInfo(address);
-  const networkType = getNetworkType();
-  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
-  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
-    return true;
-  }
-  return false;
-};
-
-export const hdWalletCheckAndSet = async (address) => {
-  const addressInfo = await getAddressInfo(address);
-  const networkType = getNetworkType();
-  const hdseedidKey = networkType === MAIN ? DEFAULT_MAIN : DEFAULT_TEST;
-  if (!PersistentStore.get(hdseedidKey)) {
-    const address = await getNewAddress('', false);
-    const addressInfo = await getAddressInfo(address);
-    PersistentStore.set(hdseedidKey, addressInfo.hdseedid);
-  }
-  if (addressInfo.hdseedid === PersistentStore.get(hdseedidKey)) {
+  const walletInfo = await rpcClient.getWalletInfo();
+  if (addressInfo.hdseedid === walletInfo.hdseedid) {
     return true;
   }
   return false;
@@ -991,20 +980,15 @@ export const getAddressAndAmountListForAccount = async () => {
   );
 
   const addressAndAmountList = accountList.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
 export const getAddressForSymbol = async (key: string, list: any) => {
-  const rpcClient = new RpcClient();
   let maxAmount = 0;
   let address = '';
   for (const obj of list) {
@@ -1015,8 +999,28 @@ export const getAddressForSymbol = async (key: string, list: any) => {
       address = obj.address;
     }
   }
-  if (address === '') {
-    address = await getNewAddress('', true);
+  return { address, amount: maxAmount };
+};
+
+export const getHighestAmountAddressForSymbol = async (
+  key: string,
+  sendAmount: string,
+  list: any
+) => {
+  let maxAmount = 0;
+  let address = '';
+  for (const obj of list) {
+    const tokenSymbol = Object.keys(obj.amount)[0];
+    const tokenAmount = Number(obj.amount[tokenSymbol]);
+    const tokenAddress = obj.address;
+    if (
+      key === tokenSymbol &&
+      new BigNumber(sendAmount).lte(tokenAmount) &&
+      new BigNumber(tokenAmount).gt(maxAmount)
+    ) {
+      maxAmount = tokenAmount;
+      address = tokenAddress;
+    }
   }
   return { address, amount: maxAmount };
 };
@@ -1299,4 +1303,26 @@ export const handleFetchUtxoDFI = async () => {
 export const handleFetchTokenBalanceList = async () => {
   const rpcClient = new RpcClient();
   return await rpcClient.getTokenBalances();
+};
+
+export const isValidAddress = async (toAddress: string) => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.isValidAddress(toAddress);
+  } catch (err) {
+    log.error(`Got error in isValidAddress: ${err}`);
+    return false;
+  }
+};
+
+export const createChainURL = (tx: string): string => {
+  const [url, net] =
+    getNetworkType() === MAIN
+      ? [DEFICHAIN_MAINNET_LINK, MAINNET]
+      : [DEFICHAIN_TESTNET_LINK, TESTNET];
+  return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
+};
+
+export const onViewOnChain = (tx: string): void => {
+  openNewTab(createChainURL(tx));
 };

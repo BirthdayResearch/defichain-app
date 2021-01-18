@@ -284,7 +284,9 @@
       },
       "swapTab": {
         "from": "Von",
-        "to": "In"
+        "to": "In",
+        "receiveTokensAt": "Token erhalten bei",
+        "receiveAddress": "Empfänger Adresse"
       },
       "poolTab": {
         "yourLiquidity": "Deine liquidity",
@@ -621,7 +623,9 @@
         "sendTitle": "Senden",
         "send": "Senden",
         "pleaseTransferFunds": "Bitte überweise einige DFIs auf dein Konto",
-        "insufficientUtxos": "Ungenügend UTXOS"
+        "insufficientUtxos": "Ungenügend UTXOS",
+        "sendLPWarning": "Es scheint, als würdest du Liquiditätspool-Anteile (LP) Token versenden. Bitte beachte, dass das Senden deiner LP-Token an eine andere DeFiChain-Adresse deinen Liquiditätspool-Anteil an diese Adresse überträgt. Das Versenden von LP-Token an einen anderen Ort als eine andere DeFiChain-Wallet, wie z.B. eine Börse, kann zu einem irreversiblen Verlust der Gelder führen.",
+        "sendLPConfirm": "Ich bestätige, dass ich beabsichtige, LP-Token zu senden und nehme zur Kenntnis, dass das Senden von LP-Token an Adressen, die keine DeFiChain-Wallets sind, zu einem irreversiblen Verlust von Geldern führen kann."
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",
@@ -699,7 +703,9 @@
         "category": "Kategorie",
         "blockHeight": "Blockhöhe",
         "amount": "Anzahl",
-        "txidNotApplicable": "Transaktions-ID nicht anwendbar"
+        "txidNotApplicable": "Transaktions-ID nicht anwendbar",
+        "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
+        "txPaginationRange": "%{to} – %{from} of %{total} transaktionen"
       },
       "walletTxns": {
         "height": "Höhe",
@@ -827,9 +833,11 @@
     "resetWalletDatNotice": "Bist du sicher, dass du zurücksetzen willst?",
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
-    "noResetWalletNotice": "Nein"
+    "noResetWalletNotice": "Nein",
+    "download": "Herunterladen"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi app",
+    "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)"
   }
 }

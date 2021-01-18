@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { CREATE_MNEMONIC } from '../constants';
+import { CREATE_MNEMONIC } from '@defi_types/ipcEvents';
 import Mnemonic from '../mnemonic';
 
 export const createMnemonicAction = () => {

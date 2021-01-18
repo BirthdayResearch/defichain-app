@@ -32,18 +32,25 @@ import {
   MAINNET,
   TESTNET,
   LIST_ACCOUNTS_PAGE_SIZE,
-  DEFAULT_DFI_FOR_REFRESH_UTXOS,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
-import { fetchAccountsDataWithPagination } from '../../utils/utility';
-import { getAddressInfo } from '../TokensPage/service';
+import {
+  fetchAccountsDataWithPagination,
+  getNetworkType,
+} from '../../utils/utility';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
 import store from '../../app/rootStore';
+import {
+  PRELAUNCH_PREFERENCE_DISABLE,
+  PRELAUNCH_PREFERENCE_ENABLE,
+  PRELAUNCH_PREFERENCE_STATUS,
+} from '@defi_types/ipcEvents';
+import { handleGetPaymentRequest } from '../WalletPage/service';
 
 export const getLanguage = () => {
   return [
@@ -138,17 +145,17 @@ export const refreshUtxosAfterSavingData = async () => {
   );
 
   const addressesList = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return account.owner.addresses[0];
-    }
+    return account.owner.addresses[0];
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));
+  const result = handleGetPaymentRequest(getNetworkType());
+  const receivedAddresses: any = result.map((addressObj) => addressObj.address);
+
+  const finalData = [...resolvedData, ...receivedAddresses];
 
   const refrestUtxosAmounts = {};
-  for (const address of resolvedData) {
+  for (const address of finalData) {
     refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
 
@@ -160,7 +167,7 @@ export const refreshUtxosAfterSavingData = async () => {
 const getPreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_STATUS, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
@@ -173,7 +180,7 @@ const getPreLaunchStatus = () => {
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_ENABLE, {
       minimize,
     });
     if (res.success && res.data) {
@@ -188,7 +195,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_DISABLE, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }

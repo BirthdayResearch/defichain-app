@@ -1,6 +1,6 @@
 import * as utility from '../utility';
 import { rpcResponseSchemaMap } from '../schemas/rpcMethodSchemaMapping';
-import * as methodNames from '../../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import {
   validateSchema,
   getTxnDetails,
@@ -291,5 +291,39 @@ describe('utility', () => {
     mockAxios(post);
     const result = await utility.handleFetchUtxoDFI();
     expect(result).toBe(13123);
+  });
+
+  it('should check for isValidAddress', async () => {
+    const post = jest.fn().mockResolvedValueOnce({
+      data: {
+        result: {
+          isvalid: true,
+          address: 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk',
+          scriptPubKey: '001472903c101c2c92d7206842c3d801ec6adccce164',
+          isscript: false,
+          iswitness: true,
+          witness_version: 0,
+          witness_program: '72903c101c2c92d7206842c3d801ec6adccce164',
+        },
+        error: null,
+        id: 'curltest',
+      },
+    });
+    const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+    mockAxios(post);
+    const test = await utility.isValidAddress(param);
+    expect(test).toBeTruthy();
+    expect(post).toBeCalledTimes(1);
+  });
+
+  it('should check for error isValidAddress', async () => {
+    try {
+      const post = jest.fn().mockRejectedValueOnce('Error');
+      const param = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+      mockAxios(post);
+      const test = await utility.isValidAddress(param);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
   });
 });

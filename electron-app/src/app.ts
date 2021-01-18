@@ -1,5 +1,7 @@
 import log from 'loglevel';
 import * as path from 'path';
+import * as os from 'os';
+import osName from 'os-name';
 import * as url from 'url';
 import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
@@ -18,12 +20,12 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
-  STOP_BINARY_AND_QUEUE,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
 import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
 import { createMnemonicAction } from './ipc-events/createMnemonic';
+import { STOP_BINARY_AND_QUEUE } from '@defi_types/ipcEvents';
 
 declare var process: {
   argv: any;
@@ -84,7 +86,7 @@ export default class App {
     protocol.interceptFileProtocol('file', (request, callback) => {
       /* all urls start with 'file://' */
       const fileUrl = request.url.substr(7);
-      const basePath = path.normalize(`${__dirname}/../../../webapp`);
+      const basePath = path.normalize(`${__dirname}/../../../../webapp`);
       if (this.isDevMode) {
         callback(path.normalize(`${basePath}/build/release/${fileUrl}`));
       } else {
@@ -150,6 +152,9 @@ export default class App {
     */
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
+    ElectronLogger.info(
+      `[Starting Electron App] OS ${osName()} - ${os.release()}`
+    );
   };
 
   // Create menu

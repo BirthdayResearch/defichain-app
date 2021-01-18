@@ -21,6 +21,7 @@ import {
   getAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
+  getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   hdWalletCheck,
 } from '../../utils/utility';
@@ -118,15 +119,15 @@ export const handleFetchPendingBalance = async (): Promise<number> => {
   return await rpcClient.getPendingBalance();
 };
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
-};
+// export const isValidAddress = async (toAddress: string) => {
+//   const rpcClient = new RpcClient();
+//   try {
+//     return rpcClient.isValidAddress(toAddress);
+//   } catch (err) {
+//     log.error(`Got error in isValidAddress: ${err}`);
+//     return false;
+//   }
+// };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
@@ -177,13 +178,20 @@ export const sendToAddress = async (
       } = await getAddressForSymbol('0', addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
-      const txHash = await sendTokensToAddress(
-        fromAddress,
-        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
-      );
-      log.info({ accountBalance, sendTokenTxHash: txHash });
-      await getTransactionInfo(txHash);
-      // }
+      //* Consolidate tokens to a single address
+      if (new BigNumber(amount).gt(maxAmount)) {
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
+      }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
       log.info({ consolidateAccountBalance: balance });
@@ -209,6 +217,43 @@ export const sendToAddress = async (
       log.error(`Got error in sendToAddress: ${errorMessage}`);
       throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
+  }
+};
+
+export const handleFallbackSendToken = async (
+  sendAddress: string,
+  sendAmount: string,
+  hash: string
+): Promise<string> => {
+  try {
+    const addressesList = await getAddressAndAmountListForAccount();
+    const {
+      address: fromAddress,
+      amount: maxAmount,
+    } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
+    if (new BigNumber(maxAmount).gt(sendAmount)) {
+      try {
+        const txHash = await accountToAccount(
+          fromAddress,
+          sendAddress,
+          `${sendAmount}@${hash}`
+        );
+        log.info({ handleFallbackSendToken: txHash });
+        return txHash;
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        log.error(errorMessage, `handleFallbackSendToken`);
+        throw new Error(
+          `Got error in handleFallbackSendToken: ${errorMessage}`
+        );
+      }
+    } else {
+      throw new Error('Insufficient token in account');
+    }
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(`${errorMessage}`, 'handleFallbackSendToken');
+    throw new Error(`Got error in handleFallbackSendToken: ${errorMessage}`);
   }
 };
 
@@ -321,14 +366,10 @@ export const handleFetchAccounts = async () => {
   );
 
   const tokensData = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
 
   const resolvedData: any = compact(await Promise.all(tokensData));

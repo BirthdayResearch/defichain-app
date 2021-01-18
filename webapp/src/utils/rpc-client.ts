@@ -15,7 +15,7 @@ import {
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
 } from './../constants';
-import * as methodNames from '../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import {
   IAddressAndAmount,
@@ -98,6 +98,11 @@ export default class RpcClient {
 
   getBlockCount = async (): Promise<number> => {
     const { data } = await this.call('/', methodNames.GET_BLOCK_COUNT, []);
+    return data.result;
+  };
+
+  getWalletInfo = async (): Promise<any> => {
+    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
 
