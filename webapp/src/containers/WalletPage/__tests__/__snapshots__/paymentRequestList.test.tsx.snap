@@ -57,7 +57,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                   <div
                     className="card-body"
                   >
-                    No payment requests available
+                    No receive addresses available
                   </div>
                 </CardBody>
               </div>

@@ -1,5 +1,7 @@
+import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
+
 export const TEST = 'test';
-export const RPC_V = '1.0';
+export const RPC_V = RPCVersion;
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
 export const SYNC_TIMEOUT = 10000;
@@ -107,8 +109,8 @@ export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
 export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';
 export const GITHUB_ISSUE_HELP_LINK =
   'https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App';
-export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
-export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
+export const DEFICHAIN_OFFICIAL_HELP_LINK = SITE_URL;
+export const DEFICHAIN_FAQ_HELP_LINK = `${DEFICHAIN_OFFICIAL_HELP_LINK}learn/#faq`;
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
 export const LEARN_MORE_ABOUT_BITCOIN_LINK =
   'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';

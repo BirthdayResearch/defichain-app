@@ -20,7 +20,11 @@
     "downlevelIteration": true,
     "declaration": true,
     "declarationMap": true,
-    "pretty": true
+    "pretty": true,
+    "baseUrl": ".",
+    "paths": {
+      "@defi_types/*": ["../typings/*"]
+    }
   },
   "exclude": ["node_modules", "webpack"],
   "include": [

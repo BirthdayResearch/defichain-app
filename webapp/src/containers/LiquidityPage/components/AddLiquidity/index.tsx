@@ -27,15 +27,9 @@ import {
   BTC,
   BTC_SYMBOL,
   CREATE_POOL_PAIR_PATH,
-  DEFICHAIN_MAINNET_LINK,
-  DEFICHAIN_TESTNET_LINK,
   DFI,
   DFI_SYMBOL,
   LIQUIDITY_PATH,
-  MAIN,
-  MAINNET,
-  MINIMUM_UTXOS_FOR_LIQUIDITY,
-  TESTNET,
 } from '../../../../constants';
 import {
   calculateInputAddLiquidity,
@@ -43,7 +37,6 @@ import {
   conversionRatio,
   countDecimals,
   getBalanceAndSymbolMap,
-  getNetworkType,
   getPageTitle,
   getTokenAndBalanceMap,
   getTotalPoolValue,
@@ -52,12 +45,11 @@ import {
 } from '../../../../utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
-import openNewTab from '../../../../utils/openNewTab';
 import Header from '../../../HeaderComponent';
-import { handleFetchRegularDFI } from '../../../WalletPage/service';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
+import ViewOnChain from 'src/components/ViewOnChain';
 
 interface AddLiquidityProps {
   location: any;
@@ -98,7 +90,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
-  const [sufficientUtxos, setSufficientUtxos] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<AddLiquidityFormState>({
     amount1: '',
@@ -136,14 +127,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     fetchPoolsharesRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
-  }, []);
-
-  useEffect(() => {
-    async function getData() {
-      const regularDFI = await handleFetchRegularDFI();
-      setSufficientUtxos(regularDFI > MINIMUM_UTXOS_FOR_LIQUIDITY);
-    }
-    getData();
   }, []);
 
   useEffect(() => {
@@ -503,16 +486,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     );
   };
 
-  const onViewOnChain = () => {
-    const [url, net] =
-      getNetworkType() === MAIN
-        ? [DEFICHAIN_MAINNET_LINK, MAINNET]
-        : [DEFICHAIN_TESTNET_LINK, TESTNET];
-    openNewTab(
-      `${url}/#/DFI/${net.toLowerCase()}/tx/${addPoolLiquidityHash ?? ''}`
-    );
-  };
-
   return (
     <div className='main-wrapper'>
       {liquidityChangedModal()}
@@ -663,37 +636,25 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           })}
         >
           <Row className='justify-content-between align-items-center'>
-            {!sufficientUtxos ? (
-              <Col className={`${styles['error-dialog']} col-auto`}>
-                {I18n.t('containers.swap.addLiquidity.insufficientUtxos')}
-              </Col>
-            ) : (
-              <>
-                {!isAmountInsufficient() ? (
-                  <Col className='col-auto'>
-                    {isValid()
-                      ? I18n.t('containers.swap.addLiquidity.readyToSupply')
-                      : I18n.t(
-                          'containers.swap.addLiquidity.selectInputTokens'
-                        )}
-                  </Col>
-                ) : (
-                  <Col className='col-auto'>
-                    <span className='text-danger'>
-                      {I18n.t(
-                        'containers.swap.addLiquidity.amountInsufficient'
-                      )}
-                    </span>
-                  </Col>
-                )}
-              </>
-            )}
+            <>
+              {!isAmountInsufficient() ? (
+                <Col className='col-auto'>
+                  {isValid()
+                    ? I18n.t('containers.swap.addLiquidity.readyToSupply')
+                    : I18n.t('containers.swap.addLiquidity.selectInputTokens')}
+                </Col>
+              ) : (
+                <Col className='col-auto'>
+                  <span className='text-danger'>
+                    {I18n.t('containers.swap.addLiquidity.amountInsufficient')}
+                  </span>
+                </Col>
+              )}
+            </>
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={
-                  !Number(formState.amount1) || !isValid() || !sufficientUtxos
-                }
+                disabled={!Number(formState.amount1) || !isValid()}
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
@@ -788,9 +749,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button onClick={onViewOnChain} color='link' className='mr-3'>
-                {I18n.t('containers.swap.addLiquidity.viewOnChain')}
-              </Button>
+              <ViewOnChain txid={addPoolLiquidityHash} />
               <Button to={LIQUIDITY_PATH} tag={RRNavLink} color='primary'>
                 {I18n.t('containers.swap.addLiquidity.backToPool')}&nbsp;
               </Button>
