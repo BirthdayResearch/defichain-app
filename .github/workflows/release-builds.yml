@@ -32,9 +32,10 @@ jobs:
       - name: Get App Version
         uses: nyaayaya/package-version@v1
       - name: Fetch Release Asset
-        uses: dsaltares/fetch-gh-release-asset@master
+        uses: Legion2/download-release-action@v2.1.0
         with:
-          version: 'tags/v${{ env.PACKAGE_VERSION}}'
+          repository: 'DeFiCh/app'
+          tag: 'v${{ env.PACKAGE_VERSION}}'
           file: './defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
       - name: Get Release Info with Tag Name
         id: latest_release_info
