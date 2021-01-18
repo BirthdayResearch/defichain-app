@@ -291,8 +291,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const handleAddressDropdown = (data: any) => {
     setFormState({
       ...formState,
-      receiveAddress: data.address,
-      receiveLabel: data.label,
+      receiveAddress: data?.address,
+      receiveLabel: data?.label,
     });
   };
 
