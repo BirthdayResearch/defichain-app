@@ -316,7 +316,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           </Table>
         </Card>
         <CustomPaginationComponent
-          label={I18n.t('containers.wallet.walletPage.paginationRange', {
+          label={I18n.t('containers.wallet.walletPage.txPaginationRange', {
             to,
             total,
             from,

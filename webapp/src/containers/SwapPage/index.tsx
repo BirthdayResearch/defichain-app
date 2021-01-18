@@ -56,6 +56,7 @@ import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from 'src/components/ViewOnChain';
+import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface SwapPageProps {
   history?: any;
@@ -89,6 +90,7 @@ interface SwapPageProps {
   resetTestPoolSwapRequestTo: () => void;
   resetTestPoolSwapErrorFrom: () => void;
   resetTestPoolSwapRequestFrom: () => void;
+  paymentRequests: PaymentRequestModel[];
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -140,6 +142,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     fetchMaxAccountDfiRequest,
     resetTestPoolSwapErrorTo,
     resetTestPoolSwapRequestTo,
+    paymentRequests,
   } = props;
 
   useEffect(() => {
@@ -219,6 +222,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       }
     }
   }, [poolSwapHash, isErrorPoolSwap, isLoadingPoolSwap, allowCalls]);
+
+  useEffect(() => {
+    handleAddressDropdown((paymentRequests ?? [])[0]);
+  }, []);
 
   const tokenMap = getTokenListForSwap(
     poolPairList,
@@ -826,7 +833,7 @@ const mapStateToProps = (state) => {
     utxoDfi,
     maxAccountDfi,
   } = state.swap;
-  const { walletBalance } = state.wallet;
+  const { walletBalance, paymentRequests } = state.wallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -845,6 +852,7 @@ const mapStateToProps = (state) => {
     walletBalance,
     utxoDfi,
     maxAccountDfi,
+    paymentRequests,
   };
 };
 
