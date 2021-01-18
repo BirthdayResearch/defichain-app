@@ -656,7 +656,7 @@
         "addReceiveAddress": "Eine Empfangsadresse hinzufügen",
         "address": "Adresse",
         "enterAnAddress": "Gib eine Adresse in dein Konto ein",
-        "invalidAddress": "Adresse im Wallet vorhanden"
+        "invalidAddress": "Adresse im Wallet vorhanden."
       },
       "paymentRequests": {
         "time": "Zeit",
