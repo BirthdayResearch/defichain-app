@@ -36,11 +36,6 @@ jobs:
         with:
           version: 'tags/v${{ env.PACKAGE_VERSION}}'
           file: './defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
-          token: ${{ secrets.GH_TOKEN}}
-      - name: Generate SHA256 checksum
-        run: |
-          ls
-          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage
       - name: Get Release Info with Tag Name
         id: latest_release_info
         uses: leahlundqvist/get-release@v1.3.1
@@ -48,6 +43,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v${{ env.PACKAGE_VERSION}}'
+          token: ${{ secrets.GH_TOKEN}}
+      - name: Generate SHA256 checksum
+        run: |
+          ls
+          sha256sum ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage
       - name: Print directory
         run: ls
       # - name: Upload checksum - Linux
