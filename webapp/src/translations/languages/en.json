@@ -410,7 +410,8 @@
         "transferringTokens": "Transferring tokens",
         "tokensTransferred": "Tokens transferred",
         "dexExplorer": "Dex Explorer",
-        "insufficientUtxos": "Insufficient UTXOs to swap"
+        "insufficientUtxos": "Insufficient UTXOs to swap",
+        "backToDEX": "Back to DEX"
       },
       "swapTab": {
         "from": "From",
