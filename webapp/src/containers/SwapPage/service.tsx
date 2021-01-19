@@ -50,9 +50,9 @@ export const handleTestPoolSwapTo = async (formState) => {
 export const handleTestPoolSwapFrom = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const address1 = formState.receiveAddress;
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    formState.hash2,
+  const address2 = formState.receiveAddress;
+  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+    formState.hash1,
     list
   );
 
