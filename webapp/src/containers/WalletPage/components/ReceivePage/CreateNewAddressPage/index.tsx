@@ -24,7 +24,6 @@ import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
 import {
   getPageTitle,
-  hdWalletCheck,
   isAddressMine,
   isValidAddress,
 } from '../../../../../utils/utility';
