@@ -652,8 +652,8 @@
         "addReceiveAddress": "Add a receive address",
         "address": "Address",
         "enterAnAddress": "Enter an address in your account",
-        "existingAddressOthers": "Invalid address. Please check this belongs to you, the current address has been used.",
-        "existingAddress": "Address exist in wallet.",
+        "existingAddressOthers": "Invalid address. Please check this belongs to you.",
+        "existingAddress": "Address already exists.",
         "invalidAddress": "Invalid address."
       },
       "paymentRequests": {
