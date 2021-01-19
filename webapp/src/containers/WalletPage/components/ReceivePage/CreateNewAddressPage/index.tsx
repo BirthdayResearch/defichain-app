@@ -24,7 +24,6 @@ import Header from '../../../../HeaderComponent';
 import styles from '../../../WalletPage.module.scss';
 import {
   getPageTitle,
-  hdWalletCheck,
   isAddressMine,
   isValidAddress,
 } from '../../../../../utils/utility';
@@ -47,6 +46,12 @@ interface CreateNewAddressPageProps {
   };
 }
 
+enum AddressValidity {
+  ERROR_EXIST_OWN_WALLET = 'containers.wallet.receivePage.existingAddress',
+  ERROR_EXIST_OTHER_WALLET = 'containers.wallet.receivePage.existingAddressOthers',
+  ERROR_INVALID_ADDRESS_FORMAT = 'containers.wallet.receivePage.invalidAddress',
+}
+
 const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> = (
   props: CreateNewAddressPageProps
 ) => {
@@ -58,7 +63,10 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     setAutomaticallyGenerateNewAddress,
   ] = useState(true);
   const [advanceOpen, setAdvanceOption] = useState(false);
-  const [isAddressValidBoolean, setIsAddressValidBoolean] = useState(false);
+  const [
+    addressValidity,
+    setAddressValidity,
+  ] = useState<AddressValidity | null>();
 
   const handleChange = (e) => {
     if (e.target.type === 'checkbox') {
@@ -87,26 +95,31 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     const paymentRequestObj = props.paymentRequests.find(
       (paymentRequest) => paymentRequest.address === address
     );
-    if (paymentRequestObj) {
-      return false;
-    }
-    return true;
+    return paymentRequestObj != null;
   };
 
   const isAddressValid = async (value) => {
-    let isAddressValid = false;
-    if (
-      value.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-      value.length <= 35
-    ) {
-      isAddressValid =
-        (await isValidAddress(value)) &&
-        (await isAddressMine(value)) &&
-        isAddressAlreadyExists(value);
-      // No need to check address belongs to HD wallet
-      // && (await hdWalletCheck(value));
+    try {
+      if (value.length < 26 || value.length > 35) {
+        setAddressValidity(AddressValidity.ERROR_INVALID_ADDRESS_FORMAT);
+        return;
+      }
+      if (!(await isValidAddress(value))) {
+        setAddressValidity(AddressValidity.ERROR_INVALID_ADDRESS_FORMAT);
+        return;
+      }
+      if (isAddressAlreadyExists(value)) {
+        setAddressValidity(AddressValidity.ERROR_EXIST_OWN_WALLET);
+        return;
+      }
+      if (!(await isAddressMine(value))) {
+        setAddressValidity(AddressValidity.ERROR_EXIST_OTHER_WALLET);
+        return;
+      }
+      setAddressValidity(null);
+    } catch (error) {
+      log.error(error);
     }
-    setIsAddressValidBoolean(isAddressValid);
   };
 
   const onSubmit = async (event: FormEvent) => {
@@ -198,13 +211,13 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
                 />
                 {address ? (
                   <>
-                    {isAddressValidBoolean ? (
+                    {addressValidity == null ? (
                       <FormText color='muted'>
                         {I18n.t('containers.wallet.receivePage.enterAnAddress')}
                       </FormText>
                     ) : (
                       <FormText className={styles['error-dialog']}>
-                        {I18n.t('containers.wallet.receivePage.invalidAddress')}
+                        {I18n.t(addressValidity)}
                       </FormText>
                     )}
                   </>
@@ -313,7 +326,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
               onClick={onSubmit}
               disabled={
                 !automaticallyGenerateNewAddress
-                  ? !isAddressValidBoolean
+                  ? addressValidity != null
                   : false
               }
             >
