@@ -47,6 +47,12 @@ interface CreateNewAddressPageProps {
   };
 }
 
+enum AddressValidity {
+  ERROR_EXIST_OWN_WALLET = 'ERROR_EXIST_OWN_WALLET',
+  ERROR_EXIST_OTHER_WALLET = 'ERROR_EXIST_OTHER_WALLET',
+  ERROR_INVALID_ADDRESS_FORMAT = 'ERROR_INVALID_ADDRESS_FORMAT',
+}
+
 const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> = (
   props: CreateNewAddressPageProps
 ) => {
@@ -58,7 +64,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
     setAutomaticallyGenerateNewAddress,
   ] = useState(true);
   const [advanceOpen, setAdvanceOption] = useState(false);
-  const [isAddressValidBoolean, setIsAddressValidBoolean] = useState(false);
+  const [addressValidity, setAddressValidity] = useState<AddressValidity>();
 
   const handleChange = (e) => {
     if (e.target.type === 'checkbox') {
@@ -94,19 +100,22 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
   };
 
   const isAddressValid = async (value) => {
-    let isAddressValid = false;
-    if (
-      value.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-      value.length <= 35
-    ) {
-      isAddressValid =
-        (await isValidAddress(value)) &&
-        (await isAddressMine(value)) &&
-        isAddressAlreadyExists(value);
-      // No need to check address belongs to HD wallet
-      // && (await hdWalletCheck(value));
+    if (value.length < 26 || value.length > 35) {
+      setAddressValidity(AddressValidity.ERROR_INVALID_ADDRESS_FORMAT);
+      return;
     }
-    setIsAddressValidBoolean(isAddressValid);
+    if (await isValidAddress(value)) {
+      setAddressValidity(AddressValidity.ERROR_INVALID_ADDRESS_FORMAT);
+      return;
+    }
+    if ((await isAddressMine(value)) && isAddressAlreadyExists(value)) {
+      setAddressValidity(AddressValidity.ERROR_EXIST_OWN_WALLET);
+      return;
+    }
+    if (await hdWalletCheck(value)) {
+      setAddressValidity(AddressValidity.ERROR_EXIST_OTHER_WALLET);
+      return;
+    }
   };
 
   const onSubmit = async (event: FormEvent) => {
@@ -198,7 +207,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
                 />
                 {address ? (
                   <>
-                    {isAddressValidBoolean ? (
+                    {addressValidity != null ? (
                       <FormText color='muted'>
                         {I18n.t('containers.wallet.receivePage.enterAnAddress')}
                       </FormText>
@@ -313,7 +322,7 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
               onClick={onSubmit}
               disabled={
                 !automaticallyGenerateNewAddress
-                  ? !isAddressValidBoolean
+                  ? addressValidity != null
                   : false
               }
             >
