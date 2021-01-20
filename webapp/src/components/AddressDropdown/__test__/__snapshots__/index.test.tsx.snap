@@ -29,5 +29,30 @@ exports[`AddressDropdown  should check for snapshot 1`] = `
       },
     }
   }
-/>
+>
+  <Connect(AddressDropdown)
+    additionalClass={[Function]}
+    formState={
+      Object {
+        "receiveAddress": "receiveAddress",
+        "receiveLabel": "receiveLabel",
+      }
+    }
+    getTransactionLabel={[Function]}
+    isDisabled={true}
+    onSelectAddress={[Function]}
+    paymentRequests={
+      Object {
+        "address": "address",
+        "amount": 1,
+        "hdSeed": true,
+        "id": "id",
+        "label": "label",
+        "message": "message",
+        "time": "time",
+        "unit": "unit",
+      }
+    }
+  />
+</ContextProvider>
 `;
