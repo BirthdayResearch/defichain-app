@@ -23,6 +23,7 @@ import {
   getErrorMessage,
   getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
+  handleFetchTokenBalanceList,
   hdWalletCheck,
 } from '../../utils/utility';
 import {
@@ -516,7 +517,7 @@ export const handleRestartCriteria = async () => {
   const rpcClient = new RpcClient();
   const balance = await rpcClient.getBalance();
   const txCount = await rpcClient.getWalletTxnCount();
-  const tokenBalance = await rpcClient.getTokenBalances();
+  const tokenBalance = await handleFetchTokenBalanceList();
   return (
     new BigNumber(balance).gt(0) ||
     new BigNumber(txCount).gt(0) ||
