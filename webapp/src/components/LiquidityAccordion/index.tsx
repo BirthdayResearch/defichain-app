@@ -22,7 +22,6 @@ import {
 } from '../../constants';
 import PairIcon from '../PairIcon';
 import NumberMask from '../NumberMask';
-import BigNumber from 'bignumber.js';
 
 interface LiquidityAccordionProps {
   history: any;
@@ -51,9 +50,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
       history.push(
         `${REMOVE_LIQUIDITY_BASE_PATH}/${
           poolpair.poolID
-        }?sharePercentage=${new BigNumber(poolpair.poolSharePercentage).toFixed(
-          8
-        )}`
+        }?sharePercentage=${Number(poolpair.poolSharePercentage).toFixed(8)}`
       );
     }
   };
@@ -63,8 +60,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
   const { poolpair } = props;
 
   const liquidityAmount = (percentage, reserve) => {
-    const liquidityAmount =
-      (new BigNumber(percentage).toNumber() / 100) * reserve;
+    const liquidityAmount = (Number(percentage) / 100) * reserve;
     return liquidityAmount.toFixed(8);
   };
 
@@ -144,7 +140,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
             <Col className={styles.value}>
-              {`${new BigNumber(poolpair.poolSharePercentage).toFixed(8)}%`}
+              {`${Number(poolpair.poolSharePercentage).toFixed(8)}%`}
             </Col>
           </Row>
         </CardBody>

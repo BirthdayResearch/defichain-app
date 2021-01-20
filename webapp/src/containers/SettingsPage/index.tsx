@@ -15,7 +15,6 @@ import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
 import { getPageTitle } from '../../utils/utility';
-import BigNumber from 'bignumber.js';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -153,10 +152,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     event: { target: { name: string; value: string } },
     field: string
   ) => {
-    if (
-      isNaN(new BigNumber(event.target.value).toNumber()) &&
-      event.target.value !== ''
-    ) {
+    if (isNaN(Number(event.target.value)) && event.target.value !== '') {
       return false;
     }
 

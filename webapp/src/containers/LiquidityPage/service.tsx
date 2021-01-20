@@ -201,9 +201,9 @@ export const handleAddPoolLiquidity = async (
 
   return await rpcClient.addPooLiquidity(
     address1,
-    `${new BigNumber(amount1).toFixed(8)}@${hash1}`,
+    `${Number(amount1).toFixed(8)}@${hash1}`,
     address2,
-    `${new BigNumber(amount2).toFixed(8)}@${hash2}`,
+    `${Number(amount2).toFixed(8)}@${hash2}`,
     shareAddress
   );
 };
@@ -221,8 +221,8 @@ export const handleRemovePoolLiquidity = async (
     if (new BigNumber(amount).gt(sumAmount)) {
       const tempAmount =
         sumAmount + Number(obj.amount) <= Number(amount)
-          ? new BigNumber(obj.amount).toNumber()
-          : new BigNumber(amount).toNumber() - sumAmount;
+          ? Number(obj.amount)
+          : Number(amount) - sumAmount;
       addressList.push({
         address: obj.address,
         amount: tempAmount,
@@ -244,7 +244,7 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async (obj) => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
+      `${Number(obj.amount).toFixed(8)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;

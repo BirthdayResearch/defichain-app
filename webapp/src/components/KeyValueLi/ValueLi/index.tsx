@@ -4,7 +4,6 @@ import CopyToClipboard from '../../CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import styles from './ValueLi.module.scss';
-import BigNumber from 'bignumber.js';
 
 interface KeyValueLiProps {
   copyable?: boolean | string;
@@ -39,7 +38,7 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
           {props.value ? (
             <EllipsisText
               text={props.value}
-              length={new BigNumber(props.textLimit ?? `50`).toNumber()}
+              length={Number(props.textLimit ?? `50`)}
             />
           ) : (
             '-'

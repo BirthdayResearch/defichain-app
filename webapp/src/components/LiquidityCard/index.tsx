@@ -6,7 +6,6 @@ import { ITokenBalanceInfo } from '../../utils/interfaces';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './LiquidityCard.module.scss';
-import BigNumber from 'bignumber.js';
 
 interface LiquidityCardProps {
   label: string;
@@ -57,7 +56,7 @@ const LiquidityCard: React.FunctionComponent<LiquidityCardProps> = (
                 id='input'
                 value={formState[`amount${name}`]}
                 onChange={(e) => {
-                  if (new BigNumber(e.target.value).toNumber() >= 0) {
+                  if (Number(e.target.value) >= 0) {
                     handleChange(e);
                   }
                 }}
