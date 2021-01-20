@@ -9,6 +9,7 @@ import {
 } from './testData.json';
 import log from 'loglevel';
 import { mockAxios } from '../testUtils/mockUtils';
+import { AccountModel } from 'src/constants/rpcModel';
 
 const DUST_VALUE_DFI = '0.00000546';
 const DUST_VALUE_FI = '546';
@@ -325,5 +326,103 @@ describe('utility', () => {
     } catch (err) {
       expect(err).toBeTruthy();
     }
+  });
+
+  it('should return token balance using getTokenBalances', async () => {
+    const accounts: AccountModel[] = [
+      {
+        key: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac@0',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '0': 1,
+        },
+      },
+      {
+        key: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac@1',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '1': 100,
+        },
+      },
+      {
+        key: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac@1',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '1': 5,
+        },
+      },
+    ];
+    const result = utility.getTokenBalances(accounts);
+    expect(result).toEqual(['1@0', '105@1']);
+  });
+
+  it('should not return token balance without address using getTokenBalances', async () => {
+    const accounts: AccountModel[] = [
+      {
+        key: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac@0',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '0': 1,
+        },
+      },
+      {
+        key: '@1',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '1': 100,
+        },
+      },
+      {
+        key: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac@1',
+        owner: {
+          asm: '',
+          hex: '76a914f26fa153c6fec0cb6ac4023ba4fd29a125156c8388ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['7RAw2Fg1CEEhybAb22XGsTiNFe7PTuxkMj'],
+        },
+        amount: {
+          '1': 5,
+        },
+      },
+    ];
+    const result = utility.getTokenBalances(accounts);
+    expect(result).toEqual(['1@0', '5@1']);
+  });
+
+  it('getTokenBalances should not break on empty accounts', async () => {
+    const accounts: AccountModel[] = [];
+    const result = utility.getTokenBalances(accounts);
+    expect(result.length).toBe(0);
   });
 });

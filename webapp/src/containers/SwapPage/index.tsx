@@ -44,7 +44,6 @@ import {
   WALLET_TOKENS_PATH,
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
-  LIQUIDITY_PATH,
   DEX_EXPLORER_BASE_LINK,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
@@ -291,15 +290,20 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const handleAddressDropdown = (data: any) => {
     setFormState({
       ...formState,
-      receiveAddress: data.address,
-      receiveLabel: data.label,
+      receiveAddress: data?.address,
+      receiveLabel: data?.label,
     });
   };
 
   const setMaxValue = (field: string, value: string) => {
+    setFromTestValue(true);
+    setToTestValue(false);
     setFormState({
       ...formState,
-      [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
+      [field]:
+        formState.hash1 === '0'
+          ? Math.max(Number(value) - 1, 0).toFixed(8)
+          : Number(value).toFixed(8),
       amount2: testPoolSwapTo,
     });
   };
@@ -803,8 +807,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={LIQUIDITY_PATH} tag={RRNavLink}>
-                {I18n.t('containers.swap.addLiquidity.backToPool')}
+              <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
+                {I18n.t('containers.swap.addLiquidity.backToDEX')}
               </Button>
             </div>
           </div>
