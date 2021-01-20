@@ -296,9 +296,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   };
 
   const setMaxValue = (field: string, value: string) => {
+    setFromTestValue(true);
+    setToTestValue(false);
     setFormState({
       ...formState,
-      [field]: formState.hash1 === '0' ? Math.max(Number(value) - 1, 0) : value,
+      [field]:
+        formState.hash1 === '0'
+          ? Math.max(Number(value) - 1, 0).toFixed(8)
+          : Number(value).toFixed(8),
       amount2: testPoolSwapTo,
     });
   };
