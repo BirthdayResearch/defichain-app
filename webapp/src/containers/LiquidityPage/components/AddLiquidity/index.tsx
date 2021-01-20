@@ -49,7 +49,7 @@ import Header from '../../../HeaderComponent';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../../src/components/ViewOnChain';
 
 interface AddLiquidityProps {
   location: any;
