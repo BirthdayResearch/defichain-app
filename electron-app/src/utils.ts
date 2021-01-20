@@ -22,6 +22,7 @@ import {
   TESTNET_BASE_FOLDER,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
+import * as log from '././services/electronLogger';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -184,4 +185,16 @@ export const getBaseFolder = () => {
     baseFolder = REGTEST_BASE_FOLDER;
   }
   return baseFolder;
+};
+
+export const deletePeersFile = () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const destFileName = `peers.dat`;
+    const destFilePath = path.join(baseFolder, '../', destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted peers file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
 };
