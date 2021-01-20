@@ -6,13 +6,27 @@ import {
   getTxnDetails,
   expected,
   listUnspentTwo,
+  mnemonicObject,
+  mnemonicCode,
+  validatedMnemonicCode,
+  poolPairList,
+  uniqueTokenList,
+  main_net,
+  test_net,
+  other_net,
+  address,
+  tokenMap,
 } from './testData.json';
 import log from 'loglevel';
 import { mockAxios } from '../testUtils/mockUtils';
 import { AccountModel } from 'src/constants/rpcModel';
+import { BigNumber } from 'bignumber.js';
 
 const DUST_VALUE_DFI = '0.00000546';
 const DUST_VALUE_FI = '546';
+const TEST: string = 'test';
+const MAIN: string = 'main';
+const OTHER_NETWORK = 'other_network';
 
 describe('utility', () => {
   it('fetchPageNumbers when currentPage, totalPages, pageNeighbors', () => {
@@ -424,5 +438,220 @@ describe('utility', () => {
     const accounts: AccountModel[] = [];
     const result = utility.getTokenBalances(accounts);
     expect(result.length).toBe(0);
+  });
+  it('should return path if getFromPersistentStorage is present', () => {
+    const result = utility.getFromPersistentStorage('path');
+    expect(result).toBe(null);
+  });
+
+  it('should return RpcMethodName', () => {
+    const result = utility.getRpcMethodName('getAddressAndAmounts');
+    expect(result).toBe('getAddressAndAmounts');
+  });
+
+  it('should return data object in sring format if setToPersistentStorage is present ', () => {
+    const data = {};
+    const result = utility.setToPersistentStorage('path', data);
+    expect(result).toBe('{}');
+  });
+
+  it('should return filterByValue', () => {
+    const array = ['getAddressAndAmount'];
+    const query = 'getAddressAndAmount';
+    const result = utility.filterByValue(array, query);
+    expect(result).toStrictEqual([]);
+  });
+
+  it('should return paginate with pageSize and pageNo is present', () => {
+    const result = utility.paginate([], 2, 1);
+    expect(result).toStrictEqual([]);
+  });
+
+  it('should return ErrorMessage ', () => {
+    const ErrorMessage = {
+      message: 'Error',
+      response: {
+        data: {
+          error: {
+            message: 'something went wrong',
+          },
+        },
+      },
+    };
+    const result = utility.getErrorMessage(ErrorMessage);
+    expect(result).toEqual(ErrorMessage.response.data.error.message);
+  });
+
+  it('should return MnemonicObject ', () => {
+    const result = utility.getMnemonicObject();
+    expect(result).toBe(result);
+  });
+
+  it('should return RandomWordObject  ', () => {
+    const result = utility.getRandomWordObject();
+    expect(result).toBe(result);
+  });
+
+  it('should return MixWordsObject', () => {
+    const result = utility.getMixWordsObject(
+      mnemonicObject,
+      mnemonicObject.mnemonicObj
+    );
+    expect(result).toBe(result);
+  });
+
+  it('should be check ElementsInArray', () => {
+    const result = utility.checkElementsInArray([], mnemonicObject);
+    expect(result).toBeFalsy();
+  });
+
+  it('should return NetworkInfo ', () => {
+    const main = utility.getNetworkInfo(MAIN);
+    const test = utility.getNetworkInfo(TEST);
+    const other_network = utility.getNetworkInfo(OTHER_NETWORK);
+    expect(main.bech32).toBe(main_net.bech32);
+    expect(test.bech32).toBe(test_net.bech32);
+    expect(other_network.bech32).toBe(other_net.bech32);
+  });
+
+  it('should return MnemonicFromObj', () => {
+    const result = utility.getMnemonicFromObj(mnemonicObject);
+    expect(result).toBe(mnemonicCode);
+  });
+
+  it('should be validated Mnemonic', () => {
+    const result = utility.getMnemonicFromObj(mnemonicCode);
+    expect(result).toBe(validatedMnemonicCode);
+  });
+
+  it('should return true or false if isWalletCreated ', () => {
+    const test = utility.isWalletCreated(TEST);
+    expect(test).toBeFalsy();
+  });
+
+  it('should return uniqueTokenList', () => {
+    const result = utility.getUniqueTokenMap(poolPairList);
+    const uniqueTokenLists = new Map(Object.entries(uniqueTokenList));
+    expect(result).toStrictEqual(uniqueTokenLists);
+  });
+
+  it('should return tokenMap', () => {
+    const tokenMaps = new Map(Object.entries(tokenMap));
+    const result = utility.getTokenAndBalanceMap(poolPairList, [], 0);
+    expect(result).toStrictEqual(tokenMaps);
+  });
+
+  it('should return balanceAndSymbolMap', () => {
+    const map = new Map();
+    const result = utility.getBalanceAndSymbolMap([]);
+    expect(result).toEqual(map);
+  });
+
+  it('should return true or false is WalletEncrypted', () => {
+    const result = utility.isWalletEncrypted();
+    expect(result).toBeFalsy();
+  });
+
+  it('should return TotalBlocks', async () => {
+    const result = utility.getTotalBlocks();
+    expect(result).toBeTruthy();
+  });
+
+  it('should return countDecimals', function () {
+    const result = utility.countDecimals(1);
+    expect(result).toBe(0);
+  });
+
+  it('should return selectedPoolPair', function () {
+    const result = utility.selectedPoolPair({}, poolPairList);
+    expect(result).toStrictEqual([undefined, false]);
+  });
+
+  it('should be validated account address', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.isAddressMine(address);
+    expect(result).toBeFalsy();
+  });
+
+  it('should be validated hdWalletCheck', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.hdWalletCheck(address);
+    expect(result).toBeTruthy();
+  });
+
+  it('should be validated getAddressAndAmountListForAccount', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.getAddressAndAmountListForAccount();
+    expect(result).toStrictEqual([]);
+  });
+
+  it('should be validated getAddressAndAmountListForAccount', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: [] } });
+    mockAxios(post);
+    const result = await utility.getAddressAndAmountListForAccount();
+    expect(result).toStrictEqual([]);
+  });
+
+  it('should be return parsedCoinPriceData', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: 1 } });
+    mockAxios(post);
+    const result = await utility.parsedCoinPriceData();
+    expect(result[0]).toBeTruthy();
+  });
+
+  it('should be return Balance', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: 34.0 } });
+    mockAxios(post);
+    const result = await utility.getDfiUTXOS();
+    expect(result).toBe(34.0);
+  });
+
+  it('should be return getAddressAndAmountListPoolShare', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: 6 } });
+    mockAxios(post);
+    const result = await utility.getAddressAndAmountListPoolShare(6);
+    expect(result).toStrictEqual([]);
+  });
+
+  it('should be return getTotalAmountPoolShare', async () => {
+    const post = jest.fn().mockResolvedValue({ data: { result: 6 } });
+    mockAxios(post);
+    const result = await utility.getTotalAmountPoolShare(6);
+    expect(result).toBe(0);
+  });
+
+  it('should return getSymbolKey', function () {
+    const result = utility.getSymbolKey('1', '10');
+    expect(result).toBe('1#10');
+  });
+
+  it('should return distinctRandomNumbers', function () {
+    const result = utility.selectNfromRange(1, 10, 6);
+    expect(result).toBeTruthy();
+  });
+
+  it('should be return numberWithCommas', function () {
+    const result = utility.numberWithCommas(1);
+    expect(result).toBe('1');
+  });
+
+  it('should  be calculateAPY', async () => {
+    const totalLiquidity = new BigNumber(123.4567);
+    const yearlyPoolReward = new BigNumber(123.4567);
+    const result = utility.calculateAPY(totalLiquidity, yearlyPoolReward);
+    expect(result).toBe('81.08');
+  });
+
+  it('should  be return TokenBalanceList', async () => {
+    const TokenBalanceList = new Promise(function (resolve, reject) {});
+    const post = jest.fn().mockResolvedValueOnce({
+      data: { result: 13123 },
+    });
+    mockAxios(post);
+    const result = utility.handleFetchTokenBalanceList();
+    expect(result).toStrictEqual(TokenBalanceList);
   });
 });
