@@ -37,7 +37,7 @@ export const handleTestPoolSwapTo = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address1,
       formState.hash1,
-      Number(formState.amount1),
+      new BigNumber(formState.amount1).toNumber(),
       address2,
       formState.hash2
     );
@@ -60,7 +60,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address2,
       formState.hash2,
-      Number(formState.amount2),
+      new BigNumber(formState.amount2).toNumber(),
       address1,
       formState.hash1
     );
@@ -81,7 +81,7 @@ export const handlePoolSwap = async (formState) => {
   let accountToAccountAmount = new BigNumber(0);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(formState.amount1) > maxAmount1) {
+  if (new BigNumber(formState.amount1).gt(maxAmount1)) {
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       address1,
@@ -107,7 +107,7 @@ export const handlePoolSwap = async (formState) => {
   const hash = await rpcClient.poolSwap(
     address1,
     formState.hash1,
-    Number(formState.amount1),
+    new BigNumber(formState.amount1).toNumber(),
     formState.receiveAddress,
     formState.hash2
   );
