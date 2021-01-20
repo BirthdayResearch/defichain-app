@@ -61,6 +61,7 @@ import {
   DEFICHAIN_TESTNET_LINK,
   MAINNET,
   TESTNET,
+  AMOUNT_SEPARATOR,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -82,6 +83,7 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
+import { AccountKeyItem, AccountModel } from 'src/constants/rpcModel';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1300,9 +1302,51 @@ export const handleFetchUtxoDFI = async () => {
   return rpcClient.getBalance();
 };
 
-export const handleFetchTokenBalanceList = async () => {
-  const rpcClient = new RpcClient();
-  return await rpcClient.getTokenBalances();
+export const parseAccountKey = (key: string): AccountKeyItem => {
+  const arr = key?.split(AMOUNT_SEPARATOR) ?? [];
+  return {
+    address: arr[0] ?? '',
+    hash: arr[1] ?? '',
+  };
+};
+
+export const getTokenBalances = (listAccounts: AccountModel[]): string[] => {
+  try {
+    const tokenBalances: string[] = [];
+    const mapKey = {};
+    listAccounts
+      .filter((account) => parseAccountKey(account.key).address != '')
+      .forEach((account) => {
+        const { hash } = parseAccountKey(account.key);
+        const amount = account.amount[hash] || 0;
+        mapKey[hash] =
+          mapKey[hash] == null
+            ? new BigNumber(amount)
+            : new BigNumber(amount).plus(mapKey[hash] || 0);
+      });
+    Object.keys(mapKey).forEach((k) => {
+      tokenBalances.push(`${mapKey[k]}${AMOUNT_SEPARATOR}${k}`);
+    });
+    return tokenBalances;
+  } catch (error) {
+    log.error(error, 'getTokenBalances');
+    return [];
+  }
+};
+
+export const handleFetchTokenBalanceList = async (): Promise<string[]> => {
+  const tokenBalance = [];
+  try {
+    const rpcClient = new RpcClient();
+    const listAccounts: AccountModel[] = await rpcClient.listAccounts(
+      true,
+      LIST_ACCOUNTS_PAGE_SIZE
+    );
+    return getTokenBalances(listAccounts);
+  } catch (error) {
+    log.error(error, 'handleFetchTokenBalanceList');
+  }
+  return tokenBalance;
 };
 
 export const isValidAddress = async (toAddress: string) => {
