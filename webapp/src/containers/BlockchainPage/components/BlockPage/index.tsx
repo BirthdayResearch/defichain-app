@@ -35,7 +35,6 @@ import {
 import LruCache from '../../../../utils/lruCache';
 import Header from '../../../HeaderComponent';
 import openNewTab from '../../../../utils/openNewTab';
-import BigNumber from 'bignumber.js';
 
 interface RouteParams {
   id?: string;
@@ -76,7 +75,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
     merkleRoot,
   } = props.blockData;
 
-  const blockNumber = new BigNumber(height).toNumber();
+  const blockNumber = Number(height);
 
   const fetchData = (pageNumber) => {
     setCurrentPage(pageNumber);

@@ -7,7 +7,6 @@ import Loader from '../Loader';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './SwapCard.module.scss';
-import BigNumber from 'bignumber.js';
 
 interface SwapCardProps {
   label: string;
@@ -63,7 +62,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                   id='input'
                   value={formState[`amount${name}`]}
                   onChange={(e) => {
-                    if (new BigNumber(e.target.value).toNumber() >= 0) {
+                    if (Number(e.target.value) >= 0) {
                       handleChange(e);
                     }
                   }}
@@ -85,7 +84,7 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                 id='input'
                 value={formState[`amount${name}`]}
                 onChange={(e) => {
-                  if (new BigNumber(e.target.value).toNumber() >= 0) {
+                  if (Number(e.target.value) >= 0) {
                     handleChange(e);
                   }
                 }}
