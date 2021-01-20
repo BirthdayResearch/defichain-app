@@ -11,6 +11,7 @@ describe('LiquidityAccordion component', () => {
     };
 
     const wrapper = shallow(<LiquidityAccordion {...props} />);
+    wrapper.find('Card').at(0).simulate('click');
     expect(wrapper).toMatchSnapshot();
   });
 });
