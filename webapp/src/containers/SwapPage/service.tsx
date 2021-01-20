@@ -81,7 +81,7 @@ export const handlePoolSwap = async (formState) => {
   let accountToAccountAmount = new BigNumber(0);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(formState.amount1) > maxAmount1) {
+  if (new BigNumber(formState.amount1).gt(maxAmount1)) {
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       address1,

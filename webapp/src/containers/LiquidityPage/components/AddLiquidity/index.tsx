@@ -354,7 +354,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
       );
       setLiquidityChanged(true);
-    } else if (Number(newAmount) > Number(formState.balance2)) {
+    } else if (new BigNumber(newAmount).gt(formState.balance2)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioChanged')
       );

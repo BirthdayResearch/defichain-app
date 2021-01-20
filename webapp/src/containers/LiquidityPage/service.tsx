@@ -159,14 +159,14 @@ export const handleAddPoolLiquidity = async (
   let accountToAccountAmount2 = new BigNumber(0);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(amount1) > maxAmount1) {
+  if (new BigNumber(amount1).gt(maxAmount1)) {
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
       address1,
       hash1
     );
   }
-  if (Number(amount2) > maxAmount2) {
+  if (new BigNumber(amount2).gt(maxAmount2)) {
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
       address2,
@@ -218,7 +218,7 @@ export const handleRemovePoolLiquidity = async (
   const list = await getAddressAndAmountListPoolShare(poolID);
   const addressList: any[] = [];
   list.reduce((sumAmount, obj) => {
-    if (sumAmount < Number(amount)) {
+    if (new BigNumber(amount).gt(sumAmount)) {
       const tempAmount =
         sumAmount + Number(obj.amount) <= Number(amount)
           ? Number(obj.amount)
