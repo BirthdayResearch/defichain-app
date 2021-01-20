@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PaymentRequests component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(PaymentRequestList)>
+        <PaymentRequestList
+          fetchPaymentRequest={[Function]}
+          paymentRequests={Array []}
+          removeReceiveTxns={[Function]}
+        >
+          <section
+            className="mb-5"
+          >
+            <Card
+              className="table-responsive-md"
+              tag="div"
+            >
+              <div
+                className="table-responsive-md card"
+              >
+                <CardBody
+                  tag="div"
+                >
+                  <div
+                    className="card-body"
+                  >
+                    No receive addresses available
+                  </div>
+                </CardBody>
+              </div>
+            </Card>
+          </section>
+        </PaymentRequestList>
+      </Connect(PaymentRequestList)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;
