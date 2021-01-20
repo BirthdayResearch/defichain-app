@@ -1093,7 +1093,7 @@ export const handleUtxoToAccountConversion = async (
 ) => {
   const rpcClient = new RpcClient();
   const dfiUtxos = await getDfiUTXOS();
-  if (new BigNumber(amount).gt(maxAmount + dfiUtxos)) {
+  if (new BigNumber(amount).gt(new BigNumber(maxAmount).plus(dfiUtxos))) {
     throw new Error(`Insufficent DFI in account`);
   }
 
