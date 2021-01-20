@@ -239,7 +239,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       if (formState.hash1 === '0') {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            Math.max(new BigNumber(formState.balance1).toNumber() - 1, 0)
           ) ||
           !e.target.value
         ) {
@@ -302,8 +302,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       ...formState,
       [field]:
         formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8),
+          ? Math.max(new BigNumber(value).toNumber() - 1, 0).toFixed(8)
+          : new BigNumber(value).toFixed(8),
       amount2: testPoolSwapTo,
     });
   };
@@ -480,7 +480,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
                       <NumberMask
-                        value={Number(
+                        value={new BigNumber(
                           conversionRatio(formState, poolPairList)
                         ).toFixed(8)}
                       />
@@ -488,7 +488,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       <br />
                       <NumberMask
                         value={(
-                          1 / Number(conversionRatio(formState, poolPairList))
+                          1 /
+                          new BigNumber(
+                            conversionRatio(formState, poolPairList)
+                          ).toNumber()
                         ).toFixed(8)}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
@@ -638,7 +641,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 <Button
                   color='primary'
                   disabled={
-                    !Number(formState.amount1) ||
+                    !new BigNumber(formState.amount1).toNumber() ||
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||

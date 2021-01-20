@@ -10,6 +10,7 @@ import {
   fetchPendingBalanceRequest,
 } from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
+import BigNumber from 'bignumber.js';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -104,7 +105,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   };
 
   const updateInfo = () => {
-    const percentValue = Number(percent).toFixed(2);
+    const percentValue = new BigNumber(percent).toFixed(2);
 
     if (!isUpdateModalOpen && isUpdateStarted && isMinimized) {
       return (

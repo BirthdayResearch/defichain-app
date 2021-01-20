@@ -258,7 +258,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       if (formState.hash1 === '0') {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            Math.max(new BigNumber(formState.balance1).toNumber() - 1, 0)
           ) ||
           !e.target.value
         ) {
@@ -306,8 +306,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     if (field === 'amount1') {
       const amount =
         formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8);
+          ? Math.max(new BigNumber(value).toNumber() - 1, 0).toFixed(8)
+          : new BigNumber(value).toFixed(8);
       setFormState({
         ...formState,
         [field]: amount,
@@ -320,8 +320,8 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     } else {
       const amount =
         formState.hash2 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8);
+          ? Math.max(new BigNumber(value).toNumber() - 1, 0).toFixed(8)
+          : new BigNumber(value).toFixed(8);
       setFormState({
         ...formState,
         [field]: amount,
@@ -349,12 +349,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     const diff = difference(oldAmount, newAmount);
     const percentageChange = (diff / oldAmount) * 100;
 
-    if (Number(percentageChange) >= 1) {
+    if (new BigNumber(percentageChange).gte(1)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
       );
       setLiquidityChanged(true);
-    } else if (Number(newAmount) > Number(formState.balance2)) {
+    } else if (new BigNumber(newAmount).gt(formState.balance2)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioChanged')
       );
@@ -658,7 +658,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!Number(formState.amount1) || !isValid()}
+                disabled={
+                  !new BigNumber(formState.amount1).toNumber() || !isValid()
+                }
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
@@ -691,13 +693,16 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </dt>
               <dd className='col-sm-8'>
                 {isValid() &&
-                  `${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
-                  )} ${formState.symbol2} per ${formState.symbol1}`}
+                  `${new BigNumber(
+                    conversionRatio(formState, poolPairList)
+                  ).toFixed(8)} ${formState.symbol2} per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
                   `${(
-                    1 / Number(conversionRatio(formState, poolPairList))
+                    1 /
+                    new BigNumber(
+                      conversionRatio(formState, poolPairList)
+                    ).toNumber()
                   ).toFixed(8)} ${formState.symbol1} per ${
                     formState.symbol2
                   }`}{' '}

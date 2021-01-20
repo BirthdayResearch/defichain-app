@@ -552,14 +552,18 @@ export const getTokenListForSwap = (
       } else {
         tokenMap.set(symbolKey, {
           hash: tokenId,
-          balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+          balance: new BigNumber(
+            balanceAndSymbolMap.get(tokenId) || '0'
+          ).toFixed(8),
           isPopularToken: true,
         });
       }
     } else {
       tokenMap.set(symbolKey, {
         hash: tokenId,
-        balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+        balance: new BigNumber(balanceAndSymbolMap.get(tokenId) || '0').toFixed(
+          8
+        ),
         isPopularToken: false,
       });
     }
@@ -672,7 +676,7 @@ export const fetchPoolPairDataWithPagination = async (
       tokenB: tokenBData.symbol,
       ...result[item],
       poolSharePercentage: poolShare
-        ? Number(poolShare.poolSharePercentage).toFixed(8)
+        ? new BigNumber(poolShare.poolSharePercentage).toFixed(8)
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
@@ -723,7 +727,7 @@ export const fetchPoolPairDataWithPagination = async (
         tokenB: tokenBData.symbol,
         ...result[item],
         poolSharePercentage: poolShare
-          ? Number(poolShare.poolSharePercentage).toFixed(8)
+          ? new BigNumber(poolShare.poolSharePercentage).toFixed(8)
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
@@ -995,7 +999,7 @@ export const getAddressForSymbol = async (key: string, list: any) => {
   let address = '';
   for (const obj of list) {
     const tokenSymbol = Object.keys(obj.amount)[0];
-    const amount = Number(obj.amount[tokenSymbol]);
+    const amount = new BigNumber(obj.amount[tokenSymbol]).toNumber();
     if (key === tokenSymbol && maxAmount <= amount) {
       maxAmount = amount;
       address = obj.address;
@@ -1013,7 +1017,7 @@ export const getHighestAmountAddressForSymbol = async (
   let address = '';
   for (const obj of list) {
     const tokenSymbol = Object.keys(obj.amount)[0];
-    const tokenAmount = Number(obj.amount[tokenSymbol]);
+    const tokenAmount = new BigNumber(obj.amount[tokenSymbol]).toNumber();
     const tokenAddress = obj.address;
     if (
       key === tokenSymbol &&
@@ -1093,11 +1097,11 @@ export const handleUtxoToAccountConversion = async (
 ) => {
   const rpcClient = new RpcClient();
   const dfiUtxos = await getDfiUTXOS();
-  if (Number(amount) > maxAmount + dfiUtxos) {
+  if (new BigNumber(amount).gt(maxAmount + dfiUtxos)) {
     throw new Error(`Insufficent DFI in account`);
   }
 
-  const transferAmount = Number(amount) - maxAmount;
+  const transferAmount = new BigNumber(amount).minus(maxAmount);
   const utxoToDfiTxId = await rpcClient.utxosToAccount(
     address,
     `${transferAmount.toFixed(8)}@${hash}`
@@ -1123,7 +1127,7 @@ export const handleAccountToAccountConversion = async (
   let amountTransfered = new BigNumber(0);
   for (const obj of addressAndAmountList) {
     const tokenSymbol = Object.keys(obj.amount)[0];
-    const amount = Number(obj.amount[tokenSymbol]).toFixed(8);
+    const amount = new BigNumber(obj.amount[tokenSymbol]).toFixed(8);
 
     if (tokenSymbol === hash && obj.address !== toAddress) {
       const txId = await rpcClient.accountToAccount(

@@ -159,14 +159,14 @@ export const handleAddPoolLiquidity = async (
   let accountToAccountAmount2 = new BigNumber(0);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(amount1) > maxAmount1) {
+  if (new BigNumber(amount1).gt(maxAmount1)) {
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
       address1,
       hash1
     );
   }
-  if (Number(amount2) > maxAmount2) {
+  if (new BigNumber(amount2).gt(maxAmount2)) {
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
       address2,
@@ -201,9 +201,9 @@ export const handleAddPoolLiquidity = async (
 
   return await rpcClient.addPooLiquidity(
     address1,
-    `${Number(amount1).toFixed(8)}@${hash1}`,
+    `${new BigNumber(amount1).toFixed(8)}@${hash1}`,
     address2,
-    `${Number(amount2).toFixed(8)}@${hash2}`,
+    `${new BigNumber(amount2).toFixed(8)}@${hash2}`,
     shareAddress
   );
 };
@@ -218,11 +218,11 @@ export const handleRemovePoolLiquidity = async (
   const list = await getAddressAndAmountListPoolShare(poolID);
   const addressList: any[] = [];
   list.reduce((sumAmount, obj) => {
-    if (sumAmount < Number(amount)) {
+    if (new BigNumber(amount).gt(sumAmount)) {
       const tempAmount =
         sumAmount + Number(obj.amount) <= Number(amount)
-          ? Number(obj.amount)
-          : Number(amount) - sumAmount;
+          ? new BigNumber(obj.amount).toNumber()
+          : new BigNumber(amount).toNumber() - sumAmount;
       addressList.push({
         address: obj.address,
         amount: tempAmount,
@@ -244,7 +244,7 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async (obj) => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${Number(obj.amount).toFixed(8)}@${poolID}`
+      `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;
