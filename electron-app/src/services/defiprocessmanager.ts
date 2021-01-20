@@ -54,22 +54,26 @@ export default class DefiProcessManager {
         deletePeersFile();
       }
       if (checkPathExists(PID_FILE_NAME)) {
-        const pid = getFileData(PID_FILE_NAME);
-        const processLists: any = await getProcesses({
-          pid: parseInt(pid, 10),
-        });
-        if (processLists.length) {
-          const NODE_RUNNING = 'Node already running';
-          log.info(NODE_RUNNING);
-          if (event)
-            event.sender.send(
-              START_DEFI_CHAIN_REPLY,
-              responseMessage(true, {
-                message: NODE_RUNNING,
-                conf: this.getConfiguration(),
-              })
-            );
-          return responseMessage(true, { message: NODE_RUNNING });
+        try {
+          const pid = getFileData(PID_FILE_NAME);
+          const processLists: any = await getProcesses({
+            pid: parseInt(pid, 10),
+          });
+          if (processLists.length) {
+            const NODE_RUNNING = 'Node already running';
+            log.info(NODE_RUNNING);
+            if (event)
+              event.sender.send(
+                START_DEFI_CHAIN_REPLY,
+                responseMessage(true, {
+                  message: NODE_RUNNING,
+                  conf: this.getConfiguration(),
+                })
+              );
+            return responseMessage(true, { message: NODE_RUNNING });
+          }
+        } catch (error) {
+          log.error(error);
         }
       }
 
@@ -171,6 +175,7 @@ export default class DefiProcessManager {
 
   static async stop() {
     try {
+      log.info('Stopping DeFi Process Manager');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
         const processLists: any = await getProcesses({
@@ -221,7 +226,7 @@ export default class DefiProcessManager {
 
   static async forceClose() {
     try {
-      log.info('Force close defid');
+      log.info('Force Close DeFi Process Manager');
       const pid = getFileData(PID_FILE_NAME);
       const processLists: any = await getProcesses({
         pid: parseInt(pid, 10),
