@@ -658,7 +658,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!Number(formState.amount1) || !isValid()}
+                disabled={
+                  !Number(formState.amount1) ||
+                  !isValid() ||
+                  formState.receiveAddress == null ||
+                  formState.receiveAddress == ''
+                }
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
