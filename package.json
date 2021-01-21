@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "",
+  "version": "2.1.11",
   "description": "DeFi Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
