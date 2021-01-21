@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.1.10",
+  "version": "",
   "description": "DeFi Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
-  "ainVersion": "1.4.0",
+  "ainVersion": "1.4.1",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
