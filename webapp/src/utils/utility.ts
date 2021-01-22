@@ -313,7 +313,7 @@ export const convertAmountFromUnit = (
   toUnit: string,
   from: string = DEFAULT_UNIT
 ): BigNumber => {
-  return new BigNumber(unitConversion(from, toUnit, amount));
+  return unitConversion(from, toUnit, amount);
 };
 
 export const isLessThanDustAmount = (
