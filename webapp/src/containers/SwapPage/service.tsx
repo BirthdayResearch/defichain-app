@@ -5,7 +5,7 @@ import RpcClient from '../../utils/rpc-client';
 import {
   fetchPoolPairDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
 } from '../../utils/utility';
@@ -26,7 +26,7 @@ export const handleFetchPoolPairList = async () => {
 export const handleTestPoolSwapTo = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+  const { address: address1 } = getHighestAmountAddressForSymbol(
     formState.hash1,
     list
   );
@@ -51,7 +51,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const address2 = formState.receiveAddress;
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+  const { address: address1 } = getHighestAmountAddressForSymbol(
     formState.hash1,
     list
   );
@@ -73,10 +73,10 @@ export const handleTestPoolSwapFrom = async (formState) => {
 export const handlePoolSwap = async (formState): Promise<string> => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    formState.hash1,
-    list
-  );
+  const {
+    address: address1,
+    amount: maxAmount1,
+  } = getHighestAmountAddressForSymbol(formState.hash1, list);
 
   let accountToAccountAmount = new BigNumber(0);
   const poolSwapAmount = new BigNumber(formState.amount1);

@@ -88,6 +88,7 @@ import {
   AccountModel,
   PeerInfoModel,
 } from 'src/constants/rpcModel';
+import { HighestAmountItem } from '../constants/common';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1007,35 +1008,29 @@ export const getAddressAndAmountListForAccount = async () => {
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
-export const getAddressForSymbol = async (key: string, list: any) => {
-  let maxAmount = 0;
-  let address = '';
-  for (const obj of list) {
-    const tokenSymbol = Object.keys(obj.amount)[0];
-    const amount = Number(obj.amount[tokenSymbol]);
-    if (key === tokenSymbol && maxAmount <= amount) {
-      maxAmount = amount;
-      address = obj.address;
-    }
-  }
-  return { address, amount: maxAmount };
-};
-
-export const getHighestAmountAddressForSymbol = async (
+export const getHighestAmountAddressForSymbol = (
   key: string,
-  sendAmount: BigNumber,
-  list: any
-) => {
+  list: HighestAmountItem[],
+  sendAmount?: BigNumber
+): HighestAmountItem => {
   let maxAmount = new BigNumber(0);
   let address = '';
+  const hasSendAmountValidation = (
+    sendAmount: BigNumber,
+    tokenAmount: BigNumber
+  ) => {
+    return sendAmount.lte(tokenAmount);
+  };
   for (const obj of list) {
     const tokenSymbol = Object.keys(obj.amount)[0];
     const tokenAmount = new BigNumber(obj.amount[tokenSymbol]);
     const tokenAddress = obj.address;
     if (
       key === tokenSymbol &&
-      sendAmount.lte(tokenAmount) &&
-      new BigNumber(tokenAmount).gt(maxAmount)
+      new BigNumber(tokenAmount).gt(maxAmount) &&
+      (sendAmount != null
+        ? hasSendAmountValidation(sendAmount, tokenAmount)
+        : true)
     ) {
       maxAmount = tokenAmount;
       address = tokenAddress;

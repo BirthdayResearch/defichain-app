@@ -18,11 +18,9 @@ import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  getHighestAmountAddressForSymbol,
-  handleAccountToAccountConversion,
   handleFetchTokenBalanceList,
   hdWalletCheck,
 } from '../../utils/utility';
@@ -177,7 +175,7 @@ export const sendToAddress = async (
       const {
         address: fromAddress,
         amount: maxAmount,
-      } = await getAddressForSymbol('0', addressesList);
+      } = getHighestAmountAddressForSymbol('0', addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
@@ -232,7 +230,7 @@ export const handleFallbackSendToken = async (
     const {
       address: fromAddress,
       amount: maxAmount,
-    } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
+    } = getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
     if (maxAmount.gt(sendAmount)) {
       try {
         const txHash = await accountToAccount(

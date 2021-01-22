@@ -12,7 +12,7 @@ import { handleFetchRegularDFI, sleep } from '../WalletPage/service';
 import {
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getSmallerAmount,
   handleAccountToAccountConversion,
@@ -90,14 +90,15 @@ export const handleCreateTokens = async (tokenData) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
   const list = await getAddressAndAmountListForAccount();
-  const { address, amount: maxAmount } = await getAddressForSymbol(
+  const { address, amount: maxAmount } = getHighestAmountAddressForSymbol(
     DFI_SYMBOL,
     list
   );
   if (regularDFI < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
     if (
-      Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) >
-      maxAmount + regularDFI
+      new BigNumber(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION).gt(
+        new BigNumber(maxAmount).plus(regularDFI)
+      )
     ) {
       accountToAccountAmount = await handleAccountToAccountConversion(
         list,

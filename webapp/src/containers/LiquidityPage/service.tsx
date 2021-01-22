@@ -17,7 +17,7 @@ import {
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
   getAddressAndAmountListPoolShare,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getSmallerAmount,
   handleAccountToAccountConversion,
@@ -145,15 +145,15 @@ export const handleAddPoolLiquidity = async (
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
 
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    hash1,
-    addressesList
-  );
+  const {
+    address: address1,
+    amount: maxAmount1,
+  } = getHighestAmountAddressForSymbol(hash1, addressesList);
 
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    hash2,
-    addressesList
-  );
+  const {
+    address: address2,
+    amount: maxAmount2,
+  } = getHighestAmountAddressForSymbol(hash2, addressesList);
 
   let accountToAccountAmount1 = new BigNumber(0);
   let accountToAccountAmount2 = new BigNumber(0);
