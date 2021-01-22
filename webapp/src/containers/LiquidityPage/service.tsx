@@ -141,7 +141,7 @@ export const handleAddPoolLiquidity = async (
   hash2: string,
   amount2: string,
   shareAddress: string
-) => {
+): Promise<string> => {
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
 
@@ -201,9 +201,9 @@ export const handleAddPoolLiquidity = async (
 
   return await rpcClient.addPooLiquidity(
     address1,
-    `${Number(amount1).toFixed(8)}@${hash1}`,
+    `${new BigNumber(amount1).toFixed(8)}@${hash1}`,
     address2,
-    `${Number(amount2).toFixed(8)}@${hash2}`,
+    `${new BigNumber(amount2).toFixed(8)}@${hash2}`,
     shareAddress
   );
 };
