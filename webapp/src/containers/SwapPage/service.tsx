@@ -70,7 +70,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
   }
 };
 
-export const handlePoolSwap = async (formState) => {
+export const handlePoolSwap = async (formState): Promise<string> => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
@@ -79,9 +79,10 @@ export const handlePoolSwap = async (formState) => {
   );
 
   let accountToAccountAmount = new BigNumber(0);
+  const poolSwapAmount = new BigNumber(formState.amount1);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (new BigNumber(formState.amount1).gt(maxAmount1)) {
+  if (poolSwapAmount.gt(maxAmount1)) {
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       address1,
@@ -92,7 +93,7 @@ export const handlePoolSwap = async (formState) => {
   // convert utxo to account DFI, if don't have sufficent funds in account
   if (
     formState.hash1 === DFI_SYMBOL &&
-    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
+    poolSwapAmount.gt(accountToAccountAmount.plus(maxAmount1))
   ) {
     await handleUtxoToAccountConversion(
       formState.hash1,
@@ -107,7 +108,7 @@ export const handlePoolSwap = async (formState) => {
   const hash = await rpcClient.poolSwap(
     address1,
     formState.hash1,
-    Number(formState.amount1),
+    poolSwapAmount,
     formState.receiveAddress,
     formState.hash2
   );

@@ -851,7 +851,7 @@ export default class RpcClient {
     address2: string,
     amount2: string,
     shareAddress: string
-  ) => {
+  ): Promise<string> => {
     // no need to do it here need to make bignumber in service
     const from =
       address1 === address2
@@ -868,10 +868,10 @@ export default class RpcClient {
   poolSwap = async (
     from: string,
     tokenFrom: string,
-    amountFrom: number,
+    amountFrom: BigNumber,
     to: string,
     tokenTo: string
-  ) => {
+  ): Promise<string> => {
     // amount from needs to be a bignumber here
     const { data } = await this.call('/', methodNames.POOL_SWAP, [
       { from, tokenFrom, amountFrom, to, tokenTo },
