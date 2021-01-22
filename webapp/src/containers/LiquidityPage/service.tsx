@@ -10,7 +10,7 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
-import { getAddressInfo, handleFetchAccountDFI } from '../WalletPage/service';
+import { getAddressInfo } from '../WalletPage/service';
 import {
   calculateAPY,
   fetchPoolPairDataWithPagination,

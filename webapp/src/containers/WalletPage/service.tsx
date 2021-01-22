@@ -96,7 +96,8 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return rpcClient.getBalance();
+  const regularDFI = await rpcClient.getBalance();
+  return new BigNumber(regularDFI);
 };
 
 export const handleFetchAccountDFI = async () => {
@@ -104,13 +105,13 @@ export const handleFetchAccountDFI = async () => {
   const DFIToken = accountTokens.find((token) => token.hash === '0');
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
-  return accountDFI;
+  return new BigNumber(accountDFI);
 };
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return (regularDFI + accountDFI).toFixed(8);
+  return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -183,7 +184,7 @@ export const sendToAddress = async (
         try {
           const txHash = await sendTokensToAddress(
             fromAddress,
-            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+            `${accountBalance.toFixed(8)}@DFI`
           );
           log.info({ accountBalance, sendTokenTxHash: txHash });
           await getTransactionInfo(txHash);
