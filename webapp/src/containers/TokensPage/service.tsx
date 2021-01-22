@@ -94,7 +94,7 @@ export const handleCreateTokens = async (tokenData) => {
     DFI_SYMBOL,
     list
   );
-  if (regularDFI < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
+  if (regularDFI.lt(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION)) {
     if (
       new BigNumber(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION).gt(
         new BigNumber(maxAmount).plus(regularDFI)

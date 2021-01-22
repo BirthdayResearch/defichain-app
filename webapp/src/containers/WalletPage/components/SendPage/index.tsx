@@ -280,7 +280,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   sendTransaction = async () => {
     this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
-    const regularDFI = new BigNumber(await handleFetchRegularDFI());
+    const regularDFI = await handleFetchRegularDFI();
     this.setState({
       regularDFI,
     });

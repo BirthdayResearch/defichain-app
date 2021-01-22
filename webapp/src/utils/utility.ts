@@ -1306,7 +1306,7 @@ export const getPageTitle = (pageTitle?: string) => {
 
 export const handleFetchTokenDFI = async () => {
   const accountDFI = await handleFetchAccountDFI();
-  return accountDFI;
+  return accountDFI.toFixed(8);
 };
 
 export const handleFetchUtxoDFI = async () => {
