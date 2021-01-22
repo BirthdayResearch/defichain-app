@@ -286,7 +286,6 @@ export default class RpcClient {
   };
 
   utxosToAccount = async (toAddress: string, amount: string) => {
-    // "amount1@t1" amount typt no need to change here
     const { data } = await this.call('/', methodNames.UTXOS_TO_ACCOUNT, [
       {
         [toAddress]: amount,
@@ -851,7 +850,6 @@ export default class RpcClient {
     amount2: string,
     shareAddress: string
   ): Promise<string> => {
-    // no need to do it here need to make bignumber in service
     const from =
       address1 === address2
         ? { [address1]: [amount1, amount2] }
