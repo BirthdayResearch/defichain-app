@@ -12,7 +12,10 @@
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
       "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
-      "network": "Network"
+      "network": "Network",
+      "preparingSync": "Preparing sync",
+      "connectedToPeers": "Connected to %{peers} peers",
+      "atBlock": "At block %{block}"
     },
     "swapCard": {
       "selectAToken": "Select a token",
