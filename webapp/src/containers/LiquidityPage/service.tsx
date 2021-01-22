@@ -238,8 +238,6 @@ export const handleRemovePoolLiquidity = async (
   for (const obj of addressList) {
     removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  // const refreshUtxoTxId1 = await rpcClient.sendMany(removeLpAmounts);
-  // await getTransactionInfo(refreshUtxoTxId1);
 
   store.dispatch(refreshUTXOS1Success());
 
