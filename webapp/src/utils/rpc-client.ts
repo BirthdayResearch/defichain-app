@@ -314,8 +314,6 @@ export default class RpcClient {
     amount: BigNumber,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
-    // Here we needed Bignumber in the rpccall sendtoaddress and then convert it
-    // here also check how much decimals are allowed
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
@@ -329,7 +327,7 @@ export default class RpcClient {
 
     const { data } = await this.call('/', methodNames.SEND_TO_ADDRESS, [
       toAddress,
-      amount,
+      amount.toFixed(8),
       '',
       '',
       subtractfeefromamount,
