@@ -5,7 +5,7 @@ export const unitConversion = (
   from: string,
   to: string,
   value: number | string
-): string => {
+): BigNumber => {
   const unitMap = DFI_UNIT_MAP;
   const fromUnit = unitMap[from];
   const toUnit = unitMap[to];
@@ -19,7 +19,7 @@ const conversion = (
   from: string,
   to: string,
   value: string | number
-): string => {
+): BigNumber => {
   const bigNumber = new BigNumber(value);
-  return bigNumber.multipliedBy(from).dividedBy(to).toString(10);
+  return bigNumber.multipliedBy(from).dividedBy(to);
 };
