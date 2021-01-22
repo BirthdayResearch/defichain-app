@@ -43,6 +43,7 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
+import { PeerInfoModel } from 'src/constants/rpcModel';
 
 export default class RpcClient {
   client: any;
@@ -178,7 +179,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  getPeerInfo = async (): Promise<number> => {
+  getPeerInfo = async (): Promise<PeerInfoModel[]> => {
     const { data } = await this.call('/', methodNames.GET_PEER_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_PEER_INFO),
