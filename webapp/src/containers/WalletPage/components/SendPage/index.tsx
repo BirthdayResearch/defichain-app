@@ -31,25 +31,18 @@ import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
   handleFallbackSendToken,
-  // accountToAccount,
   handleFetchRegularDFI,
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import {
-  WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
-  // DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-} from '../../../../constants';
+import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
-  // getAddressAndAmountListForAccount,
-  // getAddressForSymbol,
   getAmountInSelectedUnit,
+  convertAmountFromUnit,
   getErrorMessage,
   getPageTitle,
   getSymbolKey,
-  // handleAccountToAccountConversion,
   isLessThanDustAmount,
   isValidAddress,
 } from '../../../../utils/utility';
@@ -299,12 +292,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         !regularDFI.isZero()
       ) {
         // Convert to base unit
-        amount = new BigNumber(
-          getAmountInSelectedUnit(
-            this.state.amountToSendDisplayed,
-            DEFAULT_UNIT,
-            this.props.unit
-          )
+        amount = convertAmountFromUnit(
+          this.state.amountToSendDisplayed,
+          DEFAULT_UNIT,
+          this.props.unit
         );
         // amount.is
         const feeCheck = amount.eq(this.props.sendData.walletBalance);

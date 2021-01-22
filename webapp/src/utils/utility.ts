@@ -298,9 +298,22 @@ export const getAmountInSelectedUnit = (
   amount: number | string,
   toUnit: string,
   from: string = DEFAULT_UNIT
-) => {
-  const to = toUnit;
-  return unitConversion(from, to, amount);
+): string => {
+  return convertAmountFromUnit(amount, toUnit, from).toString(10);
+};
+
+/**
+ * @description - Use if you need to use BigNumber
+ * @param amount
+ * @param toUnit
+ * @param from
+ */
+export const convertAmountFromUnit = (
+  amount: number | string,
+  toUnit: string,
+  from: string = DEFAULT_UNIT
+): BigNumber => {
+  return new BigNumber(unitConversion(from, toUnit, amount));
 };
 
 export const isLessThanDustAmount = (
