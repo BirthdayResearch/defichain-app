@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import BigNumber from 'bignumber.js';
 import { CustomTx } from 'bitcore-lib-dfi';
 import RpcClient from '../../utils/rpc-client';
+import * as log from '@/utils/electronLogger';
 import {
   CUSTOM_TX_LEDGER,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
@@ -35,7 +36,6 @@ import { ipcRendererFunc } from '@/utils/isElectron';
 import { construct } from '@/utils/cutxo';
 import PersistentStore from '@/utils/persistentStore';
 import { TypeWallet } from '@/typings/entities';
-
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
   return rpcClient.getaddressInfo(address);
@@ -139,7 +139,7 @@ export const createTokenUseLedger = async (
 ) => {
   const rpcClient = new RpcClient();
   const ipcRenderer = ipcRendererFunc();
-  const cutxo = await rpcClient.listUnspent(1, 9999999, tokenData.receiveAddress);
+  const cutxo = await rpcClient.listUnspent(1000, 9999999, [tokenData.collateralAddress]);
   const { address, maxAmount } = await getAddressForSymbolLedger(
     DFI_SYMBOL,
     paymentsLedger
@@ -155,13 +155,51 @@ export const createTokenUseLedger = async (
       txType: CustomTx.customTxType.createToken,
       customData: tokenData,
     };
+    const utxo: any = [];
+    let amountUtxo = 0;
+    let i = 0;
+    while (amountUtxo < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION + 0.01) {
+      if (i < cutxo.length) {
+        amountUtxo += cutxo[i].amount;
+        utxo.push(cutxo[i]);
+        i++;
+      } else {
+        throw new Error('The cost is more than the balance of the address')
+      }
+    }
+    log.info(`amountUtxo: ${amountUtxo}`)
+    // if (amountUtxo > MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
+    //   const dataUtxosToAccount = {
+    //     txType: CustomTx.customTxType.utxosToAccount,
+    //     customData: {
+    //       to: {
+    //         [tokenData.collateralAddress]: { '0': { balance: MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION, token: '0' } },
+    //       },
+    //     },
+    //   };
+    //   const resUtxosToAccount = await ipcRenderer.sendSync(
+    //     CUSTOM_TX_LEDGER,
+    //     {
+    //       utxo,
+    //       address,
+    //       data: dataUtxosToAccount,
+    //       keyIndex}
+    //   );
+    //   log.info(`resUtxosToAccount: ${JSON.stringify(resUtxosToAccount)}`)
+    //   if (resUtxosToAccount.success) {
+    //     return await rpcClient.sendRawTransaction(resUtxosToAccount.data.tx);
+    //   } else {
+    //     throw new Error(resUtxosToAccount.message);
+    //   }
+    // }
+    // const cutxo1 = await rpcClient.listUnspent(1000, 9999999, [tokenData.collateralAddress]);
     const resCreateToken = await ipcRenderer.sendSync(
       CUSTOM_TX_LEDGER,
       {
-      utxo: cutxo,
+      utxo,
       address,
       data: dataCreateToken,
-      keyIndex}
+      keyIndex, feeRate: amountUtxo - MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION - 0.01}
     );
     if (resCreateToken.success) {
       return await rpcClient.sendRawTransaction(resCreateToken.data.tx);

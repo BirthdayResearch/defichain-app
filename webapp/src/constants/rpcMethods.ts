@@ -65,3 +65,4 @@ export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
 export const ACCOUNT_HISTORY_COUNT = 'accounthistorycount';
 
 export const SEND_RAW_TRANSACTION = 'sendrawtransaction';
+export const CREATE_RAW_TRANSACTION = 'createrawtransaction';

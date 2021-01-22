@@ -33,7 +33,7 @@ import * as log from '@/utils/electronLogger';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 import { RootState } from '@/app/rootReducer';
-import { getBackupIndexesLedger, getPubKeyLedger } from './service';
+import { getBackupIndexesLedger, getPubKeyLedger, loadWallet } from './service';
 import uid from 'uid';
 
 interface LedgerPageProps extends RouteComponentProps {
@@ -78,11 +78,13 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   } = props;
 
   useEffect(() => {
-    fetchInstantBalance();
+    if (connect.status === 'connecting') {
+      fetchInstantBalance();
+    }
     return () => {
       clearTimeout(balanceRefreshTimerID);
     };
-  }, [fetchInstantBalance]);
+  }, [fetchInstantBalance, connect.status]);
 
   useEffect(() => {
     dispatch(initialIsShowingInformationRequest());
@@ -129,7 +131,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     if (latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock) {
       history.push(LEDGER_SEND_PATH);
     } else {
-      history.push(LEDGER_SYNC_PATH);
+      history.push(LEDGER_SEND_PATH);
     }
   }, [latestSyncedBlock, latestBlock]);
 

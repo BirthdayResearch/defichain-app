@@ -20,7 +20,7 @@ import {
   DEFAULT_MAXIMUM_COUNT,
   FEE_RATE,
   DEFAULT_FEE_RATE,
-  BACKUP_IDXS_LEDGER,
+  BACKUP_IDXS_LEDGER, MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -69,39 +69,58 @@ export const importAddresses = async (networkName: string) => {
   await Promise.all(queryImportAddress);
 }
 
+export const loadWallet = async (walletName: string) => {
+  const rpcClient = new RpcClient();
+  if (walletName === '') {
+    await rpcClient.unloadWallet('ledger');
+    await rpcClient.loadWallet('');
+  } else {
+    try {
+      await rpcClient.unloadWallet('');
+      await rpcClient.loadWallet('ledger');
+    } catch (e) {
+      await rpcClient.createWallet('ledger');
+      await rpcClient.loadWallet('ledger');
+    }
+  }
+}
+
 export const handelFetchWalletTxns = async (
   pageNo: number,
   pageSize: number,
   networkName: string,
 ) => {
-  const localStorageName = handleLocalStorageNameLedger(networkName);
-  const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  const addressesLedger = paymentData.map((payment) => payment.address);
-  const rpcClient = new RpcClient();
-  const listTransactions = await rpcClient.listTransactions(
-    pageNo - 1,
-    pageSize
-  );
-  const promiseRawTransactions = listTransactions.filter(
-    (tx) =>
-      new Promise((resolve, reject) => {
-        rpcClient.getRawTransaction(tx.txid, false).then((rawTransaction) => {
-          for (const vout of rawTransaction.vout) {
-            if (
-              vout.scriptPubKey.addresses.some(
-                (address) => addressesLedger.indexOf(address) !== -1
-              )
-            ) {
-              resolve(tx);
-            }
-          }
-        });
-      })
-  );
-  const rawTransactions = await Promise.all(promiseRawTransactions);
-  const txList = await getTxnDetails(rawTransactions);
+  // const localStorageName = handleLocalStorageNameLedger(networkName);
+  // const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+  // const addressesLedger = paymentData.map((payment) => payment.address);
+  // const rpcClient = new RpcClient();
+  // const listTransactions = await rpcClient.listTransactions(
+  //   pageNo - 1,
+  //   pageSize
+  // );
+  // const promiseRawTransactions = listTransactions.filter(
+  //   (tx) =>
+  //     new Promise((resolve, reject) => {
+  //       rpcClient.getRawTransaction(tx.txid, false).then((rawTransaction) => {
+  //         for (const vout of rawTransaction.vout) {
+  //           if (
+  //             vout.scriptPubKey.addresses.some(
+  //               (address) => addressesLedger.indexOf(address) !== -1
+  //             )
+  //           ) {
+  //             resolve(tx);
+  //           }
+  //         }
+  //       });
+  //     })
+  // );
+  // const rawTransactions = await Promise.all(promiseRawTransactions);
+  // const txList = await getTxnDetails(rawTransactions);
+  // const walletTxnCount = await rpcClient.getWalletTxnCount();
+  // return { walletTxns: txList.reverse(), walletTxnCount };
+  const walletTxns = await rpcClient.getWalletTxns(pageNo - 1, pageSize);
   const walletTxnCount = await rpcClient.getWalletTxnCount();
-  return { walletTxns: txList.reverse(), walletTxnCount };
+  return { walletTxns: walletTxns.reverse(), walletTxnCount };
 };
 
 export const handleSendData = async (addresses) => {
@@ -134,15 +153,9 @@ export const handleFetchAccountDFI = async () => {
 
 export const handleFetchWalletBalance = async (addresses: string[]) => {
   log.info('handleFetchWalletBalance');
-  const amountsPromise = addresses.map(async (address) => {
-    return await getReceivedByAddress(address);
-  });
-  const amounts = await Promise.all(amountsPromise);
-  let count = 0;
-  amounts.forEach((amount) => {
-    count += amount;
-  })
-  return count;
+  const rpcClient = new RpcClient();
+  const data = await rpcClient.getBalances();
+  return data.watchonly.trusted;
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -229,29 +242,42 @@ export const accountToAccount = async (
   log.info('Service accounttoaccount is started');
   try {
     const rpcClient = new RpcClient();
-    const txId = await rpcClient.sendToAddress(
-      fromAddress,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    const cutxo = await rpcClient.listUnspent(1, 9999999,addresses);
+    const cutxo = await rpcClient.listUnspent(1000, 9999999,[fromAddress]);
     const data = {
-      txType: CustomTx.customTxType.accountToAccount,
+      txType: CustomTx.customTxType.utxosToAccount,
       customData: {
-        from: fromAddress,
         to: {
           [toAddress]: { '0': { balance: amount, token } },
         },
       }
     };
+    const utxo: any = [];
+    let amountUtxo = 0;
+    let i = 0;
+    while (amountUtxo < Number(amount) + 0.01) {
+      if (i < cutxo.length) {
+        amountUtxo += cutxo[i].amount;
+        utxo.push(cutxo[i]);
+        i++;
+      } else {
+        throw new Error('The cost is more than the balance of the address')
+      }
+    }
+    log.info(`amountUtxo: ${amountUtxo}`)
+    // const tx = await rpcClient.createRawTransaction(utxo.map((u, index) => ({...u})), [{[toAddress]: amount}, {[fromAddress]: (amountUtxo - amount - 0.01).toFixed(8)}]);
     const ipcRenderer = ipcRendererFunc();
+    // const res = await ipcRenderer.sendSync(
+    //   'sign-transaction-ledger',
+    //   {tx, keyIndex}
+    // );
     const res = await ipcRenderer.sendSync(
-      CUSTOM_TX_LEDGER,
-      {utxo: cutxo,
+      'sign-transaction-ledger',
+      {
+      utxo,
       address: toAddress,
       amount,
-      data,
-      keyIndex}
+      fromAddress,
+      keyIndex, feeRate: amountUtxo - amount - 0.01 }
     );
     if (res.success) {
       await rpcClient.sendRawTransaction(res.data.tx);
@@ -286,9 +312,11 @@ export const importPubKey = async (pubKey: string, keyIndex: number, label: stri
   const rpcClient = new RpcClient();
   try {
     log.info('importPubKey');
-    return rpcClient.importPubKey(pubKey, label);
+    const res = await rpcClient.importPubKey(pubKey, label);
+    log.info(`Result importPubKey: ${JSON.stringify(res)}`);
+    return res;
   } catch (err) {
-    log.error(`Got error in importPubKey: ${err}`);
+    log.error(`Got error in importPubKey: ${err.message}`);
     throw err;
   }
 };
@@ -297,7 +325,9 @@ export const importAddress = async (address: string, keyIndex: number, label: st
   const rpcClient = new RpcClient();
   try {
     log.info('importAddress');
-    return rpcClient.importAddress(address, label);
+    const res = rpcClient.importAddress(address, label);
+    log.info(`Result importAddress: ${JSON.stringify(res)}`);
+    return res;
   } catch (err) {
     log.error(`Got error in importAddress: ${err}`);
     throw err;

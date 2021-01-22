@@ -44,7 +44,7 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
       history.push(LEDGER_RECEIVE_PATH);
       log.info('Created address ledger');
     } catch (err) {
-      log.error(err);
+      log.error(`Error of NewAddressLedger: ${err.message}`);
     }
   };
 

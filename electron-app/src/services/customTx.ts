@@ -1,10 +1,11 @@
+// @ts-nocheck
 import {
   Transaction,
   Script,
   Opcode,
   CustomTx,
   crypto,
-  util,
+  util, Address,
 } from 'bitcore-lib-dfi';
 import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
@@ -23,18 +24,48 @@ interface SigsInput {
 
 export function createZeroOutputTxFromCustomTx(
   tx: Transaction,
-  customTx: CustomTransaction
+  customTx: CustomTransaction,
+  address: string,
+  feeRate: number,
 ) {
+  let transaction;
+  let outputZero;
+  let outputOne;
+  let keys = [];
   const script = new Script().add(Opcode.map.OP_RETURN);
   switch (customTx.txType) {
     case CustomTx.customTxType.createMasternode:
       script.add(new CustomTx.CreateMasternode(customTx.customData));
+      outputZero = new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 1000000*100000000,
+      });
+      transaction =  tx.addOutput(outputZero);
+      outputOne = new Transaction.Output({
+        // @ts-ignore
+        script: Script.buildScriptHashOut(new Address(address)),
+        tokenId: 0,
+        satoshis: 100000000,
+      });
       break;
     case CustomTx.customTxType.resignMasternode:
       script.add(new CustomTx.ResignMasternode(customTx.customData));
       break;
     case CustomTx.customTxType.createToken:
       script.add(new CustomTx.CreateToken(customTx.customData));
+      outputZero = new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 100*100000000,
+      });
+      transaction =  tx.addOutput(outputZero);
+      outputOne = new Transaction.Output({
+        script: new Script(new Address(address)),
+        tokenId: 0,
+        satoshis: 100000000,
+      });
+      transaction = transaction.addOutput(outputOne);
       break;
     case CustomTx.customTxType.mintToken:
       script.add(new CustomTx.MintToken(customTx.customData));
@@ -62,12 +93,26 @@ export function createZeroOutputTxFromCustomTx(
       break;
     case CustomTx.customTxType.utxosToAccount:
       script.add(new CustomTx.UtxosToAccount(customTx.customData));
+      keys = Object.keys(customTx.customData.to);
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: customTx.customData.to[keys[0]]['0'].balance  * 100000000,
+      });
+      transaction =  new Transaction(tx).addOutput(outputZero);
       break;
     case CustomTx.customTxType.accountToUtxos:
       script.add(new CustomTx.AccountToUtxos(customTx.customData));
       break;
     case CustomTx.customTxType.accountToAccount:
       script.add(new CustomTx.AccountToAccount(customTx.customData));
+       keys = Object.keys(customTx.customData.to);
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: customTx.customData.to[keys[0]]['0'].balance * 100000000,
+      });
+      transaction = new Transaction(tx).addOutput(outputZero);
       break;
     case CustomTx.customTxType.setGovVariable:
       script.add(new CustomTx.SetGovVariable(customTx.customData));
@@ -75,28 +120,36 @@ export function createZeroOutputTxFromCustomTx(
     default:
       break;
   }
-  const output = new Transaction.Output({
-    script,
-    tokenId: customTx.tokenId,
-    satoshis: 0,
-  });
-  return new Transaction(tx).addOutput(output);
+  // outputOne = new Transaction.Output({
+  //   script: new Script(new Address(address)),
+  //   tokenId: 0,
+  //   satoshis: (feeRate*100000000).toFixed(8),
+  // });
+  return transaction.addOutput(outputOne);
 }
 
-async function signInputs(
+export async function signInputs(
   tx: Transaction,
   keyIndex: number,
   DefiLedger: DefiHwWallet
 ) {
   const signatures = await getSignatures(tx, keyIndex, DefiLedger);
   signatures.forEach((sigsInput) => {
-    tx.inputs[sigsInput.signature.inputIndex].setScript(
-      Script.buildPublicKeyHashIn(
-        sigsInput.signature.publicKey,
-        sigsInput.signature.signature.toDER(),
-        sigsInput.signature.sigtype
-      )
-    );
+    // const script = new Script();
+    // script.add(sigsInput.signature.signature.toDER());
+    // script.add(tx.inputs[sigsInput.signature.inputIndex].output.script.chunks[1].buf);
+    // tx.inputs[sigsInput.signature.inputIndex].setScript(script);
+    tx.inputs[sigsInput.signature.inputIndex].setScript(Script.buildPublicKeyHashIn(
+      sigsInput.signature.publicKey,
+      sigsInput.signature.signature.toDER(),
+      sigsInput.signature.sigtype,
+    ));
+    // const interpreter = new Script.Interpreter();
+    // const check = interpreter.verify(scriptSig, scriptPubkey, tx, sigsInput.signature.inputIndex, flags, witnesses, tx.inputs[sigsInput.signature.inputIndex].output.satoshis);
+    // log.info(`check: ${check}`);
+    // if (!check) {
+    //   throw new Error('Signature not verify transaction');
+    // }
   });
   return tx;
 }
@@ -127,22 +180,26 @@ async function getSigsInputs(
       crypto.Signature.SIGHASH_ALL,
       index,
       // @ts-ignore
-      tx.inputs[index]._scriptBuffer,
+      tx.inputs[index].output.script,
       keyIndex,
       DefiLedger
     );
+    const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex);
+    log.info(`pubkey: ${pubkey}`);
     const txSig = new Transaction.Signature({
       prevTxId: tx.inputs[index].prevTxId,
       outputIndex: tx.inputs[index].outputIndex,
       inputIndex: index,
-      signature: signedTx.signature,
+      signature: crypto.Signature.fromBuffer(signedTx.signature),
       sigtype: crypto.Signature.SIGHASH_ALL,
-      publicKey:
-        '042d73dc8afe02ce3360f801f9bbea5a5453a75fb4488814c2db502ada1d95b53c4a9b41b4341bc7439759dc0b8e3faa51395255bd6e40bb43f17185265be2bf04', // TODO change is ledger done
+      publicKey: pubkey,
     });
-    log.info(`getSigsInputs txSig: ${JSON.stringify(signedTx)}`);
+    // @ts-ignore
+    log.info(`getSigsInputs txSig: ${txSig.signature.toBuffer()}`);
+    log.info(`gpubkey: ${new Buffer(pubkey)}`);
     return [
       {
+        // @ts-ignore
         signature: txSig,
         keyIndex: signedTx.keyIndex,
         hashBuf: signedTx.hashBuf,
@@ -168,10 +225,12 @@ async function signTransaction(
       inputIndex,
       subscript
     );
+    log.info(`hashBuf1: ${JSON.stringify(hashBuf.toString('hex'))}`);
     hashBuf = util.buffer.reverse(hashBuf);
-    const signature: Buffer = await DefiLedger.sign(keyIndex, hashBuf);
+    log.info(`hashBuf: ${JSON.stringify(hashBuf.toString('hex'))}`);
+    const signature: Buffer = await DefiLedger.sign(keyIndex, hashBuf, sighashType);
     // const transformationSign = await DefiLedger.transformationSign(signature);
-    log.info(`signTransaction: ${JSON.stringify(signature)}`);
+    log.info(`transformationSign: ${signature}`);
     return {
       signature,
       hashBuf,
@@ -187,12 +246,14 @@ export async function createTx(
   address: any,
   data: any,
   keyIndex: number,
+  feeRate: number,
   DefiLedger: DefiHwWallet
 ) {
   log.info('Custom TX')
   let tx = new Transaction().from(utxo);
   log.info(`tx: ${tx}`)
-  tx = createZeroOutputTxFromCustomTx(tx, data);
+  tx = createZeroOutputTxFromCustomTx(tx, data, address, feeRate);
+  log.info(`tx: ${tx.toString()}`)
   tx = await signInputs(tx, keyIndex, DefiLedger);
   return tx;
 }

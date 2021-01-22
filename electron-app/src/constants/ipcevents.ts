@@ -48,3 +48,4 @@ export const LIST_DEVICES_LEDGER = 'list-devices-ledger';
 export const DETACH_DEVICE_LEDGER = 'detach-device-ledger';
 export const CUSTOM_TX_LEDGER = 'custom-tx-ledger';
 export const BACKUP_IDXS_LEDGER = 'backup-idxs-ledger';
+export const SIGN_TRANSACTION_LEDGER = 'sign-transaction-ledger';

@@ -1,15 +1,20 @@
 import { ipcMain } from 'electron';
 import {
+  Transaction,
+  Script,
+  Address,
+} from 'bitcore-lib-dfi';
+import {
   GET_LEDGER_DEFI_PUB_KEY,
   CONNECT_LEDGER,
   LIST_DEVICES_LEDGER,
   CUSTOM_TX_LEDGER,
-  BACKUP_IDXS_LEDGER,
+  BACKUP_IDXS_LEDGER, SIGN_TRANSACTION_LEDGER,
 } from '../constants';
 import { responseMessage } from '../utils';
 import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
-import { createTx } from '../services/customTx';
+import { createTx, signInputs } from '../services/customTx';
 
 const DefiLedger = new DefiHwWallet();
 
@@ -82,12 +87,12 @@ const initiateLedger = () => {
       address,
       amount,
       data,
-      keyIndex}
+      keyIndex, feeRate}
     ) => {
       log.info('Generate custom tx of ledger');
       try {
         log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`)
-        const tx = await createTx(utxo, address, data, keyIndex, DefiLedger);
+        const tx = await createTx(utxo, address, data, keyIndex, feeRate, DefiLedger);
         log.info(JSON.stringify(tx.toString()));
         event.returnValue = responseMessage(true, {
           tx: tx.toString(),
@@ -116,6 +121,56 @@ const initiateLedger = () => {
       });
     }
   });
+
+  ipcMain.on(
+    SIGN_TRANSACTION_LEDGER,
+    async (
+      event: Electron.IpcMainEvent,
+      {utxo,
+        address,
+        amount,
+        fromAddress,
+        keyIndex, feeRate}
+    ) => {
+      log.info('Sign Transaction');
+      try {
+        const a = new Address(address);
+        log.info(JSON.stringify(a));
+        let tx = new Transaction().from(utxo);
+        const toAddress = new Address(address);
+        // @ts-ignore
+        const outputOne = new Transaction.Output({
+          script: toAddress.type === 'scripthash' ?
+            // @ts-ignore
+            Script.buildScriptHashOut(toAddress) :
+            // @ts-ignore
+            Script.buildPublicKeyHashOut(toAddress),
+          tokenId: 0,
+          satoshis: amount * 100000000,
+        });
+        tx =  tx.addOutput(outputOne);
+        const outputOne1 = new Transaction.Output({
+          // @ts-ignore
+          script: Script.buildPublicKeyHashOut(new Address(fromAddress)),
+          tokenId: 0,
+          // @ts-ignore
+          satoshis: (feeRate * 100000000).toFixed(8),
+        });
+        tx =  tx.addOutput(outputOne1);
+        log.info(`txIN: ${JSON.stringify(tx)}`)
+        const txSigs = await signInputs(tx, keyIndex, DefiLedger);
+        log.info(`ooooo ${txSigs.toString()}`);
+        event.returnValue = responseMessage(true, {
+          tx: txSigs.toString(),
+        });
+      } catch (err) {
+        log.error(`Error sign tx of ledger: ${err.message}`);
+        event.returnValue = responseMessage(false, {
+          message: err.message,
+        });
+      }
+    }
+  );
 };
 
 export default initiateLedger;

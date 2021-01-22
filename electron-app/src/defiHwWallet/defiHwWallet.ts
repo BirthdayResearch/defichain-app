@@ -2,7 +2,8 @@
 import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import { identifyUSBProductId } from '@ledgerhq/devices';
 import TransportHid from '@ledgerhq/hw-transport-node-speculos';
-import { encoding, crypto } from 'bitcore-lib-dfi';
+// @ts-ignore
+import { encoding, crypto, PublicKey } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
 import usb from 'usb';
@@ -97,7 +98,7 @@ export default class DefiHwWallet {
       }));
       return this.devices;
     } catch (err) {
-      log.error(err.message);
+      log.error(`Get devices of error: ${err.message}`);
       return Promise.reject(err);
     }
   }
@@ -179,7 +180,7 @@ export default class DefiHwWallet {
     }
   }
 
-  async sign(keyIndex: number, msg: Buffer) {
+  async sign(keyIndex: number, msg: Buffer, sighashType: any) {
     const keyIndexBuf = new encoding.BufferWriter();
     keyIndexBuf.writeInt32LE(keyIndex);
     const p1 = new encoding.BufferWriter();
@@ -189,8 +190,6 @@ export default class DefiHwWallet {
     const msgLen = msg.length;
     const partSize = Math.round(msgLen / stepsNum) + 1;
     let rawTVLSignature: null | Buffer = null;
-    let data = Buffer.alloc(0);
-    let dataLen: number | encoding.BufferWriter = 0;
     for (let i = 0; i < stepsNum; i++) {
       const start = i * partSize;
       let finish = (i + 1) * partSize;
@@ -199,6 +198,8 @@ export default class DefiHwWallet {
       }
       const msgSlice = msg.subarray(start, finish - 1);
       let p2: number | encoding.BufferWriter = 0;
+      let data = Buffer.alloc(0);
+      let dataLen: number | encoding.BufferWriter = 0;
       dataLen = msgSlice.length;
       if (i === 0) {
         p2 = SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_MORE;
@@ -225,6 +226,7 @@ export default class DefiHwWallet {
         break;
       } else {
         rawTVLSignature = res.slice(0, res.length - 2);
+        rawTVLSignature = Buffer.concat([new Buffer([0x30]), rawTVLSignature.slice(1)]);
       }
     }
     return rawTVLSignature;
@@ -256,7 +258,13 @@ export default class DefiHwWallet {
       rawTVLSignature,
       msgHash,
     ]);
-    return this.transport.exchange(apdu);
+    const res = await this.transport.exchange(apdu);
+    const { code } = checkStatusCode(res);
+    if (code !== StatusCodes.OK) {
+      return 'NO'
+    }
+    return 'OK'
+
   }
 
   transformationSign(sign: Buffer) {

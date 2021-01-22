@@ -960,4 +960,14 @@ export default class RpcClient {
     ]);
     return data.result;
   };
+
+  getBalances = async () => {
+    const { data } = await this.call('/', methodNames.GET_BALANCES, []);
+    return data.result;
+  };
+
+  createRawTransaction = async (inputs: any, output: any) => {
+    const { data } = await this.call('/', methodNames.CREATE_RAW_TRANSACTION, [inputs, output]);
+    return data.result;
+  };
 }
