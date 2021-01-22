@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './SearchBar.module.scss';
+import { I18n } from 'react-redux-i18n';
 
 interface SearchBarProps {
   searching: any;

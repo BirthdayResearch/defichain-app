@@ -222,9 +222,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           onChange={(e) => setSearchQuery(e.target.value)}
           searching={searching}
           toggleSearch={toggleSearch}
-          placeholder={I18n.t(
-            'containers.masterNodes.masterNodesPage.searchBar'
-          )}
+          placeholder={'Search masternodes'}
         />
       </Header>
       <div className='content'>
