@@ -83,7 +83,11 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
-import { AccountKeyItem, AccountModel } from 'src/constants/rpcModel';
+import {
+  AccountKeyItem,
+  AccountModel,
+  PeerInfoModel,
+} from 'src/constants/rpcModel';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1369,4 +1373,14 @@ export const createChainURL = (tx: string): string => {
 
 export const onViewOnChain = (tx: string): void => {
   openNewTab(createChainURL(tx));
+};
+
+export const handlePeersSyncRequest = async (): Promise<PeerInfoModel[]> => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.getPeerInfo();
+  } catch (err) {
+    log.error(err, 'handlePeersSyncRequest');
+    return [];
+  }
 };
