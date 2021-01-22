@@ -12,7 +12,10 @@
       "aMinuteAgo": "Synchronisiert vor einer Minute",
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
       "network": "Netzwerk",
-      "downloading": "Update wird heruntergeladen"
+      "downloading": "Update wird heruntergeladen",
+      "preparingSync": "Sync vorbereiten",
+      "connectedToPeers": "Verbunden mit %{peers} peers",
+      "atBlock": "Bei block %{block}"
     },
     "swapCard": {
       "selectAToken": "Token wählen",
