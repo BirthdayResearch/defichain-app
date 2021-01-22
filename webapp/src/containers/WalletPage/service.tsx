@@ -143,19 +143,20 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const sendToAddress = async (
   toAddress: string,
-  amount: any,
+  amount: BigNumber,
   subtractfeefromamount: boolean = false
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
 
-  log.info({
-    toAddress,
-    sendAmount: amount,
-    subtractfeefromamount,
-    utxoDFI: regularDFI,
-  });
-  if (regularDFI >= amount) {
+  // log.info({
+  //   toAddress,
+  //   sendAmount: amount,
+  //   subtractfeefromamount,
+  //   utxoDFI: regularDFI,
+  // });
+  // console.log("new BigNumber(regularDFI).gte(amount)", new BigNumber(regularDFI).gte(amount))
+  if (amount.lte(regularDFI)) {
     try {
       const data = await rpcClient.sendToAddress(
         toAddress,
@@ -180,7 +181,7 @@ export const sendToAddress = async (
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
-      if (new BigNumber(amount).gt(maxAmount)) {
+      if (amount.gt(maxAmount)) {
         try {
           const txHash = await sendTokensToAddress(
             fromAddress,
@@ -206,9 +207,9 @@ export const sendToAddress = async (
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
       log.info({ regularDFIAfterTxFee });
-      if (regularDFIAfterTxFee < amount) {
+      if (new BigNumber(regularDFIAfterTxFee).lt(amount)) {
         throw new Error('Insufficient DFI in account');
-      } else if (regularDFIAfterTxFee === amount) {
+      } else if (new BigNumber(regularDFIAfterTxFee).isEqualTo(amount)) {
         return await sendToAddress(toAddress, amount, true);
       } else {
         return await sendToAddress(toAddress, amount, false);
@@ -223,7 +224,7 @@ export const sendToAddress = async (
 
 export const handleFallbackSendToken = async (
   sendAddress: string,
-  sendAmount: string,
+  sendAmount: BigNumber,
   hash: string
 ): Promise<string> => {
   try {
@@ -232,12 +233,12 @@ export const handleFallbackSendToken = async (
       address: fromAddress,
       amount: maxAmount,
     } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
-    if (new BigNumber(maxAmount).gt(sendAmount)) {
+    if (maxAmount.gt(sendAmount)) {
       try {
         const txHash = await accountToAccount(
           fromAddress,
           sendAddress,
-          `${sendAmount}@${hash}`
+          `${sendAmount.toFixed(8)}@${hash}`
         );
         log.info({ handleFallbackSendToken: txHash });
         return txHash;

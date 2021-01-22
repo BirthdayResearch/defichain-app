@@ -93,7 +93,7 @@ interface SendPageState {
   isAddressValid: boolean | string;
   uriData: string;
   errMessage: string;
-  regularDFI: string | number;
+  regularDFI: BigNumber;
   txHash: string;
   isSendLPConfirmed: boolean;
 }
@@ -133,7 +133,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     isAddressValid: false,
     uriData: '',
     errMessage: '',
-    regularDFI: '',
+    regularDFI: new BigNumber(0),
     txHash: '',
     isSendLPConfirmed: false,
   };
@@ -287,26 +287,30 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   sendTransaction = async () => {
     this.handleLoading();
     const { isAmountValid, isAddressValid } = this.state;
-    const regularDFI = await handleFetchRegularDFI();
+    const regularDFI = new BigNumber(await handleFetchRegularDFI());
     this.setState({
       regularDFI,
     });
     if (isAmountValid && isAddressValid) {
-      let amount;
+      let amount: BigNumber;
       let txHash;
       if (
         (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
-        regularDFI !== 0
+        !regularDFI.isZero()
       ) {
         // Convert to base unit
-        amount = getAmountInSelectedUnit(
-          this.state.amountToSendDisplayed,
-          DEFAULT_UNIT,
-          this.props.unit
+        amount = new BigNumber(
+          getAmountInSelectedUnit(
+            this.state.amountToSendDisplayed,
+            DEFAULT_UNIT,
+            this.props.unit
+          )
         );
+        // amount.is
+        const feeCheck = amount.eq(this.props.sendData.walletBalance);
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
         try {
-          if (new BigNumber(amount).eq(this.props.sendData.walletBalance)) {
+          if (feeCheck) {
             txHash = await sendToAddress(this.state.toAddress, amount, true);
           } else {
             txHash = await sendToAddress(this.state.toAddress, amount, false);
@@ -319,12 +323,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         try {
           const hash = this.tokenHash || '0';
           log.info('*******token send **********');
-          amount = this.state.amountToSendDisplayed;
+          amount = new BigNumber(this.state.amountToSendDisplayed);
           log.info({ amount, hash, address: this.state.toAddress });
           try {
             txHash = await sendTokensToAddress(
               this.state.toAddress,
-              `${amount}@${hash}`
+              `${amount.toFixed(8)}@${hash}`
             );
             log.info('*******token send **********');
             log.info(`accountToAccount tx hash ${txHash}`);
@@ -347,7 +351,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   handleFallbackSendToken = async (
     address: string,
-    amount: string,
+    amount: BigNumber,
     hash: string
   ) => {
     try {

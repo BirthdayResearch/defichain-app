@@ -42,6 +42,7 @@ import { getFullRawTxInfo } from './transactionProcessor';
 import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
+import { BigNumber } from 'bignumber.js';
 
 export default class RpcClient {
   client: any;
@@ -269,6 +270,7 @@ export default class RpcClient {
   };
 
   accountToUtxos = async (
+    //amount is "100@DFI" like this need to change
     fromAddress: string | null,
     toAddress: string,
     amount: string
@@ -284,6 +286,7 @@ export default class RpcClient {
   };
 
   utxosToAccount = async (toAddress: string, amount: string) => {
+    // "amount1@t1" amount typt no need to change here
     const { data } = await this.call('/', methodNames.UTXOS_TO_ACCOUNT, [
       {
         [toAddress]: amount,
@@ -307,9 +310,11 @@ export default class RpcClient {
 
   sendToAddress = async (
     toAddress: string | null,
-    amount: number | string,
+    amount: BigNumber,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
+    // Here we needed Bignumber in the rpccall sendtoaddress and then convert it
+    // here also check how much decimals are allowed
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
@@ -332,6 +337,7 @@ export default class RpcClient {
   };
 
   sendMany = async (amounts: any) => {
+    // check how much decimal places are allowed and anything not needed here
     const { data } = await this.call('/', methodNames.SEND_MANY, ['', amounts]);
     return data.result;
   };
@@ -341,6 +347,7 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
+    // No need to make any changes here. Need to make change in service
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
@@ -366,6 +373,7 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
+    //"1.0@DFI" No need to make changes here need to make changes in service
     const { data } = await this.call('/', methodNames.SEND_TOKENS_TO_ADDRESS, [
       {},
       {
@@ -442,6 +450,7 @@ export default class RpcClient {
   };
 
   listUnspent = async (maximumAmount: number, maximumCount?: number) => {
+    // maxAmount can be a BigNumber need to check and also look for the allowed decimals
     const queryOptions = maximumCount
       ? { maximumAmount, maximumCount: Number(maximumCount) }
       : { maximumAmount };
@@ -468,6 +477,7 @@ export default class RpcClient {
     return data.result;
   };
 
+  // need to look into psbt rpc calls where used and why we are using those
   walletCreateFundedPsbt = async (inputs, outputs, feeRate) => {
     const { data } = await this.call(
       '/',
@@ -637,6 +647,7 @@ export default class RpcClient {
     tokenMintInfo: ITokenMintInfo,
     tx: any = []
   ): Promise<string> => {
+    // no need to d it here but need to make changes in service accepts amount this way 10@symbol
     const { hash, amount } = tokenMintInfo;
     const { data } = await this.call('/', methodNames.MINT_TOKEN, [
       `${amount}@${hash}`,
@@ -655,6 +666,7 @@ export default class RpcClient {
   };
 
   destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
+    // it can be removed as it is no longer available
     const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [tokenId]);
     return data.result;
   };
@@ -831,6 +843,7 @@ export default class RpcClient {
     amount2: string,
     shareAddress: string
   ) => {
+    // no need to do it here need to make bignumber in service
     const from =
       address1 === address2
         ? { [address1]: [amount1, amount2] }
@@ -850,6 +863,7 @@ export default class RpcClient {
     to: string,
     tokenTo: string
   ) => {
+    // amount from needs to be a bignumber here
     const { data } = await this.call('/', methodNames.POOL_SWAP, [
       { from, tokenFrom, amountFrom, to, tokenTo },
       [],
@@ -858,6 +872,7 @@ export default class RpcClient {
   };
 
   removePoolLiquidity = async (from: string, amount: string) => {
+    //1.0@LpSymbol no need to do it here need to make this changes in service
     const { data } = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [
       from,
       amount,
@@ -873,6 +888,7 @@ export default class RpcClient {
     to: string,
     tokenTo: string
   ) => {
+    // amountfrom will need to be in the bigNumber
     const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
       { from, tokenFrom, amountFrom, to, tokenTo },
     ]);
