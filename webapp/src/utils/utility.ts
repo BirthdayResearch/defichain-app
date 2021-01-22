@@ -1006,18 +1006,18 @@ export const getAddressForSymbol = async (key: string, list: any) => {
 
 export const getHighestAmountAddressForSymbol = async (
   key: string,
-  sendAmount: string,
+  sendAmount: BigNumber,
   list: any
 ) => {
-  let maxAmount = 0;
+  let maxAmount = new BigNumber(0);
   let address = '';
   for (const obj of list) {
     const tokenSymbol = Object.keys(obj.amount)[0];
-    const tokenAmount = Number(obj.amount[tokenSymbol]);
+    const tokenAmount = new BigNumber(obj.amount[tokenSymbol]);
     const tokenAddress = obj.address;
     if (
       key === tokenSymbol &&
-      new BigNumber(sendAmount).lte(tokenAmount) &&
+      sendAmount.lte(tokenAmount) &&
       new BigNumber(tokenAmount).gt(maxAmount)
     ) {
       maxAmount = tokenAmount;
