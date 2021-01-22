@@ -37,7 +37,7 @@ export const handleTestPoolSwapTo = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address1,
       formState.hash1,
-      Number(formState.amount1),
+      new BigNumber(formState.amount1),
       address2,
       formState.hash2
     );
@@ -60,7 +60,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address2,
       formState.hash2,
-      Number(formState.amount2),
+      new BigNumber(formState.amount2),
       address1,
       formState.hash1
     );

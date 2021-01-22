@@ -246,7 +246,7 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async (obj) => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${Number(obj.amount).toFixed(8)}@${poolID}`
+      `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;

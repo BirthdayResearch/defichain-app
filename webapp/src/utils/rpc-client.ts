@@ -843,6 +843,14 @@ export default class RpcClient {
     return data.result;
   };
 
+  /**
+   *
+   * @param address1
+   * @param amount1 - Amount is in format "1.0@1"
+   * @param address2
+   * @param amount2 - Amount is in format "1.0@1"
+   * @param shareAddress
+   */
   addPooLiquidity = async (
     address1: string,
     amount1: string,
@@ -890,7 +898,7 @@ export default class RpcClient {
   testPoolSwap = async (
     from: string,
     tokenFrom: string,
-    amountFrom: number,
+    amountFrom: BigNumber,
     to: string,
     tokenTo: string
   ) => {
