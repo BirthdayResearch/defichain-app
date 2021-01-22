@@ -43,7 +43,7 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
-import { PeerInfoModel } from 'src/constants/rpcModel';
+import { ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
 
 export default class RpcClient {
   client: any;
@@ -317,11 +317,15 @@ export default class RpcClient {
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
-        maximumAmount:
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount:
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+        maximumAmount: new BigNumber(
+          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT
+        ),
+        maximumCount: new BigNumber(
+          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT
+        ),
+        feeRate: new BigNumber(
+          PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE
+        ),
       });
     }
 
@@ -350,11 +354,15 @@ export default class RpcClient {
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
-        maximumAmount:
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount:
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+        maximumAmount: new BigNumber(
+          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT
+        ),
+        maximumCount: new BigNumber(
+          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT
+        ),
+        feeRate: new BigNumber(
+          PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE
+        ),
       });
     }
 
@@ -448,12 +456,13 @@ export default class RpcClient {
     return txnList;
   };
 
-  listUnspent = async (maximumAmount: number, maximumCount?: number) => {
-    // maxAmount can be a BigNumber need to check and also look for the allowed decimals
+  listUnspent = async (
+    maximumAmount: BigNumber,
+    maximumCount?: BigNumber
+  ): Promise<ListUnspentModel[]> => {
     const queryOptions = maximumCount
-      ? { maximumAmount, maximumCount: Number(maximumCount) }
+      ? { maximumAmount, maximumCount }
       : { maximumAmount };
-
     const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
       1,
       9999999,
@@ -461,7 +470,6 @@ export default class RpcClient {
       true,
       queryOptions,
     ]);
-
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_UNSPENT),
       data

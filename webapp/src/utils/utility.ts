@@ -102,7 +102,7 @@ export const validateSchema = (schema, data) => {
 
 export const getTxnSize = async (): Promise<number> => {
   const rpcClient = new RpcClient();
-  const unspent = await rpcClient.listUnspent(MAX_MONEY);
+  const unspent = await rpcClient.listUnspent(new BigNumber(MAX_MONEY));
 
   const inputs = unspent.length;
   const outputs = 2;
