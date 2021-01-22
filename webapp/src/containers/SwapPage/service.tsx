@@ -98,8 +98,8 @@ export const handlePoolSwap = async (formState): Promise<string> => {
     await handleUtxoToAccountConversion(
       formState.hash1,
       address1,
-      formState.amount1,
-      accountToAccountAmount.plus(maxAmount1).toNumber()
+      poolSwapAmount,
+      accountToAccountAmount.plus(maxAmount1)
     );
   }
 

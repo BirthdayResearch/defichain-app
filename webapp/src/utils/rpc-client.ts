@@ -271,7 +271,6 @@ export default class RpcClient {
   };
 
   accountToUtxos = async (
-    //amount is "100@DFI" like this need to change
     fromAddress: string | null,
     toAddress: string,
     amount: string
@@ -874,7 +873,7 @@ export default class RpcClient {
   ): Promise<string> => {
     // amount from needs to be a bignumber here
     const { data } = await this.call('/', methodNames.POOL_SWAP, [
-      { from, tokenFrom, amountFrom, to, tokenTo },
+      { from, tokenFrom, amountFrom: amountFrom.toFixed(8), to, tokenTo },
       [],
     ]);
     return data.result;

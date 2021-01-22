@@ -1105,16 +1105,16 @@ export const getDfiUTXOS = async () => {
 export const handleUtxoToAccountConversion = async (
   hash: string,
   address: string,
-  amount: string,
-  maxAmount: number
+  amount: BigNumber,
+  maxAmount: BigNumber
 ) => {
   const rpcClient = new RpcClient();
   const dfiUtxos = await getDfiUTXOS();
-  if (new BigNumber(amount).gt(new BigNumber(maxAmount).plus(dfiUtxos))) {
+  if (amount.gt(maxAmount.plus(dfiUtxos))) {
     throw new Error(`Insufficent DFI in account`);
   }
 
-  const transferAmount = new BigNumber(amount).minus(maxAmount);
+  const transferAmount = amount.minus(maxAmount);
   const utxoToDfiTxId = await rpcClient.utxosToAccount(
     address,
     `${transferAmount.toFixed(8)}@${hash}`

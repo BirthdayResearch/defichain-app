@@ -157,16 +157,18 @@ export const handleAddPoolLiquidity = async (
 
   let accountToAccountAmount1 = new BigNumber(0);
   let accountToAccountAmount2 = new BigNumber(0);
+  const amount1BN = new BigNumber(amount1);
+  const amount2BN = new BigNumber(amount2);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (new BigNumber(amount1).gt(maxAmount1)) {
+  if (amount1BN.gt(maxAmount1)) {
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
       address1,
       hash1
     );
   }
-  if (new BigNumber(amount2).gt(maxAmount2)) {
+  if (amount2BN.gt(maxAmount2)) {
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
       address2,
@@ -177,23 +179,23 @@ export const handleAddPoolLiquidity = async (
   // convert utxo DFI to account, if don't have sufficent funds in account
   if (
     hash1 === DFI_SYMBOL &&
-    new BigNumber(amount1).gt(accountToAccountAmount1.plus(maxAmount1))
+    amount1BN.gt(accountToAccountAmount1.plus(maxAmount1))
   ) {
     await handleUtxoToAccountConversion(
       hash1,
       address1,
-      amount1,
-      accountToAccountAmount1.plus(maxAmount1).toNumber()
+      amount1BN,
+      accountToAccountAmount1.plus(maxAmount1)
     );
   } else if (
     hash2 === DFI_SYMBOL &&
-    new BigNumber(amount2).gt(accountToAccountAmount2.plus(maxAmount2))
+    amount2BN.gt(accountToAccountAmount2.plus(maxAmount2))
   ) {
     await handleUtxoToAccountConversion(
       hash2,
       address2,
-      amount2,
-      accountToAccountAmount2.plus(maxAmount2).toNumber()
+      amount2BN,
+      accountToAccountAmount2.plus(maxAmount2)
     );
   }
 
@@ -201,9 +203,9 @@ export const handleAddPoolLiquidity = async (
 
   return await rpcClient.addPooLiquidity(
     address1,
-    `${new BigNumber(amount1).toFixed(8)}@${hash1}`,
+    `${amount1BN.toFixed(8)}@${hash1}`,
     address2,
-    `${new BigNumber(amount2).toFixed(8)}@${hash2}`,
+    `${amount2BN.toFixed(8)}@${hash2}`,
     shareAddress
   );
 };
