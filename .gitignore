@@ -108,7 +108,6 @@ dist
 .vscode-test
 
 # yarn v2
-
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
@@ -130,3 +129,6 @@ storybook-static
 binary/mac/defid
 binary/temp/win/defid.exe
 binary/win/defid.exe
+
+# JetBrains
+.idea
