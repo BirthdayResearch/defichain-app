@@ -1100,16 +1100,16 @@ export const getDfiUTXOS = async () => {
 export const handleUtxoToAccountConversion = async (
   hash: string,
   address: string,
-  amount: string,
-  maxAmount: number
+  amount: BigNumber,
+  maxAmount: BigNumber
 ) => {
   const rpcClient = new RpcClient();
   const dfiUtxos = await getDfiUTXOS();
-  if (new BigNumber(amount).gt(new BigNumber(maxAmount).plus(dfiUtxos))) {
+  if (amount.gt(maxAmount.plus(dfiUtxos))) {
     throw new Error(`Insufficent DFI in account`);
   }
 
-  const transferAmount = new BigNumber(amount).minus(maxAmount);
+  const transferAmount = amount.minus(maxAmount);
   const utxoToDfiTxId = await rpcClient.utxosToAccount(
     address,
     `${transferAmount.toFixed(8)}@${hash}`
@@ -1135,18 +1135,18 @@ export const handleAccountToAccountConversion = async (
   let amountTransfered = new BigNumber(0);
   for (const obj of addressAndAmountList) {
     const tokenSymbol = Object.keys(obj.amount)[0];
-    const amount = Number(obj.amount[tokenSymbol]).toFixed(8);
+    const amount = new BigNumber(obj.amount[tokenSymbol]);
 
     if (tokenSymbol === hash && obj.address !== toAddress) {
       const txId = await rpcClient.accountToAccount(
         obj.address,
         toAddress,
-        `${amount}@${tokenSymbol}`
+        `${amount.toFixed(8)}@${tokenSymbol}`
       );
 
       const promiseHash = getTransactionInfo(txId);
       accountToAccountTxHashes.push(promiseHash);
-      amountTransfered = amountTransfered.plus(new BigNumber(amount));
+      amountTransfered = amountTransfered.plus(amount);
     }
   }
   await Promise.all(accountToAccountTxHashes);
@@ -1259,7 +1259,7 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
 };
 
 export const getSmallerAmount = (amount1: string, amount2: string) => {
-  return Math.min(Number(amount1), Number(amount2));
+  return new BigNumber(Math.min(Number(amount1), Number(amount2)));
 };
 
 export const getDfiTokenBalance = async () => {
