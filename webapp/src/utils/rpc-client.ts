@@ -338,7 +338,6 @@ export default class RpcClient {
   };
 
   sendMany = async (amounts: any) => {
-    // check how much decimal places are allowed and anything not needed here
     const { data } = await this.call('/', methodNames.SEND_MANY, ['', amounts]);
     return data.result;
   };
@@ -348,7 +347,6 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
-    // No need to make any changes here. Need to make change in service
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
@@ -379,7 +377,6 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
-    //"1.0@DFI" No need to make changes here need to make changes in service
     const { data } = await this.call('/', methodNames.SEND_TOKENS_TO_ADDRESS, [
       {},
       {
