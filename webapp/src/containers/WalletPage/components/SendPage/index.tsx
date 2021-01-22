@@ -315,7 +315,11 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           const hash = this.tokenHash || '0';
           log.info('*******token send **********');
           amount = new BigNumber(this.state.amountToSendDisplayed);
-          log.info({ amount, hash, address: this.state.toAddress });
+          log.info({
+            amount: this.state.amountToSendDisplayed,
+            hash,
+            address: this.state.toAddress,
+          });
           try {
             txHash = await sendTokensToAddress(
               this.state.toAddress,
