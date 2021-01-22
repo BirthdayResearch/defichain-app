@@ -111,11 +111,9 @@ export const handleCreateTokens = async (tokenData) => {
     // );
     // await getTransactionInfo(txId);
     const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
-    const finalBalance = new BigNumber(
-      getSmallerAmount(
-        balance,
-        accountToAccountAmount.plus(maxAmount).toFixed(8)
-      )
+    const finalBalance = getSmallerAmount(
+      balance,
+      accountToAccountAmount.plus(maxAmount).toFixed(8)
     );
     const hash = await rpcClient.accountToUtxos(
       address,
