@@ -372,6 +372,7 @@ export default class RpcClient {
       {},
       {
         [toAddress]: amount,
+        enable_external_dfi_token_tx: true,
       },
     ]);
     return data.result;
