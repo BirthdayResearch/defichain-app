@@ -642,7 +642,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
-                    !formState.receiveAddress
+                    formState.receiveAddress == null ||
+                    formState.receiveAddress == ''
                   }
                   onClick={swapStepConfirm}
                 >
