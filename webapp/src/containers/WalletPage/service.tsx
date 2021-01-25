@@ -231,8 +231,8 @@ export const handleFallbackSendToken = async (
     const {
       address: fromAddress,
       amount: maxAmount,
-    } = getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
-    if (maxAmount.gt(sendAmount)) {
+    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    if (new BigNumber(maxAmount).gte(sendAmount)) {
       try {
         const txHash = await accountToAccount(
           fromAddress,
@@ -245,7 +245,7 @@ export const handleFallbackSendToken = async (
         const errorMessage = getErrorMessage(error);
         log.error(errorMessage, `handleFallbackSendToken`);
         throw new Error(
-          `Got error in handleFallbackSendToken: ${errorMessage}`
+          `Got error in accountToAccount - handleFallbackSendToken: ${errorMessage}`
         );
       }
     } else {

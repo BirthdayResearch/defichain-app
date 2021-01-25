@@ -347,26 +347,10 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
-    const txnSize = await getTxnSize();
-    if (txnSize >= MAX_TXN_SIZE) {
-      await construct({
-        maximumAmount: new BigNumber(
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT
-        ),
-        maximumCount: new BigNumber(
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT
-        ),
-        feeRate: new BigNumber(
-          PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE
-        ),
-      });
-    }
-
     const { data } = await this.call('/', methodNames.ACCOUNT_TO_ACCOUNT, [
       fromAddress,
       {
         [toAddress]: amount,
-        enable_external_dfi_token_tx: true,
       },
       [],
     ]);
@@ -381,7 +365,6 @@ export default class RpcClient {
       {},
       {
         [toAddress]: amount,
-        enable_external_dfi_token_tx: true,
       },
     ]);
     return data.result;
