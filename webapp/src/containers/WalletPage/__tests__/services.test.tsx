@@ -18,6 +18,7 @@ import {
 } from '../../../utils/testUtils/mockUtils';
 import * as Utility from '../../../utils/utility';
 import { MAINNET } from '../../../constants';
+import BigNumber from 'bignumber.js';
 const networkName = MAINNET.toLowerCase();
 describe('Wallet page service unit test', () => {
   it('should check for handleGetPaymentRequest', () => {
@@ -163,18 +164,18 @@ describe('Wallet page service unit test', () => {
       expect(err).toBeTruthy();
     }
   });
-  // commenting due to bignumber
-  // it('should check for error sendToAddress', async () => {
-  //   try {
-  //     const post = jest.fn().mockRejectedValueOnce('Error');
-  //     const toAddress = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
-  //     const amount = 10;
-  //     mockAxios(post);
-  //     const test = await service.sendToAddress(toAddress, amount);
-  //   } catch (err) {
-  //     expect(err).toBeTruthy();
-  //   }
-  // });
+
+  it('should check for error sendToAddress', async () => {
+    try {
+      const post = jest.fn().mockRejectedValueOnce('Error');
+      const toAddress = 'bcrt1qw2grcyqu9jfdwgrggtpasq0vdtwvecty4vf4jk';
+      const amount = new BigNumber(10);
+      mockAxios(post);
+      const test = await service.sendToAddress(toAddress, amount);
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
+  });
 
   // it('should check for error isValidAddress', async () => {
   //   try {

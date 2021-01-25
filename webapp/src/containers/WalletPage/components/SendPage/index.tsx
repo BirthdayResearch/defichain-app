@@ -298,14 +298,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           this.props.unit
         );
         // amount.is
-        const feeCheck = amount.eq(this.props.sendData.walletBalance);
+        const feeCheck = amount.gte(this.props.sendData.walletBalance);
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
         try {
-          if (feeCheck) {
-            txHash = await sendToAddress(this.state.toAddress, amount, true);
-          } else {
-            txHash = await sendToAddress(this.state.toAddress, amount, false);
-          }
+          txHash = await sendToAddress(this.state.toAddress, amount, feeCheck);
           this.handleSuccess(txHash);
         } catch (error) {
           this.handleFailure(error);
