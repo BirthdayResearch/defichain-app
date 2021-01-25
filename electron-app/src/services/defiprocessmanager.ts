@@ -1,5 +1,4 @@
 import * as log from './electronLogger';
-import { app } from 'electron';
 import * as path from 'path';
 import ini from 'ini';
 import { spawn } from 'child_process';
