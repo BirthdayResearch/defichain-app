@@ -49,7 +49,7 @@ export const getRpcConfig = () => {
 export function startAppInit() {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return ipcRenderer.sendSync(APP_INIT, {});
+    return ipcRenderer.send(APP_INIT, {});
   }
   // For webapp
   return { success: true, data: {} };
