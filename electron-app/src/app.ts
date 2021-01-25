@@ -27,6 +27,7 @@ import {
   CLOSE_APP,
   ON_CLOSE_RPC_CLIENT,
   STOP_BINARY_AND_QUEUE,
+  APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 
@@ -44,6 +45,7 @@ declare var process: {
 export default class App {
   mainWindow: Electron.BrowserWindow;
   allowQuit: boolean;
+  isAppInitialized: boolean;
   parseOptions: Options;
   isDevMode: boolean;
 
@@ -53,6 +55,7 @@ export default class App {
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
+    this.isAppInitialized = false;
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
     /* For future purpose */
@@ -63,7 +66,7 @@ export default class App {
     app.on(READY, this.onAppReady);
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
-    this.onNodeClosure();
+    this.setNodeEvents();
   }
 
   onAppReady = async () => {
@@ -187,7 +190,7 @@ export default class App {
     return app.quit();
   };
 
-  onNodeClosure = async (): Promise<any> => {
+  setNodeEvents = async (): Promise<any> => {
     ipcMain.on(ON_CLOSE_RPC_CLIENT, async () => {
       try {
         ElectronLogger.info(
@@ -205,10 +208,14 @@ export default class App {
     });
 
     ipcMain.on(CLOSE_APP, this.onMainWindowClose);
+
+    ipcMain.on(APP_INIT, () => {
+      this.isAppInitialized = true;
+    });
   };
 
   onMainWindowClose = async (event: Electron.Event): Promise<any> => {
-    if (this.allowQuit) {
+    if (this.allowQuit || !this.isAppInitialized) {
       app.quit();
       return (this.mainWindow = null);
     }

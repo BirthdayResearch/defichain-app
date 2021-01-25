@@ -28,6 +28,7 @@ import {
 } from '../containers/PopOver/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 import {
+  APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
   REPLACE_WALLET_DAT,
@@ -44,6 +45,15 @@ export const getRpcConfig = () => {
   // For webapp
   return { success: true, data: {} };
 };
+
+export function startAppInit() {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    return ipcRenderer.sendSync(APP_INIT, {});
+  }
+  // For webapp
+  return { success: true, data: {} };
+}
 
 export function startBinary(config: any) {
   return eventChannel((emit) => {

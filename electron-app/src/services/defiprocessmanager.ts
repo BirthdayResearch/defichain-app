@@ -175,7 +175,7 @@ export default class DefiProcessManager {
 
   static async stop(isCloseProcess?: boolean) {
     try {
-      log.info('Stopping DeFi Process Manager');
+      log.info('Start DeFiProcessManager shutdown...');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
         const processLists: any = await getProcesses({
@@ -185,7 +185,7 @@ export default class DefiProcessManager {
           this.isStartedNode = false;
           if (processLists.length > 0 && isCloseProcess) {
             try {
-              log.info('Stopping Node Connection');
+              log.info('Stopping Node Connection...');
               await Promise.all(
                 processLists.map((item) => stopProcesses(item.pid))
               );

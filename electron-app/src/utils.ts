@@ -115,7 +115,7 @@ export const getRpcAuth = (rpcuser: string) => {
   };
 };
 
-export const getProcesses = (args: any) => {
+export const getProcesses = (args: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     ps.lookup(args, (err: any, result: unknown) => {
       if (err) return reject(err);
@@ -125,12 +125,22 @@ export const getProcesses = (args: any) => {
 };
 
 export const stopProcesses = (processId: number | string) => {
-  return new Promise((resolve, reject) => {
-    ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
-  });
+  return getProcesses({ pid: parseInt(processId?.toString(), 10) }).then(
+    (processes: any[]) => {
+      if (processes != null && processes[0] != null) {
+        return new Promise((resolve, reject) => {
+          ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
+            if (err) return reject(err);
+            return resolve(result);
+          });
+        });
+      } else {
+        return new Promise((resolve, reject) => {
+          return resolve(true);
+        });
+      }
+    }
+  );
 };
 
 export function sleep(ms: number) {
