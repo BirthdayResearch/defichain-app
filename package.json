@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "DeFi Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -171,6 +171,6 @@
     }
   },
   "engines": {
-    "node" : ">=12"
+    "node": ">=12"
   }
 }
