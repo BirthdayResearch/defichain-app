@@ -3,6 +3,7 @@ on:
     branches:
       - 'ci/**'
       - master
+      - feat/console_component
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
