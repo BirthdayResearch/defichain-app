@@ -694,7 +694,7 @@
         "receive": "Receive",
         "paymentRequests": "Receive addresses",
         "noPaymentRequests": "No receive addresses available",
-        "paginationRange": "%{to} – %{from} of %{total} receive addresses",
+        "paginationRange": "%{from} - %{to} of %{total} receive addresses",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
@@ -706,7 +706,7 @@
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
-        "txPaginationRange": "%{to} – %{from} of %{total} transactions"
+        "txPaginationRange": "%{from} - %{to} of %{total} transactions"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -725,7 +725,7 @@
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",
-        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "paginationRange": "%{from} – %{to} of %{total} transactions",
         "noTransactions": "No transactions available",
         "accountToAccount": "Account to account",
         "utxosToAccount": "UTXOs to account",
