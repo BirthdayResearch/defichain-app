@@ -40,7 +40,13 @@ const isRunning = () => {
   return isRunning;
 };
 
-export const triggerNodeShutdown = async (): Promise<any> => {
+/**
+ * @description - method that is triggered when the app is closed
+ * @param shouldCallMainProcess - boolean to check if it needs to trigger main process closing
+ */
+export const triggerNodeShutdown = async (
+  shouldCallMainProcess = true
+): Promise<any> => {
   const ipcRenderer = ipcRendererFunc();
   log.info('Removing all Binary and Queue listeners..', LOGGING_SHUT_DOWN);
   store.dispatch(isAppClosing({ isAppClosing: true }));
@@ -48,7 +54,9 @@ export const triggerNodeShutdown = async (): Promise<any> => {
   if (isRunning()) {
     await shutDownBinary();
   }
-  return ipcRenderer.send(ON_CLOSE_RPC_CLIENT);
+  if (shouldCallMainProcess) {
+    return ipcRenderer.send(ON_CLOSE_RPC_CLIENT);
+  }
 };
 
 if (isElectron()) {

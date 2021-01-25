@@ -48,7 +48,9 @@ const initUpdateAppIpcRenderers = () => {
 
 export const sendUpdateResponse = async () => {
   if (isElectron()) {
-    await triggerNodeShutdown();
+    log.error(`Update trigger node shutdown...`);
+    await triggerNodeShutdown(false);
+    log.error(`Update node shutdown success...`);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(POST_UPDATE_ACTION);
   }
