@@ -4,12 +4,24 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import cloneDeep from 'lodash/cloneDeep';
+import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { MdAdd } from 'react-icons/md';
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
   fetchInstantBalanceRequest,
 } from '../../../reducer';
-import { filterByValue, getPageTitle } from '../../../../../utils/utility';
+import {
+  filterByValue,
+  getPageTitle,
+  getToken,
+} from '../../../../../utils/utility';
+import {
+  handleAddToken,
+  getWalletToken,
+  getVerifiedTokens,
+  updateWalletToken,
+} from '../../../service';
 import {
   WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
@@ -20,6 +32,8 @@ import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
 import { IToken } from 'src/utils/interfaces';
 import { getWalletPathAddress } from '../../SendPage';
+import WalletDropdown from '../../../../../components/walletDropdown';
+import { difference } from 'lodash';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
   unit: string;
@@ -35,20 +49,27 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
-  const {
-    unit,
-    history,
-    isWalletCreatedFlag,
-    tokens,
-    isLoadingTokens,
-    fetchTokensRequest,
-  } = props;
+  const { unit, history, isWalletCreatedFlag, tokens, isLoadingTokens } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
+  const [walletTableData, setwalletTableData] = useState<any>([]);
+  const [tokenData, setTokenData] = useState<any>([]);
+  const [verifiedTokens, setVerifiedTokens] = useState<any>([]);
+  const [formState, setFormState] = useState<any>({
+    amount1: '',
+    hash1: '',
+    symbol1: '',
+  });
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const pageSize = TOKEN_LIST_PAGE_SIZE;
-  const { fetchAccountTokensRequest, accountTokens } = props;
-  const total = accountTokens.length;
+  const {
+    fetchAccountTokensRequest,
+    fetchTokensRequest,
+    accountTokens,
+  } = props;
+  const total = [
+    ...new Set([...accountTokens, ...verifiedTokens, ...walletTableData]),
+  ].length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
@@ -57,14 +78,33 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     fetchTokensRequest();
     fetchInstantBalanceRequest();
     fetchAccountTokensRequest();
+    const tokenMap = getToken(props.tokens);
+    setTokenData(tokenMap);
+    const walletToken = getWalletToken();
+    setwalletTableData(walletToken);
   }, []);
+
+  useEffect(() => {
+    const verifiedTokens = getVerifiedTokens(tokens);
+    setVerifiedTokens(verifiedTokens);
+    const tokensList: IToken[] = filterByValue(accountTokens, '');
+    if (currentPage === defaultPage) {
+      paginate(
+        defaultPage,
+        [...tokensList, ...walletTableData],
+        verifiedTokens
+      );
+    }
+  }, [accountTokens, isLoadingTokens, props.walletBalance, walletTableData]);
 
   function paginate(
     pageNumber,
     tokensList?: IToken[],
     appTokens: IToken[] = []
   ) {
-    let clone = cloneDeep(tokensList || accountTokens);
+    let clone = cloneDeep(
+      tokensList || [...accountTokens, ...walletTableData, ...verifiedTokens]
+    );
     const keys = {};
     clone.forEach((t) => {
       keys[t.hash] = t.symbol;
@@ -73,7 +113,14 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     clone = [...clone, ...appTokens]
       .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
       .filter((t: IToken) => t.hash != '0');
-    const tableData = clone.slice(
+    const allTokenArray = clone.map((token) => token.symbolKey);
+    if (allTokenArray.length !== [...new Set(allTokenArray)].length) {
+      const duplicateArray = allTokenArray.filter(
+        (value, index) => allTokenArray.indexOf(value) === index
+      );
+      updateWalletToken(duplicateArray);
+    }
+    const tableData = [...new Set(clone)].slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
@@ -81,14 +128,58 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     settableData(tableData);
   }
 
-  useEffect(() => {
-    const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
-      t.amount = 0;
-      return t.isDAT && !t.isLPS;
+  const handleDropDown = (
+    hash: string,
+    field1: string,
+    symbol: string,
+    field2: string,
+    name: string
+  ) => {
+    const tokenInfo = {
+      symbol: symbol,
+      symbolKey: symbol,
+      amount: '0.00000000',
+      hash: hash,
+      address: '',
+      name: name,
+    };
+    const walletTokensList = handleAddToken(tokenInfo);
+    setwalletTableData(walletTokensList);
+    setFormState({
+      ...formState,
+      [field1]: hash,
+      [field2]: symbol,
     });
-    const tokensList: IToken[] = filterByValue(accountTokens, '');
-    paginate(defaultPage, tokensList, verifiedTokens);
-  }, [accountTokens, isLoadingTokens, props.walletBalance]);
+  };
+
+  const getTokenForWalletDropDown = () => {
+    const existingTokenArray = [
+      ...accountTokens,
+      ...walletTableData,
+      ...verifiedTokens,
+    ].map((value) => value.symbolKey);
+    const filteredTokenMap = new Map<string, any>();
+    tokenData.forEach((value, key) => {
+      if (!existingTokenArray.includes(key)) {
+        filteredTokenMap.set(key, value);
+      }
+    });
+    return filteredTokenMap;
+  };
+
+  const isWalletDropdown = () => {
+    const existingTokenArray = [
+      ...accountTokens,
+      ...walletTableData,
+      ...verifiedTokens,
+    ].map((value) => value.symbolKey);
+    let tokenDataArray: any[] = [];
+    tokenData.forEach((value, key) => {
+      tokenDataArray = [...tokenDataArray, value.symbolKey];
+    });
+    const diffreneceArray = difference(existingTokenArray, tokenData);
+    return diffreneceArray.length > 1 ? true : false;
+  };
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
@@ -121,14 +212,22 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           </Helmet>
           <Header>
             <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
-            {/* <ButtonGroup>
-            <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
-              <MdAdd />
-              <span className='d-lg-inline'>
-                {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
-              </span>
-            </Button>
-          </ButtonGroup> */}
+            <ButtonGroup disabled={!isWalletDropdown()}>
+              <WalletDropdown
+                tokenMap={getTokenForWalletDropDown()}
+                name={1}
+                formState={formState}
+                handleDropdown={handleDropDown}
+                dropdownLabel={'dropdownLabel'}
+              >
+                <Button color='link' disabled={!isWalletDropdown()}>
+                  <MdAdd />
+                  <span className='d-lg-inline'>
+                    {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
+                  </span>
+                </Button>
+              </WalletDropdown>
+            </ButtonGroup>
           </Header>
           <div className='content'>
             <WalletTokenCard

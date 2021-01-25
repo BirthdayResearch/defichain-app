@@ -82,6 +82,7 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
+import { symbol } from 'prop-types';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -518,6 +519,36 @@ export const isWalletCreated = (network) => {
 
 const getPopularSymbolList = () => {
   return ['0', '1', '2'];
+};
+
+export const getToken = (tokenlist: any[]) => {
+  const tokenMap = new Map<string, any>();
+  const popularSymbolList = getPopularSymbolList();
+
+  tokenlist.forEach((tokenData, tokenId) => {
+    if (popularSymbolList.includes(tokenId.toString())) {
+      if (tokenId.toString() === DFI_SYMBOL) {
+        tokenMap.set(tokenData.symbolKey, {
+          ...tokenData,
+          hash: tokenId.toString(),
+          isPopularToken: true,
+        });
+      } else {
+        tokenMap.set(tokenData.symbolKey, {
+          ...tokenData,
+          hash: tokenId.toString(),
+          isPopularToken: true,
+        });
+      }
+    } else {
+      tokenMap.set(tokenData.symbolKey, {
+        ...tokenData,
+        hash: tokenId.toString(),
+        isPopularToken: false,
+      });
+    }
+  });
+  return tokenMap;
 };
 
 export const getTokenListForSwap = (

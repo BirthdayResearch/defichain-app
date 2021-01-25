@@ -13,6 +13,9 @@
     color: $body-color;
   }
 }
+.dropDownCol {
+  flex-grow: 0;
+}
 
 .searchBar {
   position: absolute;

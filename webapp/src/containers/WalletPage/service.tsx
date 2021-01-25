@@ -11,6 +11,8 @@ import {
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
+import { IToken } from 'src/utils/interfaces';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
@@ -24,6 +26,8 @@ import {
   getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   hdWalletCheck,
+  getNetworkType,
+  getNetworkInfo,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -31,6 +35,9 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
+import { getNetwork } from './saga';
+import { element } from 'prop-types';
+import { includes } from 'lodash';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -66,6 +73,39 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
   );
   PersistentStore.set(localStorageName, paymentData);
   return paymentData;
+};
+
+export const handleAddToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const keyData = [...(initialData[networkType] || []), tokenData];
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const getWalletToken = () => {
+  const networkType = getNetworkType();
+  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  return initialData[networkType] || [];
+};
+
+export const updateWalletToken = (duplicateArray) => {
+  const networkType = getNetworkType();
+  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const filteredData = initialData[networkType].filter(
+    (element) => !duplicateArray.includes(element.symbolKey)
+  );
+  initialData[networkType] = filteredData;
+  PersistentStore.set('tokenInfo', initialData);
+};
+
+export const getVerifiedTokens = (tokens) => {
+  const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
+    t.amount = 0;
+    return t.isDAT && !t.isLPS;
+  });
+  return verifiedTokens;
 };
 
 export const handelFetchWalletTxns = async (
@@ -194,7 +234,6 @@ export const sendToAddress = async (
       }
 
       const balance = await getBalanceForSymbol(fromAddress, '0');
-      log.info({ consolidateAccountBalance: balance });
 
       const hash = await rpcClient.accountToUtxos(
         fromAddress,
