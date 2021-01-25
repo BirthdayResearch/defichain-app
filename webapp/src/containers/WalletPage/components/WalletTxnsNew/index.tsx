@@ -105,8 +105,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const total = accountHistoryCount;
   const pagesCount = Math.ceil(total / pageSize);
   const textLimit = 26;
-  const to = (currentPage - 1) * pageSize + 1;
-  const from = Math.min(total, currentPage * pageSize);
+  const from = (currentPage - 1) * pageSize + 1;
+  const to = Math.min(total, currentPage * pageSize);
 
   const sourceArray: any = useRef([]);
   let source;
