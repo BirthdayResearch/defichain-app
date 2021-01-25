@@ -24,6 +24,7 @@ import ElectronLogger from './services/electronLogger';
 import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
 import { createMnemonicAction } from './ipc-events/createMnemonic';
 import {
+  CLOSE_APP,
   ON_CLOSE_RPC_CLIENT,
   STOP_BINARY_AND_QUEUE,
 } from '@defi_types/ipcEvents';
@@ -202,6 +203,8 @@ export default class App {
         this.closeWindowAndQuitApp();
       }
     });
+
+    ipcMain.on(CLOSE_APP, this.onMainWindowClose);
   };
 
   onMainWindowClose = async (event: Electron.Event): Promise<any> => {

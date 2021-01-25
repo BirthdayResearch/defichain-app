@@ -230,10 +230,6 @@ export default class DefiProcessManager {
     }
   }
 
-  static async closeApp() {
-    app.quit();
-  }
-
   static async forceClose() {
     try {
       log.info('Force Close DeFi Process Manager');
