@@ -17,12 +17,15 @@ const logger = () => {
   return false;
 };
 
-const info = (text) => {
+const info = (text, methodSource?: string) => {
   const electronLogger = logger();
+  const logMessage = `${
+    methodSource ? `[${methodSource}]` : ''
+  } ${text?.toString()}`;
   if (electronLogger) {
-    electronLogger.log(text);
+    electronLogger.log(logMessage);
   }
-  log.info(text);
+  log.info(logMessage);
 };
 
 const error = (text: any, methodSource?: string): void => {
