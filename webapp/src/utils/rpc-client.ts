@@ -342,17 +342,6 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
-    const txnSize = await getTxnSize();
-    if (txnSize >= MAX_TXN_SIZE) {
-      await construct({
-        maximumAmount:
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount:
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-      });
-    }
-
     const { data } = await this.call('/', methodNames.ACCOUNT_TO_ACCOUNT, [
       fromAddress,
       {
