@@ -595,6 +595,7 @@
         "title": "Wallet - Wallet wiederherstellen",
         "restoreWallet": "Wallet wiederherstellen",
         "restoreWalletGuideLine": "Gebe die 24 Wörter Deiner Mnemonic Seed-Phrase ein, um die Wallet wiederherzustellen.",
+        "enterWord": "Wort eingeben",
         "restoringWallet": "Wallet wird wiederhergestellt",
         "restore": "WIEDERHERSTELLEN",
         "backToWalletPage": "Schließen"
