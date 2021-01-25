@@ -169,5 +169,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "engines": {
+    "node" : ">=12"
   }
 }
