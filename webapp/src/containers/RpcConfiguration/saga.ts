@@ -9,7 +9,7 @@ import {
   storeConfigurationData,
   setQueueReady,
 } from './reducer';
-import { getRpcConfig, startBinary } from '../../app/service';
+import { getRpcConfig, startAppInit, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 import {
@@ -46,8 +46,9 @@ function* resetAppRoute() {
 
 export function* getConfig() {
   try {
+    startAppInit();
     const res = yield call(getRpcConfig);
-    if (res.success) {
+    if (res?.success) {
       yield put({ type: getRpcConfigsSuccess.type, payload: res.data });
       yield put({ type: startNodeRequest.type });
       if (isElectron()) {
