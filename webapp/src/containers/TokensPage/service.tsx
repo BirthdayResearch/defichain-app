@@ -106,11 +106,6 @@ export const handleCreateTokens = async (tokenData) => {
         DFI_SYMBOL
       );
     }
-    // const txId = await rpcClient.sendToAddress(
-    //   address,
-    //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
-    // );
-    // await getTransactionInfo(txId);
     const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
     const finalBalance = getSmallerAmount(
       balance,
@@ -131,14 +126,7 @@ export const handleCreateTokens = async (tokenData) => {
 };
 
 export const handleMintTokens = async (tokenData) => {
-  const { address } = tokenData;
   const rpcClient = new RpcClient();
-  // const txId = await rpcClient.sendToAddress(
-  //   address,
-  //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  //   true
-  // );
-  // await getTransactionInfo(txId);
   const hash = await rpcClient.mintToken(tokenData);
   return {
     hash,
