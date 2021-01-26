@@ -97,9 +97,11 @@ export const handleFetchPoolshares = async () => {
 
   const groupedMinePoolShares = resolvedMinePoolShares.reduce((arr, obj) => {
     if (ind.hasOwnProperty(obj.poolID)) {
-      arr[ind[obj.poolID]].poolSharePercentage =
-        Number(arr[ind[obj.poolID]].poolSharePercentage) +
-        Number(obj.poolSharePercentage);
+      arr[ind[obj.poolID]].poolSharePercentage = new BigNumber(
+        arr[ind[obj.poolID]].poolSharePercentage || 0
+      )
+        .plus(obj.poolSharePercentage)
+        .toNumber();
     } else {
       arr.push(obj);
       ind[obj.poolID] = arr.length - 1;
@@ -222,15 +224,16 @@ export const handleRemovePoolLiquidity = async (
   const addressList: any[] = [];
   list.reduce((sumAmount, obj) => {
     if (new BigNumber(amount).gt(sumAmount)) {
-      const tempAmount =
-        sumAmount + Number(obj.amount) <= Number(amount)
-          ? Number(obj.amount)
-          : Number(amount) - sumAmount;
+      const tempAmount = new BigNumber(sumAmount || 0)
+        .plus(obj.amount || 0)
+        .lte(amount || 0)
+        ? new BigNumber(obj.amount).toNumber()
+        : new BigNumber(amount).minus(sumAmount || 0).toNumber();
       addressList.push({
         address: obj.address,
         amount: tempAmount,
       });
-      sumAmount = sumAmount + tempAmount;
+      sumAmount = new BigNumber(sumAmount).plus(tempAmount).toNumber();
     }
     return sumAmount;
   }, 0);
