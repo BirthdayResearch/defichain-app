@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CardBody, Card, Row, Col } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
 import styles from './LiquidityAccordion.module.scss';
-import {
-  CREATE_POOL_PAIR_PATH,
-  ADD,
-  REMOVE,
-  REMOVE_LIQUIDITY_BASE_PATH,
-  LIQUIDITY_INFO_BASE_PATH,
-} from '../../constants';
+import { LIQUIDITY_INFO_BASE_PATH } from '../../constants';
 import PairIcon from '../PairIcon';
 import NumberMask from '../NumberMask';
 import BigNumber from 'bignumber.js';
