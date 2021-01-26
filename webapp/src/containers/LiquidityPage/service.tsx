@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import _ from 'lodash';
+import * as log from '../../utils/electronLogger';
 
 import {
   AMOUNT_SEPARATOR,
@@ -151,8 +152,13 @@ export const handleAddPoolLiquidity = async (
   amount2: string,
   shareAddress: string
 ): Promise<string> => {
+  log.info('Starting Add Pool Liquidity', 'handleAddPoolLiquidity');
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
+
+  const setEmptyAddress = (address: string) => {
+    return address == null || address == '' ? shareAddress : address;
+  };
 
   const {
     address: address1,
@@ -164,6 +170,15 @@ export const handleAddPoolLiquidity = async (
     amount: maxAmount2,
   } = getHighestAmountAddressForSymbol(hash2, addressesList);
 
+  log.info(
+    `1. Address ${address1} Amount ${maxAmount1}`,
+    'handleAddPoolLiquidity'
+  );
+  log.info(
+    `2. Address ${address2} Amount ${maxAmount2}`,
+    'handleAddPoolLiquidity'
+  );
+
   let accountToAccountAmount1 = new BigNumber(0);
   let accountToAccountAmount2 = new BigNumber(0);
   const amount1BN = new BigNumber(amount1);
@@ -173,16 +188,18 @@ export const handleAddPoolLiquidity = async (
   if (amount1BN.gt(maxAmount1)) {
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
-      address1,
+      setEmptyAddress(address1),
       hash1
     );
+    log.info(`1. Account to Account completed`, 'handleAddPoolLiquidity');
   }
   if (amount2BN.gt(maxAmount2)) {
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
-      address2,
+      setEmptyAddress(address2),
       hash2
     );
+    log.info(`2. Account to Account completed`, 'handleAddPoolLiquidity');
   }
 
   // convert utxo DFI to account, if don't have sufficent funds in account
@@ -192,9 +209,13 @@ export const handleAddPoolLiquidity = async (
   ) {
     await handleUtxoToAccountConversion(
       hash1,
-      address1,
+      setEmptyAddress(address1),
       amount1BN,
       accountToAccountAmount1.plus(maxAmount1)
+    );
+    log.info(
+      `1. UTXO to Account completed ${address1}`,
+      'handleAddPoolLiquidity'
     );
   } else if (
     hash2 === DFI_SYMBOL &&
@@ -202,18 +223,22 @@ export const handleAddPoolLiquidity = async (
   ) {
     await handleUtxoToAccountConversion(
       hash2,
-      address2,
+      setEmptyAddress(address2),
       amount2BN,
       accountToAccountAmount2.plus(maxAmount2)
+    );
+    log.info(
+      `2. UTXO to Account completed ${address2}`,
+      'handleAddPoolLiquidity'
     );
   }
 
   store.dispatch(addPoolPreparingUTXOSuccess());
 
   return await rpcClient.addPooLiquidity(
-    address1,
+    setEmptyAddress(address1),
     `${amount1BN.toFixed(8)}@${hash1}`,
-    address2,
+    setEmptyAddress(address2),
     `${amount2BN.toFixed(8)}@${hash2}`,
     shareAddress
   );

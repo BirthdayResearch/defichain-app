@@ -381,8 +381,15 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const handleSwap = () => {
     setAllowCalls(true);
     setSwapStep('loading');
+    const swapState = {
+      ...formState,
+      receiveAddress:
+        formState.receiveAddress == '' || formState.receiveAddress == null
+          ? (paymentRequests ?? [])[0]?.address
+          : formState.receiveAddress,
+    };
     poolSwapRequest({
-      formState,
+      formState: swapState,
     });
   };
 
@@ -805,7 +812,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </div>
             <div className='d-flex align-items-center justify-content-center'>
               <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
-                {I18n.t('containers.swap.addLiquidity.backToDEX')}
+                {I18n.t('containers.swap.swapPage.backToDEX')}
               </Button>
             </div>
           </div>
