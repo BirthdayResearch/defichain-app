@@ -257,18 +257,20 @@ export const handleRemovePoolLiquidity = async (
   store.dispatch(liquidityRemovedSuccess());
 
   const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
-    const amountA = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
-      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
-      .times(new BigNumber(poolPair.reserveA).toFixed(8));
+    const amountA = new BigNumber(addressAndAmount.amount)
+      .div(new BigNumber(poolPair.totalLiquidity))
+      .times(new BigNumber(poolPair.reserveA))
+      .toFixed(8);
 
-    const amountB = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
-      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
-      .times(new BigNumber(poolPair.reserveB).toFixed(8));
+    const amountB = new BigNumber(Number(addressAndAmount.amount))
+      .div(new BigNumber(poolPair.totalLiquidity))
+      .times(new BigNumber(poolPair.reserveB))
+      .toFixed(8);
 
     return {
       address: addressAndAmount.address,
-      amountA: `${amountA.toFixed(8)}@${poolPair.idTokenA}`,
-      amountB: `${amountB.toFixed(8)}@${poolPair.idTokenB}`,
+      amountA: `${amountA}@${poolPair.idTokenA}`,
+      amountB: `${amountB}@${poolPair.idTokenB}`,
     };
   });
 
