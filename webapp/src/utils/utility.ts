@@ -34,7 +34,7 @@ import {
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
-  STATS_API_BASE_URL,
+  STATS_API_BLOCK_URL,
   LIST_ACCOUNTS_PAGE_SIZE,
   COINGECKO_API_BASE_URL,
   LP_DAILY_DFI_REWARD,
@@ -62,6 +62,7 @@ import {
   MAINNET,
   TESTNET,
   AMOUNT_SEPARATOR,
+  STATS_API_BASE_URL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -639,6 +640,7 @@ export const fetchPoolPairDataWithPagination = async (
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const poolStats = await getPoolStatsFromAPI();
   const coinPriceObj = await parsedCoinPriceData();
 
   const list: any[] = [];
@@ -669,6 +671,9 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
+    const apy = new BigNumber(
+      poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+    ).toFixed(2);
     return {
       key: item,
       poolID: item,
@@ -680,7 +685,7 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+      apy,
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -841,11 +846,32 @@ export const isWalletEncrypted = () => {
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({
-    url: `${STATS_API_BASE_URL}?network=${network}net`,
+    url: `${STATS_API_BLOCK_URL}?network=${network}net`,
     method: 'GET',
     timeout: API_REQUEST_TIMEOUT,
   });
   return data;
+};
+
+export const getStatsYieldFarming = async () => {
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BASE_URL}listyieldfarming?network=${network}net`,
+    method: 'GET',
+    timeout: API_REQUEST_TIMEOUT,
+  });
+  return data;
+};
+
+export const getPoolStatsFromAPI = async () => {
+  const stats = await getStatsYieldFarming();
+  const poolStats = {};
+  stats?.pools?.forEach((a) => {
+    if (a != null) {
+      poolStats[`${a.idTokenA}_${a.idTokenB}`] = a;
+    }
+  });
+  return poolStats;
 };
 
 export const calculateInputAddLiquidityLeftCard = (
