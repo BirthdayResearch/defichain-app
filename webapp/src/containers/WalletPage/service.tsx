@@ -121,16 +121,6 @@ export const handleFetchPendingBalance = async (): Promise<number> => {
   return await rpcClient.getPendingBalance();
 };
 
-// export const isValidAddress = async (toAddress: string) => {
-//   const rpcClient = new RpcClient();
-//   try {
-//     return rpcClient.isValidAddress(toAddress);
-//   } catch (err) {
-//     log.error(`Got error in isValidAddress: ${err}`);
-//     return false;
-//   }
-// };
-
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
   const txInfo = await rpcClient.getTransaction(txId);
@@ -150,13 +140,12 @@ export const sendToAddress = async (
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
 
-  // log.info({
-  //   toAddress,
-  //   sendAmount: amount,
-  //   subtractfeefromamount,
-  //   utxoDFI: regularDFI,
-  // });
-  // console.log("new BigNumber(regularDFI).gte(amount)", new BigNumber(regularDFI).gte(amount))
+  log.info({
+    toAddress,
+    sendAmount: amount,
+    subtractfeefromamount,
+    utxoDFI: regularDFI,
+  });
   if (amount.lte(regularDFI)) {
     try {
       const data = await rpcClient.sendToAddress(
