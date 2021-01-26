@@ -272,7 +272,7 @@ export const handleRemovePoolLiquidity = async (
       .times(new BigNumber(poolPair.reserveA))
       .toFixed(8);
 
-    const amountB = new BigNumber(Number(addressAndAmount.amount))
+    const amountB = new BigNumber(addressAndAmount.amount)
       .div(new BigNumber(poolPair.totalLiquidity))
       .times(new BigNumber(poolPair.reserveB))
       .toFixed(8);
