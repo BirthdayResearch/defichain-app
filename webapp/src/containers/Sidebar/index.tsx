@@ -17,17 +17,10 @@ import {
   MdPieChart,
   MdSettings,
   MdHelp,
-  // MdCompareArrows,
-  // MdLockOpen,
-  // MdLock,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
-import {
-  getAmountInSelectedUnit,
-  // isWalletEncrypted,
-} from '../../utils/utility';
 import {
   BLOCKCHAIN_BASE_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,

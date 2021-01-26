@@ -5,7 +5,15 @@ import RpcClient from './rpc-client';
 
 const BN = BigNumber.clone({ DECIMAL_PLACES: 8 });
 
-export const construct = async ({ maximumAmount, maximumCount, feeRate }) => {
+export const construct = async ({
+  maximumAmount,
+  maximumCount,
+  feeRate,
+}: {
+  maximumAmount: BigNumber;
+  maximumCount: BigNumber;
+  feeRate: BigNumber;
+}) => {
   const rpcClient = new RpcClient();
 
   const unspent = await rpcClient.listUnspent(maximumAmount, maximumCount);

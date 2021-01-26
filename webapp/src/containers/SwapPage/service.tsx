@@ -1,11 +1,15 @@
 import _ from 'lodash';
 
-import { DFI_SYMBOL, POOL_PAIR_PAGE_SIZE } from '../../constants';
+import {
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
+  POOL_PAIR_PAGE_SIZE,
+} from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchPoolPairDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
 } from '../../utils/utility';
@@ -26,7 +30,7 @@ export const handleFetchPoolPairList = async () => {
 export const handleTestPoolSwapTo = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+  const { address: address1 } = getHighestAmountAddressForSymbol(
     formState.hash1,
     list
   );
@@ -37,11 +41,11 @@ export const handleTestPoolSwapTo = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address1,
       formState.hash1,
-      Number(formState.amount1),
+      new BigNumber(formState.amount1),
       address2,
       formState.hash2
     );
-    return testPoolSwapAmount.split('@')[0];
+    return testPoolSwapAmount.split(AMOUNT_SEPARATOR)[0];
   } else {
     return '-';
   }
@@ -51,7 +55,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
   const address2 = formState.receiveAddress;
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
+  const { address: address1 } = getHighestAmountAddressForSymbol(
     formState.hash1,
     list
   );
@@ -60,28 +64,29 @@ export const handleTestPoolSwapFrom = async (formState) => {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address2,
       formState.hash2,
-      Number(formState.amount2),
+      new BigNumber(formState.amount2),
       address1,
       formState.hash1
     );
-    return testPoolSwapAmount.split('@')[0];
+    return testPoolSwapAmount.split(AMOUNT_SEPARATOR)[0];
   } else {
     return '-';
   }
 };
 
-export const handlePoolSwap = async (formState) => {
+export const handlePoolSwap = async (formState): Promise<string> => {
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListForAccount();
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    formState.hash1,
-    list
-  );
+  const {
+    address: address1,
+    amount: maxAmount1,
+  } = getHighestAmountAddressForSymbol(formState.hash1, list);
 
   let accountToAccountAmount = new BigNumber(0);
+  const poolSwapAmount = new BigNumber(formState.amount1);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(formState.amount1) > maxAmount1) {
+  if (poolSwapAmount.gt(maxAmount1)) {
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       address1,
@@ -92,13 +97,13 @@ export const handlePoolSwap = async (formState) => {
   // convert utxo to account DFI, if don't have sufficent funds in account
   if (
     formState.hash1 === DFI_SYMBOL &&
-    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
+    poolSwapAmount.gt(accountToAccountAmount.plus(maxAmount1))
   ) {
     await handleUtxoToAccountConversion(
       formState.hash1,
       address1,
-      formState.amount1,
-      accountToAccountAmount.plus(maxAmount1).toNumber()
+      poolSwapAmount,
+      accountToAccountAmount.plus(maxAmount1)
     );
   }
 
@@ -107,7 +112,7 @@ export const handlePoolSwap = async (formState) => {
   const hash = await rpcClient.poolSwap(
     address1,
     formState.hash1,
-    Number(formState.amount1),
+    poolSwapAmount,
     formState.receiveAddress,
     formState.hash2
   );

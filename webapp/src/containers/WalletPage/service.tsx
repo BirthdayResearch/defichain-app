@@ -8,6 +8,8 @@ import {
   RECIEVE_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
   TX_TYPES,
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
@@ -18,11 +20,9 @@ import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  getHighestAmountAddressForSymbol,
-  handleAccountToAccountConversion,
   handleFetchTokenBalanceList,
   hdWalletCheck,
 } from '../../utils/utility';
@@ -98,37 +98,28 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return rpcClient.getBalance();
+  const regularDFI = await rpcClient.getBalance();
+  return new BigNumber(regularDFI);
 };
 
 export const handleFetchAccountDFI = async () => {
   const accountTokens = await handleFetchAccounts();
-  const DFIToken = accountTokens.find((token) => token.hash === '0');
+  const DFIToken = accountTokens.find((token) => token.hash === DFI_SYMBOL);
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
-  return accountDFI;
+  return new BigNumber(accountDFI);
 };
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return (regularDFI + accountDFI).toFixed(8);
+  return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
   const rpcClient = new RpcClient();
   return await rpcClient.getPendingBalance();
 };
-
-// export const isValidAddress = async (toAddress: string) => {
-//   const rpcClient = new RpcClient();
-//   try {
-//     return rpcClient.isValidAddress(toAddress);
-//   } catch (err) {
-//     log.error(`Got error in isValidAddress: ${err}`);
-//     return false;
-//   }
-// };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
@@ -143,7 +134,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const sendToAddress = async (
   toAddress: string,
-  amount: any,
+  amount: BigNumber,
   subtractfeefromamount: boolean = false
 ) => {
   const rpcClient = new RpcClient();
@@ -155,7 +146,7 @@ export const sendToAddress = async (
     subtractfeefromamount,
     utxoDFI: regularDFI,
   });
-  if (regularDFI >= amount) {
+  if (amount.lte(regularDFI)) {
     try {
       const data = await rpcClient.sendToAddress(
         toAddress,
@@ -176,15 +167,15 @@ export const sendToAddress = async (
       const {
         address: fromAddress,
         amount: maxAmount,
-      } = await getAddressForSymbol('0', addressesList);
+      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
-      if (new BigNumber(amount).gt(maxAmount)) {
+      if (amount.gt(maxAmount)) {
         try {
           const txHash = await sendTokensToAddress(
             fromAddress,
-            `${new BigNumber(accountBalance).toFixed(8)}@DFI`
+            `${accountBalance.toFixed(8)}@DFI`
           );
           log.info({ accountBalance, sendTokenTxHash: txHash });
           await getTransactionInfo(txHash);
@@ -194,7 +185,7 @@ export const sendToAddress = async (
         }
       }
 
-      const balance = await getBalanceForSymbol(fromAddress, '0');
+      const balance = await getBalanceForSymbol(fromAddress, DFI_SYMBOL);
       log.info({ consolidateAccountBalance: balance });
 
       const hash = await rpcClient.accountToUtxos(
@@ -206,9 +197,9 @@ export const sendToAddress = async (
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
       log.info({ regularDFIAfterTxFee });
-      if (regularDFIAfterTxFee < amount) {
+      if (new BigNumber(regularDFIAfterTxFee).lt(amount)) {
         throw new Error('Insufficient DFI in account');
-      } else if (regularDFIAfterTxFee === amount) {
+      } else if (new BigNumber(regularDFIAfterTxFee).isEqualTo(amount)) {
         return await sendToAddress(toAddress, amount, true);
       } else {
         return await sendToAddress(toAddress, amount, false);
@@ -223,7 +214,7 @@ export const sendToAddress = async (
 
 export const handleFallbackSendToken = async (
   sendAddress: string,
-  sendAmount: string,
+  sendAmount: BigNumber,
   hash: string
 ): Promise<string> => {
   try {
@@ -231,13 +222,13 @@ export const handleFallbackSendToken = async (
     const {
       address: fromAddress,
       amount: maxAmount,
-    } = await getHighestAmountAddressForSymbol(hash, sendAmount, addressesList);
+    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
     if (new BigNumber(maxAmount).gte(sendAmount)) {
       try {
         const txHash = await accountToAccount(
           fromAddress,
           sendAddress,
-          `${sendAmount}@${hash}`
+          `${sendAmount.toFixed(8)}@${hash}`
         );
         log.info({ handleFallbackSendToken: txHash });
         return txHash;
@@ -470,8 +461,10 @@ export const getListAccountHistory = (query: {
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
-      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toFixed(),
-      symbolKey: ele.slice(ele.indexOf('@') + 1),
+      value: new BigNumber(
+        ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
+      ).toFixed(),
+      symbolKey: ele.slice(ele.indexOf(AMOUNT_SEPARATOR) + 1),
     }));
     const { category, isValid } = validTrx(item);
     return {

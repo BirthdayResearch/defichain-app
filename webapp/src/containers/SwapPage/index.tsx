@@ -33,6 +33,7 @@ import {
   calculateLPFee,
   conversionRatio,
   countDecimals,
+  getMaxNumberOfAmount,
   getNetworkType,
   getPageTitle,
   getTokenListForSwap,
@@ -239,7 +240,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       if (formState.hash1 === '0') {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            BigNumber.maximum(new BigNumber(formState.balance1).minus(1), 0)
           ) ||
           !e.target.value
         ) {
@@ -300,10 +301,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setToTestValue(false);
     setFormState({
       ...formState,
-      [field]:
-        formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8),
+      [field]: getMaxNumberOfAmount(value, formState.hash1),
       amount2: testPoolSwapTo,
     });
   };
@@ -480,16 +478,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
                       <NumberMask
-                        value={Number(
-                          conversionRatio(formState, poolPairList)
-                        ).toFixed(8)}
+                        value={conversionRatio(formState, poolPairList)}
                       />
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
-                        value={(
-                          1 / Number(conversionRatio(formState, poolPairList))
-                        ).toFixed(8)}
+                        value={new BigNumber(1)
+                          .div(conversionRatio(formState, poolPairList))
+                          .toFixed(8)}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
                     </Col>
