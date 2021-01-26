@@ -10,15 +10,15 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
-import { getAddressInfo, handleFetchAccountDFI } from '../WalletPage/service';
+import { getAddressInfo } from '../WalletPage/service';
 import {
-  calculateAPY,
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
   getAddressAndAmountListPoolShare,
   getAddressForSymbol,
   getBalanceForSymbol,
+  getPoolStatsFromAPI,
   getSmallerAmount,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
@@ -38,6 +38,7 @@ export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const poolStats = await getPoolStatsFromAPI();
   const coinPriceObj = await parsedCoinPriceData();
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
@@ -58,8 +59,10 @@ export const handleFetchPoolshares = async () => {
         hash: item,
         ...poolPair[item],
       }));
-      const tokenAData = await handleFetchToken(poolPairData[0].idTokenA);
-      const tokenBData = await handleFetchToken(poolPairData[0].idTokenB);
+      const idTokenA = poolPairData[0].idTokenA;
+      const idTokenB = poolPairData[0].idTokenB;
+      const tokenAData = await handleFetchToken(idTokenA);
+      const tokenBData = await handleFetchToken(idTokenB);
       const poolSharePercentage =
         (poolShare.amount / poolShare.totalLiquidity) * 100;
 
@@ -70,20 +73,23 @@ export const handleFetchPoolshares = async () => {
 
       const liquidityReserveidTokenA = new BigNumber(
         poolPairData[0].reserveA || 0
-      ).times(coinPriceObj[poolPairData[0].idTokenA]);
+      ).times(coinPriceObj[idTokenA]);
       const liquidityReserveidTokenB = new BigNumber(
         poolPairData[0].reserveB || 0
-      ).times(coinPriceObj[poolPairData[0].idTokenB]);
+      ).times(coinPriceObj[idTokenB]);
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
+      const apy = new BigNumber(
+        poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+      ).toFixed(2);
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+        apy,
         ...poolPairData[0],
         ...poolShare,
       };
