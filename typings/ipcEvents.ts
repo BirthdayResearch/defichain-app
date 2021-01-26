@@ -26,3 +26,5 @@ export const ENABLE_RESET_MENU = 'enable-reset';
 export const RESTART_APP = 'restart-app';
 export const UPDATE_AVAILABLE = 'update-available';
 export const ERROR = 'error';
+export const ON_CLOSE_RPC_CLIENT = 'on-close-rpc-client';
+export const APP_INIT = 'app-init';
