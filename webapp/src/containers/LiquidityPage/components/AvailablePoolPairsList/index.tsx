@@ -64,7 +64,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
   useEffect(() => {
     let tvl = 0;
     tableData.forEach((pool) => {
-      const poolAmt = Number(pool.totalLiquidityInUSDT).toFixed(2);
+      const poolAmt = new BigNumber(pool.totalLiquidityInUSDT || 0).toFixed(2);
       tvl += +poolAmt || 0;
     });
     setTotalValueLocked(tvl);
@@ -91,7 +91,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
           </label>
           <h6 id='totalLiquidity'>
             <NumberMask
-              value={Number(totalValueLocked).toFixed(2)}
+              value={new BigNumber(totalValueLocked).toFixed(2)}
               defaultValue={0}
             />
           </h6>
@@ -137,9 +137,9 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                     <td>
                       <div>
                         <NumberMask
-                          value={Number(poolpair.totalLiquidityInUSDT).toFixed(
-                            2
-                          )}
+                          value={new BigNumber(
+                            poolpair.totalLiquidityInUSDT
+                          ).toFixed(2)}
                           defaultValue={0}
                         />
                       </div>
@@ -159,7 +159,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       <Button
                         to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
                           poolpair.poolID
-                        }?sharePercentage=${Number(
+                        }?sharePercentage=${new BigNumber(
                           poolpair.poolSharePercentage
                         ).toFixed(8)}`}
                         disabled={new BigNumber(

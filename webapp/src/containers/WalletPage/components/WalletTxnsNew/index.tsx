@@ -270,7 +270,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                           item.type === REWARD_CATEGORY_LABEL ||
                           item.type === RECIEVEE_CATEGORY_LABEL ||
                           item.type === REWARDS_CATEEGORY_LABEL ||
-                          Number(amountD.amount) > 0
+                          new BigNumber(amountD.amount).gt(0)
                             ? `${styles.colorGreen} ${styles.amount}`
                             : styles.amount
                         }

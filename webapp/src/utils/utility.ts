@@ -925,7 +925,7 @@ export const conversionRatio = (formState, poolPairList) => {
 };
 
 export const getRatio = (poolpair) => {
-  const ratio = poolpair.reserveA / poolpair.reserveB;
+  const ratio = new BigNumber(poolpair.reserveA).div(poolpair.reserveB);
   return ratio.toFixed(8);
 };
 

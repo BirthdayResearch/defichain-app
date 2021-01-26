@@ -330,7 +330,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const difference = (a, b) => {
-    return Math.abs(a - b);
+    return new BigNumber(a || 0).minus(b || 0).absoluteValue();
   };
 
   const AddLiquidityStepConfirm = () => {
@@ -342,9 +342,9 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       poolPairList
     );
     const diff = difference(oldAmount, newAmount);
-    const percentageChange = (diff / oldAmount) * 100;
+    const percentageChange = diff.div(oldAmount).times(100);
 
-    if (Number(percentageChange) >= 1) {
+    if (percentageChange.gte(1)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
       );
@@ -563,16 +563,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 </Col>
                 <Col className={styles.keyValueLiValue}>
                   <NumberMask
-                    value={Number(
-                      conversionRatio(formState, poolPairList)
-                    ).toFixed(8)}
+                    value={conversionRatio(formState, poolPairList)}
                   />
                   {` ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
                   <NumberMask
-                    value={(
-                      1 / Number(conversionRatio(formState, poolPairList))
-                    ).toFixed(8)}
+                    value={new BigNumber(1)
+                      .div(conversionRatio(formState, poolPairList))
+                      .toFixed(8)}
                   />
                   {` ${formState.symbol1} per ${formState.symbol2}`}
                 </Col>
@@ -691,14 +689,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </dt>
               <dd className='col-sm-8'>
                 {isValid() &&
-                  `${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
-                  )} ${formState.symbol2} per ${formState.symbol1}`}
+                  `${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
-                  `${(
-                    1 / Number(conversionRatio(formState, poolPairList))
-                  ).toFixed(8)} ${formState.symbol1} per ${
+                  `${new BigNumber(1)
+                    .div(conversionRatio(formState, poolPairList))
+                    .toFixed(8)} ${formState.symbol1} per ${
                     formState.symbol2
                   }`}{' '}
               </dd>
