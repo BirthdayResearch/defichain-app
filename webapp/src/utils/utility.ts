@@ -54,9 +54,6 @@ import {
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
   APY_MULTIPLICATION_FACTOR,
-  DEFAULT_MAIN,
-  DEFAULT_TEST,
-  APP_TITLE,
   DEFICHAIN_MAINNET_LINK,
   DEFICHAIN_TESTNET_LINK,
   MAINNET,
@@ -359,7 +356,8 @@ export const getParams = (query: string) => {
     } else if (param === 'true' || param === 'false') {
       return param === 'true' ? true : false;
     }
-    return isNaN(Number(param)) ? param : Number(param);
+    const paramVal = new BigNumber(param);
+    return paramVal.isNaN() ? param : paramVal;
   });
   return parsedParams;
 };
@@ -537,7 +535,7 @@ export const isWalletCreated = (network) => {
 };
 
 const getPopularSymbolList = () => {
-  return ['0', '1', '2'];
+  return [DFI_SYMBOL, BTC_SYMBOL, ETH_SYMBOL];
 };
 
 export const getTokenListForSwap = (
@@ -564,20 +562,24 @@ export const getTokenListForSwap = (
       if (tokenId === DFI_SYMBOL) {
         tokenMap.set(symbolKey, {
           hash: tokenId,
-          balance: Number(finalBalance).toFixed(8).toString(),
+          balance: new BigNumber(finalBalance || 0).toFixed(8),
           isPopularToken: true,
         });
       } else {
         tokenMap.set(symbolKey, {
           hash: tokenId,
-          balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+          balance: new BigNumber(
+            balanceAndSymbolMap.get(tokenId) || '0'
+          ).toFixed(8),
           isPopularToken: true,
         });
       }
     } else {
       tokenMap.set(symbolKey, {
         hash: tokenId,
-        balance: Number(balanceAndSymbolMap.get(tokenId) || '0').toFixed(8),
+        balance: new BigNumber(balanceAndSymbolMap.get(tokenId) || '0').toFixed(
+          8
+        ),
         isPopularToken: false,
       });
     }
@@ -606,13 +608,13 @@ export const getTokenAndBalanceMap = (
     if (popularSymbolList.includes(symbol) && uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: Number(finalBalance).toFixed(8).toString(),
+        balance: new BigNumber(finalBalance).toFixed(8).toString(),
         isPopularToken: true,
       });
     } else if (uniqueTokenMap.has(symbol)) {
       tokenMap.set(uniqueTokenMap.get(symbol), {
         hash: symbol,
-        balance: Number(finalBalance).toFixed(8).toString(),
+        balance: new BigNumber(finalBalance).toFixed(8).toString(),
         isPopularToken: false,
       });
     }
@@ -636,7 +638,7 @@ const getUniqueTokenMap = (poolPairList) => {
 
 export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
   return tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
-    const itemList: string[] = item.split('@');
+    const itemList: string[] = item.split(AMOUNT_SEPARATOR);
     if (itemList[1] !== DFI_SYMBOL) {
       balanceAndSymbolMap.set(itemList[1], itemList[0]);
     }
@@ -690,7 +692,7 @@ export const fetchPoolPairDataWithPagination = async (
       tokenB: tokenBData.symbol,
       ...result[item],
       poolSharePercentage: poolShare
-        ? Number(poolShare.poolSharePercentage).toFixed(8)
+        ? new BigNumber(poolShare.poolSharePercentage).toFixed(8)
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
@@ -702,9 +704,9 @@ export const fetchPoolPairDataWithPagination = async (
     return [];
   }
   list.push(...resolvedTransformedData);
-  start = Number(
-    resolvedTransformedData[resolvedTransformedData.length - 1].key
-  );
+  start = new BigNumber(
+    resolvedTransformedData[resolvedTransformedData.length - 1].key || 0
+  ).toNumber();
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
@@ -741,10 +743,10 @@ export const fetchPoolPairDataWithPagination = async (
         tokenB: tokenBData.symbol,
         ...result[item],
         poolSharePercentage: poolShare
-          ? Number(poolShare.poolSharePercentage).toFixed(8)
+          ? new BigNumber(poolShare.poolSharePercentage).toFixed(8)
           : '0',
-        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+        totalLiquidityInUSDT: totalLiquidity.toFixed(8),
+        yearlyPoolReward: yearlyPoolReward.toFixed(8),
         apy: calculateAPY(totalLiquidity, yearlyPoolReward),
       };
     });
@@ -754,7 +756,7 @@ export const fetchPoolPairDataWithPagination = async (
     }
     list.push(...resolvedTransformedData);
     start = Number(
-      resolvedTransformedData[resolvedTransformedData.length - 1].key
+      resolvedTransformedData[resolvedTransformedData.length - 1].key || 0
     );
   }
   return list;
@@ -822,7 +824,7 @@ export const fetchPoolShareDataWithPagination = async (
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map((item) => ({
-    key: item.split('@')[0],
+    key: item.split(AMOUNT_SEPARATOR)[0],
     ...result[item],
   }));
   if (transformedData.length === 0) {
@@ -833,7 +835,7 @@ export const fetchPoolShareDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map((item) => ({
-      key: item.split('@')[0],
+      key: item.split(AMOUNT_SEPARATOR)[0],
       ...result[item],
     }));
     if (transformedData.length === 0) {
@@ -867,10 +869,11 @@ export const calculateInputAddLiquidityLeftCard = (
   formState,
   poolPairList
 ) => {
-  const ratio: any = 1 / Number(conversionRatio(formState, poolPairList));
+  const ratio = new BigNumber(1).div(
+    new BigNumber(conversionRatio(formState, poolPairList))
+  );
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
-    const amount2 = ratio * Number(input1);
-    return amount2.toFixed(8);
+    return ratio.times(input1).toFixed(8);
   }
   return '0';
 };
@@ -880,10 +883,9 @@ export const calculateInputAddLiquidity = (
   formState,
   poolPairList
 ) => {
-  const ratio: any = Number(conversionRatio(formState, poolPairList));
+  const ratio = new BigNumber(conversionRatio(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
-    const amount2 = ratio * Number(input1);
-    return amount2.toFixed(8);
+    return ratio.times(input1).toFixed(8);
   }
   return '0';
 };
@@ -1194,8 +1196,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
 export const getTotalAmountPoolShare = async (poolID) => {
   const list = await getAddressAndAmountListPoolShare(poolID);
   const totalAmount = list.reduce((amount, obj) => {
-    amount = amount + Number(obj.amount);
-    return amount;
+    return new BigNumber(amount).plus(obj.amount).toNumber();
   }, 0);
 
   return totalAmount;
@@ -1249,31 +1250,17 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
   const { symbolKey } = tokenInfo[symbol];
 
   return balanceArray.reduce((amount, item) => {
-    const itemList: string[] = item.split('@');
+    const itemList: string[] = item.split(AMOUNT_SEPARATOR);
 
     if (itemList[1] === symbolKey) {
-      amount = new BigNumber(itemList[0]).toNumber().toFixed(8);
+      amount = new BigNumber(itemList[0]).toFixed(8);
     }
     return amount;
   }, '0');
 };
 
 export const getSmallerAmount = (amount1: string, amount2: string) => {
-  return new BigNumber(Math.min(Number(amount1), Number(amount2)));
-};
-
-export const getDfiTokenBalance = async () => {
-  const addressAndAmountList = await getAddressAndAmountListForAccount();
-
-  const amount = addressAndAmountList.reduce((currentAmount, obj) => {
-    const tokenSymbol = Object.keys(obj.amount)[0];
-    const amount = Number(obj.amount[tokenSymbol]);
-    if (tokenSymbol === DFI_SYMBOL) {
-      currentAmount = currentAmount.plus(amount);
-    }
-    return currentAmount;
-  }, new BigNumber('0'));
-  return Number(amount);
+  return BigNumber.minimum(amount1, amount2);
 };
 
 export const calculateAPY = (
@@ -1284,7 +1271,6 @@ export const calculateAPY = (
     ? yearlyPoolReward
         .div(totalLiquidity)
         .times(APY_MULTIPLICATION_FACTOR)
-        .toNumber()
         .toFixed(2)
     : 0;
 };
@@ -1395,6 +1381,6 @@ export const handlePeersSyncRequest = async (): Promise<PeerInfoModel[]> => {
 
 export const getMaxNumberOfAmount = (value: string, hash: string): string => {
   return hash === DFI_SYMBOL
-    ? Math.max(new BigNumber(value).minus(1).toNumber(), 0).toFixed(8)
+    ? BigNumber.maximum(new BigNumber(value).minus(1).toNumber(), 0).toFixed(8)
     : new BigNumber(value).toFixed(8);
 };

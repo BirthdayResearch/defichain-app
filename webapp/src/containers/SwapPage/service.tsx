@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
-import { DFI_SYMBOL, POOL_PAIR_PAGE_SIZE } from '../../constants';
+import {
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
+  POOL_PAIR_PAGE_SIZE,
+} from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchPoolPairDataWithPagination,
@@ -41,7 +45,7 @@ export const handleTestPoolSwapTo = async (formState) => {
       address2,
       formState.hash2
     );
-    return testPoolSwapAmount.split('@')[0];
+    return testPoolSwapAmount.split(AMOUNT_SEPARATOR)[0];
   } else {
     return '-';
   }
@@ -64,7 +68,7 @@ export const handleTestPoolSwapFrom = async (formState) => {
       address1,
       formState.hash1
     );
-    return testPoolSwapAmount.split('@')[0];
+    return testPoolSwapAmount.split(AMOUNT_SEPARATOR)[0];
   } else {
     return '-';
   }

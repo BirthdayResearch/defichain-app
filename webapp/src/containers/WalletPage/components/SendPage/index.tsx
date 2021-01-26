@@ -35,7 +35,11 @@ import {
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
+import {
+  WALLET_PAGE_PATH,
+  DEFAULT_UNIT,
+  DFI_SYMBOL,
+} from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAmountInSelectedUnit,
@@ -308,7 +312,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         }
       } else {
         try {
-          const hash = this.tokenHash || '0';
+          const hash = this.tokenHash || DFI_SYMBOL;
           log.info('*******token send **********');
           amount = new BigNumber(this.state.amountToSendDisplayed);
           log.info({
@@ -426,7 +430,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 ? getWalletPathAddress(
                     WALLET_PAGE_PATH,
                     tokenSymbol,
-                    tokenHash || '0',
+                    tokenHash || DFI_SYMBOL,
                     tokenAmount || '',
                     tokenAddress || '',
                     isLPS
@@ -444,7 +448,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+            {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
               this.props.unit}
           </h1>
         </Header>
@@ -472,8 +476,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
-                          this.props.unit}
+                        {getSymbolKey(
+                          tokenSymbol || '',
+                          tokenHash || DFI_SYMBOL
+                        ) || this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -555,12 +561,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                             this.props.sendData.walletBalance,
                             this.props.unit
                           )
-                        : tokenAmount) ?? '0'
+                        : tokenAmount) ?? DFI_SYMBOL
                     }
                   />
                   &nbsp;
                   {tokenSymbol
-                    ? getSymbolKey(tokenSymbol || '', tokenHash || '0')
+                    ? getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL)
                     : this.props.unit}
                 </div>
               </Col>
@@ -573,7 +579,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     value={this.state.amountToSendDisplayed.toString()}
                   />
                   &nbsp;
-                  {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                  {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
                     this.props.unit}
                 </div>
               </Col>
@@ -613,7 +619,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
+                    {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
                       this.props.unit}
                   </span>
                 </dd>
@@ -674,7 +680,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     ? getWalletPathAddress(
                         WALLET_PAGE_PATH,
                         tokenSymbol,
-                        tokenHash || '0',
+                        tokenHash || DFI_SYMBOL,
                         tokenAmount || '',
                         tokenAddress || '',
                         isLPS
@@ -727,7 +733,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     ? getWalletPathAddress(
                         WALLET_PAGE_PATH,
                         tokenSymbol,
-                        tokenHash || '0',
+                        tokenHash || DFI_SYMBOL,
                         tokenAmount || '',
                         tokenAddress || '',
                         isLPS

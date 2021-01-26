@@ -13,6 +13,7 @@ import { filterByValue, getPageTitle } from '../../../../../utils/utility';
 import {
   WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
+  DFI_SYMBOL,
 } from '../../../../../constants';
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
@@ -72,7 +73,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
     clone = [...clone, ...appTokens]
       .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
-      .filter((t: IToken) => t.hash != '0');
+      .filter((t: IToken) => t.hash != DFI_SYMBOL);
     const tableData = clone.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
@@ -137,7 +138,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
                 symbol: unit,
                 symbolKey: unit,
                 amount: props.walletBalance,
-                hash: '0',
+                hash: DFI_SYMBOL,
                 address: '',
               }}
             />

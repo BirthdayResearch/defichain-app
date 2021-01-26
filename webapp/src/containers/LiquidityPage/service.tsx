@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import _ from 'lodash';
 
 import {
+  AMOUNT_SEPARATOR,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DFI_SYMBOL,
   LP_DAILY_DFI_REWARD,
@@ -285,8 +286,14 @@ export const handleRemovePoolLiquidity = async (
     const balance1 = await getBalanceForSymbol(obj.address, poolPair.idTokenA);
     const balance2 = await getBalanceForSymbol(obj.address, poolPair.idTokenB);
 
-    const amountA = getSmallerAmount(balance1, obj.amountA.split('@')[0]);
-    const amountB = getSmallerAmount(balance2, obj.amountB.split('@')[0]);
+    const amountA = getSmallerAmount(
+      balance1,
+      obj.amountA.split(AMOUNT_SEPARATOR)[0]
+    );
+    const amountB = getSmallerAmount(
+      balance2,
+      obj.amountB.split(AMOUNT_SEPARATOR)[0]
+    );
 
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
