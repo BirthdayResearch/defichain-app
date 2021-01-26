@@ -256,7 +256,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
-      if (formState.hash1 === '0') {
+      if (formState.hash1 === DFI_SYMBOL) {
         if (
           new BigNumber(e.target.value).lte(
             Math.max(Number(formState.balance1) - 1, 0)

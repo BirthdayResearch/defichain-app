@@ -8,6 +8,8 @@ import {
   RECIEVE_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
   TX_TYPES,
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
@@ -102,7 +104,7 @@ export const handleFetchRegularDFI = async () => {
 
 export const handleFetchAccountDFI = async () => {
   const accountTokens = await handleFetchAccounts();
-  const DFIToken = accountTokens.find((token) => token.hash === '0');
+  const DFIToken = accountTokens.find((token) => token.hash === DFI_SYMBOL);
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
   return new BigNumber(accountDFI);
@@ -176,7 +178,7 @@ export const sendToAddress = async (
       const {
         address: fromAddress,
         amount: maxAmount,
-      } = getHighestAmountAddressForSymbol('0', addressesList);
+      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
@@ -194,7 +196,7 @@ export const sendToAddress = async (
         }
       }
 
-      const balance = await getBalanceForSymbol(fromAddress, '0');
+      const balance = await getBalanceForSymbol(fromAddress, DFI_SYMBOL);
       log.info({ consolidateAccountBalance: balance });
 
       const hash = await rpcClient.accountToUtxos(
@@ -470,8 +472,10 @@ export const getListAccountHistory = (query: {
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
-      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toFixed(),
-      symbolKey: ele.slice(ele.indexOf('@') + 1),
+      value: new BigNumber(
+        ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
+      ).toFixed(),
+      symbolKey: ele.slice(ele.indexOf(AMOUNT_SEPARATOR) + 1),
     }));
     const { category, isValid } = validTrx(item);
     return {

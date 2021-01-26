@@ -17,7 +17,7 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
 } from './reducer';
-import { WALLET_TOKENS_PATH } from '../../constants';
+import { DFI_SYMBOL, WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import {
@@ -97,11 +97,15 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <div className={styles.titleWithIcon}>
           <TokenAvatar
             symbol={
-              tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit
+              tokenSymbol
+                ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+                : unit
             }
           />
           <h1>
-            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}{' '}
+            {tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
         </div>
@@ -165,7 +169,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 }
                 unit={
                   tokenSymbol
-                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
                     : unit
                 }
                 refreshFlag={refreshBalance}
@@ -190,7 +194,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 value={getAmountInSelectedUnit(pendingBalance, unit)}
                 unit={
                   tokenSymbol
-                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
                     : unit
                 }
                 refreshFlag={pendingRefreshBalance}
