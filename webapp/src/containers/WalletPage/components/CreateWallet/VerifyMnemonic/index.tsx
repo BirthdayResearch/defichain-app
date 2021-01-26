@@ -152,7 +152,12 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
           </div>
           <Row>
             {quiz.map((item, id) => (
-              <Col xs='12' md='6' className='my-3'>
+              <Col
+                key={item.wordNum + '_' + id}
+                xs='12'
+                md='6'
+                className='my-3'
+              >
                 <h5>
                   {I18n.t('containers.wallet.verifyMnemonicPage.wordQuestion', {
                     wordNum: item.wordNum,
@@ -161,7 +166,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                 <Row>
                   <Col xs='12'>
                     {item.options.map((word) => (
-                      <span className='mr-3'>
+                      <span key={item.wordNum + '_' + word} className='mr-3'>
                         <Button
                           color={
                             word === selected[item.wordNum]
