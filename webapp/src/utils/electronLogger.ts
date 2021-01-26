@@ -17,11 +17,15 @@ const logger = () => {
   return false;
 };
 
+const textToString = (text: any) => {
+  return text != null ? JSON.stringify(text) : '';
+};
+
 const info = (text, methodSource?: string) => {
   const electronLogger = logger();
-  const logMessage = `${
-    methodSource ? `[${methodSource}]` : ''
-  } ${text?.toString()}`;
+  const logMessage = `${methodSource ? `[${methodSource}]` : ''} ${textToString(
+    text
+  )}`;
   if (electronLogger) {
     electronLogger.log(logMessage);
   }
@@ -33,13 +37,13 @@ const error = (text: any, methodSource?: string): void => {
     const electronLogger = logger();
     const errorMessage = `${
       methodSource ? `[${methodSource}]` : ''
-    } ${text?.toString()}`;
+    } ${textToString(text)}`;
     if (electronLogger) {
       electronLogger.error(errorMessage);
     }
     log.error(errorMessage);
   } catch (error) {
-    log.error(text);
+    log.error(textToString(text));
     log.error(error);
   }
 };

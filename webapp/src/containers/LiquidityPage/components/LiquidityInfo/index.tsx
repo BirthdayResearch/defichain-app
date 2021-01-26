@@ -40,8 +40,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
   }, []);
 
   const liquidityAmount = (percentage, reserve) => {
-    const liquidityAmount = (Number(percentage) / 100) * reserve;
-    return liquidityAmount.toFixed(8).toString() || '0';
+    return new BigNumber(percentage || 0).div(100).times(reserve).toFixed(8);
   };
 
   const poolshare =
@@ -89,9 +88,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
           <Button
             to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
               poolshare.poolID
-            }?sharePercentage=${Number(poolshare.poolSharePercentage).toFixed(
-              8
-            )}`}
+            }?sharePercentage=${new BigNumber(
+              poolshare.poolSharePercentage
+            ).toFixed(8)}`}
             disabled={new BigNumber(poolshare.poolSharePercentage).eq(0)}
             tag={RRNavLink}
             color='link'
@@ -144,7 +143,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 value={(
                   `${
                     poolshare.poolSharePercentage
-                      ? Number(poolshare.poolSharePercentage).toFixed(4)
+                      ? new BigNumber(poolshare.poolSharePercentage).toFixed(4)
                       : ''
                   } %` || ''
                 ).toString()}

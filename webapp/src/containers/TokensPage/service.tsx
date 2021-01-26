@@ -12,7 +12,7 @@ import { handleFetchRegularDFI, sleep } from '../WalletPage/service';
 import {
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getSmallerAmount,
   handleAccountToAccountConversion,
@@ -78,8 +78,8 @@ export const handleCreateTokens = async (tokenData) => {
     name: tokenData.name,
     symbol: tokenData.symbol,
     isDAT: tokenData.isDAT,
-    decimal: Number(tokenData.decimal),
-    limit: Number(tokenData.limit),
+    decimal: new BigNumber(tokenData.decimal).toNumber(),
+    limit: new BigNumber(tokenData.limit).toNumber(),
     mintable: JSON.parse(tokenData.mintable),
     tradeable: JSON.parse(tokenData.tradeable),
     collateralAddress: tokenData.collateralAddress ?? tokenData.receiveAddress,
@@ -90,14 +90,15 @@ export const handleCreateTokens = async (tokenData) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
   const list = await getAddressAndAmountListForAccount();
-  const { address, amount: maxAmount } = await getAddressForSymbol(
+  const { address, amount: maxAmount } = getHighestAmountAddressForSymbol(
     DFI_SYMBOL,
     list
   );
-  if (regularDFI < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
+  if (regularDFI.lt(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION)) {
     if (
-      Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) >
-      maxAmount + regularDFI
+      new BigNumber(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION).gt(
+        new BigNumber(maxAmount).plus(regularDFI)
+      )
     ) {
       accountToAccountAmount = await handleAccountToAccountConversion(
         list,
@@ -105,11 +106,6 @@ export const handleCreateTokens = async (tokenData) => {
         DFI_SYMBOL
       );
     }
-    // const txId = await rpcClient.sendToAddress(
-    //   address,
-    //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT
-    // );
-    // await getTransactionInfo(txId);
     const balance = await getBalanceForSymbol(address, DFI_SYMBOL);
     const finalBalance = getSmallerAmount(
       balance,
@@ -130,14 +126,7 @@ export const handleCreateTokens = async (tokenData) => {
 };
 
 export const handleMintTokens = async (tokenData) => {
-  const { address } = tokenData;
   const rpcClient = new RpcClient();
-  // const txId = await rpcClient.sendToAddress(
-  //   address,
-  //   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  //   true
-  // );
-  // await getTransactionInfo(txId);
   const hash = await rpcClient.mintToken(tokenData);
   return {
     hash,

@@ -10,6 +10,7 @@ import {
   finalizePsbt,
   expected,
 } from './testData.json';
+import { BigNumber } from 'bignumber.js';
 
 describe('cutxo', () => {
   it('should check for one time inside loop', async () => {
@@ -35,9 +36,9 @@ describe('cutxo', () => {
       });
     mockAxios(post);
     const test = await construct({
-      maximumAmount: 1000,
-      maximumCount: 650,
-      feeRate: 0.1,
+      maximumAmount: new BigNumber(1000),
+      maximumCount: new BigNumber(650),
+      feeRate: new BigNumber(0.1),
     });
     expect(post).toBeCalledTimes(6);
     expect(test).toEqual(expected.cutxo.one_time_inside_loop);
@@ -79,9 +80,9 @@ describe('cutxo', () => {
       });
     mockAxios(post);
     const test = await construct({
-      maximumAmount: 1000,
-      maximumCount: 650,
-      feeRate: 0.1,
+      maximumAmount: new BigNumber(1000),
+      maximumCount: new BigNumber(650),
+      feeRate: new BigNumber(0.1),
     });
     expect(post).toBeCalledTimes(11);
     expect(test).toEqual(expected.cutxo.multiple_time_inside_loop);

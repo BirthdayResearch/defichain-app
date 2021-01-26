@@ -707,7 +707,8 @@
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
-        "txPaginationRange": "%{from} - %{to} of %{total} transactions"
+        "txPaginationRange": "%{from} - %{to} of %{total} transactions",
+        "commission": "Commission"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

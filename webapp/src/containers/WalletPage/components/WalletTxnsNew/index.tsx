@@ -28,20 +28,17 @@ import {
   ACCOUNT_TO_ACCOUNT_LABEL,
   ACCOUNT_TO_UTXOS_LABEL,
   ADD_POOL_LIQUIDITY_LABEL,
-  DFI_SYMBOL,
+  COMMISSION_CATEGORY_LABEL,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
   REMOVE_LIQUIDITY_LABEL,
-  REWARDS_CATEEGORY_LABEL,
+  REWARDS_CATEGORY_LABEL,
   REWARD_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
-  SWAP_CATEGORY_LABEL,
-  TRANSFER_CATEGORY_LABEL,
   UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
 import {
-  createChainURL,
   getAmountInSelectedUnit,
   onViewOnChain,
 } from '../../../../utils/utility';
@@ -157,23 +154,25 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, [includeRewards]);
 
   const getTxnsTypeIcon = (type: string) => {
-    if (type === SENT_CATEGORY_LABEL) {
+    const RECEIVE = 'receive';
+    const SEND = 'send';
+    if ([SENT_CATEGORY_LABEL, ACCOUNT_TO_UTXOS_LABEL, SEND].includes(type)) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
     if (
-      type === RECIEVE_CATEGORY_LABEL ||
-      type === REWARDS_CATEEGORY_LABEL ||
-      type === REWARD_CATEGORY_LABEL
+      [
+        COMMISSION_CATEGORY_LABEL,
+        RECIEVE_CATEGORY_LABEL,
+        REWARDS_CATEGORY_LABEL,
+        REWARD_CATEGORY_LABEL,
+        RECEIVE,
+      ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
-    if (type === POOL_SWAP_CATEGORY_LABEL)
+    if (type === POOL_SWAP_CATEGORY_LABEL) {
       return <MdCompareArrows className={styles.typeIcon} />;
-    if (type === ACCOUNT_TO_UTXOS_LABEL)
-      return <MdArrowUpward className={styles.typeIcon} />;
-    if (type === 'send') return <MdArrowUpward className={styles.typeIcon} />;
-    if (type === 'receive')
-      return <MdArrowDownward className={styles.typeIconDownward} />;
+    }
     return <MdArrowUpward className={styles.typeIcon} />;
   };
 
@@ -191,7 +190,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       case POOL_SWAP_CATEGORY_LABEL:
         label = I18n.t(`${swapLabel}.swapPage.swap`);
         break;
-      case REWARDS_CATEEGORY_LABEL:
+      case REWARDS_CATEGORY_LABEL:
       case REWARD_CATEGORY_LABEL:
         label = I18n.t(`${swapLabel}.addLiquidity.reward`);
         break;
@@ -216,24 +215,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       case RECEIVE:
         label = I18n.t(`${walletLabel}.receive`);
         break;
+      case COMMISSION_CATEGORY_LABEL:
+        label = I18n.t(`${walletLabel}.commission`);
+        break;
       default:
         break;
     }
     return label;
-  };
-
-  const getAmountClass = (type: string) => {
-    if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
-      return styles.colorGreen;
-    }
-    return '';
-  };
-
-  const getPoolSwapClass = (type: string, amount) => {
-    if (type === POOL_SWAP_CATEGORY_LABEL && new BigNumber(amount).gt(0)) {
-      return styles.colorGreen;
-    }
-    return '';
   };
 
   const walletTxnList = () => {
@@ -269,8 +257,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                         className={
                           item.type === REWARD_CATEGORY_LABEL ||
                           item.type === RECIEVEE_CATEGORY_LABEL ||
-                          item.type === REWARDS_CATEEGORY_LABEL ||
-                          Number(amountD.amount) > 0
+                          item.type === REWARDS_CATEGORY_LABEL ||
+                          new BigNumber(amountD.amount).gt(0)
                             ? `${styles.colorGreen} ${styles.amount}`
                             : styles.amount
                         }

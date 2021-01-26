@@ -1,27 +1,12 @@
-import React, { useState } from 'react';
-import {
-  CardBody,
-  Card,
-  Row,
-  Col,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import { MdMoreHoriz } from 'react-icons/md';
+import React from 'react';
+import { CardBody, Card, Row, Col } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
 import styles from './LiquidityAccordion.module.scss';
-import {
-  CREATE_POOL_PAIR_PATH,
-  ADD,
-  REMOVE,
-  REMOVE_LIQUIDITY_BASE_PATH,
-  LIQUIDITY_INFO_BASE_PATH,
-} from '../../constants';
+import { LIQUIDITY_INFO_BASE_PATH } from '../../constants';
 import PairIcon from '../PairIcon';
 import NumberMask from '../NumberMask';
+import BigNumber from 'bignumber.js';
 
 interface LiquidityAccordionProps {
   history: any;
@@ -31,37 +16,10 @@ interface LiquidityAccordionProps {
 const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
   props: LiquidityAccordionProps
 ) => {
-  const { history } = props;
-  const liquidityCardMenu = [
-    {
-      label: I18n.t('containers.swap.swapPage.add'),
-      value: ADD,
-    },
-    {
-      label: I18n.t('containers.swap.swapPage.remove'),
-      value: REMOVE,
-    },
-  ];
-
-  const handleDropDowns = (data: string, poolpair) => {
-    if (data === ADD) {
-      history.push(CREATE_POOL_PAIR_PATH);
-    } else {
-      history.push(
-        `${REMOVE_LIQUIDITY_BASE_PATH}/${
-          poolpair.poolID
-        }?sharePercentage=${Number(poolpair.poolSharePercentage).toFixed(8)}`
-      );
-    }
-  };
-
-  const [collapse, setCollapse] = useState(false);
-
   const { poolpair } = props;
 
   const liquidityAmount = (percentage, reserve) => {
-    const liquidityAmount = (Number(percentage) / 100) * reserve;
-    return liquidityAmount.toFixed(8);
+    return new BigNumber(percentage || 0).div(100).times(reserve).toFixed(8);
   };
 
   return (
@@ -140,7 +98,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
               {I18n.t('containers.swap.swapPage.poolShare')}
             </Col>
             <Col className={styles.value}>
-              {`${Number(poolpair.poolSharePercentage).toFixed(8)}%`}
+              {`${new BigNumber(poolpair.poolSharePercentage).toFixed(8)}%`}
             </Col>
           </Row>
         </CardBody>
