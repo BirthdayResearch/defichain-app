@@ -23,6 +23,7 @@ import {
 } from '@defi_types/ipcEvents';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
+import { triggerNodeShutdown } from 'src/worker/queue';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -45,8 +46,11 @@ const initUpdateAppIpcRenderers = () => {
   });
 };
 
-export const sendUpdateResponse = () => {
+export const sendUpdateResponse = async () => {
   if (isElectron()) {
+    log.error(`Update trigger node shutdown...`);
+    await triggerNodeShutdown(false);
+    log.error(`Update node shutdown success...`);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(POST_UPDATE_ACTION);
   }

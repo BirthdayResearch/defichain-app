@@ -1,5 +1,4 @@
 import * as log from './electronLogger';
-import { app } from 'electron';
 import * as path from 'path';
 import ini from 'ini';
 import { spawn } from 'child_process';
@@ -173,16 +172,26 @@ export default class DefiProcessManager {
     return getIniData(CONFIG_FILE_NAME);
   }
 
-  static async stop() {
+  static async stop(isCloseProcess?: boolean) {
     try {
-      log.info('Stopping DeFi Process Manager');
+      log.info('Start DeFiProcessManager shutdown...');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
         const processLists: any = await getProcesses({
           pid: parseInt(pid, 10),
         });
-        if (Array.isArray(processLists) && processLists.length === 0) {
+        if (Array.isArray(processLists)) {
           this.isStartedNode = false;
+          if (processLists.length > 0 && isCloseProcess) {
+            try {
+              log.info('Stopping Node Connection...');
+              await Promise.all(
+                processLists.map((item) => stopProcesses(item.pid))
+              );
+            } catch (error) {
+              log.error(error);
+            }
+          }
           return responseMessage(true, {
             message: 'Node is successfully terminated',
           });
@@ -218,10 +227,6 @@ export default class DefiProcessManager {
         message: 'Restart Node Failure',
       });
     }
-  }
-
-  static async closeApp() {
-    app.quit();
   }
 
   static async forceClose() {
