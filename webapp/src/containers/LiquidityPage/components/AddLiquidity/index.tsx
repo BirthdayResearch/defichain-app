@@ -429,7 +429,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       amount1: formState.amount1,
       hash2: formState.hash2,
       amount2: formState.amount2,
-      shareAddress: formState.receiveAddress,
+      shareAddress:
+        formState.receiveAddress == null || formState.receiveAddress == ''
+          ? (paymentRequests ?? [])[0]?.address
+          : formState.receiveAddress,
     });
   };
 
