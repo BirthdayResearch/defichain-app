@@ -33,6 +33,7 @@ import {
   calculateLPFee,
   conversionRatio,
   countDecimals,
+  getMaxNumberOfAmount,
   getNetworkType,
   getPageTitle,
   getTokenListForSwap,
@@ -300,10 +301,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setToTestValue(false);
     setFormState({
       ...formState,
-      [field]:
-        formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8),
+      [field]: getMaxNumberOfAmount(value, formState.hash1),
       amount2: testPoolSwapTo,
     });
   };

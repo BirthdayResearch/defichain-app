@@ -1392,3 +1392,9 @@ export const handlePeersSyncRequest = async (): Promise<PeerInfoModel[]> => {
     return [];
   }
 };
+
+export const getMaxNumberOfAmount = (value: string, hash: string): string => {
+  return hash === DFI_SYMBOL
+    ? Math.max(new BigNumber(value).minus(1).toNumber(), 0).toFixed(8)
+    : new BigNumber(value).toFixed(8);
+};

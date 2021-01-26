@@ -35,6 +35,7 @@ import { AddressModel } from '../../../../model/address.model';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from 'src/components/ViewOnChain';
+import { BigNumber } from 'bignumber.js';
 
 interface RouteParams {
   id?: string;
@@ -153,12 +154,14 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   };
 
   const calculateTotal = (total, reserve) => {
-    return ((total / 100) * reserve).toFixed(8);
+    return new BigNumber(total).div(100).times(reserve).toFixed(8);
   };
 
   const removeLiquidityAmount = (total) => {
-    const liquidityAmount = (Number(formState.amountPercentage) / 100) * total;
-    return liquidityAmount.toFixed(8);
+    return new BigNumber(formState.amountPercentage)
+      .div(100)
+      .times(total)
+      .toFixed(8);
   };
 
   const totalA = calculateTotal(sharePercentage, poolpair.reserveA);
@@ -286,9 +289,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  <NumberMask
-                    value={Number(removeLiquidityAmount(totalA)).toFixed(8)}
-                  />
+                  <NumberMask value={removeLiquidityAmount(totalA)} />
                   {` of `}
                   <NumberMask value={Number(totalA).toFixed(8)} />
                   {` ${poolpair.tokenA}`}
@@ -301,9 +302,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  <NumberMask
-                    value={Number(removeLiquidityAmount(totalB)).toFixed(8)}
-                  />
+                  <NumberMask value={removeLiquidityAmount(totalB)} />
                   {` of `}
                   <NumberMask value={Number(totalB).toFixed(8)} />
                   {` ${poolpair.tokenB}`}
@@ -376,11 +375,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 {I18n.t('containers.swap.removeLiquidity.receive')}
               </dt>
               <dd className='col-sm-8'>
-                <span>{`${Number(removeLiquidityAmount(totalA)).toFixed(8)} ${
+                <span>{`${removeLiquidityAmount(totalA)} ${
                   poolpair.tokenA
                 }`}</span>
                 <br />
-                <span>{`${Number(removeLiquidityAmount(totalB)).toFixed(8)} ${
+                <span>{`${removeLiquidityAmount(totalB)} ${
                   poolpair.tokenB
                 }`}</span>
               </dd>
