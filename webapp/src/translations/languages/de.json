@@ -29,6 +29,7 @@
   "containers": {
     "sideBar": {
       "balance": "Balance",
+      "balances": "Guthaben",
       "dfi": "DFI",
       "wallets": "Wallets",
       "dex": "DEX",
@@ -689,6 +690,7 @@
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
+        "balances": "Guthaben",
         "wallets": "Wallets",
         "delete": "Löschen",
         "send": "Senden",
@@ -713,7 +715,8 @@
       "walletWalletsPage": {
         "walletWallets": "Wallets",
         "wallets": "Wallets",
-        "addWallet": "Wallet hinzufügen"
+        "addWallet": "Wallet hinzufügen",
+        "addBalance": "Guthaben hinzufügen"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "Wallet - Token hinzufügen",

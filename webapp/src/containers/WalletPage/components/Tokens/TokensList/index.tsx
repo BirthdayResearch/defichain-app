@@ -212,7 +212,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
+            <h1>{I18n.t('containers.wallet.walletPage.balances')}</h1>
             <ButtonGroup disabled={!isWalletDropdown()}>
               <WalletDropdown
                 tokenMap={getTokenForWalletDropDown()}
@@ -224,7 +224,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
                 <Button color='link' disabled={!isWalletDropdown()}>
                   <MdAdd />
                   <span className='d-lg-inline'>
-                    {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
+                    {I18n.t('containers.wallet.walletWalletsPage.addBalance')}
                   </span>
                 </Button>
               </WalletDropdown>
