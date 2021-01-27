@@ -82,7 +82,7 @@ export const handlePoolSwap = async (formState): Promise<string> => {
   log.info(`1. Address ${address1} Amount ${maxAmount1}`, 'handlePoolSwap');
   // convert account to account, if don't have sufficient funds in one account
   if (poolSwapAmount.gt(maxAmount1)) {
-    log.info(`Account to Account`, 'handlePoolSwap');
+    log.info(`Account to Account with ${swapAddress}`, 'handlePoolSwap');
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       swapAddress,
@@ -95,10 +95,10 @@ export const handlePoolSwap = async (formState): Promise<string> => {
     formState.hash1 === DFI_SYMBOL &&
     poolSwapAmount.gt(accountToAccountAmount.plus(maxAmount1))
   ) {
-    log.info(`UTXOs to Account`, 'handlePoolSwap');
+    log.info(`UTXOs to Account with ${swapAddress}`, 'handlePoolSwap');
     await handleUtxoToAccountConversion(
       formState.hash1,
-      address1,
+      swapAddress,
       poolSwapAmount,
       accountToAccountAmount.plus(maxAmount1)
     );
