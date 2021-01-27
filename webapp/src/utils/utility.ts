@@ -76,6 +76,7 @@ import {
   getAddressInfo,
   getTransactionInfo,
   handleFetchAccountDFI,
+  handleGetPaymentRequest,
 } from '../containers/WalletPage/service';
 import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
@@ -1063,6 +1064,11 @@ export const getHighestAmountAddressForSymbol = (
       maxAmount = tokenAmount;
       address = tokenAddress;
     }
+  }
+  if (!address) {
+    const networkName = getNetworkType();
+    const paymentRequests = handleGetPaymentRequest(networkName);
+    address = (paymentRequests ?? [])[0]?.address;
   }
   return { address, amount: maxAmount };
 };
