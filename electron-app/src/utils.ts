@@ -22,6 +22,7 @@ import {
   TESTNET_BASE_FOLDER,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
+import * as log from '././services/electronLogger';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -114,7 +115,7 @@ export const getRpcAuth = (rpcuser: string) => {
   };
 };
 
-export const getProcesses = (args: any) => {
+export const getProcesses = (args: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     ps.lookup(args, (err: any, result: unknown) => {
       if (err) return reject(err);
@@ -124,12 +125,22 @@ export const getProcesses = (args: any) => {
 };
 
 export const stopProcesses = (processId: number | string) => {
-  return new Promise((resolve, reject) => {
-    ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
-  });
+  return getProcesses({ pid: parseInt(processId?.toString(), 10) }).then(
+    (processes: any[]) => {
+      if (processes != null && processes[0] != null) {
+        return new Promise((resolve, reject) => {
+          ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
+            if (err) return reject(err);
+            return resolve(result);
+          });
+        });
+      } else {
+        return new Promise((resolve, reject) => {
+          return resolve(true);
+        });
+      }
+    }
+  );
 };
 
 export function sleep(ms: number) {
@@ -184,4 +195,16 @@ export const getBaseFolder = () => {
     baseFolder = REGTEST_BASE_FOLDER;
   }
   return baseFolder;
+};
+
+export const deletePeersFile = () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const destFileName = `peers.dat`;
+    const destFilePath = path.join(baseFolder, '../', destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted peers file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
 };

@@ -35,6 +35,7 @@ import { AddressModel } from '../../../../model/address.model';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from 'src/components/ViewOnChain';
+import { BigNumber } from 'bignumber.js';
 
 interface RouteParams {
   id?: string;
@@ -153,12 +154,14 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
   };
 
   const calculateTotal = (total, reserve) => {
-    return ((total / 100) * reserve).toFixed(8);
+    return new BigNumber(total).div(100).times(reserve).toFixed(8);
   };
 
   const removeLiquidityAmount = (total) => {
-    const liquidityAmount = (Number(formState.amountPercentage) / 100) * total;
-    return liquidityAmount.toFixed(8);
+    return new BigNumber(formState.amountPercentage)
+      .div(100)
+      .times(total)
+      .toFixed(8);
   };
 
   const totalA = calculateTotal(sharePercentage, poolpair.reserveA);
@@ -218,8 +221,8 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   className={styles.amountRemoveInput}
                   onChange={(e) => {
                     if (
-                      0 <= Number(e.target.value) &&
-                      Number(e.target.value) <= 100
+                      new BigNumber(0).lte(e?.target?.value || 0) &&
+                      new BigNumber(e?.target?.value || 0).lte(100)
                     ) {
                       setFormState({
                         ...formState,
@@ -256,10 +259,10 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   className={styles.amountRemoveRange}
                   step='0.1'
                   onChange={(e) => {
-                    if (Number(e.target.value) >= 0) {
+                    if (new BigNumber(e?.target?.value || 0).gte(0)) {
                       setFormState({
                         ...formState,
-                        amountPercentage: e.target.value,
+                        amountPercentage: e?.target?.value || 0,
                       });
                     }
                   }}
@@ -286,11 +289,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenA}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  <NumberMask
-                    value={Number(removeLiquidityAmount(totalA)).toFixed(8)}
-                  />
+                  <NumberMask value={removeLiquidityAmount(totalA)} />
                   {` of `}
-                  <NumberMask value={Number(totalA).toFixed(8)} />
+                  <NumberMask value={new BigNumber(totalA).toFixed(8)} />
                   {` ${poolpair.tokenA}`}
                 </Col>
               </Row>
@@ -301,11 +302,9 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                   <span className={styles.logoText}>{poolpair.tokenB}</span>
                 </Col>
                 <Col className={styles.colText}>
-                  <NumberMask
-                    value={Number(removeLiquidityAmount(totalB)).toFixed(8)}
-                  />
+                  <NumberMask value={removeLiquidityAmount(totalB)} />
                   {` of `}
-                  <NumberMask value={Number(totalB).toFixed(8)} />
+                  <NumberMask value={new BigNumber(totalB).toFixed(8)} />
                   {` ${poolpair.tokenB}`}
                 </Col>
               </Row>
@@ -313,11 +312,13 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
               <Row>
                 <Col>{I18n.t('containers.swap.removeLiquidity.price')}</Col>
                 <Col className={styles.colText}>
-                  <NumberMask value={Number(getRatio(poolpair)).toFixed(8)} />
+                  <NumberMask value={getRatio(poolpair)} />
                   {` ${poolpair.tokenA} per ${poolpair.tokenB}`}
                   <br />
                   <NumberMask
-                    value={(1 / Number(getRatio(poolpair))).toFixed(8)}
+                    value={new BigNumber(1)
+                      .div(Number(getRatio(poolpair)))
+                      .toFixed(8)}
                   />
                   {` ${poolpair.tokenB} per ${poolpair.tokenA}`}
                 </Col>
@@ -376,11 +377,11 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
                 {I18n.t('containers.swap.removeLiquidity.receive')}
               </dt>
               <dd className='col-sm-8'>
-                <span>{`${Number(removeLiquidityAmount(totalA)).toFixed(8)} ${
+                <span>{`${removeLiquidityAmount(totalA)} ${
                   poolpair.tokenA
                 }`}</span>
                 <br />
-                <span>{`${Number(removeLiquidityAmount(totalB)).toFixed(8)} ${
+                <span>{`${removeLiquidityAmount(totalB)} ${
                   poolpair.tokenB
                 }`}</span>
               </dd>

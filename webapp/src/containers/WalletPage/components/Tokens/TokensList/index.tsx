@@ -25,6 +25,7 @@ import {
 import {
   WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
+  DFI_SYMBOL,
 } from '../../../../../constants';
 import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard';
 import Pagination from '../../../../../components/Pagination';
@@ -236,7 +237,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
                 symbol: unit,
                 symbolKey: unit,
                 amount: props.walletBalance,
-                hash: '0',
+                hash: DFI_SYMBOL,
                 address: '',
               }}
             />

@@ -89,6 +89,7 @@ import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import {
+  AMOUNT_SEPARATOR,
   IS_WALLET_CREATED_MAIN,
   IS_WALLET_CREATED_TEST,
   MAIN,
@@ -455,8 +456,8 @@ function* fetchWalletTokenTransactionsList(action) {
         txid: d.txid,
         amountData: d.amounts.map((amount) => {
           return {
-            unit: amount.split('@')[1],
-            amount: amount.split('@')[0],
+            unit: amount.split(AMOUNT_SEPARATOR)[1],
+            amount: amount.split(AMOUNT_SEPARATOR)[0],
           };
         }),
       };
