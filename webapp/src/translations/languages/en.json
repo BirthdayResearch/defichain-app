@@ -841,7 +841,7 @@
   "general": {
     "defiApp": "DeFi app",
     "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
-    "quitingApp": "Quiting DefiChain app...",
+    "quitingApp": "Quitting DefiChain app...",
     "doNotCloseWindow": "Do not turn off the computer while this window is still open."
   }
 }
