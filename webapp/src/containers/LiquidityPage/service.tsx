@@ -250,6 +250,7 @@ export const handleRemovePoolLiquidity = async (
   receiveAddress: string,
   poolPair: any
 ) => {
+  log.info('Starting Remove Pool Liquidity', 'handleRemovePoolLiquidity');
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListPoolShare(poolID);
   const addressList: any[] = [];
@@ -268,11 +269,18 @@ export const handleRemovePoolLiquidity = async (
     }
     return sumAmount;
   }, 0);
-
+  log.info(
+    `1. AddressList ${addressList}`,
+    'handleRemovePoolLiquidity'
+  );
   const removeLpAmounts = {};
   for (const obj of addressList) {
     removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
+  log.info(
+    `1. Remove Lp Amounts ${removeLpAmounts}`,
+    'handleRemovePoolLiquidity'
+  );
 
   store.dispatch(refreshUTXOS1Success());
 
@@ -288,7 +296,10 @@ export const handleRemovePoolLiquidity = async (
   const resolvedAddressAndAmountArray: any[] = _.compact(
     await Promise.all(addressAndAmountArray)
   );
-
+  log.info(
+    `Liquidity removed from different addresses`,
+    'handleRemovePoolLiquidity'
+  );
   store.dispatch(liquidityRemovedSuccess());
 
   const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
@@ -308,6 +319,11 @@ export const handleRemovePoolLiquidity = async (
       amountB: `${amountB}@${poolPair.idTokenB}`,
     };
   });
+
+  log.info(
+    `1. Final Array ${finalArray}`,
+    'handleRemovePoolLiquidity'
+  );
 
   const accountAmounts = {};
   for (const obj of finalArray) {
@@ -347,6 +363,9 @@ export const handleRemovePoolLiquidity = async (
   const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
 
   store.dispatch(transferTokensSuccess());
-
+  log.info(
+    `RemoveLiquidity done successfully`,
+    'handleRemovePoolLiquidity'
+  );
   return resolvedHashArray[resolvedHashArray.length - 1];
 };
