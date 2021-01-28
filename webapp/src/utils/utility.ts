@@ -358,8 +358,7 @@ export const getParams = (query: string) => {
     } else if (param === 'true' || param === 'false') {
       return param === 'true' ? true : false;
     }
-    const paramVal = new BigNumber(param);
-    return paramVal.isNaN() ? param : paramVal;
+    return isNaN(Number(param)) ? param : Number(param);
   });
   return parsedParams;
 };
