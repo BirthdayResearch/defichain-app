@@ -359,7 +359,11 @@ export const getParams = (query: string) => {
       return param === 'true' ? true : false;
     }
     const paramVal = new BigNumber(param);
-    return paramVal.isNaN() ? param : paramVal.toNumber();
+    return paramVal.isNaN()
+      ? param
+      : paramVal.isInteger()
+      ? paramVal.toNumber()
+      : paramVal.toString();
   });
   return parsedParams;
 };
