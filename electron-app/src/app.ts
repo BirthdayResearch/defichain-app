@@ -196,7 +196,7 @@ export default class App {
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Terminating Node Connection`
         );
-        await DefiProcessManager.stop(true);
+        await DefiProcessManager.stop();
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Node connection has been closed`
         );
