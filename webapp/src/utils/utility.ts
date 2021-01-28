@@ -363,7 +363,7 @@ export const getParams = (query: string) => {
       ? param
       : paramVal.isInteger()
       ? paramVal.toNumber()
-      : paramVal.toString();
+      : paramVal.toFixed(8);
   });
   return parsedParams;
 };
