@@ -5,11 +5,16 @@ import { ipcRendererFunc, isElectron } from '../../utils/isElectron';
 import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
 import store from '../../app/rootStore';
-import { killQueue } from '../../containers/RpcConfiguration/reducer';
+import {
+  isAppClosing,
+  killQueue,
+} from '../../containers/RpcConfiguration/reducer';
 import {
   FORCE_KILL_QUEUE_AND_SHUTDOWN,
+  ON_CLOSE_RPC_CLIENT,
   STOP_BINARY_AND_QUEUE,
 } from '@defi_types/ipcEvents';
+import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 
 const worker = (task, callback) => {
   task
@@ -35,27 +40,49 @@ const isRunning = () => {
   return isRunning;
 };
 
+/**
+ * @description - method that is triggered when the app is closed
+ * @param shouldCallMainProcess - boolean to check if it needs to trigger main process closing
+ */
+export const triggerNodeShutdown = async (
+  shouldCallMainProcess = true
+): Promise<any> => {
+  const ipcRenderer = ipcRendererFunc();
+  log.info('Removing all Binary and Queue listeners..', LOGGING_SHUT_DOWN);
+  store.dispatch(isAppClosing({ isAppClosing: true }));
+  ipcRenderer.removeAllListeners(STOP_BINARY_AND_QUEUE);
+  if (isRunning()) {
+    await shutDownBinary();
+  }
+  if (shouldCallMainProcess) {
+    return ipcRenderer.send(ON_CLOSE_RPC_CLIENT);
+  }
+};
+
 if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
-  ipcRenderer.on(STOP_BINARY_AND_QUEUE, () => {
-    ipcRenderer.removeAllListeners(STOP_BINARY_AND_QUEUE);
-    if (isRunning()) {
-      return shutDownBinary();
+  ipcRenderer.on(STOP_BINARY_AND_QUEUE, async () => {
+    try {
+      return triggerNodeShutdown();
+    } catch (error) {
+      ipcRenderer.send(ON_CLOSE_RPC_CLIENT);
+      log.error(error);
     }
-    return ipcRenderer.send(FORCE_KILL_QUEUE_AND_SHUTDOWN);
   });
 }
 
 export const shutDownBinary = async () => {
   try {
+    log.info('Starting node shutdown...', LOGGING_SHUT_DOWN);
     store.dispatch(killQueue());
     await q.kill();
     const rpcClient = new RpcClient();
     const result = rpcClient.stop();
+    log.info('Node shutdown successfully', LOGGING_SHUT_DOWN);
     log.info(JSON.stringify(result));
     return result;
   } catch (err) {
-    log.error(JSON.stringify(err), 'shutDownBinary');
+    log.error(JSON.stringify(err), LOGGING_SHUT_DOWN);
     if (isElectron()) {
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
         const ipcRenderer = ipcRendererFunc();

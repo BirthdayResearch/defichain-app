@@ -4,5 +4,7 @@
     "latestSyncedBlock": 139114,
     "syncedPercentage": "100.00"
   },
-  "syncingError": "Error Message"
+  "syncingError": "Error Message",
+  "isPeersLoading": true,
+  "peers": 77
 }

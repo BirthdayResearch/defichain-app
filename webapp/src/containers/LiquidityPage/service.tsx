@@ -1,7 +1,9 @@
 import { isEmpty } from 'lodash';
 import _ from 'lodash';
+import * as log from '../../utils/electronLogger';
 
 import {
+  AMOUNT_SEPARATOR,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DFI_SYMBOL,
   LP_DAILY_DFI_REWARD,
@@ -10,15 +12,15 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
-import { getAddressInfo, handleFetchAccountDFI } from '../WalletPage/service';
+import { getAddressInfo } from '../WalletPage/service';
 import {
-  calculateAPY,
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
   getAddressAndAmountListPoolShare,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
+  getPoolStatsFromAPI,
   getSmallerAmount,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
@@ -38,6 +40,7 @@ export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
+  const poolStats = await getPoolStatsFromAPI();
   const coinPriceObj = await parsedCoinPriceData();
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
@@ -58,8 +61,10 @@ export const handleFetchPoolshares = async () => {
         hash: item,
         ...poolPair[item],
       }));
-      const tokenAData = await handleFetchToken(poolPairData[0].idTokenA);
-      const tokenBData = await handleFetchToken(poolPairData[0].idTokenB);
+      const idTokenA = poolPairData[0].idTokenA;
+      const idTokenB = poolPairData[0].idTokenB;
+      const tokenAData = await handleFetchToken(idTokenA);
+      const tokenBData = await handleFetchToken(idTokenB);
       const poolSharePercentage =
         (poolShare.amount / poolShare.totalLiquidity) * 100;
 
@@ -70,20 +75,23 @@ export const handleFetchPoolshares = async () => {
 
       const liquidityReserveidTokenA = new BigNumber(
         poolPairData[0].reserveA || 0
-      ).times(coinPriceObj[poolPairData[0].idTokenA]);
+      ).times(coinPriceObj[idTokenA]);
       const liquidityReserveidTokenB = new BigNumber(
         poolPairData[0].reserveB || 0
-      ).times(coinPriceObj[poolPairData[0].idTokenB]);
+      ).times(coinPriceObj[idTokenB]);
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
+      const apy = new BigNumber(
+        poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+      ).toFixed(2);
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
         poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+        apy,
         ...poolPairData[0],
         ...poolShare,
       };
@@ -96,9 +104,11 @@ export const handleFetchPoolshares = async () => {
 
   const groupedMinePoolShares = resolvedMinePoolShares.reduce((arr, obj) => {
     if (ind.hasOwnProperty(obj.poolID)) {
-      arr[ind[obj.poolID]].poolSharePercentage =
-        Number(arr[ind[obj.poolID]].poolSharePercentage) +
-        Number(obj.poolSharePercentage);
+      arr[ind[obj.poolID]].poolSharePercentage = new BigNumber(
+        arr[ind[obj.poolID]].poolSharePercentage || 0
+      )
+        .plus(obj.poolSharePercentage)
+        .toNumber();
     } else {
       arr.push(obj);
       ind[obj.poolID] = arr.length - 1;
@@ -141,69 +151,95 @@ export const handleAddPoolLiquidity = async (
   hash2: string,
   amount2: string,
   shareAddress: string
-) => {
+): Promise<string> => {
+  log.info('Starting Add Pool Liquidity', 'handleAddPoolLiquidity');
   const rpcClient = new RpcClient();
   const addressesList = await getAddressAndAmountListForAccount();
 
-  const { address: address1, amount: maxAmount1 } = await getAddressForSymbol(
-    hash1,
-    addressesList
-  );
+  const setEmptyAddress = (address: string) => {
+    return address == null || address == '' ? shareAddress : address;
+  };
 
-  const { address: address2, amount: maxAmount2 } = await getAddressForSymbol(
-    hash2,
-    addressesList
+  const {
+    address: address1,
+    amount: maxAmount1,
+  } = getHighestAmountAddressForSymbol(hash1, addressesList);
+
+  const {
+    address: address2,
+    amount: maxAmount2,
+  } = getHighestAmountAddressForSymbol(hash2, addressesList);
+
+  log.info(
+    `1. Address ${address1} Amount ${maxAmount1}`,
+    'handleAddPoolLiquidity'
+  );
+  log.info(
+    `2. Address ${address2} Amount ${maxAmount2}`,
+    'handleAddPoolLiquidity'
   );
 
   let accountToAccountAmount1 = new BigNumber(0);
   let accountToAccountAmount2 = new BigNumber(0);
+  const amount1BN = new BigNumber(amount1);
+  const amount2BN = new BigNumber(amount2);
 
   // convert account to account, if don't have sufficient funds in one account
-  if (Number(amount1) > maxAmount1) {
+  if (amount1BN.gt(maxAmount1)) {
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
-      address1,
+      setEmptyAddress(address1),
       hash1
     );
+    log.info(`1. Account to Account completed`, 'handleAddPoolLiquidity');
   }
-  if (Number(amount2) > maxAmount2) {
+  if (amount2BN.gt(maxAmount2)) {
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
-      address2,
+      setEmptyAddress(address2),
       hash2
     );
+    log.info(`2. Account to Account completed`, 'handleAddPoolLiquidity');
   }
 
   // convert utxo DFI to account, if don't have sufficent funds in account
   if (
     hash1 === DFI_SYMBOL &&
-    new BigNumber(amount1).gt(accountToAccountAmount1.plus(maxAmount1))
+    amount1BN.gt(accountToAccountAmount1.plus(maxAmount1))
   ) {
     await handleUtxoToAccountConversion(
       hash1,
-      address1,
-      amount1,
-      accountToAccountAmount1.plus(maxAmount1).toNumber()
+      setEmptyAddress(address1),
+      amount1BN,
+      accountToAccountAmount1.plus(maxAmount1)
+    );
+    log.info(
+      `1. UTXO to Account completed ${address1}`,
+      'handleAddPoolLiquidity'
     );
   } else if (
     hash2 === DFI_SYMBOL &&
-    new BigNumber(amount2).gt(accountToAccountAmount2.plus(maxAmount2))
+    amount2BN.gt(accountToAccountAmount2.plus(maxAmount2))
   ) {
     await handleUtxoToAccountConversion(
       hash2,
-      address2,
-      amount2,
-      accountToAccountAmount2.plus(maxAmount2).toNumber()
+      setEmptyAddress(address2),
+      amount2BN,
+      accountToAccountAmount2.plus(maxAmount2)
+    );
+    log.info(
+      `2. UTXO to Account completed ${address2}`,
+      'handleAddPoolLiquidity'
     );
   }
 
   store.dispatch(addPoolPreparingUTXOSuccess());
 
   return await rpcClient.addPooLiquidity(
-    address1,
-    `${Number(amount1).toFixed(8)}@${hash1}`,
-    address2,
-    `${Number(amount2).toFixed(8)}@${hash2}`,
+    setEmptyAddress(address1),
+    `${amount1BN.toFixed(8)}@${hash1}`,
+    setEmptyAddress(address2),
+    `${amount2BN.toFixed(8)}@${hash2}`,
     shareAddress
   );
 };
@@ -214,37 +250,41 @@ export const handleRemovePoolLiquidity = async (
   receiveAddress: string,
   poolPair: any
 ) => {
+  log.info('Starting Remove Pool Liquidity', 'handleRemovePoolLiquidity');
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListPoolShare(poolID);
   const addressList: any[] = [];
   list.reduce((sumAmount, obj) => {
-    if (sumAmount < Number(amount)) {
-      const tempAmount =
-        sumAmount + Number(obj.amount) <= Number(amount)
-          ? Number(obj.amount)
-          : Number(amount) - sumAmount;
+    if (new BigNumber(amount).gt(sumAmount)) {
+      const tempAmount = new BigNumber(sumAmount || 0)
+        .plus(obj.amount || 0)
+        .lte(amount || 0)
+        ? new BigNumber(obj.amount).toNumber()
+        : new BigNumber(amount).minus(sumAmount || 0).toNumber();
       addressList.push({
         address: obj.address,
         amount: tempAmount,
       });
-      sumAmount = sumAmount + tempAmount;
+      sumAmount = new BigNumber(sumAmount).plus(tempAmount).toNumber();
     }
     return sumAmount;
   }, 0);
-
+  log.info(`1. AddressList ${addressList}`, 'handleRemovePoolLiquidity');
   const removeLpAmounts = {};
   for (const obj of addressList) {
     removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
   }
-  // const refreshUtxoTxId1 = await rpcClient.sendMany(removeLpAmounts);
-  // await getTransactionInfo(refreshUtxoTxId1);
+  log.info(
+    `1. Remove Lp Amounts ${removeLpAmounts}`,
+    'handleRemovePoolLiquidity'
+  );
 
   store.dispatch(refreshUTXOS1Success());
 
   const addressAndAmountArray = addressList.map(async (obj) => {
     await rpcClient.removePoolLiquidity(
       obj.address,
-      `${Number(obj.amount).toFixed(8)}@${poolID}`
+      `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
     );
     if (obj.address !== receiveAddress) {
       return obj;
@@ -253,24 +293,31 @@ export const handleRemovePoolLiquidity = async (
   const resolvedAddressAndAmountArray: any[] = _.compact(
     await Promise.all(addressAndAmountArray)
   );
-
+  log.info(
+    `Liquidity removed from different addresses`,
+    'handleRemovePoolLiquidity'
+  );
   store.dispatch(liquidityRemovedSuccess());
 
   const finalArray = resolvedAddressAndAmountArray.map((addressAndAmount) => {
-    const amountA = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
-      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
-      .times(new BigNumber(poolPair.reserveA).toFixed(8));
+    const amountA = new BigNumber(addressAndAmount.amount)
+      .div(new BigNumber(poolPair.totalLiquidity))
+      .times(new BigNumber(poolPair.reserveA))
+      .toFixed(8);
 
-    const amountB = new BigNumber(Number(addressAndAmount.amount).toFixed(8))
-      .div(new BigNumber(poolPair.totalLiquidity).toFixed(8))
-      .times(new BigNumber(poolPair.reserveB).toFixed(8));
+    const amountB = new BigNumber(addressAndAmount.amount)
+      .div(new BigNumber(poolPair.totalLiquidity))
+      .times(new BigNumber(poolPair.reserveB))
+      .toFixed(8);
 
     return {
       address: addressAndAmount.address,
-      amountA: `${amountA.toFixed(8)}@${poolPair.idTokenA}`,
-      amountB: `${amountB.toFixed(8)}@${poolPair.idTokenB}`,
+      amountA: `${amountA}@${poolPair.idTokenA}`,
+      amountB: `${amountB}@${poolPair.idTokenB}`,
     };
   });
+
+  log.info(`1. Final Array ${finalArray}`, 'handleRemovePoolLiquidity');
 
   const accountAmounts = {};
   for (const obj of finalArray) {
@@ -283,8 +330,14 @@ export const handleRemovePoolLiquidity = async (
     const balance1 = await getBalanceForSymbol(obj.address, poolPair.idTokenA);
     const balance2 = await getBalanceForSymbol(obj.address, poolPair.idTokenB);
 
-    const amountA = getSmallerAmount(balance1, obj.amountA.split('@')[0]);
-    const amountB = getSmallerAmount(balance2, obj.amountB.split('@')[0]);
+    const amountA = getSmallerAmount(
+      balance1,
+      obj.amountA.split(AMOUNT_SEPARATOR)[0]
+    );
+    const amountB = getSmallerAmount(
+      balance2,
+      obj.amountB.split(AMOUNT_SEPARATOR)[0]
+    );
 
     const txId1 = await rpcClient.accountToAccount(
       obj.address,
@@ -304,6 +357,6 @@ export const handleRemovePoolLiquidity = async (
   const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
 
   store.dispatch(transferTokensSuccess());
-
+  log.info(`RemoveLiquidity done successfully`, 'handleRemovePoolLiquidity');
   return resolvedHashArray[resolvedHashArray.length - 1];
 };

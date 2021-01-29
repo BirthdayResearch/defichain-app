@@ -29,6 +29,7 @@ interface AppProps extends RouteComponentProps {
   nodeError: string;
   isFetching: boolean;
   isRestart: boolean;
+  isAppClosing: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -55,6 +56,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
     nodeError,
     isFetching,
     isRestart,
+    isAppClosing,
   } = props;
 
   const prevDepth = useRef(getPathDepth(location));
@@ -74,7 +76,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   return (
     <>
-      {isRunning ? (
+      {isRunning && !isAppClosing ? (
         <div id='app'>
           <Helmet>
             <title>{getPageTitle()}</title>
@@ -102,6 +104,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           message={nodeError}
           isLoading={isFetching}
           isRestart={isRestart}
+          isAppClosing={isAppClosing}
         />
       )}
       <ReIndexModel />
@@ -121,6 +124,7 @@ const mapStateToProps = ({ app, popover }) => ({
   nodeError: app.nodeError,
   isFetching: app.isFetching,
   isRestart: popover.isReIndexRestart,
+  isAppClosing: app.isAppClosing,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

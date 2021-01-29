@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as os from 'os';
 import osName from 'os-name';
 import * as url from 'url';
-import { app, BrowserWindow, Menu, protocol } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import DefiProcessManager from './services/defiprocessmanager';
@@ -12,20 +12,25 @@ import { Options, parseOptions } from './clioptions';
 import { initiateIpcEvents } from './ipc-events/index';
 import {
   ICON,
-  DARWIN,
   TITLE_BAR_STYLE,
   BACKGROUND_COLOR,
   READY,
-  WINDOW_ALL_CLOSED,
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  APP_SHUTDOWN_TIMEOUT,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
 import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
 import { createMnemonicAction } from './ipc-events/createMnemonic';
-import { STOP_BINARY_AND_QUEUE } from '@defi_types/ipcEvents';
+import {
+  CLOSE_APP,
+  ON_CLOSE_RPC_CLIENT,
+  STOP_BINARY_AND_QUEUE,
+  APP_INIT,
+} from '@defi_types/ipcEvents';
+import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 
 declare var process: {
   argv: any;
@@ -41,6 +46,7 @@ declare var process: {
 export default class App {
   mainWindow: Electron.BrowserWindow;
   allowQuit: boolean;
+  isAppInitialized: boolean;
   parseOptions: Options;
   isDevMode: boolean;
 
@@ -50,6 +56,7 @@ export default class App {
     log.setDefaultLevel(this.parseOptions.logLevel);
     if (process.mas) app.setName(process.env.npm_package_name);
     this.allowQuit = false;
+    this.isAppInitialized = false;
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
     /* For future purpose */
@@ -58,9 +65,9 @@ export default class App {
   run() {
     app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);
-    app.on(WINDOW_ALL_CLOSED, this.onAllAppWindowClose);
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
+    this.setNodeEvents();
   }
 
   onAppReady = async () => {
@@ -72,7 +79,7 @@ export default class App {
 
     /* For future purpose */
     autoUpdater.checkForUpdatesAndNotify().catch((e) => {
-      log.error(e);
+      ElectronLogger.error(e);
     });
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
     initiateBackupImportWalletManager(
@@ -147,10 +154,6 @@ export default class App {
       this.mainWindow.webContents.openDevTools();
     }
 
-    /* Only for alpha and beta releases
-       Remove this disclaimer dialog later
-    */
-
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
     ElectronLogger.info(
       `[Starting Electron App] OS ${osName()} - ${os.release()}`
@@ -164,13 +167,6 @@ export default class App {
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   }
-
-  // When app will close
-  onAllAppWindowClose = () => {
-    if (process.platform !== DARWIN) {
-      app.quit();
-    }
-  };
 
   onAppActivate = () => {
     if (this.mainWindow === null) {
@@ -189,18 +185,51 @@ export default class App {
     });
   }
 
-  onMainWindowClose = async (event: Electron.Event) => {
-    if (this.allowQuit) {
+  closeWindowAndQuitApp = () => {
+    ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Closing app...`);
+    this.mainWindow.hide();
+    this.allowQuit = true;
+    return app.quit();
+  };
+
+  setNodeEvents = async (): Promise<any> => {
+    ipcMain.on(ON_CLOSE_RPC_CLIENT, async () => {
+      try {
+        ElectronLogger.info(
+          `[${LOGGING_SHUT_DOWN}] Terminating Node Connection`
+        );
+        await DefiProcessManager.stop();
+        ElectronLogger.info(
+          `[${LOGGING_SHUT_DOWN}] Node connection has been closed`
+        );
+        this.closeWindowAndQuitApp();
+      } catch (error) {
+        ElectronLogger.error(error);
+        this.closeWindowAndQuitApp();
+      }
+    });
+
+    ipcMain.on(CLOSE_APP, this.onMainWindowClose);
+
+    ipcMain.on(APP_INIT, () => {
+      this.isAppInitialized = true;
+    });
+  };
+
+  onMainWindowClose = async (event: Electron.Event): Promise<any> => {
+    if (this.allowQuit || !this.isAppInitialized) {
       app.quit();
       return (this.mainWindow = null);
     }
+    ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
+    setTimeout(() => {
+      ElectronLogger.info(
+        `[${LOGGING_SHUT_DOWN}] 30 minutes elapsed, force closing app`
+      );
+      this.closeWindowAndQuitApp();
+    }, APP_SHUTDOWN_TIMEOUT);
     // Stop all process before quit
     this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
-
-    this.mainWindow.hide();
     event.preventDefault();
-    await DefiProcessManager.stop();
-    this.allowQuit = true;
-    return app.quit();
   };
 }

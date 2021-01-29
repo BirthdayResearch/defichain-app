@@ -3,13 +3,14 @@ import { MdDone } from 'react-icons/md';
 import styles from './SyncStatus.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
-import { syncStatusRequest } from './reducer';
+import { syncStatusRequest, syncStatusPeersRequest } from './reducer';
 import { Progress } from 'reactstrap';
 import {
   fetchInstantBalanceRequest,
   fetchPendingBalanceRequest,
 } from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
+import { BigNumber } from 'bignumber.js';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -17,6 +18,7 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
+  syncStatusPeersRequest: (shouldAllowEmptyPeers?: boolean) => void;
   fetchInstantBalanceRequest: () => void;
   fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
@@ -25,6 +27,8 @@ interface SyncStatusProps {
   isUpdateStarted: boolean;
   updateAppInfo: any;
   isMinimized: boolean;
+  peers: number;
+  isPeersLoading: boolean;
 }
 
 const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
@@ -35,6 +39,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     isUpdateStarted,
     updateAppInfo: { percent = 0 },
     syncStatusRequest,
+    syncStatusPeersRequest,
     isRestart,
     fetchInstantBalanceRequest,
     fetchPendingBalanceRequest,
@@ -43,16 +48,19 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
     latestBlock,
     syncedPercentage,
     isLoading,
-    blockChainInfo,
+    peers,
+    isPeersLoading,
   } = props;
   const prevIsRestart = UsePrevious(isRestart);
 
   useEffect(() => {
+    syncStatusPeersRequest(true);
     syncStatusRequest();
   }, []);
 
   useEffect(() => {
     if (prevIsRestart && !isRestart) {
+      syncStatusPeersRequest(true);
       syncStatusRequest();
       fetchInstantBalanceRequest();
       fetchPendingBalanceRequest();
@@ -66,20 +74,38 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   }, [latestSyncedBlock, latestBlock]);
 
   const syncBlock = () => {
-    if (isLoading) {
+    if (isPeersLoading || isLoading) {
       return (
-        <div className={styles.syncHeading}>
-          {I18n.t(`components.syncStatus.waitingForSyncStatus`)}
-        </div>
+        <>
+          <div className={styles.syncHeading}>
+            {I18n.t(`components.syncStatus.preparingSync`)}
+          </div>
+          <div className={styles.blockStatus}>
+            {peers == null || peers == 0
+              ? I18n.t(`components.syncStatus.lookingForPeers`, {
+                  peers,
+                })
+              : I18n.t(`components.syncStatus.connectedToPeers`, {
+                  peers,
+                })}
+          </div>
+        </>
       );
     }
     return (
       <div>
         {latestSyncedBlock >= latestBlock ? (
           <>
-            <div className={styles.syncHeading}>
+            <div className={`${styles.syncHeading} d-flex align-items-center`}>
               {I18n.t(`components.syncStatus.synchronized`)} <MdDone />
             </div>
+            {latestSyncedBlock > 0 && (
+              <div className={styles.blockStatus}>
+                {I18n.t(`components.syncStatus.atBlock`, {
+                  block: latestSyncedBlock,
+                })}
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -104,7 +130,7 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   };
 
   const updateInfo = () => {
-    const percentValue = Number(percent).toFixed(2);
+    const percentValue = new BigNumber(percent).toFixed(2);
 
     if (!isUpdateModalOpen && isUpdateStarted && isMinimized) {
       return (
@@ -138,7 +164,14 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
 const mapStateToProps = (state) => {
   const {
     i18n: { locale },
-    syncstatus: { syncedPercentage, latestSyncedBlock, latestBlock, isLoading },
+    syncstatus: {
+      syncedPercentage,
+      latestSyncedBlock,
+      latestBlock,
+      isLoading,
+      peers,
+      isPeersLoading,
+    },
     wallet: { blockChainInfo },
     popover: {
       isUpdateModalOpen,
@@ -160,6 +193,8 @@ const mapStateToProps = (state) => {
     isUpdateStarted,
     updateAppInfo,
     isMinimized,
+    peers,
+    isPeersLoading,
   };
 };
 
@@ -167,6 +202,7 @@ const mapDispatchToProps = {
   syncStatusRequest,
   fetchInstantBalanceRequest,
   fetchPendingBalanceRequest,
+  syncStatusPeersRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SyncStatus);

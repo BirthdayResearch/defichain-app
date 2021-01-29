@@ -33,6 +33,7 @@ import {
   calculateLPFee,
   conversionRatio,
   countDecimals,
+  getMaxNumberOfAmount,
   getNetworkType,
   getPageTitle,
   getTokenListForSwap,
@@ -239,7 +240,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       if (formState.hash1 === '0') {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            BigNumber.maximum(new BigNumber(formState.balance1).minus(1), 0)
           ) ||
           !e.target.value
         ) {
@@ -287,6 +288,16 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     });
   };
 
+  const showErrorMessage = (swapToErr, swapFromErr) => {
+    if (swapToErr) {
+      return swapToErr;
+    } else if (swapFromErr) {
+      return swapFromErr;
+    } else {
+      return I18n.t('containers.swap.swapPage.somethingWentWrong');
+    }
+  };
+
   const handleAddressDropdown = (data: any) => {
     setFormState({
       ...formState,
@@ -300,10 +311,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setToTestValue(false);
     setFormState({
       ...formState,
-      [field]:
-        formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8),
+      [field]: getMaxNumberOfAmount(value, formState.hash1),
       amount2: testPoolSwapTo,
     });
   };
@@ -383,8 +391,15 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const handleSwap = () => {
     setAllowCalls(true);
     setSwapStep('loading');
+    const swapState = {
+      ...formState,
+      receiveAddress:
+        formState.receiveAddress == '' || formState.receiveAddress == null
+          ? (paymentRequests ?? [])[0]?.address
+          : formState.receiveAddress,
+    };
     poolSwapRequest({
-      formState,
+      formState: swapState,
     });
   };
 
@@ -480,16 +495,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
                       <NumberMask
-                        value={Number(
-                          conversionRatio(formState, poolPairList)
-                        ).toFixed(8)}
+                        value={conversionRatio(formState, poolPairList)}
                       />
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
-                        value={(
-                          1 / Number(conversionRatio(formState, poolPairList))
-                        ).toFixed(8)}
+                        value={new BigNumber(1)
+                          .div(conversionRatio(formState, poolPairList))
+                          .toFixed(8)}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
                     </Col>
@@ -629,7 +642,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                 ) : (
                   <Col className='col-auto'>
                     <span className='text-danger'>
-                      {I18n.t('containers.swap.swapPage.somethingWentWrong')}
+                      {showErrorMessage(
+                        isErrorTestPoolSwapTo,
+                        isErrorTestPoolSwapFrom
+                      )}
                     </span>
                   </Col>
                 )}
@@ -642,7 +658,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !isValid() ||
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
-                    !formState.receiveAddress
+                    formState.receiveAddress == null ||
+                    formState.receiveAddress == ''
                   }
                   onClick={swapStepConfirm}
                 >
@@ -808,7 +825,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             </div>
             <div className='d-flex align-items-center justify-content-center'>
               <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
-                {I18n.t('containers.swap.addLiquidity.backToDEX')}
+                {I18n.t('containers.swap.swapPage.backToDEX')}
               </Button>
             </div>
           </div>

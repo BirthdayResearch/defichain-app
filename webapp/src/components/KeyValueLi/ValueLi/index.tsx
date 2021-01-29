@@ -4,7 +4,6 @@ import CopyToClipboard from '../../CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import styles from './ValueLi.module.scss';
-import { Col, Row } from 'reactstrap';
 
 interface KeyValueLiProps {
   copyable?: boolean | string;

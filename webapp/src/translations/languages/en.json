@@ -12,7 +12,11 @@
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
       "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
-      "network": "Network"
+      "network": "Network",
+      "preparingSync": "Preparing sync",
+      "connectedToPeers": "Connected to %{peers} peers",
+      "atBlock": "At block %{block}",
+      "lookingForPeers": "Looking for peers"
     },
     "swapCard": {
       "selectAToken": "Select a token",
@@ -592,6 +596,7 @@
         "title": "Wallet - Restore wallet",
         "restoreWallet": "Restore wallet",
         "restoreWalletGuideLine": "Enter the 24 words in your mnemonic seed to restore wallet.",
+        "enterWord": "Enter word",
         "restoringWallet": "Restoring wallet",
         "restore": "Restore",
         "backToWalletPage": "Close"
@@ -691,7 +696,7 @@
         "receive": "Receive",
         "paymentRequests": "Receive addresses",
         "noPaymentRequests": "No receive addresses available",
-        "paginationRange": "%{to} – %{from} of %{total} receive addresses",
+        "paginationRange": "%{from} - %{to} of %{total} receive addresses",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
@@ -703,7 +708,8 @@
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
-        "txPaginationRange": "%{to} – %{from} of %{total} transactions"
+        "txPaginationRange": "%{from} - %{to} of %{total} transactions",
+        "commission": "Commission"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -722,7 +728,7 @@
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",
-        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "paginationRange": "%{from} – %{to} of %{total} transactions",
         "noTransactions": "No transactions available",
         "accountToAccount": "Account to account",
         "utxosToAccount": "UTXOs to account",
@@ -762,10 +768,10 @@
     "configurationFailure": "Configuration failure",
     "walletBalanceFailure": "Wallet balance failure",
     "pendingBalanceFailure": "Pending balance failure",
-    "addReceiveTxnsFailure": "Add receive transactions  failure",
+    "addReceiveTxnsFailure": "Add receive transactions failure",
     "removeReceiveTxnsFailure": "Remove receive transactions failure",
     "paymentRequestsFailure": "Receive addresses failure",
-    "walletTxnsFailure": "Wallet transactions  failure",
+    "walletTxnsFailure": "Wallet transactions failure",
     "sendDataFailure": "Send data failure",
     "errorOccurred": "Error occurred",
     "success": "Success",
@@ -835,6 +841,8 @@
   },
   "general": {
     "defiApp": "DeFi app",
-    "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)"
+    "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
+    "quitingApp": "Quitting DefiChain app...",
+    "doNotCloseWindow": "Do not turn off the computer while this window is still open."
   }
 }
