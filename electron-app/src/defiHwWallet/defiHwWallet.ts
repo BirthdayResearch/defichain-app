@@ -38,6 +38,10 @@ const GET_PUBKEY_P2_SEGWIT = 0x01;
 const GET_PUBKEY_P2_NATIVE_SEGWIT = 0x02;
 const GET_PUBKEY_P2_CASHADDR = 0x03;
 
+const MAX_LENGTH_MESSAGE_SIGN = 252;
+
+const UNCOMPRESSED_CONTROL_BYTE = 0x04;
+
 function addressFormatToP2(format: AddressFormat): number {
   switch (format) {
     case 'legacy':
@@ -152,7 +156,7 @@ export default class DefiHwWallet {
   async getDefiPublicKey(
     index: number,
     format: AddressFormat = 'legacy'
-  ): Promise<{ pubkey: string; address: string }> {
+  ): Promise<{ pubkey: string; address: string, chainCode:string, privkey: string }> {
     try {
       const apdu = new encoding.BufferWriter();
       apdu.writeUInt8(CLA);
@@ -167,68 +171,87 @@ export default class DefiHwWallet {
       log.info(`APDU: ${apdu}`);
       const resposne = await this.transport.exchange(apdu.toBuffer());
       log.info(`resposne: ${resposne}`);
-      const pubkeyLen = resposne[0];
-      const pubkey = resposne.slice(1, 1 + pubkeyLen);
-      const addrOffset = 1 + pubkeyLen + 1;
-      const addrLen = resposne[addrOffset - 1];
-      const address = resposne
-        .slice(addrOffset, addrOffset + addrLen)
-        .toString('utf-8');
-      return { pubkey: pubkey.toString('hex'), address };
+      const dataReader = new encoding.BufferReader(resposne)
+      const pubkeyLen = dataReader.readUInt8();
+      let pubkey: Buffer | string = dataReader.read(pubkeyLen);
+      log.info(`Full Pubkey: ${pubkey.toString('hex')}`);
+      if (pubkey[0] === UNCOMPRESSED_CONTROL_BYTE) {
+        const lastByte = pubkey[64];
+        pubkey[0] = lastByte % 2 === 0 ? 0x02 : 0x03;
+        pubkey = pubkey.slice(0, 33)
+      }
+      pubkey = pubkey.toString('hex');
+      log.info(`Shot Pubkey: ${pubkey}`);
+      const addrLen = dataReader.readUInt8();
+      const address = dataReader.read(addrLen).toString('utf-8');
+      const chainCode = dataReader.read(32).toString('hex');
+      const privkeyLeb = dataReader.readUInt8();
+      const privkey = dataReader.read(privkeyLeb).toString('hex');
+      log.info(`privkey: ${privkey}`);
+      return { pubkey, address, chainCode, privkey };
     } catch (err) {
       return Promise.reject(err);
     }
   }
 
-  async sign(keyIndex: number, msg: Buffer, sighashType: any) {
-    const keyIndexBuf = new encoding.BufferWriter();
-    keyIndexBuf.writeInt32LE(keyIndex);
-    const p1 = new encoding.BufferWriter();
-    p1.writeUInt8(SIGN_VERIFY_P1_NEED_HASH);
-    // send message buffer splited at 4 parts
-    const stepsNum = 4;
-    const msgLen = msg.length;
-    const partSize = Math.round(msgLen / stepsNum) + 1;
-    let rawTVLSignature: null | Buffer = null;
-    for (let i = 0; i < stepsNum; i++) {
-      const start = i * partSize;
-      let finish = (i + 1) * partSize;
-      if (finish >= msgLen) {
-        finish = 0;
-      }
-      const msgSlice = msg.subarray(start, finish - 1);
-      let p2: number | encoding.BufferWriter = 0;
-      let data = Buffer.alloc(0);
-      let dataLen: number | encoding.BufferWriter = 0;
-      dataLen = msgSlice.length;
-      if (i === 0) {
-        p2 = SIGN_VERIFY_P2_FIRST || SIGN_VERIFY_P2_MORE;
-        data = Buffer.concat([data, keyIndexBuf.toBuffer()]);
-        dataLen += keyIndexBuf.toBuffer().length;
-      } else if (i === stepsNum - 1) {
-        p2 = SIGN_VERIFY_P2_LAST;
-      } else {
-        p2 = SIGN_VERIFY_P2_MORE;
-      }
-      data = Buffer.concat([data, msgSlice]);
-      p2 = new encoding.BufferWriter().writeUInt8(p2);
-      dataLen = new encoding.BufferWriter().writeUInt8(dataLen);
-      const apdu = Buffer.concat([
-        new Buffer([CLA, INS_SIGN_MSG]),
-        p1.toBuffer(),
-        p2.toBuffer(),
-        dataLen.toBuffer(),
-        data,
-      ]);
-      const res = await this.transport.exchange(apdu);
-      const { code } = checkStatusCode(res);
+  async sign(keyIndex: number, msg: Buffer, isHash: boolean = true): Promise<Buffer> {
+    const keyIndexBuf = Buffer.alloc(4);
+    keyIndexBuf.writeInt32LE(keyIndex, 0);
+    const p1 = Buffer.alloc(1);
+    let response: Buffer;
+    if (isHash) {
+      p1.writeInt8(SIGN_VERIFY_P1_ALREADY_HASHED, 0);
+      const p2Buf = Buffer.alloc(1);
+      p2Buf.writeInt8((SIGN_VERIFY_P2_FIRST | SIGN_VERIFY_P2_LAST), 0);
+      const dataLen = msg.length +  keyIndexBuf.length;
+      const dataLenBuf = Buffer.alloc(1);
+      dataLenBuf.writeInt8(dataLen, 0);
+      const data = Buffer.concat([keyIndexBuf, msg])
+      const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2Buf, dataLenBuf, data]);
+      response = await this.transport.exchange(apdu);
+      const { code, status } = checkStatusCode(response);
       if (code !== StatusCodes.OK) {
-        break;
-      } else {
-        rawTVLSignature = res.slice(0, res.length - 2);
-        rawTVLSignature = Buffer.concat([new Buffer([0x30]), rawTVLSignature.slice(1)]);
+        throw new Error(status);
+      }
+    } else {
+      p1.writeInt8(SIGN_VERIFY_P1_NEED_HASH, 0);
+      const msgLen = msg.length;
+      let stepsNum = 1;
+      if (msgLen > MAX_LENGTH_MESSAGE_SIGN) {
+        stepsNum = Math.ceil(msgLen / MAX_LENGTH_MESSAGE_SIGN);
+      }
+      const partSize = Math.floor(msgLen / stepsNum) + 1;
+      for (let i = 0; i < stepsNum; i++) {
+        const start = i * partSize;
+        let finish = (i + 1) * partSize;
+        if (finish >= msgLen) {
+          finish = msg.length;
+        }
+        const msgSlice = msg.slice(start, finish);
+        let p2: number = 0;
+        let data = Buffer.alloc(0);
+        let dataLen = 0;
+        dataLen += msgSlice.length;
+        if (i === 0) {
+          p2 = (SIGN_VERIFY_P2_FIRST | (stepsNum === 1 ? SIGN_VERIFY_P2_LAST : SIGN_VERIFY_P2_MORE));
+          data = Buffer.concat([data, keyIndexBuf]);
+          dataLen += keyIndexBuf.length;
+        } else if (i === stepsNum - 1) {
+          p2 = SIGN_VERIFY_P2_LAST;
+        } else {
+          p2 = SIGN_VERIFY_P2_MORE;
+        }
+        data = Buffer.concat([data, msgSlice]);
+        const p2Buf = Buffer.alloc(1);
+        p2Buf.writeInt8(p2, 0);
+        const dataLenBuf = Buffer.alloc(1);
+        dataLenBuf.writeInt8(dataLen, 0);
+        const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2Buf, dataLenBuf, data]);
+        response = await this.transport.exchange(apdu);
       }
     }
+    const rawTVLSignature = response.slice(0, response.length - 2)
+    rawTVLSignature[0] = 0x30;
     return rawTVLSignature;
   }
 

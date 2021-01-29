@@ -61,7 +61,7 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.2",
     "bitcoinjs-lib": "^5.2.0",
-    "bitcore-lib-dfi": "https://github.com/DeFiCh/bitcore-lib-dfi.git",
+    "bitcore-lib-dfi": "https://github.com/DeFiCh/bitcore-lib-dfi.git#bugfix/create_custom_tx",
     "bootstrap": "^4.5.2",
     "commander": "^5.1.0",
     "cross-env": "^7.0.3",

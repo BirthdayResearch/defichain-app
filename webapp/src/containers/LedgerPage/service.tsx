@@ -95,7 +95,7 @@ export const handelFetchWalletTxns = async (
   // const localStorageName = handleLocalStorageNameLedger(networkName);
   // const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
   // const addressesLedger = paymentData.map((payment) => payment.address);
-  // const rpcClient = new RpcClient();
+  const rpcClient = new RpcClient();
   // const listTransactions = await rpcClient.listTransactions(
   //   pageNo - 1,
   //   pageSize
@@ -187,53 +187,6 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 };
 
 export const sendToAddress = async (
-  toAddress: string,
-  amount: any,
-  subtractfeefromamount: boolean = false
-) => {
-  const rpcClient = new RpcClient();
-  const regularDFI = await handleFetchRegularDFI();
-  if (regularDFI >= amount) {
-    try {
-      const data = await rpcClient.sendToAddress(
-        toAddress,
-        amount,
-        subtractfeefromamount
-      );
-      return data;
-    } catch (err) {
-      log.error(`Got error in sendToAddress: ${err}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
-    }
-  } else {
-    try {
-      const accountTokens = await handleFetchAccounts();
-      const DFIObj = accountTokens.find((token) => token.hash === '0');
-      const fromAddress = DFIObj.address;
-      const txId = await rpcClient.sendToAddress(
-        fromAddress,
-        (10 / 100) * amount,
-        subtractfeefromamount
-      );
-      await getTransactionInfo(txId);
-      const hash = await rpcClient.accountToUtxos(
-        fromAddress,
-        fromAddress,
-        `${(amount - regularDFI).toFixed(4)}@DFI`
-      );
-      await getTransactionInfo(hash);
-      const regularDFIAfterTxFee = await handleFetchRegularDFI();
-      const transferAmount =
-        regularDFIAfterTxFee < amount ? regularDFIAfterTxFee : amount;
-      await sendToAddress(toAddress, transferAmount, true);
-    } catch (error) {
-      log.error(`Got error in sendToAddress: ${error}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
-    }
-  }
-};
-
-export const accountToAccount = async (
   fromAddress: string | null,
   toAddress: string,
   amount: number,
@@ -242,6 +195,7 @@ export const accountToAccount = async (
 ) => {
   log.info('Service accounttoaccount is started');
   try {
+    const rpcClient = new RpcClient();
     const { utxo, amountUtxo } = await utxoLedger(fromAddress, amount);
     const ipcRenderer = ipcRendererFunc();
     const res = await ipcRenderer.sendSync(

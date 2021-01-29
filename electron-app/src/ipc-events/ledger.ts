@@ -14,7 +14,8 @@ import {
 import { responseMessage } from '../utils';
 import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
-import { createTx, signInputs } from '../services/customTx';
+import { createTx } from '../services/customTx';
+import { signInputs } from '../services/signTxUseLedger';
 
 const DefiLedger = new DefiHwWallet();
 
@@ -92,7 +93,8 @@ const initiateLedger = () => {
       log.info('Generate custom tx of ledger');
       try {
         log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`)
-        const tx = await createTx(utxo, address, data, keyIndex, feeRate, DefiLedger);
+        let tx = createTx(utxo, address, data, keyIndex, feeRate);
+        tx = await signInputs(tx, keyIndex, DefiLedger);
         log.info(JSON.stringify(tx.toString()));
         event.returnValue = responseMessage(true, {
           tx: tx.toString(),
@@ -136,24 +138,23 @@ const initiateLedger = () => {
       try {
         const a = new Address(address);
         log.info(JSON.stringify(a));
-        let tx = new Transaction().from(utxo);
+        let tx = new Transaction()
+          .from(utxo)
         const toAddress = new Address(address);
-        // @ts-ignore
         const outputOne = new Transaction.Output({
           script: toAddress.type === 'scripthash' ?
-            // @ts-ignore
             Script.buildScriptHashOut(toAddress) :
-            // @ts-ignore
             Script.buildPublicKeyHashOut(toAddress),
           tokenId: 0,
           satoshis: amount * 100000000,
         });
         tx =  tx.addOutput(outputOne);
+        const fromAddressOb = new Address(fromAddress)
         const outputOne1 = new Transaction.Output({
-          // @ts-ignore
-          script: Script.buildPublicKeyHashOut(new Address(fromAddress)),
+          script: fromAddressOb.type === 'scripthash' ?
+            Script.buildScriptHashOut(fromAddressOb) :
+            Script.buildPublicKeyHashOut(fromAddressOb),
           tokenId: 0,
-          // @ts-ignore
           satoshis: (feeRate * 100000000).toFixed(8),
         });
         tx =  tx.addOutput(outputOne1);

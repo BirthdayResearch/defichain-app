@@ -1,13 +1,10 @@
-// @ts-nocheck
 import {
   Transaction,
   Script,
   Opcode,
   CustomTx,
-  crypto,
-  util, Address,
+  Address,
 } from 'bitcore-lib-dfi';
-import DefiHwWallet from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
 
 type CustomTransaction = {
@@ -15,12 +12,6 @@ type CustomTransaction = {
   customData: any;
   tokenId: number;
 };
-
-interface SigsInput {
-  signature: Transaction.Signature;
-  keyIndex: number;
-  hashBuf: Buffer;
-}
 
 export function createZeroOutputTxFromCustomTx(
   tx: Transaction,
@@ -128,132 +119,16 @@ export function createZeroOutputTxFromCustomTx(
   return transaction.addOutput(outputOne);
 }
 
-export async function signInputs(
-  tx: Transaction,
-  keyIndex: number,
-  DefiLedger: DefiHwWallet
-) {
-  const signatures = await getSignatures(tx, keyIndex, DefiLedger);
-  signatures.forEach((sigsInput) => {
-    // const script = new Script();
-    // script.add(sigsInput.signature.signature.toDER());
-    // script.add(tx.inputs[sigsInput.signature.inputIndex].output.script.chunks[1].buf);
-    // tx.inputs[sigsInput.signature.inputIndex].setScript(script);
-    tx.inputs[sigsInput.signature.inputIndex].setScript(Script.buildPublicKeyHashIn(
-      sigsInput.signature.publicKey,
-      sigsInput.signature.signature.toDER(),
-      sigsInput.signature.sigtype,
-    ));
-    // const interpreter = new Script.Interpreter();
-    // const check = interpreter.verify(scriptSig, scriptPubkey, tx, sigsInput.signature.inputIndex, flags, witnesses, tx.inputs[sigsInput.signature.inputIndex].output.satoshis);
-    // log.info(`check: ${check}`);
-    // if (!check) {
-    //   throw new Error('Signature not verify transaction');
-    // }
-  });
-  return tx;
-}
-
-async function getSignatures(
-  tx: Transaction,
-  keyIndex: number,
-  DefiLedger: DefiHwWallet
-) {
-  const results: SigsInput[] = [];
-  for (let index=0; index < tx.inputs.length; index++) {
-    const res = await getSigsInputs(tx, index, keyIndex, DefiLedger);
-    results.push(...res);
-  }
-  log.info(`getSignatures: ${JSON.stringify(results)}`);
-  return results;
-}
-
-async function getSigsInputs(
-  tx: Transaction,
-  index: number,
-  keyIndex: number,
-  DefiLedger: DefiHwWallet
-): Promise<SigsInput[]> {
-  try {
-    const signedTx = await signTransaction(
-      tx,
-      crypto.Signature.SIGHASH_ALL,
-      index,
-      // @ts-ignore
-      tx.inputs[index].output.script,
-      keyIndex,
-      DefiLedger
-    );
-    const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex);
-    log.info(`pubkey: ${pubkey}`);
-    const txSig = new Transaction.Signature({
-      prevTxId: tx.inputs[index].prevTxId,
-      outputIndex: tx.inputs[index].outputIndex,
-      inputIndex: index,
-      signature: crypto.Signature.fromBuffer(signedTx.signature),
-      sigtype: crypto.Signature.SIGHASH_ALL,
-      publicKey: pubkey,
-    });
-    // @ts-ignore
-    log.info(`getSigsInputs txSig: ${txSig.signature.toBuffer()}`);
-    log.info(`gpubkey: ${new Buffer(pubkey)}`);
-    return [
-      {
-        // @ts-ignore
-        signature: txSig,
-        keyIndex: signedTx.keyIndex,
-        hashBuf: signedTx.hashBuf,
-      },
-    ];
-  } catch (e) {
-    throw new Error(e);
-  }
-}
-
-async function signTransaction(
-  tx: Transaction,
-  sighashType: number,
-  inputIndex: number,
-  subscript: Script,
-  keyIndex: number,
-  DefiLedger: DefiHwWallet
-) {
-  try {
-    let hashBuf = Transaction.Sighash.sighash(
-      tx,
-      sighashType,
-      inputIndex,
-      subscript
-    );
-    log.info(`hashBuf1: ${JSON.stringify(hashBuf.toString('hex'))}`);
-    hashBuf = util.buffer.reverse(hashBuf);
-    log.info(`hashBuf: ${JSON.stringify(hashBuf.toString('hex'))}`);
-    const signature: Buffer = await DefiLedger.sign(keyIndex, hashBuf, sighashType);
-    // const transformationSign = await DefiLedger.transformationSign(signature);
-    log.info(`transformationSign: ${signature}`);
-    return {
-      signature,
-      hashBuf,
-      keyIndex,
-    };
-  } catch (e) {
-    throw new Error(e);
-  }
-}
-
-export async function createTx(
+export function createTx(
   utxo: any,
   address: any,
   data: any,
   keyIndex: number,
   feeRate: number,
-  DefiLedger: DefiHwWallet
-) {
+): Transaction {
   log.info('Custom TX')
   let tx = new Transaction().from(utxo);
   log.info(`tx: ${tx}`)
   tx = createZeroOutputTxFromCustomTx(tx, data, address, feeRate);
-  log.info(`tx: ${tx.toString()}`)
-  tx = await signInputs(tx, keyIndex, DefiLedger);
   return tx;
 }

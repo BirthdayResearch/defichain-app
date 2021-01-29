@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSendDataRequest } from '../../reducer';
 import {
-  accountToAccount,
+  sendToAddress,
   isValidAddress,
   handleFetchRegularDFI,
 } from '../../service';
@@ -60,14 +60,6 @@ interface SendPageProps {
   };
   paymentRequests: PaymentRequestLedger[];
   fetchSendData: () => void;
-  accountToAccount: (
-    fromAddress: string | null,
-    toAddress: string,
-    amount: number,
-    token: string,
-    keyIndex: number,
-    addresses: string[]
-  ) => void;
   isValidAddress: (toAddress: string) => boolean;
   getAddressForSymbol: (
     hash: string,
@@ -294,13 +286,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             hash
           );
         } else {
-          txHash = await this.props.accountToAccount(
-            '7Ae7PRH18YYDaZy96UPUKXhwvceovovkFo',
+          // TODO change toaddress after testing transaction p2sh
+          txHash = await sendToAddress(
+            'ttVsZL1vmt25hWC2WKzJZcPEXAiMQrKpVA',
             this.state.toAddress,
             amount,
             hash,
-            1,
-            this.props.paymentRequests.map((paymentRequest) => paymentRequest.address)
+            2,
           );
         }
         this.handleSuccess(txHash);
@@ -676,7 +668,6 @@ const mergerProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  accountToAccount,
   isValidAddress,
   getAddressForSymbol: getAddressForSymbolLedger,
   accountToAccountConversion: accountToAccountConversionLedger,
