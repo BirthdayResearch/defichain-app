@@ -1405,10 +1405,12 @@ export const onViewOnChain = (tx: string): void => {
   openNewTab(createChainURL(tx));
 };
 
-export const handlePeersSyncRequest = async (): Promise<PeerInfoModel[]> => {
+export const handlePeersSyncRequest = async (
+  shouldAllowEmptyPeers?: boolean
+): Promise<PeerInfoModel[]> => {
   const rpcClient = new RpcClient();
   try {
-    return rpcClient.getPeerInfo();
+    return rpcClient.getPeerInfo(shouldAllowEmptyPeers);
   } catch (err) {
     log.error(err, 'handlePeersSyncRequest');
     return [];
