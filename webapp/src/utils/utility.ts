@@ -15,7 +15,7 @@ import {
   ITxn,
   IBlock,
   IParseTxn,
-  ITokenBalanceInfo,
+  ITokenBalanceInfo, IUtxo,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -1425,3 +1425,25 @@ export const getPageTitle = (
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
 };
+
+export const utxoLedger = async (address: string, amount: number) => {
+  const rpcClient = new RpcClient();
+  const cutxo: IUtxo[] = await rpcClient.listUnspent(1000, 9999999,[address]);
+  const utxo: IUtxo[] = [];
+  let amountUtxo = 0;
+  let i = 0;
+  while (amountUtxo < Number(amount) + 0.01) {
+    if (i < cutxo.length) {
+      amountUtxo += cutxo[i].amount;
+      utxo.push(cutxo[i]);
+      i++;
+    } else {
+      throw new Error('The cost is more than the balance of the address')
+    }
+  }
+  log.info(`amountUtxo: ${amountUtxo}`);
+  return ({
+    utxo,
+    amountUtxo,
+  });
+}

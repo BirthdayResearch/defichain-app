@@ -142,3 +142,19 @@ export interface IAddressAndAmount {
   address: string;
   label?: string;
 }
+
+export interface IUtxo {
+  txid: string;
+  vout: number;
+  address: string;
+  label: string;
+  scriptPubKey: string;
+  amount: number;
+  tokenId: string;
+  confirmations: number;
+  spendable: boolean;
+  solvable: boolean;
+  safe: boolean;
+  redeemScript?: string;
+  desc?:string;
+}

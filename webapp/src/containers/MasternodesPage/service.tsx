@@ -8,13 +8,14 @@ import {
   DEFAULT_MAXIMUM_COUNT, DFI_SYMBOL, FEE_RATE,
   GET_NEW_ADDRESS_TYPE,
   MAXIMUM_AMOUNT,
-  MAXIMUM_COUNT,
+  MAXIMUM_COUNT, MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
 } from '../../constants';
 import { TypeWallet } from '@/typings/entities';
 import { construct } from '@/utils/cutxo';
 import PersistentStore from '@/utils/persistentStore';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import { CustomTx } from 'bitcore-lib-dfi';
+import { getAddressForSymbolLedger, utxoLedger, handelGetPaymentRequestLedger } from '@/utils/utility';
 
 export const isValidAddress = async (toAddress: string) => {
   const rpcClient = new RpcClient();
@@ -40,7 +41,7 @@ export const handelFetchMasterNodes = async () => {
   return transformedData;
 };
 
-export const handelCreateMasterNodes = async (typeWallet: TypeWallet) => {
+export const handelCreateMasterNodes = async (typeWallet: TypeWallet, networkName: string) => {
   const rpcClient = new RpcClient();
 
   const masternodeOwner = await rpcClient.getNewAddress(
@@ -54,12 +55,9 @@ export const handelCreateMasterNodes = async (typeWallet: TypeWallet) => {
   );
   let masterNodeHash = '';
   if (typeWallet === 'ledger') {
-    const cutxo = await construct({
-      maximumAmount:
-        PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-      maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-      feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-    });
+    const paymentsRequests = handelGetPaymentRequestLedger(networkName);
+    const maxAmountAddress = await getAddressForSymbolLedger('0', paymentsRequests);
+    const cutxo = await utxoLedger(maxAmountAddress.address, MINIMUM_DFI_AMOUNT_FOR_MASTERNODE);
     const ipcRenderer = ipcRendererFunc();
     const dataCreateMasternode = {
       txType: CustomTx.customTxType.createMasternode,
@@ -72,8 +70,8 @@ export const handelCreateMasterNodes = async (typeWallet: TypeWallet) => {
     const result = await ipcRenderer.sendSync(
       CUSTOM_TX_LEDGER,
       cutxo,
-      masternodeOperator,
-      0,
+      maxAmountAddress.address,
+      maxAmountAddress.keyIndex,
       dataCreateMasternode,
       1
     );

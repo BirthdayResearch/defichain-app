@@ -25,7 +25,7 @@ import {
   getAddressInfo,
 } from './service';
 
-import { getErrorMessage } from '../../utils/utility';
+import { getErrorMessage, getNetwork } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 import { RESIGNED_STATE } from '../../constants';
@@ -70,7 +70,8 @@ export function* fetchMasterNodes() {
 
 export function* createMasterNodes({ payload }: { payload: TypeWallet }) {
   try {
-    const data = yield call(handelCreateMasterNodes, payload);
+    const networkName = yield call(getNetwork)
+    const data = yield call(handelCreateMasterNodes, payload, networkName);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
     yield put({
