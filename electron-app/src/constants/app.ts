@@ -34,4 +34,4 @@ export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING =
   'Account history needs rebuild';
 export const NODE_SYNTAX_ERROR = '.cpp';
 //* 30 Minutes
-export const APP_SHUTDOWN_TIMEOUT = 1800000;
+export const APP_SHUTDOWN_TIMEOUT = 300000;
