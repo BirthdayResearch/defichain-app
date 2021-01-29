@@ -243,6 +243,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             />
             {tableData.map((token, index) => (
               <WalletTokenCard
+                setwalletTableData={setwalletTableData}
                 handleCardClick={handleCardClick}
                 key={index}
                 token={token}

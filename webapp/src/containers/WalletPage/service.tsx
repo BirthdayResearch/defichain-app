@@ -85,6 +85,32 @@ export const handleAddToken = (tokenData) => {
   return initialData[networkType];
 };
 
+export const handleRemoveToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const keyData = (initialData[networkType] || []).filter(
+    (data) => data.symbol !== tokenData.symbol
+  );
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const handleCheckToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const data = (initialData[networkType] || []).find(
+    (data) => data.symbol === tokenData.symbol
+  );
+  if (data) {
+    if (Number(tokenData.amount)) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+};
+
 export const getWalletToken = () => {
   const networkType = getNetworkType();
   const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
