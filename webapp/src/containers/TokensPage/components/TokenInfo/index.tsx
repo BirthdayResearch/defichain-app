@@ -29,6 +29,7 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   DELETE,
+  DFI_SYMBOL,
   MINT_TOKENS_PATH,
   TOKENS_PATH,
   TOKEN_EDIT_PATH,
@@ -162,7 +163,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </span>
           </Button>
         </ButtonGroup>} */}
-        {tokenInfo.hash !== '0' && tokenInfo.ismine && (
+        {tokenInfo.hash !== DFI_SYMBOL && tokenInfo.ismine && (
           <UncontrolledDropdown>
             <DropdownToggle color='link' size='md'>
               <MdMoreHoriz />
@@ -185,21 +186,23 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </UncontrolledDropdown>
         )}
       </Header>
-      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && tokenInfo.ismine && (
-        <div className={`${styles.mintAlert} m-5`}>
-          <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
-          <Button
-            to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
-            tag={RRNavLink}
-            color='link'
-            className='text-right'
-          >
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokenInfo.mint')}
-            </span>
-          </Button>
-        </div>
-      )}
+      {tokenInfo.minted === 0 &&
+        tokenInfo.hash !== DFI_SYMBOL &&
+        tokenInfo.ismine && (
+          <div className={`${styles.mintAlert} m-5`}>
+            <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
+            <Button
+              to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
+              tag={RRNavLink}
+              color='link'
+              className='text-right'
+            >
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokenInfo.mint')}
+              </span>
+            </Button>
+          </div>
+        )}
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>

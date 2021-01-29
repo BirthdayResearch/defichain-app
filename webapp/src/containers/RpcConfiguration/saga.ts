@@ -9,7 +9,7 @@ import {
   storeConfigurationData,
   setQueueReady,
 } from './reducer';
-import { getRpcConfig, startBinary } from '../../app/service';
+import { getRpcConfig, startAppInit, startBinary } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 import {
@@ -31,9 +31,12 @@ import { WALLET_TOKENS_PATH } from '../../constants';
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
   if (!isRunning) {
+    log.error(`${message ?? ''}`, 'blockChainNotStarted - Not Running');
     yield put(startNodeFailure(message));
-    log.error(`${message ?? ''}`, 'startNodeFailure - blockChainNotStarted');
-  } else yield put(openErrorModal());
+  } else {
+    log.error(`Node is disconnected`, 'blockChainNotStarted - Running');
+    yield put(openErrorModal());
+  }
 }
 
 function* resetAppRoute() {
@@ -46,14 +49,16 @@ function* resetAppRoute() {
 
 export function* getConfig() {
   try {
+    startAppInit();
     const res = yield call(getRpcConfig);
-    if (res.success) {
+    if (res?.success) {
       yield put({ type: getRpcConfigsSuccess.type, payload: res.data });
       yield put({ type: startNodeRequest.type });
       if (isElectron()) {
         const chan = yield call(startBinary, res.data);
         while (true) {
           const blockchainStatus = yield take(chan);
+          log.info(blockchainStatus, 'Blockchain Status');
           if (blockchainStatus.status) {
             yield put(startNodeSuccess());
             yield put(closeRestartLoader());

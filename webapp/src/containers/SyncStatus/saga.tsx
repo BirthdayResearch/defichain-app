@@ -1,9 +1,18 @@
-import { call, put, takeLatest, take } from 'redux-saga/effects';
+import { call, put, takeLatest, take, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
-import { syncStatusRequest, syncStatusSuccess } from './reducer';
+import {
+  syncStatusFailure,
+  syncStatusPeersFailure,
+  syncStatusPeersLoading,
+  syncStatusPeersRequest,
+  syncStatusPeersSuccess,
+  syncStatusRequest,
+  syncStatusSuccess,
+} from './reducer';
 import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
 import { SYNC_TIMEOUT, SYNC_INFO_RETRY_ATTEMPT } from '../../constants';
+import { handlePeersSyncRequest } from 'src/utils/utility';
 
 function* blockSyncInfo() {
   const chan = yield call(fetchBlockSyncInfo, SYNC_INFO_RETRY_ATTEMPT);
@@ -45,8 +54,21 @@ function fetchBlockSyncInfo(retryAttempt: number) {
   });
 }
 
+function* fetchPeersSyncInfo(action) {
+  try {
+    const peers = yield call(handlePeersSyncRequest, action?.payload);
+    yield put(syncStatusPeersSuccess({ peers: peers?.length ?? 0 }));
+    yield delay(3000);
+    yield put(syncStatusPeersLoading({ isLoading: false }));
+  } catch (error) {
+    yield put(syncStatusPeersFailure({ error: error?.message }));
+    log.error(error);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(syncStatusRequest.type, blockSyncInfo);
+  yield takeLatest(syncStatusPeersRequest.type, fetchPeersSyncInfo);
 }
 
 export default mySaga;

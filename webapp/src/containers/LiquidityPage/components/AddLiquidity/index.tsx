@@ -37,6 +37,7 @@ import {
   conversionRatio,
   countDecimals,
   getBalanceAndSymbolMap,
+  getMaxNumberOfAmount,
   getPageTitle,
   getTokenAndBalanceMap,
   getTotalPoolValue,
@@ -255,10 +256,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
-      if (formState.hash1 === '0') {
+      if (formState.hash1 === DFI_SYMBOL) {
         if (
           new BigNumber(e.target.value).lte(
-            Math.max(Number(formState.balance1) - 1, 0)
+            BigNumber.maximum(new BigNumber(formState.balance1).minus(1), 0)
           ) ||
           !e.target.value
         ) {
@@ -304,10 +305,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const setMaxValue = (field: string, value: string) => {
     if (field === 'amount1') {
-      const amount =
-        formState.hash1 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8);
+      const amount = getMaxNumberOfAmount(value, formState.hash1);
       setFormState({
         ...formState,
         [field]: amount,
@@ -318,10 +316,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         ),
       });
     } else {
-      const amount =
-        formState.hash2 === '0'
-          ? Math.max(Number(value) - 1, 0).toFixed(8)
-          : Number(value).toFixed(8);
+      const amount = getMaxNumberOfAmount(value, formState.hash2);
       setFormState({
         ...formState,
         [field]: amount,
@@ -335,7 +330,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const difference = (a, b) => {
-    return Math.abs(a - b);
+    return new BigNumber(a || 0).minus(b || 0).absoluteValue();
   };
 
   const AddLiquidityStepConfirm = () => {
@@ -347,14 +342,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       poolPairList
     );
     const diff = difference(oldAmount, newAmount);
-    const percentageChange = (diff / oldAmount) * 100;
+    const percentageChange = diff.div(oldAmount).times(100);
 
-    if (Number(percentageChange) >= 1) {
+    if (percentageChange.gte(1)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
       );
       setLiquidityChanged(true);
-    } else if (Number(newAmount) > Number(formState.balance2)) {
+    } else if (new BigNumber(newAmount).gt(formState.balance2)) {
       setLiquidityChangedMsg(
         I18n.t('containers.swap.addLiquidity.ratioChanged')
       );
@@ -434,7 +429,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       amount1: formState.amount1,
       hash2: formState.hash2,
       amount2: formState.amount2,
-      shareAddress: formState.receiveAddress,
+      shareAddress:
+        formState.receiveAddress == null || formState.receiveAddress == ''
+          ? (paymentRequests ?? [])[0]?.address
+          : formState.receiveAddress,
     });
   };
 
@@ -568,16 +566,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 </Col>
                 <Col className={styles.keyValueLiValue}>
                   <NumberMask
-                    value={Number(
-                      conversionRatio(formState, poolPairList)
-                    ).toFixed(8)}
+                    value={conversionRatio(formState, poolPairList)}
                   />
                   {` ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
                   <NumberMask
-                    value={(
-                      1 / Number(conversionRatio(formState, poolPairList))
-                    ).toFixed(8)}
+                    value={new BigNumber(1)
+                      .div(conversionRatio(formState, poolPairList))
+                      .toFixed(8)}
                   />
                   {` ${formState.symbol1} per ${formState.symbol2}`}
                 </Col>
@@ -658,7 +654,12 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                disabled={!Number(formState.amount1) || !isValid()}
+                disabled={
+                  !Number(formState.amount1) ||
+                  !isValid() ||
+                  formState.receiveAddress == null ||
+                  formState.receiveAddress == ''
+                }
                 onClick={AddLiquidityStepConfirm}
               >
                 {I18n.t('containers.swap.addLiquidity.continue')}
@@ -691,14 +692,14 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </dt>
               <dd className='col-sm-8'>
                 {isValid() &&
-                  `${Number(conversionRatio(formState, poolPairList)).toFixed(
-                    8
-                  )} ${formState.symbol2} per ${formState.symbol1}`}
+                  `${conversionRatio(formState, poolPairList)} ${
+                    formState.symbol2
+                  } per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
-                  `${(
-                    1 / Number(conversionRatio(formState, poolPairList))
-                  ).toFixed(8)} ${formState.symbol1} per ${
+                  `${new BigNumber(1)
+                    .div(conversionRatio(formState, poolPairList))
+                    .toFixed(8)} ${formState.symbol1} per ${
                     formState.symbol2
                   }`}{' '}
               </dd>

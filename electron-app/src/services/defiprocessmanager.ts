@@ -1,5 +1,4 @@
 import * as log from './electronLogger';
-import { app } from 'electron';
 import * as path from 'path';
 import ini from 'ini';
 import { spawn } from 'child_process';
@@ -175,9 +174,10 @@ export default class DefiProcessManager {
 
   static async stop() {
     try {
-      log.info('Stopping DeFi Process Manager');
+      log.info('[Stop Node] Start DeFiProcessManager shutdown...');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
+        log.info('Attempting Defi Process Manager Stop...');
         const processLists: any = await getProcesses({
           pid: parseInt(pid, 10),
         });
@@ -197,13 +197,16 @@ export default class DefiProcessManager {
   }
 
   static async restart(args: any, event: Electron.IpcMainEvent) {
-    log.info('Restart node started');
+    log.info('[Restart Node] Starting');
     const stopResponse = await this.stop();
+    log.info('[Restart Node] Stop completed');
     if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
       writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
+    log.info('[Restart Node] Restarting DefiProcessManager');
     const startResponse = await this.start(args || {}, event);
+    log.info('[Restart Node] Start completed');
     if (
       stopResponse &&
       startResponse &&
@@ -218,10 +221,6 @@ export default class DefiProcessManager {
         message: 'Restart Node Failure',
       });
     }
-  }
-
-  static async closeApp() {
-    app.quit();
   }
 
   static async forceClose() {

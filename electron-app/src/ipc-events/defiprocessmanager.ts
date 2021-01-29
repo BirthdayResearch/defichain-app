@@ -3,7 +3,6 @@ import DefiProcessManager from '../services/defiprocessmanager';
 import {
   START_DEFI_CHAIN,
   STOP_DEFI_CHAIN,
-  CLOSE_APP,
   FORCE_KILL_QUEUE_AND_SHUTDOWN,
   RESTART_APP,
 } from '@defi_types/ipcEvents';
@@ -19,10 +18,6 @@ export default function initiateDefiProcessManager() {
 
   ipcMain.on(RESTART_APP, async (event, args) => {
     event.returnValue = await DefiProcessManager.restart(args, event);
-  });
-
-  ipcMain.on(CLOSE_APP, async () => {
-    await DefiProcessManager.closeApp();
   });
 
   ipcMain.on(FORCE_KILL_QUEUE_AND_SHUTDOWN, async () => {

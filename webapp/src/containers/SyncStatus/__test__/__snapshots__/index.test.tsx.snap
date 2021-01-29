@@ -147,11 +147,15 @@ exports[`SyncStatus component should check for snapshot 1`] = `
           }
           syncStatusRequest={[Function]}
           syncedPercentage={0}
+          peers={77}
           updateAppInfo={Object {}}
         >
           <div>
             <div>
-              Waiting for sync status…
+              Preparing sync
+            </div>
+            <div>
+              Connected to 77 peers
             </div>
             <div />
           </div>
