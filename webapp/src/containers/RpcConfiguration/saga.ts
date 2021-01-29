@@ -31,9 +31,12 @@ import { WALLET_TOKENS_PATH } from '../../constants';
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
   if (!isRunning) {
+    log.error(`${message ?? ''}`, 'blockChainNotStarted - Not Running');
     yield put(startNodeFailure(message));
-    log.error(`${message ?? ''}`, 'startNodeFailure - blockChainNotStarted');
-  } else yield put(openErrorModal());
+  } else {
+    log.error(`Node is disconnected`, 'blockChainNotStarted - Running');
+    yield put(openErrorModal());
+  }
 }
 
 function* resetAppRoute() {
@@ -55,6 +58,7 @@ export function* getConfig() {
         const chan = yield call(startBinary, res.data);
         while (true) {
           const blockchainStatus = yield take(chan);
+          log.info(blockchainStatus, 'Blockchain Status');
           if (blockchainStatus.status) {
             yield put(startNodeSuccess());
             yield put(closeRestartLoader());
