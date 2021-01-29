@@ -263,7 +263,8 @@ describe('utility', () => {
 
   it('should return smaller amount among between two numbers', () => {
     const result = utility.getSmallerAmount('10', '20');
-    expect(result).toBe(10);
+    const number = new BigNumber(10);
+    expect(result).toStrictEqual(number);
   });
 
   it('should return smaller amount among between two numbers', () => {

@@ -5,6 +5,6 @@
     "syncedPercentage": "100.00"
   },
   "syncingError": "Error Message",
-  "isPeersLoading": true,
+  "isLoading": false,
   "peers": 77
 }
