@@ -18,7 +18,9 @@ const logger = () => {
 };
 
 const textToString = (text: any) => {
-  return text != null ? JSON.stringify(text) : '';
+  return text != null
+    ? JSON.stringify(text.message != null ? text.message : text)
+    : '';
 };
 
 const info = (text, methodSource?: string) => {
