@@ -18,6 +18,7 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  APP_SHUTDOWN_TIMEOUT,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
@@ -185,6 +186,7 @@ export default class App {
   }
 
   closeWindowAndQuitApp = () => {
+    ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Closing app...`);
     this.mainWindow.hide();
     this.allowQuit = true;
     return app.quit();
@@ -196,7 +198,7 @@ export default class App {
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Terminating Node Connection`
         );
-        await DefiProcessManager.stop(true);
+        await DefiProcessManager.stop();
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Node connection has been closed`
         );
@@ -219,8 +221,14 @@ export default class App {
       app.quit();
       return (this.mainWindow = null);
     }
-    // Stop all process before quit
     ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
+    setTimeout(() => {
+      ElectronLogger.info(
+        `[${LOGGING_SHUT_DOWN}] 30 minutes elapsed, force closing app`
+      );
+      this.closeWindowAndQuitApp();
+    }, APP_SHUTDOWN_TIMEOUT);
+    // Stop all process before quit
     this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
     event.preventDefault();
   };
