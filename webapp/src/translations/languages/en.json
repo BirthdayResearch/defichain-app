@@ -15,7 +15,8 @@
       "network": "Network",
       "preparingSync": "Preparing sync",
       "connectedToPeers": "Connected to %{peers} peers",
-      "atBlock": "At block %{block}"
+      "atBlock": "At block %{block}",
+      "lookingForPeers": "Looking for peers"
     },
     "swapCard": {
       "selectAToken": "Select a token",

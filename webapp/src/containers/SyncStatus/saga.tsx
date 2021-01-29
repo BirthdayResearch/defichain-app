@@ -54,9 +54,9 @@ function fetchBlockSyncInfo(retryAttempt: number) {
   });
 }
 
-function* fetchPeersSyncInfo() {
+function* fetchPeersSyncInfo(action) {
   try {
-    const peers = yield call(handlePeersSyncRequest);
+    const peers = yield call(handlePeersSyncRequest, action?.payload);
     yield put(syncStatusPeersSuccess({ peers: peers?.length ?? 0 }));
     yield delay(3000);
     yield put(syncStatusPeersLoading({ isLoading: false }));

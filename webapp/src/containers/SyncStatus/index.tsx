@@ -18,7 +18,7 @@ interface SyncStatusProps {
   latestBlock: number;
   isLoading: boolean;
   syncStatusRequest: () => void;
-  syncStatusPeersRequest: () => void;
+  syncStatusPeersRequest: (shouldAllowEmptyPeers?: boolean) => void;
   fetchInstantBalanceRequest: () => void;
   fetchPendingBalanceRequest: () => void;
   blockChainInfo: any;
@@ -54,13 +54,13 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
   const prevIsRestart = UsePrevious(isRestart);
 
   useEffect(() => {
-    syncStatusPeersRequest();
+    syncStatusPeersRequest(true);
     syncStatusRequest();
   }, []);
 
   useEffect(() => {
     if (prevIsRestart && !isRestart) {
-      syncStatusPeersRequest();
+      syncStatusPeersRequest(true);
       syncStatusRequest();
       fetchInstantBalanceRequest();
       fetchPendingBalanceRequest();
@@ -81,9 +81,13 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
             {I18n.t(`components.syncStatus.preparingSync`)}
           </div>
           <div className={styles.blockStatus}>
-            {I18n.t(`components.syncStatus.connectedToPeers`, {
-              peers: peers ?? 0,
-            })}
+            {peers == null || peers == 0
+              ? I18n.t(`components.syncStatus.lookingForPeers`, {
+                  peers,
+                })
+              : I18n.t(`components.syncStatus.connectedToPeers`, {
+                  peers,
+                })}
           </div>
         </>
       );
