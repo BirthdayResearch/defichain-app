@@ -32,7 +32,8 @@ import {
   getRandomWordObject,
   getTxnDetails,
   handleLocalStorageNameLedger,
-  handelGetPaymentRequestLedger
+  handelGetPaymentRequestLedger,
+  utxoLedger,
 } from '@/utils/utility';
 import {
   GET_LEDGER_DEFI_PUB_KEY,
@@ -41,6 +42,7 @@ import {
 } from '@/constants';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
+import { IUtxo } from '@/utils/interfaces';
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const localStorageName = handleLocalStorageNameLedger(networkName);
@@ -237,39 +239,11 @@ export const accountToAccount = async (
   amount: number,
   token: string,
   keyIndex: number,
-  addresses: string[],
 ) => {
   log.info('Service accounttoaccount is started');
   try {
-    const rpcClient = new RpcClient();
-    const cutxo = await rpcClient.listUnspent(1000, 9999999,[fromAddress]);
-    const data = {
-      txType: CustomTx.customTxType.utxosToAccount,
-      customData: {
-        to: {
-          [toAddress]: { '0': { balance: amount, token } },
-        },
-      }
-    };
-    const utxo: any = [];
-    let amountUtxo = 0;
-    let i = 0;
-    while (amountUtxo < Number(amount) + 0.01) {
-      if (i < cutxo.length) {
-        amountUtxo += cutxo[i].amount;
-        utxo.push(cutxo[i]);
-        i++;
-      } else {
-        throw new Error('The cost is more than the balance of the address')
-      }
-    }
-    log.info(`amountUtxo: ${amountUtxo}`)
-    // const tx = await rpcClient.createRawTransaction(utxo.map((u, index) => ({...u})), [{[toAddress]: amount}, {[fromAddress]: (amountUtxo - amount - 0.01).toFixed(8)}]);
+    const { utxo, amountUtxo } = await utxoLedger(fromAddress, amount);
     const ipcRenderer = ipcRendererFunc();
-    // const res = await ipcRenderer.sendSync(
-    //   'sign-transaction-ledger',
-    //   {tx, keyIndex}
-    // );
     const res = await ipcRenderer.sendSync(
       'sign-transaction-ledger',
       {

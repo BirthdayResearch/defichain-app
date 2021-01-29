@@ -39,7 +39,6 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         pubkey,
       };
       await importPubKey(pubkey, keyIndex, label);
-      await importAddress(address, keyIndex, label);
       addReceiveTxns(data);
       history.push(LEDGER_RECEIVE_PATH);
       log.info('Created address ledger');

@@ -28,7 +28,7 @@ import {
   handleAccountToAccountConversion,
   getAddressForSymbolLedger,
   accountToAccountConversionLedger,
-  getKeyIndexAddressLedger,
+  getKeyIndexAddressLedger, utxoLedger,
 } from '@/utils/utility';
 import { PaymentRequestLedger } from '@/typings/models';
 import { IAddressAndAmount } from '@/utils/interfaces';
@@ -139,34 +139,18 @@ export const createTokenUseLedger = async (
 ) => {
   const rpcClient = new RpcClient();
   const ipcRenderer = ipcRendererFunc();
-  const cutxo = await rpcClient.listUnspent(1000, 9999999, [tokenData.collateralAddress]);
-  const { address, maxAmount } = await getAddressForSymbolLedger(
-    DFI_SYMBOL,
-    paymentsLedger
-  );
+  const { utxo, amountUtxo} = await utxoLedger(tokenData.collateralAddress, MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION)
   const keyIndex = paymentsLedger.find(
-    (payment) => payment.address === address
+    (payment) => payment.address === tokenData.collateralAddress
   )?.keyIndex;
 
-  if (Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) > maxAmount) {
+  if (Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) > amountUtxo) {
     throw new Error('The cost is more than the balance of the address')
   } else {
     const dataCreateToken = {
       txType: CustomTx.customTxType.createToken,
       customData: tokenData,
     };
-    const utxo: any = [];
-    let amountUtxo = 0;
-    let i = 0;
-    while (amountUtxo < MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION + 0.01) {
-      if (i < cutxo.length) {
-        amountUtxo += cutxo[i].amount;
-        utxo.push(cutxo[i]);
-        i++;
-      } else {
-        throw new Error('The cost is more than the balance of the address')
-      }
-    }
     log.info(`amountUtxo: ${amountUtxo}`)
     // if (amountUtxo > MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
     //   const dataUtxosToAccount = {
@@ -197,7 +181,7 @@ export const createTokenUseLedger = async (
       CUSTOM_TX_LEDGER,
       {
       utxo,
-      address,
+      address: tokenData.collateralAddress,
       data: dataCreateToken,
       keyIndex, feeRate: amountUtxo - MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION - 0.01}
     );
@@ -244,12 +228,7 @@ export const mintTokenWithWallet = async (tokenData) => {
 
 export const mintTokenWithLedger = async (tokenData, keyIndex) => {
   const rpcClient = new RpcClient();
-  const cutxo = await construct({
-    maximumAmount:
-      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-  });
+  const cutxo = await utxoLedger(tokenData.collateralAddress, 0.01)
   const data = {
     txType: CustomTx.customTxType.mintToken,
     customData: tokenData,
@@ -301,12 +280,7 @@ export const updateTokenWithUseLedger = async (
   collateralAddress
 ) => {
   const rpcClient = new RpcClient();
-  const cutxo = await construct({
-    maximumAmount:
-      PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-    maximumCount: PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-    feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-  });
+  const cutxo = await utxoLedger(collateralAddress, 0.01)
   const keyIndex = getKeyIndexAddressLedger(networkName, collateralAddress) || 0;
   const ipcRenderer = ipcRendererFunc();
   const data = {
