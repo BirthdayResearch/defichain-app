@@ -131,6 +131,11 @@ body {
       border-top: $border-width solid $border-color;
       border-bottom-left-radius: $border-radius * 1.5;
       width: 100%;
+
+      &-back {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
 
     .footer-sheet {
