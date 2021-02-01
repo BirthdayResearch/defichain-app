@@ -57,3 +57,7 @@ export const MAINNET_BASE_FOLDER =
   getPlatform() === 'linux'
     ? BASE_FILE_PATH
     : path.join(BASE_FILE_PATH, 'wallets');
+
+export const DAT_FILE = '.dat';
+export const BLK_FILE = 'blk';
+export const REV_FILE = 'rev';

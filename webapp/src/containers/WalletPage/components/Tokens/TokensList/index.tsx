@@ -43,12 +43,14 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     tokens,
     isLoadingTokens,
     fetchTokensRequest,
+    walletBalance,
+    fetchAccountTokensRequest,
+    accountTokens,
   } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const pageSize = TOKEN_LIST_PAGE_SIZE;
-  const { fetchAccountTokensRequest, accountTokens } = props;
   const total = accountTokens.length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
@@ -89,7 +91,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     });
     const tokensList: IToken[] = filterByValue(accountTokens, '');
     paginate(defaultPage, tokensList, verifiedTokens);
-  }, [accountTokens, isLoadingTokens, props.walletBalance]);
+  }, [accountTokens?.length, isLoadingTokens, walletBalance, tokens?.length]);
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     props.history.push(
@@ -137,7 +139,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
               token={{
                 symbol: unit,
                 symbolKey: unit,
-                amount: props.walletBalance,
+                amount: walletBalance,
                 hash: DFI_SYMBOL,
                 address: '',
               }}
