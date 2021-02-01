@@ -1259,17 +1259,21 @@ export const getSymbolKey = (symbol: string, key: string) => {
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  if (
-    key === DFI_SYMBOL ||
-    key === btcSymbol ||
-    key === ethSymbol ||
-    key === usdtSymbol
-  ) {
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const tokens = [
+    DFI_SYMBOL,
+    btcSymbol,
+    ethSymbol,
+    usdtSymbol,
+    ltcSymbol,
+    dogeSymbol,
+  ];
+  if (tokens.indexOf(key) !== -1) {
     return symbol;
   }
   return `${symbol}#${key}`;
 };
-
 export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
   const distinctRandomNumbers: number[] = [];
   while (distinctRandomNumbers.length < limit) {
