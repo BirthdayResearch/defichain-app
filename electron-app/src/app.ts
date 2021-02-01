@@ -4,7 +4,7 @@ import * as os from 'os';
 import osName from 'os-name';
 import * as url from 'url';
 import { app, BrowserWindow, ipcMain, Menu, protocol } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { autoUpdater, UpdateCheckResult } from 'electron-updater';
 
 import DefiProcessManager from './services/defiprocessmanager';
 import AppMenu from './menus';
@@ -29,6 +29,7 @@ import {
   ON_CLOSE_RPC_CLIENT,
   STOP_BINARY_AND_QUEUE,
   APP_INIT,
+  UPDATE_CHECKED,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 
@@ -78,9 +79,14 @@ export default class App {
     initiateIpcEvents(autoUpdater);
 
     /* For future purpose */
-    autoUpdater.checkForUpdatesAndNotify().catch((e) => {
-      ElectronLogger.error(e);
-    });
+    autoUpdater
+      .checkForUpdatesAndNotify()
+      .then((value: UpdateCheckResult) => {
+        this.mainWindow?.webContents?.send(UPDATE_CHECKED, value);
+      })
+      .catch((e) => {
+        ElectronLogger.error(e);
+      });
     initiateElectronUpdateManager(autoUpdater, this.mainWindow);
     initiateBackupImportWalletManager(
       this.mainWindow,

@@ -7,23 +7,32 @@ import {
   handleClosePostUpdate,
   handleCloseUpdateApp,
   showErrorNotification,
+  handleForceUpdateDisplay,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
-import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
+import {
+  MAJOR_VERSION,
+  MINOR_VERSION,
+  PACKAGE_VERSION,
+  UPDATE_MODAL_CLOSE_TIMEOUT,
+} from '../constants';
 import {
   CREATE_MNEMONIC,
   ENABLE_RESET_MENU,
   POST_UPDATE_ACTION,
   SHOW_UPDATE_AVAILABLE,
   START_DOWNLOAD_UPDATE,
+  UPDATE_CHECKED,
   UPDATE_PROGRESS_COMPLETED,
   UPDATE_PROGRESS_FAILURE,
   UPDATE_PROGRESS_VALUE,
   WALLET_BACKUP,
 } from '@defi_types/ipcEvents';
+import { UpdateCheckResult } from '@defi_types/download';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { triggerNodeShutdown } from 'src/worker/queue';
+import semverDiff from 'semver/functions/diff';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -44,6 +53,17 @@ const initUpdateAppIpcRenderers = () => {
     log.error(args, 'Update failed');
     handleUpdateError(I18n.t('general.updateFailed'));
   });
+
+  ipcRenderer.on(
+    UPDATE_CHECKED,
+    async (event: any, args: UpdateCheckResult) => {
+      log.info(args, 'Checked Updates');
+      const diff = semverDiff(PACKAGE_VERSION, args?.updateInfo?.version) || '';
+      if ([MAJOR_VERSION, MINOR_VERSION].includes(diff)) {
+        handleForceUpdateDisplay();
+      }
+    }
+  );
 };
 
 export const sendUpdateResponse = async () => {

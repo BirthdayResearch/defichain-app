@@ -42,3 +42,7 @@ export const BLOCKCHAIN_INFO_CHAIN_MAINNET = 'main';
 export const BLOCKCHAIN_INFO_CHAIN_TEST = 'test';
 export const DEFAULT_MAIN = 'defaultMainAddress';
 export const DEFAULT_TEST = 'defaultTestAddress';
+export const MAJOR_VERSION = 'major';
+export const MINOR_VERSION = 'minor';
+export const MIN_APP_VERSION = packageInfo?.appUpdate?.minimumVersion;
+export const UPDATE_REASON = packageInfo?.appUpdate?.updateReason;

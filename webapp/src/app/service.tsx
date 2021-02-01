@@ -25,6 +25,7 @@ import {
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
   openResetWalletDatModal,
+  setIsForceUpdate,
 } from '../containers/PopOver/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 import {
@@ -194,3 +195,8 @@ export const resetBackupModal = () => {
 
 export const showErrorNotification = (res) =>
   showNotification(I18n.t('alerts.errorOccurred'), res.message);
+
+export const handleForceUpdateDisplay = () => {
+  log.info('Starting Force Update...', 'forceUpdate');
+  return store.dispatch(setIsForceUpdate(true));
+};

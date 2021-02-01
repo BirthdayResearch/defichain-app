@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { RouteComponentProps } from 'react-router-dom';
 import Badge from '../../components/Badge';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 
