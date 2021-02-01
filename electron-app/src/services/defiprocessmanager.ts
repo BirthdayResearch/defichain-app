@@ -22,6 +22,7 @@ import {
   stopProcesses,
   getIniData,
   deletePeersFile,
+  deleteBlocksAndRevFiles,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -48,9 +49,11 @@ export default class DefiProcessManager {
         // `-reindex-chainstate`
       ];
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
+      //* Delete block and rev files for high memory usage
       if (params?.isReindexReq) {
         configArray.push('-reindex');
         deletePeersFile();
+        deleteBlocksAndRevFiles();
       }
       if (checkPathExists(PID_FILE_NAME)) {
         try {
