@@ -10,7 +10,7 @@ import { responseMessage } from '../utils';
 
 const initiateBackupImportWalletManager = (
   bw: Electron.BrowserWindow,
-  createMenu: Function
+  createMenu: (isWalletCreatedFlag: boolean) => void
 ) => {
   ipcMain.on(WALLET_BACKUP, async (event: Electron.IpcMainEvent) => {
     const wallet = new Wallet();
@@ -47,6 +47,7 @@ const initiateBackupImportWalletManager = (
       try {
         createMenu(arg?.isWalletCreatedFlag);
       } catch (err) {
+        // tslint:disable-next-line:no-console
         console.log(err);
       }
     }
