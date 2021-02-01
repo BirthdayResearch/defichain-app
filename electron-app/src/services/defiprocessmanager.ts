@@ -138,7 +138,7 @@ export default class DefiProcessManager {
       // on close
       child.on('close', (code) => {
         log.info(`DefiProcessManager close with code ${code}`);
-        if (code != 0) {
+        if (code !== 0) {
           const reindexErrorMessage =
             'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.';
           if (event && this.isReindexReq) {
