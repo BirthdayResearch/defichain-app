@@ -37,6 +37,7 @@ export default class DefiProcessManager {
   static isStartedNode: boolean = false;
 
   static async start(params: any, event: Electron.IpcMainEvent) {
+    log.info('Starting DeFiProcessManager...');
     try {
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
@@ -97,7 +98,8 @@ export default class DefiProcessManager {
           nodeStarted = true;
           this.isStartedNode = true;
           log.info('Node started');
-          if (event)
+          if (event) {
+            log.info('Sending node started');
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
               responseMessage(true, {
@@ -105,6 +107,7 @@ export default class DefiProcessManager {
                 conf: this.getConfiguration(),
               })
             );
+          }
         }
       });
 
@@ -124,11 +127,11 @@ export default class DefiProcessManager {
         if (shouldReindex) {
           this.isReindexReq = shouldReindex;
         }
-
+        log.info(`On DeFiProcessManager error... ${errorString}`);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
-            responseMessage(false, { message: err.toString('utf8').trim() })
+            responseMessage(false, { message: errorString })
           );
       });
 

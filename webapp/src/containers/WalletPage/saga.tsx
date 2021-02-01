@@ -51,6 +51,7 @@ import {
   accountHistoryCountRequest,
   accountHistoryCountSuccess,
   accountHistoryCountFailure,
+  fetchWalletReset,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -104,6 +105,9 @@ import {
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { uid } from 'uid';
+import { restartNode } from 'src/utils/isElectron';
+import { shutDownBinary } from 'src/worker/queue';
+import { history } from '../../utils/history';
 
 export function* getNetwork() {
   const {
@@ -351,7 +355,7 @@ export function* fetchAccountTokens() {
 export function* createWallet(action) {
   try {
     const {
-      payload: { mnemonicCode, history },
+      payload: { mnemonicCode },
     } = action;
 
     const networkType = getNetworkType();
@@ -375,7 +379,7 @@ export function* createWallet(action) {
 export function* restoreWallet(action) {
   try {
     const {
-      payload: { mnemonicObj, history },
+      payload: { mnemonicObj },
     } = action;
 
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
@@ -393,11 +397,20 @@ export function* restoreWallet(action) {
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    yield put({ type: restoreWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
     yield call(enableMenuResetWalletBtn, true);
-    history.push(WALLET_TOKENS_PATH);
+    yield call(shutDownBinary);
+    yield call(fetchWalletReset);
+    yield call(restartNode);
+    yield call(fetchInstantBalanceRequest);
+    yield call(fetchInstantPendingBalanceRequest);
+    yield call(fetchAccountTokensRequest);
+    yield call(fetchPaymentRequest);
+    yield put({ type: restoreWalletSuccess.type });
+    yield call(() => {
+      history.push(WALLET_TOKENS_PATH);
+    });
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
