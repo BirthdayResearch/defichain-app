@@ -274,6 +274,15 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = [];
     },
+    fetchWalletReset(state) {
+      state.walletBalance = 0;
+      state.accountTokens = [];
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = false;
+      state.tokens = [];
+      state.isTokensLoaded = false;
+      state.isLoadingTokens = false;
+    },
   },
 });
 
@@ -334,6 +343,7 @@ export const {
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
+  fetchWalletReset,
 } = actions;
 
 export default reducer;

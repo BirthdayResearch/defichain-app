@@ -32,7 +32,7 @@ div[disabled] {
   position: relative;
   height: 112px;
   border-bottom: $border-width solid $border-color;
-  padding: 48px 24px 20px;
+  padding: 44px 16px 24px;
 
   &:before {
     content: '';
@@ -90,25 +90,25 @@ div[disabled] {
   flex-wrap: nowrap;
 
   .navItem {
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin: 0.25rem 0;
   }
 
   .navLink {
     color: $secondary;
     display: flex;
     align-items: center;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+
     text-transform: none;
     font-weight: $font-weight-normal;
 
+    border: none;
+    border-radius: 0.25rem;
+
+    transition: color, background-color 250ms;
+
     &:hover:not(.active) {
       color: inherit;
-
-      svg {
-        color: $secondary;
-      }
     }
 
     svg {
@@ -129,7 +129,14 @@ div[disabled] {
 }
 
 .navSubIcon {
+  margin: 0;
+  justify-content: center;
+
+  .navLink {
+    padding: 0.75rem;
+  }
+
   svg {
-    margin-right: 0px !important;
+    margin-right: 0 !important;
   }
 }

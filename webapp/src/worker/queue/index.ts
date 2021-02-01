@@ -78,8 +78,10 @@ export const shutDownBinary = async () => {
     await q.kill();
     const rpcClient = new RpcClient();
     const result = rpcClient.stop();
-    log.info('Node shutdown successfully', LOGGING_SHUT_DOWN);
-    log.info(JSON.stringify(result));
+    log.info(
+      `Node shutdown successfully ${JSON.stringify(result)}`,
+      LOGGING_SHUT_DOWN
+    );
     return result;
   } catch (err) {
     log.error(JSON.stringify(err), LOGGING_SHUT_DOWN);
