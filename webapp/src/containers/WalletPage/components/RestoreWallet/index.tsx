@@ -206,8 +206,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  restoreWallet: (mnemonicObj, history) =>
-    restoreWalletRequest({ mnemonicObj, history }),
+  restoreWallet: (mnemonicObj) => restoreWalletRequest({ mnemonicObj }),
   resetRestoreWalletError: () => resetRestoreWalletError({}),
 };
 
