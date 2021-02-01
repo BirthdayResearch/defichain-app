@@ -20,6 +20,9 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
+  DAT_FILE,
+  BLK_FILE,
+  REV_FILE,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
 import * as log from '././services/electronLogger';
@@ -204,6 +207,27 @@ export const deletePeersFile = () => {
     const destFilePath = path.join(baseFolder, '../', destFileName);
     deleteFile(destFilePath);
     log.info(`Deleted peers file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteBlocksAndRevFiles = () => {
+  try {
+    log.info('Starting Delete Block and Rev Files...');
+    const baseFolder = getBaseFolder();
+    const destFolder = path.join(baseFolder, '../blocks');
+    fs.readdirSync(destFolder).forEach((file) => {
+      const blkFile = path.join(destFolder, file);
+      if (
+        file?.endsWith(DAT_FILE) &&
+        (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
+      ) {
+        log.info(`Deleting ${blkFile}...`);
+        deleteFile(blkFile);
+      }
+    });
+    log.info('Delete Block and Rev Files completed...');
   } catch (error) {
     log.error(error);
   }
