@@ -42,7 +42,10 @@ import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
-import { setIsWalletCreatedRequest } from '../WalletPage/reducer';
+import {
+  fetchWalletTokenTransactionsListResetRequest,
+  setIsWalletCreatedRequest,
+} from '../WalletPage/reducer';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -131,6 +134,7 @@ function* startResetWalletDat() {
   yield call(restartAndReplaceWallet);
   yield put(setIsWalletCreatedRequest(false));
   yield put(closeResetWalletDatModal());
+  yield call(fetchWalletTokenTransactionsListResetRequest);
 }
 
 function* restartAndReplaceWallet() {

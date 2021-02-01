@@ -22,6 +22,7 @@ import {
   stopProcesses,
   getIniData,
   deletePeersFile,
+  deleteBlocksAndRevFiles,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -36,6 +37,7 @@ export default class DefiProcessManager {
   static isStartedNode: boolean = false;
 
   static async start(params: any, event: Electron.IpcMainEvent) {
+    log.info('Starting DeFiProcessManager...');
     try {
       // TODO Harsh run binary with config data
       // const config = getBinaryParameter(params)
@@ -47,10 +49,12 @@ export default class DefiProcessManager {
         // `-acindex`,
         // `-reindex-chainstate`
       ];
-      // * Delete peers file to cleanup nonfunctional peers only when re-index is present
+      //* Delete peers file to cleanup nonfunctional peers only when re-index is present
+      //* Delete block and rev files for high memory usage
       if (params?.isReindexReq) {
         configArray.push('-reindex');
         deletePeersFile();
+        deleteBlocksAndRevFiles();
       }
       if (checkPathExists(PID_FILE_NAME)) {
         try {
@@ -94,7 +98,8 @@ export default class DefiProcessManager {
           nodeStarted = true;
           this.isStartedNode = true;
           log.info('Node started');
-          if (event)
+          if (event) {
+            log.info('Sending node started');
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
               responseMessage(true, {
@@ -102,6 +107,7 @@ export default class DefiProcessManager {
                 conf: this.getConfiguration(),
               })
             );
+          }
         }
       });
 
@@ -121,11 +127,11 @@ export default class DefiProcessManager {
         if (shouldReindex) {
           this.isReindexReq = shouldReindex;
         }
-
+        log.info(`On DeFiProcessManager error... ${errorString}`);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
-            responseMessage(false, { message: err.toString('utf8').trim() })
+            responseMessage(false, { message: errorString })
           );
       });
 
