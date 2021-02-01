@@ -151,7 +151,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
                   <div
                     className="ml-auto"
                   >
-                    2.1.10
+                    2.1.14
                   </div>
                 </div>
               </div>
@@ -1091,19 +1091,25 @@ exports[`Sidebar component should check for snapshot 1`] = `
                   fetchPendingBalanceRequest={[Function]}
                   isLoading={true}
                   isMinimized={false}
+                  isPeersLoading={true}
                   isRestart={false}
                   isUpdateModalOpen={false}
                   isUpdateStarted={false}
                   latestBlock={0}
                   latestSyncedBlock={0}
                   locale="en"
+                  peers={0}
+                  syncStatusPeersRequest={[Function]}
                   syncStatusRequest={[Function]}
                   syncedPercentage={0}
                   updateAppInfo={Object {}}
                 >
                   <div>
                     <div>
-                      Waiting for sync status…
+                      Preparing sync
+                    </div>
+                    <div>
+                      Looking for peers
                     </div>
                     <div />
                   </div>

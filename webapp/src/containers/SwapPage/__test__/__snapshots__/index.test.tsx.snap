@@ -1247,7 +1247,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                             href="/swap"
                             onClick={[Function]}
                           >
-                            backToDEX
+                            Back to DEX
                           </a>
                         </LinkAnchor>
                       </Link>

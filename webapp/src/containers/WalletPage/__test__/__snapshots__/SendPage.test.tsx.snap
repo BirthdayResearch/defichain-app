@@ -1173,9 +1173,6 @@ exports[`SendPage component should check for snapshot 1`] = `
                         </svg>
                       </IconBase>
                     </MdErrorOutline>
-                    <p>
-                      Please transfer some DFIs to your account
-                    </p>
                     <p />
                   </div>
                 </div>

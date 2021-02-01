@@ -135,7 +135,7 @@ exports[`TokenCard component should check for snapshot 1`] = `
           ]
         }
       >
-        decimal
+        Decimal
       </Col>
       <Col
         className="undefined undefined"
