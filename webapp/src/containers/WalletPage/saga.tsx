@@ -105,8 +105,8 @@ import {
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { uid } from 'uid';
-import { restartNode } from 'src/utils/isElectron';
-import { shutDownBinary } from 'src/worker/queue';
+import { restartNode } from '../../../src/utils/isElectron';
+import { shutDownBinary } from '../../../src/worker/queue';
 import { history } from '../../utils/history';
 
 export function* getNetwork() {
