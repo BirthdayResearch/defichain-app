@@ -47,7 +47,7 @@ export default class DefiProcessManager {
         // `-acindex`,
         // `-reindex-chainstate`
       ];
-      //* Delete peers file to cleanup nonfunctional peers only when re-index is present
+      // * Delete peers file to cleanup nonfunctional peers only when re-index is present
       if (params?.isReindexReq) {
         configArray.push('-reindex');
         deletePeersFile();
@@ -132,7 +132,7 @@ export default class DefiProcessManager {
       // on close
       child.on('close', (code) => {
         log.info(`DefiProcessManager close with code ${code}`);
-        if (code != 0) {
+        if (code !== 0) {
           const reindexErrorMessage =
             'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.';
           if (event && this.isReindexReq) {
