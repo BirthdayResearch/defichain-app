@@ -559,7 +559,9 @@
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "restoreFromBackup": "Restore wallet from backup",
+        "restoreFromSeed": "Restore from recovery seed"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -844,5 +846,13 @@
     "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
     "quitingApp": "Quitting DefiChain app...",
     "doNotCloseWindow": "Do not turn off the computer while this window is still open."
+  },
+  "update": {
+    "updateRequired": "An update is required",
+    "requiredVersionValue": "%{minVersion} and above",
+    "currentVersion": "Current version",
+    "requiredVersion": "Required version",
+    "availableVersion": "Available version",
+    "updateReason": "An upgrade is required for DeFi app to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
   }
 }
