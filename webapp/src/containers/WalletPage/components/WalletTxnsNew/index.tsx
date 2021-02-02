@@ -28,6 +28,7 @@ import {
   ACCOUNT_TO_ACCOUNT_LABEL,
   ACCOUNT_TO_UTXOS_LABEL,
   ADD_POOL_LIQUIDITY_LABEL,
+  ANY_ACCOUNT_TO_ACCOUNT_LABEL,
   COMMISSION_CATEGORY_LABEL,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
@@ -197,6 +198,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       case ACCOUNT_TO_UTXOS_LABEL:
         label = I18n.t(`${walletTxnsLabel}.accountToUtxos`);
         break;
+      case ANY_ACCOUNT_TO_ACCOUNT_LABEL:
       case ACCOUNT_TO_ACCOUNT_LABEL:
         label = I18n.t(`${walletTxnsLabel}.accountToAccount`);
         break;
