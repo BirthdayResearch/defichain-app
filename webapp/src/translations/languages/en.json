@@ -41,7 +41,8 @@
       "help": "Help",
       "settings": "Settings",
       "console": "Console",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidity",
+      "selectCreateRestore": "Select, create or restore a wallet to access wallet functions"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -557,11 +558,11 @@
         "title": "Wallet - Create or restore wallet",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
-        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
+        "restoreWalletFromMnemonicSeed": "Restore wallet from recovery seed",
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
         "loading": "Loading...",
         "restoreFromBackup": "Restore wallet from backup",
-        "restoreFromSeed": "Restore from recovery seed"
+        "connectToALedger": "Connect to a Ledger hardware wallet (Coming Soon)"
       },
       "createNewWalletPage": {
         "back": "Back",
