@@ -409,6 +409,7 @@
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
         "somethingWentWrong": "Something went wrong",
+        "diffGreaterThan10": "Price impact too high, either trade amount is too high or pool liquidity is too low",
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
