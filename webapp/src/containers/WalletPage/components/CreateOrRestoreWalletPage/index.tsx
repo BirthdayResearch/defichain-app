@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Col, Row } from 'reactstrap';
-import { MdAccountBalanceWallet, MdFormatListBulleted } from 'react-icons/md';
+import {
+  MdAccountBalanceWallet,
+  MdFormatListBulleted,
+  MdSettingsBackupRestore,
+} from 'react-icons/md';
 import { connect } from 'react-redux';
 
 import WalletStatCard from '../../../../components/WalletStatCard';
@@ -75,11 +79,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
         </title>
       </Helmet>
       <Header>
-        <h1>
-          {I18n.t(
-            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
-          )}
-        </h1>
+        <h1>{I18n.t('containers.wallet.walletPage.walletDeFiApp')}</h1>
       </Header>
       <div className='content'>
         <section>
@@ -88,28 +88,66 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
               {I18n.t('containers.wallet.createOrRestoreWalletPage.loading')}
             </div>
           ) : (
-            <Row>
-              <Col lg='4' sm='12' md='6'>
-                <div onClick={createWallet}>
-                  <WalletStatCard
-                    label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.createANewWallet'
-                    )}
-                    icon={<MdAccountBalanceWallet size={48} color='#ff00af' />}
-                  />
-                </div>
-              </Col>
-              <Col lg='4' sm='12' md='6'>
-                <div onClick={restoreWallet}>
-                  <WalletStatCard
-                    label={I18n.t(
-                      'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
-                    )}
-                    icon={<MdFormatListBulleted size={48} color='#ff00af' />}
-                  />
-                </div>
-              </Col>
-            </Row>
+            <>
+              <h3>
+                {I18n.t(
+                  'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
+                )}
+              </h3>
+              <Row>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div onClick={createWallet}>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.createANewWallet'
+                      )}
+                      icon={
+                        <MdAccountBalanceWallet size={48} color='#ff00af' />
+                      }
+                    />
+                  </div>
+                </Col>
+                <Col sm='12' md='6' className={'cursor-disabled'}>
+                  <div>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.connectToALedger'
+                      )}
+                      icon={
+                        <MdFormatListBulleted
+                          size={48}
+                          color='rgba(0, 0, 0, 0.4)'
+                        />
+                      }
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.restoreFromBackup'
+                      )}
+                      icon={
+                        <MdSettingsBackupRestore size={48} color='#ff00af' />
+                      }
+                    />
+                  </div>
+                </Col>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div onClick={restoreWallet}>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
+                      )}
+                      icon={<MdFormatListBulleted size={48} color='#ff00af' />}
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </>
           )}
         </section>
       </div>
