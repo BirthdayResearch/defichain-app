@@ -14,9 +14,9 @@
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
       "network": "Netzwerk",
       "preparingSync": "Sync vorbereiten",
-      "connectedToPeers": "Verbunden mit %{peers} Knoten",
+      "connectedToPeers": "Verbunden mit %{peers} Peers",
       "atBlock": "Bei Block %{block}",
-      "lookingForPeers": "Suche nach Knoten"
+      "lookingForPeers": "Suche nach Peers"
     },
     "swapCard": {
       "selectAToken": "Token wählen",
