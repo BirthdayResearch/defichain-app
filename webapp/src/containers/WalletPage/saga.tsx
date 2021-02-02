@@ -369,6 +369,7 @@ export function* createWallet(action) {
     yield put({ type: createWalletSuccess.type });
     PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
+    yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
