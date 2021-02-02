@@ -844,5 +844,13 @@
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."
+  },
+  "update": {
+    "updateRequired": "Ein Update ist erforderlich",
+    "requiredVersionValue": "%{minVersion} und höher",
+    "currentVersion": "Aktuelle Version",
+    "requiredVersion": "Erforderliche Version",
+    "availableVersion": "Verfügbare Version",
+    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi-App weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
   }
 }
