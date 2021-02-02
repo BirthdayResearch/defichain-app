@@ -14,14 +14,14 @@
       "blockInfo": "Block %{latestSyncedBlock} von %{latestBlock}",
       "network": "Netzwerk",
       "preparingSync": "Sync vorbereiten",
-      "connectedToPeers": "Verbunden mit %{peers} Peers",
+      "connectedToPeers": "Verbunden mit %{peers} Knoten",
       "atBlock": "Bei Block %{block}",
-      "lookingForPeers": "Suche nach Peers"
+      "lookingForPeers": "Suche nach Knoten"
     },
     "swapCard": {
       "selectAToken": "Token wählen",
       "popular": "Beliebt",
-      "tokens": "Tokens",
+      "tokens": "Token",
       "balance": "Guthaben",
       "max": "Max",
       "inputLabel": "0"
@@ -35,13 +35,13 @@
       "dex": "DEX",
       "masterNodes": "Masternodes",
       "blockchain": "Blockchain",
-      "tokens": "Tokens",
+      "tokens": "Token",
       "swap": "Swap",
       "exchange": "Exchange",
       "help": "Hilfe",
       "settings": "Einstellungen",
       "console": "Konsole",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidität"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -192,14 +192,14 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens",
+        "title": "Token",
         "loading": "Laden...",
         "createToken": "Erstellen",
-        "tokens": "Tokens",
-        "searchTokens": "Tokens suchen",
+        "tokens": "Token",
+        "searchTokens": "Token suchen",
         "dat": "DAT",
         "dct": "DCT",
-        "paginationRange": "%{from} – %{to} von %{total} Tokens",
+        "paginationRange": "%{from} – %{to} von %{total} Token",
         "datLabels": {
           "type": "Typ",
           "price": "Preis",
@@ -210,7 +210,7 @@
           "limit": "Limit",
           "mintingSupport": "Minting-Support",
           "tradeable": "Handelbar",
-          "liquidityTokenFor": "Liquidity Token für"
+          "liquidityTokenFor": "Liquidität-Token für"
         },
         "dctLabels": {
           "id": "ID",
@@ -221,7 +221,7 @@
           "type": "Typ",
           "decimal": "Dezimal",
           "limit": "Limit",
-          "liquidityTokenFor": "Liquidity Token für"
+          "liquidityTokenFor": "Liquidität-Token für"
         }
       },
       "createToken": {
@@ -241,7 +241,7 @@
         "decimalText": "Anzahl der Dezimalstellen. Kann nach der Einstellung nicht mehr geändert werden.",
         "limit": "Limit",
         "mintingSupport": "Minting-Support?",
-        "mintText": "Du kannst Tokens prägen, nachdem sie erstellt worden sind.",
+        "mintText": "Du kannst Token prägen, nachdem sie erstellt worden sind.",
         "optionalFinalSupplyLimit": "Endgültiges Angebotslimit (optional)",
         "optionalFinalSupplyLimitText": "Unwandelbarer Gesamtangebotslimit. Für ein unbegrenztes Angebot frei lassen. Kann nach der Festlegung nicht mehr geändert werden.",
         "tradeable": "Handelbar?",
@@ -377,7 +377,7 @@
         "selectToken": "Token wählen",
         "searchToken": "Suche nach einem Token, Namen oder Adresse",
         "popular": "Beliebt",
-        "tokens": "Tokens",
+        "tokens": "Token",
         "readySwap": "Bereit zum Swapen",
         "price": "Preis",
         "minimumReceived": "Erhaltener Betrag (mögliche Abweichungen)",
@@ -411,8 +411,8 @@
         "somethingWentWrong": "Etwas lief schief",
         "preparingUTXO": "UTXO vorbereiten",
         "UTXOPrepared": "UTXO vorbereitet",
-        "transferringTokens": "Übertragen von Tokens",
-        "tokensTransferred": "Tokens übertragen",
+        "transferringTokens": "Übertragen von Token",
+        "tokensTransferred": "Token übertragen",
         "dexExplorer": "Dex Explorer",
         "insufficientUtxos": "Unzureichendes UTXOS für den Swap",
         "backToDEX": "Zurück zu DEX"
@@ -447,7 +447,7 @@
         "preparingUTXO": "UTXO vorbereiten",
         "addingLiquidity": "Liquidität wird hinzugefügt",
         "liquidityAdded": "Liquidität hinzugefügt",
-        "selectInputTokens": "Wähle die Eingabe-Tokens aus und gebe einen Betrag ein",
+        "selectInputTokens": "Wähle die Eingabe-Token aus und gebe einen Betrag ein",
         "back": "Zurück",
         "input": "Eingabe",
         "price": "Preis",
@@ -499,8 +499,8 @@
         "UTXOSRefreshed": "UTXOS aktualisiert",
         "removingLiquidity": "Entfernen von Liquidität",
         "liquidityRemoved": "Liquidität entfernt",
-        "transferringTokens": "Übertragen von Tokens",
-        "tokensTransferred": "Übertragene Tokens",
+        "transferringTokens": "Übertragen von Token",
+        "tokensTransferred": "Übertragene Token",
         "receiveAddress": "Empfänger-Adresse"
       }
     },
@@ -686,7 +686,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "Tokens",
+        "tokens": "Token",
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
@@ -720,7 +720,7 @@
         "walletAddTokens": "Wallet - Token hinzufügen",
         "back": "Zurück",
         "add": "Hinzufügen",
-        "tokens": "Tokens",
+        "tokens": "Token",
         "addWalletLabel": "Einen Token hinzufügen"
       },
       "walletTxns": {
@@ -844,5 +844,13 @@
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."
+  },
+  "update": {
+    "updateRequired": "Ein Update ist erforderlich",
+    "requiredVersionValue": "%{minVersion} und höher",
+    "currentVersion": "Aktuelle Version",
+    "requiredVersion": "Erforderliche Version",
+    "availableVersion": "Verfügbare Version",
+    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi-App weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
   }
 }
