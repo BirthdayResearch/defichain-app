@@ -55,7 +55,7 @@ import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface SwapPageProps {
@@ -541,70 +541,70 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             )}
         </div>
       ) : (
-          <div className='content'>
-            <>
-              <section>
-                <p>
-                  {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
-                </p>
-                <div className={styles.features}>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdVpnKey />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>{I18n.t('containers.swap.swapPage.yourPrivateKey')}</h3>
-                      <p>
-                        {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
-                      </p>
-                    </div>
+        <div className='content'>
+          <>
+            <section>
+              <p>
+                {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
+              </p>
+              <div className={styles.features}>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdVpnKey />
                   </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdPerson />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>{I18n.t('containers.swap.swapPage.nonCustodial')}</h3>
-                      <p>{I18n.t('containers.swap.swapPage.nonCustodialInfo')}</p>
-                    </div>
-                  </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdComputer />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterface'
-                        )}
-                      </h3>
-                      <p>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterfaceInfo'
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdPieChart />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>
-                        {I18n.t('containers.swap.swapPage.poweredLiquidityPools')}
-                      </h3>
-                      <p>
-                        {I18n.t(
-                          'containers.swap.swapPage.poweredLiquidityPoolsInfo'
-                        )}
-                      </p>
-                    </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.yourPrivateKey')}</h3>
+                    <p>
+                      {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
+                    </p>
                   </div>
                 </div>
-              </section>
-            </>
-          </div>
-        )}
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPerson />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.nonCustodial')}</h3>
+                    <p>{I18n.t('containers.swap.swapPage.nonCustodialInfo')}</p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdComputer />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterface'
+                      )}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterfaceInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPieChart />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t('containers.swap.swapPage.poweredLiquidityPools')}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.poweredLiquidityPoolsInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
+        </div>
+      )}
       {activeTab === SWAP && (
         <footer className='footer-bar'>
           <div
@@ -632,20 +632,23 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             <Row className='justify-content-between align-items-center'>
               <>
                 {!isAmountInsufficient() &&
-                  !isErrorTestPoolSwapTo &&
-                  !isErrorTestPoolSwapFrom ? (
-                    <Col className='col-auto'>
-                      {isValid()
-                        ? I18n.t('containers.swap.swapPage.readySwap')
-                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                    </Col>
-                  ) : (
-                    <Col className='col-auto'>
-                      <span className='text-danger'>
-                        {showErrorMessage(isErrorTestPoolSwapTo, isErrorTestPoolSwapFrom)}
-                      </span>
-                    </Col>
-                  )}
+                !isErrorTestPoolSwapTo &&
+                !isErrorTestPoolSwapFrom ? (
+                  <Col className='col-auto'>
+                    {isValid()
+                      ? I18n.t('containers.swap.swapPage.readySwap')
+                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                  </Col>
+                ) : (
+                  <Col className='col-auto'>
+                    <span className='text-danger'>
+                      {showErrorMessage(
+                        isErrorTestPoolSwapTo,
+                        isErrorTestPoolSwapFrom
+                      )}
+                    </span>
+                  </Col>
+                )}
               </>
               <Col className='d-flex justify-content-end'>
                 <Button
@@ -770,13 +773,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       </div>
                     </>
                   ) : (
-                      <>
-                        <MdCheckCircle className={styles.txProgressSuccess} />
-                        <span>
-                          {I18n.t('containers.swap.swapPage.UTXOPrepared')}
-                        </span>
-                      </>
-                    )}
+                    <>
+                      <MdCheckCircle className={styles.txProgressSuccess} />
+                      <span>
+                        {I18n.t('containers.swap.swapPage.UTXOPrepared')}
+                      </span>
+                    </>
+                  )}
                 </div>
                 <br />
                 <div className='text-center position-relative'>
@@ -787,8 +790,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                           <Spinner />
                         </div>
                       ) : (
-                          <MdCheckCircle className={styles.txProgressSuccess} />
-                        )}
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                      )}
                     </>
                   )}
                   {isLoadingRefreshUTXOS ? (
@@ -796,10 +799,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       {I18n.t('containers.swap.swapPage.transferringTokens')}
                     </span>
                   ) : (
-                      <b>
-                        {I18n.t('containers.swap.swapPage.transferringTokens')}
-                      </b>
-                    )}
+                    <b>
+                      {I18n.t('containers.swap.swapPage.transferringTokens')}
+                    </b>
+                  )}
                 </div>
               </div>
             </div>

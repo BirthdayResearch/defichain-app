@@ -269,10 +269,7 @@ export const handleRemovePoolLiquidity = async (
     }
     return sumAmount;
   }, 0);
-  log.info(
-    `1. AddressList ${addressList}`,
-    'handleRemovePoolLiquidity'
-  );
+  log.info(`1. AddressList ${addressList}`, 'handleRemovePoolLiquidity');
   const removeLpAmounts = {};
   for (const obj of addressList) {
     removeLpAmounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
@@ -320,10 +317,7 @@ export const handleRemovePoolLiquidity = async (
     };
   });
 
-  log.info(
-    `1. Final Array ${finalArray}`,
-    'handleRemovePoolLiquidity'
-  );
+  log.info(`1. Final Array ${finalArray}`, 'handleRemovePoolLiquidity');
 
   const accountAmounts = {};
   for (const obj of finalArray) {
@@ -363,9 +357,6 @@ export const handleRemovePoolLiquidity = async (
   const resolvedHashArray: any[] = _.compact(await Promise.all(hashArray));
 
   store.dispatch(transferTokensSuccess());
-  log.info(
-    `RemoveLiquidity done successfully`,
-    'handleRemovePoolLiquidity'
-  );
+  log.info(`RemoveLiquidity done successfully`, 'handleRemovePoolLiquidity');
   return resolvedHashArray[resolvedHashArray.length - 1];
 };

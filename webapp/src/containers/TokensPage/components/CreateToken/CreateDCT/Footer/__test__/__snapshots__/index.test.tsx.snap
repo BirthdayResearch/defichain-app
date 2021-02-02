@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component should check for snapshot 1`] = `
+<Fragment>
+  <footer
+    className="footer-bar"
+  >
+    <div
+      className="d-none"
+    >
+      <Row
+        className="justify-content-between align-items-center"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          className="col-auto"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <div
+            className="caption-secondary"
+          >
+            DFI required
+          </div>
+          <div>
+            101
+             
+            DFI
+          </div>
+        </Col>
+        <Col
+          className="d-flex justify-content-end"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Button
+            className="mr-3"
+            color="link"
+            tag={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "activeClassName": [Function],
+                  "activeStyle": [Function],
+                  "aria-current": [Function],
+                  "className": [Function],
+                  "exact": [Function],
+                  "innerRef": [Function],
+                  "isActive": [Function],
+                  "location": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "sensitive": [Function],
+                  "strict": [Function],
+                  "style": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/tokens"
+          >
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            disabled={true}
+            onClick={[Function]}
+            tag="button"
+          >
+            Update token
+          </Button>
+        </Col>
+      </Row>
+    </div>
+    <div
+      className="d-none"
+    >
+      <div
+        className="footer-sheet"
+      >
+        <dl
+          className="row"
+        >
+          <dd
+            className="col-12"
+          >
+            <span
+              className="h2 mb-0"
+            >
+              Are you sure you want to update a token?
+            </span>
+          </dd>
+        </dl>
+      </div>
+      <Row
+        className="justify-content-between align-items-center"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          className="d-flex justify-content-end"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Button
+            className="mr-3"
+            color="link"
+            onClick={[Function]}
+            tag="button"
+          >
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            disabled={true}
+            onClick={[Function]}
+            tag="button"
+          >
+            Continue
+             
+            <span
+              className="timer"
+            >
+              1
+            </span>
+          </Button>
+        </Col>
+      </Row>
+    </div>
+    <div
+      className="d-none"
+    >
+      <div
+        className="footer-sheet"
+      >
+        <div
+          className="text-center"
+        >
+          <Spinner />
+        </div>
+      </div>
+    </div>
+    <div
+      className="d-none"
+    >
+      <div
+        className="footer-sheet"
+      >
+        <div
+          className="text-center"
+        >
+          <p>
+            Token was updated successfully
+          </p>
+          <MdCheckCircle
+            className="footer-sheet-icon"
+          />
+          <p>
+            Token Hash: 
+          </p>
+        </div>
+      </div>
+      <Row
+        className="justify-content-between align-items-center"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          className="d-flex justify-content-end"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <ViewOnChain
+            txid=""
+          />
+          <Button
+            color="primary"
+            tag={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "activeClassName": [Function],
+                  "activeStyle": [Function],
+                  "aria-current": [Function],
+                  "className": [Function],
+                  "exact": [Function],
+                  "innerRef": [Function],
+                  "isActive": [Function],
+                  "location": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "sensitive": [Function],
+                  "strict": [Function],
+                  "style": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/tokens"
+          >
+            Back to token
+          </Button>
+        </Col>
+      </Row>
+    </div>
+    <div
+      className="d-none"
+    >
+      <div
+        className="footer-sheet"
+      >
+        <div
+          className="text-center"
+        >
+          <MdErrorOutline
+            className="footer-sheet-icon undefined"
+          />
+          <p />
+        </div>
+      </div>
+      <div
+        className="d-flex align-items-center justify-content-center"
+      >
+        <Button
+          color="primary"
+          tag={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "propTypes": Object {
+                "activeClassName": [Function],
+                "activeStyle": [Function],
+                "aria-current": [Function],
+                "className": [Function],
+                "exact": [Function],
+                "innerRef": [Function],
+                "isActive": [Function],
+                "location": [Function],
+                "onClick": [Function],
+                "replace": [Function],
+                "sensitive": [Function],
+                "strict": [Function],
+                "style": [Function],
+                "target": [Function],
+                "to": [Function],
+              },
+              "render": [Function],
+            }
+          }
+          to="/tokens"
+        >
+          Back to token
+        </Button>
+      </div>
+    </div>
+  </footer>
+</Fragment>
+`;

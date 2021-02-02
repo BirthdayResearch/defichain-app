@@ -3,7 +3,7 @@ import { Button, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { closeUpdateApp } from '../reducer';
-import openNewTab from 'src/utils/openNewTab';
+import openNewTab from '../../../utils/openNewTab';
 import { SITE_DOWNLOADS } from '@defi_types/settings';
 
 interface DownloadProgressComponentProps {
