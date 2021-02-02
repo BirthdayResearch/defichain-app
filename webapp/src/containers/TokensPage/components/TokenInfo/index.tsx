@@ -39,7 +39,7 @@ import { ITokenResponse } from '../../../../utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
 import { getIcon, getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
-import ViewOnChain from '../../../../../src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;

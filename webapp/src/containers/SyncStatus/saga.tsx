@@ -12,7 +12,7 @@ import {
 import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
 import { SYNC_TIMEOUT, SYNC_INFO_RETRY_ATTEMPT } from '../../constants';
-import { handlePeersSyncRequest } from '../../../src/utils/utility';
+import { handlePeersSyncRequest } from '../../utils/utility';
 
 function* blockSyncInfo() {
   const chan = yield call(fetchBlockSyncInfo, SYNC_INFO_RETRY_ATTEMPT);
