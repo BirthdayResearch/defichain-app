@@ -117,6 +117,7 @@ export default class App {
         extensions.map((name) => installer[name]),
         forceDownload
       )
+      // tslint:disable-next-line:no-console
       .catch(console.log);
   };
 

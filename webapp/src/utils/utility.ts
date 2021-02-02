@@ -60,6 +60,12 @@ import {
   TESTNET,
   AMOUNT_SEPARATOR,
   STATS_API_BASE_URL,
+  COINGECKO_LTC_ID,
+  COINGECKO_DOGE_ID,
+  MAINNET_LTC_SYMBOL,
+  LTC_SYMBOL,
+  MAINNET_DOGE_SYMBOL,
+  DOGE_SYMBOL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -73,6 +79,7 @@ import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
+import LtcIcon from '../assets/svg/ltc-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1004,6 +1011,7 @@ export const getIcon = (symbol: string) => {
     USDT: USDTIcon,
     DFI: DefiIcon,
     DOGE: DogeIcon,
+    LTC: LtcIcon,
   };
   return symbolIconObj[symbol];
 };
@@ -1107,12 +1115,16 @@ export const getCoinMap = () => {
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
     [COINGECKO_BTC_ID, btcSymbol],
     [COINGECKO_ETH_ID, ethSymbol],
     [COINGECKO_USDT_ID, usdtSymbol],
+    [COINGECKO_LTC_ID, ltcSymbol],
+    [COINGECKO_DOGE_ID, dogeSymbol],
   ]);
   return coinMap;
 };
@@ -1123,6 +1135,8 @@ export const getCoinIds = () => {
     COINGECKO_BTC_ID,
     COINGECKO_ETH_ID,
     COINGECKO_USDT_ID,
+    COINGECKO_LTC_ID,
+    COINGECKO_DOGE_ID,
   ];
 };
 
@@ -1245,17 +1259,21 @@ export const getSymbolKey = (symbol: string, key: string) => {
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  if (
-    key === DFI_SYMBOL ||
-    key === btcSymbol ||
-    key === ethSymbol ||
-    key === usdtSymbol
-  ) {
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const tokens = [
+    DFI_SYMBOL,
+    btcSymbol,
+    ethSymbol,
+    usdtSymbol,
+    ltcSymbol,
+    dogeSymbol,
+  ];
+  if (tokens.indexOf(key) !== -1) {
     return symbol;
   }
   return `${symbol}#${key}`;
 };
-
 export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
   const distinctRandomNumbers: number[] = [];
   while (distinctRandomNumbers.length < limit) {

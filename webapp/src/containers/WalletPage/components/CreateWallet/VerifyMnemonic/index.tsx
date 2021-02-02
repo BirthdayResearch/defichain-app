@@ -251,6 +251,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                   <Button
                     color='link'
                     size='sm'
+                    className='footer-bar-back'
                     onClick={() => {
                       setIsWalletTabActive(!isWalletTabActive);
                     }}
