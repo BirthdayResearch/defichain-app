@@ -1,5 +1,5 @@
 import React from 'react';
-import EncryptWalletModel from '../components/EncryptWalletPage/index';
+import EncryptWalletModal from '../components/EncryptWalletPage/index';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
@@ -10,7 +10,7 @@ describe('EncryptWalletPage component', () => {
     const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>
-          <EncryptWalletModel />
+          <EncryptWalletModal />
         </Provider>
       </Router>
     );

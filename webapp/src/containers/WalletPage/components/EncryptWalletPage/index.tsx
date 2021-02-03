@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { Button, Input, Row, Col } from 'reactstrap';
+import {
+  Button,
+  Input,
+  Row,
+  Col,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Label,
+} from 'reactstrap';
 import { MdLock } from 'react-icons/md';
 
 import styles from './encryptWalletPage.module.scss';
 
-interface EncryptWalletModelProps {}
+interface EncryptWalletModalProps {}
 
-const EncryptWalletModel: React.FunctionComponent<EncryptWalletModelProps> = (
-  props: EncryptWalletModelProps
+const EncryptWalletModal: React.FunctionComponent<EncryptWalletModalProps> = (
+  props: EncryptWalletModalProps
 ) => {
   const [state, setState] = useState({ passphrase: '', confirmPassphrase: '' });
 
@@ -29,25 +38,37 @@ const EncryptWalletModel: React.FunctionComponent<EncryptWalletModelProps> = (
               </label>
 
               <div className='px-5'>
-                <Input
-                  type='password'
-                  value={passphrase}
-                  name='passphrase'
-                  id='passphraseLabel'
-                  onChange={onHandleChange}
-                  placeholder={I18n.t('alerts.passphraseLabel')}
-                  className='mt-5'
-                />
-                <Input
-                  type='password'
-                  value={confirmPassphrase}
-                  name='confirmPassphrase'
-                  id='passphraseLabelConfirm'
-                  onChange={onHandleChange}
-                  placeholder={I18n.t('alerts.passphraseLabelConfirm')}
-                  className='mt-5'
-                />
+                <InputGroup>
+                  <Input
+                    type='password'
+                    name='passphrase'
+                    id='passphraseLabel'
+                    placeholder={I18n.t('alerts.passphraseLabel')}
+                    value={passphrase}
+                    onChange={onHandleChange}
+                  />
+                  <Label for='passphraseLabel'>
+                    {I18n.t('alerts.passphraseLabel')}
+                  </Label>
+                </InputGroup>
+
+                <InputGroup>
+                  <Input
+                    type='password'
+                    name='confirmPassphrase'
+                    id='passphraseLabelConfirm'
+                    placeholder={I18n.t('alerts.passphraseLabelConfirm')}
+                    value={confirmPassphrase}
+                    onChange={onHandleChange}
+                  />
+                  <Label for='passphraseLabelConfirm'>
+                    {I18n.t('alerts.passphraseLabelConfirm')}
+                  </Label>
+                </InputGroup>
               </div>
+              <label className='text-center'>
+                {I18n.t('alerts.encryptWalletWarning')}
+              </label>
               <div className='mt-4 text-center'>
                 <Button size='sm' className='ml-5' color='link'>
                   {I18n.t('alerts.later')}
@@ -72,4 +93,4 @@ const EncryptWalletModel: React.FunctionComponent<EncryptWalletModelProps> = (
   );
 };
 
-export default EncryptWalletModel;
+export default EncryptWalletModal;
