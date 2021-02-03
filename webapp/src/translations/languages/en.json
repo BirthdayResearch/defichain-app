@@ -409,7 +409,7 @@
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
         "somethingWentWrong": "Something went wrong",
-        "priceImpactWarning": "Price impact too high, either trade amount is too high or pool liquidity is too low",
+        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",

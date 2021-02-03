@@ -409,7 +409,7 @@
         "amountInsufficient": "Unzureichender Betrag in Deinem Konto",
         "txHash": "Transaktionshash",
         "somethingWentWrong": "Etwas lief schief",
-        "priceImpactWarning": "Price impact too high, either trade amount is too high or pool liquidity is too low",
+        "priceImpactWarning": "Das Handelsvolumen übersteigt %{percentage}% der Poolgröße. Es wird erhebliche Auswirkungen auf den Preis haben, wenn du den Tausch durchführst.",
         "preparingUTXO": "UTXO vorbereiten",
         "UTXOPrepared": "UTXO vorbereitet",
         "transferringTokens": "Übertragen von Token",
