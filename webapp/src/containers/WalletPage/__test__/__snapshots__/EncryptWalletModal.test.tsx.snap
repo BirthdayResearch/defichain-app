@@ -35,7 +35,7 @@ exports[`EncryptWalletPage component should check for snapshot 1`] = `
         }
       }
     >
-      <EncryptWalletModel>
+      <EncryptWalletModal>
         <div>
           <Row
             className="justify-content-center"
@@ -192,7 +192,7 @@ exports[`EncryptWalletPage component should check for snapshot 1`] = `
             </div>
           </Row>
         </div>
-      </EncryptWalletModel>
+      </EncryptWalletModal>
     </Provider>
   </Router>
 </BrowserRouter>

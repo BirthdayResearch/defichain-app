@@ -30,9 +30,12 @@ div[disabled] {
 
 .currentNetwork {
   position: relative;
-  height: 112px;
+  height: 70px;
   border-bottom: $border-width solid $border-color;
-  padding: 44px 16px 24px;
+  padding: 0px 20px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   &:before {
     content: '';
@@ -157,4 +160,8 @@ div[disabled] {
   color: $secondary;
   font-weight: 500;
   font-size: 0.95rem;
+}
+
+.passphraseIcon {
+  padding: 0.75rem 16px 0.25rem;
 }

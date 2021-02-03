@@ -18,7 +18,7 @@ export const initialState = {
   openBackupWalletDatModal: false,
   openResetWalletDatModal: false,
   isBackupWalletWarningModelOpen: false,
-  isEnrcyptWalletModalOpen: false,
+  isEncryptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
   isWalletUnlocked: false,
   isWalletRestart: false,
@@ -116,10 +116,10 @@ const configSlice = createSlice({
       state.openBackupWalletDatModal = false;
     },
     openEncryptWalletModal(state) {
-      state.isEnrcyptWalletModalOpen = true;
+      state.isEncryptWalletModalOpen = true;
     },
     closeEncryptWalletModal(state) {
-      state.isEnrcyptWalletModalOpen = false;
+      state.isEncryptWalletModalOpen = false;
     },
     encryptWalletStart(state, action) {},
     openWalletPassphraseModal(state) {
