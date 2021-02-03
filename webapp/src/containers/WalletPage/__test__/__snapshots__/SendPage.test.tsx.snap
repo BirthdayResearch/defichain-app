@@ -578,7 +578,6 @@ exports[`SendPage component should check for snapshot 1`] = `
                   role="dialog"
                   scrollable={false}
                   toggle={[Function]}
-                  trapFocus={false}
                   unmountOnClose={true}
                   zIndex={1050}
                 />
