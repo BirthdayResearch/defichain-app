@@ -1,6 +1,8 @@
 {
   "components": {
-    "keyValueLi": { "copied": "复制成功！" },
+    "keyValueLi": {
+      "copied": "复制成功！"
+    },
     "syncStatus": {
       "synchronized": "已同步",
       "syncing": "同步中",
@@ -179,7 +181,10 @@
         "successText": "成功",
         "backToMasternodePage": "回返主节点"
       },
-      "masternodeTab": { "myMasternodes": "我的", "network": "网络" }
+      "masternodeTab": {
+        "myMasternodes": "我的",
+        "network": "网络"
+      }
     },
     "tokens": {
       "tokensPage": {
@@ -398,12 +403,16 @@
         "amountInsufficient": "金额不足",
         "txHash": "交易哈希",
         "somethingWentWrong": "出错了",
+        "priceImpactWarning": "交易量超过流动资金池的％{percentage}% 。如果继续进行交换，将会造成可观的价格影响。",
         "preparingUTXO": "正在准备 UTXO",
         "UTXOPrepared": "UTXO 已准备好",
         "transferringTokens": "转移代币",
         "tokensTransferred": "代币已转移"
       },
-      "swapTab": { "from": "从", "to": "到" },
+      "swapTab": {
+        "from": "从",
+        "to": "到"
+      },
       "poolTab": {
         "yourLiquidity": "您的流动资金",
         "noLiquidity": "没有流动资金。您是否要为流动资金池提流动供资金吗？",
@@ -709,7 +718,10 @@
           }
         ]
       },
-      "consoleResultPage": { "resultPage": "CLI 输出", "back": "回返" }
+      "consoleResultPage": {
+        "resultPage": "CLI 输出",
+        "back": "回返"
+      }
     }
   },
   "alerts": {
