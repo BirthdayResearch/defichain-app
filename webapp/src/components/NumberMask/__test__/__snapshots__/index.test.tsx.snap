@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberMask component should check for snapshot 1`] = `
+<NumberFormat
+  allowEmptyFormatting={false}
+  allowLeadingZeros={false}
+  allowNegative={true}
+  decimalSeparator="."
+  defaultValue="defaultValue"
+  displayType="text"
+  fixedDecimalScale={false}
+  isAllowed={[Function]}
+  isNumericString={true}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onMouseUp={[Function]}
+  onValueChange={[Function]}
+  prefix=""
+  suffix=""
+  thousandSeparator={true}
+  thousandsGroupStyle="thousand"
+  type="text"
+  value="value"
+/>
+`;

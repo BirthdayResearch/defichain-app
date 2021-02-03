@@ -34,7 +34,7 @@ import AddressDropdown from '../../../../components/AddressDropdown';
 import { AddressModel } from '../../../../model/address.model';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import NumberMask from '../../../../components/NumberMask';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
 import { BigNumber } from 'bignumber.js';
 
 interface RouteParams {

@@ -159,6 +159,8 @@
   "testPoolSwap": 0.35949606,
   "poolSwapFailure": "Error Message",
   "isUtxoDfiError": "Error Message",
+  "isErrorTestPoolSwapTo": "Error Message",
+  "isErrorTestPoolSwapFrom": "Error Message",
   "utxoDfi": 1.0,
   "MaxAccountDfi": 1.0,
   "testPoolSwapFrom": 2.77081783,

@@ -23,7 +23,7 @@ import {
 } from '@defi_types/ipcEvents';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
-import { triggerNodeShutdown } from 'src/worker/queue';
+import { triggerNodeShutdown } from '../worker/queue';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();

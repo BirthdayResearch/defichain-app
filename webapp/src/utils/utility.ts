@@ -636,7 +636,7 @@ export const getTokenAndBalanceMap = (
   return tokenMap;
 };
 
-const getUniqueTokenMap = (poolPairList) => {
+export const getUniqueTokenMap = (poolPairList) => {
   return poolPairList.reduce((uniqueTokenList, poolPair) => {
     const { symbol } = poolPair;
     const symbolList: string[] = symbol.split('-');

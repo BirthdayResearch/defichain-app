@@ -105,8 +105,8 @@ import {
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { uid } from 'uid';
-import { restartNode } from 'src/utils/isElectron';
-import { shutDownBinary } from 'src/worker/queue';
+import { restartNode } from '../../utils/isElectron';
+import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
 
 export function* getNetwork() {
@@ -116,7 +116,7 @@ export function* getNetwork() {
   return chain;
 }
 
-function fetchWalletBalance() {
+export function fetchWalletBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
@@ -129,7 +129,7 @@ function fetchWalletBalance() {
   queuePush(handleFetchWalletBalance, [], callBack);
 }
 
-function fetchPendingBalance() {
+export function fetchPendingBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
@@ -221,7 +221,7 @@ export function* fetchPayments() {
   }
 }
 
-function* fetchWalletTxns(action) {
+export function* fetchWalletTxns(action) {
   const { currentPage: pageNo, pageSize, intialLoad } = action.payload;
   const { totalFetchedTxns, walletTxnCount, walletPageCounter } = yield select(
     (state) => state.wallet
@@ -270,7 +270,7 @@ function* fetchWalletTxns(action) {
   }
 }
 
-function fetchSendData() {
+export function fetchSendData() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
@@ -438,7 +438,7 @@ export function* fetchInstantPendingBalance() {
   }
 }
 
-function* fetchWalletTokenTransactionsList(action) {
+export function* fetchWalletTokenTransactionsList(action) {
   try {
     const {
       symbol,
@@ -489,7 +489,7 @@ function* fetchWalletTokenTransactionsList(action) {
   }
 }
 
-function* getBlockData(item) {
+export function* getBlockData(item) {
   const blockData = yield call(handleBlockData, item.blockHeight);
   return {
     ...item,
@@ -497,7 +497,7 @@ function* getBlockData(item) {
   };
 }
 
-function* fetchBlockDataForTrx(action) {
+export function* fetchBlockDataForTrx(action) {
   try {
     const trxArray: any[] = action.payload;
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
@@ -508,7 +508,7 @@ function* fetchBlockDataForTrx(action) {
   }
 }
 
-function* checkRestartCriteria() {
+export function* checkRestartCriteria() {
   try {
     const restartCriteria = yield call(handleRestartCriteria);
     yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
