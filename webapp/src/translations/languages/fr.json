@@ -525,7 +525,8 @@
       "network": "Réseau",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "peersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -760,7 +761,8 @@
     "restartWalletModalHeader": "Redémarrage nécéssaire",
     "restartWalletWarningNotice": " Vous devez redémarrer l'app DeFi. Voulez-vous redémarrer maintenant?",
     "yesRestartWalletNotice": "Redémarrer maintenant",
-    "noRestartWalletNotice": "Plus tard"
+    "noRestartWalletNotice": "Plus tard",
+    "peersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "App DeFi"

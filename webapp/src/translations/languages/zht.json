@@ -535,7 +535,8 @@
       "network": "網絡",
       "mainnet": "主網",
       "testnet": "測試網",
-      "regnet": "沙河測試網"
+      "regnet": "沙河測試網",
+      "peersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -795,7 +796,8 @@
     "resetWalletDatNotice": "確定刷新錢包嗎？",
     "confirmResetWalletText": "請把 ‘%{text}’ 輸入在文本域裡，以確定刷新。",
     "yeResetpWalletNotice": "是的",
-    "noResetWalletNotice": "否定"
+    "noResetWalletNotice": "否定",
+    "peersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "DeFi 應用程式"
