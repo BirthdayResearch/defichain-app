@@ -150,6 +150,10 @@ div[disabled] {
   justify-content: center;
   align-items: center;
   margin-bottom: 1.5rem;
+  &:hover:not(.active) {
+    background-color: $dfi-scent;
+    color: $primary;
+  }
 }
 
 .navBadgeText {

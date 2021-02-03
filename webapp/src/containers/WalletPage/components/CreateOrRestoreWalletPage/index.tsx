@@ -5,7 +5,7 @@ import { Col, Row } from 'reactstrap';
 import {
   MdAccountBalanceWallet,
   MdFormatListBulleted,
-  MdSettingsBackupRestore,
+  MdRestorePage,
 } from 'react-icons/md';
 import { connect } from 'react-redux';
 
@@ -22,6 +22,8 @@ import {
 import Header from '../../../HeaderComponent';
 import { checkRestartCriteriaRequestLoading } from '../../reducer';
 import { getPageTitle } from '../../../../utils/utility';
+import CustomIcon from '../../../../components/CustomIcon';
+import LedgerNano from '../../../../assets/svg/icon-ledger.svg';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -101,6 +103,9 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.createANewWallet'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.hdWallet'
+                      )}
                       icon={
                         <MdAccountBalanceWallet size={48} color='#ff00af' />
                       }
@@ -113,8 +118,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.connectToALedger'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.comingSoon'
+                      )}
                       icon={
-                        <MdFormatListBulleted
+                        <CustomIcon
+                          src={LedgerNano}
                           size={48}
                           color='rgba(0, 0, 0, 0.4)'
                         />
@@ -125,28 +134,37 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
               </Row>
               <Row>
                 <Col sm='12' md='6' className={'cursor-pointer'}>
-                  <div>
-                    <WalletStatCard
-                      label={I18n.t(
-                        'containers.wallet.createOrRestoreWalletPage.restoreFromBackup'
-                      )}
-                      icon={
-                        <MdSettingsBackupRestore size={48} color='#ff00af' />
-                      }
-                    />
-                  </div>
-                </Col>
-                <Col sm='12' md='6' className={'cursor-pointer'}>
                   <div onClick={restoreWallet}>
                     <WalletStatCard
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.mnemonicSeed'
+                      )}
                       icon={<MdFormatListBulleted size={48} color='#ff00af' />}
                     />
                   </div>
                 </Col>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.restoreFromBackup'
+                      )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.walletDat'
+                      )}
+                      icon={<MdRestorePage size={48} color='#ff00af' />}
+                    />
+                  </div>
+                </Col>
               </Row>
+              <h3>
+                {I18n.t(
+                  'containers.wallet.createOrRestoreWalletPage.chooseRecentBackup'
+                )}
+              </h3>
             </>
           )}
         </section>

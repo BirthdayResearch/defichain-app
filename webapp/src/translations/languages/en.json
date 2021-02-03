@@ -562,7 +562,12 @@
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
         "loading": "Loading...",
         "restoreFromBackup": "Restore wallet from backup",
-        "connectToALedger": "Connect to a Ledger hardware wallet (Coming Soon)"
+        "connectToALedger": "Connect to a hardware wallet",
+        "hdWallet": "HD wallet",
+        "mnemonicSeed": "Mnemonic seed",
+        "walletDat": "wallet.dat",
+        "chooseRecentBackup": "Or choose a recent backup",
+        "comingSoon": "(Coming Soon)"
       },
       "createNewWalletPage": {
         "back": "Back",
