@@ -225,7 +225,7 @@ export default class App {
     ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
     setTimeout(() => {
       ElectronLogger.info(
-        `[${LOGGING_SHUT_DOWN}] 30 minutes elapsed, force closing app`
+        `[${LOGGING_SHUT_DOWN}] 5 minutes elapsed, force closing app`
       );
       this.closeWindowAndQuitApp();
     }, APP_SHUTDOWN_TIMEOUT);
