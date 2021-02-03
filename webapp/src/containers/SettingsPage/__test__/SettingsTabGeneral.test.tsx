@@ -8,6 +8,7 @@ describe('SettingsTabGeneral', () => {
   it('should check for snapshot', () => {
     const props = {
       launchAtLogin: true,
+      peersAndBlocks: true,
       reindexAfterSaving: true,
       refreshUtxosAfterSaving: true,
       minimizedAtLaunch: true,
