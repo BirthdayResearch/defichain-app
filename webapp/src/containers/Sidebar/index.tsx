@@ -139,15 +139,20 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
       <div className={styles.navs}>
         {!isWalletCreatedFlag ? (
           <Nav className={`align-items-center flex-grow-1`}>
-            <NavItem
-              className={`d-flex align-items-center justify-content-center flex-column`}
-            >
-              <div className={`${styles.navBadgeIcon} rounded-circle`}>
-                <MdAccountBalanceWallet />
-              </div>
-              <div className={`${styles.navBadgeText}`}>
-                {I18n.t('containers.sideBar.selectCreateRestore')}
-              </div>
+            <NavItem>
+              <NavLink
+                className={`d-flex align-items-center justify-content-center flex-column p-0`}
+                to={WALLET_TOKENS_PATH}
+                exact
+                tag={RRNavLink}
+              >
+                <div className={`${styles.navBadgeIcon} rounded-circle`}>
+                  <MdAccountBalanceWallet />
+                </div>
+                <div className={`${styles.navBadgeText}`}>
+                  {I18n.t('containers.sideBar.selectCreateRestore')}
+                </div>
+              </NavLink>
             </NavItem>
           </Nav>
         ) : (
