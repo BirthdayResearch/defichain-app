@@ -322,7 +322,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 
   const showErrorMessage = (swapToErr, swapFromErr) => {
     if (percentageChange) {
-      return I18n.t('containers.swap.swapPage.priceImpactWarning');
+      return I18n.t('containers.swap.swapPage.priceImpactWarning', {
+        percentage: PRICE_IMPACT_WARNING_FACTOR * 100,
+      });
     }
     if (swapToErr) {
       return swapToErr;
