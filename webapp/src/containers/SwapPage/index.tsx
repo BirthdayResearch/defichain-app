@@ -37,6 +37,7 @@ import {
   getNetworkType,
   getPageTitle,
   getTokenListForSwap,
+  selectedPoolPair,
 } from '../../utils/utility';
 import {
   SWAP,
@@ -46,6 +47,7 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   DEX_EXPLORER_BASE_LINK,
+  PRICE_IMPACT_WARNING_FACTOR,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -117,6 +119,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     receiveAddress: '',
     receiveLabel: '',
   });
+  const [percentageChange, setPercentageChange] = useState<boolean>(false);
 
   const {
     poolPairList,
@@ -180,11 +183,39 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   };
 
+  const checkPercentageChange = () => {
+    setPercentageChange(false);
+    if (
+      isValid() &&
+      activeTab === SWAP &&
+      !isAmountInsufficient() &&
+      !isErrorTestPoolSwapTo &&
+      !isErrorTestPoolSwapFrom
+    ) {
+      let reserve;
+      const [poolPair, condition] = selectedPoolPair(formState, poolPairList);
+      if (condition) {
+        reserve = poolPair.reserveA;
+      } else {
+        reserve = poolPair.reserveB;
+      }
+      // Used factor for price change impact
+      const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
+      const comparision = amount.isLessThanOrEqualTo(formState.amount1);
+      if (comparision) {
+        setPercentageChange(true);
+      } else {
+        setPercentageChange(false);
+      }
+    }
+  };
+
   useEffect(() => {
     setFormState({
       ...formState,
       amount1: testPoolSwapFrom || '-',
     });
+    checkPercentageChange();
   }, [testPoolSwapFrom]);
 
   useEffect(() => {
@@ -192,6 +223,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       ...formState,
       amount2: testPoolSwapTo || '-',
     });
+    checkPercentageChange();
   }, [testPoolSwapTo]);
 
   useEffect(() => {
@@ -289,6 +321,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   };
 
   const showErrorMessage = (swapToErr, swapFromErr) => {
+    if (percentageChange) {
+      return I18n.t('containers.swap.swapPage.priceImpactWarning', {
+        percentage: PRICE_IMPACT_WARNING_FACTOR * 100,
+      });
+    }
     if (swapToErr) {
       return swapToErr;
     } else if (swapFromErr) {
@@ -633,7 +670,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
               <>
                 {!isAmountInsufficient() &&
                 !isErrorTestPoolSwapTo &&
-                !isErrorTestPoolSwapFrom ? (
+                !isErrorTestPoolSwapFrom &&
+                !percentageChange ? (
                   <Col className='col-auto'>
                     {isValid()
                       ? I18n.t('containers.swap.swapPage.readySwap')
