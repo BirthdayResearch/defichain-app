@@ -46,6 +46,7 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   DEX_EXPLORER_BASE_LINK,
+  REFRESH_TESTPOOLSWAP_COUNTER,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -156,13 +157,25 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapRequestFrom();
   }, []);
 
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCounter(counter + 1);
+    }, REFRESH_TESTPOOLSWAP_COUNTER);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [counter]);
+
   useEffect(() => {
     isValidAmount() &&
       fromTestValue &&
       fetchTestPoolSwapRequestTo({
         formState,
       });
-  }, [formState.amount1, formState.hash1, formState.hash2]);
+  }, [formState.amount1, formState.hash1, formState.hash2, counter]);
 
   useEffect(() => {
     isValidAmount() &&
@@ -170,7 +183,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       fetchTestPoolSwapRequestFrom({
         formState,
       });
-  }, [formState.amount2, formState.hash1, formState.hash2]);
+  }, [formState.amount2, formState.hash1, formState.hash2, counter]);
 
   const isValidAmount = () => {
     if (formState[`balance1`] && formState[`balance2`]) {
