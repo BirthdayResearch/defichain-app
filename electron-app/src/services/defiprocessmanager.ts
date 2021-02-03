@@ -23,6 +23,7 @@ import {
   getIniData,
   deletePeersFile,
   deleteBlocksAndRevFiles,
+  deletePeersAndBlock,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -53,8 +54,11 @@ export default class DefiProcessManager {
       //* Delete block and rev files for high memory usage
       if (params?.isReindexReq) {
         configArray.push('-reindex');
-        deletePeersFile();
-        deleteBlocksAndRevFiles();
+        if (params?.isPeersAndBlocksreq) {
+          deletePeersFile();
+          deletePeersAndBlock();
+          deleteBlocksAndRevFiles();
+        }
       }
       if (checkPathExists(PID_FILE_NAME)) {
         try {

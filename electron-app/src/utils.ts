@@ -232,3 +232,15 @@ export const deleteBlocksAndRevFiles = () => {
     log.error(error);
   }
 };
+
+export const deletePeersAndBlock = () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const destFileName = `banlist.dat`;
+    const destFilePath = path.join(baseFolder, '../', destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted banlist file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
+};

@@ -58,7 +58,9 @@ interface SettingsPageState {
   network?: string;
   displayMode?: string;
   launchAtLogin?: boolean;
+  peersAndBlocks?: boolean;
   minimizedAtLaunch?: boolean;
+  reindexAfterSaving?: boolean;
   pruneBlockStorage?: boolean;
   scriptVerificationThreads?: number;
   blockStorage?: number;
@@ -185,6 +187,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'displayMode',
       'network',
       'launchAtLogin',
+      'peersAndBlocks',
       'minimizedAtLaunch',
       'pruneBlockStorage',
       'scriptVerificationThreads',
@@ -218,6 +221,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      peersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -234,6 +238,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      peersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -252,6 +257,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     activeTab,
     isUnsavedChanges,
     launchAtLogin,
+    peersAndBlocks,
     minimizedAtLaunch,
     pruneBlockStorage,
     blockStorage,
@@ -286,6 +292,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         <TabContent activeTab={state.activeTab}>
           <SettingsTabGeneral
             launchAtLogin={launchAtLogin!}
+            peersAndBlocks={peersAndBlocks!}
             minimizedAtLaunch={minimizedAtLaunch!}
             pruneBlockStorage={pruneBlockStorage!}
             blockStorage={blockStorage!}
