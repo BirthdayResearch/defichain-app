@@ -47,6 +47,7 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   DEX_EXPLORER_BASE_LINK,
+  PRICE_IMPACT_WARNING_FACTOR,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -198,7 +199,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       } else {
         reserve = poolPair.reserveB;
       }
-      const amount = new BigNumber(reserve).times(20).div(100);
+      // Used factor for price change impact
+      const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
       const comparision = amount.isLessThanOrEqualTo(formState.amount1);
       if (comparision) {
         setPercentageChange(true);
@@ -320,7 +322,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 
   const showErrorMessage = (swapToErr, swapFromErr) => {
     if (percentageChange) {
-      return I18n.t('containers.swap.swapPage.diffGreaterThan10');
+      return I18n.t('containers.swap.swapPage.diffGreaterThan20');
     }
     if (swapToErr) {
       return swapToErr;
