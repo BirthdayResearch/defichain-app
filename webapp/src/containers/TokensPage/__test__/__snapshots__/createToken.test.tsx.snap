@@ -31,6 +31,13 @@ exports[`Create token page should check for snapshot 1`] = `
   }
 >
   <Connect(CreateToken)
+    createToken={[Function]}
+    createdTokenData={
+      Object {
+        "hash": "hash",
+      }
+    }
+    fetchToken={[Function]}
     history={
       Object {
         "action": "POP",
@@ -61,6 +68,10 @@ exports[`Create token page should check for snapshot 1`] = `
         "replace": [Function],
       }
     }
+    isErrorCreatingToken="isErrorCreatingToken"
+    isErrorUpdatingToken="isErrorUpdatingToken"
+    isTokenCreating={true}
+    isTokenUpdating={true}
     location={
       Object {
         "hash": "",
@@ -77,6 +88,25 @@ exports[`Create token page should check for snapshot 1`] = `
         },
         "path": "/route/:id",
         "url": "/route/1",
+      }
+    }
+    paymentRequests={
+      Object {
+        "address": "address",
+        "amount": "123",
+        "hdSeed": true,
+        "id": "12",
+        "label": "label",
+        "message": "message",
+        "time": "time",
+        "unit": "1",
+      }
+    }
+    tokenInfo={Object {}}
+    updateToken={[Function]}
+    updatedTokenData={
+      Object {
+        "hash": "hash",
       }
     }
   />

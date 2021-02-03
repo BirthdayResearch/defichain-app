@@ -6,8 +6,8 @@ import { I18n } from 'react-redux-i18n';
 import SwapCard from '../../../../components/SwapCard';
 import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
-import AddressDropdown from 'src/components/AddressDropdown';
-import { getTransactionAddressLabel } from 'src/utils/utility';
+import AddressDropdown from '../../../../components/AddressDropdown';
+import { getTransactionAddressLabel } from '../../../../utils/utility';
 
 interface SwapTabProps {
   handleAddressDropdown?: any;

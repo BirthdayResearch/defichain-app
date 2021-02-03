@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletLoadingFooter component should check for snapshot 1`] = `
+<div
+  className="footer-sheet"
+>
+  <dl
+    className="row"
+  >
+    <dd
+      className="col-12"
+    >
+      <div>
+        <Loader
+          className="mb-5"
+          size={28}
+        />
+        <p>
+          message
+        </p>
+      </div>
+    </dd>
+  </dl>
+</div>
+`;

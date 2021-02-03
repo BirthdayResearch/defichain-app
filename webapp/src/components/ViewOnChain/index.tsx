@@ -1,7 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Button } from 'reactstrap';
-import { onViewOnChain } from 'src/utils/utility';
+import { onViewOnChain } from '../../utils/utility';
 
 interface ViewOnChainProps {
   txid: string;

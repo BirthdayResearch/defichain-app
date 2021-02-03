@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletTxnsNew component should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(WalletTxns)
+    tokenSymbol="DFI"
+  >
+    <WalletTxns
+      accountHistoryCount=""
+      accountHistoryCountRequest={[Function]}
+      combineAccountHistoryData={
+        Object {
+          "data": Array [],
+          "isError": "",
+          "isLoading": false,
+        }
+      }
+      data={Array []}
+      fetchBlockDataForTrxRequestLoading={[Function]}
+      fetchWalletTokenTransactionsListRequestLoading={[Function]}
+      fetchWalletTokenTransactionsListResetRequest={[Function]}
+      fetchWalletTxns={[Function]}
+      isError=""
+      isLoading={true}
+      minBlockHeight={0}
+      tokenSymbol="DFI"
+      unit="DFI"
+      walletTxnCount={0}
+      walletTxns={Array []}
+    >
+      <section
+        className="mb-5"
+      >
+        <div>
+          <h2>
+            Transactions
+          </h2>
+          <FormGroup
+            tag="div"
+          >
+            <div
+              className="form-group"
+            >
+              <CustomInput
+                checked={false}
+                id="includeRewards"
+                label="Include rewards"
+                onChange={[Function]}
+                type="checkbox"
+              >
+                <div
+                  className="custom-checkbox custom-control"
+                  hidden={false}
+                >
+                  <input
+                    checked={false}
+                    className="custom-control-input"
+                    id="includeRewards"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor="includeRewards"
+                  >
+                    Include rewards
+                  </label>
+                </div>
+              </CustomInput>
+            </div>
+          </FormGroup>
+        </div>
+        <Row
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <div
+            className="row"
+          >
+            <Col
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+              xs="12"
+            >
+              <div
+                className="col-12"
+              >
+                <div>
+                  Loading...
+                </div>
+              </div>
+            </Col>
+          </div>
+        </Row>
+      </section>
+    </WalletTxns>
+  </Connect(WalletTxns)>
+</Provider>
+`;

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletAddTokenCard component should check for snapshot 1`] = `
+<Card
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <Row
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Col
+        md="6"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <div
+          className="d-flex"
+        >
+          <div
+            className="ml-4"
+          >
+            <div>
+              <b>
+                symbol
+              </b>
+            </div>
+            <div>
+              name
+            </div>
+          </div>
+        </div>
+      </Col>
+      <Col
+        md="6"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <div
+          className="float-right"
+        >
+          <Button
+            color="link"
+            tag="button"
+          >
+            <span
+              className="d-lg-inline"
+            >
+              Add
+            </span>
+          </Button>
+        </div>
+      </Col>
+    </Row>
+  </CardBody>
+</Card>
+`;
