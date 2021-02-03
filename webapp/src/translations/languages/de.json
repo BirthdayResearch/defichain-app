@@ -409,7 +409,7 @@
         "amountInsufficient": "Unzureichender Betrag in Deinem Konto",
         "txHash": "Transaktionshash",
         "somethingWentWrong": "Etwas lief schief",
-        "diffGreaterThan10": "Price impact too high, either trade amount is too high or pool liquidity is too low",
+        "diffGreaterThan20": "Price impact too high, either trade amount is too high or pool liquidity is too low",
         "preparingUTXO": "UTXO vorbereiten",
         "UTXOPrepared": "UTXO vorbereitet",
         "transferringTokens": "Übertragen von Token",
