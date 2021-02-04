@@ -297,6 +297,14 @@ const configSlice = createSlice({
       state.walletMapError = action.payload;
       state.walletMap = {};
     },
+    startRestoreWalletViaBackup(state) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletViaBackupFailure(state, action) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = action.payload;
+    },
   },
 });
 
@@ -361,6 +369,8 @@ export const {
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   fetchWalletMapFailure,
+  startRestoreWalletViaBackup,
+  restoreWalletViaBackupFailure,
 } = actions;
 
 export default reducer;

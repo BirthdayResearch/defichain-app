@@ -10,9 +10,14 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
   fetchWalletMapRequest,
+  fetchWalletMapSuccess,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
-import { DUMP_WALLET, IMPORT_WALLET } from '@defi_types/rpcMethods';
+import {
+  BACKUP_WALLET,
+  DUMP_WALLET,
+  IMPORT_WALLET,
+} from '@defi_types/rpcMethods';
 import {
   startUpdateApp,
   updateApp,
@@ -32,12 +37,14 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
   START_DEFI_CHAIN,
   START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
+import { getNetworkType } from '../utils/utility';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -104,10 +111,10 @@ export const backupWalletDat = async () => {
 
 export const replaceWalletDat = async () => {
   const ipcRenderer = ipcRendererFunc();
-  return ipcRenderer.sendSync(REPLACE_WALLET_DAT);
+  return ipcRenderer.sendSync(REPLACE_WALLET_DAT, getNetworkType());
 };
 
-export const backupWallet = async (paths: string) => {
+export const dumpWallet = async (paths: string) => {
   const rpcClient = new RpcClient();
   const res = await rpcClient.call('', DUMP_WALLET, [paths]);
 
@@ -117,8 +124,43 @@ export const backupWallet = async (paths: string) => {
       I18n.t('alerts.backupSuccess')
     );
   }
-  log.error(res?.data?.error, 'backupWallet');
+  log.error(res?.data?.error, 'dumpWallet');
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
+};
+
+export const updateWalletMap = (path: string): void => {
+  try {
+    const { wallet } = store.getState();
+    const ipcRenderer = ipcRendererFunc();
+    const walletMap = wallet.walletMap;
+    const tempWalletMap = { ...walletMap };
+    const walletMapPaths = [...walletMap.paths].filter(
+      (v: string) => v !== path
+    );
+    tempWalletMap.paths = [path, ...walletMapPaths];
+    store.dispatch(fetchWalletMapSuccess(tempWalletMap));
+    ipcRenderer.send(ON_WALLET_MAP_REPLACE, tempWalletMap);
+  } catch (error) {
+    log.error(error, 'updateWalletMap');
+  }
+};
+
+export const backupWallet = async (path: string) => {
+  try {
+    const rpcClient = new RpcClient();
+    const res = await rpcClient.call('', BACKUP_WALLET, [path]);
+    if (res.status === HttpStatus.OK) {
+      updateWalletMap(path);
+      return showNotification(
+        I18n.t('alerts.success'),
+        I18n.t('alerts.backupSuccess')
+      );
+    }
+    log.error(res?.data?.error, 'backupWallet');
+    return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
+  } catch (error) {
+    log.error(error, 'backupWallet');
+  }
 };
 
 export const importWallet = async (paths: string[]) => {

@@ -55,6 +55,8 @@ import {
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   fetchWalletMapFailure,
+  startRestoreWalletViaBackup,
+  restoreWalletViaBackupFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -74,6 +76,7 @@ import {
   getListAccountHistory,
   handleRestartCriteria,
   handleFetchAccountHistoryCount,
+  startRestoreViaBackup,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -367,7 +370,12 @@ export function* createWallet(action) {
     const isWalletCreated =
       networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
 
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
+    const hdSeed = yield call(
+      createMnemonicIpcRenderer,
+      mnemonicCode,
+      network,
+      networkType
+    );
 
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
@@ -395,30 +403,60 @@ export function* restoreWallet(action) {
 
     const networkType = getNetworkType();
     const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
 
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
+    const hdSeed = yield call(
+      createMnemonicIpcRenderer,
+      mnemonicCode,
+      network,
+      networkType
+    );
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    PersistentStore.set(isWalletCreated, true);
-    yield put(setIsWalletCreatedRequest(true));
-    yield call(enableMenuResetWalletBtn, true);
-    yield call(shutDownBinary);
-    yield call(fetchWalletReset);
-    yield call(restartNode);
-    yield call(fetchInstantBalanceRequest);
-    yield call(fetchInstantPendingBalanceRequest);
-    yield call(fetchAccountTokensRequest);
-    yield call(fetchPaymentRequest);
-    yield put({ type: restoreWalletSuccess.type });
-    yield call(() => {
-      history.push(WALLET_TOKENS_PATH);
-    });
+    restoreWalletStep(networkType);
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
+  }
+}
+
+export function* restoreWalletStep(networkType: string) {
+  const isWalletCreated =
+    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  PersistentStore.set(isWalletCreated, true);
+  yield put(setIsWalletCreatedRequest(true));
+  yield call(enableMenuResetWalletBtn, true);
+  yield call(shutDownBinary);
+  yield call(fetchWalletReset);
+  yield call(restartNode);
+  yield call(fetchInstantBalanceRequest);
+  yield call(fetchInstantPendingBalanceRequest);
+  yield call(fetchAccountTokensRequest);
+  yield call(fetchPaymentRequest);
+  yield put({ type: restoreWalletSuccess.type });
+  yield call(() => {
+    history.push(WALLET_TOKENS_PATH);
+  });
+}
+
+export function* restoreWalletViaBackup() {
+  try {
+    const networkType = getNetworkType();
+    const resp = yield call(startRestoreViaBackup, networkType);
+    if (resp?.success) {
+      restoreWalletStep(networkType);
+    } else {
+      yield put({
+        type: restoreWalletViaBackupFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    log.error(e.message);
+    yield put({
+      type: restoreWalletViaBackupFailure.type,
+      payload: getErrorMessage(e),
+    });
   }
 }
 
@@ -565,6 +603,7 @@ function* mySaga() {
     fetchBlockDataForTrx
   );
   yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
+  yield takeLatest(startRestoreWalletViaBackup.type, restoreWalletViaBackup);
 }
 
 export default mySaga;
