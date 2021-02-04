@@ -9,6 +9,7 @@ import { eventChannel } from 'redux-saga';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchWalletMapRequest,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import { DUMP_WALLET, IMPORT_WALLET } from '@defi_types/rpcMethods';
@@ -31,6 +32,7 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
   START_DEFI_CHAIN,
   START_DEFI_CHAIN_REPLY,
@@ -48,6 +50,7 @@ export const getRpcConfig = () => {
 
 export function startAppInit() {
   if (isElectron()) {
+    store.dispatch(fetchWalletMapRequest());
     const ipcRenderer = ipcRendererFunc();
     return ipcRenderer.send(APP_INIT, {});
   }
@@ -194,3 +197,15 @@ export const resetBackupModal = () => {
 
 export const showErrorNotification = (res) =>
   showNotification(I18n.t('alerts.errorOccurred'), res.message);
+
+export const getWalletMap = async (): Promise<void> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_MAP_REQUEST);
+    if (resp?.success) {
+      return JSON.parse(resp?.data);
+    }
+  } catch (error) {
+    log.error(error, 'getWalletMap');
+  }
+};

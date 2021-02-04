@@ -5,6 +5,7 @@ import { WALLET_DAT, WALLET_MAP_FILE } from '../constants';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
+  ON_WALLET_MAP_REQUEST,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
 } from '@defi_types/ipcEvents';
@@ -16,8 +17,9 @@ import {
   responseMessage,
 } from '../utils';
 import fs from 'fs';
+import { ipcMain } from 'electron';
 
-const saveFileDailog = async (
+const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
 ) => {
   const dialogManager = new DialogManager();
@@ -28,25 +30,55 @@ const saveFileDailog = async (
   return paths;
 };
 
-export const createWalletMap = () => {
+export const getWalletMapPath = () => {
   try {
     const baseFolder = getBaseFolder();
     const src = path.join(baseFolder, WALLET_MAP_FILE);
+    return src;
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const getWalletMap = () => {
+  try {
+    const src = getWalletMapPath();
+    if (checkPathExists(src)) {
+      const data = fs.readFileSync(src, 'utf8');
+      console.log(data);
+      return data;
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const createWalletMap = () => {
+  try {
+    const src = getWalletMapPath();
     if (!checkPathExists(src)) {
-      const walletDat = path.join(baseFolder, WALLET_DAT);
+      const walletDat = path.join(getBaseFolder(), WALLET_DAT);
       fs.writeFileSync(
         src,
         JSON.stringify(
           {
-            walletMap: {
-              paths: [walletDat],
-            },
+            paths: [walletDat],
           },
           null,
           4
         )
       );
     }
+
+    ipcMain.on(ON_WALLET_MAP_REQUEST, async (event: Electron.IpcMainEvent) => {
+      try {
+        event.returnValue = responseMessage(true, getWalletMap());
+      } catch (error) {
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    });
   } catch (error) {
     log.error(error);
   }
@@ -79,7 +111,7 @@ export default class Wallet {
 
   async backup(bw: Electron.BrowserWindow) {
     try {
-      const paths = await saveFileDailog([
+      const paths = await saveFileDialog([
         { name: 'Text file', extensions: ['txt'] },
       ]);
 
@@ -96,7 +128,7 @@ export default class Wallet {
   }
 
   async backupWalletDat() {
-    const paths = await saveFileDailog([
+    const paths = await saveFileDialog([
       { name: 'Wallet', extensions: ['dat'] },
     ]);
     const dest = appendExtension(paths, 'dat');
