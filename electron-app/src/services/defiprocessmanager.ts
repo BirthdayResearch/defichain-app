@@ -23,7 +23,7 @@ import {
   getIniData,
   deletePeersFile,
   deleteBlocksAndRevFiles,
-  deletePeersAndBlock,
+  deleteBanlist,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -56,7 +56,7 @@ export default class DefiProcessManager {
         configArray.push('-reindex');
         if (params?.isDeletePeersAndBlocksreq) {
           deletePeersFile();
-          deletePeersAndBlock();
+          deleteBanlist();
           deleteBlocksAndRevFiles();
         }
       }
