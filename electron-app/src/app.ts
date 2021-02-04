@@ -31,6 +31,7 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
+import { createWalletMap } from './controllers/wallets';
 
 declare var process: {
   argv: any;
@@ -87,6 +88,7 @@ export default class App {
       this.createMenu.bind(this)
     );
     createMnemonicAction();
+    createWalletMap();
   };
 
   initiateInterceptFileProtocol() {
@@ -112,13 +114,15 @@ export default class App {
       'REACT_PERF',
     ];
 
-    return installer
-      .default(
-        extensions.map((name) => installer[name]),
-        forceDownload
-      )
-      // tslint:disable-next-line:no-console
-      .catch(console.log);
+    return (
+      installer
+        .default(
+          extensions.map((name) => installer[name]),
+          forceDownload
+        )
+        // tslint:disable-next-line:no-console
+        .catch(console.log)
+    );
   };
 
   createWindow = async () => {

@@ -1,14 +1,21 @@
 import path from 'path';
 import * as log from '../services/electronLogger';
 import DialogManager from '../services/dialogmanager';
-import { WALLET_DAT } from '../constants';
+import { WALLET_DAT, WALLET_MAP_FILE } from '../constants';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
 } from '@defi_types/ipcEvents';
-import { copyFile, deleteFile, getBaseFolder, responseMessage } from '../utils';
+import {
+  checkPathExists,
+  copyFile,
+  deleteFile,
+  getBaseFolder,
+  responseMessage,
+} from '../utils';
+import fs from 'fs';
 
 const saveFileDailog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -19,6 +26,39 @@ const saveFileDailog = async (
     throw new Error('No valid path available');
   }
   return paths;
+};
+
+export const createWalletMap = () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const src = path.join(baseFolder, WALLET_MAP_FILE);
+    if (!checkPathExists(src)) {
+      const walletDat = path.join(baseFolder, WALLET_DAT);
+      fs.writeFileSync(
+        src,
+        JSON.stringify(
+          {
+            walletMap: {
+              paths: [walletDat],
+            },
+          },
+          null,
+          4
+        )
+      );
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const addWalletPath = async () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const src = path.join(baseFolder, WALLET_MAP_FILE);
+  } catch (error) {
+    log.error(error);
+  }
 };
 
 const appendExtension = (paths: string, extension: string) => {
