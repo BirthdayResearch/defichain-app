@@ -608,7 +608,8 @@
         "enterWord": "Enter word",
         "restoringWallet": "Restoring wallet",
         "restore": "Restore",
-        "backToWalletPage": "Close"
+        "backToWalletPage": "Close",
+        "importingWallet": "Importing wallet"
       },
       "sendPage": {
         "sendTitle": "Send",

@@ -29,3 +29,5 @@ export const ERROR = 'error';
 export const ON_CLOSE_RPC_CLIENT = 'on-close-rpc-client';
 export const APP_INIT = 'app-init';
 export const ON_WALLET_MAP_REQUEST = 'on-wallet-map-request';
+export const ON_WALLET_MAP_REPLACE = 'on-wallet-map-replace';
+export const ON_WALLET_RESTORE_VIA_BACKUP = 'on-wallet-restore-via-backup';

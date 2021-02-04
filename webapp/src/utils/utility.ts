@@ -502,7 +502,7 @@ export const checkElementsInArray = (
 
 export const getNetworkType = () => {
   const state = store.getState();
-  const blockChainInfo: any = state.wallet.blockChainInfo;
+  const blockChainInfo: any = state?.wallet?.blockChainInfo;
   return blockChainInfo.chain || MAIN;
 };
 
