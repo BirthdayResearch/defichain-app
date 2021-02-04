@@ -216,7 +216,7 @@ export const deleteBlocksAndRevFiles = () => {
   try {
     log.info('Starting Delete Block and Rev Files...');
     const baseFolder = getBaseFolder();
-    const destFolder = path.join(baseFolder, '/blocks');
+    const destFolder = path.join(baseFolder, 'blocks');
     fs.readdirSync(destFolder).forEach((file) => {
       const blkFile = path.join(destFolder, file);
       if (

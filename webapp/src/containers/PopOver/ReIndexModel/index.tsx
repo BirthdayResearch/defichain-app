@@ -29,7 +29,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     if (peers) {
       restartNodeWithReIndexing({
         isReindexReq: true,
-        isdeletePeersAndBlocksreq: true,
+        isDeletePeersAndBlocksreq: true,
       });
     } else {
       restartNodeWithReIndexing({ isReindexReq: true });
