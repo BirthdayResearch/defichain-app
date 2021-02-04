@@ -54,7 +54,7 @@ export default class DefiProcessManager {
       //* Delete block and rev files for high memory usage
       if (params?.isReindexReq) {
         configArray.push('-reindex');
-        if (params?.isdeletePeersAndBlocksreq) {
+        if (params?.isDeletePeersAndBlocksreq) {
           deletePeersFile();
           deletePeersAndBlock();
           deleteBlocksAndRevFiles();

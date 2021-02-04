@@ -119,7 +119,7 @@ export function* updateSettings(action) {
         if (data.deletePeersAndBlocks) {
           yield call(restartNode, {
             isReindexReq: true,
-            isdeletePeersAndBlocksreq: true,
+            isDeletePeersAndBlocksreq: true,
           });
         } else {
           yield call(restartNode, { isReindexReq: true });
