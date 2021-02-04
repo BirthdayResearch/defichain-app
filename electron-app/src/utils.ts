@@ -204,7 +204,7 @@ export const deletePeersFile = () => {
   try {
     const baseFolder = getBaseFolder();
     const destFileName = `peers.dat`;
-    const destFilePath = path.join(baseFolder, '../', destFileName);
+    const destFilePath = path.join(baseFolder, '/', destFileName);
     deleteFile(destFilePath);
     log.info(`Deleted peers file in ${destFilePath}`);
   } catch (error) {
@@ -216,7 +216,7 @@ export const deleteBlocksAndRevFiles = () => {
   try {
     log.info('Starting Delete Block and Rev Files...');
     const baseFolder = getBaseFolder();
-    const destFolder = path.join(baseFolder, '../blocks');
+    const destFolder = path.join(baseFolder, '/blocks');
     fs.readdirSync(destFolder).forEach((file) => {
       const blkFile = path.join(destFolder, file);
       if (
@@ -237,7 +237,7 @@ export const deletePeersAndBlock = () => {
   try {
     const baseFolder = getBaseFolder();
     const destFileName = `banlist.dat`;
-    const destFilePath = path.join(baseFolder, '../', destFileName);
+    const destFilePath = path.join(baseFolder, '/', destFileName);
     deleteFile(destFilePath);
     log.info(`Deleted banlist file in ${destFilePath}`);
   } catch (error) {
