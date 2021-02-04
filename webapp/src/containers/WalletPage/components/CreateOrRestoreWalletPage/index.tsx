@@ -24,6 +24,8 @@ import { checkRestartCriteriaRequestLoading } from '../../reducer';
 import { getPageTitle } from '../../../../utils/utility';
 import CustomIcon from '../../../../components/CustomIcon';
 import LedgerNano from '../../../../assets/svg/icon-ledger.svg';
+import RecentWalletsList from './RecentWalletsList';
+import { WalletMap } from '@defi_types/walletMap';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -35,6 +37,7 @@ interface CreateOrRestoreWalletPageProps {
   checkRestartCriteriaRequestLoading: () => void;
   isLoading: boolean;
   restartCriteriaFlag: boolean;
+  walletMap: WalletMap;
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
@@ -49,6 +52,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     checkRestartCriteriaRequestLoading,
     isLoading,
     restartCriteriaFlag,
+    walletMap,
   } = props;
 
   useEffect(() => {
@@ -160,11 +164,16 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                   </div>
                 </Col>
               </Row>
-              <h3>
-                {I18n.t(
-                  'containers.wallet.createOrRestoreWalletPage.chooseRecentBackup'
-                )}
-              </h3>
+              {walletMap?.paths && (
+                <>
+                  <h3>
+                    {I18n.t(
+                      'containers.wallet.createOrRestoreWalletPage.chooseRecentBackup'
+                    )}
+                  </h3>
+                  <RecentWalletsList paths={walletMap.paths} />
+                </>
+              )}
             </>
           )}
         </section>
@@ -178,6 +187,7 @@ const mapStateToProps = (state) => {
   const { latestSyncedBlock, latestBlock } = state.syncstatus;
   const {
     restartCriteria: { isLoading, data: restartCriteriaFlag },
+    walletMap,
   } = state.wallet;
 
   return {
@@ -186,6 +196,7 @@ const mapStateToProps = (state) => {
     latestBlock,
     isLoading,
     restartCriteriaFlag,
+    walletMap,
   };
 };
 

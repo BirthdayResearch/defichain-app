@@ -52,6 +52,9 @@ import {
   accountHistoryCountSuccess,
   accountHistoryCountFailure,
   fetchWalletReset,
+  fetchWalletMapRequest,
+  fetchWalletMapSuccess,
+  fetchWalletMapFailure,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -108,6 +111,7 @@ import { uid } from 'uid';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
+import { getWalletMap } from '../../app/service';
 
 export function* getNetwork() {
   const {
@@ -518,6 +522,18 @@ export function* checkRestartCriteria() {
   }
 }
 
+export function* fetchWalletMap() {
+  try {
+    const walletMap = yield call(getWalletMap);
+    if (walletMap) {
+      yield put(fetchWalletMapSuccess(walletMap));
+    }
+  } catch (err) {
+    log.error(err, 'checkRestartCriteria');
+    yield put(fetchWalletMapFailure(err?.message));
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -548,6 +564,7 @@ function* mySaga() {
     fetchBlockDataForTrxRequestLoading.type,
     fetchBlockDataForTrx
   );
+  yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
 }
 
 export default mySaga;
