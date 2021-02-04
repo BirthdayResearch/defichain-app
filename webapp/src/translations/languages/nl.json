@@ -340,7 +340,7 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "peersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -575,7 +575,7 @@
     "restartWalletWarningNotice": "U moet de DeFi-app opnieuw opstarten. Wilt u opnieuw opstarten?",
     "yesRestartWalletNotice": "Herstart nu ",
     "noRestartWalletNotice": "Later",
-    "peersAndBlocks": "Delete peers and blocks"
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "DeFi app"

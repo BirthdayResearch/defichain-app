@@ -19,8 +19,8 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   const [peers, setPeers] = useState(false);
 
   const handlePeersAndFbloacks = () => {
-    const peersAndBlocks = !peers;
-    setPeers(peersAndBlocks);
+    const deletePeersAndBlocks = !peers;
+    setPeers(deletePeersAndBlocks);
   };
 
   const restartAppWithReIndexing = () => {
@@ -29,7 +29,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     if (peers) {
       restartNodeWithReIndexing({
         isReindexReq: true,
-        isPeersAndBlocksreq: true,
+        isdeletePeersAndBlocksreq: true,
       });
     } else {
       restartNodeWithReIndexing({ isReindexReq: true });
@@ -48,9 +48,9 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
         <p>{I18n.t('alerts.restartAppWithReindexNotice')}</p>
         <ToggleButton
           handleToggles={handlePeersAndFbloacks}
-          label={'peersAndBlocks'}
+          label={'deletePeersAndBlocks'}
           field={peers}
-          fieldName={'peersAndBlocks'}
+          fieldName={'deletePeersAndBlocks'}
         />
       </ModalBody>
       <ModalFooter>
