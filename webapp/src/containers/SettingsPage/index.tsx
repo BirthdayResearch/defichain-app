@@ -143,6 +143,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   };
 
   const handeReindexToggle = () => {
+    setSettingsPageState({
+      deletePeersAndBlocks: false,
+    });
     setIsReindexAfterSaving(!reindexAfterSaving);
   };
 
