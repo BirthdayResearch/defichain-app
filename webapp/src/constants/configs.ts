@@ -160,6 +160,7 @@ export const SENT_CATEGORY_LABEL = 'sent';
 export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const ACCOUNT_TO_UTXOS_LABEL = 'AccountToUtxos';
 export const ACCOUNT_TO_ACCOUNT_LABEL = 'AccountToAccount';
+export const ANY_ACCOUNT_TO_ACCOUNT_LABEL = 'AnyAccountsToAccounts';
 export const REWARD_CATEGORY_LABEL = 'Reward';
 export const COMMISSION_CATEGORY_LABEL = 'Commission';
 export const SWAP_CATEGORY_LABEL = 'Swap';
@@ -171,3 +172,5 @@ export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 
 // NOTE: APY calculation to use 37 second block time
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
+export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
+export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
