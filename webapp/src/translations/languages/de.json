@@ -840,7 +840,7 @@
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein",
     "download": "Herunterladen",
-    "deletePeersAndBlocks": "Delete peers and blocks"
+    "deletePeersAndBlocks": "Peers und Blöcke löschen"
   },
   "general": {
     "defiApp": "DeFi app",

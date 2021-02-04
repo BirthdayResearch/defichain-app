@@ -403,7 +403,7 @@
         "amountInsufficient": "金額不足",
         "txHash": "交易哈希",
         "somethingWentWrong": "出錯了",
-        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
+        "priceImpactWarning": "交易量超過流動資金池的％{percentage}。如果繼續進行交換，將會造成可觀的價格影響。",
         "preparingUTXO": "正在準備 UTXO",
         "UTXOPrepared": "UTXO 已準備好",
         "transferringTokens": "轉移代幣",
@@ -536,7 +536,7 @@
       "mainnet": "主網",
       "testnet": "測試網",
       "regnet": "沙河測試網",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "刪除對等節點與區塊數據"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
