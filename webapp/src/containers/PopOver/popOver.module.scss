@@ -1,9 +1,4 @@
-// App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import '../../scss/bootstrap/common';
 
 .dark {
   background-color: $gray-900 !important;
@@ -28,18 +23,6 @@
       animation: rotation 2s infinite linear;
     }
   }
-}
-
-.backupIcon {
-  width: 80px;
-  height: 80px;
-  background-color: $light;
-  text-align: center;
-  line-height: 80px;
-  border-radius: 100%;
-  margin-bottom: 15px;
-  padding: 18px;
-  color: $secondary;
 }
 
 @-webkit-keyframes rotation {

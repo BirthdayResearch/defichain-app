@@ -17,6 +17,7 @@ import {
   MdPieChart,
   MdSettings,
   MdHelp,
+  MdExitToApp,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
@@ -42,6 +43,7 @@ import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart,
+  openExitWalletModal,
 } from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
@@ -58,6 +60,7 @@ export interface SidebarProps extends RouteComponentProps {
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
   isWalletCreatedFlag: boolean;
+  openExitWalletModal: (t: boolean) => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
@@ -88,6 +91,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isLoadingAddPoolLiquidity,
     isLoadingPoolSwap,
     isWalletCreatedFlag,
+    openExitWalletModal,
   } = props;
 
   useEffect(() => {
@@ -105,9 +109,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
-      {/* NOTE: Do not remove, for future purpose */}
-      {/* <div className='text-right m-2'>
-        {!isWalletEncrypted() ? (
+      <div className={`text-right m-2 mr-3 ${styles.iconSideBar}`}>
+        {/* NOTE: Do not remove, for future purpose */}
+        {/* {!isWalletEncrypted() ? (
           <MdLockOpen
             className={styles.iconPointer}
             size={25}
@@ -125,8 +129,15 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             size={25}
             onClick={openWalletPassphraseModal}
           />
+        )} */}
+        {isWalletCreatedFlag && (
+          <MdExitToApp
+            onClick={() => openExitWalletModal(true)}
+            className={`ml-2 ${styles.iconPointer} ${styles.flipX} ${styles.iconNavTop}`}
+            size={25}
+          />
         )}
-      </div> */}
+      </div>
       <div className={styles.currentNetwork}>
         <div className={styles.currentNetworkHeading}>
           {I18n.t('components.syncStatus.network')}
@@ -306,6 +317,7 @@ const mapDispatchToProps = {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart: () => lockWalletStart({}),
+  openExitWalletModal,
 };
 
 export default withRouter(

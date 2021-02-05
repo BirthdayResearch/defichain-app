@@ -58,7 +58,8 @@ export const MAINNET_BASE_FOLDER =
     ? BASE_FILE_PATH
     : path.join(BASE_FILE_PATH, 'wallets');
 
-export const DAT_FILE = '.dat';
+export const DAT_FILE = 'dat';
+export const DAT_FILE_TYPE = `.${DAT_FILE}`;
 export const BLK_FILE = 'blk';
 export const REV_FILE = 'rev';
 export const WALLET_MAP_FILE = 'wallet_map.json';

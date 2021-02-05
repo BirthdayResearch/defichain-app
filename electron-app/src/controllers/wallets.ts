@@ -10,6 +10,7 @@ import {
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
+  ON_WALLET_BACKUP_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
@@ -168,6 +169,23 @@ export const setWalletEvents = () => {
       }
     }
   );
+
+  ipcMain.on(ON_WALLET_BACKUP_REQUEST, async (event: Electron.IpcMainEvent) => {
+    try {
+      const paths = await saveFileDialog([
+        { name: DAT_FILE.toUpperCase(), extensions: [DAT_FILE] },
+      ]);
+
+      event.returnValue = responseMessage(true, {
+        paths: appendExtension(paths, DAT_FILE),
+      });
+    } catch (error) {
+      log.error(error);
+      event.returnValue = responseMessage(false, {
+        message: error.message,
+      });
+    }
+  });
 };
 
 export const createWalletMap = () => {
@@ -216,11 +234,11 @@ export default class Wallet {
   async backup(bw: Electron.BrowserWindow) {
     try {
       const paths = await saveFileDialog([
-        { name: 'DAT', extensions: ['dat'] },
+        { name: DAT_FILE.toUpperCase(), extensions: [DAT_FILE] },
       ]);
 
       bw.webContents.send(MENU_BACKUP_WALLET, {
-        paths: appendExtension(paths, 'dat'),
+        paths: appendExtension(paths, DAT_FILE),
       });
       return responseMessage(true, {});
     } catch (err) {
@@ -233,9 +251,9 @@ export default class Wallet {
 
   async backupWalletDat() {
     const paths = await saveFileDialog([
-      { name: 'Wallet', extensions: ['dat'] },
+      { name: 'Wallet', extensions: [DAT_FILE] },
     ]);
-    const dest = appendExtension(paths, 'dat');
+    const dest = appendExtension(paths, DAT_FILE);
     const baseFolder = getBaseFolder();
     const src = path.join(baseFolder, WALLET_DAT);
     return copyFile(src, dest);

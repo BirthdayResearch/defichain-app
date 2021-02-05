@@ -33,6 +33,7 @@ import {
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import {
+  ON_WALLET_BACKUP_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
   ON_WALLET_RESTORE_VIA_RECENT,
   ON_WALLET_RESTORE_VIA_RECENT_CHECK,
@@ -569,6 +570,23 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
     );
     if (resp?.success) {
       updateWalletMap(path);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startBackupViaExitModal = async () => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
+    if (resp?.success) {
+      updateWalletMap(resp?.data?.paths);
     }
     return resp;
   } catch (error) {

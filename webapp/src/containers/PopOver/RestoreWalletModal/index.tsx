@@ -28,7 +28,7 @@ const RestoreWalletModal: React.FunctionComponent<RestoreWalletModalProps> = (
   return (
     <Modal className='text-center' isOpen={isRestoreWalletOpen} centered>
       <ModalBody className='p-5'>
-        <MdRestorePage size={20} className={styles.backupIcon} />
+        <MdRestorePage size={20} className={styles.iconBadge} />
         <p className='mb-0'>{I18n.t('alerts.restoreYourWallet')}</p>
         <h6 className='mb-0'>{shortenedPathAddress(filePath)}</h6>
       </ModalBody>
