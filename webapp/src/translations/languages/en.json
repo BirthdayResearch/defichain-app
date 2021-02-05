@@ -847,7 +847,8 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No",
-    "download": "Download"
+    "download": "Download",
+    "restoreYourWallet": "Restore your wallet from the following backup?"
   },
   "general": {
     "defiApp": "DeFi app",

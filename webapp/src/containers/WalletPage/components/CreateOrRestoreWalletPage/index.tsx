@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Col, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import {
   MdAccountBalanceWallet,
+  MdErrorOutline,
   MdFormatListBulleted,
   MdRestorePage,
 } from 'react-icons/md';
@@ -20,7 +21,10 @@ import {
   openWalletRestartModal,
 } from '../../../PopOver/reducer';
 import Header from '../../../HeaderComponent';
-import { checkRestartCriteriaRequestLoading } from '../../reducer';
+import {
+  checkRestartCriteriaRequestLoading,
+  resetRestoreWalletError,
+} from '../../reducer';
 import { getPageTitle } from '../../../../utils/utility';
 import CustomIcon from '../../../../components/CustomIcon';
 import LedgerNano from '../../../../assets/svg/icon-ledger.svg';
@@ -28,6 +32,9 @@ import RecentWalletsList from './RecentWalletsList';
 import { WalletMap } from '@defi_types/walletMap';
 import { startRestoreWalletViaBackup } from '../../reducer';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import classnames from 'classnames';
+import styles from '../RestoreWallet/RestoreWallet.module.scss';
+import { restoreWalletViaRecent } from '../../../PopOver/reducer';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -42,6 +49,9 @@ interface CreateOrRestoreWalletPageProps {
   walletMap: WalletMap;
   startRestoreWalletViaBackup: () => void;
   isWalletRestoring: boolean;
+  isErrorRestoringWallet: string;
+  resetRestoreWalletError: () => void;
+  restoreWalletViaRecent: (p: string) => void;
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
@@ -59,6 +69,9 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     walletMap,
     startRestoreWalletViaBackup,
     isWalletRestoring,
+    isErrorRestoringWallet,
+    resetRestoreWalletError,
+    restoreWalletViaRecent,
   } = props;
 
   useEffect(() => {
@@ -88,6 +101,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   const restoreWalletViaBackup = () => {
     isBlocksLoaded()
       ? startRestoreWalletViaBackup()
+      : history.push(WALLET_SYNC_PAGE_PATH);
+  };
+
+  const onRestoreRecentBackup = (p: string) => {
+    isBlocksLoaded()
+      ? restoreWalletViaRecent(p)
       : history.push(WALLET_SYNC_PAGE_PATH);
   };
 
@@ -187,23 +206,50 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                       'containers.wallet.createOrRestoreWalletPage.chooseRecentBackup'
                     )}
                   </h3>
-                  <RecentWalletsList paths={walletMap.paths} />
+                  <RecentWalletsList
+                    paths={walletMap.paths}
+                    onRestore={onRestoreRecentBackup}
+                  />
                 </>
               )}
             </>
           )}
         </section>
       </div>
-      {isWalletRestoring && (
+      {isWalletRestoring ? (
         <footer className='footer-bar'>
-          (
           <WalletLoadingFooter
             message={I18n.t(
               'containers.wallet.restoreWalletPage.importingWallet'
             )}
           />
-          )
         </footer>
+      ) : (
+        isErrorRestoringWallet.length !== 0 && (
+          <>
+            <div className={`footer-sheet`}>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dialog`]]: true,
+                  })}
+                />
+                <p>{isErrorRestoringWallet}</p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center mb-5'>
+              <Button
+                color='primary'
+                onClick={() => {
+                  resetRestoreWalletError();
+                }}
+              >
+                {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}
+              </Button>
+            </div>
+          </>
+        )
       )}
     </>
   );
@@ -216,6 +262,7 @@ const mapStateToProps = (state) => {
     restartCriteria: { isLoading, data: restartCriteriaFlag },
     walletMap,
     isWalletRestoring,
+    isErrorRestoringWallet,
   } = state.wallet;
 
   return {
@@ -226,6 +273,7 @@ const mapStateToProps = (state) => {
     restartCriteriaFlag,
     walletMap,
     isWalletRestoring,
+    isErrorRestoringWallet,
   };
 };
 
@@ -234,6 +282,8 @@ const mapDispatchToProps = {
   openWalletRestartModal,
   checkRestartCriteriaRequestLoading,
   startRestoreWalletViaBackup,
+  resetRestoreWalletError: () => resetRestoreWalletError({}),
+  restoreWalletViaRecent,
 };
 
 export default connect(

@@ -128,16 +128,18 @@ export const dumpWallet = async (paths: string) => {
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
-export const updateWalletMap = (path: string): void => {
+export const updateWalletMap = (path: string, isRemove?: boolean): void => {
   try {
+    const filterPath = (v: string) => v !== path;
     const { wallet } = store.getState();
     const ipcRenderer = ipcRendererFunc();
     const walletMap = wallet.walletMap;
     const tempWalletMap = { ...walletMap };
-    const walletMapPaths = [...walletMap.paths].filter(
-      (v: string) => v !== path
-    );
+    const walletMapPaths = [...walletMap.paths].filter(filterPath);
     tempWalletMap.paths = [path, ...walletMapPaths];
+    if (isRemove) {
+      tempWalletMap.paths = tempWalletMap.paths.filter(filterPath);
+    }
     store.dispatch(fetchWalletMapSuccess(tempWalletMap));
     ipcRenderer.send(ON_WALLET_MAP_REPLACE, tempWalletMap);
   } catch (error) {
