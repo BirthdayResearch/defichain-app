@@ -502,7 +502,7 @@ export const checkElementsInArray = (
 
 export const getNetworkType = () => {
   const state = store.getState();
-  const blockChainInfo: any = state.wallet.blockChainInfo;
+  const blockChainInfo: any = state?.wallet?.blockChainInfo;
   return blockChainInfo.chain || MAIN;
 };
 
@@ -1441,4 +1441,20 @@ export const getMaxNumberOfAmount = (value: string, hash: string): string => {
   return hash === DFI_SYMBOL
     ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8)
     : new BigNumber(value).toFixed(8);
+};
+
+export const shortenedPathAddress = (p: string): string => {
+  try {
+    const fileLength = 50;
+    if (p && p.length > fileLength) {
+      const middle = Math.floor(p.length / 3);
+      const firstHalf = Math.floor(middle / 2);
+      return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
+    } else {
+      return p;
+    }
+  } catch (error) {
+    log.error(error, 'shortenedPathAddress');
+    return p;
+  }
 };

@@ -67,6 +67,8 @@ export const initialState = {
     data: true,
     isError: '',
   },
+  walletMap: {},
+  walletMapError: '',
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -283,6 +285,30 @@ const configSlice = createSlice({
       state.isTokensLoaded = false;
       state.isLoadingTokens = false;
     },
+    fetchWalletMapRequest(state) {
+      state.walletMap = {};
+      state.walletMapError = '';
+    },
+    fetchWalletMapSuccess(state, action) {
+      state.walletMap = action.payload;
+      state.walletMapError = '';
+    },
+    fetchWalletMapFailure(state, action) {
+      state.walletMapError = action.payload;
+      state.walletMap = {};
+    },
+    startRestoreWalletViaBackup(state) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletViaBackupFailure(state, action) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = action.payload;
+    },
+    startRestoreWalletViaRecent(state, action) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
   },
 });
 
@@ -344,6 +370,12 @@ export const {
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
   fetchWalletReset,
+  fetchWalletMapRequest,
+  fetchWalletMapSuccess,
+  fetchWalletMapFailure,
+  startRestoreWalletViaBackup,
+  restoreWalletViaBackupFailure,
+  startRestoreWalletViaRecent,
 } = actions;
 
 export default reducer;

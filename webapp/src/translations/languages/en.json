@@ -410,6 +410,7 @@
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
         "somethingWentWrong": "Something went wrong",
+        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
@@ -562,7 +563,12 @@
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
         "loading": "Loading...",
         "restoreFromBackup": "Restore wallet from backup",
-        "connectToALedger": "Connect to a Ledger hardware wallet (Coming Soon)"
+        "connectToALedger": "Connect to a hardware wallet",
+        "hdWallet": "HD wallet",
+        "mnemonicSeed": "Mnemonic seed",
+        "walletDat": "wallet.dat",
+        "chooseRecentBackup": "Or choose a recent backup",
+        "comingSoon": "Coming soon"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -602,7 +608,8 @@
         "enterWord": "Enter word",
         "restoringWallet": "Restoring wallet",
         "restore": "Restore",
-        "backToWalletPage": "Close"
+        "backToWalletPage": "Close",
+        "importingWallet": "Importing wallet"
       },
       "sendPage": {
         "sendTitle": "Send",
@@ -841,7 +848,9 @@
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No",
-    "download": "Download"
+    "download": "Download",
+    "restoreYourWallet": "Restore your wallet from the following backup?",
+    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?"
   },
   "general": {
     "defiApp": "DeFi app",

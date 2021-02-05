@@ -42,14 +42,18 @@ const ResetWalletDatModal = (props: ResetWalletDatModalProps) => {
         <ModalFooter>
           <Button
             size='sm'
+            color='link'
+            onClick={() => closeResetWalletDatModal()}
+          >
+            {I18n.t('alerts.cancel')}
+          </Button>
+          <Button
+            size='sm'
             color='primary'
             disabled={!(text === RESET_WALLET_CONFIRMATION_TEXT)}
             onClick={() => startResetWalletDatRequest()}
           >
-            {I18n.t('alerts.yeResetpWalletNotice')}
-          </Button>
-          <Button size='sm' onClick={() => closeResetWalletDatModal()}>
-            {I18n.t('alerts.noResetWalletNotice')}
+            {I18n.t('alerts.reset')}
           </Button>
         </ModalFooter>
       </Modal>
