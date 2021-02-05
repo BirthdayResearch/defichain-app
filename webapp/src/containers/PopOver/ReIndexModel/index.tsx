@@ -18,7 +18,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   const { closeReIndexModal, isRestartLoader, isReIndexModelOpen } = props;
   const [peers, setPeers] = useState(false);
 
-  const handlePeersAndFbloacks = () => {
+  const handleDeletePeersAndblocks = () => {
     const deletePeersAndBlocks = !peers;
     setPeers(deletePeersAndBlocks);
   };
@@ -47,7 +47,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
         <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
         <p>{I18n.t('alerts.restartAppWithReindexNotice')}</p>
         <ToggleButton
-          handleToggles={handlePeersAndFbloacks}
+          handleToggles={handleDeletePeersAndblocks}
           label={'deletePeersAndBlocks'}
           field={peers}
           fieldName={'deletePeersAndBlocks'}
