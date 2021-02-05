@@ -568,7 +568,7 @@
         "mnemonicSeed": "Mnemonic seed",
         "walletDat": "wallet.dat",
         "chooseRecentBackup": "Or choose a recent backup",
-        "comingSoon": "(Coming Soon)"
+        "comingSoon": "Coming soon"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -848,7 +848,8 @@
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No",
     "download": "Download",
-    "restoreYourWallet": "Restore your wallet from the following backup?"
+    "restoreYourWallet": "Restore your wallet from the following backup?",
+    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?"
   },
   "general": {
     "defiApp": "DeFi app",
