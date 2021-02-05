@@ -57,6 +57,7 @@ import {
   fetchWalletMapFailure,
   startRestoreWalletViaBackup,
   restoreWalletViaBackupFailure,
+  startRestoreWalletViaRecent,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -77,6 +78,7 @@ import {
   handleRestartCriteria,
   handleFetchAccountHistoryCount,
   startRestoreViaBackup,
+  startRestoreViaRecent,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -115,6 +117,8 @@ import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
 import { getWalletMap } from '../../app/service';
+import path from 'path';
+import { openRestoreWalletModal } from '../PopOver/reducer';
 
 export function* getNetwork() {
   const {
@@ -296,6 +300,20 @@ export function fetchSendData() {
   queuePush(handleSendData, [], callBack);
 }
 
+function* setWalletExistingIfInConf(conf: any, chain: any) {
+  const network = getNetworkType();
+  //* If wallet is existing on conf, set wallet loaded
+  if (conf && conf[network]?.wallet && conf[network]?.walletdir) {
+    const isWalletCreated =
+      network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+    PersistentStore.set(isWalletCreated, true);
+    store.dispatch(setIsWalletCreatedRequest(true));
+  } else {
+    const isWalletCreatedVal = isWalletCreated(chain);
+    yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
+  }
+}
+
 export function* fetchChainInfo() {
   let result;
   try {
@@ -306,8 +324,8 @@ export function* fetchChainInfo() {
     result = {};
   }
   yield put(setBlockChainInfo(result));
-  const isWalletCreatedVal = isWalletCreated(result.chain);
-  yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
+  const { app } = store.getState();
+  yield call(setWalletExistingIfInConf, app.configurationData, result.chain);
 }
 
 export function* fetchTokens() {
@@ -413,7 +431,10 @@ export function* restoreWallet(action) {
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    restoreWalletStep(networkType);
+    yield call(restoreWalletStep, networkType);
+    yield call(() => {
+      history.push(WALLET_TOKENS_PATH);
+    });
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
@@ -434,17 +455,16 @@ export function* restoreWalletStep(networkType: string) {
   yield call(fetchAccountTokensRequest);
   yield call(fetchPaymentRequest);
   yield put({ type: restoreWalletSuccess.type });
-  yield call(() => {
-    history.push(WALLET_TOKENS_PATH);
-  });
 }
 
 export function* restoreWalletViaBackup() {
   try {
+    log.info(`Starting restore via backup...`, 'restoreWalletViaBackup');
     const networkType = getNetworkType();
     const resp = yield call(startRestoreViaBackup, networkType);
     if (resp?.success) {
-      restoreWalletStep(networkType);
+      yield call(restoreWalletStep, networkType);
+      log.info(`Restore via backup successful`, 'restoreWalletViaBackup');
     } else {
       yield put({
         type: restoreWalletViaBackupFailure.type,
@@ -452,7 +472,31 @@ export function* restoreWalletViaBackup() {
       });
     }
   } catch (e) {
-    log.error(e.message);
+    log.error(e.message, 'restoreWalletViaBackup');
+    yield put({
+      type: restoreWalletViaBackupFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
+export function* restoreWalletViaRecent(action: any) {
+  try {
+    log.info(`Starting restore via recent...`, 'restoreWalletViaRecent');
+    const networkType = getNetworkType();
+    const resp = yield call(startRestoreViaRecent, action.payload, networkType);
+    if (resp?.success) {
+      yield put(openRestoreWalletModal({ isOpen: false, filePath: null }));
+      yield call(restoreWalletStep, networkType);
+      log.info(`Restore via recent successful`, 'restoreWalletViaRecent');
+    } else {
+      yield put({
+        type: restoreWalletViaBackupFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    log.error(e.message, 'restoreWalletViaRecent');
     yield put({
       type: restoreWalletViaBackupFailure.type,
       payload: getErrorMessage(e),
@@ -604,6 +648,7 @@ function* mySaga() {
   );
   yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
   yield takeLatest(startRestoreWalletViaBackup.type, restoreWalletViaBackup);
+  yield takeLatest(startRestoreWalletViaRecent.type, restoreWalletViaRecent);
 }
 
 export default mySaga;

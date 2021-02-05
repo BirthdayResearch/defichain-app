@@ -32,7 +32,11 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
-import { ON_WALLET_RESTORE_VIA_BACKUP } from '../../../../typings/ipcEvents';
+import {
+  ON_WALLET_RESTORE_VIA_BACKUP,
+  ON_WALLET_RESTORE_VIA_RECENT,
+  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+} from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
 import { updateWalletMap } from '../../app/service';
 
@@ -531,6 +535,44 @@ export const startRestoreViaBackup = async (network: string) => {
     return resp;
   } catch (error) {
     log.error(error, 'handleRestoreWalletViaBackup');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const checkRestoreRecentIfExisting = async (path: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_RECENT_CHECK, path);
+    if (!resp?.success) {
+      updateWalletMap(path, true);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'checkRestoreIfExisting');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startRestoreViaRecent = async (path: string, network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(
+      ON_WALLET_RESTORE_VIA_RECENT,
+      path,
+      network
+    );
+    if (resp?.success) {
+      updateWalletMap(path);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
     return {
       success: false,
       message: error?.message,

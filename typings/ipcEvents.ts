@@ -31,3 +31,6 @@ export const APP_INIT = 'app-init';
 export const ON_WALLET_MAP_REQUEST = 'on-wallet-map-request';
 export const ON_WALLET_MAP_REPLACE = 'on-wallet-map-replace';
 export const ON_WALLET_RESTORE_VIA_BACKUP = 'on-wallet-restore-via-backup';
+export const ON_WALLET_RESTORE_VIA_RECENT_CHECK =
+  'on-wallet-restore-via-recent-check';
+export const ON_WALLET_RESTORE_VIA_RECENT = 'on-wallet-restore-via-recent';

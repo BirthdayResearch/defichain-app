@@ -1,13 +1,20 @@
 import path from 'path';
 import * as log from '../services/electronLogger';
 import DialogManager from '../services/dialogmanager';
-import { CONFIG_FILE_NAME, WALLET_DAT, WALLET_MAP_FILE } from '../constants';
+import {
+  CONFIG_FILE_NAME,
+  DAT_FILE,
+  WALLET_DAT,
+  WALLET_MAP_FILE,
+} from '../constants';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
+  ON_WALLET_RESTORE_VIA_RECENT,
+  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
 } from '@defi_types/ipcEvents';
@@ -108,8 +115,51 @@ export const setWalletEvents = () => {
       try {
         const dialogManager = new DialogManager();
         const filePath = await dialogManager.getFilePath();
-        writeToConfigFile(path.parse(filePath[0]), network);
-        event.returnValue = responseMessage(true, filePath[0]);
+        const parsedPath = path.parse(filePath[0]);
+        if (parsedPath.ext === DAT_FILE) {
+          writeToConfigFile(parsedPath, network);
+          event.returnValue = responseMessage(true, filePath[0]);
+        } else {
+          throw new Error(`File selected is not a valid ${DAT_FILE} type.`);
+        }
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    }
+  );
+
+  ipcMain.on(
+    ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+    async (event: Electron.IpcMainEvent, filePath: string) => {
+      try {
+        if (checkPathExists(filePath)) {
+          event.returnValue = responseMessage(true, filePath);
+        } else {
+          throw new Error(`File selected does not exist.`);
+        }
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    }
+  );
+
+  ipcMain.on(
+    ON_WALLET_RESTORE_VIA_RECENT,
+    async (event: Electron.IpcMainEvent, filePath: string, network: string) => {
+      try {
+        if (checkPathExists(filePath)) {
+          const parsedPath = path.parse(filePath);
+          writeToConfigFile(parsedPath, network);
+          event.returnValue = responseMessage(true, filePath);
+        } else {
+          throw new Error(`File selected does not exist.`);
+        }
       } catch (error) {
         log.error(error);
         event.returnValue = responseMessage(false, {
