@@ -23,6 +23,7 @@ import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 import * as logger from '../utils/electronLogger';
 import { PACKAGE_VERSION } from 'src/constants';
 import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
+import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -117,6 +118,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <GeneralReIndexModal />
       <RefreshUtxosModal />
       <RestoreWalletModal />
+      <ExitWalletModal />
     </>
   );
 };

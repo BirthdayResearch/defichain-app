@@ -1,9 +1,5 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import '../../scss/bootstrap/common';
 
 .sidebar {
   width: 224px;
@@ -15,7 +11,7 @@
 }
 
 .blur {
-  background: rgba(0, 0, 0, 0.2);
+  background: $gray-200;
 }
 
 div[disabled] {
@@ -25,7 +21,18 @@ div[disabled] {
 
 .iconPointer {
   cursor: pointer;
-  color: #cccdcd;
+  color: $secondary;
+}
+
+.iconSideBar {
+  min-height: 26px;
+}
+
+.iconNavTop {
+  &:hover {
+    color: $black;
+    transition: all 0.2ms linear;
+  }
 }
 
 .currentNetwork {

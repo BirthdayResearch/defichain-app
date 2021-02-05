@@ -309,6 +309,7 @@ const configSlice = createSlice({
       state.isWalletRestoring = true;
       state.isErrorRestoringWallet = '';
     },
+    startBackupWalletViaExitModal(state) {},
   },
 });
 
@@ -376,6 +377,7 @@ export const {
   startRestoreWalletViaBackup,
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
+  startBackupWalletViaExitModal,
 } = actions;
 
 export default reducer;

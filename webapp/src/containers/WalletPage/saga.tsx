@@ -58,6 +58,7 @@ import {
   startRestoreWalletViaBackup,
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
+  startBackupWalletViaExitModal,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -79,6 +80,7 @@ import {
   handleFetchAccountHistoryCount,
   startRestoreViaBackup,
   startRestoreViaRecent,
+  startBackupViaExitModal,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -118,7 +120,11 @@ import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
 import { getWalletMap } from '../../app/service';
 import path from 'path';
-import { openRestoreWalletModal } from '../PopOver/reducer';
+import {
+  openExitWalletModal,
+  openRestoreWalletModal,
+  startResetWalletDatRequest,
+} from '../PopOver/reducer';
 
 export function* getNetwork() {
   const {
@@ -504,6 +510,23 @@ export function* restoreWalletViaRecent(action: any) {
   }
 }
 
+export function* backupWalletViaExitModal() {
+  try {
+    log.info(`Starting backup via exit modal...`, 'backupWalletViaExitModal');
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openExitWalletModal(false));
+      yield put(startResetWalletDatRequest);
+      log.info(`Exit wallet successful`, 'backupWalletViaExitModal');
+    } else {
+      yield put(openExitWalletModal(false));
+    }
+  } catch (e) {
+    yield put(openExitWalletModal(false));
+    log.error(e.message, 'backupWalletViaExitModal');
+  }
+}
+
 export function* fetchInstantBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
@@ -649,6 +672,10 @@ function* mySaga() {
   yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
   yield takeLatest(startRestoreWalletViaBackup.type, restoreWalletViaBackup);
   yield takeLatest(startRestoreWalletViaRecent.type, restoreWalletViaRecent);
+  yield takeLatest(
+    startBackupWalletViaExitModal.type,
+    backupWalletViaExitModal
+  );
 }
 
 export default mySaga;

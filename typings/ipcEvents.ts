@@ -34,3 +34,4 @@ export const ON_WALLET_RESTORE_VIA_BACKUP = 'on-wallet-restore-via-backup';
 export const ON_WALLET_RESTORE_VIA_RECENT_CHECK =
   'on-wallet-restore-via-recent-check';
 export const ON_WALLET_RESTORE_VIA_RECENT = 'on-wallet-restore-via-recent';
+export const ON_WALLET_BACKUP_REQUEST = 'on-wallet-backup-request';
