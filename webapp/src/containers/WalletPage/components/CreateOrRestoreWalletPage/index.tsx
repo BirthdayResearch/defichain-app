@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Col, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import {
   MdAccountBalanceWallet,
+  MdErrorOutline,
   MdFormatListBulleted,
-  MdSettingsBackupRestore,
+  MdRestorePage,
 } from 'react-icons/md';
 import { connect } from 'react-redux';
 
@@ -20,8 +21,20 @@ import {
   openWalletRestartModal,
 } from '../../../PopOver/reducer';
 import Header from '../../../HeaderComponent';
-import { checkRestartCriteriaRequestLoading } from '../../reducer';
+import {
+  checkRestartCriteriaRequestLoading,
+  resetRestoreWalletError,
+} from '../../reducer';
 import { getPageTitle } from '../../../../utils/utility';
+import CustomIcon from '../../../../components/CustomIcon';
+import LedgerNano from '../../../../assets/svg/icon-ledger.svg';
+import RecentWalletsList from './RecentWalletsList';
+import { WalletMap } from '@defi_types/walletMap';
+import { startRestoreWalletViaBackup } from '../../reducer';
+import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import classnames from 'classnames';
+import styles from '../RestoreWallet/RestoreWallet.module.scss';
+import { restoreWalletViaRecent } from '../../../PopOver/reducer';
 
 interface CreateOrRestoreWalletPageProps {
   history: any;
@@ -33,6 +46,12 @@ interface CreateOrRestoreWalletPageProps {
   checkRestartCriteriaRequestLoading: () => void;
   isLoading: boolean;
   restartCriteriaFlag: boolean;
+  walletMap: WalletMap;
+  startRestoreWalletViaBackup: () => void;
+  isWalletRestoring: boolean;
+  isErrorRestoringWallet: string;
+  resetRestoreWalletError: () => void;
+  restoreWalletViaRecent: (p: string) => void;
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
@@ -47,14 +66,24 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     checkRestartCriteriaRequestLoading,
     isLoading,
     restartCriteriaFlag,
+    walletMap,
+    startRestoreWalletViaBackup,
+    isWalletRestoring,
+    isErrorRestoringWallet,
+    resetRestoreWalletError,
+    restoreWalletViaRecent,
   } = props;
 
   useEffect(() => {
     checkRestartCriteriaRequestLoading();
   }, []);
 
+  const isBlocksLoaded = (): boolean => {
+    return latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock;
+  };
+
   const createWallet = () => {
-    latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock
+    isBlocksLoaded()
       ? restartCriteriaFlag && !isWalletReplace
         ? openBackupWalletWarningModal()
         : history.push(WALLET_BASE_PATH)
@@ -62,15 +91,27 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   };
 
   const restoreWallet = () => {
-    latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock
+    isBlocksLoaded()
       ? restartCriteriaFlag && !isWalletReplace
         ? openBackupWalletWarningModal()
         : history.push(WALLET_RESTORE_PAGE_PATH)
       : history.push(WALLET_SYNC_PAGE_PATH);
   };
 
+  const restoreWalletViaBackup = () => {
+    isBlocksLoaded()
+      ? startRestoreWalletViaBackup()
+      : history.push(WALLET_SYNC_PAGE_PATH);
+  };
+
+  const onRestoreRecentBackup = (p: string) => {
+    isBlocksLoaded()
+      ? restoreWalletViaRecent(p)
+      : history.push(WALLET_SYNC_PAGE_PATH);
+  };
+
   return (
-    <div>
+    <>
       <Helmet>
         <title>
           {getPageTitle(
@@ -101,6 +142,9 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.createANewWallet'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.hdWallet'
+                      )}
                       icon={
                         <MdAccountBalanceWallet size={48} color='#ff00af' />
                       }
@@ -113,8 +157,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.connectToALedger'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.comingSoon'
+                      )}
                       icon={
-                        <MdFormatListBulleted
+                        <CustomIcon
+                          src={LedgerNano}
                           size={48}
                           color='rgba(0, 0, 0, 0.4)'
                         />
@@ -125,33 +173,85 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
               </Row>
               <Row>
                 <Col sm='12' md='6' className={'cursor-pointer'}>
-                  <div>
-                    <WalletStatCard
-                      label={I18n.t(
-                        'containers.wallet.createOrRestoreWalletPage.restoreFromBackup'
-                      )}
-                      icon={
-                        <MdSettingsBackupRestore size={48} color='#ff00af' />
-                      }
-                    />
-                  </div>
-                </Col>
-                <Col sm='12' md='6' className={'cursor-pointer'}>
                   <div onClick={restoreWallet}>
                     <WalletStatCard
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
                       )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.mnemonicSeed'
+                      )}
                       icon={<MdFormatListBulleted size={48} color='#ff00af' />}
                     />
                   </div>
                 </Col>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div onClick={restoreWalletViaBackup}>
+                    <WalletStatCard
+                      label={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.restoreFromBackup'
+                      )}
+                      subtitle={I18n.t(
+                        'containers.wallet.createOrRestoreWalletPage.walletDat'
+                      )}
+                      icon={<MdRestorePage size={48} color='#ff00af' />}
+                    />
+                  </div>
+                </Col>
               </Row>
+              {walletMap?.paths && (
+                <>
+                  <h3>
+                    {I18n.t(
+                      'containers.wallet.createOrRestoreWalletPage.chooseRecentBackup'
+                    )}
+                  </h3>
+                  <RecentWalletsList
+                    paths={walletMap.paths}
+                    onRestore={onRestoreRecentBackup}
+                  />
+                </>
+              )}
             </>
           )}
         </section>
       </div>
-    </div>
+      {isWalletRestoring ? (
+        <footer className='footer-bar'>
+          <WalletLoadingFooter
+            message={I18n.t(
+              'containers.wallet.restoreWalletPage.importingWallet'
+            )}
+          />
+        </footer>
+      ) : (
+        isErrorRestoringWallet.length !== 0 && (
+          <>
+            <div className={`footer-sheet`}>
+              <div className='text-center'>
+                <MdErrorOutline
+                  className={classnames({
+                    'footer-sheet-icon': true,
+                    [styles[`error-dialog`]]: true,
+                  })}
+                />
+                <p>{isErrorRestoringWallet}</p>
+              </div>
+            </div>
+            <div className='d-flex align-items-center justify-content-center mb-5'>
+              <Button
+                color='primary'
+                onClick={() => {
+                  resetRestoreWalletError();
+                }}
+              >
+                {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}
+              </Button>
+            </div>
+          </>
+        )
+      )}
+    </>
   );
 };
 
@@ -160,6 +260,9 @@ const mapStateToProps = (state) => {
   const { latestSyncedBlock, latestBlock } = state.syncstatus;
   const {
     restartCriteria: { isLoading, data: restartCriteriaFlag },
+    walletMap,
+    isWalletRestoring,
+    isErrorRestoringWallet,
   } = state.wallet;
 
   return {
@@ -168,6 +271,9 @@ const mapStateToProps = (state) => {
     latestBlock,
     isLoading,
     restartCriteriaFlag,
+    walletMap,
+    isWalletRestoring,
+    isErrorRestoringWallet,
   };
 };
 
@@ -175,6 +281,9 @@ const mapDispatchToProps = {
   openBackupWalletWarningModal,
   openWalletRestartModal,
   checkRestartCriteriaRequestLoading,
+  startRestoreWalletViaBackup,
+  resetRestoreWalletError: () => resetRestoreWalletError({}),
+  restoreWalletViaRecent,
 };
 
 export default connect(
