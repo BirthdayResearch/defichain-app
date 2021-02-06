@@ -803,7 +803,10 @@
     "confirmResetWalletText": "請把 ‘%{text}’ 輸入在文本域裡，以確定刷新。",
     "yeResetpWalletNotice": "是的",
     "noResetWalletNotice": "否定",
-    "restoreYourWallet": "從以下備份中還原您的錢包?"
+    "restoreYourWallet": "從以下備份中還原您的錢包?",
+    "exitBackupWarning": "現在退出將會從應用程序中刪除您的錢包。如果以後要添加此錢包，將需要助記詞。您要在退出之前備份您的錢包嗎?",
+    "backupAndExit": "備份並退出",
+    "exit": "退出"
   },
   "general": {
     "defiApp": "DeFi 應用程式"
