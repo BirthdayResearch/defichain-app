@@ -41,7 +41,8 @@
       "help": "Hilfe",
       "settings": "Einstellungen",
       "console": "Konsole",
-      "liquidity": "Liquidität"
+      "liquidity": "Liquidität",
+      "selectCreateRestore": "Wallet erstellen oder wiederherstellen, um Zugriff auf die Funktionen der Wallet zu erhalten"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -559,8 +560,13 @@
         "loading": "Laden...",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue Wallet erstellen",
-        "restoreWalletFromMnemonicSeed": "Wallet wiederherstellen",
-        "walletSyncNotice": "Sobald die Synchronisierung abgeschlossen ist, kannst Du eine Wallet erstellen oder wiederherstellen."
+        "restoreWalletFromMnemonicSeed": "Wallet aus Seed wiederherstellen",
+        "walletSyncNotice": "Sobald die Synchronisierung abgeschlossen ist, kannst Du eine Wallet erstellen oder wiederherstellen.",
+        "connectToALedger": "Verbinde eine Hardware Wallet",
+        "hdWallet": "HD Wallet",
+        "mnemonicSeed": "Mnemonic Seed",
+        "chooseRecentBackup": "oder benutze ein aktuelles Backup",
+        "comingSoon": "Bald verfügbar"
       },
       "createNewWalletPage": {
         "back": "ZURÜCK",
@@ -600,7 +606,8 @@
         "enterWord": "Wort eingeben",
         "restoringWallet": "Wallet wird wiederhergestellt",
         "restore": "WIEDERHERSTELLEN",
-        "backToWalletPage": "Schließen"
+        "backToWalletPage": "Schließen",
+        "importingWallet": "Importiere Wallet"
       },
       "sendPage": {
         "sendTitle": "Senden",
@@ -838,7 +845,11 @@
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
+    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
+    "backupAndExit": "Backup und Beenden",
+    "exit": "Beenden"
   },
   "general": {
     "defiApp": "DeFi app",
