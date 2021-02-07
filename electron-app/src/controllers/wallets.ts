@@ -4,6 +4,7 @@ import DialogManager from '../services/dialogmanager';
 import {
   CONFIG_FILE_NAME,
   DAT_FILE,
+  DAT_FILE_TYPE,
   WALLET_DAT,
   WALLET_MAP_FILE,
 } from '../constants';
@@ -117,7 +118,7 @@ export const setWalletEvents = () => {
         const dialogManager = new DialogManager();
         const filePath = await dialogManager.getFilePath();
         const parsedPath = path.parse(filePath[0]);
-        if (parsedPath.ext === DAT_FILE) {
+        if (parsedPath.ext === DAT_FILE_TYPE) {
           writeToConfigFile(parsedPath, network);
           event.returnValue = responseMessage(true, filePath[0]);
         } else {
