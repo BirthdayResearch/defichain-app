@@ -1,4 +1,6 @@
+import { I18n } from 'react-redux-i18n';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { ADD_LP_ERROR } from '../../constants/validations';
 import * as log from '../../utils/electronLogger';
 import {
   getErrorMessage,
@@ -89,6 +91,19 @@ export function* fetchPoolPairList() {
   }
 }
 
+const checkLPErrorMessage = (message: string): string => {
+  if (message) {
+    const lpError = I18n.t(ADD_LP_ERROR);
+    const amount = 'amount';
+    const isLess = 'is less than';
+    const testMessage = message.toLowerCase();
+    return testMessage.includes(amount) && testMessage.includes(isLess)
+      ? lpError
+      : message;
+  }
+  return message;
+};
+
 export function* addPoolLiquidity(action) {
   try {
     const {
@@ -108,7 +123,7 @@ export function* addPoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: addPoolLiquidityFailure.type,
-      payload: getErrorMessage(e),
+      payload: checkLPErrorMessage(getErrorMessage(e)),
     });
   }
 }
