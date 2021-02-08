@@ -113,6 +113,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
             }
             isErrorModalOpen={false}
             isLoadingPoolSwap={false}
+            isWalletCreatedFlag={false}
             isWalletUnlocked={false}
             locale="en"
             location={
@@ -133,6 +134,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
               }
             }
             openEncryptWalletModal={[Function]}
+            openExitWalletModal={[Function]}
             openWalletPassphraseModal={[Function]}
             pendingBalance="1"
             unit="DFI"
@@ -142,6 +144,9 @@ exports[`Sidebar component should check for snapshot 1`] = `
               className="undefined false"
               disabled={false}
             >
+              <div
+                className="text-right m-2 mr-3 undefined"
+              />
               <div>
                 <div>
                   Network
@@ -157,12 +162,12 @@ exports[`Sidebar component should check for snapshot 1`] = `
               </div>
               <div>
                 <Nav
-                  className="undefined flex-column nav-pills"
+                  className="align-items-center flex-grow-1"
                   tag="ul"
                   vertical={false}
                 >
                   <ul
-                    className="undefined flex-column nav-pills nav"
+                    className="align-items-center flex-grow-1 nav"
                   >
                     <NavItem
                       tag="li"
@@ -171,8 +176,8 @@ exports[`Sidebar component should check for snapshot 1`] = `
                         className="nav-item"
                       >
                         <NavLink
+                          className="d-flex align-items-center justify-content-center flex-column p-0"
                           exact={true}
-                          isActive={[Function]}
                           tag={
                             Object {
                               "$$typeof": Symbol(react.forward_ref),
@@ -199,17 +204,15 @@ exports[`Sidebar component should check for snapshot 1`] = `
                           to="/wallet/tokens"
                         >
                           <NavLink
-                            className="nav-link"
+                            className="d-flex align-items-center justify-content-center flex-column p-0 nav-link"
                             exact={true}
-                            isActive={[Function]}
                             onClick={[Function]}
                             to="/wallet/tokens"
                           >
                             <Link
-                              aria-current="page"
-                              className="nav-link active"
+                              aria-current={null}
+                              className="d-flex align-items-center justify-content-center flex-column p-0 nav-link"
                               onClick={[Function]}
-                              style={Object {}}
                               to={
                                 Object {
                                   "hash": "",
@@ -220,550 +223,56 @@ exports[`Sidebar component should check for snapshot 1`] = `
                               }
                             >
                               <LinkAnchor
-                                aria-current="page"
-                                className="nav-link active"
+                                aria-current={null}
+                                className="d-flex align-items-center justify-content-center flex-column p-0 nav-link"
                                 href="/wallet/tokens"
                                 navigate={[Function]}
                                 onClick={[Function]}
-                                style={Object {}}
                               >
                                 <a
-                                  aria-current="page"
-                                  className="nav-link active"
+                                  aria-current={null}
+                                  className="d-flex align-items-center justify-content-center flex-column p-0 nav-link"
                                   href="/wallet/tokens"
                                   onClick={[Function]}
-                                  style={Object {}}
                                 >
-                                  <MdAccountBalanceWallet>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
+                                  <div
+                                    className="undefined rounded-circle"
+                                  >
+                                    <MdAccountBalanceWallet>
+                                      <IconBase
+                                        attr={
                                           Object {
-                                            "color": undefined,
+                                            "viewBox": "0 0 24 24",
                                           }
                                         }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
                                       >
-                                        <path
-                                          d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdAccountBalanceWallet>
-                                  Wallets
-                                </a>
-                              </LinkAnchor>
-                            </Link>
-                          </NavLink>
-                        </NavLink>
-                      </li>
-                    </NavItem>
-                    <NavItem
-                      tag="li"
-                    >
-                      <li
-                        className="nav-item"
-                      >
-                        <NavLink
-                          tag={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "propTypes": Object {
-                                "activeClassName": [Function],
-                                "activeStyle": [Function],
-                                "aria-current": [Function],
-                                "className": [Function],
-                                "exact": [Function],
-                                "innerRef": [Function],
-                                "isActive": [Function],
-                                "location": [Function],
-                                "onClick": [Function],
-                                "replace": [Function],
-                                "sensitive": [Function],
-                                "strict": [Function],
-                                "style": [Function],
-                                "target": [Function],
-                                "to": [Function],
-                              },
-                              "render": [Function],
-                            }
-                          }
-                          to="/liquidity"
-                        >
-                          <NavLink
-                            className="nav-link"
-                            onClick={[Function]}
-                            to="/liquidity"
-                          >
-                            <Link
-                              aria-current={null}
-                              className="nav-link"
-                              onClick={[Function]}
-                              to={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/liquidity",
-                                  "search": "",
-                                  "state": null,
-                                }
-                              }
-                            >
-                              <LinkAnchor
-                                aria-current={null}
-                                className="nav-link"
-                                href="/liquidity"
-                                navigate={[Function]}
-                                onClick={[Function]}
-                              >
-                                <a
-                                  aria-current={null}
-                                  className="nav-link"
-                                  href="/liquidity"
-                                  onClick={[Function]}
-                                >
-                                  <MdPieChart>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
+                                        <svg
+                                          fill="currentColor"
+                                          height="1em"
+                                          stroke="currentColor"
+                                          strokeWidth="0"
+                                          style={
+                                            Object {
+                                              "color": undefined,
+                                            }
                                           }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdPieChart>
-                                  Liquidity
-                                </a>
-                              </LinkAnchor>
-                            </Link>
-                          </NavLink>
-                        </NavLink>
-                      </li>
-                    </NavItem>
-                    <NavItem
-                      tag="li"
-                    >
-                      <li
-                        className="nav-item"
-                      >
-                        <NavLink
-                          tag={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "propTypes": Object {
-                                "activeClassName": [Function],
-                                "activeStyle": [Function],
-                                "aria-current": [Function],
-                                "className": [Function],
-                                "exact": [Function],
-                                "innerRef": [Function],
-                                "isActive": [Function],
-                                "location": [Function],
-                                "onClick": [Function],
-                                "replace": [Function],
-                                "sensitive": [Function],
-                                "strict": [Function],
-                                "style": [Function],
-                                "target": [Function],
-                                "to": [Function],
-                              },
-                              "render": [Function],
-                            }
-                          }
-                          to="/swap"
-                        >
-                          <NavLink
-                            className="nav-link"
-                            onClick={[Function]}
-                            to="/swap"
-                          >
-                            <Link
-                              aria-current={null}
-                              className="nav-link"
-                              onClick={[Function]}
-                              to={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/swap",
-                                  "search": "",
-                                  "state": null,
-                                }
-                              }
-                            >
-                              <LinkAnchor
-                                aria-current={null}
-                                className="nav-link"
-                                href="/swap"
-                                navigate={[Function]}
-                                onClick={[Function]}
-                              >
-                                <a
-                                  aria-current={null}
-                                  className="nav-link"
-                                  href="/swap"
-                                  onClick={[Function]}
-                                >
-                                  <MdCompareArrows>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
-                                          }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdCompareArrows>
-                                  DEX
-                                </a>
-                              </LinkAnchor>
-                            </Link>
-                          </NavLink>
-                        </NavLink>
-                      </li>
-                    </NavItem>
-                    <NavItem
-                      tag="li"
-                    >
-                      <li
-                        className="nav-item"
-                      >
-                        <NavLink
-                          tag={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "propTypes": Object {
-                                "activeClassName": [Function],
-                                "activeStyle": [Function],
-                                "aria-current": [Function],
-                                "className": [Function],
-                                "exact": [Function],
-                                "innerRef": [Function],
-                                "isActive": [Function],
-                                "location": [Function],
-                                "onClick": [Function],
-                                "replace": [Function],
-                                "sensitive": [Function],
-                                "strict": [Function],
-                                "style": [Function],
-                                "target": [Function],
-                                "to": [Function],
-                              },
-                              "render": [Function],
-                            }
-                          }
-                          to="/tokens"
-                        >
-                          <NavLink
-                            className="nav-link"
-                            onClick={[Function]}
-                            to="/tokens"
-                          >
-                            <Link
-                              aria-current={null}
-                              className="nav-link"
-                              onClick={[Function]}
-                              to={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/tokens",
-                                  "search": "",
-                                  "state": null,
-                                }
-                              }
-                            >
-                              <LinkAnchor
-                                aria-current={null}
-                                className="nav-link"
-                                href="/tokens"
-                                navigate={[Function]}
-                                onClick={[Function]}
-                              >
-                                <a
-                                  aria-current={null}
-                                  className="nav-link"
-                                  href="/tokens"
-                                  onClick={[Function]}
-                                >
-                                  <MdToll>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
-                                          }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M15 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zM3 12c0-2.61 1.67-4.83 4-5.65V4.26C3.55 5.15 1 8.27 1 12s2.55 6.85 6 7.74v-2.09c-2.33-.82-4-3.04-4-5.65z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdToll>
-                                  Tokens
-                                </a>
-                              </LinkAnchor>
-                            </Link>
-                          </NavLink>
-                        </NavLink>
-                      </li>
-                    </NavItem>
-                    <NavItem
-                      tag="li"
-                    >
-                      <li
-                        className="nav-item"
-                      >
-                        <NavLink
-                          tag={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "propTypes": Object {
-                                "activeClassName": [Function],
-                                "activeStyle": [Function],
-                                "aria-current": [Function],
-                                "className": [Function],
-                                "exact": [Function],
-                                "innerRef": [Function],
-                                "isActive": [Function],
-                                "location": [Function],
-                                "onClick": [Function],
-                                "replace": [Function],
-                                "sensitive": [Function],
-                                "strict": [Function],
-                                "style": [Function],
-                                "target": [Function],
-                                "to": [Function],
-                              },
-                              "render": [Function],
-                            }
-                          }
-                          to="/blockchain"
-                        >
-                          <NavLink
-                            className="nav-link"
-                            onClick={[Function]}
-                            to="/blockchain"
-                          >
-                            <Link
-                              aria-current={null}
-                              className="nav-link"
-                              onClick={[Function]}
-                              to={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/blockchain",
-                                  "search": "",
-                                  "state": null,
-                                }
-                              }
-                            >
-                              <LinkAnchor
-                                aria-current={null}
-                                className="nav-link"
-                                href="/blockchain"
-                                navigate={[Function]}
-                                onClick={[Function]}
-                              >
-                                <a
-                                  aria-current={null}
-                                  className="nav-link"
-                                  href="/blockchain"
-                                  onClick={[Function]}
-                                >
-                                  <MdViewWeek>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
-                                          }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M6 5H3c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zm14 0h-3c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zm-7 0h-3c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdViewWeek>
-                                  Blockchain
-                                </a>
-                              </LinkAnchor>
-                            </Link>
-                          </NavLink>
-                        </NavLink>
-                      </li>
-                    </NavItem>
-                    <NavItem
-                      tag="li"
-                    >
-                      <li
-                        className="nav-item"
-                      >
-                        <NavLink
-                          tag={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "propTypes": Object {
-                                "activeClassName": [Function],
-                                "activeStyle": [Function],
-                                "aria-current": [Function],
-                                "className": [Function],
-                                "exact": [Function],
-                                "innerRef": [Function],
-                                "isActive": [Function],
-                                "location": [Function],
-                                "onClick": [Function],
-                                "replace": [Function],
-                                "sensitive": [Function],
-                                "strict": [Function],
-                                "style": [Function],
-                                "target": [Function],
-                                "to": [Function],
-                              },
-                              "render": [Function],
-                            }
-                          }
-                          to="/masternodes"
-                        >
-                          <NavLink
-                            className="nav-link"
-                            onClick={[Function]}
-                            to="/masternodes"
-                          >
-                            <Link
-                              aria-current={null}
-                              className="nav-link"
-                              onClick={[Function]}
-                              to={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/masternodes",
-                                  "search": "",
-                                  "state": null,
-                                }
-                              }
-                            >
-                              <LinkAnchor
-                                aria-current={null}
-                                className="nav-link"
-                                href="/masternodes"
-                                navigate={[Function]}
-                                onClick={[Function]}
-                              >
-                                <a
-                                  aria-current={null}
-                                  className="nav-link"
-                                  href="/masternodes"
-                                  onClick={[Function]}
-                                >
-                                  <MdDns>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
-                                          }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdDns>
-                                  Masternodes
+                                          viewBox="0 0 24 24"
+                                          width="1em"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                                            key="0"
+                                          />
+                                        </svg>
+                                      </IconBase>
+                                    </MdAccountBalanceWallet>
+                                  </div>
+                                  <div
+                                    className="undefined"
+                                  >
+                                    Select, create or restore a wallet to access wallet functions
+                                  </div>
                                 </a>
                               </LinkAnchor>
                             </Link>
