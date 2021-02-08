@@ -47,6 +47,11 @@ export const TESTNET_BASE_FOLDER = path.join(
   'wallets'
 );
 
+export const TESTNET_BASE_FOLDER_REINDEX = path.join(
+  BASE_FILE_PATH,
+  'testnet3'
+);
+
 export const REGTEST_BASE_FOLDER = path.join(
   BASE_FILE_PATH,
   'regtest',
@@ -57,6 +62,8 @@ export const MAINNET_BASE_FOLDER =
   getPlatform() === 'linux'
     ? BASE_FILE_PATH
     : path.join(BASE_FILE_PATH, 'wallets');
+
+export const MAINNET_BASE_FOLDER_REINDEX = BASE_FILE_PATH;
 
 export const DAT_FILE = '.dat';
 export const BLK_FILE = 'blk';

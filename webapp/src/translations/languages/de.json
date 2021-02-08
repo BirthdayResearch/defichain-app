@@ -551,7 +551,8 @@
       "network": "Netzwerk",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -838,7 +839,8 @@
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "deletePeersAndBlocks": "Peers und Blöcke löschen"
   },
   "general": {
     "defiApp": "DeFi app",

@@ -535,7 +535,8 @@
       "network": "网络",
       "mainnet": "主网",
       "testnet": "测试网",
-      "regnet": "沙河测试网"
+      "regnet": "沙河测试网",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -795,7 +796,8 @@
     "resetWalletDatNotice": "确定刷新钱包吗？",
     "confirmResetWalletText": "请把 ‘%{text}’ 输入在文本域里，以确定刷新。",
     "yeResetpWalletNotice": "是的",
-    "noResetWalletNotice": "否定"
+    "noResetWalletNotice": "否定",
+    "deletePeersAndBlocks": "删除对等节点与区块数据"
   },
   "general": {
     "defiApp": "DeFi 应用程式"
