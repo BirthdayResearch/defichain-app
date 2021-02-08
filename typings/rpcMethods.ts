@@ -35,6 +35,7 @@ export const IMPORT_PRIV_KEY = 'importprivkey';
 export const GET_ADDRESS_INFO = 'getaddressinfo';
 export const STOP = 'stop';
 export const DUMP_WALLET = 'dumpwallet';
+export const BACKUP_WALLET = 'backupwallet';
 export const IMPORT_WALLET = 'importwallet';
 export const ACCOUNT_TO_ACCOUNT = 'accounttoaccount';
 export const SEND_TOKENS_TO_ADDRESS = 'sendtokenstoaddress';

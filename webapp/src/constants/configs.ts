@@ -134,7 +134,7 @@ export const DEX_EXPLORER_BASE_LINK = 'https://dex.defichain.com/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
-export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
+export const RESET_WALLET_CONFIRMATION_TEXT = 'RESET';
 
 export const TX_TYPES = {
   CreateMasternode: 'CreateMasternode',

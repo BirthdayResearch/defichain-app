@@ -82,10 +82,18 @@ export const backupWallet = async () => {
   return false;
 };
 
-export const createMnemonicIpcRenderer = async (mnemonic, network) => {
+export const createMnemonicIpcRenderer = async (
+  mnemonic,
+  network,
+  networkType
+) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return await ipcRenderer.sendSync(CREATE_MNEMONIC, { mnemonic, network });
+    return await ipcRenderer.sendSync(CREATE_MNEMONIC, {
+      mnemonic,
+      network,
+      networkType,
+    });
   }
 };
 

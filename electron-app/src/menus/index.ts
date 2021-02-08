@@ -18,27 +18,11 @@ export default class AppMenu {
         label: 'Wallet',
         submenu: [
           {
-            label: 'Import Wallet',
-            enabled: !!isWalletLoaded,
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.load(bw);
-            },
-          },
-          {
             label: 'Backup Wallet',
             enabled: !!isWalletLoaded,
             click(item, bw) {
               const wallet = new Wallet();
               wallet.startBackupWallet(bw);
-            },
-          },
-          {
-            label: 'Reset Wallet',
-            enabled: !!isWalletLoaded,
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.resetWallet(bw);
             },
           },
         ],

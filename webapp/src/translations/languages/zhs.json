@@ -37,7 +37,8 @@
       "help": "支援",
       "settings": "设定",
       "console": "命令行界面",
-      "liquidity": "流动资金"
+      "liquidity": "流动资金",
+      "selectCreateRestore": "选择，创建或还原钱包来访问钱包功能"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -543,9 +544,14 @@
         "title": "钱包 - 创建或恢复钱包",
         "createOrRestoreWallet": "创建或恢复钱包",
         "createANewWallet": "创建钱包",
-        "restoreWalletFromMnemonicSeed": "使用助记种子恢复钱包",
+        "restoreWalletFromMnemonicSeed": "从恢复种子还原钱包",
         "walletSyncNotice": "同步完成后您就能创建或恢复钱包",
-        "loading": "加载中…"
+        "loading": "加载中…",
+        "connectToALedger": "连接硬件钱包",
+        "hdWallet": "分层确定性钱包",
+        "mnemonicSeed": "助记词",
+        "chooseRecentBackup": "或者选择最近的备份",
+        "comingSoon": "即将来临"
       },
       "createNewWalletPage": {
         "back": "回返",
@@ -584,7 +590,8 @@
         "restoreWalletGuideLine": "请输入您助记种子的 24个字以恢复钱包。",
         "restoringWallet": "钱包恢复中",
         "restore": "恢复",
-        "backToWalletPage": "关闭"
+        "backToWalletPage": "关闭",
+        "importingWallet": "钱包导入中"
       },
       "sendPage": {
         "sendTitle": "发送",
@@ -797,6 +804,10 @@
     "confirmResetWalletText": "请把 ‘%{text}’ 输入在文本域里，以确定刷新。",
     "yeResetpWalletNotice": "是的",
     "noResetWalletNotice": "否定",
+    "restoreYourWallet": "从以下备份中还原您的钱包?",
+    "exitBackupWarning": "现在退出将会从应用程序中删除您的钱包。如果以后要添加此钱包，将需要助记词。您要在退出之前备份您的钱包吗?",
+    "backupAndExit": "备份并退出",
+    "exit": "退出",
     "deletePeersAndBlocks": "删除对等节点与区块数据"
   },
   "general": {
