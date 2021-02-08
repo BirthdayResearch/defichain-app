@@ -52,6 +52,7 @@ export const writeToConfigFile = (
 ) => {
   try {
     const data = getIniData(CONFIG_FILE_NAME);
+    data[network] = data[network] || {};
     if (parsedPath != null) {
       data[network].wallet = parsedPath.base;
       data[network].walletdir = parsedPath.dir;
