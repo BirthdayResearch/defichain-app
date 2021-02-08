@@ -963,6 +963,10 @@ export const conversionRatio = (formState, poolPairList) => {
   return ratio.toFixed(8, 1);
 };
 
+export const conversionRatioDex = (formState) => {
+  return new BigNumber(formState.amount2).div(formState.amount1).toPrecision(8);
+};
+
 export const getRatio = (poolpair) => {
   const ratio = new BigNumber(poolpair.reserveA).div(poolpair.reserveB);
   return ratio.toFixed(8);
