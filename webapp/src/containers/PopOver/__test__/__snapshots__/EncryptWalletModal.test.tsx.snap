@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EncryptWalletModel should check for snapshot 1`] = `
+exports[`EncryptWalletModal should check for snapshot 1`] = `
 <Provider
   store={
     Object {

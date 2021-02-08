@@ -20,7 +20,7 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
-  DAT_FILE,
+  DAT_FILE_TYPE,
   BLK_FILE,
   REV_FILE,
   TESTNET_BASE_FOLDER_REINDEX,
@@ -234,7 +234,7 @@ export const deleteBlocksAndRevFiles = () => {
     fs.readdirSync(destFolder).forEach((file) => {
       const blkFile = path.join(destFolder, file);
       if (
-        file?.endsWith(DAT_FILE) &&
+        file?.endsWith(DAT_FILE_TYPE) &&
         (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
       ) {
         log.info(`Deleting ${blkFile}...`);

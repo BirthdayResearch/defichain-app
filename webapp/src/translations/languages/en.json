@@ -41,7 +41,8 @@
       "help": "Help",
       "settings": "Settings",
       "console": "Console",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidity",
+      "selectCreateRestore": "Select, create or restore a wallet to access wallet functions"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -559,11 +560,16 @@
         "title": "Wallet - Create or restore wallet",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
-        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
+        "restoreWalletFromMnemonicSeed": "Restore wallet from recovery seed",
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
         "loading": "Loading...",
         "restoreFromBackup": "Restore wallet from backup",
-        "restoreFromSeed": "Restore from recovery seed"
+        "connectToALedger": "Connect to a hardware wallet",
+        "hdWallet": "HD wallet",
+        "mnemonicSeed": "Mnemonic seed",
+        "walletDat": "wallet.dat",
+        "chooseRecentBackup": "Or choose a recent backup",
+        "comingSoon": "Coming soon"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -603,7 +609,8 @@
         "enterWord": "Enter word",
         "restoringWallet": "Restoring wallet",
         "restore": "Restore",
-        "backToWalletPage": "Close"
+        "backToWalletPage": "Close",
+        "importingWallet": "Importing wallet"
       },
       "sendPage": {
         "sendTitle": "Send",
@@ -812,9 +819,10 @@
     "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
+    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallets again.",
     "enableLocking": "Enable locking",
     "later": "Later",
-    "passphraseLabel": "Enter passphrase",
+    "passphraseLabel": "Passphrase",
     "proceed": "Proceed",
     "reset": "Reset",
     "encryptWalletSuccess": "Wallet encrypted ",
@@ -842,6 +850,10 @@
     "yeResetpWalletNotice": "Yes",
     "noResetWalletNotice": "No",
     "download": "Download",
+    "restoreYourWallet": "Restore your wallet from the following backup?",
+    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
+    "backupAndExit": "Backup and Exit",
+    "exit": "Exit",
     "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {

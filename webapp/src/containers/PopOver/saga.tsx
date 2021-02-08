@@ -19,6 +19,8 @@ import {
   closeResetWalletDatModal,
   startResetWalletDatRequest,
   setIsQueueResetRoute,
+  restoreWalletViaRecent,
+  openRestoreWalletModal,
 } from './reducer';
 import {
   autoLockTimer,
@@ -44,8 +46,10 @@ import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import {
   fetchWalletTokenTransactionsListResetRequest,
+  restoreWalletViaBackupFailure,
   setIsWalletCreatedRequest,
 } from '../WalletPage/reducer';
+import { checkRestoreRecentIfExisting } from '../WalletPage/service';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -145,6 +149,27 @@ function* restartAndReplaceWallet() {
   yield put(setIsQueueResetRoute(true));
 }
 
+function* startRestoreWalletChecks(action) {
+  try {
+    const path = action.payload;
+    const resp = yield call(checkRestoreRecentIfExisting, path);
+    if (resp.success) {
+      yield put(openRestoreWalletModal({ isOpen: true, filePath: path }));
+    } else {
+      yield put({
+        type: restoreWalletViaBackupFailure.type,
+        payload: resp.message,
+      });
+    }
+  } catch (error) {
+    log.error(error, 'startRestoreWalletChecks');
+    yield put({
+      type: restoreWalletViaBackupFailure.type,
+      payload: error.message,
+    });
+  }
+}
+
 function* mySaga() {
   yield takeLatest(backupLoadingStart.type, backupWalletbeforeUpdate);
   yield takeLatest(backupWalletStart.type, backupWalletBeforeNewWalletCreation);
@@ -156,5 +181,6 @@ function* mySaga() {
     restartWalletBeforeNewWalletCreation
   );
   yield takeLatest(startResetWalletDatRequest.type, startResetWalletDat);
+  yield takeLatest(restoreWalletViaRecent.type, startRestoreWalletChecks);
 }
 export default mySaga;
