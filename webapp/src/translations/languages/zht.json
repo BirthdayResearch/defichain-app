@@ -404,7 +404,7 @@
         "amountInsufficient": "金額不足",
         "txHash": "交易哈希",
         "somethingWentWrong": "出錯了",
-        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
+        "priceImpactWarning": "交易量超過流動資金池的％{percentage}。如果繼續進行交換，將會造成可觀的價格影響。",
         "preparingUTXO": "正在準備 UTXO",
         "UTXOPrepared": "UTXO 已準備好",
         "transferringTokens": "轉移代幣",
@@ -536,7 +536,8 @@
       "network": "網絡",
       "mainnet": "主網",
       "testnet": "測試網",
-      "regnet": "沙河測試網"
+      "regnet": "沙河測試網",
+      "deletePeersAndBlocks": "刪除對等節點與區塊數據"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -806,7 +807,8 @@
     "restoreYourWallet": "從以下備份中還原您的錢包?",
     "exitBackupWarning": "現在退出將會從應用程序中刪除您的錢包。如果以後要添加此錢包，將需要助記詞。您要在退出之前備份您的錢包嗎?",
     "backupAndExit": "備份並退出",
-    "exit": "退出"
+    "exit": "退出",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "DeFi 應用程式"

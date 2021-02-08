@@ -552,7 +552,8 @@
       "network": "Netzwerk",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -849,7 +850,8 @@
     "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
     "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
     "backupAndExit": "Backup und Beenden",
-    "exit": "Beenden"
+    "exit": "Beenden",
+    "deletePeersAndBlocks": "Peers und Blöcke löschen"
   },
   "general": {
     "defiApp": "DeFi app",
