@@ -1,7 +1,7 @@
 {
   "name": "defi-app",
   "version": "2.1.17",
-  "description": "DeFi Blockchain App",
+  "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
     "name": "DeFiChain Foundation",
@@ -112,9 +112,10 @@
   },
   "build": {
     "productName": "defi-app",
-    "appId": "defi-electron-v1",
+    "appId": "com.defichain.DeFiChainApp",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
+    "afterSign": "electron-app/assets/notarize.js",
     "files": [
       "./electron-app/build",
       {
@@ -132,6 +133,7 @@
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
     "dmg": {
+      "sign": false,
       "icon": "electron-app/assets/icon/mac/app.icns",
       "contents": [
         {
@@ -151,6 +153,15 @@
     },
     "win": {
       "target": "NSIS"
+    },
+    "mac": {
+      "category": "public.app-category.finance",
+      "target": ["dmg"],
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "electron-app/assets/entitlements.mac.plist",
+      "entitlementsInherit": "electron-app/assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
     },
     "publish": {
       "provider": "github",
