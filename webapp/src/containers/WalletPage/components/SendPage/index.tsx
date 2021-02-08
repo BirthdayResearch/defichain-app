@@ -35,15 +35,9 @@ import {
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import {
-  WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
-  DFI_SYMBOL,
-} from '../../../../constants';
+import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
-  getAmountInSelectedUnit,
-  convertAmountFromUnit,
   getErrorMessage,
   getPageTitle,
   getSymbolKey,
@@ -164,10 +158,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   maxAmountToSend = () => {
     let amount;
     if (!this.tokenSymbol) {
-      amount = getAmountInSelectedUnit(
-        this.props.sendData.walletBalance,
-        this.props.unit
-      );
+      amount = this.props.sendData.walletBalance;
     } else {
       amount = this.tokenAmount;
     }
@@ -296,11 +287,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         !regularDFI.isZero()
       ) {
         // Convert to base unit
-        amount = convertAmountFromUnit(
-          this.state.amountToSendDisplayed,
-          DEFAULT_UNIT,
-          this.props.unit
-        );
+        amount = new BigNumber(this.state.amountToSendDisplayed);
         // amount.is
         const feeCheck = amount.gte(this.props.sendData.walletBalance);
         // if amount to send is equal to wallet balance then cut tx fee from amountToSend
@@ -362,10 +349,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   isAmountValid = async () => {
     let amount;
     if (!this.tokenSymbol) {
-      amount = getAmountInSelectedUnit(
-        this.props.sendData.walletBalance,
-        this.props.unit
-      );
+      amount = this.props.sendData.walletBalance;
     } else {
       amount = this.tokenAmount;
     }
@@ -390,10 +374,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       const toAddress = uriData.substring(start + 1, end);
       const queryData = uriData.substring(end + 1);
       const params = qs.parse(queryData);
-      const amountData = getAmountInSelectedUnit(
-        params.amount as string,
-        this.props.unit
-      );
+      const amountData = params.amount;
       this.updateAmountToSend({ target: { value: amountData } });
       this.setState({
         toAddress,
@@ -557,10 +538,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   <NumberMask
                     value={
                       (!tokenSymbol
-                        ? getAmountInSelectedUnit(
-                            this.props.sendData.walletBalance,
-                            this.props.unit
-                          )
+                        ? this.props.sendData.walletBalance.toString()
                         : tokenAmount) ?? DFI_SYMBOL
                     }
                   />

@@ -5,7 +5,6 @@ import styles from './BlockTxn.module.scss';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
 import { ITxn } from '../../interfaces';
 
 interface BlockTxnProps {
@@ -67,7 +66,7 @@ const BlockTxn: React.FunctionComponent<BlockTxnProps> = (
                     )}
               </span>
               <span className={styles.amount}>
-                {getAmountInSelectedUnit(to.amount, unit, txn.unit)}&nbsp;
+                {to.amount}&nbsp;
                 <span className={styles.unit}>{unit}</span>
               </span>
             </div>
