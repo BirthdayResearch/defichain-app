@@ -217,13 +217,16 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
         </section>
       </div>
       {isWalletRestoring ? (
-        <footer className='footer-bar'>
-          <WalletLoadingFooter
-            message={I18n.t(
-              'containers.wallet.restoreWalletPage.importingWallet'
-            )}
-          />
-        </footer>
+        <>
+          <footer className='footer-bar'>
+            <WalletLoadingFooter
+              message={I18n.t(
+                'containers.wallet.restoreWalletPage.importingWallet'
+              )}
+            />
+          </footer>
+          <div className={`footer-backdrop show-backdrop`} />
+        </>
       ) : (
         isErrorRestoringWallet.length !== 0 && (
           <>

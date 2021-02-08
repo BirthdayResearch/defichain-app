@@ -29,6 +29,15 @@ export const restartNode = (args?: any) => {
   }
 };
 
+export const restartNodeSync = (args?: any) => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.sendSync(RESTART_APP, args);
+  } else {
+    throw new Error('Unable to restart');
+  }
+};
+
 export const restartNodeWithReIndexing = (args?: any) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();

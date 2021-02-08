@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
+import { call, put, takeLatest, select, all, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
   fetchTokensSuccess,
@@ -115,11 +115,10 @@ import {
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { uid } from 'uid';
-import { restartNode } from '../../utils/isElectron';
+import { restartNodeSync } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
 import { getWalletMap } from '../../app/service';
-import path from 'path';
 import {
   openExitWalletModal,
   openRestoreWalletModal,
@@ -451,16 +450,16 @@ export function* restoreWalletStep(networkType: string) {
   const isWalletCreated =
     networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
   PersistentStore.set(isWalletCreated, true);
-  yield put(setIsWalletCreatedRequest(true));
   yield call(enableMenuResetWalletBtn, true);
   yield call(shutDownBinary);
   yield call(fetchWalletReset);
-  yield call(restartNode);
+  yield call(restartNodeSync);
+  yield call(fetchAccountTokensRequest);
   yield call(fetchInstantBalanceRequest);
   yield call(fetchInstantPendingBalanceRequest);
-  yield call(fetchAccountTokensRequest);
   yield call(fetchPaymentRequest);
   yield put({ type: restoreWalletSuccess.type });
+  yield put(setIsWalletCreatedRequest(true));
 }
 
 export function* restoreWalletViaBackup() {
@@ -490,9 +489,10 @@ export function* restoreWalletViaRecent(action: any) {
   try {
     log.info(`Starting restore via recent...`, 'restoreWalletViaRecent');
     const networkType = getNetworkType();
+    yield put(openRestoreWalletModal({ isOpen: false, filePath: null }));
+    yield delay(2000);
     const resp = yield call(startRestoreViaRecent, action.payload, networkType);
     if (resp?.success) {
-      yield put(openRestoreWalletModal({ isOpen: false, filePath: null }));
       yield call(restoreWalletStep, networkType);
       log.info(`Restore via recent successful`, 'restoreWalletViaRecent');
     } else {
