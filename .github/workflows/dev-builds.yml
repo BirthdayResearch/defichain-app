@@ -30,6 +30,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
       CI: true
+      APPLE_ID: ${{ secrets.APPLE_ID}}
+      APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
     steps:
       - uses: actions/checkout@v2
       - name: Get App Version
