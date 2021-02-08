@@ -39,7 +39,7 @@ import {
   ON_WALLET_RESTORE_VIA_RECENT_CHECK,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { updateWalletMap } from '../../app/service';
+import { backupWallet, updateWalletMap } from '../../app/service';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -586,7 +586,7 @@ export const startBackupViaExitModal = async () => {
     const ipcRenderer = ipcRendererFunc();
     const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
     if (resp?.success) {
-      updateWalletMap(resp?.data?.paths);
+      await backupWallet(resp?.data?.paths);
     }
     return resp;
   } catch (error) {
