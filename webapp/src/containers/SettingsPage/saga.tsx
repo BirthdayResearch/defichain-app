@@ -116,7 +116,10 @@ export function* updateSettings(action) {
       if (data.reindexAfterSaving) {
         yield put(restartModal());
         yield call(shutDownBinary);
-        yield call(restartNode, { isReindexReq: true });
+        yield call(restartNode, {
+          isReindexReq: true,
+          isDeletePeersAndBlocksreq: data.deletePeersAndBlocks,
+        });
       }
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);

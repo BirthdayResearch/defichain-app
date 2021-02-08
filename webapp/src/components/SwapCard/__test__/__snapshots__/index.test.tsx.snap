@@ -12,11 +12,16 @@ exports[`StatCard component should check for snapshot 1`] = `
     </div>
     <div>
       <div>
-        <div
-          className="form-control"
-        >
-          <Loader />
-        </div>
+        <Input
+          disabled={true}
+          id="input"
+          inputMode="decimal"
+          name="amount1"
+          onChange={[Function]}
+          pattern="[0-9.,]"
+          placeholder="0"
+          type="text"
+        />
       </div>
       <div>
         <SwapDropdown

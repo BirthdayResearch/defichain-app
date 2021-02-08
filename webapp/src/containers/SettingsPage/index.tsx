@@ -58,7 +58,9 @@ interface SettingsPageState {
   network?: string;
   displayMode?: string;
   launchAtLogin?: boolean;
+  deletePeersAndBlocks?: boolean;
   minimizedAtLaunch?: boolean;
+  reindexAfterSaving?: boolean;
   pruneBlockStorage?: boolean;
   scriptVerificationThreads?: number;
   blockStorage?: number;
@@ -141,6 +143,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   };
 
   const handeReindexToggle = () => {
+    setSettingsPageState({
+      deletePeersAndBlocks: false,
+    });
     setIsReindexAfterSaving(!reindexAfterSaving);
   };
 
@@ -185,6 +190,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'displayMode',
       'network',
       'launchAtLogin',
+      'deletePeersAndBlocks',
       'minimizedAtLaunch',
       'pruneBlockStorage',
       'scriptVerificationThreads',
@@ -218,6 +224,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      deletePeersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -234,6 +241,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      deletePeersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -252,6 +260,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     activeTab,
     isUnsavedChanges,
     launchAtLogin,
+    deletePeersAndBlocks,
     minimizedAtLaunch,
     pruneBlockStorage,
     blockStorage,
@@ -286,6 +295,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         <TabContent activeTab={state.activeTab}>
           <SettingsTabGeneral
             launchAtLogin={launchAtLogin!}
+            deletePeersAndBlocks={deletePeersAndBlocks!}
             minimizedAtLaunch={minimizedAtLaunch!}
             pruneBlockStorage={pruneBlockStorage!}
             blockStorage={blockStorage!}
