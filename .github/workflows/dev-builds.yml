@@ -3,6 +3,7 @@ on:
     branches:
       - 'ci/**'
       - master
+      - feat/encrypt_wallet
   pull_request:
     branches:
       - master
