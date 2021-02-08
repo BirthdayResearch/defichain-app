@@ -536,7 +536,8 @@
       "network": "网络",
       "mainnet": "主网",
       "testnet": "测试网",
-      "regnet": "沙河测试网"
+      "regnet": "沙河测试网",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -806,7 +807,8 @@
     "restoreYourWallet": "从以下备份中还原您的钱包?",
     "exitBackupWarning": "现在退出将会从应用程序中删除您的钱包。如果以后要添加此钱包，将需要助记词。您要在退出之前备份您的钱包吗?",
     "backupAndExit": "备份并退出",
-    "exit": "退出"
+    "exit": "退出",
+    "deletePeersAndBlocks": "删除对等节点与区块数据"
   },
   "general": {
     "defiApp": "DeFi 应用程式"

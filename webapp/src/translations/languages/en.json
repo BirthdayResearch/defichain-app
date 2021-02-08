@@ -552,7 +552,8 @@
       "network": "Network",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -852,7 +853,8 @@
     "restoreYourWallet": "Restore your wallet from the following backup?",
     "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
     "backupAndExit": "Backup and Exit",
-    "exit": "Exit"
+    "exit": "Exit",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "DeFi app",

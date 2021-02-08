@@ -47,6 +47,11 @@ export const TESTNET_BASE_FOLDER = path.join(
   'wallets'
 );
 
+export const TESTNET_BASE_FOLDER_REINDEX = path.join(
+  BASE_FILE_PATH,
+  'testnet3'
+);
+
 export const REGTEST_BASE_FOLDER = path.join(
   BASE_FILE_PATH,
   'regtest',
@@ -60,6 +65,7 @@ export const MAINNET_BASE_FOLDER =
 
 export const DAT_FILE = 'dat';
 export const DAT_FILE_TYPE = `.${DAT_FILE}`;
+export const MAINNET_BASE_FOLDER_REINDEX = BASE_FILE_PATH;
 export const BLK_FILE = 'blk';
 export const REV_FILE = 'rev';
 export const WALLET_MAP_FILE = 'wallet_map.json';

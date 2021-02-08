@@ -334,7 +334,8 @@
       "network": "Сеть",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -582,7 +583,8 @@
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
-    "noResetWalletNotice": "No"
+    "noResetWalletNotice": "No",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "Блокчейн-Клиент DeFi"
