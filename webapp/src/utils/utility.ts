@@ -1439,8 +1439,8 @@ export const handlePeersSyncRequest = async (
 
 export const getMaxNumberOfAmount = (value: string, hash: string): string => {
   return hash === DFI_SYMBOL
-    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8)
-    : new BigNumber(value).toFixed(8);
+    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8, 1)
+    : new BigNumber(value).toFixed(8, 1);
 };
 
 export const shortenedPathAddress = (p: string): string => {
