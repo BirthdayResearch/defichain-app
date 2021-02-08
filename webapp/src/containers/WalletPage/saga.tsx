@@ -516,7 +516,7 @@ export function* backupWalletViaExitModal() {
     const resp = yield call(startBackupViaExitModal);
     if (resp?.success) {
       yield put(openExitWalletModal(false));
-      yield put(startResetWalletDatRequest);
+      yield put(startResetWalletDatRequest());
       log.info(`Exit wallet successful`, 'backupWalletViaExitModal');
     } else {
       yield put(openExitWalletModal(false));
