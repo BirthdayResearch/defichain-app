@@ -3,7 +3,6 @@ import { TabPane, Row, Col } from 'reactstrap';
 import KeyValueLi from '../../../../components/KeyValueLi';
 import StatCard from '../../../../components/StatCard';
 import { I18n } from 'react-redux-i18n';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface StatisticsTabProps {
   unit: string;
@@ -22,21 +21,21 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
               label={I18n.t(
                 'containers.masterNodes.masterNodesPage.weeklyIncome'
               )}
-              value={getAmountInSelectedUnit('100', unit)}
+              value={'100'}
               unit={unit}
             />
           </Col>
           <Col>
             <StatCard
               label={I18n.t('containers.masterNodes.masterNodesPage.volume')}
-              value={getAmountInSelectedUnit('10000000', unit)}
+              value={'10000000'}
               unit={unit}
             />
           </Col>
           <Col>
             <StatCard
               label={I18n.t('containers.masterNodes.masterNodesPage.marketCap')}
-              value={getAmountInSelectedUnit('100000000', unit)}
+              value={'100000000'}
               unit={unit}
             />
           </Col>
@@ -55,7 +54,7 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
               label={I18n.t(
                 'containers.masterNodes.masterNodesPage.paidRewards'
               )}
-              value={`${getAmountInSelectedUnit('8651.0125', unit)} ${unit}`}
+              value={`8651.0125 ${unit}`}
             />
           </Col>
           <Col md='6'>
@@ -77,7 +76,7 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
           <Col md='6'>
             <KeyValueLi
               label={I18n.t('containers.masterNodes.masterNodesPage.supply')}
-              value={`${getAmountInSelectedUnit('9281315', unit)} ${unit}`}
+              value={`9281315 ${unit}`}
             />
           </Col>
           <Col md='6'>
@@ -85,7 +84,7 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
               label={I18n.t(
                 'containers.masterNodes.masterNodesPage.lockedInCollateral'
               )}
-              value={`${getAmountInSelectedUnit('4671000', unit)} ${unit}`}
+              value={`4671000 ${unit}`}
             />
           </Col>
           <Col md='6'>
@@ -93,7 +92,7 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
               label={I18n.t(
                 'containers.masterNodes.masterNodesPage.costPerMasterNode'
               )}
-              value={`${getAmountInSelectedUnit('1000', unit)} ${unit}`}
+              value={`1000 ${unit}`}
             />
           </Col>
           <Col md='6'>

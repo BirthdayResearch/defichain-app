@@ -39,10 +39,7 @@ import {
   SENT_CATEGORY_LABEL,
   UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
-import {
-  getAmountInSelectedUnit,
-  onViewOnChain,
-} from '../../../../utils/utility';
+import { onViewOnChain } from '../../../../utils/utility';
 import BigNumber from 'bignumber.js';
 import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
@@ -265,12 +262,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                             : styles.amount
                         }
                       >
-                        {amountD.unit === 'DFI'
-                          ? getAmountInSelectedUnit(
-                              amountD.amount,
-                              amountD.unit
-                            )
-                          : amountD.amount}
+                        {amountD.amount}
                         &nbsp;
                         <span className={styles.unit}>{amountD.unit}</span>
                       </div>
