@@ -112,7 +112,7 @@
   },
   "build": {
     "productName": "defi-app",
-    "appId": "com.defichain.DeFiChainApp",
+    "appId": "defi-electron-v1",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "afterSign": "electron-app/assets/notarize.js",
