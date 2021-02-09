@@ -30,7 +30,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
       CSC_LINK: ${{ secrets.CSC_LINK}}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-      CI: true
+      CI: false
       APPLE_ID: ${{ secrets.APPLE_ID}}
       APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
     steps:
