@@ -23,6 +23,7 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
   const onSubmit = async (label: string, addressTypeChecked: boolean) => {
     try {
       log.info('Create address ledger');
+
       const keyIndex = paymentRequests.length;
       const {
         data: { pubkey, address },
@@ -37,6 +38,7 @@ const CreateNewAddressLedgerPage: React.FunctionComponent<CreateNewAddressPageLe
         time: new Date().toString(),
         address,
         pubkey,
+        type: addressTypeChecked ? 'legacy' : 'p2sh',
       };
       await importPubKey(pubkey, keyIndex, label);
       addReceiveTxns(data);
