@@ -113,45 +113,104 @@ exports[`EncryptWalletPage component should check for snapshot 1`] = `
                       <div
                         className="px-5"
                       >
-                        <Input
-                          className="mt-5"
-                          id="passphraseLabel"
-                          name="passphrase"
-                          onChange={[Function]}
-                          placeholder="Enter passphrase"
-                          type="password"
-                          value=""
+                        <InputGroup
+                          tag="div"
                         >
-                          <input
-                            className="mt-5 form-control"
-                            id="passphraseLabel"
-                            name="passphrase"
-                            onChange={[Function]}
-                            placeholder="Enter passphrase"
-                            type="password"
-                            value=""
-                          />
-                        </Input>
-                        <Input
-                          className="mt-5"
-                          id="passphraseLabelConfirm"
-                          name="confirmPassphrase"
-                          onChange={[Function]}
-                          placeholder="Confirm passphrase"
-                          type="password"
-                          value=""
+                          <div
+                            className="input-group"
+                          >
+                            <Input
+                              id="passphraseLabel"
+                              name="passphrase"
+                              onChange={[Function]}
+                              placeholder="Passphrase"
+                              type="password"
+                              value=""
+                            >
+                              <input
+                                className="form-control"
+                                id="passphraseLabel"
+                                name="passphrase"
+                                onChange={[Function]}
+                                placeholder="Passphrase"
+                                type="password"
+                                value=""
+                              />
+                            </Input>
+                            <Label
+                              for="passphraseLabel"
+                              tag="label"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <label
+                                className=""
+                                htmlFor="passphraseLabel"
+                              >
+                                Passphrase
+                              </label>
+                            </Label>
+                          </div>
+                        </InputGroup>
+                        <InputGroup
+                          tag="div"
                         >
-                          <input
-                            className="mt-5 form-control"
-                            id="passphraseLabelConfirm"
-                            name="confirmPassphrase"
-                            onChange={[Function]}
-                            placeholder="Confirm passphrase"
-                            type="password"
-                            value=""
-                          />
-                        </Input>
+                          <div
+                            className="input-group"
+                          >
+                            <Input
+                              id="passphraseLabelConfirm"
+                              name="confirmPassphrase"
+                              onChange={[Function]}
+                              placeholder="Confirm passphrase"
+                              type="password"
+                              value=""
+                            >
+                              <input
+                                className="form-control"
+                                id="passphraseLabelConfirm"
+                                name="confirmPassphrase"
+                                onChange={[Function]}
+                                placeholder="Confirm passphrase"
+                                type="password"
+                                value=""
+                              />
+                            </Input>
+                            <Label
+                              for="passphraseLabelConfirm"
+                              tag="label"
+                              widths={
+                                Array [
+                                  "xs",
+                                  "sm",
+                                  "md",
+                                  "lg",
+                                  "xl",
+                                ]
+                              }
+                            >
+                              <label
+                                className=""
+                                htmlFor="passphraseLabelConfirm"
+                              >
+                                Confirm passphrase
+                              </label>
+                            </Label>
+                          </div>
+                        </InputGroup>
                       </div>
+                      <label
+                        className="text-center"
+                      >
+                        Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallets again.
+                      </label>
                       <div
                         className="mt-4 text-center"
                       >

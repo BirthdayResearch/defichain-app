@@ -31,7 +31,7 @@ import {
 } from './reducer';
 import {
   calculateLPFee,
-  conversionRatio,
+  conversionRatioDex,
   countDecimals,
   getMaxNumberOfAmount,
   getNetworkType,
@@ -545,13 +545,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
                       <NumberMask
-                        value={conversionRatio(formState, poolPairList)}
+                        value={conversionRatioDex(formState).toString()}
                       />
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
                         value={new BigNumber(1)
-                          .div(conversionRatio(formState, poolPairList))
+                          .div(conversionRatioDex(formState).toString())
                           .toFixed(8)}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
