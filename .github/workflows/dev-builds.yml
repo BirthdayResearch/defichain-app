@@ -41,10 +41,11 @@ jobs:
         run: npm cache clean --force && npm run init
       - name: Build app
         run: npm run build:mac
+      - name: Tar Files
+        run: tar -cvf dist/mac-build.tar dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg
       - uses: actions/upload-artifact@v2
         with:
-          name: mac-build
-          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg'
+          path: dist/mac-build.tar
 
   # build_windows_version:
   #   runs-on: windows-latest
