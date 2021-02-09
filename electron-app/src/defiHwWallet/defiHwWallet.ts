@@ -91,7 +91,7 @@ export default class DefiHwWallet {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
-      const devices = [{productId: 'sdfdf'}];
+      const devices = [{ productId: 'sdfdf' }];
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
@@ -114,7 +114,7 @@ export default class DefiHwWallet {
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
       // this.transport = await TransportHid.open(path !== undefined ? path : '');
-      this.transport = await TransportHid.open({ apduPort: 9999 });
+      this.transport = await TransportHid.open({ apduPort: 40000 });
       this.connected = true;
       log.info('Ledger is connected');
     } catch (err) {
@@ -156,7 +156,12 @@ export default class DefiHwWallet {
   async getDefiPublicKey(
     index: number,
     format: AddressFormat = 'legacy'
-  ): Promise<{ pubkey: string; address: string, chainCode:string, privkey: string }> {
+  ): Promise<{
+    pubkey: string;
+    address: string;
+    chainCode: string;
+    privkey: string;
+  }> {
     try {
       const apdu = new encoding.BufferWriter();
       apdu.writeUInt8(CLA);
@@ -171,14 +176,14 @@ export default class DefiHwWallet {
       log.info(`APDU: ${apdu}`);
       const resposne = await this.transport.exchange(apdu.toBuffer());
       log.info(`resposne: ${resposne}`);
-      const dataReader = new encoding.BufferReader(resposne)
+      const dataReader = new encoding.BufferReader(resposne);
       const pubkeyLen = dataReader.readUInt8();
       let pubkey: Buffer | string = dataReader.read(pubkeyLen);
       log.info(`Full Pubkey: ${pubkey.toString('hex')}`);
       if (pubkey[0] === UNCOMPRESSED_CONTROL_BYTE) {
         const lastByte = pubkey[64];
         pubkey[0] = lastByte % 2 === 0 ? 0x02 : 0x03;
-        pubkey = pubkey.slice(0, 33)
+        pubkey = pubkey.slice(0, 33);
       }
       pubkey = pubkey.toString('hex');
       log.info(`Shot Pubkey: ${pubkey}`);
@@ -194,7 +199,11 @@ export default class DefiHwWallet {
     }
   }
 
-  async sign(keyIndex: number, msg: Buffer, isHash: boolean = true): Promise<Buffer> {
+  async sign(
+    keyIndex: number,
+    msg: Buffer,
+    isHash: boolean = true
+  ): Promise<Buffer> {
     const keyIndexBuf = Buffer.alloc(4);
     keyIndexBuf.writeInt32LE(keyIndex, 0);
     const p1 = Buffer.alloc(1);
@@ -202,12 +211,18 @@ export default class DefiHwWallet {
     if (isHash) {
       p1.writeInt8(SIGN_VERIFY_P1_ALREADY_HASHED, 0);
       const p2Buf = Buffer.alloc(1);
-      p2Buf.writeInt8((SIGN_VERIFY_P2_FIRST | SIGN_VERIFY_P2_LAST), 0);
-      const dataLen = msg.length +  keyIndexBuf.length;
+      p2Buf.writeInt8(SIGN_VERIFY_P2_FIRST | SIGN_VERIFY_P2_LAST, 0);
+      const dataLen = msg.length + keyIndexBuf.length;
       const dataLenBuf = Buffer.alloc(1);
       dataLenBuf.writeInt8(dataLen, 0);
-      const data = Buffer.concat([keyIndexBuf, msg])
-      const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2Buf, dataLenBuf, data]);
+      const data = Buffer.concat([keyIndexBuf, msg]);
+      const apdu = Buffer.concat([
+        new Buffer([CLA, INS_SIGN_MSG]),
+        p1,
+        p2Buf,
+        dataLenBuf,
+        data,
+      ]);
       response = await this.transport.exchange(apdu);
       const { code, status } = checkStatusCode(response);
       if (code !== StatusCodes.OK) {
@@ -233,7 +248,9 @@ export default class DefiHwWallet {
         let dataLen = 0;
         dataLen += msgSlice.length;
         if (i === 0) {
-          p2 = (SIGN_VERIFY_P2_FIRST | (stepsNum === 1 ? SIGN_VERIFY_P2_LAST : SIGN_VERIFY_P2_MORE));
+          p2 =
+            SIGN_VERIFY_P2_FIRST |
+            (stepsNum === 1 ? SIGN_VERIFY_P2_LAST : SIGN_VERIFY_P2_MORE);
           data = Buffer.concat([data, keyIndexBuf]);
           dataLen += keyIndexBuf.length;
         } else if (i === stepsNum - 1) {
@@ -246,11 +263,17 @@ export default class DefiHwWallet {
         p2Buf.writeInt8(p2, 0);
         const dataLenBuf = Buffer.alloc(1);
         dataLenBuf.writeInt8(dataLen, 0);
-        const apdu = Buffer.concat([new Buffer([CLA, INS_SIGN_MSG]), p1, p2Buf, dataLenBuf, data]);
+        const apdu = Buffer.concat([
+          new Buffer([CLA, INS_SIGN_MSG]),
+          p1,
+          p2Buf,
+          dataLenBuf,
+          data,
+        ]);
         response = await this.transport.exchange(apdu);
       }
     }
-    const rawTVLSignature = response.slice(0, response.length - 2)
+    const rawTVLSignature = response.slice(0, response.length - 2);
     rawTVLSignature[0] = 0x30;
     return rawTVLSignature;
   }
@@ -284,10 +307,9 @@ export default class DefiHwWallet {
     const res = await this.transport.exchange(apdu);
     const { code } = checkStatusCode(res);
     if (code !== StatusCodes.OK) {
-      return 'NO'
+      return 'NO';
     }
-    return 'OK'
-
+    return 'OK';
   }
 
   transformationSign(sign: Buffer) {
@@ -317,15 +339,16 @@ export default class DefiHwWallet {
       throw new Error(status);
     } else {
       const nufOfIdxs = response[0];
-      const idxsBytes = new encoding.BufferReader(response.slice(1, 1 + 4 * nufOfIdxs));
+      const idxsBytes = new encoding.BufferReader(
+        response.slice(1, 1 + 4 * nufOfIdxs)
+      );
       const idxSize = 4; // 4 bytes
       const idxs = [];
-      for (let i = 0; i< nufOfIdxs; i++) {
+      for (let i = 0; i < nufOfIdxs; i++) {
         idxs.push(idxsBytes.read(idxSize).toString());
       }
       return idxs;
     }
-
   }
 
   // Not works
