@@ -846,6 +846,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                 <WalletTxns
                   accountHistoryCount=""
                   accountHistoryCountRequest={[Function]}
+                  blockCount={0}
                   combineAccountHistoryData={
                     Object {
                       "data": Array [],
@@ -873,40 +874,134 @@ exports[`WalletPage component should check for snapshot 1`] = `
                       <h2>
                         Transactions
                       </h2>
-                      <FormGroup
-                        tag="div"
+                      <div
+                        className="btn-group"
                       >
-                        <div
-                          className="form-group"
+                        <FormGroup
+                          tag="div"
                         >
-                          <CustomInput
-                            checked={false}
-                            id="includeRewards"
-                            label="Include rewards"
-                            onChange={[Function]}
-                            type="checkbox"
+                          <div
+                            className="form-group"
                           >
-                            <div
-                              className="custom-checkbox custom-control"
-                              hidden={false}
+                            <CustomInput
+                              checked={false}
+                              id="includeRewards"
+                              label="Include rewards"
+                              onChange={[Function]}
+                              type="checkbox"
                             >
-                              <input
-                                checked={false}
-                                className="custom-control-input"
-                                id="includeRewards"
-                                onChange={[Function]}
-                                type="checkbox"
-                              />
-                              <label
-                                className="custom-control-label"
-                                htmlFor="includeRewards"
+                              <div
+                                className="custom-checkbox custom-control"
+                                hidden={false}
                               >
-                                Include rewards
-                              </label>
-                            </div>
-                          </CustomInput>
-                        </div>
-                      </FormGroup>
+                                <input
+                                  checked={false}
+                                  className="custom-control-input"
+                                  id="includeRewards"
+                                  onChange={[Function]}
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="includeRewards"
+                                >
+                                  Include rewards
+                                </label>
+                              </div>
+                            </CustomInput>
+                          </div>
+                        </FormGroup>
+                        <Button
+                          color="link"
+                          onClick={[Function]}
+                          size="sm"
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-link btn-sm"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <MdArrowDownward>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowDownward>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              CSV Export
+                            </span>
+                          </button>
+                        </Button>
+                        <DownloadCsvModal
+                          CsvModalOpen={false}
+                          error=""
+                          filename="Transaction_2021-2-9_20-41.csv"
+                          handleCheckBox={[Function]}
+                          handleCsvButtonClick={[Function]}
+                          handleDownloadWindow={[Function]}
+                          handleRegularNumInputs={[Function]}
+                          toggle={[Function]}
+                          tokenSymbol=""
+                          transactionData={Array []}
+                        >
+                          <Modal
+                            autoFocus={true}
+                            backdrop={true}
+                            backdropTransition={
+                              Object {
+                                "mountOnEnter": true,
+                                "timeout": 150,
+                              }
+                            }
+                            centered={true}
+                            container="body"
+                            fade={false}
+                            isOpen={false}
+                            keyboard={true}
+                            modalTransition={
+                              Object {
+                                "timeout": 300,
+                              }
+                            }
+                            onClosed={[Function]}
+                            onOpened={[Function]}
+                            returnFocusAfterClose={true}
+                            role="dialog"
+                            scrollable={false}
+                            toggle={[Function]}
+                            trapFocus={false}
+                            unmountOnClose={true}
+                            zIndex={1050}
+                          />
+                        </DownloadCsvModal>
+                      </div>
                     </div>
                     <Row
                       tag="div"
