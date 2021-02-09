@@ -7,22 +7,22 @@ on:
     branches:
       - master
 jobs:
-  # build_linux_version:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Get App Version
-  #       uses: nyaayaya/package-version@v1
-  #     - name: install dependencies
-  #       run: npm cache clean --force && npm run init
-  #     - name: Build app
-  #       run: npm run build:linux
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: linux-build
-  #         path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+  build_linux_version:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: install dependencies
+        run: npm cache clean --force && npm run init
+      - name: Build app
+        run: npm run build:linux
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-build
+          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
 
   build_mac_version:
     runs-on: macos-latest
@@ -46,20 +46,20 @@ jobs:
           name: mac-build
           path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg'
 
-  # build_windows_version:
-  #   runs-on: windows-latest
-  #   env:
-  #     GH_TOKEN: ${{ secrets.GH_TOKEN}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Get App Version
-  #       uses: nyaayaya/package-version@v1
-  #     - name: install dependencies
-  #       run: npm cache clean --force && npm run init
-  #     - name: Build app
-  #       run: npm run build:win
-  #       shell: powershell
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: win-build
-  #         path: 'dist/defi-app Setup ${{ env.PACKAGE_VERSION}}.exe'
+  build_windows_version:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get App Version
+        uses: nyaayaya/package-version@v1
+      - name: install dependencies
+        run: npm cache clean --force && npm run init
+      - name: Build app
+        run: npm run build:win
+        shell: powershell
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win-build
+          path: 'dist/defi-app Setup ${{ env.PACKAGE_VERSION}}.exe'
