@@ -305,6 +305,7 @@ export function* setWalletExistingIfInConf(conf: any) {
   const network = getNetworkType();
   const isWalletCreatedConf =
     conf != null &&
+    conf[network] != null &&
     conf[network]?.wallet != null &&
     conf[network]?.walletdir != null;
   store.dispatch(setIsWalletCreatedRequest(isWalletCreatedConf));
