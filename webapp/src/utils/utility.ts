@@ -964,7 +964,7 @@ export const conversionRatio = (formState, poolPairList) => {
 };
 
 export const conversionRatioDex = (formState) => {
-  return new BigNumber(formState.amount2).div(formState.amount1).toPrecision(8);
+  return new BigNumber(formState.amount2).div(formState.amount1).toFixed(8);
 };
 
 export const getRatio = (poolpair) => {
