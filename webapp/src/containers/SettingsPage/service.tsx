@@ -33,6 +33,7 @@ import {
   TESTNET,
   LIST_ACCOUNTS_PAGE_SIZE,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  FI,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
@@ -208,7 +209,10 @@ export const disablePreLaunchStatus = () => {
 export const getAppConfigUnit = () => {
   const unit = PersistentStore.get(UNIT);
   if (unit && Object.keys(DFI_UNIT_MAP).indexOf(unit) > -1) {
-    return unit;
+    if (unit === FI) {
+      PersistentStore.set(UNIT, DEFAULT_UNIT);
+    }
+    return DEFAULT_UNIT;
   }
   log.error(new Error('Error in selected unit, setting it to default one'));
   PersistentStore.set(UNIT, DEFAULT_UNIT);
