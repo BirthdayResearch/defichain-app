@@ -1,7 +1,7 @@
 // Not in use component. Don't delete it for future purposes
 
 import React from 'react';
-import { Card, Table, Input } from 'reactstrap';
+import { Card, Table } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { MdDelete, MdCropFree } from 'react-icons/md';
 
@@ -49,7 +49,7 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                 </th>
               </tr>
             </thead>
-            {newAddressFlag ? (
+            {newAddressFlag && (
               <tr className={`${styles.masternodeRow} ${styles.borderBottom}`}>
                 <td>
                   <input
@@ -75,8 +75,6 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                   />
                 </td>
               </tr>
-            ) : (
-              ''
             )}
             {csvData.length || newAddressFlag ? (
               <tbody className='mh-100'>
@@ -93,11 +91,16 @@ const AddressList: React.FunctionComponent<AddressListProps> = (
                 ))}
               </tbody>
             ) : (
-              <div className='h-100'>
-                <div className={`${styles.marginTop} text-center`}>
-                  {I18n.t('containers.tokens.dctDistribution.addAddressesText')}
-                </div>
-              </div>
+              <tbody className='h-100'>
+                <tr className={`${styles.marginTop} text-center`}>
+                  <td>
+                    {I18n.t(
+                      'containers.tokens.dctDistribution.addAddressesText'
+                    )}
+                  </td>
+                  <td />
+                </tr>
+              </tbody>
             )}
           </Table>
         </div>
