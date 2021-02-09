@@ -344,7 +344,8 @@
         "apy": "APY",
         "back": "ZURÜCK",
         "addLiquidity": "Liquidität hinzufügen",
-        "txHash": "Transaktionshash"
+        "txHash": "Transaktionshash",
+        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit e."
       },
       "liquidityInfo": {
         "title": "Liquidität",
