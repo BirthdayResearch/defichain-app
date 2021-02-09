@@ -31,7 +31,7 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
-import { createWalletMap } from './controllers/wallets';
+import { checkWalletConfig, createWalletMap } from './controllers/wallets';
 
 declare var process: {
   argv: any;
@@ -69,6 +69,7 @@ export default class App {
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
     this.setNodeEvents();
+    checkWalletConfig();
   }
 
   onAppReady = async () => {

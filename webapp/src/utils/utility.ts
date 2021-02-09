@@ -28,8 +28,6 @@ import {
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
   MAIN,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   TEST,
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
@@ -66,6 +64,7 @@ import {
   LTC_SYMBOL,
   MAINNET_DOGE_SYMBOL,
   DOGE_SYMBOL,
+  ADD_LP_ERROR,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -540,12 +539,6 @@ export const queuePush = (
   if (isQueueReady) {
     return queue.push({ methodName, params }, callBack);
   }
-};
-
-export const isWalletCreated = (network) => {
-  const key =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  return PersistentStore.get(key) === 'true';
 };
 
 const getPopularSymbolList = () => {
@@ -1461,4 +1454,17 @@ export const shortenedPathAddress = (p: string): string => {
     log.error(error, 'shortenedPathAddress');
     return p;
   }
+};
+
+export const checkRPCErrorMessagePending = (message: string): string => {
+  if (message) {
+    const lpError = I18n.t(ADD_LP_ERROR);
+    const amount = 'amount';
+    const isLess = 'is less than';
+    const testMessage = message.toLowerCase();
+    return testMessage.includes(amount) && testMessage.includes(isLess)
+      ? lpError
+      : message;
+  }
+  return message;
 };
