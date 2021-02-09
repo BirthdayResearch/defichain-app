@@ -7,6 +7,7 @@ import {
   handleFetchTokenDFI,
   handleFetchUtxoDFI,
   handleFetchTokenBalanceList,
+  checkRPCErrorMessagePending,
 } from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
@@ -91,19 +92,6 @@ export function* fetchPoolPairList() {
   }
 }
 
-const checkLPErrorMessage = (message: string): string => {
-  if (message) {
-    const lpError = I18n.t(ADD_LP_ERROR);
-    const amount = 'amount';
-    const isLess = 'is less than';
-    const testMessage = message.toLowerCase();
-    return testMessage.includes(amount) && testMessage.includes(isLess)
-      ? lpError
-      : message;
-  }
-  return message;
-};
-
 export function* addPoolLiquidity(action) {
   try {
     const {
@@ -123,7 +111,7 @@ export function* addPoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: addPoolLiquidityFailure.type,
-      payload: checkLPErrorMessage(getErrorMessage(e)),
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
     });
   }
 }
