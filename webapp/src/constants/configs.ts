@@ -174,3 +174,11 @@ export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
 export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
 export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
+
+export const TXN_CSV_HEADERS = [
+  { label: 'Block Height', key: 'blockHeight' },
+  { label: 'Block Hash', key: 'blockHash' },
+  { label: 'Type', key: 'type' },
+  { label: 'Pool ID', key: 'poolID' },
+  { label: 'Amounts', key: 'amounts' },
+];
