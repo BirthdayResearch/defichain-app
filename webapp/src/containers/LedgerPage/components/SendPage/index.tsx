@@ -11,7 +11,8 @@ import {
   getAddressForSymbolLedger,
   accountToAccountConversionLedger,
   getAmountInSelectedUnit,
-  isLessThanDustAmount, getSymbolKey,
+  isLessThanDustAmount,
+  getSymbolKey,
 } from '@/utils/utility';
 import { RootState } from '@/app/rootReducer';
 import * as log from '@/utils/electronLogger';
@@ -30,10 +31,17 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Modal, ModalBody, Row,
+  Modal,
+  ModalBody,
+  Row,
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { MdArrowBack, MdCheckCircle, MdCropFree, MdErrorOutline } from 'react-icons/md';
+import {
+  MdArrowBack,
+  MdCheckCircle,
+  MdCropFree,
+  MdErrorOutline,
+} from 'react-icons/md';
 import QrReader from 'react-qr-reader';
 import classnames from 'classnames';
 import Spinner from '@/components/Svg/Spinner';
@@ -286,13 +294,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             hash
           );
         } else {
-          // TODO change toaddress after testing transaction p2sh
           txHash = await sendToAddress(
-            'ttVsZL1vmt25hWC2WKzJZcPEXAiMQrKpVA',
+            address,
             this.state.toAddress,
             amount,
             hash,
-            2,
+            0
           );
         }
         this.handleSuccess(txHash);
@@ -383,7 +390,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <h1>
             {I18n.t('containers.ledger.sendPage.send')}{' '}
             {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
-            this.props.unit}
+              this.props.unit}
           </h1>
         </Header>
         <div className='content'>
@@ -411,7 +418,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
                         {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
-                        this.props.unit}
+                          this.props.unit}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -480,9 +487,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <div>
                   {!tokenSymbol
                     ? getAmountInSelectedUnit(
-                      this.props.sendData.walletBalance,
-                      this.props.unit
-                    )
+                        this.props.sendData.walletBalance,
+                        this.props.unit
+                      )
                     : tokenAmount}
                   &nbsp;
                   {tokenSymbol
@@ -497,7 +504,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <div>
                   {this.state.amountToSendDisplayed}&nbsp;
                   {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
-                  this.props.unit}
+                    this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -535,7 +542,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
                     {getSymbolKey(tokenSymbol || '', tokenHash || '0') ||
-                    this.props.unit}
+                      this.props.unit}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -655,7 +662,7 @@ const mapStateToProps = (state: RootState) => {
   const { ledgerWallet, settings, wallet } = state;
   return {
     unit: settings.appConfig.unit,
-    sendData:ledgerWallet.sendData,
+    sendData: ledgerWallet.sendData,
     paymentRequests: ledgerWallet.paymentRequests,
   };
 };
