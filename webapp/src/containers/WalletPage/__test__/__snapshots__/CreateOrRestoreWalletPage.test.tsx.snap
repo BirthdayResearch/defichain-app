@@ -643,7 +643,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                           label="Available balance"
                           refreshFlag={false}
                           unit="DFI"
-                          value="0"
+                          value={0}
                         >
                           <Card
                             tag="div"

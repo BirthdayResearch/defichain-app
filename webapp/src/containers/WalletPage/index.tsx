@@ -81,10 +81,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
       </Helmet>
       <Header>
         <Button
-          to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
-            walletBalance,
-            unit
-          )}&unit=${unit}`}
+          to={`${WALLET_TOKENS_PATH}?value=${walletBalance}&unit=${unit}`}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'
@@ -162,11 +159,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={
-                  tokenAmount
-                    ? tokenAmount
-                    : getAmountInSelectedUnit(walletBalance, unit)
-                }
+                value={tokenAmount ? tokenAmount : walletBalance}
                 unit={
                   tokenSymbol
                     ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
