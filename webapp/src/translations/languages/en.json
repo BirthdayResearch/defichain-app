@@ -345,7 +345,7 @@
         "back": "Back",
         "addLiquidity": "Add liquidity",
         "txHash": "Transaction Hash",
-        "blockTransactionFailed": "Please wait for your transaction to be reflected in next block before proceeding with a new transaction."
+        "blockTransactionFailed": "Please wait for your transaction to be reflected in the next block before proceeding with a new transaction."
       },
       "liquidityInfo": {
         "title": "Liquidity",
