@@ -463,7 +463,13 @@
         "transactions": "Транзакции",
         "availableBalance": "Доступные средства",
         "pending": "В ожидании",
-        "updateAvailableLabel": "Обновления доступны"
+        "updateAvailableLabel": "Обновления доступны",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Кошельки",

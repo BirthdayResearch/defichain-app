@@ -719,7 +719,13 @@
         "txidNotApplicable": "Transaktions-ID nicht anwendbar",
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
-        "commission": "Kommission"
+        "commission": "Kommission",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
