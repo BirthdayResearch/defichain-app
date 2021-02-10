@@ -525,11 +525,6 @@ describe('utility', () => {
     expect(result).toBe(validatedMnemonicCode);
   });
 
-  it('should return true or false if isWalletCreated ', () => {
-    const test = utility.isWalletCreated(TEST);
-    expect(test).toBeFalsy();
-  });
-
   it('should return uniqueTokenList', () => {
     const result = utility.getUniqueTokenMap(poolPairList);
     const uniqueTokenLists = new Map(Object.entries(uniqueTokenList));
