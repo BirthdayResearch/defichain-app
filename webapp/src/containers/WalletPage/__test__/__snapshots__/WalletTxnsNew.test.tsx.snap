@@ -135,7 +135,7 @@ exports[`WalletTxnsNew component should check for snapshot 1`] = `
             <DownloadCsvModal
               CsvModalOpen={false}
               error=""
-              filename="Transaction_2021-2-10_17-49-4.csv"
+              filename="Transaction_2021-2-10_18-44-14.csv"
               handleCheckBox={[Function]}
               handleCsvButtonClick={[Function]}
               handleDownloadWindow={[Function]}

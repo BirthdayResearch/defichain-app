@@ -963,7 +963,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                         <DownloadCsvModal
                           CsvModalOpen={false}
                           error=""
-                          filename="Transaction_2021-2-10_17-49-4.csv"
+                          filename="Transaction_2021-2-10_18-44-15.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}
