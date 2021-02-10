@@ -50,7 +50,7 @@ import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
 import DownloadCsvModal from './components/DownloadCsvModal';
 import { getListAccountHistory } from '../../service';
-import { fetchBlockCountRequest } from 'src/containers/BlockchainPage/reducer';
+import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 
 interface WalletTxnsProps {
   minBlockHeight: number;

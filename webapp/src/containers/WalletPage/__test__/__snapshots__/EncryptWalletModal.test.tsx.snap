@@ -209,7 +209,7 @@ exports[`EncryptWalletPage component should check for snapshot 1`] = `
                       <label
                         className="text-center"
                       >
-                        Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallets again.
+                        Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallet again.
                       </label>
                       <div
                         className="mt-4 text-center"
