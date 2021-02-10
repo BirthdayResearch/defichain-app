@@ -76,7 +76,6 @@
     "ps-node": "^0.1.6",
     "random-binary": "^1.0.3",
     "random-string": "^0.2.0",
-    "react-csv": "^2.0.3",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
   },

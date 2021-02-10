@@ -51,7 +51,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
       <ModalHeader toggle={toggle}>
         {I18n.t('containers.wallet.walletPage.downloadTransaction')}
       </ModalHeader>
-      <ModalBody className='p-5'>
+      <ModalBody>
         <Row className='ml-5'>
           <Col md='4'>{I18n.t('containers.wallet.walletPage.maxBlock')}</Col>
           <Col md='8' lg='6'>
@@ -87,9 +87,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
               id='no_rewards'
               value={reqData.no_rewards}
               label={I18n.t('containers.wallet.walletPage.noReward')}
-              onChange={() => {
-                handleCheckBox();
-              }}
+              onChange={handleCheckBox}
             />
           </Col>
         </Row>

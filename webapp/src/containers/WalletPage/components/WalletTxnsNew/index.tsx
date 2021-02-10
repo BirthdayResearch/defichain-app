@@ -130,7 +130,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   }, [CsvModalOpen]);
 
   useEffect(() => {
-    async function getData() {
+    const getData = async () => {
       try {
         const txns = await getListAccountHistory(reqData);
         setTransationData(txns);
@@ -138,7 +138,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         const errorMessage = getErrorMessage(err);
         setError(errorMessage);
       }
-    }
+    };
     getData();
   }, [reqData.limit, reqData.no_rewards, reqData.blockHeight]);
 

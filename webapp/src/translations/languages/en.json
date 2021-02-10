@@ -726,6 +726,11 @@
         "downloadTransaction": "Download transaction",
         "download": "Download",
         "maxBlock": "Max block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
         "limit": "Limit",
         "noReward": "No rewards"
       },
