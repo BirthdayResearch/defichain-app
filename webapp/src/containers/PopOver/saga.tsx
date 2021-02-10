@@ -34,8 +34,6 @@ import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
 import PersistentStore from '../../utils/persistentStore';
 import {
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
   MAIN,
@@ -131,10 +129,6 @@ function* restartWalletBeforeNewWalletCreation() {
 }
 
 function* startResetWalletDat() {
-  const network = getNetworkType();
-  const isWalletCreated =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  PersistentStore.set(isWalletCreated, false);
   yield call(restartAndReplaceWallet);
   yield put(setIsWalletCreatedRequest(false));
   yield put(closeResetWalletDatModal());

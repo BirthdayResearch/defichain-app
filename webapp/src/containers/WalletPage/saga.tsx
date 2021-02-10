@@ -92,7 +92,6 @@ import {
   getNetworkType,
   hdWalletCheck,
   isValidMnemonic,
-  isWalletCreated,
 } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
@@ -101,13 +100,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import {
   AMOUNT_SEPARATOR,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
-  MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
   WALLET_TOKENS_PATH,
 } from '../../constants';
-import PersistentStore from '../../utils/persistentStore';
 import {
   createMnemonicIpcRenderer,
   enableMenuResetWalletBtn,
@@ -305,18 +300,15 @@ export function fetchSendData() {
   queuePush(handleSendData, [], callBack);
 }
 
-function* setWalletExistingIfInConf(conf: any, chain: any) {
+//* If wallet is existing on conf, set wallet loaded
+export function* setWalletExistingIfInConf(conf: any) {
   const network = getNetworkType();
-  //* If wallet is existing on conf, set wallet loaded
-  if (conf && conf[network]?.wallet && conf[network]?.walletdir) {
-    const isWalletCreated =
-      network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-    PersistentStore.set(isWalletCreated, true);
-    store.dispatch(setIsWalletCreatedRequest(true));
-  } else {
-    const isWalletCreatedVal = isWalletCreated(chain);
-    yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
-  }
+  const isWalletCreatedConf =
+    conf != null &&
+    conf[network] != null &&
+    conf[network]?.wallet != null &&
+    conf[network]?.walletdir != null;
+  store.dispatch(setIsWalletCreatedRequest(isWalletCreatedConf));
 }
 
 export function* fetchChainInfo() {
@@ -330,7 +322,7 @@ export function* fetchChainInfo() {
   }
   yield put(setBlockChainInfo(result));
   const { app } = store.getState();
-  yield call(setWalletExistingIfInConf, app.configurationData, result.chain);
+  yield call(setWalletExistingIfInConf, app.configurationData);
 }
 
 export function* fetchTokens() {
@@ -387,22 +379,16 @@ export function* createWallet(action) {
     const {
       payload: { mnemonicCode },
     } = action;
-
     const networkType = getNetworkType();
     const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-
     const hdSeed = yield call(
       createMnemonicIpcRenderer,
       mnemonicCode,
       network,
       networkType
     );
-
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
-    PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
     yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
@@ -436,7 +422,7 @@ export function* restoreWallet(action) {
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    yield call(restoreWalletStep, networkType);
+    yield call(restoreWalletStep);
     yield call(() => {
       history.push(WALLET_TOKENS_PATH);
     });
@@ -446,10 +432,7 @@ export function* restoreWallet(action) {
   }
 }
 
-export function* restoreWalletStep(networkType: string) {
-  const isWalletCreated =
-    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  PersistentStore.set(isWalletCreated, true);
+export function* restoreWalletStep() {
   yield call(enableMenuResetWalletBtn, true);
   yield call(shutDownBinary);
   yield call(fetchWalletReset);
@@ -468,7 +451,7 @@ export function* restoreWalletViaBackup() {
     const networkType = getNetworkType();
     const resp = yield call(startRestoreViaBackup, networkType);
     if (resp?.success) {
-      yield call(restoreWalletStep, networkType);
+      yield call(restoreWalletStep);
       log.info(`Restore via backup successful`, 'restoreWalletViaBackup');
     } else {
       yield put({
@@ -493,7 +476,7 @@ export function* restoreWalletViaRecent(action: any) {
     yield delay(2000);
     const resp = yield call(startRestoreViaRecent, action.payload, networkType);
     if (resp?.success) {
-      yield call(restoreWalletStep, networkType);
+      yield call(restoreWalletStep);
       log.info(`Restore via recent successful`, 'restoreWalletViaRecent');
     } else {
       yield put({
