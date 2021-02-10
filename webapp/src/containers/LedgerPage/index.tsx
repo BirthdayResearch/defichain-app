@@ -104,7 +104,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
       setConnectLabel(I18n.t('containers.ledger.ledgerPage.connecting'));
     } else if (connect.status === 'connected') {
       setConnectLabel(
-        `${devices.list[0].deviceModel.productName} ${I18n.t(
+        `${devices.list[0].deviceModel.productName || 'Ledger'} ${I18n.t(
           'containers.ledger.ledgerPage.connected'
         )}`
       );
@@ -149,7 +149,9 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
     const indexes = await getBackupIndexesLedger();
     log.info(`Indexes keys: ${indexes}`);
     for (const keyIndex of indexes) {
-      const { data: { pubkey, address }, } = await getPubKeyLedger(keyIndex);
+      const {
+        data: { pubkey, address },
+      } = await getPubKeyLedger(keyIndex);
       const data = {
         id: uid(),
         keyIndex,
