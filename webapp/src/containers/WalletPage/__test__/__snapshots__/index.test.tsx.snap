@@ -841,7 +841,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                 </Row>
               </section>
               <Connect(WalletTxns)
-                tokenSymbol=""
+                tokenSymbol="DFI"
               >
                 <WalletTxns
                   accountHistoryCount=""
@@ -861,7 +861,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                   isError=""
                   isLoading={true}
                   minBlockHeight={0}
-                  tokenSymbol=""
+                  tokenSymbol="DFI"
                   unit="DFI"
                   walletTxnCount={0}
                   walletTxns={Array []}

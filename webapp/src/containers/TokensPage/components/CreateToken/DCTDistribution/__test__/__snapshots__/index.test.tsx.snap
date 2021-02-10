@@ -270,15 +270,18 @@ exports[`DCTDistribution component should check for snapshot 1`] = `
                             />
                           </tr>
                         </thead>
-                        <div
+                        <tbody
                           className="h-100"
                         >
-                          <div
+                          <tr
                             className="undefined text-center"
                           >
-                            Add addresses to your initial distribution list.
-                          </div>
-                        </div>
+                            <td>
+                              Add addresses to your initial distribution list.
+                            </td>
+                            <td />
+                          </tr>
+                        </tbody>
                       </table>
                     </Table>
                   </div>
