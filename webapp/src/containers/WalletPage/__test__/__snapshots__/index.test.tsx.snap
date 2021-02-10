@@ -855,6 +855,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                     }
                   }
                   data={Array []}
+                  fetchBlockCount={[Function]}
                   fetchBlockDataForTrxRequestLoading={[Function]}
                   fetchWalletTokenTransactionsListRequestLoading={[Function]}
                   fetchWalletTokenTransactionsListResetRequest={[Function]}
@@ -955,18 +956,26 @@ exports[`WalletPage component should check for snapshot 1`] = `
                             <span
                               className="d-lg-inline"
                             >
-                              CSV Export
+                              CSV export
                             </span>
                           </button>
                         </Button>
                         <DownloadCsvModal
                           CsvModalOpen={false}
                           error=""
-                          filename="Transaction_2021-2-9_20-41.csv"
+                          filename="Transaction_2021-2-10_17-49-4.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}
                           handleRegularNumInputs={[Function]}
+                          reqData={
+                            Object {
+                              "blockHeight": 0,
+                              "limit": 100,
+                              "no_rewards": false,
+                              "token": "",
+                            }
+                          }
                           toggle={[Function]}
                           tokenSymbol=""
                           transactionData={Array []}
