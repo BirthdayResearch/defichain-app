@@ -184,7 +184,6 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
-
         "availablePoolPairs": "Available pool pairs",
         "noPoolPairs": "No pool pairs",
         "pair": "Pair",
@@ -273,7 +272,6 @@
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-
         "availablePoolPairs": "Available pool pairs",
         "pair": "Pair",
         "liquidity": "Liquidity",
@@ -359,6 +357,7 @@
         "searchTokens": "Recherche de Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} sur %{total} tokens",
         "datLabels": {
           "type": "Type",

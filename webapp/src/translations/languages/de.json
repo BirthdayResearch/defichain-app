@@ -199,6 +199,7 @@
         "searchTokens": "Tokens suchen",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Entfernen",
         "paginationRange": "%{from} – %{to} von %{total} Tokens",
         "datLabels": {
           "type": "Typ",

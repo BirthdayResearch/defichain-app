@@ -200,6 +200,7 @@
         "dat": "DAT",
         "dct": "DCT",
         "paginationRange": "%{from} – %{to} of %{total} tokens",
+        "remove": "Remove",
         "datLabels": {
           "type": "Type",
           "price": "Price",
