@@ -10,13 +10,23 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 
 const SettingsRowInput = (props) => {
-  const { id, name, text, label, fieldName, placeholder, handleInputs } = props;
+  const {
+    id,
+    name,
+    text,
+    label,
+    fieldName,
+    placeholder,
+    handleInputs,
+    value,
+  } = props;
 
   return (
     <InputGroup>
       <Input
         type='number'
         name={`${name}`}
+        value={value}
         id={`${id}`}
         placeholder={`${placeholder}`}
         onChange={(event) => handleInputs(event, `${fieldName}`)}

@@ -722,12 +722,12 @@
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
         "txPaginationRange": "%{from} - %{to} of %{total} transactions",
         "commission": "Commission",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Download Transaction",
+        "csvExport": "CSV export",
+        "downloadTransaction": "Download transaction",
         "download": "Download",
-        "maxBlock": "Max Block Height",
+        "maxBlock": "Max block height",
         "limit": "Limit",
-        "noReward": "No Rewards"
+        "noReward": "No rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

@@ -721,11 +721,11 @@
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
         "commission": "Kommission",
         "csvExport": "CSV Export",
-        "downloadTransaction": "Download Transaction",
+        "downloadTransaction": "Transaktionen herunterladen",
         "download": "Download",
-        "maxBlock": "Max Block Height",
+        "maxBlock": "Max Blockhöhe",
         "limit": "Limit",
-        "noReward": "No Rewards"
+        "noReward": "Keine Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
