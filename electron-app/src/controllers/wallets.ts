@@ -46,6 +46,38 @@ const saveFileDialog = async (
   return paths;
 };
 
+/**
+ * @description - Check if wallet path is still existing
+ */
+export const checkWalletConfig = () => {
+  try {
+    const data = getIniData(CONFIG_FILE_NAME);
+    const MAIN = 'main';
+    const TEST = 'test';
+    const networks = [MAIN, TEST];
+    networks.forEach((network) => {
+      if (
+        data[network] != null &&
+        data[network].wallet != null &&
+        data[network].walletdir != null
+      ) {
+        const walletPath = path.join(
+          data[network].walletdir,
+          data[network].wallet
+        );
+        if (!checkPathExists(walletPath)) {
+          delete data[network].wallet;
+          delete data[network].walletdir;
+        }
+      }
+    });
+    const defaultConfigData = ini.encode(data);
+    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
 export const writeToConfigFile = (
   parsedPath?: ParsedPath,
   network?: string
@@ -82,7 +114,6 @@ export const getWalletMap = () => {
     const src = getWalletMapPath();
     if (checkPathExists(src)) {
       const data = fs.readFileSync(src, 'utf8');
-      console.log(data);
       return data;
     }
   } catch (error) {
