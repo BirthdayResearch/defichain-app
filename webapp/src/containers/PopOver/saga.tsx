@@ -21,6 +21,8 @@ import {
   setIsQueueResetRoute,
   restoreWalletViaRecent,
   openRestoreWalletModal,
+  encryptWalletSuccess,
+  encryptWalletFailure,
 } from './reducer';
 import {
   autoLockTimer,
@@ -32,12 +34,6 @@ import {
 import * as log from '../../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
-import PersistentStore from '../../utils/persistentStore';
-import {
-  IS_WALLET_LOCKED_MAIN,
-  IS_WALLET_LOCKED_TEST,
-  MAIN,
-} from '../../constants';
 import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
@@ -48,6 +44,7 @@ import {
   setIsWalletCreatedRequest,
 } from '../WalletPage/reducer';
 import { checkRestoreRecentIfExisting } from '../WalletPage/service';
+import { history } from '../../utils/history';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -65,26 +62,28 @@ function* backupWalletBeforeNewWalletCreation() {
 }
 
 function* encryptWallet(action) {
+  const {
+    payload: { passphrase, isModal, pageRedirect },
+  } = action;
   try {
-    const {
-      payload: { passphrase },
-    } = action;
-    const result = yield call(handleEncryptWallet, passphrase);
-    yield put(closeEncryptWalletModal());
-
-    const networkType = getNetworkType();
-    const isWalletLocked =
-      networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-    PersistentStore.set(isWalletLocked, true);
+    yield call(handleEncryptWallet, passphrase);
+    yield put(encryptWalletSuccess());
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.encryptWalletSuccess')
     );
+    if (isModal) {
+      yield put(closeEncryptWalletModal());
+    } else {
+      history.push(pageRedirect);
+    }
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
-    yield put(closeEncryptWalletModal());
-    showErrorNotification({ message });
+    yield put(encryptWalletFailure(message));
+    if (isModal) {
+      showErrorNotification({ message });
+    }
   }
 }
 

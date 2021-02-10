@@ -858,13 +858,6 @@ export const fetchPoolShareDataWithPagination = async (
   return list;
 };
 
-export const isWalletEncrypted = () => {
-  const networkType = getNetworkType();
-  const isWalletLocked =
-    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-  return PersistentStore.get(isWalletLocked) || false;
-};
-
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({

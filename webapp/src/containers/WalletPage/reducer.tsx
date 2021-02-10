@@ -69,6 +69,7 @@ export const initialState = {
   },
   walletMap: {},
   walletMapError: '',
+  isWalletEncrypted: false,
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -310,6 +311,10 @@ const configSlice = createSlice({
       state.isErrorRestoringWallet = '';
     },
     startBackupWalletViaExitModal(state) {},
+    setWalletEncryptedRequest(state, action) {},
+    setWalletEncrypted(state, action) {
+      state.isWalletEncrypted = action.payload;
+    },
   },
 });
 
@@ -378,6 +383,8 @@ export const {
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
   startBackupWalletViaExitModal,
+  setWalletEncryptedRequest,
+  setWalletEncrypted,
 } = actions;
 
 export default reducer;

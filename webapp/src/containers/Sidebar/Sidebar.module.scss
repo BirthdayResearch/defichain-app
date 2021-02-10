@@ -19,16 +19,13 @@ div[disabled] {
   opacity: 0.7;
 }
 
-.iconPointer {
-  cursor: pointer;
-  color: $secondary;
-}
-
 .iconSideBar {
   min-height: 26px;
 }
 
 .iconNavTop {
+  color: $secondary;
+  cursor: pointer;
   &:hover {
     color: $black;
     transition: all 0.2ms linear;

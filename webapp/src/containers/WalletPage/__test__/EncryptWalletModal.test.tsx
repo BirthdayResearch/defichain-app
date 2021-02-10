@@ -9,9 +9,7 @@ describe('EncryptWalletPage component', () => {
   it('should check for snapshot', () => {
     const wrapper = Enzyme.mount(
       <Router>
-        <Provider store={store}>
-          <EncryptWalletModal />
-        </Provider>
+        <Provider store={store}></Provider>
       </Router>
     );
     expect(wrapper).toMatchSnapshot();

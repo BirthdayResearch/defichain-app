@@ -748,6 +748,10 @@
         "sent": "Sent",
         "removePoolLiquidity": "Remove liquidity",
         "accountToUtxos": "Account to UTXOs"
+      },
+      "encryptWalletPage": {
+        "title": "Encrypt wallet",
+        "encryptingWallet": "Encrypting wallet"
       }
     },
     "console": {

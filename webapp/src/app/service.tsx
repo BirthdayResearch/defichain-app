@@ -253,3 +253,14 @@ export const getWalletMap = async (): Promise<void> => {
     log.error(error, 'getWalletMap');
   }
 };
+
+export const checkWalletEncryption = async (): Promise<boolean> => {
+  try {
+    const rpcClient = new RpcClient();
+    const walletInfo = await rpcClient.getWalletInfo();
+    return walletInfo != null && walletInfo.unlocked_until != null;
+  } catch (error) {
+    log.error(error, 'checkWalletEncryption');
+    return false;
+  }
+};

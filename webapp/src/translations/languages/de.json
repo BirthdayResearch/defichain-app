@@ -106,7 +106,7 @@
     "helpPage": {
       "title": "Hilfe",
       "help": "Hilfe",
-      "helpPageHeader": "Verbinde Dich mit der Community über diese Optionen:",
+      "helpPageHeader": "Verbinde dich mit der Community über diese Optionen:",
       "telegramEn": "Telegram Community (EN)",
       "telegramDe": "Telegram Community (DE)",
       "github": "Ein Problem melden",
@@ -560,6 +560,7 @@
       "createOrRestoreWalletPage": {
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
         "loading": "Laden...",
+        "restoreFromBackup": "Wallet mit Backup wiederherstellen",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue Wallet erstellen",
         "restoreWalletFromMnemonicSeed": "Wallet aus Seed wiederherstellen",
@@ -818,6 +819,7 @@
     "okIHaveDoneIt": "Ok, ich habe es getan.",
     "encryptWalletNoticeTitle": "Wallet sperren",
     "encryptWalletNotice": "Aus Sicherheitsgründen wird empfohlen, die Sperrung der Wallet mit einem Passwort zu aktivieren. Gebe das Passwort ein, mit dem Du Deine Wallet entsperren willst.",
+    "encryptWalletWarning": "Bewahre dein Passwort sicher auf. Wenn du es verlierst, musst du die DeFi App zurücksetzen und deine Wallet wiederherstellen",
     "enableLocking": "Sperren aktivieren",
     "later": "SPÄTER",
     "passphraseLabel": "Passwort eingeben",

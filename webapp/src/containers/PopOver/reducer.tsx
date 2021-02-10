@@ -28,6 +28,9 @@ export const initialState = {
   isRestoreWalletOpen: false,
   filePath: '',
   isExitWalletOpen: false,
+  isWalletEncrypting: false,
+  isErrorEncryptingWallet: '',
+  isEncryptFromModal: false,
 };
 
 const configSlice = createSlice({
@@ -124,7 +127,18 @@ const configSlice = createSlice({
     closeEncryptWalletModal(state) {
       state.isEncryptWalletModalOpen = false;
     },
-    encryptWalletStart(state, action) {},
+    encryptWalletStart(state, action) {
+      state.isWalletEncrypting = true;
+      state.isEncryptFromModal = action.payload.isModal;
+    },
+    encryptWalletSuccess(state) {
+      state.isWalletEncrypting = false;
+      state.isErrorEncryptingWallet = '';
+    },
+    encryptWalletFailure(state, action) {
+      state.isWalletEncrypting = false;
+      state.isErrorEncryptingWallet = action.payload;
+    },
     openWalletPassphraseModal(state) {
       state.isWalletPassphraseModalOpen = true;
     },
@@ -211,6 +225,8 @@ export const {
   openEncryptWalletModal,
   closeEncryptWalletModal,
   encryptWalletStart,
+  encryptWalletSuccess,
+  encryptWalletFailure,
   openWalletPassphraseModal,
   closeWalletPassphraseModal,
   unlockWalletStart,

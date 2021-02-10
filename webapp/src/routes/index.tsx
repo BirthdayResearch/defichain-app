@@ -53,6 +53,7 @@ import {
   LIQUIDITY_PATH,
   WALLET_SYNC_PAGE_PATH,
   LIQUIDITY_INFO_PATH,
+  WALLET_ENCRYPT_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
@@ -64,6 +65,7 @@ import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLi
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LiquidityPage from '../containers/LiquidityPage';
 import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
+import EncryptWalletPage from '../containers/WalletPage/components/EncryptWalletPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -104,6 +106,7 @@ const routes = (location) => (
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
     <Route exact path={WALLET_SYNC_PAGE_PATH} component={WalletSyncPage} />
+    <Route exact path={WALLET_ENCRYPT_PATH} component={EncryptWalletPage} />
     <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
     <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
     <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />

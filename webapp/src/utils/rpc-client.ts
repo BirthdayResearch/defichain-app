@@ -43,7 +43,11 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
-import { ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
+import {
+  ListUnspentModel,
+  PeerInfoModel,
+  WalletInfo,
+} from 'src/constants/rpcModel';
 
 export default class RpcClient {
   client: any;
@@ -103,7 +107,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  getWalletInfo = async (): Promise<any> => {
+  getWalletInfo = async (): Promise<WalletInfo> => {
     const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
