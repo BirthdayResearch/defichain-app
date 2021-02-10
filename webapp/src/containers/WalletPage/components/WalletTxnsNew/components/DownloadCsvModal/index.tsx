@@ -18,6 +18,7 @@ import { CSVLink } from 'react-csv';
 import { TXN_CSV_HEADERS } from '../../../../../../../src/constants/configs';
 
 interface DownloadCsvModalProps {
+  reqData: any;
   error: string;
   CsvModalOpen: boolean;
   handleCsvButtonClick: () => void;
@@ -42,6 +43,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
     filename,
     handleDownloadWindow,
     transactionData,
+    reqData,
   } = props;
 
   return (
@@ -57,6 +59,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
               <CsvRowInput
                 fieldName={'blockHeight'}
                 label={''}
+                value={reqData.blockHeight}
                 name={'blockHeight'}
                 id={'maximumAmount'}
                 placeholder={'Number'}
@@ -71,6 +74,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
                 fieldName={'limit'}
                 label={''}
                 name={'limit'}
+                value={reqData.limit}
                 id={'limit'}
                 placeholder={'Number'}
                 handleInputs={handleRegularNumInputs}
@@ -81,6 +85,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             <CustomInput
               type='checkbox'
               id='no_rewards'
+              value={reqData.no_rewards}
               label={I18n.t('containers.wallet.walletPage.noReward')}
               onChange={() => {
                 handleCheckBox();

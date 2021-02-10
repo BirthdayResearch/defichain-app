@@ -1470,5 +1470,6 @@ export const getFormattedTime = () => {
   const d = today.getDate();
   const h = today.getHours();
   const mi = today.getMinutes();
-  return `${y}-${m}-${d}_${h}-${mi}`;
+  const s = today.getSeconds();
+  return `${y}-${m}-${d}_${h}-${mi}-${s}`;
 };

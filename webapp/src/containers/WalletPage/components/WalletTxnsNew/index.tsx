@@ -50,6 +50,7 @@ import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
 import DownloadCsvModal from './components/DownloadCsvModal';
 import { getListAccountHistory } from '../../service';
+import { fetchBlockCountRequest } from 'src/containers/BlockchainPage/reducer';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
@@ -85,6 +86,7 @@ interface WalletTxnsProps {
   combineAccountHistoryData: any;
   fetchWalletTokenTransactionsListResetRequest: () => void;
   accountHistoryCountRequest: ({ no_rewards, token }) => void;
+  fetchBlockCount: () => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -101,6 +103,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     isError,
     combineAccountHistoryData,
     blockCount,
+    fetchBlockCount,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
@@ -114,14 +117,17 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const from = (currentPage - 1) * pageSize + 1;
   const to = Math.min(total, currentPage * pageSize);
   const [modal, setModal] = useState(false);
-  const [noRewards, setNoRewards] = useState(false);
   const [error, setError] = useState('');
   const [reqData, setData] = useState({
     blockHeight: blockCount,
     limit: 100,
     token: tokenSymbol,
-    no_rewards: noRewards,
+    no_rewards: false,
   });
+
+  useEffect(() => {
+    fetchBlockCount();
+  }, [CsvModalOpen]);
 
   useEffect(() => {
     async function getData() {
@@ -134,7 +140,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       }
     }
     getData();
-  }, [reqData.limit, noRewards, reqData.blockHeight]);
+  }, [reqData.limit, reqData.no_rewards, reqData.blockHeight]);
 
   const handleRegularNumInputs = (
     event: { target: { name: string; value: any } },
@@ -153,17 +159,15 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       blockHeight: blockCount,
       limit: 100,
       token: tokenSymbol,
-      no_rewards: noRewards,
+      no_rewards: false,
     });
     handleCsvButtonClick();
   };
 
   const handleCheckBox = () => {
-    const isOpen = !noRewards;
-    setNoRewards(isOpen);
     setData({
       ...reqData,
-      no_rewards: isOpen,
+      no_rewards: !reqData.no_rewards,
     });
   };
 
@@ -182,7 +186,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       blockHeight: blockCount,
       limit: 100,
       token: tokenSymbol,
-      no_rewards: noRewards,
+      no_rewards: false,
     });
   }, [CsvModalOpen]);
 
@@ -431,6 +435,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             </span>
           </Button>
           <DownloadCsvModal
+            reqData={reqData}
             transactionData={transactionData}
             handleDownloadWindow={handleDownloadWindow}
             filename={fileName}
@@ -500,6 +505,7 @@ const mapDispatchToProps = {
   fetchWalletTokenTransactionsListResetRequest,
   accountHistoryCountRequest: ({ no_rewards, token }) =>
     accountHistoryCountRequest({ no_rewards, token }),
+  fetchBlockCount: () => fetchBlockCountRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
