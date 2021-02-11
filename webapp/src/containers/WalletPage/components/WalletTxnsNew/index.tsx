@@ -69,6 +69,7 @@ interface WalletTxnsProps {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    pageNum: number,
     cancelToken?: string,
     minBlockHeight?: number
   ) => void;
@@ -122,6 +123,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         tokenSymbol,
         pageSize,
         includeRewards,
+        pageNum,
         cancelToken
       );
     } else {
@@ -129,6 +131,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         tokenSymbol,
         pageSize,
         includeRewards,
+        pageNum,
         cancelToken,
         minBlockHeight
       );
@@ -374,6 +377,7 @@ const mapDispatchToProps = {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    pageNum: number,
     cancelToken?: string,
     minBlockHeight?: number
   ) =>
@@ -381,6 +385,7 @@ const mapDispatchToProps = {
       symbol,
       limit,
       includeRewards,
+      pageNum,
       cancelToken,
       minBlockHeight,
     }),
