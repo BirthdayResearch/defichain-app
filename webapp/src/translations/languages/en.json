@@ -721,7 +721,18 @@
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
         "txPaginationRange": "%{from} - %{to} of %{total} transactions",
-        "commission": "Commission"
+        "commission": "Commission",
+        "csvExport": "CSV export",
+        "downloadTransaction": "Download transaction",
+        "download": "Download",
+        "maxBlock": "Max block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
