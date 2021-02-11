@@ -554,7 +554,15 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "security": "Security",
+      "passphraseLock": "Passphrase lock",
+      "changePassphrase": "Change passphrase",
+      "autoLock": "Auto-lock",
+      "changeLockPassphrase": "Change lock passphrase",
+      "currentPassphrase": "Current passphrase",
+      "newPassphrase": "New passphrase",
+      "confirmNewPassphrase": "Confirm new passphrase"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -751,7 +759,8 @@
       },
       "encryptWalletPage": {
         "title": "Encrypt wallet",
-        "encryptingWallet": "Encrypting wallet"
+        "encryptingWallet": "Encrypting wallet",
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat)."
       }
     },
     "console": {
