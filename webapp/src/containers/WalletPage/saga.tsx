@@ -446,7 +446,7 @@ function* fetchWalletTokenTransactionsList(action) {
       currentData.length > 0 &&
       pageNum < currentData[currentData.length - 1].page
     ) {
-      blockHeight = currentData[currentData.length - 2].maxBlockHeight;
+      blockHeight = currentData[currentData.length - 2]?.maxBlockHeight;
       tempData[symbol] = currentData.filter(
         (val, index) => index < currentData.length - 1
       );

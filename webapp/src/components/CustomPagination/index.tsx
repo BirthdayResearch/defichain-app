@@ -37,18 +37,16 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             </PaginationLink>
           </PaginationItem>
         )}
-        {
-          <PaginationItem disabled={currentPage <= 1}>
-            <PaginationLink
-              previous
-              onClick={(e) =>
-                props.handlePageClick(currentPage - 1, props.cancelToken)
-              }
-            >
-              <MdChevronLeft />
-            </PaginationLink>
-          </PaginationItem>
-        }
+        <PaginationItem disabled={currentPage <= 1}>
+          <PaginationLink
+            previous
+            onClick={(e) =>
+              props.handlePageClick(currentPage - 1, props.cancelToken)
+            }
+          >
+            <MdChevronLeft />
+          </PaginationLink>
+        </PaginationItem>
         <PaginationItem key={currentPage} active={true}>
           <PaginationLink
             onClick={(e) =>
@@ -58,19 +56,17 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             {currentPage}
           </PaginationLink>
         </PaginationItem>
-        {
-          <PaginationItem disabled={disableNextLink() || data.length < 10}>
-            <PaginationLink
-              next
-              onClick={(e) =>
-                props.handlePageClick(currentPage + 1, props.cancelToken)
-              }
-              disabled={props.disableNext}
-            >
-              <MdChevronRight />
-            </PaginationLink>
-          </PaginationItem>
-        }
+        <PaginationItem disabled={disableNextLink() || data.length < 10}>
+          <PaginationLink
+            next
+            onClick={(e) =>
+              props.handlePageClick(currentPage + 1, props.cancelToken)
+            }
+            disabled={props.disableNext}
+          >
+            <MdChevronRight />
+          </PaginationLink>
+        </PaginationItem>
       </Pagination>
     </div>
   );
