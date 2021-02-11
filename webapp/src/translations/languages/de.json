@@ -753,6 +753,11 @@
         "sent": "Gesendet",
         "removePoolLiquidity": "Liquidität entfernen",
         "accountToUtxos": "Konto zu UTXOs"
+      },
+      "encryptWalletPage": {
+        "title": "Wallet verschlüsseln",
+        "encryptingWallet": "Verschlüssele Wallet",
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her."
       }
     },
     "console": {
@@ -860,7 +865,15 @@
     "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
-    "deletePeersAndBlocks": "Peers und Blöcke löschen"
+    "deletePeersAndBlocks": "Peers und Blöcke löschen",
+    "security": "Sicherheit",
+    "passphraseLock": "Passphrase lock",
+    "changePassphrase": "Passwort ändern",
+    "autoLock": "Automatisch sperren",
+    "changeLockPassphrase": "Change lock passphrase",
+    "currentPassphrase": "Aktuelles Passwort",
+    "newPassphrase": "Neues Passwort",
+    "confirmNewPassphrase": "Neues Passwort bestätigen"
   },
   "general": {
     "defiApp": "DeFi app",
