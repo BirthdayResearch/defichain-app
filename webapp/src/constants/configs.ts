@@ -1,4 +1,5 @@
 import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
+import { I18n } from 'react-redux-i18n';
 
 export const TEST = 'test';
 export const RPC_V = RPCVersion;
@@ -172,3 +173,14 @@ export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
 export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
 export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
+
+export const TXN_CSV_HEADERS = [
+  {
+    label: I18n.t('containers.wallet.walletPage.blockHeight'),
+    key: 'blockHeight',
+  },
+  { label: I18n.t('containers.wallet.walletPage.blockHash'), key: 'blockHash' },
+  { label: I18n.t('containers.wallet.walletPage.type'), key: 'type' },
+  { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
+  { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
+];

@@ -242,7 +242,6 @@
         "volume": "Volume (24 H)",
         "officialSite": "Officiele pagina",
         "transfers": "Overschrijvingen",
-        "holders": "Houders",
         "info": "Info",
         "exchange": "Uitwisselen",
         "dex": "DEX",
@@ -257,7 +256,6 @@
         "confirmation": "Weet u zeker dat u de Token wilt vernietigen?",
         "deleteToken": "Delete Token",
         "editToken": "Wijzig Token",
-        "mint": "Munten",
         "notMintedAlert": "U heeft de token niet gemunt",
         "mint": "Munten"
       },
@@ -294,8 +292,7 @@
         "addAddressesText": "Voeg adressen toe aan uw distributielijst.",
         "enterDfiAddress": "Invoeren DFI adres",
         "dragAndUploadCSV": "Sleep of kies een CSV-bestand om te uploaden.",
-        "verifyingCollateral": "Onderpand verifiëren",
-        "chooseFile": "Kies bestand"
+        "verifyingCollateral": "Onderpand verifiëren"
       }
     },
     "settings": {
@@ -459,7 +456,18 @@
         "transactions": "Transacties",
         "availableBalance": "Beschikbaar saldo",
         "pending": "In afwachting",
-        "updateAvailableLabel": "Update aanwezig"
+        "updateAvailableLabel": "Update aanwezig",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",
