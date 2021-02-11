@@ -184,7 +184,6 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
-
         "availablePoolPairs": "Available pool pairs",
         "noPoolPairs": "No pool pairs",
         "pair": "Pair",
@@ -274,7 +273,6 @@
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-
         "availablePoolPairs": "Available pool pairs",
         "pair": "Pair",
         "liquidity": "Liquidity",
@@ -653,7 +651,18 @@
         "availableBalance": "Solde disponible",
         "pending": "En attente",
         "updateAvailableLabel": "Update available",
-        "txidNotApplicable": "Transaction ID not applicable"
+        "txidNotApplicable": "Transaction ID not applicable",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletTxns": {
         "height": "Hauteur",

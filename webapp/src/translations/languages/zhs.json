@@ -683,7 +683,18 @@
         "loading": "加载中…",
         "category": "类别",
         "blockHeight": "区块高度",
-        "amount": "数目"
+        "amount": "数目",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "钱包",

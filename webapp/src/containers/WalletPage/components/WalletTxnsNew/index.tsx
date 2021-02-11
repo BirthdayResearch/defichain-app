@@ -7,6 +7,7 @@ import {
   CustomInput,
   Row,
   Col,
+  Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import {
@@ -39,13 +40,21 @@ import {
   SENT_CATEGORY_LABEL,
   UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
-import { onViewOnChain } from '../../../../utils/utility';
+import {
+  getErrorMessage,
+  getFormattedTime,
+  onViewOnChain,
+} from '../../../../utils/utility';
 import BigNumber from 'bignumber.js';
 import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
+import DownloadCsvModal from './components/DownloadCsvModal';
+import { getListAccountHistory } from '../../service';
+import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
+  blockCount: number;
   accountHistoryCount: number;
   unit: string;
   walletTxnCount: number;
@@ -77,6 +86,7 @@ interface WalletTxnsProps {
   combineAccountHistoryData: any;
   fetchWalletTokenTransactionsListResetRequest: () => void;
   accountHistoryCountRequest: ({ no_rewards, token }) => void;
+  fetchBlockCount: () => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -92,9 +102,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     isLoading,
     isError,
     combineAccountHistoryData,
+    blockCount,
+    fetchBlockCount,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
+  const [CsvModalOpen, setCsvModalOpen] = useState(false);
+  const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
@@ -102,6 +116,83 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const textLimit = 26;
   const from = (currentPage - 1) * pageSize + 1;
   const to = Math.min(total, currentPage * pageSize);
+  const [modal, setModal] = useState(false);
+  const [error, setError] = useState('');
+  const [reqData, setData] = useState({
+    blockHeight: blockCount,
+    limit: 100,
+    token: tokenSymbol,
+    no_rewards: false,
+  });
+
+  useEffect(() => {
+    fetchBlockCount();
+  }, [CsvModalOpen]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const txns = await getListAccountHistory(reqData);
+        setTransationData(txns);
+      } catch (err) {
+        const errorMessage = getErrorMessage(err);
+        setError(errorMessage);
+      }
+    };
+    getData();
+  }, [reqData.limit, reqData.no_rewards, reqData.blockHeight]);
+
+  const handleRegularNumInputs = (
+    event: { target: { name: string; value: any } },
+    field: string
+  ) => {
+    setData({
+      ...reqData,
+      [field]: Number(event.target.value),
+    });
+    setError('');
+  };
+
+  const toggle = async () => {
+    setModal(!modal);
+    setData({
+      blockHeight: blockCount,
+      limit: 100,
+      token: tokenSymbol,
+      no_rewards: false,
+    });
+    handleCsvButtonClick();
+  };
+
+  const handleCheckBox = () => {
+    setData({
+      ...reqData,
+      no_rewards: !reqData.no_rewards,
+    });
+  };
+
+  const handleDownloadWindow = () => {
+    if (!error) {
+      handleCsvButtonClick();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    setError('');
+    setData({
+      blockHeight: blockCount,
+      limit: 100,
+      token: tokenSymbol,
+      no_rewards: false,
+    });
+  }, [CsvModalOpen]);
+
+  const fileName = `${I18n.t(
+    'containers.wallet.walletPage.transactions'
+  )}_${getFormattedTime()}.csv`;
 
   const sourceArray: any = useRef([]);
   let source;
@@ -223,6 +314,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     return label;
   };
 
+  const handleCsvButtonClick = () => {
+    const isOpen = !CsvModalOpen;
+    setCsvModalOpen(isOpen);
+  };
+
   const walletTxnList = () => {
     if (isLoading || combineAccountHistoryData.isLoading)
       return <div>{I18n.t('containers.wallet.walletPage.loading')}</div>;
@@ -317,17 +413,43 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     <section className='mb-5'>
       <div className={styles.container}>
         <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
-        <FormGroup>
-          <CustomInput
-            type='checkbox'
-            id='includeRewards'
-            label={I18n.t('containers.wallet.walletPage.includeRewards')}
-            checked={includeRewards}
-            onChange={() => {
-              setIncludeRewards(!includeRewards);
-            }}
+        <div className='btn-group'>
+          <FormGroup>
+            <CustomInput
+              type='checkbox'
+              id='includeRewards'
+              label={I18n.t('containers.wallet.walletPage.includeRewards')}
+              checked={includeRewards}
+              onChange={() => {
+                setIncludeRewards(!includeRewards);
+              }}
+            />
+          </FormGroup>
+          <Button
+            className={styles.includeReward}
+            color='link'
+            size='sm'
+            onClick={handleCsvButtonClick}
+          >
+            <MdArrowDownward />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.wallet.walletPage.csvExport')}
+            </span>
+          </Button>
+          <DownloadCsvModal
+            reqData={reqData}
+            transactionData={transactionData}
+            handleDownloadWindow={handleDownloadWindow}
+            filename={fileName}
+            error={error}
+            handleCheckBox={handleCheckBox}
+            handleRegularNumInputs={handleRegularNumInputs}
+            toggle={toggle}
+            tokenSymbol={tokenSymbol}
+            CsvModalOpen={CsvModalOpen}
+            handleCsvButtonClick={handleCsvButtonClick}
           />
-        </FormGroup>
+        </div>
       </div>
       <Row>
         <Col xs='12'>{walletTxnList()}</Col>
@@ -347,6 +469,7 @@ const mapStateToProps = (state) => {
       accountHistoryCount,
       minBlockHeight,
     },
+    blockchain,
   } = state;
   return {
     walletTxns,
@@ -358,6 +481,7 @@ const mapStateToProps = (state) => {
     isError,
     accountHistoryCount,
     minBlockHeight,
+    blockCount: blockchain.blockCount,
   };
 };
 
@@ -383,6 +507,7 @@ const mapDispatchToProps = {
   fetchWalletTokenTransactionsListResetRequest,
   accountHistoryCountRequest: ({ no_rewards, token }) =>
     accountHistoryCountRequest({ no_rewards, token }),
+  fetchBlockCount: () => fetchBlockCountRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);
