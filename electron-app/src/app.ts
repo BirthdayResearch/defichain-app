@@ -18,6 +18,7 @@ import {
   ACTIVATE,
   CLOSE,
   SECOND_INSTANCE,
+  APP_SHUTDOWN_TIMEOUT,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
 import ElectronLogger from './services/electronLogger';
@@ -30,6 +31,7 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
+import { checkWalletConfig, createWalletMap } from './controllers/wallets';
 
 declare var process: {
   argv: any;
@@ -67,6 +69,7 @@ export default class App {
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
     this.setNodeEvents();
+    checkWalletConfig();
   }
 
   onAppReady = async () => {
@@ -86,6 +89,7 @@ export default class App {
       this.createMenu.bind(this)
     );
     createMnemonicAction();
+    createWalletMap();
   };
 
   initiateInterceptFileProtocol() {
@@ -111,12 +115,15 @@ export default class App {
       'REACT_PERF',
     ];
 
-    return installer
-      .default(
-        extensions.map((name) => installer[name]),
-        forceDownload
-      )
-      .catch(console.log);
+    return (
+      installer
+        .default(
+          extensions.map((name) => installer[name]),
+          forceDownload
+        )
+        // tslint:disable-next-line:no-console
+        .catch(console.log)
+    );
   };
 
   createWindow = async () => {
@@ -185,6 +192,7 @@ export default class App {
   }
 
   closeWindowAndQuitApp = () => {
+    ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Closing app...`);
     this.mainWindow.hide();
     this.allowQuit = true;
     return app.quit();
@@ -196,7 +204,7 @@ export default class App {
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Terminating Node Connection`
         );
-        await DefiProcessManager.stop(true);
+        await DefiProcessManager.stop();
         ElectronLogger.info(
           `[${LOGGING_SHUT_DOWN}] Node connection has been closed`
         );
@@ -219,8 +227,14 @@ export default class App {
       app.quit();
       return (this.mainWindow = null);
     }
-    // Stop all process before quit
     ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
+    setTimeout(() => {
+      ElectronLogger.info(
+        `[${LOGGING_SHUT_DOWN}] 5 minutes elapsed, force closing app`
+      );
+      this.closeWindowAndQuitApp();
+    }, APP_SHUTDOWN_TIMEOUT);
+    // Stop all process before quit
     this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
     event.preventDefault();
   };

@@ -22,10 +22,18 @@ const updatedHistory = Object.assign({}, history, {
 
 describe('Master Node Detail Page', () => {
   it('should check for snapshot', () => {
+    const props = {
+      masternodes: [],
+      resignMasterNode: () => {},
+      isMasterNodeResigning: true,
+      resignedMasterNodeData: 'resignedMasterNodeData',
+      isErrorResigningMasterNode: 'isErrorResigningMasterNode',
+    };
     const wrapper = shallow(
       <Provider store={store}>
         <MasterNodeDetailPage
           match={match}
+          {...props}
           history={updatedHistory}
           location={updatedLocation}
         />

@@ -179,12 +179,15 @@ export default class RpcClient {
     return data.result;
   };
 
-  getPeerInfo = async (): Promise<PeerInfoModel[]> => {
+  getPeerInfo = async (
+    shouldAllowEmptyPeers?: boolean
+  ): Promise<PeerInfoModel[]> => {
     const { data } = await this.call('/', methodNames.GET_PEER_INFO, []);
-    const isValid = validateSchema(
-      rpcResponseSchemaMap.get(methodNames.GET_PEER_INFO),
-      data
-    );
+    const schema = rpcResponseSchemaMap.get(methodNames.GET_PEER_INFO) as any;
+    if (shouldAllowEmptyPeers && schema?.properties?.result?.minItems) {
+      schema.properties.result.minItems = 0;
+    }
+    const isValid = validateSchema(schema, data);
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${

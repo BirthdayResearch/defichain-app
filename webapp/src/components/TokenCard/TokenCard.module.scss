@@ -70,11 +70,11 @@
 
 .cardValue {
   display: flex;
-  color: rgba(0, 0, 0, 0.6);
+  color: $secondary;
 }
 
 .cardLabel {
-  color: rgba(0, 0, 0, 0.6);
+  color: $secondary;
   padding-right: 1rem;
 }
 

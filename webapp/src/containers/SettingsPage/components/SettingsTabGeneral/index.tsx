@@ -15,6 +15,7 @@ interface SettingsTabGeneralProps {
   refreshUtxosAfterSaving: boolean;
   minimizedAtLaunch: boolean;
   pruneBlockStorage: boolean;
+  deletePeersAndBlocks: boolean;
   blockStorage: number;
   databaseCache: number;
   maximumAmount: number;
@@ -49,6 +50,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     networkOptions,
     network,
     reindexAfterSaving,
+    deletePeersAndBlocks,
     refreshUtxosAfterSaving,
     handleDropDowns,
     openGeneralReIndexModal,
@@ -97,6 +99,13 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                 label={'reindexAfterSaving'}
                 field={reindexAfterSaving}
                 fieldName={'reindexAfterSaving'}
+              />
+              <SettingsRowToggle
+                handleToggles={handleToggles}
+                label={'deletePeersAndBlocks'}
+                field={deletePeersAndBlocks}
+                fieldName={'deletePeersAndBlocks'}
+                hideMinimized={!reindexAfterSaving}
               />
             </Col>
           </Row>

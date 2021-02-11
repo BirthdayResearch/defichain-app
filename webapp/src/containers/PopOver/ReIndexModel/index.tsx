@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
 import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
+import ToggleButton from './component/ToggleButton';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
@@ -15,11 +16,24 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   props: ReIndexModalProps
 ) => {
   const { closeReIndexModal, isRestartLoader, isReIndexModelOpen } = props;
+  const [peers, setPeers] = useState(false);
+
+  const handleDeletePeersAndblocks = () => {
+    const deletePeersAndBlocks = !peers;
+    setPeers(deletePeersAndBlocks);
+  };
 
   const restartAppWithReIndexing = () => {
     closeReIndexModal();
     isRestartLoader();
-    restartNodeWithReIndexing({ isReindexReq: true });
+    if (peers) {
+      restartNodeWithReIndexing({
+        isReindexReq: true,
+        isDeletePeersAndBlocksreq: true,
+      });
+    } else {
+      restartNodeWithReIndexing({ isReindexReq: true });
+    }
   };
 
   const closePopupAndApp = () => {
@@ -32,6 +46,12 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
       <ModalBody>
         <h1 className='h4'>{I18n.t('alerts.reindexModelHeader')}</h1>
         <p>{I18n.t('alerts.restartAppWithReindexNotice')}</p>
+        <ToggleButton
+          handleToggles={handleDeletePeersAndblocks}
+          label={'deletePeersAndBlocks'}
+          field={peers}
+          fieldName={'deletePeersAndBlocks'}
+        />
       </ModalBody>
       <ModalFooter>
         <Button size='sm' color='primary' onClick={restartAppWithReIndexing}>

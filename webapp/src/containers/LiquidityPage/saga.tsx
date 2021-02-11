@@ -1,10 +1,13 @@
+import { I18n } from 'react-redux-i18n';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { ADD_LP_ERROR } from '../../constants/validations';
 import * as log from '../../utils/electronLogger';
 import {
   getErrorMessage,
   handleFetchTokenDFI,
   handleFetchUtxoDFI,
   handleFetchTokenBalanceList,
+  checkRPCErrorMessagePending,
 } from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
@@ -108,7 +111,7 @@ export function* addPoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: addPoolLiquidityFailure.type,
-      payload: getErrorMessage(e),
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
     });
   }
 }

@@ -28,3 +28,10 @@ export const UPDATE_AVAILABLE = 'update-available';
 export const ERROR = 'error';
 export const ON_CLOSE_RPC_CLIENT = 'on-close-rpc-client';
 export const APP_INIT = 'app-init';
+export const ON_WALLET_MAP_REQUEST = 'on-wallet-map-request';
+export const ON_WALLET_MAP_REPLACE = 'on-wallet-map-replace';
+export const ON_WALLET_RESTORE_VIA_BACKUP = 'on-wallet-restore-via-backup';
+export const ON_WALLET_RESTORE_VIA_RECENT_CHECK =
+  'on-wallet-restore-via-recent-check';
+export const ON_WALLET_RESTORE_VIA_RECENT = 'on-wallet-restore-via-recent';
+export const ON_WALLET_BACKUP_REQUEST = 'on-wallet-backup-request';

@@ -12,7 +12,7 @@ import {
 import { getBlockSyncInfo } from './service';
 import { eventChannel, END } from 'redux-saga';
 import { SYNC_TIMEOUT, SYNC_INFO_RETRY_ATTEMPT } from '../../constants';
-import { handlePeersSyncRequest } from 'src/utils/utility';
+import { handlePeersSyncRequest } from '../../utils/utility';
 
 function* blockSyncInfo() {
   const chan = yield call(fetchBlockSyncInfo, SYNC_INFO_RETRY_ATTEMPT);
@@ -54,9 +54,9 @@ function fetchBlockSyncInfo(retryAttempt: number) {
   });
 }
 
-function* fetchPeersSyncInfo() {
+function* fetchPeersSyncInfo(action) {
   try {
-    const peers = yield call(handlePeersSyncRequest);
+    const peers = yield call(handlePeersSyncRequest, action?.payload);
     yield put(syncStatusPeersSuccess({ peers: peers?.length ?? 0 }));
     yield delay(3000);
     yield put(syncStatusPeersLoading({ isLoading: false }));

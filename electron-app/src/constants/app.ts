@@ -33,3 +33,5 @@ export const REINDEX_ERROR_STRING = 'restart with -reindex';
 export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING =
   'Account history needs rebuild';
 export const NODE_SYNTAX_ERROR = '.cpp';
+// * 5 Minutes
+export const APP_SHUTDOWN_TIMEOUT = 300000;

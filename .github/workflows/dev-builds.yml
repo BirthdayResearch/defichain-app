@@ -3,6 +3,9 @@ on:
     branches:
       - 'ci/**'
       - master
+  pull_request:
+    branches:
+      - master
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
@@ -28,6 +31,8 @@ jobs:
       CSC_LINK: ${{ secrets.CSC_LINK}}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
       CI: true
+      APPLE_ID: ${{ secrets.APPLE_ID}}
+      APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
     steps:
       - uses: actions/checkout@v2
       - name: Get App Version

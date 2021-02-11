@@ -20,6 +20,11 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
+  DAT_FILE_TYPE,
+  BLK_FILE,
+  REV_FILE,
+  TESTNET_BASE_FOLDER_REINDEX,
+  MAINNET_BASE_FOLDER_REINDEX,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
 import * as log from '././services/electronLogger';
@@ -197,13 +202,58 @@ export const getBaseFolder = () => {
   return baseFolder;
 };
 
+export const getBaseFolderReindex = () => {
+  const data = getIniData(CONFIG_FILE_NAME);
+  let baseFolder = MAINNET_BASE_FOLDER_REINDEX;
+  if (data.testnet && parseInt(data.testnet, 10)) {
+    baseFolder = TESTNET_BASE_FOLDER_REINDEX;
+  }
+  if (data.regtest && parseInt(data.regtest, 10)) {
+    baseFolder = REGTEST_BASE_FOLDER;
+  }
+  return baseFolder;
+};
+
 export const deletePeersFile = () => {
   try {
-    const baseFolder = getBaseFolder();
+    const baseFolder = getBaseFolderReindex();
     const destFileName = `peers.dat`;
-    const destFilePath = path.join(baseFolder, '../', destFileName);
+    const destFilePath = path.join(baseFolder, destFileName);
     deleteFile(destFilePath);
     log.info(`Deleted peers file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteBlocksAndRevFiles = () => {
+  try {
+    log.info('Starting Delete Block and Rev Files...');
+    const baseFolder = getBaseFolderReindex();
+    const destFolder = path.join(baseFolder, 'blocks');
+    fs.readdirSync(destFolder).forEach((file) => {
+      const blkFile = path.join(destFolder, file);
+      if (
+        file?.endsWith(DAT_FILE_TYPE) &&
+        (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
+      ) {
+        log.info(`Deleting ${blkFile}...`);
+        deleteFile(blkFile);
+      }
+    });
+    log.info('Delete Block and Rev Files completed...');
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteBanlist = () => {
+  try {
+    const baseFolder = getBaseFolderReindex();
+    const destFileName = `banlist.dat`;
+    const destFilePath = path.join(baseFolder, destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted banlist file in ${destFilePath}`);
   } catch (error) {
     log.error(error);
   }

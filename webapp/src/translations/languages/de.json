@@ -15,12 +15,13 @@
       "network": "Netzwerk",
       "preparingSync": "Sync vorbereiten",
       "connectedToPeers": "Verbunden mit %{peers} Peers",
-      "atBlock": "Bei Block %{block}"
+      "atBlock": "Bei Block %{block}",
+      "lookingForPeers": "Suche nach Peers"
     },
     "swapCard": {
       "selectAToken": "Token wählen",
       "popular": "Beliebt",
-      "tokens": "Tokens",
+      "tokens": "Token",
       "balance": "Guthaben",
       "max": "Max",
       "inputLabel": "0"
@@ -35,13 +36,14 @@
       "dex": "DEX",
       "masterNodes": "Masternodes",
       "blockchain": "Blockchain",
-      "tokens": "Tokens",
+      "tokens": "Token",
       "swap": "Swap",
       "exchange": "Exchange",
       "help": "Hilfe",
       "settings": "Einstellungen",
       "console": "Konsole",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidität",
+      "selectCreateRestore": "Wallet erstellen oder wiederherstellen, um Zugriff auf die Funktionen der Wallet zu erhalten"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -192,11 +194,11 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Tokens",
+        "title": "Token",
         "loading": "Laden...",
         "createToken": "Erstellen",
-        "tokens": "Tokens",
-        "searchTokens": "Tokens suchen",
+        "tokens": "Token",
+        "searchTokens": "Token suchen",
         "dat": "DAT",
         "dct": "DCT",
         "remove": "Entfernen",
@@ -211,7 +213,7 @@
           "limit": "Limit",
           "mintingSupport": "Minting-Support",
           "tradeable": "Handelbar",
-          "liquidityTokenFor": "Liquidity Token für"
+          "liquidityTokenFor": "Liquidität-Token für"
         },
         "dctLabels": {
           "id": "ID",
@@ -222,7 +224,7 @@
           "type": "Typ",
           "decimal": "Dezimal",
           "limit": "Limit",
-          "liquidityTokenFor": "Liquidity Token für"
+          "liquidityTokenFor": "Liquidität-Token für"
         }
       },
       "createToken": {
@@ -242,7 +244,7 @@
         "decimalText": "Anzahl der Dezimalstellen. Kann nach der Einstellung nicht mehr geändert werden.",
         "limit": "Limit",
         "mintingSupport": "Minting-Support?",
-        "mintText": "Du kannst Tokens prägen, nachdem sie erstellt worden sind.",
+        "mintText": "Du kannst Token prägen, nachdem sie erstellt worden sind.",
         "optionalFinalSupplyLimit": "Endgültiges Angebotslimit (optional)",
         "optionalFinalSupplyLimitText": "Unwandelbarer Gesamtangebotslimit. Für ein unbegrenztes Angebot frei lassen. Kann nach der Festlegung nicht mehr geändert werden.",
         "tradeable": "Handelbar?",
@@ -344,7 +346,8 @@
         "apy": "APY",
         "back": "ZURÜCK",
         "addLiquidity": "Liquidität hinzufügen",
-        "txHash": "Transaktionshash"
+        "txHash": "Transaktionshash",
+        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit e."
       },
       "liquidityInfo": {
         "title": "Liquidität",
@@ -378,7 +381,7 @@
         "selectToken": "Token wählen",
         "searchToken": "Suche nach einem Token, Namen oder Adresse",
         "popular": "Beliebt",
-        "tokens": "Tokens",
+        "tokens": "Token",
         "readySwap": "Bereit zum Swapen",
         "price": "Preis",
         "minimumReceived": "Erhaltener Betrag (mögliche Abweichungen)",
@@ -410,10 +413,11 @@
         "amountInsufficient": "Unzureichender Betrag in Deinem Konto",
         "txHash": "Transaktionshash",
         "somethingWentWrong": "Etwas lief schief",
+        "priceImpactWarning": "Das Handelsvolumen übersteigt %{percentage}% der Poolgröße. Es wird erhebliche Auswirkungen auf den Preis haben, wenn du den Tausch durchführst.",
         "preparingUTXO": "UTXO vorbereiten",
         "UTXOPrepared": "UTXO vorbereitet",
-        "transferringTokens": "Übertragen von Tokens",
-        "tokensTransferred": "Tokens übertragen",
+        "transferringTokens": "Übertragen von Token",
+        "tokensTransferred": "Token übertragen",
         "dexExplorer": "Dex Explorer",
         "insufficientUtxos": "Unzureichendes UTXOS für den Swap",
         "backToDEX": "Zurück zu DEX"
@@ -448,7 +452,7 @@
         "preparingUTXO": "UTXO vorbereiten",
         "addingLiquidity": "Liquidität wird hinzugefügt",
         "liquidityAdded": "Liquidität hinzugefügt",
-        "selectInputTokens": "Wähle die Eingabe-Tokens aus und gebe einen Betrag ein",
+        "selectInputTokens": "Wähle die Eingabe-Token aus und gebe einen Betrag ein",
         "back": "Zurück",
         "input": "Eingabe",
         "price": "Preis",
@@ -500,8 +504,8 @@
         "UTXOSRefreshed": "UTXOS aktualisiert",
         "removingLiquidity": "Entfernen von Liquidität",
         "liquidityRemoved": "Liquidität entfernt",
-        "transferringTokens": "Übertragen von Tokens",
-        "tokensTransferred": "Übertragene Tokens",
+        "transferringTokens": "Übertragen von Token",
+        "tokensTransferred": "Übertragene Token",
         "receiveAddress": "Empfänger-Adresse"
       }
     },
@@ -551,7 +555,8 @@
       "network": "Netzwerk",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -559,8 +564,13 @@
         "loading": "Laden...",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue Wallet erstellen",
-        "restoreWalletFromMnemonicSeed": "Wallet wiederherstellen",
-        "walletSyncNotice": "Sobald die Synchronisierung abgeschlossen ist, kannst Du eine Wallet erstellen oder wiederherstellen."
+        "restoreWalletFromMnemonicSeed": "Wallet aus Seed wiederherstellen",
+        "walletSyncNotice": "Sobald die Synchronisierung abgeschlossen ist, kannst Du eine Wallet erstellen oder wiederherstellen.",
+        "connectToALedger": "Verbinde eine Hardware Wallet",
+        "hdWallet": "HD Wallet",
+        "mnemonicSeed": "Mnemonic Seed",
+        "chooseRecentBackup": "oder benutze ein aktuelles Backup",
+        "comingSoon": "Bald verfügbar"
       },
       "createNewWalletPage": {
         "back": "ZURÜCK",
@@ -600,7 +610,8 @@
         "enterWord": "Wort eingeben",
         "restoringWallet": "Wallet wird wiederhergestellt",
         "restore": "WIEDERHERSTELLEN",
-        "backToWalletPage": "Schließen"
+        "backToWalletPage": "Schließen",
+        "importingWallet": "Importiere Wallet"
       },
       "sendPage": {
         "sendTitle": "Senden",
@@ -687,7 +698,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "tokens": "Tokens",
+        "tokens": "Token",
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
@@ -711,7 +722,13 @@
         "txidNotApplicable": "Transaktions-ID nicht anwendbar",
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
-        "commission": "Kommission"
+        "commission": "Kommission",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Transaktionen herunterladen",
+        "download": "Download",
+        "maxBlock": "Max Blockhöhe",
+        "limit": "Limit",
+        "noReward": "Keine Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -723,7 +740,7 @@
         "walletAddTokens": "Wallet - Token hinzufügen",
         "back": "Zurück",
         "add": "Hinzufügen",
-        "tokens": "Tokens",
+        "tokens": "Token",
         "addWalletLabel": "Einen Token hinzufügen"
       },
       "walletTxns": {
@@ -840,12 +857,25 @@
     "confirmResetWalletText": "Bestätige das Zurücksetzen mit: '%{text}'",
     "yeResetpWalletNotice": "Ja",
     "noResetWalletNotice": "Nein",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
+    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
+    "backupAndExit": "Backup und Beenden",
+    "exit": "Beenden",
+    "deletePeersAndBlocks": "Peers und Blöcke löschen"
   },
   "general": {
     "defiApp": "DeFi app",
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."
+  },
+  "update": {
+    "updateRequired": "Ein Update ist erforderlich",
+    "requiredVersionValue": "%{minVersion} und höher",
+    "currentVersion": "Aktuelle Version",
+    "requiredVersion": "Erforderliche Version",
+    "availableVersion": "Verfügbare Version",
+    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi-App weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
   }
 }

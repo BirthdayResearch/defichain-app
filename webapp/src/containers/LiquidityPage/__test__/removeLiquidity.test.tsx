@@ -27,6 +27,14 @@ describe('RemoveLiquidity component', () => {
         </Provider>
       </Router>
     );
+
+    wrapper.find('Button').at(0).simulate('click');
+    const event = { target: { name: 'decimal', value: 1 } };
+    wrapper.find('Input').at(0).simulate('change', event);
+    wrapper.find('span').at(2).simulate('click');
+    const event1 = { target: { name: 'removeLiquidityRange', value: 0 } };
+    wrapper.find('CustomInput').at(0).simulate('change', event1);
+    wrapper.find('span').at(3).simulate('click');
     expect(wrapper).toMatchSnapshot();
   });
 });

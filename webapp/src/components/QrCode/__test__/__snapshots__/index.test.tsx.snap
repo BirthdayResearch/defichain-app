@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QrCode component should check for snapshot 1`] = `
+<Fragment>
+  <Button
+    className="padless ml-2"
+    color="link"
+    id="uid"
+    onClick={[Function]}
+    size="sm"
+    tag="button"
+  >
+    <AiOutlineQrcode />
+  </Button>
+  <Popover
+    isOpen={false}
+    placement="auto"
+    placementPrefix="bs-popover"
+    target="uid"
+    toggle={[Function]}
+    trigger="focus"
+  >
+    <PopoverBody
+      tag="div"
+    >
+      <QRCode
+        bgColor="#FFFFFF"
+        className="qrClass"
+        fgColor="#000000"
+        includeMargin={false}
+        level="L"
+        renderAs="canvas"
+        size={240}
+        value="value"
+      />
+    </PopoverBody>
+  </Popover>
+</Fragment>
+`;

@@ -335,7 +335,8 @@
       "network": "Сеть",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -463,7 +464,18 @@
         "transactions": "Транзакции",
         "availableBalance": "Доступные средства",
         "pending": "В ожидании",
-        "updateAvailableLabel": "Обновления доступны"
+        "updateAvailableLabel": "Обновления доступны",
+        "csvExport": "CSV Export",
+        "downloadTransaction": "Download Transaction",
+        "download": "Download",
+        "maxBlock": "Max Block Height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No Rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Кошельки",
@@ -583,7 +595,8 @@
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
-    "noResetWalletNotice": "No"
+    "noResetWalletNotice": "No",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "Блокчейн-Клиент DeFi"

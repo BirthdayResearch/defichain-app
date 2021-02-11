@@ -50,7 +50,17 @@ interface WalletTokensListProps extends RouteComponentProps {
 const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   props: WalletTokensListProps
 ) => {
-  const { unit, history, isWalletCreatedFlag, tokens, isLoadingTokens } = props;
+  const {
+    unit,
+    history,
+    isWalletCreatedFlag,
+    tokens,
+    isLoadingTokens,
+    fetchTokensRequest,
+    walletBalance,
+    fetchAccountTokensRequest,
+    accountTokens,
+  } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
   const [walletTableData, setwalletTableData] = useState<any>([]);
@@ -63,11 +73,6 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   });
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const pageSize = TOKEN_LIST_PAGE_SIZE;
-  const {
-    fetchAccountTokensRequest,
-    fetchTokensRequest,
-    accountTokens,
-  } = props;
   const total = [
     ...new Set([...accountTokens, ...verifiedTokens, ...walletTableData]),
   ].length;
@@ -96,7 +101,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
         verifiedTokens
       );
     }
-  }, [accountTokens, isLoadingTokens, props.walletBalance, walletTableData]);
+  }, [accountTokens?.length, isLoadingTokens, walletBalance, tokens?.length]);
 
   function paginate(
     pageNumber,
@@ -236,7 +241,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
               token={{
                 symbol: unit,
                 symbolKey: unit,
-                amount: props.walletBalance,
+                amount: walletBalance,
                 hash: DFI_SYMBOL,
                 address: '',
               }}

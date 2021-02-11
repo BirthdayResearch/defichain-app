@@ -55,7 +55,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
             handleDropDowns={handleDropDowns}
             fieldName={'language'}
           />
-          <SettingsRowDropDown
+          {/* <SettingsRowDropDown
             label={'containers.settings.displayAmount'}
             data={amountUnits}
             field={unit}
@@ -63,7 +63,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
             fieldName={'unit'}
           >
             {getUnitDescription()}
-          </SettingsRowDropDown>
+          </SettingsRowDropDown> */}
           {/* For future purpose */}
           {/* <SettingsRowDropDown
             label={'containers.settings.displayMode'}
