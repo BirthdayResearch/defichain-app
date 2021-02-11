@@ -84,9 +84,13 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
   return paymentData;
 };
 
+export const getInitialTokenInfo = () => {
+  return JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+};
+
 export const handleAddToken = (tokenData) => {
   const networkType = getNetworkType();
-  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const initialData = getInitialTokenInfo();
   const keyData = [...(initialData[networkType] || []), tokenData];
   initialData[networkType] = keyData;
   PersistentStore.set('tokenInfo', initialData);
@@ -95,7 +99,7 @@ export const handleAddToken = (tokenData) => {
 
 export const handleRemoveToken = (tokenData) => {
   const networkType = getNetworkType();
-  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const initialData = getInitialTokenInfo();
   const keyData = (initialData[networkType] || []).filter(
     (data) => data.symbol !== tokenData.symbol
   );
@@ -105,9 +109,8 @@ export const handleRemoveToken = (tokenData) => {
 };
 
 export const handleCheckToken = (tokenData) => {
-  const networkType = getNetworkType();
-  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
-  const data = (initialData[networkType] || []).find(
+  const initialTokenData = getWalletToken();
+  const data = initialTokenData.find(
     (data) => data.symbol === tokenData.symbol
   );
   if (data) {
@@ -121,13 +124,13 @@ export const handleCheckToken = (tokenData) => {
 
 export const getWalletToken = () => {
   const networkType = getNetworkType();
-  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const initialData = getInitialTokenInfo();
   return initialData[networkType] || [];
 };
 
 export const updateWalletToken = (duplicateArray) => {
   const networkType = getNetworkType();
-  const initialData = JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+  const initialData = getInitialTokenInfo();
   const filteredData = initialData[networkType].filter(
     (element) => !duplicateArray.includes(element.symbolKey)
   );

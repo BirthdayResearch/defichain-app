@@ -118,7 +118,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
     clone = [...clone, ...appTokens]
       .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
-      .filter((t: IToken) => t.hash != '0');
+      .filter((t: IToken) => t.hash != DFI_SYMBOL);
     const allTokenArray = clone.map((token) => token.symbolKey);
     if (allTokenArray.length !== [...new Set(allTokenArray)].length) {
       const duplicateArray = allTokenArray.filter(
@@ -183,8 +183,8 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     tokenData.forEach((value, key) => {
       tokenDataArray = [...tokenDataArray, value.symbolKey];
     });
-    const diffreneceArray = difference(existingTokenArray, tokenData);
-    return diffreneceArray.length > 1 ? true : false;
+    const differenceArray = difference(existingTokenArray, tokenData);
+    return differenceArray.length > 1;
   };
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
