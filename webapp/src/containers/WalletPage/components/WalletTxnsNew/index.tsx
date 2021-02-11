@@ -54,7 +54,7 @@ import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
-  blockCount?: number;
+  blockCount: number;
   accountHistoryCount: number;
   unit: string;
   walletTxnCount: number;
@@ -108,7 +108,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
   const [CsvModalOpen, setCsvModalOpen] = useState(false);
-  const [transactionData, setTransationData] = useState([]);
+  const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
@@ -190,7 +190,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     });
   }, [CsvModalOpen]);
 
-  const fileName = `Transaction_${getFormattedTime()}.csv`;
+  const fileName = `${I18n.t(
+    'containers.wallet.walletPage.transactions'
+  )}_${getFormattedTime()}.csv`;
 
   const sourceArray: any = useRef([]);
   let source;

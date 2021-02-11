@@ -15,10 +15,29 @@ import {
 } from 'reactstrap';
 import CsvRowInput from '../../CsvRowInput';
 import { CSVLink } from 'react-csv';
-import { TXN_CSV_HEADERS } from '../../../../../../../src/constants/configs';
+import { TXN_CSV_HEADERS } from '../../../../../../constants';
+
+interface Reqdata {
+  blockHeight: number;
+  limit: number;
+  token: string;
+  no_rewards: boolean;
+}
+
+interface TransactionData {
+  amounts: string[];
+  blockHash: string;
+  blockHeight: number;
+  blockTime: number;
+  owner: string;
+  poolID: string;
+  type: string;
+  txId?: string;
+  txn?: number;
+}
 
 interface DownloadCsvModalProps {
-  reqData: any;
+  reqData: Reqdata;
   error: string;
   CsvModalOpen: boolean;
   handleCsvButtonClick: () => void;
@@ -28,7 +47,7 @@ interface DownloadCsvModalProps {
   handleCheckBox: () => void;
   filename: string;
   handleDownloadWindow: () => void;
-  transactionData: any;
+  transactionData: TransactionData;
 }
 
 const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
@@ -85,7 +104,6 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             <CustomInput
               type='checkbox'
               id='no_rewards'
-              value={reqData.no_rewards}
               label={I18n.t('containers.wallet.walletPage.noReward')}
               onChange={handleCheckBox}
             />
