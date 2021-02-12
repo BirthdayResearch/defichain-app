@@ -21,7 +21,7 @@ import { MdMoreHoriz, MdRemove } from 'react-icons/md';
 import {
   handleCheckToken,
   handleRemoveToken,
-} from 'src/containers/WalletPage/service';
+} from '../../../containers/WalletPage/service';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;

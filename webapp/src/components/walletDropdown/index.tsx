@@ -122,7 +122,7 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
   return (
     <UncontrolledDropdown className={styles.dropDownTokens}>
       <DropdownToggle
-        caret={props.children ? false : true}
+        caret={!!props.children}
         color={props.children ? 'link' : 'outline-secondary'}
         className={styles.buttonDropdown}
       >

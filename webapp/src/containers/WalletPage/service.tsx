@@ -115,10 +115,7 @@ export const handleCheckToken = (tokenData) => {
     (data) => data.symbol === tokenData.symbol
   );
   if (data) {
-    if (Number(tokenData.amount)) {
-      return true;
-    }
-    return false;
+    return !!Number(tokenData.amount);
   }
   return true;
 };

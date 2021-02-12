@@ -546,31 +546,23 @@ const getPopularSymbolList = () => {
   return [DFI_SYMBOL, BTC_SYMBOL, ETH_SYMBOL];
 };
 
+export const setTokenMap = (tokenMap, tokenData, tokenId, isPopularToken) => {
+  tokenMap.set(tokenData.symbolKey, {
+    ...tokenData,
+    hash: tokenId.toString(),
+    isPopularToken,
+  });
+};
+
 export const getToken = (tokenlist: any[]) => {
   const tokenMap = new Map<string, any>();
   const popularSymbolList = getPopularSymbolList();
 
   tokenlist.forEach((tokenData, tokenId) => {
     if (popularSymbolList.includes(tokenId.toString())) {
-      if (tokenId.toString() === DFI_SYMBOL) {
-        tokenMap.set(tokenData.symbolKey, {
-          ...tokenData,
-          hash: tokenId.toString(),
-          isPopularToken: true,
-        });
-      } else {
-        tokenMap.set(tokenData.symbolKey, {
-          ...tokenData,
-          hash: tokenId.toString(),
-          isPopularToken: true,
-        });
-      }
+      setTokenMap(tokenMap, tokenData, tokenId, true);
     } else {
-      tokenMap.set(tokenData.symbolKey, {
-        ...tokenData,
-        hash: tokenId.toString(),
-        isPopularToken: false,
-      });
+      setTokenMap(tokenMap, tokenData, tokenId, false);
     }
   });
   return tokenMap;
