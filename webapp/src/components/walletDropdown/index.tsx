@@ -17,6 +17,8 @@ import NumberMask from '../NumberMask';
 import SwapSearchBar from '../SwapSearchBar';
 import TokenAvatar from '../TokenAvatar';
 import styles from './WalletDropdown.module.scss';
+import BigNumber from 'bignumber.js';
+import { DEFAULT_TOKEN_VALUE } from 'src/constants';
 
 interface WalletDropdownProps {
   tokenMap: Map<string, any> | [];
@@ -73,7 +75,9 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
               {symbol}
             </div>
             <div className={styles.dropDownItemRight}>
-              <NumberMask value={'0.00000000'} />
+              <NumberMask
+                value={new BigNumber(DEFAULT_TOKEN_VALUE).toFixed(8)}
+              />
             </div>
           </DropdownItem>
         );
@@ -101,7 +105,7 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
             </div>
             <div className={styles.dropDownItemRight}>
               {/* {balanceTokenInfo.balance} */}
-              {'0.00000000'}
+              {new BigNumber(DEFAULT_TOKEN_VALUE).toFixed(8)}
             </div>
           </DropdownItem>
         );
