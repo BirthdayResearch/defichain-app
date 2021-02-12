@@ -184,3 +184,5 @@ export const TXN_CSV_HEADERS = [
   { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
   { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
 ];
+
+export const DEFAULT_TOKEN_VALUE = 0;

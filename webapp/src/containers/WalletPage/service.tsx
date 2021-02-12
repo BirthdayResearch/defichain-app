@@ -18,6 +18,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
+import { difference } from 'lodash';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -128,20 +129,48 @@ export const getWalletToken = () => {
   return initialData[networkType] || [];
 };
 
-export const updateWalletToken = (duplicateArray) => {
-  const networkType = getNetworkType();
-  const initialData = getInitialTokenInfo();
-  const filteredData = initialData[networkType].filter(
-    (element) => !duplicateArray.includes(element.symbolKey)
-  );
-  initialData[networkType] = filteredData;
-  PersistentStore.set('tokenInfo', initialData);
+export const updateWalletToken = (clone) => {
+  const allTokenArray = clone.map((token) => token.symbolKey);
+  if (allTokenArray.length !== [...new Set(allTokenArray)].length) {
+    const duplicateArray = allTokenArray.filter(
+      (value, index) => allTokenArray.indexOf(value) === index
+    );
+    const networkType = getNetworkType();
+    const initialData = getInitialTokenInfo();
+    const filteredData = initialData[networkType].filter(
+      (element) => !duplicateArray.includes(element.symbolKey)
+    );
+    initialData[networkType] = filteredData;
+    PersistentStore.set('tokenInfo', initialData);
+  }
 };
 
-export const getVerifiedTokens = (tokens) => {
+export const getTokenForWalletDropDown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  const filteredTokenMap = new Map<string, any>();
+  tokenData.forEach((value, key) => {
+    if (!existingTokenArray.includes(key)) {
+      filteredTokenMap.set(key, value);
+    }
+  });
+  return filteredTokenMap;
+};
+
+export const isWalletDropdown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  let tokenDataArray: any[] = [];
+  tokenData.forEach((value) => {
+    tokenDataArray = [...tokenDataArray, value.symbolKey];
+  });
+  const differenceArray = difference(existingTokenArray, tokenData);
+  return differenceArray.length > 1;
+};
+
+export const getVerifiedTokens = (tokens, accountTokens) => {
+  const accountTokenSymbol = accountTokens.map((t) => t.symbolKey);
   const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
     t.amount = 0;
-    return t.isDAT && !t.isLPS;
+    return t.isDAT && !t.isLPS && !accountTokenSymbol.includes(t.symbolKey);
   });
   return verifiedTokens;
 };
