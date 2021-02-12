@@ -72,7 +72,12 @@ interface SendPageProps {
   getAddressForSymbol: (
     hash: string,
     list: any[]
-  ) => { address: string; maxAmount: number; keyIndex: number };
+  ) => {
+    address: string;
+    maxAmount: number;
+    keyIndex: number;
+    type: 'legacy' | 'p2sh';
+  };
   accountToAccountConversion: (
     addressList: PaymentRequestLedger[],
     toAddress: string,
@@ -282,6 +287,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           address,
           maxAmount,
           keyIndex,
+          type,
         } = await this.props.getAddressForSymbol(
           hash,
           this.props.paymentRequests
@@ -298,8 +304,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             address,
             this.state.toAddress,
             amount,
-            hash,
-            0
+            keyIndex,
+            type
           );
         }
         this.handleSuccess(txHash);
