@@ -20,7 +20,8 @@ import {
   DEFAULT_MAXIMUM_COUNT,
   FEE_RATE,
   DEFAULT_FEE_RATE,
-  BACKUP_IDXS_LEDGER, MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
+  BACKUP_IDXS_LEDGER,
+  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -65,11 +66,15 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
 export const importAddresses = async (networkName: string) => {
   const paymentRequests = handelGetPaymentRequestLedger(networkName);
   const rpcClient = new RpcClient();
-  const queryImportPubKey = paymentRequests.map((paymentRequest) => rpcClient.importPubKey(paymentRequest.pubkey, paymentRequest.label));
-  const queryImportAddress = paymentRequests.map((paymentRequest) => rpcClient.importAddress(paymentRequest.address, paymentRequest.label));
+  const queryImportPubKey = paymentRequests.map((paymentRequest) =>
+    rpcClient.importPubKey(paymentRequest.pubkey, paymentRequest.label)
+  );
+  const queryImportAddress = paymentRequests.map((paymentRequest) =>
+    rpcClient.importAddress(paymentRequest.address, paymentRequest.label)
+  );
   await Promise.all(queryImportPubKey);
   await Promise.all(queryImportAddress);
-}
+};
 
 export const loadWallet = async (walletName: string) => {
   const rpcClient = new RpcClient();
@@ -85,12 +90,12 @@ export const loadWallet = async (walletName: string) => {
       await rpcClient.loadWallet('ledger');
     }
   }
-}
+};
 
 export const handelFetchWalletTxns = async (
   pageNo: number,
   pageSize: number,
-  networkName: string,
+  networkName: string
 ) => {
   // const localStorageName = handleLocalStorageNameLedger(networkName);
   // const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
@@ -190,26 +195,26 @@ export const sendToAddress = async (
   fromAddress: string | null,
   toAddress: string,
   amount: number,
-  token: string,
   keyIndex: number,
+  type: 'legacy' | 'p2sh' = 'p2sh'
 ) => {
   log.info('Service accounttoaccount is started');
   try {
     const rpcClient = new RpcClient();
     const { utxo, amountUtxo } = await utxoLedger(fromAddress, amount);
     const ipcRenderer = ipcRendererFunc();
-    const res = await ipcRenderer.sendSync(
-      'sign-transaction-ledger',
-      {
+    const res = await ipcRenderer.sendSync('sign-transaction-ledger', {
       utxo,
       address: toAddress,
       amount,
       fromAddress,
-      keyIndex, feeRate: amountUtxo - amount - 0.01 }
-    );
+      keyIndex,
+      feeRate: amountUtxo - amount - 0.01,
+      type,
+    });
     if (res.success) {
-      await rpcClient.sendRawTransaction(res.data.tx);
-      return res.data.tx;
+      const hashTx = await rpcClient.sendRawTransaction(res.data.tx);
+      return hashTx;
     } else {
       throw new Error(res.message);
     }
@@ -236,7 +241,11 @@ export const getNewAddress = async (
   }
 };
 
-export const importPubKey = async (pubKey: string, keyIndex: number, label: string) => {
+export const importPubKey = async (
+  pubKey: string,
+  keyIndex: number,
+  label: string
+) => {
   const rpcClient = new RpcClient();
   try {
     log.info('importPubKey');
@@ -249,7 +258,11 @@ export const importPubKey = async (pubKey: string, keyIndex: number, label: stri
   }
 };
 
-export const importAddress = async (address: string, keyIndex: number, label: string) => {
+export const importAddress = async (
+  address: string,
+  keyIndex: number,
+  label: string
+) => {
   const rpcClient = new RpcClient();
   try {
     log.info('importAddress');
@@ -498,4 +511,4 @@ export const getListDevicesLedger = async () => {
 export const getBackupIndexesLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(BACKUP_IDXS_LEDGER);
-}
+};
