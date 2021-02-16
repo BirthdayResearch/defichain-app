@@ -14,6 +14,10 @@ import {
   ENGLISH,
   GERMAN,
   FRENCH,
+  CHINESE_SIMPLIFIED,
+  CHINESE_TRADITIONAL,
+  DUTCH,
+  RUSSIAN,
   SAME_AS_SYSTEM_DISPLAY,
   LIGHT_DISPLAY,
   DARK_DISPLAY,
@@ -27,16 +31,40 @@ import {
   DEFAULT_FEE_RATE,
   MAINNET,
   TESTNET,
+  LIST_ACCOUNTS_PAGE_SIZE,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  FI,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
 import PersistentStore from '../../utils/persistentStore';
+import RpcClient from '../../utils/rpc-client';
+import {
+  fetchAccountsDataWithPagination,
+  getNetworkType,
+} from '../../utils/utility';
+import compact from 'lodash/compact';
+import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
+import store from '../../app/rootStore';
+import {
+  PRELAUNCH_PREFERENCE_DISABLE,
+  PRELAUNCH_PREFERENCE_ENABLE,
+  PRELAUNCH_PREFERENCE_STATUS,
+} from '@defi_types/ipcEvents';
+import { handleGetPaymentRequest } from '../WalletPage/service';
 
 export const getLanguage = () => {
   return [
     { label: 'containers.settings.english', value: ENGLISH },
     { label: 'containers.settings.german', value: GERMAN },
-    // { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.french', value: FRENCH },
+    { label: 'containers.settings.chinese', value: CHINESE_SIMPLIFIED },
+    {
+      label: 'containers.settings.chinese_traditional',
+      value: CHINESE_TRADITIONAL,
+    },
+    { label: 'containers.settings.dutch', value: DUTCH },
+    { label: 'containers.settings.russian', value: RUSSIAN },
   ];
 };
 
@@ -108,10 +136,39 @@ export const updateSettingsData = (settingsData) => {
   return settingsData;
 };
 
+export const refreshUtxosAfterSavingData = async () => {
+  const rpcClient = new RpcClient();
+  store.dispatch(refreshUtxosRequest());
+  const accounts = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts
+  );
+
+  const addressesList = accounts.map(async (account) => {
+    return account.owner.addresses[0];
+  });
+
+  const resolvedData: any = compact(await Promise.all(addressesList));
+  const result = handleGetPaymentRequest(getNetworkType());
+  const receivedAddresses: any = result.map((addressObj) => addressObj.address);
+
+  const finalData = [...resolvedData, ...receivedAddresses];
+
+  const refrestUtxosAmounts = {};
+  for (const address of finalData) {
+    refrestUtxosAmounts[address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+  }
+
+  const refreshUtxoTxId = await rpcClient.sendMany(refrestUtxosAmounts);
+  store.dispatch(refreshUtxosSuccess());
+  return refreshUtxoTxId;
+};
+
 const getPreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-status', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_STATUS, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
@@ -124,7 +181,7 @@ const getPreLaunchStatus = () => {
 export const enablePreLaunchStatus = (minimize = false) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-enable', {
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_ENABLE, {
       minimize,
     });
     if (res.success && res.data) {
@@ -139,7 +196,7 @@ export const enablePreLaunchStatus = (minimize = false) => {
 export const disablePreLaunchStatus = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    const res = ipcRenderer.sendSync('prelaunch-preference-disable', {});
+    const res = ipcRenderer.sendSync(PRELAUNCH_PREFERENCE_DISABLE, {});
     if (res.success && res.data) {
       return res.data.enabled;
     }
@@ -152,7 +209,10 @@ export const disablePreLaunchStatus = () => {
 export const getAppConfigUnit = () => {
   const unit = PersistentStore.get(UNIT);
   if (unit && Object.keys(DFI_UNIT_MAP).indexOf(unit) > -1) {
-    return unit;
+    if (unit === FI) {
+      PersistentStore.set(UNIT, DEFAULT_UNIT);
+    }
+    return DEFAULT_UNIT;
   }
   log.error(new Error('Error in selected unit, setting it to default one'));
   PersistentStore.set(UNIT, DEFAULT_UNIT);

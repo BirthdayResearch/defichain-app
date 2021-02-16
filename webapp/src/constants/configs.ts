@@ -1,5 +1,8 @@
+import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
+import { I18n } from 'react-redux-i18n';
+
 export const TEST = 'test';
-export const RPC_V = '1.0';
+export const RPC_V = RPCVersion;
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEBUG_LOG_LEVEL = 'trace';
 export const SYNC_TIMEOUT = 10000;
@@ -22,7 +25,7 @@ export const PAYMENT_REQ_LIST_SIZE = 10;
 export const QUEUE_CONCURRENCY = 5;
 export const VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT = 6;
 export const VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT = 3;
-export const BALANCE_CRON_DELAY_TIME = 120000;
+export const BALANCE_CRON_DELAY_TIME = 30000;
 export const BITCOIN_CLI_REGEX = /bitcoin-cli/g;
 export const DEFI_CLI_TEXT = 'defi-cli';
 export const DEFAULT_ELECTRON_LOG_FORMAT =
@@ -58,6 +61,7 @@ export const UPDATE_MODAL_CLOSE_TIMEOUT = 1000;
 export const ENTROPY_BITS = 256;
 export const RANDOM_WORD_ENTROPY_BITS = 128;
 export const DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT = 0.01;
+export const DEFAULT_DFI_FOR_REFRESH_UTXOS = 0.1;
 export const MINIMUM_UTXOS_FOR_LIQUIDITY = 0.05;
 export const UNDEFINED_STRING = 'undefined';
 export const LIST_TOKEN_PAGE_SIZE = 500;
@@ -67,8 +71,6 @@ export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;
 export const TOTAL_WORD_LENGTH = 24;
 export const RANDOM_WORD_LENGTH = 18;
-export const IS_WALLET_CREATED_MAIN = 'isWalletCreatedMain';
-export const IS_WALLET_CREATED_TEST = 'isWalletCreatedTest';
 export const MAIN = 'main';
 export const ADD = 'add';
 export const REMOVE = 'remove';
@@ -90,24 +92,31 @@ export const DFI_SYMBOL = '0';
 export const BTC_SYMBOL = '1';
 export const ETH_SYMBOL = '2';
 export const USDT_SYMBOL = '5';
+export const LTC_SYMBOL = '9';
+export const DOGE_SYMBOL = '7';
 export const MAINNET_ETH_SYMBOL = '1';
 export const MAINNET_BTC_SYMBOL = '2';
 export const MAINNET_USDT_SYMBOL = '3';
+export const MAINNET_LTC_SYMBOL = '9';
+export const MAINNET_DOGE_SYMBOL = '7';
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
 export const COINGECKO_ETH_ID = 'ethereum';
 export const COINGECKO_USDT_ID = 'tether';
+export const COINGECKO_LTC_ID = 'litecoin';
+export const COINGECKO_DOGE_ID = 'dogecoin';
 
 export const API_REQUEST_TIMEOUT = 5000;
-export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/getblockcount';
+export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/';
+export const STATS_API_BLOCK_URL = `${STATS_API_BASE_URL}getblockcount`;
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
 export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
 export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';
 export const GITHUB_ISSUE_HELP_LINK =
   'https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App';
-export const DEFICHAIN_FAQ_HELP_LINK = 'https://defichain.com/learn/#faq';
-export const DEFICHAIN_OFFICIAL_HELP_LINK = 'https://defichain.com/';
+export const DEFICHAIN_OFFICIAL_HELP_LINK = SITE_URL;
+export const DEFICHAIN_FAQ_HELP_LINK = `${DEFICHAIN_OFFICIAL_HELP_LINK}learn/#faq`;
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
 export const LEARN_MORE_ABOUT_BITCOIN_LINK =
   'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
@@ -124,7 +133,7 @@ export const DEX_EXPLORER_BASE_LINK = 'https://dex.defichain.com/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 
-export const RESET_WALLET_CONFIRMATION_TEXT = 'DELETE WALLET';
+export const RESET_WALLET_CONFIRMATION_TEXT = 'RESET';
 
 export const TX_TYPES = {
   CreateMasternode: 'CreateMasternode',
@@ -150,9 +159,11 @@ export const SENT_CATEGORY_LABEL = 'sent';
 export const TRANSFER_CATEGORY_LABEL = 'Transfer';
 export const ACCOUNT_TO_UTXOS_LABEL = 'AccountToUtxos';
 export const ACCOUNT_TO_ACCOUNT_LABEL = 'AccountToAccount';
+export const ANY_ACCOUNT_TO_ACCOUNT_LABEL = 'AnyAccountsToAccounts';
 export const REWARD_CATEGORY_LABEL = 'Reward';
+export const COMMISSION_CATEGORY_LABEL = 'Commission';
 export const SWAP_CATEGORY_LABEL = 'Swap';
-export const REWARDS_CATEEGORY_LABEL = TX_TYPES.NonTxRewards;
+export const REWARDS_CATEGORY_LABEL = TX_TYPES.NonTxRewards;
 export const POOL_SWAP_CATEGORY_LABEL = TX_TYPES.PoolSwap;
 export const ADD_POOL_LIQUIDITY_LABEL = TX_TYPES.AddPoolLiquidity;
 export const REMOVE_LIQUIDITY_LABEL = TX_TYPES.RemovePoolLiquidity;
@@ -160,5 +171,18 @@ export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 
 // NOTE: APY calculation to use 37 second block time
 export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
+export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
+export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
+
+export const TXN_CSV_HEADERS = [
+  {
+    label: I18n.t('containers.wallet.walletPage.blockHeight'),
+    key: 'blockHeight',
+  },
+  { label: I18n.t('containers.wallet.walletPage.blockHash'), key: 'blockHash' },
+  { label: I18n.t('containers.wallet.walletPage.type'), key: 'type' },
+  { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
+  { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
+];
 
 export const IS_SHOWING_INFORMATION_LEDGER = 'isShowingInformationLedger';

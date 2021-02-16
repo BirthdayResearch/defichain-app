@@ -22,10 +22,10 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
             <div>
               <span className={styles.tokenName}>
                 {data.isLPS
-                ? `${I18n.t(
-                    'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
-                  )} ${data.symbolKey}`
-                : data.name}
+                  ? `${I18n.t(
+                      'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
+                    )} ${data.symbolKey}`
+                  : data.name}
               </span>{' '}
               <span className={styles.tokenSymbol}>{data.symbolKey}</span>
             </div>
@@ -63,8 +63,8 @@ const TokenCard: React.FunctionComponent<ITokenCard> = (props: ITokenCard) => {
         </Row>
         <Row>
           <Col className={styles.label}>
-            {/* {I18n.t('conainers.tokens.tokensPage.dctLabels.finalSupplyLimit')} */}
-            {I18n.t('conainers.tokens.tokensPage.dctLabels.decimal')}
+            {/* {I18n.t('containers.tokens.tokensPage.dctLabels.finalSupplyLimit')} */}
+            {I18n.t('containers.tokens.tokensPage.dctLabels.decimal')}
           </Col>
           <Col className={`${styles.unit} ${styles.text}`}>
             {/* {data.finalSupplyLimit} */}

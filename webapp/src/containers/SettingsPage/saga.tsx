@@ -20,6 +20,7 @@ import {
   getAmountUnits,
   getDisplayModes,
   getNetWorkList,
+  refreshUtxosAfterSavingData,
 } from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
@@ -38,6 +39,7 @@ import {
   BLOCKCHAIN_INFO_CHAIN_MAINNET,
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../constants';
+import { fetchWalletMapRequest } from '../WalletPage/reducer';
 
 export function* getSettingsOptions() {
   try {
@@ -115,7 +117,13 @@ export function* updateSettings(action) {
       if (data.reindexAfterSaving) {
         yield put(restartModal());
         yield call(shutDownBinary);
-        yield call(restartNode, { isReindexReq: true });
+        yield call(restartNode, {
+          isReindexReq: true,
+          isDeletePeersAndBlocksreq: data.deletePeersAndBlocks,
+        });
+      }
+      if (data.refreshUtxosAfterSaving) {
+        yield call(refreshUtxosAfterSavingData);
       }
     } else {
       yield put({
@@ -158,6 +166,7 @@ export function* changeNetworkNode(networkName) {
   yield put(restartModal());
   yield call(shutDownBinary);
   yield call(restartNode, { updatedConf });
+  yield put(fetchWalletMapRequest());
 }
 
 function* mySaga() {

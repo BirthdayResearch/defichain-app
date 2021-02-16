@@ -115,12 +115,14 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t(
-            'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
-            {
-              hash,
-            }
-          ))}
+          {getPageTitle(
+            I18n.t(
+              'containers.masterNodes.masternodeDetailPage.masternodeDetailTitle',
+              {
+                hash,
+              }
+            )
+          )}
         </title>
       </Helmet>
       <Header>

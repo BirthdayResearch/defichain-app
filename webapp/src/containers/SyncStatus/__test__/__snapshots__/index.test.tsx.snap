@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncStatus component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(SyncStatus)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <SyncStatus
+          blockChainInfo={Object {}}
+          fetchInstantBalanceRequest={[Function]}
+          fetchPendingBalanceRequest={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          isLoading={true}
+          isMinimized={false}
+          isPeersLoading={true}
+          isRestart={false}
+          isUpdateModalOpen={false}
+          isUpdateStarted={false}
+          latestBlock={0}
+          latestSyncedBlock={0}
+          locale="en"
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          peers={0}
+          syncStatusPeersRequest={[Function]}
+          syncStatusRequest={[Function]}
+          syncedPercentage={0}
+          updateAppInfo={Object {}}
+        >
+          <div>
+            <div>
+              Preparing sync
+            </div>
+            <div>
+              Looking for peers
+            </div>
+            <div />
+          </div>
+        </SyncStatus>
+      </Connect(SyncStatus)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

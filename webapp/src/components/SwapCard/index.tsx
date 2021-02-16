@@ -7,6 +7,7 @@ import Loader from '../Loader';
 
 import SwapDropdown from '../swapDropdown';
 import styles from './SwapCard.module.scss';
+import { BigNumber } from 'bignumber.js';
 
 interface SwapCardProps {
   label: string;
@@ -40,8 +41,6 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
     handleDropdown,
     dropdownLabel,
     setMaxValue,
-    isLoadingTestPoolSwapTo,
-    isLoadingTestPoolSwapFrom,
   } = props;
 
   return (
@@ -51,29 +50,6 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
         <div className={styles.swapInputGroup}>
           <div className={styles.inputCol}>
             {name === 1 ? (
-              !isLoadingTestPoolSwapFrom ? (
-                <Input
-                  className={styles.swapInput}
-                  type='text'
-                  pattern='[0-9.,]'
-                  inputMode='decimal'
-                  placeholder={I18n.t('components.swapCard.inputLabel')}
-                  name={`amount${name}`}
-                  id='input'
-                  value={formState[`amount${name}`]}
-                  onChange={(e) => {
-                    if (Number(e.target.value) >= 0) {
-                      handleChange(e);
-                    }
-                  }}
-                  disabled={!formState[`hash${name}`]}
-                />
-              ) : (
-                <div className={classNames(styles.swapInput, 'form-control')}>
-                  <Loader />
-                </div>
-              )
-            ) : !isLoadingTestPoolSwapTo ? (
               <Input
                 className={styles.swapInput}
                 type='text'
@@ -84,16 +60,29 @@ const SwapCard: React.FunctionComponent<SwapCardProps> = (
                 id='input'
                 value={formState[`amount${name}`]}
                 onChange={(e) => {
-                  if (Number(e.target.value) >= 0) {
+                  if (new BigNumber(e?.target?.value || 0).gte(0)) {
                     handleChange(e);
                   }
                 }}
                 disabled={!formState[`hash${name}`]}
               />
             ) : (
-              <div className={classNames(styles.swapInput, 'form-control')}>
-                <Loader />
-              </div>
+              <Input
+                className={styles.swapInput}
+                type='text'
+                pattern='[0-9.,]'
+                inputMode='decimal'
+                placeholder={I18n.t('components.swapCard.inputLabel')}
+                name={`amount${name}`}
+                id='input'
+                value={formState[`amount${name}`]}
+                onChange={(e) => {
+                  if (new BigNumber(e?.target?.value || 0).gte(0)) {
+                    handleChange(e);
+                  }
+                }}
+                disabled={!formState[`hash${name}`]}
+              />
             )}
           </div>
           <div className={styles.dropDownCol}>

@@ -8,6 +8,8 @@ import {
   RECIEVE_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
   TX_TYPES,
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
@@ -18,10 +20,10 @@ import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
-  getAddressForSymbol,
+  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  handleAccountToAccountConversion,
+  handleFetchTokenBalanceList,
   hdWalletCheck,
 } from '../../utils/utility';
 import {
@@ -30,6 +32,14 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
+import {
+  ON_WALLET_BACKUP_REQUEST,
+  ON_WALLET_RESTORE_VIA_BACKUP,
+  ON_WALLET_RESTORE_VIA_RECENT,
+  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+} from '../../../../typings/ipcEvents';
+import { ipcRendererFunc } from '../../utils/isElectron';
+import { backupWallet, updateWalletMap } from '../../app/service';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -96,36 +106,27 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return rpcClient.getBalance();
+  const regularDFI = await rpcClient.getBalance();
+  return new BigNumber(regularDFI);
 };
 
 export const handleFetchAccountDFI = async () => {
   const accountTokens = await handleFetchAccounts();
-  const DFIToken = accountTokens.find((token) => token.hash === '0');
+  const DFIToken = accountTokens.find((token) => token.hash === DFI_SYMBOL);
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
-  return accountDFI;
+  return new BigNumber(accountDFI);
 };
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return (regularDFI + accountDFI).toFixed(8);
+  return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
   const rpcClient = new RpcClient();
   return await rpcClient.getPendingBalance();
-};
-
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
 };
 
 export const getTransactionInfo = async (txId): Promise<any> => {
@@ -141,7 +142,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const sendToAddress = async (
   toAddress: string,
-  amount: any,
+  amount: BigNumber,
   subtractfeefromamount: boolean = false
 ) => {
   const rpcClient = new RpcClient();
@@ -153,7 +154,7 @@ export const sendToAddress = async (
     subtractfeefromamount,
     utxoDFI: regularDFI,
   });
-  if (regularDFI >= amount) {
+  if (amount.lte(regularDFI)) {
     try {
       const data = await rpcClient.sendToAddress(
         toAddress,
@@ -165,7 +166,7 @@ export const sendToAddress = async (
     } catch (err) {
       const errorMessage = getErrorMessage(err);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
   } else {
     try {
@@ -174,18 +175,25 @@ export const sendToAddress = async (
       const {
         address: fromAddress,
         amount: maxAmount,
-      } = await getAddressForSymbol('0', addressesList);
+      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
-      const txHash = await sendTokensToAddress(
-        fromAddress,
-        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
-      );
-      log.info({ accountBalance, sendTokenTxHash: txHash });
-      await getTransactionInfo(txHash);
-      // }
+      //* Consolidate tokens to a single address
+      if (amount.gt(maxAmount)) {
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${accountBalance.toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
+      }
 
-      const balance = await getBalanceForSymbol(fromAddress, '0');
+      const balance = await getBalanceForSymbol(fromAddress, DFI_SYMBOL);
       log.info({ consolidateAccountBalance: balance });
 
       const hash = await rpcClient.accountToUtxos(
@@ -197,9 +205,9 @@ export const sendToAddress = async (
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
       log.info({ regularDFIAfterTxFee });
-      if (regularDFIAfterTxFee < amount) {
+      if (new BigNumber(regularDFIAfterTxFee).lt(amount)) {
         throw new Error('Insufficient DFI in account');
-      } else if (regularDFIAfterTxFee === amount) {
+      } else if (new BigNumber(regularDFIAfterTxFee).isEqualTo(amount)) {
         return await sendToAddress(toAddress, amount, true);
       } else {
         return await sendToAddress(toAddress, amount, false);
@@ -207,8 +215,45 @@ export const sendToAddress = async (
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
     }
+  }
+};
+
+export const handleFallbackSendToken = async (
+  sendAddress: string,
+  sendAmount: BigNumber,
+  hash: string
+): Promise<string> => {
+  try {
+    const addressesList = await getAddressAndAmountListForAccount();
+    const {
+      address: fromAddress,
+      amount: maxAmount,
+    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    if (new BigNumber(maxAmount).gte(sendAmount)) {
+      try {
+        const txHash = await accountToAccount(
+          fromAddress,
+          sendAddress,
+          `${sendAmount.toFixed(8)}@${hash}`
+        );
+        log.info({ handleFallbackSendToken: txHash });
+        return txHash;
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        log.error(errorMessage, `handleFallbackSendToken`);
+        throw new Error(
+          `Got error in accountToAccount - handleFallbackSendToken: ${errorMessage}`
+        );
+      }
+    } else {
+      throw new Error('Insufficient token in account');
+    }
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(`${errorMessage}`, 'handleFallbackSendToken');
+    throw new Error(`Got error in handleFallbackSendToken: ${errorMessage}`);
   }
 };
 
@@ -321,14 +366,10 @@ export const handleFetchAccounts = async () => {
   );
 
   const tokensData = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
 
   const resolvedData: any = compact(await Promise.all(tokensData));
@@ -418,17 +459,20 @@ export const getListAccountHistory = (query: {
   limit: number;
   token: string;
   no_rewards?: boolean;
+  cancelToken?: string;
   blockHeight?: number;
 }) => {
-  const rpcClient = new RpcClient();
+  const rpcClient = new RpcClient(query.cancelToken);
   return rpcClient.getListAccountHistory(query);
 };
 
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
     const amounts = item.amounts.map((ele) => ({
-      value: new BigNumber(ele.slice(0, ele.indexOf('@'))).toFixed(),
-      symbolKey: ele.slice(ele.indexOf('@') + 1),
+      value: new BigNumber(
+        ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
+      ).toFixed(),
+      symbolKey: ele.slice(ele.indexOf(AMOUNT_SEPARATOR) + 1),
     }));
     const { category, isValid } = validTrx(item);
     return {
@@ -474,10 +518,82 @@ export const handleRestartCriteria = async () => {
   const rpcClient = new RpcClient();
   const balance = await rpcClient.getBalance();
   const txCount = await rpcClient.getWalletTxnCount();
-  const tokenBalance = await rpcClient.getTokenBalances();
+  const tokenBalance = await handleFetchTokenBalanceList();
   return (
     new BigNumber(balance).gt(0) ||
     new BigNumber(txCount).gt(0) ||
     tokenBalance.length > 0
   );
+};
+
+export const startRestoreViaBackup = async (network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_BACKUP, network);
+    if (resp?.success && resp?.data) {
+      updateWalletMap(resp.data);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'handleRestoreWalletViaBackup');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const checkRestoreRecentIfExisting = async (path: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_RECENT_CHECK, path);
+    if (!resp?.success) {
+      updateWalletMap(path, true);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'checkRestoreIfExisting');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startRestoreViaRecent = async (path: string, network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(
+      ON_WALLET_RESTORE_VIA_RECENT,
+      path,
+      network
+    );
+    if (resp?.success) {
+      updateWalletMap(path);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startBackupViaExitModal = async () => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
+    if (resp?.success) {
+      await backupWallet(resp?.data?.paths);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import uid from 'uid';
+import { uid } from 'uid';
 import {
   Card,
   CardBody,
@@ -22,6 +22,8 @@ import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
+import EllipsisText from 'react-ellipsis-text';
+import { addHdSeedCheck } from '../../../saga';
 
 export interface PaymentRequestModel {
   label: string;
@@ -51,6 +53,10 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
   const to = Math.min(total, currentPage * pageSize);
   const data = props.paymentRequests.slice(from, to);
   const [copied, changeCopied] = useState(false);
+
+  useEffect(() => {
+    addHdSeedCheck(data);
+  }, [data]);
 
   const handleCopy = () => {
     changeCopied(true);
@@ -88,13 +94,18 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                       <td></td>
                       <td>{request.label}</td>
                       <td className={styles.addressContainer}>
-                        <div className={styles.ellipsisValue}>{request.address}</div>
+                        <div className={styles.ellipsisValue}>
+                          {request.address}
+                        </div>
                         <div className={styles.ellipsisValue}>
                           {!request.hdSeed && (
                             <span className='text-danger'>
-                              {I18n.t(
-                                'containers.wallet.paymentRequestList.warningSeedPhrase'
-                              )}
+                              <EllipsisText
+                                text={I18n.t(
+                                  'containers.wallet.paymentRequestList.warningSeedPhrase'
+                                )}
+                                length={34}
+                              />
                             </span>
                           )}
                         </div>

@@ -4,12 +4,12 @@ import {
   DARWIN,
   WIN_32,
   LINUX,
-  SITE_URL,
   DEBUG_LOG_FILE_PATH,
   CONFIG_FILE_PATH,
 } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
+import { SITE_URL } from '@defi_types/settings';
 
 export default class AppMenu {
   getTemplate(isWalletLoaded?: boolean) {
@@ -18,27 +18,11 @@ export default class AppMenu {
         label: 'Wallet',
         submenu: [
           {
-            label: 'Import Wallet',
-            enabled: !!isWalletLoaded,
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.load(bw);
-            },
-          },
-          {
             label: 'Backup Wallet',
             enabled: !!isWalletLoaded,
             click(item, bw) {
               const wallet = new Wallet();
               wallet.startBackupWallet(bw);
-            },
-          },
-          {
-            label: 'Reset Wallet',
-            enabled: !!isWalletLoaded,
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.resetWallet(bw);
             },
           },
         ],

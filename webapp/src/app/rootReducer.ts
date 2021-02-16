@@ -11,6 +11,7 @@ import popoverReducer from '@/containers/PopOver/reducer';
 import ledgerWalletReducer from '@/containers/LedgerPage/reducer';
 import { i18nReducer } from 'react-redux-i18n';
 import swapReducer from '../containers/SwapPage/reducer';
+import liquidityReducer from '../containers/LiquidityPage/reducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   cli: cliReducer,
   popover: popoverReducer,
   swap: swapReducer,
+  liquidity: liquidityReducer,
   ledgerWallet: ledgerWalletReducer,
 });
 

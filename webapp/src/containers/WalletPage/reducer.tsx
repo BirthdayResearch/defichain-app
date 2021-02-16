@@ -69,6 +69,8 @@ export const initialState = {
     data: true,
     isError: '',
   },
+  walletMap: {},
+  walletMapError: '',
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -276,6 +278,40 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = [];
     },
+    fetchWalletReset(state) {
+      state.walletBalance = 0;
+      state.accountTokens = [];
+      state.isAccountLoadingTokens = false;
+      state.isAccountTokensLoaded = false;
+      state.tokens = [];
+      state.isTokensLoaded = false;
+      state.isLoadingTokens = false;
+    },
+    fetchWalletMapRequest(state) {
+      state.walletMap = {};
+      state.walletMapError = '';
+    },
+    fetchWalletMapSuccess(state, action) {
+      state.walletMap = action.payload;
+      state.walletMapError = '';
+    },
+    fetchWalletMapFailure(state, action) {
+      state.walletMapError = action.payload;
+      state.walletMap = {};
+    },
+    startRestoreWalletViaBackup(state) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletViaBackupFailure(state, action) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = action.payload;
+    },
+    startRestoreWalletViaRecent(state, action) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    startBackupWalletViaExitModal(state) {},
   },
 });
 
@@ -336,6 +372,14 @@ export const {
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
+  fetchWalletReset,
+  fetchWalletMapRequest,
+  fetchWalletMapSuccess,
+  fetchWalletMapFailure,
+  startRestoreWalletViaBackup,
+  restoreWalletViaBackupFailure,
+  startRestoreWalletViaRecent,
+  startBackupWalletViaExitModal,
 } = actions;
 
 export default reducer;

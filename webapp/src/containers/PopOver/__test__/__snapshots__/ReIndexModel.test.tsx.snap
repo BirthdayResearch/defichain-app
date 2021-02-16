@@ -28,6 +28,7 @@ exports[`Error Modal should check for snapshot 1`] = `
           }
         }
         centered={true}
+        container="body"
         fade={true}
         isOpen={false}
         keyboard={true}
@@ -41,6 +42,7 @@ exports[`Error Modal should check for snapshot 1`] = `
         returnFocusAfterClose={true}
         role="dialog"
         scrollable={false}
+        trapFocus={false}
         unmountOnClose={true}
         zIndex={1050}
       />

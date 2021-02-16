@@ -27,7 +27,11 @@ import {
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
 import { ITxn, IBlockData } from '../../interfaces';
-import { getNetworkType, getPageTitle, toSha256 } from '../../../../utils/utility';
+import {
+  getNetworkType,
+  getPageTitle,
+  toSha256,
+} from '../../../../utils/utility';
 import LruCache from '../../../../utils/lruCache';
 import Header from '../../../HeaderComponent';
 import openNewTab from '../../../../utils/openNewTab';
@@ -97,9 +101,11 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.blockChainPage.blockPage.title', {
-            blockNo: blockNumber,
-          }))}
+          {getPageTitle(
+            I18n.t('containers.blockChainPage.blockPage.title', {
+              blockNo: blockNumber,
+            })
+          )}
         </title>
       </Helmet>
       <Header>

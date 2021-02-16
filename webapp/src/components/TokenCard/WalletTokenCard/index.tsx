@@ -7,6 +7,7 @@ import { IWalletTokenCard } from '../../../utils/interfaces';
 
 import TokenAvatar from '../../TokenAvatar';
 import NumberMask from '../../NumberMask';
+import BigNumber from 'bignumber.js';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -14,7 +15,8 @@ interface WalletTokenCardProps {
     symbol: string | null,
     hash: string,
     amount: any,
-    address: string
+    address: string,
+    isLPS: boolean
   ) => void;
 }
 
@@ -27,7 +29,13 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
     <Card
       className={styles.tokenBalanceCard}
       onClick={() =>
-        handleCardClick(token.symbol, token.hash, token.amount, token.address)
+        handleCardClick(
+          token.symbol,
+          token.hash,
+          token.amount,
+          token.address,
+          token.isLPS ?? false
+        )
       }
     >
       <CardBody className={styles.cardBody}>
@@ -54,7 +62,9 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className={`${styles.cardValue} justify-content-end`}>
               <b className='text-dark'>
-                <NumberMask value={(Number(token.amount) || 0).toFixed(8)} />
+                <NumberMask
+                  value={new BigNumber(token.amount || 0).toFixed(8)}
+                />
               </b>
               <span className='ml-2'>{token.symbolKey}</span>
             </div>

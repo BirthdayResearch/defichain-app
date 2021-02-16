@@ -17,16 +17,6 @@ import { ipcRendererFunc } from '@/utils/isElectron';
 import { CustomTx } from 'bitcore-lib-dfi';
 import { getAddressForSymbolLedger, utxoLedger, handelGetPaymentRequestLedger } from '@/utils/utility';
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
-};
-
 export const handelFetchMasterNodes = async () => {
   const rpcClient = new RpcClient();
   const masternodes = await rpcClient.listMasterNodes();

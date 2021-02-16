@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import NumberMask from '../NumberMask';
@@ -31,7 +32,10 @@ const StatCard: React.FunctionComponent<StatCardProps> = (
         </Row>
         <Row className={styles.valueUnit}>
           <Col className={styles.value}>
-            <NumberMask value={props.value} defaultValue={0} />
+            <NumberMask
+              value={new BigNumber(props.value).toFixed(8)}
+              defaultValue={0}
+            />
           </Col>
           <Col className={`${styles.unit} ${styles.text}`}>{props.unit}</Col>
         </Row>

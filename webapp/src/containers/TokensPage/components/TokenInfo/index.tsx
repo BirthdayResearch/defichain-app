@@ -29,6 +29,7 @@ import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   DELETE,
+  DFI_SYMBOL,
   MINT_TOKENS_PATH,
   TOKENS_PATH,
   TOKEN_EDIT_PATH,
@@ -38,6 +39,7 @@ import { ITokenResponse } from '@/utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
 import { getPageTitle } from '@/utils/utility';
 import Header from '../../../HeaderComponent';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -136,7 +138,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -159,7 +163,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </span>
           </Button>
         </ButtonGroup>} */}
-        {tokenInfo.hash !== '0' && tokenInfo.ismine && (
+        {tokenInfo.hash !== DFI_SYMBOL && tokenInfo.ismine && (
           <UncontrolledDropdown>
             <DropdownToggle color='link' size='md'>
               <MdMoreHoriz />
@@ -182,21 +186,23 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
           </UncontrolledDropdown>
         )}
       </Header>
-      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && tokenInfo.ismine && (
-        <div className={`${styles.mintAlert} m-5`}>
-          <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
-          <Button
-            to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
-            tag={RRNavLink}
-            color='link'
-            className='text-right'
-          >
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokenInfo.mint')}
-            </span>
-          </Button>
-        </div>
-      )}
+      {tokenInfo.minted === 0 &&
+        tokenInfo.hash !== DFI_SYMBOL &&
+        tokenInfo.ismine && (
+          <div className={`${styles.mintAlert} m-5`}>
+            <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
+            <Button
+              to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
+              tag={RRNavLink}
+              color='link'
+              className='text-right'
+            >
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokenInfo.mint')}
+              </span>
+            </Button>
+          </div>
+        )}
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
@@ -314,6 +320,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {destroyTokenData?.hash && (
+              <ViewOnChain txid={destroyTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
               {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
             </Button>

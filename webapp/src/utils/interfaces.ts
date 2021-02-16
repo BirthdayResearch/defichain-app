@@ -92,19 +92,22 @@ export interface ITokenUpdatorInfo {
   collateralAddress?: string;
 }
 
+export interface IToken {
+  hash: string;
+  name: string;
+  symbol: string;
+  symbolKey: string;
+  isDAT: boolean;
+  decimal: number;
+  limit: number;
+  mintable: boolean;
+  tradeable: boolean;
+  isLPS: boolean;
+  amount?: number;
+}
+
 export interface ITokenCard {
-  data: {
-    hash: string;
-    name: string;
-    symbol: string;
-    symbolKey: string;
-    isDAT: boolean;
-    decimal: number;
-    limit: number;
-    mintable: boolean;
-    tradeable: boolean;
-    isLPS: boolean;
-  };
+  data: IToken;
   handleCardClick: (symbol: string, hash: string) => void;
 }
 

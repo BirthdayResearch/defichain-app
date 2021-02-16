@@ -1,4 +1,10 @@
 import {
+  MENU_BACKUP_WALLET,
+  MENU_IMPORT_WALLET,
+  RESET_BACKUP_WALLET,
+  START_BACKUP_WALLET,
+} from '@defi_types/ipcEvents';
+import {
   importWallet,
   backupWallet,
   startBackupModal,
@@ -8,7 +14,7 @@ import {
 const initMenuIpcRenderers = () => {
   const { ipcRenderer } = window.require('electron');
   ipcRenderer.on(
-    'menu-backup-wallet',
+    MENU_BACKUP_WALLET,
     async (event: any, arg: { paths: string }) => {
       const { paths } = arg;
       await backupWallet(paths);
@@ -16,18 +22,18 @@ const initMenuIpcRenderers = () => {
   );
 
   ipcRenderer.on(
-    'menu-import-wallet',
+    MENU_IMPORT_WALLET,
     async (event: any, arg: { paths: string[] }) => {
       const { paths } = arg;
       await importWallet(paths);
     }
   );
 
-  ipcRenderer.on('start-backup-wallet', async (event: any) => {
+  ipcRenderer.on(START_BACKUP_WALLET, async (event: any) => {
     await startBackupModal();
   });
 
-  ipcRenderer.on('start-reset-wallet', async (event: any) => {
+  ipcRenderer.on(RESET_BACKUP_WALLET, async (event: any) => {
     await resetBackupModal();
   });
 };

@@ -1,15 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  isLoading: false,
+  syncedPercentage: 0,
+  latestBlock: 0,
+  latestSyncedBlock: 0,
+  syncingError: '',
+  isPeersLoading: true,
+  peers: 0,
+  peersError: '',
+};
 const configSlice = createSlice({
   name: 'syncstatus',
-  initialState: {
-    isLoading: false,
-    syncedPercentage: 0,
-    latestBlock: 0,
-    latestSyncedBlock: 0,
-    syncingError: '',
-  },
+  initialState,
   reducers: {
+    syncStatusPeersRequest(state) {
+      state.isPeersLoading = true;
+    },
+    syncStatusPeersLoading(state, action) {
+      state.isPeersLoading = action.payload.isLoading;
+    },
+    syncStatusPeersSuccess(state, action) {
+      state.peers = action.payload.peers;
+      state.peersError = '';
+    },
+    syncStatusPeersFailure(state, action) {
+      state.isPeersLoading = false;
+      state.peers = 0;
+      state.peersError = action.payload.error;
+    },
     syncStatusRequest(state) {
       state.isLoading = true;
     },
@@ -35,6 +54,10 @@ export const {
   syncStatusRequest,
   syncStatusSuccess,
   syncStatusFailure,
+  syncStatusPeersRequest,
+  syncStatusPeersLoading,
+  syncStatusPeersSuccess,
+  syncStatusPeersFailure,
 } = actions;
 
 export default reducer;

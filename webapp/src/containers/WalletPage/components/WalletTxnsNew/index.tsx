@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Card,
   Table,
@@ -7,6 +7,7 @@ import {
   CustomInput,
   Row,
   Col,
+  Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import {
@@ -16,6 +17,7 @@ import {
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
+import axios from 'axios';
 import {
   fetchWalletTxnsRequest,
   fetchWalletTokenTransactionsListRequestLoading,
@@ -27,25 +29,32 @@ import {
   ACCOUNT_TO_ACCOUNT_LABEL,
   ACCOUNT_TO_UTXOS_LABEL,
   ADD_POOL_LIQUIDITY_LABEL,
-  DFI_SYMBOL,
+  ANY_ACCOUNT_TO_ACCOUNT_LABEL,
+  COMMISSION_CATEGORY_LABEL,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
   REMOVE_LIQUIDITY_LABEL,
-  REWARDS_CATEEGORY_LABEL,
+  REWARDS_CATEGORY_LABEL,
   REWARD_CATEGORY_LABEL,
   SENT_CATEGORY_LABEL,
-  SWAP_CATEGORY_LABEL,
-  TRANSFER_CATEGORY_LABEL,
   UTXOS_TO_ACCOUNT_LABEL,
 } from '../../../../constants';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import {
+  getErrorMessage,
+  getFormattedTime,
+  onViewOnChain,
+} from '../../../../utils/utility';
 import BigNumber from 'bignumber.js';
 import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
+import DownloadCsvModal from './components/DownloadCsvModal';
+import { getListAccountHistory } from '../../service';
+import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
+  blockCount: number;
   accountHistoryCount: number;
   unit: string;
   walletTxnCount: number;
@@ -67,6 +76,7 @@ interface WalletTxnsProps {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    cancelToken?: string,
     minBlockHeight?: number
   ) => void;
   fetchBlockDataForTrxRequestLoading: (trxData: any[]) => void;
@@ -76,6 +86,7 @@ interface WalletTxnsProps {
   combineAccountHistoryData: any;
   fetchWalletTokenTransactionsListResetRequest: () => void;
   accountHistoryCountRequest: ({ no_rewards, token }) => void;
+  fetchBlockCount: () => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -91,16 +102,100 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     isLoading,
     isError,
     combineAccountHistoryData,
+    blockCount,
+    fetchBlockCount,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [tableRows, setTableRows] = useState<any[]>([]);
+  const [CsvModalOpen, setCsvModalOpen] = useState(false);
+  const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
   const pagesCount = Math.ceil(total / pageSize);
   const textLimit = 26;
-  const to = (currentPage - 1) * pageSize + 1;
-  const from = Math.min(total, currentPage * pageSize);
+  const from = (currentPage - 1) * pageSize + 1;
+  const to = Math.min(total, currentPage * pageSize);
+  const [modal, setModal] = useState(false);
+  const [error, setError] = useState('');
+  const [reqData, setData] = useState({
+    blockHeight: blockCount,
+    limit: 100,
+    token: tokenSymbol,
+    no_rewards: false,
+  });
+
+  useEffect(() => {
+    fetchBlockCount();
+  }, [CsvModalOpen]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const txns = await getListAccountHistory(reqData);
+        setTransationData(txns);
+      } catch (err) {
+        const errorMessage = getErrorMessage(err);
+        setError(errorMessage);
+      }
+    };
+    getData();
+  }, [reqData.limit, reqData.no_rewards, reqData.blockHeight]);
+
+  const handleRegularNumInputs = (
+    event: { target: { name: string; value: any } },
+    field: string
+  ) => {
+    setData({
+      ...reqData,
+      [field]: Number(event.target.value),
+    });
+    setError('');
+  };
+
+  const toggle = async () => {
+    setModal(!modal);
+    setData({
+      blockHeight: blockCount,
+      limit: 100,
+      token: tokenSymbol,
+      no_rewards: false,
+    });
+    handleCsvButtonClick();
+  };
+
+  const handleCheckBox = () => {
+    setData({
+      ...reqData,
+      no_rewards: !reqData.no_rewards,
+    });
+  };
+
+  const handleDownloadWindow = () => {
+    if (!error) {
+      handleCsvButtonClick();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    setError('');
+    setData({
+      blockHeight: blockCount,
+      limit: 100,
+      token: tokenSymbol,
+      no_rewards: false,
+    });
+  }, [CsvModalOpen]);
+
+  const fileName = `${I18n.t(
+    'containers.wallet.walletPage.transactions'
+  )}_${getFormattedTime()}.csv`;
+
+  const sourceArray: any = useRef([]);
+  let source;
 
   useEffect(() => {
     accountHistoryCountRequest({
@@ -109,50 +204,64 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     });
   }, [includeRewards]);
 
-  const fetchData = (pageNum) => {
+  const fetchData = (pageNum, cancelToken) => {
     setCurrentPage(pageNum);
     if (pageNum === 1) {
       fetchWalletTokenTransactionsListRequestLoading(
         tokenSymbol,
         pageSize,
-        includeRewards
+        includeRewards,
+        cancelToken
       );
     } else {
       fetchWalletTokenTransactionsListRequestLoading(
         tokenSymbol,
         pageSize,
         includeRewards,
+        cancelToken,
         minBlockHeight
       );
     }
   };
 
   useEffect(() => {
+    return () => {
+      sourceArray.current.map((source) => {
+        source.cancel('reqest cancel');
+      });
+    };
+  }, []);
+
+  useEffect(() => {
     setTableRows([...data]);
   }, [data]);
 
   useEffect(() => {
-    fetchData(currentPage);
+    source = axios.CancelToken.source();
+    sourceArray.current.push(source);
+    fetchData(currentPage, source.token);
   }, [includeRewards]);
 
   const getTxnsTypeIcon = (type: string) => {
-    if (type === SENT_CATEGORY_LABEL) {
+    const RECEIVE = 'receive';
+    const SEND = 'send';
+    if ([SENT_CATEGORY_LABEL, ACCOUNT_TO_UTXOS_LABEL, SEND].includes(type)) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
     if (
-      type === RECIEVE_CATEGORY_LABEL ||
-      type === REWARDS_CATEEGORY_LABEL ||
-      type === REWARD_CATEGORY_LABEL
+      [
+        COMMISSION_CATEGORY_LABEL,
+        RECIEVE_CATEGORY_LABEL,
+        REWARDS_CATEGORY_LABEL,
+        REWARD_CATEGORY_LABEL,
+        RECEIVE,
+      ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
-    if (type === POOL_SWAP_CATEGORY_LABEL)
+    if (type === POOL_SWAP_CATEGORY_LABEL) {
       return <MdCompareArrows className={styles.typeIcon} />;
-    if (type === ACCOUNT_TO_UTXOS_LABEL)
-      return <MdArrowUpward className={styles.typeIcon} />;
-    if (type === 'send') return <MdArrowUpward className={styles.typeIcon} />;
-    if (type === 'receive')
-      return <MdArrowDownward className={styles.typeIconDownward} />;
+    }
     return <MdArrowUpward className={styles.typeIcon} />;
   };
 
@@ -170,13 +279,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       case POOL_SWAP_CATEGORY_LABEL:
         label = I18n.t(`${swapLabel}.swapPage.swap`);
         break;
-      case REWARDS_CATEEGORY_LABEL:
+      case REWARDS_CATEGORY_LABEL:
       case REWARD_CATEGORY_LABEL:
         label = I18n.t(`${swapLabel}.addLiquidity.reward`);
         break;
       case ACCOUNT_TO_UTXOS_LABEL:
         label = I18n.t(`${walletTxnsLabel}.accountToUtxos`);
         break;
+      case ANY_ACCOUNT_TO_ACCOUNT_LABEL:
       case ACCOUNT_TO_ACCOUNT_LABEL:
         label = I18n.t(`${walletTxnsLabel}.accountToAccount`);
         break;
@@ -195,24 +305,18 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       case RECEIVE:
         label = I18n.t(`${walletLabel}.receive`);
         break;
+      case COMMISSION_CATEGORY_LABEL:
+        label = I18n.t(`${walletLabel}.commission`);
+        break;
       default:
         break;
     }
     return label;
   };
 
-  const getAmountClass = (type: string) => {
-    if (type === RECIEVE_CATEGORY_LABEL || type === REWARDS_CATEEGORY_LABEL) {
-      return styles.colorGreen;
-    }
-    return '';
-  };
-
-  const getPoolSwapClass = (type: string, amount) => {
-    if (type === POOL_SWAP_CATEGORY_LABEL && new BigNumber(amount).gt(0)) {
-      return styles.colorGreen;
-    }
-    return '';
+  const handleCsvButtonClick = () => {
+    const isOpen = !CsvModalOpen;
+    setCsvModalOpen(isOpen);
   };
 
   const walletTxnList = () => {
@@ -248,18 +352,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                         className={
                           item.type === REWARD_CATEGORY_LABEL ||
                           item.type === RECIEVEE_CATEGORY_LABEL ||
-                          item.type === REWARDS_CATEEGORY_LABEL ||
-                          Number(amountD.amount) > 0
+                          item.type === REWARDS_CATEGORY_LABEL ||
+                          new BigNumber(amountD.amount).gt(0)
                             ? `${styles.colorGreen} ${styles.amount}`
                             : styles.amount
                         }
                       >
-                        {amountD.unit === 'DFI'
-                          ? getAmountInSelectedUnit(
-                              amountD.amount,
-                              amountD.unit
-                            )
-                          : amountD.amount}
+                        {amountD.amount}
                         &nbsp;
                         <span className={styles.unit}>{amountD.unit}</span>
                       </div>
@@ -268,11 +367,20 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   {item.txid ? (
                     <td>
                       <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <ValueLi
-                          value={item.txid}
-                          copyable={true}
-                          textLimit={textLimit}
-                        />
+                        <a
+                          href='#'
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onViewOnChain(item.txid);
+                          }}
+                        >
+                          <ValueLi
+                            value={item.txid}
+                            copyable={true}
+                            textLimit={textLimit}
+                          />
+                        </a>
                       </div>
                     </td>
                   ) : (
@@ -286,7 +394,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           </Table>
         </Card>
         <CustomPaginationComponent
-          label={I18n.t('containers.wallet.walletPage.paginationRange', {
+          label={I18n.t('containers.wallet.walletPage.txPaginationRange', {
             to,
             total,
             from,
@@ -295,6 +403,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           currentPage={currentPage}
           pagesCount={pagesCount}
           handlePageClick={fetchData}
+          cancelToken={source?.token}
         />
       </>
     );
@@ -304,17 +413,43 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     <section className='mb-5'>
       <div className={styles.container}>
         <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
-        <FormGroup>
-          <CustomInput
-            type='checkbox'
-            id='includeRewards'
-            label={I18n.t('containers.wallet.walletPage.includeRewards')}
-            checked={includeRewards}
-            onChange={() => {
-              setIncludeRewards(!includeRewards);
-            }}
+        <div className='btn-group'>
+          <FormGroup>
+            <CustomInput
+              type='checkbox'
+              id='includeRewards'
+              label={I18n.t('containers.wallet.walletPage.includeRewards')}
+              checked={includeRewards}
+              onChange={() => {
+                setIncludeRewards(!includeRewards);
+              }}
+            />
+          </FormGroup>
+          <Button
+            className={styles.includeReward}
+            color='link'
+            size='sm'
+            onClick={handleCsvButtonClick}
+          >
+            <MdArrowDownward />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.wallet.walletPage.csvExport')}
+            </span>
+          </Button>
+          <DownloadCsvModal
+            reqData={reqData}
+            transactionData={transactionData}
+            handleDownloadWindow={handleDownloadWindow}
+            filename={fileName}
+            error={error}
+            handleCheckBox={handleCheckBox}
+            handleRegularNumInputs={handleRegularNumInputs}
+            toggle={toggle}
+            tokenSymbol={tokenSymbol}
+            CsvModalOpen={CsvModalOpen}
+            handleCsvButtonClick={handleCsvButtonClick}
           />
-        </FormGroup>
+        </div>
       </div>
       <Row>
         <Col xs='12'>{walletTxnList()}</Col>
@@ -334,6 +469,7 @@ const mapStateToProps = (state) => {
       accountHistoryCount,
       minBlockHeight,
     },
+    blockchain,
   } = state;
   return {
     walletTxns,
@@ -345,6 +481,7 @@ const mapStateToProps = (state) => {
     isError,
     accountHistoryCount,
     minBlockHeight,
+    blockCount: blockchain.blockCount,
   };
 };
 
@@ -355,12 +492,14 @@ const mapDispatchToProps = {
     symbol: string,
     limit: number,
     includeRewards: boolean,
+    cancelToken?: string,
     minBlockHeight?: number
   ) =>
     fetchWalletTokenTransactionsListRequestLoading({
       symbol,
       limit,
       includeRewards,
+      cancelToken,
       minBlockHeight,
     }),
   fetchBlockDataForTrxRequestLoading: (trxArray) =>
@@ -368,6 +507,7 @@ const mapDispatchToProps = {
   fetchWalletTokenTransactionsListResetRequest,
   accountHistoryCountRequest: ({ no_rewards, token }) =>
     accountHistoryCountRequest({ no_rewards, token }),
+  fetchBlockCount: () => fetchBlockCountRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

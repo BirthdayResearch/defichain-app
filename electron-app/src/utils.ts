@@ -20,7 +20,14 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
+  DAT_FILE_TYPE,
+  BLK_FILE,
+  REV_FILE,
+  TESTNET_BASE_FOLDER_REINDEX,
+  MAINNET_BASE_FOLDER_REINDEX,
 } from './constants';
+import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
+import * as log from '././services/electronLogger';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -48,7 +55,7 @@ export const getBinaryParameter = (obj: any = {}) => {
     rpcbind: '',
     datadir: '',
   };
-  remote.rpcallowip = '0.0.0.0/0';
+  remote.rpcallowip = DEFAULT_RPC_ALLOW_IP;
   if (!!obj && Array.isArray(obj.remotes)) {
     remote = Object.assign({}, remote, obj.remotes[0]);
     remote.rpcbind = obj.remotes[0].rpcconnect;
@@ -113,7 +120,7 @@ export const getRpcAuth = (rpcuser: string) => {
   };
 };
 
-export const getProcesses = (args: any) => {
+export const getProcesses = (args: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     ps.lookup(args, (err: any, result: unknown) => {
       if (err) return reject(err);
@@ -123,12 +130,22 @@ export const getProcesses = (args: any) => {
 };
 
 export const stopProcesses = (processId: number | string) => {
-  return new Promise((resolve, reject) => {
-    ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
-  });
+  return getProcesses({ pid: parseInt(processId?.toString(), 10) }).then(
+    (processes: any[]) => {
+      if (processes != null && processes[0] != null) {
+        return new Promise((resolve, reject) => {
+          ps.kill(processId, 'SIGTERM', (err: any, result: unknown) => {
+            if (err) return reject(err);
+            return resolve(result);
+          });
+        });
+      } else {
+        return new Promise((resolve, reject) => {
+          return resolve(true);
+        });
+      }
+    }
+  );
 };
 
 export function sleep(ms: number) {
@@ -183,4 +200,61 @@ export const getBaseFolder = () => {
     baseFolder = REGTEST_BASE_FOLDER;
   }
   return baseFolder;
+};
+
+export const getBaseFolderReindex = () => {
+  const data = getIniData(CONFIG_FILE_NAME);
+  let baseFolder = MAINNET_BASE_FOLDER_REINDEX;
+  if (data.testnet && parseInt(data.testnet, 10)) {
+    baseFolder = TESTNET_BASE_FOLDER_REINDEX;
+  }
+  if (data.regtest && parseInt(data.regtest, 10)) {
+    baseFolder = REGTEST_BASE_FOLDER;
+  }
+  return baseFolder;
+};
+
+export const deletePeersFile = () => {
+  try {
+    const baseFolder = getBaseFolderReindex();
+    const destFileName = `peers.dat`;
+    const destFilePath = path.join(baseFolder, destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted peers file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteBlocksAndRevFiles = () => {
+  try {
+    log.info('Starting Delete Block and Rev Files...');
+    const baseFolder = getBaseFolderReindex();
+    const destFolder = path.join(baseFolder, 'blocks');
+    fs.readdirSync(destFolder).forEach((file) => {
+      const blkFile = path.join(destFolder, file);
+      if (
+        file?.endsWith(DAT_FILE_TYPE) &&
+        (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
+      ) {
+        log.info(`Deleting ${blkFile}...`);
+        deleteFile(blkFile);
+      }
+    });
+    log.info('Delete Block and Rev Files completed...');
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteBanlist = () => {
+  try {
+    const baseFolder = getBaseFolderReindex();
+    const destFileName = `banlist.dat`;
+    const destFilePath = path.join(baseFolder, destFileName);
+    deleteFile(destFilePath);
+    log.info(`Deleted banlist file in ${destFilePath}`);
+  } catch (error) {
+    log.error(error);
+  }
 };

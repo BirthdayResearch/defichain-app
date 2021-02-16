@@ -17,20 +17,37 @@ const logger = () => {
   return false;
 };
 
-const info = text => {
-  const electronLogger = logger();
-  if (electronLogger) {
-    electronLogger.log(text);
-  }
-  log.info(text);
+const textToString = (text: any) => {
+  return text != null
+    ? JSON.stringify(text.message != null ? text.message : text)
+    : '';
 };
 
-const error = text => {
+const info = (text, methodSource?: string) => {
   const electronLogger = logger();
+  const logMessage = `${methodSource ? `[${methodSource}]` : ''} ${textToString(
+    text
+  )}`;
   if (electronLogger) {
-    electronLogger.error(text);
+    electronLogger.log(logMessage);
   }
-  log.error(text);
+  log.info(logMessage);
+};
+
+const error = (text: any, methodSource?: string): void => {
+  try {
+    const electronLogger = logger();
+    const errorMessage = `${
+      methodSource ? `[${methodSource}]` : ''
+    } ${textToString(text)}`;
+    if (electronLogger) {
+      electronLogger.error(errorMessage);
+    }
+    log.error(errorMessage);
+  } catch (error) {
+    log.error(textToString(text));
+    log.error(error);
+  }
 };
 
 const logFilePath = () => {

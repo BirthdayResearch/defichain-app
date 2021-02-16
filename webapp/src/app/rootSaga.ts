@@ -12,6 +12,7 @@ import consoleSaga from '../containers/ConsolePage/saga';
 import popOverSaga from '../containers/PopOver/saga';
 import swapSaga from '../containers/SwapPage/saga';
 import ledgerWalletSaga from '@/containers/LedgerPage/saga';
+import liquiditySaga from '../containers/LiquidityPage/saga';
 
 function* rootSaga() {
   yield all([
@@ -26,6 +27,7 @@ function* rootSaga() {
     fork(consoleSaga),
     fork(popOverSaga),
     fork(swapSaga),
+    fork(liquiditySaga),
     fork(ledgerWalletSaga),
   ]);
 }

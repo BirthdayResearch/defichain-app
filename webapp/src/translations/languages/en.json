@@ -12,7 +12,11 @@
       "justNow": "Synchronized just now",
       "aMinuteAgo": "Synchronized a minute ago",
       "blockInfo": "Block %{latestSyncedBlock} of %{latestBlock}",
-      "network": "Network"
+      "network": "Network",
+      "preparingSync": "Preparing sync",
+      "connectedToPeers": "Connected to %{peers} peers",
+      "atBlock": "At block %{block}",
+      "lookingForPeers": "Looking for peers"
     },
     "swapCard": {
       "selectAToken": "Select a token",
@@ -38,7 +42,8 @@
       "help": "Help",
       "settings": "Settings",
       "console": "Console",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidity",
+      "selectCreateRestore": "Select, create or restore a wallet to access wallet functions"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -340,7 +345,8 @@
         "apy": "APY",
         "back": "Back",
         "addLiquidity": "Add liquidity",
-        "txHash": "Transaction Hash"
+        "txHash": "Transaction Hash",
+        "blockTransactionFailed": "Please wait for your transaction to be reflected in the next block before proceeding with a new transaction."
       },
       "liquidityInfo": {
         "title": "Liquidity",
@@ -406,16 +412,20 @@
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
         "somethingWentWrong": "Something went wrong",
+        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
         "preparingUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
         "tokensTransferred": "Tokens transferred",
         "dexExplorer": "Dex Explorer",
-        "insufficientUtxos": "Insufficient UTXOS to perform swap"
+        "insufficientUtxos": "Insufficient UTXOs to swap",
+        "backToDEX": "Back to DEX"
       },
       "swapTab": {
         "from": "From",
-        "to": "To"
+        "to": "To",
+        "receiveTokensAt": "Receive tokens at",
+        "receiveAddress": "Receive Address"
       },
       "poolTab": {
         "yourLiquidity": "Your liquidity",
@@ -507,6 +517,8 @@
       "launchAtLogin": "Launch at login",
       "reindexOption": "ReIndex Option",
       "reindexAfterSaving": "Reindex after saving",
+      "refreshUtxos": "Refresh UTXOs",
+      "refreshUtxosAfterSaving": "Refresh UTXOs after saving",
       "minimizedAtLaunch": "Minimized at launch",
       "storage": "Storage",
       "pruneBlockStorage": "Prune block storage",
@@ -524,6 +536,10 @@
       "english": "English",
       "german": "German",
       "french": "French",
+      "chinese": "Chinese (Simplified)",
+      "chinese_traditional": "Chinese (Traditional)",
+      "dutch": "Dutch",
+      "russian": "Russian",
       "displayAmount": "Display amounts in unit",
       "dFI": "DFI",
       "fi": "fi",
@@ -538,16 +554,24 @@
       "network": "Network",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Create or restore wallet",
         "createOrRestoreWallet": "Create or restore wallet",
         "createANewWallet": "Create a new wallet",
-        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed",
+        "restoreWalletFromMnemonicSeed": "Restore wallet from recovery seed",
         "walletSyncNotice": "You will be able to create or restore a wallet when sync is complete",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "restoreFromBackup": "Restore wallet from backup",
+        "connectToALedger": "Connect to a hardware wallet",
+        "hdWallet": "HD wallet",
+        "mnemonicSeed": "Mnemonic seed",
+        "walletDat": "wallet.dat",
+        "chooseRecentBackup": "Or choose a recent backup",
+        "comingSoon": "Coming soon"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -584,9 +608,11 @@
         "title": "Wallet - Restore wallet",
         "restoreWallet": "Restore wallet",
         "restoreWalletGuideLine": "Enter the 24 words in your mnemonic seed to restore wallet.",
+        "enterWord": "Enter word",
         "restoringWallet": "Restoring wallet",
         "restore": "Restore",
-        "backToWalletPage": "Close"
+        "backToWalletPage": "Close",
+        "importingWallet": "Importing wallet"
       },
       "sendPage": {
         "sendTitle": "Send",
@@ -611,7 +637,9 @@
         "dfiAddress": "DFI address",
         "pleaseTransferFunds": "Please transfer some DFIs to your account",
         "txHash": "Transaction hash",
-        "insufficientUtxos": "Insufficient UTXOS"
+        "insufficientUtxos": "Insufficient UTXOS",
+        "sendLPWarning": "It appears you are sending liquidity pools share (LP) tokens. Please be aware that sending your LP tokens to another DeFiChain address will transfer your liquidity pool share to that address. Sending LP tokens anywhere other than another DeFiChain wallet, such as an exchange, may result in irreversible loss of funds.",
+        "sendLPConfirm": "I confirm that I intend to send LP tokens and I acknowledge that sending LP tokens to addresses that are not DeFiChain wallets may result in irreversible loss of funds."
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI",
@@ -642,7 +670,9 @@
         "addReceiveAddress": "Add a receive address",
         "address": "Address",
         "enterAnAddress": "Enter an address in your account",
-        "invalidAddress": "Invalid address. Please check this belongs to you, the current address has been used."
+        "existingAddressOthers": "Invalid address. Please check this belongs to you.",
+        "existingAddress": "Address already exists.",
+        "invalidAddress": "Invalid address."
       },
       "paymentRequests": {
         "time": "Time",
@@ -657,8 +687,8 @@
         "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
-        "paymentRequestTitle": "Payment request %{id}",
-        "paymentRequest": "Payment request",
+        "paymentRequestTitle": "Receive address %{id}",
+        "paymentRequest": "Receive address",
         "wallet": "Wallet",
         "delete": "Delete",
         "label": "Label",
@@ -677,9 +707,9 @@
         "delete": "Delete",
         "send": "Send",
         "receive": "Receive",
-        "paymentRequests": "Payment requests",
-        "noPaymentRequests": "No payment requests available",
-        "paginationRange": "%{to} – %{from} of %{total} payment request",
+        "paymentRequests": "Receive addresses",
+        "noPaymentRequests": "No receive addresses available",
+        "paginationRange": "%{from} - %{to} of %{total} receive addresses",
         "transactions": "Transactions",
         "availableBalance": "Available balance",
         "pending": "Pending",
@@ -689,7 +719,21 @@
         "category": "Category",
         "blockHeight": "BlockHeight",
         "amount": "Amount",
-        "txidNotApplicable": "Transaction ID not applicable"
+        "txidNotApplicable": "Transaction ID not applicable",
+        "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
+        "txPaginationRange": "%{from} - %{to} of %{total} transactions",
+        "commission": "Commission",
+        "csvExport": "CSV export",
+        "downloadTransaction": "Download transaction",
+        "download": "Download",
+        "maxBlock": "Max block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit",
+        "noReward": "No rewards"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -708,7 +752,7 @@
         "time": "Time",
         "amount": "Amount",
         "hash": "Hash",
-        "paginationRange": "%{from} – %{to} of %{total} transaction",
+        "paginationRange": "%{from} – %{to} of %{total} transactions",
         "noTransactions": "No transactions available",
         "accountToAccount": "Account to account",
         "utxosToAccount": "UTXOs to account",
@@ -819,10 +863,10 @@
     "configurationFailure": "Configuration failure",
     "walletBalanceFailure": "Wallet balance failure",
     "pendingBalanceFailure": "Pending balance failure",
-    "addReceiveTxnsFailure": "Add receive transactions  failure",
+    "addReceiveTxnsFailure": "Add receive transactions failure",
     "removeReceiveTxnsFailure": "Remove receive transactions failure",
-    "paymentRequestsFailure": "Payment requests failure",
-    "walletTxnsFailure": "Wallet transactions  failure",
+    "paymentRequestsFailure": "Receive addresses failure",
+    "walletTxnsFailure": "Wallet transactions failure",
     "sendDataFailure": "Send data failure",
     "errorOccurred": "Error occurred",
     "success": "Success",
@@ -830,6 +874,7 @@
     "importSuccess": "Wallet imported successfully",
     "masterNodeOperatorAddressFailure": "Masternode operator address is not present",
     "restartNode": "Restarting node. This may take a few minutes.",
+    "refreshUtxos": "Refreshing UTXOs it may take some time.",
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
@@ -852,15 +897,16 @@
     "backupWalletNoticeTitle": "Backup wallet",
     "backupWalletNotice": "Please backup your wallet before updating your app in order to prevent from any mishap. Do you want to backup your wallet?",
     "backupWalletDatNotice": "Your wallet is not ready yet. Do you want to backup your wallet.dat file?",
-    "yesBackupWalletNotice": "Yes",
-    "noBackupWalletNotice": "No",
+    "yesBackupWalletNotice": "Yes, backup",
+    "noBackupWalletNotice": "Don’t backup",
     "saveMyBackup": "Save my backup",
     "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
+    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallet again.",
     "enableLocking": "Enable locking",
     "later": "Later",
-    "passphraseLabel": "Enter passphrase",
+    "passphraseLabel": "Passphrase",
     "proceed": "Proceed",
     "reset": "Reset",
     "encryptWalletSuccess": "Wallet encrypted ",
@@ -886,9 +932,26 @@
     "resetWalletDatNotice": "Are you sure you want to reset?",
     "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
     "yeResetpWalletNotice": "Yes",
-    "noResetWalletNotice": "No"
+    "noResetWalletNotice": "No",
+    "download": "Download",
+    "restoreYourWallet": "Restore your wallet from the following backup?",
+    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
+    "backupAndExit": "Backup and Exit",
+    "exit": "Exit",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi app",
+    "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
+    "quitingApp": "Quitting DefiChain app...",
+    "doNotCloseWindow": "Do not turn off the computer while this window is still open."
+  },
+  "update": {
+    "updateRequired": "An update is required",
+    "requiredVersionValue": "%{minVersion} and above",
+    "currentVersion": "Current version",
+    "requiredVersion": "Required version",
+    "availableVersion": "Available version",
+    "updateReason": "An upgrade is required for DeFi app to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
   }
 }

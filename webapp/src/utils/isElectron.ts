@@ -1,3 +1,8 @@
+import {
+  CLOSE_APP,
+  RESTART_APP,
+  START_DEFI_CHAIN,
+} from '@defi_types/ipcEvents';
 import isElectronFunction from 'is-electron';
 import { IpcRenderer } from 'electron';
 
@@ -19,7 +24,16 @@ export const getElectronProperty = (name) => {
 export const restartNode = (args?: any) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('restart-app', args);
+    ipcRenderer.send(RESTART_APP, args);
+  } else {
+    throw new Error('Unable to restart');
+  }
+};
+
+export const restartNodeSync = (args?: any) => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.sendSync(RESTART_APP, args);
   } else {
     throw new Error('Unable to restart');
   }
@@ -28,7 +42,7 @@ export const restartNode = (args?: any) => {
 export const restartNodeWithReIndexing = (args?: any) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('start-defi-chain', args);
+    ipcRenderer.send(START_DEFI_CHAIN, args);
   } else {
     throw new Error('Unable to restart');
   }
@@ -37,7 +51,7 @@ export const restartNodeWithReIndexing = (args?: any) => {
 export const closeApp = (args?: any) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send('close-app', args);
+    ipcRenderer.send(CLOSE_APP, args);
   } else {
     throw new Error('Unable to close app');
   }

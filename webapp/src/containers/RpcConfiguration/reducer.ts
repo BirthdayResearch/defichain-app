@@ -9,6 +9,7 @@ export const initialState = {
   nodeError: '',
   configurationData: {},
   isQueueReady: false,
+  isAppClosing: false,
 };
 
 const configSlice = createSlice({
@@ -64,6 +65,10 @@ const configSlice = createSlice({
     killQueue(state) {
       state.isQueueReady = false;
     },
+    isAppClosing(state, action) {
+      state.isAppClosing = action.payload.isAppClosing;
+      state.isFetching = action.payload.isAppClosing;
+    },
   },
 });
 
@@ -79,6 +84,7 @@ export const {
   storeConfigurationData,
   setQueueReady,
   killQueue,
+  isAppClosing,
 } = actions;
 
 export default reducer;

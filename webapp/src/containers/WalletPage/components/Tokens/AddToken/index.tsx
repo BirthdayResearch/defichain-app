@@ -71,7 +71,9 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
     <div className='main-wrapper'>
       <Helmet>
         <title>
-          {getPageTitle(I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens'))}
+          {getPageTitle(
+            I18n.t('containers.wallet.walletAddTokensPage.walletAddTokens')
+          )}
         </title>
       </Helmet>
       <Header>
@@ -111,7 +113,7 @@ const WalletAddToken: React.FunctionComponent<TokensProps> = (
           <WalletAddTokenCard token={token} />
         ))}
         <Pagination
-          label={I18n.t('containers.tokens.tokensPage.paginationRange', {
+          label={I18n.t('containers.wallet.walletPage.walletPaginationRange', {
             to,
             total,
             from: from + 1,

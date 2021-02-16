@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewOnChain component should check for snapshot 1`] = `
+<Button
+  className="mr-3"
+  color="link"
+  onClick={[Function]}
+  tag="button"
+>
+  View on chain
+</Button>
+`;

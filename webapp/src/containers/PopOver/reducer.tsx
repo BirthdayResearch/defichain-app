@@ -18,13 +18,16 @@ export const initialState = {
   openBackupWalletDatModal: false,
   openResetWalletDatModal: false,
   isBackupWalletWarningModelOpen: false,
-  isEnrcyptWalletModalOpen: false,
+  isEncryptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
   isWalletUnlocked: false,
   isWalletRestart: false,
   isWalletReplace: false,
   isGeneralReindexModalOpen: false,
   isQueueResetRoute: false,
+  isRestoreWalletOpen: false,
+  filePath: '',
+  isExitWalletOpen: false,
 };
 
 const configSlice = createSlice({
@@ -116,10 +119,10 @@ const configSlice = createSlice({
       state.openBackupWalletDatModal = false;
     },
     openEncryptWalletModal(state) {
-      state.isEnrcyptWalletModalOpen = true;
+      state.isEncryptWalletModalOpen = true;
     },
     closeEncryptWalletModal(state) {
-      state.isEnrcyptWalletModalOpen = false;
+      state.isEncryptWalletModalOpen = false;
     },
     encryptWalletStart(state, action) {},
     openWalletPassphraseModal(state) {
@@ -165,6 +168,14 @@ const configSlice = createSlice({
     },
     setIsQueueResetRoute(state, action) {
       state.isQueueResetRoute = action.payload;
+    },
+    openRestoreWalletModal(state, action) {
+      state.isRestoreWalletOpen = action.payload.isOpen;
+      state.filePath = action.payload.filePath;
+    },
+    restoreWalletViaRecent(state) {},
+    openExitWalletModal(state, action) {
+      state.isExitWalletOpen = action.payload;
     },
   },
 });
@@ -215,6 +226,9 @@ export const {
   openGeneralReIndexModal,
   closeGeneralReIndexModal,
   setIsQueueResetRoute,
+  openRestoreWalletModal,
+  restoreWalletViaRecent,
+  openExitWalletModal,
 } = actions;
 
 export default reducer;

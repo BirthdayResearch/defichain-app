@@ -1,0 +1,10 @@
+{
+  "synStatus": {
+    "latestBlock": 139114,
+    "latestSyncedBlock": 139114,
+    "syncedPercentage": "100.00"
+  },
+  "syncingError": "Error Message",
+  "isLoading": false,
+  "peers": 77
+}

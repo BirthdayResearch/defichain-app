@@ -90,7 +90,9 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.restoreWalletPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -127,7 +129,9 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Enter word'
+                    placeholder={I18n.t(
+                      'containers.wallet.restoreWalletPage.enterWord'
+                    )}
                     value={mnemonicObj[key]}
                     onChange={(event) => onchangeHandle(event, key)}
                     className='border-left-0'
@@ -163,7 +167,6 @@ const RestoreWallet: React.FunctionComponent<RestoreWalletProps> = (
                 color='primary'
                 onClick={() => {
                   resetRestoreWalletError();
-                  history.push(WALLET_TOKENS_PATH);
                 }}
               >
                 {I18n.t('containers.wallet.restoreWalletPage.backToWalletPage')}
@@ -203,8 +206,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  restoreWallet: (mnemonicObj, history) =>
-    restoreWalletRequest({ mnemonicObj, history }),
+  restoreWallet: (mnemonicObj) => restoreWalletRequest({ mnemonicObj }),
   resetRestoreWalletError: () => resetRestoreWalletError({}),
 };
 

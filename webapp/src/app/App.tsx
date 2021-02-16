@@ -16,9 +16,14 @@ import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
 import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
-import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
+import EncryptWalletModal from '../containers/PopOver/EncryptWalletModal';
 import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
 import { getPageTitle } from '../utils/utility';
+import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
+import * as logger from '../utils/electronLogger';
+import { PACKAGE_VERSION } from 'src/constants';
+import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
+import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -26,6 +31,7 @@ interface AppProps extends RouteComponentProps {
   nodeError: string;
   isFetching: boolean;
   isRestart: boolean;
+  isAppClosing: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -52,11 +58,15 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
     nodeError,
     isFetching,
     isRestart,
+    isAppClosing,
   } = props;
 
   const prevDepth = useRef(getPathDepth(location));
 
   useEffect(() => {
+    logger.info(
+      `[Starting App] App is running with version ${PACKAGE_VERSION}`
+    );
     getRpcConfigsRequest();
   }, []);
 
@@ -68,7 +78,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   return (
     <>
-      {isRunning ? (
+      {isRunning && !isAppClosing ? (
         <div id='app'>
           <Helmet>
             <title>{getPageTitle()}</title>
@@ -96,15 +106,19 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           message={nodeError}
           isLoading={isFetching}
           isRestart={isRestart}
+          isAppClosing={isAppClosing}
         />
       )}
       <ReIndexModel />
       <BackupWalletWarningModel />
       <Popover />
-      <EncryptWalletModel />
+      <EncryptWalletModal />
       <WalletPassphraseModel />
       <RestartWalletModel />
       <GeneralReIndexModal />
+      <RefreshUtxosModal />
+      <RestoreWalletModal />
+      <ExitWalletModal />
     </>
   );
 };
@@ -114,6 +128,7 @@ const mapStateToProps = ({ app, popover }) => ({
   nodeError: app.nodeError,
   isFetching: app.isFetching,
   isRestart: popover.isReIndexRestart,
+  isAppClosing: app.isAppClosing,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

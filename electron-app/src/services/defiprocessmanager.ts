@@ -1,5 +1,4 @@
 import * as log from './electronLogger';
-import { app } from 'electron';
 import * as path from 'path';
 import ini from 'ini';
 import { spawn } from 'child_process';
@@ -7,13 +6,11 @@ import {
   BINARY_FILE_NAME,
   BINARY_FILE_PATH,
   CONFIG_FILE_NAME,
-  START_DEFI_CHAIN_REPLY,
   PID_FILE_NAME,
-  DEFAULT_FALLBACK_FEE,
-  DEFAULT_RPC_ALLOW_IP,
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
+  NODE_SYNTAX_ERROR,
 } from '../constants';
 import {
   checkPathExists,
@@ -24,7 +21,15 @@ import {
   sleep,
   stopProcesses,
   getIniData,
+  deletePeersFile,
+  deleteBlocksAndRevFiles,
+  deleteBanlist,
 } from '../utils';
+import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
+import {
+  DEFAULT_FALLBACK_FEE,
+  DEFAULT_RPC_ALLOW_IP,
+} from '@defi_types/settings';
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
@@ -33,22 +38,49 @@ export default class DefiProcessManager {
   static isStartedNode: boolean = false;
 
   static async start(params: any, event: Electron.IpcMainEvent) {
+    log.info('Starting DeFiProcessManager...');
     try {
+      // TODO Harsh run binary with config data
+      // const config = getBinaryParameter(params)
+      const configArray = [
+        `-conf=${CONFIG_FILE_NAME}`,
+        `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
+        `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
+        `-pid=${PID_FILE_NAME}`,
+        // `-acindex`,
+        // `-reindex-chainstate`
+      ];
+      //* Delete peers file to cleanup nonfunctional peers only when re-index is present
+      //* Delete block and rev files for high memory usage
+      if (params?.isReindexReq) {
+        configArray.push('-reindex');
+        if (params?.isDeletePeersAndBlocksreq) {
+          deletePeersFile();
+          deleteBanlist();
+          deleteBlocksAndRevFiles();
+        }
+      }
       if (checkPathExists(PID_FILE_NAME)) {
-        const pid = getFileData(PID_FILE_NAME);
-        const processLists: any = await getProcesses({
-          pid: parseInt(pid, 10),
-        });
-        if (processLists.length) {
-          if (event)
-            event.sender.send(
-              START_DEFI_CHAIN_REPLY,
-              responseMessage(true, {
-                message: 'Node already running',
-                conf: this.getConfiguration(),
-              })
-            );
-          return responseMessage(true, { message: 'Node already running' });
+        try {
+          const pid = getFileData(PID_FILE_NAME);
+          const processLists: any = await getProcesses({
+            pid: parseInt(pid, 10),
+          });
+          if (processLists.length) {
+            const NODE_RUNNING = 'Node already running';
+            log.info(NODE_RUNNING);
+            if (event)
+              event.sender.send(
+                START_DEFI_CHAIN_REPLY,
+                responseMessage(true, {
+                  message: NODE_RUNNING,
+                  conf: this.getConfiguration(),
+                })
+              );
+            return responseMessage(true, { message: NODE_RUNNING });
+          }
+        } catch (error) {
+          log.error(error);
         }
       }
 
@@ -61,21 +93,6 @@ export default class DefiProcessManager {
       }
 
       let nodeStarted = false;
-      // TODO Harsh run binary with config data
-      // const config = getBinaryParameter(params)
-      const configArray = [
-        `-conf=${CONFIG_FILE_NAME}`,
-        `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
-        `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
-        `-pid=${PID_FILE_NAME}`,
-        `-acindex`,
-        // `-reindex-chainstate`
-      ];
-
-      if (params && params.isReindexReq) {
-        configArray.push('-reindex');
-      }
-
       const child = spawn(execPath, configArray);
       log.info('Node start initiated');
 
@@ -85,7 +102,8 @@ export default class DefiProcessManager {
           nodeStarted = true;
           this.isStartedNode = true;
           log.info('Node started');
-          if (event)
+          if (event) {
+            log.info('Sending node started');
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
               responseMessage(true, {
@@ -93,6 +111,7 @@ export default class DefiProcessManager {
                 conf: this.getConfiguration(),
               })
             );
+          }
         }
       });
 
@@ -100,49 +119,55 @@ export default class DefiProcessManager {
       child.stderr.on('data', (err) => {
         const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
         const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
+        // any syntax errors from node side, force a reindex to avoid stoppage of app.
+        const nodeRegexSyntax = new RegExp(NODE_SYNTAX_ERROR, 'gi');
+        const regexCheck = [regex, regex1, nodeRegexSyntax];
 
         const errorString = err?.toString('utf8').trim();
-        const res = regex.test(errorString) || regex1.test(errorString);
-
+        const shouldReindex = regexCheck.some((reg: RegExp) =>
+          reg.test(errorString)
+        );
         // change value of isReindexReq variable based on regex evaluation
-        if (res) {
-          this.isReindexReq = res;
+        if (shouldReindex) {
+          this.isReindexReq = shouldReindex;
         }
-
+        log.info(`On DeFiProcessManager error... ${errorString}`);
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
-            responseMessage(false, { message: err.toString('utf8').trim() })
+            responseMessage(false, { message: errorString })
           );
       });
 
       // on close
       child.on('close', (code) => {
-        if (event && this.isReindexReq) {
-          log.info(
-            'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.'
-          );
-          return event.sender.send(
-            START_DEFI_CHAIN_REPLY,
-            responseMessage(false, {
-              message:
-                'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.',
-              isReindexReq: this.isReindexReq,
-            })
-          );
-        }
+        log.info(`DefiProcessManager close with code ${code}`);
+        if (code !== 0) {
+          const reindexErrorMessage =
+            'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.';
+          if (event && this.isReindexReq) {
+            log.info(reindexErrorMessage);
+            return event.sender.send(
+              START_DEFI_CHAIN_REPLY,
+              responseMessage(false, {
+                message: reindexErrorMessage,
+                isReindexReq: this.isReindexReq,
+              })
+            );
+          }
 
-        if (event) {
-          log.info(`Error occurred while running binary with code: ${code}`);
-          return event.sender.send(
-            START_DEFI_CHAIN_REPLY,
-            responseMessage(
-              false,
-              new Error(
-                `Error occurred while running binary with code: ${code}`
+          if (event) {
+            log.info(`Error occurred while running binary with code: ${code}`);
+            return event.sender.send(
+              START_DEFI_CHAIN_REPLY,
+              responseMessage(
+                false,
+                new Error(
+                  `Error occurred while running binary with code: ${code}`
+                )
               )
-            )
-          );
+            );
+          }
         }
       });
     } catch (err) {
@@ -159,8 +184,10 @@ export default class DefiProcessManager {
 
   static async stop() {
     try {
+      log.info('[Stop Node] Start DeFiProcessManager shutdown...');
       const pid = getFileData(PID_FILE_NAME);
       while (true) {
+        log.info('Attempting Defi Process Manager Stop...');
         const processLists: any = await getProcesses({
           pid: parseInt(pid, 10),
         });
@@ -180,13 +207,16 @@ export default class DefiProcessManager {
   }
 
   static async restart(args: any, event: Electron.IpcMainEvent) {
-    log.info('Restart node started');
+    log.info('[Restart Node] Starting');
     const stopResponse = await this.stop();
+    log.info('[Restart Node] Stop completed');
     if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
       writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
     }
+    log.info('[Restart Node] Restarting DefiProcessManager');
     const startResponse = await this.start(args || {}, event);
+    log.info('[Restart Node] Start completed');
     if (
       stopResponse &&
       startResponse &&
@@ -203,13 +233,9 @@ export default class DefiProcessManager {
     }
   }
 
-  static async closeApp() {
-    app.quit();
-  }
-
   static async forceClose() {
     try {
-      log.info('Force close defid');
+      log.info('Force Close DeFi Process Manager');
       const pid = getFileData(PID_FILE_NAME);
       const processLists: any = await getProcesses({
         pid: parseInt(pid, 10),

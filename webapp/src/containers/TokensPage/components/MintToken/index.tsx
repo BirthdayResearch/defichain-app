@@ -30,7 +30,8 @@ import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
-import { getSymbolKey, getPageTitle } from '@/utils/utility';
+import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -113,7 +114,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.tokens.mintToken.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.mintToken.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -246,6 +249,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {mintedTokenData?.hash && (
+              <ViewOnChain txid={mintedTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>

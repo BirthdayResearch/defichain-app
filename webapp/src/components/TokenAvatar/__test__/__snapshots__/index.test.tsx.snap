@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapSearchBar component should check for snapshot 1`] = `
+<ForwardRef(withAvatarConfig)
+  maxInitials={2}
+  name="symbol"
+  round={true}
+  size="24px"
+  src=""
+  textSizeRatio={1}
+/>
+`;

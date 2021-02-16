@@ -17,13 +17,18 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
 } from './reducer';
-import { WALLET_TOKENS_PATH } from '../../constants';
+import { DFI_SYMBOL, WALLET_TOKENS_PATH } from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
-import { getAmountInSelectedUnit, getPageTitle, getSymbolKey } from '../../utils/utility';
+import {
+  getAmountInSelectedUnit,
+  getPageTitle,
+  getSymbolKey,
+} from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
+import { getWalletPathAddress } from './components/SendPage';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -42,6 +47,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const isLPS = urlParams.get('isLPS') == 'true';
 
   const {
     fetchInstantBalanceRequest,
@@ -69,14 +75,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}
+        </title>
       </Helmet>
       <Header>
         <Button
-          to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
-            walletBalance,
-            unit
-          )}&unit=${unit}`}
+          to={`${WALLET_TOKENS_PATH}?value=${walletBalance}&unit=${unit}`}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'
@@ -89,11 +94,15 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <div className={styles.titleWithIcon}>
           <TokenAvatar
             symbol={
-              tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit
+              tokenSymbol
+                ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+                : unit
             }
           />
           <h1>
-            {tokenSymbol ? getSymbolKey(tokenSymbol, tokenHash || '0') : unit}{' '}
+            {tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
         </div>
@@ -101,7 +110,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_SEND_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? getWalletPathAddress(
+                    WALLET_SEND_PATH,
+                    tokenSymbol,
+                    tokenHash || '',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_SEND_PATH
             }
             tag={RRNavLink}
@@ -116,7 +132,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           <Button
             to={
               tokenSymbol
-                ? `${WALLET_RECEIVE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+                ? getWalletPathAddress(
+                    WALLET_RECEIVE_PATH,
+                    tokenSymbol,
+                    tokenHash || '',
+                    tokenAmount || '',
+                    tokenAddress || '',
+                    isLPS
+                  )
                 : WALLET_RECEIVE_PATH
             }
             tag={RRNavLink}
@@ -136,14 +159,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={
-                  tokenAmount
-                    ? tokenAmount
-                    : getAmountInSelectedUnit(walletBalance, unit)
-                }
+                value={tokenAmount ? tokenAmount : walletBalance}
                 unit={
                   tokenSymbol
-                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
                     : unit
                 }
                 refreshFlag={refreshBalance}
@@ -168,7 +187,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 value={getAmountInSelectedUnit(pendingBalance, unit)}
                 unit={
                   tokenSymbol
-                    ? getSymbolKey(tokenSymbol, tokenHash || '0')
+                    ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
                     : unit
                 }
                 refreshFlag={pendingRefreshBalance}
@@ -189,7 +208,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col> */}
           </Row>
         </section>
-        <WalletTxns tokenSymbol={tokenSymbol || ''} />
+        <WalletTxns
+          tokenSymbol={
+            tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              : unit
+          }
+        />
       </div>
     </div>
   );

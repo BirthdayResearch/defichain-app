@@ -46,7 +46,9 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
   return (
     <>
       <Helmet>
-        <title>{getPageTitle(I18n.t('containers.wallet.createNewWalletPage.title'))}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.createNewWalletPage.title'))}
+        </title>
       </Helmet>
       <Header>
         <Button
@@ -147,7 +149,6 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                className='mr-3'
                 disabled={!isChecked}
                 onClick={() => {
                   setIsWalletTabActive(!isWalletTabActive);
