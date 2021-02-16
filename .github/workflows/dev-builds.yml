@@ -6,20 +6,25 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: install dependencies
         run: npm cache clean --force && npm run init
+
       - name: Build app
         run: npm run build:linux
-      - uses: actions/upload-artifact@v2
+
+      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: linux-build
           path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
@@ -34,14 +39,18 @@ jobs:
       APPLE_ID: ${{ secrets.APPLE_ID}}
       APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: install dependencies
         run: npm cache clean --force && npm run init
+
       - name: Build app
         run: npm run build:mac
-      - uses: actions/upload-artifact@v2
+
+      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: mac-build
           path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg'
@@ -51,15 +60,19 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: install dependencies
         run: npm cache clean --force && npm run init
+
       - name: Build app
         run: npm run build:win
         shell: powershell
-      - uses: actions/upload-artifact@v2
+
+      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: win-build
           path: 'dist/defi-app Setup ${{ env.PACKAGE_VERSION}}.exe'
