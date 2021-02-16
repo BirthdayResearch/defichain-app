@@ -8,6 +8,17 @@ import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
 import { I18n } from 'react-redux-i18n';
 
+import BigNumber from 'bignumber.js';
+import {
+  getAddressInfo,
+  getNewAddress,
+  getTransactionInfo,
+} from '@/containers/WalletPage/service';
+import { handleFetchToken } from '@/containers/TokensPage/service';
+import { handleFetchPoolshares } from '@/containers/SwapPage/service';
+import { PaymentRequestLedger } from '@/typings/models';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import { construct } from '@/utils/cutxo';
 import * as log from './electronLogger';
 
 import {
@@ -69,7 +80,6 @@ import {
   PAYMENT_REQUEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
-import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
@@ -79,16 +89,6 @@ import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
-import {
-  getAddressInfo,
-  getNewAddress,
-  getTransactionInfo,
-} from '@/containers/WalletPage/service';
-import { handleFetchToken } from '@/containers/TokensPage/service';
-import { handleFetchPoolshares } from '@/containers/SwapPage/service';
-import { PaymentRequestLedger } from '@/typings/models';
-import { ipcRendererFunc } from '@/utils/isElectron';
-import { construct } from '@/utils/cutxo';
 
 export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -97,19 +97,15 @@ export const handleLocalStorageNameLedger = (networkName) => {
   return `${PAYMENT_REQUEST}-ledger`;
 };
 
-export const handelGetPaymentRequestLedger = (networkName): PaymentRequestLedger[] => {
-  return JSON.parse(
-    PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]'
-  );
-};
+export const handelGetPaymentRequestLedger = (networkName): PaymentRequestLedger[] => JSON.parse(
+  PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]',
+);
 
-export const getKeyIndexAddressLedger = (networkName, address) => {
-  return (
+export const getKeyIndexAddressLedger = (networkName, address) => (
     handelGetPaymentRequestLedger(networkName).find(
-      (payment) => payment.address === address
+      (payment) => payment.address === address,
     )?.keyIndex
-  );
-};
+);
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -131,43 +127,34 @@ export const getTxnSize = async (): Promise<number> => {
   return inputs * 180 + outputs * 34 + 10 + inputs;
 };
 
-export const toSha256 = (value): any => {
-  return SHA256(value).toString();
-};
+export const toSha256 = (value): any => SHA256(value).toString();
 
 export const getAddressAndAmount = (
   addresses,
-  balance
-): IAddressAndAmount[] => {
-  return addresses.map((addressObj) => {
-    const { address, label } = addressObj;
-    return { address, amount: balance, label };
-  });
-};
+  balance,
+): IAddressAndAmount[] => addresses.map((addressObj) => {
+  const { address, label } = addressObj;
+  return { address, amount: balance, label };
+});
 
 export const getTransactionURI = (
   unit: string,
   address: string,
-  extraData: any
+  extraData: any,
 ) => {
   Object.keys(extraData).forEach(
-    (key) =>
-      (extraData[key] === undefined ||
-        extraData[key] === null ||
-        extraData[key] === '') &&
-      delete extraData[key]
+    (key) => (extraData[key] === undefined
+        || extraData[key] === null
+        || extraData[key] === '')
+      && delete extraData[key],
   );
   const extraUriData = new URLSearchParams(extraData).toString();
   return `${unit}:${address}${extraUriData ? `?${extraUriData}` : ''}`;
 };
 
-export const dateTimeFormat = (date: string | Date) => {
-  return moment(date).format(DATE_FORMAT);
-};
+export const dateTimeFormat = (date: string | Date) => moment(date).format(DATE_FORMAT);
 
-export const getFromPersistentStorage = (path) => {
-  return localStorage.getItem(path);
-};
+export const getFromPersistentStorage = (path) => localStorage.getItem(path);
 
 export const setToPersistentStorage = (path, data) => {
   if (typeof data === 'object') {
@@ -234,7 +221,7 @@ const getToAddressAmountMap = (vouts) => {
         const oldAmount = addressAmountMap.get(address) || 0;
         addressAmountMap.set(
           address,
-          new BigNumber(oldAmount).plus(new BigNumber(vout.value)).toString()
+          new BigNumber(oldAmount).plus(new BigNumber(vout.value)).toString(),
         );
       } else {
         addressAmountMap.set(address, vout.value.toString());
@@ -258,9 +245,7 @@ const getToList = (vouts): IAddressAndAmount[] => {
   addressAmountMap.forEach((amount: string, address: string) => {
     toList.push({ address, amount });
   });
-  const unparsedAddressList: IAddressAndAmount[] = tos.map((to) => {
-    return { address: to.address, amount: to.amount };
-  });
+  const unparsedAddressList: IAddressAndAmount[] = tos.map((to) => ({ address: to.address, amount: to.amount }));
 
   return toList.concat(unparsedAddressList);
 };
@@ -276,9 +261,7 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = (epoch) => {
-  return moment.unix(epoch).format(DATE_FORMAT);
-};
+export const convertEpochToDate = (epoch) => moment.unix(epoch).format(DATE_FORMAT);
 
 export const range = (from: number, to: number, step = 1) => {
   let i = from;
@@ -295,19 +278,17 @@ export const range = (from: number, to: number, step = 1) => {
 export const fetchPageNumbers = (
   currentPage: number,
   totalPages: number,
-  pageNeighbors: number
+  pageNeighbors: number,
 ) => {
   const totalNumbers = pageNeighbors * 2;
   const totalBlocks = totalNumbers + 1;
   if (totalPages >= totalBlocks) {
-    const prev =
-      currentPage === totalPages
-        ? currentPage - pageNeighbors - 1
-        : currentPage - pageNeighbors;
-    const next =
-      currentPage === 1
-        ? currentPage + pageNeighbors + 1
-        : currentPage + pageNeighbors;
+    const prev = currentPage === totalPages
+      ? currentPage - pageNeighbors - 1
+      : currentPage - pageNeighbors;
+    const next = currentPage === 1
+      ? currentPage + pageNeighbors + 1
+      : currentPage + pageNeighbors;
     const startPage = Math.max(1, prev);
     const endPage = Math.min(totalPages, next);
     return range(startPage, endPage);
@@ -319,7 +300,7 @@ export const fetchPageNumbers = (
 export const getAmountInSelectedUnit = (
   amount: number | string,
   toUnit: string,
-  from: string = DEFAULT_UNIT
+  from: string = DEFAULT_UNIT,
 ) => {
   const to = toUnit;
   return unitConversion(from, to, amount);
@@ -327,7 +308,7 @@ export const getAmountInSelectedUnit = (
 
 export const isLessThanDustAmount = (
   amount: number | string,
-  unit: string
+  unit: string,
 ): boolean => {
   const convertedAmount = getAmountInSelectedUnit(amount, DEFAULT_UNIT, unit);
   return new BigNumber(convertedAmount).lte(DUST_VALUE_DFI);
@@ -351,13 +332,13 @@ export const getParams = (query: string) => {
   }
   const parsedParams = params.map((param) => {
     if (
-      (param.startsWith('"') && param.endsWith('"')) ||
-      (param.startsWith("'") && param.endsWith("'"))
+      (param.startsWith('"') && param.endsWith('"'))
+      || (param.startsWith("'") && param.endsWith("'"))
     ) {
       return param.replace(/"/g, '').replace(/'/g, '');
-    } else if (
-      (param.startsWith('{') && param.endsWith('}')) ||
-      (param.startsWith('[') && param.endsWith(']'))
+    } if (
+      (param.startsWith('{') && param.endsWith('}'))
+      || (param.startsWith('[') && param.endsWith(']'))
     ) {
       try {
         return JSON.parse(param);
@@ -365,21 +346,17 @@ export const getParams = (query: string) => {
         return param;
       }
     } else if (param === 'true' || param === 'false') {
-      return param === 'true' ? true : false;
+      return param === 'true';
     }
     return isNaN(Number(param)) ? param : Number(param);
   });
   return parsedParams;
 };
 
-export const filterByValue = (array, query) => {
-  return array.filter((o) =>
-    Object.keys(o).some((k) => {
-      const stringer = JSON.stringify(o[k]);
-      return stringer.toLowerCase().includes(query.toLowerCase());
-    })
-  );
-};
+export const filterByValue = (array, query) => array.filter((o) => Object.keys(o).some((k) => {
+  const stringer = JSON.stringify(o[k]);
+  return stringer.toLowerCase().includes(query.toLowerCase());
+}));
 
 export const filterByValueMap = (map, query) => {
   const filteredMap: Map<string, ITokenBalanceInfo> = new Map();
@@ -392,13 +369,11 @@ export const filterByValueMap = (map, query) => {
   return filteredMap;
 };
 
-export const paginate = (array, pageSize, pageNo) => {
+export const paginate = (array, pageSize, pageNo) =>
   // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-  return array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
-};
-
+  array.slice((pageNo - 1) * pageSize, pageNo * pageSize);
 export const getErrorMessage = (errorResponse) => {
-  let message = errorResponse.message;
+  let { message } = errorResponse;
   if (errorResponse.response) {
     const { data } = errorResponse.response;
     message = data;
@@ -455,7 +430,7 @@ export const getObjectFromArrayString = (strArray: string[]) => {
 
 export const getMixWordsObject = (
   mnemonicObject: any,
-  randomWordObject: any
+  randomWordObject: any,
 ) => {
   const mnemonicWordArray: any[] = getRandomWordsFromMnemonic(mnemonicObject);
   const randomWordArray = _.values(randomWordObject);
@@ -477,16 +452,14 @@ export const getRandomWordsFromMnemonic = (mnemonicObject: any) => {
   return mixArray;
 };
 
-export const getRandomNumber = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min) + min);
-};
+export const getRandomNumber = (min: number, max: number): number => Math.floor(Math.random() * (max - min) + min);
 
 export const checkElementsInArray = (
   selectedWordObjectArray: any[],
-  mnemonicObject: any
+  mnemonicObject: any,
 ): boolean => {
   const selectedWordArray = selectedWordObjectArray.map(
-    (wordObj) => wordObj.value
+    (wordObj) => wordObj.value,
   );
 
   if (selectedWordArray.length < 6) {
@@ -507,7 +480,7 @@ export function* getNetwork() {
 
 export const getNetworkType = () => {
   const state = store.getState();
-  const blockChainInfo: any = state.wallet.blockChainInfo;
+  const { blockChainInfo } = state.wallet;
   return blockChainInfo.chain || MAIN;
 };
 
@@ -523,9 +496,7 @@ export const getNetworkInfo = (networkType: string) => {
 
 export const getMnemonicFromObj = (mnemonicObj) => {
   const values: string[] = Object.values(mnemonicObj);
-  const mnemonic = values.reduce((mnemonicCode, value) => {
-    return mnemonicCode.concat(value + ' ');
-  }, '');
+  const mnemonic = values.reduce((mnemonicCode, value) => mnemonicCode.concat(`${value} `), '');
   return mnemonic.trim();
 };
 
@@ -537,7 +508,7 @@ export const isValidMnemonic = (mnemonicCode: string) => {
 export const queuePush = (
   methodName,
   params,
-  callBack: (err, result) => void
+  callBack: (err, result) => void,
 ) => {
   const {
     app: { isQueueReady },
@@ -548,19 +519,16 @@ export const queuePush = (
 };
 
 export const isWalletCreated = (network) => {
-  const key =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  const key = network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
   return PersistentStore.get(key) === 'true';
 };
 
-const getPopularSymbolList = () => {
-  return ['0', '1', '2'];
-};
+const getPopularSymbolList = () => ['0', '1', '2'];
 
 export const getTokenListForSwap = (
   poolPairList: any[],
   tokenBalanceList: string[],
-  walletBalance: number
+  walletBalance: number,
 ) => {
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
@@ -573,10 +541,9 @@ export const getTokenListForSwap = (
   }
 
   uniqueTokenMap.forEach((symbolKey, tokenId) => {
-    const finalBalance =
-      tokenId === DFI_SYMBOL
-        ? walletBalance
-        : balanceAndSymbolMap.get(DFI_SYMBOL);
+    const finalBalance = tokenId === DFI_SYMBOL
+      ? walletBalance
+      : balanceAndSymbolMap.get(DFI_SYMBOL);
     if (popularSymbolList.includes(tokenId)) {
       if (tokenId === DFI_SYMBOL) {
         tokenMap.set(symbolKey, {
@@ -605,7 +572,7 @@ export const getTokenListForSwap = (
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[],
-  walletBalance: number
+  walletBalance: number,
 ) => {
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
@@ -637,29 +604,25 @@ export const getTokenAndBalanceMap = (
   return tokenMap;
 };
 
-const getUniqueTokenMap = (poolPairList) => {
-  return poolPairList.reduce((uniqueTokenList, poolPair) => {
-    const { symbol } = poolPair;
-    const symbolList: string[] = symbol.split('-');
-    if (!uniqueTokenList.has(poolPair.idTokenA)) {
-      uniqueTokenList.set(poolPair.idTokenA, symbolList[0]);
-    }
-    if (!uniqueTokenList.has(poolPair.idTokenB)) {
-      uniqueTokenList.set(poolPair.idTokenB, symbolList[1]);
-    }
-    return uniqueTokenList;
-  }, new Map<string, string>());
-};
+const getUniqueTokenMap = (poolPairList) => poolPairList.reduce((uniqueTokenList, poolPair) => {
+  const { symbol } = poolPair;
+  const symbolList: string[] = symbol.split('-');
+  if (!uniqueTokenList.has(poolPair.idTokenA)) {
+    uniqueTokenList.set(poolPair.idTokenA, symbolList[0]);
+  }
+  if (!uniqueTokenList.has(poolPair.idTokenB)) {
+    uniqueTokenList.set(poolPair.idTokenB, symbolList[1]);
+  }
+  return uniqueTokenList;
+}, new Map<string, string>());
 
-export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => {
-  return tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
-    const itemList: string[] = item.split('@');
-    if (itemList[1] !== DFI_SYMBOL) {
-      balanceAndSymbolMap.set(itemList[1], itemList[0]);
-    }
-    return balanceAndSymbolMap;
-  }, new Map<string, string>());
-};
+export const getBalanceAndSymbolMap = (tokenBalanceList: string[]) => tokenBalanceList.reduce((balanceAndSymbolMap, item) => {
+  const itemList: string[] = item.split('@');
+  if (itemList[1] !== DFI_SYMBOL) {
+    balanceAndSymbolMap.set(itemList[1], itemList[0]);
+  }
+  return balanceAndSymbolMap;
+}, new Map<string, string>());
 
 export const fetchPoolPairDataWithPagination = async (
   start: number,
@@ -668,7 +631,7 @@ export const fetchPoolPairDataWithPagination = async (
     start: number,
     includingStart: boolean,
     limit: number
-  ) => Promise<any>
+  ) => Promise<any>,
 ) => {
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
@@ -678,7 +641,9 @@ export const fetchPoolPairDataWithPagination = async (
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map(async (item: any) => {
-    const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[item];
+    const {
+      reserveA, reserveB, idTokenA, idTokenB, rewardPct,
+    } = result[item];
     const tokenAData = await handleFetchToken(idTokenA);
     const tokenBData = await handleFetchToken(idTokenB);
 
@@ -689,19 +654,17 @@ export const fetchPoolPairDataWithPagination = async (
 
     const poolShares = await handleFetchPoolshares();
 
-    const poolShare = poolShares.find((poolshare) => {
-      return poolshare.poolID === item;
-    });
+    const poolShare = poolShares.find((poolshare) => poolshare.poolID === item);
 
     const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-      coinPriceObj[idTokenA] || 0
+      coinPriceObj[idTokenA] || 0,
     );
 
     const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-      coinPriceObj[idTokenB] || 0
+      coinPriceObj[idTokenB] || 0,
     );
     const totalLiquidity = liquidityReserveidTokenA.plus(
-      liquidityReserveidTokenB
+      liquidityReserveidTokenB,
     );
     return {
       key: item,
@@ -723,12 +686,14 @@ export const fetchPoolPairDataWithPagination = async (
   }
   list.push(...resolvedTransformedData);
   start = Number(
-    resolvedTransformedData[resolvedTransformedData.length - 1].key
+    resolvedTransformedData[resolvedTransformedData.length - 1].key,
   );
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
+      const {
+        reserveA, reserveB, idTokenA, idTokenB, rewardPct,
+      } = result[
         item
       ];
       const tokenAData = await handleFetchToken(idTokenA);
@@ -741,18 +706,16 @@ export const fetchPoolPairDataWithPagination = async (
 
       const poolShares = await handleFetchPoolshares();
 
-      const poolShare = poolShares.find((poolshare) => {
-        return poolshare.poolID === item;
-      });
+      const poolShare = poolShares.find((poolshare) => poolshare.poolID === item);
 
       const liquidityReserveidTokenA = new BigNumber(reserveA).times(
-        coinPriceObj[idTokenA] || 0
+        coinPriceObj[idTokenA] || 0,
       );
       const liquidityReserveidTokenB = new BigNumber(reserveB).times(
-        coinPriceObj[idTokenB] || 0
+        coinPriceObj[idTokenB] || 0,
       );
       const totalLiquidity = liquidityReserveidTokenA.plus(
-        liquidityReserveidTokenB
+        liquidityReserveidTokenB,
       );
       return {
         key: item,
@@ -774,7 +737,7 @@ export const fetchPoolPairDataWithPagination = async (
     }
     list.push(...resolvedTransformedData);
     start = Number(
-      resolvedTransformedData[resolvedTransformedData.length - 1].key
+      resolvedTransformedData[resolvedTransformedData.length - 1].key,
     );
   }
   return list;
@@ -787,7 +750,7 @@ export const fetchTokenDataWithPagination = async (
     start: number,
     includingStart: boolean,
     limit: number
-  ) => Promise<any>
+  ) => Promise<any>,
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -822,7 +785,7 @@ export const fetchAccountsDataWithPagination = async (
     includingStart: boolean,
     limit: number,
     start?: string
-  ) => Promise<any>
+  ) => Promise<any>,
 ) => {
   const list: any[] = [];
   const result = await fetchList(true, limit);
@@ -849,7 +812,7 @@ export const fetchPoolShareDataWithPagination = async (
     start: number,
     includingStart: boolean,
     limit: number
-  ) => Promise<any>
+  ) => Promise<any>,
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -879,8 +842,7 @@ export const fetchPoolShareDataWithPagination = async (
 
 export const isWalletEncrypted = () => {
   const networkType = getNetworkType();
-  const isWalletLocked =
-    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
+  const isWalletLocked = networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
   return PersistentStore.get(isWalletLocked) || false;
 };
 
@@ -897,7 +859,7 @@ export const getTotalBlocks = async () => {
 export const calculateInputAddLiquidityLeftCard = (
   input1: string,
   formState,
-  poolPairList
+  poolPairList,
 ) => {
   const ratio: any = 1 / Number(conversionRatio(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
@@ -910,7 +872,7 @@ export const calculateInputAddLiquidityLeftCard = (
 export const calculateInputAddLiquidity = (
   input1: string,
   formState,
-  poolPairList
+  poolPairList,
 ) => {
   const ratio: any = Number(conversionRatio(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
@@ -929,12 +891,10 @@ export const selectedPoolPair = (formState, poolPairList) => {
   let condition1;
   let condition2;
   const poolPair = poolPairList.find((poolpair) => {
-    condition1 =
-      poolpair.idTokenA === formState.hash1 &&
-      poolpair.idTokenB === formState.hash2;
-    condition2 =
-      poolpair.idTokenA === formState.hash2 &&
-      poolpair.idTokenB === formState.hash1;
+    condition1 = poolpair.idTokenA === formState.hash1
+      && poolpair.idTokenB === formState.hash2;
+    condition2 = poolpair.idTokenA === formState.hash2
+      && poolpair.idTokenB === formState.hash1;
     return condition1 || condition2;
   });
   return [poolPair, condition1];
@@ -948,8 +908,8 @@ export const conversionRatio = (formState, poolPairList) => {
       ? new BigNumber(poolPair.reserveB).div(new BigNumber(poolPair.reserveA))
       : new BigNumber(0)
     : poolPair['reserveA/reserveB'] !== '0'
-    ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
-    : new BigNumber(0);
+      ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
+      : new BigNumber(0);
 
   return ratio.toFixed(8);
 };
@@ -962,15 +922,13 @@ export const getRatio = (poolpair) => {
 export const shareOfPool = (formState, poolPairList) => {
   const [poolPair] = selectedPoolPair(formState, poolPairList);
 
-  const shareA =
-    formState.hash1 === poolPair.idTokenA
-      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
-      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
+  const shareA = formState.hash1 === poolPair.idTokenA
+    ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
+    : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
 
-  const shareB =
-    formState.hash2 === poolPair.idTokenB
-      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
-      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
+  const shareB = formState.hash2 === poolPair.idTokenB
+    ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
+    : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
 
   const shareOfPool = shareA
     .plus(shareB)
@@ -1043,7 +1001,7 @@ export const getAddressAndAmountListForAccount = async () => {
   const accountList = await fetchAccountsDataWithPagination(
     '',
     LIST_ACCOUNTS_PAGE_SIZE,
-    rpcClient.listAccounts
+    rpcClient.listAccounts,
   );
 
   const addressAndAmountList = accountList.map(async (account) => {
@@ -1079,7 +1037,7 @@ export const getAddressForSymbol = async (key: string, list: any) => {
 
 export const getAddressForSymbolLedger = async (
   key: string,
-  list: PaymentRequestLedger[]
+  list: PaymentRequestLedger[],
 ) => {
   log.info('getAddressForSymbol ledger');
   const rpcClient = new RpcClient();
@@ -1092,11 +1050,11 @@ export const getAddressForSymbolLedger = async (
     if (key === tokenSymbol && maxAmount <= amount) {
       maxAmount = amount;
       address = obj.address;
-      keyIndex = i;
+      keyIndex = obj.keyIndex;
     }
   }
   log.info(
-    `getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`
+    `getAddressForSymbol: address: ${address}, amount: ${maxAmount}, keyIndex: ${keyIndex}`,
   );
   return { address, maxAmount, keyIndex };
 };
@@ -1139,18 +1097,16 @@ export const getCoinMap = () => {
   return coinMap;
 };
 
-export const getCoinIds = () => {
-  return [
-    COINGECKO_DFI_ID,
-    COINGECKO_BTC_ID,
-    COINGECKO_ETH_ID,
-    COINGECKO_USDT_ID,
-  ];
-};
+export const getCoinIds = () => [
+  COINGECKO_DFI_ID,
+  COINGECKO_BTC_ID,
+  COINGECKO_ETH_ID,
+  COINGECKO_USDT_ID,
+];
 
 export const getIDs = () => {
   const coinIdList = getCoinIds();
-  const parsedIds = '' + coinIdList;
+  const parsedIds = `${coinIdList}`;
   return parsedIds;
 };
 
@@ -1163,18 +1119,18 @@ export const handleUtxoToAccountConversion = async (
   hash: string,
   address: string,
   amount: string,
-  maxAmount: number
+  maxAmount: number,
 ) => {
   const rpcClient = new RpcClient();
   const dfiUtxos = await getDfiUTXOS();
   if (Number(amount) > maxAmount + dfiUtxos) {
-    throw new Error(`Insufficent DFI in account`);
+    throw new Error('Insufficent DFI in account');
   }
 
   const transferAmount = Number(amount) - maxAmount;
   const utxoToDfiTxId = await rpcClient.utxosToAccount(
     address,
-    `${transferAmount.toFixed(8)}@${hash}`
+    `${transferAmount.toFixed(8)}@${hash}`,
   );
   await getTransactionInfo(utxoToDfiTxId);
 };
@@ -1182,7 +1138,7 @@ export const handleUtxoToAccountConversion = async (
 export const handleAccountToAccountConversion = async (
   addressAndAmountList: any[],
   toAddress: string,
-  hash: string
+  hash: string,
 ) => {
   const rpcClient = new RpcClient();
   const amounts = {};
@@ -1203,7 +1159,7 @@ export const handleAccountToAccountConversion = async (
       const txId = await rpcClient.accountToAccount(
         obj.address,
         toAddress,
-        `${amount}@${tokenSymbol}`
+        `${amount}@${tokenSymbol}`,
       );
 
       const promiseHash = getTransactionInfo(txId);
@@ -1218,7 +1174,7 @@ export const handleAccountToAccountConversion = async (
 export const accountToAccountConversionLedger = async (
   addressList: PaymentRequestLedger[],
   toAddress: string,
-  hash: string
+  hash: string,
 ) => {
   log.info('accountToAccountConversion ledger');
   const rpcClient = new RpcClient();
@@ -1256,7 +1212,7 @@ export const accountToAccountConversionLedger = async (
         toAddress,
         amount,
         data,
-        obj.keyIndex
+        obj.keyIndex,
       );
       if (res.success) {
         const txId = rpcClient.sendRawTransaction(res.data.tx);
@@ -1278,7 +1234,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,
-    rpcClient.listPoolShares
+    rpcClient.listPoolShares,
   );
 
   if (isEmpty(poolShares)) {
@@ -1289,9 +1245,9 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
     if (
-      addressInfo.ismine &&
-      !addressInfo.iswatchonly &&
-      poolShare.poolID === poolID
+      addressInfo.ismine
+      && !addressInfo.iswatchonly
+      && poolShare.poolID === poolID
     ) {
       return {
         amount: poolShare.amount,
@@ -1301,11 +1257,11 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
   });
 
   const resolvedMineAddressAndAmountListPoolShare = _.compact(
-    await Promise.all(minePoolShares)
+    await Promise.all(minePoolShares),
   );
 
   const sortedList = resolvedMineAddressAndAmountListPoolShare.sort(
-    (a, b) => parseFloat(b.amount) - parseFloat(a.amount)
+    (a, b) => parseFloat(b.amount) - parseFloat(a.amount),
   );
 
   return sortedList;
@@ -1314,7 +1270,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
 export const getTotalAmountPoolShare = async (poolID) => {
   const list = await getAddressAndAmountListPoolShare(poolID);
   const totalAmount = list.reduce((amount, obj) => {
-    amount = amount + Number(obj.amount);
+    amount += Number(obj.amount);
     return amount;
   }, 0);
 
@@ -1327,10 +1283,10 @@ export const getSymbolKey = (symbol: string, key: string) => {
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   if (
-    key === DFI_SYMBOL ||
-    key === btcSymbol ||
-    key === ethSymbol ||
-    key === usdtSymbol
+    key === DFI_SYMBOL
+    || key === btcSymbol
+    || key === ethSymbol
+    || key === usdtSymbol
   ) {
     return symbol;
   }
@@ -1341,7 +1297,7 @@ export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
   const distinctRandomNumbers: number[] = [];
   while (distinctRandomNumbers.length < limit) {
     const randomNum = Math.floor(
-      Math.random() * (upperBound - lowerBound) + lowerBound
+      Math.random() * (upperBound - lowerBound) + lowerBound,
     );
     if (distinctRandomNumbers.indexOf(randomNum) === -1) {
       distinctRandomNumbers.push(randomNum);
@@ -1378,9 +1334,7 @@ export const getBalanceForSymbol = async (address: string, symbol: string) => {
   }, '0');
 };
 
-export const getSmallerAmount = (amount1: string, amount2: string) => {
-  return Math.min(Number(amount1), Number(amount2));
-};
+export const getSmallerAmount = (amount1: string, amount2: string) => Math.min(Number(amount1), Number(amount2));
 
 export const getDfiTokenBalance = async () => {
   const addressAndAmountList = await getAddressAndAmountListForAccount();
@@ -1398,29 +1352,27 @@ export const getDfiTokenBalance = async () => {
 
 export const calculateAPY = (
   totalLiquidity: BigNumber,
-  yearlyPoolReward: BigNumber
-) => {
-  return totalLiquidity.toNumber()
-    ? yearlyPoolReward
-        .div(totalLiquidity)
-        .times(APY_MULTIPLICATION_FACTOR)
-        .toNumber()
-        .toFixed(2)
-    : 0;
-};
+  yearlyPoolReward: BigNumber,
+) => (totalLiquidity.toNumber()
+  ? yearlyPoolReward
+    .div(totalLiquidity)
+    .times(APY_MULTIPLICATION_FACTOR)
+    .toNumber()
+    .toFixed(2)
+  : 0);
 
 export const getTransactionAddressLabel = (
   receiveLabel: string,
   receiveAddress: string,
-  fallback: string
+  fallback: string,
 ) => {
-  let label = `${receiveLabel ? receiveLabel + ' ' : ''}`;
-  label = label + receiveAddress;
+  let label = `${receiveLabel ? `${receiveLabel} ` : ''}`;
+  label += receiveAddress;
   return receiveAddress ? label : fallback;
 };
 
 export const getPageTitle = (
-  pageTitle?: string
+  pageTitle?: string,
 ) => {
   const appTitle = I18n.t('general.defiApp');
   return pageTitle ? `${pageTitle} - ${appTitle}` : appTitle;
@@ -1428,7 +1380,7 @@ export const getPageTitle = (
 
 export const utxoLedger = async (address: string, amount: number) => {
   const rpcClient = new RpcClient();
-  const cutxo: IUtxo[] = await rpcClient.listUnspent(1000, 9999999,[address]);
+  const cutxo: IUtxo[] = await rpcClient.listUnspent(1000, 9999999, [address]);
   const utxo: IUtxo[] = [];
   let amountUtxo = 0;
   let i = 0;
@@ -1438,7 +1390,7 @@ export const utxoLedger = async (address: string, amount: number) => {
       utxo.push(cutxo[i]);
       i++;
     } else {
-      throw new Error('The cost is more than the balance of the address')
+      throw new Error('The cost is more than the balance of the address');
     }
   }
   log.info(`amountUtxo: ${amountUtxo}`);
@@ -1446,4 +1398,4 @@ export const utxoLedger = async (address: string, amount: number) => {
     utxo,
     amountUtxo,
   });
-}
+};

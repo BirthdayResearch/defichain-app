@@ -114,7 +114,7 @@ export default class DefiHwWallet {
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
       // this.transport = await TransportHid.open(path !== undefined ? path : '');
-      this.transport = await TransportHid.open({ apduPort: 40000 });
+      this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
       log.info('Ledger is connected');
     } catch (err) {
