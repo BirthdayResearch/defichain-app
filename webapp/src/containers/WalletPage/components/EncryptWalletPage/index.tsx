@@ -35,7 +35,7 @@ export interface EncryptWalletPageProps {
   onClose?: () => void;
 }
 
-enum EncryptWalletForm {
+export enum EncryptWalletForm {
   passphrase = 'passphrase',
   confirmPassphrase = 'confirmPassphrase',
 }

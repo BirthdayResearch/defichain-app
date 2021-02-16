@@ -786,10 +786,10 @@ export default class RpcClient {
     return data.result;
   };
 
-  walletPassphrase = async (passphrase: string) => {
+  walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      WALLET_UNLOCK_TIMEOUT,
+      timeout || WALLET_UNLOCK_TIMEOUT,
     ]);
     return data.result;
   };

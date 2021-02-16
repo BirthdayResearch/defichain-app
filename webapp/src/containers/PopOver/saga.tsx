@@ -23,6 +23,9 @@ import {
   openRestoreWalletModal,
   encryptWalletSuccess,
   encryptWalletFailure,
+  unlockWalletFailure,
+  unlockWalletSuccess,
+  setLockedUntil
 } from './reducer';
 import {
   autoLockTimer,
@@ -88,22 +91,40 @@ function* encryptWallet(action) {
 }
 
 function* unlockWallet(action) {
+  const {
+    payload: { passphrase, isModal, pageRedirect, timeout },
+  } = action;
   try {
-    const {
-      payload: { passphrase },
-    } = action;
-    const result = yield call(handleUnlockWallet, passphrase);
-    yield call(enableAutoLock);
-    yield put(closeWalletPassphraseModal());
+    yield call(handleUnlockWallet, passphrase, timeout);
+    yield put(unlockWalletSuccess(true));
+    yield call(enableAutoLock, timeout);
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.unlockWalletSuccess')
     );
+    if (isModal) {
+      yield put(closeWalletPassphraseModal());
+    } else {
+      history.push(pageRedirect);
+    }
   } catch (e) {
-    log.error(e);
+    log.error(e, 'unlockWallet');
     const message = getErrorMessage(e);
-    yield put(closeWalletPassphraseModal());
-    showErrorNotification({ message });
+    yield put(unlockWalletFailure(message));
+    if (isModal) {
+      yield put(closeWalletPassphraseModal());
+      showErrorNotification({ message });
+    }
+  }
+}
+
+function* setAutoLock(action) {
+  const timeout = action.payload;
+  try {
+    yield call(enableAutoLock, timeout);
+  } catch (e) {
+    log.error(e, 'setAutoLock');
+    const message = getErrorMessage(e);
   }
 }
 
@@ -175,5 +196,6 @@ function* mySaga() {
   );
   yield takeLatest(startResetWalletDatRequest.type, startResetWalletDat);
   yield takeLatest(restoreWalletViaRecent.type, startRestoreWalletChecks);
+  yield takeLatest(setLockedUntil.type, setAutoLock);
 }
 export default mySaga;

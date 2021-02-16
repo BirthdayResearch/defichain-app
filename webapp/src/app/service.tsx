@@ -31,6 +31,7 @@ import {
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
   openResetWalletDatModal,
+  setLockedUntil,
 } from '../containers/PopOver/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 import {
@@ -44,7 +45,11 @@ import {
   START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
-import { getNetworkType } from '../utils/utility';
+import {
+  convertEpochToDate,
+  getNetworkType,
+  getTimeDifferenceMS,
+} from '../utils/utility';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -254,11 +259,23 @@ export const getWalletMap = async (): Promise<void> => {
   }
 };
 
+const setAutoLock = (unlockedUntil: number) => {
+  const timeDiffSecs = getTimeDifferenceMS(unlockedUntil) / 1000;
+  log.info(`Locked Until: ${timeDiffSecs} secs`);
+  if (timeDiffSecs > 0) {
+    store.dispatch(setLockedUntil(timeDiffSecs));
+  }
+};
+
 export const checkWalletEncryption = async (): Promise<boolean> => {
   try {
     const rpcClient = new RpcClient();
     const walletInfo = await rpcClient.getWalletInfo();
-    return walletInfo != null && walletInfo.unlocked_until != null;
+    const isEncrypted = walletInfo?.unlocked_until != null;
+    if (isEncrypted && walletInfo.unlocked_until > 0) {
+      setAutoLock(walletInfo.unlocked_until);
+    }
+    return isEncrypted;
   } catch (error) {
     log.error(error, 'checkWalletEncryption');
     return false;

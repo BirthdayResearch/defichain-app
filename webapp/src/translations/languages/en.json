@@ -772,6 +772,9 @@
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
         "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat)."
+      },
+      "unlockWalletPage": {
+        "title": "Unlock wallet"
       }
     },
     "console": {

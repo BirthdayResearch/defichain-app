@@ -261,9 +261,13 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = (epoch) => {
+export const convertEpochToDate = (epoch): string => {
   return moment.unix(epoch).format(DATE_FORMAT);
 };
+
+export const getTimeDifferenceMS = (time: number): number => {
+  return moment.unix(time).toDate().getTime() - new Date().getTime();
+}
 
 export const range = (from: number, to: number, step = 1) => {
   let i = from;
