@@ -186,7 +186,10 @@ export const createTokenUseLedger = async (
       keyIndex, feeRate: amountUtxo - MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION - 0.01}
     );
     if (resCreateToken.success) {
-      return await rpcClient.sendRawTransaction(resCreateToken.data.tx);
+      const hash = await rpcClient.sendRawTransaction(resCreateToken.data.tx);
+      return {
+        hash,
+      }
     } else {
       throw new Error(resCreateToken.message);
     }

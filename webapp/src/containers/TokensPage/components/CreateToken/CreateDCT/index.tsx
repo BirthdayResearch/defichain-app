@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
+import { MdArrowBack } from 'react-icons/md';
 import {
   Button,
   Form,
@@ -11,19 +11,13 @@ import {
   Label,
   Input,
   FormText,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Row,
-  Col,
 } from 'reactstrap';
 
-import Footer from './Footer';
-import styles from './CreateDCT.module.scss';
 import { TOKENS_PATH } from '@/constants';
 import { ITokenResponse } from '@/utils/interfaces';
 import Header from '@/containers/HeaderComponent';
+import styles from './CreateDCT.module.scss';
+import Footer from './Footer';
 import { getPageTitle, getTransactionAddressLabel } from '../../../../../utils/utility';
 import AddressDropdown from '../../../../../components/AddressDropdown';
 import { CreateTokenFormState } from '..';
@@ -48,16 +42,14 @@ interface CreateDCTProps {
   typeWallet: string | null;
 }
 
-const getTransactionLabel = (formState: CreateTokenFormState) => {
-  return getTransactionAddressLabel(
-    formState.receiveLabel,
-    formState.receiveAddress,
-    I18n.t('containers.tokens.createToken.collateralAddress')
-  );
-};
+const getTransactionLabel = (formState: CreateTokenFormState) => getTransactionAddressLabel(
+  formState.receiveLabel,
+  formState.receiveAddress,
+  I18n.t('containers.tokens.createToken.collateralAddress'),
+);
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
-  props: CreateDCTProps
+  props: CreateDCTProps,
 ) => {
   const {
     isUpdate,
@@ -253,9 +245,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
               formState={formState}
               getTransactionLabel={getTransactionLabel}
               onSelectAddress={handleDropDowns}
-              additionalClass={() =>
-                !IsCollateralAddressValid ? styles.collateralDropdown : ''
-              }
+              additionalClass={() => (!IsCollateralAddressValid ? styles.collateralDropdown : '')}
               isDisabled={isUpdate}
               typeWallet={typeWallet}
             />

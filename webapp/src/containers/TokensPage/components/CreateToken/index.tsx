@@ -189,6 +189,8 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
       setFormState({
         ...formState,
         ...newData,
+        receiveAddress: newData.address,
+        receiveLabel: newData.label,
       });
       setIsCollateralAddressValid(true);
     }

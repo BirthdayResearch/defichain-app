@@ -23,6 +23,10 @@ export function createZeroOutputTxFromCustomTx(
   let outputZero;
   let outputOne;
   let keys = [];
+  const addressOb = new Address(address);
+  const scriptAddress = addressOb.type === 'scripthash'
+    ? Script.buildScriptHashOut(addressOb)
+    : Script.buildPublicKeyHashOut(addressOb);
   const script = new Script().add(Opcode.map.OP_RETURN);
   switch (customTx.txType) {
     case CustomTx.customTxType.createMasternode:
@@ -34,8 +38,7 @@ export function createZeroOutputTxFromCustomTx(
       });
       transaction =  tx.addOutput(outputZero);
       outputOne = new Transaction.Output({
-        // @ts-ignore
-        script: Script.buildScriptHashOut(new Address(address)),
+        script: scriptAddress,
         tokenId: 0,
         satoshis: 100000000,
       });
@@ -52,7 +55,7 @@ export function createZeroOutputTxFromCustomTx(
       });
       transaction =  tx.addOutput(outputZero);
       outputOne = new Transaction.Output({
-        script: new Script(new Address(address)),
+        script: scriptAddress,
         tokenId: 0,
         satoshis: 100000000,
       });
@@ -111,11 +114,11 @@ export function createZeroOutputTxFromCustomTx(
     default:
       break;
   }
-  // outputOne = new Transaction.Output({
-  //   script: new Script(new Address(address)),
-  //   tokenId: 0,
-  //   satoshis: (feeRate*100000000).toFixed(8),
-  // });
+  outputOne = new Transaction.Output({
+    script: scriptAddress,
+    tokenId: 0,
+    satoshis: (feeRate*100000000).toFixed(8),
+  });
   return transaction.addOutput(outputOne);
 }
 
