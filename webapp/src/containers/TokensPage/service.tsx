@@ -4,6 +4,7 @@ import { CustomTx } from 'bitcore-lib-dfi';
 import RpcClient from '../../utils/rpc-client';
 import * as log from '@/utils/electronLogger';
 import {
+  BLOCKCHAIN_INFO_CHAIN_MAINNET,
   CUSTOM_TX_LEDGER,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DEFAULT_FEE_RATE,
@@ -11,7 +12,7 @@ import {
   DEFAULT_MAXIMUM_COUNT,
   DFI_SYMBOL,
   FEE_RATE,
-  LIST_TOKEN_PAGE_SIZE,
+  LIST_TOKEN_PAGE_SIZE, MAINNET,
   MAXIMUM_AMOUNT,
   MAXIMUM_COUNT,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
@@ -264,7 +265,7 @@ export const mintTokenWithLedger = async (tokenData, keyIndex) => {
   }
 }
 
-export const handleMintTokens = async (tokenData, networkName) => {
+export const handleMintTokens = async (tokenData, networkName = BLOCKCHAIN_INFO_CHAIN_MAINNET) => {
   const { address } = tokenData;
   const rpcClient = new RpcClient();
   // const txId = await rpcClient.sendToAddress(
@@ -319,8 +320,8 @@ export const updateTokenWithUseLedger = async (
 
 export const updateToken = async (
   tokenData,
-  networkName,
-  typeWallet: TypeWallet
+  networkName = BLOCKCHAIN_INFO_CHAIN_MAINNET,
+  typeWallet: TypeWallet = 'wallet'
 ) => {
   const data = {
     name: tokenData.name,

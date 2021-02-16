@@ -51,9 +51,6 @@ export const initialState: LedgerState = {
     sendStep: 'default',
     waitToSend: 5,
   },
-  isWalletCreating: false,
-  isErrorCreatingWallet: '',
-  isWalletRestoring: false,
   isErrorRestoringWallet: '',
   indexesKeyLedger: {
     data: null,
@@ -174,33 +171,9 @@ const configSlice = createSlice({
     setBlockChainInfo(state, action) {
       state.blockChainInfo = action.payload;
     },
-    createWalletRequest(state) {
-      state.isWalletCreating = true;
-      state.isErrorCreatingWallet = '';
-    },
-    createWalletSuccess(state) {
-      state.isWalletCreating = false;
-      state.isErrorCreatingWallet = '';
-    },
-    createWalletFailure(state, action) {
-      state.isWalletCreating = false;
-      state.isErrorCreatingWallet = action.payload;
-    },
     resetCreateWalletError(state) {
       state.isWalletCreating = false;
       state.isErrorCreatingWallet = '';
-    },
-    restoreWalletRequest(state) {
-      state.isWalletRestoring = true;
-      state.isErrorRestoringWallet = '';
-    },
-    restoreWalletSuccess(state) {
-      state.isWalletRestoring = false;
-      state.isErrorRestoringWallet = '';
-    },
-    restoreWalletFailure(state, action) {
-      state.isWalletRestoring = false;
-      state.isErrorRestoringWallet = action.payload;
     },
     resetRestoreWalletError(state) {
       state.isWalletRestoring = false;
@@ -301,13 +274,7 @@ export const {
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
-  createWalletRequest,
-  createWalletSuccess,
-  createWalletFailure,
   resetCreateWalletError,
-  restoreWalletRequest,
-  restoreWalletSuccess,
-  restoreWalletFailure,
   resetRestoreWalletError,
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,

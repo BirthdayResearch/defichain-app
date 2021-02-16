@@ -14,9 +14,11 @@ import {
   getAddressInfo,
   getNewAddress,
   getTransactionInfo,
+  handleFetchAccountDFI,
+  handleGetPaymentRequest,
 } from '@/containers/WalletPage/service';
 import { handleFetchToken } from '@/containers/TokensPage/service';
-import { handleFetchPoolshares } from '@/containers/SwapPage/service';
+import { handleFetchPoolshares } from '@/containers/LiquidityPage/service';
 import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import { construct } from '@/utils/cutxo';
@@ -28,7 +30,6 @@ import {
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
-  IUtxo,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -94,22 +95,14 @@ import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
-import {
-  getAddressInfo,
-  getTransactionInfo,
-  handleFetchAccountDFI,
-  handleGetPaymentRequest,
-} from '../containers/WalletPage/service';
-import { handleFetchToken } from '../containers/TokensPage/service';
-import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
-import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
 import {
   AccountKeyItem,
-  AccountModel,
+  AccountModel, ListUnspentModel,
   PeerInfoModel,
 } from 'src/constants/rpcModel';
 import { HighestAmountItem } from '../constants/common';
+import { BLOCKCHAIN_INFO_CHAIN_TEST } from '../constants';
 
 export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -367,7 +360,7 @@ export const getParams = (query: string) => {
   const parsedParams = params.map((param) => {
     if (
       (param.startsWith('"') && param.endsWith('"'))
-      || (param.startsWith("'") && param.endsWith("'"))
+      || (param.startsWith('\'') && param.endsWith('\''))
     ) {
       return param.replace(/"/g, '').replace(/'/g, '');
     } if (
@@ -1393,8 +1386,8 @@ export const getPageTitle = (pageTitle?: string) => {
 
 export const utxoLedger = async (address: string, amount: number) => {
   const rpcClient = new RpcClient();
-  const cutxo: IUtxo[] = await rpcClient.listUnspent(1000, 9999999, [address]);
-  const utxo: IUtxo[] = [];
+  const cutxo: ListUnspentModel[] = await rpcClient.listUnspent(new BigNumber(1000), new BigNumber(9999999), [address]);
+  const utxo: ListUnspentModel[] = [];
   let amountUtxo = 0;
   let i = 0;
   while (amountUtxo < Number(amount) + 0.01) {
@@ -1436,7 +1429,7 @@ export const getTokenBalances = (listAccounts: AccountModel[]): string[] => {
     const tokenBalances: string[] = [];
     const mapKey = {};
     listAccounts
-      .filter((account) => parseAccountKey(account.key).address != '')
+      .filter((account) => parseAccountKey(account.key).address !== '')
       .forEach((account) => {
         const { hash } = parseAccountKey(account.key);
         const amount = account.amount[hash] || 0;
@@ -1548,4 +1541,62 @@ export const checkRPCErrorMessagePending = (message: string): string => {
       : message;
   }
   return message;
+};
+
+export const accountToAccountConversionLedger = async (
+  addressList: PaymentRequestLedger[],
+  toAddress: string,
+  hash: string
+) => {
+  log.info('accountToAccountConversion ledger');
+  const rpcClient = new RpcClient();
+  const amounts = {};
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      amounts[obj.address] = DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT;
+    }
+  }
+
+  if (!isEmpty(amounts)) {
+    const refreshUtxoTxId = await rpcClient.sendMany(amounts);
+    await getTransactionInfo(refreshUtxoTxId);
+  }
+
+  const accountToAccountTxHashes: any[] = [];
+  let amountTransfered = new BigNumber(0);
+  for (const obj of addressList) {
+    const tokenSymbol = obj.unit;
+    const amount = Number(obj.amount).toFixed(8);
+
+    if (tokenSymbol === hash && obj.address !== toAddress) {
+      const cutxo = await rpcClient.listUnspent(new BigNumber(1), new BigNumber(9999999), [obj.address]);
+      const data = {
+        from: obj.address,
+        to: {
+          [toAddress]: [{ balance: amount, token: DFI_SYMBOL }],
+        },
+      };
+      const ipcRenderer = ipcRendererFunc();
+      const res = await ipcRenderer.sendSync(
+        CUSTOM_TX_LEDGER,
+        cutxo,
+        toAddress,
+        amount,
+        data,
+        obj.keyIndex
+      );
+      if (res.success) {
+        const txId = rpcClient.sendRawTransaction(res.data.tx);
+        const promiseHash = getTransactionInfo(txId);
+        accountToAccountTxHashes.push(promiseHash);
+        amountTransfered = amountTransfered.plus(new BigNumber(amount));
+      } else {
+        log.error(`accountToAccountConversion error: ${res.message}`);
+        throw new Error(res.message);
+      }
+    }
+  }
+  await Promise.all(accountToAccountTxHashes);
+  return amountTransfered;
 };

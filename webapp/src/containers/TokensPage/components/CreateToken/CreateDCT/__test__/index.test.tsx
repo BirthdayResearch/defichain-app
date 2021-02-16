@@ -9,7 +9,7 @@ import * as routeComponentProps from '../../../../../../utils/testUtils/routeCom
 describe('CreateDCT component', () => {
   it('should check for snapshot', () => {
     const props = {
-      handleChange: () => {},
+      handleChange: () => {/* */},
       formState: {
         name: '',
         symbol: '',
@@ -23,7 +23,7 @@ describe('CreateDCT component', () => {
       },
       IsCollateralAddressValid: true,
       isConfirmationModalOpen: '',
-      setIsConfirmationModalOpen: () => {},
+      setIsConfirmationModalOpen: () => {/* */},
       createdTokenData: {
         hash: '',
       },
@@ -31,14 +31,15 @@ describe('CreateDCT component', () => {
         hash: '',
       },
       wait: 1,
-      setWait: () => {},
-      createConfirmation: () => {},
-      updateConfirmation: () => {},
-      handleDropDowns: () => {},
-      cancelConfirmation: () => {},
+      setWait: () => {/* */},
+      createConfirmation: () => {/* */},
+      updateConfirmation: () => {/* */},
+      handleDropDowns: () => {/* */},
+      cancelConfirmation: () => {/* */},
       isErrorCreatingToken: '',
       isErrorUpdatingToken: '',
       isUpdate: true,
+      typeWallet: 'wallet',
     };
     const wrapper = Enzyme.mount(
       <Router>

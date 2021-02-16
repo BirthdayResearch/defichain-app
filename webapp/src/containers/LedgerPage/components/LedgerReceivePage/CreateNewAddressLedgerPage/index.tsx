@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import uid from 'uid';
+import { uid } from 'uid';
 import { LEDGER_RECEIVE_PATH } from '@/constants';
 import { importPubKey, importAddress } from '../../../service';
 import * as log from '@/utils/electronLogger';

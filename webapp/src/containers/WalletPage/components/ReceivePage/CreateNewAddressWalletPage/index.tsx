@@ -1,5 +1,5 @@
 import React from 'react';
-import uid from 'uid';
+import { uid } from 'uid';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { WALLET_RECEIVE_PATH } from '../../../../../constants';

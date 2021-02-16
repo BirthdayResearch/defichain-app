@@ -43,7 +43,6 @@ import {
 } from '@/constants';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
-import { IUtxo } from '@/utils/interfaces';
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const localStorageName = handleLocalStorageNameLedger(networkName);

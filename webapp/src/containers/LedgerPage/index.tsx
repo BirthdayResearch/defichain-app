@@ -34,7 +34,7 @@ import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 import { RootState } from '@/app/rootReducer';
 import { getBackupIndexesLedger, getPubKeyLedger, loadWallet } from './service';
-import uid from 'uid';
+import { uid } from 'uid';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;

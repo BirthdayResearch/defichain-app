@@ -43,7 +43,7 @@ describe('Token Page service unit test', () => {
       data: handleUpdateTokens,
     });
     mockAxios(post);
-    const result = await service.handleUpdateTokens(saga.handleFetchToken);
+    const result = await service.updateToken(saga.handleFetchToken);
     expect(result).toEqual(expected.handleUpdateTokens);
   });
 
@@ -53,7 +53,7 @@ describe('Token Page service unit test', () => {
         data: handleUpdateTokens,
       });
       mockAxios(post);
-      const result = await service.handleUpdateTokens(saga.handleFetchToken);
+      const result = await service.updateToken(saga.handleFetchToken);
     } catch (err) {
       expect(err).toBeTruthy();
     }

@@ -25,8 +25,6 @@ import {
   handleLocalStorageNameLedger,
 } from '@/utils/utility';
 import {
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
   WALLET_TOKENS_PATH,
@@ -234,64 +232,6 @@ export function* fetchAccountTokens() {
     log.error(e);
   }
 }
-export function* createWallet(action) {
-  try {
-    const {
-      payload: { mnemonicCode, history },
-    } = action;
-
-    const networkType = getNetworkType();
-    const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
-
-    yield call(setHdSeed, hdSeed);
-    yield put({ type: reducer.createWalletSuccess.type });
-    PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_TOKENS_PATH);
-  } catch (e) {
-    log.error(e.message);
-    yield put({
-      type: reducer.createWalletFailure.type,
-      payload: getErrorMessage(e),
-    });
-  }
-}
-
-export function* restoreWallet(action) {
-  try {
-    const {
-      payload: { mnemonicObj, history },
-    } = action;
-
-    const mnemonicCode = getMnemonicFromObj(mnemonicObj);
-    const isValid = isValidMnemonic(mnemonicCode);
-    if (!isValid) {
-      throw new Error(`Not a valid mnemonic: ${mnemonicCode}`);
-    }
-
-    const networkType = getNetworkType();
-    const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
-
-    yield call(setHdSeed, hdSeed);
-    yield call(importPrivKey, hdSeed);
-    yield put({ type: reducer.restoreWalletSuccess.type });
-    PersistentStore.set(isWalletCreated, true);
-    history.push(WALLET_TOKENS_PATH);
-  } catch (e) {
-    log.error(e.message);
-    yield put({
-      type: reducer.restoreWalletFailure.type,
-      payload: getErrorMessage(e),
-    });
-  }
-}
 
 export function* fetchInstantBalance() {
   try {
@@ -402,8 +342,6 @@ function* mySaga() {
   yield takeLatest(reducer.fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(reducer.fetchTokensRequest.type, fetchTokens);
   yield takeLatest(reducer.fetchAccountTokensRequest.type, fetchAccountTokens);
-  yield takeLatest(reducer.createWalletRequest.type, createWallet);
-  yield takeLatest(reducer.restoreWalletRequest.type, restoreWallet);
   yield takeLatest(
     reducer.fetchInstantBalanceRequest.type,
     fetchInstantBalance

@@ -92,6 +92,7 @@ import {
   getNetworkType,
   hdWalletCheck,
   isValidMnemonic,
+  getNetwork,
 } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
@@ -119,14 +120,6 @@ import {
   openRestoreWalletModal,
   startResetWalletDatRequest,
 } from '../PopOver/reducer';
-import { getNetwork } from '@/utils/utility';
-
-export function* getNetwork() {
-  const {
-    blockChainInfo: { chain },
-  } = yield select((state) => state.wallet);
-  return chain;
-}
 
 export function fetchWalletBalance() {
   const callBack = (err, result) => {
@@ -301,7 +294,7 @@ export function fetchSendData() {
   queuePush(handleSendData, [], callBack);
 }
 
-//* If wallet is existing on conf, set wallet loaded
+// * If wallet is existing on conf, set wallet loaded
 export function* setWalletExistingIfInConf(conf: any) {
   const network = getNetworkType();
   const isWalletCreatedConf =
@@ -545,7 +538,7 @@ export function* fetchWalletTokenTransactionsList(action) {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
-      cancelToken: cancelToken,
+      cancelToken,
       blockHeight: minBlockHeight,
     });
 
