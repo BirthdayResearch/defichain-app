@@ -1,3 +1,4 @@
+// @ts-nocheck
 import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 import DefiHwWallet from '../defiHwWallet';
 

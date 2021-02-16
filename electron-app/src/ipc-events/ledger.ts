@@ -13,7 +13,7 @@ import {
   CUSTOM_TX_LEDGER,
   BACKUP_IDXS_LEDGER,
   SIGN_TRANSACTION_LEDGER,
-} from '../constants';
+} from '@defi_types/ipcEvents';
 import { responseMessage } from '../utils';
 // eslint-disable-next-line no-unused-vars
 import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
