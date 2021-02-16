@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import { connect } from 'react-redux';
 
-import styles from './WalletPassphraseModal.module.scss';
+import styles from '././walletPassphraseModal.module.scss';
 
 import { closeWalletPassphraseModal, unlockWalletStart } from '../reducer';
 import WalletPassphrasePage from '../../WalletPage/components/WalletPassphrasePage';
