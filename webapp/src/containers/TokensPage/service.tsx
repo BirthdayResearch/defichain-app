@@ -246,8 +246,10 @@ export const mintTokenWithLedger = async (tokenData, keyIndex) => {
     keyIndex
   );
   if (res.success) {
-    await rpcClient.sendRawTransaction(res.data.tx);
-    return res.data.tx;
+    const hash = await rpcClient.sendRawTransaction(res.data.tx);
+    return {
+      hash,
+    };
   } else {
     throw new Error(res.message);
   }
@@ -296,11 +298,11 @@ export const updateTokenWithUseLedger = async (
     collateralAddress,
     0,
     data,
-    keyIndex
+    keyIndex,
   );
   if (res.success) {
-    await rpcClient.sendRawTransaction(res.data.tx);
-    return res.data.tx;
+    const hash = await rpcClient.sendRawTransaction(res.data.tx);
+    return { hash };
   } else {
     throw new Error(res.message);
   }
