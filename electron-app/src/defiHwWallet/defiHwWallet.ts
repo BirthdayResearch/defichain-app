@@ -9,7 +9,7 @@ import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
 import usb from 'usb';
 import { LedgerDevice } from '../types/ledger';
 import * as log from '../services/electronLogger';
-import { DETACH_DEVICE_LEDGER } from '../constants';
+import { DETACH_DEVICE_LEDGER } from '@defi_types/ipcEvents';
 
 const CLA = 0xe0;
 
