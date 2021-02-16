@@ -27,7 +27,9 @@ export const initialState = {
   totalFetchedTxns: [],
   walletPageCounter: 1,
   stopPagination: false,
-  blockChainInfo: {},
+  blockChainInfo: {
+    chain: '',
+  },
   receivedData: {
     amountToReceive: '',
     amountToReceiveDisplayed: 0,
