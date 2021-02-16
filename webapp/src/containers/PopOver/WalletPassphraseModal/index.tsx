@@ -18,21 +18,21 @@ const WalletPassphraseModal: React.FunctionComponent<WalletPassphraseModalProps>
 ) => {
   const { isWalletPassphraseModalOpen, closeWalletPassphraseModal } = props;
   return (
-    <Modal
-      isOpen={isWalletPassphraseModalOpen}
-      contentClassName={styles.modalContent}
-      backdropClassName={styles.modalBackdrop}
-      style={{ width: '100%', maxWidth: '100vw' }}
-      centered
-    >
-      <ModalBody>
-        <WalletPassphrasePage
-          onClose={closeWalletPassphraseModal}
-          isModal={true}
-          pageSize={7}
-        />
-      </ModalBody>
-    </Modal>
+<Modal
+  isOpen={isWalletPassphraseModalOpen}
+  contentClassName={styles.modalContent}
+  backdropClassName={styles.modalBackdrop}
+  style={{ width: '100%', maxWidth: '100vw' }}
+  centered
+>
+  <ModalBody>
+    <WalletPassphrasePage
+      onClose={closeWalletPassphraseModal}
+      isModal={true}
+      pageSize={7}
+    />
+  </ModalBody>
+</Modal>
   );
 };
 
