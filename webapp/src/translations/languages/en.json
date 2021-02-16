@@ -724,7 +724,6 @@
         "includeRewards": "Include rewards",
         "loading": "Loading...",
         "category": "Category",
-        "blockHeight": "BlockHeight",
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
@@ -771,7 +770,8 @@
       "encryptWalletPage": {
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
-        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat)."
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
+        "walletIsLocked": "Your wallet is locked. To proceed with your transaction, please unlock your wallet with your passphrase."
       },
       "unlockWalletPage": {
         "title": "Unlock wallet"

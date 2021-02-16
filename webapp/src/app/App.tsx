@@ -17,7 +17,7 @@ import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
 import EncryptWalletModal from '../containers/PopOver/EncryptWalletModal';
-import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
+import WalletPassphraseModal from '../containers/PopOver/WalletPassphraseModal';
 import { getPageTitle } from '../utils/utility';
 import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 import * as logger from '../utils/electronLogger';
@@ -113,7 +113,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <BackupWalletWarningModel />
       <Popover />
       <EncryptWalletModal />
-      <WalletPassphraseModel />
+      <WalletPassphraseModal />
       <RestartWalletModel />
       <GeneralReIndexModal />
       <RefreshUtxosModal />

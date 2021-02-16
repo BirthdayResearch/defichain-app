@@ -16,7 +16,10 @@ import {
   unlockWalletStart,
 } from '../../../PopOver/reducer';
 import { history } from '../../../../utils/history';
-import { WALLET_TOKENS_PATH, WALLET_UNLOCK_TIMEOUT } from '../../../../constants';
+import {
+  WALLET_TOKENS_PATH,
+  WALLET_UNLOCK_TIMEOUT,
+} from '../../../../constants';
 import classnames from 'classnames';
 import { MdErrorOutline } from 'react-icons/md';
 
@@ -48,7 +51,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
       passphrase: data.passphrase,
       isModal,
       pageRedirect: originalPage ?? WALLET_TOKENS_PATH,
-      timeout: WALLET_UNLOCK_TIMEOUT
+      timeout: WALLET_UNLOCK_TIMEOUT,
     });
   };
   const {
@@ -81,7 +84,14 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
               <form onSubmit={handleSubmit(onHandleChange)}>
                 <section className={styles.passphraseContainer}>
                   <LaunchLogo />
-                  <p>{I18n.t('alerts.walletUnlockMessage')}</p>
+                  {isModal && (
+                    <h2 className='mb-0'>
+                      {I18n.t('alerts.walletUnlockTitle')}
+                    </h2>
+                  )}
+                  <h6 className='mb-2'>
+                    {I18n.t('alerts.walletUnlockMessage')}
+                  </h6>
                   <div className={styles.passphraseField}>
                     <Controller
                       name={EncryptWalletForm.passphrase}
@@ -116,7 +126,6 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                   <div className='text-center'>
                     <Button
                       size='md'
-                      className='ml-5'
                       color='link'
                       onClick={() => {
                         onClose

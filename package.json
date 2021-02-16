@@ -35,7 +35,7 @@
     "pack": "npm run build:electron && electron-builder --dir",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && husky install",
     "publish": "npm run build:react && npm run transpile:prod && npm run set_env:prod && electron-builder build -p always",
     "test:react": "cd webapp/ && npm run test",
     "test:react:snapshot": "cd webapp/ && npm run test:snapshot:update",

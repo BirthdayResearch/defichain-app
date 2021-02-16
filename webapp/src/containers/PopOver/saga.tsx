@@ -25,7 +25,8 @@ import {
   encryptWalletFailure,
   unlockWalletFailure,
   unlockWalletSuccess,
-  setLockedUntil
+  setLockedUntil,
+  openWalletPassphraseModal,
 } from './reducer';
 import {
   autoLockTimer,
@@ -130,12 +131,13 @@ function* setAutoLock(action) {
 
 function* lockWallet() {
   try {
-    const result = yield call(handleLockWallet);
+    yield call(handleLockWallet);
     autoLockTimer && clearTimeout(autoLockTimer);
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.lockWalletSuccess')
     );
+    yield put(openWalletPassphraseModal());
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);

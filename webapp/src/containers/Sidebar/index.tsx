@@ -37,7 +37,6 @@ import {
   HELP_PATH,
   SETTING_PATH,
   PACKAGE_VERSION,
-  WALLET_UNLOCK_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import { updateBalanceScheduler } from '../../worker/schedular';
@@ -48,7 +47,6 @@ import {
   lockWalletStart,
   openExitWalletModal,
 } from '../PopOver/reducer';
-import { history } from '../../utils/history';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -133,9 +131,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               />
             ) : (
               <MdLockOutline
-                className={`${styles.iconNavTop}`}
+                className={`${styles.iconNavTop} ${styles.navBadgeLocked}`}
                 size={ICON_SIZE}
-                onClick={() => history.push(WALLET_UNLOCK_PATH)}
+                onClick={openWalletPassphraseModal}
               />
             )}
             <MdExitToApp
