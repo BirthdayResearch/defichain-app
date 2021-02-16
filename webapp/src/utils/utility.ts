@@ -28,8 +28,6 @@ import {
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
   MAIN,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   TEST,
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
@@ -60,6 +58,13 @@ import {
   TESTNET,
   AMOUNT_SEPARATOR,
   STATS_API_BASE_URL,
+  COINGECKO_LTC_ID,
+  COINGECKO_DOGE_ID,
+  MAINNET_LTC_SYMBOL,
+  LTC_SYMBOL,
+  MAINNET_DOGE_SYMBOL,
+  DOGE_SYMBOL,
+  ADD_LP_ERROR,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -73,6 +78,7 @@ import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
+import LtcIcon from '../assets/svg/ltc-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -495,7 +501,7 @@ export const checkElementsInArray = (
 
 export const getNetworkType = () => {
   const state = store.getState();
-  const blockChainInfo: any = state.wallet.blockChainInfo;
+  const blockChainInfo: any = state?.wallet?.blockChainInfo;
   return blockChainInfo.chain || MAIN;
 };
 
@@ -533,12 +539,6 @@ export const queuePush = (
   if (isQueueReady) {
     return queue.push({ methodName, params }, callBack);
   }
-};
-
-export const isWalletCreated = (network) => {
-  const key =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  return PersistentStore.get(key) === 'true';
 };
 
 const getPopularSymbolList = () => {
@@ -629,7 +629,7 @@ export const getTokenAndBalanceMap = (
   return tokenMap;
 };
 
-const getUniqueTokenMap = (poolPairList) => {
+export const getUniqueTokenMap = (poolPairList) => {
   return poolPairList.reduce((uniqueTokenList, poolPair) => {
     const { symbol } = poolPair;
     const symbolList: string[] = symbol.split('-');
@@ -953,7 +953,11 @@ export const conversionRatio = (formState, poolPairList) => {
     ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
     : new BigNumber(0);
 
-  return ratio.toFixed(8);
+  return ratio.toFixed(8, 1);
+};
+
+export const conversionRatioDex = (formState) => {
+  return new BigNumber(formState.amount2).div(formState.amount1).toFixed(8);
 };
 
 export const getRatio = (poolpair) => {
@@ -1004,6 +1008,7 @@ export const getIcon = (symbol: string) => {
     USDT: USDTIcon,
     DFI: DefiIcon,
     DOGE: DogeIcon,
+    LTC: LtcIcon,
   };
   return symbolIconObj[symbol];
 };
@@ -1107,12 +1112,16 @@ export const getCoinMap = () => {
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
     [COINGECKO_BTC_ID, btcSymbol],
     [COINGECKO_ETH_ID, ethSymbol],
     [COINGECKO_USDT_ID, usdtSymbol],
+    [COINGECKO_LTC_ID, ltcSymbol],
+    [COINGECKO_DOGE_ID, dogeSymbol],
   ]);
   return coinMap;
 };
@@ -1123,6 +1132,8 @@ export const getCoinIds = () => {
     COINGECKO_BTC_ID,
     COINGECKO_ETH_ID,
     COINGECKO_USDT_ID,
+    COINGECKO_LTC_ID,
+    COINGECKO_DOGE_ID,
   ];
 };
 
@@ -1245,17 +1256,21 @@ export const getSymbolKey = (symbol: string, key: string) => {
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  if (
-    key === DFI_SYMBOL ||
-    key === btcSymbol ||
-    key === ethSymbol ||
-    key === usdtSymbol
-  ) {
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const tokens = [
+    DFI_SYMBOL,
+    btcSymbol,
+    ethSymbol,
+    usdtSymbol,
+    ltcSymbol,
+    dogeSymbol,
+  ];
+  if (tokens.indexOf(key) !== -1) {
     return symbol;
   }
   return `${symbol}#${key}`;
 };
-
 export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
   const distinctRandomNumbers: number[] = [];
   while (distinctRandomNumbers.length < limit) {
@@ -1421,6 +1436,46 @@ export const handlePeersSyncRequest = async (
 
 export const getMaxNumberOfAmount = (value: string, hash: string): string => {
   return hash === DFI_SYMBOL
-    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8)
-    : new BigNumber(value).toFixed(8);
+    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8, 1)
+    : new BigNumber(value).toFixed(8, 1);
+};
+
+export const shortenedPathAddress = (p: string): string => {
+  try {
+    const fileLength = 50;
+    if (p && p.length > fileLength) {
+      const middle = Math.floor(p.length / 3);
+      const firstHalf = Math.floor(middle / 2);
+      return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
+    } else {
+      return p;
+    }
+  } catch (error) {
+    log.error(error, 'shortenedPathAddress');
+    return p;
+  }
+};
+
+export const getFormattedTime = () => {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = today.getMonth() + 1;
+  const d = today.getDate();
+  const h = today.getHours();
+  const mi = today.getMinutes();
+  const s = today.getSeconds();
+  return `${y}-${m}-${d}_${h}-${mi}-${s}`;
+};
+
+export const checkRPCErrorMessagePending = (message: string): string => {
+  if (message) {
+    const lpError = I18n.t(ADD_LP_ERROR);
+    const amount = 'amount';
+    const isLess = 'is less than';
+    const testMessage = message.toLowerCase();
+    return testMessage.includes(amount) && testMessage.includes(isLess)
+      ? lpError
+      : message;
+  }
+  return message;
 };

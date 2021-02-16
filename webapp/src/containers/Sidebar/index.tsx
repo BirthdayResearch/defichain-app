@@ -17,6 +17,7 @@ import {
   MdPieChart,
   MdSettings,
   MdHelp,
+  MdExitToApp,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
@@ -36,13 +37,13 @@ import {
   PACKAGE_VERSION,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
-import OpenNewTab from '../../utils/openNewTab';
 import { updateBalanceScheduler } from '../../worker/schedular';
 import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart,
+  openExitWalletModal,
 } from '../PopOver/reducer';
 
 export interface SidebarProps extends RouteComponentProps {
@@ -58,6 +59,8 @@ export interface SidebarProps extends RouteComponentProps {
   openEncryptWalletModal: () => void;
   openWalletPassphraseModal: () => void;
   lockWalletStart: () => void;
+  isWalletCreatedFlag: boolean;
+  openExitWalletModal: (t: boolean) => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
@@ -87,6 +90,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isLoadingRemovePoolLiquidity,
     isLoadingAddPoolLiquidity,
     isLoadingPoolSwap,
+    isWalletCreatedFlag,
+    openExitWalletModal,
   } = props;
 
   useEffect(() => {
@@ -104,9 +109,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
-      {/* NOTE: Do not remove, for future purpose */}
-      {/* <div className='text-right m-2'>
-        {!isWalletEncrypted() ? (
+      <div className={`text-right m-2 mr-3 ${styles.iconSideBar}`}>
+        {/* NOTE: Do not remove, for future purpose */}
+        {/* {!isWalletEncrypted() ? (
           <MdLockOpen
             className={styles.iconPointer}
             size={25}
@@ -124,8 +129,15 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             size={25}
             onClick={openWalletPassphraseModal}
           />
+        )} */}
+        {isWalletCreatedFlag && (
+          <MdExitToApp
+            onClick={() => openExitWalletModal(true)}
+            className={`ml-2 ${styles.iconPointer} ${styles.flipX} ${styles.iconNavTop}`}
+            size={25}
+          />
         )}
-      </div> */}
+      </div>
       <div className={styles.currentNetwork}>
         <div className={styles.currentNetworkHeading}>
           {I18n.t('components.syncStatus.network')}
@@ -136,94 +148,114 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
         </div>
       </div>
       <div className={styles.navs}>
-        <Nav className={`${styles.navMain} flex-column nav-pills`}>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={WALLET_TOKENS_PATH}
-              exact
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-              isActive={(_match: any, location: { pathname: string }) => {
-                return (
-                  location.pathname.startsWith(WALLET_BASE_PATH) ||
-                  location.pathname === WALLET_PAGE_PATH
-                );
-              }}
-            >
-              <MdAccountBalanceWallet />
-              {I18n.t('containers.sideBar.wallets')}
-            </NavLink>
-          </NavItem>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={LIQUIDITY_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdPieChart />
-              {I18n.t('containers.sideBar.liquidity')}
-            </NavLink>
-          </NavItem>
+        {!isWalletCreatedFlag ? (
+          <Nav className={`align-items-center flex-grow-1`}>
+            <NavItem>
+              <NavLink
+                className={`d-flex align-items-center justify-content-center flex-column p-0`}
+                to={WALLET_TOKENS_PATH}
+                exact
+                tag={RRNavLink}
+              >
+                <div className={`${styles.navBadgeIcon} rounded-circle`}>
+                  <MdAccountBalanceWallet />
+                </div>
+                <div className={`${styles.navBadgeText}`}>
+                  {I18n.t('containers.sideBar.selectCreateRestore')}
+                </div>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        ) : (
+          <Nav className={`${styles.navMain} flex-column nav-pills`}>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={WALLET_TOKENS_PATH}
+                exact
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+                isActive={(_match: any, location: { pathname: string }) => {
+                  return (
+                    location.pathname.startsWith(WALLET_BASE_PATH) ||
+                    location.pathname === WALLET_PAGE_PATH
+                  );
+                }}
+              >
+                <MdAccountBalanceWallet />
+                {I18n.t('containers.sideBar.wallets')}
+              </NavLink>
+            </NavItem>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={LIQUIDITY_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdPieChart />
+                {I18n.t('containers.sideBar.liquidity')}
+              </NavLink>
+            </NavItem>
 
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={SWAP_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdCompareArrows />
-              {I18n.t('containers.sideBar.dex')}
-            </NavLink>
-          </NavItem>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={TOKENS_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdToll />
-              {I18n.t('containers.sideBar.tokens')}
-            </NavLink>
-          </NavItem>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={BLOCKCHAIN_BASE_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdViewWeek />
-              {I18n.t('containers.sideBar.blockchain')}
-            </NavLink>
-          </NavItem>
-          <NavItem className={styles.navItem}>
-            <NavLink
-              to={MASTER_NODES_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdDns />
-              {I18n.t('containers.sideBar.masterNodes')}
-            </NavLink>
-          </NavItem>
-          {/* NOTE: Do not remove, for future purpose */}
-          {/* <NavItem className={styles.navItem}>
-            <NavLink
-              to={EXCHANGE_PATH}
-              tag={RRNavLink}
-              className={styles.navLink}
-              activeClassName={styles.active}
-            >
-              <MdCompareArrows />
-              {I18n.t('containers.sideBar.exchange')}
-            </NavLink>
-          </NavItem> */}
-        </Nav>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={SWAP_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdCompareArrows />
+                {I18n.t('containers.sideBar.dex')}
+              </NavLink>
+            </NavItem>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TOKENS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdToll />
+                {I18n.t('containers.sideBar.tokens')}
+              </NavLink>
+            </NavItem>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={BLOCKCHAIN_BASE_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdViewWeek />
+                {I18n.t('containers.sideBar.blockchain')}
+              </NavLink>
+            </NavItem>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={MASTER_NODES_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdDns />
+                {I18n.t('containers.sideBar.masterNodes')}
+              </NavLink>
+            </NavItem>
+            {/* NOTE: Do not remove, for future purpose */}
+            {/* <NavItem className={styles.navItem}>
+                <NavLink
+                  to={EXCHANGE_PATH}
+                  tag={RRNavLink}
+                  className={styles.navLink}
+                  activeClassName={styles.active}
+                >
+                  <MdCompareArrows />
+                  {I18n.t('containers.sideBar.exchange')}
+                </NavLink>
+              </NavItem> */}
+          </Nav>
+        )}
         <Nav className={`${styles.navSub} ${styles.navSubIcon}`}>
           <NavItem>
             <NavLink
@@ -276,6 +308,7 @@ const mapStateToProps = (state) => {
     isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
     isLoadingAddPoolLiquidity: swap.isLoadingAddPoolLiquidity,
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
+    isWalletCreatedFlag: wallet.isWalletCreatedFlag,
   };
 };
 
@@ -284,6 +317,7 @@ const mapDispatchToProps = {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   lockWalletStart: () => lockWalletStart({}),
+  openExitWalletModal,
 };
 
 export default withRouter(

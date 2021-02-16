@@ -31,8 +31,8 @@ import {
 import { UpdateCheckResult } from '@defi_types/download';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
-import { triggerNodeShutdown } from 'src/worker/queue';
 import semverDiff from 'semver/functions/diff';
+import { triggerNodeShutdown } from '../worker/queue';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -102,10 +102,18 @@ export const backupWallet = async () => {
   return false;
 };
 
-export const createMnemonicIpcRenderer = async (mnemonic, network) => {
+export const createMnemonicIpcRenderer = async (
+  mnemonic,
+  network,
+  networkType
+) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return await ipcRenderer.sendSync(CREATE_MNEMONIC, { mnemonic, network });
+    return await ipcRenderer.sendSync(CREATE_MNEMONIC, {
+      mnemonic,
+      network,
+      networkType,
+    });
   }
 };
 

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QrCode component should check for snapshot 1`] = `
+<div
+  className="d-block"
+>
+  <FormGroup
+    className="row undefined"
+    tag="div"
+  >
+    <Col
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <InputGroup
+        tag="div"
+      >
+        <Input
+          id="searchInput"
+          name="searchInput"
+          onChange={[Function]}
+          placeholder="placeholder"
+          type="text"
+        />
+        <MdSearch />
+        <InputGroupAddon
+          addonType="append"
+          tag="div"
+        >
+          <Button
+            color="outline-primary"
+            onClick="toggleSearch"
+            tag="button"
+          >
+            <MdClose />
+          </Button>
+        </InputGroupAddon>
+      </InputGroup>
+    </Col>
+  </FormGroup>
+</div>
+`;

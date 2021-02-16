@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader component should check for snapshot 1`] = `
+<div
+  className=""
+>
+  <MDSpinner
+    borderSize={4}
+    color1="rgb(66, 165, 245)"
+    color2="rgb(239, 83, 80)"
+    color3="rgb(253, 216, 53)"
+    color4="rgb(76, 175, 80)"
+    duration={1333}
+    singleColor="#666666"
+    size={28}
+  />
+</div>
+`;

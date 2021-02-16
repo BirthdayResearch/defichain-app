@@ -31,7 +31,7 @@ import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
 import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;

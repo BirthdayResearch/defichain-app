@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletStatCard component should check for snapshot 1`] = `
+<Card
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <div
+      className="d-flex justify-content-center align-items-center"
+    >
+      <div>
+        icon
+      </div>
+    </div>
+    <div>
+      <h4
+        className="mb-0"
+      >
+        label
+      </h4>
+      <span
+        className="undefined mb-0"
+      />
+    </div>
+  </CardBody>
+</Card>
+`;

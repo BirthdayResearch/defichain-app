@@ -31,12 +31,13 @@ import {
 } from './reducer';
 import {
   calculateLPFee,
-  conversionRatio,
+  conversionRatioDex,
   countDecimals,
   getMaxNumberOfAmount,
   getNetworkType,
   getPageTitle,
   getTokenListForSwap,
+  selectedPoolPair,
 } from '../../utils/utility';
 import {
   SWAP,
@@ -46,6 +47,8 @@ import {
   SWAP_PATH,
   IS_DEX_INTRO_SEEN,
   DEX_EXPLORER_BASE_LINK,
+  REFRESH_TESTPOOLSWAP_COUNTER,
+  PRICE_IMPACT_WARNING_FACTOR,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -55,7 +58,7 @@ import PersistentStore from '../../utils/persistentStore';
 import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 
 interface SwapPageProps {
@@ -117,6 +120,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     receiveAddress: '',
     receiveLabel: '',
   });
+  const [percentageChange, setPercentageChange] = useState<boolean>(false);
 
   const {
     poolPairList,
@@ -156,13 +160,25 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapRequestFrom();
   }, []);
 
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCounter(counter + 1);
+    }, REFRESH_TESTPOOLSWAP_COUNTER);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [counter]);
+
   useEffect(() => {
     isValidAmount() &&
       fromTestValue &&
       fetchTestPoolSwapRequestTo({
         formState,
       });
-  }, [formState.amount1, formState.hash1, formState.hash2]);
+  }, [formState.amount1, formState.hash1, formState.hash2, counter]);
 
   useEffect(() => {
     isValidAmount() &&
@@ -170,7 +186,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       fetchTestPoolSwapRequestFrom({
         formState,
       });
-  }, [formState.amount2, formState.hash1, formState.hash2]);
+  }, [formState.amount2, formState.hash1, formState.hash2, counter]);
 
   const isValidAmount = () => {
     if (formState[`balance1`] && formState[`balance2`]) {
@@ -180,11 +196,39 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     }
   };
 
+  const checkPercentageChange = () => {
+    setPercentageChange(false);
+    if (
+      isValid() &&
+      activeTab === SWAP &&
+      !isAmountInsufficient() &&
+      !isErrorTestPoolSwapTo &&
+      !isErrorTestPoolSwapFrom
+    ) {
+      let reserve;
+      const [poolPair, condition] = selectedPoolPair(formState, poolPairList);
+      if (condition) {
+        reserve = poolPair.reserveA;
+      } else {
+        reserve = poolPair.reserveB;
+      }
+      // Used factor for price change impact
+      const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
+      const comparision = amount.isLessThanOrEqualTo(formState.amount1);
+      if (comparision) {
+        setPercentageChange(true);
+      } else {
+        setPercentageChange(false);
+      }
+    }
+  };
+
   useEffect(() => {
     setFormState({
       ...formState,
       amount1: testPoolSwapFrom || '-',
     });
+    checkPercentageChange();
   }, [testPoolSwapFrom]);
 
   useEffect(() => {
@@ -192,6 +236,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       ...formState,
       amount2: testPoolSwapTo || '-',
     });
+    checkPercentageChange();
   }, [testPoolSwapTo]);
 
   useEffect(() => {
@@ -289,6 +334,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   };
 
   const showErrorMessage = (swapToErr, swapFromErr) => {
+    if (percentageChange) {
+      return I18n.t('containers.swap.swapPage.priceImpactWarning', {
+        percentage: PRICE_IMPACT_WARNING_FACTOR * 100,
+      });
+    }
     if (swapToErr) {
       return swapToErr;
     } else if (swapFromErr) {
@@ -495,13 +545,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     </Col>
                     <Col className={`${styles.valueTxt}`}>
                       <NumberMask
-                        value={conversionRatio(formState, poolPairList)}
+                        value={conversionRatioDex(formState).toString()}
                       />
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
                         value={new BigNumber(1)
-                          .div(conversionRatio(formState, poolPairList))
+                          .div(conversionRatioDex(formState).toString())
                           .toFixed(8)}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
@@ -541,70 +591,70 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             )}
         </div>
       ) : (
-          <div className='content'>
-            <>
-              <section>
-                <p>
-                  {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
-                </p>
-                <div className={styles.features}>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdVpnKey />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>{I18n.t('containers.swap.swapPage.yourPrivateKey')}</h3>
-                      <p>
-                        {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
-                      </p>
-                    </div>
+        <div className='content'>
+          <>
+            <section>
+              <p>
+                {I18n.t('containers.swap.swapPage.decentralizedExchangeInfo')}
+              </p>
+              <div className={styles.features}>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdVpnKey />
                   </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdPerson />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>{I18n.t('containers.swap.swapPage.nonCustodial')}</h3>
-                      <p>{I18n.t('containers.swap.swapPage.nonCustodialInfo')}</p>
-                    </div>
-                  </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdComputer />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterface'
-                        )}
-                      </h3>
-                      <p>
-                        {I18n.t(
-                          'containers.swap.swapPage.decentralizedInterfaceInfo'
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.feature}>
-                    <div className={styles.featureIcon}>
-                      <MdPieChart />
-                    </div>
-                    <div className={styles.featureDescription}>
-                      <h3>
-                        {I18n.t('containers.swap.swapPage.poweredLiquidityPools')}
-                      </h3>
-                      <p>
-                        {I18n.t(
-                          'containers.swap.swapPage.poweredLiquidityPoolsInfo'
-                        )}
-                      </p>
-                    </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.yourPrivateKey')}</h3>
+                    <p>
+                      {I18n.t('containers.swap.swapPage.yourPrivateKeyInfo')}
+                    </p>
                   </div>
                 </div>
-              </section>
-            </>
-          </div>
-        )}
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPerson />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>{I18n.t('containers.swap.swapPage.nonCustodial')}</h3>
+                    <p>{I18n.t('containers.swap.swapPage.nonCustodialInfo')}</p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdComputer />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterface'
+                      )}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.decentralizedInterfaceInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureIcon}>
+                    <MdPieChart />
+                  </div>
+                  <div className={styles.featureDescription}>
+                    <h3>
+                      {I18n.t('containers.swap.swapPage.poweredLiquidityPools')}
+                    </h3>
+                    <p>
+                      {I18n.t(
+                        'containers.swap.swapPage.poweredLiquidityPoolsInfo'
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
+        </div>
+      )}
       {activeTab === SWAP && (
         <footer className='footer-bar'>
           <div
@@ -632,20 +682,24 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
             <Row className='justify-content-between align-items-center'>
               <>
                 {!isAmountInsufficient() &&
-                  !isErrorTestPoolSwapTo &&
-                  !isErrorTestPoolSwapFrom ? (
-                    <Col className='col-auto'>
-                      {isValid()
-                        ? I18n.t('containers.swap.swapPage.readySwap')
-                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                    </Col>
-                  ) : (
-                    <Col className='col-auto'>
-                      <span className='text-danger'>
-                        {showErrorMessage(isErrorTestPoolSwapTo, isErrorTestPoolSwapFrom)}
-                      </span>
-                    </Col>
-                  )}
+                !isErrorTestPoolSwapTo &&
+                !isErrorTestPoolSwapFrom &&
+                !percentageChange ? (
+                  <Col className='col-auto'>
+                    {isValid()
+                      ? I18n.t('containers.swap.swapPage.readySwap')
+                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                  </Col>
+                ) : (
+                  <Col className='col-auto'>
+                    <span className='text-danger'>
+                      {showErrorMessage(
+                        isErrorTestPoolSwapTo,
+                        isErrorTestPoolSwapFrom
+                      )}
+                    </span>
+                  </Col>
+                )}
               </>
               <Col className='d-flex justify-content-end'>
                 <Button
@@ -770,13 +824,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       </div>
                     </>
                   ) : (
-                      <>
-                        <MdCheckCircle className={styles.txProgressSuccess} />
-                        <span>
-                          {I18n.t('containers.swap.swapPage.UTXOPrepared')}
-                        </span>
-                      </>
-                    )}
+                    <>
+                      <MdCheckCircle className={styles.txProgressSuccess} />
+                      <span>
+                        {I18n.t('containers.swap.swapPage.UTXOPrepared')}
+                      </span>
+                    </>
+                  )}
                 </div>
                 <br />
                 <div className='text-center position-relative'>
@@ -787,8 +841,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                           <Spinner />
                         </div>
                       ) : (
-                          <MdCheckCircle className={styles.txProgressSuccess} />
-                        )}
+                        <MdCheckCircle className={styles.txProgressSuccess} />
+                      )}
                     </>
                   )}
                   {isLoadingRefreshUTXOS ? (
@@ -796,10 +850,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       {I18n.t('containers.swap.swapPage.transferringTokens')}
                     </span>
                   ) : (
-                      <b>
-                        {I18n.t('containers.swap.swapPage.transferringTokens')}
-                      </b>
-                    )}
+                    <b>
+                      {I18n.t('containers.swap.swapPage.transferringTokens')}
+                    </b>
+                  )}
                 </div>
               </div>
             </div>

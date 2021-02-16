@@ -8,7 +8,6 @@ import { I18n } from 'react-redux-i18n';
 import { fetchWalletTxnsRequest } from '../../reducer';
 import { WALLET_TXN_PAGE_SIZE } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
 import { BLOCKCHAIN_BLOCK_BASE_PATH } from '../../../../constants';
 
 interface WalletTxnsProps {
@@ -97,11 +96,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                     </td>
                     <td>
                       <div className={styles.amount}>
-                        {getAmountInSelectedUnit(
-                          txn.amount,
-                          props.unit,
-                          txn.unit
-                        )}
+                        {txn.amount}
                         &nbsp;
                         <span className={styles.unit}>{props.unit}</span>
                       </div>
