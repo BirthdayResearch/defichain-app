@@ -21,7 +21,7 @@ import BigNumber from 'bignumber.js';
 import { DEFAULT_TOKEN_VALUE } from 'src/constants';
 
 interface WalletDropdownProps {
-  tokenMap: Map<string, any> | [];
+  tokenMap: Map<string, ITokenBalanceInfo> | [];
   name: number;
   formState: any;
   handleDropdown: (
@@ -48,8 +48,8 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
   }, [tokenMap, searchQuery]);
 
   const getTokenDropdownList = (tokenMap) => {
-    const popularTokenDropdownItems: any[] = [];
-    const normalTokenDropdownItems: any[] = [];
+    const popularTokenDropdownItems: React.ReactNode[] = [];
+    const normalTokenDropdownItems: React.ReactNode[] = [];
 
     tokenMap.forEach((balanceTokenInfo: any, symbol: string) => {
       if (balanceTokenInfo.isPopularToken) {
