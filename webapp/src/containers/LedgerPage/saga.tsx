@@ -32,6 +32,7 @@ import {
 import PersistentStore from '@/utils/persistentStore';
 import { createMnemonicIpcRenderer } from '@/app/update.ipcRenderer';
 import * as reducer from './reducer';
+import { setIsWalletCreatedRequest } from '@/containers/WalletPage/reducer';
 import {
   handleFetchTokens,
   handelAddReceiveTxns,
@@ -272,6 +273,7 @@ export function* fetchConnectLedger() {
         yield call(importAddresses, networkName);
         yield put(reducer.fetchConnectLedgerSuccess());
         yield put(reducer.fetchPaymentRequest());
+        yield put(setIsWalletCreatedRequest(true));
       } else {
         yield put(
           reducer.fetchConnectLedgerFailure({ message: result.data.message })
