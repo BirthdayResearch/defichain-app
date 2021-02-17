@@ -262,11 +262,8 @@ export function* fetchInstantPendingBalance() {
 
 export function* fetchConnectLedger() {
   try {
-    const {
-      data: { devices },
-      error,
-    } = yield call(getDevices);
-    if (devices.length && !error) {
+    const { data, error, } = yield call(getDevices);
+    if (data?.devices?.length && !error) {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
         const networkName = yield call(getNetwork);

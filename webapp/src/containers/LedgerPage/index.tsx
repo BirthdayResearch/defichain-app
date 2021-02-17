@@ -78,7 +78,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   } = props;
 
   useEffect(() => {
-    if (connect.status === 'connecting') {
+    if (connect.status === 'connected') {
       fetchInstantBalance();
     }
     return () => {
