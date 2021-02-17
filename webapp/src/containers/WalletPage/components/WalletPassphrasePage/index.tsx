@@ -11,10 +11,7 @@ import Header from '../../../HeaderComponent';
 import { Controller, useForm } from 'react-hook-form';
 import InputPassword from '../../../../components/InputPassword';
 import { EncryptWalletForm, EncryptWalletPayload } from '../EncryptWalletPage';
-import {
-  unlockWalletFailure,
-  unlockWalletStart,
-} from '../../../PopOver/reducer';
+import { unlockWalletFailure, unlockWalletStart } from '../../reducer';
 import { history } from '../../../../utils/history';
 import {
   WALLET_TOKENS_PATH,
@@ -172,11 +169,8 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
 };
 
 const mapStateToProps = (state) => {
-  const {
-    isEncryptWalletModalOpen,
-    isWalletEncrypting,
-    isErrorUnlockWallet,
-  } = state.popover;
+  const { isEncryptWalletModalOpen, isWalletEncrypting } = state.popover;
+  const { isErrorUnlockWallet } = state.wallet;
   return {
     isWalletEncrypting,
     isEncryptWalletModalOpen,

@@ -11,6 +11,7 @@ import {
   fetchInstantPendingBalanceRequest,
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
+  setLockedUntil,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import {
@@ -31,7 +32,6 @@ import {
   openWalletDatBackupModal,
   closeWalletDatBackupModal,
   openResetWalletDatModal,
-  setLockedUntil,
 } from '../containers/PopOver/reducer';
 import { backupWallet as backupWalletIpcRenderer } from './update.ipcRenderer';
 import {

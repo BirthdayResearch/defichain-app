@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import showNotification from '../../utils/notifications';
-import { getErrorMessage, getNetworkType } from '../../utils/utility';
+import { getErrorMessage } from '../../utils/utility';
 import {
   backupLoadingStart,
   backupWalletStart,
@@ -9,9 +9,7 @@ import {
   closeEncryptWalletModal,
   closeWalletPassphraseModal,
   encryptWalletStart,
-  lockWalletStart,
   showUpdateAvailable,
-  unlockWalletStart,
   restartWalletStart,
   openWalletRestartModal,
   restartModal,
@@ -23,11 +21,9 @@ import {
   openRestoreWalletModal,
   encryptWalletSuccess,
   encryptWalletFailure,
-  unlockWalletFailure,
-  unlockWalletSuccess,
-  setLockedUntil,
   openWalletPassphraseModal,
 } from './reducer';
+
 import {
   autoLockTimer,
   enableAutoLock,
@@ -44,8 +40,13 @@ import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import {
   fetchWalletTokenTransactionsListResetRequest,
+  lockWalletStart,
   restoreWalletViaBackupFailure,
   setIsWalletCreatedRequest,
+  setLockedUntil,
+  unlockWalletFailure,
+  unlockWalletStart,
+  unlockWalletSuccess,
 } from '../WalletPage/reducer';
 import { checkRestoreRecentIfExisting } from '../WalletPage/service';
 import { history } from '../../utils/history';
@@ -72,6 +73,7 @@ function* encryptWallet(action) {
   try {
     yield call(handleEncryptWallet, passphrase);
     yield put(encryptWalletSuccess());
+    yield put(unlockWalletSuccess(true));
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.encryptWalletSuccess')

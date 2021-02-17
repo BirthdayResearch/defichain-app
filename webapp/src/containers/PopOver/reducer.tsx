@@ -20,7 +20,6 @@ export const initialState = {
   isBackupWalletWarningModelOpen: false,
   isEncryptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
-  isWalletUnlocked: false,
   isWalletRestart: false,
   isWalletReplace: false,
   isGeneralReindexModalOpen: false,
@@ -31,8 +30,6 @@ export const initialState = {
   isWalletEncrypting: false,
   isErrorEncryptingWallet: '',
   isEncryptFromModal: false,
-  isErrorUnlockWallet: '',
-  lockedUntil: 0
 };
 
 const configSlice = createSlice({
@@ -147,23 +144,6 @@ const configSlice = createSlice({
     closeWalletPassphraseModal(state) {
       state.isWalletPassphraseModalOpen = false;
     },
-    unlockWalletStart(state, action) {
-      state.isErrorUnlockWallet = '';
-    },
-    unlockWalletSuccess(state, action) {
-      state.isWalletUnlocked = action.payload;
-    },
-    unlockWalletFailure(state, action) {
-      state.isWalletUnlocked = false;
-      state.isErrorUnlockWallet = action.payload;
-    },
-    lockWalletStart(state, action) {
-      state.isWalletUnlocked = false;
-    },
-    enableAutoLockStart(state) {
-      state.isWalletUnlocked = false;
-      state.lockedUntil = 0;
-    },
     openWalletRestartModal(state) {
       state.isWalletRestart = true;
     },
@@ -200,10 +180,6 @@ const configSlice = createSlice({
     restoreWalletViaRecent(state) {},
     openExitWalletModal(state, action) {
       state.isExitWalletOpen = action.payload;
-    },
-    setLockedUntil(state, action) {
-      state.isWalletUnlocked = true;
-      state.lockedUntil = action.payload;
     }
   },
 });
@@ -243,8 +219,6 @@ export const {
   encryptWalletFailure,
   openWalletPassphraseModal,
   closeWalletPassphraseModal,
-  lockWalletStart,
-  enableAutoLockStart,
   openWalletRestartModal,
   closeWalletRestartModal,
   restartWalletStart,
@@ -257,11 +231,7 @@ export const {
   setIsQueueResetRoute,
   openRestoreWalletModal,
   restoreWalletViaRecent,
-  openExitWalletModal,
-  unlockWalletStart,
-  unlockWalletSuccess,
-  unlockWalletFailure,
-  setLockedUntil
+  openExitWalletModal
 } = actions;
 
 export default reducer;

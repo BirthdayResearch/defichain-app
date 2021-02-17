@@ -1,6 +1,6 @@
 import store from '../../app/rootStore';
 import RpcClient from '../../utils/rpc-client';
-import { enableAutoLockStart } from './reducer';
+import { enableAutoLockStart } from '../WalletPage/reducer';
 
 export let autoLockTimer;
 

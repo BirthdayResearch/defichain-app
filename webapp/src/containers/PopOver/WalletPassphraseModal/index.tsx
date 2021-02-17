@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 
 import styles from '././walletPassphraseModal.module.scss';
 
-import { closeWalletPassphraseModal, unlockWalletStart } from '../reducer';
+import { closeWalletPassphraseModal } from '../reducer';
 import WalletPassphrasePage from '../../WalletPage/components/WalletPassphrasePage';
+import { unlockWalletStart } from '../../WalletPage/reducer';
 
 interface WalletPassphraseModalProps {
   isWalletPassphraseModalOpen: boolean;

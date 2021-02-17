@@ -73,8 +73,7 @@ if (isElectron()) {
 
 const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
   const {
-    popover: { isWalletUnlocked },
-    wallet: { isWalletEncrypted },
+    wallet: { isWalletEncrypted, isWalletUnlocked },
   } = store.getState();
   if (isWalletUnlocked && isWalletEncrypted) {
     log.info('Locking wallet...', LOGGING_SHUT_DOWN);

@@ -70,6 +70,9 @@ export const initialState = {
   walletMap: {},
   walletMapError: '',
   isWalletEncrypted: false,
+  isErrorUnlockWallet: '',
+  isWalletUnlocked: false,
+  lockedUntil: 0
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -315,6 +318,27 @@ const configSlice = createSlice({
     setWalletEncrypted(state, action) {
       state.isWalletEncrypted = action.payload;
     },
+    unlockWalletStart(state, action) {
+      state.isErrorUnlockWallet = '';
+    },
+    unlockWalletSuccess(state, action) {
+      state.isWalletUnlocked = action.payload;
+    },
+    unlockWalletFailure(state, action) {
+      state.isWalletUnlocked = false;
+      state.isErrorUnlockWallet = action.payload;
+    },
+    lockWalletStart(state, action) {
+      state.isWalletUnlocked = false;
+    },
+    enableAutoLockStart(state) {
+      state.isWalletUnlocked = false;
+      state.lockedUntil = 0;
+    },
+    setLockedUntil(state, action) {
+      state.isWalletUnlocked = true;
+      state.lockedUntil = action.payload;
+    }
   },
 });
 
@@ -385,6 +409,12 @@ export const {
   startBackupWalletViaExitModal,
   setWalletEncryptedRequest,
   setWalletEncrypted,
+  lockWalletStart,
+  enableAutoLockStart,
+  unlockWalletStart,
+  unlockWalletSuccess,
+  unlockWalletFailure,
+  setLockedUntil
 } = actions;
 
 export default reducer;

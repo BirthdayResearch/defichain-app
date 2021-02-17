@@ -22,7 +22,7 @@ import {
   MdLockOpen,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
-import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest, lockWalletStart } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   BLOCKCHAIN_BASE_PATH,
@@ -44,7 +44,6 @@ import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
-  lockWalletStart,
   openExitWalletModal,
 } from '../PopOver/reducer';
 
@@ -298,7 +297,7 @@ const mapStateToProps = (state) => {
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
     blockChainInfo: wallet.blockChainInfo,
-    isWalletUnlocked: popover.isWalletUnlocked,
+    isWalletUnlocked: wallet.isWalletUnlocked,
     isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
     isLoadingAddPoolLiquidity: swap.isLoadingAddPoolLiquidity,
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
