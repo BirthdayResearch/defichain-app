@@ -771,7 +771,7 @@
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
         "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
-        "walletIsLocked": "Your wallet is locked. To proceed with your transaction, please unlock your wallet with your passphrase."
+        "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase."
       },
       "unlockWalletPage": {
         "title": "Unlock wallet"
@@ -847,7 +847,7 @@
     "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
-    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallet again.",
+    "encryptWalletWarning": "Keep your passphrase safe, if lost, there will be no recovery. You will not be able to proceed with any transactions once your wallet is locked.",
     "enableLocking": "Enable locking",
     "later": "Later",
     "passphraseLabel": "Passphrase",
