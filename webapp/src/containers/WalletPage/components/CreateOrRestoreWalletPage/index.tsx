@@ -15,7 +15,8 @@ import {
   WALLET_BASE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_SYNC_PAGE_PATH,
-} from '../../../../constants';
+  LEDGER_PATH, LEDGER_SYNC_PATH,
+} from '@/constants';
 import {
   openBackupWalletWarningModal,
   openWalletRestartModal,
@@ -25,7 +26,7 @@ import {
   checkRestartCriteriaRequestLoading,
   resetRestoreWalletError,
 } from '../../reducer';
-import { getPageTitle } from '../../../../utils/utility';
+import { getPageTitle } from '@/utils/utility';
 import CustomIcon from '../../../../components/CustomIcon';
 import LedgerNano from '../../../../assets/svg/icon-ledger.svg';
 import RecentWalletsList from './RecentWalletsList';
@@ -110,6 +111,12 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       : history.push(WALLET_SYNC_PAGE_PATH);
   };
 
+  const connectHardwareWallet = () => {
+    isBlocksLoaded()
+      ? history.push(LEDGER_PATH)
+      : history.push(LEDGER_SYNC_PATH);
+  }
+
   return (
     <>
       <Helmet>
@@ -151,8 +158,8 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                     />
                   </div>
                 </Col>
-                <Col sm='12' md='6' className={'cursor-disabled'}>
-                  <div>
+                <Col sm='12' md='6' className={'cursor-pointer'}>
+                  <div onClick={connectHardwareWallet}>
                     <WalletStatCard
                       label={I18n.t(
                         'containers.wallet.createOrRestoreWalletPage.connectToALedger'
@@ -164,7 +171,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                         <CustomIcon
                           src={LedgerNano}
                           size={48}
-                          color='rgba(0, 0, 0, 0.4)'
+                          color='#ff00af'
                         />
                       }
                     />
