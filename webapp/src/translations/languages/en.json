@@ -135,7 +135,9 @@
         "lockedInCollateral": "Locked in collateral",
         "costPerMasterNode": "Cost per masternode",
         "masternodeWorth": "Masternode worth",
-        "searchBar": "Search masternodes"
+        "searchBar": "Search masternodes",
+        "mine": "Mine",
+        "all": "All"
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",

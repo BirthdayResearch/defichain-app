@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  Row,
+  Col,
+  TabContent,
+  CardText,
+} from 'reactstrap';
 import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
@@ -25,6 +32,8 @@ import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
+import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
+import Mine from './components/Mine';
 
 interface MasternodesPageProps extends RouteComponentProps {
   createMasterNode: () => void;
@@ -77,6 +86,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+  const [tab, setTab] = useState<string>('mine');
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
@@ -205,6 +215,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         {!disableTab && (
           <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
         )}
+        <MasterNodeTabsHeader tab={tab} setTab={setTab} />
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
@@ -228,12 +239,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         />
       </Header>
       <div className='content'>
-        <section>
+        <TabContent activeTab={tab}>
+          <Mine />
           <MasternodesList
             searchQuery={searchQuery}
             enabledMasternodes={enabledMasternodes}
           />
-        </section>
+        </TabContent>
       </div>
       <footer className='footer-bar'>
         <div
@@ -350,6 +362,40 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
               )}
             </Button>
           </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': tab === 'all',
+          })}
+        >
+          <Row>
+            <Col md='2'>
+              <CardText>
+                <small className='text-muted'>Collaterals active</small>
+              </CardText>
+            </Col>
+            <Col md='2'>
+              <CardText>
+                <small className='text-muted'>Collaterals inactive</small>
+              </CardText>
+            </Col>
+            <Col md='2'>
+              <CardText>
+                <small className='text-muted'>DFI minted</small>
+              </CardText>
+            </Col>
+          </Row>
+          <Row>
+            <Col md='2'>
+              <CardText>5</CardText>
+            </Col>
+            <Col md='2'>
+              <CardText>1</CardText>
+            </Col>
+            <Col md='2'>
+              <CardText>1234,567.89012345</CardText>
+            </Col>
+          </Row>
         </div>
       </footer>
     </div>

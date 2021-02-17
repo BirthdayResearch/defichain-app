@@ -185,4 +185,8 @@ body {
   .txn-status-enabled {
     background-color: $green;
   }
+
+  .txn-status-disable {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }
