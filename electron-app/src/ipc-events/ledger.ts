@@ -150,7 +150,7 @@ const initiateLedger = () => {
         let tx = new Transaction().from(utxo);
         const outputOne = new Transaction.Output({
           script:
-            toAddress.type === 'scripthash'
+            toAddressOb.type === 'scripthash'
               ? Script.buildScriptHashOut(toAddressOb)
               : Script.buildPublicKeyHashOut(toAddressOb),
           tokenId: 0,
