@@ -18,9 +18,11 @@ import {
   MdSettings,
   MdHelp,
   MdExitToApp,
+  MdLockOutline,
+  MdLockOpen,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
-import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
+import { fetchInstantBalanceRequest, lockWalletStart } from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   BLOCKCHAIN_BASE_PATH,
@@ -42,7 +44,6 @@ import usePrevious from '../../components/UsePrevious';
 import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
-  lockWalletStart,
   openExitWalletModal,
 } from '../PopOver/reducer';
 
@@ -61,12 +62,13 @@ export interface SidebarProps extends RouteComponentProps {
   lockWalletStart: () => void;
   isWalletCreatedFlag: boolean;
   openExitWalletModal: (t: boolean) => void;
+  isWalletEncrypted: boolean;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
-  const { blockChainInfo } = props;
+  const { blockChainInfo, isWalletEncrypted } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -107,35 +109,38 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
       blockChainInfo.chain.slice(1)
     : '';
 
+  const ICON_SIZE = 25;
+
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       <div className={`text-right m-2 mr-3 ${styles.iconSideBar}`}>
-        {/* NOTE: Do not remove, for future purpose */}
-        {/* {!isWalletEncrypted() ? (
-          <MdLockOpen
-            className={styles.iconPointer}
-            size={25}
-            onClick={openEncryptWalletModal}
-          />
-        ) : isWalletUnlocked ? (
-          <MdLockOpen
-            className={styles.iconPointer}
-            size={25}
-            onClick={lockWalletStart}
-          />
-        ) : (
-          <MdLock
-            className={styles.iconPointer}
-            size={25}
-            onClick={openWalletPassphraseModal}
-          />
-        )} */}
         {isWalletCreatedFlag && (
-          <MdExitToApp
-            onClick={() => openExitWalletModal(true)}
-            className={`ml-2 ${styles.iconPointer} ${styles.flipX} ${styles.iconNavTop}`}
-            size={25}
-          />
+          <>
+            {!isWalletEncrypted ? (
+              <MdLockOpen
+                className={`${styles.iconNavTop}`}
+                size={ICON_SIZE}
+                onClick={openEncryptWalletModal}
+              />
+            ) : isWalletUnlocked ? (
+              <MdLockOpen
+                className={`${styles.iconNavTop}`}
+                size={ICON_SIZE}
+                onClick={lockWalletStart}
+              />
+            ) : (
+              <MdLockOutline
+                className={`${styles.iconNavTop} ${styles.navBadgeLocked}`}
+                size={ICON_SIZE}
+                onClick={openWalletPassphraseModal}
+              />
+            )}
+            <MdExitToApp
+              onClick={() => openExitWalletModal(true)}
+              className={`ml-2 ${styles.flipX} ${styles.iconNavTop}`}
+              size={ICON_SIZE}
+            />
+          </>
         )}
       </div>
       <div className={styles.currentNetwork}>
@@ -242,18 +247,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
                 {I18n.t('containers.sideBar.masterNodes')}
               </NavLink>
             </NavItem>
-            {/* NOTE: Do not remove, for future purpose */}
-            {/* <NavItem className={styles.navItem}>
-                <NavLink
-                  to={EXCHANGE_PATH}
-                  tag={RRNavLink}
-                  className={styles.navLink}
-                  activeClassName={styles.active}
-                >
-                  <MdCompareArrows />
-                  {I18n.t('containers.sideBar.exchange')}
-                </NavLink>
-              </NavItem> */}
           </Nav>
         )}
         <Nav className={`${styles.navSub} ${styles.navSubIcon}`}>
@@ -304,11 +297,12 @@ const mapStateToProps = (state) => {
     walletBalance: wallet.walletBalance,
     isErrorModalOpen: popover.isOpen,
     blockChainInfo: wallet.blockChainInfo,
-    isWalletUnlocked: popover.isWalletUnlocked,
+    isWalletUnlocked: wallet.isWalletUnlocked,
     isLoadingRemovePoolLiquidity: swap.isLoadingRemovePoolLiquidity,
     isLoadingAddPoolLiquidity: swap.isLoadingAddPoolLiquidity,
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
     isWalletCreatedFlag: wallet.isWalletCreatedFlag,
+    isWalletEncrypted: wallet.isWalletEncrypted,
   };
 };
 

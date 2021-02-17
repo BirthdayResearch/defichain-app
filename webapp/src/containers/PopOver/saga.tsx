@@ -1,7 +1,7 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, delay } from 'redux-saga/effects';
 
 import showNotification from '../../utils/notifications';
-import { getErrorMessage, getNetworkType } from '../../utils/utility';
+import { getErrorMessage } from '../../utils/utility';
 import {
   backupLoadingStart,
   backupWalletStart,
@@ -9,9 +9,7 @@ import {
   closeEncryptWalletModal,
   closeWalletPassphraseModal,
   encryptWalletStart,
-  lockWalletStart,
   showUpdateAvailable,
-  unlockWalletStart,
   restartWalletStart,
   openWalletRestartModal,
   restartModal,
@@ -21,7 +19,10 @@ import {
   setIsQueueResetRoute,
   restoreWalletViaRecent,
   openRestoreWalletModal,
+  encryptWalletSuccess,
+  encryptWalletFailure,
 } from './reducer';
+
 import {
   autoLockTimer,
   enableAutoLock,
@@ -32,22 +33,24 @@ import {
 import * as log from '../../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
-import PersistentStore from '../../utils/persistentStore';
-import {
-  IS_WALLET_LOCKED_MAIN,
-  IS_WALLET_LOCKED_TEST,
-  MAIN,
-} from '../../constants';
 import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import {
   fetchWalletTokenTransactionsListResetRequest,
+  lockWalletStart,
   restoreWalletViaBackupFailure,
   setIsWalletCreatedRequest,
+  setLockedUntil,
+  setWalletEncrypted,
+  unlockWalletFailure,
+  unlockWalletStart,
+  unlockWalletSuccess,
 } from '../WalletPage/reducer';
 import { checkRestoreRecentIfExisting } from '../WalletPage/service';
+import { history } from '../../utils/history';
+import { openPostEncryptBackupModal } from './reducer';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -65,52 +68,75 @@ function* backupWalletBeforeNewWalletCreation() {
 }
 
 function* encryptWallet(action) {
+  const {
+    payload: { passphrase, isModal, pageRedirect },
+  } = action;
   try {
-    const {
-      payload: { passphrase },
-    } = action;
-    const result = yield call(handleEncryptWallet, passphrase);
-    yield put(closeEncryptWalletModal());
-
-    const networkType = getNetworkType();
-    const isWalletLocked =
-      networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-    PersistentStore.set(isWalletLocked, true);
+    yield call(handleEncryptWallet, passphrase);
+    yield put(encryptWalletSuccess());
+    yield put(setWalletEncrypted(true));
+    yield put(unlockWalletSuccess(false));
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.encryptWalletSuccess')
     );
+    if (isModal) {
+      yield put(closeEncryptWalletModal());
+      yield delay(1000);
+    } else {
+      history.push(pageRedirect);
+    }
+    yield put(openPostEncryptBackupModal(true));
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
-    yield put(closeEncryptWalletModal());
-    showErrorNotification({ message });
+    yield put(encryptWalletFailure(message));
+    if (isModal) {
+      showErrorNotification({ message });
+    }
   }
 }
 
 function* unlockWallet(action) {
+  const {
+    payload: { passphrase, isModal, pageRedirect, timeout },
+  } = action;
   try {
-    const {
-      payload: { passphrase },
-    } = action;
-    const result = yield call(handleUnlockWallet, passphrase);
-    yield call(enableAutoLock);
-    yield put(closeWalletPassphraseModal());
+    yield call(handleUnlockWallet, passphrase, timeout);
+    yield put(unlockWalletSuccess(true));
+    yield call(enableAutoLock, timeout);
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.unlockWalletSuccess')
     );
+    if (isModal) {
+      yield put(closeWalletPassphraseModal());
+    } else {
+      history.push(pageRedirect);
+    }
   } catch (e) {
-    log.error(e);
+    log.error(e, 'unlockWallet');
     const message = getErrorMessage(e);
-    yield put(closeWalletPassphraseModal());
-    showErrorNotification({ message });
+    yield put(unlockWalletFailure(message));
+    if (isModal) {
+      showErrorNotification({ message });
+    }
+  }
+}
+
+function* setAutoLock(action) {
+  const timeout = action.payload;
+  try {
+    yield call(enableAutoLock, timeout);
+  } catch (e) {
+    log.error(e, 'setAutoLock');
+    const message = getErrorMessage(e);
   }
 }
 
 function* lockWallet() {
   try {
-    const result = yield call(handleLockWallet);
+    yield call(handleLockWallet);
     autoLockTimer && clearTimeout(autoLockTimer);
     showNotification(
       I18n.t('alerts.success'),
@@ -176,5 +202,6 @@ function* mySaga() {
   );
   yield takeLatest(startResetWalletDatRequest.type, startResetWalletDat);
   yield takeLatest(restoreWalletViaRecent.type, startRestoreWalletChecks);
+  yield takeLatest(setLockedUntil.type, setAutoLock);
 }
 export default mySaga;

@@ -20,7 +20,6 @@ export const initialState = {
   isBackupWalletWarningModelOpen: false,
   isEncryptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
-  isWalletUnlocked: false,
   isWalletRestart: false,
   isWalletReplace: false,
   isGeneralReindexModalOpen: false,
@@ -29,6 +28,10 @@ export const initialState = {
   isRestoreWalletOpen: false,
   filePath: '',
   isExitWalletOpen: false,
+  isWalletEncrypting: false,
+  isErrorEncryptingWallet: '',
+  isEncryptFromModal: false,
+  isPostEncryptBackupModalOpen: false
 };
 
 const configSlice = createSlice({
@@ -125,21 +128,23 @@ const configSlice = createSlice({
     closeEncryptWalletModal(state) {
       state.isEncryptWalletModalOpen = false;
     },
-    encryptWalletStart(state, action) {},
+    encryptWalletStart(state, action) {
+      state.isWalletEncrypting = true;
+      state.isEncryptFromModal = action.payload.isModal;
+    },
+    encryptWalletSuccess(state) {
+      state.isWalletEncrypting = false;
+      state.isErrorEncryptingWallet = '';
+    },
+    encryptWalletFailure(state, action) {
+      state.isWalletEncrypting = false;
+      state.isErrorEncryptingWallet = action.payload;
+    },
     openWalletPassphraseModal(state) {
       state.isWalletPassphraseModalOpen = true;
     },
     closeWalletPassphraseModal(state) {
       state.isWalletPassphraseModalOpen = false;
-    },
-    unlockWalletStart(state, action) {
-      state.isWalletUnlocked = true;
-    },
-    lockWalletStart(state, action) {
-      state.isWalletUnlocked = false;
-    },
-    enableAutoLockStart(state) {
-      state.isWalletUnlocked = false;
     },
     openWalletRestartModal(state) {
       state.isWalletRestart = true;
@@ -181,6 +186,9 @@ const configSlice = createSlice({
     openExitWalletModal(state, action) {
       state.isExitWalletOpen = action.payload;
     },
+    openPostEncryptBackupModal(state, action) {
+      state.isPostEncryptBackupModalOpen = action.payload;
+    }
   },
 });
 
@@ -215,11 +223,10 @@ export const {
   openEncryptWalletModal,
   closeEncryptWalletModal,
   encryptWalletStart,
+  encryptWalletSuccess,
+  encryptWalletFailure,
   openWalletPassphraseModal,
   closeWalletPassphraseModal,
-  unlockWalletStart,
-  lockWalletStart,
-  enableAutoLockStart,
   openWalletRestartModal,
   closeWalletRestartModal,
   restartWalletStart,
@@ -234,6 +241,7 @@ export const {
   openRestoreWalletModal,
   restoreWalletViaRecent,
   openExitWalletModal,
+  openPostEncryptBackupModal
 } = actions;
 
 export default reducer;
