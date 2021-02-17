@@ -467,8 +467,8 @@ export default class RpcClient {
     addresses: string[] = []
   ): Promise<ListUnspentModel[]> => {
     const queryOptions = maximumCount
-      ? { maximumAmount, maximumCount }
-      : { maximumAmount };
+      ? { maximumAmount: maximumAmount.toNumber(), maximumCount: maximumCount.toNumber() }
+      : { maximumAmount: maximumAmount.toNumber() };
     const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
       1,
       9999999,
