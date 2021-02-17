@@ -129,7 +129,7 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
             </Table>
           </Card>
           <Pagination
-            label={I18n.t('containers.ledger.ledgerPage.paginationRange', {
+            label={I18n.t('containers.ledger.receivePage.paginationRange', {
               to,
               total,
               from: from + 1,

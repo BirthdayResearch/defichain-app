@@ -794,7 +794,8 @@
         "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
-        "addressType": "Address type"
+        "addressType": "Address type",
+        "paginationRange": "%{from} - %{to} of %{total} receive addresses"
       },
       "sendPage": {
         "sendTitle": "Send – DeFi app",

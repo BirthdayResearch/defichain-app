@@ -549,7 +549,8 @@
         "backButton": "Назад",
         "createButton": "Создать",
         "legacyAddress": "Старый адрес",
-        "addressType": "Тип адреса"
+        "addressType": "Тип адреса",
+        "paginationRange": "%{from} – %{to} из %{total} запросов на оплату"
       },
       "helpModal": {
         "title": "Как подключить Ledger к кошельку DeFi",

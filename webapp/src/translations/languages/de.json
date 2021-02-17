@@ -784,7 +784,8 @@
         "backButton": "ZURÜCK",
         "createButton": "Erstellen",
         "legacyAddress": "Legacy Adresse",
-        "addressType": "Adressen Typ"
+        "addressType": "Adressen Typ",
+        "paginationRange": "%{from} - %{to} von %{total} Adressen"
       },
       "sendPage": {
         "sendDFITitle": "Senden DFI – DeFiChain Client",

@@ -708,7 +708,8 @@
         "backButton": "Back",
         "createButton": "Create",
         "legacyAddress": "Legacy address",
-        "addressType": "Address type"
+        "addressType": "Address type",
+        "paginationRange": "%{from} – %{to} sur %{total} demandes de paiement"
       },
       "sendPage": {
         "sendDFITitle": "Envoi de DFI – App DeFi",
