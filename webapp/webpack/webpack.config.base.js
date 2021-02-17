@@ -49,6 +49,8 @@ export default {
       stream: require.resolve('stream-browserify'),
       buffer: require.resolve('buffer/'),
       process: require.resolve('process/browser'),
+      assert: require.resolve('assert/'),
+      url: require.resolve('url/')
     },
   },
 };
