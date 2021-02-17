@@ -342,6 +342,7 @@ const configSlice = createSlice({
       state.lockedUntil = action.payload;
     },
     startBackupWalletViaPostEncryptModal(state) {},
+    createWalletStart(state, action) {}
   },
 });
 
@@ -419,6 +420,7 @@ export const {
   unlockWalletFailure,
   setLockedUntil,
   startBackupWalletViaPostEncryptModal,
+  createWalletStart
 } = actions;
 
 export default reducer;

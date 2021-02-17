@@ -597,3 +597,25 @@ export const startBackupViaExitModal = async () => {
     };
   }
 };
+
+export const createNewWallet = async (passphrase: string, network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
+    const walletPath = resp?.data?.paths;
+    if (resp?.success && walletPath) {
+      const rpcClient = new RpcClient();
+      const walletName = await rpcClient.createWallet(walletPath, passphrase);
+      if (walletName) {
+        return startRestoreViaRecent(walletPath, network);
+      }
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'createWallet');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};

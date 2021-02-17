@@ -61,3 +61,4 @@ export const TEST_POOL_SWAP = 'testpoolswap';
 export const GET_GOV = 'getgov';
 export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
 export const ACCOUNT_HISTORY_COUNT = 'accounthistorycount';
+export const CREATE_WALLET = 'createwallet';

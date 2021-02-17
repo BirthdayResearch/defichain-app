@@ -1,7 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Button, Row, Col } from 'reactstrap';
-import { MdErrorOutline, MdLock } from 'react-icons/md';
+import { MdArrowBack, MdErrorOutline, MdLock } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -19,6 +19,8 @@ import { history } from '../../../../utils/history';
 import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import { NavLink } from 'react-router-dom';
+import { createWalletStart } from '../../reducer';
 
 export interface EncryptWalletPayload {
   passphrase: string;
@@ -30,6 +32,7 @@ export interface EncryptWalletPageProps {
   encryptWalletFailure: (err: string) => void;
   isWalletEncrypting: boolean;
   isErrorEncryptingWallet: string;
+  createWalletStart?: (item: EncryptWalletPayload) => void;
   pageSize?: number;
   isModal?: boolean;
   onClose?: () => void;
@@ -55,14 +58,16 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
     isErrorEncryptingWallet,
     encryptWalletFailure,
     isModal,
+    createWalletStart
   } = props;
 
   const onHandleChange = (data) => {
-    encryptWalletStart({
+    const payload = {
       passphrase: data.passphrase,
       isModal,
       pageRedirect: WALLET_TOKENS_PATH,
-    });
+    };
+    isModal ? encryptWalletStart(payload) : (createWalletStart ? createWalletStart(payload) : {});
   };
 
   const isSameWithConfirm = () => {
@@ -92,12 +97,25 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
           <Helmet>
             <title>
               {getPageTitle(
-                I18n.t('containers.wallet.encryptWalletPage.title')
+                I18n.t('containers.wallet.createNewWalletPage.createANewWallet')
               )}
             </title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.encryptWalletPage.title')}</h1>
+            <Button
+              to={WALLET_TOKENS_PATH}
+              tag={NavLink}
+              color='link'
+              className='header-bar-back'
+            >
+              <MdArrowBack />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.wallet.createNewWalletPage.back')}
+              </span>
+            </Button>
+            <h1 className={classnames({ 'd-none': false })}>
+              {I18n.t('containers.wallet.createNewWalletPage.createANewWallet')}
+            </h1>
           </Header>
         </>
       )}
@@ -164,24 +182,28 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                   </label>
 
                   <div className='mt-4 text-center'>
-                    <Button
-                      size='sm'
-                      className='ml-5'
-                      color='link'
-                      disabled={isWalletEncrypting}
-                      onClick={() => {
-                        onClose ? onClose() : history.push(WALLET_TOKENS_PATH);
-                      }}
-                    >
-                      {I18n.t('alerts.later')}
-                    </Button>
+                    {isModal && (
+                      <Button
+                        size='sm'
+                        className='ml-5'
+                        color='link'
+                        disabled={isWalletEncrypting}
+                        onClick={() => {
+                          onClose
+                            ? onClose()
+                            : history.push(WALLET_TOKENS_PATH);
+                        }}
+                      >
+                        {I18n.t('alerts.later')}
+                      </Button>
+                    )}
                     <Button
                       size='sm'
                       color='primary'
                       type='submit'
                       disabled={!formState.isValid || isWalletEncrypting}
                     >
-                      {I18n.t('alerts.enableLocking')}
+                      {isModal ? I18n.t('alerts.enableLocking') : I18n.t('containers.wallet.createNewWalletPage.createANewWallet')}
                     </Button>
                   </div>
                 </section>
@@ -250,6 +272,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   encryptWalletStart,
+  createWalletStart,
   encryptWalletFailure,
 };
 

@@ -935,4 +935,14 @@ export default class RpcClient {
     ]);
     return data.result;
   };
+
+  createWallet = async (walletPath: string, passphrase: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_WALLET, [
+      walletPath,
+      false,
+      false,
+      passphrase,
+    ]);
+    return data?.result?.name;
+  };
 }
