@@ -10,8 +10,6 @@ on:
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
@@ -31,13 +29,6 @@ jobs:
 
   build_mac_version:
     runs-on: macos-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-      CSC_LINK: ${{ secrets.CSC_LINK}}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-      CI: true
-      APPLE_ID: ${{ secrets.APPLE_ID}}
-      APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
@@ -49,6 +40,12 @@ jobs:
 
       - name: Build app
         run: npm run build:mac
+        env:
+          CSC_LINK: ${{ secrets.CSC_LINK}}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+          CI: true
+          APPLE_ID: ${{ secrets.APPLE_ID}}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
 
       - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
@@ -57,8 +54,6 @@ jobs:
 
   build_windows_version:
     runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
