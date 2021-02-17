@@ -757,7 +757,11 @@
       "encryptWalletPage": {
         "title": "Wallet verschlüsseln",
         "encryptingWallet": "Verschlüssele Wallet",
-        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her."
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
+        "walletIsLocked": "Wallet gesperrt. Um mit der Transaktion fortzufahren, entsperre die Wallet mit dem Passwort."
+      },
+      "unlockWalletPage": {
+        "title": "Entsperre Wallet"
       }
     },
     "console": {
@@ -830,7 +834,7 @@
     "okIHaveDoneIt": "Ok, ich habe es getan.",
     "encryptWalletNoticeTitle": "Wallet sperren",
     "encryptWalletNotice": "Aus Sicherheitsgründen wird empfohlen, die Sperrung der Wallet mit einem Passwort zu aktivieren. Gebe das Passwort ein, mit dem Du Deine Wallet entsperren willst.",
-    "encryptWalletWarning": "Bewahre dein Passwort sicher auf. Wenn du es verlierst, musst du die DeFi App zurücksetzen und deine Wallet wiederherstellen",
+    "encryptWalletWarning": "Bewahre dein Passwort sicher auf. Wenn du es verlierst gibt es keine Möglichkeit für eine Wiederherstellung. Du wirst keine Transaktion mehr ausführen können, wenn deine Wallet gesperrt ist.",
     "enableLocking": "Sperren aktivieren",
     "later": "SPÄTER",
     "passphraseLabel": "Passwort eingeben",
@@ -873,7 +877,8 @@
     "changeLockPassphrase": "Change lock passphrase",
     "currentPassphrase": "Aktuelles Passwort",
     "newPassphrase": "Neues Passwort",
-    "confirmNewPassphrase": "Neues Passwort bestätigen"
+    "confirmNewPassphrase": "Neues Passwort bestätigen",
+    "walletBackupWarning": "Verschlüsselung der Wallet erfolgreich. Bitte erstelle sofort ein Backup deiner Wallet. Möchtest du fortfahren?"
   },
   "general": {
     "defiApp": "DeFi app",

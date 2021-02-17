@@ -61,6 +61,7 @@ import {
   startBackupWalletViaExitModal,
   setWalletEncryptedRequest,
   setWalletEncrypted,
+  startBackupWalletViaPostEncryptModal,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -122,6 +123,7 @@ import {
   openRestoreWalletModal,
   startResetWalletDatRequest,
 } from '../PopOver/reducer';
+import { openPostEncryptBackupModal } from '../PopOver/reducer';
 
 export function* getNetwork() {
   const {
@@ -515,6 +517,18 @@ export function* backupWalletViaExitModal() {
   }
 }
 
+export function* backupWalletViaPostEncryptModal() {
+  try {
+    log.info(`Starting backup via post encrypt modal...`, 'backupWalletViaPostEncryptModal');
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openPostEncryptBackupModal(false));
+    }
+  } catch (e) {
+    log.error(e.message, 'backupWalletViaPostEncryptModal');
+  }
+}
+
 export function* fetchInstantBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
@@ -704,6 +718,7 @@ function* mySaga() {
     backupWalletViaExitModal
   );
   yield takeLatest(setWalletEncryptedRequest.type, startWalletEncryptionCheck);
+  yield takeLatest(startBackupWalletViaPostEncryptModal.type, backupWalletViaPostEncryptModal)
 }
 
 export default mySaga;

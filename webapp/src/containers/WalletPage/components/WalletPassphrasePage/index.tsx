@@ -80,7 +80,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
             <Col md={pageSize ?? 9}>
               <form onSubmit={handleSubmit(onHandleChange)}>
                 <section className={styles.passphraseContainer}>
-                  <LaunchLogo />
+                  <LaunchLogo isNotAnimated={true} />
                   {isModal && (
                     <h2 className='mb-0'>
                       {I18n.t('alerts.walletUnlockTitle')}

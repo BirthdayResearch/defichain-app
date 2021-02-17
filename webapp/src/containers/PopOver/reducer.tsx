@@ -30,6 +30,7 @@ export const initialState = {
   isWalletEncrypting: false,
   isErrorEncryptingWallet: '',
   isEncryptFromModal: false,
+  isPostEncryptBackupModalOpen: false
 };
 
 const configSlice = createSlice({
@@ -180,6 +181,9 @@ const configSlice = createSlice({
     restoreWalletViaRecent(state) {},
     openExitWalletModal(state, action) {
       state.isExitWalletOpen = action.payload;
+    },
+    openPostEncryptBackupModal(state, action) {
+      state.isPostEncryptBackupModalOpen = action.payload;
     }
   },
 });
@@ -231,7 +235,8 @@ export const {
   setIsQueueResetRoute,
   openRestoreWalletModal,
   restoreWalletViaRecent,
-  openExitWalletModal
+  openExitWalletModal,
+  openPostEncryptBackupModal
 } = actions;
 
 export default reducer;

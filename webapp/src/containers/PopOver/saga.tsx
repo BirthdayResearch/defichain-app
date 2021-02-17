@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, delay } from 'redux-saga/effects';
 
 import showNotification from '../../utils/notifications';
 import { getErrorMessage } from '../../utils/utility';
@@ -21,7 +21,6 @@ import {
   openRestoreWalletModal,
   encryptWalletSuccess,
   encryptWalletFailure,
-  openWalletPassphraseModal,
 } from './reducer';
 
 import {
@@ -51,6 +50,7 @@ import {
 } from '../WalletPage/reducer';
 import { checkRestoreRecentIfExisting } from '../WalletPage/service';
 import { history } from '../../utils/history';
+import { openPostEncryptBackupModal } from './reducer';
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -82,9 +82,11 @@ function* encryptWallet(action) {
     );
     if (isModal) {
       yield put(closeEncryptWalletModal());
+      yield delay(1000);
     } else {
       history.push(pageRedirect);
     }
+    yield put(openPostEncryptBackupModal(true));
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);

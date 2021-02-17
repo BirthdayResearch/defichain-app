@@ -882,7 +882,8 @@
     "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
     "backupAndExit": "Backup and Exit",
     "exit": "Exit",
-    "deletePeersAndBlocks": "Delete peers and blocks"
+    "deletePeersAndBlocks": "Delete peers and blocks",
+    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?"
   },
   "general": {
     "defiApp": "DeFi app",

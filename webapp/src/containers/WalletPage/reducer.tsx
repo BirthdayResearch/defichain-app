@@ -73,7 +73,7 @@ export const initialState = {
   isWalletEncrypted: false,
   isErrorUnlockWallet: '',
   isWalletUnlocked: false,
-  lockedUntil: 0
+  lockedUntil: 0,
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -340,7 +340,8 @@ const configSlice = createSlice({
     setLockedUntil(state, action) {
       state.isWalletUnlocked = true;
       state.lockedUntil = action.payload;
-    }
+    },
+    startBackupWalletViaPostEncryptModal(state) {},
   },
 });
 
@@ -416,7 +417,8 @@ export const {
   unlockWalletStart,
   unlockWalletSuccess,
   unlockWalletFailure,
-  setLockedUntil
+  setLockedUntil,
+  startBackupWalletViaPostEncryptModal,
 } = actions;
 
 export default reducer;
