@@ -963,7 +963,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                         <DownloadCsvModal
                           CsvModalOpen={false}
                           error=""
-                          filename="Transaction_2021-2-10_18-44-15.csv"
+                          filename="Transactions_2021-2-16_19-12-56.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}
@@ -973,11 +973,11 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                               "blockHeight": 0,
                               "limit": 100,
                               "no_rewards": false,
-                              "token": "",
+                              "token": "DFI",
                             }
                           }
                           toggle={[Function]}
-                          tokenSymbol=""
+                          tokenSymbol="DFI"
                           transactionData={Array []}
                         >
                           <Modal

@@ -71,13 +71,24 @@ if (isElectron()) {
   });
 }
 
+const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
+  const {
+    wallet: { isWalletEncrypted, isWalletUnlocked },
+  } = store.getState();
+  if (isWalletUnlocked && isWalletEncrypted) {
+    log.info('Locking wallet...', LOGGING_SHUT_DOWN);
+    await rpcClient.walletlock();
+  }
+};
+
 export const shutDownBinary = async () => {
   try {
     log.info('Starting node shutdown...', LOGGING_SHUT_DOWN);
     store.dispatch(killQueue());
     await q.kill();
     const rpcClient = new RpcClient();
-    const result = rpcClient.stop();
+    await lockWalletOnShutdownBinary(rpcClient);
+    const result = await rpcClient.stop();
     log.info(
       `Node shutdown successfully ${JSON.stringify(result)}`,
       LOGGING_SHUT_DOWN

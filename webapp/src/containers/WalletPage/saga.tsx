@@ -59,6 +59,9 @@ import {
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
   startBackupWalletViaExitModal,
+  setWalletEncryptedRequest,
+  setWalletEncrypted,
+  startBackupWalletViaPostEncryptModal,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -113,12 +116,14 @@ import { uid } from 'uid';
 import { restartNodeSync } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
-import { getWalletMap } from '../../app/service';
+import { checkWalletEncryption, getWalletMap } from '../../app/service';
 import {
+  openEncryptWalletModal,
   openExitWalletModal,
   openRestoreWalletModal,
   startResetWalletDatRequest,
 } from '../PopOver/reducer';
+import { openPostEncryptBackupModal } from '../PopOver/reducer';
 
 export function* getNetwork() {
   const {
@@ -323,6 +328,8 @@ export function* fetchChainInfo() {
   yield put(setBlockChainInfo(result));
   const { app } = store.getState();
   yield call(setWalletExistingIfInConf, app.configurationData);
+  const { wallet } = store.getState();
+  yield put(setWalletEncryptedRequest(wallet.isWalletCreatedFlag));
 }
 
 export function* fetchTokens() {
@@ -510,6 +517,18 @@ export function* backupWalletViaExitModal() {
   }
 }
 
+export function* backupWalletViaPostEncryptModal() {
+  try {
+    log.info(`Starting backup via post encrypt modal...`, 'backupWalletViaPostEncryptModal');
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openPostEncryptBackupModal(false));
+    }
+  } catch (e) {
+    log.error(e.message, 'backupWalletViaPostEncryptModal');
+  }
+}
+
 export function* fetchInstantBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
@@ -648,6 +667,19 @@ export function* fetchWalletMap() {
   }
 }
 
+export function* startWalletEncryptionCheck(action) {
+  try {
+    const isWalletCreatedFlag = action.payload;
+    const isEncrypted = yield call(checkWalletEncryption);
+    yield put(setWalletEncrypted(isEncrypted));
+    if (!isEncrypted && isWalletCreatedFlag) {
+      yield put(openEncryptWalletModal());
+    }
+  } catch (error) {
+    log.error(error, 'startWalletEncryptionCheck');
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -685,6 +717,8 @@ function* mySaga() {
     startBackupWalletViaExitModal.type,
     backupWalletViaExitModal
   );
+  yield takeLatest(setWalletEncryptedRequest.type, startWalletEncryptionCheck);
+  yield takeLatest(startBackupWalletViaPostEncryptModal.type, backupWalletViaPostEncryptModal)
 }
 
 export default mySaga;

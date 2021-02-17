@@ -114,6 +114,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
             isErrorModalOpen={false}
             isLoadingPoolSwap={false}
             isWalletCreatedFlag={false}
+            isWalletEncrypted={false}
             isWalletUnlocked={false}
             locale="en"
             location={

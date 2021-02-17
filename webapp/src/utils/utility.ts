@@ -64,7 +64,6 @@ import {
   LTC_SYMBOL,
   MAINNET_DOGE_SYMBOL,
   DOGE_SYMBOL,
-  ADD_LP_ERROR,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -72,7 +71,6 @@ import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../../src/worker/queue';
-import PersistentStore from './persistentStore';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
@@ -94,7 +92,11 @@ import {
   AccountModel,
   PeerInfoModel,
 } from 'src/constants/rpcModel';
-import { HighestAmountItem } from '../constants/common';
+import {
+  ErrorMessages,
+  HighestAmountItem,
+  ResponseMessages,
+} from '../constants/common';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -261,8 +263,12 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = (epoch) => {
+export const convertEpochToDate = (epoch): string => {
   return moment.unix(epoch).format(DATE_FORMAT);
+};
+
+export const getTimeDifferenceMS = (time: number): number => {
+  return moment.unix(time).toDate().getTime() - new Date().getTime();
 };
 
 export const range = (from: number, to: number, step = 1) => {
@@ -410,6 +416,31 @@ export const getErrorMessage = (errorResponse) => {
     }
   }
   return typeof message === 'string' ? message : JSON.stringify(message);
+};
+
+export const shouldRemapError = (
+  message: string,
+  keywords: string[]
+): boolean => {
+  let shouldReMap = false;
+  if (message != null && keywords.length > 0) {
+    keywords.forEach((k: string) => {
+      shouldReMap = message.toLowerCase().includes(k.toLowerCase());
+    });
+  }
+  return shouldReMap;
+};
+
+export const getErrorRemapping = (
+  message: string,
+  keywords: string[],
+  response: string
+): string => {
+  if (message != null && keywords.length > 0) {
+    return shouldRemapError(message, keywords) ? I18n.t(response) : message;
+  } else {
+    return message;
+  }
 };
 
 export const setIntervalSynchronous = (func, delay) => {
@@ -856,13 +887,6 @@ export const fetchPoolShareDataWithPagination = async (
     start = Number(transformedData[transformedData.length - 1].key);
   }
   return list;
-};
-
-export const isWalletEncrypted = () => {
-  const networkType = getNetworkType();
-  const isWalletLocked =
-    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-  return PersistentStore.get(isWalletLocked) || false;
 };
 
 export const getTotalBlocks = async () => {
@@ -1469,13 +1493,26 @@ export const getFormattedTime = () => {
 
 export const checkRPCErrorMessagePending = (message: string): string => {
   if (message) {
-    const lpError = I18n.t(ADD_LP_ERROR);
-    const amount = 'amount';
-    const isLess = 'is less than';
-    const testMessage = message.toLowerCase();
-    return testMessage.includes(amount) && testMessage.includes(isLess)
-      ? lpError
-      : message;
+    const lpKeywords = ['amount', 'is less than'];
+    if (shouldRemapError(message, lpKeywords)) {
+      return getErrorRemapping(
+        message,
+        lpKeywords,
+        ResponseMessages.BLOCKS_PENDING
+      );
+    } else if (shouldRemapError(message, [ErrorMessages.WALLET_LOCKED])) {
+      return getErrorRemapping(
+        message,
+        [ErrorMessages.WALLET_LOCKED],
+        ResponseMessages.WALLET_LOCKED
+      );
+    } else if (shouldRemapError(message, [ErrorMessages.WITNESS_MISMATCH])) {
+      return getErrorRemapping(
+        message,
+        [ErrorMessages.WITNESS_MISMATCH],
+        ResponseMessages.WALLET_LOCKED
+      );
+    }
   }
   return message;
 };

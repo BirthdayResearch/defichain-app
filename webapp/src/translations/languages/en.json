@@ -554,7 +554,15 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "security": "Security",
+      "passphraseLock": "Passphrase lock",
+      "changePassphrase": "Change passphrase",
+      "autoLock": "Auto-lock",
+      "changeLockPassphrase": "Change lock passphrase",
+      "currentPassphrase": "Current passphrase",
+      "newPassphrase": "New passphrase",
+      "confirmNewPassphrase": "Confirm new passphrase"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -716,7 +724,6 @@
         "includeRewards": "Include rewards",
         "loading": "Loading...",
         "category": "Category",
-        "blockHeight": "BlockHeight",
         "amount": "Amount",
         "txidNotApplicable": "Transaction ID not applicable",
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
@@ -759,6 +766,15 @@
         "sent": "Sent",
         "removePoolLiquidity": "Remove liquidity",
         "accountToUtxos": "Account to UTXOs"
+      },
+      "encryptWalletPage": {
+        "title": "Encrypt wallet",
+        "encryptingWallet": "Encrypting wallet",
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
+        "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase."
+      },
+      "unlockWalletPage": {
+        "title": "Unlock wallet"
       }
     },
     "console": {
@@ -831,7 +847,7 @@
     "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
-    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallet again.",
+    "encryptWalletWarning": "Keep your passphrase safe, if lost, there will be no recovery. You will not be able to proceed with any transactions once your wallet is locked.",
     "enableLocking": "Enable locking",
     "later": "Later",
     "passphraseLabel": "Passphrase",
@@ -866,7 +882,8 @@
     "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
     "backupAndExit": "Backup and Exit",
     "exit": "Exit",
-    "deletePeersAndBlocks": "Delete peers and blocks"
+    "deletePeersAndBlocks": "Delete peers and blocks",
+    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?"
   },
   "general": {
     "defiApp": "DeFi app",

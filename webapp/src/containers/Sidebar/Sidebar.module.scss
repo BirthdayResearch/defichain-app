@@ -19,17 +19,14 @@ div[disabled] {
   opacity: 0.7;
 }
 
-.iconPointer {
-  cursor: pointer;
-  color: $secondary;
-}
-
 .iconSideBar {
   min-height: 26px;
 }
 
 .iconNavTop {
-  &:hover {
+  color: $secondary;
+  cursor: pointer;
+  &:hover:not(.navBadgeLocked) {
     color: $black;
     transition: all 0.2ms linear;
   }
@@ -175,4 +172,8 @@ div[disabled] {
 
 .passphraseIcon {
   padding: 0.75rem 16px 0.25rem;
+}
+
+.navBadgeLocked {
+  color: $primary;
 }
