@@ -536,16 +536,41 @@ export function* fetchWalletTokenTransactionsList(action) {
       symbol,
       limit,
       includeRewards,
+      pageNum,
       minBlockHeight,
       cancelToken,
     } = action.payload;
+
+    let blockHeight = minBlockHeight;
+    const tempData = {};
+    const { maxBlockData } = yield select((state) => state.wallet);
+    const currentData = maxBlockData[symbol];
+
+    if (pageNum === 1) {
+      tempData[symbol] = [];
+    } else if (
+      currentData.length > 0 &&
+      pageNum < currentData[currentData.length - 1].page
+    ) {
+      blockHeight = currentData[currentData.length - 2]?.maxBlockHeight;
+      tempData[symbol] = currentData.filter(
+        (val, index) => index < currentData.length - 1
+      );
+    } else {
+      const currentBlockData = {
+        page: pageNum,
+        token: symbol,
+        maxBlockHeight: minBlockHeight,
+      };
+      tempData[symbol] = [...currentData, currentBlockData];
+    }
 
     const data: any[] = yield call(getListAccountHistory, {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
       cancelToken: cancelToken,
-      blockHeight: minBlockHeight,
+      blockHeight,
     });
 
     const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
@@ -573,6 +598,7 @@ export function* fetchWalletTokenTransactionsList(action) {
       fetchWalletTokenTransactionsListRequestSuccess({
         data: orderBy(parsedData, 'blockHeight', 'desc'),
         minBlockHeight: minBlockHeightData,
+        maxBlockData: tempData,
       })
     );
   } catch (err) {
