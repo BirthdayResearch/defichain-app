@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { MdFirstPage, MdChevronRight } from 'react-icons/md';
+import { MdFirstPage, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import styles from './CustomPagination.module.scss';
 
 interface ICustomPaginationComponentProps {
@@ -37,6 +37,16 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             </PaginationLink>
           </PaginationItem>
         )}
+        <PaginationItem disabled={currentPage <= 1}>
+          <PaginationLink
+            previous
+            onClick={(e) =>
+              props.handlePageClick(currentPage - 1, props.cancelToken)
+            }
+          >
+            <MdChevronLeft />
+          </PaginationLink>
+        </PaginationItem>
         <PaginationItem key={currentPage} active={true}>
           <PaginationLink
             onClick={(e) =>
@@ -46,19 +56,17 @@ const CustomPaginationComponent: React.FunctionComponent<ICustomPaginationCompon
             {currentPage}
           </PaginationLink>
         </PaginationItem>
-        {
-          <PaginationItem disabled={disableNextLink() || data.length < 10}>
-            <PaginationLink
-              next
-              onClick={(e) =>
-                props.handlePageClick(currentPage + 1, props.cancelToken)
-              }
-              disabled={props.disableNext}
-            >
-              <MdChevronRight />
-            </PaginationLink>
-          </PaginationItem>
-        }
+        <PaginationItem disabled={disableNextLink() || data.length < 10}>
+          <PaginationLink
+            next
+            onClick={(e) =>
+              props.handlePageClick(currentPage + 1, props.cancelToken)
+            }
+            disabled={props.disableNext}
+          >
+            <MdChevronRight />
+          </PaginationLink>
+        </PaginationItem>
       </Pagination>
     </div>
   );
