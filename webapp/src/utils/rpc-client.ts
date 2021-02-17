@@ -423,7 +423,8 @@ export default class RpcClient {
 
   getWalletTxns = async (
     pageNo: number = 0,
-    pageSize: number = 1
+    pageSize: number = 1,
+    involvesWatchonly: boolean = false,
   ): Promise<ITxn[]> => {
     const count = pageSize;
     const skip = pageNo * pageSize;
@@ -432,6 +433,7 @@ export default class RpcClient {
       '*',
       count,
       skip,
+      involvesWatchonly,
     ]);
 
     const isValid = validateSchema(

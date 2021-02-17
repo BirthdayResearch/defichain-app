@@ -9,7 +9,8 @@ import { fetchWalletTxnsRequest } from '../../reducer';
 import { WALLET_TXN_PAGE_SIZE, BLOCKCHAIN_BLOCK_BASE_PATH } from '@/constants';
 import Pagination from '@/components/Pagination';
 import { getAmountInSelectedUnit } from '@/utils/utility';
-import { WalletTxn } from '@/typings/models';
+import { StatusLedger, WalletTxn } from '@/typings/models';
+import { RootState } from '@/app/rootReducer';
 
 interface WalletTxnsProps {
   unit: string;
@@ -21,6 +22,7 @@ interface WalletTxnsProps {
     intialLoad?: boolean
   ) => void;
   stopPagination: boolean;
+  status: StatusLedger;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
@@ -31,8 +33,10 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const { walletTxnCount: total, walletTxns, stopPagination } = props;
 
   useEffect(() => {
-    props.fetchWalletTxns(currentPage, pageSize, true);
-  }, [props.fetchWalletTxns]);
+    if(props.status === 'connecting') {
+      props.fetchWalletTxns(currentPage, pageSize, true);
+    }
+  }, [props.fetchWalletTxns, props.status]);
 
   const getTxnsTypeIcon = (type: string) => {
     if (type === 'send') {
@@ -131,13 +135,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const { settings, ledgerWallet } = state;
   return {
     unit: settings.appConfig.unit,
     walletTxns: ledgerWallet.walletTxns,
     walletTxnCount: ledgerWallet.walletTxnCount,
     stopPagination: ledgerWallet.stopPagination,
+    status: ledgerWallet.connect.status,
   };
 };
 

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
+import uniqBy from 'lodash/uniqBy';
 import _ from 'lodash';
 import { CustomTx } from 'bitcore-lib-dfi';
 import * as log from '@/utils/electronLogger';
@@ -96,37 +97,20 @@ export const handelFetchWalletTxns = async (
   pageSize: number,
   networkName: string
 ) => {
-  // const localStorageName = handleLocalStorageNameLedger(networkName);
-  // const paymentData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  // const addressesLedger = paymentData.map((payment) => payment.address);
   const rpcClient = new RpcClient();
-  // const listTransactions = await rpcClient.listTransactions(
-  //   pageNo - 1,
-  //   pageSize
-  // );
-  // const promiseRawTransactions = listTransactions.filter(
-  //   (tx) =>
-  //     new Promise((resolve, reject) => {
-  //       rpcClient.getRawTransaction(tx.txid, false).then((rawTransaction) => {
-  //         for (const vout of rawTransaction.vout) {
-  //           if (
-  //             vout.scriptPubKey.addresses.some(
-  //               (address) => addressesLedger.indexOf(address) !== -1
-  //             )
-  //           ) {
-  //             resolve(tx);
-  //           }
-  //         }
-  //       });
-  //     })
-  // );
-  // const rawTransactions = await Promise.all(promiseRawTransactions);
-  // const txList = await getTxnDetails(rawTransactions);
-  // const walletTxnCount = await rpcClient.getWalletTxnCount();
-  // return { walletTxns: txList.reverse(), walletTxnCount };
-  const walletTxns = await rpcClient.getWalletTxns(pageNo - 1, pageSize);
-  const walletTxnCount = await rpcClient.getWalletTxnCount();
-  return { walletTxns: walletTxns.reverse(), walletTxnCount };
+  const addresses = handelGetPaymentRequestLedger(networkName).map(paymentRequest => paymentRequest.address);
+  let walletTxnCount = await rpcClient.getWalletTxnCount();
+  let walletTxns = await rpcClient.getWalletTxns(0, walletTxnCount, true);
+  walletTxns = walletTxns.filter((tx) => tx.involvesWatchonly).reverse();
+  walletTxns = walletTxns.filter((tx) => {
+    return !(tx.category === 'send' && addresses.includes(tx.address));
+  });
+  walletTxns = uniqBy(walletTxns, 'txnId')
+  walletTxnCount = walletTxns.length;
+  walletTxns.splice(
+    (pageSize*pageNo) - 1,
+    walletTxnCount - ((pageSize*pageNo) - 1 ===  pageSize ? pageSize : (pageSize*pageNo) - 1));
+  return { walletTxns, walletTxnCount};
 };
 
 export const handleSendData = async (addresses) => {

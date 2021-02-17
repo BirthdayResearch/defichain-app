@@ -138,9 +138,8 @@ function* fetchWalletTxns(action) {
       return;
     }
     if (result && result.walletTxns) {
-      const distinct = uniqBy(result.walletTxns, 'txnId');
       const previousFetchedTxns = intialLoad ? [] : totalFetchedTxns;
-      const totalFetched = previousFetchedTxns.concat(distinct);
+      const totalFetched = previousFetchedTxns.concat(result.walletTxns);
       store.dispatch(
         reducer.fetchWalletTxnsSuccess({
           walletTxnCount: result.walletTxnCount,
@@ -149,12 +148,15 @@ function* fetchWalletTxns(action) {
           walletPageCounter: intialLoad ? 1 : walletPageCounter + 1,
         })
       );
+      if ((walletTxnCount <= pageNo * pageSize) && !intialLoad) {
+        store.dispatch(reducer.stopWalletTxnPagination());
+      }
     } else {
       showNotification(I18n.t('alerts.walletTxnsFailure'), 'No data found');
       store.dispatch(reducer.fetchWalletTxnsFailure());
     }
   };
-  if (totalFetchedTxns.length <= (pageNo - 1) * pageSize || intialLoad) {
+  if (walletTxnCount <= pageNo * pageSize || intialLoad) {
     const networkName = yield call(getNetwork);
     yield put(reducer.stopWalletTxnPagination());
     queuePush(

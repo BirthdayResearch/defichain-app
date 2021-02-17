@@ -208,6 +208,7 @@ export const getTxnDetails = async (txns): Promise<ITxn[]> => {
       height = block.height;
     }
     return {
+      involvesWatchonly: txn.involvesWatchonly,
       height,
       address: txn.address,
       category: txn.category,
