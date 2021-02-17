@@ -168,6 +168,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       size='sm'
                       className='ml-5'
                       color='link'
+                      disabled={isWalletEncrypting}
                       onClick={() => {
                         onClose ? onClose() : history.push(WALLET_TOKENS_PATH);
                       }}

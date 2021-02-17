@@ -44,6 +44,7 @@ import {
   restoreWalletViaBackupFailure,
   setIsWalletCreatedRequest,
   setLockedUntil,
+  setWalletEncrypted,
   unlockWalletFailure,
   unlockWalletStart,
   unlockWalletSuccess,
@@ -73,7 +74,8 @@ function* encryptWallet(action) {
   try {
     yield call(handleEncryptWallet, passphrase);
     yield put(encryptWalletSuccess());
-    yield put(unlockWalletSuccess(true));
+    yield put(setWalletEncrypted(true));
+    yield put(unlockWalletSuccess(false));
     showNotification(
       I18n.t('alerts.success'),
       I18n.t('alerts.encryptWalletSuccess')
@@ -115,7 +117,6 @@ function* unlockWallet(action) {
     const message = getErrorMessage(e);
     yield put(unlockWalletFailure(message));
     if (isModal) {
-      yield put(closeWalletPassphraseModal());
       showErrorNotification({ message });
     }
   }

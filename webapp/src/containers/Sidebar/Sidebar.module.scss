@@ -26,7 +26,7 @@ div[disabled] {
 .iconNavTop {
   color: $secondary;
   cursor: pointer;
-  &:hover {
+  &:hover:not(.navBadgeLocked) {
     color: $black;
     transition: all 0.2ms linear;
   }
