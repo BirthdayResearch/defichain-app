@@ -140,7 +140,6 @@ function* lockWallet() {
       I18n.t('alerts.success'),
       I18n.t('alerts.lockWalletSuccess')
     );
-    yield put(openWalletPassphraseModal());
   } catch (e) {
     log.error(e);
     const message = getErrorMessage(e);
