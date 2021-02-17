@@ -1,6 +1,4 @@
-import { I18n } from 'react-redux-i18n';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { ADD_LP_ERROR } from '../../constants/validations';
 import * as log from '../../utils/electronLogger';
 import {
   getErrorMessage,
@@ -133,7 +131,7 @@ export function* removePoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: removePoolLiquidityFailure.type,
-      payload: getErrorMessage(e),
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
     });
   }
 }

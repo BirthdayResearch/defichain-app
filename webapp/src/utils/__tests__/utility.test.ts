@@ -543,11 +543,6 @@ describe('utility', () => {
     expect(result).toEqual(map);
   });
 
-  it('should return true or false is WalletEncrypted', () => {
-    const result = utility.isWalletEncrypted();
-    expect(result).toBeFalsy();
-  });
-
   it('should return TotalBlocks', async () => {
     const result = utility.getTotalBlocks();
     expect(result).toBeTruthy();

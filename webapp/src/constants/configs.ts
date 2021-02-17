@@ -77,7 +77,7 @@ export const REMOVE = 'remove';
 
 export const POOL_PAIR_PAGE_SIZE = 500;
 export const SHARE_POOL_PAGE_SIZE = 100000;
-export const WALLET_UNLOCK_TIMEOUT = 600; // time in seconds
+export const WALLET_UNLOCK_TIMEOUT = 300; // time in seconds
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;

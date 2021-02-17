@@ -165,8 +165,8 @@ export const sendToAddress = async (
       return data;
     } catch (err) {
       const errorMessage = getErrorMessage(err);
-      log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
   } else {
     try {
@@ -214,8 +214,8 @@ export const sendToAddress = async (
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);
-      log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 };
