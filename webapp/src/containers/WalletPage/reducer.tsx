@@ -8,6 +8,7 @@ export const initialState = {
   accountHistoryCountLoaded: false,
   accountHistoryCountLoading: false,
   minBlockHeight: 0,
+  maxBlockData: {},
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
@@ -231,6 +232,7 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = action.payload.data;
       state.minBlockHeight = action.payload.minBlockHeight;
+      state.maxBlockData = action.payload.maxBlockData;
     },
     fetchWalletTokenTransactionsListRequestFailure(state, action) {
       state.listAccountHistoryData.isLoading = false;
