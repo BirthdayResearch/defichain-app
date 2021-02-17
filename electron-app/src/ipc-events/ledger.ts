@@ -72,7 +72,7 @@ const initiateLedger = () => {
     try {
       const devices = await DefiLedger.getDevices();
       event.returnValue = responseMessage(true, {
-        devices,
+        devices: JSON.stringify(devices),
       });
       log.info(`List devices: ${JSON.stringify(devices)}`);
     } catch (err) {

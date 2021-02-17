@@ -1,7 +1,7 @@
-// import TransportHid from '@ledgerhq/hw-transport-node-hid';
+import TransportHid from '@ledgerhq/hw-transport-node-hid';
 import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import { identifyUSBProductId } from '@ledgerhq/devices';
-import TransportHid from '@ledgerhq/hw-transport-node-speculos';
+// import TransportHid from '@ledgerhq/hw-transport-node-speculos';
 // @ts-ignore
 import { encoding, crypto, PublicKey } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
@@ -91,14 +91,16 @@ export default class DefiHwWallet {
       if (!(await TransportHid.isSupported())) {
         throw new Error('Transport not supported');
       }
-      const devices = [{ productId: 'sdfdf' }];
+      // const devices = [{"vendorId":11415,"productId":1,"path":"/dev/hidraw3","serialNumber":"0001","manufacturer":"Ledger","product":"Nano S","release":513,"interface":0,"usagePage":65440,"usage":1}];
+      const devices = getDevices();
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
       // @ts-ignore
       this.devices = devices.map((device) => ({
         ...device,
-        deviceModel: 'Ledger',
+        deviceModel: identifyUSBProductId(device.productId)
+        // deviceModel: 'Ledger',
       }));
       return this.devices;
     } catch (err) {
@@ -113,8 +115,8 @@ export default class DefiHwWallet {
         throw new Error('Transport not supported');
       }
       // TODO After develop, is will change of connect on hw-transport-node-hid
-      // this.transport = await TransportHid.open(path !== undefined ? path : '');
-      this.transport = await TransportHid.open({ apduPort: 9999 });
+      this.transport = await TransportHid.open(path !== undefined ? path : '');
+      // this.transport = await TransportHid.open({ apduPort: 9999 });
       this.connected = true;
       log.info('Ledger is connected');
     } catch (err) {

@@ -262,8 +262,8 @@ export function* fetchInstantPendingBalance() {
 
 export function* fetchConnectLedger() {
   try {
-    const { data, error, } = yield call(getDevices);
-    if (data?.devices?.length && !error) {
+    const { devices, error, } = yield call(getDevices);
+    if (devices?.length && !error) {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
         const networkName = yield call(getNetwork);
@@ -273,7 +273,7 @@ export function* fetchConnectLedger() {
         yield put(setIsWalletCreatedRequest(true));
       } else {
         yield put(
-          reducer.fetchConnectLedgerFailure({ message: result.data.message })
+          reducer.fetchConnectLedgerFailure({ message: result.message })
         );
       }
     } else {
@@ -311,8 +311,9 @@ export function* getDevices() {
     yield put(reducer.getDevicesRequest());
     const devicesResult = yield call(getListDevicesLedger);
     if (devicesResult.success) {
-      yield put(reducer.getDevicesSuccess(devicesResult.data.devices));
-      return devicesResult;
+      const devices = JSON.parse(devicesResult.data.devices);
+      yield put(reducer.getDevicesSuccess(devices));
+      return { devices };
     } else {
       throw new Error(devicesResult.message);
     }
