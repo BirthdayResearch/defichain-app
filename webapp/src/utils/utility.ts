@@ -449,7 +449,7 @@ export const remapNodeError = (message: string): string => {
     Object.keys(ErrorMessages).forEach(
       (v: string) =>
         (remappedMessage = getErrorRemapping(
-          message,
+          remappedMessage,
           [ErrorMessages[v] ?? ''],
           ResponseMessages[v] ?? ''
         ))
@@ -1517,9 +1517,7 @@ export const checkRPCErrorMessagePending = (message: string): string => {
         ResponseMessages.BLOCKS_PENDING
       );
     } else {
-      return remapNodeError(
-        message
-      );
+      return remapNodeError(message);
     }
   }
   return message;
