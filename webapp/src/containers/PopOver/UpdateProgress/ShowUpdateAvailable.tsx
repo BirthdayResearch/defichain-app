@@ -16,6 +16,24 @@ const ShowUpdateAvailableComponent = (
 ) => {
   const { closeUpdateAvailable, closeModal, forcedUpdate } = props;
   const closing = () => closeModal(closeUpdateAvailable);
+
+  if (forcedUpdate) {
+    return (
+      <>
+        <ModalBody>
+          <h1 className='h3'>{I18n.t('update.updateRequired')}</h1>
+
+          {I18n.t('update.updateReason')}
+        </ModalBody>
+        <ModalFooter className='d-flex align-items-center justify-content-center'>
+          <Button color='primary' onClick={showAvailableUpdateResponse}>
+            {I18n.t('alerts.yesShowUpdateAvailableButton')}
+          </Button>
+        </ModalFooter>
+      </>
+    );
+  }
+
   return (
     <>
       <ModalBody>
