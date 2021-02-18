@@ -4,7 +4,6 @@
 *                               @DeFiCh/app-engineers
 
 .github/**                      @DeFiCh/admin
-.github/ISSUE_TEMPLATE/*        @izzycsy
 
 tslint.json                     @DeFiCh/admin
 tsconfig.json                   @DeFiCh/admin
@@ -17,4 +16,4 @@ package-lock.json               @DeFiCh/admin
 *.cmd                           @DeFiCh/admin
 *.ps1                           @DeFiCh/admin
 
-LICENSE                         @uzyn
+LICENSE                         @DeFiCh/admin
