@@ -160,8 +160,9 @@ export function* changeNetworkNode(networkName) {
   //   config.rpcbind = DEFAULT_MAINNET_CONNECT;
   //   config.rpcport = DEFAULT_MAINNET_PORT;
   // }
+  const currentNetworkConfiguration = configurationData[name] || {};
   const updatedConf = Object.assign({}, configurationData, network, {
-    [name]: config,
+    [name]: {...currentNetworkConfiguration, ...config},
   });
   yield put(restartModal());
   yield call(shutDownBinary);
