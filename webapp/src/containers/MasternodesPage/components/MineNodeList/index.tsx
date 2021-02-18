@@ -11,6 +11,7 @@ import {
   TabPane,
 } from 'reactstrap';
 import styles from './MineNodeList.module.scss';
+import { MINE } from 'src/constants';
 
 interface MineNodeProps {
   MineNodeData: any[];
@@ -22,7 +23,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
   const { MineNodeData } = props;
 
   return (
-    <TabPane tabId='mine'>
+    <TabPane tabId={MINE}>
       <Row>
         {MineNodeData.map((mineData, i) => (
           <Col md='6' className='mt-5'>
@@ -34,7 +35,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
                       className={`txn-status-${mineData.active} mt-1`}
                     ></span>
                   </Col>
-                  <Col md='9'>
+                  <Col md='9' className='pl-0'>
                     <CardTitle tag='h5'>{mineData.mineName} </CardTitle>
                   </Col>
                   <Col md='2'>

@@ -240,7 +240,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdDns />
                 {I18n.t('containers.sideBar.masterNodes')}
-                <div className={styles.status}>
+                <div className={styles.iconPosition}>
                   <span className={`txn-status-enabled mt-1 ml-1`}></span>
                 </div>
               </NavLink>
