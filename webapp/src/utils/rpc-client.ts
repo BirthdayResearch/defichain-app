@@ -43,7 +43,12 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
-import { ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
+import {
+  CreateNewWalletModel,
+  ListUnspentModel,
+  PeerInfoModel,
+  WalletInfo,
+} from 'src/constants/rpcModel';
 
 export default class RpcClient {
   client: any;
@@ -103,7 +108,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  getWalletInfo = async (): Promise<any> => {
+  getWalletInfo = async (): Promise<WalletInfo> => {
     const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
@@ -782,10 +787,10 @@ export default class RpcClient {
     return data.result;
   };
 
-  walletPassphrase = async (passphrase: string) => {
+  walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      WALLET_UNLOCK_TIMEOUT,
+      timeout || WALLET_UNLOCK_TIMEOUT,
     ]);
     return data.result;
   };
@@ -930,5 +935,15 @@ export default class RpcClient {
       },
     ]);
     return data.result;
+  };
+
+  createWallet = async (walletPath: string, passphrase: string): Promise<CreateNewWalletModel> => {
+    const { data } = await this.call('/', methodNames.CREATE_WALLET, [
+      walletPath,
+      false,
+      false,
+      passphrase,
+    ]);
+    return data?.result;
   };
 }

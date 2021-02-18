@@ -15,6 +15,7 @@ import {
   STOP_BINARY_AND_QUEUE,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
+import { unlockWalletSuccess } from '../../containers/WalletPage/reducer';
 
 const worker = (task, callback) => {
   task
@@ -71,13 +72,25 @@ if (isElectron()) {
   });
 }
 
+const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
+  const {
+    wallet: { isWalletEncrypted, isWalletUnlocked },
+  } = store.getState();
+  if (isWalletUnlocked && isWalletEncrypted) {
+    log.info('Locking wallet...', LOGGING_SHUT_DOWN);
+    await rpcClient.walletlock();
+  }
+  store.dispatch(unlockWalletSuccess(false));
+};
+
 export const shutDownBinary = async () => {
   try {
     log.info('Starting node shutdown...', LOGGING_SHUT_DOWN);
     store.dispatch(killQueue());
     await q.kill();
     const rpcClient = new RpcClient();
-    const result = rpcClient.stop();
+    await lockWalletOnShutdownBinary(rpcClient);
+    const result = await rpcClient.stop();
     log.info(
       `Node shutdown successfully ${JSON.stringify(result)}`,
       LOGGING_SHUT_DOWN

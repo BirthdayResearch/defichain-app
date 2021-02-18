@@ -39,6 +39,7 @@ import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
+  remapNodeError,
   getPageTitle,
   getSymbolKey,
   isLessThanDustAmount,
@@ -51,6 +52,7 @@ import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
+import { ErrorMessages, ResponseMessages } from '../../../../constants/common';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -236,7 +238,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: error.message,
+      errMessage: remapNodeError(
+        error.message
+      ),
     });
   };
 
