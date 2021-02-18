@@ -1,6 +1,7 @@
-import TransportHid from '@ledgerhq/hw-transport-node-speculos';
+import TransportHid from '@ledgerhq/hw-transport-node-hid';
+import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import DefiHwWallet from '../defiHwWallet';
-
+jest.mock('../../services/electronLogger');
 describe('DefiHwWallet', () => {
   const DefiLedger = new DefiHwWallet();
 
@@ -40,23 +41,13 @@ describe('DefiHwWallet', () => {
     ledgerTransport.mockRestore();
   });
 
-  it('there must be a mistake no devices connected', async () => {
-    const ledgerTransport = jest
-      .spyOn(TransportHid, 'list')
-      .mockImplementation(() => Promise.resolve([]));
-    await expect(DefiLedger.getDevices()).rejects.toHaveProperty(
-      'message',
-      'No devices connected'
-    );
-    ledgerTransport.mockRestore();
-  });
-
   it('should return public key at format legacy', async () => {
     const res = await DefiLedger.getDefiPublicKey(2);
     expect(res).toEqual({
       pubkey:
-        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
-      address: '8PAX3vszViQW2vZW6uM8b6pqaNvZYDQJZt',
+        '03cafc9f4bbffc37418359abe142d056d562e2f0cbaa585b680a8c0be7cd476a95',
+      address: '789QuskTNNdt1psxeMopoKHac82SjAN6ZV',
+      chainCode: '38d4f3f5e013144ca4f836302a39a34fe83b81fc9c0c142c3e79869ff31e15df'
     });
   });
 
@@ -64,33 +55,16 @@ describe('DefiHwWallet', () => {
     const res = await DefiLedger.getDefiPublicKey(2, 'p2sh');
     expect(res).toEqual({
       pubkey:
-        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
-      address: 'dLKhx5YCqCrUHrRA4BsaQCr3tc2gFwFr54',
-    });
-  });
-
-  it('should return public key at format bech32', async () => {
-    const res = await DefiLedger.getDefiPublicKey(2, 'bech32');
-    expect(res).toEqual({
-      pubkey:
-        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
-      address: 'df1qtz32nlzjqw8c2dzcu0k9nvfyl0209hkteseea0',
-    });
-  });
-
-  it('should return public key at format cashaddr', async () => {
-    const res = await DefiLedger.getDefiPublicKey(2, 'cashaddr');
-    expect(res).toEqual({
-      pubkey:
-        '049a322ab016f2ccb2221ed15bbc8bda25bd10618843adf9fd015a206e0bb3c0db20c29a6c7e82d2b6e674aebec650c2e3da7d8edb622afa665b4f8bee86672c1e',
-      address: 'qpv2920u2gpclpf5tr37ckd3ynaafuk7evzlpn6yzw',
+        '03cafc9f4bbffc37418359abe142d056d562e2f0cbaa585b680a8c0be7cd476a95',
+      address: 'ttVsZL1vmt25hWC2WKzJZcPEXAiMQrKpVA',
+      chainCode: '38d4f3f5e013144ca4f836302a39a34fe83b81fc9c0c142c3e79869ff31e15df'
     });
   });
 
   it('should return sign signature in format TVL', async () => {
     const rawTVLSignature = await DefiLedger.sign(1, new Buffer('message'));
     expect(rawTVLSignature.toString('hex')).toEqual(
-      '314402207e4ac4c697bdb1d768337b56657ceea424441620746069215508bb1e753fab9d02207327983321d4e866f9dc465658ffaedbfebd0f080162516a623df2b2188cc5c8'
+      '30440220705b0ae5486ffd388c33da24aa6fc4b7a5082b1a73a8a5a4adb5e1c8331da61402207803223f084d56464a41558454dd8b8ffcc21ed065ffee8d01fbf78fcbd3d179'
     );
   });
 
@@ -99,7 +73,7 @@ describe('DefiHwWallet', () => {
     expect(
       DefiLedger.transformationSign(rawTVLSignature).toString('hex')
     ).toEqual(
-      'b8b6d9e46338d9a2be0821b57d9499fb16eda801fd24f131d869191338386b4c7c9a638c9db7bee29f15d487d622f8e381af0914a5046100af7e9a26f1609e5400'
+      '2824877c80308a84382d2f605eaf74a1c775e5b9341e93c3ffbdc5fb0275375e76d3478a4f8abaf660cdeccb8ea806b541707e37922b30851e6fbe5ac1a5035800'
     );
   });
 
