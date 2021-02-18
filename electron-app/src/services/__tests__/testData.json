@@ -7,7 +7,7 @@
   },
   "transaction": {
     "fee": 0,
-    "hash": "727783fbfcdce4fd6e34d071a78d8e95177772ab23702b3dce77e1da322c3229",
+    "hash": "a8eeee5d720adb58ddb298abed29dec5c2f2345ac8b00e8f686304fdc0292090",
     "inputs": [
       {
         "output": {
@@ -24,11 +24,135 @@
     "nLockTime": 0,
     "outputs": [
       {
-        "satoshis": 0,
+        "satoshis": 1,
         "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
       }
     ],
     "version": 4
+  },
+  "transactionResultCreateToken": {
+    "hash": "090489aabe4c365ad1d94a23a6c40382c962cb348f846a1c1cb8ffef566ad14a",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 1,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      },
+      {
+        "satoshis": 10000000000,
+        "script": "6a1944665478540841686d6564546f6b0008000000000000000003"
+      },
+      {
+        "satoshis": 100000000,
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
+      },
+      {
+        "satoshis": 1000000,
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
+      }
+    ],
+    "version": 4
+  },
+  "transactionResultMintToken": {
+    "hash": "5460e23b68d7a89bc6928f6078af2d4216d4b95770dd92d7ec014964846f5252",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 1,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      },
+      {
+        "satoshis": 10000000000,
+        "script": "6a12446654784d01820000000000000000000000"
+      },
+      {
+        "satoshis": 1000000,
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
+      }
+    ],
+    "version": 4
+  },
+  "resultCreateCustomTxOfCreateToken": {
+    "hash": "cd11a438a044d876a2a5904319e64043a0f039e2a7bae77e017ff065bce10fea",
+    "inputs": [
+      {
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295,
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        }
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 10000000000,
+        "script": "6a1944665478540841686d6564546f6b0008000000000000000003"
+      },
+      {
+        "satoshis": 100000000,
+        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
+      },
+      {
+        "satoshis": 1000000,
+        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
+      }
+    ],
+    "version": 2
+  },
+  "resultGovVariable": {
+    "hash": "05146e56a8f862de6aac58dcd4057f85279b8ec1e9e7fed80dc373f6b6f9bdf0",
+    "inputs": [
+      {
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 0,
+        "script": "6a194466547847134c505f4441494c595f4446495f524557415244"
+      },
+      {
+        "satoshis": 1000000,
+        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
+      }
+    ],
+    "version": 2
   },
   "createTokenData": {
     "txType": "T",
@@ -44,9 +168,12 @@
   "mintTokenData": {
     "txType": "M",
     "customData": {
-      "minted": {
-        "130": 0
-      }
+      "minted": [
+        {
+          "token": "130",
+          "balance": 0
+        }
+      ]
     },
     "tokenId": 0
   },

@@ -12,6 +12,7 @@ type CustomTransaction = {
   customData: any;
   tokenId: number;
 };
+const ONE_DFI_SATOSHIS = 100000000;
 
 export function createZeroOutputTxFromCustomTx(
   tx: Transaction,
@@ -34,13 +35,13 @@ export function createZeroOutputTxFromCustomTx(
       outputZero = new Transaction.Output({
         script,
         tokenId: 0,
-        satoshis: 1000000*100000000,
+        satoshis: 1000000*ONE_DFI_SATOSHIS,
       });
       transaction =  tx.addOutput(outputZero);
       outputOne = new Transaction.Output({
         script: scriptAddress,
         tokenId: 0,
-        satoshis: 100000000,
+        satoshis: ONE_DFI_SATOSHIS,
       });
       break;
     case CustomTx.customTxType.resignMasternode:
@@ -51,18 +52,24 @@ export function createZeroOutputTxFromCustomTx(
       outputZero = new Transaction.Output({
         script,
         tokenId: 0,
-        satoshis: 100*100000000,
+        satoshis: 100*ONE_DFI_SATOSHIS,
       });
       transaction =  tx.addOutput(outputZero);
       outputOne = new Transaction.Output({
         script: scriptAddress,
         tokenId: 0,
-        satoshis: 100000000,
+        satoshis: ONE_DFI_SATOSHIS,
       });
       transaction = transaction.addOutput(outputOne);
       break;
     case CustomTx.customTxType.mintToken:
       script.add(new CustomTx.MintToken(customTx.customData));
+      outputZero = new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 100*ONE_DFI_SATOSHIS,
+      });
+      transaction = tx.addOutput(outputZero);
       break;
     case CustomTx.customTxType.updateToken:
       script.add(new CustomTx.UpdateToken(customTx.customData));
@@ -91,7 +98,7 @@ export function createZeroOutputTxFromCustomTx(
       outputZero =  new Transaction.Output({
         script,
         tokenId: 0,
-        satoshis: customTx.customData.to[keys[0]]['0'].balance  * 100000000,
+        satoshis: customTx.customData.to[keys[0]]['0'].balance  * ONE_DFI_SATOSHIS,
       });
       transaction =  new Transaction(tx).addOutput(outputZero);
       break;
@@ -104,12 +111,18 @@ export function createZeroOutputTxFromCustomTx(
       outputZero =  new Transaction.Output({
         script,
         tokenId: 0,
-        satoshis: customTx.customData.to[keys[0]]['0'].balance * 100000000,
+        satoshis: customTx.customData.to[keys[0]]['0'].balance * ONE_DFI_SATOSHIS,
       });
       transaction = new Transaction(tx).addOutput(outputZero);
       break;
     case CustomTx.customTxType.setGovVariable:
       script.add(new CustomTx.SetGovVariable(customTx.customData));
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 0,
+      });
+      transaction =  new Transaction(tx).addOutput(outputZero);
       break;
     default:
       break;
@@ -117,7 +130,7 @@ export function createZeroOutputTxFromCustomTx(
   outputOne = new Transaction.Output({
     script: scriptAddress,
     tokenId: 0,
-    satoshis: (feeRate*100000000).toFixed(8),
+    satoshis: (feeRate*ONE_DFI_SATOSHIS).toFixed(8),
   });
   return transaction.addOutput(outputOne);
 }

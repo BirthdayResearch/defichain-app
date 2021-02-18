@@ -42,7 +42,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "set_env:prod": "cross-env NODE_ENV=production",
     "test:jem": "cd webapp/ && jest --coverage",
-    "test:electron": "jest electron-app",
+    "test:electron": "cd electron-app/ && jest --coverage",
     "electron-rebuild": "electron-rebuild",
     "rebuild": "electron-rebuild --force"
   },
