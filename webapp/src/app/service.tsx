@@ -12,6 +12,7 @@ import {
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   setLockedUntil,
+  unlockWalletSuccess,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import {
@@ -272,8 +273,12 @@ export const checkWalletEncryption = async (): Promise<boolean> => {
     const rpcClient = new RpcClient();
     const walletInfo = await rpcClient.getWalletInfo();
     const isEncrypted = walletInfo?.unlocked_until != null;
-    if (isEncrypted && walletInfo.unlocked_until > 0) {
-      setAutoLock(walletInfo.unlocked_until);
+    if (isEncrypted) {
+      if (walletInfo.unlocked_until > 0) {
+        setAutoLock(walletInfo.unlocked_until);
+      } else {
+        store.dispatch(unlockWalletSuccess(false));
+      }
     }
     return isEncrypted;
   } catch (error) {
