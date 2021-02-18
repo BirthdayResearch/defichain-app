@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { DeepMap, FieldError, RegisterOptions } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { I18n } from 'react-redux-i18n';
-import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { FormGroup, Input, Label } from 'reactstrap';
 import styles from './InputPassword.module.scss';
 
 interface InputPasswordProps {

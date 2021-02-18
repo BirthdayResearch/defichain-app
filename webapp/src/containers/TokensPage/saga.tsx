@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage, getErrorRemapping } from '../../utils/utility';
+import { getErrorMessage, remapNodeError } from '../../utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -102,10 +102,8 @@ export function* createTokens(action) {
   } catch (e) {
     yield put({
       type: createTokenFailure.type,
-      payload: getErrorRemapping(
-        getErrorMessage(e),
-        [ErrorMessages.WITNESS_MISMATCH],
-        ResponseMessages.WALLET_LOCKED
+      payload: remapNodeError(
+        getErrorMessage(e)
       ),
     });
     log.error(e);
@@ -122,10 +120,8 @@ export function* mintTokens(action) {
   } catch (e) {
     yield put({
       type: mintTokenFailure.type,
-      payload: getErrorRemapping(
-        getErrorMessage(e),
-        [ErrorMessages.WITNESS_MISMATCH],
-        ResponseMessages.WALLET_LOCKED
+      payload: remapNodeError(
+        getErrorMessage(e)
       ),
     });
     log.error(e);
@@ -142,10 +138,8 @@ export function* updateTokens(action) {
   } catch (e) {
     yield put({
       type: updateTokenFailure.type,
-      payload: getErrorRemapping(
-        getErrorMessage(e),
-        [ErrorMessages.WITNESS_MISMATCH],
-        ResponseMessages.WALLET_LOCKED
+      payload: remapNodeError(
+        getErrorMessage(e)
       ),
     });
     log.error(e);
@@ -162,10 +156,8 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: getErrorRemapping(
-        getErrorMessage(e),
-        [ErrorMessages.WITNESS_MISMATCH],
-        ResponseMessages.WALLET_LOCKED
+      payload: remapNodeError(
+        getErrorMessage(e)
       ),
     });
     log.error(e);

@@ -25,7 +25,7 @@ import {
   getAddressInfo,
 } from './service';
 
-import { getErrorMessage, getErrorRemapping } from '../../utils/utility';
+import { getErrorMessage, remapNodeError } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 import { RESIGNED_STATE } from '../../constants';
@@ -60,10 +60,8 @@ export function* fetchMasterNodes() {
       payload: { masternodes },
     });
   } catch (e) {
-    const message = getErrorRemapping(
-      getErrorMessage(e),
-      [ErrorMessages.WITNESS_MISMATCH],
-      ResponseMessages.WALLET_LOCKED
+    const message = remapNodeError(
+      getErrorMessage(e)
     );
     yield put({
       type: fetchMasternodesFailure.type,
@@ -78,10 +76,8 @@ export function* createMasterNodes() {
     const data = yield call(handelCreateMasterNodes);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
-    const message = getErrorRemapping(
-      getErrorMessage(e),
-      [ErrorMessages.WITNESS_MISMATCH],
-      ResponseMessages.WALLET_LOCKED
+    const message = remapNodeError(
+      getErrorMessage(e)
     );
     yield put({
       type: createMasterNodeFailure.type,
@@ -99,10 +95,8 @@ export function* masterNodeResign(action) {
     const data = yield call(handleResignMasterNode, masterNodeHash);
     yield put({ type: resignMasterNodeSuccess.type, payload: data });
   } catch (e) {
-    const message = getErrorRemapping(
-      getErrorMessage(e),
-      [ErrorMessages.WITNESS_MISMATCH],
-      ResponseMessages.WALLET_LOCKED
+    const message = remapNodeError(
+      getErrorMessage(e)
     );
     yield put({
       type: resignMasterNodeFailure.type,

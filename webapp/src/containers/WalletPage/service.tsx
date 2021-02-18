@@ -12,7 +12,6 @@ import {
   DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
@@ -33,13 +32,14 @@ import {
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import {
-  ON_WALLET_BACKUP_REQUEST,
+  ON_FILE_SELECT_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
-  ON_WALLET_RESTORE_VIA_RECENT,
-  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+  ON_WRITE_CONFIG_REQUEST,
+  ON_FILE_EXIST_CHECK,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
 import { backupWallet, updateWalletMap } from '../../app/service';
+import { IPCResponseModel } from '@defi_types/common';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -546,7 +546,7 @@ export const startRestoreViaBackup = async (network: string) => {
 export const checkRestoreRecentIfExisting = async (path: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_RECENT_CHECK, path);
+    const resp = ipcRenderer.sendSync(ON_FILE_EXIST_CHECK, path);
     if (!resp?.success) {
       updateWalletMap(path, true);
     }
@@ -563,11 +563,7 @@ export const checkRestoreRecentIfExisting = async (path: string) => {
 export const startRestoreViaRecent = async (path: string, network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(
-      ON_WALLET_RESTORE_VIA_RECENT,
-      path,
-      network
-    );
+    const resp = ipcRenderer.sendSync(ON_WRITE_CONFIG_REQUEST, path, network);
     if (resp?.success) {
       updateWalletMap(path);
     }
@@ -584,13 +580,44 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
 export const startBackupViaExitModal = async () => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST);
     if (resp?.success) {
       await backupWallet(resp?.data?.paths);
     }
     return resp;
   } catch (error) {
     log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const createNewWallet = async (
+  passphrase: string,
+  network: string
+): Promise<IPCResponseModel<string>> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
+    const walletDir = resp?.data?.paths;
+    const walletPath = resp?.data?.walletPath;
+    if (resp?.success && walletPath) {
+      const rpcClient = new RpcClient();
+      const createWalletResp = await rpcClient.createWallet(
+        walletDir,
+        passphrase
+      );
+      if (createWalletResp.warning == null || createWalletResp.warning == '') {
+        return startRestoreViaRecent(walletPath, network);
+      } else {
+        throw new Error(createWalletResp.warning);
+      }
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'createNewWallet');
     return {
       success: false,
       message: error?.message,

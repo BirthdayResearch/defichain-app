@@ -31,7 +31,7 @@ export const APP_INIT = 'app-init';
 export const ON_WALLET_MAP_REQUEST = 'on-wallet-map-request';
 export const ON_WALLET_MAP_REPLACE = 'on-wallet-map-replace';
 export const ON_WALLET_RESTORE_VIA_BACKUP = 'on-wallet-restore-via-backup';
-export const ON_WALLET_RESTORE_VIA_RECENT_CHECK =
-  'on-wallet-restore-via-recent-check';
-export const ON_WALLET_RESTORE_VIA_RECENT = 'on-wallet-restore-via-recent';
-export const ON_WALLET_BACKUP_REQUEST = 'on-wallet-backup-request';
+export const ON_FILE_EXIST_CHECK = 'on-file-exist-check';
+export const ON_WRITE_CONFIG_REQUEST = 'on-write-config-request';
+export const ON_FILE_SELECT_REQUEST = 'on-file-select-request';
+export const ON_DEFAULT_WALLET_PATH_REQUEST = 'on-default-wallet-path-request';

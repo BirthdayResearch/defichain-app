@@ -104,3 +104,8 @@ export interface WalletInfo {
   hdseedid: string;
   private_keys_enabled: boolean;
 }
+
+export interface CreateNewWalletModel {
+  name: string;
+  warning: string;
+}
