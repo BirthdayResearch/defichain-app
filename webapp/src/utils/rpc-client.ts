@@ -44,6 +44,7 @@ import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
 import {
+  CreateNewWalletModel,
   ListUnspentModel,
   PeerInfoModel,
   WalletInfo,
@@ -936,13 +937,13 @@ export default class RpcClient {
     return data.result;
   };
 
-  createWallet = async (walletPath: string, passphrase: string): Promise<string> => {
+  createWallet = async (walletPath: string, passphrase: string): Promise<CreateNewWalletModel> => {
     const { data } = await this.call('/', methodNames.CREATE_WALLET, [
       walletPath,
       false,
       false,
       passphrase,
     ]);
-    return data?.result?.name;
+    return data?.result;
   };
 }

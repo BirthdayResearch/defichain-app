@@ -237,7 +237,6 @@ export const setWalletEvents = () => {
     ON_DEFAULT_WALLET_PATH_REQUEST,
     async (event: Electron.IpcMainEvent) => {
       try {
-        removeDefaultWalletFile();
         event.returnValue = responseMessage(true, {
           paths: getBaseFolder(),
           walletPath: path.join(getBaseFolder(), WALLET_DAT),

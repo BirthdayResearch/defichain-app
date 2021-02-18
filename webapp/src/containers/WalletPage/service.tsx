@@ -12,7 +12,6 @@ import {
   DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
@@ -37,10 +36,10 @@ import {
   ON_WALLET_RESTORE_VIA_BACKUP,
   ON_WRITE_CONFIG_REQUEST,
   ON_FILE_EXIST_CHECK,
-  ON_DEFAULT_WALLET_PATH_REQUEST,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
 import { backupWallet, updateWalletMap } from '../../app/service';
+import { IPCResponseModel } from '@defi_types/common';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -595,17 +594,25 @@ export const startBackupViaExitModal = async () => {
   }
 };
 
-export const createNewWallet = async (passphrase: string, network: string) => {
+export const createNewWallet = async (
+  passphrase: string,
+  network: string
+): Promise<IPCResponseModel<string>> => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_DEFAULT_WALLET_PATH_REQUEST);
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
     const walletDir = resp?.data?.paths;
     const walletPath = resp?.data?.walletPath;
     if (resp?.success && walletPath) {
       const rpcClient = new RpcClient();
-      const walletName = await rpcClient.createWallet(walletDir, passphrase);
-      if (walletName) {
+      const createWalletResp = await rpcClient.createWallet(
+        walletDir,
+        passphrase
+      );
+      if (createWalletResp.warning == null || createWalletResp.warning == '') {
         return startRestoreViaRecent(walletPath, network);
+      } else {
+        throw new Error(createWalletResp.warning);
       }
     }
     return resp;
