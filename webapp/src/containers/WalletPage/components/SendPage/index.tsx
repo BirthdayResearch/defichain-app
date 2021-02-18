@@ -39,7 +39,7 @@ import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
-  getErrorRemapping,
+  remapNodeError,
   getPageTitle,
   getSymbolKey,
   isLessThanDustAmount,
@@ -238,10 +238,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: getErrorRemapping(
-        error.message,
-        [ErrorMessages.WALLET_LOCKED],
-        ResponseMessages.WALLET_LOCKED
+      errMessage: remapNodeError(
+        error.message
       ),
     });
   };

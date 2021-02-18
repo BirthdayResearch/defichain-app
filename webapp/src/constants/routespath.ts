@@ -27,7 +27,6 @@ export const WALLET_RESTORE_PAGE_PATH = '/wallet/restore';
 export const WALLET_SYNC_PAGE_PATH = '/wallet/sync';
 export const WALLET_ENCRYPT_PATH = '/wallet/encrypt';
 export const WALLET_UNLOCK_PATH = '/wallet/unlock';
-export const CREATE_NEW_WALLET_PATH = `${WALLET_BASE_PATH}/createnew`;
 export const WALLET_SEND_PATH = `${WALLET_BASE_PATH}/send`;
 export const WALLET_RECEIVE_PATH = `${WALLET_BASE_PATH}/receive`;
 export const WALLET_CREATE_RECEIVE_REQUEST = `${WALLET_BASE_PATH}/receive/request`;

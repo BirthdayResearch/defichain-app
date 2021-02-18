@@ -75,10 +75,10 @@ const routes = (location) => (
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
-    <Route exact path={WALLET_BASE_PATH} component={CreateWallet} />
+    <Route exact path={WALLET_CREATE_PATH} component={CreateWallet} />
     <Route
       exact
-      path={WALLET_CREATE_PATH}
+      path={WALLET_BASE_PATH}
       component={CreateOrRestoreWalletPage}
     />
     <Route exact path={WALLET_RESTORE_PAGE_PATH} component={RestoreWallet} />

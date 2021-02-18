@@ -4,7 +4,7 @@ import { CREATE_MNEMONIC } from '@defi_types/ipcEvents';
 import Mnemonic from '../mnemonic';
 import { writeToConfigFile } from '../controllers/wallets';
 import { getBaseFolder } from '../utils';
-import { WALLET_DAT } from '../constants';
+import { WALLET_DAT } from '@defi_types/fileExtensions';
 
 export const createMnemonicAction = () => {
   ipcMain.on(CREATE_MNEMONIC, (event: Electron.IpcMainEvent, args) => {

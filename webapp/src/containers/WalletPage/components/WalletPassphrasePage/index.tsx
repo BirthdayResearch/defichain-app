@@ -120,6 +120,15 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                       </Button>
                     </div>
                   </div>
+                  {isModal && isErrorUnlockWallet.length !== 0 && (
+                    <h6
+                      className={classnames({
+                        [styles[`error-dialog`]]: true,
+                      })}
+                    >
+                      {isErrorUnlockWallet}
+                    </h6>
+                  )}
                   <div className='text-center'>
                     <Button
                       size='md'
