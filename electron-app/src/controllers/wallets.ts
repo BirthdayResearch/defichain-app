@@ -235,10 +235,9 @@ export const setWalletEvents = () => {
 
   ipcMain.on(
     ON_DEFAULT_WALLET_PATH_REQUEST,
-    async (
-      event: Electron.IpcMainEvent
-    ) => {
+    async (event: Electron.IpcMainEvent) => {
       try {
+        removeDefaultWalletFile();
         event.returnValue = responseMessage(true, {
           paths: getBaseFolder(),
           walletPath: path.join(getBaseFolder(), WALLET_DAT),
@@ -285,6 +284,22 @@ const appendExtension = (paths: string, extension: string) => {
   return isDatFile === -1 ? `${paths}.${extension}` : paths;
 };
 
+export const removeDefaultWalletFile = () => {
+  try {
+    const baseFolder = getBaseFolder();
+    const srcFilePath = path.join(baseFolder, WALLET_DAT);
+    if (checkPathExists(srcFilePath)) {
+      const destFileName = `wallet-bak-${Date.now()}.dat`;
+      const destFilePath = path.join(baseFolder, destFileName);
+      copyFile(srcFilePath, destFilePath);
+      log.info(`Backup file created in ${destFilePath}`);
+      deleteFile(srcFilePath);
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
 export default class Wallet {
   async load(bw: Electron.BrowserWindow) {
     try {
@@ -325,12 +340,7 @@ export default class Wallet {
   }
 
   async replaceWalletDat() {
-    const baseFolder = getBaseFolder();
-    const destFileName = `wallet-bak-${Date.now()}.dat`;
-    const destFilePath = path.join(baseFolder, destFileName);
-    const srcFilePath = path.join(baseFolder, WALLET_DAT);
-    copyFile(srcFilePath, destFilePath);
-    deleteFile(srcFilePath);
+    removeDefaultWalletFile();
   }
 
   async startBackupWallet(bw: Electron.BrowserWindow) {
