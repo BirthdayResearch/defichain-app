@@ -443,6 +443,22 @@ export const getErrorRemapping = (
   }
 };
 
+export const remapNodeError = (message: string): string => {
+  if (message != null) {
+    let remappedMessage = message;
+    Object.keys(ErrorMessages).forEach(
+      (v: string) =>
+        (remappedMessage = getErrorRemapping(
+          message,
+          [ErrorMessages[v] ?? ''],
+          ResponseMessages[v] ?? ''
+        ))
+    );
+    return remappedMessage;
+  }
+  return message;
+};
+
 export const setIntervalSynchronous = (func, delay) => {
   let timeoutId;
   const clear = () => {
@@ -1500,17 +1516,9 @@ export const checkRPCErrorMessagePending = (message: string): string => {
         lpKeywords,
         ResponseMessages.BLOCKS_PENDING
       );
-    } else if (shouldRemapError(message, [ErrorMessages.WALLET_LOCKED])) {
-      return getErrorRemapping(
-        message,
-        [ErrorMessages.WALLET_LOCKED],
-        ResponseMessages.WALLET_LOCKED
-      );
-    } else if (shouldRemapError(message, [ErrorMessages.WITNESS_MISMATCH])) {
-      return getErrorRemapping(
-        message,
-        [ErrorMessages.WITNESS_MISMATCH],
-        ResponseMessages.WALLET_LOCKED
+    } else {
+      return remapNodeError(
+        message
       );
     }
   }

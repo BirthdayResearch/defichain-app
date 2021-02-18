@@ -8,9 +8,12 @@ export interface HighestAmountItem {
 export enum ErrorMessages {
   WALLET_LOCKED = 'Please enter the wallet passphrase with walletpassphrase first',
   WITNESS_MISMATCH = 'Witness program hash mismatch',
+  AUTH_TX = 'Add-on auth TX failed: Insufficient funds'
 }
 
 export enum ResponseMessages {
   WALLET_LOCKED = 'containers.wallet.encryptWalletPage.walletIsLocked',
+  WITNESS_MISMATCH = 'containers.wallet.encryptWalletPage.walletIsLocked',
   BLOCKS_PENDING = 'containers.liquidity.liquidityPage.blockTransactionFailed',
+  AUTH_TX = 'containers.errors.insufficientFunds'
 }

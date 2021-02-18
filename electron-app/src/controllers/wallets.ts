@@ -13,6 +13,7 @@ import {
   ON_FILE_EXIST_CHECK,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
+  ON_DEFAULT_WALLET_PATH_REQUEST,
 } from '@defi_types/ipcEvents';
 import {
   checkPathExists,
@@ -222,6 +223,25 @@ export const setWalletEvents = () => {
           walletPath: shouldAppendWalletPath
             ? path.join(paths, WALLET_DAT)
             : filePath,
+        });
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    }
+  );
+
+  ipcMain.on(
+    ON_DEFAULT_WALLET_PATH_REQUEST,
+    async (
+      event: Electron.IpcMainEvent
+    ) => {
+      try {
+        event.returnValue = responseMessage(true, {
+          paths: getBaseFolder(),
+          walletPath: path.join(getBaseFolder(), WALLET_DAT),
         });
       } catch (error) {
         log.error(error);

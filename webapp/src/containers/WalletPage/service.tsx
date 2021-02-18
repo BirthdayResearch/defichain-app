@@ -37,6 +37,7 @@ import {
   ON_WALLET_RESTORE_VIA_BACKUP,
   ON_WRITE_CONFIG_REQUEST,
   ON_FILE_EXIST_CHECK,
+  ON_DEFAULT_WALLET_PATH_REQUEST,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
 import { backupWallet, updateWalletMap } from '../../app/service';
@@ -563,11 +564,7 @@ export const checkRestoreRecentIfExisting = async (path: string) => {
 export const startRestoreViaRecent = async (path: string, network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(
-      ON_WRITE_CONFIG_REQUEST,
-      path,
-      network
-    );
+    const resp = ipcRenderer.sendSync(ON_WRITE_CONFIG_REQUEST, path, network);
     if (resp?.success) {
       updateWalletMap(path);
     }
@@ -601,7 +598,7 @@ export const startBackupViaExitModal = async () => {
 export const createNewWallet = async (passphrase: string, network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
+    const resp = ipcRenderer.sendSync(ON_DEFAULT_WALLET_PATH_REQUEST);
     const walletDir = resp?.data?.paths;
     const walletPath = resp?.data?.walletPath;
     if (resp?.success && walletPath) {
