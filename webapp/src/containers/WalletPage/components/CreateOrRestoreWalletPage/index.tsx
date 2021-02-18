@@ -79,7 +79,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   }, []);
 
   const isBlocksLoaded = (): boolean => {
-    return latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock;
+    return true;//latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock;
   };
 
   const createWallet = () => {
