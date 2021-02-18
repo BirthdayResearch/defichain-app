@@ -8,7 +8,7 @@ describe('ShowUpdateAvailable', () => {
   it('should check for snapshot', () => {
     const wrapper = Enzyme.mount(
       <Provider store={store}>
-        <ShowUpdateAvailable closeModal={() => {}} />
+        <ShowUpdateAvailable closeModal={() => {}} forcedUpdate={false} />
       </Provider>
     );
     expect(wrapper).toMatchSnapshot();

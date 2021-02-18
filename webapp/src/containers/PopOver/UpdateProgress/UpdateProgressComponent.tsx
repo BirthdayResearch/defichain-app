@@ -15,6 +15,7 @@ interface UpdateModalProps {
   isUpdateStarted: boolean;
   closeUpdateApp: () => void;
   backupWalletIsOpen: boolean;
+  isForcedUpdate: boolean;
 }
 
 const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
@@ -25,6 +26,7 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
     postUpdateFlag,
     isUpdateStarted,
     isUpdateError,
+    isForcedUpdate,
     closeUpdateApp,
     backupWalletIsOpen,
   } = props;
@@ -37,8 +39,14 @@ const UpdateModal: React.FunctionComponent<UpdateModalProps> = (
   const loadHtml = () => {
     if (isUpdateError) return <ErrorComponent />;
 
-    if (showUpdateAvailable)
-      return <ShowUpdateAvailableComponent closeModal={closeModal} />;
+    if (showUpdateAvailable) {
+      return (
+        <ShowUpdateAvailableComponent
+          closeModal={closeModal}
+          forcedUpdate={isForcedUpdate}
+        />
+      );
+    }
 
     if (postUpdateFlag) return <PostUpdateComponent closeModal={closeModal} />;
 
@@ -57,12 +65,14 @@ const mapStateToProps = (state) => {
     isUpdateError,
     postUpdateFlag,
     showUpdateAvailable,
+    isForcedUpdate,
     isUpdateStarted,
     backupWalletIsOpen,
   } = state.popover;
   return {
     isUpdateError,
     postUpdateFlag,
+    isForcedUpdate,
     showUpdateAvailable,
     isUpdateStarted,
     backupWalletIsOpen,

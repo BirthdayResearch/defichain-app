@@ -8,12 +8,13 @@ import { closeUpdateAvailable } from '../reducer';
 interface ShowUpdateAvailableComponentProps {
   closeUpdateAvailable: () => void;
   closeModal: (fn: any) => void;
+  forcedUpdate: boolean;
 }
 
 const ShowUpdateAvailableComponent = (
   props: ShowUpdateAvailableComponentProps
 ) => {
-  const { closeUpdateAvailable, closeModal } = props;
+  const { closeUpdateAvailable, closeModal, forcedUpdate } = props;
   const closing = () => closeModal(closeUpdateAvailable);
   return (
     <>

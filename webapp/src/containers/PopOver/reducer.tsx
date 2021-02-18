@@ -10,6 +10,7 @@ export const initialState = {
   updateAppInfo: {},
   postUpdateFlag: false,
   showUpdateAvailable: false,
+  isForcedUpdate: true,
   isReIndexModelOpen: false,
   isReIndexRestart: false,
   isMinimized: false,
@@ -30,7 +31,7 @@ export const initialState = {
   isWalletEncrypting: false,
   isErrorEncryptingWallet: '',
   isEncryptFromModal: false,
-  isPostEncryptBackupModalOpen: false
+  isPostEncryptBackupModalOpen: false,
 };
 
 const configSlice = createSlice({
@@ -100,6 +101,11 @@ const configSlice = createSlice({
     },
     showUpdateAvailableBadge(state) {
       state.updateAvailableBadge = true;
+    },
+    showUpdateForcedModal(state) {
+      state.isUpdateModalOpen = true;
+      state.showUpdateAvailable = true;
+      state.isForcedUpdate = true;
     },
     openBackupWallet(state) {
       state.backupWalletIsOpen = true;
@@ -184,7 +190,7 @@ const configSlice = createSlice({
     },
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
-    }
+    },
   },
 });
 
@@ -208,6 +214,7 @@ export const {
   closeRestartLoader,
   minimizeDownloadProgressModal,
   showUpdateAvailableBadge,
+  showUpdateForcedModal,
   backupLoadingStart,
   openBackupWallet,
   closeBackupLoading,
@@ -236,7 +243,7 @@ export const {
   openRestoreWalletModal,
   restoreWalletViaRecent,
   openExitWalletModal,
-  openPostEncryptBackupModal
+  openPostEncryptBackupModal,
 } = actions;
 
 export default reducer;

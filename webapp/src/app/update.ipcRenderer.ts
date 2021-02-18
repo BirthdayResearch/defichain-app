@@ -7,6 +7,7 @@ import {
   handleClosePostUpdate,
   handleCloseUpdateApp,
   showErrorNotification,
+  handleShowUpdateForcedModal,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
 import { UPDATE_MODAL_CLOSE_TIMEOUT, PACKAGE_VERSION } from '../constants';
@@ -41,7 +42,7 @@ const initUpdateAppIpcRenderers = () => {
 
   ipcRenderer.on(SHOW_UPDATE_AVAILABLE, async (version: string) => {
     if (shouldForceUpdate(version)) {
-      // TODO(fuxing):
+      handleShowUpdateForcedModal();
     } else {
       handleShowUpdateAvailableBadge();
     }

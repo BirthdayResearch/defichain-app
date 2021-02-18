@@ -1,4 +1,8 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  EnhancedStore,
+  getDefaultMiddleware,
+} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import log from 'loglevel';
 import reducer from './rootReducer';
@@ -21,7 +25,7 @@ if (!isProduction) {
   log.setDefaultLevel(DEFAULT_LOG_LEVEL);
 }
 
-const store: any = configureStore({
+const store: EnhancedStore = configureStore({
   reducer,
   middleware,
 });

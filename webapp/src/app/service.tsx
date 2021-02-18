@@ -25,6 +25,7 @@ import {
   updateCompleted,
   updateError,
   showUpdateAvailableBadge,
+  showUpdateForcedModal,
   closeUpdateAvailable,
   closePostUpdate,
   closeUpdateApp,
@@ -218,6 +219,13 @@ export const updateComplete = () => {
 export const handleUpdateError = (args?: any) => {
   openUpdateModal();
   return store.dispatch(updateError(args));
+};
+
+export const handleShowUpdateForcedModal = (): {
+  payload: undefined;
+  type: string;
+} => {
+  return store.dispatch(showUpdateForcedModal());
 };
 
 export const handleShowUpdateAvailableBadge = () => {
