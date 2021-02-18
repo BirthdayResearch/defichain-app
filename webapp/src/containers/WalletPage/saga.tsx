@@ -506,21 +506,27 @@ export function* restoreWalletViaRecent(action: any) {
 export function* handleCreateWalletStart(action: any) {
   try {
     log.info(`Starting create wallet...`, 'handleCreateWalletStart');
-    const {
-      passphrase
-    } = action.payload;
+    const { passphrase } = action.payload;
     const networkType = getNetworkType();
     const resp = yield call(createNewWallet, passphrase, networkType);
     if (resp?.success) {
+      yield call(shutDownBinary);
+      yield call(restartNodeSync);
       yield put(setIsWalletCreatedRequest(true));
       yield call(enableMenuResetWalletBtn, true);
       yield put(encryptWalletSuccess());
       yield put(setWalletEncrypted(true));
+      yield put(createWalletSuccess());
       history.push(WALLET_TOKENS_PATH);
       log.info(`Create wallet successful`, 'handleCreateWalletStart');
-      yield put(openPostEncryptBackupModal(true));
+    } else {
+      yield put({
+        type: createWalletFailure.type,
+        payload: resp?.message,
+      });
     }
   } catch (e) {
+    yield put(createWalletFailure(e.message));
     log.error(e.message, 'handleCreateWalletStart');
   }
 }
@@ -544,7 +550,10 @@ export function* backupWalletViaExitModal() {
 
 export function* backupWalletViaPostEncryptModal() {
   try {
-    log.info(`Starting backup via post encrypt modal...`, 'backupWalletViaPostEncryptModal');
+    log.info(
+      `Starting backup via post encrypt modal...`,
+      'backupWalletViaPostEncryptModal'
+    );
     const resp = yield call(startBackupViaExitModal);
     if (resp?.success) {
       yield put(openPostEncryptBackupModal(false));
@@ -743,8 +752,11 @@ function* mySaga() {
     backupWalletViaExitModal
   );
   yield takeLatest(setWalletEncryptedRequest.type, startWalletEncryptionCheck);
-  yield takeLatest(startBackupWalletViaPostEncryptModal.type, backupWalletViaPostEncryptModal);
-  yield takeLatest(createWalletStart.type, handleCreateWalletStart)
+  yield takeLatest(
+    startBackupWalletViaPostEncryptModal.type,
+    backupWalletViaPostEncryptModal
+  );
+  yield takeLatest(createWalletStart.type, handleCreateWalletStart);
 }
 
 export default mySaga;

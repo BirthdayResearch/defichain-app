@@ -9,18 +9,29 @@ import {
   encryptWalletStart,
 } from '../reducer';
 import EncryptWalletPage, {
-  EncryptWalletPageProps,
+  EncryptWalletPayload,
 } from '../../WalletPage/components/EncryptWalletPage';
 
-interface EncryptWalletModalProps extends EncryptWalletPageProps {
+interface EncryptWalletModalProps {
+  isWalletEncrypting: boolean;
   isEncryptWalletModalOpen: boolean;
+  isErrorEncryptingWallet: string;
+  encryptWalletFailure: (err: string) => void;
+  encryptWalletStart: (item: EncryptWalletPayload) => void;
   closeEncryptWalletModal: () => void;
 }
 
 const EncryptWalletModal: React.FunctionComponent<EncryptWalletModalProps> = (
   props: EncryptWalletModalProps
 ) => {
-  const { isEncryptWalletModalOpen, closeEncryptWalletModal } = props;
+  const {
+    isEncryptWalletModalOpen,
+    closeEncryptWalletModal,
+    encryptWalletStart,
+    isWalletEncrypting,
+    isErrorEncryptingWallet,
+    encryptWalletFailure,
+  } = props;
 
   return (
     <Modal
@@ -32,6 +43,14 @@ const EncryptWalletModal: React.FunctionComponent<EncryptWalletModalProps> = (
     >
       <ModalBody>
         <EncryptWalletPage
+          submitButtonLabel={'alerts.enableLocking'}
+          onCloseFailure={encryptWalletFailure}
+          pageErrorMessage={isErrorEncryptingWallet}
+          pageLoadingMessage={
+            'containers.wallet.encryptWalletPage.encryptingWallet'
+          }
+          isPageLoading={isWalletEncrypting}
+          onSave={encryptWalletStart}
           onClose={closeEncryptWalletModal}
           isModal={true}
           pageSize={7}

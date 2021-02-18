@@ -12,8 +12,7 @@ import { connect } from 'react-redux';
 
 import WalletStatCard from '../../../../components/WalletStatCard';
 import {
-  WALLET_BASE_PATH,
-  WALLET_ENCRYPT_PATH,
+  WALLET_CREATE_PATH,
   WALLET_RESTORE_PAGE_PATH,
   WALLET_SYNC_PAGE_PATH,
 } from '../../../../constants';
@@ -87,7 +86,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
     isBlocksLoaded()
       ? restartCriteriaFlag && !isWalletReplace
         ? openBackupWalletWarningModal()
-        : history.push(WALLET_ENCRYPT_PATH)
+        : history.push(WALLET_CREATE_PATH)
       : history.push(WALLET_SYNC_PAGE_PATH);
   };
 

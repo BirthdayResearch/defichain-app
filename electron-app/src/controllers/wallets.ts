@@ -1,22 +1,16 @@
 import path from 'path';
 import * as log from '../services/electronLogger';
 import DialogManager from '../services/dialogmanager';
-import {
-  CONFIG_FILE_NAME,
-  DAT_FILE,
-  DAT_FILE_TYPE,
-  WALLET_DAT,
-  WALLET_MAP_FILE,
-} from '../constants';
+import { CONFIG_FILE_NAME, WALLET_MAP_FILE } from '../constants';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
-  ON_WALLET_BACKUP_REQUEST,
+  ON_FILE_SELECT_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
-  ON_WALLET_RESTORE_VIA_RECENT,
-  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+  ON_WRITE_CONFIG_REQUEST,
+  ON_FILE_EXIST_CHECK,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
 } from '@defi_types/ipcEvents';
@@ -32,6 +26,11 @@ import {
 import fs from 'fs';
 import { ipcMain } from 'electron';
 import { WalletMap } from '@defi_types/walletMap';
+import {
+  DAT_FILE,
+  DAT_FILE_TYPE,
+  WALLET_DAT,
+} from '@defi_types/fileExtensions';
 import ini from 'ini';
 import { ParsedPath } from 'path';
 
@@ -166,7 +165,7 @@ export const setWalletEvents = () => {
   );
 
   ipcMain.on(
-    ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+    ON_FILE_EXIST_CHECK,
     async (event: Electron.IpcMainEvent, filePath: string) => {
       try {
         if (checkPathExists(filePath)) {
@@ -184,7 +183,7 @@ export const setWalletEvents = () => {
   );
 
   ipcMain.on(
-    ON_WALLET_RESTORE_VIA_RECENT,
+    ON_WRITE_CONFIG_REQUEST,
     async (event: Electron.IpcMainEvent, filePath: string, network: string) => {
       try {
         if (checkPathExists(filePath)) {
@@ -203,22 +202,35 @@ export const setWalletEvents = () => {
     }
   );
 
-  ipcMain.on(ON_WALLET_BACKUP_REQUEST, async (event: Electron.IpcMainEvent) => {
-    try {
-      const paths = await saveFileDialog([
-        { name: DAT_FILE.toUpperCase(), extensions: [DAT_FILE] },
-      ]);
-
-      event.returnValue = responseMessage(true, {
-        paths: appendExtension(paths, DAT_FILE),
-      });
-    } catch (error) {
-      log.error(error);
-      event.returnValue = responseMessage(false, {
-        message: error.message,
-      });
+  ipcMain.on(
+    ON_FILE_SELECT_REQUEST,
+    async (
+      event: Electron.IpcMainEvent,
+      hasExtension: boolean = true,
+      shouldAppendWalletPath: boolean = false
+    ) => {
+      try {
+        const extension = hasExtension
+          ? [{ name: DAT_FILE.toUpperCase(), extensions: [DAT_FILE] }]
+          : [];
+        const paths = await saveFileDialog(extension);
+        const filePath = hasExtension
+          ? appendExtension(paths, DAT_FILE)
+          : paths;
+        event.returnValue = responseMessage(true, {
+          paths: filePath,
+          walletPath: shouldAppendWalletPath
+            ? path.join(paths, WALLET_DAT)
+            : filePath,
+        });
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
     }
-  });
+  );
 };
 
 export const createWalletMap = () => {

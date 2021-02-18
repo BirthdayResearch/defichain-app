@@ -20,13 +20,13 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
-  DAT_FILE_TYPE,
   BLK_FILE,
   REV_FILE,
   TESTNET_BASE_FOLDER_REINDEX,
   MAINNET_BASE_FOLDER_REINDEX,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
+import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
 
 export const getPlatform = () => {

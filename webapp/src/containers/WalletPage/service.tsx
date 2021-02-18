@@ -33,10 +33,10 @@ import {
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import {
-  ON_WALLET_BACKUP_REQUEST,
+  ON_FILE_SELECT_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
-  ON_WALLET_RESTORE_VIA_RECENT,
-  ON_WALLET_RESTORE_VIA_RECENT_CHECK,
+  ON_WRITE_CONFIG_REQUEST,
+  ON_FILE_EXIST_CHECK,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
 import { backupWallet, updateWalletMap } from '../../app/service';
@@ -546,7 +546,7 @@ export const startRestoreViaBackup = async (network: string) => {
 export const checkRestoreRecentIfExisting = async (path: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_RECENT_CHECK, path);
+    const resp = ipcRenderer.sendSync(ON_FILE_EXIST_CHECK, path);
     if (!resp?.success) {
       updateWalletMap(path, true);
     }
@@ -564,7 +564,7 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
     const resp = ipcRenderer.sendSync(
-      ON_WALLET_RESTORE_VIA_RECENT,
+      ON_WRITE_CONFIG_REQUEST,
       path,
       network
     );
@@ -584,7 +584,7 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
 export const startBackupViaExitModal = async () => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST);
     if (resp?.success) {
       await backupWallet(resp?.data?.paths);
     }
@@ -601,18 +601,19 @@ export const startBackupViaExitModal = async () => {
 export const createNewWallet = async (passphrase: string, network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_WALLET_BACKUP_REQUEST);
-    const walletPath = resp?.data?.paths;
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
+    const walletDir = resp?.data?.paths;
+    const walletPath = resp?.data?.walletPath;
     if (resp?.success && walletPath) {
       const rpcClient = new RpcClient();
-      const walletName = await rpcClient.createWallet(walletPath, passphrase);
+      const walletName = await rpcClient.createWallet(walletDir, passphrase);
       if (walletName) {
         return startRestoreViaRecent(walletPath, network);
       }
     }
     return resp;
   } catch (error) {
-    log.error(error, 'createWallet');
+    log.error(error, 'createNewWallet');
     return {
       success: false,
       message: error?.message,

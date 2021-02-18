@@ -342,7 +342,10 @@ const configSlice = createSlice({
       state.lockedUntil = action.payload;
     },
     startBackupWalletViaPostEncryptModal(state) {},
-    createWalletStart(state, action) {}
+    createWalletStart(state, action) {
+      state.isWalletCreating = true;
+      state.isErrorCreatingWallet = '';
+    }
   },
 });
 
