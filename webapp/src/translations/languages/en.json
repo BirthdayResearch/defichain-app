@@ -96,7 +96,7 @@
       "header": "DFI Block Processing Center",
       "detail": "It seems you have stumbled here by accident. This is where our workers make sure every DFI block is properly fastened to the chain. As this is a restricted area, we kindly ask that you turn around.",
       "goBack": "Go back",
-      "insufficientFunds": "Insufficient DFI UTXOs for transaction fees. Please send some DFI from an exchange or another wallet and try again."
+      "insufficientFunds": "Insufficient UTXO DFI for transaction fees. Please send some DFI from an exchange or another wallet and try again."
     },
     "exchangePage": {
       "title": "Exchange",
