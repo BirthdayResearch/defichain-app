@@ -235,7 +235,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           />
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer
+        className={classnames({
+          'footer-bar': ['confirm', 'success', 'failure'].includes(
+            isConfirmationModalOpen
+          ),
+        })}
+      >
         <div
           className={classnames({
             'd-none': isConfirmationModalOpen !== 'confirm',
