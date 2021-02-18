@@ -2,7 +2,6 @@ import TransportHid from '@ledgerhq/hw-transport-node-hid';
 import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import { identifyUSBProductId } from '@ledgerhq/devices';
 // import TransportHid from '@ledgerhq/hw-transport-node-speculos';
-// @ts-ignore
 import { encoding, crypto, PublicKey } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
@@ -96,7 +95,6 @@ export default class DefiHwWallet {
       if (devices.length === 0) {
         throw new Error('No devices connected');
       }
-      // @ts-ignore
       this.devices = devices.map((device) => ({
         ...device,
         deviceModel: identifyUSBProductId(device.productId)
@@ -162,7 +160,6 @@ export default class DefiHwWallet {
     pubkey: string;
     address: string;
     chainCode: string;
-    privkey: string;
   }> {
     try {
       const apdu = new encoding.BufferWriter();
@@ -192,10 +189,7 @@ export default class DefiHwWallet {
       const addrLen = dataReader.readUInt8();
       const address = dataReader.read(addrLen).toString('utf-8');
       const chainCode = dataReader.read(32).toString('hex');
-      const privkeyLeb = dataReader.readUInt8();
-      const privkey = dataReader.read(privkeyLeb).toString('hex');
-      log.info(`privkey: ${privkey}`);
-      return { pubkey, address, chainCode, privkey };
+      return { pubkey, address, chainCode };
     } catch (err) {
       return Promise.reject(err);
     }
