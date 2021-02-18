@@ -3,6 +3,7 @@
     "outDir": "./electron-app/build/",
     "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "sourceMap": true,
@@ -10,7 +11,7 @@
     "pretty": true,
     "rootDir": ".",
     "paths": {
-      "@defi_types/*": ["./typings/*"]
+      "@defi_types/*": ["./typings/*"],
     }
   },
   "include": ["electron-app/**/*"],
