@@ -17,19 +17,29 @@
   margin: 96px 0 0 -1px;
 }
 
+.dropDownItemRight {
+  text-align: right;
+}
+
+:not(:active) {
+  > .dropDownItemRight {
+    color: $secondary;
+  }
+}
+
 .buttonDropdown {
   border: 0;
   font-weight: $font-weight-normal;
   display: flex;
   align-items: center;
 
-  &:not(:disabled):hover {
-    color: $dropdown-link-hover-color !important;
-  }
-
   &:focus {
     border: 0;
     box-shadow: none !important;
+  }
+
+  &:not(:disabled):hover {
+    color: $dropdown-link-hover-color !important;
   }
 
   // Coin icon
@@ -66,14 +76,4 @@
 .dropDownIcon {
   display: block;
   margin-right: 8px;
-}
-
-.dropDownItemRight {
-  text-align: right;
-}
-
-:not(:active) {
-  > .dropDownItemRight {
-    color: $secondary;
-  }
 }
