@@ -2,7 +2,7 @@ import TransportHid from '@ledgerhq/hw-transport-node-hid';
 import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import { identifyUSBProductId } from '@ledgerhq/devices';
 // import TransportHid from '@ledgerhq/hw-transport-node-speculos';
-import { encoding, crypto, PublicKey } from 'bitcore-lib-dfi';
+import { encoding, crypto } from 'bitcore-lib-dfi';
 // import TransportBle from "@ledgerhq/hw-transport-node-ble";
 import { getAltStatusMessage, StatusCodes } from '@ledgerhq/hw-transport';
 import usb from 'usb';

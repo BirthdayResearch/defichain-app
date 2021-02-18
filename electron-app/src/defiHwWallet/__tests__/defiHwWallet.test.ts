@@ -1,5 +1,4 @@
 import TransportHid from '@ledgerhq/hw-transport-node-hid';
-import { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents';
 import DefiHwWallet from '../defiHwWallet';
 jest.mock('../../services/electronLogger');
 describe('DefiHwWallet', () => {

@@ -11,7 +11,7 @@
     "pretty": true,
     "rootDir": ".",
     "paths": {
-      "@defi_types/*": ["./typings/*"],
+      "@defi_types/*": ["./typings/*"]
     }
   },
   "include": ["electron-app/**/*"],
