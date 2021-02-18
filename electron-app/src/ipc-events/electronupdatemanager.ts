@@ -6,13 +6,14 @@ import {
   UPDATE_AVAILABLE,
   ERROR,
 } from '@defi_types/ipcEvents';
+import { AppUpdater } from 'electron-updater/out/AppUpdater';
 
 export default function initiateElectronUpdateManager(
-  autoUpdater: any,
+  autoUpdater: AppUpdater,
   bw: Electron.BrowserWindow
 ) {
-  autoUpdater.on(UPDATE_AVAILABLE, () => {
-    bw.webContents.send(SHOW_UPDATE_AVAILABLE);
+  autoUpdater.on(UPDATE_AVAILABLE, (info: { version: string }) => {
+    bw.webContents.send(SHOW_UPDATE_AVAILABLE, info.version);
   });
 
   autoUpdater.on(UPDATE_PROGRESS_VALUE, (event: any) => {

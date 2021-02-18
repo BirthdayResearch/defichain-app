@@ -9,7 +9,7 @@ import {
   showErrorNotification,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
-import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
+import { UPDATE_MODAL_CLOSE_TIMEOUT, PACKAGE_VERSION } from '../constants';
 import {
   CREATE_MNEMONIC,
   ENABLE_RESET_MENU,
@@ -24,12 +24,27 @@ import {
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { triggerNodeShutdown } from '../worker/queue';
+import semver from 'semver/preload';
+
+export function shouldForceUpdate(version: string): boolean {
+  switch (semver.diff(PACKAGE_VERSION, version)) {
+    case 'major':
+    case 'minor':
+      return true;
+    default:
+      return false;
+  }
+}
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
 
-  ipcRenderer.on(SHOW_UPDATE_AVAILABLE, async () => {
-    handleShowUpdateAvailableBadge();
+  ipcRenderer.on(SHOW_UPDATE_AVAILABLE, async (version: string) => {
+    if (shouldForceUpdate(version)) {
+      // TODO(fuxing):
+    } else {
+      handleShowUpdateAvailableBadge();
+    }
   });
 
   ipcRenderer.on(UPDATE_PROGRESS_VALUE, async (event: any, arg: any) => {
