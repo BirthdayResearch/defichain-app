@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import {
-  Button,
-  ButtonGroup,
-  Row,
-  Col,
-  TabContent,
-  CardText,
-} from 'reactstrap';
+import { Button, ButtonGroup, Row, Col, TabContent } from 'reactstrap';
 import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
@@ -33,7 +26,8 @@ import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
 import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
-import Mine from './components/Mine';
+import MineNodeList from './components/MineNodeList';
+import MineNodeFooter from './components/MineNodeFooter';
 
 interface MasternodesPageProps extends RouteComponentProps {
   createMasterNode: () => void;
@@ -86,6 +80,32 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+  const MineNodeData = [
+    {
+      mineName: 'Holden',
+      active: 'enabled',
+      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
+      operator: 'Same as owner',
+      type: 'Local',
+      collaterals: '2',
+    },
+    {
+      mineName: 'Allie',
+      active: 'disable',
+      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
+      operator: '8J3WVMy5PanG…7WXQpCXkUop',
+      type: 'Remote',
+      collaterals: '1',
+    },
+    {
+      mineName: 'Phoebe',
+      active: 'disable',
+      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
+      operator: 'Same as owner',
+      type: 'Local',
+      collaterals: '3',
+    },
+  ];
   const [tab, setTab] = useState<string>('mine');
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
@@ -216,6 +236,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
         )}
         <MasterNodeTabsHeader tab={tab} setTab={setTab} />
+        <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
@@ -240,7 +261,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       </Header>
       <div className='content'>
         <TabContent activeTab={tab}>
-          <Mine />
+          <MineNodeList MineNodeData={MineNodeData} />
           <MasternodesList
             searchQuery={searchQuery}
             enabledMasternodes={enabledMasternodes}
@@ -368,34 +389,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             'd-none': tab === 'all',
           })}
         >
-          <Row>
-            <Col md='2'>
-              <CardText>
-                <small className='text-muted'>Collaterals active</small>
-              </CardText>
-            </Col>
-            <Col md='2'>
-              <CardText>
-                <small className='text-muted'>Collaterals inactive</small>
-              </CardText>
-            </Col>
-            <Col md='2'>
-              <CardText>
-                <small className='text-muted'>DFI minted</small>
-              </CardText>
-            </Col>
-          </Row>
-          <Row>
-            <Col md='2'>
-              <CardText>5</CardText>
-            </Col>
-            <Col md='2'>
-              <CardText>1</CardText>
-            </Col>
-            <Col md='2'>
-              <CardText>1234,567.89012345</CardText>
-            </Col>
-          </Row>
+          <MineNodeFooter />
         </div>
       </footer>
     </div>

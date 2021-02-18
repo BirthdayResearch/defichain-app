@@ -2,6 +2,8 @@ import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
+import style from './MasterNodeTabHeader.module.scss';
+import { ALL, MINE } from 'src/constants';
 
 interface MasterNodeTabsHeaderProps {
   setTab: (tab: string) => void;
@@ -11,14 +13,14 @@ interface MasterNodeTabsHeaderProps {
 const MasterNodeTabsHeader = (props: MasterNodeTabsHeaderProps) => {
   const { setTab, tab } = props;
   return (
-    <Nav pills>
+    <Nav pills className={style.navPosition}>
       <NavItem>
         <NavLink
           className={classnames({
-            active: tab === 'mine',
+            active: tab === MINE,
           })}
           onClick={() => {
-            setTab('mine');
+            setTab(MINE);
           }}
         >
           {I18n.t('containers.masterNodes.masterNodesPage.mine')}
@@ -27,10 +29,10 @@ const MasterNodeTabsHeader = (props: MasterNodeTabsHeaderProps) => {
       <NavItem>
         <NavLink
           className={classnames({
-            active: tab === 'all',
+            active: tab === ALL,
           })}
           onClick={() => {
-            setTab('all');
+            setTab(ALL);
           }}
         >
           {I18n.t('containers.masterNodes.masterNodesPage.all')}

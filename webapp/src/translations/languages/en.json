@@ -137,7 +137,14 @@
         "masternodeWorth": "Masternode worth",
         "searchBar": "Search masternodes",
         "mine": "Mine",
-        "all": "All"
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collaterals": "Collaterals",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",
@@ -728,7 +735,6 @@
         "downloadTransaction": "Download transaction",
         "download": "Download",
         "maxBlock": "Max block height",
-        "blockHeight": "Block height",
         "blockHash": "Block hash",
         "type": "Type",
         "poolID": "Pool ID",
