@@ -1,17 +1,12 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Button, Row, Col } from 'reactstrap';
-import { MdErrorOutline, MdLock } from 'react-icons/md';
-import { connect } from 'react-redux';
+import { MdArrowBack, MdErrorOutline, MdLock } from 'react-icons/md';
 import { Controller, useForm } from 'react-hook-form';
 
 import InputPassword from '../../../../components/InputPassword';
 
 import styles from './encryptWalletPage.module.scss';
-import {
-  encryptWalletStart,
-  encryptWalletFailure,
-} from '../../../PopOver/reducer';
 import Header from '../../../HeaderComponent';
 import { Helmet } from 'react-helmet';
 import { getPageTitle } from '../../../../utils/utility';
@@ -19,6 +14,7 @@ import { history } from '../../../../utils/history';
 import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
+import { NavLink } from 'react-router-dom';
 
 export interface EncryptWalletPayload {
   passphrase: string;
@@ -26,13 +22,16 @@ export interface EncryptWalletPayload {
   pageRedirect?: string;
 }
 export interface EncryptWalletPageProps {
-  encryptWalletStart: (item: EncryptWalletPayload) => void;
-  encryptWalletFailure: (err: string) => void;
-  isWalletEncrypting: boolean;
-  isErrorEncryptingWallet: string;
+  onSave: (item: EncryptWalletPayload) => void;
+  onCloseFailure: (err: string) => void;
+  isPageLoading: boolean;
+  submitButtonLabel: string;
+  pageLoadingMessage: string;
+  pageErrorMessage: string;
   pageSize?: number;
   isModal?: boolean;
   onClose?: () => void;
+  pageTitle?: string;
 }
 
 export enum EncryptWalletForm {
@@ -43,26 +42,30 @@ export enum EncryptWalletForm {
 const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
   props: EncryptWalletPageProps
 ) => {
+  const {
+    onClose,
+    pageSize,
+    isPageLoading,
+    pageErrorMessage,
+    onCloseFailure,
+    submitButtonLabel,
+    isModal,
+    pageTitle,
+    onSave,
+    pageLoadingMessage,
+  } = props;
+
   const { handleSubmit, control, getValues, formState, trigger } = useForm({
     mode: 'onChange',
   });
 
-  const {
-    onClose,
-    encryptWalletStart,
-    pageSize,
-    isWalletEncrypting,
-    isErrorEncryptingWallet,
-    encryptWalletFailure,
-    isModal,
-  } = props;
-
-  const onHandleChange = (data) => {
-    encryptWalletStart({
+  const onFormSubmit = (data) => {
+    const payload = {
       passphrase: data.passphrase,
       isModal,
       pageRedirect: WALLET_TOKENS_PATH,
-    });
+    };
+    onSave(payload);
   };
 
   const isSameWithConfirm = () => {
@@ -85,19 +88,32 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
     trigger(otherField);
   };
 
+  const pageTitleValue = I18n.t(
+    pageTitle ?? 'containers.wallet.createNewWalletPage.createANewWallet'
+  );
+
   return (
     <div className='main-wrapper'>
       {!isModal && (
         <>
           <Helmet>
-            <title>
-              {getPageTitle(
-                I18n.t('containers.wallet.encryptWalletPage.title')
-              )}
-            </title>
+            <title>{getPageTitle(pageTitleValue)}</title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.encryptWalletPage.title')}</h1>
+            <Button
+              to={WALLET_TOKENS_PATH}
+              tag={NavLink}
+              color='link'
+              className='header-bar-back'
+            >
+              <MdArrowBack />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.wallet.createNewWalletPage.back')}
+              </span>
+            </Button>
+            <h1 className={classnames({ 'd-none': false })}>
+              {pageTitleValue}
+            </h1>
           </Header>
         </>
       )}
@@ -107,7 +123,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
             className={`justify-content-center container ${styles.lockSection}`}
           >
             <Col md={pageSize ?? 9}>
-              <form onSubmit={handleSubmit(onHandleChange)}>
+              <form onSubmit={handleSubmit(onFormSubmit)}>
                 <section>
                   <div className='d-flex flex-column align-items-center mb-4'>
                     <MdLock size={20} className={styles.lockIcon} />
@@ -164,24 +180,28 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                   </label>
 
                   <div className='mt-4 text-center'>
-                    <Button
-                      size='sm'
-                      className='ml-5'
-                      color='link'
-                      disabled={isWalletEncrypting}
-                      onClick={() => {
-                        onClose ? onClose() : history.push(WALLET_TOKENS_PATH);
-                      }}
-                    >
-                      {I18n.t('alerts.later')}
-                    </Button>
+                    {isModal && (
+                      <Button
+                        size='sm'
+                        className='ml-5'
+                        color='link'
+                        disabled={isPageLoading}
+                        onClick={() => {
+                          onClose
+                            ? onClose()
+                            : history.push(WALLET_TOKENS_PATH);
+                        }}
+                      >
+                        {I18n.t('alerts.later')}
+                      </Button>
+                    )}
                     <Button
                       size='sm'
                       color='primary'
                       type='submit'
-                      disabled={!formState.isValid || isWalletEncrypting}
+                      disabled={!formState.isValid || isPageLoading}
                     >
-                      {I18n.t('alerts.enableLocking')}
+                      {I18n.t(submitButtonLabel)}
                     </Button>
                   </div>
                 </section>
@@ -191,19 +211,15 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
         </section>
       </div>
       {!isModal &&
-        (isWalletEncrypting ? (
+        (isPageLoading ? (
           <>
             <footer className='footer-bar'>
-              <WalletLoadingFooter
-                message={I18n.t(
-                  'containers.wallet.encryptWalletPage.encryptingWallet'
-                )}
-              />
+              <WalletLoadingFooter message={I18n.t(pageLoadingMessage)} />
             </footer>
             <div className={`footer-backdrop show-backdrop`} />
           </>
         ) : (
-          isErrorEncryptingWallet.length !== 0 && (
+          pageErrorMessage.length !== 0 && (
             <footer className='footer-bar'>
               <div className={`footer-sheet`}>
                 <div className='text-center'>
@@ -213,14 +229,14 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       [styles[`error-dialog`]]: true,
                     })}
                   />
-                  <p>{isErrorEncryptingWallet}</p>
+                  <p>{pageErrorMessage}</p>
                 </div>
               </div>
               <div className='d-flex align-items-center justify-content-center mb-5'>
                 <Button
                   color='primary'
                   onClick={() => {
-                    encryptWalletFailure('');
+                    onCloseFailure('');
                   }}
                 >
                   {I18n.t(
@@ -235,22 +251,4 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    isEncryptWalletModalOpen,
-    isWalletEncrypting,
-    isErrorEncryptingWallet,
-  } = state.popover;
-  return {
-    isWalletEncrypting,
-    isEncryptWalletModalOpen,
-    isErrorEncryptingWallet,
-  };
-};
-
-const mapDispatchToProps = {
-  encryptWalletStart,
-  encryptWalletFailure,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EncryptWalletPage);
+export default EncryptWalletPage;
