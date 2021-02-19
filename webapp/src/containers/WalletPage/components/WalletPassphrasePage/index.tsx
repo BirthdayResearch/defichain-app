@@ -10,15 +10,16 @@ import { getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 import { Controller, useForm } from 'react-hook-form';
 import InputPassword from '../../../../components/InputPassword';
-import { EncryptWalletForm, EncryptWalletPayload } from '../EncryptWalletPage';
+import { EncryptWalletPayload } from '../EncryptWalletPage';
 import { unlockWalletFailure, unlockWalletStart } from '../../reducer';
 import { history } from '../../../../utils/history';
-import {
-  WALLET_TOKENS_PATH,
-  WALLET_UNLOCK_TIMEOUT,
-} from '../../../../constants';
+import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
 import { MdErrorOutline } from 'react-icons/md';
+import {
+  currentPasswordValidation,
+  PasswordFormEnum,
+} from '../../../../utils/passwordUtility';
 
 export interface WalletPassphrasePayload extends EncryptWalletPayload {
   timeout: number;
@@ -29,6 +30,7 @@ export interface WalletPassphrasePageProps {
   pageSize?: number;
   originalPage?: string;
   isErrorUnlockWallet: string;
+  defaultLockTimeout: number;
   onClose?: () => void;
   unlockWalletStart: (item: WalletPassphrasePayload) => void;
   unlockWalletFailure: (message: string) => void;
@@ -40,15 +42,12 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
   const { handleSubmit, control, formState } = useForm({
     mode: 'onChange',
   });
-  const passwordValidationRules = {
-    required: true,
-  };
   const onHandleChange = (data) => {
     unlockWalletStart({
       passphrase: data.passphrase,
       isModal,
       pageRedirect: originalPage ?? WALLET_TOKENS_PATH,
-      timeout: WALLET_UNLOCK_TIMEOUT,
+      timeout: defaultLockTimeout,
     });
   };
   const {
@@ -59,6 +58,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
     unlockWalletStart,
     isErrorUnlockWallet,
     unlockWalletFailure,
+    defaultLockTimeout,
   } = props;
   return (
     <div className='main-wrapper'>
@@ -91,15 +91,15 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                   </h6>
                   <div className={styles.passphraseField}>
                     <Controller
-                      name={EncryptWalletForm.passphrase}
+                      name={PasswordFormEnum.passphrase}
                       control={control}
                       defaultValue=''
-                      rules={passwordValidationRules}
+                      rules={currentPasswordValidation}
                       render={({ onChange }, { invalid, isDirty }) => (
                         <InputPassword
                           label='alerts.enterYourPassphrase'
                           id='passphraseLabel'
-                          name={EncryptWalletForm.passphrase}
+                          name={PasswordFormEnum.passphrase}
                           onChange={(e) => {
                             onChange(e);
                           }}
@@ -180,10 +180,12 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
 const mapStateToProps = (state) => {
   const { isEncryptWalletModalOpen, isWalletEncrypting } = state.popover;
   const { isErrorUnlockWallet } = state.wallet;
+  const { defaultLockTimeout } = state.settings;
   return {
     isWalletEncrypting,
     isEncryptWalletModalOpen,
     isErrorUnlockWallet,
+    defaultLockTimeout,
   };
 };
 

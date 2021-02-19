@@ -330,7 +330,7 @@ const configSlice = createSlice({
       state.isWalletUnlocked = false;
       state.isErrorUnlockWallet = action.payload;
     },
-    lockWalletStart(state, action) {
+    lockWalletStart(state) {
       state.isWalletUnlocked = false;
     },
     enableAutoLockStart(state) {

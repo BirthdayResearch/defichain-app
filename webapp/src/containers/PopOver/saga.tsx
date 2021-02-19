@@ -118,9 +118,6 @@ function* unlockWallet(action) {
     log.error(e, 'unlockWallet');
     const message = getErrorMessage(e);
     yield put(unlockWalletFailure(message));
-    if (isModal) {
-      showErrorNotification({ message });
-    }
   }
 }
 
@@ -129,8 +126,8 @@ function* setAutoLock(action) {
   try {
     yield call(enableAutoLock, timeout);
   } catch (e) {
-    log.error(e, 'setAutoLock');
     const message = getErrorMessage(e);
+    log.error(message, 'setAutoLock');
   }
 }
 

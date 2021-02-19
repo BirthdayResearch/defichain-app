@@ -563,7 +563,12 @@
       "changeLockPassphrase": "Change lock passphrase",
       "currentPassphrase": "Current passphrase",
       "newPassphrase": "New passphrase",
-      "confirmNewPassphrase": "Confirm new passphrase"
+      "confirmNewPassphrase": "Confirm new passphrase",
+      "save": "Save",
+      "updatingPassphrase": "Updating passphrase",
+      "incorrectPassphrase": "The current passphrase entered is incorrect.",
+      "minute": "%{time} minute",
+      "minutes": "%{time} minutes"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
