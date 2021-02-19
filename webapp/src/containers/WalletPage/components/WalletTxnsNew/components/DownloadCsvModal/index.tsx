@@ -16,6 +16,8 @@ import {
 import CsvRowInput from '../../CsvRowInput';
 import { CSVLink } from 'react-csv';
 import { TXN_CSV_HEADERS } from '../../../../../../constants';
+import { size } from 'lodash';
+import Spinner from '../../../../../../components/Svg/Spinner';
 
 interface Reqdata {
   blockHeight: number;
@@ -48,6 +50,7 @@ interface DownloadCsvModalProps {
   filename: string;
   handleDownloadWindow: () => void;
   transactionData: TransactionData;
+  downloadButton: boolean;
 }
 
 const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
@@ -63,6 +66,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
     handleDownloadWindow,
     transactionData,
     reqData,
+    downloadButton,
   } = props;
 
   return (
@@ -120,7 +124,15 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
           data={transactionData}
           headers={TXN_CSV_HEADERS}
         >
-          <Button color='primary'>
+          {downloadButton ? (
+            <span className='mr-3'>
+              <Spinner />
+            </span>
+          ) : (
+            ''
+          )}
+
+          <Button color='primary' disabled={downloadButton}>
             <MdArrowDownward />
             <span className='d-lg-inline'>
               {I18n.t('containers.wallet.walletPage.download')}
