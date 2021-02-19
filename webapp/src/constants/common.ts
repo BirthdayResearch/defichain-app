@@ -8,7 +8,7 @@ export interface HighestAmountItem {
 export enum ErrorMessages {
   WALLET_LOCKED = 'Please enter the wallet passphrase with walletpassphrase first',
   WITNESS_MISMATCH = 'Witness program hash mismatch',
-  AUTH_TX = 'Add-on auth TX failed: Insufficient funds',
+  AUTH_TX = 'Add-on auth TX failed',
   UNABLE_TO_SIGN = 'Unable to sign input, invalid stack size (possibly missing key)',
 }
 
