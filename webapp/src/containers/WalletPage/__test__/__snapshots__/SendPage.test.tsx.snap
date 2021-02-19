@@ -1182,74 +1182,17 @@ exports[`SendPage component should check for snapshot 1`] = `
                 >
                   <Button
                     color="primary"
-                    tag={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "propTypes": Object {
-                          "activeClassName": [Function],
-                          "activeStyle": [Function],
-                          "aria-current": [Function],
-                          "className": [Function],
-                          "exact": [Function],
-                          "innerRef": [Function],
-                          "isActive": [Function],
-                          "location": [Function],
-                          "onClick": [Function],
-                          "replace": [Function],
-                          "sensitive": [Function],
-                          "strict": [Function],
-                          "style": [Function],
-                          "target": [Function],
-                          "to": [Function],
-                        },
-                        "render": [Function],
-                      }
-                    }
-                    to="/"
+                    onClick={[Function]}
+                    tag="button"
                   >
-                    <NavLink
+                    <button
                       aria-label={null}
                       className="btn btn-primary"
                       onClick={[Function]}
-                      to="/"
+                      type="button"
                     >
-                      <Link
-                        aria-current="page"
-                        aria-label={null}
-                        className="btn btn-primary active"
-                        onClick={[Function]}
-                        style={Object {}}
-                        to={
-                          Object {
-                            "hash": "",
-                            "pathname": "/",
-                            "search": "",
-                            "state": null,
-                          }
-                        }
-                      >
-                        <LinkAnchor
-                          aria-current="page"
-                          aria-label={null}
-                          className="btn btn-primary active"
-                          href="/"
-                          navigate={[Function]}
-                          onClick={[Function]}
-                          style={Object {}}
-                        >
-                          <a
-                            aria-current="page"
-                            aria-label={null}
-                            className="btn btn-primary active"
-                            href="/"
-                            onClick={[Function]}
-                            style={Object {}}
-                          >
-                            Back to wallet
-                          </a>
-                        </LinkAnchor>
-                      </Link>
-                    </NavLink>
+                      Back to wallet
+                    </button>
                   </Button>
                 </div>
               </div>

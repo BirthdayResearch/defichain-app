@@ -15,6 +15,12 @@ import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
 import { NavLink } from 'react-router-dom';
+import {
+  getPasswordValidationRules,
+  isSamePasswordValidation,
+  PasswordForm,
+  PasswordFormEnum,
+} from '../../../../utils/passwordUtility';
 
 export interface EncryptWalletPayload {
   passphrase: string;
@@ -32,11 +38,6 @@ export interface EncryptWalletPageProps {
   isModal?: boolean;
   onClose?: () => void;
   pageTitle?: string;
-}
-
-export enum EncryptWalletForm {
-  passphrase = 'passphrase',
-  confirmPassphrase = 'confirmPassphrase',
 }
 
 const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
@@ -71,18 +72,12 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
   const isSameWithConfirm = () => {
     const values = getValues();
     const { dirtyFields } = formState;
-    return (
-      dirtyFields.confirmPassphrase &&
-      dirtyFields.passphrase &&
-      values.passphrase === values.confirmPassphrase
+    return isSamePasswordValidation(
+      values as PasswordForm,
+      dirtyFields as PasswordForm
     );
   };
-  const passwordValidationRules = {
-    required: true,
-    validate: {
-      isSameWithConfirm: isSameWithConfirm,
-    },
-  };
+  const passwordValidationRules = getPasswordValidationRules(isSameWithConfirm);
 
   const onPasswordChange = (otherField: string) => {
     trigger(otherField);
@@ -134,7 +129,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
 
                   <div className='px-5'>
                     <Controller
-                      name={EncryptWalletForm.passphrase}
+                      name={PasswordFormEnum.passphrase}
                       control={control}
                       defaultValue=''
                       rules={passwordValidationRules}
@@ -142,11 +137,11 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                         <InputPassword
                           label='alerts.passphraseLabel'
                           id='passphraseLabel'
-                          name={EncryptWalletForm.passphrase}
+                          name={PasswordFormEnum.passphrase}
                           onChange={(e) => {
                             onChange(e);
                             onPasswordChange(
-                              EncryptWalletForm.confirmPassphrase
+                              PasswordFormEnum.confirmPassphrase
                             );
                           }}
                           invalid={invalid}
@@ -155,7 +150,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       )}
                     />
                     <Controller
-                      name={EncryptWalletForm.confirmPassphrase}
+                      name={PasswordFormEnum.confirmPassphrase}
                       control={control}
                       defaultValue=''
                       rules={passwordValidationRules}
@@ -163,10 +158,10 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                         <InputPassword
                           label='alerts.passphraseLabelConfirm'
                           id='passphraseLabelConfirm'
-                          name={EncryptWalletForm.confirmPassphrase}
+                          name={PasswordFormEnum.confirmPassphrase}
                           onChange={(e) => {
                             onChange(e);
-                            onPasswordChange(EncryptWalletForm.passphrase);
+                            onPasswordChange(PasswordFormEnum.passphrase);
                           }}
                           invalid={invalid}
                           isDirty={isDirty}

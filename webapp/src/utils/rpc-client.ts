@@ -10,7 +10,6 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
-  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
@@ -49,6 +48,7 @@ import {
   PeerInfoModel,
   WalletInfo,
 } from 'src/constants/rpcModel';
+import { TimeoutLockEnum } from '../containers/SettingsPage/reducer';
 
 export default class RpcClient {
   client: any;
@@ -790,7 +790,15 @@ export default class RpcClient {
   walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      timeout || WALLET_UNLOCK_TIMEOUT,
+      timeout || TimeoutLockEnum.FIVE_MINUTES,
+    ]);
+    return data.result;
+  };
+
+  changeWalletPassphrase = async (currentPassphrase: string, newPassphrase: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE_CHANGE, [
+      currentPassphrase,
+      newPassphrase,
     ]);
     return data.result;
   };

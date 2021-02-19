@@ -9,6 +9,12 @@ interface SettingsTabsHeaderProps {
   activeTab: string;
 }
 
+export enum SettingsTabs {
+  general = 'general',
+  security = 'security',
+  display = 'display',
+}
+
 const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   const { setActiveTab, activeTab } = props;
   return (
@@ -18,10 +24,10 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
         <NavItem>
           <NavLink
             className={classnames({
-              active: activeTab === 'general',
+              active: activeTab === SettingsTabs.general,
             })}
             onClick={() => {
-              setActiveTab('general');
+              setActiveTab(SettingsTabs.general);
             }}
           >
             {I18n.t('containers.settings.general')}
@@ -30,10 +36,22 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
         <NavItem>
           <NavLink
             className={classnames({
-              active: activeTab === 'display',
+              active: activeTab === SettingsTabs.security,
             })}
             onClick={() => {
-              setActiveTab('display');
+              setActiveTab(SettingsTabs.security);
+            }}
+          >
+            {I18n.t('containers.settings.security')}
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({
+              active: activeTab === SettingsTabs.display,
+            })}
+            onClick={() => {
+              setActiveTab(SettingsTabs.display);
             }}
           >
             {I18n.t('containers.settings.display')}
