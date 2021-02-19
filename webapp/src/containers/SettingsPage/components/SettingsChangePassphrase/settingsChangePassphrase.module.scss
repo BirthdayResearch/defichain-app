@@ -1,0 +1,13 @@
+@import '../../../../scss/bootstrap/common';
+
+.formClass {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.error-dialog {
+  color: $dfi-red !important;
+}

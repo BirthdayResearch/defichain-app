@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import SettingsRowDropDown from '../SettingsRowDropDown';
 import { openGeneralReIndexModal } from '../../../PopOver/reducer';
+import { SettingsTabs } from '../SettingsTabHeader';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
@@ -59,7 +60,7 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
   } = props;
 
   return (
-    <TabPane tabId='general'>
+    <TabPane tabId={SettingsTabs.general}>
       <section>
         <Form>
           <Row className='mb-5'>

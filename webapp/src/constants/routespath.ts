@@ -20,6 +20,7 @@ export const TOKEN_EDIT_PATH = `${TOKENS_PATH}/edit`;
 export const EDIT_TOKENS_PATH = `${TOKEN_EDIT_PATH}/:id`;
 export const DCT_DISTRIBUTION_TOKENS_PATH = `${TOKENS_PATH}/dctdistibution`;
 export const SETTING_PATH = '/settings';
+export const SETTINGS_CHANGE_PASSPHRASE = `${SETTING_PATH}/changepassphrase`;
 export const WALLET_PAGE_PATH = '/';
 export const WALLET_BASE_PATH = '/wallet';
 export const WALLET_CREATE_PATH = '/wallet/create';

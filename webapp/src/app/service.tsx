@@ -51,6 +51,7 @@ import {
   getNetworkType,
   getTimeDifferenceMS,
 } from '../utils/utility';
+import { WalletMap } from '@defi_types/walletMap';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -134,13 +135,13 @@ export const dumpWallet = async (paths: string) => {
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
-export const updateWalletMap = (path: string, isRemove?: boolean): void => {
+export const updateWalletMap = (path: string, isRemove?: boolean, additionalData: Partial<WalletMap> = {}): void => {
   try {
     const filterPath = (v: string) => v !== path;
     const { wallet } = store.getState();
     const ipcRenderer = ipcRendererFunc();
     const walletMap = wallet.walletMap;
-    const tempWalletMap = { ...walletMap };
+    const tempWalletMap = { ...walletMap, ...additionalData };
     const walletMapPaths = [...walletMap.paths].filter(filterPath);
     tempWalletMap.paths = [path, ...walletMapPaths];
     if (isRemove) {
@@ -248,11 +249,11 @@ export const resetBackupModal = () => {
 export const showErrorNotification = (res) =>
   showNotification(I18n.t('alerts.errorOccurred'), res.message);
 
-export const getWalletMap = async (): Promise<void> => {
+export const getWalletMap = async (): Promise<WalletMap | undefined> => {
   try {
     const ipcRenderer = ipcRendererFunc();
     const resp = ipcRenderer.sendSync(ON_WALLET_MAP_REQUEST);
-    if (resp?.success) {
+    if (resp?.success && resp?.data) {
       return JSON.parse(resp?.data);
     }
   } catch (error) {

@@ -8,13 +8,17 @@ import {
   updateSettingsRequest,
   getSettingOptionsRequest,
 } from './reducer';
-import SettingsTabsHeader from './components/SettingsTabHeader';
+import SettingsTabsHeader, {
+  SettingsTabs,
+} from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
 import { TabContent } from 'reactstrap';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
 import { getPageTitle } from '../../utils/utility';
+import SettingsTabSecurity from './components/SettingsTabSecurity';
+import { useLocation } from 'react-router-dom';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -74,8 +78,12 @@ interface SettingsPageState {
 const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   props: SettingsPageProps
 ) => {
+  const { search } = useLocation();
+  const urlParams = new URLSearchParams(search);
+  const tab = urlParams.get('tab');
+
   const [state, setState] = useState<SettingsPageState>({
-    activeTab: 'general',
+    activeTab: tab ?? SettingsTabs.general,
     ...props.appConfig,
     isUnsavedChanges: false,
   });
@@ -314,6 +322,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handeReindexToggle={handeReindexToggle}
             handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
+          <SettingsTabSecurity />
           <SettingsTabDisplay
             language={language!}
             unit={unit!}
@@ -322,12 +331,14 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           />
         </TabContent>
       </div>
-      <SettingsTabsFooter
-        isUnsavedChanges={
-          isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
-        }
-        saveChanges={saveChanges}
-      />
+      {state.activeTab !== SettingsTabs.security && (
+        <SettingsTabsFooter
+          isUnsavedChanges={
+            isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
+          }
+          saveChanges={saveChanges}
+        />
+      )}
     </div>
   );
 };
