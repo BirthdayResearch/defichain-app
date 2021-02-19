@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAppConfigUnit } from './service';
-import { MAINNET } from '../../constants';
+
+export enum TimeoutLockEnum {
+  ONE_MINUTE = 60,
+  THREE_MINUTES = 180,
+  FIVE_MINUTES = 300,
+  TEN_MINUTES = 600,
+}
 
 export const initialState = {
   isFetching: false,
@@ -24,6 +30,10 @@ export const initialState = {
   displayModes: [],
   networkOptions: [],
   isRefreshUtxosModalOpen: false,
+  isPassphraseChanging: false,
+  changePassphraseError: '',
+  lockTimeoutList: [],
+  defaultLockTimeout: TimeoutLockEnum.FIVE_MINUTES,
 };
 
 const configSlice = createSlice({
@@ -73,6 +83,23 @@ const configSlice = createSlice({
     refreshUtxosSuccess(state) {
       state.isRefreshUtxosModalOpen = false;
     },
+    changePassphraseRequest(state, action) {
+      state.isPassphraseChanging = true;
+    },
+    changePassphraseSuccess(state, action) {
+      state.isPassphraseChanging = false;
+      state.changePassphraseError = '';
+    },
+    changePassphraseFailure(state, action) {
+      state.isPassphraseChanging = false;
+      state.changePassphraseError = action.payload;
+    },
+    setDefaultLockTimeout(state, action) {
+      state.defaultLockTimeout = action.payload;
+    },
+    setLockoutTimeList(state, action) {
+      state.lockTimeoutList = action.payload;
+    }
   },
 });
 
@@ -90,6 +117,11 @@ export const {
   updateSettingsFailure,
   refreshUtxosRequest,
   refreshUtxosSuccess,
+  changePassphraseRequest,
+  changePassphraseSuccess,
+  changePassphraseFailure,
+  setDefaultLockTimeout,
+  setLockoutTimeList
 } = actions;
 
 export default reducer;

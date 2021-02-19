@@ -13,6 +13,18 @@ exports[`CustomPaginationComponent component should check for snapshot 1`] = `
     tag="nav"
   >
     <PaginationItem
+      disabled={true}
+      tag="li"
+    >
+      <PaginationLink
+        onClick={[Function]}
+        previous={true}
+        tag="a"
+      >
+        <MdChevronLeft />
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem
       active={true}
       key="1"
       tag="li"
