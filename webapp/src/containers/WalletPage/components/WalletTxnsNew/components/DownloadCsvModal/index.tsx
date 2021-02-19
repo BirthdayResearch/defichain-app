@@ -121,10 +121,10 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
           headers={TXN_CSV_HEADERS}
         >
           <Button color='primary'>
+            <MdArrowDownward />
             <span className='d-lg-inline'>
               {I18n.t('containers.wallet.walletPage.download')}
             </span>
-            <MdArrowDownward />
           </Button>
         </CSVLink>
       </ModalFooter>
