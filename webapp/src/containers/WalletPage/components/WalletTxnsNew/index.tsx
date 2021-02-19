@@ -184,8 +184,8 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     setError('');
     setData({
+      ...reqData,
       blockHeight: blockCount,
-      limit: 100,
       token: tokenSymbol,
       no_rewards: false,
     });
