@@ -261,7 +261,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       </Header>
       <div className='content'>
         <TabContent activeTab={tab}>
-          <MineNodeList MineNodeData={MineNodeData} />
+          <MineNodeList enabledMasternodes={enabledMasternodes} />
           <MasternodesList
             searchQuery={searchQuery}
             enabledMasternodes={enabledMasternodes}
