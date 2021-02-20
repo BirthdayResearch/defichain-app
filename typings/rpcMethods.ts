@@ -52,6 +52,7 @@ export const WALLET_PASSPHRASE = 'walletpassphrase';
 export const WALLET_LOCK = 'walletlock';
 export const IMPORT_PUB_KEY = 'importpubkey';
 export const IMPORT_ADDRESS = 'importaddress';
+export const WALLET_PASSPHRASE_CHANGE = 'walletpassphrasechange';
 
 // LP RPC Methods
 export const LIST_POOL_PAIRS = 'listpoolpairs';
@@ -64,6 +65,7 @@ export const TEST_POOL_SWAP = 'testpoolswap';
 export const GET_GOV = 'getgov';
 export const LIST_ACCOUNT_HISTORY = 'listaccounthistory';
 export const ACCOUNT_HISTORY_COUNT = 'accounthistorycount';
+export const CREATE_WALLET = 'createwallet';
 
 export const SEND_RAW_TRANSACTION = 'sendrawtransaction';
 export const CREATE_RAW_TRANSACTION = 'createrawtransaction';

@@ -11,7 +11,7 @@ import {
 import {
   VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT,
   VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT,
-  WALLET_BASE_PATH,
+  WALLET_CREATE_PATH,
   WALLET_TOKENS_PATH,
 } from '../../../../../constants';
 import { Row, Col, Button } from 'reactstrap';
@@ -124,7 +124,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
       </Helmet>
       <Header>
         <Button
-          to={WALLET_BASE_PATH}
+          to={WALLET_CREATE_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'

@@ -7,6 +7,7 @@ import {
   getErrorMessage,
   getNetwork,
   handelGetPaymentRequestLedger,
+  remapNodeError,
 } from '@/utils/utility';
 import {
   fetchTokenInfo,
@@ -40,6 +41,7 @@ import {
   updateToken,
   handleMintTokens,
 } from './service';
+import { ErrorMessages, ResponseMessages } from '../../constants/common';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -113,7 +115,12 @@ export function* createTokens(action) {
     );
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: createTokenFailure.type,
+      payload: remapNodeError(
+        getErrorMessage(e)
+      ),
+    });
     log.error(e);
   }
 }
@@ -127,7 +134,12 @@ export function* mintTokens(action) {
     const data = yield call(handleMintTokens, tokenData, networkName);
     yield put({ type: mintTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: mintTokenFailure.type,
+      payload: remapNodeError(
+        getErrorMessage(e)
+      ),
+    });
     log.error(e);
   }
 }
@@ -141,7 +153,12 @@ export function* updateTokens(action) {
     const data = yield call(updateToken, tokenData, networkName, typeWallet);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: updateTokenFailure.type,
+      payload: remapNodeError(
+        getErrorMessage(e)
+      ),
+    });
     log.error(e);
   }
 }
@@ -156,7 +173,9 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: getErrorMessage(e),
+      payload: remapNodeError(
+        getErrorMessage(e)
+      ),
     });
     log.error(e);
   }

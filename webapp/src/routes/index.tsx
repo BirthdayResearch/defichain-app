@@ -5,7 +5,7 @@ import WalletTokensPage from '../containers/WalletPage/components/Tokens/TokensL
 import WalletAddToken from '../containers/WalletPage/components/Tokens/AddToken';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
-import CreateNewAddressWalletPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressWalletPage';
+import CreateNewAddressPage from '../containers/WalletPage/components/ReceivePage/CreateNewAddressPage';
 import PaymentRequestPage from '../containers/WalletPage/components/PaymentRequestPage';
 import BlockchainPage from '../containers/BlockchainPage';
 import BlockPage from '../containers/BlockchainPage/components/BlockPage';
@@ -53,6 +53,9 @@ import {
   LIQUIDITY_PATH,
   WALLET_SYNC_PAGE_PATH,
   LIQUIDITY_INFO_PATH,
+  WALLET_ENCRYPT_PATH,
+  WALLET_UNLOCK_PATH,
+  SETTINGS_CHANGE_PASSPHRASE,
   LEDGER_PATH,
   LEDGER_RECEIVE_PATH,
   LEDGER_CREATE_RECEIVE_REQUEST,
@@ -69,6 +72,9 @@ import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLi
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LiquidityPage from '../containers/LiquidityPage';
 import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
+import EncryptWalletPage from '../containers/WalletPage/components/EncryptWalletPage';
+import WalletPassphrasePage from '../containers/WalletPage/components/WalletPassphrasePage';
+import SettingsChangePassphrase from '../containers/SettingsPage/components/SettingsChangePassphrase';
 import LedgerPage from '../containers/LedgerPage';
 import CreateNewAddressLedgerPage from '../containers/LedgerPage/components/LedgerReceivePage/CreateNewAddressLedgerPage';
 import LedgerReceivePage from '../containers/LedgerPage/components/LedgerReceivePage';
@@ -81,17 +87,17 @@ const routes = (location) => (
     <Route exact path={WALLET_PAGE_PATH} component={WalletPage} />
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
-    <Route exact path={WALLET_BASE_PATH} component={CreateWallet} />
+    <Route exact path={WALLET_CREATE_PATH} component={CreateWallet} />
     <Route
       exact
-      path={WALLET_CREATE_PATH}
+      path={WALLET_BASE_PATH}
       component={CreateOrRestoreWalletPage}
     />
     <Route exact path={WALLET_RESTORE_PAGE_PATH} component={RestoreWallet} />
     <Route
       exact
       path={WALLET_CREATE_RECEIVE_REQUEST}
-      component={CreateNewAddressWalletPage}
+      component={CreateNewAddressPage}
     />
     <Route
       exact
@@ -114,6 +120,8 @@ const routes = (location) => (
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
     <Route exact path={WALLET_SYNC_PAGE_PATH} component={WalletSyncPage} />
+    <Route exact path={WALLET_ENCRYPT_PATH} component={EncryptWalletPage} />
+    <Route exact path={WALLET_UNLOCK_PATH} component={WalletPassphrasePage} />
     <Route exact path={WALLET_ADD_TOKEN_PATH} component={WalletAddToken} />
     <Route exact path={EDIT_TOKENS_PATH} component={CreateToken} />
     <Route exact path={TOKENS_INFO_PATH} component={TokenInfo} />
@@ -121,6 +129,7 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
+    <Route exact path={SETTINGS_CHANGE_PASSPHRASE} component={SettingsChangePassphrase} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
     <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />

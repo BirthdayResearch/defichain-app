@@ -59,6 +59,10 @@ import {
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
   startBackupWalletViaExitModal,
+  setWalletEncryptedRequest,
+  setWalletEncrypted,
+  startBackupWalletViaPostEncryptModal,
+  createWalletStart,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -81,6 +85,7 @@ import {
   startRestoreViaBackup,
   startRestoreViaRecent,
   startBackupViaExitModal,
+  createNewWallet,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -114,12 +119,24 @@ import { uid } from 'uid';
 import { restartNodeSync } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
-import { getWalletMap } from '../../app/service';
+import { checkWalletEncryption, getWalletMap } from '../../app/service';
 import {
+  encryptWalletSuccess,
+  openEncryptWalletModal,
   openExitWalletModal,
   openRestoreWalletModal,
   startResetWalletDatRequest,
 } from '../PopOver/reducer';
+import { openPostEncryptBackupModal } from '../PopOver/reducer';
+import { setDefaultLockTimeout, TimeoutLockEnum } from '../SettingsPage/reducer';
+import { WalletMap } from '@defi_types/walletMap';
+
+export function* getNetwork() {
+  const {
+    blockChainInfo: { chain },
+  } = yield select((state) => state.wallet);
+  return chain;
+}
 
 export function fetchWalletBalance() {
   const callBack = (err, result) => {
@@ -317,6 +334,8 @@ export function* fetchChainInfo() {
   yield put(setBlockChainInfo(result));
   const { app } = store.getState();
   yield call(setWalletExistingIfInConf, app.configurationData);
+  const { wallet } = store.getState();
+  yield put(setWalletEncryptedRequest(wallet.isWalletCreatedFlag));
 }
 
 export function* fetchTokens() {
@@ -487,6 +506,34 @@ export function* restoreWalletViaRecent(action: any) {
   }
 }
 
+export function* handleCreateWalletStart(action: any) {
+  try {
+    log.info(`Starting create wallet...`, 'handleCreateWalletStart');
+    const { passphrase } = action.payload;
+    const networkType = getNetworkType();
+    const resp = yield call(createNewWallet, passphrase, networkType);
+    if (resp?.success) {
+      yield call(shutDownBinary);
+      yield call(restartNodeSync);
+      yield put(setIsWalletCreatedRequest(true));
+      yield call(enableMenuResetWalletBtn, true);
+      yield put(encryptWalletSuccess());
+      yield put(setWalletEncrypted(true));
+      yield put(createWalletSuccess());
+      history.push(WALLET_TOKENS_PATH);
+      log.info(`Create wallet successful`, 'handleCreateWalletStart');
+    } else {
+      yield put({
+        type: createWalletFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    yield put(createWalletFailure(e.message));
+    log.error(e.message, 'handleCreateWalletStart');
+  }
+}
+
 export function* backupWalletViaExitModal() {
   try {
     log.info(`Starting backup via exit modal...`, 'backupWalletViaExitModal');
@@ -501,6 +548,21 @@ export function* backupWalletViaExitModal() {
   } catch (e) {
     yield put(openExitWalletModal(false));
     log.error(e.message, 'backupWalletViaExitModal');
+  }
+}
+
+export function* backupWalletViaPostEncryptModal() {
+  try {
+    log.info(
+      `Starting backup via post encrypt modal...`,
+      'backupWalletViaPostEncryptModal'
+    );
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openPostEncryptBackupModal(false));
+    }
+  } catch (e) {
+    log.error(e.message, 'backupWalletViaPostEncryptModal');
   }
 }
 
@@ -530,16 +592,41 @@ export function* fetchWalletTokenTransactionsList(action) {
       symbol,
       limit,
       includeRewards,
+      pageNum,
       minBlockHeight,
       cancelToken,
     } = action.payload;
+
+    let blockHeight = minBlockHeight;
+    const tempData = {};
+    const { maxBlockData } = yield select((state) => state.wallet);
+    const currentData = maxBlockData[symbol];
+
+    if (pageNum === 1) {
+      tempData[symbol] = [];
+    } else if (
+      currentData.length > 0 &&
+      pageNum < currentData[currentData.length - 1].page
+    ) {
+      blockHeight = currentData[currentData.length - 2]?.maxBlockHeight;
+      tempData[symbol] = currentData.filter(
+        (val, index) => index < currentData.length - 1
+      );
+    } else {
+      const currentBlockData = {
+        page: pageNum,
+        token: symbol,
+        maxBlockHeight: minBlockHeight,
+      };
+      tempData[symbol] = [...currentData, currentBlockData];
+    }
 
     const data: any[] = yield call(getListAccountHistory, {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
       cancelToken,
-      blockHeight: minBlockHeight,
+      blockHeight,
     });
 
     const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
@@ -567,6 +654,7 @@ export function* fetchWalletTokenTransactionsList(action) {
       fetchWalletTokenTransactionsListRequestSuccess({
         data: orderBy(parsedData, 'blockHeight', 'desc'),
         minBlockHeight: minBlockHeightData,
+        maxBlockData: tempData,
       })
     );
   } catch (err) {
@@ -606,13 +694,27 @@ export function* checkRestartCriteria() {
 
 export function* fetchWalletMap() {
   try {
-    const walletMap = yield call(getWalletMap);
+    const walletMap: WalletMap = yield call(getWalletMap);
     if (walletMap) {
       yield put(fetchWalletMapSuccess(walletMap));
+      yield put(setDefaultLockTimeout(walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES));
     }
   } catch (err) {
     log.error(err, 'checkRestartCriteria');
     yield put(fetchWalletMapFailure(err?.message));
+  }
+}
+
+export function* startWalletEncryptionCheck(action) {
+  try {
+    const isWalletCreatedFlag = action.payload;
+    const isEncrypted = yield call(checkWalletEncryption);
+    yield put(setWalletEncrypted(isEncrypted));
+    if (!isEncrypted && isWalletCreatedFlag) {
+      yield put(openEncryptWalletModal());
+    }
+  } catch (error) {
+    log.error(error, 'startWalletEncryptionCheck');
   }
 }
 
@@ -653,6 +755,12 @@ function* mySaga() {
     startBackupWalletViaExitModal.type,
     backupWalletViaExitModal
   );
+  yield takeLatest(setWalletEncryptedRequest.type, startWalletEncryptionCheck);
+  yield takeLatest(
+    startBackupWalletViaPostEncryptModal.type,
+    backupWalletViaPostEncryptModal
+  );
+  yield takeLatest(createWalletStart.type, handleCreateWalletStart);
 }
 
 export default mySaga;

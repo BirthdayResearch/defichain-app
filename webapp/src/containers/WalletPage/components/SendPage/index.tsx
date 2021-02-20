@@ -39,6 +39,7 @@ import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
+  remapNodeError,
   getPageTitle,
   getSymbolKey,
   isLessThanDustAmount,
@@ -51,6 +52,7 @@ import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
+import { ErrorMessages, ResponseMessages } from '../../../../constants/common';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -236,7 +238,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: error.message,
+      errMessage: remapNodeError(error.message),
     });
   };
 
@@ -704,22 +706,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button
-                color='primary'
-                to={
-                  tokenSymbol
-                    ? getWalletPathAddress(
-                        WALLET_PAGE_PATH,
-                        tokenSymbol,
-                        tokenHash || DFI_SYMBOL,
-                        tokenAmount || '',
-                        tokenAddress || '',
-                        isLPS
-                      )
-                    : WALLET_PAGE_PATH
-                }
-                tag={NavLink}
-              >
+              <Button color='primary' onClick={this.sendStepDefault}>
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

@@ -2,14 +2,13 @@ on:
   release:
     types: [created]
 
+# TODO(fuxing): All external actions that are not maintained by an org or reputable individual to be removed.
+
 jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -19,53 +18,52 @@ jobs:
 
       - name: Publish app
         run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   create-linux-checksum:
     needs:
       - publish_linux_version
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: Fetch Release Asset
-        uses: Legion2/download-release-action@v2.1.0
+        uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
           file: 'defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@v1.3.1
+        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v${{ env.PACKAGE_VERSION}}'
+
       - name: Generate SHA256 checksum
         run: |
           sha256sum defi-app-${{ env.PACKAGE_VERSION}}.AppImage > defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+
       - name: Upload checksum - Linux
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           asset_content_type: text/plain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish_mac_version:
     runs-on: macos-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-      CSC_LINK: ${{ secrets.CSC_LINK}}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-      CI: true
-      APPLE_ID: ${{ secrets.APPLE_ID}}
-      APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -75,48 +73,57 @@ jobs:
 
       - name: Publish app
         run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_LINK: ${{ secrets.CSC_LINK}}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+          CI: true
+          APPLE_ID: ${{ secrets.APPLE_ID}}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
 
   create-mac-checksum:
     needs:
       - publish_mac_version
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: Fetch Release Asset
-        uses: Legion2/download-release-action@v2.1.0
+        uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
           file: 'defi-app-${{ env.PACKAGE_VERSION}}.dmg'
+
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@v1.3.1
+        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v${{ env.PACKAGE_VERSION}}'
+
       - name: Generate SHA256 checksum
         run: |
           sha256sum defi-app-${{ env.PACKAGE_VERSION}}.dmg > defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+
       - name: Upload checksum - Mac
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
           asset_name: defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
           asset_content_type: text/plain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish_windows_version:
     runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN}}
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -126,37 +133,44 @@ jobs:
 
       - name: Publish app
         run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   create-windows-checksum:
     needs:
       - publish_windows_version
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
       - name: Get App Version
-        uses: nyaayaya/package-version@v1
+        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+
       - name: Fetch Release Asset
-        uses: Legion2/download-release-action@v2.1.0
+        uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
           file: 'defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe'
+
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@v1.3.1
+        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v${{ env.PACKAGE_VERSION}}'
+
       - name: Generate SHA256 checksum
         run: |
           sha256sum defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe > defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+
       - name: Upload checksum - Windows
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
           asset_name: defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
           asset_content_type: text/plain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -25,10 +25,11 @@ import {
   getAddressInfo,
 } from './service';
 
-import { getErrorMessage, getNetwork } from '../../utils/utility';
+import { getErrorMessage, getNetwork, remapNodeError } from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
 import { RESIGNED_STATE } from '../../constants';
+import { ErrorMessages, ResponseMessages } from '../../constants/common';
 import { TypeWallet } from '@/typings/entities';
 
 export function* getConfigurationDetails() {
@@ -60,11 +61,14 @@ export function* fetchMasterNodes() {
       payload: { masternodes },
     });
   } catch (e) {
+    const message = remapNodeError(
+      getErrorMessage(e)
+    );
     yield put({
       type: fetchMasternodesFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
@@ -74,11 +78,14 @@ export function* createMasterNodes({ payload }: { payload: TypeWallet }) {
     const data = yield call(handelCreateMasterNodes, payload, networkName);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
+    const message = remapNodeError(
+      getErrorMessage(e)
+    );
     yield put({
       type: createMasterNodeFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
@@ -90,11 +97,14 @@ export function* masterNodeResign(action) {
     const data = yield call(handleResignMasterNode, masterNodeHash);
     yield put({ type: resignMasterNodeSuccess.type, payload: data });
   } catch (e) {
+    const message = remapNodeError(
+      getErrorMessage(e)
+    );
     yield put({
       type: resignMasterNodeFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
