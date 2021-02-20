@@ -79,7 +79,6 @@ import {
   LTC_SYMBOL,
   MAINNET_DOGE_SYMBOL,
   DOGE_SYMBOL,
-  ADD_LP_ERROR,
   CUSTOM_TX_LEDGER,
   PAYMENT_REQUEST,
 } from '../constants';
@@ -106,6 +105,7 @@ import {
   ResponseMessages,
 } from '../constants/common';
 import { BLOCKCHAIN_INFO_CHAIN_TEST } from '../constants';
+import PersistentStore from './persistentStore';
 
 export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {

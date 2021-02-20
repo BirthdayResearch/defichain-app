@@ -1,7 +1,6 @@
 import { ipcMain } from 'electron';
 import {
   Transaction,
-  Script,
   Address,
   crypto,
   PublicKey,
@@ -146,27 +145,9 @@ const initiateLedger = () => {
       log.info('Sign Transaction');
       try {
         const toAddressOb = new Address(toAddress);
-        log.info(JSON.stringify(toAddressOb));
-        let tx = new Transaction().from(utxo);
-        const outputOne = new Transaction.Output({
-          script:
-            toAddressOb.type === 'scripthash'
-              ? Script.buildScriptHashOut(toAddressOb)
-              : Script.buildPublicKeyHashOut(toAddressOb),
-          tokenId: 0,
-          satoshis: amount * 100000000,
-        });
-        tx = tx.addOutput(outputOne);
         const fromAddressOb = new Address(fromAddress);
-        const outputOne1 = new Transaction.Output({
-          script:
-            fromAddressOb.type === 'scripthash'
-              ? Script.buildScriptHashOut(fromAddressOb)
-              : Script.buildPublicKeyHashOut(fromAddressOb),
-          tokenId: 0,
-          satoshis: (feeRate * 100000000).toFixed(8),
-        });
-        tx = tx.addOutput(outputOne1);
+        log.info(JSON.stringify(toAddressOb));
+        const tx = new Transaction().from(utxo).to(toAddressOb, amount*100000000).change(fromAddressOb);
         log.info(`txIN: ${JSON.stringify(tx)}`);
 
         const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex, type);

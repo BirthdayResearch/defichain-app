@@ -98,8 +98,8 @@ import {
   hdWalletCheck,
   isValidMnemonic,
   getNetwork,
+  paginate, queuePush
 } from '../../utils/utility';
-import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
@@ -130,13 +130,6 @@ import {
 import { openPostEncryptBackupModal } from '../PopOver/reducer';
 import { setDefaultLockTimeout, TimeoutLockEnum } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
-
-export function* getNetwork() {
-  const {
-    blockChainInfo: { chain },
-  } = yield select((state) => state.wallet);
-  return chain;
-}
 
 export function fetchWalletBalance() {
   const callBack = (err, result) => {
