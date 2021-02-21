@@ -39,7 +39,7 @@ import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
-  getErrorRemapping,
+  remapNodeError,
   getPageTitle,
   getSymbolKey,
   isLessThanDustAmount,
@@ -238,11 +238,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: getErrorRemapping(
-        error.message,
-        [ErrorMessages.WALLET_LOCKED],
-        ResponseMessages.WALLET_LOCKED
-      ),
+      errMessage: remapNodeError(error.message),
     });
   };
 
@@ -710,22 +706,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button
-                color='primary'
-                to={
-                  tokenSymbol
-                    ? getWalletPathAddress(
-                        WALLET_PAGE_PATH,
-                        tokenSymbol,
-                        tokenHash || DFI_SYMBOL,
-                        tokenAmount || '',
-                        tokenAddress || '',
-                        isLPS
-                      )
-                    : WALLET_PAGE_PATH
-                }
-                tag={NavLink}
-              >
+              <Button color='primary' onClick={this.sendStepDefault}>
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

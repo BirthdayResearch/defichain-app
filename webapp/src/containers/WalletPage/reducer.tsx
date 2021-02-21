@@ -330,7 +330,7 @@ const configSlice = createSlice({
       state.isWalletUnlocked = false;
       state.isErrorUnlockWallet = action.payload;
     },
-    lockWalletStart(state, action) {
+    lockWalletStart(state) {
       state.isWalletUnlocked = false;
     },
     enableAutoLockStart(state) {
@@ -342,6 +342,10 @@ const configSlice = createSlice({
       state.lockedUntil = action.payload;
     },
     startBackupWalletViaPostEncryptModal(state) {},
+    createWalletStart(state, action) {
+      state.isWalletCreating = true;
+      state.isErrorCreatingWallet = '';
+    }
   },
 });
 
@@ -419,6 +423,7 @@ export const {
   unlockWalletFailure,
   setLockedUntil,
   startBackupWalletViaPostEncryptModal,
+  createWalletStart
 } = actions;
 
 export default reducer;
