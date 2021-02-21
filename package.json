@@ -173,7 +173,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'test'"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "engines": {
