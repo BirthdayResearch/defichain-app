@@ -1481,19 +1481,19 @@ export const getMaxNumberOfAmount = (value: string, hash: string): string => {
 };
 
 export const shortenedPathAddress = (p: string): string => {
-  try {
-    const fileLength = 50;
-    if (p && p.length > fileLength) {
-      const middle = Math.floor(p.length / 3);
-      const firstHalf = Math.floor(middle / 2);
-      return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
-    } else {
-      return p;
-    }
-  } catch (error) {
-    log.error(error, 'shortenedPathAddress');
+try {
+  const fileLength = 50;
+  if (p && p.length > fileLength) {
+    const middle = Math.floor(p.length / 3);
+    const firstHalf = Math.floor(middle / 2);
+    return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
+  } else {
     return p;
   }
+} catch (error) {
+  log.error(error, 'shortenedPathAddress');
+  return p;
+}
 };
 
 export const getFormattedTime = () => {
