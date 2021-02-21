@@ -1516,7 +1516,7 @@ message,
 lpKeywords,
 ResponseMessages.BLOCKS_PENDING
 );
-} else {
+}else {
 return remapNodeError(message);
 }
 }
