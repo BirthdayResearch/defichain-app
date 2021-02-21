@@ -1508,17 +1508,17 @@ export const getFormattedTime = () => {
 };
 
 export const checkRPCErrorMessagePending = (message: string): string => {
-  if (message) {
-    const lpKeywords = ['amount', 'is less than'];
-    if (shouldRemapError(message, lpKeywords)) {
-      return getErrorRemapping(
-        message,
-        lpKeywords,
-        ResponseMessages.BLOCKS_PENDING
-      );
-    } else {
-      return remapNodeError(message);
-    }
-  }
-  return message;
+if (message) {
+const lpKeywords = ['amount', 'is less than'];
+if (shouldRemapError(message, lpKeywords)) {
+return getErrorRemapping(
+  message,
+  lpKeywords,
+  ResponseMessages.BLOCKS_PENDING
+);
+} else {
+return remapNodeError(message);
+}
+}
+return message;
 };
