@@ -1481,44 +1481,44 @@ export const getMaxNumberOfAmount = (value: string, hash: string): string => {
 };
 
 export const shortenedPathAddress = (p: string): string => {
-try {
-  const fileLength = 50;
-  if (p && p.length > fileLength) {
-    const middle = Math.floor(p.length / 3);
-    const firstHalf = Math.floor(middle / 2);
-    return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
-  } else {
+  try {
+    const fileLength = 50;
+    if (p && p.length > fileLength) {
+      const middle = Math.floor(p.length / 3);
+      const firstHalf = Math.floor(middle / 2);
+      return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
+    } else {
+      return p;
+    }
+  } catch (error) {
+    log.error(error, 'shortenedPathAddress');
     return p;
   }
-} catch (error) {
-  log.error(error, 'shortenedPathAddress');
-  return p;
-}
 };
 
 export const getFormattedTime = () => {
-const today = new Date();
-const y = today.getFullYear();
-const m = today.getMonth() + 1;
-const d = today.getDate();
-const h = today.getHours();
-const mi = today.getMinutes();
-const s = today.getSeconds();
-return `${y}-${m}-${d}_${h}-${mi}-${s}`;
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = today.getMonth() + 1;
+  const d = today.getDate();
+  const h = today.getHours();
+  const mi = today.getMinutes();
+  const s = today.getSeconds();
+  return `${y}-${m}-${d}_${h}-${mi}-${s}`;
 };
 
 export const checkRPCErrorMessagePending = (message: string): string => {
-if (message) {
-const lpKeywords = ['amount', 'is less than'];
-if (shouldRemapError(message, lpKeywords)) {
-return getErrorRemapping(
-message,
-lpKeywords,
-ResponseMessages.BLOCKS_PENDING
-);
-}else {
-return remapNodeError(message);
-}
-}
-return message;
+  if (message) {
+    const lpKeywords = ['amount', 'is less than'];
+    if (shouldRemapError(message, lpKeywords)) {
+      return getErrorRemapping(
+        message,
+        lpKeywords,
+        ResponseMessages.BLOCKS_PENDING
+      );
+    } else {
+      return remapNodeError(message);
+    }
+  }
+  return message;
 };
