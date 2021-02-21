@@ -173,11 +173,6 @@
     "electron-app/**/*.ts": "npm run lint",
     "electron-app/**/*.tsx": "npm run lint"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "engines": {
     "node": ">=12"
   }

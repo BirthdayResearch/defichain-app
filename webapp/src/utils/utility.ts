@@ -1512,9 +1512,9 @@ if (message) {
 const lpKeywords = ['amount', 'is less than'];
 if (shouldRemapError(message, lpKeywords)) {
 return getErrorRemapping(
-  message,
-  lpKeywords,
-  ResponseMessages.BLOCKS_PENDING
+message,
+lpKeywords,
+ResponseMessages.BLOCKS_PENDING
 );
 } else {
 return remapNodeError(message);
