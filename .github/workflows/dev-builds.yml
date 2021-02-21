@@ -3,6 +3,7 @@ on:
     branches:
       - 'ci/**'
       - master
+      - feat/bump_packages
   pull_request:
     branches:
       - master
