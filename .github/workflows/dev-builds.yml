@@ -1,11 +1,6 @@
 on:
-  push:
-    branches:
-      - 'ci/**'
-      - master
   pull_request:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   build_linux_version:
