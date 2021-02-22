@@ -111,13 +111,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [CsvModalOpen, setCsvModalOpen] = useState(false);
   const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
+  const [downloadDisable, setDownloadDisable] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
   const pagesCount = Math.ceil(total / pageSize);
   const textLimit = 26;
   const from = (currentPage - 1) * pageSize + 1;
   const to = Math.min(total, currentPage * pageSize);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const [error, setError] = useState('');
   const [reqData, setData] = useState({
     blockHeight: blockCount,
@@ -133,7 +134,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     const getData = async () => {
       try {
+        setDownloadDisable(true);
         const txns = await getListAccountHistory(reqData);
+        if (txns != null && blockCount != 0) {
+          setDownloadDisable(false);
+        }
         setTransationData(txns);
       } catch (err) {
         const errorMessage = getErrorMessage(err);
@@ -184,10 +189,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     setError('');
     setData({
+      ...reqData,
       blockHeight: blockCount,
-      limit: 100,
       token: tokenSymbol,
       no_rewards: false,
+      limit: 100,
     });
   }, [CsvModalOpen]);
 
@@ -244,6 +250,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     sourceArray.current.push(source);
     fetchData(currentPage, source.token);
   }, [includeRewards]);
+
+  useEffect(() => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  }, [blockCount]);
 
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
@@ -440,6 +453,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             </span>
           </Button>
           <DownloadCsvModal
+            downloadDisable={downloadDisable}
             reqData={reqData}
             transactionData={transactionData}
             handleDownloadWindow={handleDownloadWindow}
