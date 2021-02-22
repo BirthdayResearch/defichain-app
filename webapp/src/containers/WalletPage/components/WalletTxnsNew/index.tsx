@@ -111,7 +111,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [CsvModalOpen, setCsvModalOpen] = useState(false);
   const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
-  const [downloadButton, setDownloadButton] = useState(false);
+  const [downloadDisable, setDownloadDisable] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
   const pagesCount = Math.ceil(total / pageSize);
@@ -134,11 +134,10 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     const getData = async () => {
       try {
-        setDownloadButton(true);
+        setDownloadDisable(true);
         const txns = await getListAccountHistory(reqData);
-        console.log(txns);
-        if (txns != null) {
-          setDownloadButton(false);
+        if (txns != null && blockCount != 0) {
+          setDownloadDisable(false);
         }
         setTransationData(txns);
       } catch (err) {
@@ -251,6 +250,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     sourceArray.current.push(source);
     fetchData(currentPage, source.token);
   }, [includeRewards]);
+
+  useEffect(() => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  }, [blockCount]);
 
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
@@ -447,7 +453,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             </span>
           </Button>
           <DownloadCsvModal
-            downloadButton={downloadButton}
+            downloadDisable={downloadDisable}
             reqData={reqData}
             transactionData={transactionData}
             handleDownloadWindow={handleDownloadWindow}
