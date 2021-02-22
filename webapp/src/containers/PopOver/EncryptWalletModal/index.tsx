@@ -53,7 +53,7 @@ const EncryptWalletModal: React.FunctionComponent<EncryptWalletModalProps> = (
           onSave={encryptWalletStart}
           onClose={closeEncryptWalletModal}
           isModal={true}
-          pageSize={7}
+          pageSize={8}
         />
       </ModalBody>
     </Modal>
