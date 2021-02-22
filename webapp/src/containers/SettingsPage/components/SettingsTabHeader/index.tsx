@@ -7,6 +7,7 @@ import Header from '../../../HeaderComponent';
 interface SettingsTabsHeaderProps {
   setActiveTab: (tab: string) => void;
   activeTab: string;
+  displaySecurityTab?: boolean;
 }
 
 export enum SettingsTabs {
@@ -16,7 +17,7 @@ export enum SettingsTabs {
 }
 
 const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
-  const { setActiveTab, activeTab } = props;
+  const { setActiveTab, activeTab, displaySecurityTab } = props;
   return (
     <Header>
       <h1>{I18n.t('containers.settings.settings')}</h1>
@@ -33,18 +34,21 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             {I18n.t('containers.settings.general')}
           </NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink
-            className={classnames({
-              active: activeTab === SettingsTabs.security,
-            })}
-            onClick={() => {
-              setActiveTab(SettingsTabs.security);
-            }}
-          >
-            {I18n.t('containers.settings.security')}
-          </NavLink>
-        </NavItem>
+        {displaySecurityTab && (
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: activeTab === SettingsTabs.security,
+              })}
+              onClick={() => {
+                setActiveTab(SettingsTabs.security);
+              }}
+            >
+              {I18n.t('containers.settings.security')}
+            </NavLink>
+          </NavItem>
+        )}
+
         <NavItem>
           <NavLink
             className={classnames({

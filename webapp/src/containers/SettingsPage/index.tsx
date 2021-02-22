@@ -53,6 +53,8 @@ interface SettingsPageProps {
   updateSettings: (data: any) => void;
   changeLanguage: () => void;
   isRefreshUtxosModalOpen: boolean;
+  isWalletEncrypted: boolean;
+  isWalletCreatedFlag: boolean;
 }
 
 interface SettingsPageState {
@@ -288,7 +290,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       <Helmet>
         <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
-      <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} displaySecurityTab={props.isWalletCreatedFlag && props.isWalletEncrypted} />
       <div className='content'>
         {/* NOTE: Do not remove, for future purpose */}
         {/* <SettingsTab
@@ -322,7 +324,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handeReindexToggle={handeReindexToggle}
             handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
-          <SettingsTabSecurity />
+          {props.isWalletCreatedFlag && props.isWalletEncrypted && (
+            <SettingsTabSecurity />
+          )}
           <SettingsTabDisplay
             language={language!}
             unit={unit!}
@@ -352,6 +356,7 @@ const mapStateToProps = (state) => {
     isUpdated,
     isRefreshUtxosModalOpen,
   } = state.settings;
+  const { isWalletEncrypted, isWalletCreatedFlag } = state.wallet;
   const { isRestart } = state.popover;
   const { locale } = state.i18n;
   return {
@@ -363,6 +368,8 @@ const mapStateToProps = (state) => {
     locale,
     isRestart,
     isRefreshUtxosModalOpen,
+    isWalletEncrypted,
+    isWalletCreatedFlag,
   };
 };
 
