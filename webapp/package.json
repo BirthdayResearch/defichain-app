@@ -75,7 +75,8 @@
     "semver": "7.3.4",
     "shuffle-array": "^1.0.1",
     "uid": "^2.0.0",
-    "uifx": "^2.0.7"
+    "uifx": "^2.0.7",
+    "zxcvbn": "4.4.2"
   },
   "devDependencies": {
     "@babel/core": "~7.12.17",
@@ -107,6 +108,7 @@
     "@types/react-transition-group": "^4.4.1",
     "@types/redux-logger": "^3.0.8",
     "@types/semver": "7.3.4",
+    "@types/zxcvbn": "4.4.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "autoprefixer": "^10.2.4",
     "babel-eslint": "^10.1.0",

@@ -16,6 +16,7 @@ import classnames from 'classnames';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
 import { NavLink } from 'react-router-dom';
 import {
+  getPasswordStrength,
   getPasswordValidationRules,
   isSamePasswordValidation,
   PasswordForm,
@@ -77,7 +78,6 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
       dirtyFields as PasswordForm
     );
   };
-  const passwordValidationRules = getPasswordValidationRules(isSameWithConfirm);
 
   const onPasswordChange = (otherField: string) => {
     trigger(otherField);
@@ -132,11 +132,16 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       name={PasswordFormEnum.passphrase}
                       control={control}
                       defaultValue=''
-                      rules={passwordValidationRules}
-                      render={({ onChange }, { invalid, isDirty }) => (
+                      rules={getPasswordValidationRules(
+                        isSameWithConfirm,
+                        true
+                      )}
+                      render={({ onChange, value }, { invalid, isDirty }) => (
                         <InputPassword
                           label='alerts.passphraseLabel'
                           id='passphraseLabel'
+                          hasStrengthChecker={true}
+                          strengthScore={getPasswordStrength(value)}
                           name={PasswordFormEnum.passphrase}
                           onChange={(e) => {
                             onChange(e);
@@ -153,7 +158,10 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       name={PasswordFormEnum.confirmPassphrase}
                       control={control}
                       defaultValue=''
-                      rules={passwordValidationRules}
+                      rules={getPasswordValidationRules(
+                        isSameWithConfirm,
+                        false
+                      )}
                       render={({ onChange }, { invalid, isDirty }) => (
                         <InputPassword
                           label='alerts.passphraseLabelConfirm'

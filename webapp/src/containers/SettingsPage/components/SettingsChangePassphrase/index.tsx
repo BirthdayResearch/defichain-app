@@ -26,6 +26,7 @@ import {
   isSamePasswordValidation,
   PasswordForm,
   PasswordFormEnum,
+  getPasswordStrength,
 } from '../../../../utils/passwordUtility';
 
 const SettingsChangePassphrase: React.FunctionComponent = () => {
@@ -54,8 +55,6 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
       dirtyFields as PasswordForm
     );
   };
-
-  const passwordValidationRules = getPasswordValidationRules(isSameWithConfirm);
 
   const onPasswordChange = (otherField: string) => {
     trigger(otherField);
@@ -122,11 +121,13 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
                   name={PasswordFormEnum.passphrase}
                   control={control}
                   defaultValue=''
-                  rules={passwordValidationRules}
-                  render={({ onChange }, { invalid, isDirty }) => (
+                  rules={getPasswordValidationRules(isSameWithConfirm, true)}
+                  render={({ onChange, value }, { invalid, isDirty }) => (
                     <InputPassword
                       label='containers.settings.newPassphrase'
                       id={PasswordFormEnum.passphrase}
+                      hasStrengthChecker={true}
+                      strengthScore={getPasswordStrength(value)}
                       name={PasswordFormEnum.passphrase}
                       onChange={(e) => {
                         onChange(e);
@@ -145,7 +146,7 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
                   name={PasswordFormEnum.confirmPassphrase}
                   control={control}
                   defaultValue=''
-                  rules={passwordValidationRules}
+                  rules={getPasswordValidationRules(isSameWithConfirm, false)}
                   render={({ onChange }, { invalid, isDirty }) => (
                     <InputPassword
                       label='containers.settings.confirmNewPassphrase'
