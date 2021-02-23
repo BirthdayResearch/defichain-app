@@ -35,9 +35,9 @@ issue:
 
           In the meantime, you can:
 
-          1. Checkout [DeFiChain’s Github issue page](https://github.com/DeFiCh/app/issues) to see if your issue has already been reported
-          2. Checkout [how to an submit issue for DeFi app](https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-DeFi-app)
-          3. Submit any logs if you have them, this will greatly expedite the process for us.
+          1. Checkout [DeFiChain’s Github issue page](https://github.com/DeFiCh/app/issues?q=is%3Aissue) to see if your issue has already been reported
+          2. [Submit any logs if you have them](https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-DeFi-app), this will greatly expedite the process for us.
+          3. You can also join our [Telegram](https://t.me/defiblockchain) or [Reddit](https://reddit.com/r/defiblockchain) community channels.
 
     - prefix: kind
       list: ['feature', 'bug']
