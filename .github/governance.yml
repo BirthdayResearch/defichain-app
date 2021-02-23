@@ -43,6 +43,11 @@ issue:
       list: ['feature', 'bug']
       multiple: false
       needs: true
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
 
     - prefix: os
       list: ['mac', 'win', 'linux']
@@ -120,6 +125,11 @@ pull_request:
           description:
             success: Ready for review & merge.
             failure: Missing kind label for release generation.
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
 
   chat_ops:
     - cmd: /close
