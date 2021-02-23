@@ -14,6 +14,7 @@ import {
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
   ON_DEFAULT_WALLET_PATH_REQUEST,
+  ON_SET_NODE_VERSION,
 } from '@defi_types/ipcEvents';
 import {
   checkPathExists,
@@ -34,6 +35,7 @@ import {
 } from '@defi_types/fileExtensions';
 import ini from 'ini';
 import { ParsedPath } from 'path';
+import packageInfo from '../../../package.json';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -126,6 +128,24 @@ export const setWalletEvents = () => {
     try {
       event.returnValue = responseMessage(true, getWalletMap());
     } catch (error) {
+      event.returnValue = responseMessage(false, {
+        message: error.message,
+      });
+    }
+  });
+
+  ipcMain.on(ON_SET_NODE_VERSION, async (event: Electron.IpcMainEvent) => {
+    try {
+      const r = getWalletMap();
+      if (r != null || r != '') {
+        const { ainVersion } = packageInfo;
+        const walletMap: WalletMap = JSON.parse(r);
+        walletMap.nodeVersion = ainVersion;
+        overwriteWalletMap(walletMap);
+        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
+      }
+    } catch (error) {
+      log.error(error);
       event.returnValue = responseMessage(false, {
         message: error.message,
       });
