@@ -1,13 +1,4 @@
-# Existing labels to be refactored or removed entirely.
-- color: ffffff
-  name: bug
-  description: Something isn't working
-- color: ffffff
-  name: documentation
-  description: Improvements or additions to documentation
-- color: ffffff
-  name: enhancement
-  description: New feature or request
+# I think these labels are not required, remove soon?
 - color: ffffff
   name: enquiring
   description: Further information is requested
@@ -32,11 +23,6 @@
 - color: ffffff
   name: priority
   description: Prioritized
-- color: ffffff
-  name: stale
-  description: No activity for 30 days
-- color: ffffff
-  name: WIP
 
 # GitHub generic useful labels
 - color: c4d471
@@ -48,11 +34,17 @@
 - color: ffffff
   name: wontfix
   description: This will not be worked on
+- color: 5f6c23
+  name: stale
+  description: No activity for 30 days
 
 # Needs
 - color: cc40d8
   name: needs/kind
   description: Needs kind label
+- color: cc40d8
+  name: needs/triage
+  description: Needs triage label
 
 # Kind
 - color: e7e9eb
@@ -79,3 +71,16 @@
 - color: e7e9eb
   name: kind/dependencies
   description: Pull requests that update a dependency file
+
+# Operating system
+- color: 0d1d49
+  name: os/win
+- color: 0d1d49
+  name: os/linux
+- color: 0d1d49
+  name: os/mac
+
+# Triage
+- color: b1f488
+  name: triage/accepted
+  description: Triage has been accepted

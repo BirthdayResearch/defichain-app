@@ -704,7 +704,7 @@ export function* fetchWalletMap() {
       );
     }
   } catch (err) {
-    log.error(err, 'checkRestartCriteria');
+    log.error(err, 'fetchWalletMap');
     yield put(fetchWalletMapFailure(err?.message));
   }
 }
