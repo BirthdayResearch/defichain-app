@@ -39,6 +39,7 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_SET_NODE_VERSION,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -52,6 +53,7 @@ import {
   getTimeDifferenceMS,
 } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
+import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -72,16 +74,26 @@ export function startAppInit() {
   return { success: true, data: {} };
 }
 
+const getStartChainMessage = (response: any): string => {
+  if (response?.message?.includes(REINDEX_NODE_UPDATE)) {
+    return I18n.t('alerts.nodeVersionUpdate', {
+      version: response.nodeVersion,
+    });
+  }
+  return '';
+};
+
 export function startBinary(config: any) {
   return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(START_DEFI_CHAIN, config);
     ipcRenderer.on(START_DEFI_CHAIN_REPLY, async (_e: any, res: any) => {
       if (res.success) {
+        setNodeVersion();
         isBlockchainStarted(emit, res);
       } else {
         if (res.isReindexReq) {
-          store.dispatch(openReIndexModal());
+          store.dispatch(openReIndexModal(getStartChainMessage(res)));
         }
         log.error(res?.message ?? res, 'startBinary');
         emit(res);
@@ -135,7 +147,11 @@ export const dumpWallet = async (paths: string) => {
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
-export const updateWalletMap = (path: string, isRemove?: boolean, additionalData: Partial<WalletMap> = {}): void => {
+export const updateWalletMap = (
+  path: string,
+  isRemove?: boolean,
+  additionalData: Partial<WalletMap> = {}
+): void => {
   try {
     const filterPath = (v: string) => v !== path;
     const { wallet } = store.getState();
@@ -260,6 +276,18 @@ export const getWalletMap = async (): Promise<WalletMap | undefined> => {
     log.error(error, 'getWalletMap');
   }
 };
+
+export const setNodeVersion = async (): Promise<void> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_SET_NODE_VERSION);
+    if (resp?.success && resp?.data) {
+      return JSON.parse(resp?.data);
+    }
+  } catch (error) {
+    log.error(error, 'getWalletMap');
+  }
+}
 
 const setAutoLock = (unlockedUntil: number) => {
   const timeDiffSecs = getTimeDifferenceMS(unlockedUntil) / 1000;

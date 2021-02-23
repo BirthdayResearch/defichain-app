@@ -699,7 +699,7 @@ export function* fetchWalletMap() {
       yield put(setDefaultLockTimeout(walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES));
     }
   } catch (err) {
-    log.error(err, 'checkRestartCriteria');
+    log.error(err, 'fetchWalletMap');
     yield put(fetchWalletMapFailure(err?.message));
   }
 }

@@ -29,7 +29,30 @@ import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
+  MAJOR_VERSION,
+  MINOR_VERSION,
+  REINDEX_NODE_UPDATE,
 } from '@defi_types/settings';
+import packageInfo from '../../../package.json';
+import { getWalletMap } from '../controllers/wallets';
+import { WalletMap } from '../../../typings/walletMap';
+import semverDiff from 'semver/functions/diff';
+
+const checkIfNodeVersionChanged = (ainVersion: string) => {
+  try {
+    const walletMap: WalletMap =
+      getWalletMap() != null ? JSON.parse(getWalletMap()) : null;
+    log.info(`Current Node: ${walletMap.nodeVersion} New Node: ${ainVersion}`);
+    const isNodeVersionNull = walletMap.nodeVersion == null;
+    const diff = !isNodeVersionNull
+      ? semverDiff(walletMap.nodeVersion, ainVersion)
+      : '';
+    const isMajorOrMinorUpdate = [MAJOR_VERSION, MINOR_VERSION].includes(diff);
+    return isNodeVersionNull || isMajorOrMinorUpdate;
+  } catch (error) {
+    log.error(error);
+  }
+};
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
@@ -60,6 +83,21 @@ export default class DefiProcessManager {
           deleteBlocksAndRevFiles();
         }
       }
+
+      const { ainVersion } = packageInfo;
+      if (checkIfNodeVersionChanged(ainVersion) && !params?.skipVersionCheck) {
+        this.isReindexReq = true;
+        log.info(REINDEX_NODE_UPDATE);
+        return event.sender.send(
+          START_DEFI_CHAIN_REPLY,
+          responseMessage(false, {
+            message: REINDEX_NODE_UPDATE,
+            isReindexReq: this.isReindexReq,
+            nodeVersion: ainVersion,
+          })
+        );
+      }
+
       if (checkPathExists(PID_FILE_NAME)) {
         try {
           const pid = getFileData(PID_FILE_NAME);
