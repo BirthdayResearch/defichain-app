@@ -29,4 +29,5 @@ export interface PopoverState {
   isErrorEncryptingWallet: string;
   isEncryptFromModal: boolean;
   isPostEncryptBackupModalOpen: boolean;
+  reIndexMessage: string;
 }

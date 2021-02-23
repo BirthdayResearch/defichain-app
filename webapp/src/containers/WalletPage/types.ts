@@ -81,4 +81,5 @@ export interface WalletState {
 export const defaultWalletMap: WalletMap = {
   paths: [],
   lockTimeout: TimeoutLockEnum.FIVE_MINUTES,
+  nodeVersion: '',
 };
