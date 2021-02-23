@@ -7,11 +7,10 @@ categories:
   - title: '🐛 Bug Fixes'
     labels:
       - 'kind/fix'
-  - title: '🧰 Maintenance'
-    labels:
-      - 'kind/refactor'
-      - 'kind/chore'
-      - 'kind/docs'
+exclude-labels:
+  - 'kind/chore'
+  - 'kind/docs'
+  - 'kind/refactor'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 version-resolver:
@@ -20,9 +19,6 @@ version-resolver:
       - 'kind/feature'
   patch:
     labels:
-      - 'kind/refactor'
-      - 'kind/chore'
-      - 'kind/docs'
       - 'kind/fix'
   default: patch
 template: |
