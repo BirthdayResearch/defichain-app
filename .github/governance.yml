@@ -7,15 +7,15 @@ issue:
       ignore_case: true
       label: 'version/$CAPTURED'
 
-    - regex: '- Operating System \(OS\): *(windows?|ms|wins?|microsoft)(\d)* *'
+    - regex: '- Operating System \(OS\): *(windows?|ms|wins?|microsoft).*'
       label: 'os/win'
       ignore_case: true
 
-    - regex: '- Operating System \(OS\): *(linux|linus|lin|unix|ubuntu|fedora|debian) *'
+    - regex: '- Operating System \(OS\): *(linux|linus|lin|unix|ubuntu|fedora|debian).*'
       label: 'os/linux'
       ignore_case: true
 
-    - regex: '- Operating System \(OS\): *(macos|mac|apple|macintosh|macbook) *'
+    - regex: '- Operating System \(OS\): *(macos|mac|apple|macintosh|macbook).*'
       label: 'os/mac'
       ignore_case: true
 
