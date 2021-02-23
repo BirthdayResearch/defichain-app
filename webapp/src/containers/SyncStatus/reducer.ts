@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { SyncStatusState } from './types';
 
-export const initialState = {
+export const initialState: SyncStatusState = {
   isLoading: false,
   syncedPercentage: 0,
   latestBlock: 0,

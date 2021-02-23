@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AppState } from './types';
 
-export const initialState = {
+export const initialState: AppState = {
   isFetching: false,
   rpcRemotes: [],
   rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },

@@ -28,6 +28,7 @@ import {
   PasswordFormEnum,
   getPasswordStrength,
 } from '../../../../utils/passwordUtility';
+import { RootState } from '../../../../app/rootTypes';
 
 const SettingsChangePassphrase: React.FunctionComponent = () => {
   const { handleSubmit, control, getValues, formState, trigger } = useForm({
@@ -36,7 +37,7 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
   const { isPassphraseChanging, changePassphraseError } = useSelector(
-    (state: any) => state.settings
+    (state: RootState) => state.settings
   );
 
   const onFormSubmit = (data) => {
