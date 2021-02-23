@@ -896,7 +896,9 @@
     "backupAndExit": "Backup and Exit",
     "exit": "Exit",
     "deletePeersAndBlocks": "Delete peers and blocks",
-    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?"
+    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
+    "nodeVersionUpdate": "Node has been updated to version %{version}. An app reindex is required. Do you want to restart now?",
+    "nodeVersionHeader": "Node update"
   },
   "general": {
     "defiApp": "DeFi app",
