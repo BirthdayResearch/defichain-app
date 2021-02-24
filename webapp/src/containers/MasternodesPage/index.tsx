@@ -209,7 +209,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link'>
+          <Button onClick={createMasterNodeFunc} color='link' disabled={true}>
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t(
