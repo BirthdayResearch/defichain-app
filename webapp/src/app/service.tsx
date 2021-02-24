@@ -54,6 +54,7 @@ import {
 } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
+import { startSetNodeVersion } from '../containers/RpcConfiguration/reducer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -89,7 +90,7 @@ export function startBinary(config: any) {
     ipcRenderer.send(START_DEFI_CHAIN, config);
     ipcRenderer.on(START_DEFI_CHAIN_REPLY, async (_e: any, res: any) => {
       if (res.success) {
-        setNodeVersion();
+        store.dispatch(startSetNodeVersion());
         isBlockchainStarted(emit, res);
       } else {
         if (res.isReindexReq) {
@@ -287,7 +288,7 @@ export const setNodeVersion = async (): Promise<void> => {
   } catch (error) {
     log.error(error, 'getWalletMap');
   }
-}
+};
 
 const setAutoLock = (unlockedUntil: number) => {
   const timeDiffSecs = getTimeDifferenceMS(unlockedUntil) / 1000;

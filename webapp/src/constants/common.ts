@@ -10,7 +10,8 @@ export enum ErrorMessages {
   WITNESS_MISMATCH = 'Witness program hash mismatch',
   AUTH_TX = 'Add-on auth TX failed',
   UNABLE_TO_SIGN = 'Unable to sign input, invalid stack size (possibly missing key)',
-  PASSPHRASE_INCORRECT = 'The wallet passphrase entered was incorrect'
+  PASSPHRASE_INCORRECT = 'The wallet passphrase entered was incorrect',
+  MEMPOOL = 'mempool',
 }
 
 export enum ResponseMessages {
@@ -19,5 +20,6 @@ export enum ResponseMessages {
   BLOCKS_PENDING = 'containers.liquidity.liquidityPage.blockTransactionFailed',
   AUTH_TX = 'containers.errors.insufficientFunds',
   UNABLE_TO_SIGN = 'containers.wallet.encryptWalletPage.walletIsLocked',
-  PASSPHRASE_INCORRECT = 'containers.settings.incorrectPassphrase'
+  PASSPHRASE_INCORRECT = 'containers.settings.incorrectPassphrase',
+  MEMPOOL = 'containers.liquidity.liquidityPage.blockTransactionFailed',
 }

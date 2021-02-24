@@ -8,8 +8,14 @@ import {
   startNodeRequest,
   storeConfigurationData,
   setQueueReady,
+  startSetNodeVersion,
 } from './reducer';
-import { getRpcConfig, startAppInit, startBinary } from '../../app/service';
+import {
+  getRpcConfig,
+  setNodeVersion,
+  startAppInit,
+  startBinary,
+} from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 import {
@@ -22,11 +28,15 @@ import {
   closeRestartLoader,
   setIsQueueResetRoute,
 } from '../PopOver/reducer';
-import { fetchPaymentRequest } from '../WalletPage/reducer';
+import {
+  fetchPaymentRequest,
+  fetchWalletMapSuccess,
+} from '../WalletPage/reducer';
 import { fetchChainInfo } from '../WalletPage/saga';
 import { enableMenuResetWalletBtn } from '../../app/update.ipcRenderer';
 import { history } from '../../utils/history';
 import { WALLET_TOKENS_PATH } from '../../constants';
+import { WalletMap } from '../../../../typings/walletMap';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
@@ -96,9 +106,21 @@ export function* preCheck() {
   yield call(enableMenuResetWalletBtn, isWalletCreatedFlag);
 }
 
+export function* handleSetNodeVersion() {
+  try {
+    const walletMap: WalletMap = yield call(setNodeVersion);
+    if (walletMap) {
+      yield put(fetchWalletMapSuccess(walletMap));
+    }
+  } catch (error) {
+    log.error(error, 'handleSetNodeVersion');
+  }
+}
+
 function* mySaga() {
   yield takeLatest(getRpcConfigsRequest.type, getConfig);
   yield takeLatest(startNodeSuccess.type, preCheck);
+  yield takeLatest(startSetNodeVersion.type, handleSetNodeVersion);
 }
 
 export default mySaga;
