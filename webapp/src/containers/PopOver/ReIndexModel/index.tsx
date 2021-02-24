@@ -5,12 +5,14 @@ import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
 import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
 import ToggleButton from './component/ToggleButton';
+import { startSetNodeVersion } from '../../RpcConfiguration/reducer';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
   reIndexMessage?: string;
   closeReIndexModal: () => void;
   isRestartLoader: () => void;
+  startSetNodeVersion: () => void;
 }
 
 const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
@@ -21,6 +23,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     isRestartLoader,
     isReIndexModelOpen,
     reIndexMessage,
+    startSetNodeVersion,
   } = props;
   const [peers, setPeers] = useState(true);
 
@@ -37,6 +40,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
       skipVersionCheck: true,
       isDeletePeersAndBlocksreq: peers,
     };
+    startSetNodeVersion();
     restartNodeWithReIndexing(params);
   };
 
@@ -99,6 +103,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   closeReIndexModal,
   isRestartLoader,
+  startSetNodeVersion,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReIndexModal);
