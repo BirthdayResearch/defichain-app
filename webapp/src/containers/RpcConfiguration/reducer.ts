@@ -69,6 +69,7 @@ const configSlice = createSlice({
       state.isAppClosing = action.payload.isAppClosing;
       state.isFetching = action.payload.isAppClosing;
     },
+    startSetNodeVersion(state) {},
   },
 });
 
@@ -85,6 +86,7 @@ export const {
   setQueueReady,
   killQueue,
   isAppClosing,
+  startSetNodeVersion,
 } = actions;
 
 export default reducer;
