@@ -85,6 +85,13 @@ export function createZeroOutputTxFromCustomTx(
       break;
     case CustomTx.customTxType.poolSwap:
       script.add(new CustomTx.PoolSwap(customTx.customData));
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 0,
+      });
+      transaction = tx.to(address, customTx.customData.amountFrom * ONE_DFI_SATOSHIS);
+      transaction =  tx.addOutput(outputZero);
       break;
     case CustomTx.customTxType.addPoolLiquidity:
       script.add(new CustomTx.AddPoolLiquidity(customTx.customData));
@@ -127,12 +134,7 @@ export function createZeroOutputTxFromCustomTx(
     default:
       break;
   }
-  outputOne = new Transaction.Output({
-    script: scriptAddress,
-    tokenId: 0,
-    satoshis: (feeRate*ONE_DFI_SATOSHIS).toFixed(8),
-  });
-  return transaction.addOutput(outputOne);
+  return transaction.change(address);
 }
 
 export function createTx(
