@@ -25,7 +25,7 @@ const MineNodeCard: React.FunctionComponent<MineNodCardeProps> = (
               <span className={`txn-status-enabled mt-1`}></span>
             </Col>
             <Col md='9' className='pl-0'>
-              <CardTitle tag='h5'>Holden </CardTitle>
+              {/* <CardTitle tag='h5'>Holden </CardTitle> */}
             </Col>
             <Col md='2'>
               <div className={styles.arrow}>
@@ -77,12 +77,12 @@ const MineNodeCard: React.FunctionComponent<MineNodCardeProps> = (
             </Col>
             <Col md='4'>
               <CardText>
-                {I18n.t('containers.masterNodes.masterNodesPage.collaterals')}
+                {I18n.t('containers.masterNodes.masterNodesPage.collateral')}
               </CardText>
             </Col>
             <Col md='8'>
               <CardText>
-                <small className='text-muted'>2</small>
+                <small className='text-muted'>20k</small>
               </CardText>
             </Col>
           </Row>

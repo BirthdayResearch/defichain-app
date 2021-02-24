@@ -80,32 +80,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
-  const MineNodeData = [
-    {
-      mineName: 'Holden',
-      active: 'enabled',
-      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
-      operator: 'Same as owner',
-      type: 'Local',
-      collaterals: '2',
-    },
-    {
-      mineName: 'Allie',
-      active: 'disable',
-      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
-      operator: '8J3WVMy5PanG…7WXQpCXkUop',
-      type: 'Remote',
-      collaterals: '1',
-    },
-    {
-      mineName: 'Phoebe',
-      active: 'disable',
-      owner: '8QSkEt2AmnrMi…TVZMovNvZwAj',
-      operator: 'Same as owner',
-      type: 'Local',
-      collaterals: '3',
-    },
-  ];
+
   const [tab, setTab] = useState<string>('mine');
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
@@ -232,9 +207,9 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
-        {!disableTab && (
+        {/* {!disableTab && (
           <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
-        )}
+        )} */}
         <MasterNodeTabsHeader tab={tab} setTab={setTab} />
         <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>

@@ -21,12 +21,11 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
   props: MineNodeProps
 ) => {
   const { enabledMasternodes } = props;
-  const mineData = enabledMasternodes.filter((data) => !data.isMyMasternode);
 
   return (
     <TabPane tabId={MINE}>
       <Row>
-        {mineData.map((data) => (
+        {enabledMasternodes.map((data) => (
           <MineNodeCard
             owner={data.ownerAuthAddress}
             operator={data.operatorAuthAddress}

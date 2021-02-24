@@ -126,7 +126,7 @@
         "owner": "Owner",
         "operator": "Operator",
         "type": "Type",
-        "collaterals": "Collaterals",
+        "collateral": "Collateral",
         "collateralsActive": "Collaterals active",
         "collateralsInactive": "Collaterals inactive",
         "dFIMinted": "DFI minted"
