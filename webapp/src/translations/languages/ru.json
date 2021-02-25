@@ -474,7 +474,7 @@
         "poolID": "Pool ID",
         "amounts": "Amounts",
         "limit": "Limit",
-        "noReward": "No Rewards"
+        "includeReward": "Include reward transactions"
       },
       "walletWalletsPage": {
         "walletWallets": "Кошельки",

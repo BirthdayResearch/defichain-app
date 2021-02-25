@@ -70,7 +70,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
 
   return (
     <Modal isOpen={CsvModalOpen} centered fade={false} toggle={toggle}>
-      <ModalHeader toggle={toggle}>
+      <ModalHeader>
         {I18n.t('containers.wallet.walletPage.downloadTransaction')}
       </ModalHeader>
       <ModalBody>
@@ -80,7 +80,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             <FormGroup className='form-label-group'>
               <CsvRowInput
                 fieldName={'blockHeight'}
-                label={''}
+                label={I18n.t('containers.wallet.walletPage.maxBlock')}
                 value={reqData.blockHeight}
                 name={'blockHeight'}
                 id={'maximumAmount'}
@@ -94,7 +94,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             <FormGroup className='form-label-group'>
               <CsvRowInput
                 fieldName={'limit'}
-                label={''}
+                label={I18n.t('containers.wallet.walletPage.limit')}
                 name={'limit'}
                 value={reqData.limit}
                 id={'limit'}
@@ -107,7 +107,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             <CustomInput
               type='checkbox'
               id='no_rewards'
-              label={I18n.t('containers.wallet.walletPage.noReward')}
+              label={I18n.t('containers.wallet.walletPage.includeReward')}
               onChange={handleCheckBox}
             />
           </Col>
@@ -117,6 +117,9 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
         </Row>
       </ModalBody>
       <ModalFooter>
+        <Button size='sm' color='link' onClick={() => toggle()}>
+          {I18n.t('alerts.cancel')}
+        </Button>
         <CSVLink
           filename={filename}
           onClick={handleDownloadWindow}

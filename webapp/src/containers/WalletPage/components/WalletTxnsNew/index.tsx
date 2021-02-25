@@ -124,7 +124,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     blockHeight: blockCount,
     limit: 100,
     token: tokenSymbol,
-    no_rewards: false,
+    no_rewards: true,
   });
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       ...reqData,
       blockHeight: blockCount,
       token: tokenSymbol,
-      no_rewards: false,
+      no_rewards: true,
       limit: 100,
     });
   }, [CsvModalOpen]);

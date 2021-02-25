@@ -743,7 +743,7 @@
         "download": "Download",
         "maxBlock": "Max Blockhöhe",
         "limit": "Limit",
-        "noReward": "Keine Rewards"
+        "includeReward": "Include reward transactions"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

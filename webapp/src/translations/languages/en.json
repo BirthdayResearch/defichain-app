@@ -748,7 +748,7 @@
         "poolID": "Pool ID",
         "amounts": "Amounts",
         "limit": "Limit",
-        "noReward": "No rewards"
+        "includeReward": "Include reward transactions"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

@@ -31,7 +31,7 @@ const SettingsRowInput = (props) => {
         placeholder={`${placeholder}`}
         onChange={(event) => handleInputs(event, `${fieldName}`)}
       />
-      <Label for='pruneTo'>{I18n.t(`containers.settings.${label}`)}</Label>
+      <Label for='pruneTo'>{label}</Label>
       {text && (
         <InputGroupAddon addonType='append'>
           <InputGroupText>
