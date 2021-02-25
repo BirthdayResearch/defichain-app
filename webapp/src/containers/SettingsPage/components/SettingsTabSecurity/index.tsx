@@ -7,11 +7,8 @@ import SettingsRowDropDown from '../SettingsRowDropDown';
 import { SettingsTabs } from '../SettingsTabHeader';
 import { NavLink } from 'react-router-dom';
 import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
-import {
-  setDefaultLockTimeout,
-  setLockoutTimeList,
-  TimeoutLockEnum,
-} from '../../reducer';
+import { setDefaultLockTimeout, setLockoutTimeList } from '../../reducer';
+import { TimeoutLockEnum } from '../../types';
 
 const timeoutLabel = 'containers.settings.minutes';
 

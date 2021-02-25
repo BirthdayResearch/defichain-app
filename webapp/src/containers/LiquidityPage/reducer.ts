@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { LiquidityPageState } from './types';
 
-export const initialState = {
+export const initialState: LiquidityPageState = {
   poolshares: [],
   isPoolsharesLoaded: false,
   isLoadingPoolshares: false,

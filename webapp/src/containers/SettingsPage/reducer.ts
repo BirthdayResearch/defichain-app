@@ -1,14 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAppConfigUnit } from './service';
+import { SettingsState, TimeoutLockEnum } from './types';
 
-export enum TimeoutLockEnum {
-  ONE_MINUTE = 60,
-  THREE_MINUTES = 180,
-  FIVE_MINUTES = 300,
-  TEN_MINUTES = 600,
-}
-
-export const initialState = {
+export const initialState: SettingsState = {
   isFetching: false,
   settingsError: 'Unsupported language.',
   appConfig: {
@@ -99,7 +93,7 @@ const configSlice = createSlice({
     },
     setLockoutTimeList(state, action) {
       state.lockTimeoutList = action.payload;
-    }
+    },
   },
 });
 
@@ -121,7 +115,7 @@ export const {
   changePassphraseSuccess,
   changePassphraseFailure,
   setDefaultLockTimeout,
-  setLockoutTimeList
+  setLockoutTimeList,
 } = actions;
 
 export default reducer;
