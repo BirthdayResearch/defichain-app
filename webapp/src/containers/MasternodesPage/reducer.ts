@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { MasternodesState } from './types';
 
-export const initialState = {
+export const initialState: MasternodesState = {
   masternodes: [],
   isMasternodesLoaded: false,
   isLoadingMasternodes: false,

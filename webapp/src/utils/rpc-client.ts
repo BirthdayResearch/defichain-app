@@ -48,7 +48,7 @@ import {
   PeerInfoModel,
   WalletInfo,
 } from 'src/constants/rpcModel';
-import { TimeoutLockEnum } from '../containers/SettingsPage/reducer';
+import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 
 export default class RpcClient {
   client: any;
@@ -795,11 +795,15 @@ export default class RpcClient {
     return data.result;
   };
 
-  changeWalletPassphrase = async (currentPassphrase: string, newPassphrase: string): Promise<string> => {
-    const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE_CHANGE, [
-      currentPassphrase,
-      newPassphrase,
-    ]);
+  changeWalletPassphrase = async (
+    currentPassphrase: string,
+    newPassphrase: string
+  ): Promise<string> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.WALLET_PASSPHRASE_CHANGE,
+      [currentPassphrase, newPassphrase]
+    );
     return data.result;
   };
 
@@ -945,7 +949,10 @@ export default class RpcClient {
     return data.result;
   };
 
-  createWallet = async (walletPath: string, passphrase: string): Promise<CreateNewWalletModel> => {
+  createWallet = async (
+    walletPath: string,
+    passphrase: string
+  ): Promise<CreateNewWalletModel> => {
     const { data } = await this.call('/', methodNames.CREATE_WALLET, [
       walletPath,
       false,

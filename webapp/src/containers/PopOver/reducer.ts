@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PopoverState } from './types';
 
-export const initialState = {
+export const initialState: PopoverState = {
   isOpen: false,
   isRestart: false,
   showWarning: false,
@@ -31,7 +32,7 @@ export const initialState = {
   isErrorEncryptingWallet: '',
   isEncryptFromModal: false,
   isPostEncryptBackupModalOpen: false,
-  reIndexMessage: ''
+  reIndexMessage: '',
 };
 
 const configSlice = createSlice({
@@ -188,7 +189,7 @@ const configSlice = createSlice({
     },
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
-    }
+    },
   },
 });
 
@@ -240,7 +241,7 @@ export const {
   openRestoreWalletModal,
   restoreWalletViaRecent,
   openExitWalletModal,
-  openPostEncryptBackupModal
+  openPostEncryptBackupModal,
 } = actions;
 
 export default reducer;
