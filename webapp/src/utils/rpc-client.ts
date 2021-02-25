@@ -10,7 +10,6 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
-  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
@@ -43,7 +42,13 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
-import { ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
+import {
+  CreateNewWalletModel,
+  ListUnspentModel,
+  PeerInfoModel,
+  WalletInfo,
+} from 'src/constants/rpcModel';
+import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 
 export default class RpcClient {
   client: any;
@@ -103,7 +108,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  getWalletInfo = async (): Promise<any> => {
+  getWalletInfo = async (): Promise<WalletInfo> => {
     const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
@@ -782,11 +787,23 @@ export default class RpcClient {
     return data.result;
   };
 
-  walletPassphrase = async (passphrase: string) => {
+  walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      WALLET_UNLOCK_TIMEOUT,
+      timeout || TimeoutLockEnum.FIVE_MINUTES,
     ]);
+    return data.result;
+  };
+
+  changeWalletPassphrase = async (
+    currentPassphrase: string,
+    newPassphrase: string
+  ): Promise<string> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.WALLET_PASSPHRASE_CHANGE,
+      [currentPassphrase, newPassphrase]
+    );
     return data.result;
   };
 
@@ -930,5 +947,18 @@ export default class RpcClient {
       },
     ]);
     return data.result;
+  };
+
+  createWallet = async (
+    walletPath: string,
+    passphrase: string
+  ): Promise<CreateNewWalletModel> => {
+    const { data } = await this.call('/', methodNames.CREATE_WALLET, [
+      walletPath,
+      false,
+      false,
+      passphrase,
+    ]);
+    return data?.result;
   };
 }

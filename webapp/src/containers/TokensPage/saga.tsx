@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import { getErrorMessage, remapNodeError } from '../../utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -36,6 +36,7 @@ import {
   handleUpdateTokens,
   handleMintTokens,
 } from './service';
+import { ErrorMessages, ResponseMessages } from '../../constants/common';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -99,7 +100,10 @@ export function* createTokens(action) {
     const data = yield call(handleCreateTokens, tokenData);
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: createTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -112,7 +116,10 @@ export function* mintTokens(action) {
     const data = yield call(handleMintTokens, tokenData);
     yield put({ type: mintTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: mintTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -125,7 +132,10 @@ export function* updateTokens(action) {
     const data = yield call(handleUpdateTokens, tokenData);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: updateTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -140,7 +150,7 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: getErrorMessage(e),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }

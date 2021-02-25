@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TimeoutLockEnum } from '../SettingsPage/types';
+import { defaultWalletMap, WalletState } from './types';
 
-export const initialState = {
+export const initialState: WalletState = {
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
@@ -8,6 +10,7 @@ export const initialState = {
   accountHistoryCountLoaded: false,
   accountHistoryCountLoading: false,
   minBlockHeight: 0,
+  maxBlockData: {},
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
@@ -67,8 +70,12 @@ export const initialState = {
     data: true,
     isError: '',
   },
-  walletMap: {},
+  walletMap: { ...defaultWalletMap },
   walletMapError: '',
+  isWalletEncrypted: false,
+  isErrorUnlockWallet: '',
+  isWalletUnlocked: false,
+  lockedUntil: 0,
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -231,6 +238,7 @@ const configSlice = createSlice({
       state.listAccountHistoryData.isError = '';
       state.listAccountHistoryData.data = action.payload.data;
       state.minBlockHeight = action.payload.minBlockHeight;
+      state.maxBlockData = action.payload.maxBlockData;
     },
     fetchWalletTokenTransactionsListRequestFailure(state, action) {
       state.listAccountHistoryData.isLoading = false;
@@ -286,7 +294,7 @@ const configSlice = createSlice({
       state.isLoadingTokens = false;
     },
     fetchWalletMapRequest(state) {
-      state.walletMap = {};
+      state.walletMap = { ...defaultWalletMap };
       state.walletMapError = '';
     },
     fetchWalletMapSuccess(state, action) {
@@ -295,7 +303,7 @@ const configSlice = createSlice({
     },
     fetchWalletMapFailure(state, action) {
       state.walletMapError = action.payload;
-      state.walletMap = {};
+      state.walletMap = { ...defaultWalletMap };
     },
     startRestoreWalletViaBackup(state) {
       state.isWalletRestoring = true;
@@ -310,6 +318,36 @@ const configSlice = createSlice({
       state.isErrorRestoringWallet = '';
     },
     startBackupWalletViaExitModal(state) {},
+    setWalletEncryptedRequest(state, action) {},
+    setWalletEncrypted(state, action) {
+      state.isWalletEncrypted = action.payload;
+    },
+    unlockWalletStart(state, action) {
+      state.isErrorUnlockWallet = '';
+    },
+    unlockWalletSuccess(state, action) {
+      state.isWalletUnlocked = action.payload;
+    },
+    unlockWalletFailure(state, action) {
+      state.isWalletUnlocked = false;
+      state.isErrorUnlockWallet = action.payload;
+    },
+    lockWalletStart(state) {
+      state.isWalletUnlocked = false;
+    },
+    enableAutoLockStart(state) {
+      state.isWalletUnlocked = false;
+      state.lockedUntil = 0;
+    },
+    setLockedUntil(state, action) {
+      state.isWalletUnlocked = true;
+      state.lockedUntil = action.payload;
+    },
+    startBackupWalletViaPostEncryptModal(state) {},
+    createWalletStart(state, action) {
+      state.isWalletCreating = true;
+      state.isErrorCreatingWallet = '';
+    },
   },
 });
 
@@ -378,6 +416,16 @@ export const {
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
   startBackupWalletViaExitModal,
+  setWalletEncryptedRequest,
+  setWalletEncrypted,
+  lockWalletStart,
+  enableAutoLockStart,
+  unlockWalletStart,
+  unlockWalletSuccess,
+  unlockWalletFailure,
+  setLockedUntil,
+  startBackupWalletViaPostEncryptModal,
+  createWalletStart,
 } = actions;
 
 export default reducer;

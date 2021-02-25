@@ -95,7 +95,8 @@
       "title": "DFI Block Processing Center",
       "header": "DFI Block Processing Center",
       "detail": "Es scheint, als wärst Du zufällig hierher gestolpert. Hier stellen unsere Arbeiter sicher, dass jeder DFI-Block richtig an der Chain befestigt ist. Da dies ein Sperrgebiet ist, bitten wir Dich, wieder umzudrehen.",
-      "goBack": "Gehe zurück"
+      "goBack": "Gehe zurück",
+      "insufficientFunds": "Nicht genügend UTXO DFI für die Transaktionsgebühren vorhanden. Bitte schicke ein paar DFI von einer Exchange oder einem anderen Wallet zu dieser Adresse und versuche es erneut."
     },
     "exchangePage": {
       "title": "Exchange",
@@ -106,7 +107,7 @@
     "helpPage": {
       "title": "Hilfe",
       "help": "Hilfe",
-      "helpPageHeader": "Verbinde Dich mit der Community über diese Optionen:",
+      "helpPageHeader": "Verbinde dich mit der Community über diese Optionen:",
       "telegramEn": "Telegram Community (EN)",
       "telegramDe": "Telegram Community (DE)",
       "github": "Ein Problem melden",
@@ -354,7 +355,7 @@
         "back": "ZURÜCK",
         "addLiquidity": "Liquidität hinzufügen",
         "txHash": "Transaktionshash",
-        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit e."
+        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit einer neuen Transaktion fortfährst."
       },
       "liquidityInfo": {
         "title": "Liquidität",
@@ -563,12 +564,26 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "security": "Sicherheit",
+      "passphraseLock": "Passphrase lock",
+      "changePassphrase": "Passwort ändern",
+      "autoLock": "Automatisch sperren",
+      "changeLockPassphrase": "Change lock passphrase",
+      "currentPassphrase": "Aktuelles Passwort",
+      "newPassphrase": "Neues Passwort",
+      "confirmNewPassphrase": "Neues Passwort bestätigen",
+      "save": "Speichern",
+      "updatingPassphrase": "Aktualisiere Passwort",
+      "incorrectPassphrase": "Das eingegebene Passwort ist nicht korrekt.",
+      "minute": "%{time} Minute",
+      "minutes": "%{time} Minuten"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
         "title": "Wallet - Wallet erstellen oder wiederherstellen",
         "loading": "Laden...",
+        "restoreFromBackup": "Wallet mit Backup wiederherstellen",
         "createOrRestoreWallet": "Wallet erstellen oder wiederherstellen",
         "createANewWallet": "Neue Wallet erstellen",
         "restoreWalletFromMnemonicSeed": "Wallet aus Seed wiederherstellen",
@@ -577,7 +592,10 @@
         "hdWallet": "HD Wallet",
         "mnemonicSeed": "Mnemonic Seed",
         "chooseRecentBackup": "oder benutze ein aktuelles Backup",
-        "comingSoon": "Bald verfügbar"
+        "comingSoon": "Bald verfügbar",
+        "enterPassphrase": "Gib ein Passwort ein, welches du zum entsperren deiner Wallet benutzen möchtest.",
+        "create": "Erstellen",
+        "walletName": "Wallet-Name"
       },
       "createNewWalletPage": {
         "back": "ZURÜCK",
@@ -761,6 +779,19 @@
         "sent": "Gesendet",
         "removePoolLiquidity": "Liquidität entfernen",
         "accountToUtxos": "Konto zu UTXOs"
+      },
+      "encryptWalletPage": {
+        "title": "Wallet verschlüsseln",
+        "encryptingWallet": "Verschlüssele Wallet",
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
+        "walletIsLocked": "Wallet gesperrt. Um mit der Transaktion fortzufahren, entsperre die Wallet mit dem Passwort.",
+        "passphraseStrength": "Passwortstärke: %{strength}",
+        "strong": "Stark",
+        "weak": "Schwach",
+        "none": "Keine"
+      },
+      "unlockWalletPage": {
+        "title": "Entsperre Wallet"
       }
     },
     "console": {
@@ -833,6 +864,7 @@
     "okIHaveDoneIt": "Ok, ich habe es getan.",
     "encryptWalletNoticeTitle": "Wallet sperren",
     "encryptWalletNotice": "Aus Sicherheitsgründen wird empfohlen, die Sperrung der Wallet mit einem Passwort zu aktivieren. Gebe das Passwort ein, mit dem Du Deine Wallet entsperren willst.",
+    "encryptWalletWarning": "Bewahre dein Passwort sicher auf. Wenn du es verlierst gibt es keine Möglichkeit für eine Wiederherstellung. Du wirst keine Transaktion mehr ausführen können, wenn deine Wallet gesperrt ist.",
     "enableLocking": "Sperren aktivieren",
     "later": "SPÄTER",
     "passphraseLabel": "Passwort eingeben",
@@ -867,7 +899,10 @@
     "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
-    "deletePeersAndBlocks": "Peers und Blöcke löschen"
+    "deletePeersAndBlocks": "Peers und Blöcke löschen",
+    "walletBackupWarning": "Verschlüsselung der Wallet erfolgreich. Bitte erstelle sofort ein Backup deiner Wallet. Möchtest du fortfahren?",
+    "nodeVersionUpdate": "Node wurde auf Version %{version} upgedatet. Ein App Reindex ist erforderlich. Möchtest du jetzt neu starten?",
+    "nodeVersionHeader": "Node update"
   },
   "general": {
     "defiApp": "DeFi app",

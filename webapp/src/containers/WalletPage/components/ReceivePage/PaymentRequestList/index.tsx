@@ -97,18 +97,6 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         <div className={styles.ellipsisValue}>
                           {request.address}
                         </div>
-                        <div className={styles.ellipsisValue}>
-                          {!request.hdSeed && (
-                            <span className='text-danger'>
-                              <EllipsisText
-                                text={I18n.t(
-                                  'containers.wallet.paymentRequestList.warningSeedPhrase'
-                                )}
-                                length={34}
-                              />
-                            </span>
-                          )}
-                        </div>
                       </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>

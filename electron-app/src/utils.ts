@@ -20,14 +20,15 @@ import {
   MAINNET_BASE_FOLDER,
   REGTEST_BASE_FOLDER,
   TESTNET_BASE_FOLDER,
-  DAT_FILE_TYPE,
   BLK_FILE,
   REV_FILE,
   TESTNET_BASE_FOLDER_REINDEX,
   MAINNET_BASE_FOLDER_REINDEX,
 } from './constants';
 import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
+import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
+import { IPCResponseModel } from '@defi_types/common';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -64,7 +65,10 @@ export const getBinaryParameter = (obj: any = {}) => {
   return Object.keys(remote).map((key) => `-${key}=${remote[key]}`);
 };
 
-export const responseMessage = (success: boolean, res: any) => {
+export const responseMessage = <T>(
+  success: boolean,
+  res: T
+): IPCResponseModel<T> => {
   if (success) {
     return { success: true, data: res };
   }
@@ -219,8 +223,10 @@ export const deletePeersFile = () => {
     const baseFolder = getBaseFolderReindex();
     const destFileName = `peers.dat`;
     const destFilePath = path.join(baseFolder, destFileName);
-    deleteFile(destFilePath);
-    log.info(`Deleted peers file in ${destFilePath}`);
+    if (checkPathExists(destFilePath)) {
+      deleteFile(destFilePath);
+      log.info(`Deleted peers file in ${destFilePath}`);
+    }
   } catch (error) {
     log.error(error);
   }
@@ -238,7 +244,9 @@ export const deleteBlocksAndRevFiles = () => {
         (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
       ) {
         log.info(`Deleting ${blkFile}...`);
-        deleteFile(blkFile);
+        if (checkPathExists(blkFile)) {
+          deleteFile(blkFile);
+        }
       }
     });
     log.info('Delete Block and Rev Files completed...');
@@ -252,8 +260,10 @@ export const deleteBanlist = () => {
     const baseFolder = getBaseFolderReindex();
     const destFileName = `banlist.dat`;
     const destFilePath = path.join(baseFolder, destFileName);
-    deleteFile(destFilePath);
-    log.info(`Deleted banlist file in ${destFilePath}`);
+    if (checkPathExists(destFilePath)) {
+      deleteFile(destFilePath);
+      log.info(`Deleted banlist file in ${destFilePath}`);
+    }
   } catch (error) {
     log.error(error);
   }

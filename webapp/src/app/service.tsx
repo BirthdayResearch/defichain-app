@@ -11,6 +11,8 @@ import {
   fetchInstantPendingBalanceRequest,
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
+  setLockedUntil,
+  unlockWalletSuccess,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
 import {
@@ -37,6 +39,7 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_SET_NODE_VERSION,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -44,7 +47,14 @@ import {
   START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
-import { getNetworkType } from '../utils/utility';
+import {
+  convertEpochToDate,
+  getNetworkType,
+  getTimeDifferenceMS,
+} from '../utils/utility';
+import { WalletMap } from '@defi_types/walletMap';
+import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
+import { startSetNodeVersion } from '../containers/RpcConfiguration/reducer';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -65,16 +75,26 @@ export function startAppInit() {
   return { success: true, data: {} };
 }
 
+const getStartChainMessage = (response: any): string => {
+  if (response?.message?.includes(REINDEX_NODE_UPDATE)) {
+    return I18n.t('alerts.nodeVersionUpdate', {
+      version: response.nodeVersion,
+    });
+  }
+  return '';
+};
+
 export function startBinary(config: any) {
   return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(START_DEFI_CHAIN, config);
     ipcRenderer.on(START_DEFI_CHAIN_REPLY, async (_e: any, res: any) => {
       if (res.success) {
+        store.dispatch(startSetNodeVersion());
         isBlockchainStarted(emit, res);
       } else {
         if (res.isReindexReq) {
-          store.dispatch(openReIndexModal());
+          store.dispatch(openReIndexModal(getStartChainMessage(res)));
         }
         log.error(res?.message ?? res, 'startBinary');
         emit(res);
@@ -128,13 +148,17 @@ export const dumpWallet = async (paths: string) => {
   return showNotification(I18n.t('alerts.errorOccurred'), res.data.error);
 };
 
-export const updateWalletMap = (path: string, isRemove?: boolean): void => {
+export const updateWalletMap = (
+  path: string,
+  isRemove?: boolean,
+  additionalData: Partial<WalletMap> = {}
+): void => {
   try {
     const filterPath = (v: string) => v !== path;
     const { wallet } = store.getState();
     const ipcRenderer = ipcRendererFunc();
     const walletMap = wallet.walletMap;
-    const tempWalletMap = { ...walletMap };
+    const tempWalletMap = { ...walletMap, ...additionalData };
     const walletMapPaths = [...walletMap.paths].filter(filterPath);
     tempWalletMap.paths = [path, ...walletMapPaths];
     if (isRemove) {
@@ -242,14 +266,53 @@ export const resetBackupModal = () => {
 export const showErrorNotification = (res) =>
   showNotification(I18n.t('alerts.errorOccurred'), res.message);
 
-export const getWalletMap = async (): Promise<void> => {
+export const getWalletMap = async (): Promise<WalletMap | undefined> => {
   try {
     const ipcRenderer = ipcRendererFunc();
     const resp = ipcRenderer.sendSync(ON_WALLET_MAP_REQUEST);
-    if (resp?.success) {
+    if (resp?.success && resp?.data) {
       return JSON.parse(resp?.data);
     }
   } catch (error) {
     log.error(error, 'getWalletMap');
+  }
+};
+
+export const setNodeVersion = async (): Promise<void> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_SET_NODE_VERSION);
+    if (resp?.success && resp?.data) {
+      return JSON.parse(resp?.data);
+    }
+  } catch (error) {
+    log.error(error, 'getWalletMap');
+  }
+};
+
+const setAutoLock = (unlockedUntil: number) => {
+  const timeDiffSecs = getTimeDifferenceMS(unlockedUntil) / 1000;
+  log.info(`Locked Until: ${timeDiffSecs} secs`);
+  if (timeDiffSecs > 0) {
+    store.dispatch(setLockedUntil(timeDiffSecs));
+  }
+};
+
+export const checkWalletEncryption = async (): Promise<boolean> => {
+  try {
+    const rpcClient = new RpcClient();
+    const walletInfo = await rpcClient.getWalletInfo();
+    const isEncrypted = walletInfo?.unlocked_until != null;
+    if (isEncrypted) {
+      if (walletInfo.unlocked_until > 0) {
+        setAutoLock(walletInfo.unlocked_until);
+      } else {
+        store.dispatch(unlockWalletSuccess(false));
+      }
+    }
+    return isEncrypted;
+  } catch (error) {
+    log.error(error, 'checkWalletEncryption');
+    return false;
   }
 };

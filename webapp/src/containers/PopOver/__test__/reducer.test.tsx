@@ -159,7 +159,7 @@ describe('Popover reducer', () => {
 
   describe('ReIndexModal', () => {
     it('should check for openReIndexModal', () => {
-      const nextState = reducer(initialState, openReIndexModal());
+      const nextState = reducer(initialState, openReIndexModal(''));
       const rootState = { popover: nextState };
       expect(rootState.popover.isReIndexModelOpen).toBeTruthy();
     });

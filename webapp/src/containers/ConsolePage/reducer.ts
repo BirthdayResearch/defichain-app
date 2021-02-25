@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ConsolePageState } from './types';
 
-export const initialState = {
+export const initialState: ConsolePageState = {
   isLoading: false,
   result: {},
   isError: '',

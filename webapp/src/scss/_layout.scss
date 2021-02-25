@@ -136,6 +136,10 @@ body {
         padding-left: 0;
         padding-right: 0;
       }
+
+      &.dark-bg {
+        background-color: $dfi-scent;
+      }
     }
 
     .footer-sheet {

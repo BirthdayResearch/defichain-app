@@ -41,6 +41,7 @@ import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
+  getErrorMessage,
   getNetworkType,
 } from '../../utils/utility';
 import compact from 'lodash/compact';
@@ -52,6 +53,8 @@ import {
   PRELAUNCH_PREFERENCE_STATUS,
 } from '@defi_types/ipcEvents';
 import { handleGetPaymentRequest } from '../WalletPage/service';
+import { IPCResponseModel } from '../../../../typings/common';
+import { updateWalletMap } from '../../app/service';
 
 export const getLanguage = () => {
   return [
@@ -241,4 +244,44 @@ export const getAppConfigFeeRate = () => {
 
   PersistentStore.set(FEE_RATE, DEFAULT_FEE_RATE);
   return DEFAULT_FEE_RATE;
+};
+
+export const changePassphrase = async (
+  currentPassphrase: string,
+  newPassphrase: string
+): Promise<IPCResponseModel<string>> => {
+  try {
+    const rpcClient = new RpcClient();
+    const resp = await rpcClient.changeWalletPassphrase(
+      currentPassphrase,
+      newPassphrase
+    );
+    return {
+      success: true,
+      message: resp,
+    };
+  } catch (error) {
+    log.error(getErrorMessage(error), 'changePassphrase');
+    return {
+      success: false,
+      message: getErrorMessage(error),
+    };
+  }
+};
+
+export const updateLockTimeout = async (
+  lockTimeout: number
+): Promise<IPCResponseModel<string>> => {
+  try {
+    updateWalletMap('', true, { lockTimeout });
+    return {
+      success: true,
+    };
+  } catch (error) {
+    log.error(getErrorMessage(error), 'updateLockTimeout');
+    return {
+      success: false,
+      message: getErrorMessage(error),
+    };
+  }
 };
