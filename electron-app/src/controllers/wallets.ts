@@ -276,8 +276,10 @@ export const createWalletMap = () => {
     const src = getWalletMapPath();
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
-      const data = {
+      const { ainVersion } = packageInfo;
+      const data: Partial<WalletMap> = {
         paths: [walletDat],
+        nodeVersion: ainVersion,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
     }
