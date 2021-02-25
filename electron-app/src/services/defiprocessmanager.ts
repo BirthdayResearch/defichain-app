@@ -24,7 +24,7 @@ import {
   deletePeersFile,
   deleteBlocksAndRevFiles,
   deleteBanlist,
-  removeSquareBracketsMasternodeOperator,
+  formatConfigFileWrite,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -251,7 +251,7 @@ export default class DefiProcessManager {
     log.info('[Restart Node] Stop completed');
     if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
-      const newData = removeSquareBracketsMasternodeOperator(updatedConfigData);
+      const newData = formatConfigFileWrite(updatedConfigData);
       writeFile(CONFIG_FILE_NAME, newData, false);
     }
     log.info('[Restart Node] Restarting DefiProcessManager');

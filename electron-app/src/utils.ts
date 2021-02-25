@@ -93,11 +93,11 @@ export const createDir = (dirPath: string) => {
 // Get file data
 export const getFileData = (filePath: string, format: string = 'utf-8') => {
   const fileData = fs.readFileSync(filePath, format);
-  return addSquareBracketsMasternodeOperator(fileData);
+  return formatConfigFileRead(fileData);
 };
 
 // Add squarebrackets masternode_operator in config file
-export const addSquareBracketsMasternodeOperator = (fileData: string) => {
+export const formatConfigFileRead = (fileData: string) => {
   return fileData.replace(
     new RegExp('masternode_operator', 'gi'),
     'masternode_operator[]'
@@ -105,7 +105,7 @@ export const addSquareBracketsMasternodeOperator = (fileData: string) => {
 };
 
 // Remove squarebrackets masternode_operator in config file
-export const removeSquareBracketsMasternodeOperator = (fileData: string) => {
+export const formatConfigFileWrite = (fileData: string) => {
   return fileData.replace(
     /masternode_operator[\[\]']+/g,
     'masternode_operator'

@@ -24,7 +24,7 @@ import {
   getIniData,
   responseMessage,
   writeFile,
-  removeSquareBracketsMasternodeOperator,
+  formatConfigFileWrite,
 } from '../utils';
 import fs from 'fs';
 import { ipcMain } from 'electron';
@@ -75,7 +75,7 @@ export const checkWalletConfig = () => {
       }
     });
     const defaultConfigData = ini.encode(data);
-    const newData = removeSquareBracketsMasternodeOperator(defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
     writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
@@ -97,7 +97,7 @@ export const writeToConfigFile = (
       delete data[network].walletdir;
     }
     const defaultConfigData = ini.encode(data);
-    const newData = removeSquareBracketsMasternodeOperator(defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
     writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
