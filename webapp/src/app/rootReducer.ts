@@ -11,8 +11,9 @@ import popoverReducer from '../containers/PopOver/reducer';
 import { i18nReducer } from 'react-redux-i18n';
 import swapReducer from '../containers/SwapPage/reducer';
 import liquidityReducer from '../containers/LiquidityPage/reducer';
+import { RootState } from './rootTypes';
 
-export default combineReducers({
+export default combineReducers<RootState>({
   app: appReducer,
   wallet: walletReducer,
   settings: settingsReducer,

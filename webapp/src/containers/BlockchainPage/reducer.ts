@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { BlockchainState } from './types';
 
-export const initialState = {
+export const initialState: BlockchainState = {
   blocks: [],
   blockCount: 0,
   blockData: {
@@ -13,7 +14,7 @@ export const initialState = {
     hash: '',
     merkleRoot: '',
   },
-  txns: Array(),
+  txns: [],
   txnCount: 0,
   isBlocksLoaded: false,
   isLoadingBlocks: false,

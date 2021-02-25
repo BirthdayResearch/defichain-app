@@ -145,6 +145,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
             onSave={[Function]}
             pageErrorMessage=""
             pageLoadingMessage="containers.wallet.verifyMnemonicPage.creatingYourWallet"
+            pageSize={11}
             submitButtonLabel="containers.wallet.createNewWalletPage.createANewWallet"
           >
             <div
@@ -308,7 +309,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                       className="justify-content-center container undefined row"
                     >
                       <Col
-                        md={9}
+                        md={11}
                         tag="div"
                         widths={
                           Array [
@@ -321,7 +322,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                         }
                       >
                         <div
-                          className="col-md-9"
+                          className="col-md-11"
                         >
                           <form
                             onSubmit={[Function]}
@@ -405,6 +406,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                             },
                                             "required": true,
                                             "validate": Object {
+                                              "isPasswordStrong": [Function],
                                               "isSameWithConfirm": [Function],
                                             },
                                           },
@@ -504,18 +506,21 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                     Object {
                                       "required": true,
                                       "validate": Object {
+                                        "isPasswordStrong": [Function],
                                         "isSameWithConfirm": [Function],
                                       },
                                     }
                                   }
                                 >
                                   <InputPassword
+                                    hasStrengthChecker={true}
                                     id="passphraseLabel"
                                     invalid={false}
                                     isDirty={false}
                                     label="alerts.passphraseLabel"
                                     name="passphrase"
                                     onChange={[Function]}
+                                    strengthScore={0}
                                   >
                                     <FormGroup
                                       className="form-label-group"
@@ -525,7 +530,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                         className="form-label-group form-group"
                                       >
                                         <div
-                                          className="d-flex"
+                                          className="d-flex position-relative"
                                         >
                                           <Input
                                             id="passphraseLabel"
@@ -599,6 +604,32 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                             </IoMdEye>
                                           </div>
                                         </div>
+                                        <div
+                                          className="undefined"
+                                        >
+                                          <div
+                                            className="undefined"
+                                          >
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                          </div>
+                                          <p>
+                                            Passphrase strength: None
+                                          </p>
+                                        </div>
                                       </div>
                                     </FormGroup>
                                   </InputPassword>
@@ -637,6 +668,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                             },
                                             "required": true,
                                             "validate": Object {
+                                              "isPasswordStrong": [Function],
                                               "isSameWithConfirm": [Function],
                                             },
                                           },
@@ -757,7 +789,7 @@ exports[`CreateWallet component should check for snapshot 1`] = `
                                         className="form-label-group form-group"
                                       >
                                         <div
-                                          className="d-flex"
+                                          className="d-flex position-relative"
                                         >
                                           <Input
                                             id="passphraseLabelConfirm"
