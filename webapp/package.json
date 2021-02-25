@@ -54,6 +54,7 @@
     "react-bootstrap": "^1.5.0",
     "react-bootstrap-range-slider": "^2.0.2",
     "react-console-component": "^0.6.1",
+    "react-console-emulator": "5.0.1",
     "react-copy-to-clipboard": "^5.0.3",
     "react-csv": "^2.0.3",
     "react-dom": "^17.0.1",
