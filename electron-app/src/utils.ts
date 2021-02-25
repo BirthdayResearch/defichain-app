@@ -92,7 +92,24 @@ export const createDir = (dirPath: string) => {
 
 // Get file data
 export const getFileData = (filePath: string, format: string = 'utf-8') => {
-  return fs.readFileSync(filePath, format);
+  const fileData = fs.readFileSync(filePath, format);
+  return addSquareBracketsMasternodeOperator(fileData);
+};
+
+// Add squarebrackets masternode_operator in config file
+export const addSquareBracketsMasternodeOperator = (fileData: string) => {
+  return fileData.replace(
+    new RegExp('masternode_operator', 'gi'),
+    'masternode_operator[]'
+  );
+};
+
+// Remove squarebrackets masternode_operator in config file
+export const removeSquareBracketsMasternodeOperator = (fileData: string) => {
+  return fileData.replace(
+    /masternode_operator[\[\]']+/g,
+    'masternode_operator'
+  );
 };
 
 // write / append on UI config file

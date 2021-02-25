@@ -25,11 +25,14 @@ import {
   getAddressInfo,
 } from './service';
 
-import { getErrorMessage, remapNodeError } from '../../utils/utility';
+import {
+  getErrorMessage,
+  remapNodeError,
+  getNetworkType,
+} from '../../utils/utility';
 
 import { restartNode, isElectron } from '../../utils/isElectron';
-import { RESIGNED_STATE } from '../../constants';
-import { ErrorMessages, ResponseMessages } from '../../constants/common';
+import { RESIGNED_STATE, TEST } from '../../constants';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -101,6 +104,7 @@ export function* masterNodeResign(action) {
 }
 
 export function* handleRestartNode() {
+  const network = getNetworkType();
   const {
     createdMasterNodeData: { masternodeOperator, masternodeOwner },
   } = yield select((state) => state.masterNodes);
@@ -109,8 +113,20 @@ export function* handleRestartNode() {
       const data = yield call(getAddressInfo, masternodeOwner);
       if (data.ismine && !data.iswatchonly) {
         const updatedConf = yield call(getConfigurationDetails);
-        updatedConf.masternode_operator = masternodeOperator;
-        updatedConf.masternode_owner = masternodeOwner;
+        updatedConf[network] = {
+          ...updatedConf[network],
+          masternode_operator: updatedConf[network].masternode_operator
+            ? [...updatedConf[network].masternode_operator, masternodeOperator]
+            : [masternodeOperator],
+          spv: 1,
+          gen: 1,
+        };
+        if (network === TEST) {
+          updatedConf[network] = {
+            ...updatedConf[network],
+            spv_testnet: 1,
+          };
+        }
         yield put(restartModal());
         yield call(shutDownBinary);
         yield call(restartNode, { updatedConf });

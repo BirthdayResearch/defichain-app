@@ -101,6 +101,14 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   }, [prevIsOpen, prevIsRestart, isOpen, isRestart]);
 
   useEffect(() => {
+    if (isRestart) {
+      setIsConfirmationModalOpen('');
+      setRestartNodeConfirm(false);
+      setIsRestartButtonDisable(false);
+    }
+  }, [isRestart]);
+
+  useEffect(() => {
     fetchMasternodesRequest();
   }, []);
 
