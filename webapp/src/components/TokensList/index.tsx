@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { History } from 'history'
 import { I18n } from 'react-redux-i18n';
 import { Helmet } from 'react-helmet';
 import cloneDeep from 'lodash/cloneDeep';
 import { filterByValue, getPageTitle } from '@/utils/utility';
 import {
-  WALLET_PAGE_PATH,
   TOKEN_LIST_PAGE_SIZE,
   DFI_SYMBOL,
 } from '@/constants';
@@ -14,24 +13,22 @@ import Pagination from '@/components/Pagination';
 import Header from '@/containers/HeaderComponent';
 import { IToken } from '@/utils/interfaces';
 
-interface TokensListProps extends RouteComponentProps {
+interface TokensListProps {
   tokens: IToken[];
   unit: string;
   accountTokens: IToken[];
   walletBalance: any;
-  fetchTokensRequest: () => void;
-  fetchAccountTokensRequest: () => void;
-  openResetWalletDatModal: boolean;
-  isLoadingTokens: boolean;
-  fetchInstantBalanceRequest: () => void;
   getPathAddress: (
     pagePath: string,
     symbol: string,
     hash: string,
-    amount: number,
+    amount: string,
     address: string,
     isLPS: boolean,
     ) => string;
+  history: History;
+  isLoadingTokens: boolean;
+  pagePath: string;
 }
 
 const TokensList: React.FunctionComponent<TokensListProps> = (
@@ -41,13 +38,11 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
     unit,
     history,
     tokens,
-    isLoadingTokens,
-    fetchTokensRequest,
     walletBalance,
-    fetchAccountTokensRequest,
     accountTokens,
-    fetchInstantBalanceRequest,
     getPathAddress,
+    pagePath,
+    isLoadingTokens,
   } = props;
   const defaultPage = 1;
   const [tableData, settableData] = useState<any>([]);
@@ -57,12 +52,6 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
-
-  useEffect(() => {
-    fetchTokensRequest();
-    fetchInstantBalanceRequest();
-    fetchAccountTokensRequest();
-  }, []);
 
   function paginate(
     pageNumber,
@@ -98,7 +87,7 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     history.push(
       getPathAddress(
-        WALLET_PAGE_PATH,
+        pagePath,
         symbol,
         hash,
         amount,
