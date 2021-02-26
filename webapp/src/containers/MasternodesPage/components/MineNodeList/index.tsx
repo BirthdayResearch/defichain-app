@@ -1,17 +1,7 @@
 import React from 'react';
-import { MdKeyboardArrowRight } from 'react-icons/md';
-import { I18n } from 'react-redux-i18n';
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-  TabPane,
-} from 'reactstrap';
+import { Row, TabPane } from 'reactstrap';
 import { MINE } from 'src/constants';
-import MineNodeCard from './componets/MineNodeCard';
+import MineNodeCard from './components/MineNodeCard';
 
 interface MineNodeProps {
   enabledMasternodes: any[];
@@ -27,6 +17,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
       <Row>
         {enabledMasternodes.map((data) => (
           <MineNodeCard
+            hash={data.hash}
             owner={data.ownerAuthAddress}
             operator={data.operatorAuthAddress}
           />

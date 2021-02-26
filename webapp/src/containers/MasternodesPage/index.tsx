@@ -12,6 +12,8 @@ import {
   RESIGNED_STATE,
   CONFIRM_BUTTON_TIMEOUT,
   CONFIRM_BUTTON_COUNTER,
+  ALL,
+  MINE,
 } from '../../constants';
 import { connect } from 'react-redux';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
@@ -81,7 +83,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     MasterNodeObject[]
   >([]);
 
-  const [tab, setTab] = useState<string>('mine');
+  const [tab, setTab] = useState<string>(MINE);
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
@@ -215,16 +217,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
-        {/* {!disableTab && (
-          <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
-        )} */}
         <MasterNodeTabsHeader tab={tab} setTab={setTab} />
         <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link' disabled={true}>
+          <Button onClick={createMasterNodeFunc} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t(
@@ -369,7 +368,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         </div>
         <div
           className={classnames({
-            'd-none': tab === 'all',
+            'd-none': tab === ALL,
           })}
         >
           <MineNodeFooter enabledMasternodes={enabledMasternodes} />

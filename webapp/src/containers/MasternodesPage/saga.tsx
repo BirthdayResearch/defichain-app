@@ -113,19 +113,24 @@ export function* handleRestartNode() {
       const data = yield call(getAddressInfo, masternodeOwner);
       if (data.ismine && !data.iswatchonly) {
         const updatedConf = yield call(getConfigurationDetails);
-        updatedConf[network] = {
-          ...updatedConf[network],
-          masternode_operator: updatedConf[network].masternode_operator
-            ? [...updatedConf[network].masternode_operator, masternodeOperator]
-            : [masternodeOperator],
-          spv: 1,
-          gen: 1,
-        };
-        if (network === TEST) {
+        if (updatedConf[network]) {
           updatedConf[network] = {
             ...updatedConf[network],
-            spv_testnet: 1,
+            masternode_operator: updatedConf[network].masternode_operator
+              ? [
+                  ...updatedConf[network].masternode_operator,
+                  masternodeOperator,
+                ]
+              : [masternodeOperator],
+            spv: 1,
+            gen: 1,
           };
+          if (network === TEST) {
+            updatedConf[network] = {
+              ...updatedConf[network],
+              spv_testnet: 1,
+            };
+          }
         }
         yield put(restartModal());
         yield call(shutDownBinary);

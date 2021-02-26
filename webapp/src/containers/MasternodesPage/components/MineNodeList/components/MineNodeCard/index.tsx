@@ -2,30 +2,37 @@ import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import { Card, CardBody, Row, Col, CardTitle, CardText } from 'reactstrap';
-import { SAME_AS_OWNER_ADDRESS } from 'src/constants';
+import { MASTER_NODES_PATH, SAME_AS_OWNER_ADDRESS } from 'src/constants';
 import styles from '../../MineNodeList.module.scss';
 import EllipsisText from 'react-ellipsis-text';
+import { history } from 'src/utils/history';
 
-interface MineNodCardeProps {
+interface MineNodeCardProps {
+  hash: string;
   owner: string;
   operator: string;
 }
 
-const MineNodeCard: React.FunctionComponent<MineNodCardeProps> = (
-  props: MineNodCardeProps
+const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
+  props: MineNodeCardProps
 ) => {
-  const { owner, operator } = props;
+  const { owner, operator, hash } = props;
 
   return (
     <Col md='6' className='mt-5'>
-      <Card>
+      <Card
+        className={styles.cursor}
+        onClick={() => history.push(`${MASTER_NODES_PATH}/${hash}`)}
+      >
         <CardBody>
           <Row>
             <Col md='1' className={styles.status}>
               <span className={`txn-status-enabled mt-1`}></span>
             </Col>
             <Col md='9' className='pl-0'>
-              {/* <CardTitle tag='h5'>Holden </CardTitle> */}
+              <CardTitle tag='h5'>
+                {operator.substring(operator.length - 4)}
+              </CardTitle>
             </Col>
             <Col md='2'>
               <div className={styles.arrow}>
@@ -72,7 +79,7 @@ const MineNodeCard: React.FunctionComponent<MineNodCardeProps> = (
             </Col>
             <Col md='8'>
               <CardText>
-                <small className='text-muted'>local</small>
+                <small className='text-muted'>Local</small>
               </CardText>
             </Col>
             <Col md='4'>
@@ -82,7 +89,7 @@ const MineNodeCard: React.FunctionComponent<MineNodCardeProps> = (
             </Col>
             <Col md='8'>
               <CardText>
-                <small className='text-muted'>20k</small>
+                <small className='text-muted'>20,000 DFI</small>
               </CardText>
             </Col>
           </Row>
