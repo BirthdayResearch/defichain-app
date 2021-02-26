@@ -13,9 +13,11 @@ export const initialState: LedgerState = {
     list: [],
     error: null,
   },
-  accountTokens: [],
-  isAccountTokensLoaded: false,
-  isAccountLoadingTokens: false,
+  accountTokens: {
+    data: [],
+    isLoaded: false,
+    isLoading: false,
+  },
   tokens: [],
   isTokensLoaded: false,
   isLoadingTokens: false,
@@ -63,17 +65,21 @@ const configSlice = createSlice({
   initialState,
   reducers: {
     fetchAccountTokensRequest(state) {
-      state.isAccountLoadingTokens = true;
+      state.accountTokens.isLoading = true;
     },
     fetchAccountTokensSuccess(state, action) {
-      state.accountTokens = action.payload.accountTokens;
-      state.isAccountLoadingTokens = false;
-      state.isAccountTokensLoaded = true;
+      state.accountTokens = {
+        data: action.payload.accountTokens,
+        isLoading: false,
+        isLoaded: true,
+      };
     },
     fetchAccountTokensFailure(state) {
-      state.accountTokens = [];
-      state.isAccountLoadingTokens = false;
-      state.isAccountTokensLoaded = true;
+      state.accountTokens = {
+        data: [],
+        isLoading: false,
+        isLoaded: true,
+      };
     },
     fetchTokensRequest(state) {
       state.isLoadingTokens = true;

@@ -1,4 +1,5 @@
 import { StatusLedger, PaymentRequestLedger } from '@/typings/models';
+import { IToken } from '@/utils/interfaces';
 
 export interface LedgerConnect {
   status: StatusLedger;
@@ -17,6 +18,12 @@ export interface IndexesKeyLedger {
   error: null | Error;
 }
 
+export interface IAccountTokensState {
+  data: IToken[],
+  isLoading: boolean;
+  isLoaded: boolean;
+}
+
 export interface LedgerState {
   connect: LedgerConnect;
   isShowingInformation: boolean;
@@ -25,4 +32,5 @@ export interface LedgerState {
   [key: string]: any;
   walletBalance: number;
   indexesKeyLedger: IndexesKeyLedger;
+  accountTokens: IAccountTokensState;
 }
