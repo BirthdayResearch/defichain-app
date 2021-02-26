@@ -1,19 +1,12 @@
-// App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../../../scss/variables';
-@import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/bootstrap/common';
 
 .card {
   overflow: hidden;
 }
 
-// .tableResponsive {
-//   height: calc(100vh - 186px);
-//   min-height: 400px;
-//   overflow: auto;
-// }
+.cursor {
+  cursor: pointer;
+}
 
 .table {
   margin-bottom: 0;
