@@ -1769,3 +1769,14 @@ export const accountToAccountConversionLedger = async (
   await Promise.all(accountToAccountTxHashes);
   return amountTransfered;
 };
+
+export const getWalletPathAddress = (
+  basePath: string,
+  tokenSymbol: string,
+  tokenHash: string,
+  tokenAmount: string,
+  tokenAddress: string,
+  isLPS: boolean
+): string => {
+  return `${basePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
+};

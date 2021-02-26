@@ -854,6 +854,9 @@
         "sync": "Sync with node",
         "syncNotice": "You will be able to send or receive a ledger wallet when sync is complete",
         "loading": "Loading..."
+      },
+      "tokens": {
+        "notConnection": "Connect your device of Ledger to see the list of tokens"
       }
     },
     "console": {

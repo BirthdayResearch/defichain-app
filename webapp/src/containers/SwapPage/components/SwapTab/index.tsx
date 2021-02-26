@@ -110,6 +110,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             </Col>
             <Col md='8'>
               <AddressDropdown
+                typeWallet='ledger'
                 formState={formState}
                 getTransactionLabel={getTransactionLabel}
                 onSelectAddress={handleAddressDropdown}

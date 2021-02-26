@@ -41,7 +41,7 @@ import {
   HELP_PATH,
   SETTING_PATH,
   PACKAGE_VERSION,
-  LEDGER_PATH,
+  LEDGER_TOKENS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import { updateBalanceScheduler } from '../../worker/schedular';
@@ -201,7 +201,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
             </NavItem>
             <NavItem className={styles.navItem}>
               <NavLink
-                to={LEDGER_PATH}
+                to={LEDGER_TOKENS_PATH}
                 exact
                 tag={RRNavLink}
                 className={styles.navLink}

@@ -46,3 +46,4 @@ export const LEDGER_RECEIVE_PATH = `${LEDGER_PATH}/receive`;
 export const LEDGER_CREATE_RECEIVE_REQUEST = `${LEDGER_RECEIVE_PATH}/request`;
 export const LEDGER_SEND_PATH = `${LEDGER_PATH}/send`;
 export const LEDGER_SYNC_PATH = `${LEDGER_PATH}/sync`;
+export const LEDGER_TOKENS_PATH = `${LEDGER_PATH}/tokens`;
