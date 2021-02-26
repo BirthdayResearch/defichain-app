@@ -19,3 +19,16 @@ export interface WalletTxn {
   unit: string;
   height: number;
 }
+
+export interface FormPoolSwap {
+  amount1: string;
+  hash1: string;
+  symbol1: string;
+  amount2: string;
+  hash2: string;
+  symbol2: string;
+  balance1: string;
+  balance2: string;
+  receiveAddress: string;
+  receiveLabel: string;
+}

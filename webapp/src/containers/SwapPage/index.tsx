@@ -60,6 +60,7 @@ import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
+import { FormPoolSwap } from '@/typings/models';
 
 interface SwapPageProps {
   history?: any;
@@ -108,7 +109,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [fromTestValue, setFromTestValue] = useState<boolean>(false);
   const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
-  const [formState, setFormState] = useState<any>({
+  const [formState, setFormState] = useState<FormPoolSwap>({
     amount1: '',
     hash1: '',
     symbol1: '',
@@ -376,22 +377,17 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   };
 
   const isAmountInsufficient = () => {
-    if (
-      formState[`amount1`] &&
+    return !!(formState[`amount1`] &&
       formState[`balance1`] &&
       new BigNumber(formState[`amount1`]).isGreaterThan(
         formState[`balance1`]
       ) &&
-      formState[`balance2`]
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+      formState[`balance2`]);
   };
 
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
+    // @ts-ignore
     if (isSelected && formState.hash1 ^ formState.hash2) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
@@ -440,7 +436,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     const swapState = {
       ...formState,
       receiveAddress:
-        formState.receiveAddress == '' || formState.receiveAddress == null
+        formState.receiveAddress === '' || formState.receiveAddress == null
           ? (paymentRequests ?? [])[0]?.address
           : formState.receiveAddress,
     };
@@ -459,6 +455,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       symbol2: formState.symbol1,
       balance1: formState.balance2,
       balance2: formState.balance1,
+      receiveAddress: formState.receiveAddress,
+      receiveLabel: formState.receiveLabel,
     });
   };
 
@@ -706,7 +704,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                     !!isErrorTestPoolSwapTo ||
                     !!isErrorTestPoolSwapFrom ||
                     formState.receiveAddress == null ||
-                    formState.receiveAddress == ''
+                    formState.receiveAddress === ''
                   }
                   onClick={swapStepConfirm}
                 >
