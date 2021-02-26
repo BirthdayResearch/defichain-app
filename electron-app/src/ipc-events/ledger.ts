@@ -86,12 +86,12 @@ const initiateLedger = () => {
     CUSTOM_TX_LEDGER,
     async (
       event: Electron.IpcMainEvent,
-      { utxo, address, amount, data, keyIndex, feeRate }
+      { utxo, address, amount, data, keyIndex }
     ) => {
       log.info('Generate custom tx of ledger');
       try {
         log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`);
-        let tx = createTx(utxo, address, data, keyIndex, feeRate);
+        let tx = createTx(utxo, address, data);
         const { pubkey } = await DefiLedger.getDefiPublicKey(
           keyIndex,
           'legacy'

@@ -18,7 +18,6 @@ export function createZeroOutputTxFromCustomTx(
   tx: Transaction,
   customTx: CustomTransaction,
   address: string,
-  feeRate: number,
 ) {
   let transaction;
   let outputZero;
@@ -90,8 +89,8 @@ export function createZeroOutputTxFromCustomTx(
         tokenId: 0,
         satoshis: 0,
       });
-      transaction = tx.to(address, customTx.customData.amountFrom * ONE_DFI_SATOSHIS);
       transaction =  tx.addOutput(outputZero);
+      transaction = tx.to(address, customTx.customData.amountFrom * ONE_DFI_SATOSHIS);
       break;
     case CustomTx.customTxType.addPoolLiquidity:
       script.add(new CustomTx.AddPoolLiquidity(customTx.customData));
@@ -104,10 +103,10 @@ export function createZeroOutputTxFromCustomTx(
       keys = Object.keys(customTx.customData.to);
       outputZero =  new Transaction.Output({
         script,
-        tokenId: 0,
-        satoshis: customTx.customData.to[keys[0]]['0'].balance  * ONE_DFI_SATOSHIS,
+        tokenId: customTx.customData.to[keys[0]][0].token,
+        satoshis: customTx.customData.to[keys[0]][0].balance * ONE_DFI_SATOSHIS,
       });
-      transaction =  new Transaction(tx).addOutput(outputZero);
+      transaction = tx.addOutput(outputZero);
       break;
     case CustomTx.customTxType.accountToUtxos:
       script.add(new CustomTx.AccountToUtxos(customTx.customData));
@@ -117,7 +116,7 @@ export function createZeroOutputTxFromCustomTx(
        keys = Object.keys(customTx.customData.to);
       outputZero =  new Transaction.Output({
         script,
-        tokenId: 0,
+        tokenId: customTx.customData.to[keys[0]]['0'].token,
         satoshis: customTx.customData.to[keys[0]]['0'].balance * ONE_DFI_SATOSHIS,
       });
       transaction = new Transaction(tx).addOutput(outputZero);
@@ -141,12 +140,10 @@ export function createTx(
   utxo: any,
   address: any,
   data: any,
-  keyIndex: number,
-  feeRate: number,
 ): Transaction {
   log.info('Custom TX')
   let tx = new Transaction().from(utxo);
   log.info(`tx: ${tx}`)
-  tx = createZeroOutputTxFromCustomTx(tx, data, address, feeRate);
+  tx = createZeroOutputTxFromCustomTx(tx, data, address);
   return tx;
 }
