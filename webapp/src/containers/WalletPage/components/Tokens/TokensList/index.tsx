@@ -12,6 +12,9 @@ import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import { IToken } from 'src/utils/interfaces';
 import { getWalletPathAddress } from '../../SendPage';
 import TokensList from '@/components/TokensList';
+import { Helmet } from 'react-helmet';
+import { getPageTitle } from '@/utils/utility';
+import Header from '@/containers/HeaderComponent';
 
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
@@ -55,20 +58,41 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
           <CreateOrRestoreWalletPage history={history} />
         </div>
       ) : (
-        <TokensList
-          tokens={tokens}
-          unit={unit}
-          accountTokens={accountTokens}
-          walletBalance={walletBalance}
-          getPathAddress={getWalletPathAddress}
-          history={history}
-          isLoadingTokens={isLoadingTokens}
-          pagePath={WALLET_PAGE_PATH}
-        />
+        <div className='main-wrapper'>
+          <Helmet>
+            <title>
+              {getPageTitle(
+                I18n.t('containers.wallet.walletPage.walletDeFiApp')
+              )}
+            </title>
+          </Helmet>
+          <Header>
+            <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
+            {/* <ButtonGroup>
+            <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
+              </span>
+            </Button>
+          </ButtonGroup> */}
+          </Header>
+          <TokensList
+            tokens={tokens}
+            unit={unit}
+            accountTokens={accountTokens}
+            walletBalance={walletBalance}
+            getPathAddress={getWalletPathAddress}
+            history={history}
+            isLoadingTokens={isLoadingTokens}
+            pagePath={WALLET_PAGE_PATH}
+          />
+        </div>
       )}
     </>
   );
 };
+
 
 const mapStateToProps = (state) => {
   const {

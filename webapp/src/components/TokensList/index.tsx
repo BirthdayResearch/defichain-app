@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { History } from 'history'
+import { History } from 'history';
 import { I18n } from 'react-redux-i18n';
 import { Helmet } from 'react-helmet';
 import cloneDeep from 'lodash/cloneDeep';
 import { filterByValue, getPageTitle } from '@/utils/utility';
-import {
-  TOKEN_LIST_PAGE_SIZE,
-  DFI_SYMBOL,
-} from '@/constants';
+import { TOKEN_LIST_PAGE_SIZE, DFI_SYMBOL } from '@/constants';
 import WalletTokenCard from '@/components/TokenCard/WalletTokenCard';
 import Pagination from '@/components/Pagination';
 import Header from '@/containers/HeaderComponent';
@@ -24,8 +21,8 @@ interface TokensListProps {
     hash: string,
     amount: string,
     address: string,
-    isLPS: boolean,
-    ) => string;
+    isLPS: boolean
+  ) => string;
   history: History;
   isLoadingTokens: boolean;
   pagePath: string;
@@ -86,63 +83,38 @@ const TokensList: React.FunctionComponent<TokensListProps> = (
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
     history.push(
-      getPathAddress(
-        pagePath,
-        symbol,
-        hash,
-        amount,
-        address,
-        isLPS
-      )
+      getPathAddress(pagePath, symbol, hash, amount, address, isLPS)
     );
   };
   return (
-    <div className='main-wrapper'>
-      <Helmet>
-        <title>
-          {getPageTitle(I18n.t('containers.wallet.walletPage.walletDeFiApp'))}
-        </title>
-      </Helmet>
-      <Header>
-        <h1>{I18n.t('containers.wallet.walletPage.wallets')}</h1>
-        {/* <ButtonGroup>
-            <Button to={WALLET_ADD_TOKEN_PATH} tag={RRNavLink} color='link'>
-              <MdAdd />
-              <span className='d-lg-inline'>
-                {I18n.t('containers.wallet.walletWalletsPage.addWallet')}
-              </span>
-            </Button>
-          </ButtonGroup> */}
-      </Header>
-      <div className='content'>
+    <div className='content'>
+      <WalletTokenCard
+        handleCardClick={handleCardClick}
+        token={{
+          symbol: unit,
+          symbolKey: unit,
+          amount: walletBalance,
+          hash: DFI_SYMBOL,
+          address: '',
+        }}
+      />
+      {tableData.map((token, index) => (
         <WalletTokenCard
           handleCardClick={handleCardClick}
-          token={{
-            symbol: unit,
-            symbolKey: unit,
-            amount: walletBalance,
-            hash: DFI_SYMBOL,
-            address: '',
-          }}
+          key={index}
+          token={token}
         />
-        {tableData.map((token, index) => (
-          <WalletTokenCard
-            handleCardClick={handleCardClick}
-            key={index}
-            token={token}
-          />
-        ))}
-        <Pagination
-          label={I18n.t('containers.wallet.walletPage.walletPaginationRange', {
-            to,
-            total,
-            from: from + 1,
-          })}
-          currentPage={currentPage}
-          pagesCount={pagesCount}
-          handlePageClick={paginate}
-        />
-      </div>
+      ))}
+      <Pagination
+        label={I18n.t('containers.wallet.walletPage.walletPaginationRange', {
+          to,
+          total,
+          from: from + 1,
+        })}
+        currentPage={currentPage}
+        pagesCount={pagesCount}
+        handlePageClick={paginate}
+      />
     </div>
   );
 };
