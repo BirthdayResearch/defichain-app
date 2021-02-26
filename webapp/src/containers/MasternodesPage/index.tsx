@@ -372,7 +372,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             'd-none': tab === 'all',
           })}
         >
-          <MineNodeFooter />
+          <MineNodeFooter enabledMasternodes={enabledMasternodes} />
         </div>
       </footer>
     </div>

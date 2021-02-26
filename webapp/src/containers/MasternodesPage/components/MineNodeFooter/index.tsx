@@ -1,8 +1,17 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Row, Col } from 'reactstrap';
+import { MasterNodeObject } from '../../masterNodeInterface';
 
-const MineNodeFooter = () => {
+interface MineNodeFooterProps {
+  enabledMasternodes: MasterNodeObject[];
+}
+
+const MineNodeFooter: React.FunctionComponent<MineNodeFooterProps> = (
+  props: MineNodeFooterProps
+) => {
+  const { enabledMasternodes } = props;
+
   return (
     <Row>
       <Col md='2'>
@@ -13,10 +22,10 @@ const MineNodeFooter = () => {
         </span>
         <div className='d-flex align-items-center'>
           <span className={`txn-status-enabled`}></span>
-          <span className='ml-2'>5</span>
+          <span className='ml-2'>{enabledMasternodes.length}</span>
         </div>
       </Col>
-      <Col md='2'>
+      {/* <Col md='2'>
         <span>
           <small className='text-muted'>
             {I18n.t(
@@ -26,7 +35,7 @@ const MineNodeFooter = () => {
         </span>
         <div className='d-flex align-items-center'>
           <span className={`txn-status-disable`}></span>
-          <span className='ml-2'>1</span>
+          <span className='ml-2'>{enabledMasternodes.length - activeNode}</span>
         </div>
       </Col>
       <Col md='4'>
@@ -36,7 +45,7 @@ const MineNodeFooter = () => {
           </small>
         </span>
         <div>1234,567.89012345</div>
-      </Col>
+      </Col> */}
     </Row>
   );
 };
