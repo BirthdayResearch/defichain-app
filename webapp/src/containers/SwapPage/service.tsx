@@ -13,10 +13,15 @@ import {
   getHighestAmountAddressForSymbol,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
-} from '../../utils/utility';
+  utxoLedger,
+  handleUtxoToAccountConversionLedger, getAddressAndAmountListForLedger, getKeyIndexAddressLedger, getNetworkType,
+} from '@/utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
 import { poolSwapRefreshUTXOSuccess } from './reducer';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import { CUSTOM_TX_LEDGER } from '@defi_types/ipcEvents';
+import { TypeWallet } from '@/typings/entities';
 
 export const handleFetchPoolPairList = async () => {
   const rpcClient = new RpcClient();
@@ -66,16 +71,21 @@ export const handleTestPoolSwapFrom = async (formState) => {
   }
 };
 
-export const handlePoolSwap = async (formState): Promise<string> => {
+export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger'): Promise<string> => {
   const rpcClient = new RpcClient();
   log.info('Starting', 'handlePoolSwap');
-  const list = await getAddressAndAmountListForAccount();
+  let list;
+  if (typeWallet === 'wallet') {
+    list = await getAddressAndAmountListForAccount();
+  } else {
+    list = await getAddressAndAmountListForLedger();
+  }
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(formState.hash1, list);
+  } = getHighestAmountAddressForSymbol(formState.hash1, list, undefined, typeWallet);
   const swapAddress =
-    address1 == '' || address1 == null ? formState.receiveAddress : address1;
+    address1 === '' || address1 == null ? formState.receiveAddress : address1;
   let accountToAccountAmount = new BigNumber(0);
   const poolSwapAmount = new BigNumber(formState.amount1);
 
@@ -86,7 +96,8 @@ export const handlePoolSwap = async (formState): Promise<string> => {
     accountToAccountAmount = await handleAccountToAccountConversion(
       list,
       swapAddress,
-      formState.hash1
+      formState.hash1,
+      typeWallet,
     );
   }
 
@@ -96,25 +107,65 @@ export const handlePoolSwap = async (formState): Promise<string> => {
     poolSwapAmount.gt(accountToAccountAmount.plus(maxAmount1))
   ) {
     log.info(`UTXOs to Account with ${swapAddress}`, 'handlePoolSwap');
-    await handleUtxoToAccountConversion(
-      formState.hash1,
-      swapAddress,
-      poolSwapAmount,
-      accountToAccountAmount.plus(maxAmount1)
-    );
+    if (typeWallet === 'wallet') {
+      await handleUtxoToAccountConversion(
+        formState.hash1,
+        swapAddress,
+        poolSwapAmount,
+        accountToAccountAmount.plus(maxAmount1)
+      );
+    } else {
+      await handleUtxoToAccountConversionLedger(
+        formState.hash1,
+        swapAddress,
+        poolSwapAmount,
+        accountToAccountAmount.plus(maxAmount1),
+      );
+    }
   }
 
   log.info(`Refresh Pool Swap`, 'handlePoolSwap');
   store.dispatch(poolSwapRefreshUTXOSuccess());
 
   log.info(`Starting Pool Swap RPC`, 'handlePoolSwap');
-  const hash = await rpcClient.poolSwap(
-    swapAddress,
-    formState.hash1,
-    poolSwapAmount,
-    formState.receiveAddress,
-    formState.hash2
-  );
+  let hash = '';
+  if (typeWallet === 'wallet') {
+    hash = await rpcClient.poolSwap(
+      swapAddress,
+      formState.hash1,
+      poolSwapAmount,
+      formState.receiveAddress,
+      formState.hash2
+    );
+  } else {
+    const { utxo } = await utxoLedger(swapAddress, formState.amount1);
+    const ipcRenderer = ipcRendererFunc();
+    const network = getNetworkType();
+    const keyIndex = getKeyIndexAddressLedger(network, swapAddress);
+    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+      utxo,
+      address: swapAddress,
+      amount: 0,
+      data: {
+        txType: 's',
+        customData: {
+          from: swapAddress,
+          idTokenFrom: formState.hash1,
+          amountFrom: poolSwapAmount.toNumber(),
+          to: formState.receiveAddress,
+          idTokenTo: formState.hash2,
+        },
+        tokenId: 0,
+      },
+      keyIndex,
+    });
+    if (res.success) {
+      log.info(res.data.tx)
+      hash = await rpcClient.sendRawTransaction(res.data.tx);
+    } else {
+      throw new Error(res.message);
+    }
+  }
   log.info(`${hash}`, 'handlePoolSwap');
   return hash;
 };

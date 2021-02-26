@@ -8,7 +8,7 @@ import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
 import { I18n } from 'react-redux-i18n';
-
+import { CustomTx } from 'bitcore-lib-dfi';
 import BigNumber from 'bignumber.js';
 import {
   getAddressInfo,
@@ -103,9 +103,10 @@ import {
   ErrorMessages,
   HighestAmountItem,
   ResponseMessages,
-} from '../constants/common';
-import { BLOCKCHAIN_INFO_CHAIN_TEST } from '../constants';
+} from '@/constants/common';
+import { BLOCKCHAIN_INFO_CHAIN_TEST } from '@/constants';
 import PersistentStore from './persistentStore';
+import { TypeWallet } from '@/typings/entities';
 
 export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -118,7 +119,7 @@ export const handelGetPaymentRequestLedger = (networkName): PaymentRequestLedger
   PersistentStore.get(handleLocalStorageNameLedger(networkName)) || '[]',
 );
 
-export const getKeyIndexAddressLedger = (networkName, address) => (
+export const getKeyIndexAddressLedger = (networkName: string, address: string) => (
   handelGetPaymentRequestLedger(networkName).find(
     (payment) => payment.address === address,
   )?.keyIndex
@@ -877,18 +878,20 @@ export const fetchAccountsDataWithPagination = async (
   fetchList: (
     includingStart: boolean,
     limit: number,
-    start?: string
+    start?: string,
+    isMineOnly?: boolean
   ) => Promise<any>,
+  isMineOnly = true,
 ) => {
   const list: any[] = [];
-  const result = await fetchList(true, limit);
+  const result = await fetchList(false, limit, undefined, isMineOnly);
   if (result.length === 0) {
     return [];
   }
   list.push(...result);
   start = result[result.length - 1].key;
   while (true) {
-    const result = await fetchList(false, limit, start);
+    const result = await fetchList(false, limit, start, isMineOnly);
     if (result.length === 0) {
       break;
     }
@@ -1095,6 +1098,29 @@ export const hdWalletCheck = async (address) => {
   return false;
 };
 
+export const getAddressAndAmountListForLedger = async () => {
+  const rpcClient = new RpcClient();
+  const accountList = await fetchAccountsDataWithPagination(
+    '',
+    LIST_ACCOUNTS_PAGE_SIZE,
+    rpcClient.listAccounts,
+    false,
+  );
+  const network = getNetworkType();
+  const ledgerAddresses = handelGetPaymentRequestLedger(network).map(({address}) => address);
+  const accountsLedger = accountList.filter((account) => {
+    return ledgerAddresses.includes(account.owner.addresses[0]);
+  });
+
+  const addressAndAmountList = accountsLedger.map(async (account) => {
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
+  });
+  return _.compact(await Promise.all(addressAndAmountList));
+}
+
 export const getAddressAndAmountListForAccount = async () => {
   const rpcClient = new RpcClient();
   const accountList = await fetchAccountsDataWithPagination(
@@ -1115,7 +1141,8 @@ export const getAddressAndAmountListForAccount = async () => {
 export const getHighestAmountAddressForSymbol = (
   key: string,
   list: HighestAmountItem[],
-  sendAmount?: BigNumber
+  sendAmount?: BigNumber,
+  typeWallet: TypeWallet = 'wallet',
 ): HighestAmountItem => {
   let maxAmount = new BigNumber(0);
   let address = '';
@@ -1142,7 +1169,12 @@ export const getHighestAmountAddressForSymbol = (
   }
   if (!address) {
     const networkName = getNetworkType();
-    const paymentRequests = handleGetPaymentRequest(networkName);
+    let paymentRequests;
+    if (typeWallet === 'wallet') {
+      paymentRequests = handleGetPaymentRequest(networkName);
+    } else {
+      paymentRequests = handelGetPaymentRequestLedger(networkName);
+    }
     address = (paymentRequests ?? [])[0]?.address;
   }
   return { address, amount: maxAmount };
@@ -1256,10 +1288,92 @@ export const handleUtxoToAccountConversion = async (
   await getTransactionInfo(utxoToDfiTxId);
 };
 
+export const handleUtxoToAccountConversionLedger = async (
+  hash: string,
+  address: string,
+  amount: BigNumber,
+  maxAmount: BigNumber,
+) => {
+  try {
+    await utxoLedger(address, amount.toNumber());
+    const transferAmount = amount.minus(maxAmount);
+    const { utxo } = await utxoLedger(address, transferAmount.toNumber());
+    const ipcRenderer = ipcRendererFunc();
+    const network = getNetworkType();
+    const keyIndex = getKeyIndexAddressLedger(network, address);
+    const res = ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+      utxo,
+      address,
+      amount: transferAmount.toNumber(),
+      data: {
+        txType: CustomTx.customTxType.utxosToAccount,
+        customData: {
+          to: {
+            [address]: [{ balance: transferAmount.toNumber(), token: hash}]
+          }
+        },
+      },
+      keyIndex,
+    })
+    if (res.success) {
+      const rpcClient = new RpcClient();
+      const txId = await rpcClient.sendRawTransaction(res.data.tx);
+      await getTransactionInfo(txId);
+    } else {
+      throw new Error(res.message);
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+
+}
+
+export const accountToAccountUseLedger = async (
+  fromAddress: string,
+  toAddress: string,
+  balance: number,
+  token: string,
+  ) => {
+  const ipcRenderer = ipcRendererFunc();
+  const customData = {
+    from: fromAddress,
+    to: {
+      [toAddress]: {
+        token,
+        balance,
+      }
+    }
+  };
+  const network = getNetworkType();
+  const keyIndex = getKeyIndexAddressLedger(network, fromAddress);
+  const { utxo } = await utxoLedger(fromAddress, balance);
+  const res = await ipcRenderer.sendSync(
+    CUSTOM_TX_LEDGER,
+    {
+      utxo,
+      address: fromAddress,
+      amount: balance,
+      data: {
+        txType: CustomTx.customTxType.accountToAccount,
+        customData,
+      },
+      keyIndex,
+    },
+  );
+  if (res.success) {
+    const rpcClient = new RpcClient();
+    return await rpcClient.sendRawTransaction(res.data.tx);
+  } else {
+    log.error(`accountToAccountLedger error: ${res.message}`);
+    throw new Error(res.message);
+  }
+}
+
 export const handleAccountToAccountConversion = async (
   addressAndAmountList: any[],
   toAddress: string,
   hash: string,
+  typeWallet: TypeWallet = 'wallet',
 ) => {
   const rpcClient = new RpcClient();
   const amounts = {};
@@ -1277,11 +1391,16 @@ export const handleAccountToAccountConversion = async (
     const amount = new BigNumber(obj.amount[tokenSymbol]);
 
     if (tokenSymbol === hash && obj.address !== toAddress) {
-      const txId = await rpcClient.accountToAccount(
-        obj.address,
-        toAddress,
-        `${amount.toFixed(8)}@${tokenSymbol}`
-      );
+      let txId = '';
+      if (typeWallet === 'wallet') {
+        txId = await rpcClient.accountToAccount(
+          obj.address,
+          toAddress,
+          `${amount.toFixed(8)}@${tokenSymbol}`
+        );
+      } else {
+        txId = await accountToAccountUseLedger(obj.address, toAddress, amount.toNumber(), tokenSymbol);
+      }
 
       const promiseHash = getTransactionInfo(txId);
       accountToAccountTxHashes.push(promiseHash);

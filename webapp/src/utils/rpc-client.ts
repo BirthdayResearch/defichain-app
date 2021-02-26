@@ -355,7 +355,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  sendRawTransaction = async (txid: string) => {
+  sendRawTransaction = async (txid: string): Promise<string> => {
     const { data } = await this.call('/', methodNames.SEND_RAW_TRANSACTION, [
       txid,
     ]);
@@ -738,7 +738,8 @@ export default class RpcClient {
   listAccounts = async (
     includingStart: boolean,
     limit: number,
-    start?: string
+    start?: string,
+    isMineOnly = true,
   ) => {
     const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
       {
@@ -748,7 +749,7 @@ export default class RpcClient {
       },
       true,
       true,
-      true,
+      isMineOnly,
     ]);
     return data.result;
   };
