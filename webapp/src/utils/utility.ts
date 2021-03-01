@@ -1179,6 +1179,7 @@ export const getAddressForSymbolLedger = async (
   let maxAmount = 0;
   let address = '';
   let keyIndex = 0;
+  const network = getNetworkType();
   for (const [i, obj] of list.entries()) {
     const tokenSymbol = obj.unit || '0';
     const amount = await rpcClient.getReceivedByAddress(obj.address);
@@ -1186,6 +1187,13 @@ export const getAddressForSymbolLedger = async (
       maxAmount = amount;
       address = obj.address;
       keyIndex = obj.keyIndex;
+    } else {
+      const addressAndAmount = await getAddressAndAmountListForLedger();
+      // @ts-ignore
+      const res = getHighestAmountAddressForSymbol(key, addressAndAmount, undefined, 'ledger');
+      address = res.address;
+      maxAmount = res.amount.toNumber();
+      keyIndex = getKeyIndexAddressLedger(network, address) || 0;
     }
   }
   log.info(

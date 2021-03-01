@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
 import _ from 'lodash';
@@ -8,41 +7,27 @@ import * as log from '@/utils/electronLogger';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import RpcClient from '@/utils/rpc-client';
 import {
-  PAYMENT_REQUEST,
-  BLOCKCHAIN_INFO_CHAIN_TEST,
+  BACKUP_IDXS_LEDGER,
+  CONNECT_LEDGER,
+  CUSTOM_TX_LEDGER,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  LIST_TOKEN_PAGE_SIZE,
-  LIST_ACCOUNTS_PAGE_SIZE,
+  GET_LEDGER_DEFI_PUB_KEY,
   IS_SHOWING_INFORMATION_LEDGER,
   LIST_DEVICES_LEDGER,
-  MAXIMUM_AMOUNT,
-  DEFAULT_MAXIMUM_AMOUNT,
-  MAXIMUM_COUNT,
-  DEFAULT_MAXIMUM_COUNT,
-  FEE_RATE,
-  DEFAULT_FEE_RATE,
-  BACKUP_IDXS_LEDGER,
-  MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
+  LIST_TOKEN_PAGE_SIZE,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
-  fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
+  getAccountsLedger,
   getErrorMessage,
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
-  getTxnDetails,
-  handleLocalStorageNameLedger,
   handelGetPaymentRequestLedger,
+  handleLocalStorageNameLedger,
   utxoLedger,
-  getAccountsLedger,
 } from '@/utils/utility';
-import {
-  GET_LEDGER_DEFI_PUB_KEY,
-  CONNECT_LEDGER,
-  CUSTOM_TX_LEDGER,
-} from '@/constants';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
 
@@ -211,6 +196,44 @@ export const sendToAddress = async (
     throw new Error(getErrorMessage(err));
   }
 };
+
+export const sendTokensToAddress = async (
+  fromAddress: string | null,
+  toAddress: string,
+  amount: number,
+  hash: string,
+  keyIndex: number,
+) => {
+  try {
+    const rpcClient = new RpcClient();
+    const ipcRenderer = ipcRendererFunc();
+    const { utxo, amountUtxo } = await utxoLedger(fromAddress, amount);
+    const data = {
+      txType: CustomTx.customTxType.anyAccountsToAccounts,
+      customData: {
+        from: [{ [fromAddress]: {'0': { token: hash, balance: amount }}}],
+        to: [{ [toAddress]: { '0': { token: hash, balance: amount }}}],
+      }
+    };
+    const res = await ipcRenderer.sendSync(
+      CUSTOM_TX_LEDGER,
+      {
+        utxo: [utxo[0]],
+        address: fromAddress,
+        data,
+        keyIndex
+      }
+    );
+    if (res.success) {
+      return await rpcClient.sendRawTransaction(res.data.tx);
+    } else {
+      throw new Error(res.message);
+    }
+  } catch (err) {
+    log.error(`Got error in sendTokensToAddress: ${err}`);
+    throw new Error(getErrorMessage(err));
+  }
+}
 
 export const getNewAddress = async (
   label: string,

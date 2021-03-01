@@ -5,14 +5,16 @@ import {
   sendToAddress,
   isValidAddress,
   handleFetchRegularDFI,
+  sendTokensToAddress
 } from '../../service';
-import { LEDGER_PATH } from '@/constants';
+import { DFI_SYMBOL, LEDGER_PATH } from '@/constants';
 import {
   getAddressForSymbolLedger,
   accountToAccountConversionLedger,
   getAmountInSelectedUnit,
   isLessThanDustAmount,
   getSymbolKey,
+  getAddressAndAmountListForLedger
 } from '@/utils/utility';
 import { RootState } from '@/app/rootReducer';
 import * as log from '@/utils/electronLogger';
@@ -112,6 +114,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenHash = this.urlParams.get('hash');
   tokenAmount = this.urlParams.get('amount');
   tokenAddress = this.urlParams.get('address');
+  isLPS = this.urlParams.get('isLPS') === 'true';
 
   state = {
     walletBalance: 0,
@@ -278,28 +281,20 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       regularDFI,
     });
     if (isAmountValid && isAddressValid) {
-      let amount;
+      const amount = this.state.amountToSendDisplayed;
       let txHash;
+      const hash = this.tokenHash || DFI_SYMBOL;
+      const {
+        address,
+        maxAmount,
+        keyIndex,
+        type,
+      } = await this.props.getAddressForSymbol(
+        hash,
+        this.props.paymentRequests
+      );
       try {
-        let accountToAccountAmount = new BigNumber(0);
-        const hash = this.tokenHash || '0';
-        const {
-          address,
-          maxAmount,
-          keyIndex,
-          type,
-        } = await this.props.getAddressForSymbol(
-          hash,
-          this.props.paymentRequests
-        );
-        amount = this.state.amountToSendDisplayed;
-        if (Number(amount) > maxAmount) {
-          accountToAccountAmount = await this.props.accountToAccountConversion(
-            this.props.paymentRequests,
-            this.state.toAddress,
-            hash
-          );
-        } else {
+        if (!this.tokenSymbol || this.tokenSymbol === 'DFI') {
           txHash = await sendToAddress(
             address,
             this.state.toAddress,
@@ -307,11 +302,52 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             keyIndex,
             type
           );
+          this.handleSuccess(txHash);
+        } else {
+          log.info('*******token send **********');
+          log.info({
+            amount,
+            hash,
+            toAddress: this.state.toAddress,
+          });
+          txHash = await sendTokensToAddress(address, this.state.toAddress, amount, hash, keyIndex);
+          this.handleSuccess(txHash);
         }
-        this.handleSuccess(txHash);
-      } catch (error) {
-        this.handleFailure(error);
+      } catch (e) {
+        this.handleFailure(e);
       }
+      // try {
+      //   let accountToAccountAmount = new BigNumber(0);
+      //   const hash = this.tokenHash || '0';
+      //   const {
+      //     address,
+      //     maxAmount,
+      //     keyIndex,
+      //     type,
+      //   } = await this.props.getAddressForSymbol(
+      //     hash,
+      //     this.props.paymentRequests
+      //   );
+      //   amount = this.state.amountToSendDisplayed;
+      //   if (Number(amount) > maxAmount) {
+      //     accountToAccountAmount = await this.props.accountToAccountConversion(
+      //       this.props.paymentRequests,
+      //       this.state.toAddress,
+      //       hash
+      //     );
+      //   } else {
+      //     txHash = await sendToAddress(
+      //       address,
+      //       this.state.toAddress,
+      //       amount,
+      //       keyIndex,
+      //       type
+      //     );
+      //   }
+      //   this.handleSuccess(txHash);
+      // } catch (error) {
+      //   this.handleFailure(error);
+      // }
     }
   };
 
