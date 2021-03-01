@@ -96,7 +96,7 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
             </FormGroup>
           </Col>
           <Col md='2'>
-            <Button color='outline-primary' onClick={() => maxBlock()}>
+            <Button color='outline-primary' onClick={maxBlock}>
               {I18n.t('containers.wallet.walletPage.max')}
             </Button>
           </Col>

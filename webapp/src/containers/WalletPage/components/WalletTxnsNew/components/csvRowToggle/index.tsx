@@ -8,7 +8,7 @@ const CsvRowToggle = (props) => {
     <FormGroup>
       <FormGroup check>
         <Label check className='switch'>
-          <Input type='checkbox' onChange={() => handleCheckBox()} />
+          <Input type='checkbox' onChange={handleCheckBox} />
           &nbsp;
           {label}
         </Label>
