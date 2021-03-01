@@ -160,15 +160,19 @@ const LedgerTokensList: React.FunctionComponent<LedgerTokensListProps> = (
 
 const mapStateToProps = (state: RootState) => {
   const {
-    wallet: {
-      tokens,
-      isLoadingTokens,
-    },
     settings: {
       appConfig: { unit },
     },
     popover: { openResetWalletDatModal },
-    ledgerWallet: { walletBalance, connect, isShowingInformation, devices, accountTokens },
+    ledgerWallet: {
+      walletBalance,
+      connect,
+      isShowingInformation,
+      devices,
+      accountTokens,
+      tokens,
+      isLoadingTokens,
+    },
   } = state;
   return {
     unit,

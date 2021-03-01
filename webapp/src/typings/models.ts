@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export type StatusLedger = 'connected' | 'notConnected' | 'connecting';
 
 export interface PaymentRequestLedger {
@@ -31,4 +33,16 @@ export interface FormPoolSwap {
   balance2: string;
   receiveAddress: string;
   receiveLabel: string;
+}
+
+export interface IAccount {
+  amount: BigNumber;
+  key: string;
+  owner: {
+    addresses: string[];
+    asm: string;
+    hex: string;
+    regSigs: number;
+    type: string;
+  };
 }

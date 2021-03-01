@@ -33,4 +33,6 @@ export interface LedgerState {
   walletBalance: number;
   indexesKeyLedger: IndexesKeyLedger;
   accountTokens: IAccountTokensState;
+  tokens: IToken[];
+  isLoadingTokens: boolean;
 }

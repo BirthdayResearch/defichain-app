@@ -36,6 +36,7 @@ import {
   handleLocalStorageNameLedger,
   handelGetPaymentRequestLedger,
   utxoLedger,
+  getAccountsLedger,
 } from '@/utils/utility';
 import {
   GET_LEDGER_DEFI_PUB_KEY,
@@ -98,19 +99,23 @@ export const handelFetchWalletTxns = async (
   networkName: string
 ) => {
   const rpcClient = new RpcClient();
-  const addresses = handelGetPaymentRequestLedger(networkName).map(paymentRequest => paymentRequest.address);
+  const addresses = handelGetPaymentRequestLedger(networkName).map(
+    (paymentRequest) => paymentRequest.address
+  );
   let walletTxnCount = await rpcClient.getWalletTxnCount();
   let walletTxns = await rpcClient.getWalletTxns(0, walletTxnCount, true);
   walletTxns = walletTxns.filter((tx) => tx.involvesWatchonly).reverse();
   walletTxns = walletTxns.filter((tx) => {
     return !(tx.category === 'send' && addresses.includes(tx.address));
   });
-  walletTxns = uniqBy(walletTxns, 'txnId')
+  walletTxns = uniqBy(walletTxns, 'txnId');
   walletTxnCount = walletTxns.length;
   walletTxns.splice(
-    (pageSize*pageNo) - 1,
-    walletTxnCount - ((pageSize*pageNo) - 1 ===  pageSize ? pageSize : (pageSize*pageNo) - 1));
-  return { walletTxns, walletTxnCount};
+    pageSize * pageNo - 1,
+    walletTxnCount -
+      (pageSize * pageNo - 1 === pageSize ? pageSize : pageSize * pageNo - 1)
+  );
+  return { walletTxns, walletTxnCount };
 };
 
 export const handleSendData = async (addresses) => {
@@ -304,22 +309,12 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
 };
 
 export const handleFetchAccounts = async () => {
-  const rpcClient = new RpcClient();
-  const accounts = await fetchAccountsDataWithPagination(
-    '',
-    LIST_ACCOUNTS_PAGE_SIZE,
-    rpcClient.listAccounts
-  );
-
+  const accounts = await getAccountsLedger();
   const tokensData = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
 
   const resolvedData: any = _.compact(await Promise.all(tokensData));
