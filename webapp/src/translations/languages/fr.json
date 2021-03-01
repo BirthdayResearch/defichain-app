@@ -686,7 +686,8 @@
         "connect": "Relier",
         "connecting": "De liaison",
         "availableBalance": "Solde disponible",
-        "restore": "restaurer les clés"
+        "restore": "restaurer les clés",
+        "wallets": "Ledger wallets"
       },
       "receivePage": {
         "receiveDFITitle": "Réception de DFI – App DeFi",

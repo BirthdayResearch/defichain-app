@@ -62,52 +62,52 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
           <Card className={`${styles.card} table-responsive-md`}>
             <Table className={styles.table}>
               <thead>
-                <tr>
-                  <th></th>
-                  <th>{I18n.t('containers.wallet.walletTxns.height')}</th>
-                  <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
-                  <th className={styles.amount}>
-                    {I18n.t('containers.wallet.walletTxns.amount')}
-                  </th>
-                  <th>{I18n.t('containers.wallet.walletTxns.hash')}</th>
-                </tr>
+              <tr>
+                <th></th>
+                <th>{I18n.t('containers.wallet.walletTxns.height')}</th>
+                <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
+                <th className={styles.amount}>
+                  {I18n.t('containers.wallet.walletTxns.amount')}
+                </th>
+                <th>{I18n.t('containers.wallet.walletTxns.hash')}</th>
+              </tr>
               </thead>
               <tbody>
-                {walletTxns.map((txn, index) => (
-                  <tr key={`${txn.txnId}-${index}`}>
-                    <td className={styles.typeIcon}>
-                      {getTxnsTypeIcon(txn.category)}
-                    </td>
-                    <td>
-                      {txn.height !== -1 ? (
-                        <Link
-                          to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${txn.height}`}
-                        >
-                          {txn.height}
-                        </Link>
-                      ) : (
-                        '-'
+              {walletTxns.map((txn, index) => (
+                <tr key={`${txn.txnId}-${index}`}>
+                  <td className={styles.typeIcon}>
+                    {getTxnsTypeIcon(txn.category)}
+                  </td>
+                  <td>
+                    {txn.height !== -1 ? (
+                      <Link
+                        to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${txn.height}`}
+                      >
+                        {txn.height}
+                      </Link>
+                    ) : (
+                      '-'
+                    )}
+                  </td>
+                  <td>
+                    <div className={styles.time}>{txn.time}</div>
+                  </td>
+                  <td>
+                    <div className={styles.amount}>
+                      {getAmountInSelectedUnit(
+                        txn.amount,
+                        props.unit,
+                        txn.unit
                       )}
-                    </td>
-                    <td>
-                      <div className={styles.time}>{txn.time}</div>
-                    </td>
-                    <td>
-                      <div className={styles.amount}>
-                        {getAmountInSelectedUnit(
-                          txn.amount,
-                          props.unit,
-                          txn.unit
-                        )}
-                        &nbsp;
-                        <span className={styles.unit}>{props.unit}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className={styles.hash}>{txn.txnId}</div>
-                    </td>
-                  </tr>
-                ))}
+                      &nbsp;
+                      <span className={styles.unit}>{props.unit}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className={styles.hash}>{txn.txnId}</div>
+                  </td>
+                </tr>
+              ))}
               </tbody>
             </Table>
           </Card>

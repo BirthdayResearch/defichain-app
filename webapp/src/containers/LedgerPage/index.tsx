@@ -3,8 +3,8 @@ import { connect, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
-import { RouteComponentProps } from 'react-router-dom';
+import { MdArrowUpward, MdArrowDownward, MdRefresh, MdArrowBack } from 'react-icons/md';
+import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import classNames from 'classnames';
 import StatusLedgerConnect from '@/components/StatusLedgerConnect';
 import StatCard from '../../components/StatCard';
@@ -24,9 +24,11 @@ import {
 } from './reducer';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
+  DFI_SYMBOL,
   LEDGER_RECEIVE_PATH,
   LEDGER_SEND_PATH,
   LEDGER_SYNC_PATH,
+  LEDGER_TOKENS_PATH,
 } from '@/constants';
 import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
 import * as log from '@/utils/electronLogger';
@@ -35,6 +37,8 @@ import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 import { RootState } from '@/app/rootReducer';
 import { getBackupIndexesLedger, getPubKeyLedger, loadWallet } from './service';
 import { uid } from 'uid';
+import { getWalletPathAddress } from '@/utils/utility';
+import Header from '@/containers/HeaderComponent';
 
 interface LedgerPageProps extends RouteComponentProps {
   unit: string;
@@ -63,6 +67,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const isLPS = urlParams.get('isLPS') === 'true';
   const dispatch = useDispatch();
 
   const {
@@ -129,9 +134,20 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
 
   const handleSendRedirect = useCallback(() => {
     if (latestSyncedBlock > 0 && latestSyncedBlock >= latestBlock) {
-      history.push(LEDGER_SEND_PATH);
+      history.push(
+        tokenSymbol
+          ? getWalletPathAddress(
+              LEDGER_SEND_PATH,
+              tokenSymbol,
+              tokenHash || '',
+              tokenAmount || '',
+              tokenAddress || '',
+              isLPS
+            )
+          : LEDGER_SEND_PATH
+      );
     } else {
-      history.push(LEDGER_SEND_PATH);
+      history.push(LEDGER_SYNC_PATH);
     }
   }, [latestSyncedBlock, latestBlock]);
 
@@ -180,9 +196,25 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
       <Helmet>
         <title>{I18n.t('containers.ledger.ledgerPage.title')}</title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
+        <Button
+          to={`${LEDGER_TOKENS_PATH}?value=${walletBalance}&unit=${unit}`}
+          tag={RRNavLink}
+          color='link'
+          className='header-bar-back'
+        >
+          <MdArrowBack />
+          <span className='d-lg-inline'>
+            {I18n.t('containers.ledger.ledgerPage.wallets')}
+          </span>
+        </Button>
         <div className='d-flex align-items-end'>
-          <h1>{I18n.t('containers.ledger.ledgerPage.title')}</h1>
+          <h1>
+            {tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              : unit}{' '}
+            {I18n.t('containers.ledger.ledgerPage.title')}
+          </h1>
           <button
             className={classNames(
               styles.connectButton,
@@ -228,7 +260,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Row>
@@ -263,7 +295,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             </Col>
           </Row>
         </section>
-        {!tokenSymbol && <WalletTxns />}
+        {tokenSymbol && <WalletTxns />}
       </div>
     </div>
   );

@@ -772,7 +772,8 @@
         "connect": "Verbinden",
         "connecting": "Anschließen",
         "availableBalance": "Verfügbares Guthaben",
-        "restore": "Schlüssel wiederherstellen"
+        "restore": "Schlüssel wiederherstellen",
+        "wallets": "Ledger wallets"
       },
       "receivePage": {
         "receiveDFITitle": "DFI Erhalten– DeFi app",

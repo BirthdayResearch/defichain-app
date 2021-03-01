@@ -794,7 +794,8 @@
         "send": "send",
         "receive": "receive",
         "availableBalance": "Available balance",
-        "restore": "restore keys"
+        "restore": "restore keys",
+        "wallets": "Ledger wallets"
       },
       "receivePage": {
         "receiveDFITitle": "Receive DFI – DeFi app",
