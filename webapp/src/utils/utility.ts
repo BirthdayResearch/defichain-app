@@ -18,7 +18,7 @@ import {
 } from '@/containers/WalletPage/service';
 import { handleFetchToken } from '@/containers/TokensPage/service';
 import { handleFetchPoolshares } from '@/containers/LiquidityPage/service';
-import { IAccount, PaymentRequestLedger } from '@/typings/models';
+import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import * as log from './electronLogger';
 
@@ -879,7 +879,7 @@ export const fetchAccountsDataWithPagination = async (
     isMineOnly?: boolean
   ) => Promise<any>,
   isMineOnly = true
-): Promise<IAccount[]> => {
+): Promise<AccountModel[]> => {
   const list: any[] = [];
   const result = await fetchList(false, limit, undefined, isMineOnly);
   if (result.length === 0) {
@@ -1121,7 +1121,7 @@ export const getAddressAndAmountListForAccount = async () => {
 
   const addressAndAmountList = accountList.map(async (account) => {
     return {
-      amount: account.amount,
+      amount: account.amount as BigNumber,
       address: account.owner.addresses[0],
     };
   });
@@ -1609,14 +1609,19 @@ export const getTokenBalances = (listAccounts: AccountModel[]): string[] => {
   }
 };
 
-export const handleFetchTokenBalanceList = async (): Promise<string[]> => {
+export const handleFetchTokenBalanceList = async (typeWallet: string = 'wallet'): Promise<string[]> => {
   const tokenBalance = [];
   try {
     const rpcClient = new RpcClient();
-    const listAccounts: AccountModel[] = await rpcClient.listAccounts(
-      true,
-      LIST_ACCOUNTS_PAGE_SIZE
-    );
+    let listAccounts: AccountModel[] = [];
+    if (typeWallet === 'ledger') {
+      listAccounts = await getAccountsLedger();
+    } else {
+      listAccounts = await rpcClient.listAccounts(
+        true,
+        LIST_ACCOUNTS_PAGE_SIZE
+      );
+    }
     return getTokenBalances(listAccounts);
   } catch (error) {
     log.error(error, 'handleFetchTokenBalanceList');

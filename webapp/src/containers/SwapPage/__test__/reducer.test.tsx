@@ -61,7 +61,7 @@ describe('swap slice', () => {
 
   describe('fetchTokenBalanceList reducers and actions', () => {
     it('should be check fetchPoolPairListRequest ', () => {
-      const nextState = reducer(initialState, fetchTokenBalanceListRequest());
+      const nextState = reducer(initialState, fetchTokenBalanceListRequest('wallet'));
       const rootState = { swap: nextState };
       expect(rootState.swap.isLoadingTokenBalanceList).toBeTruthy();
     });

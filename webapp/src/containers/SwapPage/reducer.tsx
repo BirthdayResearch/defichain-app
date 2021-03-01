@@ -45,7 +45,7 @@ const configSlice = createSlice({
     fetchPoolPairListFailure(state) {
       state.isLoadingPoolPairList = false;
     },
-    fetchTokenBalanceListRequest(state) {
+    fetchTokenBalanceListRequest(state, action) {
       state.isLoadingTokenBalanceList = true;
     },
     fetchTokenBalanceListSuccess(state, action) {

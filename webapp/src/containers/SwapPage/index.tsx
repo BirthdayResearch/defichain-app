@@ -38,7 +38,7 @@ import {
   getPageTitle,
   getTokenListForSwap,
   selectedPoolPair,
-} from '../../utils/utility';
+} from '@/utils/utility';
 import {
   SWAP,
   POOL,
@@ -61,6 +61,8 @@ import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 import { FormPoolSwap } from '@/typings/models';
+import { RootState } from '@/app/rootReducer';
+import { ITokenBalanceInfo } from '@/utils/interfaces';
 
 interface SwapPageProps {
   history?: any;
@@ -83,7 +85,7 @@ interface SwapPageProps {
   isLoadingTransferringTokens: boolean;
   poolSwapHash: string;
   fetchPoolPairListRequest: () => void;
-  fetchTokenBalanceListRequest: () => void;
+  fetchTokenBalanceListRequest: (typeWallet?: string) => void;
   isErrorAddingPoolLiquidity: string;
   walletBalance: number;
   utxoDfi: number;
@@ -95,6 +97,7 @@ interface SwapPageProps {
   resetTestPoolSwapErrorFrom: () => void;
   resetTestPoolSwapRequestFrom: () => void;
   paymentRequests: PaymentRequestModel[];
+  ledgerBalance: number;
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -120,8 +123,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     balance2: '',
     receiveAddress: '',
     receiveLabel: '',
+    typeWallet: '',
   });
   const [percentageChange, setPercentageChange] = useState<boolean>(false);
+  const [balance, setBalance] = useState<number>(0);
+  const [tokenMap, setTokenMap] = useState<Map<string, ITokenBalanceInfo>>(
+    new Map<string, ITokenBalanceInfo>()
+  );
 
   const {
     poolPairList,
@@ -151,8 +159,17 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   } = props;
 
   useEffect(() => {
+    if (formState.typeWallet === 'ledger') {
+      setBalance(props.ledgerBalance);
+      fetchTokenBalanceListRequest('ledger');
+    } else {
+      setBalance(walletBalance);
+      fetchTokenBalanceListRequest();
+    }
+  }, [formState.typeWallet]);
+
+  useEffect(() => {
     fetchPoolPairListRequest();
-    fetchTokenBalanceListRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
     resetTestPoolSwapErrorTo();
@@ -160,6 +177,19 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     resetTestPoolSwapErrorFrom();
     resetTestPoolSwapRequestFrom();
   }, []);
+
+  useEffect(() => {
+    const { symbol1, symbol2 } = formState;
+    setFormState({
+      ...formState,
+      balance1: tokenMap.get(symbol1)?.balance || formState.balance1,
+      balance2: tokenMap.get(symbol2)?.balance || formState.balance2,
+    });
+  }, [tokenMap]);
+
+  useEffect(() => {
+    setTokenMap(getTokenListForSwap(poolPairList, tokenBalanceList, balance));
+  }, [poolPairList, tokenBalanceList, balance]);
 
   const [counter, setCounter] = useState(0);
 
@@ -269,12 +299,6 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     handleAddressDropdown((paymentRequests ?? [])[0]);
   }, []);
 
-  const tokenMap = getTokenListForSwap(
-    poolPairList,
-    tokenBalanceList,
-    walletBalance
-  );
-
   const handleChangeFrom = (e) => {
     setToTestValue(false);
     setFromTestValue(true);
@@ -350,6 +374,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       ...formState,
       receiveAddress: data?.address,
       receiveLabel: data?.label,
+      typeWallet: data?.type,
     });
   };
 
@@ -377,12 +402,14 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   };
 
   const isAmountInsufficient = () => {
-    return !!(formState[`amount1`] &&
+    return !!(
+      formState[`amount1`] &&
       formState[`balance1`] &&
       new BigNumber(formState[`amount1`]).isGreaterThan(
         formState[`balance1`]
       ) &&
-      formState[`balance2`]);
+      formState[`balance2`]
+    );
   };
 
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
@@ -457,6 +484,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       balance2: formState.balance1,
       receiveAddress: formState.receiveAddress,
       receiveLabel: formState.receiveLabel,
+      typeWallet: formState.typeWallet,
     });
   };
 
@@ -880,7 +908,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     poolPairList,
     tokenBalanceList,
@@ -900,6 +928,7 @@ const mapStateToProps = (state) => {
     maxAccountDfi,
   } = state.swap;
   const { walletBalance, paymentRequests } = state.wallet;
+  const { walletBalance: ledgerBalance } = state.ledgerWallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -919,6 +948,7 @@ const mapStateToProps = (state) => {
     utxoDfi,
     maxAccountDfi,
     paymentRequests,
+    ledgerBalance,
   };
 };
 

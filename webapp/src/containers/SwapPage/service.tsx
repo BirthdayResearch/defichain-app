@@ -71,19 +71,19 @@ export const handleTestPoolSwapFrom = async (formState) => {
   }
 };
 
-export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger'): Promise<string> => {
+export const handlePoolSwap = async (formState): Promise<string> => {
   const rpcClient = new RpcClient();
   log.info('Starting', 'handlePoolSwap');
   let list;
-  if (typeWallet === 'wallet') {
-    list = await getAddressAndAmountListForAccount();
-  } else {
+  if (formState.typeWallet === 'ledger') {
     list = await getAddressAndAmountListForLedger();
+  } else {
+    list = await getAddressAndAmountListForAccount();
   }
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(formState.hash1, list, undefined, typeWallet);
+  } = getHighestAmountAddressForSymbol(formState.hash1, list, undefined, formState.typeWallet);
   const swapAddress =
     address1 === '' || address1 == null ? formState.receiveAddress : address1;
   let accountToAccountAmount = new BigNumber(0);
@@ -97,7 +97,7 @@ export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger
       list,
       swapAddress,
       formState.hash1,
-      typeWallet,
+      formState.typeWallet,
     );
   }
 
@@ -107,19 +107,19 @@ export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger
     poolSwapAmount.gt(accountToAccountAmount.plus(maxAmount1))
   ) {
     log.info(`UTXOs to Account with ${swapAddress}`, 'handlePoolSwap');
-    if (typeWallet === 'wallet') {
-      await handleUtxoToAccountConversion(
-        formState.hash1,
-        swapAddress,
-        poolSwapAmount,
-        accountToAccountAmount.plus(maxAmount1)
-      );
-    } else {
+    if (formState.typeWallet === 'ledger') {
       await handleUtxoToAccountConversionLedger(
         formState.hash1,
         swapAddress,
         poolSwapAmount,
         accountToAccountAmount.plus(maxAmount1),
+      );
+    } else {
+      await handleUtxoToAccountConversion(
+        formState.hash1,
+        swapAddress,
+        poolSwapAmount,
+        accountToAccountAmount.plus(maxAmount1)
       );
     }
   }
@@ -129,15 +129,7 @@ export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger
 
   log.info(`Starting Pool Swap RPC`, 'handlePoolSwap');
   let hash = '';
-  if (typeWallet === 'wallet') {
-    hash = await rpcClient.poolSwap(
-      swapAddress,
-      formState.hash1,
-      poolSwapAmount,
-      formState.receiveAddress,
-      formState.hash2
-    );
-  } else {
+  if (formState.typeWallet === 'ledger') {
     const { utxo } = await utxoLedger(swapAddress, formState.amount1);
     const ipcRenderer = ipcRendererFunc();
     const network = getNetworkType();
@@ -165,6 +157,14 @@ export const handlePoolSwap = async (formState, typeWallet: TypeWallet = 'ledger
     } else {
       throw new Error(res.message);
     }
+  } else {
+    hash = await rpcClient.poolSwap(
+      swapAddress,
+      formState.hash1,
+      poolSwapAmount,
+      formState.receiveAddress,
+      formState.hash2
+    );
   }
   log.info(`${hash}`, 'handlePoolSwap');
   return hash;

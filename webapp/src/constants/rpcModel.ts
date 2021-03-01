@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export interface AccountAmountModel {
   [key: string]: number;
 }
@@ -18,7 +20,7 @@ export interface AccountKeyItem {
 export interface AccountModel {
   key: string;
   owner: AccountOwnerModel;
-  amount: AccountAmountModel;
+  amount: AccountAmountModel | BigNumber;
 }
 
 export interface BytesModel {

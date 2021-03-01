@@ -33,16 +33,5 @@ export interface FormPoolSwap {
   balance2: string;
   receiveAddress: string;
   receiveLabel: string;
-}
-
-export interface IAccount {
-  amount: BigNumber;
-  key: string;
-  owner: {
-    addresses: string[];
-    asm: string;
-    hex: string;
-    regSigs: number;
-    type: string;
-  };
+  typeWallet: string;
 }

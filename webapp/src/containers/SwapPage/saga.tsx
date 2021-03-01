@@ -35,9 +35,9 @@ import {
   handleTestPoolSwapFrom,
 } from './service';
 
-export function* fetchTokenBalanceList() {
+export function* fetchTokenBalanceList(action) {
   try {
-    const data = yield call(handleFetchTokenBalanceList);
+    const data = yield call(handleFetchTokenBalanceList, action.payload);
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
   } catch (e) {
     log.error(e);
