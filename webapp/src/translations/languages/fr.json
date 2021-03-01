@@ -319,7 +319,8 @@
         "label": "Label",
         "selected": "Selected",
         "receiveSharesAt": "Receive shares At",
-        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity",
+        "type": "Taper"
       },
       "removeLiquidity": {
         "address": "Address",

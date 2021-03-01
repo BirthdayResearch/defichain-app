@@ -476,7 +476,8 @@
         "label": "Label",
         "selected": "Ausgewählt",
         "receiveSharesAt": "Erhalte Anteil auf",
-        "insufficientUtxos": "Unzureichendes UTXOS für zusätzliche Liquidität"
+        "insufficientUtxos": "Unzureichendes UTXOS für zusätzliche Liquidität",
+        "type": "Art"
       },
       "removeLiquidity": {
         "address": "Adresse",

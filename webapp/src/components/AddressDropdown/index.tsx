@@ -14,6 +14,11 @@ import { PaymentRequestModel } from '@/containers/WalletPage/components/ReceiveP
 import styles from './AddressDropdown.module.scss';
 import { AddressModel } from '@/model/address.model';
 import { RootState } from '@/app/rootReducer';
+import { LedgerConnect } from '@/containers/LedgerPage/types';
+
+interface Address extends PaymentRequestModel {
+  type?: string;
+}
 
 export interface AddressDropdownProps {
   formState: AddressModel;
@@ -24,6 +29,7 @@ export interface AddressDropdownProps {
   onSelectAddress: (data: PaymentRequestModel, amount?: number) => void;
   paymentRequestsLedger: PaymentRequestModel[];
   typeWallet?: string | null;
+  connect: LedgerConnect;
 }
 
 const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
@@ -38,15 +44,29 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
     isDisabled,
     paymentRequestsLedger,
     typeWallet = 'wallet',
+    connect,
   } = props;
-  const [addresses, setAddresses] = useState<PaymentRequestModel[]>([]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   useEffect(() => {
     if (typeWallet === 'ledger') {
-      setAddresses(paymentRequestsLedger)
+      setAddresses(paymentRequestsLedger);
+    } else if (typeWallet === 'all') {
+      setAddresses([
+        ...paymentRequests.map((payment) => ({
+          ...payment,
+          type: 'wallet',
+        })),
+        ...(connect.status === 'connected'
+          ? paymentRequestsLedger.map((payment) => ({
+              ...payment,
+              type: 'ledger',
+            }))
+          : []),
+      ]);
     } else {
-      setAddresses(paymentRequests)
+      setAddresses(paymentRequests);
     }
-  }, [typeWallet])
+  }, [typeWallet]);
   return (
     <UncontrolledDropdown className='w-100'>
       <DropdownToggle
@@ -64,9 +84,12 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
       <DropdownMenu className={`${styles.scrollAuto} w-100`}>
         <DropdownItem className='w-100'>
           <Row className='w-100'>
+            {typeWallet === 'all' && connect.status === 'connected' && (
+              <Col md='2'>{I18n.t('containers.swap.addLiquidity.type')}</Col>
+            )}
             <Col md='6'>{I18n.t('containers.swap.addLiquidity.address')}</Col>
             <Col md='3'>{I18n.t('containers.swap.addLiquidity.label')}</Col>
-            <Col md='3'>{I18n.t('containers.swap.addLiquidity.selected')}</Col>
+            <Col md='1'>{I18n.t('containers.swap.addLiquidity.selected')}</Col>
           </Row>
         </DropdownItem>
         {addresses.map((data) => {
@@ -79,6 +102,11 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
               value={data.address}
             >
               <Row className='w-100'>
+                { typeWallet === 'all' && connect.status === 'connected' && (
+                  <Col md='2'>
+                    <div className={styles.ellipsisValue}>{data.type}</div>
+                  </Col>
+                )}
                 <Col md='6'>
                   <div className={styles.ellipsisValue}>{data.address}</div>
                 </Col>
@@ -87,7 +115,7 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
                     {data.label ? data.label : '---'}
                   </div>
                 </Col>
-                <Col md='3'>
+                <Col md='1'>
                   {formState.receiveAddress === data.address && <MdCheck />}
                 </Col>
               </Row>
@@ -101,10 +129,14 @@ const AddressDropdown: React.FunctionComponent<AddressDropdownProps> = (
 
 const mapStateToProps = (state: RootState) => {
   const { paymentRequests } = state.wallet;
-  const { paymentRequests: paymentRequestsLedger} = state.ledgerWallet
+  const {
+    paymentRequests: paymentRequestsLedger,
+    connect,
+  } = state.ledgerWallet;
   return {
     paymentRequests,
     paymentRequestsLedger,
+    connect,
   };
 };
 

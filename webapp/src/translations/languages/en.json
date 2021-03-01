@@ -477,7 +477,8 @@
         "label": "Label",
         "selected": "Selected",
         "receiveSharesAt": "Receive shares at",
-        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity",
+        "type": "Type"
       },
       "removeLiquidity": {
         "address": "Address",
