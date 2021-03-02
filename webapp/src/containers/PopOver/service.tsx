@@ -9,7 +9,10 @@ export const handleEncryptWallet = async (passphrase: string) => {
   return rpcClient.encryptWallet(passphrase);
 };
 
-export const handleUnlockWallet = async (passphrase: string, timeout: number) => {
+export const handleUnlockWallet = async (
+  passphrase: string,
+  timeout: number
+) => {
   const rpcClient = new RpcClient();
   return rpcClient.walletPassphrase(passphrase, timeout);
 };

@@ -136,7 +136,16 @@
         "lockedInCollateral": "Gesperrt in Collateral",
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode-Wert",
-        "searchBar": "Suche nach Masternodes"
+        "searchBar": "Suche nach Masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
@@ -332,7 +341,7 @@
       "liquidityPage": {
         "title": "Liquidität",
         "yourLiquidity": "Deine Liquidität",
-        "yourLiquidityInfo": "Du kannst jetzt das Liquidität-Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (Dezentralisierte Börse) zu unterstützen, damit Du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit auszahlen.",
+        "yourLiquidityInfo": "Du kannst jetzt das Liquidität-Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (dezentralisierte Börse) zu unterstützen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit auszahlen.",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest Du dem Pool Liquidität hinzufügen?",
         "loading": "Laden...",
         "watchVideo": "Video ansehen",
@@ -738,12 +747,15 @@
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
         "commission": "Kommission",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Transaktionen herunterladen",
-        "download": "Download",
-        "maxBlock": "Max Blockhöhe",
-        "limit": "Limit",
-        "noReward": "Keine Rewards"
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transaktionen",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -887,7 +899,7 @@
     "noResetWalletNotice": "Nein",
     "download": "Herunterladen",
     "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
-    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
+    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum Entfernen deiner Wallet aus der App. Wenn du deine Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen, bevor du die Wallet beendest?",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
     "deletePeersAndBlocks": "Peers und Blöcke löschen",

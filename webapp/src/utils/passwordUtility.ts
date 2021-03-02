@@ -28,7 +28,7 @@ export enum PasswordStrengthScore {
   Weak,
   Medium,
   Strong,
-  VeryStrong
+  VeryStrong,
 }
 
 export const getPasswordStrength = (value: string): number => {

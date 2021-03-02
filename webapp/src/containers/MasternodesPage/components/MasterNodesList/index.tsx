@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, CardBody } from 'reactstrap';
+import { Card, Table, CardBody, TabPane } from 'reactstrap';
 import styles from './MasternodesList.module.scss';
 import { I18n } from 'react-redux-i18n';
 import { filterByValue } from '../../../../utils/utility';
 import {
   MASTER_NODES_PATH,
   MASTERNODE_LIST_PAGE_SIZE,
+  ALL,
 } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
-import { table } from 'console';
 
 interface MasternodesListProps {
   searchQuery: string;
@@ -71,7 +71,7 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
       );
     }
     return (
-      <>
+      <TabPane tabId={ALL}>
         <Card className={styles.card}>
           <div className={`${styles.tableResponsive} table-responsive-xl`}>
             <Table className={styles.table}>
@@ -143,7 +143,7 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
           pagesCount={pagesCount}
           handlePageClick={paginate}
         />
-      </>
+      </TabPane>
     );
   };
 

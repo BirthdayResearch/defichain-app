@@ -65,7 +65,10 @@ export const getBinaryParameter = (obj: any = {}) => {
   return Object.keys(remote).map((key) => `-${key}=${remote[key]}`);
 };
 
-export const responseMessage = <T>(success: boolean, res: T): IPCResponseModel<T> => {
+export const responseMessage = <T>(
+  success: boolean,
+  res: T
+): IPCResponseModel<T> => {
   if (success) {
     return { success: true, data: res };
   }
@@ -89,7 +92,24 @@ export const createDir = (dirPath: string) => {
 
 // Get file data
 export const getFileData = (filePath: string, format: string = 'utf-8') => {
-  return fs.readFileSync(filePath, format);
+  const fileData = fs.readFileSync(filePath, format);
+  return formatConfigFileRead(fileData);
+};
+
+// Add squarebrackets masternode_operator in config file
+export const formatConfigFileRead = (fileData: string) => {
+  return fileData.replace(
+    new RegExp('masternode_operator', 'gi'),
+    'masternode_operator[]'
+  );
+};
+
+// Remove squarebrackets masternode_operator in config file
+export const formatConfigFileWrite = (fileData: string) => {
+  return fileData.replace(
+    /masternode_operator[\[\]']+/g,
+    'masternode_operator'
+  );
 };
 
 // write / append on UI config file

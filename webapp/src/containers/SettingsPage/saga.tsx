@@ -193,7 +193,10 @@ export function* updatePassphrase(action) {
       throw new Error(resp?.message);
     }
   } catch (error) {
-    yield put({ type: changePassphraseFailure.type, payload: remapNodeError(error.message) });
+    yield put({
+      type: changePassphraseFailure.type,
+      payload: remapNodeError(error.message),
+    });
     log.error(error);
   }
 }
@@ -209,7 +212,10 @@ export function* setLockTimeout(action) {
       throw new Error(resp?.message);
     }
   } catch (error) {
-    yield put({ type: changePassphraseFailure.type, payload: remapNodeError(error.message) });
+    yield put({
+      type: changePassphraseFailure.type,
+      payload: remapNodeError(error.message),
+    });
     log.error(error);
   }
 }

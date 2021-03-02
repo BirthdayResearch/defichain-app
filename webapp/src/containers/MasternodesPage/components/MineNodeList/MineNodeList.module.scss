@@ -1,0 +1,39 @@
+@import '../../../../scss/bootstrap/common';
+
+.card {
+  overflow: hidden;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.table {
+  margin-bottom: 0;
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: $card-bg;
+    box-shadow: 0 $table-border-width $table-border-color;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr:first-child td,
+  tr:first-child th {
+    border-top: none;
+  }
+}
+
+.status {
+  width: 24px;
+  height: 24px;
+  color: $secondary;
+}
+
+.arrow {
+  margin-top: -3px;
+}

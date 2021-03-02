@@ -7,6 +7,7 @@ import {
   writeFile,
   getRpcAuth,
   createDir,
+  formatConfigFileWrite,
 } from '../utils';
 import { APP_DIR, CONFIG_FILE_NAME } from '../constants';
 import {
@@ -46,7 +47,8 @@ export default class UiConfig {
         rpcport: DEFAULT_RPC_PORT,
       };
       const defaultConfigData = ini.encode(defaultConfig);
-      writeFile(CONFIG_FILE_NAME, defaultConfigData);
+      const newData = formatConfigFileWrite(defaultConfigData);
+      writeFile(CONFIG_FILE_NAME, newData);
       const configData = this.saveUiConfig(defaultConfig);
       return configData;
     } catch (err) {
