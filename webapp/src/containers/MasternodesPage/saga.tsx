@@ -31,7 +31,7 @@ import {
   getNetworkType,
 } from '../../utils/utility';
 
-import { restartNode, isElectron } from '../../utils/isElectron';
+import { isElectron, restartNodeSync } from '../../utils/isElectron';
 import { RESIGNED_STATE, TEST } from '../../constants';
 
 export function* getConfigurationDetails() {
@@ -113,23 +113,25 @@ export function* handleRestartNode() {
       const data = yield call(getAddressInfo, masternodeOwner);
       if (data.ismine && !data.iswatchonly) {
         const updatedConf = yield call(getConfigurationDetails);
+        const networkConf = updatedConf[network] || {};
+        const ENABLE_CONFIG = 1;
         updatedConf[network] = {
-          ...updatedConf[network],
-          masternode_operator: updatedConf[network]?.masternode_operator
-            ? [...updatedConf[network].masternode_operator, masternodeOperator]
+          ...networkConf,
+          masternode_operator: networkConf?.masternode_operator
+            ? [...networkConf.masternode_operator, masternodeOperator]
             : [masternodeOperator],
-          spv: 1,
-          gen: 1,
+          spv: ENABLE_CONFIG,
+          gen: ENABLE_CONFIG,
         };
         if (network === TEST) {
           updatedConf[network] = {
             ...updatedConf[network],
-            spv_testnet: 1,
+            spv_testnet: ENABLE_CONFIG,
           };
         }
         yield put(restartModal());
         yield call(shutDownBinary);
-        yield call(restartNode, { updatedConf });
+        yield call(restartNodeSync, { updatedConf });
         yield put(finishRestartNodeWithMasterNode());
       } else
         throw new Error(
