@@ -109,7 +109,16 @@
         "lockedInCollateral": "Заблокировано в залог",
         "costPerMasterNode": "Стоимость за мастерноду",
         "masternodeWorth": "Стоимость мастерноды",
-        "searchBar": "Поиск мастернод"
+        "searchBar": "Поиск мастернод",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Адрес владельца",
