@@ -905,9 +905,9 @@ export const fetchPoolShareDataWithPagination = async (
     start: number,
     includingStart: boolean,
     limit: number,
-    isMineOnly?: boolean,
+    isMineOnly?: boolean
   ) => Promise<any>,
-  isMineOnly?: boolean,
+  isMineOnly?: boolean
 ) => {
   const list: any[] = [];
   const result = await fetchList(start, true, limit, isMineOnly);
@@ -1191,8 +1191,13 @@ export const getAddressForSymbolLedger = async (
       keyIndex = obj.keyIndex;
     } else {
       const addressAndAmount = await getAddressAndAmountListForLedger();
-      // @ts-ignore
-      const res = getHighestAmountAddressForSymbol(key, addressAndAmount, undefined, 'ledger');
+      const res = getHighestAmountAddressForSymbol(
+        key,
+        // @ts-ignore
+        addressAndAmount,
+        undefined,
+        'ledger'
+      );
       address = res.address;
       maxAmount = res.amount.toNumber();
       keyIndex = getKeyIndexAddressLedger(network, address) || 0;
@@ -1295,7 +1300,6 @@ export const handleUtxoToAccountConversionLedger = async (
   maxAmount: BigNumber
 ) => {
   try {
-    await utxoLedger(address, amount.toNumber());
     const transferAmount = amount.minus(maxAmount);
     const { utxo } = await utxoLedger(address, transferAmount.toNumber());
     const ipcRenderer = ipcRendererFunc();
@@ -1619,7 +1623,9 @@ export const getTokenBalances = (listAccounts: AccountModel[]): string[] => {
   }
 };
 
-export const handleFetchTokenBalanceList = async (typeWallet: string = 'wallet'): Promise<string[]> => {
+export const handleFetchTokenBalanceList = async (
+  typeWallet: string = 'wallet'
+): Promise<string[]> => {
   const tokenBalance = [];
   try {
     const rpcClient = new RpcClient();

@@ -1,10 +1,5 @@
 import { ipcMain } from 'electron';
-import {
-  Transaction,
-  Address,
-  crypto,
-  PublicKey,
-} from 'bitcore-lib-dfi';
+import { Transaction, Address, crypto, PublicKey } from 'bitcore-lib-dfi';
 import {
   GET_LEDGER_DEFI_PUB_KEY,
   CONNECT_LEDGER,
@@ -147,7 +142,10 @@ const initiateLedger = () => {
         const toAddressOb = new Address(toAddress);
         const fromAddressOb = new Address(fromAddress);
         log.info(JSON.stringify(toAddressOb));
-        const tx = new Transaction().from(utxo).to(toAddressOb, amount*100000000).change(fromAddressOb);
+        const tx = new Transaction()
+          .from(utxo)
+          .to(toAddressOb, Number((amount * 100000000).toFixed(0)))
+          .change(fromAddressOb);
         log.info(`txIN: ${JSON.stringify(tx)}`);
 
         const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex, type);

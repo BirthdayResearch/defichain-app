@@ -4,8 +4,8 @@ import * as log from '../../utils/electronLogger';
 
 import {
   AMOUNT_SEPARATOR,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-  DFI_SYMBOL,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT, DEFAULT_FEE_RATE,
+  DFI_SYMBOL, FEE_RATE,
   LP_DAILY_DFI_REWARD,
   POOL_PAIR_PAGE_SIZE,
   SHARE_POOL_PAGE_SIZE,
@@ -297,11 +297,10 @@ export const handleAddPoolLiquidity = async (
 
   store.dispatch(addPoolPreparingUTXOSuccess());
   if (typeWallet === 'ledger') {
-    const { utxo } = await utxoLedger(address1, 0.001);
+    const { utxo } = await utxoLedger(address1, DEFAULT_FEE_RATE);
     const ipcRenderer = ipcRendererFunc();
     const network = getNetworkType();
     const keyIndex = getKeyIndexAddressLedger(network, address1);
-    address2 = address1;
     const from =
       setEmptyAddress(address1) === setEmptyAddress(address2)
         ? {
