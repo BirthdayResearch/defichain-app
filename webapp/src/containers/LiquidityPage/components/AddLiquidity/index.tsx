@@ -39,18 +39,20 @@ import {
   getBalanceAndSymbolMap,
   getMaxNumberOfAmount,
   getPageTitle,
-  getTokenAndBalanceMap,
+  getTokenAndBalanceMap, getTokenListForSwap,
   getTotalPoolValue,
   getTransactionAddressLabel,
   shareOfPool,
-} from '../../../../utils/utility';
+} from '@/utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import Header from '../../../HeaderComponent';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
-import { AddressModel } from '../../../../model/address.model';
+import { AddressModel } from '@/model/address.model';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from '../../../../components/ViewOnChain';
+import { RootState } from '@/app/rootReducer';
+import { ITokenBalanceInfo } from '@/utils/interfaces';
 
 interface AddLiquidityProps {
   location: any;
@@ -59,7 +61,7 @@ interface AddLiquidityProps {
   poolPairList: any[];
   tokenBalanceList: string[];
   fetchPoolPairListRequest: () => void;
-  fetchTokenBalanceListRequest: () => void;
+  fetchTokenBalanceListRequest: (typeWallet?: string) => void;
   addPoolLiquidityRequest: (poolData) => void;
   isLoadingAddPoolLiquidity: boolean;
   isAddPoolLiquidityLoaded: boolean;
@@ -73,6 +75,7 @@ interface AddLiquidityProps {
   maxAccountDfi: number;
   fetchMaxAccountDfiRequest: () => void;
   paymentRequests: PaymentRequestModel[];
+  ledgerBalance: number;
 }
 export interface AddLiquidityFormState extends AddressModel {
   [key: string]: any;
@@ -91,6 +94,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [liquidityChanged, setLiquidityChanged] = useState<boolean>(false);
   const [liquidityChangedMsg, setLiquidityChangedMsg] = useState<string>('');
+  const [balance, setBalance] = useState<number>(0);
+  const [tokenMap, setTokenMap] = useState<Map<string, ITokenBalanceInfo>>(
+    new Map<string, ITokenBalanceInfo>()
+  );
 
   const [formState, setFormState] = useState<AddLiquidityFormState>({
     amount1: '',
@@ -103,6 +110,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
     balance2: '',
     receiveAddress: '',
     receiveLabel: '',
+    typeWallet: '',
   });
   const {
     poolPairList,
@@ -124,11 +132,33 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   useEffect(() => {
     fetchPoolPairListRequest();
-    fetchTokenBalanceListRequest();
     fetchPoolsharesRequest();
     fetchUtxoDfiRequest();
     fetchMaxAccountDfiRequest();
   }, []);
+
+  useEffect(() => {
+    if (formState.typeWallet === 'ledger') {
+      setBalance(props.ledgerBalance);
+      fetchTokenBalanceListRequest('ledger');
+    } else {
+      setBalance(walletBalance);
+      fetchTokenBalanceListRequest();
+    }
+  }, [formState.typeWallet]);
+
+  useEffect(() => {
+    setTokenMap(getTokenListForSwap(poolPairList, tokenBalanceList, balance));
+  }, [poolPairList, tokenBalanceList, balance]);
+
+  useEffect(() => {
+    const { symbol1, symbol2 } = formState;
+    setFormState({
+      ...formState,
+      balance1: tokenMap.get(symbol1)?.balance || formState.balance1,
+      balance2: tokenMap.get(symbol2)?.balance || formState.balance2,
+    });
+  }, [tokenMap]);
 
   useEffect(() => {
     async function addressAndAmount() {
@@ -237,22 +267,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   }, [formState.hash1, formState.hash2]);
 
   const isValidAmount = () => {
-    if (
-      formState[`balance1`] &&
+    return !!(formState[`balance1`] &&
       formState[`amount2`] &&
-      formState[`balance2`]
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+      formState[`balance2`]);
   };
-
-  const tokenMap = getTokenAndBalanceMap(
-    poolPairList,
-    tokenBalanceList,
-    walletBalance
-  );
 
   const handleChange = (e) => {
     if (countDecimals(e.target.value) <= 8) {
@@ -388,37 +406,25 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   };
 
   const isValid = () => {
-    if (
-      formState[`amount1`] &&
+    return !!(formState[`amount1`] &&
       formState[`balance1`] &&
       new BigNumber(formState[`amount1`]).lte(formState[`balance1`]) &&
       formState[`amount2`] &&
       formState[`balance2`] &&
-      new BigNumber(formState[`amount2`]).lte(formState[`balance2`])
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+      new BigNumber(formState[`amount2`]).lte(formState[`balance2`]));
   };
 
   const isAmountInsufficient = () => {
-    if (
-      formState[`amount1`] &&
+    return !!(formState[`amount1`] &&
       formState[`balance1`] &&
       formState[`amount2`] &&
       formState[`balance2`] &&
       (new BigNumber(formState[`amount2`]).isGreaterThan(
         formState[`balance2`]
-      ) ||
+        ) ||
         new BigNumber(formState[`amount1`]).isGreaterThan(
           formState[`balance1`]
-        ))
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+        )));
   };
 
   const handleAddLiquidity = async () => {
@@ -430,9 +436,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       hash2: formState.hash2,
       amount2: formState.amount2,
       shareAddress:
-        formState.receiveAddress == null || formState.receiveAddress == ''
+        formState.receiveAddress == null || formState.receiveAddress === ''
           ? (paymentRequests ?? [])[0]?.address
           : formState.receiveAddress,
+      typeWallet: formState.typeWallet,
     });
   };
 
@@ -477,6 +484,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
       ...formState,
       receiveAddress: data.address,
       receiveLabel: data.label,
+      typeWallet: data?.type,
     });
   };
 
@@ -551,6 +559,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             </Col>
             <Col md='8'>
               <AddressDropdown
+                typeWallet='all'
                 formState={formState}
                 getTransactionLabel={getTransactionLabel}
                 onSelectAddress={handleAddressDropdown}
@@ -658,7 +667,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                   !Number(formState.amount1) ||
                   !isValid() ||
                   formState.receiveAddress == null ||
-                  formState.receiveAddress == ''
+                  formState.receiveAddress === ''
                 }
                 onClick={AddLiquidityStepConfirm}
               >
@@ -843,7 +852,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     poolPairList,
     tokenBalanceList,
@@ -858,6 +867,7 @@ const mapStateToProps = (state) => {
     maxAccountDfi,
   } = state.liquidity;
   const { walletBalance, paymentRequests } = state.wallet;
+  const { walletBalance: ledgerBalance } = state.ledgerWallet;
   return {
     poolPairList,
     tokenBalanceList,
@@ -872,6 +882,7 @@ const mapStateToProps = (state) => {
     utxoDfi,
     maxAccountDfi,
     paymentRequests,
+    ledgerBalance,
   };
 };
 

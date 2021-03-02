@@ -6,7 +6,7 @@ import {
   handleFetchUtxoDFI,
   handleFetchTokenBalanceList,
   checkRPCErrorMessagePending,
-} from '../../utils/utility';
+} from '@/utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
   fetchPoolpair,
@@ -55,9 +55,9 @@ export function* fetchPoolshares() {
   }
 }
 
-export function* fetchTokenBalanceList() {
+export function* fetchTokenBalanceList(action) {
   try {
-    const data = yield call(handleFetchTokenBalanceList);
+    const data = yield call(handleFetchTokenBalanceList, action.payload);
     yield put({ type: fetchTokenBalanceListSuccess.type, payload: data });
   } catch (e) {
     log.error(e);
@@ -93,7 +93,7 @@ export function* fetchPoolPairList() {
 export function* addPoolLiquidity(action) {
   try {
     const {
-      payload: { hash1, amount1, hash2, amount2, shareAddress },
+      payload: { hash1, amount1, hash2, amount2, shareAddress, typeWallet },
     } = action;
 
     const data = yield call(
@@ -102,7 +102,8 @@ export function* addPoolLiquidity(action) {
       amount1,
       hash2,
       amount2,
-      shareAddress
+      shareAddress,
+      typeWallet,
     );
     yield put({ type: addPoolLiquiditySuccess.type, payload: data });
   } catch (e) {

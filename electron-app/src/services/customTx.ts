@@ -94,6 +94,12 @@ export function createZeroOutputTxFromCustomTx(
       break;
     case CustomTx.customTxType.addPoolLiquidity:
       script.add(new CustomTx.AddPoolLiquidity(customTx.customData));
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 0,
+      });
+      transaction = tx.addOutput(outputZero);
       break;
     case CustomTx.customTxType.removePoolLiquidity:
       script.add(new CustomTx.RemovePoolLiquidity(customTx.customData));

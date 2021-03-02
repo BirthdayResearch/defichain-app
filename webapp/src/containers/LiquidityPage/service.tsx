@@ -25,6 +25,11 @@ import {
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
   parsedCoinPriceData,
+  getAddressAndAmountListForLedger,
+  handleUtxoToAccountConversionLedger,
+  utxoLedger,
+  getNetworkType,
+  getKeyIndexAddressLedger,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
@@ -35,6 +40,10 @@ import {
   refreshUTXOS2Success,
   transferTokensSuccess,
 } from './reducer';
+import { TypeWallet } from '@/typings/entities';
+import { ipcRendererFunc } from '@/utils/isElectron';
+import { CUSTOM_TX_LEDGER } from '@defi_types/ipcEvents';
+import { CustomTx } from 'bitcore-lib-dfi';
 
 export const handleFetchPoolshares = async () => {
   const rpcClient = new RpcClient();
@@ -150,25 +159,41 @@ export const handleAddPoolLiquidity = async (
   amount1: string,
   hash2: string,
   amount2: string,
-  shareAddress: string
+  shareAddress: string,
+  typeWallet: TypeWallet
 ): Promise<string> => {
   log.info('Starting Add Pool Liquidity', 'handleAddPoolLiquidity');
   const rpcClient = new RpcClient();
-  const addressesList = await getAddressAndAmountListForAccount();
+  let addressesList;
+  if (typeWallet === 'ledger') {
+    addressesList = await getAddressAndAmountListForLedger();
+  } else {
+    addressesList = await getAddressAndAmountListForAccount();
+  }
 
   const setEmptyAddress = (address: string) => {
-    return address == null || address == '' ? shareAddress : address;
+    return address == null || address === '' ? shareAddress : address;
   };
 
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(hash1, addressesList);
+  } = getHighestAmountAddressForSymbol(
+    hash1,
+    addressesList,
+    undefined,
+    typeWallet
+  );
 
-  const {
+  let {
     address: address2,
     amount: maxAmount2,
-  } = getHighestAmountAddressForSymbol(hash2, addressesList);
+  } = getHighestAmountAddressForSymbol(
+    hash2,
+    addressesList,
+    undefined,
+    typeWallet
+  );
 
   log.info(
     `1. Address ${address1} Amount ${maxAmount1}`,
@@ -189,7 +214,8 @@ export const handleAddPoolLiquidity = async (
     accountToAccountAmount1 = await handleAccountToAccountConversion(
       addressesList,
       setEmptyAddress(address1),
-      hash1
+      hash1,
+      typeWallet
     );
     log.info(`1. Account to Account completed`, 'handleAddPoolLiquidity');
   }
@@ -197,7 +223,8 @@ export const handleAddPoolLiquidity = async (
     accountToAccountAmount2 = await handleAccountToAccountConversion(
       addressesList,
       setEmptyAddress(address2),
-      hash2
+      hash2,
+      typeWallet
     );
     log.info(`2. Account to Account completed`, 'handleAddPoolLiquidity');
   }
@@ -207,12 +234,21 @@ export const handleAddPoolLiquidity = async (
     hash1 === DFI_SYMBOL &&
     amount1BN.gt(accountToAccountAmount1.plus(maxAmount1))
   ) {
-    await handleUtxoToAccountConversion(
-      hash1,
-      setEmptyAddress(address1),
-      amount1BN,
-      accountToAccountAmount1.plus(maxAmount1)
-    );
+    if (typeWallet === 'ledger') {
+      await handleUtxoToAccountConversionLedger(
+        hash1,
+        setEmptyAddress(address1),
+        amount1BN,
+        accountToAccountAmount1.plus(maxAmount1)
+      );
+    } else {
+      await handleUtxoToAccountConversion(
+        hash1,
+        setEmptyAddress(address1),
+        amount1BN,
+        accountToAccountAmount1.plus(maxAmount1)
+      );
+    }
     log.info(
       `1. UTXO to Account completed ${address1}`,
       'handleAddPoolLiquidity'
@@ -221,12 +257,21 @@ export const handleAddPoolLiquidity = async (
     hash2 === DFI_SYMBOL &&
     amount2BN.gt(accountToAccountAmount2.plus(maxAmount2))
   ) {
-    await handleUtxoToAccountConversion(
-      hash2,
-      setEmptyAddress(address2),
-      amount2BN,
-      accountToAccountAmount2.plus(maxAmount2)
-    );
+    if (typeWallet === 'ledger') {
+      await handleUtxoToAccountConversionLedger(
+        hash2,
+        setEmptyAddress(address2),
+        amount2BN,
+        accountToAccountAmount2.plus(maxAmount2)
+      );
+    } else {
+      await handleUtxoToAccountConversion(
+        hash2,
+        setEmptyAddress(address2),
+        amount2BN,
+        accountToAccountAmount2.plus(maxAmount2)
+      );
+    }
     log.info(
       `2. UTXO to Account completed ${address2}`,
       'handleAddPoolLiquidity'
@@ -234,14 +279,56 @@ export const handleAddPoolLiquidity = async (
   }
 
   store.dispatch(addPoolPreparingUTXOSuccess());
-
-  return await rpcClient.addPooLiquidity(
-    setEmptyAddress(address1),
-    `${amount1BN.toFixed(8)}@${hash1}`,
-    setEmptyAddress(address2),
-    `${amount2BN.toFixed(8)}@${hash2}`,
-    shareAddress
-  );
+  if (typeWallet === 'ledger') {
+    const { utxo } = await utxoLedger(address1, 0.001);
+    const ipcRenderer = ipcRendererFunc();
+    const network = getNetworkType();
+    const keyIndex = getKeyIndexAddressLedger(network, address1);
+    address2 = address1;
+    const from =
+      setEmptyAddress(address1) === setEmptyAddress(address2)
+        ? {
+            [setEmptyAddress(address1)]: [
+              { balance: amount1BN.toNumber(), token: hash1 },
+              { balance: amount2BN.toNumber(), token: hash2 },
+            ],
+          }
+        : {
+            [setEmptyAddress(address1)]: [
+              { balance: amount1BN.toNumber(), token: hash1 },
+            ],
+            [setEmptyAddress(address2)]: [
+              { balance: amount2BN.toNumber(), token: hash2 },
+            ],
+          };
+    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+      utxo,
+      address: address1,
+      amount: 0,
+      data: {
+        txType: CustomTx.customTxType.addPoolLiquidity,
+        customData: {
+          shareAddress,
+          from,
+        },
+        tokenId: 0,
+      },
+      keyIndex,
+    });
+    if (res.success) {
+      return await rpcClient.sendRawTransaction(res.data.tx);
+    } else {
+      throw new Error(res.message);
+    }
+  } else {
+    return await rpcClient.addPooLiquidity(
+      setEmptyAddress(address1),
+      `${amount1BN.toFixed(8)}@${hash1}`,
+      setEmptyAddress(address2),
+      `${amount2BN.toFixed(8)}@${hash2}`,
+      shareAddress
+    );
+  }
 };
 
 export const handleRemovePoolLiquidity = async (

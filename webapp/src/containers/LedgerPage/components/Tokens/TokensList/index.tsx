@@ -135,10 +135,10 @@ const LedgerTokensList: React.FunctionComponent<LedgerTokensListProps> = (
       </header>
       <div>
         {connect.status !== 'connected' ? (
-        <div>{I18n.t('containers.ledger.tokens.notConnection')}</div>) : (
+        <div className='content'>{I18n.t('containers.ledger.tokens.notConnection')}</div>) : (
         <>
           {isLoadingTokens ? (
-            <div>{I18n.t('containers.tokens.tokensPage.loading')}</div>
+            <div className='content'>{I18n.t('containers.tokens.tokensPage.loading')}</div>
           ) : (
             <TokensList
               tokens={tokens}
