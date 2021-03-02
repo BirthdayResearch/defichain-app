@@ -1,7 +1,12 @@
 import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 
-const CsvRowToggle = (props) => {
+export interface CsvRowToggleProps {
+  label: string;
+  handleCheckBox: () => void;
+}
+
+const CsvRowToggle: React.FunctionComponent<CsvRowToggleProps> = (props) => {
   const { label, handleCheckBox } = props;
 
   return (
