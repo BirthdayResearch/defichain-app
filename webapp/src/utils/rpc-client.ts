@@ -876,12 +876,13 @@ export default class RpcClient {
   listPoolShares = async (
     start: number,
     includingStart: boolean,
-    limit: number
+    limit: number,
+    isMineOnly = true,
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start: includingStart, limit },
       true, // verbose
-      true, // is mine only
+      isMineOnly, // is mine only
     ]);
     return data.result;
   };

@@ -904,11 +904,13 @@ export const fetchPoolShareDataWithPagination = async (
   fetchList: (
     start: number,
     includingStart: boolean,
-    limit: number
-  ) => Promise<any>
+    limit: number,
+    isMineOnly?: boolean,
+  ) => Promise<any>,
+  isMineOnly?: boolean,
 ) => {
   const list: any[] = [];
-  const result = await fetchList(start, true, limit);
+  const result = await fetchList(start, true, limit, isMineOnly);
   const transformedData = Object.keys(result).map((item) => ({
     key: item.split(AMOUNT_SEPARATOR)[0],
     ...result[item],
@@ -919,7 +921,7 @@ export const fetchPoolShareDataWithPagination = async (
   list.push(...transformedData);
   start = Number(transformedData[transformedData.length - 1].key);
   while (true) {
-    const result = await fetchList(start, false, limit);
+    const result = await fetchList(start, false, limit, isMineOnly);
     const transformedData = Object.keys(result).map((item) => ({
       key: item.split(AMOUNT_SEPARATOR)[0],
       ...result[item],

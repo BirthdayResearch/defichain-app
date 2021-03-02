@@ -30,6 +30,7 @@ import {
   utxoLedger,
   getNetworkType,
   getKeyIndexAddressLedger,
+  handelGetPaymentRequestLedger,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
@@ -51,11 +52,29 @@ export const handleFetchPoolshares = async () => {
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
   const poolStats = await getPoolStatsFromAPI();
   const coinPriceObj = await parsedCoinPriceData();
-  const poolShares = await fetchPoolShareDataWithPagination(
+  const poolSharesWallet = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,
     rpcClient.listPoolShares
   );
+
+  const network = getNetworkType();
+  const addressLedger = handelGetPaymentRequestLedger(network).map(
+    (payment) => payment.address
+  );
+
+  let poolSharesLedger = await fetchPoolShareDataWithPagination(
+    0,
+    SHARE_POOL_PAGE_SIZE,
+    rpcClient.listPoolShares,
+    false
+  );
+  poolSharesLedger = poolSharesLedger.filter((poolShare) =>
+    addressLedger.includes(poolShare.owner)
+  );
+
+  const poolShares = [...poolSharesWallet, ...poolSharesLedger];
+
 
   if (isEmpty(poolShares)) {
     return [];
@@ -64,47 +83,45 @@ export const handleFetchPoolshares = async () => {
   const minePoolShares = poolShares.map(async (poolShare) => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
-      const poolPairData = Object.keys(poolPair).map((item) => ({
-        hash: item,
-        ...poolPair[item],
-      }));
-      const idTokenA = poolPairData[0].idTokenA;
-      const idTokenB = poolPairData[0].idTokenB;
-      const tokenAData = await handleFetchToken(idTokenA);
-      const tokenBData = await handleFetchToken(idTokenB);
-      const poolSharePercentage =
-        (poolShare.amount / poolShare.totalLiquidity) * 100;
+    const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
+    const poolPairData = Object.keys(poolPair).map((item) => ({
+      hash: item,
+      ...poolPair[item],
+    }));
+    const idTokenA = poolPairData[0].idTokenA;
+    const idTokenB = poolPairData[0].idTokenB;
+    const tokenAData = await handleFetchToken(idTokenA);
+    const tokenBData = await handleFetchToken(idTokenB);
+    const poolSharePercentage =
+      (poolShare.amount / poolShare.totalLiquidity) * 100;
 
-      const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
-        .times(poolPairData[0].rewardPct)
-        .times(365)
-        .times(coinPriceObj[DFI_SYMBOL]);
+    const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+      .times(poolPairData[0].rewardPct)
+      .times(365)
+      .times(coinPriceObj[DFI_SYMBOL]);
 
-      const liquidityReserveidTokenA = new BigNumber(
-        poolPairData[0].reserveA || 0
-      ).times(coinPriceObj[idTokenA]);
-      const liquidityReserveidTokenB = new BigNumber(
-        poolPairData[0].reserveB || 0
-      ).times(coinPriceObj[idTokenB]);
-      const totalLiquidity = liquidityReserveidTokenA.plus(
-        liquidityReserveidTokenB
-      );
-      const apy = new BigNumber(
-        poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
-      ).toFixed(2);
-      return {
-        tokenA: tokenAData.symbol,
-        tokenB: tokenBData.symbol,
-        poolSharePercentage: poolSharePercentage.toFixed(8),
-        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy,
-        ...poolPairData[0],
-        ...poolShare,
-      };
-    }
+    const liquidityReserveidTokenA = new BigNumber(
+      poolPairData[0].reserveA || 0
+    ).times(coinPriceObj[idTokenA]);
+    const liquidityReserveidTokenB = new BigNumber(
+      poolPairData[0].reserveB || 0
+    ).times(coinPriceObj[idTokenB]);
+    const totalLiquidity = liquidityReserveidTokenA.plus(
+      liquidityReserveidTokenB
+    );
+    const apy = new BigNumber(
+      poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+    ).toFixed(2);
+    return {
+      tokenA: tokenAData.symbol,
+      tokenB: tokenBData.symbol,
+      poolSharePercentage: poolSharePercentage.toFixed(8),
+      yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+      totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
+      apy,
+      ...poolPairData[0],
+      ...poolShare,
+    };
   });
 
   const resolvedMinePoolShares = _.compact(await Promise.all(minePoolShares));
