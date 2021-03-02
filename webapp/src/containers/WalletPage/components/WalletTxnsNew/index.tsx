@@ -14,6 +14,7 @@ import {
   MdArrowUpward,
   MdArrowDownward,
   MdCompareArrows,
+  MdFileDownload,
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
@@ -124,7 +125,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     blockHeight: blockCount,
     limit: 100,
     token: tokenSymbol,
-    no_rewards: false,
+    no_rewards: true,
   });
 
   useEffect(() => {
@@ -192,7 +193,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       ...reqData,
       blockHeight: blockCount,
       token: tokenSymbol,
-      no_rewards: false,
+      no_rewards: true,
       limit: 100,
     });
   }, [CsvModalOpen]);
@@ -257,6 +258,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       blockHeight: blockCount,
     });
   }, [blockCount]);
+
+  const maxBlock = () => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  };
 
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
@@ -447,9 +455,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             size='sm'
             onClick={handleCsvButtonClick}
           >
-            <MdArrowDownward />
+            <MdFileDownload />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.csvExport')}
+              {I18n.t('containers.wallet.walletPage.exportData')}
             </span>
           </Button>
           <DownloadCsvModal
@@ -465,6 +473,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             tokenSymbol={tokenSymbol}
             CsvModalOpen={CsvModalOpen}
             handleCsvButtonClick={handleCsvButtonClick}
+            maxBlock={maxBlock}
           />
         </div>
       </div>
