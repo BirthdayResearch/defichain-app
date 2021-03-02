@@ -24,6 +24,7 @@ import {
   getIniData,
   responseMessage,
   writeFile,
+  formatConfigFileWrite,
 } from '../utils';
 import fs from 'fs';
 import { ipcMain } from 'electron';
@@ -74,7 +75,8 @@ export const checkWalletConfig = () => {
       }
     });
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
   }
@@ -95,7 +97,8 @@ export const writeToConfigFile = (
       delete data[network].walletdir;
     }
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
   }
@@ -271,16 +274,27 @@ export const setWalletEvents = () => {
   );
 };
 
-export const createWalletMap = () => {
+export const createWalletMap = (): Partial<WalletMap> => {
   try {
     const src = getWalletMapPath();
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
-      const data = {
+      const { ainVersion } = packageInfo;
+      const data: Partial<WalletMap> = {
         paths: [walletDat],
+        nodeVersion: ainVersion,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
+      return data;
     }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const initializeWalletMap = () => {
+  try {
+    createWalletMap();
     setWalletEvents();
   } catch (error) {
     log.error(error);

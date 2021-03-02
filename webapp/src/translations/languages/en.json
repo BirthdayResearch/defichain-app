@@ -136,7 +136,16 @@
         "lockedInCollateral": "Locked in collateral",
         "costPerMasterNode": "Cost per masternode",
         "masternodeWorth": "Masternode worth",
-        "searchBar": "Search masternodes"
+        "searchBar": "Search masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",
@@ -149,7 +158,7 @@
       "createMasterNode": {
         "title": "Create masternode",
         "masterNodeName": "Masternode name",
-        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create masternode",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20k DFI is required to create masternode",
         "confirmationText": "Are you sure you want to create a masternode?",
         "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create masternode",
@@ -730,7 +739,7 @@
         "availableBalance": "Available balance",
         "pending": "Pending",
         "updateAvailableLabel": "Update available",
-        "includeRewards": "Include rewards",
+        "includeRewards": "Include reward transactions",
         "loading": "Loading...",
         "category": "Category",
         "amount": "Amount",
@@ -742,13 +751,20 @@
         "downloadTransaction": "Download transaction",
         "download": "Download",
         "maxBlock": "Max block height",
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
         "blockHeight": "Block height",
         "blockHash": "Block hash",
         "type": "Type",
         "poolID": "Pool ID",
         "amounts": "Amounts",
-        "limit": "Limit",
-        "noReward": "No rewards"
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transactions",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

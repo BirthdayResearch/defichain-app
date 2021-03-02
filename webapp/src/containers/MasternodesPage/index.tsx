@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col, TabContent } from 'reactstrap';
 import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
@@ -12,6 +12,8 @@ import {
   RESIGNED_STATE,
   CONFIRM_BUTTON_TIMEOUT,
   CONFIRM_BUTTON_COUNTER,
+  ALL,
+  MINE,
 } from '../../constants';
 import { connect } from 'react-redux';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
@@ -25,6 +27,9 @@ import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
+import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
+import MineNodeList from './components/MineNodeList';
+import MineNodeFooter from './components/MineNodeFooter';
 
 interface MasternodesPageProps extends RouteComponentProps {
   createMasterNode: () => void;
@@ -77,6 +82,8 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+
+  const [tab, setTab] = useState<string>(MINE);
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
@@ -94,6 +101,14 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       resetConfirmationModal({});
     }
   }, [prevIsOpen, prevIsRestart, isOpen, isRestart]);
+
+  useEffect(() => {
+    if (isRestart) {
+      setIsConfirmationModalOpen('');
+      setRestartNodeConfirm(false);
+      setIsRestartButtonDisable(false);
+    }
+  }, [isRestart]);
 
   useEffect(() => {
     fetchMasternodesRequest();
@@ -202,14 +217,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
-        {!disableTab && (
-          <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
-        )}
+        <MasterNodeTabsHeader tab={tab} setTab={setTab} />
+        <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link' disabled={true}>
+          <Button onClick={createMasterNodeFunc} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t(
@@ -228,12 +242,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         />
       </Header>
       <div className='content'>
-        <section>
+        <TabContent activeTab={tab}>
+          <MineNodeList enabledMasternodes={enabledMasternodes} />
           <MasternodesList
             searchQuery={searchQuery}
             enabledMasternodes={enabledMasternodes}
           />
-        </section>
+        </TabContent>
       </div>
       <footer className='footer-bar'>
         <div
@@ -350,6 +365,13 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
               )}
             </Button>
           </div>
+        </div>
+        <div
+          className={classnames({
+            'd-none': tab === ALL,
+          })}
+        >
+          <MineNodeFooter enabledMasternodes={enabledMasternodes} />
         </div>
       </footer>
     </div>

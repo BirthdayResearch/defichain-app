@@ -136,7 +136,16 @@
         "lockedInCollateral": "Gesperrt in Collateral",
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode-Wert",
-        "searchBar": "Suche nach Masternodes"
+        "searchBar": "Suche nach Masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
@@ -738,12 +747,15 @@
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
         "commission": "Kommission",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Transaktionen herunterladen",
-        "download": "Download",
-        "maxBlock": "Max Blockhöhe",
-        "limit": "Limit",
-        "noReward": "Keine Rewards"
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transaktionen",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
