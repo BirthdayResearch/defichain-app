@@ -3,7 +3,9 @@ import { FormGroup, Label, Input } from 'reactstrap';
 
 export interface CsvRowToggleProps {
   label: string;
-  handleCheckBox: () => void;
+  handleCheckBox: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  type: string;
+  id: string;
 }
 
 const CsvRowToggle: React.FunctionComponent<CsvRowToggleProps> = (props) => {
