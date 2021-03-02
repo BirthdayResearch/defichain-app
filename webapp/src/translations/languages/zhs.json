@@ -131,7 +131,16 @@
         "lockedInCollateral": "锁定抵押",
         "costPerMasterNode": "单主节点成本",
         "masternodeWorth": "主节点价值",
-        "searchBar": "探索主节点"
+        "searchBar": "探索主节点",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "物主地址",

@@ -122,18 +122,14 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -153,9 +149,7 @@
       ]
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ]
+      "target": ["AppImage"]
     },
     "win": {
       "target": "NSIS"

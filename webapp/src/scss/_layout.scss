@@ -127,7 +127,7 @@ body {
       position: relative;
       z-index: $zindex-modal;
       padding: 16px 32px;
-      background-color: $body-bg;
+      // background-color: $body-bg;
       border-top: $border-width solid $border-color;
       border-bottom-left-radius: $border-radius * 1.5;
       width: 100%;
@@ -188,5 +188,9 @@ body {
   .txn-status-confirmed,
   .txn-status-enabled {
     background-color: $green;
+  }
+
+  .txn-status-disable {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 }

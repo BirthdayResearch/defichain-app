@@ -108,7 +108,16 @@
         "lockedInCollateral": "Opgesloten in onderpand",
         "costPerMasterNode": "Kosten per masternode",
         "masternodeWorth": "Waarde Masternode",
-        "searchBar": "Zoek masternodes"
+        "searchBar": "Zoek masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Adres Eigenaar",

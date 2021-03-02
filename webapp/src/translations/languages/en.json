@@ -136,7 +136,16 @@
         "lockedInCollateral": "Locked in collateral",
         "costPerMasterNode": "Cost per masternode",
         "masternodeWorth": "Masternode worth",
-        "searchBar": "Search masternodes"
+        "searchBar": "Search masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",
@@ -149,7 +158,7 @@
       "createMasterNode": {
         "title": "Create masternode",
         "masterNodeName": "Masternode name",
-        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 1 million DFI is required to create masternode",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20k DFI is required to create masternode",
         "confirmationText": "Are you sure you want to create a masternode?",
         "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create masternode",
@@ -738,6 +747,10 @@
         "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
         "txPaginationRange": "%{from} - %{to} of %{total} transactions",
         "commission": "Commission",
+        "csvExport": "CSV export",
+        "downloadTransaction": "Download transaction",
+        "download": "Download",
+        "maxBlock": "Max block height",
         "exportData": "EXPORT DATA",
         "exportWalletData": "Export wallet data",
         "export": "EXPORT",

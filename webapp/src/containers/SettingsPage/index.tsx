@@ -290,7 +290,13 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       <Helmet>
         <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
-      <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} displaySecurityTab={props.isWalletCreatedFlag && props.isWalletEncrypted} />
+      <SettingsTabsHeader
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        displaySecurityTab={
+          props.isWalletCreatedFlag && props.isWalletEncrypted
+        }
+      />
       <div className='content'>
         {/* NOTE: Do not remove, for future purpose */}
         {/* <SettingsTab

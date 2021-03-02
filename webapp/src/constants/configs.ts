@@ -183,3 +183,7 @@ export const TXN_CSV_HEADERS = [
   { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
   { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
 ];
+
+export const MINE = 'mine';
+export const ALL = 'all';
+export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';

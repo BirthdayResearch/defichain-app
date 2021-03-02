@@ -120,7 +120,16 @@
         "lockedInCollateral": "Collatéral bloquée",
         "costPerMasterNode": "Coût d'un Masternode",
         "masternodeWorth": "Valeur d'un Masternode",
-        "searchBar": "Rechercher un Masternode"
+        "searchBar": "Rechercher un Masternode",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Adresse du propriétaire",
