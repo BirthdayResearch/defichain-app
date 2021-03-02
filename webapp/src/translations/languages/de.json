@@ -332,7 +332,7 @@
       "liquidityPage": {
         "title": "Liquidität",
         "yourLiquidity": "Deine Liquidität",
-        "yourLiquidityInfo": "Du kannst jetzt das Liquidität-Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (Dezentralisierte Börse) zu unterstützen, damit Du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit auszahlen.",
+        "yourLiquidityInfo": "Du kannst jetzt das Liquidität-Mining für potentiell hohe Erträge nutzen. Wähle unten ein Pool-Paar aus, stelle Liquidität bereit, um die DEX (dezentralisierte Börse) zu unterstützen, damit du anfangen kannst, Gebühren und jährliche Erträge zu verdienen. Du kannst jederzeit auszahlen.",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest Du dem Pool Liquidität hinzufügen?",
         "loading": "Laden...",
         "watchVideo": "Video ansehen",
@@ -887,7 +887,7 @@
     "noResetWalletNotice": "Nein",
     "download": "Herunterladen",
     "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
-    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum entfernen deiner Wallet aus der App. Wenn du dein Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen bevor du die Wallet beendest.",
+    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum Entfernen deiner Wallet aus der App. Wenn du deine Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen, bevor du die Wallet beendest?",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
     "deletePeersAndBlocks": "Peers und Blöcke löschen",
