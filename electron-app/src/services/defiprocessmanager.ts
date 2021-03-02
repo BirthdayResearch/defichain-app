@@ -33,21 +33,29 @@ import {
   REINDEX_NODE_UPDATE,
 } from '@defi_types/settings';
 import packageInfo from '../../../package.json';
-import { getWalletMap } from '../controllers/wallets';
+import { createWalletMap, getWalletMap } from '../controllers/wallets';
 import { WalletMap } from '../../../typings/walletMap';
 import semverDiff from 'semver/functions/diff';
 
 const checkIfNodeVersionChanged = (ainVersion: string) => {
   try {
     const walletMap: WalletMap =
-      getWalletMap() != null ? JSON.parse(getWalletMap()) : null;
-    log.info(`Current Node: ${walletMap.nodeVersion} New Node: ${ainVersion}`);
-    const isNodeVersionNull = walletMap.nodeVersion == null;
-    const diff = !isNodeVersionNull
-      ? semverDiff(walletMap.nodeVersion, ainVersion)
-      : '';
-    const isMajorOrMinorUpdate = [MAJOR_VERSION, MINOR_VERSION].includes(diff);
-    return isNodeVersionNull || isMajorOrMinorUpdate;
+      getWalletMap() != null ? JSON.parse(getWalletMap()) : createWalletMap();
+    if (walletMap) {
+      log.info(
+        `Current Node: ${walletMap.nodeVersion} New Node: ${ainVersion}`
+      );
+      const isNodeVersionNull = walletMap.nodeVersion == null;
+      const diff = !isNodeVersionNull
+        ? semverDiff(walletMap.nodeVersion, ainVersion)
+        : '';
+      const isMajorOrMinorUpdate = [MAJOR_VERSION, MINOR_VERSION].includes(
+        diff
+      );
+      return isNodeVersionNull || isMajorOrMinorUpdate;
+    } else {
+      return false;
+    }
   } catch (error) {
     log.error(error);
   }
