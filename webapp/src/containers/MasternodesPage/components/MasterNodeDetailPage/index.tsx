@@ -19,6 +19,7 @@ import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
+import { MasterNodesPageStates } from '../..';
 interface RouteProps {
   hash: string;
 }
@@ -66,7 +67,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   const [
     isConfirmationModalOpen,
     setIsConfirmationModalOpen,
-  ] = useState<string>('default');
+  ] = useState<string>(MasterNodesPageStates.default);
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
 
@@ -77,14 +78,14 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         !isMasterNodeResigning &&
         !isErrorResigningMasterNode
       ) {
-        setIsConfirmationModalOpen('success');
+        setIsConfirmationModalOpen(MasterNodesPageStates.success);
       }
       if (
         !resignedMasterNodeData &&
         !isMasterNodeResigning &&
         isErrorResigningMasterNode
       ) {
-        setIsConfirmationModalOpen('failure');
+        setIsConfirmationModalOpen(MasterNodesPageStates.failure);
       }
     }
   }, [
@@ -96,7 +97,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
 
   useEffect(() => {
     let waitToSendInterval;
-    if (isConfirmationModalOpen === 'confirm') {
+    if (isConfirmationModalOpen === MasterNodesPageStates.confirm) {
       let counter = 5;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
@@ -147,7 +148,9 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           <ButtonGroup>
             <Button
               color='link'
-              onClick={() => setIsConfirmationModalOpen('confirm')}
+              onClick={() =>
+                setIsConfirmationModalOpen(MasterNodesPageStates.confirm)
+              }
             >
               <MdDelete />
               <span>
@@ -194,7 +197,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.ownerAddress'
             )}
             value={ownerAuthAddress}
-            copyable={true!}
+            copyable={false}
             uid='address'
           />
           <KeyValueLi
@@ -202,33 +205,38 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.operatorAddress'
             )}
             value={operatorAuthAddress}
-            copyable={true!}
+            copyable={false}
             uid='address'
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.resignTx'
             )}
-            copyable={true!}
+            copyable={false}
             value={resignTx}
           />
 
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.banTx')}
-            copyable={true!}
+            copyable={false}
             value={banTx}
           />
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.hash')}
-            copyable={true!}
+            copyable={false}
             value={hash}
           />
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer
+        className={classnames({
+          'footer-bar': true,
+          'd-none': isConfirmationModalOpen === MasterNodesPageStates.default,
+        })}
+      >
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'confirm',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.confirm,
           })}
         >
           <div className='footer-sheet'>
@@ -247,7 +255,9 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <Button
                 color='link'
                 className='mr-3'
-                onClick={() => setIsConfirmationModalOpen('default')}
+                onClick={() =>
+                  setIsConfirmationModalOpen(MasterNodesPageStates.default)
+                }
               >
                 {I18n.t(
                   'containers.masterNodes.masternodeDetailPage.noButtonText'
@@ -272,7 +282,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'success',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.success,
           })}
         >
           <div className='footer-sheet'>
@@ -296,7 +306,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'failure',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.failure,
           })}
         >
           <div className='footer-sheet'>

@@ -66,12 +66,13 @@ export interface SidebarProps extends RouteComponentProps {
   isWalletCreatedFlag: boolean;
   openExitWalletModal: (t: boolean) => void;
   isWalletEncrypted: boolean;
+  isMasternodesLoaded: boolean;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
-  const { blockChainInfo, isWalletEncrypted } = props;
+  const { blockChainInfo, isWalletEncrypted, isMasternodesLoaded } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -248,9 +249,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdDns />
                 {I18n.t('containers.sideBar.masterNodes')}
-                <div className={styles.iconPosition}>
-                  <span className={`txn-status-enabled mt-1 ml-1`}></span>
-                </div>
+                {isMasternodesLoaded && (
+                  <div className={styles.iconPosition}>
+                    <span className={`txn-status-enabled mt-1 ml-1`}></span>
+                  </div>
+                )}
               </NavLink>
             </NavItem>
           </Nav>
@@ -296,7 +299,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, popover, swap } = state;
+  const { i18n, wallet, settings, popover, swap, masterNodes } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
@@ -309,6 +312,7 @@ const mapStateToProps = (state) => {
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
     isWalletCreatedFlag: wallet.isWalletCreatedFlag,
     isWalletEncrypted: wallet.isWalletEncrypted,
+    isMasternodesLoaded: masterNodes.isMasternodesLoaded,
   };
 };
 
