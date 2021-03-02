@@ -962,8 +962,9 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                         </Button>
                         <DownloadCsvModal
                           CsvModalOpen={false}
+                          downloadDisable={true}
                           error=""
-                          filename="Transactions_2021-2-16_19-12-56.csv"
+                          filename="Transactions_2021-2-23_13-51-44.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}

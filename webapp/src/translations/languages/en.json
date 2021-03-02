@@ -565,7 +565,12 @@
       "changeLockPassphrase": "Change lock passphrase",
       "currentPassphrase": "Current passphrase",
       "newPassphrase": "New passphrase",
-      "confirmNewPassphrase": "Confirm new passphrase"
+      "confirmNewPassphrase": "Confirm new passphrase",
+      "save": "Save",
+      "updatingPassphrase": "Updating passphrase",
+      "incorrectPassphrase": "The current passphrase entered is incorrect.",
+      "minute": "%{time} minute",
+      "minutes": "%{time} minutes"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -581,7 +586,10 @@
         "mnemonicSeed": "Mnemonic seed",
         "walletDat": "wallet.dat",
         "chooseRecentBackup": "Or choose a recent backup",
-        "comingSoon": "Coming soon"
+        "comingSoon": "Coming soon",
+        "enterPassphrase": "Enter the passphrase which you will use to unlock your wallet.",
+        "create": "Create",
+        "walletName": "Wallet name"
       },
       "createNewWalletPage": {
         "back": "Back",
@@ -776,7 +784,11 @@
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
         "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
-        "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase."
+        "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase.",
+        "passphraseStrength": "Passphrase strength: %{strength}",
+        "strong": "Strong",
+        "weak": "Weak",
+        "none": "None"
       },
       "unlockWalletPage": {
         "title": "Unlock wallet"
@@ -888,7 +900,9 @@
     "backupAndExit": "Backup and Exit",
     "exit": "Exit",
     "deletePeersAndBlocks": "Delete peers and blocks",
-    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?"
+    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
+    "nodeVersionUpdate": "Node has been updated to version %{version}. An app reindex is required. Do you want to restart now?",
+    "nodeVersionHeader": "Node update"
   },
   "general": {
     "defiApp": "DeFi app",

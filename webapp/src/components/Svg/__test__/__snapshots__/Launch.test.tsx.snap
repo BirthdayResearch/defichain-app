@@ -2,6 +2,7 @@
 
 exports[`Launch component should check for snapshot 1`] = `
 <svg
+  className="undefined "
   height="108"
   version="1.1"
   viewBox="0 0 108 108"

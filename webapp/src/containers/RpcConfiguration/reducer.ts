@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AppState } from './types';
 
-export const initialState = {
+export const initialState: AppState = {
   isFetching: false,
   rpcRemotes: [],
   rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
@@ -69,6 +70,7 @@ const configSlice = createSlice({
       state.isAppClosing = action.payload.isAppClosing;
       state.isFetching = action.payload.isAppClosing;
     },
+    startSetNodeVersion(state) {},
   },
 });
 
@@ -85,6 +87,7 @@ export const {
   setQueueReady,
   killQueue,
   isAppClosing,
+  startSetNodeVersion,
 } = actions;
 
 export default reducer;

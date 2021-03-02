@@ -220,8 +220,10 @@ export const deletePeersFile = () => {
     const baseFolder = getBaseFolderReindex();
     const destFileName = `peers.dat`;
     const destFilePath = path.join(baseFolder, destFileName);
-    deleteFile(destFilePath);
-    log.info(`Deleted peers file in ${destFilePath}`);
+    if (checkPathExists(destFilePath)) {
+      deleteFile(destFilePath);
+      log.info(`Deleted peers file in ${destFilePath}`);
+    }
   } catch (error) {
     log.error(error);
   }
@@ -239,7 +241,9 @@ export const deleteBlocksAndRevFiles = () => {
         (file?.includes(BLK_FILE) || file?.includes(REV_FILE))
       ) {
         log.info(`Deleting ${blkFile}...`);
-        deleteFile(blkFile);
+        if (checkPathExists(blkFile)) {
+          deleteFile(blkFile);
+        }
       }
     });
     log.info('Delete Block and Rev Files completed...');
@@ -253,8 +257,10 @@ export const deleteBanlist = () => {
     const baseFolder = getBaseFolderReindex();
     const destFileName = `banlist.dat`;
     const destFilePath = path.join(baseFolder, destFileName);
-    deleteFile(destFilePath);
-    log.info(`Deleted banlist file in ${destFilePath}`);
+    if (checkPathExists(destFilePath)) {
+      deleteFile(destFilePath);
+      log.info(`Deleted banlist file in ${destFilePath}`);
+    }
   } catch (error) {
     log.error(error);
   }

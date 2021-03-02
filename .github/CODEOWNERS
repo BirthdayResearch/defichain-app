@@ -1,13 +1,11 @@
 # Define individuals or teams that are responsible for code in a repository.
 # More details are here: https://help.github.com/articles/about-codeowners/
 
-*                               @DeFiCh/app-engineers
-
-.github/**                      @DeFiCh/admin
+/.github/                       @DeFiCh/admin
 
 tslint.json                     @DeFiCh/admin
 tsconfig.json                   @DeFiCh/admin
-tsconfig.*.json                 @DeFiCh/admin
+tsconfig.production.json        @DeFiCh/admin
 
 package.json                    @DeFiCh/admin
 package-lock.json               @DeFiCh/admin

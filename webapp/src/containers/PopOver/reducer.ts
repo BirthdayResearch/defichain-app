@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PopoverState } from './types';
 
-export const initialState = {
+export const initialState: PopoverState = {
   isOpen: false,
   isRestart: false,
   showWarning: false,
@@ -30,7 +31,8 @@ export const initialState = {
   isWalletEncrypting: false,
   isErrorEncryptingWallet: '',
   isEncryptFromModal: false,
-  isPostEncryptBackupModalOpen: false
+  isPostEncryptBackupModalOpen: false,
+  reIndexMessage: '',
 };
 
 const configSlice = createSlice({
@@ -81,11 +83,13 @@ const configSlice = createSlice({
       state.isUpdateModalOpen = false;
       state.isUpdateError = '';
     },
-    openReIndexModal(state) {
+    openReIndexModal(state, action) {
       state.isReIndexModelOpen = true;
+      state.reIndexMessage = action.payload;
     },
     closeReIndexModal(state) {
       state.isReIndexModelOpen = false;
+      state.reIndexMessage = '';
     },
     isRestartLoader(state) {
       state.isReIndexRestart = true;
@@ -170,6 +174,7 @@ const configSlice = createSlice({
     },
     closeGeneralReIndexModal(state) {
       state.isGeneralReindexModalOpen = false;
+      state.reIndexMessage = '';
     },
     setIsQueueResetRoute(state, action) {
       state.isQueueResetRoute = action.payload;
@@ -184,7 +189,7 @@ const configSlice = createSlice({
     },
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
-    }
+    },
   },
 });
 
@@ -236,7 +241,7 @@ export const {
   openRestoreWalletModal,
   restoreWalletViaRecent,
   openExitWalletModal,
-  openPostEncryptBackupModal
+  openPostEncryptBackupModal,
 } = actions;
 
 export default reducer;

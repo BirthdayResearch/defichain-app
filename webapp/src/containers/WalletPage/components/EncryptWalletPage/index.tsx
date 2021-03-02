@@ -15,6 +15,13 @@ import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
 import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
 import { NavLink } from 'react-router-dom';
+import {
+  getPasswordStrength,
+  getPasswordValidationRules,
+  isSamePasswordValidation,
+  PasswordForm,
+  PasswordFormEnum,
+} from '../../../../utils/passwordUtility';
 
 export interface EncryptWalletPayload {
   passphrase: string;
@@ -32,11 +39,6 @@ export interface EncryptWalletPageProps {
   isModal?: boolean;
   onClose?: () => void;
   pageTitle?: string;
-}
-
-export enum EncryptWalletForm {
-  passphrase = 'passphrase',
-  confirmPassphrase = 'confirmPassphrase',
 }
 
 const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
@@ -71,17 +73,10 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
   const isSameWithConfirm = () => {
     const values = getValues();
     const { dirtyFields } = formState;
-    return (
-      dirtyFields.confirmPassphrase &&
-      dirtyFields.passphrase &&
-      values.passphrase === values.confirmPassphrase
+    return isSamePasswordValidation(
+      values as PasswordForm,
+      dirtyFields as PasswordForm
     );
-  };
-  const passwordValidationRules = {
-    required: true,
-    validate: {
-      isSameWithConfirm: isSameWithConfirm,
-    },
   };
 
   const onPasswordChange = (otherField: string) => {
@@ -134,19 +129,24 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
 
                   <div className='px-5'>
                     <Controller
-                      name={EncryptWalletForm.passphrase}
+                      name={PasswordFormEnum.passphrase}
                       control={control}
                       defaultValue=''
-                      rules={passwordValidationRules}
-                      render={({ onChange }, { invalid, isDirty }) => (
+                      rules={getPasswordValidationRules(
+                        isSameWithConfirm,
+                        true
+                      )}
+                      render={({ onChange, value }, { invalid, isDirty }) => (
                         <InputPassword
                           label='alerts.passphraseLabel'
                           id='passphraseLabel'
-                          name={EncryptWalletForm.passphrase}
+                          hasStrengthChecker={true}
+                          strengthScore={getPasswordStrength(value)}
+                          name={PasswordFormEnum.passphrase}
                           onChange={(e) => {
                             onChange(e);
                             onPasswordChange(
-                              EncryptWalletForm.confirmPassphrase
+                              PasswordFormEnum.confirmPassphrase
                             );
                           }}
                           invalid={invalid}
@@ -155,18 +155,21 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       )}
                     />
                     <Controller
-                      name={EncryptWalletForm.confirmPassphrase}
+                      name={PasswordFormEnum.confirmPassphrase}
                       control={control}
                       defaultValue=''
-                      rules={passwordValidationRules}
+                      rules={getPasswordValidationRules(
+                        isSameWithConfirm,
+                        false
+                      )}
                       render={({ onChange }, { invalid, isDirty }) => (
                         <InputPassword
                           label='alerts.passphraseLabelConfirm'
                           id='passphraseLabelConfirm'
-                          name={EncryptWalletForm.confirmPassphrase}
+                          name={PasswordFormEnum.confirmPassphrase}
                           onChange={(e) => {
                             onChange(e);
-                            onPasswordChange(EncryptWalletForm.passphrase);
+                            onPasswordChange(PasswordFormEnum.passphrase);
                           }}
                           invalid={invalid}
                           isDirty={isDirty}

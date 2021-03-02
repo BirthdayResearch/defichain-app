@@ -55,6 +55,7 @@ import {
   LIQUIDITY_INFO_PATH,
   WALLET_ENCRYPT_PATH,
   WALLET_UNLOCK_PATH,
+  SETTINGS_CHANGE_PASSPHRASE,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
@@ -68,6 +69,7 @@ import LiquidityPage from '../containers/LiquidityPage';
 import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
 import EncryptWalletPage from '../containers/WalletPage/components/EncryptWalletPage';
 import WalletPassphrasePage from '../containers/WalletPage/components/WalletPassphrasePage';
+import SettingsChangePassphrase from '../containers/SettingsPage/components/SettingsChangePassphrase';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -117,6 +119,7 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
+    <Route exact path={SETTINGS_CHANGE_PASSPHRASE} component={SettingsChangePassphrase} />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
     <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />

@@ -238,9 +238,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: remapNodeError(
-        error.message
-      ),
+      errMessage: remapNodeError(error.message),
     });
   };
 
@@ -708,22 +706,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button
-                color='primary'
-                to={
-                  tokenSymbol
-                    ? getWalletPathAddress(
-                        WALLET_PAGE_PATH,
-                        tokenSymbol,
-                        tokenHash || DFI_SYMBOL,
-                        tokenAmount || '',
-                        tokenAddress || '',
-                        isLPS
-                      )
-                    : WALLET_PAGE_PATH
-                }
-                tag={NavLink}
-              >
+              <Button color='primary' onClick={this.sendStepDefault}>
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>

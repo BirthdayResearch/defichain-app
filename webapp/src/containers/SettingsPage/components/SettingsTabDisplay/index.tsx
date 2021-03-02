@@ -6,6 +6,7 @@ import commaNumber from 'comma-number';
 import SettingsRowDropDown from '../SettingsRowDropDown';
 import { DFI_UNIT_MAP, DEFAULT_UNIT } from '../../../../constants';
 import { getAmountInSelectedUnit } from '../../../../utils/utility';
+import { SettingsTabs } from '../SettingsTabHeader';
 
 interface SettingsTabDisplayProps {
   languages: { label: string; value: string }[];
@@ -45,7 +46,7 @@ const SettingsTabDisplay = (props: SettingsTabDisplayProps) => {
   };
 
   return (
-    <TabPane tabId='display'>
+    <TabPane tabId={SettingsTabs.display}>
       <section>
         <Form>
           <SettingsRowDropDown

@@ -22,7 +22,10 @@ import {
   MdLockOpen,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
-import { fetchInstantBalanceRequest, lockWalletStart } from '../WalletPage/reducer';
+import {
+  fetchInstantBalanceRequest,
+  lockWalletStart,
+} from '../WalletPage/reducer';
 import SyncStatus from '../SyncStatus';
 import {
   BLOCKCHAIN_BASE_PATH,
@@ -310,7 +313,7 @@ const mapDispatchToProps = {
   fetchInstantBalanceRequest,
   openEncryptWalletModal,
   openWalletPassphraseModal,
-  lockWalletStart: () => lockWalletStart({}),
+  lockWalletStart,
   openExitWalletModal,
 };
 
