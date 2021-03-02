@@ -31,7 +31,7 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
-import { checkWalletConfig, createWalletMap } from './controllers/wallets';
+import { checkWalletConfig, initializeWalletMap } from './controllers/wallets';
 
 declare var process: {
   argv: any;
@@ -89,7 +89,7 @@ export default class App {
       this.createMenu.bind(this)
     );
     createMnemonicAction();
-    createWalletMap();
+    initializeWalletMap();
   };
 
   initiateInterceptFileProtocol() {
