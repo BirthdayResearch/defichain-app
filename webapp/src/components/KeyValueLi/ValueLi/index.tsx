@@ -62,7 +62,11 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
       </a>
       <div>
         {props.value && props.copyable && (
-          <CopyToClipboard value={props.value!} handleCopy={handleCopy} />
+          <CopyToClipboard
+            value={props.value!}
+            link={'default'}
+            handleCopy={handleCopy}
+          />
         )}
       </div>
     </>
