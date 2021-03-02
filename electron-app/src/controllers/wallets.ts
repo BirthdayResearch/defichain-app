@@ -271,16 +271,27 @@ export const setWalletEvents = () => {
   );
 };
 
-export const createWalletMap = () => {
+export const createWalletMap = (): Partial<WalletMap> => {
   try {
     const src = getWalletMapPath();
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
-      const data = {
+      const { ainVersion } = packageInfo;
+      const data: Partial<WalletMap> = {
         paths: [walletDat],
+        nodeVersion: ainVersion,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
+      return data;
     }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const initializeWalletMap = () => {
+  try {
+    createWalletMap();
     setWalletEvents();
   } catch (error) {
     log.error(error);
