@@ -637,7 +637,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "includeRewards": "Include rewards",
+        "includeRewards": "Include reward transactions",
         "walletDeFiApp": "Portefeuille",
         "wallet": "wallet",
         "wallets": "Wallets",
@@ -652,17 +652,20 @@
         "pending": "En attente",
         "updateAvailableLabel": "Update available",
         "txidNotApplicable": "Transaction ID not applicable",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Download Transaction",
-        "download": "Download",
-        "maxBlock": "Max Block Height",
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
         "blockHeight": "Block height",
         "blockHash": "Block hash",
         "type": "Type",
         "poolID": "Pool ID",
         "amounts": "Amounts",
-        "limit": "Limit",
-        "noReward": "No Rewards"
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transactions",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletTxns": {
         "height": "Hauteur",

@@ -738,12 +738,15 @@
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
         "commission": "Kommission",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Transaktionen herunterladen",
-        "download": "Download",
-        "maxBlock": "Max Blockhöhe",
-        "limit": "Limit",
-        "noReward": "Keine Rewards"
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transaktionen",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
