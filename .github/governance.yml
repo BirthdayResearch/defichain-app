@@ -53,6 +53,14 @@ issue:
       list: ['mac', 'win', 'linux']
       multiple: true
 
+    - prefix: logs
+      list: ['accepted', 'from-email']
+      multiple: true
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
     - prefix: priority
       multiple: false
       list: ['urgent-now', 'important-soon']
