@@ -79,6 +79,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>('network');
   const [disableTab, setDisableTab] = useState<boolean>(true);
+  const [footerHide, setFooterHide] = useState(false);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
@@ -87,6 +88,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const resetConfirmationModal = (event: any) => {
     fetchInstantBalanceRequest();
     setIsConfirmationModalOpen('');
+    setFooterHide(false);
   };
 
   const toggleSearch = () => {
@@ -180,12 +182,14 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
     } else {
       setIsConfirmationModalOpen('');
     }
+    setFooterHide(false);
   };
 
   const confirmation = () => {
     if (restartNodeConfirm) {
       startRestartNodeWithMasterNode();
       setIsRestartButtonDisable(true);
+      setFooterHide(false);
     } else {
       setAllowCalls(true);
       createMasterNode();
@@ -204,6 +208,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       );
       setIsConfirmationModalOpen('failure');
     }
+    setFooterHide(true);
   };
 
   return (
@@ -217,7 +222,11 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
         </h1>
-        <MasterNodeTabsHeader tab={tab} setTab={setTab} />
+        <MasterNodeTabsHeader
+          tab={tab}
+          setTab={setTab}
+          setFooterHide={setFooterHide}
+        />
         <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
@@ -368,7 +377,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         </div>
         <div
           className={classnames({
-            'd-none': tab === ALL,
+            'd-none': footerHide,
           })}
         >
           <MineNodeFooter enabledMasternodes={enabledMasternodes} />
