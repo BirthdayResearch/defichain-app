@@ -391,20 +391,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   {item.txid ? (
                     <td>
                       <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <a
-                          href='#'
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onViewOnChain(item.txid);
-                          }}
-                        >
-                          <ValueLi
-                            value={item.txid}
-                            copyable={true}
-                            textLimit={textLimit}
-                          />
-                        </a>
+                        <ValueLi
+                          value={item.txid}
+                          copyable={true}
+                          textLimit={textLimit}
+                        />
                       </div>
                     </td>
                   ) : (
