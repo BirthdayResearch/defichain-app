@@ -71,8 +71,6 @@ export default class DefiProcessManager {
   static async start(params: any, event: Electron.IpcMainEvent) {
     log.info('Starting DeFiProcessManager...');
     try {
-      // TODO Harsh run binary with config data
-      // const config = getBinaryParameter(params)
       const configArray = [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,

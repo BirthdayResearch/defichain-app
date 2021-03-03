@@ -37,6 +37,7 @@ import {
 import ini from 'ini';
 import { ParsedPath } from 'path';
 import packageInfo from '../../../package.json';
+import { NetworkTypes } from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -55,9 +56,7 @@ const saveFileDialog = async (
 export const checkWalletConfig = () => {
   try {
     const data = getIniData(CONFIG_FILE_NAME);
-    const MAIN = 'main';
-    const TEST = 'test';
-    const networks = [MAIN, TEST];
+    const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
     networks.forEach((network) => {
       if (
         data[network] != null &&

@@ -123,12 +123,6 @@ export function* handleRestartNode() {
           spv: ENABLE_CONFIG,
           gen: ENABLE_CONFIG,
         };
-        if (network === TEST) {
-          updatedConf[network] = {
-            ...updatedConf[network],
-            spv_testnet: ENABLE_CONFIG,
-          };
-        }
         yield put(restartModal());
         yield call(shutDownBinary);
         yield call(restartNodeSync, { updatedConf });
