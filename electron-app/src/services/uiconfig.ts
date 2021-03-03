@@ -77,13 +77,6 @@ export default class UiConfig {
     existingConfigData: Partial<RPCConfigItem> = {}
   ): RPCRemotes => {
     const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
-    let activeNetwork = NetworkTypes.MAIN;
-    if (existingConfigData.testnet === CONFIG_ENABLED) {
-      activeNetwork = NetworkTypes.TEST;
-    }
-    if (existingConfigData.regtest === CONFIG_ENABLED) {
-      activeNetwork = NetworkTypes.REGTEST;
-    }
     const remotes = [];
     const uiConfigData: any = {
       ...existingConfigData,

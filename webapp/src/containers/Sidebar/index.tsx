@@ -66,13 +66,13 @@ export interface SidebarProps extends RouteComponentProps {
   isWalletCreatedFlag: boolean;
   openExitWalletModal: (t: boolean) => void;
   isWalletEncrypted: boolean;
-  isMasternodesLoaded: boolean;
+  myMasternodes: any[];
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
-  const { blockChainInfo, isWalletEncrypted, isMasternodesLoaded } = props;
+  const { blockChainInfo, isWalletEncrypted, myMasternodes } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -249,7 +249,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdDns />
                 {I18n.t('containers.sideBar.masterNodes')}
-                {isMasternodesLoaded && (
+                {myMasternodes?.length > 0 && (
                   <div className={styles.iconPosition}>
                     <span className={`txn-status-enabled mt-1 ml-1`}></span>
                   </div>
@@ -312,7 +312,7 @@ const mapStateToProps = (state) => {
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
     isWalletCreatedFlag: wallet.isWalletCreatedFlag,
     isWalletEncrypted: wallet.isWalletEncrypted,
-    isMasternodesLoaded: masterNodes.isMasternodesLoaded,
+    myMasternodes: masterNodes.myMasternodes,
   };
 };
 

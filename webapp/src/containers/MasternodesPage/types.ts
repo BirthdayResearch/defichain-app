@@ -1,5 +1,6 @@
 export interface MasternodesState {
   masternodes: any[];
+  myMasternodes: any[];
   isMasternodesLoaded: boolean;
   isLoadingMasternodes: boolean;
   masternodesLoadError: string;

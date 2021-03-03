@@ -16,7 +16,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
     <TabPane tabId={MINE}>
       <Row className='align-items-center'>
         {enabledMasternodes.map((data) => (
-          <Col md='6' className='mt-5'>
+          <Col key={data.hash} md='6' className='mt-5'>
             <MineNodeCard
               hash={data.hash}
               owner={data.ownerAuthAddress}

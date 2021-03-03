@@ -47,6 +47,7 @@ const MasternodesPage: React.FunctionComponent = () => {
       createdMasterNodeData,
       isErrorCreatingMasterNode,
       isLoadingMasternodes,
+      myMasternodes,
     },
     popover: { isOpen, isRestart },
   } = useSelector((state: RootState) => state);
@@ -101,10 +102,6 @@ const MasternodesPage: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!isLoadingMasternodes) {
-      const myMasternodes = masternodes.filter(
-        (masternode) =>
-          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
-      );
       if (myMasternodes.length > 0) {
         setActiveTab(MINE);
       }
