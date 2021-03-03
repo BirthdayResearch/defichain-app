@@ -157,7 +157,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
                   <div
                     className="ml-auto"
                   >
-                    2.3.0
+                    2.3.1
                   </div>
                 </div>
               </div>
