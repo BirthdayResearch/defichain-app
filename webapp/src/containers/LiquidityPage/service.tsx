@@ -4,8 +4,10 @@ import * as log from '../../utils/electronLogger';
 
 import {
   AMOUNT_SEPARATOR,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT, DEFAULT_FEE_RATE,
-  DFI_SYMBOL, FEE_RATE,
+  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  DEFAULT_FEE_RATE,
+  DFI_SYMBOL,
+  FEE_RATE,
   LP_DAILY_DFI_REWARD,
   POOL_PAIR_PAGE_SIZE,
   SHARE_POOL_PAGE_SIZE,
@@ -74,7 +76,6 @@ export const handleFetchPoolshares = async () => {
   );
 
   const poolShares = [...poolSharesWallet, ...poolSharesLedger];
-
 
   if (isEmpty(poolShares)) {
     return [];
@@ -202,7 +203,7 @@ export const handleAddPoolLiquidity = async (
     typeWallet
   );
 
-  let {
+  const {
     address: address2,
     amount: maxAmount2,
   } = getHighestAmountAddressForSymbol(
@@ -355,6 +356,7 @@ export const handleRemovePoolLiquidity = async (
 ) => {
   log.info('Starting Remove Pool Liquidity', 'handleRemovePoolLiquidity');
   const rpcClient = new RpcClient();
+  const ipcRenderer = ipcRendererFunc();
   const list = await getAddressAndAmountListPoolShare(poolID);
   const addressList: any[] = [];
   list.reduce((sumAmount, obj) => {
@@ -384,11 +386,41 @@ export const handleRemovePoolLiquidity = async (
 
   store.dispatch(refreshUTXOS1Success());
 
+  const network = getNetworkType();
+  const ledgerAddresses = handelGetPaymentRequestLedger(network).map(
+    (payment) => payment.address
+  );
+
   const addressAndAmountArray = addressList.map(async (obj) => {
-    await rpcClient.removePoolLiquidity(
-      obj.address,
-      `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
-    );
+    if (ledgerAddresses.includes(obj.address)) {
+      const { utxo } = await utxoLedger(obj.address, DEFAULT_FEE_RATE);
+      const keyIndex = getKeyIndexAddressLedger(network, obj.address);
+      const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+        utxo,
+        address: obj.address,
+        amount: 0,
+        data: {
+          txType: CustomTx.customTxType.removePoolLiquidity,
+          customData: {
+            from: obj.address,
+            nTokenId: poolID,
+            nValue: obj.amount,
+          },
+          tokenId: 0,
+        },
+        keyIndex,
+      });
+      if (res.success) {
+        await rpcClient.sendRawTransaction(res.data.tx);
+      } else {
+        throw new Error(res.message);
+      }
+    } else {
+      await rpcClient.removePoolLiquidity(
+        obj.address,
+        `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
+      );
+    }
     if (obj.address !== receiveAddress) {
       return obj;
     }
@@ -442,16 +474,74 @@ export const handleRemovePoolLiquidity = async (
       obj.amountB.split(AMOUNT_SEPARATOR)[0]
     );
 
-    const txId1 = await rpcClient.accountToAccount(
-      obj.address,
-      receiveAddress,
-      `${amountA.toFixed(8)}@${poolPair.idTokenA}`
-    );
-    const txId2 = await rpcClient.accountToAccount(
-      obj.address,
-      receiveAddress,
-      `${amountB.toFixed(8)}@${poolPair.idTokenB}`
-    );
+    let txId1;
+    let txId2;
+
+    if (ledgerAddresses.includes(obj.address)) {
+      const { utxo: utxo1 } = await utxoLedger(obj.address, 0.001);
+      const keyIndex = getKeyIndexAddressLedger(network, obj.address);
+      const resTokenA = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+        utxo: utxo1,
+        address: obj.address,
+        amount: 0,
+        data: {
+          txType: CustomTx.customTxType.accountToAccount,
+          customData: {
+            from: obj.address,
+            to: {
+              [receiveAddress]: [{
+                token: poolPair.idTokenA,
+                balance: amountA.toNumber()
+              }]
+            }
+          },
+          tokenId: 0,
+        },
+        keyIndex,
+      });
+      if (resTokenA.success) {
+        txId1 = await rpcClient.sendRawTransaction(resTokenA.data.tx);
+      } else {
+        throw new Error(resTokenA.message);
+      }
+      const { utxo: utxo2 } = await utxoLedger(obj.address, 0.001);
+      const resTokenB = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
+        utxo: utxo2,
+        address: obj.address,
+        amount: 0,
+        data: {
+          txType: CustomTx.customTxType.accountToAccount,
+          customData: {
+            from: obj.address,
+            to: {
+              [receiveAddress]: [{
+                token: poolPair.idTokenB,
+                balance: amountB.toNumber()
+              }]
+            }
+          },
+          tokenId: 0,
+        },
+        keyIndex,
+      });
+      if (resTokenB.success) {
+        txId2 = await rpcClient.sendRawTransaction(resTokenB.data.tx);
+      } else {
+        throw new Error(resTokenB.message);
+      }
+    } else {
+
+      txId1 = await rpcClient.accountToAccount(
+        obj.address,
+        receiveAddress,
+        `${amountA.toFixed(8)}@${poolPair.idTokenA}`
+      );
+      txId2 = await rpcClient.accountToAccount(
+        obj.address,
+        receiveAddress,
+        `${amountB.toFixed(8)}@${poolPair.idTokenB}`
+      );
+    }
     return {
       txId1,
       txId2,

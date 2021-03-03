@@ -18,7 +18,7 @@ import { NavLink, RouteComponentProps } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 
-import { LIQUIDITY_PATH } from '../../../../constants';
+import { LIQUIDITY_PATH } from '@/constants';
 import { fetchPoolpair, removePoolLiqudityRequest } from '../../reducer';
 import styles from './removeLiquidity.module.scss';
 import {
@@ -26,7 +26,7 @@ import {
   getRatio,
   getTotalAmountPoolShare,
   getTransactionAddressLabel,
-} from '../../../../utils/utility';
+} from '@/utils/utility';
 import Spinner from '../../../../components/Svg/Spinner';
 import TokenAvatar from '../../../../components/TokenAvatar';
 import Header from '../../../HeaderComponent';
@@ -149,7 +149,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
       id,
       (formState.amountPercentage * sumAmount) / 100,
       formState.receiveAddress,
-      poolpair
+      poolpair,
     );
   };
 
@@ -332,6 +332,7 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
             </Col>
             <Col md='8'>
               <AddressDropdown
+                typeWallet='all'
                 formState={formState}
                 getTransactionLabel={getTransactionLabel}
                 onSelectAddress={handleAddressDropdown}

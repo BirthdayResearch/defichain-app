@@ -22,7 +22,13 @@ import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import * as log from './electronLogger';
 
-import { IAddressAndAmount, IBlock, IParseTxn, ITokenBalanceInfo, ITxn } from './interfaces';
+import {
+  IAddressAndAmount,
+  IBlock,
+  IParseTxn,
+  ITokenBalanceInfo,
+  ITxn,
+} from './interfaces';
 import {
   AMOUNT_SEPARATOR,
   API_REQUEST_TIMEOUT,
@@ -84,8 +90,17 @@ import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
 import openNewTab from './openNewTab';
-import { AccountKeyItem, AccountModel, ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
-import { ErrorMessages, HighestAmountItem, ResponseMessages } from '@/constants/common';
+import {
+  AccountKeyItem,
+  AccountModel,
+  ListUnspentModel,
+  PeerInfoModel,
+} from 'src/constants/rpcModel';
+import {
+  ErrorMessages,
+  HighestAmountItem,
+  ResponseMessages,
+} from '@/constants/common';
 import { BLOCKCHAIN_INFO_CHAIN_TEST } from '@/constants';
 import PersistentStore from './persistentStore';
 import { TypeWallet } from '@/typings/entities';
@@ -1418,11 +1433,29 @@ export const handleAccountToAccountConversion = async (
 
 export const getAddressAndAmountListPoolShare = async (poolID) => {
   const rpcClient = new RpcClient();
-  const poolShares = await fetchPoolShareDataWithPagination(
+  const poolSharesWallet = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,
     rpcClient.listPoolShares
   );
+
+  const network = getNetworkType();
+  const addressLedger = handelGetPaymentRequestLedger(network).map(
+    (payment) => payment.address
+  );
+
+  let poolSharesLedger = await fetchPoolShareDataWithPagination(
+    0,
+    SHARE_POOL_PAGE_SIZE,
+    rpcClient.listPoolShares,
+    false
+  );
+
+  poolSharesLedger = poolSharesLedger.filter((poolShare) =>
+    addressLedger.includes(poolShare.owner)
+  );
+
+  const poolShares = [...poolSharesWallet, ...poolSharesLedger];
 
   if (isEmpty(poolShares)) {
     return [];
@@ -1431,11 +1464,7 @@ export const getAddressAndAmountListPoolShare = async (poolID) => {
   const minePoolShares = poolShares.map(async (poolShare) => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
-    if (
-      addressInfo.ismine &&
-      !addressInfo.iswatchonly &&
-      poolShare.poolID === poolID
-    ) {
+    if (poolShare.poolID === poolID) {
       return {
         amount: poolShare.amount,
         address: poolShare.owner,

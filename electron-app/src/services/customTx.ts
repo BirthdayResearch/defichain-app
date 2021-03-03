@@ -103,6 +103,12 @@ export function createZeroOutputTxFromCustomTx(
       break;
     case CustomTx.customTxType.removePoolLiquidity:
       script.add(new CustomTx.RemovePoolLiquidity(customTx.customData));
+      outputZero =  new Transaction.Output({
+        script,
+        tokenId: 0,
+        satoshis: 0,
+      });
+      transaction = tx.addOutput(outputZero);
       break;
     case CustomTx.customTxType.utxosToAccount:
       script.add(new CustomTx.UtxosToAccount(customTx.customData));
@@ -123,7 +129,7 @@ export function createZeroOutputTxFromCustomTx(
       outputZero =  new Transaction.Output({
         script,
         tokenId: customTx.customData.to[keys[0]]['0'].token,
-        satoshis: customTx.customData.to[keys[0]]['0'].balance * ONE_DFI_SATOSHIS,
+        satoshis: (customTx.customData.to[keys[0]]['0'].balance * ONE_DFI_SATOSHIS).toFixed(),
       });
       transaction = tx.addOutput(outputZero);
       break;
