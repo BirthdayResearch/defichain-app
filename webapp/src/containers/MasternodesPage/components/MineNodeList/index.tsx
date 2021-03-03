@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, TabPane } from 'reactstrap';
+import { Col, Row, TabPane } from 'reactstrap';
 import { MINE } from 'src/constants';
 import MineNodeCard from './components/MineNodeCard';
 
@@ -14,13 +14,15 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
 
   return (
     <TabPane tabId={MINE}>
-      <Row>
+      <Row className='align-items-center'>
         {enabledMasternodes.map((data) => (
-          <MineNodeCard
-            hash={data.hash}
-            owner={data.ownerAuthAddress}
-            operator={data.operatorAuthAddress}
-          />
+          <Col md='6' className='mt-5'>
+            <MineNodeCard
+              hash={data.hash}
+              owner={data.ownerAuthAddress}
+              operator={data.operatorAuthAddress}
+            />
+          </Col>
         ))}
       </Row>
     </TabPane>
