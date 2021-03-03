@@ -19,83 +19,83 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
   const { owner, operator, hash } = props;
 
   return (
-    <Col md='6' className='mt-5'>
-      <Card
-        className={styles.cursor}
-        onClick={() => history.push(`${MASTER_NODES_PATH}/${hash}`)}
-      >
-        <CardBody>
-          <Row>
-            <Col md='1' className={styles.status}>
-              <span className={`txn-status-enabled mt-1`}></span>
-            </Col>
-            <Col md='9' className='pl-0'>
-              <CardTitle tag='h5'>
-                {operator.substring(operator.length - 4)}
-              </CardTitle>
-            </Col>
-            <Col md='2'>
-              <div className={styles.arrow}>
-                <MdKeyboardArrowRight size={25} />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col md='4'>
-              <CardText>
-                {I18n.t('containers.masterNodes.masterNodesPage.owner')}
-              </CardText>
-            </Col>
-            <Col md='8'>
-              <CardText>
-                <small className='text-muted'>
-                  <EllipsisText text={owner} length={25} />
-                </small>
-              </CardText>
-            </Col>
-          </Row>
-          <Row>
-            <Col md='4'>
-              <CardText>
-                {I18n.t('containers.masterNodes.masterNodesPage.operator')}
-              </CardText>
-            </Col>
-            <Col md='8'>
-              <CardText>
-                <small className='text-muted'>
-                  <EllipsisText
-                    text={operator === owner ? SAME_AS_OWNER_ADDRESS : operator}
-                    length={25}
-                  />
-                </small>
-              </CardText>
-            </Col>
-          </Row>
-          <Row className='mt-3'>
-            <Col md='4'>
-              <CardText>
-                {I18n.t('containers.masterNodes.masterNodesPage.type')}
-              </CardText>
-            </Col>
-            <Col md='8'>
-              <CardText>
-                <small className='text-muted'>Local</small>
-              </CardText>
-            </Col>
-            <Col md='4'>
-              <CardText>
-                {I18n.t('containers.masterNodes.masterNodesPage.collateral')}
-              </CardText>
-            </Col>
-            <Col md='8'>
-              <CardText>
-                <small className='text-muted'>20,000 DFI</small>
-              </CardText>
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
-    </Col>
+    <Card
+      className={styles.cursor}
+      onClick={() => history.push(`${MASTER_NODES_PATH}/${hash}`)}
+    >
+      <CardBody>
+        <Row>
+          <Col xs='1' className={styles.status}>
+            <span className={`txn-status-enabled mt-1`}></span>
+          </Col>
+          <Col xs='8' className='pl-0'>
+            <CardTitle tag='h5'>
+              {operator.substring(operator.length - 4)}
+            </CardTitle>
+          </Col>
+          <Col xs='1'>
+            <div className={styles.arrow}>
+              <MdKeyboardArrowRight size={25} />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <CardText>
+              {I18n.t('containers.masterNodes.masterNodesPage.owner')}
+            </CardText>
+          </Col>
+          <Col>
+            <CardText>
+              <small className='text-muted'>
+                <EllipsisText text={owner} length={25} />
+              </small>
+            </CardText>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <CardText>
+              {I18n.t('containers.masterNodes.masterNodesPage.operator')}
+            </CardText>
+          </Col>
+          <Col>
+            <CardText>
+              <small className='text-muted'>
+                <EllipsisText
+                  text={operator === owner ? SAME_AS_OWNER_ADDRESS : operator}
+                  length={25}
+                />
+              </small>
+            </CardText>
+          </Col>
+        </Row>
+        <Row className='mt-3'>
+          <Col>
+            <CardText>
+              {I18n.t('containers.masterNodes.masterNodesPage.type')}
+            </CardText>
+          </Col>
+          <Col>
+            <CardText>
+              <small className='text-muted'>Local</small>
+            </CardText>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <CardText>
+              {I18n.t('containers.masterNodes.masterNodesPage.collateral')}
+            </CardText>
+          </Col>
+          <Col>
+            <CardText>
+              <small className='text-muted'>20,000 DFI</small>
+            </CardText>
+          </Col>
+        </Row>
+      </CardBody>
+    </Card>
   );
 };
 
