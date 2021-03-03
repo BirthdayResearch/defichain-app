@@ -31,3 +31,6 @@ export interface RPCRemotes {
 
 export const MASTERNODE_OPERATOR = 'masternode_operator';
 export const ADDNODE = 'addnode';
+
+export const CONFIG_ENABLED = '1';
+export const CONFIG_DISABLED = '0';

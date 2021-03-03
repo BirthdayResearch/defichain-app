@@ -15,7 +15,13 @@ import {
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
 } from '@defi_types/settings';
-import { NetworkTypes, RPCConfigItem, RPCRemotes } from '@defi_types/rpcConfig';
+import {
+  CONFIG_DISABLED,
+  CONFIG_ENABLED,
+  NetworkTypes,
+  RPCConfigItem,
+  RPCRemotes,
+} from '@defi_types/rpcConfig';
 export default class UiConfig {
   async get(): Promise<RPCRemotes> {
     try {
@@ -70,14 +76,12 @@ export default class UiConfig {
   saveUiConfig = (
     existingConfigData: Partial<RPCConfigItem> = {}
   ): RPCRemotes => {
-    const ENABLED = '1';
-    const DISABLED = '0';
     const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
     let activeNetwork = NetworkTypes.MAIN;
-    if (existingConfigData.testnet === ENABLED) {
+    if (existingConfigData.testnet === CONFIG_ENABLED) {
       activeNetwork = NetworkTypes.TEST;
     }
-    if (existingConfigData.regtest === ENABLED) {
+    if (existingConfigData.regtest === CONFIG_ENABLED) {
       activeNetwork = NetworkTypes.REGTEST;
     }
     const remotes = [];
@@ -87,8 +91,8 @@ export default class UiConfig {
       rpcuser: existingConfigData.rpcuser,
       rpcpassword: existingConfigData.rpcpassword,
       rpcconnect: existingConfigData.rpcbind ?? DEFAULT_RPC_BIND,
-      testnet: existingConfigData.testnet ?? DISABLED,
-      regtest: existingConfigData.regtest ?? DISABLED,
+      testnet: existingConfigData.testnet ?? CONFIG_DISABLED,
+      regtest: existingConfigData.regtest ?? CONFIG_DISABLED,
     };
 
     //* Set on respective networks

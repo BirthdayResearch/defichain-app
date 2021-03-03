@@ -37,7 +37,7 @@ import {
 import ini from 'ini';
 import { ParsedPath } from 'path';
 import packageInfo from '../../../package.json';
-import { NetworkTypes } from '@defi_types/rpcConfig';
+import { CONFIG_DISABLED, NetworkTypes } from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -94,6 +94,8 @@ export const writeToConfigFile = (
     } else {
       delete data[network].wallet;
       delete data[network].walletdir;
+      data[network].spv = CONFIG_DISABLED;
+      data[network].gen = CONFIG_DISABLED;
     }
     const defaultConfigData = ini.encode(data);
     const newData = formatConfigFileWrite(defaultConfigData);
