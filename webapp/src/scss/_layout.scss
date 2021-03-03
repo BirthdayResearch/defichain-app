@@ -127,7 +127,7 @@ body {
       position: relative;
       z-index: $zindex-modal;
       padding: 16px 32px;
-      // background-color: $body-bg;
+      background-color: $body-bg;
       border-top: $border-width solid $border-color;
       border-bottom-left-radius: $border-radius * 1.5;
       width: 100%;
