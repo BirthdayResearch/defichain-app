@@ -20,5 +20,6 @@ module.exports = {
       '<rootDir>/test/mockModules.js',
     '\\.(css|less|sass|scss)$': '<rootDir>/test/mockStyles.js',
     '@defi_types/(.*)$': resolve(__dirname, '../', './typings/$1'),
+    '@/(.*)$': '<rootDir>/src'
   },
 };
