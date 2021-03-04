@@ -299,8 +299,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             address,
             this.state.toAddress,
             amount,
-            keyIndex,
-            type
           );
           this.handleSuccess(txHash);
         } else {

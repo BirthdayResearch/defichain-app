@@ -1,20 +1,54 @@
 import { ipcMain } from 'electron';
-import { Transaction, Address, crypto, PublicKey } from 'bitcore-lib-dfi';
+import { Address, crypto, PublicKey, Transaction } from 'bitcore-lib-dfi';
 import {
-  GET_LEDGER_DEFI_PUB_KEY,
-  CONNECT_LEDGER,
-  LIST_DEVICES_LEDGER,
-  CUSTOM_TX_LEDGER,
   BACKUP_IDXS_LEDGER,
-  SIGN_TRANSACTION_LEDGER,
+  CONNECT_LEDGER,
+  CUSTOM_TX_LEDGER,
+  GET_LEDGER_DEFI_PUB_KEY,
+  LIST_DEVICES_LEDGER,
+  SEND_TOKEN_TX_LEDGER,
 } from '@defi_types/ipcEvents';
 import { responseMessage } from '../utils';
 // eslint-disable-next-line no-unused-vars
 import DefiHwWallet, { AddressFormat } from '../defiHwWallet/defiHwWallet';
 import * as log from '../services/electronLogger';
-import { createTx } from '../services/customTx';
+import { createTx, ONE_DFI_SATOSHIS } from '../services/customTx';
+import { ListUnspentModel } from '@defi_types/common';
+import { IDataTx, AddressLedger, IDataTxSend, IDataCustomTx } from '@defi_types/ledger';
+
+interface ICommonDataTx<T> {
+  utxo: any[];
+  data: T;
+  addressesLedger: any[];
+}
 
 const DefiLedger = new DefiHwWallet();
+
+const signTx = async (
+  tx: Transaction,
+  utxo: ListUnspentModel[],
+  addressesLedger: AddressLedger[]
+): Promise<Transaction> => {
+  const utxoAddresses = utxo
+    .map((item) => item.address)
+    .filter((el, i, a) => i === a.indexOf(el));
+
+  for (const u of utxoAddresses) {
+    const keyIndex = addressesLedger.find((a: any) => a.address === u).keyIndex;
+    const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex);
+
+    const lendgerSign = async (buff: Buffer) => {
+      return await DefiLedger.sign(keyIndex, buff, true);
+    };
+
+    tx = await tx.signWithInterface(
+      lendgerSign,
+      PublicKey.fromString(pubkey, 'hex'),
+      crypto.Signature.SIGHASH_ALL
+    );
+  }
+  return tx;
+};
 
 const initiateLedger = () => {
   ipcMain.on(
@@ -81,27 +115,17 @@ const initiateLedger = () => {
     CUSTOM_TX_LEDGER,
     async (
       event: Electron.IpcMainEvent,
-      { utxo, address, amount, data, keyIndex }
+      {
+        utxo,
+        data,
+        addressesLedger,
+      }: IDataTx<IDataCustomTx>
     ) => {
       log.info('Generate custom tx of ledger');
       try {
-        log.info(`${utxo}, ${address}, ${amount}, ${data}, ${keyIndex}`);
-        let tx = createTx(utxo, address, data);
-        const { pubkey } = await DefiLedger.getDefiPublicKey(
-          keyIndex,
-          'legacy'
-        );
+        let tx = createTx(utxo, data);
+        tx = await signTx(tx, utxo, addressesLedger);
 
-        const lendgerSign = async (buff: Buffer) => {
-          const resSign = await DefiLedger.sign(keyIndex, buff, true);
-          return resSign;
-        };
-
-        tx = await tx.signWithInterface(
-          lendgerSign,
-          PublicKey.fromString(pubkey, 'hex'),
-          crypto.Signature.SIGHASH_ALL
-        );
         log.info(JSON.stringify(tx.toString()));
         event.returnValue = responseMessage(true, {
           tx: tx.toString(),
@@ -132,35 +156,24 @@ const initiateLedger = () => {
   });
 
   ipcMain.on(
-    SIGN_TRANSACTION_LEDGER,
+    SEND_TOKEN_TX_LEDGER,
     async (
       event: Electron.IpcMainEvent,
-      { utxo, address: toAddress, amount, fromAddress, keyIndex, feeRate, type }
+      { utxo, data, addressesLedger }: IDataTx<IDataTxSend>
     ) => {
       log.info('Sign Transaction');
       try {
-        const toAddressOb = new Address(toAddress);
-        const fromAddressOb = new Address(fromAddress);
+        const toAddressOb = new Address(data.toAddress);
+        const fromAddressOb = new Address(data.fromAddress);
         log.info(JSON.stringify(toAddressOb));
         const tx = new Transaction()
           .from(utxo)
-          .to(toAddressOb, Number((amount * 100000000).toFixed(0)))
+          .to(toAddressOb, Number((data.amount * ONE_DFI_SATOSHIS).toFixed(0)))
           .change(fromAddressOb);
         log.info(`txIN: ${JSON.stringify(tx)}`);
 
-        const { pubkey } = await DefiLedger.getDefiPublicKey(keyIndex, type);
-
-        const lendgerSign = async (buff: Buffer) => {
-          const resSign = await DefiLedger.sign(keyIndex, buff, true);
-          return resSign;
-        };
-
-        const txSigs = await tx.signWithInterface(
-          lendgerSign,
-          PublicKey.fromString(pubkey, 'hex'),
-          crypto.Signature.SIGHASH_ALL
-        );
-        log.info(`ooooo ${txSigs.toString()}`);
+        const txSigs = await signTx(tx, utxo, addressesLedger);
+        log.info(`tx sign ${txSigs.toString()}`);
 
         event.returnValue = responseMessage(true, {
           tx: txSigs.toString(),

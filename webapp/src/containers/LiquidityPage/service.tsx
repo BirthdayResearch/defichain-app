@@ -1,5 +1,4 @@
-import { isEmpty } from 'lodash';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import * as log from '../../utils/electronLogger';
 
 import {
@@ -7,7 +6,6 @@ import {
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DEFAULT_FEE_RATE,
   DFI_SYMBOL,
-  FEE_RATE,
   LP_DAILY_DFI_REWARD,
   POOL_PAIR_PAGE_SIZE,
   SHARE_POOL_PAGE_SIZE,
@@ -16,24 +14,25 @@ import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
 import { getAddressInfo } from '../WalletPage/service';
 import {
+  createTxWithUseLedger,
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
   getAddressAndAmountListForAccount,
+  getAddressAndAmountListForLedger,
   getAddressAndAmountListPoolShare,
-  getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
+  getHighestAmountAddressForSymbol,
+  getKeyIndexAddressLedger,
+  getNetworkType,
   getPoolStatsFromAPI,
   getSmallerAmount,
+  handelGetPaymentRequestLedger,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
-  parsedCoinPriceData,
-  getAddressAndAmountListForLedger,
   handleUtxoToAccountConversionLedger,
+  parsedCoinPriceData,
   utxoLedger,
-  getNetworkType,
-  getKeyIndexAddressLedger,
-  handelGetPaymentRequestLedger,
-} from '../../utils/utility';
+} from '@/utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
 import {
@@ -298,45 +297,38 @@ export const handleAddPoolLiquidity = async (
 
   store.dispatch(addPoolPreparingUTXOSuccess());
   if (typeWallet === 'ledger') {
-    const { utxo } = await utxoLedger(address1, DEFAULT_FEE_RATE);
     const ipcRenderer = ipcRendererFunc();
     const network = getNetworkType();
     const keyIndex = getKeyIndexAddressLedger(network, address1);
-    const from =
-      setEmptyAddress(address1) === setEmptyAddress(address2)
-        ? {
-            [setEmptyAddress(address1)]: [
-              { balance: amount1BN.toNumber(), token: hash1 },
-              { balance: amount2BN.toNumber(), token: hash2 },
-            ],
-          }
-        : {
-            [setEmptyAddress(address1)]: [
-              { balance: amount1BN.toNumber(), token: hash1 },
-            ],
-            [setEmptyAddress(address2)]: [
-              { balance: amount2BN.toNumber(), token: hash2 },
-            ],
-          };
-    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-      utxo,
-      address: address1,
-      amount: 0,
-      data: {
-        txType: CustomTx.customTxType.addPoolLiquidity,
-        customData: {
-          shareAddress,
-          from,
-        },
-        tokenId: 0,
-      },
-      keyIndex,
-    });
-    if (res.success) {
-      return await rpcClient.sendRawTransaction(res.data.tx);
+    const { utxo } = await utxoLedger(address1, DEFAULT_FEE_RATE);
+    let from;
+    if (setEmptyAddress(address1) !== setEmptyAddress(address2)) {
+      from = {
+        [setEmptyAddress(address1)]: [
+          { balance: amount1BN.toNumber(), token: hash1 },
+        ],
+        [setEmptyAddress(address2)]: [
+          { balance: amount2BN.toNumber(), token: hash2 },
+        ],
+      };
+      const { utxo: utxo2 } = await utxoLedger(address2, DEFAULT_FEE_RATE);
+      utxo.push(...utxo2);
     } else {
-      throw new Error(res.message);
+      from = {
+        [setEmptyAddress(address1)]: [
+          { balance: amount1BN.toNumber(), token: hash1 },
+          { balance: amount2BN.toNumber(), token: hash2 },
+        ],
+      };
     }
+    return await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
+      txType: CustomTx.customTxType.addPoolLiquidity,
+      customData: {
+        shareAddress,
+        from,
+      },
+      address: address1,
+    });
   } else {
     return await rpcClient.addPooLiquidity(
       setEmptyAddress(address1),
@@ -394,27 +386,15 @@ export const handleRemovePoolLiquidity = async (
   const addressAndAmountArray = addressList.map(async (obj) => {
     if (ledgerAddresses.includes(obj.address)) {
       const { utxo } = await utxoLedger(obj.address, DEFAULT_FEE_RATE);
-      const keyIndex = getKeyIndexAddressLedger(network, obj.address);
-      const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-        utxo,
-        address: obj.address,
-        amount: 0,
-        data: {
-          txType: CustomTx.customTxType.removePoolLiquidity,
-          customData: {
-            from: obj.address,
-            nTokenId: poolID,
-            nValue: obj.amount,
-          },
-          tokenId: 0,
+      await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
+        txType: CustomTx.customTxType.removePoolLiquidity,
+        customData: {
+          from: obj.address,
+          nTokenId: poolID,
+          nValue: obj.amount,
         },
-        keyIndex,
+        address: obj.address,
       });
-      if (res.success) {
-        await rpcClient.sendRawTransaction(res.data.tx);
-      } else {
-        throw new Error(res.message);
-      }
     } else {
       await rpcClient.removePoolLiquidity(
         obj.address,
@@ -479,58 +459,38 @@ export const handleRemovePoolLiquidity = async (
 
     if (ledgerAddresses.includes(obj.address)) {
       const { utxo: utxo1 } = await utxoLedger(obj.address, 0.001);
-      const keyIndex = getKeyIndexAddressLedger(network, obj.address);
-      const resTokenA = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-        utxo: utxo1,
-        address: obj.address,
-        amount: 0,
-        data: {
-          txType: CustomTx.customTxType.accountToAccount,
-          customData: {
-            from: obj.address,
-            to: {
-              [receiveAddress]: [{
+      txId1 = await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo1, {
+        txType: CustomTx.customTxType.accountToAccount,
+        customData: {
+          from: obj.address,
+          to: {
+            [receiveAddress]: [
+              {
                 token: poolPair.idTokenA,
-                balance: amountA.toNumber()
-              }]
-            }
+                balance: amountA.toNumber(),
+              },
+            ],
           },
-          tokenId: 0,
         },
-        keyIndex,
-      });
-      if (resTokenA.success) {
-        txId1 = await rpcClient.sendRawTransaction(resTokenA.data.tx);
-      } else {
-        throw new Error(resTokenA.message);
-      }
-      const { utxo: utxo2 } = await utxoLedger(obj.address, 0.001);
-      const resTokenB = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-        utxo: utxo2,
         address: obj.address,
-        amount: 0,
-        data: {
-          txType: CustomTx.customTxType.accountToAccount,
-          customData: {
-            from: obj.address,
-            to: {
-              [receiveAddress]: [{
+      })
+      const { utxo: utxo2 } = await utxoLedger(obj.address, 0.001);
+      txId2 = await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo2, {
+        txType: CustomTx.customTxType.accountToAccount,
+        customData: {
+          from: obj.address,
+          to: {
+            [receiveAddress]: [
+              {
                 token: poolPair.idTokenB,
-                balance: amountB.toNumber()
-              }]
-            }
+                balance: amountB.toNumber(),
+              },
+            ],
           },
-          tokenId: 0,
         },
-        keyIndex,
-      });
-      if (resTokenB.success) {
-        txId2 = await rpcClient.sendRawTransaction(resTokenB.data.tx);
-      } else {
-        throw new Error(resTokenB.message);
-      }
+        address: obj.address
+      })
     } else {
-
       txId1 = await rpcClient.accountToAccount(
         obj.address,
         receiveAddress,

@@ -41,7 +41,6 @@ import {
   COINGECKO_ETH_ID,
   COINGECKO_LTC_ID,
   COINGECKO_USDT_ID,
-  CUSTOM_TX_LEDGER,
   DATE_FORMAT,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DEFAULT_UNIT,
@@ -104,6 +103,8 @@ import {
 import { BLOCKCHAIN_INFO_CHAIN_TEST } from '@/constants';
 import PersistentStore from './persistentStore';
 import { TypeWallet } from '@/typings/entities';
+import { CUSTOM_TX_LEDGER, SEND_TOKEN_TX_LEDGER } from '@defi_types/ipcEvents';
+import { IDataCustomTx } from '@defi_types/ledger';
 
 export const handleLocalStorageNameLedger = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -1317,30 +1318,16 @@ export const handleUtxoToAccountConversionLedger = async (
   try {
     const transferAmount = amount.minus(maxAmount);
     const { utxo } = await utxoLedger(address, transferAmount.toNumber());
-    const ipcRenderer = ipcRendererFunc();
-    const network = getNetworkType();
-    const keyIndex = getKeyIndexAddressLedger(network, address);
-    const res = ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-      utxo,
-      address,
-      amount: transferAmount.toNumber(),
-      data: {
-        txType: CustomTx.customTxType.utxosToAccount,
-        customData: {
-          to: {
-            [address]: [{ balance: transferAmount.toNumber(), token: hash }],
-          },
+    const txId = await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
+      txType: CustomTx.customTxType.utxosToAccount,
+      customData: {
+        to: {
+          [address]: [{ balance: transferAmount.toNumber(), token: hash }],
         },
       },
-      keyIndex,
+      address,
     });
-    if (res.success) {
-      const rpcClient = new RpcClient();
-      const txId = await rpcClient.sendRawTransaction(res.data.tx);
-      await getTransactionInfo(txId);
-    } else {
-      throw new Error(res.message);
-    }
+    await getTransactionInfo(txId);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -1351,36 +1338,26 @@ export const accountToAccountUseLedger = async (
   toAddress: string,
   balance: number,
   token: string
-) => {
-  const ipcRenderer = ipcRendererFunc();
-  const customData = {
-    from: fromAddress,
-    to: {
-      [toAddress]: {
-        token,
-        balance,
-      },
-    },
-  };
-  const network = getNetworkType();
-  const keyIndex = getKeyIndexAddressLedger(network, fromAddress);
-  const { utxo } = await utxoLedger(fromAddress, balance);
-  const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-    utxo,
-    address: fromAddress,
-    amount: balance,
-    data: {
+): Promise<string> => {
+  try {
+    const { utxo } = await utxoLedger(fromAddress, balance);
+    return await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
       txType: CustomTx.customTxType.accountToAccount,
-      customData,
-    },
-    keyIndex,
-  });
-  if (res.success) {
-    const rpcClient = new RpcClient();
-    return await rpcClient.sendRawTransaction(res.data.tx);
-  } else {
-    log.error(`accountToAccountLedger error: ${res.message}`);
-    throw new Error(res.message);
+      customData: {
+        from: fromAddress,
+        to: {
+          [toAddress]: [
+            {
+              token,
+              balance,
+            },
+          ],
+        },
+      },
+      address: fromAddress,
+    });
+  } catch (err) {
+    throw new Error(err.message);
   }
 };
 
@@ -1789,30 +1766,20 @@ export const accountToAccountConversionLedger = async (
         new BigNumber(9999999),
         [obj.address]
       );
-      const data = {
-        from: obj.address,
-        to: {
-          [toAddress]: [{ balance: amount, token: DFI_SYMBOL }],
+
+      const txId = await createTxWithUseLedger(CUSTOM_TX_LEDGER, cutxo, {
+        txType: CustomTx.customTxType.accountToAccount,
+        customData: {
+          from: obj.address,
+          to: {
+            [toAddress]: [{ balance: Number(amount), token: DFI_SYMBOL }],
+          },
         },
-      };
-      const ipcRenderer = ipcRendererFunc();
-      const res = await ipcRenderer.sendSync(
-        CUSTOM_TX_LEDGER,
-        cutxo,
-        toAddress,
-        amount,
-        data,
-        obj.keyIndex
-      );
-      if (res.success) {
-        const txId = rpcClient.sendRawTransaction(res.data.tx);
-        const promiseHash = getTransactionInfo(txId);
-        accountToAccountTxHashes.push(promiseHash);
-        amountTransfered = amountTransfered.plus(new BigNumber(amount));
-      } else {
-        log.error(`accountToAccountConversion error: ${res.message}`);
-        throw new Error(res.message);
-      }
+        address: obj.address,
+      });
+      const promiseHash = getTransactionInfo(txId);
+      accountToAccountTxHashes.push(promiseHash);
+      amountTransfered = amountTransfered.plus(new BigNumber(amount));
     }
   }
   await Promise.all(accountToAccountTxHashes);
@@ -1846,4 +1813,36 @@ export const getAccountsLedger = async () => {
   return accounts.filter((account) => {
     return ledgerAddresses.includes(account.owner.addresses[0]);
   });
+};
+
+interface IDataTxSend {
+  toAddress: string;
+  fromAddress: string;
+  amount: number;
+}
+
+export const createTxWithUseLedger = async (
+  type: typeof CUSTOM_TX_LEDGER | typeof SEND_TOKEN_TX_LEDGER,
+  utxo: ListUnspentModel[],
+  data: IDataTxSend | IDataCustomTx
+): Promise<string> => {
+  const networkType = getNetworkType();
+  const addressesLedger = handelGetPaymentRequestLedger(networkType).map(
+    (payment) => ({
+      address: payment.address,
+      keyIndex: payment.keyIndex,
+    })
+  );
+  const ipcRenderer = ipcRendererFunc();
+  const res = await ipcRenderer.sendSync(type, {
+    utxo,
+    data,
+    addressesLedger,
+  });
+  if (res.success) {
+    const rpcClient = new RpcClient();
+    return await rpcClient.sendRawTransaction(res.data.tx);
+  } else {
+    throw new Error(res.message);
+  }
 };

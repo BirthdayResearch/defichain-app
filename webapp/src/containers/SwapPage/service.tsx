@@ -1,27 +1,25 @@
-import _ from 'lodash';
 import * as log from '../../utils/electronLogger';
 
-import {
-  AMOUNT_SEPARATOR,
-  DFI_SYMBOL,
-  POOL_PAIR_PAGE_SIZE,
-} from '../../constants';
+import { AMOUNT_SEPARATOR, DFI_SYMBOL, POOL_PAIR_PAGE_SIZE } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import {
+  createTxWithUseLedger,
   fetchPoolPairDataWithPagination,
   getAddressAndAmountListForAccount,
+  getAddressAndAmountListForLedger,
   getHighestAmountAddressForSymbol,
+  getKeyIndexAddressLedger,
+  getNetworkType,
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
+  handleUtxoToAccountConversionLedger,
   utxoLedger,
-  handleUtxoToAccountConversionLedger, getAddressAndAmountListForLedger, getKeyIndexAddressLedger, getNetworkType,
 } from '@/utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
 import { poolSwapRefreshUTXOSuccess } from './reducer';
-import { ipcRendererFunc } from '@/utils/isElectron';
 import { CUSTOM_TX_LEDGER } from '@defi_types/ipcEvents';
-import { TypeWallet } from '@/typings/entities';
+import { CustomTx } from 'bitcore-lib-dfi';
 
 export const handleFetchPoolPairList = async () => {
   const rpcClient = new RpcClient();
@@ -131,32 +129,17 @@ export const handlePoolSwap = async (formState): Promise<string> => {
   let hash = '';
   if (formState.typeWallet === 'ledger') {
     const { utxo } = await utxoLedger(swapAddress, formState.amount1);
-    const ipcRenderer = ipcRendererFunc();
-    const network = getNetworkType();
-    const keyIndex = getKeyIndexAddressLedger(network, swapAddress);
-    const res = await ipcRenderer.sendSync(CUSTOM_TX_LEDGER, {
-      utxo,
-      address: swapAddress,
-      amount: 0,
-      data: {
-        txType: 's',
-        customData: {
-          from: swapAddress,
-          idTokenFrom: formState.hash1,
-          amountFrom: poolSwapAmount.toNumber(),
-          to: formState.receiveAddress,
-          idTokenTo: formState.hash2,
-        },
-        tokenId: 0,
+    hash = await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
+      txType: CustomTx.customTxType.poolSwap,
+      customData: {
+        from: swapAddress,
+        idTokenFrom: formState.hash1,
+        amountFrom: poolSwapAmount.toNumber(),
+        to: formState.receiveAddress,
+        idTokenTo: formState.hash2,
       },
-      keyIndex,
+      address: swapAddress,
     });
-    if (res.success) {
-      log.info(res.data.tx)
-      hash = await rpcClient.sendRawTransaction(res.data.tx);
-    } else {
-      throw new Error(res.message);
-    }
   } else {
     hash = await rpcClient.poolSwap(
       swapAddress,

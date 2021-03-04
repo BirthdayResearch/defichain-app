@@ -18,6 +18,7 @@ import {
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
+  createTxWithUseLedger,
   fetchTokenDataWithPagination,
   getAccountsLedger,
   getErrorMessage,
@@ -30,6 +31,7 @@ import {
 } from '@/utils/utility';
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
+import { SEND_TOKEN_TX_LEDGER } from '@defi_types/ipcEvents';
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const localStorageName = handleLocalStorageNameLedger(networkName);
@@ -168,29 +170,15 @@ export const sendToAddress = async (
   fromAddress: string | null,
   toAddress: string,
   amount: number,
-  keyIndex: number,
-  type: 'legacy' | 'p2sh' = 'p2sh'
 ) => {
   log.info('Service accounttoaccount is started');
   try {
-    const rpcClient = new RpcClient();
-    const { utxo, amountUtxo } = await utxoLedger(fromAddress, amount);
-    const ipcRenderer = ipcRendererFunc();
-    const res = await ipcRenderer.sendSync('sign-transaction-ledger', {
-      utxo,
-      address: toAddress,
-      amount,
+    const { utxo } = await utxoLedger(fromAddress, amount);
+    return await createTxWithUseLedger(SEND_TOKEN_TX_LEDGER, utxo, {
+      toAddress,
       fromAddress,
-      keyIndex,
-      feeRate: amountUtxo - amount - 0.01,
-      type,
+      amount,
     });
-    if (res.success) {
-      const hashTx = await rpcClient.sendRawTransaction(res.data.tx);
-      return hashTx;
-    } else {
-      throw new Error(res.message);
-    }
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
     throw new Error(getErrorMessage(err));
