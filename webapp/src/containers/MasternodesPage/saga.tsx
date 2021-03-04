@@ -32,7 +32,8 @@ import {
 } from '../../utils/utility';
 
 import { isElectron, restartNodeSync } from '../../utils/isElectron';
-import { RESIGNED_STATE, TEST } from '../../constants';
+import { RESIGNED_STATE } from '../../constants';
+import { MasterNodeObject } from './masterNodeInterface';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -49,7 +50,7 @@ export function* fetchMasterNodes() {
     const enabledMasternode = data.filter(
       (masterNode) => masterNode.state !== RESIGNED_STATE
     );
-    const masternodes: any[] = [];
+    const masternodes: MasterNodeObject[] = [];
     for (const iterator of enabledMasternode) {
       try {
         const result = yield call(MasterNodeOwnerInfo, iterator);

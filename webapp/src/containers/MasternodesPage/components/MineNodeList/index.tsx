@@ -1,10 +1,11 @@
 import React from 'react';
 import { Col, Row, TabPane } from 'reactstrap';
 import { MINE } from 'src/constants';
+import { MasterNodeObject } from '../../masterNodeInterface';
 import MineNodeCard from './components/MineNodeCard';
 
 interface MineNodeProps {
-  enabledMasternodes: any[];
+  enabledMasternodes: MasterNodeObject[];
 }
 
 const MineNodeList: React.FunctionComponent<MineNodeProps> = (

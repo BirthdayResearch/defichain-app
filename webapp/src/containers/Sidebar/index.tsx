@@ -49,6 +49,7 @@ import {
   openWalletPassphraseModal,
   openExitWalletModal,
 } from '../PopOver/reducer';
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -66,7 +67,7 @@ export interface SidebarProps extends RouteComponentProps {
   isWalletCreatedFlag: boolean;
   openExitWalletModal: (t: boolean) => void;
   isWalletEncrypted: boolean;
-  myMasternodes: any[];
+  myMasternodes: MasterNodeObject[];
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {

@@ -577,7 +577,8 @@
       "updatingPassphrase": "Updating passphrase",
       "incorrectPassphrase": "The current passphrase entered is incorrect.",
       "minute": "%{time} minute",
-      "minutes": "%{time} minutes"
+      "minutes": "%{time} minutes",
+      "years": "%{time} years"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -891,7 +892,8 @@
     "unlock": "Unlock",
     "enterYourPassphrase": "Enter your passphrase",
     "walletUnlockTitle": "Welcome back",
-    "walletUnlockMessage": "Enter your passphrase to unlock your wallet.",
+    "walletUnlockMessage": "Enter your passphrase and select a duration to unlock your wallet.",
+    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue mining.",
     "lostPassphraseMessage": "I lost my passphrase",
     "backupWalletWarningModelHeader": "Wallet backup warning",
     "backupNow": "Backup now",
