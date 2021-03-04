@@ -159,7 +159,7 @@
       "createMasterNode": {
         "title": "Create masternode",
         "masterNodeName": "Masternode name",
-        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20k DFI is required to create masternode",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20,000 DFI is required to create masternode",
         "confirmationText": "Are you sure you want to create a masternode?",
         "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create masternode",
