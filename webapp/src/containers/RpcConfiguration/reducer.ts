@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { MAIN, TEST } from '../../constants';
 import { AppState } from './types';
 
 export const initialState: AppState = {
   isFetching: false,
   rpcRemotes: [],
-  rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
+  rpcConfig: { rpcauth: '', rpcconnect: '' },
   isRunning: false,
   rpcConfigError: '',
   nodeError: '',
   configurationData: {},
   isQueueReady: false,
   isAppClosing: false,
+  activeNetwork: 'main',
 };
 
 const configSlice = createSlice({
@@ -23,16 +26,11 @@ const configSlice = createSlice({
     getRpcConfigsSuccess(state, action) {
       state.rpcRemotes = action.payload.remotes;
       if (state.rpcRemotes && state.rpcRemotes.length) {
-        const {
-          rpcuser,
-          rpcpassword,
-          rpcconnect,
-          rpcport,
-        } = state.rpcRemotes[0];
+        const { rpcuser, rpcpassword, testnet } = state.rpcRemotes[0];
+        state.activeNetwork = testnet === CONFIG_ENABLED ? TEST : MAIN;
         state.rpcConfig = {
+          ...state.rpcRemotes[0],
           rpcauth: `${rpcuser}:${rpcpassword}`,
-          rpcconnect,
-          rpcport,
         };
       }
       state.isFetching = false;
@@ -71,6 +69,10 @@ const configSlice = createSlice({
       state.isFetching = action.payload.isAppClosing;
     },
     startSetNodeVersion(state) {},
+    setMasternodesMiningInConf(state, action) {
+      state.rpcConfig[state.activeNetwork].spv = action.payload;
+      state.rpcConfig[state.activeNetwork].gen = action.payload;
+    },
   },
 });
 
@@ -88,6 +90,7 @@ export const {
   killQueue,
   isAppClosing,
   startSetNodeVersion,
+  setMasternodesMiningInConf,
 } = actions;
 
 export default reducer;
