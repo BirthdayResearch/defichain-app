@@ -48,7 +48,9 @@ import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   openExitWalletModal,
+  openMasternodeWarningModal,
 } from '../PopOver/reducer';
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -66,12 +68,13 @@ export interface SidebarProps extends RouteComponentProps {
   isWalletCreatedFlag: boolean;
   openExitWalletModal: (t: boolean) => void;
   isWalletEncrypted: boolean;
+  myMasternodes: MasterNodeObject[];
+  openMasternodeWarningModal: (t: boolean) => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
-  const { blockChainInfo, isWalletEncrypted } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -97,6 +100,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isLoadingPoolSwap,
     isWalletCreatedFlag,
     openExitWalletModal,
+    blockChainInfo,
+    isWalletEncrypted,
+    myMasternodes,
+    openMasternodeWarningModal,
   } = props;
 
   useEffect(() => {
@@ -114,6 +121,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   const ICON_SIZE = 25;
 
+  const onLockWallet = () => {
+    myMasternodes?.length > 0
+      ? openMasternodeWarningModal(true)
+      : lockWalletStart();
+  };
+
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       <div className={`text-right m-2 mr-3 ${styles.iconSideBar}`}>
@@ -129,7 +142,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               <MdLockOpen
                 className={`${styles.iconNavTop}`}
                 size={ICON_SIZE}
-                onClick={lockWalletStart}
+                onClick={onLockWallet}
               />
             ) : (
               <MdLockOutline
@@ -248,9 +261,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdDns />
                 {I18n.t('containers.sideBar.masterNodes')}
-                <div className={styles.iconPosition}>
-                  <span className={`txn-status-enabled mt-1 ml-1`}></span>
-                </div>
+                {myMasternodes?.length > 0 && (
+                  <div className={styles.iconPosition}>
+                    <span className={`txn-status-enabled mt-1 ml-1`}></span>
+                  </div>
+                )}
               </NavLink>
             </NavItem>
           </Nav>
@@ -296,7 +311,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings, popover, swap } = state;
+  const { i18n, wallet, settings, popover, swap, masterNodes } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
@@ -309,6 +324,7 @@ const mapStateToProps = (state) => {
     isLoadingPoolSwap: swap.isLoadingPoolSwap,
     isWalletCreatedFlag: wallet.isWalletCreatedFlag,
     isWalletEncrypted: wallet.isWalletEncrypted,
+    myMasternodes: masterNodes.myMasternodes,
   };
 };
 
@@ -318,6 +334,7 @@ const mapDispatchToProps = {
   openWalletPassphraseModal,
   lockWalletStart,
   openExitWalletModal,
+  openMasternodeWarningModal,
 };
 
 export default withRouter(

@@ -10,7 +10,9 @@ interface MasterNodeTabsHeaderProps {
   tab: string;
 }
 
-const MasterNodeTabsHeader = (props: MasterNodeTabsHeaderProps) => {
+const MasterNodeTabsHeader: React.FunctionComponent<MasterNodeTabsHeaderProps> = (
+  props: MasterNodeTabsHeaderProps
+) => {
   const { setTab, tab } = props;
   return (
     <Nav pills className={style.navPosition}>

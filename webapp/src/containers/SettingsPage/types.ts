@@ -3,6 +3,7 @@ export enum TimeoutLockEnum {
   THREE_MINUTES = 180,
   FIVE_MINUTES = 300,
   TEN_MINUTES = 600,
+  MAX_TIME = 100000000,
 }
 
 export interface SettingsAppConfig {

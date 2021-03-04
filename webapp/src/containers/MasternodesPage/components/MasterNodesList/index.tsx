@@ -58,9 +58,6 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   }, [enabledMasternodes, searchQuery]);
 
   const loadHtml = () => {
-    if (isLoadingMasternodes) {
-      return I18n.t('containers.masterNodes.masterNodesList.loading');
-    }
     if (!tableData.length) {
       return (
         <Card className='table-responsive-md'>

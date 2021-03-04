@@ -30,7 +30,7 @@ import {
 } from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
-import { LANG_VARIABLE, WALLET_TOKENS_PATH } from '../../constants';
+import { LANG_VARIABLE, MAIN, TEST, WALLET_TOKENS_PATH } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { restartNode } from '../../utils/isElectron';
 import { openWalletPassphraseModal, restartModal } from '../PopOver/reducer';
@@ -48,6 +48,7 @@ import {
 import { fetchWalletMapRequest, lockWalletStart } from '../WalletPage/reducer';
 import { history } from '../../utils/history';
 import { remapNodeError } from '../../utils/utility';
+import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 
 export function* getSettingsOptions() {
   try {
@@ -148,26 +149,20 @@ export function* updateSettings(action) {
 export function* changeNetworkNode(networkName) {
   const { configurationData } = yield select((state) => state.app);
   const network = {
-    regtest: 0,
-    testnet: 0,
+    regtest: CONFIG_DISABLED,
+    testnet: CONFIG_DISABLED,
   };
-  let name = 'main';
+  let name = MAIN;
   const config = {
     rpcbind: DEFAULT_MAINNET_CONNECT,
     rpcport: DEFAULT_MAINNET_PORT,
   };
   if (networkName === TESTNET) {
-    network.testnet = 1;
-    name = 'test';
+    network.testnet = CONFIG_ENABLED;
+    name = TEST;
     config.rpcbind = DEFAULT_TESTNET_CONNECT;
     config.rpcport = DEFAULT_TESTNET_PORT;
   }
-  // if (networkName === REGTEST) {
-  //   network.regtest = 1;
-  //   name = 'regtest';
-  //   config.rpcbind = DEFAULT_MAINNET_CONNECT;
-  //   config.rpcport = DEFAULT_MAINNET_PORT;
-  // }
   const currentNetworkConfiguration = configurationData[name] || {};
   const updatedConf = Object.assign({}, configurationData, network, {
     [name]: { ...currentNetworkConfiguration, ...config },

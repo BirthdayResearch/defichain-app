@@ -2,10 +2,15 @@ import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import { Card, CardBody, Row, Col, CardTitle, CardText } from 'reactstrap';
-import { MASTER_NODES_PATH, SAME_AS_OWNER_ADDRESS } from 'src/constants';
+import {
+  MASTER_NODES_PATH,
+  MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+  SAME_AS_OWNER_ADDRESS,
+} from 'src/constants';
 import styles from '../../MineNodeList.module.scss';
 import EllipsisText from 'react-ellipsis-text';
 import { history } from 'src/utils/history';
+import NumberMask from '../../../../../../components/NumberMask';
 
 interface MineNodeCardProps {
   hash: string;
@@ -90,7 +95,12 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
           </Col>
           <Col>
             <CardText>
-              <small className='text-muted'>20,000 DFI</small>
+              <small className='text-muted'>
+                <NumberMask
+                  value={MINIMUM_DFI_AMOUNT_FOR_MASTERNODE.toString()}
+                />
+                <span> DFI</span>
+              </small>
             </CardText>
           </Col>
         </Row>

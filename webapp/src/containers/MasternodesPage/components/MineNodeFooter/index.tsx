@@ -14,7 +14,7 @@ const MineNodeFooter: React.FunctionComponent<MineNodeFooterProps> = (
 
   return (
     <Row>
-      <Col>
+      <Col md='4'>
         <span>
           <small className='text-muted'>
             {I18n.t('containers.masterNodes.masterNodesPage.collateralsActive')}
