@@ -1,7 +1,9 @@
 import RpcClient from '../../utils/rpc-client';
-import * as log from '../../utils/electronLogger';
 import isEmpty from 'lodash/isEmpty';
 import { GET_NEW_ADDRESS_TYPE } from '../../constants';
+import store from '../../app/rootStore';
+import { CONFIG_DISABLED, RPCConfigItem } from '@defi_types/rpcConfig';
+import { setMasternodesMiningInConf } from '../RpcConfiguration/reducer';
 
 export const handelFetchMasterNodes = async () => {
   const rpcClient = new RpcClient();
@@ -60,4 +62,10 @@ export const importPrivateKey = (address: string) => {
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
   return rpcClient.getaddressInfo(address);
+};
+
+export const disableMasternodesMining = (): RPCConfigItem => {
+  store.dispatch(setMasternodesMiningInConf(CONFIG_DISABLED));
+  const { app } = store.getState();
+  return app.rpcConfig;
 };

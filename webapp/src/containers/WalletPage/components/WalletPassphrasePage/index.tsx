@@ -1,7 +1,14 @@
-import React from 'react';
-import LaunchLogo from '../../../../components/Svg/Launch';
+import React, { useState } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { Button, Row, Col } from 'reactstrap';
+import {
+  Button,
+  Row,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
 
 import styles from './walletPassphrasePage.module.scss';
 import { connect } from 'react-redux';
@@ -15,11 +22,20 @@ import { unlockWalletFailure, unlockWalletStart } from '../../reducer';
 import { history } from '../../../../utils/history';
 import { WALLET_TOKENS_PATH } from '../../../../constants';
 import classnames from 'classnames';
-import { MdErrorOutline } from 'react-icons/md';
+import { MdCheck, MdErrorOutline, MdLockOpen } from 'react-icons/md';
 import {
   currentPasswordValidation,
   PasswordFormEnum,
 } from '../../../../utils/passwordUtility';
+import { RootState } from '../../../../app/rootTypes';
+import { MasterNodeObject } from '../../../MasternodesPage/masterNodeInterface';
+import { TimeoutLockEnum } from '../../../SettingsPage/types';
+import { getDropdownLabel } from '../../../SettingsPage/components/SettingsRowDropDown';
+import {
+  MaxTimeout,
+  TimeoutLockList,
+} from '../../../SettingsPage/components/SettingsTabSecurity';
+import { useEffect } from 'react';
 
 export interface WalletPassphrasePayload extends EncryptWalletPayload {
   timeout: number;
@@ -34,6 +50,7 @@ export interface WalletPassphrasePageProps {
   onClose?: () => void;
   unlockWalletStart: (item: WalletPassphrasePayload) => void;
   unlockWalletFailure: (message: string) => void;
+  myMasternodes: MasterNodeObject[];
 }
 
 const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> = (
@@ -47,7 +64,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
       passphrase: data.passphrase,
       isModal,
       pageRedirect: originalPage ?? WALLET_TOKENS_PATH,
-      timeout: defaultLockTimeout,
+      timeout: timeoutValue,
     });
   };
   const {
@@ -59,7 +76,23 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
     isErrorUnlockWallet,
     unlockWalletFailure,
     defaultLockTimeout,
+    myMasternodes,
   } = props;
+
+  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
+  const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
+
+  const hasMasterNodes = (): boolean => {
+    return myMasternodes?.length > 0;
+  };
+
+  useEffect(() => {
+    if (hasMasterNodes()) {
+      setTimeoutLockList([...TimeoutLockList, { ...MaxTimeout }]);
+      setTimeoutValue(MaxTimeout.value);
+    }
+  }, [myMasternodes?.length]);
+
   return (
     <div className='main-wrapper'>
       {!isModal && (
@@ -80,14 +113,15 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
             <Col md={pageSize ?? 9}>
               <form onSubmit={handleSubmit(onHandleChange)}>
                 <section className={styles.passphraseContainer}>
-                  <LaunchLogo isNotAnimated={true} />
-                  {isModal && (
-                    <h2 className='mb-0'>
-                      {I18n.t('alerts.walletUnlockTitle')}
-                    </h2>
-                  )}
+                  <MdLockOpen size={20} className={styles.lockIcon} />
                   <h6 className='mb-2'>
-                    {I18n.t('alerts.walletUnlockMessage')}
+                    <span>
+                      {I18n.t(
+                        hasMasterNodes()
+                          ? 'alerts.walletUnlockMasternodeMessage'
+                          : 'alerts.walletUnlockMessage'
+                      )}
+                    </span>
                   </h6>
                   <div className={styles.passphraseField}>
                     <Controller
@@ -108,17 +142,33 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                         />
                       )}
                     />
-                    <div>
-                      <Button
-                        size='md'
-                        color='primary'
-                        type='submit'
-                        disabled={!formState.isValid}
-                        className='ml-3'
-                      >
-                        {I18n.t('alerts.unlock')}
-                      </Button>
-                    </div>
+                  </div>
+                  <div className={classnames({ fullWidthDropdown: true })}>
+                    <UncontrolledDropdown>
+                      <DropdownToggle disabled={hasMasterNodes()} caret color='outline-secondary'>
+                        {I18n.t(
+                          getDropdownLabel(timeoutLockList, timeoutValue)
+                        )}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {timeoutLockList.map((object) => {
+                          return (
+                            <DropdownItem
+                              className='d-flex justify-content-between'
+                              key={object.value}
+                              onClick={() => {
+                                setTimeoutValue(object.value);
+                              }}
+                              value={object.value}
+                            >
+                              <span>{I18n.t(object.label)}</span>
+                              &nbsp;
+                              {timeoutValue === object.value && <MdCheck />}
+                            </DropdownItem>
+                          );
+                        })}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
                   </div>
                   {isModal && isErrorUnlockWallet.length !== 0 && (
                     <h6
@@ -139,7 +189,16 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                           : history.push(originalPage || WALLET_TOKENS_PATH);
                       }}
                     >
-                      {I18n.t('alerts.later')}
+                      {I18n.t('alerts.cancel')}
+                    </Button>
+                    <Button
+                      size='md'
+                      color='primary'
+                      type='submit'
+                      disabled={!formState.isValid}
+                      className='ml-3'
+                    >
+                      {I18n.t('alerts.unlock')}
                     </Button>
                   </div>
                 </section>
@@ -177,15 +236,17 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const { isEncryptWalletModalOpen, isWalletEncrypting } = state.popover;
   const { isErrorUnlockWallet } = state.wallet;
   const { defaultLockTimeout } = state.settings;
+  const { myMasternodes } = state.masterNodes;
   return {
     isWalletEncrypting,
     isEncryptWalletModalOpen,
     isErrorUnlockWallet,
     defaultLockTimeout,
+    myMasternodes,
   };
 };
 

@@ -30,4 +30,5 @@ export interface PopoverState {
   isEncryptFromModal: boolean;
   isPostEncryptBackupModalOpen: boolean;
   reIndexMessage: string;
+  isMasternodeWarningModalOpen: boolean;
 }
