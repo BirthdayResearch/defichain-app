@@ -48,6 +48,7 @@ import {
   openEncryptWalletModal,
   openWalletPassphraseModal,
   openExitWalletModal,
+  openMasternodeWarningModal,
 } from '../PopOver/reducer';
 import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
 
@@ -68,12 +69,12 @@ export interface SidebarProps extends RouteComponentProps {
   openExitWalletModal: (t: boolean) => void;
   isWalletEncrypted: boolean;
   myMasternodes: MasterNodeObject[];
+  openMasternodeWarningModal: (t: boolean) => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
   const [blur, setBlur] = useState(true);
-  const { blockChainInfo, isWalletEncrypted, myMasternodes } = props;
 
   useEffect(() => {
     props.fetchInstantBalanceRequest();
@@ -99,6 +100,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
     isLoadingPoolSwap,
     isWalletCreatedFlag,
     openExitWalletModal,
+    blockChainInfo,
+    isWalletEncrypted,
+    myMasternodes,
+    openMasternodeWarningModal,
   } = props;
 
   useEffect(() => {
@@ -116,6 +121,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 
   const ICON_SIZE = 25;
 
+  const onLockWallet = () => {
+    myMasternodes?.length > 0
+      ? openMasternodeWarningModal(true)
+      : lockWalletStart();
+  };
+
   return (
     <div className={`${styles.sidebar} ${blur && styles.blur}`} disabled={blur}>
       <div className={`text-right m-2 mr-3 ${styles.iconSideBar}`}>
@@ -131,7 +142,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               <MdLockOpen
                 className={`${styles.iconNavTop}`}
                 size={ICON_SIZE}
-                onClick={lockWalletStart}
+                onClick={onLockWallet}
               />
             ) : (
               <MdLockOutline
@@ -323,6 +334,7 @@ const mapDispatchToProps = {
   openWalletPassphraseModal,
   lockWalletStart,
   openExitWalletModal,
+  openMasternodeWarningModal,
 };
 
 export default withRouter(

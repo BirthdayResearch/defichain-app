@@ -916,7 +916,8 @@
     "deletePeersAndBlocks": "Delete peers and blocks",
     "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
     "nodeVersionUpdate": "Node has been updated to version %{version}. An app reindex is required. Do you want to restart now?",
-    "nodeVersionHeader": "Node update"
+    "nodeVersionHeader": "Node update",
+    "masternodesAlert": "You are currently running a masternode. Mining will not work on a locked wallet. Do you want to proceed?"
   },
   "general": {
     "defiApp": "DeFi app",

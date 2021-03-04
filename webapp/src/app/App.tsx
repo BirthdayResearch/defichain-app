@@ -25,6 +25,7 @@ import { PACKAGE_VERSION } from 'src/constants';
 import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
 import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
 import PostEncryptBackupModal from '../containers/PopOver/PostEncryptBackupModal';
+import MasternodeWarningModal from '../containers/PopOver/MasternodeWarningModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -121,6 +122,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <RestoreWalletModal />
       <ExitWalletModal />
       <PostEncryptBackupModal />
+      <MasternodeWarningModal />
     </>
   );
 };
