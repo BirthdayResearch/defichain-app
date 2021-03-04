@@ -499,7 +499,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 </InputGroup>
               </FormGroup>
               <div
-                className={`sendPage-backdrop ${this.state.showBackdrop}`}
+                className={`footer-backdrop ${this.state.showBackdrop}`}
                 onClick={this.sendStepDefault}
               />
             </Form>
