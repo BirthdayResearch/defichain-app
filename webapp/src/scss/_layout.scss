@@ -175,6 +175,22 @@ body {
     }
   }
 
+  .sendPage-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: $zindex-modal-backdrop;
+    width: 100%;
+    height: 66.5vh;
+    background-color: $modal-backdrop-bg;
+    opacity: $modal-backdrop-opacity;
+    display: none;
+
+    &.show-backdrop {
+      display: block;
+    }
+  }
+
   [class^='txn-status-'] {
     display: block;
     text-indent: 100%;
