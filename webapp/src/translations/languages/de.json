@@ -578,7 +578,8 @@
       "incorrectPassphrase": "Das eingegebene Passwort ist nicht korrekt.",
       "minute": "%{time} Minute",
       "minutes": "%{time} Minuten",
-      "years": "%{time} Jahre"
+      "years": "%{time} Jahre",
+      "autoLockMNWarning": "Die automatische Sperre ist deaktiviert, wenn ein oder mehrere Masternode(s) auf deinem Wallet aktiv sind."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -883,8 +884,8 @@
     "unlock": "Entsperren",
     "enterYourPassphrase": "Gebe dein Passwort ein",
     "walletUnlockTitle": "Willkommen zurück",
-    "walletUnlockMessage": "Gib dein Passwort ein um Deine Wallet zu entsperren.",
-    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue mining.",
+    "walletUnlockMessage": "Gib dein Passwort ein und wähle eine Dauer für deine entsperrte Wallet aus.",
+    "walletUnlockMasternodeMessage": "Du betreibst derzeit einen Masternode auf einem gesperrten Wallet. Du musst dein Wallet mit deinem Passwort entsperren um weiter minten zu können.",
     "lostPassphraseMessage": "ICH HABE MEIN PASSWORT VERGESSEN",
     "backupWalletWarningModelHeader": "Wallet-Sicherungswarnung",
     "backupNow": "Jetzt sichern",
@@ -907,7 +908,8 @@
     "deletePeersAndBlocks": "Peers und Blöcke löschen",
     "walletBackupWarning": "Verschlüsselung der Wallet erfolgreich. Bitte erstelle sofort ein Backup deiner Wallet. Möchtest du fortfahren?",
     "nodeVersionUpdate": "Node wurde auf Version %{version} upgedatet. Ein App Reindex ist erforderlich. Möchtest du jetzt neu starten?",
-    "nodeVersionHeader": "Node update"
+    "nodeVersionHeader": "Node update",
+    "masternodesAlert": "Du betreibst derzeit einen Masternode. Das Minten wird auf einer gesperrten Wallet nicht funktionieren. Möchtest du trotzdem fortfahren?"
   },
   "general": {
     "defiApp": "DeFi app",
