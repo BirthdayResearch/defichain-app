@@ -33,7 +33,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const { walletTxnCount: total, walletTxns, stopPagination } = props;
 
   useEffect(() => {
-    if(props.status === 'connecting') {
+    if(props.status === 'connected') {
       props.fetchWalletTxns(currentPage, pageSize, true);
     }
   }, [props.fetchWalletTxns, props.status]);
