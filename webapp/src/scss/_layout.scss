@@ -197,11 +197,13 @@ body {
 
 .fullWidthDropdown {
   width: 100%;
+
   button {
     width: 100%;
     text-align: start;
     display: block;
   }
+
   .dropdown-toggle::after {
     position: absolute;
     right: 0;
