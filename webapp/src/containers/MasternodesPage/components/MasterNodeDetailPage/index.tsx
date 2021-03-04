@@ -20,6 +20,7 @@ import styles from '../../masternode.module.scss';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
 import { MasterNodesPageStates } from '../..';
+import ViewOnChain from '../../../../components/ViewOnChain';
 interface RouteProps {
   hash: string;
 }
@@ -297,6 +298,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            <ViewOnChain txid={resignedMasterNodeData} />
             <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
                 'containers.masterNodes.masternodeDetailPage.backToMasternodePage'

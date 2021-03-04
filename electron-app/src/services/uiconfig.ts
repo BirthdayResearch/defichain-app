@@ -17,7 +17,6 @@ import {
 } from '@defi_types/settings';
 import {
   CONFIG_DISABLED,
-  CONFIG_ENABLED,
   NetworkTypes,
   RPCConfigItem,
   RPCRemotes,

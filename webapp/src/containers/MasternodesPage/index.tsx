@@ -8,7 +8,6 @@ import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
 import {
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
-  RESIGNED_STATE,
   CONFIRM_BUTTON_TIMEOUT,
   CONFIRM_BUTTON_COUNTER,
   ALL,
