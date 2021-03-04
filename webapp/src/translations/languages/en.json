@@ -578,7 +578,8 @@
       "incorrectPassphrase": "The current passphrase entered is incorrect.",
       "minute": "%{time} minute",
       "minutes": "%{time} minutes",
-      "years": "%{time} years"
+      "years": "%{time} years",
+      "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active."
     },
     "wallet": {
       "createOrRestoreWalletPage": {

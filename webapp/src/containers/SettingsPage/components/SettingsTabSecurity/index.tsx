@@ -10,6 +10,7 @@ import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
 import { setDefaultLockTimeout, setLockoutTimeList } from '../../reducer';
 import { TimeoutLockEnum } from '../../types';
 import { RootState } from '../../../../app/rootTypes';
+import styles from './settingsTabSecurity.module.scss';
 
 const timeoutLabel = 'containers.settings.minutes';
 
@@ -114,8 +115,18 @@ const SettingsTabSecurity: React.FunctionComponent = () => {
                 handleDropDowns={handleDropDowns}
                 fieldName={'autoLock'}
                 disabled={hasMasterNodes}
-              />
+              ></SettingsRowDropDown>
             </Col>
+            {hasMasterNodes() && (
+              <>
+                <Col md='4'></Col>
+                <Col md='8' className={styles.smallText}>
+                  <small>
+                    {I18n.t('containers.settings.autoLockMNWarning')}
+                  </small>
+                </Col>
+              </>
+            )}
           </Row>
         </Form>
       </section>
