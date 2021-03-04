@@ -895,7 +895,7 @@
     "enterYourPassphrase": "Enter your passphrase",
     "walletUnlockTitle": "Welcome back",
     "walletUnlockMessage": "Enter your passphrase and select a duration to unlock your wallet.",
-    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue mining.",
+    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue minting.",
     "lostPassphraseMessage": "I lost my passphrase",
     "backupWalletWarningModelHeader": "Wallet backup warning",
     "backupNow": "Backup now",
@@ -919,7 +919,7 @@
     "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
     "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now?",
     "nodeVersionHeader": "Node update",
-    "masternodesAlert": "You are currently running a masternode. Mining will not work on a locked wallet. Do you want to proceed?"
+    "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?"
   },
   "general": {
     "defiApp": "DeFi app",
