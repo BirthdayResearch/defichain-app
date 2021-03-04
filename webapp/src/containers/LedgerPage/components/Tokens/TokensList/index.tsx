@@ -17,7 +17,7 @@ import {
 import { LEDGER_PATH } from '@/constants';
 import { IToken } from 'src/utils/interfaces';
 import TokensList from '@/components/TokensList';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { StatusLedger } from '@/typings/entities';
 import { getWalletPathAddress } from '@/utils/utility';
 import HelpModal from '../../HelpModal';

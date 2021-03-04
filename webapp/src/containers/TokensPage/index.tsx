@@ -34,7 +34,7 @@ import {
   TOKENS_PATH,
 } from '../../constants';
 import Header from '../HeaderComponent';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { StatusLedger } from '@/typings/models';
 import { getPageTitle } from '@/utils/utility';
 

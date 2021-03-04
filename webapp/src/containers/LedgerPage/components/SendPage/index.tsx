@@ -16,7 +16,7 @@ import {
   getSymbolKey,
   getAddressAndAmountListForLedger
 } from '@/utils/utility';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import * as log from '@/utils/electronLogger';
 import BigNumber from 'bignumber.js';
 import qs from 'querystring';

@@ -13,7 +13,7 @@ import {
 import { PaymentRequestModel } from '@/containers/WalletPage/components/ReceivePage/PaymentRequestList';
 import styles from './AddressDropdown.module.scss';
 import { AddressModel } from '@/model/address.model';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { LedgerConnect } from '@/containers/LedgerPage/types';
 
 interface Address extends PaymentRequestModel {

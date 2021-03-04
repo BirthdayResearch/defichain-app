@@ -61,8 +61,8 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.3",
     "bitcoinjs-lib": "^5.2.0",
+    "bitcore-lib-dfi": "git+https://github.com/DeFiCh/bitcore-lib-dfi.git#update-add-ledger",
     "commander": "^7.1.0",
-    "bitcore-lib-dfi": "https://github.com/DeFiCh/bitcore-lib-dfi.git#update-add-ledger",
     "crypto-js": "^4.0.0",
     "d3-fetch": "^2.0.0",
     "d3-scale": "^3.2.3",
@@ -139,14 +139,18 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -166,7 +170,9 @@
       ]
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     },
     "win": {
       "target": "NSIS"

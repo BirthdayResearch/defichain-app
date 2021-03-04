@@ -16,12 +16,6 @@ import { createTx, ONE_DFI_SATOSHIS } from '../services/customTx';
 import { ListUnspentModel } from '@defi_types/common';
 import { IDataTx, AddressLedger, IDataTxSend, IDataCustomTx } from '@defi_types/ledger';
 
-interface ICommonDataTx<T> {
-  utxo: any[];
-  data: T;
-  addressesLedger: any[];
-}
-
 const DefiLedger = new DefiHwWallet();
 
 const signTx = async (

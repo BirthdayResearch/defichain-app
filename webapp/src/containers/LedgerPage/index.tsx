@@ -34,7 +34,7 @@ import { getAmountInSelectedUnit, getSymbolKey } from '@/utils/utility';
 import * as log from '@/utils/electronLogger';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { getBackupIndexesLedger, getPubKeyLedger, loadWallet } from './service';
 import { uid } from 'uid';
 import { getWalletPathAddress } from '@/utils/utility';

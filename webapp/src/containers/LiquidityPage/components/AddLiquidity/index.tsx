@@ -51,7 +51,7 @@ import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/
 import { AddressModel } from '@/model/address.model';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from '../../../../components/ViewOnChain';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { ITokenBalanceInfo } from '@/utils/interfaces';
 
 interface AddLiquidityProps {

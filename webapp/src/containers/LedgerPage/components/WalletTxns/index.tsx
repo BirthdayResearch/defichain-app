@@ -10,7 +10,7 @@ import { WALLET_TXN_PAGE_SIZE, BLOCKCHAIN_BLOCK_BASE_PATH } from '@/constants';
 import Pagination from '@/components/Pagination';
 import { getAmountInSelectedUnit } from '@/utils/utility';
 import { StatusLedger, WalletTxn } from '@/typings/models';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 
 interface WalletTxnsProps {
   unit: string;

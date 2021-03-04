@@ -61,7 +61,7 @@ import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
 import { FormPoolSwap } from '@/typings/models';
-import { RootState } from '@/app/rootReducer';
+import { RootState } from '@/app/rootTypes';
 import { ITokenBalanceInfo } from '@/utils/interfaces';
 
 interface SwapPageProps {
