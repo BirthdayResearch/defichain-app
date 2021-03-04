@@ -115,7 +115,7 @@ const SettingsTabSecurity: React.FunctionComponent = () => {
                 handleDropDowns={handleDropDowns}
                 fieldName={'autoLock'}
                 disabled={hasMasterNodes}
-               />
+              />
             </Col>
             {hasMasterNodes() && (
               <>
