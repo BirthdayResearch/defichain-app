@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TabPane, Row, Col, Form, FormGroup, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,11 +7,9 @@ import SettingsRowDropDown from '../SettingsRowDropDown';
 import { SettingsTabs } from '../SettingsTabHeader';
 import { NavLink } from 'react-router-dom';
 import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
-import {
-  setDefaultLockTimeout,
-  setLockoutTimeList,
-  TimeoutLockEnum,
-} from '../../reducer';
+import { setDefaultLockTimeout, setLockoutTimeList } from '../../reducer';
+import { TimeoutLockEnum } from '../../types';
+import { RootState } from '../../../../app/rootTypes';
 
 const timeoutLabel = 'containers.settings.minutes';
 
@@ -46,19 +44,44 @@ export const TimeoutLockList = [
   },
 ];
 
+export const MaxTimeout = {
+  label: I18n.t('containers.settings.years', {
+    time: 3,
+  }),
+  value: TimeoutLockEnum.MAX_TIME,
+};
+
 const SettingsTabSecurity: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const { lockTimeoutList, defaultLockTimeout } = useSelector(
-    (state: any) => state.settings
+    (state: RootState) => state.settings
+  );
+  const { myMasternodes } = useSelector(
+    (state: RootState) => state.masterNodes
   );
 
   const handleDropDowns = (data: number) => {
+    setTimeoutValue(data);
     dispatch(setDefaultLockTimeout(data));
   };
 
+  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
+  const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
+
+  const hasMasterNodes = (): boolean => {
+    return myMasternodes?.length > 0;
+  };
+
   useEffect(() => {
-    dispatch(setLockoutTimeList(TimeoutLockList));
-  }, []);
+    if (hasMasterNodes()) {
+      setTimeoutLockList([...TimeoutLockList, { ...MaxTimeout }]);
+      setTimeoutValue(MaxTimeout.value);
+    }
+  }, [myMasternodes?.length]);
+
+  useEffect(() => {
+    dispatch(setLockoutTimeList(lockTimeoutList));
+  }, [lockTimeoutList.length]);
 
   return (
     <TabPane tabId={SettingsTabs.security}>
@@ -86,10 +109,11 @@ const SettingsTabSecurity: React.FunctionComponent = () => {
             <Col md='12'>
               <SettingsRowDropDown
                 label={'containers.settings.autoLock'}
-                data={lockTimeoutList}
-                field={defaultLockTimeout}
+                data={timeoutLockList}
+                field={timeoutValue}
                 handleDropDowns={handleDropDowns}
                 fieldName={'autoLock'}
+                disabled={hasMasterNodes}
               />
             </Col>
           </Row>

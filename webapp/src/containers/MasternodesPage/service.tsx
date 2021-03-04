@@ -1,21 +1,13 @@
 import RpcClient from '../../utils/rpc-client';
-import * as log from '../../utils/electronLogger';
 import isEmpty from 'lodash/isEmpty';
-import {
-  CUSTOM_TX_LEDGER,
-  DEFAULT_FEE_RATE,
-  DEFAULT_MAXIMUM_AMOUNT,
-  DEFAULT_MAXIMUM_COUNT, DFI_SYMBOL, FEE_RATE,
-  GET_NEW_ADDRESS_TYPE,
-  MAXIMUM_AMOUNT,
-  MAXIMUM_COUNT, MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
-} from '../../constants';
-import { TypeWallet } from '@/typings/entities';
-import { construct } from '@/utils/cutxo';
-import PersistentStore from '@/utils/persistentStore';
-import { ipcRendererFunc } from '@/utils/isElectron';
 import { CustomTx } from 'bitcore-lib-dfi';
+import { GET_NEW_ADDRESS_TYPE, CUSTOM_TX_LEDGER, MINIMUM_DFI_AMOUNT_FOR_MASTERNODE } from '../../constants';
+import store from '../../app/rootStore';
+import { CONFIG_DISABLED, RPCConfigItem } from '@defi_types/rpcConfig';
+import { setMasternodesMiningInConf } from '../RpcConfiguration/reducer';
+import { TypeWallet } from '@/typings/entities';
 import { getAddressForSymbolLedger, utxoLedger, handelGetPaymentRequestLedger } from '@/utils/utility';
+import { ipcRendererFunc } from '@/utils/isElectron';
 
 export const handelFetchMasterNodes = async () => {
   const rpcClient = new RpcClient();
@@ -102,4 +94,10 @@ export const importPrivateKey = (address: string) => {
 export const getAddressInfo = (address) => {
   const rpcClient = new RpcClient();
   return rpcClient.getaddressInfo(address);
+};
+
+export const disableMasternodesMining = (): RPCConfigItem => {
+  store.dispatch(setMasternodesMiningInConf(CONFIG_DISABLED));
+  const { app } = store.getState();
+  return app.rpcConfig;
 };

@@ -12,7 +12,8 @@
     "rootDir": ".",
     "paths": {
       "@defi_types/*": ["./typings/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": ["electron-app/**/*"],
   "exclude": ["electron-app/build/"]

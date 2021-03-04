@@ -14,6 +14,7 @@ import {
   MdArrowUpward,
   MdArrowDownward,
   MdCompareArrows,
+  MdFileDownload,
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
@@ -111,19 +112,20 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const [CsvModalOpen, setCsvModalOpen] = useState(false);
   const [transactionData, setTransationData] = useState<any>([]);
   const [includeRewards, setIncludeRewards] = useState(false);
+  const [downloadDisable, setDownloadDisable] = useState(false);
   const pageSize = 10;
   const total = accountHistoryCount;
   const pagesCount = Math.ceil(total / pageSize);
   const textLimit = 26;
   const from = (currentPage - 1) * pageSize + 1;
   const to = Math.min(total, currentPage * pageSize);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const [error, setError] = useState('');
   const [reqData, setData] = useState({
     blockHeight: blockCount,
     limit: 100,
     token: tokenSymbol,
-    no_rewards: false,
+    no_rewards: true,
   });
 
   useEffect(() => {
@@ -133,7 +135,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     const getData = async () => {
       try {
+        setDownloadDisable(true);
         const txns = await getListAccountHistory(reqData);
+        if (txns != null && blockCount != 0) {
+          setDownloadDisable(false);
+        }
         setTransationData(txns);
       } catch (err) {
         const errorMessage = getErrorMessage(err);
@@ -184,10 +190,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     setError('');
     setData({
+      ...reqData,
       blockHeight: blockCount,
-      limit: 100,
       token: tokenSymbol,
-      no_rewards: false,
+      no_rewards: true,
+      limit: 100,
     });
   }, [CsvModalOpen]);
 
@@ -244,6 +251,20 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     sourceArray.current.push(source);
     fetchData(currentPage, source.token);
   }, [includeRewards]);
+
+  useEffect(() => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  }, [blockCount]);
+
+  const maxBlock = () => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  };
 
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
@@ -370,20 +391,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   {item.txid ? (
                     <td>
                       <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <a
-                          href='#'
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onViewOnChain(item.txid);
-                          }}
-                        >
-                          <ValueLi
-                            value={item.txid}
-                            copyable={true}
-                            textLimit={textLimit}
-                          />
-                        </a>
+                        <ValueLi
+                          value={item.txid}
+                          copyable={true}
+                          textLimit={textLimit}
+                        />
                       </div>
                     </td>
                   ) : (
@@ -434,12 +446,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             size='sm'
             onClick={handleCsvButtonClick}
           >
-            <MdArrowDownward />
+            <MdFileDownload />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.csvExport')}
+              {I18n.t('containers.wallet.walletPage.exportData')}
             </span>
           </Button>
           <DownloadCsvModal
+            downloadDisable={downloadDisable}
             reqData={reqData}
             transactionData={transactionData}
             handleDownloadWindow={handleDownloadWindow}
@@ -451,6 +464,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             tokenSymbol={tokenSymbol}
             CsvModalOpen={CsvModalOpen}
             handleCsvButtonClick={handleCsvButtonClick}
+            maxBlock={maxBlock}
           />
         </div>
       </div>

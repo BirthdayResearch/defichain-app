@@ -189,4 +189,25 @@ body {
   .txn-status-enabled {
     background-color: $green;
   }
+
+  .txn-status-disable {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.fullWidthDropdown {
+  width: 100%;
+
+  button {
+    width: 100%;
+    text-align: start;
+    display: block;
+  }
+
+  .dropdown-toggle::after {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-right: 1.5rem;
+  }
 }

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-} from 'reactstrap';
+import { Label, Input, InputGroupAddon, InputGroupText } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 
@@ -22,7 +16,7 @@ const SettingsRowInput = (props) => {
   } = props;
 
   return (
-    <InputGroup>
+    <>
       <Input
         type='number'
         name={`${name}`}
@@ -31,7 +25,7 @@ const SettingsRowInput = (props) => {
         placeholder={`${placeholder}`}
         onChange={(event) => handleInputs(event, `${fieldName}`)}
       />
-      <Label for='pruneTo'>{I18n.t(`containers.settings.${label}`)}</Label>
+      <Label for='pruneTo'>{label}</Label>
       {text && (
         <InputGroupAddon addonType='append'>
           <InputGroupText>
@@ -39,7 +33,7 @@ const SettingsRowInput = (props) => {
           </InputGroupText>
         </InputGroupAddon>
       )}
-    </InputGroup>
+    </>
   );
 };
 

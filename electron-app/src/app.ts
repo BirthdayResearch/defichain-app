@@ -32,7 +32,8 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
-import { checkWalletConfig, createWalletMap } from './controllers/wallets';
+import { checkWalletConfig, initializeWalletMap } from './controllers/wallets';
+import Uiconfig from './services/uiconfig';
 
 declare var process: {
   argv: any;
@@ -64,7 +65,10 @@ export default class App {
     /* For future purpose */
   }
 
-  run() {
+  async run() {
+    /* Create config file if not existing */
+    const uiConfig = new Uiconfig();
+    await uiConfig.get();
     app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);
     app.on(ACTIVATE, this.onAppActivate);
@@ -90,7 +94,7 @@ export default class App {
       this.createMenu.bind(this)
     );
     createMnemonicAction();
-    createWalletMap();
+    initializeWalletMap();
     initiateLedger();
   };
 

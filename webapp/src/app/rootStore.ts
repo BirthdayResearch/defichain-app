@@ -21,7 +21,7 @@ if (!isProduction) {
   log.setDefaultLevel(DEFAULT_LOG_LEVEL);
 }
 
-const store: any = configureStore({
+const store = configureStore({
   reducer,
   middleware,
 });

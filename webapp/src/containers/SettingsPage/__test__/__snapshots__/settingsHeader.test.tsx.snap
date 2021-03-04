@@ -29,17 +29,6 @@ exports[`SettingsTabHeader should check for snapshot if isUnsaved is true 1`] = 
         onClick={[Function]}
         tag="a"
       >
-        Security
-      </NavLink>
-    </NavItem>
-    <NavItem
-      tag="li"
-    >
-      <NavLink
-        className=""
-        onClick={[Function]}
-        tag="a"
-      >
         Display
       </NavLink>
     </NavItem>

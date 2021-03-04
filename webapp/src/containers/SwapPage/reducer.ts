@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { SwapPageState } from './types';
 
-export const initialState = {
+export const initialState: SwapPageState = {
   poolPairList: [],
   isLoadingPoolPairList: false,
   tokenBalanceList: [],

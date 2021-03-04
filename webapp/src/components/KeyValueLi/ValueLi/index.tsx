@@ -4,10 +4,11 @@ import CopyToClipboard from '../../CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import styles from './ValueLi.module.scss';
+import { onViewOnChain } from 'src/utils/utility';
 
 interface KeyValueLiProps {
   copyable?: boolean | string;
-  value?: string;
+  value: string;
   popsQR?: any;
   uid?: any;
   label?: string;
@@ -27,30 +28,48 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
   };
 
   return (
-    <div className={styles.keyValueLi}>
-      <div className={styles.value}>
-        <div>
-          <div
-            className={classnames({ 'd-flex': copied }, styles.copiedIndicator)}
-          >
-            {I18n.t('components.keyValueLi.copied')}
+    <>
+      <a
+        href='#'
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onViewOnChain(props.value);
+        }}
+      >
+        <div className={styles.keyValueLi}>
+          <div className={styles.value}>
+            <div>
+              <div
+                className={classnames(
+                  { 'd-flex': copied },
+                  styles.copiedIndicator
+                )}
+              >
+                {I18n.t('components.keyValueLi.copied')}
+              </div>
+              {props.value ? (
+                <EllipsisText
+                  text={props.value}
+                  length={Number(props.textLimit ?? `50`)}
+                />
+              ) : (
+                '-'
+              )}
+            </div>
           </div>
-          {props.value ? (
-            <EllipsisText
-              text={props.value}
-              length={Number(props.textLimit ?? `50`)}
-            />
-          ) : (
-            '-'
-          )}
         </div>
-        <div>
-          {props.value && props.copyable && (
-            <CopyToClipboard value={props.value!} handleCopy={handleCopy} />
-          )}
-        </div>
+      </a>
+      <div>
+        {props.value && props.copyable && (
+          <CopyToClipboard
+            value={props.value!}
+            link={'default'}
+            handleCopy={handleCopy}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

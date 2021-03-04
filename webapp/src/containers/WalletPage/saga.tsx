@@ -128,8 +128,9 @@ import {
   startResetWalletDatRequest,
 } from '../PopOver/reducer';
 import { openPostEncryptBackupModal } from '../PopOver/reducer';
-import { setDefaultLockTimeout, TimeoutLockEnum } from '../SettingsPage/reducer';
+import { setDefaultLockTimeout } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
+import { TimeoutLockEnum } from '../SettingsPage/types';
 
 export function fetchWalletBalance() {
   const callBack = (err, result) => {
@@ -690,10 +691,14 @@ export function* fetchWalletMap() {
     const walletMap: WalletMap = yield call(getWalletMap);
     if (walletMap) {
       yield put(fetchWalletMapSuccess(walletMap));
-      yield put(setDefaultLockTimeout(walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES));
+      yield put(
+        setDefaultLockTimeout(
+          walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES
+        )
+      );
     }
   } catch (err) {
-    log.error(err, 'checkRestartCriteria');
+    log.error(err, 'fetchWalletMap');
     yield put(fetchWalletMapFailure(err?.message));
   }
 }

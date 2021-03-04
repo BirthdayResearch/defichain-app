@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TimeoutLockEnum } from '../SettingsPage/types';
+import { defaultWalletMap, WalletState } from './types';
 
-export const initialState = {
+export const initialState: WalletState = {
   accountTokens: [],
   isAccountTokensLoaded: false,
   isAccountLoadingTokens: false,
@@ -70,7 +72,7 @@ export const initialState = {
     data: true,
     isError: '',
   },
-  walletMap: {},
+  walletMap: { ...defaultWalletMap },
   walletMapError: '',
   isWalletEncrypted: false,
   isErrorUnlockWallet: '',
@@ -294,7 +296,7 @@ const configSlice = createSlice({
       state.isLoadingTokens = false;
     },
     fetchWalletMapRequest(state) {
-      state.walletMap = {};
+      state.walletMap = { ...defaultWalletMap };
       state.walletMapError = '';
     },
     fetchWalletMapSuccess(state, action) {
@@ -303,7 +305,7 @@ const configSlice = createSlice({
     },
     fetchWalletMapFailure(state, action) {
       state.walletMapError = action.payload;
-      state.walletMap = {};
+      state.walletMap = { ...defaultWalletMap };
     },
     startRestoreWalletViaBackup(state) {
       state.isWalletRestoring = true;
@@ -347,7 +349,7 @@ const configSlice = createSlice({
     createWalletStart(state, action) {
       state.isWalletCreating = true;
       state.isErrorCreatingWallet = '';
-    }
+    },
   },
 });
 
@@ -425,7 +427,7 @@ export const {
   unlockWalletFailure,
   setLockedUntil,
   startBackupWalletViaPostEncryptModal,
-  createWalletStart
+  createWalletStart,
 } = actions;
 
 export default reducer;

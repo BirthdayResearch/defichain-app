@@ -14,6 +14,7 @@ import {
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
   ON_DEFAULT_WALLET_PATH_REQUEST,
+  ON_SET_NODE_VERSION,
 } from '@defi_types/ipcEvents';
 import {
   checkPathExists,
@@ -23,6 +24,7 @@ import {
   getIniData,
   responseMessage,
   writeFile,
+  formatConfigFileWrite,
 } from '../utils';
 import fs from 'fs';
 import { ipcMain } from 'electron';
@@ -34,6 +36,8 @@ import {
 } from '@defi_types/fileExtensions';
 import ini from 'ini';
 import { ParsedPath } from 'path';
+import packageInfo from '../../../package.json';
+import { CONFIG_DISABLED, NetworkTypes } from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -52,9 +56,7 @@ const saveFileDialog = async (
 export const checkWalletConfig = () => {
   try {
     const data = getIniData(CONFIG_FILE_NAME);
-    const MAIN = 'main';
-    const TEST = 'test';
-    const networks = [MAIN, TEST];
+    const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
     networks.forEach((network) => {
       if (
         data[network] != null &&
@@ -72,7 +74,8 @@ export const checkWalletConfig = () => {
       }
     });
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
   }
@@ -91,9 +94,12 @@ export const writeToConfigFile = (
     } else {
       delete data[network].wallet;
       delete data[network].walletdir;
+      data[network].spv = CONFIG_DISABLED;
+      data[network].gen = CONFIG_DISABLED;
     }
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
   }
@@ -126,6 +132,24 @@ export const setWalletEvents = () => {
     try {
       event.returnValue = responseMessage(true, getWalletMap());
     } catch (error) {
+      event.returnValue = responseMessage(false, {
+        message: error.message,
+      });
+    }
+  });
+
+  ipcMain.on(ON_SET_NODE_VERSION, async (event: Electron.IpcMainEvent) => {
+    try {
+      const r = getWalletMap();
+      if (r != null || r != '') {
+        const { ainVersion } = packageInfo;
+        const walletMap: WalletMap = JSON.parse(r);
+        walletMap.nodeVersion = ainVersion;
+        overwriteWalletMap(walletMap);
+        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
+      }
+    } catch (error) {
+      log.error(error);
       event.returnValue = responseMessage(false, {
         message: error.message,
       });
@@ -251,16 +275,27 @@ export const setWalletEvents = () => {
   );
 };
 
-export const createWalletMap = () => {
+export const createWalletMap = (): Partial<WalletMap> => {
   try {
     const src = getWalletMapPath();
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
-      const data = {
+      const { ainVersion } = packageInfo;
+      const data: Partial<WalletMap> = {
         paths: [walletDat],
+        nodeVersion: ainVersion,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
+      return data;
     }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const initializeWalletMap = () => {
+  try {
+    createWalletMap();
     setWalletEvents();
   } catch (error) {
     log.error(error);

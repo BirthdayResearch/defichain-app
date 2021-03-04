@@ -10,7 +10,6 @@ import {
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
-  NODE_SYNTAX_ERROR,
 } from '../constants';
 import {
   checkPathExists,
@@ -24,12 +23,44 @@ import {
   deletePeersFile,
   deleteBlocksAndRevFiles,
   deleteBanlist,
+  formatConfigFileWrite,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
   DEFAULT_FALLBACK_FEE,
   DEFAULT_RPC_ALLOW_IP,
+  MAJOR_VERSION,
+  MINOR_VERSION,
+  REINDEX_NODE_UPDATE,
 } from '@defi_types/settings';
+import packageInfo from '../../../package.json';
+import { createWalletMap, getWalletMap } from '../controllers/wallets';
+import { WalletMap } from '../../../typings/walletMap';
+import semverDiff from 'semver/functions/diff';
+
+const checkIfNodeVersionChanged = (ainVersion: string) => {
+  try {
+    const walletMap: WalletMap =
+      getWalletMap() != null ? JSON.parse(getWalletMap()) : createWalletMap();
+    if (walletMap) {
+      log.info(
+        `Current Node: ${walletMap.nodeVersion} New Node: ${ainVersion}`
+      );
+      const isNodeVersionNull = walletMap.nodeVersion == null;
+      const diff = !isNodeVersionNull
+        ? semverDiff(walletMap.nodeVersion, ainVersion)
+        : '';
+      const isMajorOrMinorUpdate = [MAJOR_VERSION, MINOR_VERSION].includes(
+        diff
+      );
+      return isNodeVersionNull || isMajorOrMinorUpdate;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
 
 // EXCEPTION handling event response inside service
 // TODO restructure DefiProcessManager
@@ -40,8 +71,6 @@ export default class DefiProcessManager {
   static async start(params: any, event: Electron.IpcMainEvent) {
     log.info('Starting DeFiProcessManager...');
     try {
-      // TODO Harsh run binary with config data
-      // const config = getBinaryParameter(params)
       const configArray = [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
@@ -52,14 +81,29 @@ export default class DefiProcessManager {
       ];
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
       //* Delete block and rev files for high memory usage
-      if (params?.isReindexReq) {
+      if (params?.isReindexReq || this.isReindexReq) {
         configArray.push('-reindex');
         if (params?.isDeletePeersAndBlocksreq) {
           deletePeersFile();
           deleteBanlist();
           deleteBlocksAndRevFiles();
         }
+        this.isReindexReq = false;
       }
+
+      const { ainVersion } = packageInfo;
+      if (checkIfNodeVersionChanged(ainVersion) && !params?.skipVersionCheck) {
+        log.info(REINDEX_NODE_UPDATE);
+        return event.sender.send(
+          START_DEFI_CHAIN_REPLY,
+          responseMessage(false, {
+            message: REINDEX_NODE_UPDATE,
+            isReindexReq: true,
+            nodeVersion: ainVersion,
+          })
+        );
+      }
+
       if (checkPathExists(PID_FILE_NAME)) {
         try {
           const pid = getFileData(PID_FILE_NAME);
@@ -119,9 +163,7 @@ export default class DefiProcessManager {
       child.stderr.on('data', (err) => {
         const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
         const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
-        // any syntax errors from node side, force a reindex to avoid stoppage of app.
-        const nodeRegexSyntax = new RegExp(NODE_SYNTAX_ERROR, 'gi');
-        const regexCheck = [regex, regex1, nodeRegexSyntax];
+        const regexCheck = [regex, regex1];
 
         const errorString = err?.toString('utf8').trim();
         const shouldReindex = regexCheck.some((reg: RegExp) =>
@@ -135,7 +177,10 @@ export default class DefiProcessManager {
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
-            responseMessage(false, { message: errorString })
+            responseMessage(false, {
+              message: errorString,
+              isReindexReq: this.isReindexReq,
+            })
           );
       });
 
@@ -143,19 +188,6 @@ export default class DefiProcessManager {
       child.on('close', (code) => {
         log.info(`DefiProcessManager close with code ${code}`);
         if (code !== 0) {
-          const reindexErrorMessage =
-            'Corrupted block database detected. Please restart with -reindex or -reindex-chainstate to recover.';
-          if (event && this.isReindexReq) {
-            log.info(reindexErrorMessage);
-            return event.sender.send(
-              START_DEFI_CHAIN_REPLY,
-              responseMessage(false, {
-                message: reindexErrorMessage,
-                isReindexReq: this.isReindexReq,
-              })
-            );
-          }
-
           if (event) {
             log.info(`Error occurred while running binary with code: ${code}`);
             return event.sender.send(
@@ -212,7 +244,8 @@ export default class DefiProcessManager {
     log.info('[Restart Node] Stop completed');
     if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
-      writeFile(CONFIG_FILE_NAME, updatedConfigData, false);
+      const newData = formatConfigFileWrite(updatedConfigData);
+      writeFile(CONFIG_FILE_NAME, newData, false);
     }
     log.info('[Restart Node] Restarting DefiProcessManager');
     const startResponse = await this.start(args || {}, event);

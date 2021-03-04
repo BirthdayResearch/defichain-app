@@ -32,6 +32,7 @@ const CreateWallet: React.FunctionComponent<CreateWalletProps> = (
       isPageLoading={isWalletCreating}
       pageErrorMessage={isErrorCreatingWallet}
       onCloseFailure={createWalletFailure}
+      pageSize={11}
     />
   );
 };
