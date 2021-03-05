@@ -32,6 +32,7 @@ import {
   ADD_POOL_LIQUIDITY_LABEL,
   ANY_ACCOUNT_TO_ACCOUNT_LABEL,
   COMMISSION_CATEGORY_LABEL,
+  DATE_FORMAT_CSV,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
@@ -52,6 +53,7 @@ import CustomPaginationComponent from '../../../../components/CustomPagination';
 import DownloadCsvModal from './components/DownloadCsvModal';
 import { getListAccountHistory } from '../../service';
 import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
+import moment from 'moment';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
@@ -134,12 +136,19 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     const getData = async () => {
+      let txns;
       try {
         setDownloadDisable(true);
-        const txns = await getListAccountHistory(reqData);
-        if (txns != null && blockCount != 0) {
+        txns = await getListAccountHistory(reqData);
+        if (txns.length != 0 && blockCount != 0) {
           setDownloadDisable(false);
         }
+        txns = txns.map((txn) => {
+          return {
+            ...txn,
+            blockTime: moment.unix(txn.blockTime).format(DATE_FORMAT_CSV),
+          };
+        });
         setTransationData(txns);
       } catch (err) {
         const errorMessage = getErrorMessage(err);
