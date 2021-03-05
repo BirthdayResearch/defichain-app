@@ -7,6 +7,7 @@ import * as log from '@/utils/electronLogger';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import RpcClient from '@/utils/rpc-client';
 import {
+  AMOUNT_SEPARATOR,
   BACKUP_IDXS_LEDGER,
   CONNECT_LEDGER,
   CUSTOM_TX_LEDGER,
@@ -14,7 +15,7 @@ import {
   GET_LEDGER_DEFI_PUB_KEY,
   IS_SHOWING_INFORMATION_LEDGER,
   LIST_DEVICES_LEDGER,
-  LIST_TOKEN_PAGE_SIZE,
+  LIST_TOKEN_PAGE_SIZE, RECIEVE_CATEGORY_LABEL, SENT_CATEGORY_LABEL, TX_TYPES,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import {
@@ -23,7 +24,7 @@ import {
   getAccountsLedger,
   getErrorMessage,
   getMixWordsObject,
-  getMnemonicObject,
+  getMnemonicObject, getNetworkType,
   getRandomWordObject,
   handelGetPaymentRequestLedger,
   handleLocalStorageNameLedger,
@@ -32,6 +33,7 @@ import {
 import { PaymentRequestLedger } from '@/typings/models';
 import BigNumber from 'bignumber.js';
 import { SEND_TOKEN_TX_LEDGER } from '@defi_types/ipcEvents';
+import orderBy from 'lodash/orderBy';
 
 export const handelAddReceiveTxns = (data, networkName) => {
   const localStorageName = handleLocalStorageNameLedger(networkName);
@@ -501,3 +503,52 @@ export const getBackupIndexesLedger = async () => {
   const ipcRenderer = ipcRendererFunc();
   return ipcRenderer.sendSync(BACKUP_IDXS_LEDGER);
 };
+
+export const getListAccountHistory = (query: {
+  limit: number;
+  token: string;
+  no_rewards?: boolean;
+  cancelToken?: string;
+  blockHeight?: number;
+  owner?: string;
+}) => {
+  const rpcClient = new RpcClient(query.cancelToken);
+  return rpcClient.getListAccountHistory(query);
+};
+
+export const prepareTxDataRows = (data: any[]) => {
+  return data.map((item) => {
+    const amounts = item.amounts.map((ele) => ({
+      value: new BigNumber(
+        ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
+      ).toFixed(),
+      symbolKey: ele.slice(ele.indexOf(AMOUNT_SEPARATOR) + 1),
+    }));
+    const { category, isValid } = validTrx(item);
+    return {
+      ...item,
+      category,
+      isValid,
+      amounts: orderBy(amounts, 'value', 'desc'),
+    };
+  });
+};
+
+export const handleBlockData = async (blockHeight: number) => {
+  const rpcClient = new RpcClient();
+  const blockHash = await rpcClient.getBlockHash(blockHeight);
+  const block = await rpcClient.getBlock(blockHash, 1);
+  return block;
+};
+
+export const handleFetchAccountHistoryCount = async (noRewards, token, owner) => {
+  const rpcClient = new RpcClient();
+  const count = await rpcClient.accountHistoryCount(noRewards, token, owner);
+  return count;
+};
+
+export const getAddressesLedger = () => {
+  const networkType = getNetworkType();
+  return handelGetPaymentRequestLedger(networkType).map((payment) => payment.address);
+}
+

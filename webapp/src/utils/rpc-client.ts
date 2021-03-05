@@ -280,7 +280,9 @@ export default class RpcClient {
   };
 
   getReceivedByAddress = async (address: string): Promise<number> => {
-    const { data } = await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [address]);
+    const { data } = await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [
+      address,
+    ]);
     return data.result;
   };
 
@@ -430,7 +432,7 @@ export default class RpcClient {
   getWalletTxns = async (
     pageNo: number = 0,
     pageSize: number = 1,
-    involvesWatchonly: boolean = false,
+    involvesWatchonly: boolean = false
   ): Promise<ITxn[]> => {
     const count = pageSize;
     const skip = pageNo * pageSize;
@@ -475,7 +477,10 @@ export default class RpcClient {
     addresses: string[] = []
   ): Promise<ListUnspentModel[]> => {
     const queryOptions = maximumCount
-      ? { maximumAmount: maximumAmount.toNumber(), maximumCount: maximumCount.toNumber() }
+      ? {
+          maximumAmount: maximumAmount.toNumber(),
+          maximumCount: maximumCount.toNumber(),
+        }
       : { maximumAmount: maximumAmount.toNumber() };
     const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
       1,
@@ -740,7 +745,7 @@ export default class RpcClient {
     includingStart: boolean,
     limit: number,
     start?: string,
-    isMineOnly = true,
+    isMineOnly = true
   ) => {
     const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
       {
@@ -882,7 +887,7 @@ export default class RpcClient {
     start: number,
     includingStart: boolean,
     limit: number,
-    isMineOnly = true,
+    isMineOnly = true
   ) => {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start: includingStart, limit },
@@ -975,10 +980,11 @@ export default class RpcClient {
     limit?: number;
     no_rewards?: boolean;
     token: string;
+    owner?: string;
   }) => {
-    const { blockHeight, limit, no_rewards, token } = _;
+    const { blockHeight, limit, no_rewards, token, owner } = _;
     const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      'mine',
+      owner || 'mine',
       {
         maxBlockHeight: blockHeight,
         limit,
@@ -990,13 +996,14 @@ export default class RpcClient {
   };
 
   accountHistoryCount = async (
-    no_rewards: boolean,
-    token: string
+    noRewards: boolean,
+    token: string,
+    owner: string = 'mine'
   ): Promise<string> => {
     const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
-      'mine',
+      owner,
       {
-        no_rewards,
+        no_rewards: noRewards,
         token,
       },
     ]);
@@ -1022,7 +1029,10 @@ export default class RpcClient {
   };
 
   createRawTransaction = async (inputs: any, output: any) => {
-    const { data } = await this.call('/', methodNames.CREATE_RAW_TRANSACTION, [inputs, output]);
+    const { data } = await this.call('/', methodNames.CREATE_RAW_TRANSACTION, [
+      inputs,
+      output,
+    ]);
     return data.result;
   };
 }

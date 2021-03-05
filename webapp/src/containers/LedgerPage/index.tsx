@@ -295,7 +295,13 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             </Col>
           </Row>
         </section>
-        {tokenSymbol && <WalletTxns />}
+        <WalletTxns
+          tokenSymbol={
+            tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              : unit
+          }
+        />
       </div>
     </div>
   );

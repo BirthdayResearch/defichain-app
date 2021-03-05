@@ -35,4 +35,15 @@ export interface LedgerState {
   accountTokens: IAccountTokensState;
   tokens: IToken[];
   isLoadingTokens: boolean;
+  listAccountHistoryData: {
+    isLoading: boolean;
+    isError: string;
+    data: [];
+    stop: boolean;
+  };
+  combineAccountHistoryData: {
+    isLoading: boolean;
+    isError: string;
+    data: [];
+  };
 }

@@ -23,16 +23,21 @@ import {
   queuePush,
   getNetwork,
   handleLocalStorageNameLedger,
+  convertEpochToDate,
 } from '@/utils/utility';
 import {
+  AMOUNT_SEPARATOR,
   MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
   WALLET_TOKENS_PATH,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
-import { createMnemonicIpcRenderer } from '@/app/update.ipcRenderer';
 import * as reducer from './reducer';
-import { setIsWalletCreatedRequest } from '@/containers/WalletPage/reducer';
+import {
+  fetchBlockDataForTrxRequestFailure,
+  fetchBlockDataForTrxRequestSuccess,
+  setIsWalletCreatedRequest,
+} from '@/containers/WalletPage/reducer';
 import {
   handleFetchTokens,
   handelAddReceiveTxns,
@@ -44,22 +49,24 @@ import {
   getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
-  setHdSeed,
-  importPrivKey,
   connectLedger,
   initialIsShowingInformation as initialIsShowingInformationService,
   setIsShowingInformation,
   getListDevicesLedger,
-  getBackupIndexesLedger,
   importAddresses,
+  handleBlockData,
+  getListAccountHistory,
+  handleFetchAccountHistoryCount, getAddressesLedger,
 } from './service';
 
 import { handelGetPaymentRequestLedger } from '@/utils/utility';
+import minBy from 'lodash/minBy';
+import orderBy from 'lodash/orderBy';
 
 function* getPaymentRequestState() {
   const { paymentRequests = [] } = yield select((state) => {
     log.info(state);
-    return state.ledgerWallet
+    return state.ledgerWallet;
   });
   return cloneDeep(paymentRequests);
 }
@@ -110,9 +117,7 @@ export function* fetchPayments() {
       data.map((item) => call(getAddressInfo, item.address))
     );
     const result = data.filter((item) => {
-      const found = list.find(
-        (ele) => ele.address === item.address
-      );
+      const found = list.find((ele) => ele.address === item.address);
       return !isEmpty(found);
     });
     yield put(reducer.fetchPaymentRequestsSuccess(result));
@@ -148,7 +153,7 @@ function* fetchWalletTxns(action) {
           walletPageCounter: intialLoad ? 1 : walletPageCounter + 1,
         })
       );
-      if ((walletTxnCount <= pageNo * pageSize) && !intialLoad) {
+      if (walletTxnCount <= pageNo * pageSize && !intialLoad) {
         store.dispatch(reducer.stopWalletTxnPagination());
       }
     } else {
@@ -191,7 +196,9 @@ function* fetchSendData() {
     }
   };
   const paymentRequests = yield call(getPaymentRequestState);
-  const addresses = paymentRequests.map(paymentRequest => paymentRequest.address);
+  const addresses = paymentRequests.map(
+    (paymentRequest) => paymentRequest.address
+  );
   queuePush(handleSendData, [addresses], callBack);
 }
 
@@ -264,7 +271,7 @@ export function* fetchInstantPendingBalance() {
 
 export function* fetchConnectLedger() {
   try {
-    const { devices, error, } = yield call(getDevices);
+    const { devices, error } = yield call(getDevices);
     if (devices?.length && !error) {
       const result = yield call(connectLedger);
       if (result.success && result.data.isConnected) {
@@ -330,9 +337,142 @@ export function* clearReceiveTxns() {
     const networkName = yield call(getNetwork);
     const localStorageName = handleLocalStorageNameLedger(networkName);
     PersistentStore.set(localStorageName, []);
-    yield put(reducer.clearReceiveTxnsSuccess())
+    yield put(reducer.clearReceiveTxnsSuccess());
   } catch (error) {
     log.error(`Error clear clearReceiveTxns: ${error.message}`);
+  }
+}
+
+export function* fetchWalletTokenTransactionsList(action) {
+  try {
+    const {
+      symbol,
+      limit,
+      includeRewards,
+      pageNum,
+      minBlockHeight,
+      cancelToken,
+    } = action.payload;
+
+    let blockHeight = minBlockHeight;
+    const tempData = {};
+    const { maxBlockData } = yield select((state) => state.ledgerWallet);
+    const currentData = maxBlockData[symbol];
+
+    if (pageNum === 1) {
+      tempData[symbol] = [];
+    } else if (
+      currentData.length > 0 &&
+      pageNum < currentData[currentData.length - 1].page
+    ) {
+      blockHeight = currentData[currentData.length - 2]?.maxBlockHeight;
+      tempData[symbol] = currentData.filter(
+        (val, index) => index < currentData.length - 1
+      );
+    } else {
+      const currentBlockData = {
+        page: pageNum,
+        token: symbol,
+        maxBlockHeight: minBlockHeight,
+      };
+      tempData[symbol] = [...currentData, currentBlockData];
+    }
+
+    const data: any[] = [];
+
+    const networkType = getNetworkType();
+    const addressesLedger = handelGetPaymentRequestLedger(networkType).map(
+      (payment) => payment.address
+    );
+    for (const address of addressesLedger) {
+      const res: any[] = yield call(getListAccountHistory, {
+        limit,
+        token: symbol,
+        no_rewards: !includeRewards,
+        cancelToken,
+        blockHeight,
+        owner: address,
+      });
+      data.push(...res);
+    }
+
+    const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
+    const minBlockHeightData = minHeightData.blockHeight - 1;
+
+    const parsedData = data.map((d) => {
+      return {
+        owner: d.owner,
+        blockHeight: d.blockHeight,
+        blockHash: d.blockHash,
+        blockTime: convertEpochToDate(d.blockTime),
+        type: d.type,
+        txn: d.txn,
+        txid: d.txid,
+        amountData: d.amounts.map((amount) => {
+          return {
+            unit: amount.split(AMOUNT_SEPARATOR)[1],
+            amount: amount.split(AMOUNT_SEPARATOR)[0],
+          };
+        }),
+      };
+    });
+
+    yield put(
+      reducer.fetchWalletTokenTransactionsListRequestSuccess({
+        data: orderBy(parsedData, 'blockHeight', 'desc'),
+        minBlockHeight: minBlockHeightData,
+        maxBlockData: tempData,
+      })
+    );
+  } catch (err) {
+    log.error(err, 'fetchWalletTokenTransactionsList of ledger');
+    yield put(
+      reducer.fetchWalletTokenTransactionsListRequestFailure(err.message)
+    );
+  }
+}
+
+export function* getBlockData(item) {
+  const blockData = yield call(handleBlockData, item.blockHeight);
+  return {
+    ...item,
+    blockData,
+  };
+}
+
+export function* fetchBlockDataForTrx(action) {
+  try {
+    const trxArray: any[] = action.payload;
+    const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
+    yield put(fetchBlockDataForTrxRequestSuccess(updated));
+  } catch (err) {
+    log.error(err, 'fetchBlockDataForTrx');
+    yield put(fetchBlockDataForTrxRequestFailure(err.message));
+  }
+}
+
+export function* accountHistoryCount(action) {
+  const {
+    payload: { no_rewards, token },
+  } = action;
+
+  try {
+    const addresses = getAddressesLedger()
+    let data = 0;
+    for (const address of addresses) {
+      const res = yield call(handleFetchAccountHistoryCount, no_rewards, token, address);
+      data += res;
+    }
+    yield put({
+      type: reducer.accountHistoryCountSuccess.type,
+      payload: { accountHistoryCount: data },
+    });
+  } catch (e) {
+    yield put({
+      type: reducer.accountHistoryCountFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
   }
 }
 
@@ -361,9 +501,18 @@ function* mySaga() {
     reducer.updateIsShowingInformationRequest.type,
     updateIsShowingInformation
   );
+  yield takeLatest(reducer.clearReceiveTxns.type, clearReceiveTxns);
   yield takeLatest(
-    reducer.clearReceiveTxns.type,
-    clearReceiveTxns
+    reducer.fetchWalletTokenTransactionsListRequestLoading.type,
+    fetchWalletTokenTransactionsList
+  );
+  yield takeLatest(
+    reducer.fetchBlockDataForTrxRequestLoading.type,
+    fetchBlockDataForTrx
+  );
+  yield takeLatest(
+    reducer.accountHistoryCountRequest.type,
+    accountHistoryCount
   );
 }
 

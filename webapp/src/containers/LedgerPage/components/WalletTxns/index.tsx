@@ -1,154 +1,515 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Table, CardBody } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Card,
+  Table,
+  CardBody,
+  FormGroup,
+  CustomInput,
+  Row,
+  Col,
+  Button,
+} from 'reactstrap';
 import { connect } from 'react-redux';
-import { MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import {
+  MdArrowUpward,
+  MdArrowDownward,
+  MdCompareArrows,
+  MdFileDownload,
+} from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
-import { fetchWalletTxnsRequest } from '../../reducer';
-import { WALLET_TXN_PAGE_SIZE, BLOCKCHAIN_BLOCK_BASE_PATH } from '@/constants';
-import Pagination from '@/components/Pagination';
-import { getAmountInSelectedUnit } from '@/utils/utility';
-import { StatusLedger, WalletTxn } from '@/typings/models';
+import axios from 'axios';
+import {
+  fetchWalletTxnsRequest,
+  fetchWalletTokenTransactionsListRequestLoading,
+  fetchBlockDataForTrxRequestLoading,
+  fetchWalletTokenTransactionsListResetRequest,
+  accountHistoryCountRequest,
+} from '../../reducer';
+import {
+  ACCOUNT_TO_ACCOUNT_LABEL,
+  ACCOUNT_TO_UTXOS_LABEL,
+  ADD_POOL_LIQUIDITY_LABEL,
+  ANY_ACCOUNT_TO_ACCOUNT_LABEL,
+  COMMISSION_CATEGORY_LABEL,
+  POOL_SWAP_CATEGORY_LABEL,
+  RECIEVEE_CATEGORY_LABEL,
+  RECIEVE_CATEGORY_LABEL,
+  REMOVE_LIQUIDITY_LABEL,
+  REWARDS_CATEGORY_LABEL,
+  REWARD_CATEGORY_LABEL,
+  SENT_CATEGORY_LABEL,
+  UTXOS_TO_ACCOUNT_LABEL,
+} from '../../../../constants';
+import {
+  getErrorMessage,
+  getFormattedTime,
+  onViewOnChain,
+} from '../../../../utils/utility';
+import BigNumber from 'bignumber.js';
+import ValueLi from '../../../../components/KeyValueLi/ValueLi';
+import CustomPaginationComponent from '../../../../components/CustomPagination';
+import DownloadCsvModal from './components/DownloadCsvModal';
+import { getListAccountHistory } from '../../service';
+import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 import { RootState } from '@/app/rootTypes';
 
 interface WalletTxnsProps {
+  minBlockHeight: number;
+  blockCount: number;
+  accountHistoryCount: number;
   unit: string;
-  walletTxns: WalletTxn[];
-  walletTxnCount: number;
   fetchWalletTxns: (
     currentPage: number,
     pageSize: number,
     intialLoad?: boolean
   ) => void;
-  stopPagination: boolean;
-  status: StatusLedger;
+  tokenSymbol: string;
+  fetchWalletTokenTransactionsListRequestLoading: (
+    symbol: string,
+    limit: number,
+    includeRewards: boolean,
+    pageNum: number,
+    cancelToken: string,
+    minBlockHeight: number
+  ) => void;
+  fetchBlockDataForTrxRequestLoading: (trxData: any[]) => void;
+  data: any[];
+  isLoading: boolean;
+  isError: string;
+  combineAccountHistoryData: any;
+  fetchWalletTokenTransactionsListResetRequest: () => void;
+  accountHistoryCountRequest: ({ no_rewards, token }) => void;
+  fetchBlockCount: () => void;
 }
 
 const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   props: WalletTxnsProps
 ) => {
-  const [currentPage, handlePageChange] = useState(1);
-  const pageSize = WALLET_TXN_PAGE_SIZE;
-  const { walletTxnCount: total, walletTxns, stopPagination } = props;
+  const {
+    minBlockHeight,
+    accountHistoryCount,
+    accountHistoryCountRequest,
+    fetchWalletTokenTransactionsListRequestLoading,
+    tokenSymbol,
+    data,
+    isLoading,
+    isError,
+    combineAccountHistoryData,
+    blockCount,
+    fetchBlockCount,
+  } = props;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tableRows, setTableRows] = useState<any[]>([]);
+  const [CsvModalOpen, setCsvModalOpen] = useState(false);
+  const [transactionData, setTransationData] = useState<any>([]);
+  const [includeRewards, setIncludeRewards] = useState(false);
+  const [downloadDisable, setDownloadDisable] = useState(false);
+  const pageSize = 10;
+  const total = accountHistoryCount;
+  const pagesCount = Math.ceil(total / pageSize);
+  const textLimit = 26;
+  const from = (currentPage - 1) * pageSize + 1;
+  const to = Math.min(total, currentPage * pageSize);
+  const [modal, setModal] = useState(true);
+  const [error, setError] = useState('');
+  const [reqData, setData] = useState({
+    blockHeight: blockCount,
+    limit: 100,
+    token: tokenSymbol,
+    no_rewards: true,
+  });
+  const [txns, setTxns] = useState<any[]>([]);
 
   useEffect(() => {
-    if(props.status === 'connected') {
-      props.fetchWalletTxns(currentPage, pageSize, true);
+    fetchBlockCount();
+  }, [CsvModalOpen]);
+
+  useEffect(() => {
+    source = axios.CancelToken.source();
+    sourceArray.current.push(source);
+    fetchWalletTokenTransactionsListRequestLoading(
+      tokenSymbol,
+      total,
+      includeRewards,
+      currentPage,
+      source.token,
+      minBlockHeight
+    );
+  }, [total, includeRewards]);
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [data]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        setDownloadDisable(true);
+        const txns = await getListAccountHistory(reqData);
+        if (txns != null && blockCount !== 0) {
+          setDownloadDisable(false);
+        }
+        setTransationData(txns);
+      } catch (err) {
+        const errorMessage = getErrorMessage(err);
+        setError(errorMessage);
+      }
+    };
+    getData();
+  }, [reqData.limit, reqData.no_rewards, reqData.blockHeight]);
+
+  const handleRegularNumInputs = (
+    event: { target: { name: string; value: any } },
+    field: string
+  ) => {
+    setData({
+      ...reqData,
+      [field]: Number(event.target.value),
+    });
+    setError('');
+  };
+
+  const toggle = async () => {
+    setModal(!modal);
+    setData({
+      blockHeight: blockCount,
+      limit: 100,
+      token: tokenSymbol,
+      no_rewards: false,
+    });
+    handleCsvButtonClick();
+  };
+
+  const handleCheckBox = () => {
+    setData({
+      ...reqData,
+      no_rewards: !reqData.no_rewards,
+    });
+  };
+
+  const handleDownloadWindow = () => {
+    if (!error) {
+      handleCsvButtonClick();
+      return true;
+    } else {
+      return false;
     }
-  }, [props.fetchWalletTxns, props.status]);
+  };
+
+  useEffect(() => {
+    setError('');
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+      token: tokenSymbol,
+      no_rewards: true,
+      limit: 100,
+    });
+  }, [CsvModalOpen]);
+
+  const fileName = `${I18n.t(
+    'containers.wallet.walletPage.transactions'
+  )}_${getFormattedTime()}.csv`;
+
+  const sourceArray: any = useRef([]);
+  let source;
+
+  useEffect(() => {
+    accountHistoryCountRequest({
+      no_rewards: !includeRewards,
+      token: tokenSymbol,
+    });
+  }, [includeRewards]);
+
+  const fetchData = (pageNum) => {
+    setCurrentPage(pageNum);
+    setTxns(data.slice((pageNum - 1) * pageSize, pageSize * pageNum));
+  };
+
+  useEffect(() => {
+    return () => {
+      sourceArray.current.map((source) => {
+        source.cancel('reqest cancel');
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    setTableRows([...txns]);
+  }, [txns]);
+
+  useEffect(() => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  }, [blockCount]);
+
+  const maxBlock = () => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  };
 
   const getTxnsTypeIcon = (type: string) => {
-    if (type === 'send') {
+    const RECEIVE = 'receive';
+    const SEND = 'send';
+    if ([SENT_CATEGORY_LABEL, ACCOUNT_TO_UTXOS_LABEL, SEND].includes(type)) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
-    return <MdArrowDownward className={styles.typeIcon} />;
+    if (
+      [
+        COMMISSION_CATEGORY_LABEL,
+        RECIEVE_CATEGORY_LABEL,
+        REWARDS_CATEGORY_LABEL,
+        REWARD_CATEGORY_LABEL,
+        RECEIVE,
+      ].includes(type)
+    ) {
+      return <MdArrowDownward className={styles.typeIconDownward} />;
+    }
+    if (type === POOL_SWAP_CATEGORY_LABEL) {
+      return <MdCompareArrows className={styles.typeIcon} />;
+    }
+    return <MdArrowUpward className={styles.typeIcon} />;
   };
 
-  const fetchData = (pageNumber: number) => {
-    props.fetchWalletTxns(pageNumber, pageSize);
-    handlePageChange(pageNumber);
+  const getTxnsType = (type: string) => {
+    const SEND = 'send';
+    const RECEIVE = 'receive';
+    const walletTxnsLabel = 'containers.wallet.walletTxns';
+    const swapLabel = 'containers.swap';
+    const walletLabel = 'containers.wallet.walletPage';
+    let label = type;
+    switch (type) {
+      case SENT_CATEGORY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.sent`);
+        break;
+      case POOL_SWAP_CATEGORY_LABEL:
+        label = I18n.t(`${swapLabel}.swapPage.swap`);
+        break;
+      case REWARDS_CATEGORY_LABEL:
+      case REWARD_CATEGORY_LABEL:
+        label = I18n.t(`${swapLabel}.addLiquidity.reward`);
+        break;
+      case ACCOUNT_TO_UTXOS_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.accountToUtxos`);
+        break;
+      case ANY_ACCOUNT_TO_ACCOUNT_LABEL:
+      case ACCOUNT_TO_ACCOUNT_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.accountToAccount`);
+        break;
+      case UTXOS_TO_ACCOUNT_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.utxosToAccount`);
+        break;
+      case ADD_POOL_LIQUIDITY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.addPoolLiquidity`);
+        break;
+      case REMOVE_LIQUIDITY_LABEL:
+        label = I18n.t(`${walletTxnsLabel}.removePoolLiquidity`);
+        break;
+      case SEND:
+        label = I18n.t(`${walletLabel}.send`);
+        break;
+      case RECEIVE:
+        label = I18n.t(`${walletLabel}.receive`);
+        break;
+      case COMMISSION_CATEGORY_LABEL:
+        label = I18n.t(`${walletLabel}.commission`);
+        break;
+      default:
+        break;
+    }
+    return label;
   };
 
-  const pagesCount = Math.ceil(total / pageSize);
-  const from = (currentPage - 1) * pageSize;
-  const to = Math.min(total, currentPage * pageSize);
+  const handleCsvButtonClick = () => {
+    const isOpen = !CsvModalOpen;
+    setCsvModalOpen(isOpen);
+  };
 
-  return (
-    <section className='mb-5'>
-      <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
-      {pagesCount ? (
-        <>
-          <Card className={`${styles.card} table-responsive-md`}>
-            <Table className={styles.table}>
-              <thead>
-              <tr>
-                <th></th>
-                <th>{I18n.t('containers.wallet.walletTxns.height')}</th>
-                <th>{I18n.t('containers.wallet.walletTxns.time')}</th>
-                <th className={styles.amount}>
-                  {I18n.t('containers.wallet.walletTxns.amount')}
-                </th>
-                <th>{I18n.t('containers.wallet.walletTxns.hash')}</th>
-              </tr>
-              </thead>
-              <tbody>
-              {walletTxns.map((txn, index) => (
-                <tr key={`${txn.txnId}-${index}`}>
-                  <td className={styles.typeIcon}>
-                    {getTxnsTypeIcon(txn.category)}
-                  </td>
-                  <td>
-                    {txn.height !== -1 ? (
-                      <Link
-                        to={`${BLOCKCHAIN_BLOCK_BASE_PATH}/${txn.height}`}
-                      >
-                        {txn.height}
-                      </Link>
-                    ) : (
-                      '-'
-                    )}
-                  </td>
-                  <td>
-                    <div className={styles.time}>{txn.time}</div>
-                  </td>
-                  <td>
-                    <div className={styles.amount}>
-                      {getAmountInSelectedUnit(
-                        txn.amount,
-                        props.unit,
-                        txn.unit
-                      )}
-                      &nbsp;
-                      <span className={styles.unit}>{props.unit}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.hash}>{txn.txnId}</div>
-                  </td>
-                </tr>
-              ))}
-              </tbody>
-            </Table>
-          </Card>
-          <Pagination
-            label={I18n.t('containers.wallet.walletPage.paginationRange', {
-              to,
-              total,
-              from: from + 1,
-            })}
-            currentPage={currentPage}
-            pagesCount={pagesCount}
-            handlePageClick={fetchData}
-            showNextOnly
-            disableNext={stopPagination}
-          />
-        </>
-      ) : (
+  const walletTxnList = () => {
+    if (isLoading || combineAccountHistoryData.isLoading)
+      return <div>{I18n.t('containers.wallet.walletPage.loading')}</div>;
+    if (isError || combineAccountHistoryData.isError)
+      return <div>{isError || combineAccountHistoryData.isError}</div>;
+    if (!txns.length || !tableRows.length)
+      return (
         <Card className='table-responsive-md'>
           <CardBody>
             {I18n.t('containers.wallet.walletTxns.noTransactions')}
           </CardBody>
         </Card>
-      )}
+      );
+
+    return (
+      <>
+        <Card className={`${styles.card} table-responsive-md`}>
+          <Table className={styles.table}>
+            <tbody>
+              {tableRows.map((item, id) => (
+                <tr key={`${currentPage}-${id}`}>
+                  <td>{getTxnsTypeIcon(item.type)}</td>
+                  <td>
+                    <div>{getTxnsType(item.type)}</div>
+                    <div className={styles.unit}>{item.blockTime}</div>
+                  </td>
+                  <td>
+                    {item.amountData.map((amountD, amountId) => (
+                      <div
+                        key={`${amountD.unit}-${amountId}`}
+                        className={
+                          item.type === REWARD_CATEGORY_LABEL ||
+                          item.type === RECIEVEE_CATEGORY_LABEL ||
+                          item.type === REWARDS_CATEGORY_LABEL ||
+                          new BigNumber(amountD.amount).gt(0)
+                            ? `${styles.colorGreen} ${styles.amount}`
+                            : styles.amount
+                        }
+                      >
+                        {amountD.amount}
+                        &nbsp;
+                        <span className={styles.unit}>{amountD.unit}</span>
+                      </div>
+                    ))}
+                  </td>
+                  {item.txid ? (
+                    <td>
+                      <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
+                        <ValueLi
+                          value={item.txid}
+                          copyable={true}
+                          textLimit={textLimit}
+                        />
+                      </div>
+                    </td>
+                  ) : (
+                    <td className={`${styles.txid__na}`}>
+                      {I18n.t('containers.wallet.walletPage.txidNotApplicable')}
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Card>
+        <CustomPaginationComponent
+          label={I18n.t('containers.wallet.walletPage.txPaginationRange', {
+            to,
+            total,
+            from,
+          })}
+          data={txns}
+          currentPage={currentPage}
+          pagesCount={pagesCount}
+          handlePageClick={fetchData}
+          cancelToken={source?.token}
+        />
+      </>
+    );
+  };
+
+  return (
+    <section className='mb-5'>
+      <div className={styles.container}>
+        <h2>{I18n.t('containers.wallet.walletPage.transactions')}</h2>
+        <div className='btn-group'>
+          <FormGroup>
+            <CustomInput
+              type='checkbox'
+              id='includeRewards'
+              label={I18n.t('containers.wallet.walletPage.includeRewards')}
+              checked={includeRewards}
+              onChange={() => {
+                setIncludeRewards(!includeRewards);
+              }}
+            />
+          </FormGroup>
+          <Button
+            className={styles.includeReward}
+            color='link'
+            size='sm'
+            onClick={handleCsvButtonClick}
+          >
+            <MdFileDownload />
+            <span className='d-lg-inline'>
+              {I18n.t('containers.wallet.walletPage.exportData')}
+            </span>
+          </Button>
+          <DownloadCsvModal
+            downloadDisable={downloadDisable}
+            reqData={reqData}
+            transactionData={transactionData}
+            handleDownloadWindow={handleDownloadWindow}
+            filename={fileName}
+            error={error}
+            handleCheckBox={handleCheckBox}
+            handleRegularNumInputs={handleRegularNumInputs}
+            toggle={toggle}
+            tokenSymbol={tokenSymbol}
+            CsvModalOpen={CsvModalOpen}
+            handleCsvButtonClick={handleCsvButtonClick}
+            maxBlock={maxBlock}
+          />
+        </div>
+      </div>
+      <Row>
+        <Col xs='12'>{walletTxnList()}</Col>
+      </Row>
     </section>
   );
 };
 
 const mapStateToProps = (state: RootState) => {
-  const { settings, ledgerWallet } = state;
+  const {
+    settings,
+    ledgerWallet: {
+      listAccountHistoryData: { isLoading, data, isError },
+      combineAccountHistoryData,
+      accountHistoryCount,
+      minBlockHeight,
+    },
+    blockchain,
+  } = state;
   return {
     unit: settings.appConfig.unit,
-    walletTxns: ledgerWallet.walletTxns,
-    walletTxnCount: ledgerWallet.walletTxnCount,
-    stopPagination: ledgerWallet.stopPagination,
-    status: ledgerWallet.connect.status,
+    combineAccountHistoryData,
+    isLoading,
+    data,
+    isError,
+    accountHistoryCount,
+    minBlockHeight,
+    blockCount: blockchain.blockCount,
   };
 };
 
 const mapDispatchToProps = {
   fetchWalletTxns: (currentPage, pageSize, intialLoad) =>
     fetchWalletTxnsRequest({ currentPage, pageSize, intialLoad }),
+  fetchWalletTokenTransactionsListRequestLoading: (
+    symbol: string,
+    limit: number,
+    includeRewards: boolean,
+    pageNum: number,
+    cancelToken: string,
+    minBlockHeight: number
+  ) =>
+    fetchWalletTokenTransactionsListRequestLoading({
+      symbol,
+      limit,
+      includeRewards,
+      pageNum,
+      cancelToken,
+      minBlockHeight,
+    }),
+  fetchBlockDataForTrxRequestLoading: (trxArray) =>
+    fetchBlockDataForTrxRequestLoading(trxArray),
+  fetchWalletTokenTransactionsListResetRequest,
+  accountHistoryCountRequest: ({ no_rewards, token }) =>
+    accountHistoryCountRequest({ no_rewards, token }),
+  fetchBlockCount: () => fetchBlockCountRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTxns);

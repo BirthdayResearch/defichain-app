@@ -36,6 +36,20 @@
   color: $secondary;
 }
 
+.typeIconDownward {
+  color: #02b31b;
+  width: 24px;
+  height: 24px;
+}
+
+.copyIcon {
+  text-align: left;
+}
+
+.colorGreen {
+  color: #02b31b;
+}
+
 .type,
 .time {
   white-space: nowrap;
@@ -53,4 +67,44 @@
 
 .unit {
   color: $secondary;
+}
+
+.unitReceive {
+  color: $secondary;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.txidvalue {
+  position: relative;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: $secondary;
+}
+
+.txid__na {
+  color: $disabled;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.includeReward {
+  margin-top: -24px;
+}
+
+.setWidth {
+  width: 23em;
 }
