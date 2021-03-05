@@ -47,14 +47,10 @@ import {
   START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
-import {
-  convertEpochToDate,
-  getNetworkType,
-  getTimeDifferenceMS,
-} from '../utils/utility';
+import { getNetworkType, getTimeDifferenceMS } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
-import { startSetNodeVersion } from '../containers/RpcConfiguration/reducer';
+import { IPCResponseModel } from '../../../typings/common';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -75,10 +71,10 @@ export function startAppInit() {
   return { success: true, data: {} };
 }
 
-const getStartChainMessage = (response: any): string => {
-  if (response?.message?.includes(REINDEX_NODE_UPDATE)) {
+const getStartChainMessage = (data: any): string => {
+  if (data?.message?.includes(REINDEX_NODE_UPDATE)) {
     return I18n.t('alerts.nodeVersionUpdate', {
-      version: response.nodeVersion,
+      version: data?.nodeVersion,
     });
   }
   return '';
@@ -88,18 +84,21 @@ export function startBinary(config: any) {
   return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(START_DEFI_CHAIN, config);
-    ipcRenderer.on(START_DEFI_CHAIN_REPLY, async (_e: any, res: any) => {
-      if (res.success) {
-        store.dispatch(startSetNodeVersion());
-        isBlockchainStarted(emit, res);
-      } else {
-        if (res.isReindexReq) {
-          store.dispatch(openReIndexModal(getStartChainMessage(res)));
+    ipcRenderer.on(
+      START_DEFI_CHAIN_REPLY,
+      async (_e: any, res: IPCResponseModel<any>) => {
+        replaceWalletMapSync(res?.data?.walletMap);
+        if (res.success) {
+          isBlockchainStarted(emit, res);
+        } else {
+          if (res?.data?.isReindexReq) {
+            store.dispatch(openReIndexModal(getStartChainMessage(res?.data)));
+          }
+          log.error(res?.data?.message ?? res, 'startBinary');
+          emit(res);
         }
-        log.error(res?.message ?? res, 'startBinary');
-        emit(res);
       }
-    });
+    );
     return () => {
       log.info('Unsubscribe startBinary');
     };
@@ -168,6 +167,18 @@ export const updateWalletMap = (
     ipcRenderer.send(ON_WALLET_MAP_REPLACE, tempWalletMap);
   } catch (error) {
     log.error(error, 'updateWalletMap');
+  }
+};
+
+export const replaceWalletMapSync = (walletMap: Partial<WalletMap>): void => {
+  try {
+    if (walletMap) {
+      const ipcRenderer = ipcRendererFunc();
+      store.dispatch(fetchWalletMapSuccess(walletMap));
+      ipcRenderer.sendSync(ON_WALLET_MAP_REPLACE, walletMap);
+    }
+  } catch (error) {
+    log.error(error, 'replaceWalletMapSync');
   }
 };
 
@@ -286,7 +297,7 @@ export const setNodeVersion = async (): Promise<void> => {
       return JSON.parse(resp?.data);
     }
   } catch (error) {
-    log.error(error, 'getWalletMap');
+    log.error(error, 'setNodeVersion');
   }
 };
 
