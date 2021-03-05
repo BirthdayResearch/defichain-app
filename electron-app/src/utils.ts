@@ -46,6 +46,13 @@ export const getPlatform = () => {
   }
 };
 
+export const createResponseMessage = <T>(
+  success: boolean,
+  res: T
+): IPCResponseModel<T> => {
+  return { success, data: res };
+};
+
 export const responseMessage = <T>(
   success: boolean,
   res: T

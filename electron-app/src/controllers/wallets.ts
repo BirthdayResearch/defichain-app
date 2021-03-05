@@ -50,6 +50,12 @@ const saveFileDialog = async (
   return paths;
 };
 
+export const createOrGetWalletMap = () => {
+  return getWalletMap() != null
+    ? JSON.parse(getWalletMap())
+    : createWalletMap();
+};
+
 /**
  * @description - Check if wallet path is still existing
  */
@@ -161,8 +167,12 @@ export const setWalletEvents = () => {
     async (event: Electron.IpcMainEvent, walletMap: WalletMap) => {
       try {
         overwriteWalletMap(walletMap);
+        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
       } catch (error) {
         log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
       }
     }
   );
@@ -284,6 +294,7 @@ export const createWalletMap = (): Partial<WalletMap> => {
       const data: Partial<WalletMap> = {
         paths: [walletDat],
         nodeVersion: ainVersion,
+        hasSyncSPV: false,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
       return data;
