@@ -75,6 +75,7 @@ import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
+import BchIcon from '../assets/svg/bch-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1047,6 +1048,7 @@ export const getIcon = (symbol: string) => {
     DFI: DefiIcon,
     DOGE: DogeIcon,
     LTC: LtcIcon,
+    BCH: BchIcon,
   };
   return symbolIconObj[symbol];
 };
