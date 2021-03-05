@@ -386,11 +386,10 @@ export function* fetchWalletTokenTransactionsList(action) {
     );
     for (const address of addressesLedger) {
       const res: any[] = yield call(getListAccountHistory, {
-        limit,
+        limit: Number(limit),
         token: symbol,
         no_rewards: !includeRewards,
         cancelToken,
-        blockHeight,
         owner: address,
       });
       data.push(...res);
