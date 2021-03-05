@@ -498,6 +498,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
+              <div
+                className={`sendPage-backdrop ${this.state.showBackdrop}`}
+                onClick={this.sendStepDefault}
+              />
             </Form>
             <Modal
               isOpen={this.state.scannerOpen}
