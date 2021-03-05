@@ -50,7 +50,7 @@ import BigNumber from 'bignumber.js';
 import ValueLi from '../../../../components/KeyValueLi/ValueLi';
 import CustomPaginationComponent from '../../../../components/CustomPagination';
 import DownloadCsvModal from './components/DownloadCsvModal';
-import { getListAccountHistory } from '../../service';
+import { getAddressesLedger, getListAccountHistory } from '../../service';
 import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
 import { RootState } from '@/app/rootTypes';
 
@@ -146,11 +146,16 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     const getData = async () => {
       try {
         setDownloadDisable(true);
-        const txns = await getListAccountHistory(reqData);
-        if (txns != null && blockCount !== 0) {
+        const addressesLedger = getAddressesLedger();
+        const txns: any[] = [];
+        for (const address of addressesLedger) {
+          const res = await getListAccountHistory({...reqData, owner: address });
+          txns.push(...res);
+        }
+        if (blockCount !== 0) {
           setDownloadDisable(false);
         }
-        setTransationData(txns);
+        setTransationData(txns.slice(0, reqData.limit));
       } catch (err) {
         const errorMessage = getErrorMessage(err);
         setError(errorMessage);
