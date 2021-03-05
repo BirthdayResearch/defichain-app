@@ -21,14 +21,15 @@ interface SettingsRowDropDownProps {
   fieldName: string;
   children?: React.ReactNode;
   handleDropDowns: (data: any, field: any) => any;
+  disabled?: () => boolean;
 }
 
-const getLabel = (
+export const getDropdownLabel = (
   list: { value: string | number; label: string }[],
   value: string | number
-) => {
+): string => {
   if (list.length > 0) {
-    const index = list.findIndex(obj => obj.value === value);
+    const index = list.findIndex((obj) => obj.value === value);
     if (index === -1) {
       return list[0].label;
     } else {
@@ -39,17 +40,22 @@ const getLabel = (
 };
 
 const SettingsRowDropDown = (props: SettingsRowDropDownProps) => {
-  const { label, data, field, fieldName, handleDropDowns } = props;
+  const { label, data, field, fieldName, handleDropDowns, disabled } = props;
+
   return (
     <FormGroup className='form-row align-items-center'>
       <Col md='4'>{I18n.t(label)}</Col>
       <Col md='8'>
         <UncontrolledDropdown>
-          <DropdownToggle caret color='outline-secondary'>
-            {I18n.t(getLabel(data, field))}
+          <DropdownToggle
+            disabled={disabled ? disabled() : false}
+            caret
+            color='outline-secondary'
+          >
+            {I18n.t(getDropdownLabel(data, field))}
           </DropdownToggle>
           <DropdownMenu>
-            {data.map(object => {
+            {data.map((object) => {
               return (
                 <DropdownItem
                   className='d-flex justify-content-between'
@@ -71,7 +77,7 @@ const SettingsRowDropDown = (props: SettingsRowDropDownProps) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { locale } = state.i18n;
   return {
     locale,

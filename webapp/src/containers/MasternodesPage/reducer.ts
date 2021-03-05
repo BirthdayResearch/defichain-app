@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RESIGNED_STATE } from '../../constants';
 import { MasternodesState } from './types';
 
 export const initialState: MasternodesState = {
@@ -13,6 +14,7 @@ export const initialState: MasternodesState = {
   resignedMasterNodeData: '',
   isErrorResigningMasterNode: '',
   isRestartNode: false,
+  myMasternodes: [],
 };
 
 const configSlice = createSlice({
@@ -26,11 +28,16 @@ const configSlice = createSlice({
       state.masternodes = action.payload.masternodes;
       state.isLoadingMasternodes = false;
       state.isMasternodesLoaded = true;
+      state.myMasternodes = state.masternodes.filter(
+        (masternode) =>
+          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
+      );
     },
     fetchMasternodesFailure(state, action) {
       state.masternodes = [];
       state.isLoadingMasternodes = false;
       state.isMasternodesLoaded = true;
+      state.myMasternodes = [];
     },
     createMasterNode(state) {
       state.isMasterNodeCreating = true;

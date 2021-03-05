@@ -10,6 +10,7 @@ export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
 export const DATE_FORMAT = 'MMM D, hh:mm a';
+export const DATE_FORMAT_CSV = 'DD/MMM/YYYY, hh:mm a';
 export const PAYMENT_REQUEST_DETAIL_DATE_FORMAT = 'MMM D YYYY, hh:mm a';
 export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
@@ -117,6 +118,7 @@ export const GITHUB_ISSUE_HELP_LINK =
 export const DEFICHAIN_OFFICIAL_HELP_LINK = SITE_URL;
 export const DEFICHAIN_FAQ_HELP_LINK = `${DEFICHAIN_OFFICIAL_HELP_LINK}learn/#faq`;
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
+export const COMMUNITY_WIKI_LINK = 'https://defichain-wiki.com/';
 export const LEARN_MORE_ABOUT_BITCOIN_LINK =
   'https://en.bitcoin.it/wiki/Seed_phrase#:~:text=A%20seed%20phrase%2C%20seed%20recovery,write%20it%20down%20on%20paper';
 
@@ -174,14 +176,12 @@ export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
 export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
 
 export const TXN_CSV_HEADERS = [
-  {
-    label: I18n.t('containers.wallet.walletPage.blockHeight'),
-    key: 'blockHeight',
-  },
-  { label: I18n.t('containers.wallet.walletPage.blockHash'), key: 'blockHash' },
-  { label: I18n.t('containers.wallet.walletPage.type'), key: 'type' },
-  { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
-  { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
+  { label: 'Block Height', key: 'blockHeight' },
+  { label: 'Block Hash', key: 'blockHash' },
+  { label: 'Type', key: 'type' },
+  { label: 'Date', key: 'blockTime' },
+  { label: 'Pool ID', key: 'poolID' },
+  { label: 'Amount', key: 'amounts' },
 ];
 
 export const MINE = 'mine';

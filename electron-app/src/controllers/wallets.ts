@@ -37,6 +37,7 @@ import {
 import ini from 'ini';
 import { ParsedPath } from 'path';
 import packageInfo from '../../../package.json';
+import { CONFIG_DISABLED, NetworkTypes } from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -49,15 +50,19 @@ const saveFileDialog = async (
   return paths;
 };
 
+export const createOrGetWalletMap = () => {
+  return getWalletMap() != null
+    ? JSON.parse(getWalletMap())
+    : createWalletMap();
+};
+
 /**
  * @description - Check if wallet path is still existing
  */
 export const checkWalletConfig = () => {
   try {
     const data = getIniData(CONFIG_FILE_NAME);
-    const MAIN = 'main';
-    const TEST = 'test';
-    const networks = [MAIN, TEST];
+    const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
     networks.forEach((network) => {
       if (
         data[network] != null &&
@@ -95,6 +100,8 @@ export const writeToConfigFile = (
     } else {
       delete data[network].wallet;
       delete data[network].walletdir;
+      data[network].spv = CONFIG_DISABLED;
+      data[network].gen = CONFIG_DISABLED;
     }
     const defaultConfigData = ini.encode(data);
     const newData = formatConfigFileWrite(defaultConfigData);
@@ -160,8 +167,12 @@ export const setWalletEvents = () => {
     async (event: Electron.IpcMainEvent, walletMap: WalletMap) => {
       try {
         overwriteWalletMap(walletMap);
+        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
       } catch (error) {
         log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
       }
     }
   );
@@ -283,6 +294,7 @@ export const createWalletMap = (): Partial<WalletMap> => {
       const data: Partial<WalletMap> = {
         paths: [walletDat],
         nodeVersion: ainVersion,
+        hasSyncSPV: false,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
       return data;

@@ -33,6 +33,7 @@ export const initialState: PopoverState = {
   isEncryptFromModal: false,
   isPostEncryptBackupModalOpen: false,
   reIndexMessage: '',
+  isMasternodeWarningModalOpen: false,
 };
 
 const configSlice = createSlice({
@@ -190,6 +191,9 @@ const configSlice = createSlice({
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
     },
+    openMasternodeWarningModal(state, action) {
+      state.isMasternodeWarningModalOpen = action.payload;
+    },
   },
 });
 
@@ -242,6 +246,7 @@ export const {
   restoreWalletViaRecent,
   openExitWalletModal,
   openPostEncryptBackupModal,
+  openMasternodeWarningModal,
 } = actions;
 
 export default reducer;
