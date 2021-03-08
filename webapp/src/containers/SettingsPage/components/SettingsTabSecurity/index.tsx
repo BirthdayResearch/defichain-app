@@ -10,10 +10,7 @@ import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
 import { setDefaultLockTimeout, setLockoutTimeList } from '../../reducer';
 import { TimeoutLockEnum } from '../../types';
 import { RootState } from '../../../../app/rootTypes';
-<<<<<<< HEAD
-=======
 import styles from './settingsTabSecurity.module.scss';
->>>>>>> origin/master
 
 const timeoutLabel = 'containers.settings.minutes';
 

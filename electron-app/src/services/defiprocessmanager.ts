@@ -88,13 +88,10 @@ export default class DefiProcessManager {
     const METHOD_NAME = 'start';
     this.logger('Starting node connection...', METHOD_NAME, false);
     try {
-<<<<<<< HEAD
-=======
       //* App wallet configurations
       const walletMap: WalletMap = createOrGetWalletMap();
 
       //* Set config array for initial RPC call
->>>>>>> origin/master
       const configArray = [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,

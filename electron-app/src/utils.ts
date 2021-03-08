@@ -46,8 +46,6 @@ export const getPlatform = () => {
   }
 };
 
-<<<<<<< HEAD
-=======
 export const createResponseMessage = <T>(
   success: boolean,
   res: T
@@ -55,7 +53,6 @@ export const createResponseMessage = <T>(
   return { success, data: res };
 };
 
->>>>>>> origin/master
 export const responseMessage = <T>(
   success: boolean,
   res: T
