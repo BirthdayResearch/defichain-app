@@ -1,6 +1,5 @@
 import * as log from './electronLogger';
 import * as path from 'path';
-import ini from 'ini';
 import { spawn } from 'child_process';
 import {
   BINARY_FILE_NAME,
@@ -17,14 +16,12 @@ import {
   getProcesses,
   responseMessage,
   createResponseMessage,
-  writeFile,
   sleep,
   stopProcesses,
   getIniData,
   deletePeersFile,
   deleteBlocksAndRevFiles,
   deleteBanlist,
-  formatConfigFileWrite,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
