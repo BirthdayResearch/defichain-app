@@ -125,7 +125,7 @@ describe('Settings page saga unit test', () => {
       };
       const gen = updateSettings(action);
       const mockObj = {
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
 
         ...sagaTestData.updateSettings,
       };
@@ -151,7 +151,7 @@ describe('Settings page saga unit test', () => {
       };
       const gen = updateSettings(action);
       const mockObj = {
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
 
         ...sagaTestData.updateSettings,
       };
@@ -179,7 +179,7 @@ describe('Settings page saga unit test', () => {
       const gen = updateSettings(action);
       const mockObj = {
         ...sagaTestData.updateSettings,
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
       };
 
       expect(JSON.stringify(gen.next().value)).toEqual(
