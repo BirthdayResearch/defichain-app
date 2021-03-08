@@ -16,6 +16,7 @@ import {
   getFileData,
   getProcesses,
   responseMessage,
+  createResponseMessage,
   writeFile,
   sleep,
   stopProcesses,
@@ -34,14 +35,16 @@ import {
   REINDEX_NODE_UPDATE,
 } from '@defi_types/settings';
 import packageInfo from '../../../package.json';
-import { createWalletMap, getWalletMap } from '../controllers/wallets';
 import { WalletMap } from '../../../typings/walletMap';
 import semverDiff from 'semver/functions/diff';
+import { createOrGetWalletMap } from '../controllers/wallets';
+import { CONFIG_ENABLED, RPCConfigItem } from '../../../typings/rpcConfig';
 
-const checkIfNodeVersionChanged = (ainVersion: string) => {
+const checkIfNodeVersionChanged = (
+  ainVersion: string,
+  walletMap: WalletMap
+) => {
   try {
-    const walletMap: WalletMap =
-      getWalletMap() != null ? JSON.parse(getWalletMap()) : createWalletMap();
     if (walletMap) {
       log.info(
         `Current Node: ${walletMap.nodeVersion} New Node: ${ainVersion}`
@@ -62,26 +65,44 @@ const checkIfNodeVersionChanged = (ainVersion: string) => {
   }
 };
 
-// EXCEPTION handling event response inside service
-// TODO restructure DefiProcessManager
+const checkIfSPVSyncNeeded = (config: RPCConfigItem, walletMap: WalletMap) => {
+  try {
+    let isSyncNeeded = false;
+    const activeConfig =
+      config.testnet === CONFIG_ENABLED ? config.test : config.main;
+    if (activeConfig?.spv === CONFIG_ENABLED) {
+      if (walletMap) {
+        isSyncNeeded = !walletMap.hasSyncSPV;
+      }
+    }
+    return isSyncNeeded;
+  } catch (error) {
+    log.error(error);
+  }
+};
 export default class DefiProcessManager {
   static isReindexReq: boolean;
   static isStartedNode: boolean = false;
 
   static async start(params: any, event: Electron.IpcMainEvent) {
-    log.info('Starting DeFiProcessManager...');
+    const METHOD_NAME = 'start';
+    this.logger('Starting node connection...', METHOD_NAME, false);
     try {
+      //* App wallet configurations
+      const walletMap: WalletMap = createOrGetWalletMap();
+
+      //* Set config array for initial RPC call
       const configArray = [
         `-conf=${CONFIG_FILE_NAME}`,
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
-        // `-acindex`,
-        // `-reindex-chainstate`
       ];
+
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
       //* Delete block and rev files for high memory usage
       if (params?.isReindexReq || this.isReindexReq) {
+        this.logger('Adding -reindex in configArray', METHOD_NAME, false);
         configArray.push('-reindex');
         if (params?.isDeletePeersAndBlocksreq) {
           deletePeersFile();
@@ -91,19 +112,34 @@ export default class DefiProcessManager {
         this.isReindexReq = false;
       }
 
+      //* Check if SPV Sync is needed
+      if (checkIfSPVSyncNeeded(this.getConfiguration(), walletMap)) {
+        this.logger('Adding -spv_resync in configArray', METHOD_NAME, false);
+        configArray.push('-spv_resync');
+        walletMap.hasSyncSPV = true;
+      }
+
+      //* Check if Node changes
       const { ainVersion } = packageInfo;
-      if (checkIfNodeVersionChanged(ainVersion) && !params?.skipVersionCheck) {
-        log.info(REINDEX_NODE_UPDATE);
+      if (
+        checkIfNodeVersionChanged(ainVersion, walletMap) &&
+        !params?.skipVersionCheck
+      ) {
+        this.logger(REINDEX_NODE_UPDATE, METHOD_NAME, false);
         return event.sender.send(
           START_DEFI_CHAIN_REPLY,
-          responseMessage(false, {
+          createResponseMessage(false, {
             message: REINDEX_NODE_UPDATE,
             isReindexReq: true,
             nodeVersion: ainVersion,
+            walletMap,
           })
         );
+      } else {
+        walletMap.nodeVersion = ainVersion;
       }
 
+      //* Check if defi.pid process is existing
       if (checkPathExists(PID_FILE_NAME)) {
         try {
           const pid = getFileData(PID_FILE_NAME);
@@ -112,13 +148,14 @@ export default class DefiProcessManager {
           });
           if (processLists.length) {
             const NODE_RUNNING = 'Node already running';
-            log.info(NODE_RUNNING);
+            this.logger(NODE_RUNNING, METHOD_NAME, false);
             if (event)
               event.sender.send(
                 START_DEFI_CHAIN_REPLY,
-                responseMessage(true, {
+                createResponseMessage(true, {
                   message: NODE_RUNNING,
                   conf: this.getConfiguration(),
+                  walletMap,
                 })
               );
             return responseMessage(true, { message: NODE_RUNNING });
@@ -138,28 +175,29 @@ export default class DefiProcessManager {
 
       let nodeStarted = false;
       const child = spawn(execPath, configArray);
-      log.info('Node start initiated');
+      this.logger('Node start initiated', METHOD_NAME, false);
 
-      // on STDOUT
+      //* When node receives data
       child.stdout.on('data', (data) => {
         if (!nodeStarted) {
           nodeStarted = true;
           this.isStartedNode = true;
-          log.info('Node started');
+          this.logger('Node started', METHOD_NAME, false);
           if (event) {
-            log.info('Sending node started');
+            this.logger('Sending node started to client', METHOD_NAME, false);
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(true, {
+              createResponseMessage(true, {
                 message: 'Node started',
                 conf: this.getConfiguration(),
+                walletMap,
               })
             );
           }
         }
       });
 
-      // on STDERR
+      //* When node receives any error messages
       child.stderr.on('data', (err) => {
         const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
         const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
@@ -169,35 +207,39 @@ export default class DefiProcessManager {
         const shouldReindex = regexCheck.some((reg: RegExp) =>
           reg.test(errorString)
         );
-        // change value of isReindexReq variable based on regex evaluation
+        //* Checks the error message from node if a re-index is needed
         if (shouldReindex) {
           this.isReindexReq = shouldReindex;
         }
-        log.info(`On DeFiProcessManager error... ${errorString}`);
+        this.logger(
+          `Error on node connection: ${errorString}`,
+          METHOD_NAME,
+          true
+        );
         if (event)
           return event.sender.send(
             START_DEFI_CHAIN_REPLY,
-            responseMessage(false, {
+            createResponseMessage(false, {
               message: errorString,
               isReindexReq: this.isReindexReq,
+              walletMap,
             })
           );
       });
 
-      // on close
+      //* When node closes
       child.on('close', (code) => {
-        log.info(`DefiProcessManager close with code ${code}`);
+        this.logger(`Node is closed with code ${code}`, METHOD_NAME, false);
         if (code !== 0) {
           if (event) {
-            log.info(`Error occurred while running binary with code: ${code}`);
+            const message = `Error occurred while closing node with code: ${code}`;
+            this.logger(message, METHOD_NAME, true);
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(
-                false,
-                new Error(
-                  `Error occurred while running binary with code: ${code}`
-                )
-              )
+              createResponseMessage(false, {
+                message,
+                walletMap,
+              })
             );
           }
         }
@@ -205,15 +247,27 @@ export default class DefiProcessManager {
     } catch (err) {
       log.error(err);
       if (event)
-        event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
+        event.sender.send(
+          START_DEFI_CHAIN_REPLY,
+          createResponseMessage(false, err)
+        );
       return responseMessage(false, err);
     }
+  }
+
+  static logger(message: string, method: string, isError: boolean = false) {
+    const logType = isError ? log.error : log.info;
+    logType(`[${method}] - ${message}`);
   }
 
   static getConfiguration() {
     return getIniData(CONFIG_FILE_NAME);
   }
 
+  /**
+   *
+   * @description - App triggers the closing of RPC. This method just waits for all processes to close before sending a response.
+   */
   static async stop() {
     try {
       log.info('[Stop Node] Start DeFiProcessManager shutdown...');
