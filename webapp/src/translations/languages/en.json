@@ -159,7 +159,7 @@
       "createMasterNode": {
         "title": "Create masternode",
         "masterNodeName": "Masternode name",
-        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20k DFI is required to create masternode",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20,000 DFI is required to create masternode",
         "confirmationText": "Are you sure you want to create a masternode?",
         "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create masternode",
@@ -579,7 +579,12 @@
       "incorrectPassphrase": "The current passphrase entered is incorrect.",
       "minute": "%{time} minute",
       "minutes": "%{time} minutes",
+<<<<<<< HEAD
       "years": "%{time} years"
+=======
+      "years": "%{time} years",
+      "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active."
+>>>>>>> origin/master
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -894,7 +899,11 @@
     "enterYourPassphrase": "Enter your passphrase",
     "walletUnlockTitle": "Welcome back",
     "walletUnlockMessage": "Enter your passphrase and select a duration to unlock your wallet.",
+<<<<<<< HEAD
     "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue mining.",
+=======
+    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue minting.",
+>>>>>>> origin/master
     "lostPassphraseMessage": "I lost my passphrase",
     "backupWalletWarningModelHeader": "Wallet backup warning",
     "backupNow": "Backup now",
@@ -918,7 +927,11 @@
     "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
     "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now?",
     "nodeVersionHeader": "Node update",
+<<<<<<< HEAD
     "masternodesAlert": "You are currently running a masternode. Mining will not work on a locked wallet. Do you want to proceed?"
+=======
+    "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?"
+>>>>>>> origin/master
   },
   "general": {
     "defiApp": "DeFi app",
