@@ -49,6 +49,7 @@ import { fetchWalletMapRequest, lockWalletStart } from '../WalletPage/reducer';
 import { history } from '../../utils/history';
 import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 
 export function* getSettingsOptions() {
   try {
@@ -167,6 +168,7 @@ export function* changeNetworkNode(networkName) {
   const updatedConf = Object.assign({}, configurationData, network, {
     [name]: { ...currentNetworkConfiguration, ...config },
   });
+  yield put(updateActiveNetwork(name));
   yield put(restartModal());
   yield call(shutDownBinary);
   yield call(restartNode, { updatedConf });
