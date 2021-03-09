@@ -16,13 +16,19 @@ import {
   resignMasterNodeSuccess,
   startRestartNodeWithMasterNode,
   finishRestartNodeWithMasterNode,
+  updateMasternodeStart,
 } from './reducer';
-import { restartModal } from '../PopOver/reducer';
 import {
-  handelFetchMasterNodes,
+  openMasternodeUpdateRestartModal,
+  restartModal,
+} from '../PopOver/reducer';
+import {
+  handleFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
   getAddressInfo,
+  isMasternodeEnabled,
+  disableMasternodesMining,
 } from './service';
 
 import {
@@ -32,8 +38,11 @@ import {
 } from '../../utils/utility';
 
 import { isElectron, restartNodeSync } from '../../utils/isElectron';
-import { RESIGNED_STATE } from '../../constants';
+import { MASTER_NODES_PATH, RESIGNED_STATE } from '../../constants';
 import { MasterNodeObject } from './masterNodeInterface';
+import store from '../../app/rootStore';
+import { history } from '../../utils/history';
+import MasternodesPage from '.';
 import { TypeWallet } from '@/typings/entities';
 
 export function* getConfigurationDetails() {
@@ -47,14 +56,20 @@ export function* getConfigurationDetails() {
 
 export function* fetchMasterNodes() {
   try {
-    const data = yield call(handelFetchMasterNodes);
+    const data: MasterNodeObject[] = yield call(handleFetchMasterNodes);
     const enabledMasternode = data.filter(
       (masterNode) => masterNode.state !== RESIGNED_STATE
     );
     const masternodes: MasterNodeObject[] = [];
     for (const iterator of enabledMasternode) {
       try {
-        const result = yield call(MasterNodeOwnerInfo, iterator);
+        const result: MasterNodeObject = yield call(
+          MasterNodeOwnerInfo,
+          iterator
+        );
+        result.isEnabled = result.isMyMasternode
+          ? yield call(isMasternodeEnabled, result)
+          : true;
         masternodes.push(result);
       } catch (err) {
         log.error(err.message);
@@ -146,12 +161,35 @@ export function* handleRestartNode() {
   }
 }
 
-function* MasterNodeOwnerInfo(masterNode: any) {
+function* MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
   const data = yield call(getAddressInfo, masterNode.ownerAuthAddress);
   return {
     ...masterNode,
     isMyMasternode: data.ismine && !data.iswatchonly,
   };
+}
+
+function* handleUpdateMasternodeStart() {
+  try {
+    const { popover } = store.getState();
+    const updatedConf = yield call(
+      disableMasternodesMining,
+      popover.updatedMasternode as MasterNodeObject
+    );
+    yield put(restartModal());
+    yield call(shutDownBinary);
+    yield call(restartNodeSync, { updatedConf });
+    yield put(
+      openMasternodeUpdateRestartModal({ isOpen: false, masternode: null })
+    );
+    history.push(MASTER_NODES_PATH);
+  } catch (e) {
+    const message = remapNodeError(getErrorMessage(e));
+    yield put(
+      openMasternodeUpdateRestartModal({ isOpen: false, masternode: null })
+    );
+    log.error(message);
+  }
 }
 
 function* mySaga() {
@@ -160,6 +198,7 @@ function* mySaga() {
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
   yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
+  yield takeLatest(updateMasternodeStart.type, handleUpdateMasternodeStart);
 }
 
 export default mySaga;

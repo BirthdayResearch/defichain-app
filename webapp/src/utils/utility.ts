@@ -24,10 +24,10 @@ import * as log from './electronLogger';
 
 import {
   IAddressAndAmount,
+  ITxn,
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
-  ITxn,
 } from './interfaces';
 import {
   AMOUNT_SEPARATOR,
@@ -88,6 +88,16 @@ import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
+import BchIcon from '../assets/svg/bch-icon.svg';
+import {
+  getAddressInfo,
+  getTransactionInfo,
+  handleFetchAccountDFI,
+  handleGetPaymentRequest,
+} from '../containers/WalletPage/service';
+import { handleFetchToken } from '../containers/TokensPage/service';
+import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
+import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
 import {
   AccountKeyItem,
@@ -1095,6 +1105,7 @@ export const getIcon = (symbol: string) => {
     DFI: DefiIcon,
     DOGE: DogeIcon,
     LTC: LtcIcon,
+    BCH: BchIcon,
   };
   return symbolIconObj[symbol];
 };

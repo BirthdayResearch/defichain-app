@@ -2,6 +2,7 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Row, Col } from 'reactstrap';
 import { MasterNodeObject } from '../../masterNodeInterface';
+import { hasAnyMasternodeEnabled } from '../../service';
 
 interface MineNodeFooterProps {
   enabledMasternodes: MasterNodeObject[];
@@ -11,7 +12,9 @@ const MineNodeFooter: React.FunctionComponent<MineNodeFooterProps> = (
   props: MineNodeFooterProps
 ) => {
   const { enabledMasternodes } = props;
-
+  const numberOfActive = hasAnyMasternodeEnabled(enabledMasternodes)
+    ? enabledMasternodes.length
+    : 0;
   return (
     <Row>
       <Col md='4'>
@@ -21,8 +24,12 @@ const MineNodeFooter: React.FunctionComponent<MineNodeFooterProps> = (
           </small>
         </span>
         <div className='d-flex align-items-center'>
-          <span className={`txn-status-enabled`}></span>
-          <span className='ml-2'>{enabledMasternodes.length}</span>
+          <span
+            className={`txn-status-${
+              numberOfActive > 0 ? 'enabled' : 'disable'
+            }`}
+          ></span>
+          <span className='ml-2'>{numberOfActive}</span>
         </div>
       </Col>
       {/* <Col md='2'>

@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col, TabContent, ButtonDropdown,
-  DropdownToggle,
+import { Button, ButtonGroup, Row, Col, TabContent, Tooltip, DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
-import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+  DropdownItem, ButtonDropdown} from 'reactstrap';
+import {
+  MdSearch,
+  MdAdd,
+  MdCheckCircle,
+  MdErrorOutline,
+  MdInfo,
+  MdInfoOutline,
+} from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
@@ -74,6 +80,9 @@ const MasternodesPage: React.FunctionComponent = () => {
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   const [isOpenMenuCreate, setIsOpenMenuCreate] = useState(false);
   const [typeWallet, setTypeWallet] = useState<TypeWallet>(null);
@@ -187,7 +196,6 @@ const MasternodesPage: React.FunctionComponent = () => {
       MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
     );
     if (showForm) {
-      setTypeWallet(wallet);
       setIsConfirmationModalOpen(MasterNodesPageStates.confirm);
     } else {
       setErrorMessage(
@@ -207,6 +215,16 @@ const MasternodesPage: React.FunctionComponent = () => {
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
+
+          <MdInfoOutline className='ml-1' id='masternode__item' size={20} />
+          <Tooltip
+            placement='auto'
+            target='masternode__item'
+            isOpen={tooltipOpen}
+            toggle={toggle}
+          >
+            {I18n.t('containers.masterNodes.masterNodesPage.tooltipMasternode')}
+          </Tooltip>
         </h1>
         <MasterNodeTabsHeader tab={activeTab} setTab={setActiveTab} />
         <div></div>
