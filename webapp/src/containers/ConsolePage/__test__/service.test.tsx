@@ -19,7 +19,7 @@ describe('Console Page Service', () => {
     try {
       const data = await service.handleDataForQuery(query);
     } catch (err) {
-      expect(err.message).toBe('Bad Request');
+      expect(err.message).toBe('Invalid configuration');
       expect(post).toBeCalledTimes(1);
     }
   });

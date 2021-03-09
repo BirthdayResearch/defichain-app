@@ -40,21 +40,6 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
           className="modal-footer"
         >
           <Button
-            color="primary"
-            onClick={[Function]}
-            size="sm"
-            tag="button"
-          >
-            <button
-              aria-label={null}
-              className="btn btn-primary btn-sm"
-              onClick={[Function]}
-              type="button"
-            >
-              Update
-            </button>
-          </Button>
-          <Button
             color="link"
             onClick={[Function]}
             size="sm"
@@ -67,6 +52,21 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
               type="button"
             >
               Not now
+            </button>
+          </Button>
+          <Button
+            color="primary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-primary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Update
             </button>
           </Button>
         </div>

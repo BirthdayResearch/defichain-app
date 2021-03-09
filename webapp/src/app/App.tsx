@@ -21,7 +21,7 @@ import WalletPassphraseModal from '../containers/PopOver/WalletPassphraseModal';
 import { getPageTitle } from '../utils/utility';
 import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 import * as logger from '../utils/electronLogger';
-import { PACKAGE_VERSION } from 'src/constants';
+import { PACKAGE_VERSION } from '../constants';
 import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
 import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
 import PostEncryptBackupModal from '../containers/PopOver/PostEncryptBackupModal';

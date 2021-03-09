@@ -134,8 +134,10 @@ exports[`Sidebar component should check for snapshot 1`] = `
                 "url": "/",
               }
             }
+            myMasternodes={Array []}
             openEncryptWalletModal={[Function]}
             openExitWalletModal={[Function]}
+            openMasternodeWarningModal={[Function]}
             openWalletPassphraseModal={[Function]}
             pendingBalance="1"
             unit="DFI"

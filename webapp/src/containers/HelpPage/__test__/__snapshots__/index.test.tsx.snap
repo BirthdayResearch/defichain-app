@@ -240,6 +240,40 @@ exports[`HelpPage Page should check for snapshot 1`] = `
             </CardBody>
           </Card>
         </Col>
+        <Col
+          md="6"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Card
+            onClick={[Function]}
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <div>
+                <MdBook />
+              </div>
+              <div>
+                <h3>
+                  Community Wiki
+                </h3>
+                <p>
+                  defichain-wiki.com
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
       </Row>
       <p>
         DeFiChain is a community-driven and open project.

@@ -6,10 +6,10 @@ import {
   MASTER_NODES_PATH,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   SAME_AS_OWNER_ADDRESS,
-} from 'src/constants';
+} from '../../../../../../constants';
 import styles from '../../MineNodeList.module.scss';
 import EllipsisText from 'react-ellipsis-text';
-import { history } from 'src/utils/history';
+import { history } from '../../../../../../utils/history';
 import NumberMask from '../../../../../../components/NumberMask';
 
 interface MineNodeCardProps {
