@@ -146,7 +146,14 @@
         "collateral": "Collateral",
         "collateralsActive": "Collaterals active",
         "collateralsInactive": "Collaterals inactive",
-        "dFIMinted": "DFI minted"
+        "dFIMinted": "DFI minted",
+        "created": "Created",
+        "resigned": "Resigned",
+        "preresigned": "Pre-resigned",
+        "enable": "Enable",
+        "disable": "Disable",
+        "restartNeeded": "You need to restart DeFi app to apply these changes. Do you want to restart?",
+        "tooltipMasternode": "If you have a masternode, your app needs to be open with an unlocked wallet to be able to mint."
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",

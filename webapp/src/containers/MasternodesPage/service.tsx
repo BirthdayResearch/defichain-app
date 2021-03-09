@@ -2,19 +2,22 @@ import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
 import { GET_NEW_ADDRESS_TYPE } from '../../constants';
 import store from '../../app/rootStore';
-import { CONFIG_DISABLED, RPCConfigItem } from '@defi_types/rpcConfig';
+import { CONFIG_ENABLED, RPCConfigItem } from '@defi_types/rpcConfig';
 import { setMasternodesMiningInConf } from '../RpcConfiguration/reducer';
+import { MasterNodeObject } from './masterNodeInterface';
 
-export const handelFetchMasterNodes = async () => {
+export const handleFetchMasterNodes = async (): Promise<MasterNodeObject[]> => {
   const rpcClient = new RpcClient();
   const masternodes = await rpcClient.listMasterNodes();
   if (isEmpty(masternodes)) {
     return [];
   }
-  const transformedData = Object.keys(masternodes).map((item) => ({
-    hash: item,
-    ...masternodes[item],
-  }));
+  const transformedData: MasterNodeObject[] = Object.keys(masternodes).map(
+    (item) => ({
+      hash: item,
+      ...masternodes[item],
+    })
+  );
 
   return transformedData;
 };
@@ -64,8 +67,26 @@ export const getAddressInfo = (address) => {
   return rpcClient.getaddressInfo(address);
 };
 
-export const disableMasternodesMining = (): RPCConfigItem => {
-  store.dispatch(setMasternodesMiningInConf(CONFIG_DISABLED));
+export const disableMasternodesMining = (
+  mn: Partial<MasterNodeObject>
+): RPCConfigItem => {
+  store.dispatch(setMasternodesMiningInConf(mn));
   const { app } = store.getState();
   return app.rpcConfig;
+};
+
+export const isMasternodeEnabled = (mn: MasterNodeObject): boolean => {
+  const { app } = store.getState();
+  let isMasternodeEnabled = false;
+  const activeNetwork = app.rpcConfig[app.activeNetwork];
+  isMasternodeEnabled =
+    (activeNetwork.masternode_operator?.includes(mn.operatorAuthAddress) &&
+      activeNetwork.gen === CONFIG_ENABLED &&
+      activeNetwork.spv === CONFIG_ENABLED) ||
+    false;
+  return isMasternodeEnabled;
+};
+
+export const hasAnyMasternodeEnabled = (mn: MasterNodeObject[]): boolean => {
+  return mn?.length > 0 && mn.some((v: MasterNodeObject) => v.isEnabled);
 };
