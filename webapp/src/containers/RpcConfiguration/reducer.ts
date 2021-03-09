@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { MAIN, TEST } from '../../constants';
 import { AppState } from './types';
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
 
 export const initialState: AppState = {
   isFetching: false,
@@ -70,8 +71,24 @@ const configSlice = createSlice({
     },
     startSetNodeVersion(state) {},
     setMasternodesMiningInConf(state, action) {
-      state.rpcConfig[state.activeNetwork].spv = action.payload;
-      state.rpcConfig[state.activeNetwork].gen = action.payload;
+      const activeNetwork = state.rpcConfig[state.activeNetwork];
+      const mnList: string[] = activeNetwork.masternode_operator || [];
+      const mn: MasterNodeObject = action.payload;
+      const operatorAddress = mn.operatorAuthAddress;
+      activeNetwork.masternode_operator = mnList.filter(
+        (s: string) => s !== operatorAddress
+      );
+      if (mn.isEnabled) {
+        activeNetwork.masternode_operator.push(operatorAddress);
+      }
+
+      if (activeNetwork.masternode_operator?.length === 0 && !mn.isEnabled) {
+        activeNetwork.spv = CONFIG_DISABLED;
+        activeNetwork.gen = CONFIG_DISABLED;
+      } else {
+        activeNetwork.spv = CONFIG_ENABLED;
+        activeNetwork.gen = CONFIG_ENABLED;
+      }
     },
   },
 });
