@@ -147,8 +147,12 @@
         "collateralsInactive": "Collaterals inactive",
         "dFIMinted": "DFI minted",
         "created": "Erstellt",
-        "resigned": "Resigned",
-        "preresigned": "Pre-resigned"
+        "resigned": "Kündigen ",
+        "preresigned": "vorab kündigen",
+        "enable": "Aktivieren",
+        "disable": "Deaktivieren",
+        "restartNeeded": "Die DeFi App muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
+        "tooltipMasternode": "Wenn du einen Masternode hast, muss die Wallet entsperrt sein, um minten zu können."
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
