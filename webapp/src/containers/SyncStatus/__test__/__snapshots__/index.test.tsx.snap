@@ -86,7 +86,11 @@ exports[`SyncStatus component should check for snapshot 1`] = `
         }
       >
         <SyncStatus
-          blockChainInfo={Object {}}
+          blockChainInfo={
+            Object {
+              "chain": "",
+            }
+          }
           fetchInstantBalanceRequest={[Function]}
           fetchPendingBalanceRequest={[Function]}
           history={

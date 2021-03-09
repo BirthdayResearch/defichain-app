@@ -65,6 +65,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
         isUpdate={true}
         setIsConfirmationModalOpen={[Function]}
         setWait={[Function]}
+        typeWallet="wallet"
         updateConfirmation={[Function]}
         updatedTokenData={
           Object {
@@ -342,9 +343,17 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                   getTransactionLabel={[Function]}
                   isDisabled={true}
                   onSelectAddress={[Function]}
+                  typeWallet="wallet"
                 >
                   <AddressDropdown
                     additionalClass={[Function]}
+                    connect={
+                      Object {
+                        "device": null,
+                        "error": null,
+                        "status": "notConnected",
+                      }
+                    }
                     dispatch={[Function]}
                     formState={
                       Object {
@@ -363,6 +372,8 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                     isDisabled={true}
                     onSelectAddress={[Function]}
                     paymentRequests={Array []}
+                    paymentRequestsLedger={Array []}
+                    typeWallet="wallet"
                   >
                     <UncontrolledDropdown
                       className="w-100"
@@ -502,7 +513,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                                           </div>
                                         </Col>
                                         <Col
-                                          md="3"
+                                          md="1"
                                           tag="div"
                                           widths={
                                             Array [
@@ -515,7 +526,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="col-md-3"
+                                            className="col-md-1"
                                           >
                                             Selected
                                           </div>

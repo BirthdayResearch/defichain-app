@@ -94,7 +94,7 @@ import {
   AccountModel,
   ListUnspentModel,
   PeerInfoModel,
-} from 'src/constants/rpcModel';
+} from '@/constants/rpcModel';
 import {
   ErrorMessages,
   HighestAmountItem,

@@ -47,7 +47,7 @@ import {
   ListUnspentModel,
   PeerInfoModel,
   WalletInfo,
-} from 'src/constants/rpcModel';
+} from '@/constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 
 export default class RpcClient {

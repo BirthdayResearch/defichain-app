@@ -9,7 +9,7 @@ import {
 } from '../../../reducer';
 import { WALLET_PAGE_PATH } from '@/constants';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
-import { IToken } from 'src/utils/interfaces';
+import { IToken } from '@/utils/interfaces';
 import { getWalletPathAddress } from '../../SendPage';
 import TokensList from '@/components/TokensList';
 import { Helmet } from 'react-helmet';

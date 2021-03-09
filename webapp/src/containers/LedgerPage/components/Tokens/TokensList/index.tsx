@@ -15,7 +15,7 @@ import {
   fetchConnectLedgerFailure,
 } from '@/containers/LedgerPage/reducer';
 import { LEDGER_PATH } from '@/constants';
-import { IToken } from 'src/utils/interfaces';
+import { IToken } from '@/utils/interfaces';
 import TokensList from '@/components/TokensList';
 import { RootState } from '@/app/rootTypes';
 import { StatusLedger } from '@/typings/entities';

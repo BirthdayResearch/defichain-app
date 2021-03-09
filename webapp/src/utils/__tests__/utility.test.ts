@@ -19,7 +19,7 @@ import {
 } from './testData.json';
 import log from 'loglevel';
 import { mockAxios } from '../testUtils/mockUtils';
-import { AccountModel } from 'src/constants/rpcModel';
+import { AccountModel } from '@/constants/rpcModel';
 import { BigNumber } from 'bignumber.js';
 
 const DUST_VALUE_DFI = '0.00000546';

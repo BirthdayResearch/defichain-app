@@ -53,6 +53,8 @@ exports[`Popover Index should check for snapshot 1`] = `
         closeReIndexModal={[Function]}
         isReIndexModelOpen={false}
         isRestartLoader={[Function]}
+        reIndexMessage=""
+        startSetNodeVersion={[Function]}
       >
         <Modal
           autoFocus={true}

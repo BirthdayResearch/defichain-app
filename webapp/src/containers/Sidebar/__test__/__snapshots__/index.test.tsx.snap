@@ -88,7 +88,11 @@ exports[`Sidebar component should check for snapshot 1`] = `
           walletBalance="123"
         >
           <Sidebar
-            blockChainInfo={Object {}}
+            blockChainInfo={
+              Object {
+                "chain": "",
+              }
+            }
             fetchInstantBalanceRequest={[Function]}
             fetchInstantPendingBalanceRequest={[Function]}
             history={
@@ -134,10 +138,13 @@ exports[`Sidebar component should check for snapshot 1`] = `
                 "url": "/",
               }
             }
+            myMasternodes={Array []}
             openEncryptWalletModal={[Function]}
             openExitWalletModal={[Function]}
+            openMasternodeWarningModal={[Function]}
             openWalletPassphraseModal={[Function]}
             pendingBalance="1"
+            statusLedger="notConnected"
             unit="DFI"
             walletBalance={0}
           >
@@ -596,7 +603,11 @@ exports[`Sidebar component should check for snapshot 1`] = `
               </div>
               <Connect(SyncStatus)>
                 <SyncStatus
-                  blockChainInfo={Object {}}
+                  blockChainInfo={
+                    Object {
+                      "chain": "",
+                    }
+                  }
                   fetchInstantBalanceRequest={[Function]}
                   fetchPendingBalanceRequest={[Function]}
                   isLoading={true}

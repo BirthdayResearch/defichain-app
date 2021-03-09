@@ -35,7 +35,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
         }
       }
     >
-      <Connect(WalletPage)
+      <Connect(LedgerPage)
         history={
           Object {
             "action": "POP",
@@ -85,10 +85,25 @@ exports[`WalletPage component should check for snapshot 1`] = `
           }
         }
       >
-        <WalletPage
+        <LedgerPage
+          addReceiveTxns={[Function]}
           blockChainInfo={Object {}}
-          fetchInstantBalanceRequest={[Function]}
-          fetchInstantPendingBalanceRequest={[Function]}
+          clearReceiveTxns={[Function]}
+          connect={
+            Object {
+              "device": null,
+              "error": null,
+              "status": "notConnected",
+            }
+          }
+          devices={
+            Object {
+              "error": null,
+              "list": Array [],
+            }
+          }
+          fetchConnectLedgerRequest={[Function]}
+          fetchInstantBalance={[Function]}
           history={
             Object {
               "action": "POP",
@@ -119,6 +134,9 @@ exports[`WalletPage component should check for snapshot 1`] = `
               "replace": [Function],
             }
           }
+          isShowingInformation={true}
+          latestBlock={0}
+          latestSyncedBlock={0}
           location={
             Object {
               "hash": "",
@@ -138,7 +156,6 @@ exports[`WalletPage component should check for snapshot 1`] = `
             }
           }
           openBackupWallet={[Function]}
-          pendingBalance={0}
           startUpdateApp={[Function]}
           unit="DFI"
           updateAvailableBadge={false}
@@ -147,332 +164,1193 @@ exports[`WalletPage component should check for snapshot 1`] = `
           <div
             className="main-wrapper"
           >
-            <Connect(CreateOrRestoreWalletPage)
-              history={
-                Object {
-                  "action": "POP",
-                  "block": [Function],
-                  "canGo": [Function],
-                  "createHref": [Function],
-                  "entries": Array [
-                    Object {
-                      "hash": "",
-                      "pathname": "/",
-                      "search": "",
-                      "state": undefined,
-                    },
-                  ],
-                  "go": [Function],
-                  "goBack": [Function],
-                  "goForward": [Function],
-                  "index": 0,
-                  "length": 1,
-                  "listen": [Function],
-                  "location": Object {
-                    "hash": "",
-                    "pathname": "/",
-                    "search": "",
-                    "state": undefined,
-                  },
-                  "push": [Function],
-                  "replace": [Function],
-                }
-              }
+            <HelpModal
+              isOpen={true}
+              toggle={[Function]}
             >
-              <CreateOrRestoreWalletPage
-                history={
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropTransition={
                   Object {
-                    "action": "POP",
-                    "block": [Function],
-                    "canGo": [Function],
-                    "createHref": [Function],
-                    "entries": Array [
-                      Object {
-                        "hash": "",
-                        "pathname": "/",
-                        "search": "",
-                        "state": undefined,
-                      },
-                    ],
-                    "go": [Function],
-                    "goBack": [Function],
-                    "goForward": [Function],
-                    "index": 0,
-                    "length": 1,
-                    "listen": [Function],
-                    "location": Object {
-                      "hash": "",
-                      "pathname": "/",
-                      "search": "",
-                      "state": undefined,
-                    },
-                    "push": [Function],
-                    "replace": [Function],
+                    "mountOnEnter": true,
+                    "timeout": 150,
                   }
                 }
-                openBackupWalletWarningModal={[Function]}
+                centered={true}
+                container="body"
+                fade={true}
+                isOpen={true}
+                keyboard={true}
+                modalTransition={
+                  Object {
+                    "timeout": 300,
+                  }
+                }
+                onClosed={[Function]}
+                onOpened={[Function]}
+                returnFocusAfterClose={true}
+                role="dialog"
+                scrollable={false}
+                toggle={[Function]}
+                trapFocus={false}
+                unmountOnClose={true}
+                zIndex={1050}
               >
-                <div>
-                  <HelmetWrapper
-                    defer={true}
-                    encodeSpecialCharacters={true}
-                  >
-                    <SideEffect(NullComponent)
-                      defer={true}
-                      encodeSpecialCharacters={true}
-                      title="Wallet - Create or restore wallet"
-                      titleAttributes={Object {}}
+                <Portal
+                  node={
+                    <div
+                      style="position: relative; z-index: 1050; display: block;"
+                      tabindex="-1"
                     >
-                      <NullComponent
-                        defer={true}
-                        encodeSpecialCharacters={true}
-                        title="Wallet - Create or restore wallet"
-                        titleAttributes={Object {}}
-                      />
-                    </SideEffect(NullComponent)>
-                  </HelmetWrapper>
-                  <header
-                    className="header-bar"
-                  >
-                    <h1>
-                      Create or restore wallet
-                    </h1>
-                  </header>
-                  <div
-                    className="content"
-                  >
-                    <section>
-                      <Row
-                        tag="div"
-                        widths={
-                          Array [
-                            "xs",
-                            "sm",
-                            "md",
-                            "lg",
-                            "xl",
-                          ]
-                        }
+                      <div
+                        class=""
                       >
                         <div
-                          className="row"
+                          class="modal fade"
+                          role="dialog"
+                          style="display: block;"
+                          tabindex="-1"
                         >
-                          <Col
-                            lg="6"
-                            md="12"
-                            sm="12"
-                            tag="div"
-                            widths={
-                              Array [
-                                "xs",
-                                "sm",
-                                "md",
-                                "lg",
-                                "xl",
-                              ]
-                            }
+                          <div
+                            class="modal-dialog modal-dialog-centered"
+                            role="document"
                           >
                             <div
-                              className="col-sm-12 col-md-12 col-lg-6"
+                              class="modal-content"
                             >
                               <div
-                                onClick={[Function]}
+                                class="modal-header"
                               >
-                                <WalletStatCard
-                                  icon={
-                                    <MdAccountBalanceWallet
-                                      color="#ff00af"
-                                      size={60}
-                                    />
-                                  }
-                                  label="Create a new wallet"
+                                <h5
+                                  class="modal-title"
                                 >
-                                  <Card
-                                    tag="div"
+                                  How to connect Ledger to DeFi Wallet:
+                                </h5>
+                                <button
+                                  aria-label="Close"
+                                  class="close"
+                                  type="button"
+                                >
+                                  <span
+                                    aria-hidden="true"
                                   >
-                                    <div
-                                      className="card"
-                                    >
-                                      <CardBody
-                                        tag="div"
-                                      >
-                                        <div
-                                          className="card-body"
-                                        >
-                                          <div>
-                                            <div>
-                                              <MdAccountBalanceWallet
-                                                color="#ff00af"
-                                                size={60}
-                                              >
-                                                <IconBase
-                                                  attr={
-                                                    Object {
-                                                      "viewBox": "0 0 24 24",
-                                                    }
-                                                  }
-                                                  color="#ff00af"
-                                                  size={60}
-                                                >
-                                                  <svg
-                                                    color="#ff00af"
-                                                    fill="currentColor"
-                                                    height={60}
-                                                    size={60}
-                                                    stroke="currentColor"
-                                                    strokeWidth="0"
-                                                    style={
-                                                      Object {
-                                                        "color": "#ff00af",
-                                                      }
-                                                    }
-                                                    viewBox="0 0 24 24"
-                                                    width={60}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
-                                                      key="0"
-                                                    />
-                                                  </svg>
-                                                </IconBase>
-                                              </MdAccountBalanceWallet>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </CardBody>
-                                      <CardFooter
-                                        tag="div"
-                                      >
-                                        <div
-                                          className="card-footer"
-                                        >
-                                          <div>
-                                            <div>
-                                              Create a new wallet
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </CardFooter>
-                                    </div>
-                                  </Card>
-                                </WalletStatCard>
+                                    ×
+                                  </span>
+                                </button>
                               </div>
-                            </div>
-                          </Col>
-                          <Col
-                            lg="6"
-                            md="12"
-                            sm="12"
-                            tag="div"
-                            widths={
-                              Array [
-                                "xs",
-                                "sm",
-                                "md",
-                                "lg",
-                                "xl",
-                              ]
-                            }
-                          >
-                            <div
-                              className="col-sm-12 col-md-12 col-lg-6"
-                            >
                               <div
-                                onClick={[Function]}
+                                class="modal-body"
                               >
-                                <WalletStatCard
-                                  icon={
-                                    <MdFormatListBulleted
-                                      color="#ff00af"
-                                      size={60}
-                                    />
-                                  }
-                                  label="Restore wallet from mnemonic seed"
-                                >
-                                  <Card
-                                    tag="div"
-                                  >
-                                    <div
-                                      className="card"
-                                    >
-                                      <CardBody
-                                        tag="div"
-                                      >
-                                        <div
-                                          className="card-body"
-                                        >
-                                          <div>
-                                            <div>
-                                              <MdFormatListBulleted
-                                                color="#ff00af"
-                                                size={60}
-                                              >
-                                                <IconBase
-                                                  attr={
-                                                    Object {
-                                                      "viewBox": "0 0 24 24",
-                                                    }
-                                                  }
-                                                  color="#ff00af"
-                                                  size={60}
-                                                >
-                                                  <svg
-                                                    color="#ff00af"
-                                                    fill="currentColor"
-                                                    height={60}
-                                                    size={60}
-                                                    stroke="currentColor"
-                                                    strokeWidth="0"
-                                                    style={
-                                                      Object {
-                                                        "color": "#ff00af",
-                                                      }
-                                                    }
-                                                    viewBox="0 0 24 24"
-                                                    width={60}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
-                                                      key="0"
-                                                    />
-                                                  </svg>
-                                                </IconBase>
-                                              </MdFormatListBulleted>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </CardBody>
-                                      <CardFooter
-                                        tag="div"
-                                      >
-                                        <div
-                                          className="card-footer"
-                                        >
-                                          <div>
-                                            <div>
-                                              Restore wallet from mnemonic seed
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </CardFooter>
-                                    </div>
-                                  </Card>
-                                </WalletStatCard>
+                                <div>
+                                  <p>
+                                    1. Download the Ledger App
+                                  </p>
+                                  <img
+                                    alt="LedgerDownload"
+                                    src="test-file-stub"
+                                  />
+                                </div>
+                                <div>
+                                  <p>
+                                    2. Plug and unlock your device
+                                  </p>
+                                  <img
+                                    alt="LedgerConnect"
+                                    src="test-file-stub"
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </Col>
+                          </div>
                         </div>
-                      </Row>
-                    </section>
+                        <div
+                          class="modal-backdrop fade"
+                        />
+                      </div>
+                    </div>
+                  }
+                >
+                  <Portal
+                    containerInfo={
+                      <div
+                        style="position: relative; z-index: 1050; display: block;"
+                        tabindex="-1"
+                      >
+                        <div
+                          class=""
+                        >
+                          <div
+                            class="modal fade"
+                            role="dialog"
+                            style="display: block;"
+                            tabindex="-1"
+                          >
+                            <div
+                              class="modal-dialog modal-dialog-centered"
+                              role="document"
+                            >
+                              <div
+                                class="modal-content"
+                              >
+                                <div
+                                  class="modal-header"
+                                >
+                                  <h5
+                                    class="modal-title"
+                                  >
+                                    How to connect Ledger to DeFi Wallet:
+                                  </h5>
+                                  <button
+                                    aria-label="Close"
+                                    class="close"
+                                    type="button"
+                                  >
+                                    <span
+                                      aria-hidden="true"
+                                    >
+                                      ×
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="modal-body"
+                                >
+                                  <div>
+                                    <p>
+                                      1. Download the Ledger App
+                                    </p>
+                                    <img
+                                      alt="LedgerDownload"
+                                      src="test-file-stub"
+                                    />
+                                  </div>
+                                  <div>
+                                    <p>
+                                      2. Plug and unlock your device
+                                    </p>
+                                    <img
+                                      alt="LedgerConnect"
+                                      src="test-file-stub"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="modal-backdrop fade"
+                          />
+                        </div>
+                      </div>
+                    }
+                  >
+                    <div
+                      className=""
+                    >
+                      <Fade
+                        appear={true}
+                        baseClass="fade"
+                        baseClassActive="show"
+                        className="modal"
+                        enter={true}
+                        exit={true}
+                        in={true}
+                        mountOnEnter={false}
+                        onClick={[Function]}
+                        onEnter={[Function]}
+                        onEntered={[Function]}
+                        onEntering={[Function]}
+                        onExit={[Function]}
+                        onExited={[Function]}
+                        onExiting={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        role="dialog"
+                        style={
+                          Object {
+                            "display": "block",
+                          }
+                        }
+                        tabIndex="-1"
+                        tag="div"
+                        timeout={300}
+                        unmountOnExit={false}
+                      >
+                        <Transition
+                          appear={true}
+                          enter={true}
+                          exit={true}
+                          in={true}
+                          mountOnEnter={false}
+                          onEnter={[Function]}
+                          onEntered={[Function]}
+                          onEntering={[Function]}
+                          onExit={[Function]}
+                          onExited={[Function]}
+                          onExiting={[Function]}
+                          timeout={300}
+                          unmountOnExit={false}
+                        >
+                          <div
+                            className="modal fade"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            onKeyUp={[Function]}
+                            onMouseDown={[Function]}
+                            role="dialog"
+                            style={
+                              Object {
+                                "display": "block",
+                              }
+                            }
+                            tabIndex="-1"
+                          >
+                            <div
+                              className="modal-dialog modal-dialog-centered"
+                              role="document"
+                            >
+                              <div
+                                className="modal-content"
+                              >
+                                <ModalHeader
+                                  charCode={215}
+                                  closeAriaLabel="Close"
+                                  tag="h5"
+                                  toggle={[Function]}
+                                  wrapTag="div"
+                                >
+                                  <div
+                                    className="modal-header"
+                                  >
+                                    <h5
+                                      className="modal-title"
+                                    >
+                                      How to connect Ledger to DeFi Wallet:
+                                    </h5>
+                                    <button
+                                      aria-label="Close"
+                                      className="close"
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <span
+                                        aria-hidden="true"
+                                      >
+                                        ×
+                                      </span>
+                                    </button>
+                                  </div>
+                                </ModalHeader>
+                                <ModalBody
+                                  tag="div"
+                                >
+                                  <div
+                                    className="modal-body"
+                                  >
+                                    <div>
+                                      <p>
+                                        1. Download the Ledger App
+                                      </p>
+                                      <img
+                                        alt="LedgerDownload"
+                                        src="test-file-stub"
+                                      />
+                                    </div>
+                                    <div>
+                                      <p>
+                                        2. Plug and unlock your device
+                                      </p>
+                                      <img
+                                        alt="LedgerConnect"
+                                        src="test-file-stub"
+                                      />
+                                    </div>
+                                  </div>
+                                </ModalBody>
+                              </div>
+                            </div>
+                          </div>
+                        </Transition>
+                      </Fade>
+                      <Fade
+                        appear={true}
+                        baseClass="fade"
+                        baseClassActive="show"
+                        className="modal-backdrop"
+                        enter={true}
+                        exit={true}
+                        in={true}
+                        mountOnEnter={true}
+                        onEnter={[Function]}
+                        onEntered={[Function]}
+                        onEntering={[Function]}
+                        onExit={[Function]}
+                        onExited={[Function]}
+                        onExiting={[Function]}
+                        tag="div"
+                        timeout={150}
+                        unmountOnExit={false}
+                      >
+                        <Transition
+                          appear={true}
+                          enter={true}
+                          exit={true}
+                          in={true}
+                          mountOnEnter={true}
+                          onEnter={[Function]}
+                          onEntered={[Function]}
+                          onEntering={[Function]}
+                          onExit={[Function]}
+                          onExited={[Function]}
+                          onExiting={[Function]}
+                          timeout={150}
+                          unmountOnExit={false}
+                        >
+                          <div
+                            className="modal-backdrop fade"
+                          />
+                        </Transition>
+                      </Fade>
+                    </div>
+                  </Portal>
+                </Portal>
+              </Modal>
+            </HelpModal>
+            <NotFoundLedgerModal
+              isOpen={false}
+              toggle={[Function]}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropTransition={
+                  Object {
+                    "mountOnEnter": true,
+                    "timeout": 150,
+                  }
+                }
+                centered={true}
+                container="body"
+                fade={true}
+                isOpen={false}
+                keyboard={true}
+                modalTransition={
+                  Object {
+                    "timeout": 300,
+                  }
+                }
+                onClosed={[Function]}
+                onOpened={[Function]}
+                returnFocusAfterClose={true}
+                role="dialog"
+                scrollable={false}
+                toggle={[Function]}
+                trapFocus={false}
+                unmountOnClose={true}
+                zIndex={1050}
+              />
+            </NotFoundLedgerModal>
+            <ErrorLedgerModal
+              error=""
+              isOpen={false}
+              onAgainClick={[Function]}
+              toggle={[Function]}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropTransition={
+                  Object {
+                    "mountOnEnter": true,
+                    "timeout": 150,
+                  }
+                }
+                centered={true}
+                container="body"
+                fade={true}
+                isOpen={false}
+                keyboard={true}
+                modalTransition={
+                  Object {
+                    "timeout": 300,
+                  }
+                }
+                onClosed={[Function]}
+                onOpened={[Function]}
+                returnFocusAfterClose={true}
+                role="dialog"
+                scrollable={false}
+                toggle={[Function]}
+                trapFocus={false}
+                unmountOnClose={true}
+                zIndex={1050}
+              />
+            </ErrorLedgerModal>
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Ledger"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Ledger"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <Connect(Header)>
+              <Header
+                openBackupWallet={[Function]}
+                startUpdateApp={[Function]}
+                updateAvailableBadge={false}
+              >
+                <header
+                  className="header-bar"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "sensitive": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/ledger/tokens?value=0&unit=DFI"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      onClick={[Function]}
+                      to="/ledger/tokens?value=0&unit=DFI"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/ledger/tokens",
+                            "search": "?value=0&unit=DFI",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-link"
+                          href="/ledger/tokens?value=0&unit=DFI"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-link"
+                            href="/ledger/tokens?value=0&unit=DFI"
+                            onClick={[Function]}
+                          >
+                            <MdArrowBack>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowBack>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              Ledger wallets
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <div
+                    className="d-flex align-items-end"
+                  >
+                    <h1>
+                      DFI
+                       
+                      Ledger
+                    </h1>
+                    <button
+                      className="d-flex align-items-center"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <span>
+                        Connect
+                      </span>
+                      <StatusLedgerConnect
+                        status="notConnected"
+                      >
+                        <div>
+                          <div
+                            className="rounded-circle"
+                          />
+                        </div>
+                      </StatusLedgerConnect>
+                    </button>
                   </div>
-                </div>
-              </CreateOrRestoreWalletPage>
-            </Connect(CreateOrRestoreWalletPage)>
+                  <ButtonGroup
+                    role="group"
+                    tag="div"
+                  >
+                    <div
+                      className="btn-group"
+                      role="group"
+                    >
+                      <Button
+                        color="link"
+                        disabled={true}
+                        onClick={[Function]}
+                        size="sm"
+                        tag="button"
+                      >
+                        <button
+                          aria-label={null}
+                          className="btn btn-link btn-sm disabled"
+                          disabled={true}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <MdArrowUpward>
+                            <IconBase
+                              attr={
+                                Object {
+                                  "viewBox": "0 0 24 24",
+                                }
+                              }
+                            >
+                              <svg
+                                fill="currentColor"
+                                height="1em"
+                                stroke="currentColor"
+                                strokeWidth="0"
+                                style={
+                                  Object {
+                                    "color": undefined,
+                                  }
+                                }
+                                viewBox="0 0 24 24"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                  key="0"
+                                />
+                              </svg>
+                            </IconBase>
+                          </MdArrowUpward>
+                          <span
+                            className="d-md-inline"
+                          >
+                            send
+                          </span>
+                        </button>
+                      </Button>
+                      <Button
+                        color="link"
+                        disabled={true}
+                        onClick={[Function]}
+                        size="sm"
+                        tag="button"
+                      >
+                        <button
+                          aria-label={null}
+                          className="btn btn-link btn-sm disabled"
+                          disabled={true}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <MdArrowDownward>
+                            <IconBase
+                              attr={
+                                Object {
+                                  "viewBox": "0 0 24 24",
+                                }
+                              }
+                            >
+                              <svg
+                                fill="currentColor"
+                                height="1em"
+                                stroke="currentColor"
+                                strokeWidth="0"
+                                style={
+                                  Object {
+                                    "color": undefined,
+                                  }
+                                }
+                                viewBox="0 0 24 24"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                  key="0"
+                                />
+                              </svg>
+                            </IconBase>
+                          </MdArrowDownward>
+                          <span
+                            className="d-md-inline"
+                          >
+                            receive
+                          </span>
+                        </button>
+                      </Button>
+                      <Button
+                        color="link"
+                        disabled={true}
+                        onClick={[Function]}
+                        size="sm"
+                        tag="button"
+                      >
+                        <button
+                          aria-label={null}
+                          className="btn btn-link btn-sm disabled"
+                          disabled={true}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="d-md-inline"
+                          >
+                            restore keys
+                          </span>
+                        </button>
+                      </Button>
+                    </div>
+                  </ButtonGroup>
+                </header>
+              </Header>
+            </Connect(Header)>
+            <div
+              className="content"
+            >
+              <section>
+                <Row
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col"
+                      >
+                        <StatCard
+                          icon={
+                            <MdRefresh
+                              onClick={[Function]}
+                              size={30}
+                            />
+                          }
+                          label="Available balance"
+                          refreshFlag={false}
+                          unit="DFI"
+                          value="0"
+                        >
+                          <Card
+                            tag="div"
+                          >
+                            <div
+                              className="card"
+                            >
+                              <CardBody
+                                tag="div"
+                              >
+                                <div
+                                  className="card-body"
+                                >
+                                  <Row
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="row"
+                                    >
+                                      <Col
+                                        tag="div"
+                                        widths={
+                                          Array [
+                                            "xs",
+                                            "sm",
+                                            "md",
+                                            "lg",
+                                            "xl",
+                                          ]
+                                        }
+                                      >
+                                        <div
+                                          className="col"
+                                        >
+                                          Available balance
+                                        </div>
+                                      </Col>
+                                      <Col
+                                        className="undefined "
+                                        tag="div"
+                                        widths={
+                                          Array [
+                                            "xs",
+                                            "sm",
+                                            "md",
+                                            "lg",
+                                            "xl",
+                                          ]
+                                        }
+                                      >
+                                        <div
+                                          className="undefined  col"
+                                        >
+                                          <MdRefresh
+                                            onClick={[Function]}
+                                            size={30}
+                                          >
+                                            <IconBase
+                                              attr={
+                                                Object {
+                                                  "viewBox": "0 0 24 24",
+                                                }
+                                              }
+                                              onClick={[Function]}
+                                              size={30}
+                                            >
+                                              <svg
+                                                fill="currentColor"
+                                                height={30}
+                                                onClick={[Function]}
+                                                stroke="currentColor"
+                                                strokeWidth="0"
+                                                style={
+                                                  Object {
+                                                    "color": undefined,
+                                                  }
+                                                }
+                                                viewBox="0 0 24 24"
+                                                width={30}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <path
+                                                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                                                  key="0"
+                                                />
+                                              </svg>
+                                            </IconBase>
+                                          </MdRefresh>
+                                        </div>
+                                      </Col>
+                                    </div>
+                                  </Row>
+                                  <Row
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="row"
+                                    >
+                                      <Col
+                                        tag="div"
+                                        widths={
+                                          Array [
+                                            "xs",
+                                            "sm",
+                                            "md",
+                                            "lg",
+                                            "xl",
+                                          ]
+                                        }
+                                      >
+                                        <div
+                                          className="col"
+                                        >
+                                          <NumberMask
+                                            defaultValue={0}
+                                            value="0.00000000"
+                                          >
+                                            <NumberFormat
+                                              allowEmptyFormatting={false}
+                                              allowLeadingZeros={false}
+                                              allowNegative={true}
+                                              decimalSeparator="."
+                                              defaultValue={0}
+                                              displayType="text"
+                                              fixedDecimalScale={false}
+                                              isAllowed={[Function]}
+                                              isNumericString={true}
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              onKeyDown={[Function]}
+                                              onMouseUp={[Function]}
+                                              onValueChange={[Function]}
+                                              prefix=""
+                                              suffix=""
+                                              thousandSeparator={true}
+                                              thousandsGroupStyle="thousand"
+                                              type="text"
+                                              value="0.00000000"
+                                            >
+                                              <span>
+                                                0.00000000
+                                              </span>
+                                            </NumberFormat>
+                                          </NumberMask>
+                                        </div>
+                                      </Col>
+                                      <Col
+                                        className="undefined undefined"
+                                        tag="div"
+                                        widths={
+                                          Array [
+                                            "xs",
+                                            "sm",
+                                            "md",
+                                            "lg",
+                                            "xl",
+                                          ]
+                                        }
+                                      >
+                                        <div
+                                          className="undefined undefined col"
+                                        >
+                                          DFI
+                                        </div>
+                                      </Col>
+                                    </div>
+                                  </Row>
+                                </div>
+                              </CardBody>
+                            </div>
+                          </Card>
+                        </StatCard>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </section>
+              <Connect(WalletTxns)
+                tokenSymbol="DFI"
+              >
+                <WalletTxns
+                  accountHistoryCount={0}
+                  accountHistoryCountRequest={[Function]}
+                  blockCount={0}
+                  combineAccountHistoryData={
+                    Object {
+                      "data": Array [],
+                      "isError": "",
+                      "isLoading": false,
+                    }
+                  }
+                  data={Array []}
+                  fetchBlockCount={[Function]}
+                  fetchBlockDataForTrxRequestLoading={[Function]}
+                  fetchWalletTokenTransactionsListRequestLoading={[Function]}
+                  fetchWalletTokenTransactionsListResetRequest={[Function]}
+                  fetchWalletTxns={[Function]}
+                  isError=""
+                  isLoading={false}
+                  minBlockHeight={NaN}
+                  tokenSymbol="DFI"
+                  unit="DFI"
+                >
+                  <section
+                    className="mb-5"
+                  >
+                    <div>
+                      <h2>
+                        Transactions
+                      </h2>
+                      <div
+                        className="btn-group"
+                      >
+                        <FormGroup
+                          tag="div"
+                        >
+                          <div
+                            className="form-group"
+                          >
+                            <CustomInput
+                              checked={false}
+                              id="includeRewards"
+                              label="Include reward transactions"
+                              onChange={[Function]}
+                              type="checkbox"
+                            >
+                              <div
+                                className="custom-checkbox custom-control"
+                                hidden={false}
+                              >
+                                <input
+                                  checked={false}
+                                  className="custom-control-input"
+                                  id="includeRewards"
+                                  onChange={[Function]}
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="includeRewards"
+                                >
+                                  Include reward transactions
+                                </label>
+                              </div>
+                            </CustomInput>
+                          </div>
+                        </FormGroup>
+                        <Button
+                          color="link"
+                          onClick={[Function]}
+                          size="sm"
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="btn btn-link btn-sm"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <MdFileDownload>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdFileDownload>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              EXPORT DATA
+                            </span>
+                          </button>
+                        </Button>
+                        <DownloadCsvModal
+                          CsvModalOpen={false}
+                          downloadDisable={true}
+                          error=""
+                          filename="Transactions_2021-3-9_17-56-50.csv"
+                          handleCheckBox={[Function]}
+                          handleCsvButtonClick={[Function]}
+                          handleDownloadWindow={[Function]}
+                          handleRegularNumInputs={[Function]}
+                          maxBlock={[Function]}
+                          reqData={
+                            Object {
+                              "blockHeight": 0,
+                              "limit": 100,
+                              "no_rewards": true,
+                              "token": "DFI",
+                            }
+                          }
+                          toggle={[Function]}
+                          tokenSymbol="DFI"
+                          transactionData={Array []}
+                        >
+                          <Modal
+                            autoFocus={true}
+                            backdrop={true}
+                            backdropTransition={
+                              Object {
+                                "mountOnEnter": true,
+                                "timeout": 150,
+                              }
+                            }
+                            centered={true}
+                            container="body"
+                            fade={false}
+                            isOpen={false}
+                            keyboard={true}
+                            modalTransition={
+                              Object {
+                                "timeout": 300,
+                              }
+                            }
+                            onClosed={[Function]}
+                            onOpened={[Function]}
+                            returnFocusAfterClose={true}
+                            role="dialog"
+                            scrollable={false}
+                            toggle={[Function]}
+                            trapFocus={false}
+                            unmountOnClose={true}
+                            zIndex={1050}
+                          />
+                        </DownloadCsvModal>
+                      </div>
+                    </div>
+                    <Row
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="row"
+                      >
+                        <Col
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                          xs="12"
+                        >
+                          <div
+                            className="col-12"
+                          >
+                            <Card
+                              className="table-responsive-md"
+                              tag="div"
+                            >
+                              <div
+                                className="table-responsive-md card"
+                              >
+                                <CardBody
+                                  tag="div"
+                                >
+                                  <div
+                                    className="card-body"
+                                  >
+                                    No transactions available
+                                  </div>
+                                </CardBody>
+                              </div>
+                            </Card>
+                          </div>
+                        </Col>
+                      </div>
+                    </Row>
+                  </section>
+                </WalletTxns>
+              </Connect(WalletTxns)>
+            </div>
           </div>
-        </WalletPage>
-      </Connect(WalletPage)>
+        </LedgerPage>
+      </Connect(LedgerPage)>
     </Provider>
   </Router>
 </BrowserRouter>

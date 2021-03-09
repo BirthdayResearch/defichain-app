@@ -86,7 +86,11 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
         }
       >
         <WalletPage
-          blockChainInfo={Object {}}
+          blockChainInfo={
+            Object {
+              "chain": "",
+            }
+          }
           fetchInstantBalanceRequest={[Function]}
           fetchInstantPendingBalanceRequest={[Function]}
           history={
@@ -860,8 +864,8 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                   fetchWalletTokenTransactionsListRequestLoading={[Function]}
                   fetchWalletTokenTransactionsListResetRequest={[Function]}
                   fetchWalletTxns={[Function]}
-                  isError=""
-                  isLoading={true}
+                  isError="Cannot read property 'rpcport' of undefined"
+                  isLoading={false}
                   minBlockHeight={0}
                   tokenSymbol="DFI"
                   unit="DFI"
@@ -887,7 +891,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                             <CustomInput
                               checked={false}
                               id="includeRewards"
-                              label="Include rewards"
+                              label="Include reward transactions"
                               onChange={[Function]}
                               type="checkbox"
                             >
@@ -906,7 +910,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                                   className="custom-control-label"
                                   htmlFor="includeRewards"
                                 >
-                                  Include rewards
+                                  Include reward transactions
                                 </label>
                               </div>
                             </CustomInput>
@@ -924,7 +928,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                             onClick={[Function]}
                             type="button"
                           >
-                            <MdArrowDownward>
+                            <MdFileDownload>
                               <IconBase
                                 attr={
                                   Object {
@@ -947,16 +951,16 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                    d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
                                     key="0"
                                   />
                                 </svg>
                               </IconBase>
-                            </MdArrowDownward>
+                            </MdFileDownload>
                             <span
                               className="d-lg-inline"
                             >
-                              CSV export
+                              EXPORT DATA
                             </span>
                           </button>
                         </Button>
@@ -964,16 +968,17 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                           CsvModalOpen={false}
                           downloadDisable={true}
                           error=""
-                          filename="Transactions_2021-2-23_13-51-44.csv"
+                          filename="Transactions_2021-3-9_17-56-57.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}
                           handleRegularNumInputs={[Function]}
+                          maxBlock={[Function]}
                           reqData={
                             Object {
                               "blockHeight": 0,
                               "limit": 100,
-                              "no_rewards": false,
+                              "no_rewards": true,
                               "token": "DFI",
                             }
                           }
@@ -1045,7 +1050,7 @@ exports[`CreateOrRestoreWalletPage component should check for snapshot 1`] = `
                             className="col-12"
                           >
                             <div>
-                              Loading...
+                              Cannot read property 'rpcport' of undefined
                             </div>
                           </div>
                         </Col>

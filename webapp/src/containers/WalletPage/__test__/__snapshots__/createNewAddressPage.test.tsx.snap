@@ -35,7 +35,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
         }
       }
     >
-      <Connect(CreateNewAddressPage)
+      <Connect(CreateNewAddressWalletPage)
         history={
           Object {
             "action": "POP",
@@ -67,7 +67,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
           }
         }
       >
-        <CreateNewAddressPage
+        <CreateNewAddressWalletPage
           addReceiveTxns={[Function]}
           history={
             Object {
@@ -99,428 +99,449 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
               "replace": [Function],
             }
           }
-          paymentRequests={Array []}
         >
-          <div
-            className="main-wrapper"
+          <CreateNewAddress
+            handleSubmit={[Function]}
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            receivePath="/wallet/receive"
           >
-            <HelmetWrapper
-              defer={true}
-              encodeSpecialCharacters={true}
+            <div
+              className="main-wrapper"
             >
-              <SideEffect(NullComponent)
+              <HelmetWrapper
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Create new receive address - DeFi app"
-                titleAttributes={Object {}}
               >
-                <NullComponent
+                <SideEffect(NullComponent)
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Create new receive address - DeFi app"
+                  title="Create new receive address"
                   titleAttributes={Object {}}
-                />
-              </SideEffect(NullComponent)>
-            </HelmetWrapper>
-            <Connect(Header)>
-              <Header
-                openBackupWallet={[Function]}
-                startUpdateApp={[Function]}
-                updateAvailableBadge={false}
-              >
-                <header
-                  className="header-bar"
                 >
-                  <Button
-                    className="header-bar-back"
-                    color="link"
-                    tag={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "propTypes": Object {
-                          "activeClassName": [Function],
-                          "activeStyle": [Function],
-                          "aria-current": [Function],
-                          "className": [Function],
-                          "exact": [Function],
-                          "innerRef": [Function],
-                          "isActive": [Function],
-                          "location": [Function],
-                          "onClick": [Function],
-                          "replace": [Function],
-                          "sensitive": [Function],
-                          "strict": [Function],
-                          "style": [Function],
-                          "target": [Function],
-                          "to": [Function],
-                        },
-                        "render": [Function],
-                      }
-                    }
-                    to="/wallet/receive"
+                  <NullComponent
+                    defer={true}
+                    encodeSpecialCharacters={true}
+                    title="Create new receive address"
+                    titleAttributes={Object {}}
+                  />
+                </SideEffect(NullComponent)>
+              </HelmetWrapper>
+              <Connect(Header)>
+                <Header
+                  openBackupWallet={[Function]}
+                  startUpdateApp={[Function]}
+                  updateAvailableBadge={false}
+                >
+                  <header
+                    className="header-bar"
                   >
-                    <NavLink
-                      aria-label={null}
-                      className="header-bar-back btn btn-link"
-                      onClick={[Function]}
+                    <Button
+                      className="header-bar-back"
+                      color="link"
+                      tag={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "propTypes": Object {
+                            "activeClassName": [Function],
+                            "activeStyle": [Function],
+                            "aria-current": [Function],
+                            "className": [Function],
+                            "exact": [Function],
+                            "innerRef": [Function],
+                            "isActive": [Function],
+                            "location": [Function],
+                            "onClick": [Function],
+                            "replace": [Function],
+                            "sensitive": [Function],
+                            "strict": [Function],
+                            "style": [Function],
+                            "target": [Function],
+                            "to": [Function],
+                          },
+                          "render": [Function],
+                        }
+                      }
                       to="/wallet/receive"
                     >
-                      <Link
-                        aria-current={null}
+                      <NavLink
                         aria-label={null}
                         className="header-bar-back btn btn-link"
                         onClick={[Function]}
-                        to={
-                          Object {
-                            "hash": "",
-                            "pathname": "/wallet/receive",
-                            "search": "",
-                            "state": null,
-                          }
-                        }
+                        to="/wallet/receive"
                       >
-                        <LinkAnchor
+                        <Link
                           aria-current={null}
                           aria-label={null}
                           className="header-bar-back btn btn-link"
-                          href="/wallet/receive"
-                          navigate={[Function]}
                           onClick={[Function]}
+                          to={
+                            Object {
+                              "hash": "",
+                              "pathname": "/wallet/receive",
+                              "search": "",
+                              "state": null,
+                            }
+                          }
                         >
-                          <a
+                          <LinkAnchor
                             aria-current={null}
                             aria-label={null}
                             className="header-bar-back btn btn-link"
                             href="/wallet/receive"
+                            navigate={[Function]}
                             onClick={[Function]}
                           >
-                            <MdArrowBack>
-                              <IconBase
-                                attr={
-                                  Object {
-                                    "viewBox": "0 0 24 24",
-                                  }
-                                }
-                              >
-                                <svg
-                                  fill="currentColor"
-                                  height="1em"
-                                  stroke="currentColor"
-                                  strokeWidth="0"
-                                  style={
+                            <a
+                              aria-current={null}
+                              aria-label={null}
+                              className="header-bar-back btn btn-link"
+                              href="/wallet/receive"
+                              onClick={[Function]}
+                            >
+                              <MdArrowBack>
+                                <IconBase
+                                  attr={
                                     Object {
-                                      "color": undefined,
+                                      "viewBox": "0 0 24 24",
                                     }
                                   }
-                                  viewBox="0 0 24 24"
-                                  width="1em"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <path
-                                    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
-                                    key="0"
-                                  />
-                                </svg>
-                              </IconBase>
-                            </MdArrowBack>
-                            <span
-                              className="d-lg-inline text-uppercase"
-                            >
-                              Back
-                            </span>
-                          </a>
-                        </LinkAnchor>
-                      </Link>
-                    </NavLink>
-                  </Button>
-                  <h1>
-                    Create new receive address
-                  </h1>
-                </header>
-              </Header>
-            </Connect(Header)>
-            <div
-              className="content"
-            >
-              <section>
-                <Form
-                  onSubmit={[Function]}
-                  tag="form"
-                >
-                  <form
-                    className=""
+                                  <svg
+                                    fill="currentColor"
+                                    height="1em"
+                                    stroke="currentColor"
+                                    strokeWidth="0"
+                                    style={
+                                      Object {
+                                        "color": undefined,
+                                      }
+                                    }
+                                    viewBox="0 0 24 24"
+                                    width="1em"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                      key="0"
+                                    />
+                                  </svg>
+                                </IconBase>
+                              </MdArrowBack>
+                              <span
+                                className="d-lg-inline text-uppercase"
+                              >
+                                Back
+                              </span>
+                            </a>
+                          </LinkAnchor>
+                        </Link>
+                      </NavLink>
+                    </Button>
+                    <h1>
+                      Create new receive address
+                    </h1>
+                  </header>
+                </Header>
+              </Connect(Header)>
+              <div
+                className="content"
+              >
+                <section>
+                  <Form
                     onSubmit={[Function]}
+                    tag="form"
                   >
-                    <FormGroup
-                      check={true}
-                      className="mb-5"
-                      tag="div"
+                    <form
+                      className=""
+                      onSubmit={[Function]}
                     >
-                      <div
-                        className="mb-5 form-check"
+                      <FormGroup
+                        className="form-label-group"
+                        tag="div"
                       >
-                        <Label
-                          check={true}
-                          className="switch"
-                          tag="label"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
+                        <div
+                          className="form-label-group form-group"
                         >
-                          <label
-                            className="switch form-check-label"
-                          >
-                            <Input
-                              checked={true}
-                              id="automaticallyGenerateNewAddress"
-                              name="automaticallyGenerateNewAddress"
-                              onChange={[Function]}
-                              type="checkbox"
-                            >
-                              <input
-                                checked={true}
-                                className="form-check-input"
-                                id="automaticallyGenerateNewAddress"
-                                name="automaticallyGenerateNewAddress"
-                                onChange={[Function]}
-                                type="checkbox"
-                              />
-                            </Input>
-                             
-                            Automatically generate a new address
-                          </label>
-                        </Label>
-                      </div>
-                    </FormGroup>
-                    <FormGroup
-                      className="form-label-group"
-                      tag="div"
-                    >
-                      <div
-                        className="form-label-group form-group"
-                      >
-                        <Input
-                          id="label"
-                          name="label"
-                          onChange={[Function]}
-                          placeholder="Address label"
-                          type="text"
-                          value=""
-                        >
-                          <input
-                            className="form-control"
+                          <Input
                             id="label"
                             name="label"
                             onChange={[Function]}
                             placeholder="Address label"
                             type="text"
                             value=""
-                          />
-                        </Input>
-                        <FormText
-                          color="muted"
-                          tag="small"
-                        >
-                          <small
-                            className="form-text text-muted"
                           >
-                            Give your new DFI address a meaningful label
-                          </small>
-                        </FormText>
-                        <Label
-                          for="label"
-                          tag="label"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
-                        >
-                          <label
-                            className=""
-                            htmlFor="label"
+                            <input
+                              className="form-control"
+                              id="label"
+                              name="label"
+                              onChange={[Function]}
+                              placeholder="Address label"
+                              type="text"
+                              value=""
+                            />
+                          </Input>
+                          <FormText
+                            color="muted"
+                            tag="small"
                           >
-                            Address label
-                          </label>
-                        </Label>
-                      </div>
-                    </FormGroup>
-                    <FormGroup
-                      className="d-flex"
-                      onClick={[Function]}
-                      tag="div"
-                    >
-                      <div
-                        className="d-flex form-group"
-                        onClick={[Function]}
+                            <small
+                              className="form-text text-muted"
+                            >
+                              Give your new DFI address a meaningful label
+                            </small>
+                          </FormText>
+                          <Label
+                            for="label"
+                            tag="label"
+                            widths={
+                              Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                            }
+                          >
+                            <label
+                              className=""
+                              htmlFor="label"
+                            >
+                              Address label
+                            </label>
+                          </Label>
+                        </div>
+                      </FormGroup>
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
                       >
-                        <FormText
-                          color="muted"
-                          tag="small"
+                        <div
+                          className="row"
                         >
-                          <small
-                            className="form-text text-muted"
+                          <Col
+                            md="4"
+                            tag="div"
+                            widths={
+                              Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                            }
                           >
-                            Show advance options
-                          </small>
-                        </FormText>
-                        <Button
-                          color="link"
-                          disabled={true}
-                          size="sm"
-                          tag="button"
-                        >
-                          <button
-                            aria-label={null}
-                            className="btn btn-link btn-sm disabled"
-                            disabled={true}
-                            onClick={[Function]}
+                            <div
+                              className="col-md-4"
+                            >
+                              Address type
+                            </div>
+                          </Col>
+                          <Col
+                            md="8"
+                            tag="div"
+                            widths={
+                              Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                            }
                           >
-                            <MdArrowDropDown>
-                              <IconBase
-                                attr={
-                                  Object {
-                                    "viewBox": "0 0 24 24",
-                                  }
-                                }
+                            <div
+                              className="col-md-8"
+                            >
+                              <FormGroup
+                                check={true}
+                                tag="div"
                               >
-                                <svg
-                                  fill="currentColor"
-                                  height="1em"
-                                  stroke="currentColor"
-                                  strokeWidth="0"
-                                  style={
-                                    Object {
-                                      "color": undefined,
-                                    }
-                                  }
-                                  viewBox="0 0 24 24"
-                                  width="1em"
-                                  xmlns="http://www.w3.org/2000/svg"
+                                <div
+                                  className="form-check"
                                 >
-                                  <path
-                                    d="M7 10l5 5 5-5z"
-                                    key="0"
-                                  />
-                                </svg>
-                              </IconBase>
-                            </MdArrowDropDown>
-                          </button>
-                        </Button>
-                      </div>
-                    </FormGroup>
-                  </form>
-                </Form>
-              </section>
-            </div>
-            <footer
-              className="footer-bar"
-            >
-              <div
-                className="d-flex justify-content-end"
+                                  <Label
+                                    check={true}
+                                    className="switch"
+                                    tag="label"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <label
+                                      className="switch form-check-label"
+                                    >
+                                      <Input
+                                        checked={false}
+                                        id="addressType"
+                                        name="addressType"
+                                        onChange={[Function]}
+                                        type="checkbox"
+                                      >
+                                        <input
+                                          checked={false}
+                                          className="form-check-input"
+                                          id="addressType"
+                                          name="addressType"
+                                          onChange={[Function]}
+                                          type="checkbox"
+                                        />
+                                      </Input>
+                                       
+                                      Legacy address
+                                    </label>
+                                  </Label>
+                                </div>
+                              </FormGroup>
+                            </div>
+                          </Col>
+                        </div>
+                      </Row>
+                    </form>
+                  </Form>
+                </section>
+              </div>
+              <footer
+                className="footer-bar"
               >
-                <div>
-                  <Button
-                    className="mr-3"
-                    color="link"
-                    tag={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "propTypes": Object {
-                          "activeClassName": [Function],
-                          "activeStyle": [Function],
-                          "aria-current": [Function],
-                          "className": [Function],
-                          "exact": [Function],
-                          "innerRef": [Function],
-                          "isActive": [Function],
-                          "location": [Function],
-                          "onClick": [Function],
-                          "replace": [Function],
-                          "sensitive": [Function],
-                          "strict": [Function],
-                          "style": [Function],
-                          "target": [Function],
-                          "to": [Function],
-                        },
-                        "render": [Function],
+                <div
+                  className="d-flex justify-content-end"
+                >
+                  <div>
+                    <Button
+                      className="mr-3"
+                      color="link"
+                      tag={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "propTypes": Object {
+                            "activeClassName": [Function],
+                            "activeStyle": [Function],
+                            "aria-current": [Function],
+                            "className": [Function],
+                            "exact": [Function],
+                            "innerRef": [Function],
+                            "isActive": [Function],
+                            "location": [Function],
+                            "onClick": [Function],
+                            "replace": [Function],
+                            "sensitive": [Function],
+                            "strict": [Function],
+                            "style": [Function],
+                            "target": [Function],
+                            "to": [Function],
+                          },
+                          "render": [Function],
+                        }
                       }
-                    }
-                    to="/wallet/receive"
-                  >
-                    <NavLink
-                      aria-label={null}
-                      className="mr-3 btn btn-link"
-                      onClick={[Function]}
                       to="/wallet/receive"
                     >
-                      <Link
-                        aria-current={null}
+                      <NavLink
                         aria-label={null}
                         className="mr-3 btn btn-link"
                         onClick={[Function]}
-                        to={
-                          Object {
-                            "hash": "",
-                            "pathname": "/wallet/receive",
-                            "search": "",
-                            "state": null,
-                          }
-                        }
+                        to="/wallet/receive"
                       >
-                        <LinkAnchor
+                        <Link
                           aria-current={null}
                           aria-label={null}
                           className="mr-3 btn btn-link"
-                          href="/wallet/receive"
-                          navigate={[Function]}
                           onClick={[Function]}
+                          to={
+                            Object {
+                              "hash": "",
+                              "pathname": "/wallet/receive",
+                              "search": "",
+                              "state": null,
+                            }
+                          }
                         >
-                          <a
+                          <LinkAnchor
                             aria-current={null}
                             aria-label={null}
                             className="mr-3 btn btn-link"
                             href="/wallet/receive"
+                            navigate={[Function]}
                             onClick={[Function]}
                           >
-                            Cancel
-                          </a>
-                        </LinkAnchor>
-                      </Link>
-                    </NavLink>
-                  </Button>
-                  <Button
-                    color="primary"
-                    disabled={false}
-                    onClick={[Function]}
-                    tag="button"
-                  >
-                    <button
-                      aria-label={null}
-                      className="btn btn-primary"
-                      disabled={false}
+                            <a
+                              aria-current={null}
+                              aria-label={null}
+                              className="mr-3 btn btn-link"
+                              href="/wallet/receive"
+                              onClick={[Function]}
+                            >
+                              Cancel
+                            </a>
+                          </LinkAnchor>
+                        </Link>
+                      </NavLink>
+                    </Button>
+                    <Button
+                      color="primary"
                       onClick={[Function]}
-                      type="button"
+                      tag="button"
                     >
-                      Create
-                    </button>
-                  </Button>
+                      <button
+                        aria-label={null}
+                        className="btn btn-primary"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Create
+                      </button>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </footer>
-          </div>
-        </CreateNewAddressPage>
-      </Connect(CreateNewAddressPage)>
+              </footer>
+            </div>
+          </CreateNewAddress>
+        </CreateNewAddressWalletPage>
+      </Connect(CreateNewAddressWalletPage)>
     </Provider>
   </Router>
 </BrowserRouter>

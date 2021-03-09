@@ -35,7 +35,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
         }
       }
     >
-      <ReceivePage
+      <LedgerReceivePage
         history={
           Object {
             "action": "POP",
@@ -115,7 +115,6 @@ exports[`ReceivePage component should check for snapshot 1`] = `
               tag={
                 Object {
                   "$$typeof": Symbol(react.forward_ref),
-                  "displayName": "NavLink",
                   "propTypes": Object {
                     "activeClassName": [Function],
                     "activeStyle": [Function],
@@ -127,6 +126,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                     "location": [Function],
                     "onClick": [Function],
                     "replace": [Function],
+                    "sensitive": [Function],
                     "strict": [Function],
                     "style": [Function],
                     "target": [Function],
@@ -135,45 +135,42 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                   "render": [Function],
                 }
               }
-              to="/"
+              to="/ledger"
             >
               <NavLink
                 aria-label={null}
                 className="header-bar-back btn btn-link"
                 onClick={[Function]}
-                to="/"
+                to="/ledger"
               >
                 <Link
-                  aria-current="page"
+                  aria-current={null}
                   aria-label={null}
-                  className="header-bar-back btn btn-link active"
+                  className="header-bar-back btn btn-link"
                   onClick={[Function]}
-                  style={Object {}}
                   to={
                     Object {
                       "hash": "",
-                      "pathname": "/",
+                      "pathname": "/ledger",
                       "search": "",
                       "state": null,
                     }
                   }
                 >
                   <LinkAnchor
-                    aria-current="page"
+                    aria-current={null}
                     aria-label={null}
-                    className="header-bar-back btn btn-link active"
-                    href="/"
+                    className="header-bar-back btn btn-link"
+                    href="/ledger"
                     navigate={[Function]}
                     onClick={[Function]}
-                    style={Object {}}
                   >
                     <a
-                      aria-current="page"
+                      aria-current={null}
                       aria-label={null}
-                      className="header-bar-back btn btn-link active"
-                      href="/"
+                      className="header-bar-back btn btn-link"
+                      href="/ledger"
                       onClick={[Function]}
-                      style={Object {}}
                     >
                       <MdArrowBack>
                         <IconBase
@@ -207,7 +204,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                       <span
                         className="d-lg-inline text-uppercase"
                       >
-                        back
+                        Back
                       </span>
                     </a>
                   </LinkAnchor>
@@ -230,7 +227,6 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                   tag={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
-                      "displayName": "NavLink",
                       "propTypes": Object {
                         "activeClassName": [Function],
                         "activeStyle": [Function],
@@ -242,6 +238,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                         "location": [Function],
                         "onClick": [Function],
                         "replace": [Function],
+                        "sensitive": [Function],
                         "strict": [Function],
                         "style": [Function],
                         "target": [Function],
@@ -250,13 +247,13 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                       "render": [Function],
                     }
                   }
-                  to="/wallet/receive/request"
+                  to="/ledger/receive/request"
                 >
                   <NavLink
                     aria-label={null}
                     className="btn btn-link"
                     onClick={[Function]}
-                    to="/wallet/receive/request"
+                    to="/ledger/receive/request"
                   >
                     <Link
                       aria-current={null}
@@ -266,7 +263,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                       to={
                         Object {
                           "hash": "",
-                          "pathname": "/wallet/receive/request",
+                          "pathname": "/ledger/receive/request",
                           "search": "",
                           "state": null,
                         }
@@ -276,7 +273,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                         aria-current={null}
                         aria-label={null}
                         className="btn btn-link"
-                        href="/wallet/receive/request"
+                        href="/ledger/receive/request"
                         navigate={[Function]}
                         onClick={[Function]}
                       >
@@ -284,7 +281,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                           aria-current={null}
                           aria-label={null}
                           className="btn btn-link"
-                          href="/wallet/receive/request"
+                          href="/ledger/receive/request"
                           onClick={[Function]}
                         >
                           <MdAdd>
@@ -319,7 +316,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                           <span
                             className="d-lg-inline"
                           >
-                            New Address
+                            New address
                           </span>
                         </a>
                       </LinkAnchor>
@@ -335,6 +332,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
             <section>
               <Connect(PaymentRequestList)>
                 <PaymentRequestList
+                  fetchPayment={[Function]}
                   paymentRequests={Array []}
                   removeReceiveTxns={[Function]}
                 >
@@ -354,7 +352,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
                           <div
                             className="card-body"
                           >
-                            No payment requests available
+                            noPaymentRequests
                           </div>
                         </CardBody>
                       </div>
@@ -365,7 +363,7 @@ exports[`ReceivePage component should check for snapshot 1`] = `
             </section>
           </div>
         </div>
-      </ReceivePage>
+      </LedgerReceivePage>
     </Provider>
   </Router>
 </BrowserRouter>

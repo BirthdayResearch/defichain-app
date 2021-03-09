@@ -37,6 +37,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
     >
       <Connect(PaymentRequestList)>
         <PaymentRequestList
+          fetchPayment={[Function]}
           paymentRequests={Array []}
           removeReceiveTxns={[Function]}
         >
@@ -56,7 +57,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                   <div
                     className="card-body"
                   >
-                    No payment requests available
+                    noPaymentRequests
                   </div>
                 </CardBody>
               </div>

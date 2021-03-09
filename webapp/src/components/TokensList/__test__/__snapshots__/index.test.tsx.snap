@@ -1,159 +1,562 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WalletTokensList component should check for snapshot 1`] = `
-<BrowserRouter>
-  <Router
-    history={
-      Object {
-        "action": "POP",
-        "block": [Function],
-        "createHref": [Function],
-        "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
-        "length": 1,
-        "listen": [Function],
-        "location": Object {
+<TokensList
+  accountTokens={Array []}
+  getPathAddress={[Function]}
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "canGo": [Function],
+      "createHref": [Function],
+      "entries": Array [
+        Object {
           "hash": "",
           "pathname": "/",
           "search": "",
           "state": undefined,
         },
-        "push": [Function],
-        "replace": [Function],
-      }
+      ],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "index": 0,
+      "length": 1,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
     }
+  }
+  isLoadingTokens={false}
+  pagePath="/"
+  tokens={Array []}
+  unit=""
+  walletBalance={0}
+>
+  <div
+    className="content"
   >
-    <Provider
-      store={
+    <WalletTokenCard
+      handleCardClick={[Function]}
+      token={
         Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
+          "address": "",
+          "amount": 0,
+          "hash": "0",
+          "symbol": "",
+          "symbolKey": "",
         }
       }
     >
-      <Connect(WalletTokensList)
-        history={
-          Object {
-            "action": "POP",
-            "block": [Function],
-            "canGo": [Function],
-            "createHref": [Function],
-            "entries": Array [
-              Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-            ],
-            "go": [Function],
-            "goBack": [Function],
-            "goForward": [Function],
-            "index": 0,
-            "length": 1,
-            "listen": [Function],
-            "location": Object {
-              "hash": "",
-              "pathname": "/",
-              "search": "",
-              "state": undefined,
-            },
-            "push": [Function],
-            "replace": [Function],
-          }
-        }
-        location={
-          Object {
-            "hash": "",
-            "pathname": "/route/1",
-            "search": "",
-            "state": undefined,
-          }
-        }
-        match={
-          Object {
-            "isExact": false,
-            "params": Object {
-              "id": "1",
-            },
-            "path": "/route/:id",
-            "url": "/route/1",
-          }
-        }
+      <Card
+        onClick={[Function]}
+        tag="div"
       >
-        <WalletTokensList
-          accountTokens={Array []}
-          fetchAccountTokensRequest={[Function]}
-          fetchInstantBalanceRequest={[Function]}
-          fetchTokensRequest={[Function]}
-          history={
-            Object {
-              "action": "POP",
-              "block": [Function],
-              "canGo": [Function],
-              "createHref": [Function],
-              "entries": Array [
-                Object {
-                  "hash": "",
-                  "pathname": "/",
-                  "search": "",
-                  "state": undefined,
-                },
-              ],
-              "go": [Function],
-              "goBack": [Function],
-              "goForward": [Function],
-              "index": 0,
-              "length": 1,
-              "listen": [Function],
-              "location": Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-              "push": [Function],
-              "replace": [Function],
-            }
-          }
-          isAccountLoadingTokens={true}
-          isAccountTokensLoaded={false}
-          isLoadingTokens={true}
-          isTokensLoaded={false}
-          isWalletCreatedFlag={false}
-          location={
-            Object {
-              "hash": "",
-              "pathname": "/route/1",
-              "search": "",
-              "state": undefined,
-            }
-          }
-          match={
-            Object {
-              "isExact": false,
-              "params": Object {
-                "id": "1",
-              },
-              "path": "/route/:id",
-              "url": "/route/1",
-            }
-          }
-          openResetWalletDatModal={false}
-          tokens={Array []}
-          unit="DFI"
-          walletBalance={0}
+        <div
+          className="card"
+          onClick={[Function]}
         >
-          <div>
-            Loading…
-          </div>
-        </WalletTokensList>
-      </Connect(WalletTokensList)>
-    </Provider>
-  </Router>
-</BrowserRouter>
+          <CardBody
+            tag="div"
+          >
+            <div
+              className="card-body"
+            >
+              <Row
+                className="align-items-center"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="align-items-center row"
+                >
+                  <Col
+                    md="6"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-6"
+                    >
+                      <div
+                        className="d-flex align-items-center justify-content-start"
+                      >
+                        <div>
+                          <TokenAvatar
+                            symbol=""
+                            textSizeRatio={2}
+                          >
+                            <ForwardRef(withAvatarConfig)
+                              maxInitials={2}
+                              name=""
+                              round={true}
+                              size="24px"
+                              src=""
+                              textSizeRatio={2}
+                            >
+                              <Avatar
+                                avatarRedirectUrl={null}
+                                cache={
+                                  Cache {
+                                    "cachePrefix": "react-avatar/",
+                                    "sourceSize": 20,
+                                    "sourceTTL": 604800000,
+                                  }
+                                }
+                                className=""
+                                colors={
+                                  Array [
+                                    "#d73d32",
+                                    "#7e3794",
+                                    "#4285f4",
+                                    "#67ae3f",
+                                    "#d61a7f",
+                                    "#ff4080",
+                                  ]
+                                }
+                                fgColor="#FFF"
+                                initials={[Function]}
+                                maxInitials={2}
+                                name=""
+                                round={true}
+                                size="24px"
+                                src=""
+                                textMarginRatio={0.15}
+                                textSizeRatio={2}
+                                unstyled={false}
+                              >
+                                <div
+                                  className=" sb-avatar"
+                                  style={
+                                    Object {
+                                      "borderRadius": "100%",
+                                      "display": "inline-block",
+                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                      "height": "24px",
+                                      "verticalAlign": "middle",
+                                      "width": "24px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className=" sb-avatar__text"
+                                    style={
+                                      Object {
+                                        "background": undefined,
+                                        "borderRadius": "100%",
+                                        "color": "#FFF",
+                                        "height": "24px",
+                                        "lineHeight": "initial",
+                                        "textAlign": "center",
+                                        "width": "24px",
+                                      }
+                                    }
+                                  >
+                                    <div
+                                      style={
+                                        Object {
+                                          "display": "table",
+                                          "height": "100%",
+                                          "tableLayout": "fixed",
+                                          "width": "100%",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        style={
+                                          Object {
+                                            "display": "table-cell",
+                                            "fontSize": "100%",
+                                            "verticalAlign": "middle",
+                                            "whiteSpace": "nowrap",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          key="24px"
+                                        />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Avatar>
+                            </ForwardRef(withAvatarConfig)>
+                          </TokenAvatar>
+                        </div>
+                        <div
+                          className="ml-4"
+                        >
+                          <div>
+                            <b />
+                          </div>
+                          <div />
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col
+                    md="6"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-6"
+                    >
+                      <div
+                        className="undefined justify-content-end"
+                      >
+                        <b
+                          className="text-dark"
+                        >
+                          <NumberMask
+                            value="0.00000000"
+                          >
+                            <NumberFormat
+                              allowEmptyFormatting={false}
+                              allowLeadingZeros={false}
+                              allowNegative={true}
+                              decimalSeparator="."
+                              defaultValue={0}
+                              displayType="text"
+                              fixedDecimalScale={false}
+                              isAllowed={[Function]}
+                              isNumericString={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onMouseUp={[Function]}
+                              onValueChange={[Function]}
+                              prefix=""
+                              suffix=""
+                              thousandSeparator={true}
+                              thousandsGroupStyle="thousand"
+                              type="text"
+                              value="0.00000000"
+                            >
+                              <span>
+                                0.00000000
+                              </span>
+                            </NumberFormat>
+                          </NumberMask>
+                        </b>
+                        <span
+                          className="ml-2"
+                        />
+                      </div>
+                    </div>
+                  </Col>
+                </div>
+              </Row>
+            </div>
+          </CardBody>
+        </div>
+      </Card>
+    </WalletTokenCard>
+    <PaginationComponent
+      currentPage={1}
+      handlePageClick={[Function]}
+      label="1 – 0 of 0 wallets"
+      pagesCount={0}
+    >
+      <div
+        className="d-flex justify-content-between align-items-center mt-3"
+      >
+        <div>
+          1 – 0 of 0 wallets
+        </div>
+        <Pagination
+          aria-label="pagination"
+          listTag="ul"
+          tag="nav"
+        >
+          <nav
+            aria-label="pagination"
+            className=""
+          >
+            <ul
+              className="pagination"
+            >
+              <PaginationItem
+                disabled={true}
+                tag="li"
+              >
+                <li
+                  className="page-item disabled"
+                >
+                  <PaginationLink
+                    first={true}
+                    onClick={[Function]}
+                    tag="a"
+                  >
+                    <button
+                      aria-label="First"
+                      className="page-link"
+                      onClick={[Function]}
+                    >
+                      <span
+                        aria-hidden="true"
+                        key="caret"
+                      >
+                        <MdFirstPage>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdFirstPage>
+                      </span>
+                      <span
+                        className="sr-only"
+                        key="sr"
+                      >
+                        First
+                      </span>
+                    </button>
+                  </PaginationLink>
+                </li>
+              </PaginationItem>
+              <PaginationItem
+                disabled={true}
+                tag="li"
+              >
+                <li
+                  className="page-item disabled"
+                >
+                  <PaginationLink
+                    onClick={[Function]}
+                    previous={true}
+                    tag="a"
+                  >
+                    <button
+                      aria-label="Previous"
+                      className="page-link"
+                      onClick={[Function]}
+                    >
+                      <span
+                        aria-hidden="true"
+                        key="caret"
+                      >
+                        <MdChevronLeft>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdChevronLeft>
+                      </span>
+                      <span
+                        className="sr-only"
+                        key="sr"
+                      >
+                        Previous
+                      </span>
+                    </button>
+                  </PaginationLink>
+                </li>
+              </PaginationItem>
+              <PaginationItem
+                disabled={true}
+                tag="li"
+              >
+                <li
+                  className="page-item disabled"
+                >
+                  <PaginationLink
+                    next={true}
+                    onClick={[Function]}
+                    tag="a"
+                  >
+                    <button
+                      aria-label="Next"
+                      className="page-link"
+                      onClick={[Function]}
+                    >
+                      <span
+                        aria-hidden="true"
+                        key="caret"
+                      >
+                        <MdChevronRight>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdChevronRight>
+                      </span>
+                      <span
+                        className="sr-only"
+                        key="sr"
+                      >
+                        Next
+                      </span>
+                    </button>
+                  </PaginationLink>
+                </li>
+              </PaginationItem>
+              <PaginationItem
+                disabled={true}
+                tag="li"
+              >
+                <li
+                  className="page-item disabled"
+                >
+                  <PaginationLink
+                    last={true}
+                    onClick={[Function]}
+                    tag="a"
+                  >
+                    <button
+                      aria-label="Last"
+                      className="page-link"
+                      onClick={[Function]}
+                    >
+                      <span
+                        aria-hidden="true"
+                        key="caret"
+                      >
+                        <MdLastPage>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdLastPage>
+                      </span>
+                      <span
+                        className="sr-only"
+                        key="sr"
+                      >
+                        Last
+                      </span>
+                    </button>
+                  </PaginationLink>
+                </li>
+              </PaginationItem>
+            </ul>
+          </nav>
+        </Pagination>
+      </div>
+    </PaginationComponent>
+  </div>
+</TokensList>
 `;
