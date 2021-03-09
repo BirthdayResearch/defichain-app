@@ -39,6 +39,7 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_OVERWRITE_CONFIG_REQUEST,
   ON_SET_NODE_VERSION,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
@@ -51,6 +52,7 @@ import { getNetworkType, getTimeDifferenceMS } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
 import { IPCResponseModel } from '../../../typings/common';
+import { RPCConfigItem } from '../../../typings/rpcConfig';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -324,6 +326,19 @@ export const checkWalletEncryption = async (): Promise<boolean> => {
     return isEncrypted;
   } catch (error) {
     log.error(error, 'checkWalletEncryption');
+    return false;
+  }
+};
+
+export const overwriteConfigRequest = async (
+  config: RPCConfigItem
+): Promise<boolean> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const res = ipcRenderer.sendSync(ON_OVERWRITE_CONFIG_REQUEST, config);
+    return res.success;
+  } catch (error) {
+    log.error(error, 'overwriteConfigRequest');
     return false;
   }
 };
