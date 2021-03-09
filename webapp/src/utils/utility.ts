@@ -7,17 +7,8 @@ import SHA256 from 'crypto-js/sha256';
 import _, { isEmpty } from 'lodash';
 import * as bitcoin from 'bitcoinjs-lib';
 import shuffle from 'shuffle-array';
-import { I18n } from 'react-redux-i18n';
 import { CustomTx } from 'bitcore-lib-dfi';
 import BigNumber from 'bignumber.js';
-import {
-  getAddressInfo,
-  getTransactionInfo,
-  handleFetchAccountDFI,
-  handleGetPaymentRequest,
-} from '@/containers/WalletPage/service';
-import { handleFetchToken } from '@/containers/TokensPage/service';
-import { handleFetchPoolshares } from '@/containers/LiquidityPage/service';
 import { PaymentRequestLedger } from '@/typings/models';
 import { ipcRendererFunc } from '@/utils/isElectron';
 import * as log from './electronLogger';
