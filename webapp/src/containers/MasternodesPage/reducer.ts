@@ -75,6 +75,7 @@ const configSlice = createSlice({
     finishRestartNodeWithMasterNode(state) {
       state.isRestartNode = false;
     },
+    updateMasternodeStart(state, action) {},
   },
 });
 
@@ -92,6 +93,7 @@ export const {
   resignMasterNodeFailure,
   startRestartNodeWithMasterNode,
   finishRestartNodeWithMasterNode,
+  updateMasternodeStart,
 } = actions;
 
 export default reducer;

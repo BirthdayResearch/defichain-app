@@ -36,3 +36,4 @@ export const ON_WRITE_CONFIG_REQUEST = 'on-write-config-request';
 export const ON_FILE_SELECT_REQUEST = 'on-file-select-request';
 export const ON_DEFAULT_WALLET_PATH_REQUEST = 'on-default-wallet-path-request';
 export const ON_SET_NODE_VERSION = 'on-set-node-version';
+export const ON_OVERWRITE_CONFIG_REQUEST = 'on-overwrite-config-request';

@@ -145,7 +145,10 @@
         "collateral": "Collateral",
         "collateralsActive": "Collaterals active",
         "collateralsInactive": "Collaterals inactive",
-        "dFIMinted": "DFI minted"
+        "dFIMinted": "DFI minted",
+        "created": "Erstellt",
+        "resigned": "Resigned",
+        "preresigned": "Pre-resigned"
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
