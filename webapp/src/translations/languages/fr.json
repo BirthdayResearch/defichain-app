@@ -694,7 +694,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger Portefeuille",
+        "title": "Ledger",
         "connect": "Relier",
         "connecting": "De liaison",
         "availableBalance": "Solde disponible",

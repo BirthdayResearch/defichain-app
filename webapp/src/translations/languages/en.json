@@ -812,7 +812,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger Wallet",
+        "title": "Ledger",
         "connect": "Connect",
         "connecting": "Connecting",
         "connected": "is connected",

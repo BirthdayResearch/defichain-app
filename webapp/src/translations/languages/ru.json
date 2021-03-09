@@ -535,7 +535,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger Кошелек",
+        "title": "Ledger",
         "connect": "Подключится",
         "connecting": "Подключение",
         "availableBalance": "Доступные средства",

@@ -802,7 +802,7 @@
     },
     "ledger": {
       "ledgerPage": {
-        "title": "Ledger Brieftasche",
+        "title": "Ledger",
         "connect": "Verbinden",
         "connecting": "Anschließen",
         "availableBalance": "Verfügbares Guthaben",

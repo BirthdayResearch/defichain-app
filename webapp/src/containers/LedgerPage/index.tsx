@@ -234,6 +234,7 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
             size='sm'
             onClick={handleSendRedirect}
             disabled={connect.status !== 'connected'}
+            className={styles.buttonCommand}
           >
             <MdArrowUpward />
             <span className='d-md-inline'>
@@ -243,7 +244,9 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           <Button
             onClick={handleReceiveRedirect}
             color='link'
+            size='sm'
             disabled={connect.status !== 'connected'}
+            className={styles.buttonCommand}
           >
             <MdArrowDownward />
             <span className='d-md-inline'>
@@ -252,8 +255,10 @@ const LedgerPage: React.FunctionComponent<LedgerPageProps> = (
           </Button>
           <Button
             onClick={handleRestoreKeys}
+            size='sm'
             color='link'
             disabled={connect.status !== 'connected'}
+            className={styles.buttonCommand}
           >
             <span className='d-md-inline'>
               {I18n.t('containers.ledger.ledgerPage.restore')}
