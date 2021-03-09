@@ -178,8 +178,8 @@ export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
 export const TXN_CSV_HEADERS = [
   { label: 'Block Height', key: 'blockHeight' },
   { label: 'Block Hash', key: 'blockHash' },
+  { label: 'Date/Time', key: 'blockTime' },
   { label: 'Type', key: 'type' },
-  { label: 'Date', key: 'blockTime' },
   { label: 'Pool ID', key: 'poolID' },
   { label: 'Amount', key: 'amounts' },
 ];
