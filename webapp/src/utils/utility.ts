@@ -1291,7 +1291,7 @@ export const getTotalAmountPoolShare = async (poolID) => {
   return totalAmount;
 };
 
-export const getSymbolKey = (symbol: string, key: string) => {
+export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
@@ -1306,7 +1306,7 @@ export const getSymbolKey = (symbol: string, key: string) => {
     ltcSymbol,
     dogeSymbol,
   ];
-  if (tokens.indexOf(key) !== -1) {
+  if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
   }
   return `${symbol}#${key}`;
