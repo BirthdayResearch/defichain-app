@@ -67,6 +67,9 @@ import {
   UNPARSED_ADDRESS,
   USDT_SYMBOL,
   VS_CURRENCY,
+  MAINNET_BCH_SYMBOL,
+  BCH_SYMBOL,
+  COINGECKO_BCH_ID,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import RpcClient from './rpc-client';
@@ -1257,6 +1260,7 @@ export const getCoinMap = () => {
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
   const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
@@ -1265,6 +1269,7 @@ export const getCoinMap = () => {
     [COINGECKO_USDT_ID, usdtSymbol],
     [COINGECKO_LTC_ID, ltcSymbol],
     [COINGECKO_DOGE_ID, dogeSymbol],
+    [COINGECKO_BCH_ID, bchSymbol],
   ]);
   return coinMap;
 };
@@ -1277,6 +1282,7 @@ export const getCoinIds = () => {
     COINGECKO_USDT_ID,
     COINGECKO_LTC_ID,
     COINGECKO_DOGE_ID,
+    COINGECKO_BCH_ID,
   ];
 };
 
@@ -1471,13 +1477,14 @@ export const getTotalAmountPoolShare = async (poolID) => {
   return totalAmount;
 };
 
-export const getSymbolKey = (symbol: string, key: string) => {
+export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
   const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
   const tokens = [
     DFI_SYMBOL,
     btcSymbol,
@@ -1485,8 +1492,9 @@ export const getSymbolKey = (symbol: string, key: string) => {
     usdtSymbol,
     ltcSymbol,
     dogeSymbol,
+    bchSymbol,
   ];
-  if (tokens.indexOf(key) !== -1) {
+  if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
   }
   return `${symbol}#${key}`;

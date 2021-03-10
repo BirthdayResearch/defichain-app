@@ -94,11 +94,13 @@ export const ETH_SYMBOL = '2';
 export const USDT_SYMBOL = '5';
 export const LTC_SYMBOL = '9';
 export const DOGE_SYMBOL = '7';
+export const BCH_SYMBOL = '11';
 export const MAINNET_ETH_SYMBOL = '1';
 export const MAINNET_BTC_SYMBOL = '2';
 export const MAINNET_USDT_SYMBOL = '3';
 export const MAINNET_LTC_SYMBOL = '9';
 export const MAINNET_DOGE_SYMBOL = '7';
+export const MAINNET_BCH_SYMBOL = '11';
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
@@ -106,6 +108,7 @@ export const COINGECKO_ETH_ID = 'ethereum';
 export const COINGECKO_USDT_ID = 'tether';
 export const COINGECKO_LTC_ID = 'litecoin';
 export const COINGECKO_DOGE_ID = 'dogecoin';
+export const COINGECKO_BCH_ID = 'bitcoin-cash';
 
 export const API_REQUEST_TIMEOUT = 5000;
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/';
