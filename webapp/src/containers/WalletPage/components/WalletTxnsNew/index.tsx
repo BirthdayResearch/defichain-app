@@ -288,6 +288,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         REWARDS_CATEGORY_LABEL,
         REWARD_CATEGORY_LABEL,
         RECEIVE,
+        REMOVE_LIQUIDITY_LABEL
       ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;

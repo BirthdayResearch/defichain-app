@@ -134,10 +134,16 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         return I18n.t(`${masternodesLabel}.created`);
       case 'RESIGNED':
         return I18n.t(`${masternodesLabel}.resigned`);
-      case 'PRE-RESIGNED':
+      case 'PRE_RESIGNED':
         return I18n.t(`${masternodesLabel}.preresigned`);
+      case 'PRE_ENABLED':
+        return I18n.t(`${masternodesLabel}.preenabled`);
+      case 'PRE_BANNED':
+        return I18n.t(`${masternodesLabel}.prebanned`);
+      case 'BANNED':
+        return I18n.t(`${masternodesLabel}.banned`);
       default:
-        break;
+        return state;
     }
   };
 
