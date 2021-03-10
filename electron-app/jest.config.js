@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const originalProcess = process;
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
