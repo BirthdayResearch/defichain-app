@@ -148,11 +148,11 @@
         "dFIMinted": "DFI minted",
         "created": "Erstellt",
         "resigned": "Kündigen ",
-        "preresigned": "vorab kündigen",
+        "preresigned": "Vorab kündigen",
         "enable": "Aktivieren",
         "disable": "Deaktivieren",
         "restartNeeded": "Die DeFi App muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
-        "tooltipMasternode": "Wenn du einen Masternode hast, muss die Wallet entsperrt sein, um minten zu können."
+        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
