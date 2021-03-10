@@ -7,7 +7,6 @@ import {
   takeLeading,
 } from 'redux-saga/effects';
 import { I18n } from 'react-redux-i18n';
-import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import * as log from '@/utils/electronLogger';
@@ -15,10 +14,7 @@ import store from '@/app/rootStore';
 import showNotification from '@/utils/notifications';
 import {
   getErrorMessage,
-  getMnemonicFromObj,
-  getNetworkInfo,
   getNetworkType,
-  isValidMnemonic,
   paginate,
   queuePush,
   getNetwork,
@@ -27,15 +23,11 @@ import {
 } from '@/utils/utility';
 import {
   AMOUNT_SEPARATOR,
-  MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
-  WALLET_TOKENS_PATH,
 } from '@/constants';
 import PersistentStore from '@/utils/persistentStore';
 import * as reducer from './reducer';
 import {
-  fetchBlockDataForTrxRequestFailure,
-  fetchBlockDataForTrxRequestSuccess,
   setIsWalletCreatedRequest,
 } from '@/containers/WalletPage/reducer';
 import {
@@ -200,18 +192,6 @@ function* fetchSendData() {
     (paymentRequest) => paymentRequest.address
   );
   queuePush(handleSendData, [addresses], callBack);
-}
-
-export function* fetchChainInfo() {
-  let result;
-  try {
-    const data = yield call(getBlockChainInfo);
-    result = data;
-  } catch (err) {
-    log.error(err.message);
-    result = {};
-  }
-  yield put(reducer.setBlockChainInfo(result));
 }
 
 export function* fetchTokens() {
@@ -443,10 +423,10 @@ export function* fetchBlockDataForTrx(action) {
   try {
     const trxArray: any[] = action.payload;
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
-    yield put(fetchBlockDataForTrxRequestSuccess(updated));
+    yield put(reducer.fetchBlockDataForTrxRequestSuccess(updated));
   } catch (err) {
     log.error(err, 'fetchBlockDataForTrx');
-    yield put(fetchBlockDataForTrxRequestFailure(err.message));
+    yield put(reducer.fetchBlockDataForTrxRequestFailure(err.message));
   }
 }
 
