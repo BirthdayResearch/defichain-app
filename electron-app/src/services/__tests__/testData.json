@@ -31,7 +31,8 @@
     "version": 4
   },
   "transactionResultCreateToken": {
-    "hash": "090489aabe4c365ad1d94a23a6c40382c962cb348f846a1c1cb8ffef566ad14a",
+    "hash": "596db168257ba8e03dea6575e0111ae78f9e5cd0549e5f1371f7710df56398ed",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
     "inputs": [
       {
         "output": {
@@ -58,16 +59,13 @@
       {
         "satoshis": 100000000,
         "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
-      },
-      {
-        "satoshis": 1000000,
-        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
       }
     ],
     "version": 4
   },
   "transactionResultMintToken": {
-    "hash": "5460e23b68d7a89bc6928f6078af2d4216d4b95770dd92d7ec014964846f5252",
+    "hash": "6f97648b165b83fd4ec138e2e10adb648b06ff018781ca5dee36ba42a177a1a8",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
     "inputs": [
       {
         "output": {
@@ -90,16 +88,13 @@
       {
         "satoshis": 10000000000,
         "script": "6a12446654784d01820000000000000000000000"
-      },
-      {
-        "satoshis": 1000000,
-        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
       }
     ],
     "version": 4
   },
   "resultCreateCustomTxOfCreateToken": {
-    "hash": "cd11a438a044d876a2a5904319e64043a0f039e2a7bae77e017ff065bce10fea",
+    "hash": "aa4df64e311984995778c6bf409fb7bdd95e8aa8ff8be0475530dfdb3640108a",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
     "inputs": [
       {
         "outputIndex": 0,
@@ -121,24 +116,25 @@
       },
       {
         "satoshis": 100000000,
-        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
-      },
-      {
-        "satoshis": 1000000,
-        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
       }
     ],
     "version": 2
   },
   "resultGovVariable": {
-    "hash": "05146e56a8f862de6aac58dcd4057f85279b8ec1e9e7fed80dc373f6b6f9bdf0",
+    "hash": "7bf36dba07b320e1d5409982e817fe9995ec209b0b0b2d4d7e5d41fd3d059d25",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
     "inputs": [
       {
         "outputIndex": 0,
         "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
         "script": "",
         "scriptString": "",
-        "sequenceNumber": 4294967295
+        "sequenceNumber": 4294967295,
+        "output": {
+           "satoshis": 0,
+           "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        }
       }
     ],
     "nLockTime": 0,
@@ -146,10 +142,6 @@
       {
         "satoshis": 0,
         "script": "6a194466547847134c505f4441494c595f4446495f524557415244"
-      },
-      {
-        "satoshis": 1000000,
-        "script": "a914f844de65447a18e05384425a68b56813c20d99cf87"
       }
     ],
     "version": 2
@@ -163,7 +155,7 @@
       "limit": 0,
       "flags": 3
     },
-    "tokenId": 0
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
   },
   "mintTokenData": {
     "txType": "M",
@@ -175,12 +167,13 @@
         }
       ]
     },
-    "tokenId": 0
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
   },
   "setGovVariableData": {
     "txType": "G",
     "customData": {
       "name": "LP_DAILY_DFI_REWARD"
-    }
+    },
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
   }
 }
