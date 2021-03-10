@@ -90,6 +90,9 @@ const configSlice = createSlice({
         activeNetwork.gen = CONFIG_ENABLED;
       }
     },
+    updateActiveNetwork(state, action) {
+      state.activeNetwork = action.payload;
+    }
   },
 });
 
@@ -108,6 +111,7 @@ export const {
   isAppClosing,
   startSetNodeVersion,
   setMasternodesMiningInConf,
+  updateActiveNetwork
 } = actions;
 
 export default reducer;
