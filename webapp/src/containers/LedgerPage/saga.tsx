@@ -39,7 +39,6 @@ import {
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
   getAddressInfo,
-  getBlockChainInfo,
   handleFetchAccounts,
   connectLedger,
   initialIsShowingInformation as initialIsShowingInformationService,

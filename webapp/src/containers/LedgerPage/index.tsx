@@ -35,7 +35,7 @@ import * as log from '@/utils/electronLogger';
 import styles from './LedgerPage.module.scss';
 import { DevicesLedger, LedgerConnect } from '@/containers/LedgerPage/types';
 import { RootState } from '@/app/rootTypes';
-import { getBackupIndexesLedger, getPubKeyLedger, loadWallet } from './service';
+import { getBackupIndexesLedger, getPubKeyLedger } from './service';
 import { uid } from 'uid';
 import { getWalletPathAddress } from '@/utils/utility';
 import Header from '@/containers/HeaderComponent';

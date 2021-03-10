@@ -11,6 +11,7 @@ export interface PaymentRequestLedger {
   amount: number;
   unit: string;
   keyIndex: number;
+  pubkey: string;
 }
 
 export interface WalletTxn {
