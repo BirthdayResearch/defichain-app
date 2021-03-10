@@ -101,7 +101,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
           />
           <h1>
             {tokenSymbol
-              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL, isLPS)
               : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
           </h1>
@@ -211,7 +211,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
         <WalletTxns
           tokenSymbol={
             tokenSymbol
-              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL, isLPS)
               : unit
           }
         />

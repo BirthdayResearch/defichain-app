@@ -13,7 +13,7 @@ const MineNodeFooter: React.FunctionComponent<MineNodeFooterProps> = (
 ) => {
   const { enabledMasternodes } = props;
   const numberOfActive = hasAnyMasternodeEnabled(enabledMasternodes)
-    ? enabledMasternodes.length
+    ? enabledMasternodes?.filter((mn) => mn.isEnabled)?.length
     : 0;
   return (
     <Row>
