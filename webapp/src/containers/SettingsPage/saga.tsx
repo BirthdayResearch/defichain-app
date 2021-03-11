@@ -106,7 +106,7 @@ export function* updateSettings(action) {
   try {
     let updateLanguage = false;
     const {
-      appConfig: { network: prevNetwork },
+      appConfig: { network: prevNetwork, launchAtLogin: prevLaunchAtLogin },
     } = yield select((state) => state.settings);
     if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {
       updateLanguage = true;
@@ -116,10 +116,12 @@ export function* updateSettings(action) {
       if (updateLanguage) {
         setupI18n(store);
       }
-      if (data.launchAtLogin) {
-        enablePreLaunchStatus(data.minimizedAtLaunch);
-      } else {
-        disablePreLaunchStatus();
+      if (data.launchAtLogin !== prevLaunchAtLogin) {
+        if (data.launchAtLogin) {
+          enablePreLaunchStatus(data.minimizedAtLaunch);
+        } else {
+          disablePreLaunchStatus();
+        }
       }
       yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
       if (action.payload.network !== prevNetwork) {

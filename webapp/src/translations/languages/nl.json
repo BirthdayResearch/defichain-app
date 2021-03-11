@@ -130,7 +130,7 @@
       "createMasterNode": {
         "title": "Creëer MasterNode",
         "masterNodeName": "MasterNode Naam",
-        "lackOfBalanceMsg": "Kan MasterNode niet maken vanwege gebrek aan fondsen. Er is minimaal 1 miljoen DFI nodig om een MasterNode te maken",
+        "lackOfBalanceMsg": "Kan MasterNode niet maken vanwege gebrek aan fondsen. Er is minimaal 20,000 DFI nodig om een MasterNode te maken",
         "confirmationText": "Weet u zeker dat u een MasterNode wilt maken?",
         "restartNodeConfirmationText": "Weet u zeker dat u de Node opnieuw wilt starten?",
         "createNodeButton": "Creëer MasterNode",
