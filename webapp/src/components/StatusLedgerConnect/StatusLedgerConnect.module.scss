@@ -2,9 +2,11 @@
 
 .status-ledger-connect {
   margin-left: 0.5rem;
+
   &--notConnected {
     background-color: $dfi-red;
   }
+
   &--connected {
     background-color: $dfi-green;
     width: 11px;

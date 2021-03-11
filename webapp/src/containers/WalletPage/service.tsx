@@ -37,7 +37,7 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
-import { getNetwork } from './saga';
+import { getNetwork } from '@/utils/utility';
 import { element } from 'prop-types';
 import { includes } from 'lodash';
 import {

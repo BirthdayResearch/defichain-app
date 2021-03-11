@@ -52,11 +52,13 @@
   text-transform: capitalize;
   border: 0;
   background-color: transparent;
+
   &:hover,
   &:focus {
     text-decoration: underline;
     outline: none;
   }
+
   &:disabled {
     text-decoration: none;
   }
