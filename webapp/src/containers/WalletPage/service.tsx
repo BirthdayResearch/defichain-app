@@ -12,9 +12,13 @@ import {
   DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
+import { I18n } from 'react-redux-i18n';
+import { IToken } from 'src/utils/interfaces';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
+import { difference } from 'lodash';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -24,6 +28,8 @@ import {
   getErrorMessage,
   handleFetchTokenBalanceList,
   hdWalletCheck,
+  getNetworkType,
+  getNetworkInfo,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -31,6 +37,9 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
+import { getNetwork } from './saga';
+import { element } from 'prop-types';
+import { includes } from 'lodash';
 import {
   ON_FILE_SELECT_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
@@ -75,6 +84,93 @@ export const handelRemoveReceiveTxns = (id, networkName) => {
   );
   PersistentStore.set(localStorageName, paymentData);
   return paymentData;
+};
+
+export const getInitialTokenInfo = () => {
+  return JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+};
+
+export const handleAddToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  const keyData = [...(initialData[networkType] || []), tokenData];
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const handleRemoveToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  const keyData = (initialData[networkType] || []).filter(
+    (data) => data.symbol !== tokenData.symbol
+  );
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const handleCheckToken = (tokenData) => {
+  const initialTokenData = getWalletToken();
+  const data = initialTokenData.find(
+    (data) => data.symbol === tokenData.symbol
+  );
+  if (data) {
+    return !!Number(tokenData.amount);
+  }
+  return true;
+};
+
+export const getWalletToken = () => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  return initialData[networkType] || [];
+};
+
+export const updateWalletToken = (clone) => {
+  const allTokenArray = clone.map((token) => token.symbolKey);
+  if (allTokenArray.length !== [...new Set(allTokenArray)].length) {
+    const duplicateArray = allTokenArray.filter(
+      (value, index) => allTokenArray.indexOf(value) === index
+    );
+    const networkType = getNetworkType();
+    const initialData = getInitialTokenInfo();
+    const filteredData = initialData[networkType].filter(
+      (element) => !duplicateArray.includes(element.symbolKey)
+    );
+    initialData[networkType] = filteredData;
+    PersistentStore.set('tokenInfo', initialData);
+  }
+};
+
+export const getTokenForWalletDropDown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  const filteredTokenMap = new Map<string, any>();
+  tokenData.forEach((value, key) => {
+    if (!existingTokenArray.includes(key)) {
+      filteredTokenMap.set(key, value);
+    }
+  });
+  return filteredTokenMap;
+};
+
+export const isWalletDropdown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  let tokenDataArray: any[] = [];
+  tokenData.forEach((value) => {
+    tokenDataArray = [...tokenDataArray, value.symbolKey];
+  });
+  const differenceArray = difference(existingTokenArray, tokenData);
+  return differenceArray.length > 1;
+};
+
+export const getVerifiedTokens = (tokens, accountTokens) => {
+  const accountTokenSymbol = accountTokens.map((t) => t.symbolKey);
+  const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
+    t.amount = 0;
+    return t.isDAT && !t.isLPS && !accountTokenSymbol.includes(t.symbolKey);
+  });
+  return verifiedTokens;
 };
 
 export const handelFetchWalletTxns = async (

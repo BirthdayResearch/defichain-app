@@ -13,7 +13,6 @@
 
 .tokenBalanceCard {
   margin-bottom: 24px;
-  cursor: pointer;
 }
 
 .text {
@@ -77,4 +76,8 @@
 .cardLabel {
   color: $secondary;
   padding-right: 1rem;
+}
+
+.cursor {
+  cursor: pointer;
 }

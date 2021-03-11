@@ -187,6 +187,7 @@ export const TXN_CSV_HEADERS = [
   { label: 'Amount', key: 'amounts' },
 ];
 
+export const DEFAULT_TOKEN_VALUE = 0;
 export const MINE = 'mine';
 export const ALL = 'all';
 export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';

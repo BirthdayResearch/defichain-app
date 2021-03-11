@@ -182,6 +182,7 @@
         "searchTokens": "Zoek Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} van %{total} tokens",
         "datLabels": {
           "type": "Type",

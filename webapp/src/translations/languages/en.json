@@ -30,6 +30,7 @@
   "containers": {
     "sideBar": {
       "balance": "Balance",
+      "balances": "Balances",
       "dfi": "DFI",
       "wallets": "Wallets",
       "ledger": "Ledger Wallet",
@@ -223,6 +224,7 @@
         "dat": "DAT",
         "dct": "DCT",
         "paginationRange": "%{from} – %{to} of %{total} tokens",
+        "remove": "Remove",
         "datLabels": {
           "type": "Type",
           "price": "Price",
@@ -743,6 +745,7 @@
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
+        "balances": "Balances",
         "wallets": "Wallets",
         "delete": "Delete",
         "send": "Send",
@@ -784,7 +787,8 @@
       "walletWalletsPage": {
         "walletWallets": "Wallets",
         "wallets": "Wallets",
-        "addWallet": "Add wallet"
+        "addWallet": "Add wallet",
+        "addBalance": "Add Balance"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "Wallet – Add token",
