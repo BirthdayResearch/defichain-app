@@ -70,7 +70,7 @@ describe('Settings page service', () => {
           enabled: true,
         },
       });
-
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -139,7 +139,7 @@ describe('Settings page service', () => {
           enabled: true,
         },
       });
-
+// @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -161,7 +161,7 @@ describe('Settings page service', () => {
           enabled: true,
         },
       });
-
+// @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -192,7 +192,7 @@ describe('Settings page service', () => {
           enabled: true,
         },
       });
-
+// @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -215,7 +215,7 @@ describe('Settings page service', () => {
           enabled: true,
         },
       });
-
+// @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });

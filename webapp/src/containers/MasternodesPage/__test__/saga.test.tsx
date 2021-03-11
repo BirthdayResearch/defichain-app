@@ -40,6 +40,7 @@ describe('Masternode page saga unit test', () => {
 
   it('should wait for every fetchMasternodesRequest action and call createMasterNode', () => {
     expect(genObject.next().value).toEqual(
+      // @ts-ignore
       takeLatest(createMasterNode.type, createMasterNodes)
     );
   });
