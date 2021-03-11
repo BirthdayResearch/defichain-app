@@ -43,10 +43,11 @@ import { MasterNodeObject } from './masterNodeInterface';
 import store from '../../app/rootStore';
 import { history } from '../../utils/history';
 import MasternodesPage from '.';
+import { RootState } from '../../app/rootTypes';
 
 export function* getConfigurationDetails() {
-  const { configurationData } = yield select((state) => state.app);
-  const data = cloneDeep(configurationData);
+  const { rpcConfig } = yield select((state: RootState) => state.app);
+  const data = cloneDeep(rpcConfig);
   if (isEmpty(data)) {
     throw new Error('Unable to fetch configuration file');
   }

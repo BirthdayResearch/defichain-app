@@ -71,7 +71,7 @@ import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
-import queue from '../../src/worker/queue';
+import queue from '../worker/queue';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
@@ -93,7 +93,7 @@ import {
   AccountKeyItem,
   AccountModel,
   PeerInfoModel,
-} from 'src/constants/rpcModel';
+} from '../constants/rpcModel';
 import {
   ErrorMessages,
   HighestAmountItem,
@@ -152,18 +152,6 @@ export const getTransactionURI = (
 
 export const dateTimeFormat = (date: string | Date) => {
   return moment(date).format(DATE_FORMAT);
-};
-
-export const getFromPersistentStorage = (path) => {
-  return localStorage.getItem(path);
-};
-
-export const setToPersistentStorage = (path, data) => {
-  if (typeof data === 'object') {
-    data = JSON.stringify(data);
-  }
-  localStorage.setItem(path, data);
-  return data;
 };
 
 export const getBlockDetails = (block) => {

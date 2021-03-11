@@ -333,7 +333,7 @@ export function* fetchChainInfo() {
   }
   yield put(setBlockChainInfo(result));
   const { app } = store.getState();
-  yield call(setWalletExistingIfInConf, app.configurationData);
+  yield call(setWalletExistingIfInConf, app.rpcConfig);
   const { wallet } = store.getState();
   yield put(setWalletEncryptedRequest(wallet.isWalletCreatedFlag));
 }
