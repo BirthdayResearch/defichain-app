@@ -179,150 +179,53 @@ exports[`MasternodeTabs component should check for snapshot 1`] = `
                         </MdSearch>
                       </button>
                     </Button>
-                    <ButtonDropdown
-                      isOpen={false}
-                      toggle={[Function]}
+                    <Button
+                      color="link"
+                      onClick={[Function]}
+                      tag="button"
                     >
-                      <Dropdown
-                        a11y={true}
-                        active={false}
-                        addonType={false}
-                        direction="down"
-                        group={true}
-                        inNavbar={false}
-                        isOpen={false}
-                        nav={false}
-                        setActiveFromChild={false}
-                        toggle={[Function]}
+                      <button
+                        aria-label={null}
+                        className="btn btn-link"
+                        onClick={[Function]}
+                        type="button"
                       >
-                        <Manager>
-                          <div
-                            className="btn-group"
-                            onKeyDown={[Function]}
+                        <MdAdd>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
                           >
-                            <DropdownToggle
-                              aria-haspopup={true}
-                              color="link"
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <Reference>
-                                <InnerReference
-                                  setReferenceNode={[Function]}
-                                >
-                                  <Button
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    className=""
-                                    color="link"
-                                    innerRef={[Function]}
-                                    onClick={[Function]}
-                                    tag="button"
-                                  >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      aria-label={null}
-                                      className="btn btn-link"
-                                      onClick={[Function]}
-                                      type="button"
-                                    >
-                                      <MdAdd>
-                                        <IconBase
-                                          attr={
-                                            Object {
-                                              "viewBox": "0 0 24 24",
-                                            }
-                                          }
-                                        >
-                                          <svg
-                                            fill="currentColor"
-                                            height="1em"
-                                            stroke="currentColor"
-                                            strokeWidth="0"
-                                            style={
-                                              Object {
-                                                "color": undefined,
-                                              }
-                                            }
-                                            viewBox="0 0 24 24"
-                                            width="1em"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-                                              key="0"
-                                            />
-                                          </svg>
-                                        </IconBase>
-                                      </MdAdd>
-                                      <span
-                                        className="d-lg-inline"
-                                      >
-                                        Create
-                                      </span>
-                                    </button>
-                                  </Button>
-                                </InnerReference>
-                              </Reference>
-                            </DropdownToggle>
-                            <DropdownMenu
-                              flip={true}
-                              tag="div"
-                            >
-                              <div
-                                aria-hidden={true}
-                                className="dropdown-menu"
-                                role="menu"
-                                tabIndex="-1"
-                              >
-                                <DropdownItem
-                                  color="link"
-                                  onClick={[Function]}
-                                  tag="button"
-                                  toggle={true}
-                                >
-                                  <button
-                                    className="dropdown-item"
-                                    color="link"
-                                    onClick={[Function]}
-                                    role="menuitem"
-                                    tabIndex="0"
-                                    type="button"
-                                  >
-                                    Use wallet
-                                  </button>
-                                </DropdownItem>
-                                <DropdownItem
-                                  disabled={true}
-                                  onClick={[Function]}
-                                  tag="button"
-                                  to={
-                                    Object {
-                                      "search": "typeWallet=ledger",
-                                    }
-                                  }
-                                  toggle={true}
-                                >
-                                  <button
-                                    className="disabled dropdown-item"
-                                    disabled={true}
-                                    onClick={[Function]}
-                                    tabIndex="-1"
-                                    to={
-                                      Object {
-                                        "search": "typeWallet=ledger",
-                                      }
-                                    }
-                                    type="button"
-                                  >
-                                    Use ledger
-                                  </button>
-                                </DropdownItem>
-                              </div>
-                            </DropdownMenu>
-                          </div>
-                        </Manager>
-                      </Dropdown>
-                    </ButtonDropdown>
+                              <path
+                                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdAdd>
+                        <span
+                          className="d-lg-inline"
+                        >
+                          Create
+                        </span>
+                      </button>
+                    </Button>
                   </div>
                 </ButtonGroup>
                 <SearchBar

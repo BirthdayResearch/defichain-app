@@ -75,7 +75,7 @@ import { unitConversion } from './unitConversion';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
-import queue from '../../src/worker/queue';
+import queue from '../worker/queue';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';

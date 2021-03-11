@@ -55,7 +55,8 @@ export default class RpcClient {
   constructor(cancelToken?) {
     const state = store.getState();
     const { rpcauth, rpcconnect } = state.app.rpcConfig;
-    const { rpcport } = state.app.rpcConfig[state.app.activeNetwork];
+    const activeNetwork = state.app.rpcConfig[state.app.activeNetwork];
+    const rpcport = activeNetwork?.rpcport;
 
     if (!rpcauth || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');
