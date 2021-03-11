@@ -378,7 +378,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                     </TokenAvatar>
                     <h1>
                       DFI
-                       
+
                       wallet
                     </h1>
                   </div>
@@ -860,8 +860,8 @@ exports[`WalletPage component should check for snapshot 1`] = `
                   fetchWalletTokenTransactionsListRequestLoading={[Function]}
                   fetchWalletTokenTransactionsListResetRequest={[Function]}
                   fetchWalletTxns={[Function]}
-                  isError=""
-                  isLoading={true}
+                  isError="Invalid configuration"
+                  isLoading={false}
                   minBlockHeight={0}
                   tokenSymbol="DFI"
                   unit="DFI"
@@ -887,7 +887,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                             <CustomInput
                               checked={false}
                               id="includeRewards"
-                              label="Include rewards"
+                              label="Include reward transactions"
                               onChange={[Function]}
                               type="checkbox"
                             >
@@ -906,7 +906,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                                   className="custom-control-label"
                                   htmlFor="includeRewards"
                                 >
-                                  Include rewards
+                                  Include reward transactions
                                 </label>
                               </div>
                             </CustomInput>
@@ -924,7 +924,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                             onClick={[Function]}
                             type="button"
                           >
-                            <MdArrowDownward>
+                            <MdFileDownload>
                               <IconBase
                                 attr={
                                   Object {
@@ -947,16 +947,16 @@ exports[`WalletPage component should check for snapshot 1`] = `
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                    d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
                                     key="0"
                                   />
                                 </svg>
                               </IconBase>
-                            </MdArrowDownward>
+                            </MdFileDownload>
                             <span
                               className="d-lg-inline"
                             >
-                              CSV export
+                              EXPORT DATA
                             </span>
                           </button>
                         </Button>
@@ -964,16 +964,17 @@ exports[`WalletPage component should check for snapshot 1`] = `
                           CsvModalOpen={false}
                           downloadDisable={true}
                           error=""
-                          filename="Transactions_2021-2-23_13-51-44.csv"
+                          filename="Transactions_2021-3-9_11-12-14.csv"
                           handleCheckBox={[Function]}
                           handleCsvButtonClick={[Function]}
                           handleDownloadWindow={[Function]}
                           handleRegularNumInputs={[Function]}
+                          maxBlock={[Function]}
                           reqData={
                             Object {
                               "blockHeight": 0,
                               "limit": 100,
-                              "no_rewards": false,
+                              "no_rewards": true,
                               "token": "DFI",
                             }
                           }
@@ -1045,7 +1046,7 @@ exports[`WalletPage component should check for snapshot 1`] = `
                             className="col-12"
                           >
                             <div>
-                              Loading...
+                              Invalid configuration
                             </div>
                           </div>
                         </Col>
