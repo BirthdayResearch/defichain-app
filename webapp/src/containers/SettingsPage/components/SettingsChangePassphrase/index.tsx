@@ -166,6 +166,9 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
             </Row>
           </section>
         </div>
+        {isPassphraseChanging && (
+          <div className={`footer-backdrop show-backdrop`} />
+        )}
         <footer className='footer-bar dark-bg'>
           {isPassphraseChanging ? (
             <>
@@ -222,9 +225,6 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
             </Row>
           )}
         </footer>
-        {isPassphraseChanging && (
-          <div className={`footer-backdrop show-backdrop`} />
-        )}
       </form>
     </div>
   );

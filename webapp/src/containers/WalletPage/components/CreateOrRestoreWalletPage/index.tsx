@@ -171,7 +171,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                         <CustomIcon
                           src={LedgerNano}
                           size={48}
-                          color='#ff00af'
+                          color='rgba(0, 0, 0, 0.4)'
                         />
                       }
                     />
@@ -225,6 +225,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
       </div>
       {isWalletRestoring ? (
         <>
+          <div className={`footer-backdrop show-backdrop`} />
           <footer className='footer-bar'>
             <WalletLoadingFooter
               message={I18n.t(
@@ -232,7 +233,6 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
               )}
             />
           </footer>
-          <div className={`footer-backdrop show-backdrop`} />
         </>
       ) : (
         isErrorRestoringWallet.length !== 0 && (

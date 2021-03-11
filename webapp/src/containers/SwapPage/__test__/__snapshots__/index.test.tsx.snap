@@ -123,7 +123,6 @@ exports[`SwapPage component should check for snapshot 1`] = `
           isLoadingTestPoolSwapTo={false}
           isLoadingTransferringTokens={false}
           isPoolSwapLoaded={false}
-          ledgerBalance={0}
           location={
             Object {
               "hash": "",

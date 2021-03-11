@@ -5,7 +5,7 @@ import {
   mockisElectron,
   mockIpcRenderer,
   mockNotification,
-} from '@/utils/testUtils/mockUtils';
+} from '../../../utils/testUtils/mockUtils';
 
 import { serviceTestData } from './testData.json';
 
@@ -71,7 +71,6 @@ describe('Settings page service', () => {
         },
       });
 
-      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -141,7 +140,6 @@ describe('Settings page service', () => {
         },
       });
 
-      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -164,7 +162,6 @@ describe('Settings page service', () => {
         },
       });
 
-      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -196,7 +193,6 @@ describe('Settings page service', () => {
         },
       });
 
-      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -220,7 +216,6 @@ describe('Settings page service', () => {
         },
       });
 
-      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });

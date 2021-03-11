@@ -58,7 +58,6 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
           isLoadingAddPoolLiquidity={false}
           isLoadingAddingLiquidity={false}
           isLoadingPreparingUTXO={false}
-          ledgerBalance={0}
           location={
             Object {
               "hash": "",
@@ -260,7 +259,6 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                         "receiveLabel": undefined,
                         "symbol1": "DFI",
                         "symbol2": "",
-                        "typeWallet": "",
                       }
                     }
                     handleChange={[Function]}
@@ -327,7 +325,6 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                       "receiveLabel": undefined,
                                       "symbol1": "DFI",
                                       "symbol2": "",
-                                      "typeWallet": "",
                                     }
                                   }
                                   handleDropdown={[Function]}
@@ -695,7 +692,6 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                         "receiveLabel": undefined,
                         "symbol1": "DFI",
                         "symbol2": "",
-                        "typeWallet": "",
                       }
                     }
                     handleChange={[Function]}
@@ -743,7 +739,6 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                       "receiveLabel": undefined,
                                       "symbol1": "DFI",
                                       "symbol2": "",
-                                      "typeWallet": "",
                                     }
                                   }
                                   handleDropdown={[Function]}
@@ -1031,21 +1026,12 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                               "receiveLabel": undefined,
                               "symbol1": "DFI",
                               "symbol2": "",
-                              "typeWallet": "",
                             }
                           }
                           getTransactionLabel={[Function]}
                           onSelectAddress={[Function]}
-                          typeWallet="all"
                         >
                           <AddressDropdown
-                            connect={
-                              Object {
-                                "device": null,
-                                "error": null,
-                                "status": "notConnected",
-                              }
-                            }
                             dispatch={[Function]}
                             formState={
                               Object {
@@ -1059,14 +1045,11 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                 "receiveLabel": undefined,
                                 "symbol1": "DFI",
                                 "symbol2": "",
-                                "typeWallet": "",
                               }
                             }
                             getTransactionLabel={[Function]}
                             onSelectAddress={[Function]}
                             paymentRequests={Array []}
-                            paymentRequestsLedger={Array []}
-                            typeWallet="all"
                           >
                             <UncontrolledDropdown
                               className="w-100"
@@ -1206,7 +1189,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                                   </div>
                                                 </Col>
                                                 <Col
-                                                  md="1"
+                                                  md="3"
                                                   tag="div"
                                                   widths={
                                                     Array [
@@ -1219,7 +1202,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="col-md-1"
+                                                    className="col-md-3"
                                                   >
                                                     Selected
                                                   </div>

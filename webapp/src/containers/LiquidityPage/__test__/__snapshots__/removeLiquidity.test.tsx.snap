@@ -976,16 +976,8 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                           }
                           getTransactionLabel={[Function]}
                           onSelectAddress={[Function]}
-                          typeWallet="all"
                         >
                           <AddressDropdown
-                            connect={
-                              Object {
-                                "device": null,
-                                "error": null,
-                                "status": "notConnected",
-                              }
-                            }
                             dispatch={[Function]}
                             formState={
                               Object {
@@ -997,8 +989,6 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                             getTransactionLabel={[Function]}
                             onSelectAddress={[Function]}
                             paymentRequests={Array []}
-                            paymentRequestsLedger={Array []}
-                            typeWallet="all"
                           >
                             <UncontrolledDropdown
                               className="w-100"
@@ -1138,7 +1128,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                                                   </div>
                                                 </Col>
                                                 <Col
-                                                  md="1"
+                                                  md="3"
                                                   tag="div"
                                                   widths={
                                                     Array [
@@ -1151,7 +1141,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="col-md-1"
+                                                    className="col-md-3"
                                                   >
                                                     Selected
                                                   </div>
