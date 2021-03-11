@@ -498,6 +498,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
+              <div
+                className={`footer-backdrop ${this.state.showBackdrop}`}
+                onClick={this.sendStepDefault}
+              />
             </Form>
             <Modal
               isOpen={this.state.scannerOpen}
@@ -525,6 +529,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             </section>
           )}
         </div>
+        <div
+          className={`footer-backdrop ${this.state.showBackdrop}`}
+          onClick={this.sendStepDefault}
+        />
         <footer className='footer-bar'>
           <div
             className={classnames({
@@ -712,10 +720,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             </div>
           </div>
         </footer>
-        <div
-          className={`footer-backdrop ${this.state.showBackdrop}`}
-          onClick={this.sendStepDefault}
-        />
       </div>
     );
   }
