@@ -8,7 +8,7 @@ module.exports = {
   },
   extends: [
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    'prettier'
+    'prettier',
   ],
   parserOptions: {
     project: path.resolve(__dirname, './tsconfig.json'),

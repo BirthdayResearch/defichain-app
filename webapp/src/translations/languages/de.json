@@ -137,7 +137,23 @@
         "lockedInCollateral": "Gesperrt in Collateral",
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode-Wert",
-        "searchBar": "Suche nach Masternodes"
+        "searchBar": "Suche nach Masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted",
+        "created": "Erstellt",
+        "resigned": "Kündigen ",
+        "preresigned": "Vorab kündigen",
+        "enable": "Aktivieren",
+        "disable": "Deaktivieren",
+        "restartNeeded": "Die DeFi App muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
+        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
@@ -570,7 +586,9 @@
       "updatingPassphrase": "Aktualisiere Passwort",
       "incorrectPassphrase": "Das eingegebene Passwort ist nicht korrekt.",
       "minute": "%{time} Minute",
-      "minutes": "%{time} Minuten"
+      "minutes": "%{time} Minuten",
+      "years": "%{time} Jahre",
+      "autoLockMNWarning": "Die automatische Sperre ist deaktiviert, wenn ein oder mehrere Masternode(s) auf deinem Wallet aktiv sind."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -741,12 +759,15 @@
         "walletPaginationRange": "%{from} – %{to} von %{total} Wallets",
         "txPaginationRange": "%{from} - %{to} von %{total} Transaktionen",
         "commission": "Kommission",
-        "csvExport": "CSV Export",
-        "downloadTransaction": "Transaktionen herunterladen",
-        "download": "Download",
-        "maxBlock": "Max Blockhöhe",
-        "limit": "Limit",
-        "noReward": "Keine Rewards"
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transaktionen",
+        "format": "Format",
+        "csv": "CSV"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",
@@ -874,7 +895,8 @@
     "unlock": "Entsperren",
     "enterYourPassphrase": "Gebe dein Passwort ein",
     "walletUnlockTitle": "Willkommen zurück",
-    "walletUnlockMessage": "Gib dein Passwort ein um Deine Wallet zu entsperren.",
+    "walletUnlockMessage": "Gib dein Passwort ein und wähle eine Dauer für deine entsperrte Wallet aus.",
+    "walletUnlockMasternodeMessage": "Du betreibst derzeit einen Masternode auf einem gesperrten Wallet. Du musst dein Wallet mit deinem Passwort entsperren um weiter minten zu können.",
     "lostPassphraseMessage": "ICH HABE MEIN PASSWORT VERGESSEN",
     "backupWalletWarningModelHeader": "Wallet-Sicherungswarnung",
     "backupNow": "Jetzt sichern",
@@ -897,7 +919,8 @@
     "deletePeersAndBlocks": "Peers und Blöcke löschen",
     "walletBackupWarning": "Verschlüsselung der Wallet erfolgreich. Bitte erstelle sofort ein Backup deiner Wallet. Möchtest du fortfahren?",
     "nodeVersionUpdate": "Node wurde auf Version %{version} upgedatet. Ein App Reindex ist erforderlich. Möchtest du jetzt neu starten?",
-    "nodeVersionHeader": "Node update"
+    "nodeVersionHeader": "Node update",
+    "masternodesAlert": "Du betreibst derzeit einen Masternode. Das Minten wird auf einer gesperrten Wallet nicht funktionieren. Möchtest du trotzdem fortfahren?"
   },
   "general": {
     "defiApp": "DeFi app",

@@ -12,6 +12,7 @@ export enum ErrorMessages {
   UNABLE_TO_SIGN = 'Unable to sign input, invalid stack size (possibly missing key)',
   PASSPHRASE_INCORRECT = 'The wallet passphrase entered was incorrect',
   MEMPOOL = 'mempool',
+  UNABLE_TO_SIGN_INPUT = 'Unable to sign input, invalid stack size (possibly missing key)',
 }
 
 export enum ResponseMessages {
@@ -22,4 +23,5 @@ export enum ResponseMessages {
   UNABLE_TO_SIGN = 'containers.wallet.encryptWalletPage.walletIsLocked',
   PASSPHRASE_INCORRECT = 'containers.settings.incorrectPassphrase',
   MEMPOOL = 'containers.liquidity.liquidityPage.blockTransactionFailed',
+  UNABLE_TO_SIGN_INPUT = 'containers.wallet.encryptWalletPage.walletIsLocked',
 }

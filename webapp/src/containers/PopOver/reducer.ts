@@ -33,6 +33,9 @@ export const initialState: PopoverState = {
   isEncryptFromModal: false,
   isPostEncryptBackupModalOpen: false,
   reIndexMessage: '',
+  isMasternodeWarningModalOpen: false,
+  isMasternodeUpdateRestartModalOpen: false,
+  updatedMasternode: undefined,
 };
 
 const configSlice = createSlice({
@@ -190,6 +193,13 @@ const configSlice = createSlice({
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
     },
+    openMasternodeWarningModal(state, action) {
+      state.isMasternodeWarningModalOpen = action.payload;
+    },
+    openMasternodeUpdateRestartModal(state, action) {
+      state.isMasternodeUpdateRestartModalOpen = action.payload.isOpen;
+      state.updatedMasternode = action.payload.masternode;
+    },
   },
 });
 
@@ -242,6 +252,8 @@ export const {
   restoreWalletViaRecent,
   openExitWalletModal,
   openPostEncryptBackupModal,
+  openMasternodeWarningModal,
+  openMasternodeUpdateRestartModal,
 } = actions;
 
 export default reducer;

@@ -15,6 +15,7 @@ import {
   START_BACKUP_WALLET,
   ON_DEFAULT_WALLET_PATH_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_OVERWRITE_CONFIG_REQUEST,
 } from '@defi_types/ipcEvents';
 import {
   checkPathExists,
@@ -24,6 +25,7 @@ import {
   getIniData,
   responseMessage,
   writeFile,
+  formatConfigFileWrite,
 } from '../utils';
 import fs from 'fs';
 import { ipcMain } from 'electron';
@@ -36,6 +38,11 @@ import {
 import ini from 'ini';
 import { ParsedPath } from 'path';
 import packageInfo from '../../../package.json';
+import {
+  CONFIG_DISABLED,
+  NetworkTypes,
+  RPCConfigItem,
+} from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -48,15 +55,19 @@ const saveFileDialog = async (
   return paths;
 };
 
+export const createOrGetWalletMap = () => {
+  return getWalletMap() != null
+    ? JSON.parse(getWalletMap())
+    : createWalletMap();
+};
+
 /**
  * @description - Check if wallet path is still existing
  */
 export const checkWalletConfig = () => {
   try {
     const data = getIniData(CONFIG_FILE_NAME);
-    const MAIN = 'main';
-    const TEST = 'test';
-    const networks = [MAIN, TEST];
+    const networks = [NetworkTypes.MAIN, NetworkTypes.TEST];
     networks.forEach((network) => {
       if (
         data[network] != null &&
@@ -74,7 +85,8 @@ export const checkWalletConfig = () => {
       }
     });
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
   } catch (error) {
     log.error(error);
   }
@@ -93,9 +105,22 @@ export const writeToConfigFile = (
     } else {
       delete data[network].wallet;
       delete data[network].walletdir;
+      data[network].spv = CONFIG_DISABLED;
+      data[network].gen = CONFIG_DISABLED;
     }
     const defaultConfigData = ini.encode(data);
-    writeFile(CONFIG_FILE_NAME, defaultConfigData);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const overwriteConfigFile = (data: RPCConfigItem) => {
+  try {
+    const defaultConfigData = ini.encode(data);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData, false);
   } catch (error) {
     log.error(error);
   }
@@ -136,14 +161,11 @@ export const setWalletEvents = () => {
 
   ipcMain.on(ON_SET_NODE_VERSION, async (event: Electron.IpcMainEvent) => {
     try {
-      const r = getWalletMap();
-      if (r != null || r != '') {
-        const { ainVersion } = packageInfo;
-        const walletMap: WalletMap = JSON.parse(r);
-        walletMap.nodeVersion = ainVersion;
-        overwriteWalletMap(walletMap);
-        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
-      }
+      const walletMap = createOrGetWalletMap();
+      const { ainVersion } = packageInfo;
+      walletMap.nodeVersion = ainVersion;
+      overwriteWalletMap(walletMap);
+      event.returnValue = responseMessage(true, JSON.stringify(walletMap));
     } catch (error) {
       log.error(error);
       event.returnValue = responseMessage(false, {
@@ -157,8 +179,12 @@ export const setWalletEvents = () => {
     async (event: Electron.IpcMainEvent, walletMap: WalletMap) => {
       try {
         overwriteWalletMap(walletMap);
+        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
       } catch (error) {
         log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
       }
     }
   );
@@ -214,6 +240,21 @@ export const setWalletEvents = () => {
         } else {
           throw new Error(`File selected does not exist.`);
         }
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    }
+  );
+
+  ipcMain.on(
+    ON_OVERWRITE_CONFIG_REQUEST,
+    async (event: Electron.IpcMainEvent, data: RPCConfigItem) => {
+      try {
+        overwriteConfigFile(data);
+        event.returnValue = responseMessage(true, data);
       } catch (error) {
         log.error(error);
         event.returnValue = responseMessage(false, {
@@ -280,6 +321,7 @@ export const createWalletMap = (): Partial<WalletMap> => {
       const data: Partial<WalletMap> = {
         paths: [walletDat],
         nodeVersion: ainVersion,
+        hasSyncSPV: false,
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
       return data;

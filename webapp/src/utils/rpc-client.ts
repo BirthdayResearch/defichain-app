@@ -47,14 +47,16 @@ import {
   ListUnspentModel,
   PeerInfoModel,
   WalletInfo,
-} from 'src/constants/rpcModel';
+} from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 
 export default class RpcClient {
   client: any;
   constructor(cancelToken?) {
     const state = store.getState();
-    const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
+    const { rpcauth, rpcconnect } = state.app.rpcConfig;
+    const activeNetwork = state.app.rpcConfig[state.app.activeNetwork];
+    const rpcport = activeNetwork?.rpcport;
 
     if (!rpcauth || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');

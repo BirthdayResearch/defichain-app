@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
-  "ainVersion": "1.5.0",
+  "ainVersion": "1.5.2",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
@@ -122,18 +122,14 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -153,9 +149,7 @@
       ]
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ]
+      "target": ["AppImage"]
     },
     "win": {
       "target": "NSIS"

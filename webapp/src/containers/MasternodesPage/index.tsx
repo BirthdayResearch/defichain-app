@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+import { Button, ButtonGroup, Row, Col, TabContent, Tooltip } from 'reactstrap';
+import {
+  MdSearch,
+  MdAdd,
+  MdCheckCircle,
+  MdErrorOutline,
+  MdInfo,
+  MdInfoOutline,
+} from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
 import { I18n } from 'react-redux-i18n';
-import { RouteComponentProps } from 'react-router-dom';
 import {
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
-  RESIGNED_STATE,
   CONFIRM_BUTTON_TIMEOUT,
   CONFIRM_BUTTON_COUNTER,
+  ALL,
+  MINE,
 } from '../../constants';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchInstantBalanceRequest } from '../WalletPage/reducer';
 import { createMasterNode, startRestartNodeWithMasterNode } from './reducer';
 import styles from './masternode.module.scss';
@@ -21,43 +28,35 @@ import isEmpty from 'lodash/isEmpty';
 import BigNumber from 'bignumber.js';
 import { fetchMasternodesRequest } from './reducer';
 import { MasterNodeObject } from './masterNodeInterface';
-import MasternodeTab from './components/MasternodeTab';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
+import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
+import MineNodeList from './components/MineNodeList';
+import MineNodeFooter from './components/MineNodeFooter';
+import { RootState } from '../../app/rootTypes';
 
-interface MasternodesPageProps extends RouteComponentProps {
-  createMasterNode: () => void;
-  startRestartNodeWithMasterNode: () => void;
-  walletBalance: string | number;
-  isMasterNodeCreating: boolean;
-  createdMasterNodeData: any;
-  isErrorCreatingMasterNode: string;
-  masternodes: MasterNodeObject[];
-  fetchMasternodesRequest: () => void;
-  isLoadingMasternodes: boolean;
-  fetchInstantBalanceRequest: () => void;
-  isOpen: boolean;
-  isRestart: boolean;
+export enum MasterNodesPageStates {
+  default = 'default',
+  success = 'success',
+  failure = 'failure',
+  confirm = 'confirm',
 }
 
-const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
-  props: MasternodesPageProps
-) => {
+const MasternodesPage: React.FunctionComponent = () => {
+  const dispatch = useDispatch();
   const {
-    createMasterNode,
-    startRestartNodeWithMasterNode,
-    isMasterNodeCreating,
-    createdMasterNodeData,
-    isErrorCreatingMasterNode,
-    walletBalance,
-    masternodes,
-    fetchMasternodesRequest,
-    isLoadingMasternodes,
-    fetchInstantBalanceRequest,
-    isOpen,
-    isRestart,
-  } = props;
+    wallet: { walletBalance },
+    masterNodes: {
+      isMasterNodeCreating,
+      masternodes,
+      createdMasterNodeData,
+      isErrorCreatingMasterNode,
+      isLoadingMasternodes,
+      myMasternodes,
+    },
+    popover: { isOpen, isRestart },
+  } = useSelector((state: RootState) => state);
 
   const prevIsOpen = usePrevious(isOpen);
   const prevIsRestart = usePrevious(isRestart);
@@ -66,20 +65,23 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const [
     isConfirmationModalOpen,
     setIsConfirmationModalOpen,
-  ] = useState<string>('default');
+  ] = useState<string>(MasterNodesPageStates.default);
   const [wait, setWait] = useState<number>(CONFIRM_BUTTON_COUNTER);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [restartNodeConfirm, setRestartNodeConfirm] = useState(false);
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<string>('network');
-  const [disableTab, setDisableTab] = useState<boolean>(true);
+  const [activeTab, setActiveTab] = useState<string>(MINE);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+
   const resetConfirmationModal = (event: any) => {
-    fetchInstantBalanceRequest();
-    setIsConfirmationModalOpen('');
+    dispatch(fetchInstantBalanceRequest());
+    setIsConfirmationModalOpen(MasterNodesPageStates.default);
   };
 
   const toggleSearch = () => {
@@ -96,24 +98,27 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   }, [prevIsOpen, prevIsRestart, isOpen, isRestart]);
 
   useEffect(() => {
-    fetchMasternodesRequest();
+    if (isRestart) {
+      setIsConfirmationModalOpen(MasterNodesPageStates.default);
+      setRestartNodeConfirm(false);
+      setIsRestartButtonDisable(false);
+    }
+  }, [isRestart]);
+
+  useEffect(() => {
+    dispatch(fetchMasternodesRequest());
   }, []);
 
   useEffect(() => {
     if (!isLoadingMasternodes) {
-      const myMasternodes = masternodes.filter(
-        (masternode) =>
-          masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
-      );
       if (myMasternodes.length > 0) {
-        setDisableTab(false);
-        setActiveTab('myMasternodes');
+        setActiveTab(MINE);
       }
     }
   }, [isLoadingMasternodes]);
 
   useEffect(() => {
-    const isMyMasternodes = activeTab === 'myMasternodes';
+    const isMyMasternodes = activeTab === MINE;
     const enabledMasternodes = masternodes.filter((masternode) => {
       if (isMyMasternodes) {
         return masternode.isMyMasternode;
@@ -126,11 +131,11 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   useEffect(() => {
     if (allowCalls && !isMasterNodeCreating) {
       if (!isErrorCreatingMasterNode && !isEmpty(createdMasterNodeData)) {
-        setIsConfirmationModalOpen('success');
+        setIsConfirmationModalOpen(MasterNodesPageStates.success);
       }
       if (isErrorCreatingMasterNode && isEmpty(createdMasterNodeData)) {
         setErrorMessage(isErrorCreatingMasterNode);
-        setIsConfirmationModalOpen('failure');
+        setIsConfirmationModalOpen(MasterNodesPageStates.failure);
       }
     }
   }, [
@@ -142,7 +147,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
 
   useEffect(() => {
     let waitToSendInterval;
-    if (isConfirmationModalOpen === 'confirm') {
+    if (isConfirmationModalOpen === MasterNodesPageStates.confirm) {
       let counter = CONFIRM_BUTTON_COUNTER;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
@@ -160,20 +165,20 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
   const cancelConfirmation = () => {
     setWait(CONFIRM_BUTTON_COUNTER);
     if (restartNodeConfirm) {
-      setIsConfirmationModalOpen('success');
+      setIsConfirmationModalOpen(MasterNodesPageStates.success);
       setRestartNodeConfirm(false);
     } else {
-      setIsConfirmationModalOpen('');
+      setIsConfirmationModalOpen(MasterNodesPageStates.default);
     }
   };
 
   const confirmation = () => {
     if (restartNodeConfirm) {
-      startRestartNodeWithMasterNode();
+      dispatch(startRestartNodeWithMasterNode());
       setIsRestartButtonDisable(true);
     } else {
       setAllowCalls(true);
-      createMasterNode();
+      dispatch(createMasterNode());
     }
   };
 
@@ -182,12 +187,12 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       MINIMUM_DFI_AMOUNT_FOR_MASTERNODE
     );
     if (showForm) {
-      setIsConfirmationModalOpen('confirm');
+      setIsConfirmationModalOpen(MasterNodesPageStates.confirm);
     } else {
       setErrorMessage(
         I18n.t('containers.masterNodes.createMasterNode.lackOfBalanceMsg')
       );
-      setIsConfirmationModalOpen('failure');
+      setIsConfirmationModalOpen(MasterNodesPageStates.failure);
     }
   };
 
@@ -201,15 +206,24 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
+
+          <MdInfoOutline className='ml-1' id='masternode__item' size={20} />
+          <Tooltip
+            placement='auto'
+            target='masternode__item'
+            isOpen={tooltipOpen}
+            toggle={toggle}
+          >
+            {I18n.t('containers.masterNodes.masterNodesPage.tooltipMasternode')}
+          </Tooltip>
         </h1>
-        {!disableTab && (
-          <MasternodeTab setActiveTab={setActiveTab} activeTab={activeTab} />
-        )}
+        <MasterNodeTabsHeader tab={activeTab} setTab={setActiveTab} />
+        <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button onClick={createMasterNodeFunc} color='link' disabled={true}>
+          <Button onClick={createMasterNodeFunc} color='link'>
             <MdAdd />
             <span className='d-lg-inline'>
               {I18n.t(
@@ -228,17 +242,23 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         />
       </Header>
       <div className='content'>
-        <section>
+        <TabContent activeTab={activeTab}>
+          <MineNodeList enabledMasternodes={enabledMasternodes} />
           <MasternodesList
             searchQuery={searchQuery}
             enabledMasternodes={enabledMasternodes}
           />
-        </section>
+        </TabContent>
       </div>
-      <footer className='footer-bar'>
+      <footer
+        className={classnames({
+          'footer-bar': true,
+          'd-none': activeTab === ALL,
+        })}
+      >
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'confirm',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.confirm,
           })}
         >
           <div className='footer-sheet'>
@@ -281,7 +301,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'success',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.success,
           })}
         >
           <div className='footer-sheet'>
@@ -306,7 +326,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
-              <Button color='primary' onClick={resetConfirmationModal}>
+              <Button color='link' onClick={resetConfirmationModal}>
                 {I18n.t(
                   'containers.masterNodes.createMasterNode.backToMasternodePage'
                 )}
@@ -317,7 +337,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
                 onClick={() => {
                   setWait(CONFIRM_BUTTON_COUNTER);
                   setRestartNodeConfirm(true);
-                  setIsConfirmationModalOpen('confirm');
+                  setIsConfirmationModalOpen(MasterNodesPageStates.confirm);
                 }}
               >
                 {I18n.t(
@@ -329,7 +349,7 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'failure',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.failure,
           })}
         >
           <div className='footer-sheet'>
@@ -351,40 +371,18 @@ const MasternodesPage: React.FunctionComponent<MasternodesPageProps> = (
             </Button>
           </div>
         </div>
+        <div
+          className={classnames({
+            'd-none':
+              activeTab === ALL ||
+              isConfirmationModalOpen !== MasterNodesPageStates.default,
+          })}
+        >
+          <MineNodeFooter enabledMasternodes={enabledMasternodes} />
+        </div>
       </footer>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    wallet: { walletBalance },
-    masterNodes: {
-      isMasterNodeCreating,
-      masternodes,
-      createdMasterNodeData,
-      isErrorCreatingMasterNode,
-      isLoadingMasternodes,
-    },
-    popover: { isOpen, isRestart },
-  } = state;
-  return {
-    walletBalance,
-    isMasterNodeCreating,
-    masternodes,
-    isLoadingMasternodes,
-    createdMasterNodeData,
-    isErrorCreatingMasterNode,
-    isOpen,
-    isRestart,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchMasternodesRequest,
-  fetchInstantBalanceRequest,
-  createMasterNode,
-  startRestartNodeWithMasterNode,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MasternodesPage);
+export default MasternodesPage;

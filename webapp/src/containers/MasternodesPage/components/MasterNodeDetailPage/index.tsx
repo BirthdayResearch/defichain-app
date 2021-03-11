@@ -4,7 +4,15 @@ import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  Row,
+  Col,
+  FormGroup,
+  Input,
+  Label,
+} from 'reactstrap';
 import {
   MdArrowBack,
   MdDelete,
@@ -19,6 +27,9 @@ import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
+import { MasterNodesPageStates } from '../..';
+import ViewOnChain from '../../../../components/ViewOnChain';
+import { openMasternodeUpdateRestartModal } from '../../../PopOver/reducer';
 interface RouteProps {
   hash: string;
 }
@@ -29,6 +40,10 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   resignedMasterNodeData: string;
   isErrorResigningMasterNode: string;
   resignMasterNode: (masterNodeHash: string) => void;
+  openMasternodeUpdateRestartModal: ({
+    isOpen: boolean,
+    masternode: MasterNodeObject,
+  }) => void;
 }
 
 const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
@@ -41,6 +56,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     isMasterNodeResigning,
     resignedMasterNodeData,
     isErrorResigningMasterNode,
+    openMasternodeUpdateRestartModal,
   } = props;
   const hashValue = match.params.hash;
   const masternode: any = masternodes.find((ele: any) => {
@@ -66,7 +82,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   const [
     isConfirmationModalOpen,
     setIsConfirmationModalOpen,
-  ] = useState<string>('default');
+  ] = useState<string>(MasterNodesPageStates.default);
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
 
@@ -77,14 +93,14 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         !isMasterNodeResigning &&
         !isErrorResigningMasterNode
       ) {
-        setIsConfirmationModalOpen('success');
+        setIsConfirmationModalOpen(MasterNodesPageStates.success);
       }
       if (
         !resignedMasterNodeData &&
         !isMasterNodeResigning &&
         isErrorResigningMasterNode
       ) {
-        setIsConfirmationModalOpen('failure');
+        setIsConfirmationModalOpen(MasterNodesPageStates.failure);
       }
     }
   }, [
@@ -96,7 +112,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
 
   useEffect(() => {
     let waitToSendInterval;
-    if (isConfirmationModalOpen === 'confirm') {
+    if (isConfirmationModalOpen === MasterNodesPageStates.confirm) {
       let counter = 5;
       waitToSendInterval = setInterval(() => {
         counter -= 1;
@@ -110,6 +126,26 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
       clearInterval(waitToSendInterval);
     };
   }, [isConfirmationModalOpen]);
+
+  const remapMasternodeState = (state: string) => {
+    const masternodesLabel = 'containers.masterNodes.masterNodesPage';
+    switch (state) {
+      case 'ENABLED':
+        return I18n.t(`${masternodesLabel}.created`);
+      case 'RESIGNED':
+        return I18n.t(`${masternodesLabel}.resigned`);
+      case 'PRE_RESIGNED':
+        return I18n.t(`${masternodesLabel}.preresigned`);
+      case 'PRE_ENABLED':
+        return I18n.t(`${masternodesLabel}.preenabled`);
+      case 'PRE_BANNED':
+        return I18n.t(`${masternodesLabel}.prebanned`);
+      case 'BANNED':
+        return I18n.t(`${masternodesLabel}.banned`);
+      default:
+        return state;
+    }
+  };
 
   return (
     <div className='main-wrapper'>
@@ -144,26 +180,49 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
           &nbsp;
         </h1>
         {isMyMasternode && (
-          <ButtonGroup>
-            <Button
-              color='link'
-              onClick={() => setIsConfirmationModalOpen('confirm')}
-            >
-              <MdDelete />
-              <span>
-                {I18n.t(
-                  'containers.masterNodes.masternodeDetailPage.resignMasterNode'
-                )}
-              </span>
-            </Button>
-          </ButtonGroup>
+          <div className='d-flex align-items-center'>
+            <FormGroup check>
+              <Label check className='switch'>
+                <Input
+                  type='checkbox'
+                  checked={masternode.isEnabled}
+                  onChange={() => {
+                    openMasternodeUpdateRestartModal({
+                      isOpen: true,
+                      masternode: {
+                        ...masternode,
+                        isEnabled: !masternode.isEnabled,
+                      },
+                    });
+                  }}
+                />
+                &nbsp;
+                {I18n.t(`containers.masterNodes.masterNodesPage.enable`)}
+              </Label>
+            </FormGroup>
+            <ButtonGroup className='ml-1'>
+              <Button
+                color='link'
+                onClick={() =>
+                  setIsConfirmationModalOpen(MasterNodesPageStates.confirm)
+                }
+              >
+                <MdDelete />
+                <span>
+                  {I18n.t(
+                    'containers.masterNodes.masternodeDetailPage.resignMasterNode'
+                  )}
+                </span>
+              </Button>
+            </ButtonGroup>
+          </div>
         )}
       </Header>
       <div className='content'>
         <section className='mb-5'>
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.state')}
-            value={state}
+            value={remapMasternodeState(state)}
           />
           <KeyValueLi
             label={I18n.t(
@@ -194,7 +253,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.ownerAddress'
             )}
             value={ownerAuthAddress}
-            copyable={true!}
+            copyable={false}
             uid='address'
           />
           <KeyValueLi
@@ -202,33 +261,38 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.operatorAddress'
             )}
             value={operatorAuthAddress}
-            copyable={true!}
+            copyable={false}
             uid='address'
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.resignTx'
             )}
-            copyable={true!}
+            copyable={false}
             value={resignTx}
           />
 
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.banTx')}
-            copyable={true!}
+            copyable={false}
             value={banTx}
           />
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.hash')}
-            copyable={true!}
+            copyable={false}
             value={hash}
           />
         </section>
       </div>
-      <footer className='footer-bar'>
+      <footer
+        className={classnames({
+          'footer-bar': true,
+          'd-none': isConfirmationModalOpen === MasterNodesPageStates.default,
+        })}
+      >
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'confirm',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.confirm,
           })}
         >
           <div className='footer-sheet'>
@@ -247,7 +311,9 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               <Button
                 color='link'
                 className='mr-3'
-                onClick={() => setIsConfirmationModalOpen('default')}
+                onClick={() =>
+                  setIsConfirmationModalOpen(MasterNodesPageStates.default)
+                }
               >
                 {I18n.t(
                   'containers.masterNodes.masternodeDetailPage.noButtonText'
@@ -272,7 +338,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'success',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.success,
           })}
         >
           <div className='footer-sheet'>
@@ -287,6 +353,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            <ViewOnChain txid={resignedMasterNodeData} />
             <Button color='primary' to={MASTER_NODES_PATH} tag={NavLink}>
               {I18n.t(
                 'containers.masterNodes.masternodeDetailPage.backToMasternodePage'
@@ -296,7 +363,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
         </div>
         <div
           className={classnames({
-            'd-none': isConfirmationModalOpen !== 'failure',
+            'd-none': isConfirmationModalOpen !== MasterNodesPageStates.failure,
           })}
         >
           <div className='footer-sheet'>
@@ -343,6 +410,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   resignMasterNode: (masterNodeHash: string) =>
     resignMasterNode({ masterNodeHash }),
+  openMasternodeUpdateRestartModal,
 };
 
 export default connect(

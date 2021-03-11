@@ -1,5 +1,8 @@
+import { MasterNodeObject } from './masterNodeInterface';
+
 export interface MasternodesState {
-  masternodes: [];
+  masternodes: MasterNodeObject[];
+  myMasternodes: MasterNodeObject[];
   isMasternodesLoaded: boolean;
   isLoadingMasternodes: boolean;
   masternodesLoadError: string;

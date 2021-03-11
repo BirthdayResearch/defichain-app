@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdArrowDownward } from 'react-icons/md';
+import { MdFileDownload } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import {
   Modal,
@@ -9,14 +9,17 @@ import {
   Col,
   FormGroup,
   Row,
-  CustomInput,
-  ModalHeader,
   Alert,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
 } from 'reactstrap';
 import CsvRowInput from '../../CsvRowInput';
 import { CSVLink } from 'react-csv';
 import { TXN_CSV_HEADERS } from '../../../../../../constants';
 import Spinner from '../../../../../../components/Svg/Spinner';
+import CsvRowToggle from '../csvRowToggle';
+import styles from '../../WalletTxns.module.scss';
 
 interface Reqdata {
   blockHeight: number;
@@ -50,6 +53,7 @@ interface DownloadCsvModalProps {
   handleDownloadWindow: () => void;
   transactionData: TransactionData;
   downloadDisable: boolean;
+  maxBlock: () => void;
 }
 
 const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
@@ -66,49 +70,64 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
     transactionData,
     reqData,
     downloadDisable,
+    maxBlock,
   } = props;
 
   return (
     <Modal isOpen={CsvModalOpen} centered fade={false} toggle={toggle}>
-      <ModalHeader toggle={toggle}>
-        {I18n.t('containers.wallet.walletPage.downloadTransaction')}
-      </ModalHeader>
-      <ModalBody>
-        <Row className='ml-5'>
-          <Col md='4'>{I18n.t('containers.wallet.walletPage.maxBlock')}</Col>
-          <Col md='8' lg='6'>
+      <ModalBody className='ml-3'>
+        <Row className='mb-4 mt-2'>
+          <Col>{I18n.t('containers.wallet.walletPage.exportWalletData')}</Col>
+        </Row>
+        <Row className='mr-1'>
+          <Col md='10'>
             <FormGroup className='form-label-group'>
-              <CsvRowInput
-                fieldName={'blockHeight'}
-                label={''}
-                value={reqData.blockHeight}
-                name={'blockHeight'}
-                id={'maximumAmount'}
-                placeholder={'Number'}
-                handleInputs={handleRegularNumInputs}
-              />
+              <InputGroup className={styles.setWidth}>
+                <CsvRowInput
+                  fieldName={'blockHeight'}
+                  label={I18n.t('containers.wallet.walletPage.maxBlockHeight')}
+                  value={reqData.blockHeight}
+                  name={'blockHeight'}
+                  id={'maximumAmount'}
+                  placeholder={'Number'}
+                  handleInputs={handleRegularNumInputs}
+                />
+              </InputGroup>
             </FormGroup>
           </Col>
-          <Col md='4'>{I18n.t('containers.wallet.walletPage.limit')}</Col>
-          <Col md='8' lg='6'>
+          <Col md='2'>
+            <Button color='outline-primary' onClick={maxBlock}>
+              {I18n.t('containers.wallet.walletPage.max')}
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col md='12'>
             <FormGroup className='form-label-group'>
-              <CsvRowInput
-                fieldName={'limit'}
-                label={''}
-                name={'limit'}
-                value={reqData.limit}
-                id={'limit'}
-                placeholder={'Number'}
-                handleInputs={handleRegularNumInputs}
-              />
+              <InputGroup>
+                <CsvRowInput
+                  fieldName={'limit'}
+                  label={I18n.t('containers.wallet.walletPage.limit')}
+                  name={'limit'}
+                  value={reqData.limit}
+                  id={'limit'}
+                  placeholder={'Number'}
+                  handleInputs={handleRegularNumInputs}
+                />
+                <InputGroupAddon addonType='append'>
+                  <InputGroupText>
+                    {I18n.t('containers.wallet.walletPage.transaction')}
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
             </FormGroup>
           </Col>
           <Col>
-            <CustomInput
+            <CsvRowToggle
               type='checkbox'
               id='no_rewards'
-              label={I18n.t('containers.wallet.walletPage.noReward')}
-              onChange={handleCheckBox}
+              label={I18n.t('containers.wallet.walletPage.includeRewards')}
+              handleCheckBox={handleCheckBox}
             />
           </Col>
         </Row>
@@ -117,6 +136,25 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
         </Row>
       </ModalBody>
       <ModalFooter>
+        <div className='ml-4 '>
+          <span>
+            <small className='text-muted'>
+              {I18n.t('containers.wallet.walletPage.format')}
+            </small>
+          </span>
+          <div className='clearfix'></div>
+          <span className='ml-2 '>
+            {I18n.t('containers.wallet.walletPage.csv')}
+          </span>
+        </div>
+        <Button
+          size='sm'
+          color='link'
+          className='ml-auto'
+          onClick={() => toggle()}
+        >
+          {I18n.t('alerts.cancel')}
+        </Button>
         <CSVLink
           filename={filename}
           onClick={handleDownloadWindow}
@@ -124,9 +162,9 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
           headers={TXN_CSV_HEADERS}
         >
           <Button color='primary' disabled={downloadDisable}>
-            {downloadDisable ? <Spinner /> : <MdArrowDownward />}
+            {downloadDisable ? <Spinner /> : <MdFileDownload />}
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.download')}
+              {I18n.t('containers.wallet.walletPage.export')}
             </span>
           </Button>
         </CSVLink>

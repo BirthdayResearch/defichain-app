@@ -14,6 +14,7 @@ import {
   MdArrowUpward,
   MdArrowDownward,
   MdCompareArrows,
+  MdFileDownload,
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
 import { I18n } from 'react-redux-i18n';
@@ -31,6 +32,7 @@ import {
   ADD_POOL_LIQUIDITY_LABEL,
   ANY_ACCOUNT_TO_ACCOUNT_LABEL,
   COMMISSION_CATEGORY_LABEL,
+  DATE_FORMAT_CSV,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
   RECIEVE_CATEGORY_LABEL,
@@ -51,6 +53,7 @@ import CustomPaginationComponent from '../../../../components/CustomPagination';
 import DownloadCsvModal from './components/DownloadCsvModal';
 import { getListAccountHistory } from '../../service';
 import { fetchBlockCountRequest } from '../../../BlockchainPage/reducer';
+import moment from 'moment';
 
 interface WalletTxnsProps {
   minBlockHeight: number;
@@ -124,7 +127,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     blockHeight: blockCount,
     limit: 100,
     token: tokenSymbol,
-    no_rewards: false,
+    no_rewards: true,
   });
 
   useEffect(() => {
@@ -133,12 +136,19 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
 
   useEffect(() => {
     const getData = async () => {
+      let txns;
       try {
         setDownloadDisable(true);
-        const txns = await getListAccountHistory(reqData);
-        if (txns != null && blockCount != 0) {
+        txns = await getListAccountHistory(reqData);
+        if (txns.length != 0 && blockCount != 0) {
           setDownloadDisable(false);
         }
+        txns = txns.map((txn) => {
+          return {
+            ...txn,
+            blockTime: moment.unix(txn.blockTime).format(DATE_FORMAT_CSV),
+          };
+        });
         setTransationData(txns);
       } catch (err) {
         const errorMessage = getErrorMessage(err);
@@ -192,7 +202,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       ...reqData,
       blockHeight: blockCount,
       token: tokenSymbol,
-      no_rewards: false,
+      no_rewards: true,
       limit: 100,
     });
   }, [CsvModalOpen]);
@@ -258,6 +268,13 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     });
   }, [blockCount]);
 
+  const maxBlock = () => {
+    setData({
+      ...reqData,
+      blockHeight: blockCount,
+    });
+  };
+
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
     const SEND = 'send';
@@ -271,6 +288,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         REWARDS_CATEGORY_LABEL,
         REWARD_CATEGORY_LABEL,
         RECEIVE,
+        REMOVE_LIQUIDITY_LABEL
       ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
@@ -383,20 +401,11 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
                   {item.txid ? (
                     <td>
                       <div className={`${styles.txidvalue} ${styles.copyIcon}`}>
-                        <a
-                          href='#'
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onViewOnChain(item.txid);
-                          }}
-                        >
-                          <ValueLi
-                            value={item.txid}
-                            copyable={true}
-                            textLimit={textLimit}
-                          />
-                        </a>
+                        <ValueLi
+                          value={item.txid}
+                          copyable={true}
+                          textLimit={textLimit}
+                        />
                       </div>
                     </td>
                   ) : (
@@ -447,9 +456,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             size='sm'
             onClick={handleCsvButtonClick}
           >
-            <MdArrowDownward />
+            <MdFileDownload />
             <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.walletPage.csvExport')}
+              {I18n.t('containers.wallet.walletPage.exportData')}
             </span>
           </Button>
           <DownloadCsvModal
@@ -465,6 +474,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
             tokenSymbol={tokenSymbol}
             CsvModalOpen={CsvModalOpen}
             handleCsvButtonClick={handleCsvButtonClick}
+            maxBlock={maxBlock}
           />
         </div>
       </div>

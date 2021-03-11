@@ -63,20 +63,18 @@ describe('liquidity page service unit test', () => {
   });
 
   it('should return master nodes list', async () => {
-    const post = jest
-      .fn()
-      .mockResolvedValueOnce({
-        data: { result: testData.fetchMasternodesSuccess },
-      });
+    const post = jest.fn().mockResolvedValueOnce({
+      data: { result: testData.fetchMasternodesSuccess },
+    });
     mockAxios(post);
-    const result = await service.handelFetchMasterNodes();
+    const result = await service.handleFetchMasterNodes();
     expect(result).toEqual(testData.fetchMasternodesSuccess);
   });
 
   it('should return empty master nodes list if masternodes are not present', async () => {
     const post = jest.fn().mockResolvedValueOnce({ data: { result: [] } });
     mockAxios(post);
-    const result = await service.handelFetchMasterNodes();
+    const result = await service.handleFetchMasterNodes();
     expect(result).toEqual([]);
   });
 
@@ -86,7 +84,7 @@ describe('liquidity page service unit test', () => {
         .fn()
         .mockImplementationOnce(() => Promise.reject('Error'));
       mockAxios(post);
-      const result = await service.handelFetchMasterNodes();
+      const result = await service.handleFetchMasterNodes();
     } catch (err) {
       expect(err).toBeTruthy();
     }

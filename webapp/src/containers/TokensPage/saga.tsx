@@ -37,10 +37,11 @@ import {
   handleMintTokens,
 } from './service';
 import { ErrorMessages, ResponseMessages } from '../../constants/common';
+import { RootState } from '../../app/rootTypes';
 
 export function* getConfigurationDetails() {
-  const { configurationData } = yield select((state) => state.app);
-  const data = cloneDeep(configurationData);
+  const { rpcConfig } = yield select((state: RootState) => state.app);
+  const data = cloneDeep(rpcConfig);
   if (isEmpty(data)) {
     throw new Error('Unable to fetch configuration file');
   }
@@ -102,9 +103,7 @@ export function* createTokens(action) {
   } catch (e) {
     yield put({
       type: createTokenFailure.type,
-      payload: remapNodeError(
-        getErrorMessage(e)
-      ),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }
@@ -120,9 +119,7 @@ export function* mintTokens(action) {
   } catch (e) {
     yield put({
       type: mintTokenFailure.type,
-      payload: remapNodeError(
-        getErrorMessage(e)
-      ),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }
@@ -138,9 +135,7 @@ export function* updateTokens(action) {
   } catch (e) {
     yield put({
       type: updateTokenFailure.type,
-      payload: remapNodeError(
-        getErrorMessage(e)
-      ),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }
@@ -156,9 +151,7 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: remapNodeError(
-        getErrorMessage(e)
-      ),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }

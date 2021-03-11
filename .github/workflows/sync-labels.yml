@@ -4,7 +4,8 @@ on:
   push:
     branches: [master]
     paths:
-      - .github/labels.yml
+      # TODO(fuxingloh): delete/re-enable/migrate as it does not work well with version/* tags automation
+      - .github/labels-disabled.yml
 
 jobs:
   main:

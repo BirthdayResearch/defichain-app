@@ -119,7 +119,11 @@ const routes = (location) => (
     <Route exact path={BLOCKCHAIN_MINER_PARAM_PATH} component={MinerPage} />
     <Route exact path={HELP_PATH} component={HelpPage} />
     <Route exact path={SETTING_PATH} component={SettingsPage} />
-    <Route exact path={SETTINGS_CHANGE_PASSPHRASE} component={SettingsChangePassphrase} />
+    <Route
+      exact
+      path={SETTINGS_CHANGE_PASSPHRASE}
+      component={SettingsChangePassphrase}
+    />
     <Route exact path={CONSOLE_RPC_CALL_BASE_PATH} component={ConsolePage} />
     <Route exact path={CREATE_POOL_PAIR_PATH} component={AddLiquidityPage} />
     <Route exact path={REMOVE_LIQUIDITY} component={RemoveLiquidityPage} />
