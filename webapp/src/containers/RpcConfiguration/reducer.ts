@@ -11,11 +11,18 @@ export const initialState: AppState = {
   isRunning: false,
   rpcConfigError: '',
   nodeError: '',
-  configurationData: {},
   isQueueReady: false,
   isAppClosing: false,
   activeNetwork: 'main',
 };
+
+const updateConfiguration = (state, config) => {
+  state.rpcConfig = {
+    ...config
+  };
+  const { testnet } = state.rpcConfig;
+  state.activeNetwork = testnet === CONFIG_ENABLED ? TEST : MAIN;
+}
 
 const configSlice = createSlice({
   name: 'app',
@@ -27,12 +34,12 @@ const configSlice = createSlice({
     getRpcConfigsSuccess(state, action) {
       state.rpcRemotes = action.payload.remotes;
       if (state.rpcRemotes && state.rpcRemotes.length) {
-        const { rpcuser, rpcpassword, testnet } = state.rpcRemotes[0];
-        state.activeNetwork = testnet === CONFIG_ENABLED ? TEST : MAIN;
-        state.rpcConfig = {
+        const { rpcuser, rpcpassword } = state.rpcRemotes[0];
+        const config = {
           ...state.rpcRemotes[0],
           rpcauth: `${rpcuser}:${rpcpassword}`,
         };
+        updateConfiguration(state, config);
       }
       state.isFetching = false;
       state.rpcConfigError = '';
@@ -57,7 +64,7 @@ const configSlice = createSlice({
       state.nodeError = action.payload;
     },
     storeConfigurationData(state, action) {
-      state.configurationData = action.payload;
+      updateConfiguration(state, action.payload);
     },
     setQueueReady(state) {
       state.isQueueReady = true;

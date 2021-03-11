@@ -221,7 +221,7 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
@@ -239,7 +239,7 @@ describe('Settings page saga unit test', () => {
         },
       };
       const name = 'test';
-      const result = Object.assign({}, configurationData, {
+      const result = Object.assign({}, rpcConfig, {
         testnet: '1',
         regtest: '0',
         [name]: {
@@ -247,9 +247,7 @@ describe('Settings page saga unit test', () => {
           rpcport: DEFAULT_TESTNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -262,7 +260,7 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
@@ -280,7 +278,7 @@ describe('Settings page saga unit test', () => {
         },
       };
       const name = 'main';
-      const result = Object.assign({}, configurationData, {
+      const result = Object.assign({}, rpcConfig, {
         testnet: '0',
         regtest: '0',
         [name]: {
@@ -288,9 +286,7 @@ describe('Settings page saga unit test', () => {
           rpcport: DEFAULT_MAINNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -305,7 +301,7 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
@@ -323,7 +319,7 @@ describe('Settings page saga unit test', () => {
         },
       };
       const name = 'test';
-      const result = Object.assign({}, configurationData, {
+      const result = Object.assign({}, rpcConfig, {
         testnet: '1',
         regtest: '0',
         [name]: {
@@ -331,9 +327,7 @@ describe('Settings page saga unit test', () => {
           rpcport: DEFAULT_TESTNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -346,7 +340,7 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
@@ -364,7 +358,7 @@ describe('Settings page saga unit test', () => {
         },
       };
       const name = 'main';
-      const result = Object.assign({}, configurationData, {
+      const result = Object.assign({}, rpcConfig, {
         testnet: 0,
         regtest: 0,
         [name]: {
@@ -372,9 +366,7 @@ describe('Settings page saga unit test', () => {
           rpcport: DEFAULT_MAINNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
