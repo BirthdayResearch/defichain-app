@@ -183,6 +183,7 @@
         "searchTokens": "Поиск токенов",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} из %{total} токенов",
         "datLabels": {
           "type": "Тип",
