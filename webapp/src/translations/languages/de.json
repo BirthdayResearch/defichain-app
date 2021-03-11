@@ -166,7 +166,7 @@
       "createMasterNode": {
         "title": "Erstelle Masternode",
         "masterNodeName": "Masternode-Name",
-        "lackOfBalanceMsg": "Aufgrund von fehlendem Guthaben ist das Erstellen einer Masternode nicht möglich. Mindestens 1 Million DFI ist zum Erstellen der Masternode erforderlich.",
+        "lackOfBalanceMsg": "Aufgrund von fehlendem Guthaben ist das Erstellen einer Masternode nicht möglich. Mindestens 20,000 DFI ist zum Erstellen der Masternode erforderlich.",
         "confirmationText": "Bist Du sicher, dass Du eine Masternode erstellen willst?",
         "restartNodeConfirmationText": "Bist Du sicher, dass Du Deine Node neu starten willst?",
         "createNodeButton": "Erstelle eine Masternode",
