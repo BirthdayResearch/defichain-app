@@ -4,7 +4,7 @@ import CopyToClipboard from '../../CopyToClipboard';
 import classnames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import styles from './ValueLi.module.scss';
-import { onViewOnChain } from 'src/utils/utility';
+import { onViewOnChain } from '../../../utils/utility';
 
 interface KeyValueLiProps {
   copyable?: boolean | string;

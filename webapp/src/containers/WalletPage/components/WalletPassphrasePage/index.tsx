@@ -36,6 +36,7 @@ import {
   TimeoutLockList,
 } from '../../../SettingsPage/components/SettingsTabSecurity';
 import { useEffect } from 'react';
+import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
 
 export interface WalletPassphrasePayload extends EncryptWalletPayload {
   timeout: number;
@@ -83,7 +84,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
   const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
 
   const hasMasterNodes = (): boolean => {
-    return myMasternodes?.length > 0;
+    return hasAnyMasternodeEnabled(myMasternodes);
   };
 
   useEffect(() => {

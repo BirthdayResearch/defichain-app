@@ -1,3 +1,5 @@
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
+
 export interface PopoverState {
   isOpen: boolean;
   isRestart: boolean;
@@ -31,4 +33,7 @@ export interface PopoverState {
   isPostEncryptBackupModalOpen: boolean;
   reIndexMessage: string;
   isMasternodeWarningModalOpen: boolean;
+  isMasternodeUpdateRestartModalOpen: boolean;
+  updatedMasternode?: Partial<MasterNodeObject>;
+  updateMasternodeCallback?: () => void;
 }

@@ -41,6 +41,7 @@ import { WALLET_TOKENS_PATH } from '../../constants';
 import { WalletMap } from '../../../../typings/walletMap';
 import { RootState } from '../../app/rootTypes';
 import { fetchMasterNodes } from '../MasternodesPage/saga';
+import { hasAnyMasternodeEnabled } from '../MasternodesPage/service';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
@@ -114,7 +115,7 @@ export function* preCheck() {
     const { myMasternodes } = yield select(
       (state: RootState) => state.masterNodes
     );
-    if (myMasternodes?.length > 0) {
+    if (hasAnyMasternodeEnabled(myMasternodes)) {
       yield put(lockWalletStart());
       yield put(openWalletPassphraseModal());
     }

@@ -19,7 +19,7 @@ import WalletTokenCard from '../../../../../components/TokenCard/WalletTokenCard
 import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
-import { IToken } from 'src/utils/interfaces';
+import { IToken } from '../../../../../utils/interfaces';
 import { getWalletPathAddress } from '../../SendPage';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
