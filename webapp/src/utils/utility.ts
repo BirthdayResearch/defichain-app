@@ -89,6 +89,7 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
+import { symbol } from 'prop-types';
 import {
   AccountKeyItem,
   AccountModel,
@@ -580,6 +581,28 @@ export const queuePush = (
 
 const getPopularSymbolList = () => {
   return [DFI_SYMBOL, BTC_SYMBOL, ETH_SYMBOL];
+};
+
+export const setTokenMap = (tokenMap, tokenData, tokenId, isPopularToken) => {
+  tokenMap.set(tokenData.symbolKey, {
+    ...tokenData,
+    hash: tokenId.toString(),
+    isPopularToken,
+  });
+};
+
+export const getToken = (tokenlist: any[]) => {
+  const tokenMap = new Map<string, any>();
+  const popularSymbolList = getPopularSymbolList();
+
+  tokenlist.forEach((tokenData, tokenId) => {
+    if (popularSymbolList.includes(tokenId.toString())) {
+      setTokenMap(tokenMap, tokenData, tokenId, true);
+    } else {
+      setTokenMap(tokenMap, tokenData, tokenId, false);
+    }
+  });
+  return tokenMap;
 };
 
 export const getTokenListForSwap = (
