@@ -142,7 +142,7 @@
       "createMasterNode": {
         "title": "Créer un Masternode – Client Blockchain DeFi",
         "masterNodeName": "Nom du Masternode",
-        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 1 million de DFI est nécéssaire pour la création d'un Masternode",
+        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 20,000 de DFI est nécéssaire pour la création d'un Masternode",
         "confirmationText": "Êtes-vous certain de vouloir créer un Masternode?",
         "createNodeButton": "Créer un Masternode",
         "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
