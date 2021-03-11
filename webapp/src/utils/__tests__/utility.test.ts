@@ -19,7 +19,7 @@ import {
 } from './testData.json';
 import log from 'loglevel';
 import { mockAxios } from '../testUtils/mockUtils';
-import { AccountModel } from 'src/constants/rpcModel';
+import { AccountModel } from '../../constants/rpcModel';
 import { BigNumber } from 'bignumber.js';
 
 const DUST_VALUE_DFI = '0.00000546';
@@ -440,20 +440,10 @@ describe('utility', () => {
     const result = utility.getTokenBalances(accounts);
     expect(result.length).toBe(0);
   });
-  it('should return path if getFromPersistentStorage is present', () => {
-    const result = utility.getFromPersistentStorage('path');
-    expect(result).toBe(null);
-  });
 
   it('should return RpcMethodName', () => {
     const result = utility.getRpcMethodName('getAddressAndAmounts');
     expect(result).toBe('getAddressAndAmounts');
-  });
-
-  it('should return data object in sring format if setToPersistentStorage is present ', () => {
-    const data = {};
-    const result = utility.setToPersistentStorage('path', data);
-    expect(result).toBe('{}');
   });
 
   it('should return filterByValue', () => {

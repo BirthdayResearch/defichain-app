@@ -50,6 +50,7 @@ import { history } from '../../utils/history';
 import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { updateActiveNetwork } from '../RpcConfiguration/reducer';
+import { RootState } from '../../app/rootTypes';
 
 export function* getSettingsOptions() {
   try {
@@ -148,7 +149,7 @@ export function* updateSettings(action) {
 }
 
 export function* changeNetworkNode(networkName) {
-  const { configurationData } = yield select((state) => state.app);
+  const { rpcConfig } = yield select((state: RootState) => state.app);
   const network = {
     regtest: CONFIG_DISABLED,
     testnet: CONFIG_DISABLED,
@@ -164,8 +165,8 @@ export function* changeNetworkNode(networkName) {
     config.rpcbind = DEFAULT_TESTNET_CONNECT;
     config.rpcport = DEFAULT_TESTNET_PORT;
   }
-  const currentNetworkConfiguration = configurationData[name] || {};
-  const updatedConf = Object.assign({}, configurationData, network, {
+  const currentNetworkConfiguration = rpcConfig[name] || {};
+  const updatedConf = Object.assign({}, rpcConfig, network, {
     [name]: { ...currentNetworkConfiguration, ...config },
   });
   yield put(updateActiveNetwork(name));
