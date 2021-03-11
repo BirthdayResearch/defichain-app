@@ -17,8 +17,8 @@ const Loader: React.FunctionComponent<LoaderProps> = ({
   <div className={`${className || ''}`}>
     <MDSpinner
       size={size || 28}
-      singleColor={color || '#6c6b6d'}
-      borderSize={borderSize || 6}
+      singleColor={color || '#666666'}
+      borderSize={borderSize || 4}
     />
   </div>
 );

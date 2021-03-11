@@ -1,14 +1,14 @@
 import RpcClient from '../../utils/rpc-client';
 import { getTotalBlocks } from '../../utils/utility';
+import * as log from '../../utils/electronLogger';
 
 export const getBlockSyncInfo = async () => {
   const rpcClient = new RpcClient();
   const latestSyncedBlock = await rpcClient.getLatestSyncedBlock();
   let latestBlock = 0;
-
   try {
     const latestBlockInfoArr = await getTotalBlocks();
-    latestBlock = latestBlockInfoArr.blockHeight;
+    latestBlock = latestBlockInfoArr.data;
   } catch (e) {
     // Use getpeerinfo rpc call, if not able to get data from stats api
     const latestBlockInfoArr: any = await rpcClient.getPeerInfo();
@@ -20,6 +20,7 @@ export const getBlockSyncInfo = async () => {
           )
         )
       : 0;
+    log.error(e, 'getBlockSyncInfo');
   }
 
   const percentage = (latestSyncedBlock / latestBlock) * 100;

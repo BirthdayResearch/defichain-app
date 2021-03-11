@@ -10,6 +10,10 @@ import {
   updateSettingsRequest,
   updateSettingsSuccess,
   updateSettingsFailure,
+  changePassphraseRequest,
+  changePassphraseFailure,
+  changePassphraseSuccess,
+  setDefaultLockTimeout,
 } from './reducer';
 import {
   updateSettingsData,
@@ -20,13 +24,16 @@ import {
   getAmountUnits,
   getDisplayModes,
   getNetWorkList,
+  refreshUtxosAfterSavingData,
+  changePassphrase,
+  updateLockTimeout,
 } from './service';
 import store from '../../app/rootStore';
 import { setupI18n } from '../../translations/i18n';
-import { LANG_VARIABLE } from '../../constants';
+import { LANG_VARIABLE, MAIN, TEST, WALLET_TOKENS_PATH } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { restartNode } from '../../utils/isElectron';
-import { restartModal } from '../PopOver/reducer';
+import { openWalletPassphraseModal, restartModal } from '../PopOver/reducer';
 import { shutDownBinary } from '../../worker/queue';
 import {
   MAINNET,
@@ -38,6 +45,11 @@ import {
   BLOCKCHAIN_INFO_CHAIN_MAINNET,
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../constants';
+import { fetchWalletMapRequest, lockWalletStart } from '../WalletPage/reducer';
+import { history } from '../../utils/history';
+import { remapNodeError } from '../../utils/utility';
+import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 
 export function* getSettingsOptions() {
   try {
@@ -112,6 +124,17 @@ export function* updateSettings(action) {
       if (action.payload.network !== prevNetwork) {
         yield call(changeNetworkNode, action.payload.network);
       }
+      if (data.reindexAfterSaving) {
+        yield put(restartModal());
+        yield call(shutDownBinary);
+        yield call(restartNode, {
+          isReindexReq: true,
+          isDeletePeersAndBlocksreq: data.deletePeersAndBlocks,
+        });
+      }
+      if (data.refreshUtxosAfterSaving) {
+        yield call(refreshUtxosAfterSavingData);
+      }
     } else {
       yield put({
         type: updateSettingsFailure.type,
@@ -127,38 +150,79 @@ export function* updateSettings(action) {
 export function* changeNetworkNode(networkName) {
   const { configurationData } = yield select((state) => state.app);
   const network = {
-    regtest: 0,
-    testnet: 0,
+    regtest: CONFIG_DISABLED,
+    testnet: CONFIG_DISABLED,
   };
-  let name = 'main';
+  let name = MAIN;
   const config = {
     rpcbind: DEFAULT_MAINNET_CONNECT,
     rpcport: DEFAULT_MAINNET_PORT,
   };
   if (networkName === TESTNET) {
-    network.testnet = 1;
-    name = 'test';
+    network.testnet = CONFIG_ENABLED;
+    name = TEST;
     config.rpcbind = DEFAULT_TESTNET_CONNECT;
     config.rpcport = DEFAULT_TESTNET_PORT;
   }
-  // if (networkName === REGTEST) {
-  //   network.regtest = 1;
-  //   name = 'regtest';
-  //   config.rpcbind = DEFAULT_MAINNET_CONNECT;
-  //   config.rpcport = DEFAULT_MAINNET_PORT;
-  // }
+  const currentNetworkConfiguration = configurationData[name] || {};
   const updatedConf = Object.assign({}, configurationData, network, {
-    [name]: config,
+    [name]: { ...currentNetworkConfiguration, ...config },
   });
+  yield put(updateActiveNetwork(name));
   yield put(restartModal());
   yield call(shutDownBinary);
   yield call(restartNode, { updatedConf });
+  yield put(fetchWalletMapRequest());
+}
+
+export function* updatePassphrase(action) {
+  try {
+    log.info('Starting update of passphrase...', 'updatePassphrase');
+    const { currentPassphrase, passphrase } = action.payload;
+    const resp = yield call(changePassphrase, currentPassphrase, passphrase);
+    if (resp?.success) {
+      yield put(changePassphraseSuccess(true));
+      yield put(lockWalletStart());
+      history.push(WALLET_TOKENS_PATH);
+      yield put(openWalletPassphraseModal());
+      log.info('Update of passphrase successful', 'updatePassphrase');
+    } else {
+      throw new Error(resp?.message);
+    }
+  } catch (error) {
+    yield put({
+      type: changePassphraseFailure.type,
+      payload: remapNodeError(error.message),
+    });
+    log.error(error);
+  }
+}
+
+export function* setLockTimeout(action) {
+  try {
+    log.info('Starting update of lock timeout...', 'setLockTimeout');
+    const timeout = action.payload;
+    const resp = yield call(updateLockTimeout, timeout);
+    if (resp?.success) {
+      log.info(`Timeout updated to ${timeout} seconds`, 'updatePassphrase');
+    } else {
+      throw new Error(resp?.message);
+    }
+  } catch (error) {
+    yield put({
+      type: changePassphraseFailure.type,
+      payload: remapNodeError(error.message),
+    });
+    log.error(error);
+  }
 }
 
 function* mySaga() {
   yield takeLatest(getSettingOptionsRequest.type, getSettingsOptions);
   yield takeLatest(getInitialSettingsRequest.type, getSettings);
   yield takeLatest(updateSettingsRequest.type, updateSettings);
+  yield takeLatest(changePassphraseRequest.type, updatePassphrase);
+  yield takeLatest(setDefaultLockTimeout.type, setLockTimeout);
 }
 
 export default mySaga;

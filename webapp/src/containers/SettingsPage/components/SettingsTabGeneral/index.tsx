@@ -1,16 +1,22 @@
 import React from 'react';
-import { TabPane, Row, Col, Form, FormGroup, Label } from 'reactstrap';
+import { TabPane, Row, Col, Form, FormGroup, Label, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.scss';
 import SettingsRowToggle from '../SettingsRowToggle';
 import SettingsRowInput from '../SettingsRowInput';
 import { connect } from 'react-redux';
+
 import SettingsRowDropDown from '../SettingsRowDropDown';
+import { openGeneralReIndexModal } from '../../../PopOver/reducer';
+import { SettingsTabs } from '../SettingsTabHeader';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
+  reindexAfterSaving: boolean;
+  refreshUtxosAfterSaving: boolean;
   minimizedAtLaunch: boolean;
   pruneBlockStorage: boolean;
+  deletePeersAndBlocks: boolean;
   blockStorage: number;
   databaseCache: number;
   maximumAmount: number;
@@ -23,6 +29,9 @@ interface SettingsTabGeneralProps {
   network: string;
   networkOptions: { label: string; value: string }[];
   handleDropDowns: (data: any, field: any) => any;
+  openGeneralReIndexModal: () => void;
+  handeReindexToggle: () => void;
+  handeRefreshUtxosToggle: () => void;
 }
 
 const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
@@ -41,11 +50,17 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
     handleToggles,
     networkOptions,
     network,
+    reindexAfterSaving,
+    deletePeersAndBlocks,
+    refreshUtxosAfterSaving,
     handleDropDowns,
+    openGeneralReIndexModal,
+    handeReindexToggle,
+    handeRefreshUtxosToggle,
   } = props;
 
   return (
-    <TabPane tabId='general'>
+    <TabPane tabId={SettingsTabs.general}>
       <section>
         <Form>
           <Row className='mb-5'>
@@ -74,6 +89,35 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
                 field={minimizedAtLaunch}
                 fieldName={'minimizedAtLaunch'}
                 hideMinimized={!launchAtLogin}
+              />
+            </Col>
+          </Row>
+          <Row className='mb-5'>
+            <Col md='4'>{I18n.t('containers.settings.reindexOption')}</Col>
+            <Col md='8' lg='6'>
+              <SettingsRowToggle
+                handleToggles={handeReindexToggle}
+                label={'reindexAfterSaving'}
+                field={reindexAfterSaving}
+                fieldName={'reindexAfterSaving'}
+              />
+              <SettingsRowToggle
+                handleToggles={handleToggles}
+                label={'deletePeersAndBlocks'}
+                field={deletePeersAndBlocks}
+                fieldName={'deletePeersAndBlocks'}
+                hideMinimized={!reindexAfterSaving}
+              />
+            </Col>
+          </Row>
+          <Row className='mb-5'>
+            <Col md='4'>{I18n.t('containers.settings.refreshUtxos')}</Col>
+            <Col md='8' lg='6'>
+              <SettingsRowToggle
+                handleToggles={handeRefreshUtxosToggle}
+                label={'refreshUtxosAfterSaving'}
+                field={refreshUtxosAfterSaving}
+                fieldName={'refreshUtxosAfterSaving'}
               />
             </Col>
           </Row>
@@ -115,6 +159,17 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </FormGroup>
             </Col>
           </Row>
+          {/* <Row className='mb-5'>
+            <Button
+              color='primary'
+              onClick={() => {
+                console.log('click reindex button');
+                openGeneralReIndexModal();
+              }}
+            >
+              REINDEX
+            </Button>
+          </Row> */}
           {/* NOTE: Do not remove, for future purpose */}
           {/* <Row className='mb-5'>
             <Col md='4'>{I18n.t('containers.settings.storage')}</Col>
@@ -200,4 +255,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SettingsTabGeneral);
+const mapDispatchToProps = {
+  openGeneralReIndexModal,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabGeneral);

@@ -6,6 +6,7 @@
     "syncStatus": {
       "synchronized": "Синхронизировано",
       "syncing": "Синхронизация",
+      "waitingForSyncStatus": "Ожидание статуса синхронизации…",
       "downloading": "Скачивание обновления",
       "synced": "Синхронизировано",
       "justNow": "Синхронизировано только что",
@@ -18,7 +19,8 @@
     "sideBar": {
       "balance": "Средства",
       "dfi": "DFI",
-      "wallet": "Кошелек",
+      "wallets": "Кошельки",
+      "ledger": "Ledger кошелек",
       "masterNodes": "Мастерноды",
       "blockchain": "Блокчейн",
       "tokens": "Токены",
@@ -29,7 +31,7 @@
     },
     "blockChainPage": {
       "blockChainPage": {
-        "title": "Блокчейн – Блокчейн-Клиент DeFi",
+        "title": "Блокчейн",
         "blockchain": "Блокчейн"
       },
       "blockChainTable": {
@@ -69,30 +71,30 @@
       },
       "minerPage": {
         "miner": "Майнер",
-        "defiBlockChainClient": "Блокчейн-Клиент DeFi",
+        "defiApp": "Блокчейн-Клиент DeFi",
         "blockchain": "Блокчейн"
       }
     },
     "errors": {
-      "title": "Центр обработки блоков DFI – Блокчейн-Клиент DeFi",
+      "title": "Центр обработки блоков DFI",
       "header": "Центр обработки блоков DFI",
       "detail": "Похоже, вы попали сюда случайно. Наши сотрудники следят за тем, чтобы каждый блок DFI был прикреплен к цепи правильно. Поскольку это запретная зона, мы просим вас вернуться назад.",
       "goBack": "Назад"
     },
     "exchangePage": {
-      "title": "Обменник – Блокчейн-Клиент DeFi",
+      "title": "Обменник",
       "exchange": "Обменник",
       "section": "Раздел",
       "footerBar": "Подвал"
     },
     "helpPage": {
-      "title": "Помощь – Блокчейн-Клиент DeFi",
+      "title": "Помощь",
       "help": "Помощь",
       "section": "Раздел"
     },
     "masterNodes": {
       "masterNodesPage": {
-        "title": "Мастерноды – Блокчейн-Клиент DeFi",
+        "title": "Мастерноды",
         "createMasterNode": "Создать",
         "masterNodes": "Мастерноды",
         "statistics": "Статистика",
@@ -108,7 +110,16 @@
         "lockedInCollateral": "Заблокировано в залог",
         "costPerMasterNode": "Стоимость за мастерноду",
         "masternodeWorth": "Стоимость мастерноды",
-        "searchBar": "Поиск мастернод"
+        "searchBar": "Поиск мастернод",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Адрес владельца",
@@ -166,7 +177,7 @@
     },
     "tokens": {
       "tokensPage": {
-        "title": "Токены – DeFi Blockchain Client",
+        "title": "Токены",
         "loading": "Загрузка...",
         "createToken": "Создать",
         "tokens": "Токены",
@@ -242,7 +253,6 @@
         "volume": "Объем (24ч)",
         "officialSite": "Официальный сайт",
         "transfers": "Переводы",
-        "holders": "Держатели",
         "info": "Информация",
         "exchange": "Обмен",
         "dex": "DEX",
@@ -258,8 +268,7 @@
         "deleteToken": "Удалить токен",
         "editToken": "Изменить токен",
         "mint": "Чеканка",
-        "notMintedAlert": "Вы не чеканили токен",
-        "mint": "Чеканка"
+        "notMintedAlert": "Вы не чеканили токен"
       },
       "mintToken": {
         "title": "Чеканка",
@@ -283,7 +292,7 @@
       "dctDistribution": {
         "back": "НАЗАД",
         "add": "ДОБАВИТЬ",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "continue": "ПРОДОЛЖИТЬ",
         "dfiRequired": "Требуется DFI",
         "chooseFile": "ВЫБРАТЬ ФАЙЛ",
@@ -294,12 +303,11 @@
         "addAddressesText": "Добавьте адреса в свой первоначальный список рассылки.",
         "enterDfiAddress": "Введите адрес DFI",
         "dragAndUploadCSV": "Перетащите или выберите файл CSV для загрузки.",
-        "verifyingCollateral": "Проверка обеспечения",
-        "chooseFile": "Выбрать файл"
+        "verifyingCollateral": "Проверка обеспечения"
       }
     },
     "settings": {
-      "title": "Настройки – Блокчейн-Клиент DeFi",
+      "title": "Настройки",
       "settings": "Настройки",
       "general": "Общее",
       "display": "Отображение",
@@ -336,7 +344,8 @@
       "network": "Сеть",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -350,6 +359,10 @@
         "title": "Кошелек - Создать новый кошелек",
         "createANewWallet": "Создать новый кошелек",
         "mnemonicGuideline": "Запишите следующие 24 слова. Важно записывать их в том порядке, в котором они отображаются. Эта мнемоническая фраза из 24 слов будет использоваться для восстановления или передачи вашего кошелька. Без неё вы не сможете восстановить свой кошелек. Не теряйте её.",
+        "mnemonicGuidelineWarning": "Do not store your wallet receovery phrase on a computer or smartphone, and keep it secure.",
+        "walletRecoveryInfoLine1": "A wallet recovery seed (“mnemonic seed”, “seed phrase”, “seed words”) is a way to represent your private key as a sequence of words that are easier for a human to remember. It is also used to generate extended keys for all the wallets you create in the app.",
+        "walletRecoveryInfoLine2": "The words are randomly-generated from a list of 2048 words defined in the BIP39 standard, and provides 24 bit of safety.",
+        "learnMoreAtBitcoinBtn": "LEARN MORE AT BITCOIN WIKI",
         "generateNewSet": "Создайте новый набор из 24 слов",
         "copied24Words": "Я скопировал 24 слова в точном порядке",
         "continue": "ПРОДОЛЖИТЬ",
@@ -360,8 +373,14 @@
         "title": "Кошелек - Проверить мнемоническую фразу",
         "verifyMnemonicSeed": "Проверить мнемоническую фразу",
         "verifyMnemonicGuideline": "Чтобы убедиться, что вы записали мнемоническую фразу из 24 слов, выберите 6 слов мнемонической фразы в списке ниже.",
+        "verifyMnemonicWhichOne": "Which one is…",
+        "wordQuestion": "Word %{wordNum}?",
         "showAgain": "Показать 24 слова еще раз",
         "creatingYourWallet": "Создание кошелька",
+        "skipVerificationTextHeader": "Skip at your own risk",
+        "skipVerificationText": "Please ensure you have written down your 24-word wallet recovery seed, in the correct order. Without your wallet recovery seed, you will not be able to recover your wallet or restore it again.",
+        "dontSkip": "Don’t skip verification",
+        "skip": "Skip",
         "backToWalletPage": "ЗАКРЫТЬ"
       },
       "restoreWalletPage": {
@@ -374,9 +393,8 @@
         "backToWalletPage": "ЗАКРЫТЬ"
       },
       "sendPage": {
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
+        "sendDFITitle": "Отправить DFI",
         "wallet": "Кошелек",
-        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
         "sendDFI": "Отправить DFI",
         "send": "Отправить",
         "amount": "Сумма",
@@ -395,6 +413,134 @@
         "backToWallet": "Вернуться в кошелек",
         "dfiAddress": "Адрес DFI",
         "pleaseTransferFunds": "Перенесите несколько DFI на свой счет"
+      },
+      "receivePage": {
+        "receiveDFITitle": "Получить DFI",
+        "wallet": "Кошелек",
+        "receiveDFI": "Получить DFI",
+        "optional": "По желанию",
+        "amount": "Сумма",
+        "dFI": "DFI",
+        "message": "Сообщение",
+        "label": "Ярлык",
+        "amountToReceive": "Сумма для получения",
+        "addressNotAvailable": "Адрес недоступен",
+        "cancel": "Отменить",
+        "continue": "Продолжить",
+        "receive": "Получить",
+        "newAddressButton": "Новый адрес",
+        "addressLabel": "Адресный ярлык",
+        "createNewAddressNotice": "Создать новый адрес",
+        "createNewReceiveAddressLabel": "Создать новый адрес приема",
+        "backButton": "Назад",
+        "createButton": "Создать",
+        "legacyAddress": "Старый адрес",
+        "addressType": "Тип адреса"
+      },
+      "sendPage": {
+        "sendDFITitle": "Отправить DFI – Блокчейн-Клиент DeFi",
+        "wallet": "Кошелек Ledger",
+        "sendDFI": "Отправить DFI",
+        "send": "Отправить",
+        "amount": "Сумма",
+        "dFI": "DFI",
+        "max": "МАКС",
+        "toAddress": "На адрес",
+        "walletBalance": "Баланс кошелька",
+        "amountToSend": "Сумма для отправки",
+        "cancel": "Отменить",
+        "continue": "Продолжить",
+        "to": "На",
+        "pleaseVerifyAmount": "Пожалуйста, проверьте сумму и получателя",
+        "completeSend": "Завершить отправку",
+        "sendFailed": "Ошибка при отправке суммы",
+        "transactionSuccessMsg": "Транзакция прошла успешно. Баланс вашего кошелька обновится после того, как транзакция будет подтверждена блокчейном DeFi.",
+        "backToWallet": "Вернуться в кошелек",
+        "dfiAddress": "Адрес DFI",
+        "pleaseTransferFunds": "Перенесите несколько DFI на свой счет"
+      },
+      "paymentRequests": {
+        "time": "Время",
+        "amount": "Сумма",
+        "message": "Сообщение",
+        "cancelRequest": "Отменить запрос"
+      },
+      "paymentRequestList": {
+        "label": "Ярлык",
+        "address": "Адрес",
+        "created": "Создано"
+      },
+      "paymentRequestPage": {
+        "paymentRequestTitle": "Платежный запрос %{id}",
+        "paymentRequest": "Платежный запрос",
+        "wallet": "Кошелек",
+        "delete": "Удалить",
+        "label": "Ярлык",
+        "amount": "Сумма",
+        "time": "Время",
+        "message": "Сообщение",
+        "address": "Адрес",
+        "uRI": "URI"
+      },
+      "walletPage": {
+        "wallets": "Кошельки",
+        "walletDeFiApp": "Кошелек",
+        "wallet": "кошелек",
+        "delete": "Удалить",
+        "send": "Отправить",
+        "receive": "Получить",
+        "paymentRequests": "Запросы на оплату",
+        "noPaymentRequests": "Нет доступных запросов на оплату",
+        "paginationRange": "%{from} – %{to} из %{total} запросов на оплату",
+        "transactions": "Транзакции",
+        "availableBalance": "Доступные средства",
+        "pending": "В ожидании",
+        "updateAvailableLabel": "Обновления доступны",
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transactions",
+        "format": "Format",
+        "csv": "CSV",
+        "includeRewards": "Include reward transactions"
+      },
+      "walletWalletsPage": {
+        "walletWallets": "Кошельки",
+        "wallets": "Кошельки",
+        "addWallet": "Добавить кошелек"
+      },
+      "walletAddTokensPage": {
+        "walletAddTokens": "Кошелек – Добавить кошелек",
+        "back": "НАЗАД",
+        "add": "ДОБАВИТЬ",
+        "tokens": "Токены",
+        "addWalletLabel": "Добавить кошелек"
+      },
+      "walletTxns": {
+        "height": "Рост",
+        "time": "Время",
+        "amount": "Сумма",
+        "hash": "Хеш",
+        "paginationRange": "%{from} – %{to} из %{total} транзакций",
+        "noTransactions": "Нет доступных транзакций"
+      }
+    },
+    "ledger": {
+      "ledgerPage": {
+        "title": "Ledger",
+        "connect": "Подключится",
+        "connecting": "Подключение",
+        "availableBalance": "Доступные средства",
+        "restore": "Востановить ключи",
+        "wallets": "Кошельки Ledger"
       },
       "receivePage": {
         "receiveDFITitle": "Получить DFI – Блокчейн-Клиент DeFi",
@@ -417,71 +563,25 @@
         "backButton": "Назад",
         "createButton": "Создать",
         "legacyAddress": "Старый адрес",
-        "addressType": "Тип адреса"
+        "addressType": "Тип адреса",
+        "paginationRange": "%{from} – %{to} из %{total} запросов на оплату"
       },
-      "paymentRequests": {
-        "time": "Время",
-        "amount": "Сумма",
-        "message": "Сообщение",
-        "cancelRequest": "Отменить запрос"
+      "helpModal": {
+        "title": "Как подключить Ledger к кошельку DeFi",
+        "downloadItem": "Загрузите приложение Ledger",
+        "plugItem": "Подключи и разблокируй свое устройство"
       },
-      "paymentRequestList": {
-        "label": "Ярлык",
-        "address": "Адрес",
-        "created": "Создано"
-      },
-      "paymentRequestPage": {
-        "paymentRequestTitle": "Платежный запрос %{id} – Блокчейн-Клиент DeFi",
-        "paymentRequest": "Платежный запрос",
-        "wallet": "Кошелек",
-        "delete": "Удалить",
-        "label": "Ярлык",
-        "amount": "Сумма",
-        "time": "Время",
-        "message": "Сообщение",
-        "address": "Адрес",
-        "uRI": "URI"
-      },
-      "walletPage": {
-        "tokens": "ТОКЕНЫ",
-        "walletDefiClient": "Кошелек – Блокчейн-Клиент DeFi",
-        "wallet": "Кошелек",
-        "delete": "Удалить",
-        "send": "Отправить",
-        "receive": "Получить",
-        "paymentRequests": "Запросы на оплату",
-        "noPaymentRequests": "Нет доступных запросов на оплату",
-        "paginationRange": "%{from} – %{to} из %{total} запросов на оплату",
-        "transactions": "Транзакции",
-        "availableBalance": "Доступные средства",
-        "pending": "В ожидании",
-        "updateAvailableLabel": "Обновления доступны"
-      },
-      "walletTokensPage": {
-        "walletTokens": "Кошелек – Токены",
-        "tokens": "Токены",
-        "addToken": "Добавить токен"
-      },
-      "walletAddTokensPage": {
-        "walletAddTokens": "Кошелек – Добавить токен",
-        "back": "НАЗАД",
-        "add": "ДОБАВИТЬ",
-        "tokens": "Токены",
-        "addTokenLabel": "Добавить токен"
-      },
-      "walletTxns": {
-        "height": "Рост",
-        "time": "Время",
-        "amount": "Сумма",
-        "hash": "Хеш",
-        "paginationRange": "%{from} – %{to} из %{total} транзакций",
-        "noTransactions": "Нет доступных транзакций"
+      "syncPage": {
+        "title": "Ledger Wallet - Синхронизация",
+        "sync": "Синхронизация с нодой",
+        "syncNotice": "Вы сможете отправить или получить кошелек Ledger после завершения синхронизации.",
+        "loading": "Загрузка..."
       }
     },
     "console": {
       "consolePage": {
-        "consoleDefiClient": "Консоль – Блокчейн-Клиент DeFi",
-        "defiCliCommand": "Введите команду Defi-cli",
+        "consoleDeFiApp": "Консоль",
+        "defiCliCommand": "Введите команду DeFi-cli",
         "console": "Консоль",
         "submit": "Отправить",
         "forRef": "Для справки",
@@ -541,7 +641,7 @@
     "backupWalletNoticeTitle": "Резервное копирование кошелька",
     "backupWalletNotice": "Пожалуйста, сделайте резервную копию своего кошелька перед обновлением приложения, чтобы избежать сбоев. Вы хотите сделать резервную копию своего кошелька?",
     "backupWalletDatNotice": "Ваш кошелек еще не готов. Вы хотите сделать резервную копию файла wallet.dat?",
-    "yesBackupWalletNotice": "Да",
+    "yesBackupWalletNotice": "Да, резервную",
     "noBackupWalletNotice": "Нет",
     "saveMyBackup": "Сохранить резервную копию",
     "okIHaveDoneIt": "Хорошо, я сделал это",
@@ -570,6 +670,15 @@
     "restartWalletModalHeader": "Требуется перезагрузка",
     "restartWalletWarningNotice": "Вам необходимо перезапустить приложение DeFi. Вы хотите перезапустить?",
     "yesRestartWalletNotice": "Перезагрузить сейчас",
-    "noRestartWalletNotice": "Позже"
+    "noRestartWalletNotice": "Позже",
+    "resetWalletNoticeTitle": "Reset wallet",
+    "resetWalletDatNotice": "Are you sure you want to reset?",
+    "confirmResetWalletText": "To confirm reset wallet, type '%{text}' in the field.",
+    "yeResetpWalletNotice": "Yes",
+    "noResetWalletNotice": "No",
+    "deletePeersAndBlocks": "Delete peers and blocks"
+  },
+  "general": {
+    "defiApp": "Блокчейн-Клиент DeFi"
   }
 }

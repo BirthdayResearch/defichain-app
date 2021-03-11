@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyToClipIcon component should check for snapshot 1`] = `
+<Fragment>
+  <span
+    className="className"
+    id="uid"
+  >
+    <CopyToClipboard
+      handleCopy={[Function]}
+      value="value"
+    />
+  </span>
+  <Popover
+    isOpen={false}
+    placement="auto"
+    placementPrefix="bs-popover"
+    target="uid"
+    trigger="focus"
+  >
+    <PopoverBody
+      tag="div"
+    >
+      copied
+    </PopoverBody>
+  </Popover>
+</Fragment>
+`;

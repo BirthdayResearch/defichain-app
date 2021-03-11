@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import uid from 'uid';
+import { uid } from 'uid';
 import {
   Card,
   CardBody,
@@ -22,18 +22,24 @@ import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
+import EllipsisText from 'react-ellipsis-text';
+import { addHdSeedCheck } from '../../../saga';
+
+export interface PaymentRequestModel {
+  label: string;
+  id: string;
+  time: string;
+  address: string;
+  message?: string;
+  amount?: number;
+  unit?: string;
+  hdSeed?: boolean;
+}
 
 interface PaymentRequestsProps {
-  paymentRequests: {
-    label: string;
-    id: string;
-    time: string;
-    address: string;
-    message: string;
-    amount: number;
-    unit: string;
-  }[];
+  paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
+  fetchPaymentRequest: () => void;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
@@ -47,6 +53,10 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
   const to = Math.min(total, currentPage * pageSize);
   const data = props.paymentRequests.slice(from, to);
   const [copied, changeCopied] = useState(false);
+
+  useEffect(() => {
+    addHdSeedCheck(data);
+  }, [data]);
 
   const handleCopy = () => {
     changeCopied(true);
@@ -83,7 +93,11 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                     <tr key={request.id}>
                       <td></td>
                       <td>{request.label}</td>
-                      <td>{request.address}</td>
+                      <td className={styles.addressContainer}>
+                        <div className={styles.ellipsisValue}>
+                          {request.address}
+                        </div>
+                      </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
                         <div className={styles.qrCc}>
@@ -160,6 +174,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
+  fetchPaymentRequest: () => fetchPaymentRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);

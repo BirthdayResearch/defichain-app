@@ -1,0 +1,118 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+
+.amountRemoveInputRange {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.amountRemoveInputWrapper {
+  width: 160px;
+  padding-right: 24px;
+}
+
+.amountRemoveInput {
+  border-right: 0;
+  appearance: none;
+}
+
+.amountRemoveRangeWrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.amountRemoveRange {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.colText {
+  color: $secondary;
+  font-size: 16px;
+  letter-spacing: 0.44px;
+  line-height: 24px;
+  text-align: right;
+}
+
+.logoText {
+  padding-left: 10px;
+}
+
+.rangeText {
+  color: $secondary;
+  font-size: 16px;
+  letter-spacing: 0.44px;
+  line-height: 24px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.receiveAddressDropdown {
+  text-align: left;
+  font-weight: $font-weight-normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding-right: 32px;
+
+  &:hover {
+    color: $body-color !important;
+  }
+
+  &:after {
+    position: absolute;
+    right: 16px;
+    top: 21px;
+  }
+}
+
+.collateralDropdown {
+  box-shadow: 0 0 0 0.0625rem #dc3545 !important;
+}
+
+.error-dialog {
+  color: $dfi-red !important;
+}
+
+.receiveAddressMenu {
+  overflow: auto;
+  max-height: 128px;
+  min-width: 100%;
+}
+
+.receiveAddressMenuLabel {
+  margin-left: 8px;
+  color: $secondary;
+}
+
+.receiveAddressMenuCheck {
+  margin-left: 8px;
+  float: right;
+}
+
+.txProgressLine {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+}
+
+.txProgressLoader {
+  position: absolute;
+  left: 0;
+}
+
+.txProgressSuccess {
+  position: absolute;
+  left: 0;
+  color: $green;
+  height: 24px;
+  width: 24px;
+}

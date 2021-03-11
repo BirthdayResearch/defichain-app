@@ -22,12 +22,16 @@ describe('masternode slice', () => {
   });
 
   describe('fetchMasternodesRequest reducers and actions', () => {
-    it('should have empty masternodes and true isLoadingMasternodes information when fetchMasternodesRequest is made', () => {
-      const nextState = reducer(initialState, fetchMasternodesRequest());
-      const rootState = { masterNodes: nextState };
-      expect(rootState.masterNodes.masternodes).toEqual([]);
-      expect(rootState.masterNodes.isLoadingMasternodes).toBeTruthy();
-    });
+    it(
+      'should have empty masternodes and true isLoadingMasternodes' +
+        ' information when fetchMasternodesRequest is made',
+      () => {
+        const nextState = reducer(initialState, fetchMasternodesRequest());
+        const rootState = { masterNodes: nextState };
+        expect(rootState.masterNodes.masternodes).toEqual([]);
+        expect(rootState.masterNodes.isLoadingMasternodes).toBeTruthy();
+      }
+    );
     it('should propely set masternodes when fetchMasternodesSuccess is made', () => {
       const masternodes = testData.fetchMasternodesSuccess;
       const nextState = reducer(
@@ -48,7 +52,7 @@ describe('masternode slice', () => {
 
   describe('createMasterNode reducers and actions', () => {
     it('should properly set isWalletTxnsLoading information when createMasterNode is made', () => {
-      const nextState = reducer(initialState, createMasterNode());
+      const nextState = reducer(initialState, createMasterNode('wallet'));
       const rootState = { masterNodes: nextState };
       expect(rootState.masterNodes.isMasterNodeCreating).toEqual(true);
       expect(rootState.masterNodes.createdMasterNodeData).toEqual({});

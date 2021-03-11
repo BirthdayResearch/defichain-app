@@ -1,10 +1,38 @@
-// App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../../../scss/variables';
-@import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/bootstrap/common';
 
-.welcomeSection {
-  margin-top: 15%;
+.passphraseField {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  width: 100%;
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.passphraseContainer {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-row-gap: 1rem;
+  > svg {
+    width: 90px;
+    margin-bottom: 1rem;
+    height: 90px;
+  }
+}
+
+.error-dialog {
+  color: $dfi-red !important;
+}
+
+.lockIcon {
+  width: 80px;
+  height: 80px;
+  background-color: $light;
+  text-align: center;
+  line-height: 80px;
+  border-radius: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  color: $secondary;
 }

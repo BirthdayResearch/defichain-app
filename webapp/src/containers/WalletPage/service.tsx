@@ -3,24 +3,43 @@ import RpcClient from '../../utils/rpc-client';
 import {
   PAYMENT_REQUEST,
   BLOCKCHAIN_INFO_CHAIN_TEST,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
+  RECIEVE_CATEGORY_LABEL,
+  SENT_CATEGORY_LABEL,
+  TX_TYPES,
+  AMOUNT_SEPARATOR,
+  DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { I18n } from 'react-redux-i18n';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
+import orderBy from 'lodash/orderBy';
+import compact from 'lodash/compact';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
+  getAddressAndAmountListForAccount,
+  getHighestAmountAddressForSymbol,
+  getBalanceForSymbol,
   getErrorMessage,
+  handleFetchTokenBalanceList,
+  hdWalletCheck,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
 } from '../../utils/utility';
+import BigNumber from 'bignumber.js';
+import {
+  ON_FILE_SELECT_REQUEST,
+  ON_WALLET_RESTORE_VIA_BACKUP,
+  ON_WRITE_CONFIG_REQUEST,
+  ON_FILE_EXIST_CHECK,
+} from '../../../../typings/ipcEvents';
+import { ipcRendererFunc } from '../../utils/isElectron';
+import { backupWallet, updateWalletMap } from '../../app/service';
+import { IPCResponseModel } from '@defi_types/common';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -29,16 +48,21 @@ const handleLocalStorageName = (networkName) => {
   return PAYMENT_REQUEST;
 };
 
-export const handelGetPaymentRequest = (networkName) => {
+export const handleGetPaymentRequest = (networkName) => {
   return JSON.parse(
     PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
   );
 };
 
-export const handelAddReceiveTxns = (data, networkName) => {
+export const handelAddReceiveTxns = async (data, networkName) => {
   const localStorageName = handleLocalStorageName(networkName);
   const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+  data.hdSeed = await hdWalletCheck(data.address);
   const paymentData = [data, ...initialData];
+  if (!data.automaticallyGenerateNewAddress) {
+    const rpcClient = new RpcClient();
+    await rpcClient.setLabel(data.address, data.label);
+  }
   PersistentStore.set(localStorageName, paymentData);
   return paymentData;
 };
@@ -82,21 +106,22 @@ export const handleSendData = async () => {
 
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
-  return await rpcClient.getBalance();
+  const regularDFI = await rpcClient.getBalance();
+  return new BigNumber(regularDFI);
 };
 
 export const handleFetchAccountDFI = async () => {
   const accountTokens = await handleFetchAccounts();
-  const DFIToken = accountTokens.find((token) => token.hash === '0');
+  const DFIToken = accountTokens.find((token) => token.hash === DFI_SYMBOL);
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
-  return accountDFI;
+  return new BigNumber(accountDFI);
 };
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
   const accountDFI = await handleFetchAccountDFI();
-  return regularDFI + accountDFI;
+  return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -104,21 +129,11 @@ export const handleFetchPendingBalance = async (): Promise<number> => {
   return await rpcClient.getPendingBalance();
 };
 
-export const isValidAddress = async (toAddress: string) => {
-  const rpcClient = new RpcClient();
-  try {
-    return rpcClient.isValidAddress(toAddress);
-  } catch (err) {
-    log.error(`Got error in isValidAddress: ${err}`);
-    return false;
-  }
-};
-
 export const getTransactionInfo = async (txId): Promise<any> => {
   const rpcClient = new RpcClient();
   const txInfo = await rpcClient.getTransaction(txId);
   if (!txInfo.blockhash && txInfo.confirmations === 0) {
-    await sleep(3000);
+    await sleep(1000);
     await getTransactionInfo(txId);
   } else {
     return;
@@ -127,48 +142,118 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const sendToAddress = async (
   toAddress: string,
-  amount: any,
+  amount: BigNumber,
   subtractfeefromamount: boolean = false
 ) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
-  if (regularDFI >= amount) {
+
+  log.info({
+    toAddress,
+    sendAmount: amount,
+    subtractfeefromamount,
+    utxoDFI: regularDFI,
+  });
+  if (amount.lte(regularDFI)) {
     try {
       const data = await rpcClient.sendToAddress(
         toAddress,
         amount,
         subtractfeefromamount
       );
+      log.info(`sent dfi successfull=======${data}`);
       return data;
     } catch (err) {
-      log.error(`Got error in sendToAddress: ${err}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      const errorMessage = getErrorMessage(err);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
   } else {
     try {
-      const accountTokens = await handleFetchAccounts();
-      const DFIObj = accountTokens.find((token) => token.hash === '0');
-      const fromAddress = DFIObj.address;
-      const txId = await rpcClient.sendToAddress(
-        fromAddress,
-        (10 / 100) * amount,
-        subtractfeefromamount
-      );
-      await getTransactionInfo(txId);
+      const accountBalance = await handleFetchAccountDFI();
+      const addressesList = await getAddressAndAmountListForAccount();
+      const {
+        address: fromAddress,
+        amount: maxAmount,
+      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
+      log.info({ address: fromAddress, maxAmount, accountBalance });
+
+      //* Consolidate tokens to a single address
+      if (amount.gt(maxAmount)) {
+        try {
+          const txHash = await sendTokensToAddress(
+            fromAddress,
+            `${accountBalance.toFixed(8)}@DFI`
+          );
+          log.info({ accountBalance, sendTokenTxHash: txHash });
+          await getTransactionInfo(txHash);
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          log.error(errorMessage, `sendTokensToAddress`);
+        }
+      }
+
+      const balance = await getBalanceForSymbol(fromAddress, DFI_SYMBOL);
+      log.info({ consolidateAccountBalance: balance });
+
       const hash = await rpcClient.accountToUtxos(
         fromAddress,
         fromAddress,
-        `${(amount - regularDFI).toFixed(4)}@DFI`
+        `${balance}@DFI`
       );
+      log.info(`account to utxo tx id=======${hash}`);
       await getTransactionInfo(hash);
       const regularDFIAfterTxFee = await handleFetchRegularDFI();
-      const transferAmount =
-        regularDFIAfterTxFee < amount ? regularDFIAfterTxFee : amount;
-      await sendToAddress(toAddress, transferAmount, true);
+      log.info({ regularDFIAfterTxFee });
+      if (new BigNumber(regularDFIAfterTxFee).lt(amount)) {
+        throw new Error('Insufficient DFI in account');
+      } else if (new BigNumber(regularDFIAfterTxFee).isEqualTo(amount)) {
+        return await sendToAddress(toAddress, amount, true);
+      } else {
+        return await sendToAddress(toAddress, amount, false);
+      }
     } catch (error) {
-      log.error(`Got error in sendToAddress: ${error}`);
-      throw new Error(I18n.t('containers.wallet.sendPage.sendFailed'));
+      const errorMessage = getErrorMessage(error);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
+  }
+};
+
+export const handleFallbackSendToken = async (
+  sendAddress: string,
+  sendAmount: BigNumber,
+  hash: string
+): Promise<string> => {
+  try {
+    const addressesList = await getAddressAndAmountListForAccount();
+    const {
+      address: fromAddress,
+      amount: maxAmount,
+    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    if (new BigNumber(maxAmount).gte(sendAmount)) {
+      try {
+        const txHash = await accountToAccount(
+          fromAddress,
+          sendAddress,
+          `${sendAmount.toFixed(8)}@${hash}`
+        );
+        log.info({ handleFallbackSendToken: txHash });
+        return txHash;
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        log.error(errorMessage, `handleFallbackSendToken`);
+        throw new Error(
+          `Got error in accountToAccount - handleFallbackSendToken: ${errorMessage}`
+        );
+      }
+    } else {
+      throw new Error('Insufficient token in account');
+    }
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(`${errorMessage}`, 'handleFallbackSendToken');
+    throw new Error(`Got error in handleFallbackSendToken: ${errorMessage}`);
   }
 };
 
@@ -179,12 +264,7 @@ export const accountToAccount = async (
 ) => {
   try {
     const rpcClient = new RpcClient();
-    const txId = await rpcClient.sendToAddress(
-      fromAddress,
-      DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-      true
-    );
-    await getTransactionInfo(txId);
+
     const data = await rpcClient.accountToAccount(
       fromAddress,
       toAddress,
@@ -193,6 +273,20 @@ export const accountToAccount = async (
     return data;
   } catch (err) {
     log.error(`Got error in accounttoaccount: ${err}`);
+    throw new Error(getErrorMessage(err));
+  }
+};
+
+export const sendTokensToAddress = async (
+  toAddress: string,
+  amount: string
+) => {
+  try {
+    const rpcClient = new RpcClient();
+    const data = await rpcClient.sendTokensToAddress(toAddress, amount);
+    return data;
+  } catch (err) {
+    log.error(`Got error in sendTokensToAddress: ${err}`);
     throw new Error(getErrorMessage(err));
   }
 };
@@ -257,6 +351,12 @@ export const handleAccountFetchTokens = async (ownerAddress) => {
   return await Promise.all(transformedData);
 };
 
+export const handleFetchAccountHistoryCount = async (no_rewards, token) => {
+  const rpcClient = new RpcClient();
+  const count = await rpcClient.accountHistoryCount(no_rewards, token);
+  return count;
+};
+
 export const handleFetchAccounts = async () => {
   const rpcClient = new RpcClient();
   const accounts = await fetchAccountsDataWithPagination(
@@ -266,17 +366,13 @@ export const handleFetchAccounts = async () => {
   );
 
   const tokensData = accounts.map(async (account) => {
-    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
-
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      return {
-        amount: account.amount,
-        address: account.owner.addresses[0],
-      };
-    }
+    return {
+      amount: account.amount,
+      address: account.owner.addresses[0],
+    };
   });
 
-  const resolvedData: any = _.compact(await Promise.all(tokensData));
+  const resolvedData: any = compact(await Promise.all(tokensData));
 
   const transformedData: any =
     resolvedData &&
@@ -357,4 +453,174 @@ export const getRandomWords = () => {
 
 export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
+};
+
+export const getListAccountHistory = (query: {
+  limit: number;
+  token: string;
+  no_rewards?: boolean;
+  cancelToken?: string;
+  blockHeight?: number;
+}) => {
+  const rpcClient = new RpcClient(query.cancelToken);
+  return rpcClient.getListAccountHistory(query);
+};
+
+export const prepareTxDataRows = (data: any[]) => {
+  return data.map((item) => {
+    const amounts = item.amounts.map((ele) => ({
+      value: new BigNumber(
+        ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
+      ).toFixed(),
+      symbolKey: ele.slice(ele.indexOf(AMOUNT_SEPARATOR) + 1),
+    }));
+    const { category, isValid } = validTrx(item);
+    return {
+      ...item,
+      category,
+      isValid,
+      amounts: orderBy(amounts, 'value', 'desc'),
+    };
+  });
+};
+
+export const handleBlockData = async (blockHeight: number) => {
+  const rpcClient = new RpcClient();
+  const blockHash = await rpcClient.getBlockHash(blockHeight);
+  const block = await rpcClient.getBlock(blockHash, 1);
+  return block;
+};
+
+const validTrx = (item) => {
+  const SendReceiveValidTxTypeArray = [
+    TX_TYPES.UtxosToAccount,
+    TX_TYPES.AccountToUtxos,
+    TX_TYPES.AccountToAccount,
+  ];
+  let isValid =
+    item.type === TX_TYPES.NonTxRewards || item.type === TX_TYPES.PoolSwap;
+  let category = item.type;
+  if (!isValid) {
+    isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
+    if (isValid) {
+      category = new BigNumber(item.amounts[0].value).gte(0)
+        ? RECIEVE_CATEGORY_LABEL
+        : SENT_CATEGORY_LABEL;
+    }
+  }
+  return {
+    category,
+    isValid,
+  };
+};
+
+export const handleRestartCriteria = async () => {
+  const rpcClient = new RpcClient();
+  const balance = await rpcClient.getBalance();
+  const txCount = await rpcClient.getWalletTxnCount();
+  const tokenBalance = await handleFetchTokenBalanceList();
+  return (
+    new BigNumber(balance).gt(0) ||
+    new BigNumber(txCount).gt(0) ||
+    tokenBalance.length > 0
+  );
+};
+
+export const startRestoreViaBackup = async (network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_BACKUP, network);
+    if (resp?.success && resp?.data) {
+      updateWalletMap(resp.data);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'handleRestoreWalletViaBackup');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const checkRestoreRecentIfExisting = async (path: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_EXIST_CHECK, path);
+    if (!resp?.success) {
+      updateWalletMap(path, true);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'checkRestoreIfExisting');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startRestoreViaRecent = async (path: string, network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WRITE_CONFIG_REQUEST, path, network);
+    if (resp?.success) {
+      updateWalletMap(path);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startBackupViaExitModal = async () => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST);
+    if (resp?.success) {
+      await backupWallet(resp?.data?.paths);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const createNewWallet = async (
+  passphrase: string,
+  network: string
+): Promise<IPCResponseModel<string>> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
+    const walletDir = resp?.data?.paths;
+    const walletPath = resp?.data?.walletPath;
+    if (resp?.success && walletPath) {
+      const rpcClient = new RpcClient();
+      const createWalletResp = await rpcClient.createWallet(
+        walletDir,
+        passphrase
+      );
+      if (createWalletResp.warning == null || createWalletResp.warning == '') {
+        return startRestoreViaRecent(walletPath, network);
+      } else {
+        throw new Error(createWalletResp.warning);
+      }
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'createNewWallet');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
 };

@@ -10,11 +10,11 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
-  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
+  LP_DAILY_DFI_REWARD,
 } from './../constants';
-import * as methodNames from '../constants/rpcMethods';
+import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
 import {
   IAddressAndAmount,
@@ -40,12 +40,22 @@ import {
 import { getFullRawTxInfo } from './transactionProcessor';
 import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
+import { handleFetchWalletBalance } from '../containers/WalletPage/service';
+import { BigNumber } from 'bignumber.js';
+import {
+  CreateNewWalletModel,
+  ListUnspentModel,
+  PeerInfoModel,
+  WalletInfo,
+} from '@/constants/rpcModel';
+import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 
 export default class RpcClient {
   client: any;
-  constructor() {
+  constructor(cancelToken?) {
     const state = store.getState();
-    const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
+    const { rpcauth, rpcconnect } = state.app.rpcConfig;
+    const { rpcport } = state.app.rpcConfig[state.app.activeNetwork];
 
     if (!rpcauth || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');
@@ -55,6 +65,7 @@ export default class RpcClient {
       headers: {
         'cache-control': 'no-cache',
       },
+      cancelToken: cancelToken,
     });
   }
 
@@ -95,6 +106,11 @@ export default class RpcClient {
 
   getBlockCount = async (): Promise<number> => {
     const { data } = await this.call('/', methodNames.GET_BLOCK_COUNT, []);
+    return data.result;
+  };
+
+  getWalletInfo = async (): Promise<WalletInfo> => {
+    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
 
@@ -169,12 +185,15 @@ export default class RpcClient {
     return data.result;
   };
 
-  getPeerInfo = async (): Promise<number> => {
+  getPeerInfo = async (
+    shouldAllowEmptyPeers?: boolean
+  ): Promise<PeerInfoModel[]> => {
     const { data } = await this.call('/', methodNames.GET_PEER_INFO, []);
-    const isValid = validateSchema(
-      rpcResponseSchemaMap.get(methodNames.GET_PEER_INFO),
-      data
-    );
+    const schema = rpcResponseSchemaMap.get(methodNames.GET_PEER_INFO) as any;
+    if (shouldAllowEmptyPeers && schema?.properties?.result?.minItems) {
+      schema.properties.result.minItems = 0;
+    }
+    const isValid = validateSchema(schema, data);
     if (!isValid) {
       throw new Error(
         `Invalid response from node, ${
@@ -248,6 +267,25 @@ export default class RpcClient {
     return addressAndAmountList;
   };
 
+  getReceivingAddressAndTotalAmountList = async (): Promise<
+    IAddressAndAmount[]
+  > => {
+    const result = await this.getListreceivedAddress(1);
+    const balance = await handleFetchWalletBalance();
+    const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
+      result,
+      balance
+    );
+    return addressAndAmountList;
+  };
+
+  getReceivedByAddress = async (address: string): Promise<number> => {
+    const { data } = await this.call('/', methodNames.GET_RECEIVED_BY_ADDRESS, [
+      address,
+    ]);
+    return data.result;
+  };
+
   accountToUtxos = async (
     fromAddress: string | null,
     toAddress: string,
@@ -263,33 +301,66 @@ export default class RpcClient {
     return data.result;
   };
 
+  utxosToAccount = async (toAddress: string, amount: string) => {
+    const { data } = await this.call('/', methodNames.UTXOS_TO_ACCOUNT, [
+      {
+        [toAddress]: amount,
+      },
+    ]);
+    return data.result;
+  };
+
   getTransaction = async (txId: string): Promise<any> => {
     const { data } = await this.call('/', methodNames.GET_TRANSACTION, [txId]);
     return data.result;
   };
 
+  setLabel = async (address: string, label: string): Promise<any> => {
+    const { data } = await this.call('/', methodNames.SET_LABEL, [
+      address,
+      label,
+    ]);
+    return data.result;
+  };
+
   sendToAddress = async (
     toAddress: string | null,
-    amount: number | string,
+    amount: BigNumber,
     subtractfeefromamount: boolean = false
   ): Promise<string> => {
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
       await construct({
-        maximumAmount:
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount:
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
+        maximumAmount: new BigNumber(
+          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT
+        ),
+        maximumCount: new BigNumber(
+          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT
+        ),
+        feeRate: new BigNumber(
+          PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE
+        ),
       });
     }
 
     const { data } = await this.call('/', methodNames.SEND_TO_ADDRESS, [
       toAddress,
-      amount,
+      amount.toFixed(8),
       '',
       '',
       subtractfeefromamount,
+    ]);
+    return data.result;
+  };
+
+  sendMany = async (amounts: any) => {
+    const { data } = await this.call('/', methodNames.SEND_MANY, ['', amounts]);
+    return data.result;
+  };
+
+  sendRawTransaction = async (txid: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SEND_RAW_TRANSACTION, [
+      txid,
     ]);
     return data.result;
   };
@@ -299,23 +370,25 @@ export default class RpcClient {
     toAddress: string,
     amount: string
   ): Promise<string> => {
-    const txnSize = await getTxnSize();
-    if (txnSize >= MAX_TXN_SIZE) {
-      await construct({
-        maximumAmount:
-          PersistentStore.get(MAXIMUM_AMOUNT) || DEFAULT_MAXIMUM_AMOUNT,
-        maximumCount:
-          PersistentStore.get(MAXIMUM_COUNT) || DEFAULT_MAXIMUM_COUNT,
-        feeRate: PersistentStore.get(FEE_RATE) || DEFAULT_FEE_RATE,
-      });
-    }
-
     const { data } = await this.call('/', methodNames.ACCOUNT_TO_ACCOUNT, [
       fromAddress,
       {
         [toAddress]: amount,
       },
       [],
+    ]);
+    return data.result;
+  };
+
+  sendTokensToAddress = async (
+    toAddress: string,
+    amount: string
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SEND_TOKENS_TO_ADDRESS, [
+      {},
+      {
+        [toAddress]: amount,
+      },
     ]);
     return data.result;
   };
@@ -358,7 +431,8 @@ export default class RpcClient {
 
   getWalletTxns = async (
     pageNo: number = 0,
-    pageSize: number = 1
+    pageSize: number = 1,
+    involvesWatchonly: boolean = false
   ): Promise<ITxn[]> => {
     const count = pageSize;
     const skip = pageNo * pageSize;
@@ -367,6 +441,7 @@ export default class RpcClient {
       '*',
       count,
       skip,
+      involvesWatchonly,
     ]);
 
     const isValid = validateSchema(
@@ -386,19 +461,34 @@ export default class RpcClient {
     return txnList;
   };
 
-  listUnspent = async (maximumAmount: number, maximumCount?: number) => {
-    const queryOptions = maximumCount
-      ? { maximumAmount, maximumCount: Number(maximumCount) }
-      : { maximumAmount };
+  listTransactions = async (pageNo: number = 0, pageSize: number = 1) => {
+    const skip = pageNo * pageSize;
+    const { data } = await this.call('/', methodNames.LIST_TRANSACTIONS, [
+      '*',
+      pageSize,
+      skip,
+    ]);
+    return data.result;
+  };
 
+  listUnspent = async (
+    maximumAmount: BigNumber,
+    maximumCount?: BigNumber,
+    addresses: string[] = []
+  ): Promise<ListUnspentModel[]> => {
+    const queryOptions = maximumCount
+      ? {
+          maximumAmount: maximumAmount.toNumber(),
+          maximumCount: maximumCount.toNumber(),
+        }
+      : { maximumAmount: maximumAmount.toNumber() };
     const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
       1,
       9999999,
-      [],
+      addresses,
       true,
       queryOptions,
     ]);
-
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_UNSPENT),
       data
@@ -413,6 +503,7 @@ export default class RpcClient {
     return data.result;
   };
 
+  // need to look into psbt rpc calls where used and why we are using those
   walletCreateFundedPsbt = async (inputs, outputs, feeRate) => {
     const { data } = await this.call(
       '/',
@@ -582,6 +673,7 @@ export default class RpcClient {
     tokenMintInfo: ITokenMintInfo,
     tx: any = []
   ): Promise<string> => {
+    // no need to d it here but need to make changes in service accepts amount this way 10@symbol
     const { hash, amount } = tokenMintInfo;
     const { data } = await this.call('/', methodNames.MINT_TOKEN, [
       `${amount}@${hash}`,
@@ -600,12 +692,18 @@ export default class RpcClient {
   };
 
   destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
+    // it can be removed as it is no longer available
     const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [tokenId]);
     return data.result;
   };
 
-  tokenInfo = async (key: string): Promise<string> => {
+  tokenInfo = async (key: string): Promise<any> => {
     const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+    return data.result;
+  };
+
+  getTokenBalances = async (): Promise<string[]> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
     return data.result;
   };
 
@@ -646,7 +744,8 @@ export default class RpcClient {
   listAccounts = async (
     includingStart: boolean,
     limit: number,
-    start?: string
+    start?: string,
+    isMineOnly = true
   ) => {
     const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
       {
@@ -656,6 +755,7 @@ export default class RpcClient {
       },
       true,
       true,
+      isMineOnly,
     ]);
     return data.result;
   };
@@ -676,6 +776,32 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.SET_HD_SEED, [
       newkeypool,
       hdSeed,
+    ]);
+    return data.result;
+  };
+
+  importPubKey = async (
+    pubKey: string,
+    label: string = '',
+    rescan: boolean = false
+  ) => {
+    const { data } = await this.call('/', methodNames.IMPORT_PUB_KEY, [
+      pubKey,
+      label,
+      rescan,
+    ]);
+    return data.result;
+  };
+
+  importAddress = async (
+    address: string,
+    label: string = '',
+    rescan: boolean = false
+  ) => {
+    const { data } = await this.call('/', methodNames.IMPORT_ADDRESS, [
+      address,
+      label,
+      rescan,
     ]);
     return data.result;
   };
@@ -719,16 +845,194 @@ export default class RpcClient {
     return data.result;
   };
 
-  walletPassphrase = async (passphrase: string) => {
+  walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      WALLET_UNLOCK_TIMEOUT,
+      timeout || TimeoutLockEnum.FIVE_MINUTES,
     ]);
+    return data.result;
+  };
+
+  changeWalletPassphrase = async (
+    currentPassphrase: string,
+    newPassphrase: string
+  ): Promise<string> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.WALLET_PASSPHRASE_CHANGE,
+      [currentPassphrase, newPassphrase]
+    );
     return data.result;
   };
 
   walletlock = async () => {
     const { data } = await this.call('/', methodNames.WALLET_LOCK, []);
+    return data.result;
+  };
+
+  // LP RPC call
+
+  listPoolPairs = async (
+    start: number,
+    includingStart: boolean,
+    limit: number
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+      { start, including_start: includingStart, limit },
+    ]);
+    return data.result;
+  };
+
+  listPoolShares = async (
+    start: number,
+    includingStart: boolean,
+    limit: number,
+    isMineOnly = true
+  ) => {
+    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+      { start, including_start: includingStart, limit },
+      true, // verbose
+      isMineOnly, // is mine only
+    ]);
+    return data.result;
+  };
+
+  getPoolPair = async (poolID: string) => {
+    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
+    return data.result;
+  };
+
+  /**
+   *
+   * @param address1
+   * @param amount1 - Amount is in format "1.0@1"
+   * @param address2
+   * @param amount2 - Amount is in format "1.0@1"
+   * @param shareAddress
+   */
+  addPooLiquidity = async (
+    address1: string,
+    amount1: string,
+    address2: string,
+    amount2: string,
+    shareAddress: string
+  ): Promise<string> => {
+    const from =
+      address1 === address2
+        ? { [address1]: [amount1, amount2] }
+        : { [address1]: amount1, [address2]: amount2 };
+
+    const { data } = await this.call('/', methodNames.ADD_POOL_LIQUIDITY, [
+      from,
+      shareAddress,
+    ]);
+    return data.result;
+  };
+
+  poolSwap = async (
+    from: string,
+    tokenFrom: string,
+    amountFrom: BigNumber,
+    to: string,
+    tokenTo: string
+  ): Promise<string> => {
+    // amount from needs to be a bignumber here
+    const { data } = await this.call('/', methodNames.POOL_SWAP, [
+      { from, tokenFrom, amountFrom: amountFrom.toFixed(8), to, tokenTo },
+      [],
+    ]);
+    return data.result;
+  };
+
+  removePoolLiquidity = async (from: string, amount: string) => {
+    //1.0@LpSymbol no need to do it here need to make this changes in service
+    const { data } = await this.call('/', methodNames.REMOVE_POOL_LIQUIDITY, [
+      from,
+      amount,
+      [],
+    ]);
+    return data.result;
+  };
+
+  testPoolSwap = async (
+    from: string,
+    tokenFrom: string,
+    amountFrom: BigNumber,
+    to: string,
+    tokenTo: string
+  ) => {
+    // amountfrom will need to be in the bigNumber
+    const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
+      { from, tokenFrom, amountFrom, to, tokenTo },
+    ]);
+    return data.result;
+  };
+
+  getGov = async () => {
+    const { data } = await this.call('/', methodNames.GET_GOV, [
+      LP_DAILY_DFI_REWARD,
+    ]);
+    return data.result;
+  };
+
+  getListAccountHistory = async (_: {
+    blockHeight?: number;
+    limit?: number;
+    no_rewards?: boolean;
+    token: string;
+    owner?: string;
+  }) => {
+    const { blockHeight, limit, no_rewards, token, owner } = _;
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+      owner || 'mine',
+      {
+        maxBlockHeight: blockHeight,
+        limit,
+        no_rewards,
+        token,
+      },
+    ]);
+    return data.result;
+  };
+
+  accountHistoryCount = async (
+    noRewards: boolean,
+    token: string,
+    owner: string = 'mine'
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
+      owner,
+      {
+        no_rewards: noRewards,
+        token,
+      },
+    ]);
+    return data.result;
+  };
+
+  createWallet = async (
+    walletPath: string,
+    passphrase: string
+  ): Promise<CreateNewWalletModel> => {
+    const { data } = await this.call('/', methodNames.CREATE_WALLET, [
+      walletPath,
+      false,
+      false,
+      passphrase,
+    ]);
+    return data?.result;
+  };
+
+  getBalances = async () => {
+    const { data } = await this.call('/', methodNames.GET_BALANCES, []);
+    return data.result;
+  };
+
+  createRawTransaction = async (inputs: any, output: any) => {
+    const { data } = await this.call('/', methodNames.CREATE_RAW_TRANSACTION, [
+      inputs,
+      output,
+    ]);
     return data.result;
   };
 }

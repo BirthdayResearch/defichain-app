@@ -1,0 +1,20 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+@import '../../scss/utility';
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
+}

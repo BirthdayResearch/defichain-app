@@ -92,6 +92,7 @@ export const blockSchema = {
       required: ['hash', 'confirmations', 'time', 'height', 'tx', 'nTx'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -109,6 +110,7 @@ export const getBalanceSchema = {
       nullable: false,
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -137,6 +139,7 @@ export const getBalancesSchema = {
       required: ['mine'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -155,6 +158,7 @@ export const getBlockCountSchema = {
       minimum: 0,
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -237,6 +241,7 @@ export const getPeerInfoSchema = {
       minItems: 1,
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -254,6 +259,7 @@ export const getNewAddressSchema = {
       nullable: false,
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -324,6 +330,7 @@ export const blockchainInfoSchema = {
       required: ['initialblockdownload'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -364,6 +371,7 @@ export const validAddressSchema = {
       required: ['isvalid'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -393,6 +401,7 @@ export const receiveAddressListSchema = {
       },
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -432,6 +441,7 @@ export const txnListSchema = {
       },
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -464,6 +474,7 @@ export const walletInfoSchema = {
       required: ['balance', 'txcount'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -631,6 +642,7 @@ export const txSchema = {
       required: ['txid', 'hash'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -677,6 +689,7 @@ export const decodeRaxTxnSchema = {
       required: ['txid', 'hash', 'size', 'vsize'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -705,6 +718,7 @@ export const finalizePsbtSchema = {
       required: ['hex', 'complete'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -730,6 +744,7 @@ export const walletProcessPsbtSchema = {
       required: ['psbt', 'complete'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -758,6 +773,7 @@ export const walletCreateFundedPsbtSchema = {
       required: ['psbt', 'fee'],
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {
@@ -819,6 +835,7 @@ export const listUnspentSchema = {
       },
     },
     error: {
+      type: 'object',
       nullable: true,
     },
     id: {

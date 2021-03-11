@@ -1,9 +1,13 @@
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 
 import styles from '../TokenCard.module.scss';
 import { IWalletTokenCard } from '../../../utils/interfaces';
-import { getIcon } from '../../../utils/utility';
+
+import TokenAvatar from '../../TokenAvatar';
+import NumberMask from '../../NumberMask';
+import BigNumber from 'bignumber.js';
 
 interface WalletTokenCardProps {
   token: IWalletTokenCard;
@@ -11,7 +15,8 @@ interface WalletTokenCardProps {
     symbol: string | null,
     hash: string,
     amount: any,
-    address: string
+    address: string,
+    isLPS: boolean
   ) => void;
 }
 
@@ -24,7 +29,13 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
     <Card
       className={styles.tokenBalanceCard}
       onClick={() =>
-        handleCardClick(token.symbol, token.hash, token.amount, token.address)
+        handleCardClick(
+          token.symbol,
+          token.hash,
+          token.amount,
+          token.address,
+          token.isLPS ?? false
+        )
       }
     >
       <CardBody className={styles.cardBody}>
@@ -32,24 +43,30 @@ const WalletTokenCard: React.FunctionComponent<WalletTokenCardProps> = (
           <Col md='6'>
             <div className='d-flex align-items-center justify-content-start'>
               <div>
-                <img
-                  src={getIcon(token.symbol)}
-                  height={'30px'}
-                  width={'30px'}
-                />
+                <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} />
               </div>
               <div className='ml-4'>
                 <div>
-                  <b>{token.symbol}</b>
+                  <b>{token.symbolKey}</b>
                 </div>
-                <div className={styles.cardValue}>{token.name}</div>
+                <div className={styles.cardValue}>
+                  {token.isLPS
+                    ? `${I18n.t(
+                        'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
+                      )} ${token.symbolKey}`
+                    : token.name}
+                </div>
               </div>
             </div>
           </Col>
           <Col md='6'>
             <div className={`${styles.cardValue} justify-content-end`}>
-              <b className='text-dark'>{token.amount}</b>
-              <span className='ml-2'>{token.symbol}</span>
+              <b className='text-dark'>
+                <NumberMask
+                  value={new BigNumber(token.amount || 0).toFixed(8)}
+                />
+              </b>
+              <span className='ml-2'>{token.symbolKey}</span>
             </div>
           </Col>
         </Row>

@@ -1,0 +1,32 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../../scss/variables';
+@import '../../../../../scss/bootstrap/variables';
+
+.syncIcon {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 100%;
+  width: 96px;
+  height: 96px;
+  color: $secondary;
+}
+
+.syncSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10%;
+}
+
+.syncContent {
+  margin-top: 32px;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0.44px;
+  line-height: 24px;
+  width: 736px;
+  text-align: center;
+}

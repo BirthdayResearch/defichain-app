@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyToClipIcon component should check for snapshot 1`] = `
+<div>
+  <div>
+    label
+  </div>
+  <div>
+    <div
+      className=""
+    >
+      Copied!
+    </div>
+    <EllipsisText
+      length={50}
+      tail="..."
+      tailClassName="more"
+      text="value"
+    />
+    <QrCode
+      uid="uid"
+      value="value"
+    />
+    <CopyToClipboard
+      handleCopy={[Function]}
+      value="value"
+    />
+  </div>
+</div>
+`;

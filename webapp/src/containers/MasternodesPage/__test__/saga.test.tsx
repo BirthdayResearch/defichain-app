@@ -20,10 +20,10 @@ import {
   finishRestartNodeWithMasterNode,
 } from '../reducer';
 import * as service from '../service';
-import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
+import { dispatchedFunc, mockAxios } from '@/utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
 import { restartModal } from '../../PopOver/reducer';
-import { shutDownBinary } from '../../../worker/queue';
+import { shutDownBinary } from '@/worker/queue';
 
 const errorObj = {
   message: 'error occurred',
@@ -39,7 +39,10 @@ describe('Masternode page saga unit test', () => {
   });
 
   it('should wait for every fetchMasternodesRequest action and call createMasterNode', () => {
+    // @ts-ignore
+    // @ts-ignore
     expect(genObject.next().value).toEqual(
+      // @ts-ignore
       takeLatest(createMasterNode.type, createMasterNodes)
     );
   });
@@ -51,26 +54,26 @@ describe('Masternode page saga unit test', () => {
   });
 
   describe('fetchMasternodesRequest', () => {
-    let handelFetchMasterNodes;
+    let handleFetchMasterNodes;
     beforeEach(() => {
-      handelFetchMasterNodes = jest.spyOn(service, 'handelFetchMasterNodes');
+      handleFetchMasterNodes = jest.spyOn(service, 'handleFetchMasterNodes');
     });
     afterEach(() => {
-      handelFetchMasterNodes.mockRestore();
+      handleFetchMasterNodes.mockRestore();
     });
     afterAll(jest.clearAllMocks);
     it('should call api and dispatch success action', async () => {
-      handelFetchMasterNodes.mockImplementation(() =>
+      handleFetchMasterNodes.mockImplementation(() =>
         Promise.resolve(testData.fetchMasternodesSuccess)
       );
       const dispatched = await dispatchedFunc(fetchMasterNodes);
-      expect(handelFetchMasterNodes).toBeCalledTimes(1);
+      expect(handleFetchMasterNodes).toBeCalledTimes(1);
     });
 
     it('should call api and dispatch success action when no data found', async () => {
-      handelFetchMasterNodes.mockImplementation(() => Promise.resolve([]));
+      handleFetchMasterNodes.mockImplementation(() => Promise.resolve([]));
       const dispatched = await dispatchedFunc(fetchMasterNodes);
-      expect(handelFetchMasterNodes).toBeCalledTimes(1);
+      expect(handleFetchMasterNodes).toBeCalledTimes(1);
       expect(dispatched).toEqual([
         fetchMasternodesSuccess({
           masternodes: [],
@@ -79,9 +82,9 @@ describe('Masternode page saga unit test', () => {
     });
 
     it('should call api and dispatch failure action', async () => {
-      handelFetchMasterNodes.mockImplementation(() => Promise.reject(errorObj));
+      handleFetchMasterNodes.mockImplementation(() => Promise.reject(errorObj));
       const dispatched = await dispatchedFunc(fetchMasterNodes);
-      expect(handelFetchMasterNodes).toBeCalledTimes(1);
+      expect(handleFetchMasterNodes).toBeCalledTimes(1);
       expect(dispatched).toEqual([fetchMasternodesFailure(errorObj.message)]);
     });
   });

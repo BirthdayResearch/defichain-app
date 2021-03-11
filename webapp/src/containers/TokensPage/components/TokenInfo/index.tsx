@@ -23,19 +23,23 @@ import {
 } from 'reactstrap';
 
 import styles from '../../token.module.scss';
-import KeyValueLi from '../../../../components/KeyValueLi';
+import KeyValueLi from '@/components/KeyValueLi';
 import { fetchTokenInfo, destroyToken } from '../../reducer';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
   DELETE,
+  DFI_SYMBOL,
   MINT_TOKENS_PATH,
   TOKENS_PATH,
   TOKEN_EDIT_PATH,
   TOKEN_MINT_PATH,
 } from '../../../../constants';
-import { ITokenResponse } from '../../../../utils/interfaces';
-import { getIcon } from '../../../../utils/utility';
+import { ITokenResponse } from '@/utils/interfaces';
+import TokenAvatar from '../../../../components/TokenAvatar';
+import { getPageTitle } from '@/utils/utility';
+import Header from '../../../HeaderComponent';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -72,9 +76,10 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     },
   ];
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<
-    string
-  >('default');
+  const [
+    isConfirmationModalOpen,
+    setIsConfirmationModalOpen,
+  ] = useState<string>('default');
   const [allowCalls, setAllowCalls] = useState(false);
   const [wait, setWait] = useState<number>(5);
 
@@ -133,9 +138,11 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={TOKENS_PATH}
           tag={RRNavLink}
@@ -147,7 +154,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             {I18n.t('containers.tokens.tokenInfo.back')}
           </span>
         </Button>
-        <h1>{tokenInfo.name}</h1>
+        <h1>{tokenInfo.symbolKey}</h1>
         {/* {tokenInfo.hash !== '0' && <ButtonGroup>
           <Button to={MINT_TOKENS_PATH} tag={RRNavLink} color='link'>
             <MdAdd />
@@ -156,7 +163,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </span>
           </Button>
         </ButtonGroup>} */}
-        {tokenInfo.hash !== '0' && tokenInfo.ismine && (
+        {tokenInfo.hash !== DFI_SYMBOL && tokenInfo.ismine && (
           <UncontrolledDropdown>
             <DropdownToggle color='link' size='md'>
               <MdMoreHoriz />
@@ -178,30 +185,32 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </DropdownMenu>
           </UncontrolledDropdown>
         )}
-      </header>
-      {tokenInfo.minted === 0 && tokenInfo.hash !== '0' && tokenInfo.ismine && (
-        <div className={`${styles.mintAlert} m-5`}>
-          <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
-          <Button
-            to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
-            tag={RRNavLink}
-            color='link'
-            className='text-right'
-          >
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokenInfo.mint')}
-            </span>
-          </Button>
-        </div>
-      )}
+      </Header>
+      {tokenInfo.minted === 0 &&
+        tokenInfo.hash !== DFI_SYMBOL &&
+        tokenInfo.ismine && (
+          <div className={`${styles.mintAlert} m-5`}>
+            <span>{I18n.t('containers.tokens.tokenInfo.notMintedAlert')}</span>
+            <Button
+              to={`${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`}
+              tag={RRNavLink}
+              color='link'
+              className='text-right'
+            >
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokenInfo.mint')}
+              </span>
+            </Button>
+          </div>
+        )}
       <div className='content'>
         <section className='mb-5'>
           <Row className='mb-4'>
             <Col md='6'>
-              <img
-                src={getIcon(tokenInfo.symbol)}
-                height={'60px'}
-                width={'60px'}
+              <TokenAvatar
+                symbol={tokenInfo.symbolKey}
+                size='64px'
+                textSizeRatio={2}
               />
             </Col>
             <Col md='6'>
@@ -211,7 +220,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               />
               <KeyValueLi
                 label={I18n.t('containers.tokens.tokenInfo.symbol')}
-                value={(tokenInfo.symbol || '').toString()}
+                value={(tokenInfo.symbolKey || '').toString()}
               />
             </Col>
             <Col md='6'>
@@ -311,6 +320,9 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {destroyTokenData?.hash && (
+              <ViewOnChain txid={destroyTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={RRNavLink}>
               {I18n.t('containers.tokens.tokenInfo.backToTokenPage')}
             </Button>
@@ -326,7 +338,7 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorDestroyingToken}</p>

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomPaginationComponent component should check for snapshot 1`] = `
+<div
+  className="d-flex text-right justify-content-between align-items-center mt-3"
+>
+  <div>
+    label
+  </div>
+  <Pagination
+    aria-label="pagination"
+    listTag="ul"
+    tag="nav"
+  >
+    <PaginationItem
+      disabled={true}
+      tag="li"
+    >
+      <PaginationLink
+        onClick={[Function]}
+        previous={true}
+        tag="a"
+      >
+        <MdChevronLeft />
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem
+      active={true}
+      key="1"
+      tag="li"
+    >
+      <PaginationLink
+        onClick={[Function]}
+        tag="a"
+      >
+        1
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem
+      disabled={true}
+      tag="li"
+    >
+      <PaginationLink
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        tag="a"
+      >
+        <MdChevronRight />
+      </PaginationLink>
+    </PaginationItem>
+  </Pagination>
+</div>
+`;

@@ -2,37 +2,60 @@ import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
+import Header from '../../../HeaderComponent';
 
 interface SettingsTabsHeaderProps {
   setActiveTab: (tab: string) => void;
   activeTab: string;
+  displaySecurityTab?: boolean;
+}
+
+export enum SettingsTabs {
+  general = 'general',
+  security = 'security',
+  display = 'display',
 }
 
 const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
-  const { setActiveTab, activeTab } = props;
+  const { setActiveTab, activeTab, displaySecurityTab } = props;
   return (
-    <header className='header-bar'>
+    <Header>
       <h1>{I18n.t('containers.settings.settings')}</h1>
       <Nav pills>
         <NavItem>
           <NavLink
             className={classnames({
-              active: activeTab === 'general',
+              active: activeTab === SettingsTabs.general,
             })}
             onClick={() => {
-              setActiveTab('general');
+              setActiveTab(SettingsTabs.general);
             }}
           >
             {I18n.t('containers.settings.general')}
           </NavLink>
         </NavItem>
+        {displaySecurityTab && (
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: activeTab === SettingsTabs.security,
+              })}
+              onClick={() => {
+                setActiveTab(SettingsTabs.security);
+              }}
+            >
+              {I18n.t('containers.settings.security')}
+            </NavLink>
+          </NavItem>
+        )}
+
         <NavItem>
           <NavLink
             className={classnames({
-              active: activeTab === 'display',
+              active: activeTab === SettingsTabs.display,
             })}
             onClick={() => {
-              setActiveTab('display');
+              setActiveTab(SettingsTabs.display);
             }}
           >
             {I18n.t('containers.settings.display')}
@@ -40,7 +63,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
         </NavItem>
       </Nav>
       <div></div>
-    </header>
+    </Header>
   );
 };
 

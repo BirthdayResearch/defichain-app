@@ -17,3 +17,14 @@ declare module '*.svg' {
   const content: string;
   export default content;
 }
+
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+
+declare namespace React {
+  interface HTMLAttributes<T> extends DOMAttributes<T> {
+    disabled?: any;
+  }
+}

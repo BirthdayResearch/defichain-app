@@ -5,34 +5,35 @@
 @import '../../../scss/bootstrap/variables';
 
 div.react-console-container {
-  font-size: 0.85em;
-  font-family: 'Menlo', 'Consolas', 'DejaVu Sans Mono', monospace;
-  height: 70vh !important;
-  width: 100% !important;
+  font-size: 0.875em;
+  font-family: $font-family-monospace;
+  min-height: calc(100vh - 112px);
   box-sizing: border-box;
-  background: $dfi-scent;
-  padding: 0.5em;
   white-space: pre;
+  padding: 2rem;
+  cursor: text;
 }
 
-div.react-console-prompt-box {
-  font-weight: bold;
-  color: #444;
-}
+// div.react-console-prompt-box {
+
+// }
 
 span.react-console-prompt-label {
-  font-weight: bold;
+  font-weight: $font-weight-semibold;
+  color: $secondary;
   line-height: 24px;
+  text-align: right;
+  display: inline-block;
 }
 
 .react-console-prompt-label::before {
-  content: '\203A';
-  font-size: 1rem;
-  padding-right: 0.3rem;
+  content: '\232A';
 }
 
 span.react-console-prompt {
   color: $dfi-pink;
+  line-height: 1.5rem;
+  display: inline-block;
 }
 
 div.react-console-focus span.react-console-cursor {
@@ -43,7 +44,7 @@ span.react-console-cursor {
   display: inline-block;
   content: '';
   width: 8px;
-  height: 24px;
+  height: 1.5rem;
 }
 
 div.react-console-nofocus span.react-console-cursor {
@@ -55,7 +56,7 @@ div.react-console-focus span.react-console-cursor-idle {
 }
 
 div.react-console-welcome {
-  color: $dfi-pink !important;
+  font-weight: $font-weight-medium;
 }
 
 @keyframes blink {
@@ -63,24 +64,27 @@ div.react-console-welcome {
     background-color: $dfi-pink;
   }
 
-  50% {
+  25% {
     background-color: $dfi-pink;
   }
 
-  51% {
+  26% {
     background-color: transparent;
   }
 
-  100% {
+  75% {
     background-color: transparent;
+  }
+
+  76% {
+    background-color: $dfi-pink;
   }
 }
 
 div.react-console-message {
-  color: $body-color;
-  padding: 0.1em;
   word-break: break-all;
   white-space: pre-wrap;
+  line-height: 1.5rem;
 }
 
 div.react-console-prompt-box {

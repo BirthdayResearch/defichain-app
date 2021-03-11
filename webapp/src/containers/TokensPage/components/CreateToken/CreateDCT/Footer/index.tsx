@@ -10,11 +10,14 @@ import {
   TOKENS_PATH,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../../../constants';
-import { ITokenResponse } from '../../../../../../utils/interfaces';
+import { ITokenResponse } from '@/utils/interfaces';
+import Spinner from '@/components/Svg/Spinner';
+import { CreateTokenFormState } from '../..';
+import ViewOnChain from '../../../../../../components/ViewOnChain';
 
 interface CreateDCTProps {
   isUpdate: boolean;
-  formState: any;
+  formState: CreateTokenFormState;
   isConfirmationModalOpen: string;
   setIsConfirmationModalOpen: (state: string) => void;
   cancelConfirmation: () => void;
@@ -93,7 +96,7 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
                 <Button
                   disabled={
                     !formState.symbol ||
-                    !formState.collateralAddress ||
+                    !formState.receiveAddress ||
                     formState.symbol.length > 8 ||
                     formState.name.length > 128 ||
                     !IsCollateralAddressValid
@@ -156,6 +159,17 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
         </div>
         <div
           className={classnames({
+            'd-none': isConfirmationModalOpen !== 'loading',
+          })}
+        >
+          <div className='footer-sheet'>
+            <div className='text-center'>
+              <Spinner />
+            </div>
+          </div>
+        </div>
+        <div
+          className={classnames({
             'd-none': isConfirmationModalOpen !== 'success',
           })}
         >
@@ -176,6 +190,9 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
           </div>
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
+              <ViewOnChain
+                txid={isUpdate ? updatedTokenData.hash : createdTokenData.hash}
+              />
               <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
                 {I18n.t('containers.tokens.createToken.backToTokenPage')}
               </Button>
@@ -192,7 +209,7 @@ const Footer: React.FunctionComponent<CreateDCTProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isUpdate ? isErrorUpdatingToken : isErrorCreatingToken}</p>

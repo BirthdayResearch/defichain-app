@@ -3,6 +3,7 @@ import { Progress, ModalBody, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { minimizeDownloadProgressModal } from '../reducer';
+import BigNumber from 'bignumber.js';
 
 interface DownloadProgressComponentProps {
   updateAppInfo: any;
@@ -11,7 +12,7 @@ interface DownloadProgressComponentProps {
 
 const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
   const { updateAppInfo, minimizeDownloadProgressModal } = props;
-  const percent = Number(updateAppInfo.percent || 0).toFixed(2);
+  const percent = new BigNumber(updateAppInfo.percent || 0).toFixed(2);
   const minimize = () => minimizeDownloadProgressModal();
   return (
     <>

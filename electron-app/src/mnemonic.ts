@@ -2,8 +2,6 @@ import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 
 export default class Mnemonic {
-  constructor() {}
-
   isValidMnemonic = (mnemonic: string) => {
     return bip39.validateMnemonic(mnemonic);
   };

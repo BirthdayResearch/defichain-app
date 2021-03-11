@@ -12,6 +12,10 @@ import {
   // NavLink,
   TabContent,
   TabPane,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from 'reactstrap';
 
 import classnames from 'classnames';
@@ -26,8 +30,13 @@ import {
   DAT_TOKEN,
   DCT_TOKEN,
   DESTRUCTION_TX,
+  DFI,
   TOKENS_PATH,
 } from '../../constants';
+import Header from '../HeaderComponent';
+import { RootState } from '@/app/rootTypes';
+import { StatusLedger } from '@/typings/models';
+import { getPageTitle } from '@/utils/utility';
 
 interface TokensProps {
   tokens: any;
@@ -35,6 +44,7 @@ interface TokensProps {
   history: any;
   fetchTokensRequest: () => void;
   isLoadingTokens: boolean;
+  statusLedger: StatusLedger;
 }
 
 const TokensPage: React.FunctionComponent<TokensProps> = (
@@ -43,6 +53,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>(DCT_TOKEN);
+  const [isOpenMenuCreate, setIsOpenMenuCreate] = useState(false);
   const { tokens, fetchTokensRequest, isLoadingTokens } = props;
 
   useEffect(() => {
@@ -60,12 +71,16 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
     return props.history.push(`${TOKENS_PATH}/${symbol}/${hash}`);
   };
 
+  const toggleMenuCreate = () => setIsOpenMenuCreate(!isOpenMenuCreate);
+
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.tokens.tokensPage.tokens')}
         </h1>
@@ -99,12 +114,37 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
           </Button>
-          <Button to={CREATE_TOKENS_PATH} tag={RRNavLink} color='link'>
-            <MdAdd />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.tokens.tokensPage.createToken')}
-            </span>
-          </Button>
+          <ButtonDropdown isOpen={isOpenMenuCreate} toggle={toggleMenuCreate}>
+            <DropdownToggle color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.tokens.tokensPage.createToken')}
+              </span>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                to={{
+                  pathname: CREATE_TOKENS_PATH,
+                  search: 'typeWallet=wallet',
+                }}
+                tag={RRNavLink}
+                color='link'
+              >
+                Use wallet
+              </DropdownItem>
+              <DropdownItem
+                to={{
+                  pathname: CREATE_TOKENS_PATH,
+                  search: 'typeWallet=ledger',
+                }}
+                tag={RRNavLink}
+                color='link'
+                disabled={props.statusLedger !== 'connected'}
+              >
+                Use ledger
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
         </ButtonGroup>
         <SearchBar
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -112,7 +152,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           toggleSearch={toggleSearch}
           placeholder={I18n.t('containers.tokens.tokensPage.searchTokens')}
         />
-      </header>
+      </Header>
       <div className='content'>
         <TabContent activeTab={activeTab}>
           <TabPane tabId={DAT_TOKEN}>
@@ -128,7 +168,9 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
           <TabPane tabId={DCT_TOKEN}>
             <TokensList
               tokens={tokens.filter(
-                (data) => data.destructionTx === DESTRUCTION_TX
+                (data) =>
+                  data.destructionTx === DESTRUCTION_TX &&
+                  data.symbolKey !== DFI
               )}
               history={history}
               searchQuery={searchQuery}
@@ -143,12 +185,14 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const { tokens, isTokensLoaded, isLoadingTokens } = state.tokens;
+  const { connect } = state.ledgerWallet;
   return {
     tokens,
     isTokensLoaded,
     isLoadingTokens,
+    statusLedger: connect.status,
   };
 };
 

@@ -3,7 +3,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import {
+  getErrorMessage,
+  getNetwork,
+  handelGetPaymentRequestLedger,
+  remapNodeError,
+} from '@/utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -20,7 +25,7 @@ import {
   destroyToken,
   destroyTokenFailure,
   destroyTokenSuccess,
-  updateToken,
+  updateTokenRequest,
   updateTokenSuccess,
   updateTokenFailure,
   mintToken,
@@ -33,9 +38,10 @@ import {
   handleTokenTransfers,
   handleCreateTokens,
   handleDestroyToken,
-  handleUpdateTokens,
+  updateToken,
   handleMintTokens,
 } from './service';
+import { ErrorMessages, ResponseMessages } from '../../constants/common';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -94,25 +100,42 @@ export function* fetchTransfers(action) {
 export function* createTokens(action) {
   try {
     const {
-      payload: { tokenData },
+      payload: { tokenData, typeWallet },
     } = action;
-    const data = yield call(handleCreateTokens, tokenData);
+    const networkName = yield call(getNetwork);
+    const paymentsLedger = yield call(
+      handelGetPaymentRequestLedger,
+      networkName
+    );
+    const data = yield call(
+      handleCreateTokens,
+      tokenData,
+      typeWallet,
+      paymentsLedger
+    );
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: createTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
 
 export function* mintTokens(action) {
   try {
+    const networkName = yield call(getNetwork);
     const {
       payload: { tokenData },
     } = action;
-    const data = yield call(handleMintTokens, tokenData);
+    const data = yield call(handleMintTokens, tokenData, networkName);
     yield put({ type: mintTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: mintTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -120,12 +143,16 @@ export function* mintTokens(action) {
 export function* updateTokens(action) {
   try {
     const {
-      payload: { tokenData },
+      payload: { tokenData, typeWallet },
     } = action;
-    const data = yield call(handleUpdateTokens, tokenData);
+    const networkName = yield call(getNetwork);
+    const data = yield call(updateToken, tokenData, networkName, typeWallet);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: updateTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -140,7 +167,7 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: getErrorMessage(e),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }
@@ -150,9 +177,9 @@ function* mySaga() {
   yield takeLatest(fetchTokenInfo.type, fetchToken);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(createToken.type, createTokens);
-  yield takeLatest(mintToken.type, mintTokens);
   yield takeLatest(destroyToken.type, tokenDestroy);
-  yield takeLatest(updateToken.type, updateTokens);
+  yield takeLatest(mintToken.type, mintTokens);
+  yield takeLatest(updateTokenRequest.type, updateTokens);
   yield takeLatest(fetchTransfersRequest.type, fetchTransfers);
 }
 

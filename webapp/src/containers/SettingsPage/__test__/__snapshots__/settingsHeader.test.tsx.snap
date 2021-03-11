@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SettingsTabHeader should check for snapshot if isUnsaved is true 1`] = `
-<header
-  className="header-bar"
->
+<Connect(Header)>
   <h1>
     Settings
   </h1>
@@ -36,5 +34,5 @@ exports[`SettingsTabHeader should check for snapshot if isUnsaved is true 1`] = 
     </NavItem>
   </Nav>
   <div />
-</header>
+</Connect(Header)>
 `;

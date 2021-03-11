@@ -1,0 +1,111 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.swapCard {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.labelDirection {
+  font-weight: $font-weight-medium;
+}
+
+.swapInputGroup {
+  display: flex;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.inputCol {
+  flex-grow: 1;
+}
+
+.dropDownCol {
+  flex-grow: 0;
+}
+
+.swapInput,
+.swapInput:disabled,
+.swapInput:focus {
+  background-color: transparent;
+  border-color: transparent !important;
+  box-shadow: none;
+  appearance: none;
+}
+
+.swapInput:disabled,
+.swapInput:disabled::placeholder {
+  color: $gray-400;
+}
+
+.cardBody {
+  display: inline-block;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
+.cardFooter {
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  height: 48px;
+  font-size: $small-font-size;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+
+.cardFooterBalance {
+  flex-grow: 1;
+  color: $secondary;
+}
+
+.labelBalance {
+  color: $body-color;
+}
+
+.cardFooterActions {
+  flex-grow: 0;
+}
+
+.label {
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-weight: $font-weight-semibold;
+  font-size: 2.125rem;
+  line-height: 2.5rem;
+}
+
+.unit {
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+  color: $secondary;
+}
+
+.keyValueLi {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: $table-cell-padding-y 0;
+}
+
+.cardValue {
+  display: flex;
+  color: $secondary;
+}
+
+.cardLabel {
+  color: $secondary;
+  padding-right: 1rem;
+}

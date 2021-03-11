@@ -1,0 +1,179 @@
+{
+  "utxo": {
+    "txId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+    "outputIndex": 0,
+    "script": "OP_DUP OP_HASH160 20 0x88d9931ea73d60eaf7e5671efc0552b912911f2a OP_EQUALVERIFY OP_CHECKSIG",
+    "satoshis": 0
+  },
+  "transaction": {
+    "fee": 0,
+    "hash": "a8eeee5d720adb58ddb298abed29dec5c2f2345ac8b00e8f686304fdc0292090",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 1,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      }
+    ],
+    "version": 4
+  },
+  "transactionResultCreateToken": {
+    "hash": "596db168257ba8e03dea6575e0111ae78f9e5cd0549e5f1371f7710df56398ed",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 1,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      },
+      {
+        "satoshis": 10000000000,
+        "script": "6a1944665478540841686d6564546f6b0008000000000000000003"
+      },
+      {
+        "satoshis": 100000000,
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
+      }
+    ],
+    "version": 4
+  },
+  "transactionResultMintToken": {
+    "hash": "6f97648b165b83fd4ec138e2e10adb648b06ff018781ca5dee36ba42a177a1a8",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
+    "inputs": [
+      {
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        },
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 1,
+        "script": "a9145630ddb88cfdd2ef4b780dfd538ad67292601d6687"
+      },
+      {
+        "satoshis": 10000000000,
+        "script": "6a12446654784d01820000000000000000000000"
+      }
+    ],
+    "version": 4
+  },
+  "resultCreateCustomTxOfCreateToken": {
+    "hash": "aa4df64e311984995778c6bf409fb7bdd95e8aa8ff8be0475530dfdb3640108a",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
+    "inputs": [
+      {
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295,
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        }
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 10000000000,
+        "script": "6a1944665478540841686d6564546f6b0008000000000000000003"
+      },
+      {
+        "satoshis": 100000000,
+        "script": "a914da97e1a890ff3a2c29aab17e18c1a50f066fcb0287"
+      }
+    ],
+    "version": 2
+  },
+  "resultGovVariable": {
+    "hash": "7bf36dba07b320e1d5409982e817fe9995ec209b0b0b2d4d7e5d41fd3d059d25",
+    "changeScript": "OP_HASH160 20 0xda97e1a890ff3a2c29aab17e18c1a50f066fcb02 OP_EQUAL",
+    "inputs": [
+      {
+        "outputIndex": 0,
+        "prevTxId": "983afbde01a436823054aae561f973e4261ce1e331482eb85c462981e99138a3",
+        "script": "",
+        "scriptString": "",
+        "sequenceNumber": 4294967295,
+        "output": {
+          "satoshis": 0,
+          "script": "76a91488d9931ea73d60eaf7e5671efc0552b912911f2a88ac"
+        }
+      }
+    ],
+    "nLockTime": 0,
+    "outputs": [
+      {
+        "satoshis": 0,
+        "script": "6a194466547847134c505f4441494c595f4446495f524557415244"
+      }
+    ],
+    "version": 2
+  },
+  "createTokenData": {
+    "txType": "T",
+    "customData": {
+      "symbol": "AhmedTok",
+      "name": "",
+      "decimal": 8,
+      "limit": 0,
+      "flags": 3
+    },
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
+  },
+  "mintTokenData": {
+    "txType": "M",
+    "customData": {
+      "minted": [
+        {
+          "token": "130",
+          "balance": 0
+        }
+      ]
+    },
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
+  },
+  "setGovVariableData": {
+    "txType": "G",
+    "customData": {
+      "name": "LP_DAILY_DFI_REWARD"
+    },
+    "address": "trC2HdSkUovgTt6NyaktHiSPaHa3hVEmzY"
+  }
+}

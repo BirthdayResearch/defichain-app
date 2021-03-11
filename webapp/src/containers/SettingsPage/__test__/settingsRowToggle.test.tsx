@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingsRowToggleComponent from '../components/SettingsRowToggle';
-import { mount } from 'enzyme';
+import Enzyme from '../../../utils/testUtils/enzyme';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
 
@@ -13,7 +13,7 @@ describe('SettingsRowInput', () => {
       hideMinimized: 'settings',
       handleToggles: () => {},
     };
-    const wrapper = mount(
+    const wrapper = Enzyme.mount(
       <Provider store={store}>
         <SettingsRowToggleComponent {...props} />
       </Provider>

@@ -8,12 +8,17 @@ import {
   updateSettingsRequest,
   getSettingOptionsRequest,
 } from './reducer';
-import SettingsTabsHeader from './components/SettingsTabHeader';
+import SettingsTabsHeader, {
+  SettingsTabs,
+} from './components/SettingsTabHeader';
 import SettingsTabsFooter from './components/SettingsTabFooter';
 import { TabContent } from 'reactstrap';
 import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
+import { getPageTitle } from '../../utils/utility';
+import SettingsTabSecurity from './components/SettingsTabSecurity';
+import { useLocation } from 'react-router-dom';
 
 interface SettingsPageProps {
   isFetching: boolean;
@@ -35,15 +40,21 @@ interface SettingsPageProps {
     maximumAmount: number;
     maximumCount: number;
     feeRate: number;
+    reindexAfterSaving: boolean;
   };
   isUpdating: boolean;
   isUpdated: boolean;
   launchAtLogin: boolean;
   minimizedAtLaunch: boolean;
+  reindexAfterSaving: boolean;
+  isRestart: boolean;
   getInitialSettingsRequest: () => void;
   getSettingOptionsRequest: () => void;
   updateSettings: (data: any) => void;
   changeLanguage: () => void;
+  isRefreshUtxosModalOpen: boolean;
+  isWalletEncrypted: boolean;
+  isWalletCreatedFlag: boolean;
 }
 
 interface SettingsPageState {
@@ -53,7 +64,9 @@ interface SettingsPageState {
   network?: string;
   displayMode?: string;
   launchAtLogin?: boolean;
+  deletePeersAndBlocks?: boolean;
   minimizedAtLaunch?: boolean;
+  reindexAfterSaving?: boolean;
   pruneBlockStorage?: boolean;
   scriptVerificationThreads?: number;
   blockStorage?: number;
@@ -67,11 +80,20 @@ interface SettingsPageState {
 const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   props: SettingsPageProps
 ) => {
+  const { search } = useLocation();
+  const urlParams = new URLSearchParams(search);
+  const tab = urlParams.get('tab');
+
   const [state, setState] = useState<SettingsPageState>({
-    activeTab: 'general',
+    activeTab: tab ?? SettingsTabs.general,
     ...props.appConfig,
     isUnsavedChanges: false,
   });
+
+  const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
+  const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
+    false
+  );
 
   useEffect(() => {
     props.getSettingOptionsRequest();
@@ -83,6 +105,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     const updatedState = Object.assign({}, state, updatedObject);
     setState(updatedState);
   };
+
+  useEffect(() => {
+    if (!props.isRestart) {
+      setIsReindexAfterSaving(false);
+    }
+    if (!props.isRefreshUtxosModalOpen) {
+      setIsRefreshUtxosAfterSaving(false);
+    }
+  }, [props.isRestart, props.isRefreshUtxosModalOpen]);
 
   useEffect(() => {
     const prevPropsValue =
@@ -119,6 +150,17 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     setSettingsPageState({
       [field]: !state[field],
     });
+  };
+
+  const handeReindexToggle = () => {
+    setSettingsPageState({
+      deletePeersAndBlocks: false,
+    });
+    setIsReindexAfterSaving(!reindexAfterSaving);
+  };
+
+  const handeRefreshUtxosToggle = () => {
+    setIsRefreshUtxosAfterSaving(!refreshUtxosAfterSaving);
   };
 
   const handleFractionalNumInputs = (
@@ -158,6 +200,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'displayMode',
       'network',
       'launchAtLogin',
+      'deletePeersAndBlocks',
       'minimizedAtLaunch',
       'pruneBlockStorage',
       'scriptVerificationThreads',
@@ -191,6 +234,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      deletePeersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -207,6 +251,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       displayMode,
       network,
       launchAtLogin,
+      deletePeersAndBlocks,
       minimizedAtLaunch,
       pruneBlockStorage,
       scriptVerificationThreads,
@@ -215,6 +260,8 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       maximumAmount,
       maximumCount,
       feeRate,
+      reindexAfterSaving: reindexAfterSaving,
+      refreshUtxosAfterSaving,
     };
     props.updateSettings(settings);
   };
@@ -223,6 +270,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     activeTab,
     isUnsavedChanges,
     launchAtLogin,
+    deletePeersAndBlocks,
     minimizedAtLaunch,
     pruneBlockStorage,
     blockStorage,
@@ -240,9 +288,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.settings.title')}</title>
+        <title>{getPageTitle(I18n.t('containers.settings.title'))}</title>
       </Helmet>
-      <SettingsTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <SettingsTabsHeader
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        displaySecurityTab={
+          props.isWalletCreatedFlag && props.isWalletEncrypted
+        }
+      />
       <div className='content'>
         {/* NOTE: Do not remove, for future purpose */}
         {/* <SettingsTab
@@ -257,6 +311,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
         <TabContent activeTab={state.activeTab}>
           <SettingsTabGeneral
             launchAtLogin={launchAtLogin!}
+            deletePeersAndBlocks={deletePeersAndBlocks!}
             minimizedAtLaunch={minimizedAtLaunch!}
             pruneBlockStorage={pruneBlockStorage!}
             blockStorage={blockStorage!}
@@ -265,12 +320,19 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             maximumCount={maximumCount!}
             feeRate={feeRate!}
             scriptVerificationThreads={scriptVerificationThreads!}
+            reindexAfterSaving={reindexAfterSaving!}
+            refreshUtxosAfterSaving={refreshUtxosAfterSaving}
             handleRegularNumInputs={handleRegularNumInputs}
             handleFractionalInputs={handleFractionalNumInputs}
             handleToggles={handleToggles}
             network={network!}
             handleDropDowns={handleDropDowns}
+            handeReindexToggle={handeReindexToggle}
+            handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
+          {props.isWalletCreatedFlag && props.isWalletEncrypted && (
+            <SettingsTabSecurity />
+          )}
           <SettingsTabDisplay
             language={language!}
             unit={unit!}
@@ -279,10 +341,14 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           />
         </TabContent>
       </div>
-      <SettingsTabsFooter
-        isUnsavedChanges={isUnsavedChanges}
-        saveChanges={saveChanges}
-      />
+      {state.activeTab !== SettingsTabs.security && (
+        <SettingsTabsFooter
+          isUnsavedChanges={
+            isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
+          }
+          saveChanges={saveChanges}
+        />
+      )}
     </div>
   );
 };
@@ -294,7 +360,10 @@ const mapStateToProps = (state) => {
     appConfig,
     isUpdating,
     isUpdated,
+    isRefreshUtxosModalOpen,
   } = state.settings;
+  const { isWalletEncrypted, isWalletCreatedFlag } = state.wallet;
+  const { isRestart } = state.popover;
   const { locale } = state.i18n;
   return {
     isFetching,
@@ -303,6 +372,10 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     locale,
+    isRestart,
+    isRefreshUtxosModalOpen,
+    isWalletEncrypted,
+    isWalletCreatedFlag,
   };
 };
 

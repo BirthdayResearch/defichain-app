@@ -1,0 +1,83 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../../../scss/variables';
+@import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/utility';
+
+.addLiquidityRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.addLiquiditySwapDirection {
+  margin: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: $secondary;
+  }
+}
+
+.error-dialog {
+  color: $dfi-red !important;
+}
+
+.txProgressLine {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+}
+
+.txProgressSuccess {
+  position: absolute;
+  left: 0;
+  color: $green;
+  height: 24px;
+  width: 24px;
+}
+
+.txProgressLoader {
+  position: absolute;
+  left: 0;
+}
+
+.txProgressSuccess {
+  position: absolute;
+  color: $green;
+  height: 24px;
+  width: 24px;
+}
+
+.keyValueLiKey {
+  font-weight: $font-weight-medium;
+}
+
+.keyValueLiValue {
+  color: $secondary;
+  text-align: right;
+}
+
+.divisibilityDropdown {
+  width: 100%;
+  text-align: left;
+  &:after {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.scrollAuto {
+  overflow: auto;
+  height: 100px;
+}

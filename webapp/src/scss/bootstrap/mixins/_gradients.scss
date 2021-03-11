@@ -1,9 +1,0 @@
-// Gradients
-
-@mixin button-bg($color: null) {
-  background-color: rgba($color, 0.08);
-
-  @if $enable-gradients {
-    background-image: var(--bs-gradient);
-  }
-}

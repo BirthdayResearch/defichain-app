@@ -114,16 +114,22 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-# Neutrino build directory
+# Webpack build directory
 build
 
 # electron build directory
 dist
 
+.idea
+
 # Unnecessary folders
 .DS_Store
+.idea
 
 # Storybook build
 storybook-static
 
 /temp
+binary/mac/defid
+binary/temp/win/defid.exe
+binary/win/defid.exe

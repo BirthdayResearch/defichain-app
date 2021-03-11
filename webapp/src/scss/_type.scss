@@ -5,3 +5,11 @@
   letter-spacing: 0.21px;
   color: $secondary;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-disabled {
+  cursor: not-allowed;
+}

@@ -22,7 +22,6 @@ import {
   PAYMENT_REQ_PAGE_SIZE,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
 
 interface PaymentRequestsProps {
   unit: string;
@@ -40,10 +39,6 @@ interface PaymentRequestsProps {
 const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   props: PaymentRequestsProps
 ) => {
-  useEffect(() => {
-    props.fetchPaymentRequest();
-  }, []);
-
   const [currentPage, handlePageClick] = useState(1);
   const pageSize = PAYMENT_REQ_PAGE_SIZE;
   const total = props.paymentRequests.length;
@@ -51,6 +46,10 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
   const data = props.paymentRequests.slice(from, to);
+
+  useEffect(() => {
+    props.fetchPaymentRequest();
+  }, [total]);
 
   return (
     <section className='mb-5'>
@@ -89,11 +88,7 @@ const PaymentRequests: React.FunctionComponent<PaymentRequestsProps> = (
                       <div className={styles.amount}>
                         {request.amount ? (
                           <>
-                            {getAmountInSelectedUnit(
-                              request.amount,
-                              props.unit,
-                              request.unit
-                            )}
+                            {request.amount}
                             &nbsp;
                             <span className={styles.unit}>{props.unit}</span>
                           </>

@@ -1,0 +1,32 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.liquidityCard {
+  cursor: pointer;
+}
+
+.bigLabel {
+  font-weight: $font-weight-medium;
+}
+
+.bigValue {
+  font-weight: $font-weight-semibold;
+  text-align: right;
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: $font-size-sm;
+}
+
+.value {
+  font-size: $font-size-sm;
+  color: $secondary;
+  text-align: right;
+}

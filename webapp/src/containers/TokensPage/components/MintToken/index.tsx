@@ -21,14 +21,17 @@ import styles from '../../token.module.scss';
 import {
   CONFIRM_BUTTON_COUNTER,
   CONFIRM_BUTTON_TIMEOUT,
+  DFI_SYMBOL,
   TOKENS_PATH,
-  WALLET_PAGE_PATH,
 } from '../../../../constants';
-import { ITokenResponse } from '../../../../utils/interfaces';
-import Spinner from '../../../../components/Svg/Spinner';
+import { ITokenResponse } from '@/utils/interfaces';
+import Spinner from '@/components/Svg/Spinner';
 import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
+import Header from '../../../HeaderComponent';
+import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
+import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
   id?: string;
@@ -111,9 +114,11 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.tokens.mintToken.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.mintToken.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={`${TOKENS_PATH}/${id}/${hash}`}
           tag={NavLink}
@@ -128,9 +133,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
         <h1>
           {I18n.t('containers.tokens.mintToken.title')}
           &nbsp;
-          {id}
+          {getSymbolKey(id || '', hash || DFI_SYMBOL)}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form>
@@ -150,7 +155,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
                   {I18n.t('containers.tokens.mintToken.amount')}
                 </Label>
                 <InputGroupAddon addonType='append'>
-                  <InputGroupText>{id}</InputGroupText>
+                  <InputGroupText>
+                    {getSymbolKey(id || '', hash || DFI_SYMBOL)}
+                  </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
             </FormGroup>
@@ -170,7 +177,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               </div>
               <div>
                 {amountToMint}&nbsp;
-                {id}
+                {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </div>
             </Col>
             <Col className='d-flex justify-content-end'>
@@ -205,7 +212,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               &nbsp;
               <dd className='col-sm-9'>
                 {amountToMint}&nbsp;
-                {id}
+                {getSymbolKey(id || '', hash || DFI_SYMBOL)}
               </dd>
             </dl>
           </div>
@@ -242,6 +249,9 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
             </div>
           </div>
           <div className='d-flex align-items-center justify-content-center'>
+            {mintedTokenData?.hash && (
+              <ViewOnChain txid={mintedTokenData.hash} />
+            )}
             <Button color='primary' to={TOKENS_PATH} tag={NavLink}>
               {I18n.t('containers.tokens.mintToken.backToToken')}
             </Button>
@@ -268,7 +278,7 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
               <MdErrorOutline
                 className={classnames({
                   'footer-sheet-icon': true,
-                  [styles[`error-dailog`]]: true,
+                  [styles[`error-dialog`]]: true,
                 })}
               />
               <p>{isErrorMintingToken}</p>

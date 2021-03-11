@@ -13,10 +13,20 @@ import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
+import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
-import EncryptWalletModel from '../containers/PopOver/EncryptWalletModel';
-import WalletPassphraseModel from '../containers/PopOver/WalletPassphraseModel';
+import EncryptWalletModal from '../containers/PopOver/EncryptWalletModal';
+import WalletPassphraseModal from '../containers/PopOver/WalletPassphraseModal';
+import { getPageTitle } from '../utils/utility';
+import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
+import * as logger from '../utils/electronLogger';
+import { PACKAGE_VERSION } from '@/constants';
+import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
+import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
+import PostEncryptBackupModal from '../containers/PopOver/PostEncryptBackupModal';
+import MasternodeWarningModal from '../containers/PopOver/MasternodeWarningModal';
+import MasternodeUpdateRestartModal from '../containers/PopOver/MasternodeUpdateRestartModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -24,6 +34,7 @@ interface AppProps extends RouteComponentProps {
   nodeError: string;
   isFetching: boolean;
   isRestart: boolean;
+  isAppClosing: boolean;
 }
 
 const getPathDepth = (location: any): number => {
@@ -50,11 +61,15 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
     nodeError,
     isFetching,
     isRestart,
+    isAppClosing,
   } = props;
 
   const prevDepth = useRef(getPathDepth(location));
 
   useEffect(() => {
+    logger.info(
+      `[Starting App] App is running with version ${PACKAGE_VERSION}`
+    );
     getRpcConfigsRequest();
   }, []);
 
@@ -66,10 +81,10 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   return (
     <>
-      {isRunning ? (
+      {isRunning && !isAppClosing ? (
         <div id='app'>
           <Helmet>
-            <title>DeFi Blockchain Client</title>
+            <title>{getPageTitle()}</title>
           </Helmet>
           <Sidebar />
           <main>
@@ -94,14 +109,22 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           message={nodeError}
           isLoading={isFetching}
           isRestart={isRestart}
+          isAppClosing={isAppClosing}
         />
       )}
       <ReIndexModel />
       <BackupWalletWarningModel />
       <Popover />
-      <EncryptWalletModel />
-      <WalletPassphraseModel />
+      <EncryptWalletModal />
+      <WalletPassphraseModal />
       <RestartWalletModel />
+      <GeneralReIndexModal />
+      <RefreshUtxosModal />
+      <RestoreWalletModal />
+      <ExitWalletModal />
+      <PostEncryptBackupModal />
+      <MasternodeWarningModal />
+      <MasternodeUpdateRestartModal />
     </>
   );
 };
@@ -111,6 +134,7 @@ const mapStateToProps = ({ app, popover }) => ({
   nodeError: app.nodeError,
   isFetching: app.isFetching,
   isRestart: popover.isReIndexRestart,
+  isAppClosing: app.isAppClosing,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };

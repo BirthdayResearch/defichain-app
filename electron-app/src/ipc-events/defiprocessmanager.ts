@@ -3,10 +3,9 @@ import DefiProcessManager from '../services/defiprocessmanager';
 import {
   START_DEFI_CHAIN,
   STOP_DEFI_CHAIN,
-  RESTART_APP,
-  CLOSE_APP,
   FORCE_KILL_QUEUE_AND_SHUTDOWN,
-} from '../constants';
+  RESTART_APP,
+} from '@defi_types/ipcEvents';
 
 export default function initiateDefiProcessManager() {
   ipcMain.on(START_DEFI_CHAIN, async (event, arg) => {
@@ -19,10 +18,6 @@ export default function initiateDefiProcessManager() {
 
   ipcMain.on(RESTART_APP, async (event, args) => {
     event.returnValue = await DefiProcessManager.restart(args, event);
-  });
-
-  ipcMain.on(CLOSE_APP, async () => {
-    await DefiProcessManager.closeApp();
   });
 
   ipcMain.on(FORCE_KILL_QUEUE_AND_SHUTDOWN, async () => {

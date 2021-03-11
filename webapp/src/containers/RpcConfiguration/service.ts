@@ -27,7 +27,7 @@ export const isBlockchainStarted = async (emitter, response) => {
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
         retryAttempt -= 1;
       }
-      log.error(`Got error in isBlockchainStarted: ${err}`);
+      log.error(err, 'isBlockchainStarted');
       // this causes the channel to close
       if (!retryAttempt) {
         emitter({

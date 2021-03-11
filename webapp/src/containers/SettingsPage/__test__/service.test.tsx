@@ -5,7 +5,7 @@ import {
   mockisElectron,
   mockIpcRenderer,
   mockNotification,
-} from '../../../utils/testUtils/mockUtils';
+} from '@/utils/testUtils/mockUtils';
 
 import { serviceTestData } from './testData.json';
 
@@ -14,7 +14,7 @@ describe('Settings page service', () => {
     it('should check for get language', () => {
       const data = service.getLanguage();
       expect(data).toBeInstanceOf(Array);
-      expect(data.length).toBe(3);
+      expect(data.length).toBe(7);
     });
   });
 
@@ -71,6 +71,7 @@ describe('Settings page service', () => {
         },
       });
 
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -140,6 +141,7 @@ describe('Settings page service', () => {
         },
       });
 
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -162,6 +164,7 @@ describe('Settings page service', () => {
         },
       });
 
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -193,6 +196,7 @@ describe('Settings page service', () => {
         },
       });
 
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });
@@ -216,6 +220,7 @@ describe('Settings page service', () => {
         },
       });
 
+      // @ts-ignore
       ipc.mockReturnValue({
         sendSync,
       });

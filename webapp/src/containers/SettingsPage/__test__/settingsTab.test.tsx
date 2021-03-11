@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingsTabComponent from '../components/SettingsTab';
-import { mount } from 'enzyme';
+import Enzyme from '../../../utils/testUtils/enzyme';
 import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
 import { settingTab } from './testData.json';
@@ -12,7 +12,7 @@ describe('SettingsTabComponent', () => {
       handleDropDowns: () => {},
       handleToggles: () => {},
     };
-    const wrapper = mount(
+    const wrapper = Enzyme.mount(
       <Provider store={store}>
         <SettingsTabComponent {...props} />
       </Provider>

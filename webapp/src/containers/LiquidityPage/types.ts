@@ -1,0 +1,36 @@
+export interface LiquidityPageState {
+  poolshares: [];
+  isPoolsharesLoaded: boolean;
+  isLoadingPoolshares: boolean;
+  poolpair: any;
+  isLoadingPoolpair: boolean;
+  isPoolpairLoaded: boolean;
+  poolPairList: [];
+  isLoadingPoolPairList: boolean;
+  tokenBalanceList: [];
+  isLoadingTokenBalanceList: boolean;
+  isLoadingPreparingUTXO: boolean;
+  isLoadingAddingLiquidity: boolean;
+  isLoadingAddPoolLiquidity: boolean;
+  isAddPoolLiquidityLoaded: boolean;
+  addPoolLiquidityHash: string;
+  isErrorAddingPoolLiquidity: string;
+  isLoadingRefreshUTXOS1: boolean;
+  refreshUTXOS1Loaded: boolean;
+  isLoadingLiquidityRemoved: boolean;
+  liquidityRemovedLoaded: boolean;
+  isLoadingRefreshUTXOS2: boolean;
+  refreshUTXOS2Loaded: boolean;
+  isLoadingTransferTokens: boolean;
+  transferTokensLoaded: boolean;
+  isLoadingRemovePoolLiquidity: boolean;
+  isRemovePoolLiquidityLoaded: boolean;
+  removePoolLiquidityHash: string;
+  isErrorRemovingPoolLiquidity: string;
+  utxoDfi: number;
+  isUtxoDfiFetching: boolean;
+  isUtxoDfiError: string;
+  maxAccountDfi: number;
+  isMaxAccountDfiFetching: boolean;
+  isMaxAccountDfiError: string;
+}

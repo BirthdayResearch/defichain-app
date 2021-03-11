@@ -15,6 +15,7 @@ export interface IBlock {
 }
 
 export interface ITxn {
+  involvesWatchonly: boolean;
   height: number;
   address: string;
   category: string;
@@ -92,25 +93,32 @@ export interface ITokenUpdatorInfo {
   collateralAddress?: string;
 }
 
+export interface IToken {
+  hash: string;
+  name: string;
+  symbol: string;
+  symbolKey: string;
+  isDAT: boolean;
+  decimal: number;
+  limit: number;
+  mintable: boolean;
+  tradeable: boolean;
+  isLPS: boolean;
+  amount?: number;
+}
+
 export interface ITokenCard {
-  data: {
-    hash: string;
-    name: string;
-    symbol: string;
-    isDAT: boolean;
-    decimal: number;
-    limit: number;
-    mintable: boolean;
-    tradeable: boolean;
-  };
+  data: IToken;
   handleCardClick: (symbol: string, hash: string) => void;
 }
 
 export interface IWalletTokenCard {
+  symbolKey: string;
   hash: string;
   name?: string;
   symbol: string | null;
   isDAT?: boolean;
+  isLPS?: boolean;
   decimal?: number;
   limit?: number;
   mintable?: boolean;
@@ -125,4 +133,16 @@ export interface IWalletTokenCard {
 
 export interface ITokenResponse {
   hash: string;
+}
+
+export interface ITokenBalanceInfo {
+  hash: string;
+  balance: string;
+  isPopularToken: boolean;
+}
+
+export interface IAddressAndAmount {
+  amount: string;
+  address: string;
+  label?: string;
 }

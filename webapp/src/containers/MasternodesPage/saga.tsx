@@ -16,19 +16,34 @@ import {
   resignMasterNodeSuccess,
   startRestartNodeWithMasterNode,
   finishRestartNodeWithMasterNode,
+  updateMasternodeStart,
 } from './reducer';
-import { restartModal } from '../PopOver/reducer';
 import {
-  handelFetchMasterNodes,
+  openMasternodeUpdateRestartModal,
+  restartModal,
+} from '../PopOver/reducer';
+import {
+  handleFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
   getAddressInfo,
+  isMasternodeEnabled,
+  disableMasternodesMining,
 } from './service';
 
-import { getErrorMessage } from '../../utils/utility';
+import {
+  getErrorMessage,
+  remapNodeError,
+  getNetworkType,
+} from '../../utils/utility';
 
-import { restartNode, isElectron } from '../../utils/isElectron';
-import { RESIGNED_STATE } from '../../constants';
+import { isElectron, restartNodeSync } from '../../utils/isElectron';
+import { MASTER_NODES_PATH, RESIGNED_STATE } from '../../constants';
+import { MasterNodeObject } from './masterNodeInterface';
+import store from '../../app/rootStore';
+import { history } from '../../utils/history';
+import MasternodesPage from '.';
+import { TypeWallet } from '@/typings/entities';
 
 export function* getConfigurationDetails() {
   const { configurationData } = yield select((state) => state.app);
@@ -41,14 +56,20 @@ export function* getConfigurationDetails() {
 
 export function* fetchMasterNodes() {
   try {
-    const data = yield call(handelFetchMasterNodes);
+    const data: MasterNodeObject[] = yield call(handleFetchMasterNodes);
     const enabledMasternode = data.filter(
       (masterNode) => masterNode.state !== RESIGNED_STATE
     );
-    const masternodes: any[] = [];
+    const masternodes: MasterNodeObject[] = [];
     for (const iterator of enabledMasternode) {
       try {
-        const result = yield call(MasterNodeOwnerInfo, iterator);
+        const result: MasterNodeObject = yield call(
+          MasterNodeOwnerInfo,
+          iterator
+        );
+        result.isEnabled = result.isMyMasternode
+          ? yield call(isMasternodeEnabled, result)
+          : true;
         masternodes.push(result);
       } catch (err) {
         log.error(err.message);
@@ -59,24 +80,27 @@ export function* fetchMasterNodes() {
       payload: { masternodes },
     });
   } catch (e) {
+    const message = remapNodeError(getErrorMessage(e));
     yield put({
       type: fetchMasternodesFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
-export function* createMasterNodes() {
+export function* createMasterNodes({ payload }: { payload: TypeWallet }) {
   try {
-    const data = yield call(handelCreateMasterNodes);
+    const networkName = yield call(getNetworkType);
+    const data = yield call(handelCreateMasterNodes, payload, networkName);
     yield put({ type: createMasterNodeSuccess.type, payload: { ...data } });
   } catch (e) {
+    const message = remapNodeError(getErrorMessage(e));
     yield put({
       type: createMasterNodeFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
@@ -88,15 +112,17 @@ export function* masterNodeResign(action) {
     const data = yield call(handleResignMasterNode, masterNodeHash);
     yield put({ type: resignMasterNodeSuccess.type, payload: data });
   } catch (e) {
+    const message = remapNodeError(getErrorMessage(e));
     yield put({
       type: resignMasterNodeFailure.type,
-      payload: getErrorMessage(e),
+      payload: message,
     });
-    log.error(e);
+    log.error(message);
   }
 }
 
 export function* handleRestartNode() {
+  const network = getNetworkType();
   const {
     createdMasterNodeData: { masternodeOperator, masternodeOwner },
   } = yield select((state) => state.masterNodes);
@@ -105,11 +131,19 @@ export function* handleRestartNode() {
       const data = yield call(getAddressInfo, masternodeOwner);
       if (data.ismine && !data.iswatchonly) {
         const updatedConf = yield call(getConfigurationDetails);
-        updatedConf.masternode_operator = masternodeOperator;
-        updatedConf.masternode_owner = masternodeOwner;
+        const networkConf = updatedConf[network] || {};
+        const ENABLE_CONFIG = 1;
+        updatedConf[network] = {
+          ...networkConf,
+          masternode_operator: networkConf?.masternode_operator
+            ? [...networkConf.masternode_operator, masternodeOperator]
+            : [masternodeOperator],
+          spv: ENABLE_CONFIG,
+          gen: ENABLE_CONFIG,
+        };
         yield put(restartModal());
         yield call(shutDownBinary);
-        yield call(restartNode, { updatedConf });
+        yield call(restartNodeSync, { updatedConf });
         yield put(finishRestartNodeWithMasterNode());
       } else
         throw new Error(
@@ -127,7 +161,7 @@ export function* handleRestartNode() {
   }
 }
 
-function* MasterNodeOwnerInfo(masterNode: any) {
+function* MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
   const data = yield call(getAddressInfo, masterNode.ownerAuthAddress);
   return {
     ...masterNode,
@@ -135,11 +169,36 @@ function* MasterNodeOwnerInfo(masterNode: any) {
   };
 }
 
+function* handleUpdateMasternodeStart() {
+  try {
+    const { popover } = store.getState();
+    const updatedConf = yield call(
+      disableMasternodesMining,
+      popover.updatedMasternode as MasterNodeObject
+    );
+    yield put(restartModal());
+    yield call(shutDownBinary);
+    yield call(restartNodeSync, { updatedConf });
+    yield put(
+      openMasternodeUpdateRestartModal({ isOpen: false, masternode: null })
+    );
+    history.push(MASTER_NODES_PATH);
+  } catch (e) {
+    const message = remapNodeError(getErrorMessage(e));
+    yield put(
+      openMasternodeUpdateRestartModal({ isOpen: false, masternode: null })
+    );
+    log.error(message);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(fetchMasternodesRequest.type, fetchMasterNodes);
+  // @ts-ignore
   yield takeLatest(createMasterNode.type, createMasterNodes);
   yield takeLatest(resignMasterNode.type, masterNodeResign);
   yield takeLatest(startRestartNodeWithMasterNode.type, handleRestartNode);
+  yield takeLatest(updateMasternodeStart.type, handleUpdateMasternodeStart);
 }
 
 export default mySaga;

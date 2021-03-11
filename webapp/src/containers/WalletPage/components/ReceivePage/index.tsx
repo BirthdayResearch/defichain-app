@@ -9,6 +9,9 @@ import {
   WALLET_PAGE_PATH,
   WALLET_CREATE_RECEIVE_REQUEST,
 } from '../../../../constants';
+import Header from '../../../HeaderComponent';
+import { getPageTitle } from '../../../../utils/utility';
+import { getWalletPathAddress } from '../SendPage';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -18,17 +21,27 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenHash = urlParams.get('hash');
   const tokenAmount = urlParams.get('amount');
   const tokenAddress = urlParams.get('address');
+  const isLPS = urlParams.get('isLPS') == 'true';
 
   return (
     <div className='main-wrapper'>
       <Helmet>
-        <title>{I18n.t('containers.wallet.receivePage.receivePage')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.wallet.receivePage.receive'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={
             tokenSymbol
-              ? `${WALLET_PAGE_PATH}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}`
+              ? getWalletPathAddress(
+                  WALLET_PAGE_PATH,
+                  tokenSymbol,
+                  tokenHash || '',
+                  tokenAmount || '',
+                  tokenAddress || '',
+                  isLPS
+                )
               : WALLET_PAGE_PATH
           }
           tag={RRNavLink}
@@ -53,7 +66,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
             </span>
           </Button>
         </ButtonGroup>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <PaymentRequestList />

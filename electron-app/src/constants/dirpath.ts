@@ -25,7 +25,7 @@ export const BINARY_FILE_NAME = getPlatform() === 'win' ? 'defid.exe' : 'defid';
 export const BINARY_FILE_PATH = IS_DEV
   ? path.join(rootPath, './binary', getPlatform())
   : IS_PACKAGED
-  ? path.join(__dirname, '../../../../..', 'binary', getPlatform())
+  ? path.join(__dirname, '../../../../../..', 'binary', getPlatform())
   : path.join(rootPath, '../', 'binary', getPlatform());
 
 export const CONFIG_FILE_PATH = path.join(HOME_PATH, '/.defi', 'defi.conf');
@@ -39,12 +39,15 @@ export const DEBUG_LOG_FILE_PATH = path.join(
   BINARY_LOG_FILE_NAME
 );
 
-export const WALLET_DAT = 'wallet.dat';
-
 export const TESTNET_BASE_FOLDER = path.join(
   BASE_FILE_PATH,
   'testnet3',
   'wallets'
+);
+
+export const TESTNET_BASE_FOLDER_REINDEX = path.join(
+  BASE_FILE_PATH,
+  'testnet3'
 );
 
 export const REGTEST_BASE_FOLDER = path.join(
@@ -57,3 +60,8 @@ export const MAINNET_BASE_FOLDER =
   getPlatform() === 'linux'
     ? BASE_FILE_PATH
     : path.join(BASE_FILE_PATH, 'wallets');
+
+export const MAINNET_BASE_FOLDER_REINDEX = BASE_FILE_PATH;
+export const BLK_FILE = 'blk';
+export const REV_FILE = 'rev';
+export const WALLET_MAP_FILE = 'wallet_map.json';

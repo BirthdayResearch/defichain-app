@@ -1,14 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { MAIN, TEST } from '../../constants';
+import { AppState } from './types';
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
 
-export const initialState = {
+export const initialState: AppState = {
   isFetching: false,
   rpcRemotes: [],
-  rpcConfig: { rpcauth: '', rpcconnect: '', rpcport: '' },
+  rpcConfig: { rpcauth: '', rpcconnect: '' },
   isRunning: false,
   rpcConfigError: '',
   nodeError: '',
   configurationData: {},
   isQueueReady: false,
+  isAppClosing: false,
+  activeNetwork: 'main',
 };
 
 const configSlice = createSlice({
@@ -21,16 +27,11 @@ const configSlice = createSlice({
     getRpcConfigsSuccess(state, action) {
       state.rpcRemotes = action.payload.remotes;
       if (state.rpcRemotes && state.rpcRemotes.length) {
-        const {
-          rpcuser,
-          rpcpassword,
-          rpcconnect,
-          rpcport,
-        } = state.rpcRemotes[0];
+        const { rpcuser, rpcpassword, testnet } = state.rpcRemotes[0];
+        state.activeNetwork = testnet === CONFIG_ENABLED ? TEST : MAIN;
         state.rpcConfig = {
+          ...state.rpcRemotes[0],
           rpcauth: `${rpcuser}:${rpcpassword}`,
-          rpcconnect,
-          rpcport,
         };
       }
       state.isFetching = false;
@@ -52,7 +53,7 @@ const configSlice = createSlice({
     },
     startNodeFailure(state, action) {
       state.isFetching = false;
-      state.isRunning = false;
+      state.isRunning = true;
       state.nodeError = action.payload;
     },
     storeConfigurationData(state, action) {
@@ -63,6 +64,34 @@ const configSlice = createSlice({
     },
     killQueue(state) {
       state.isQueueReady = false;
+    },
+    isAppClosing(state, action) {
+      state.isAppClosing = action.payload.isAppClosing;
+      state.isFetching = action.payload.isAppClosing;
+    },
+    startSetNodeVersion(state) {},
+    setMasternodesMiningInConf(state, action) {
+      const activeNetwork = state.rpcConfig[state.activeNetwork];
+      const mnList: string[] = activeNetwork.masternode_operator || [];
+      const mn: MasterNodeObject = action.payload;
+      const operatorAddress = mn.operatorAuthAddress;
+      activeNetwork.masternode_operator = mnList.filter(
+        (s: string) => s !== operatorAddress
+      );
+      if (mn.isEnabled) {
+        activeNetwork.masternode_operator.push(operatorAddress);
+      }
+
+      if (activeNetwork.masternode_operator?.length === 0 && !mn.isEnabled) {
+        activeNetwork.spv = CONFIG_DISABLED;
+        activeNetwork.gen = CONFIG_DISABLED;
+      } else {
+        activeNetwork.spv = CONFIG_ENABLED;
+        activeNetwork.gen = CONFIG_ENABLED;
+      }
+    },
+    updateActiveNetwork(state, action) {
+      state.activeNetwork = action.payload;
     },
   },
 });
@@ -79,6 +108,10 @@ export const {
   storeConfigurationData,
   setQueueReady,
   killQueue,
+  isAppClosing,
+  startSetNodeVersion,
+  setMasternodesMiningInConf,
+  updateActiveNetwork,
 } = actions;
 
 export default reducer;

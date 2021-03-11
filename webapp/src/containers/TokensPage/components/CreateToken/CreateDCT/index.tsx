@@ -3,32 +3,24 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
-import {
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  CustomInput,
-} from 'reactstrap';
+import { MdArrowBack } from 'react-icons/md';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
-import Footer from './Footer';
+import { TOKENS_PATH } from '@/constants';
+import { ITokenResponse } from '@/utils/interfaces';
+import Header from '@/containers/HeaderComponent';
 import styles from './CreateDCT.module.scss';
-import { TOKENS_PATH } from '../../../../../constants';
-import { ITokenResponse } from '../../../../../utils/interfaces';
+import Footer from './Footer';
+import {
+  getPageTitle,
+  getTransactionAddressLabel,
+} from '../../../../../utils/utility';
+import AddressDropdown from '../../../../../components/AddressDropdown';
+import { CreateTokenFormState } from '..';
 
 interface CreateDCTProps {
   handleChange: (e) => void;
-  formState: any;
-  collateralAddresses: any;
+  formState: CreateTokenFormState;
   IsCollateralAddressValid: boolean;
   isConfirmationModalOpen: string;
   setIsConfirmationModalOpen: (state: string) => void;
@@ -38,12 +30,20 @@ interface CreateDCTProps {
   setWait: (wait: number) => void;
   createConfirmation: () => void;
   updateConfirmation: () => void;
-  handleDropDowns: (data: any, field: any, amount: any) => void;
+  handleDropDowns: (newData: any, amount: any) => void;
   cancelConfirmation: () => void;
   isErrorCreatingToken: string;
   isErrorUpdatingToken: string;
   isUpdate: boolean;
+  typeWallet: string | null;
 }
+
+const getTransactionLabel = (formState: CreateTokenFormState) =>
+  getTransactionAddressLabel(
+    formState.receiveLabel,
+    formState.receiveAddress,
+    I18n.t('containers.tokens.createToken.collateralAddress')
+  );
 
 const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
   props: CreateDCTProps
@@ -52,7 +52,6 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     isUpdate,
     handleChange,
     formState,
-    collateralAddresses,
     IsCollateralAddressValid,
     handleDropDowns,
     isConfirmationModalOpen,
@@ -65,14 +64,17 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
     isErrorCreatingToken,
     updatedTokenData,
     isErrorUpdatingToken,
+    typeWallet,
   } = props;
 
   return (
     <>
       <Helmet>
-        <title>{I18n.t('containers.tokens.tokensPage.title')}</title>
+        <title>
+          {getPageTitle(I18n.t('containers.tokens.tokensPage.title'))}
+        </title>
       </Helmet>
-      <header className='header-bar'>
+      <Header>
         <Button
           to={TOKENS_PATH}
           tag={NavLink}
@@ -89,7 +91,7 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
             ? I18n.t('containers.tokens.createToken.updateTitle')
             : I18n.t('containers.tokens.createToken.createTitle')}
         </h1>
-      </header>
+      </Header>
       <div className='content'>
         <section>
           <Form>
@@ -125,7 +127,8 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                 {I18n.t('containers.tokens.createToken.symbol')}
               </Label>
             </FormGroup>
-            <FormGroup className='form-label-group'>
+            {/* NOTE: Do not remove, for future purpose */}
+            {/* <FormGroup className='form-label-group'>
               <Input
                 type='number'
                 inputMode='numeric'
@@ -236,45 +239,17 @@ const CreateDCT: React.FunctionComponent<CreateDCTProps> = (
                   </Col>
                 </Row>
               </Col>
-            </Row>
-            <UncontrolledDropdown className='w-100'>
-              <DropdownToggle
-                caret
-                color='outline-secondary'
-                className={`${styles.divisibilityDropdown}
-                ${!IsCollateralAddressValid ? styles.collateralDropdown : ''}`}
-                disabled={isUpdate}
-              >
-                {formState.collateralAddress
-                  ? formState.collateralAddress
-                  : I18n.t('containers.tokens.createToken.collateralAddress')}
-              </DropdownToggle>
-              <DropdownMenu>
-                {collateralAddresses.map((data) => {
-                  return (
-                    <DropdownItem
-                      className='d-flex justify-content-between ml-0'
-                      key={data.address}
-                      name='collateralAddress'
-                      onClick={() =>
-                        handleDropDowns(
-                          data.address,
-                          'collateralAddress',
-                          data.amount
-                        )
-                      }
-                      value={data.address}
-                    >
-                      <span>{I18n.t(data.address)}</span>
-                      &nbsp;
-                      {formState.collateralAddress === data.address && (
-                        <MdCheck />
-                      )}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            </Row> */}
+            <AddressDropdown
+              formState={formState}
+              getTransactionLabel={getTransactionLabel}
+              onSelectAddress={handleDropDowns}
+              additionalClass={() =>
+                !IsCollateralAddressValid ? styles.collateralDropdown : ''
+              }
+              isDisabled={isUpdate}
+              typeWallet={typeWallet}
+            />
             {!IsCollateralAddressValid && (
               <FormText className={`${styles.collateralFormText} mt-2`}>
                 {I18n.t('containers.tokens.createToken.collateralAddressError')}

@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
 import Uiconfig from '../services/uiconfig';
-import { GET_CONFIG_DETAILS } from '../constants';
+import { GET_CONFIG_DETAILS } from '@defi_types/ipcEvents';
 import { responseMessage } from '../utils';
 
 export default function initiateUiConfig() {

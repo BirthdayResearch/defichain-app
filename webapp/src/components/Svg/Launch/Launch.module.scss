@@ -13,6 +13,10 @@
   --branchease: ease-out;
 }
 
+.notAnimated {
+  --duration: 0s;
+}
+
 .whole_logo_group {
   transform-origin: 54px 54px;
   animation: logo_rotate_anim var(--duration) 1 var(--logoease) forwards;

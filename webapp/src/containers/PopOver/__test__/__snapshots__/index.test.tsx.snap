@@ -28,6 +28,7 @@ exports[`Popover Index should check for snapshot 1`] = `
             }
           }
           centered={true}
+          container="body"
           fade={true}
           isOpen={false}
           keyboard={true}
@@ -41,6 +42,7 @@ exports[`Popover Index should check for snapshot 1`] = `
           returnFocusAfterClose={true}
           role="dialog"
           scrollable={false}
+          trapFocus={false}
           unmountOnClose={true}
           zIndex={1050}
         />
@@ -51,6 +53,8 @@ exports[`Popover Index should check for snapshot 1`] = `
         closeReIndexModal={[Function]}
         isReIndexModelOpen={false}
         isRestartLoader={[Function]}
+        reIndexMessage=""
+        startSetNodeVersion={[Function]}
       >
         <Modal
           autoFocus={true}
@@ -62,6 +66,7 @@ exports[`Popover Index should check for snapshot 1`] = `
             }
           }
           centered={true}
+          container="body"
           fade={true}
           isOpen={false}
           keyboard={true}
@@ -75,6 +80,7 @@ exports[`Popover Index should check for snapshot 1`] = `
           returnFocusAfterClose={true}
           role="dialog"
           scrollable={false}
+          trapFocus={false}
           unmountOnClose={true}
           zIndex={1050}
         />
@@ -95,6 +101,7 @@ exports[`Popover Index should check for snapshot 1`] = `
             }
           }
           centered={true}
+          container="body"
           fade={true}
           isOpen={false}
           keyboard={true}
@@ -108,11 +115,48 @@ exports[`Popover Index should check for snapshot 1`] = `
           returnFocusAfterClose={true}
           role="dialog"
           scrollable={false}
+          trapFocus={false}
           unmountOnClose={true}
           zIndex={1050}
         />
       </BackupWalletNotice>
     </Connect(BackupWalletNotice)>
+    <Connect(ResetWalletDatModal)>
+      <ResetWalletDatModal
+        closeResetWalletDatModal={[Function]}
+        openResetWalletDatModal={false}
+        startResetWalletDatRequest={[Function]}
+      >
+        <Modal
+          autoFocus={true}
+          backdrop={true}
+          backdropTransition={
+            Object {
+              "mountOnEnter": true,
+              "timeout": 150,
+            }
+          }
+          centered={true}
+          container="body"
+          fade={true}
+          isOpen={false}
+          keyboard={true}
+          modalTransition={
+            Object {
+              "timeout": 300,
+            }
+          }
+          onClosed={[Function]}
+          onOpened={[Function]}
+          returnFocusAfterClose={true}
+          role="dialog"
+          scrollable={false}
+          trapFocus={false}
+          unmountOnClose={true}
+          zIndex={1050}
+        />
+      </ResetWalletDatModal>
+    </Connect(ResetWalletDatModal)>
   </PopOver>
 </Provider>
 `;
