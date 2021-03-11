@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Row, Col, TabContent } from 'reactstrap';
-import { MdSearch, MdAdd, MdCheckCircle, MdErrorOutline } from 'react-icons/md';
+import { Button, ButtonGroup, Row, Col, TabContent, Tooltip } from 'reactstrap';
+import {
+  MdSearch,
+  MdAdd,
+  MdCheckCircle,
+  MdErrorOutline,
+  MdInfo,
+  MdInfoOutline,
+} from 'react-icons/md';
 import classnames from 'classnames';
 import SearchBar from '../../components/SearchBar';
 import MasternodesList from './components/MasterNodesList';
@@ -68,6 +75,9 @@ const MasternodesPage: React.FunctionComponent = () => {
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   const resetConfirmationModal = (event: any) => {
     dispatch(fetchInstantBalanceRequest());
@@ -196,6 +206,16 @@ const MasternodesPage: React.FunctionComponent = () => {
       <Header>
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.masterNodes.masterNodesPage.masterNodes')}
+
+          <MdInfoOutline className='ml-1' id='masternode__item' size={20} />
+          <Tooltip
+            placement='auto'
+            target='masternode__item'
+            isOpen={tooltipOpen}
+            toggle={toggle}
+          >
+            {I18n.t('containers.masterNodes.masterNodesPage.tooltipMasternode')}
+          </Tooltip>
         </h1>
         <MasterNodeTabsHeader tab={activeTab} setTab={setActiveTab} />
         <div></div>

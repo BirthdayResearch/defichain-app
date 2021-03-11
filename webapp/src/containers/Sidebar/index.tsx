@@ -51,6 +51,7 @@ import {
   openMasternodeWarningModal,
 } from '../PopOver/reducer';
 import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
+import { hasAnyMasternodeEnabled } from '../MasternodesPage/service';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchInstantBalanceRequest: () => void;
@@ -122,7 +123,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
   const ICON_SIZE = 25;
 
   const onLockWallet = () => {
-    myMasternodes?.length > 0
+    hasAnyMasternodeEnabled(myMasternodes)
       ? openMasternodeWarningModal(true)
       : lockWalletStart();
   };
@@ -261,7 +262,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdDns />
                 {I18n.t('containers.sideBar.masterNodes')}
-                {myMasternodes?.length > 0 && (
+                {hasAnyMasternodeEnabled(myMasternodes) && (
                   <div className={styles.iconPosition}>
                     <span className={`txn-status-enabled mt-1 ml-1`}></span>
                   </div>

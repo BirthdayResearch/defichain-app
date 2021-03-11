@@ -15,6 +15,7 @@ import {
   START_BACKUP_WALLET,
   ON_DEFAULT_WALLET_PATH_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_OVERWRITE_CONFIG_REQUEST,
 } from '@defi_types/ipcEvents';
 import {
   checkPathExists,
@@ -37,7 +38,11 @@ import {
 import ini from 'ini';
 import { ParsedPath } from 'path';
 import packageInfo from '../../../package.json';
-import { CONFIG_DISABLED, NetworkTypes } from '@defi_types/rpcConfig';
+import {
+  CONFIG_DISABLED,
+  NetworkTypes,
+  RPCConfigItem,
+} from '@defi_types/rpcConfig';
 
 const saveFileDialog = async (
   extensions: { name: string; extensions: string[] }[]
@@ -111,6 +116,16 @@ export const writeToConfigFile = (
   }
 };
 
+export const overwriteConfigFile = (data: RPCConfigItem) => {
+  try {
+    const defaultConfigData = ini.encode(data);
+    const newData = formatConfigFileWrite(defaultConfigData);
+    writeFile(CONFIG_FILE_NAME, newData, false);
+  } catch (error) {
+    log.error(error);
+  }
+};
+
 export const getWalletMapPath = () => {
   try {
     const baseFolder = getBaseFolder();
@@ -146,14 +161,11 @@ export const setWalletEvents = () => {
 
   ipcMain.on(ON_SET_NODE_VERSION, async (event: Electron.IpcMainEvent) => {
     try {
-      const r = getWalletMap();
-      if (r != null || r != '') {
-        const { ainVersion } = packageInfo;
-        const walletMap: WalletMap = JSON.parse(r);
-        walletMap.nodeVersion = ainVersion;
-        overwriteWalletMap(walletMap);
-        event.returnValue = responseMessage(true, JSON.stringify(walletMap));
-      }
+      const walletMap = createOrGetWalletMap();
+      const { ainVersion } = packageInfo;
+      walletMap.nodeVersion = ainVersion;
+      overwriteWalletMap(walletMap);
+      event.returnValue = responseMessage(true, JSON.stringify(walletMap));
     } catch (error) {
       log.error(error);
       event.returnValue = responseMessage(false, {
@@ -228,6 +240,21 @@ export const setWalletEvents = () => {
         } else {
           throw new Error(`File selected does not exist.`);
         }
+      } catch (error) {
+        log.error(error);
+        event.returnValue = responseMessage(false, {
+          message: error.message,
+        });
+      }
+    }
+  );
+
+  ipcMain.on(
+    ON_OVERWRITE_CONFIG_REQUEST,
+    async (event: Electron.IpcMainEvent, data: RPCConfigItem) => {
+      try {
+        overwriteConfigFile(data);
+        event.returnValue = responseMessage(true, data);
       } catch (error) {
         log.error(error);
         event.returnValue = responseMessage(false, {

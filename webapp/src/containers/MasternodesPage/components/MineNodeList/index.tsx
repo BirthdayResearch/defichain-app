@@ -22,6 +22,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
               hash={data.hash}
               owner={data.ownerAuthAddress}
               operator={data.operatorAuthAddress}
+              isEnabled={data.isEnabled}
             />
           </Col>
         ))}

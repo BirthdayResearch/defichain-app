@@ -1,6 +1,5 @@
 import * as log from './electronLogger';
 import * as path from 'path';
-import ini from 'ini';
 import { spawn } from 'child_process';
 import {
   BINARY_FILE_NAME,
@@ -17,14 +16,12 @@ import {
   getProcesses,
   responseMessage,
   createResponseMessage,
-  writeFile,
   sleep,
   stopProcesses,
   getIniData,
   deletePeersFile,
   deleteBlocksAndRevFiles,
   deleteBanlist,
-  formatConfigFileWrite,
 } from '../utils';
 import { START_DEFI_CHAIN_REPLY } from '@defi_types/ipcEvents';
 import {
@@ -37,7 +34,10 @@ import {
 import packageInfo from '../../../package.json';
 import { WalletMap } from '../../../typings/walletMap';
 import semverDiff from 'semver/functions/diff';
-import { createOrGetWalletMap } from '../controllers/wallets';
+import {
+  createOrGetWalletMap,
+  overwriteConfigFile,
+} from '../controllers/wallets';
 import { CONFIG_ENABLED, RPCConfigItem } from '../../../typings/rpcConfig';
 
 const checkIfNodeVersionChanged = (
@@ -297,9 +297,7 @@ export default class DefiProcessManager {
     const stopResponse = await this.stop();
     log.info('[Restart Node] Stop completed');
     if (args && args.updatedConf && Object.keys(args.updatedConf).length) {
-      const updatedConfigData = ini.encode(args.updatedConf);
-      const newData = formatConfigFileWrite(updatedConfigData);
-      writeFile(CONFIG_FILE_NAME, newData, false);
+      overwriteConfigFile(args.updatedConf);
     }
     log.info('[Restart Node] Restarting DefiProcessManager');
     const startResponse = await this.start(args || {}, event);
