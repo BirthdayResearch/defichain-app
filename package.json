@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
