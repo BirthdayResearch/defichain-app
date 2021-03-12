@@ -132,7 +132,7 @@
         "filter": ["**/*"]
       },
       {
-        "from": "DO_NOT_SAVE_WALLETS_HERE.txt",
+        "from": "./DO_NOT_SAVE_WALLETS_HERE.txt",
         "to": "../DO_NOT_SAVE_WALLETS_HERE.txt",
         "filter": ["**/*"]
       }
@@ -158,6 +158,9 @@
     },
     "win": {
       "target": "NSIS"
+    },
+    "mac": {
+      "binaries": ["./DO_NOT_SAVE_WALLETS_HERE.txt"]
     },
     "publish": {
       "provider": "github",
