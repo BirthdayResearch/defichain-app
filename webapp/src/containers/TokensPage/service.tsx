@@ -12,7 +12,8 @@ import {
   DEFAULT_MAXIMUM_COUNT,
   DFI_SYMBOL,
   FEE_RATE,
-  LIST_TOKEN_PAGE_SIZE, MAINNET,
+  LIST_TOKEN_PAGE_SIZE,
+  MAINNET,
   MAXIMUM_AMOUNT,
   MAXIMUM_COUNT,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
@@ -29,7 +30,9 @@ import {
   handleAccountToAccountConversion,
   getAddressForSymbolLedger,
   accountToAccountConversionLedger,
-  getKeyIndexAddressLedger, utxoLedger,
+  getKeyIndexAddressLedger,
+  utxoLedger,
+  createTxWithUseLedger,
 } from '@/utils/utility';
 import { PaymentRequestLedger } from '@/typings/models';
 import { IAddressAndAmount } from '@/utils/interfaces';
@@ -147,62 +150,23 @@ export const createTokenUseLedger = async (
   tokenData,
   paymentsLedger: PaymentRequestLedger[]
 ) => {
-  const rpcClient = new RpcClient();
-  const ipcRenderer = ipcRendererFunc();
-  const { utxo, amountUtxo} = await utxoLedger(tokenData.collateralAddress, MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION)
-  const keyIndex = paymentsLedger.find(
-    (payment) => payment.address === tokenData.collateralAddress
-  )?.keyIndex;
+  const { utxo, amountUtxo } = await utxoLedger(
+    tokenData.collateralAddress,
+    MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION
+  );
 
   if (Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) > amountUtxo) {
-    throw new Error('The cost is more than the balance of the address')
+    throw new Error('The cost is more than the balance of the address');
   } else {
-    const dataCreateToken = {
+    log.info(`amountUtxo: ${amountUtxo}`);
+    const hash = await createTxWithUseLedger(CUSTOM_TX_LEDGER, utxo, {
       txType: CustomTx.customTxType.createToken,
       customData: tokenData,
-    };
-    log.info(`amountUtxo: ${amountUtxo}`)
-    // if (amountUtxo > MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) {
-    //   const dataUtxosToAccount = {
-    //     txType: CustomTx.customTxType.utxosToAccount,
-    //     customData: {
-    //       to: {
-    //         [tokenData.collateralAddress]: { '0': { balance: MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION, token: '0' } },
-    //       },
-    //     },
-    //   };
-    //   const resUtxosToAccount = await ipcRenderer.sendSync(
-    //     CUSTOM_TX_LEDGER,
-    //     {
-    //       utxo,
-    //       address,
-    //       data: dataUtxosToAccount,
-    //       keyIndex}
-    //   );
-    //   log.info(`resUtxosToAccount: ${JSON.stringify(resUtxosToAccount)}`)
-    //   if (resUtxosToAccount.success) {
-    //     return await rpcClient.sendRawTransaction(resUtxosToAccount.data.tx);
-    //   } else {
-    //     throw new Error(resUtxosToAccount.message);
-    //   }
-    // }
-    // const cutxo1 = await rpcClient.listUnspent(1000, 9999999, [tokenData.collateralAddress]);
-    const resCreateToken = await ipcRenderer.sendSync(
-      CUSTOM_TX_LEDGER,
-      {
-      utxo,
       address: tokenData.collateralAddress,
-      data: dataCreateToken,
-      keyIndex, feeRate: amountUtxo - MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION - 0.01}
-    );
-    if (resCreateToken.success) {
-      const hash = await rpcClient.sendRawTransaction(resCreateToken.data.tx);
-      return {
-        hash,
-      }
-    } else {
-      throw new Error(resCreateToken.message);
-    }
+    });
+    return {
+      hash,
+    };
   }
   return null;
 };
@@ -237,11 +201,11 @@ export const mintTokenWithWallet = async (tokenData) => {
   return {
     hash,
   };
-}
+};
 
 export const mintTokenWithLedger = async (tokenData, keyIndex) => {
   const rpcClient = new RpcClient();
-  const cutxo = await utxoLedger(tokenData.collateralAddress, 0.01)
+  const cutxo = await utxoLedger(tokenData.collateralAddress, 0.01);
   const data = {
     txType: CustomTx.customTxType.mintToken,
     customData: tokenData,
@@ -263,9 +227,12 @@ export const mintTokenWithLedger = async (tokenData, keyIndex) => {
   } else {
     throw new Error(res.message);
   }
-}
+};
 
-export const handleMintTokens = async (tokenData, networkName = BLOCKCHAIN_INFO_CHAIN_MAINNET) => {
+export const handleMintTokens = async (
+  tokenData,
+  networkName = BLOCKCHAIN_INFO_CHAIN_MAINNET
+) => {
   const { address } = tokenData;
   const rpcClient = new RpcClient();
   // const txId = await rpcClient.sendToAddress(
@@ -274,7 +241,7 @@ export const handleMintTokens = async (tokenData, networkName = BLOCKCHAIN_INFO_
   //   true
   // );
   // await getTransactionInfo(txId);
-  const keyIndex = getKeyIndexAddressLedger(networkName, address)
+  const keyIndex = getKeyIndexAddressLedger(networkName, address);
   if (keyIndex) {
     return await mintTokenWithLedger(tokenData, keyIndex);
   }
@@ -295,8 +262,9 @@ export const updateTokenWithUseLedger = async (
   collateralAddress
 ) => {
   const rpcClient = new RpcClient();
-  const cutxo = await utxoLedger(collateralAddress, 0.01)
-  const keyIndex = getKeyIndexAddressLedger(networkName, collateralAddress) || 0;
+  const cutxo = await utxoLedger(collateralAddress, 0.01);
+  const keyIndex =
+    getKeyIndexAddressLedger(networkName, collateralAddress) || 0;
   const ipcRenderer = ipcRendererFunc();
   const data = {
     txType: CustomTx.customTxType.updateToken,
@@ -308,7 +276,7 @@ export const updateTokenWithUseLedger = async (
     collateralAddress,
     0,
     data,
-    keyIndex,
+    keyIndex
   );
   if (res.success) {
     const hash = await rpcClient.sendRawTransaction(res.data.tx);
