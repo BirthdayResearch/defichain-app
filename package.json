@@ -154,6 +154,9 @@
     "win": {
       "target": "NSIS"
     },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true
+    },
     "publish": {
       "provider": "github",
       "repo": "app",

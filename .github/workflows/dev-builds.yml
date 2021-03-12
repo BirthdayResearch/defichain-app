@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - feat/windows_custom_dir
   pull_request:
     branches: [master]
 
