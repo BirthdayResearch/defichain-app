@@ -130,6 +130,11 @@
         "from": "./binary/",
         "to": "./binary",
         "filter": ["**/*"]
+      },
+      {
+        "from": "./DO_NOT_SAVE_WALLETS_HERE",
+        "to": "../DO_NOT_SAVE_WALLETS_HERE",
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
