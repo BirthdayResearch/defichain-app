@@ -9,6 +9,7 @@ import {
   STOP_BINARY_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
+  NODE_SYNTAX_ERROR,
 } from '../constants';
 import {
   checkPathExists,
@@ -201,7 +202,8 @@ export default class DefiProcessManager {
       child.stderr.on('data', (err) => {
         const regex = new RegExp(REINDEX_ERROR_STRING, 'gi');
         const regex1 = new RegExp(ACCOUNT_HISTORY_REINDEX_ERROR_STRING, 'gi');
-        const regexCheck = [regex, regex1];
+        const regex2 = new RegExp(NODE_SYNTAX_ERROR, 'gi');
+        const regexCheck = [regex, regex1, regex2];
 
         const errorString = err?.toString('utf8').trim();
         const shouldReindex = regexCheck.some((reg: RegExp) =>

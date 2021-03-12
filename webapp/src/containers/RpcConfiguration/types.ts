@@ -6,7 +6,6 @@ export interface AppState {
   readonly isRunning: boolean;
   readonly rpcConfigError: string;
   readonly nodeError: string;
-  readonly configurationData: any;
   readonly isQueueReady: boolean;
   readonly isAppClosing: boolean;
   readonly activeNetwork: string;

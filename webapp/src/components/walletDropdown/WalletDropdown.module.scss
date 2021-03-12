@@ -1,0 +1,80 @@
+// App and Bootstrap variables required
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '../../scss/variables';
+@import '../../scss/bootstrap/variables';
+
+.dropDownTokens {
+  position: initial;
+  padding: 0;
+}
+
+.dropdownMenublock {
+  width: calc(100% + 3px);
+  transform: inherit !important;
+  padding: 0;
+  margin: 96px 0 0 -1px;
+}
+
+.dropDownItemRight {
+  text-align: right;
+}
+
+:not(:active) {
+  > .dropDownItemRight {
+    color: $secondary;
+  }
+}
+
+.buttonDropdown {
+  border: 0;
+  font-weight: $font-weight-normal;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0;
+
+  &:focus {
+    border: 0;
+    box-shadow: none !important;
+  }
+
+  &:not(:disabled):hover {
+    color: $dropdown-link-hover-color !important;
+  }
+
+  // Coin icon
+  > :first-child {
+    margin-right: 8px;
+  }
+}
+
+.dropdownItemsearch {
+  padding: 8px 8px 7px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.scrollableContainer {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  height: 240px;
+  overflow-y: auto;
+}
+
+.dropDownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dropDownItemLeft {
+  display: flex;
+  align-items: center;
+}
+
+.dropDownIcon {
+  display: block;
+  margin-right: 8px;
+}

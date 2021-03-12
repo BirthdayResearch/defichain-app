@@ -30,6 +30,7 @@
   "containers": {
     "sideBar": {
       "balance": "Balance",
+      "balances": "Guthaben",
       "dfi": "DFI",
       "wallets": "Wallets",
       "dex": "DEX",
@@ -165,7 +166,7 @@
       "createMasterNode": {
         "title": "Erstelle Masternode",
         "masterNodeName": "Masternode-Name",
-        "lackOfBalanceMsg": "Aufgrund von fehlendem Guthaben ist das Erstellen einer Masternode nicht möglich. Mindestens 1 Million DFI ist zum Erstellen der Masternode erforderlich.",
+        "lackOfBalanceMsg": "Aufgrund von fehlendem Guthaben ist das Erstellen einer Masternode nicht möglich. Mindestens 20,000 DFI ist zum Erstellen der Masternode erforderlich.",
         "confirmationText": "Bist Du sicher, dass Du eine Masternode erstellen willst?",
         "restartNodeConfirmationText": "Bist Du sicher, dass Du Deine Node neu starten willst?",
         "createNodeButton": "Erstelle eine Masternode",
@@ -217,7 +218,8 @@
         "searchTokens": "Token suchen",
         "dat": "DAT",
         "dct": "DCT",
-        "paginationRange": "%{from} – %{to} von %{total} Token",
+        "remove": "Entfernen",
+        "paginationRange": "%{from} – %{to} von %{total} Tokens",
         "datLabels": {
           "type": "Typ",
           "price": "Preis",
@@ -736,6 +738,7 @@
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
+        "balances": "Guthaben",
         "wallets": "Wallets",
         "delete": "Löschen",
         "send": "Senden",
@@ -769,7 +772,8 @@
       "walletWalletsPage": {
         "walletWallets": "Wallets",
         "wallets": "Wallets",
-        "addWallet": "Wallet hinzufügen"
+        "addWallet": "Wallet hinzufügen",
+        "addBalance": "Guthaben hinzufügen"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "Wallet - Token hinzufügen",

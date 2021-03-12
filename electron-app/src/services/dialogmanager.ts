@@ -1,4 +1,5 @@
 import { dialog } from 'electron';
+import { getBaseFolder } from '../utils';
 import * as log from './electronLogger';
 
 export default class DialogManager {
@@ -7,6 +8,7 @@ export default class DialogManager {
     try {
       const res = await dialog.showOpenDialog(null, {
         properties: ['openDirectory'],
+        defaultPath: getBaseFolder(),
       });
       if (res.canceled || !res.filePaths.length) {
         throw new Error('Directory not selected');
@@ -24,6 +26,7 @@ export default class DialogManager {
       const res = await dialog.showOpenDialog(null, {
         properties: ['openFile'],
         filters,
+        defaultPath: getBaseFolder(),
       });
       if (res.canceled || !res.filePaths.length) {
         throw new Error('File not selected');
@@ -44,6 +47,7 @@ export default class DialogManager {
           'treatPackageAsDirectory',
         ],
         filters,
+        defaultPath: getBaseFolder(),
       });
       if (res.canceled || !res.filePath) {
         throw new Error('File not selected');
