@@ -20,11 +20,11 @@ const PostUpdateComponent = (props: PostUpdateComponentProps) => {
         <p>{I18n.t('alerts.updateAppNotice')}</p>
       </ModalBody>
       <ModalFooter>
+        <Button size='sm' color='link' onClick={closing}>
+          {I18n.t('alerts.restartLaterNotice')}
+        </Button>
         <Button size='sm' color='primary' onClick={() => sendUpdateResponse()}>
           {I18n.t('alerts.restartNowNotice')}
-        </Button>
-        <Button size='sm' onClick={closing}>
-          {I18n.t('alerts.restartLaterNotice')}
         </Button>
       </ModalFooter>
     </>

@@ -1,6 +1,6 @@
 {
   "name": "defi-app",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -139,18 +139,19 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
+      },
+      {
+        "from": "./DO_NOT_SAVE_WALLETS_HERE",
+        "to": "../DO_NOT_SAVE_WALLETS_HERE",
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
