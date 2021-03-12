@@ -61,6 +61,7 @@ export default class App {
     this.isAppInitialized = false;
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
+    autoUpdater.allowPrerelease = true;
     /* For future purpose */
   }
 
