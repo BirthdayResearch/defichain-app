@@ -155,7 +155,8 @@
       "target": "NSIS"
     },
     "nsis": {
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
     },
     "publish": {
       "provider": "github",
