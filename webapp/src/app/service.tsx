@@ -41,6 +41,7 @@ import {
   GET_CONFIG_DETAILS,
   ON_OVERWRITE_CONFIG_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_SNAPSHOT_START_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -340,5 +341,12 @@ export const overwriteConfigRequest = async (
   } catch (error) {
     log.error(error, 'overwriteConfigRequest');
     return false;
+  }
+};
+
+export const onStartSnapshotRequest = () => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST);
   }
 };

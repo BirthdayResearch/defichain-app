@@ -1,21 +1,55 @@
 import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
-import { checkPathExists, getBaseFolder } from '../utils';
+import { checkPathExists, deleteFile, getBaseFolder } from '../utils';
 import path from 'path';
 import { SNAPSHOT_FOLDER } from '../constants';
 import axios from 'axios';
 import { OFFICIAL_SNAPSHOT_URL, SNAPSHOT_FILENAME } from '@defi_types/snapshot';
-import { rejects } from 'node:assert';
+import https from 'https';
+import { IncomingMessage } from 'http';
+import { ipcMain } from 'electron';
+import {
+  ON_SNAPSHOT_DOWNLOAD_COMPLETE,
+  ON_SNAPSHOT_DOWNLOAD_FAILURE,
+  ON_SNAPSHOT_START_REQUEST,
+  ON_SNAPSHOT_UPDATE_PROGRESS,
+} from '@defi_types/ipcEvents';
 
-export const downloadSnapshot = async (): Promise<boolean> => {
+export interface FileSizesModel {
+  remoteSize: number;
+  localSize: number;
+}
+
+export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   try {
-    return new Promise(async (resolve, reject) => {
+    ipcMain.on(ON_SNAPSHOT_START_REQUEST, async () => {
+      downloadSnapshot(bw);
+    });
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const downloadSnapshot = async (
+  bw: Electron.BrowserWindow
+): Promise<boolean> => {
+  try {
+    return new Promise(async (resolve) => {
       const snapshotDirectory = createSnapshotDirectory();
-      const isSnapshotExisting = await checkIfSnapshotExist(snapshotDirectory);
+      const fileSizes = {
+        remoteSize: 0,
+        localSize: 0,
+      };
+      const isSnapshotExisting = await checkIfSnapshotExist(
+        snapshotDirectory,
+        fileSizes
+      );
       if (isSnapshotExisting) {
+        onDownloadComplete(bw, fileSizes);
         resolve(true);
       } else {
-        startDownloadSnapshot(snapshotDirectory);
+        deleteSnapshotIfExisting(snapshotDirectory);
+        startDownloadSnapshot(snapshotDirectory, bw, fileSizes);
       }
     });
   } catch (error) {
@@ -36,16 +70,16 @@ export const createSnapshotDirectory = (): string => {
 };
 
 export const checkIfSnapshotExist = async (
-  directory: string
+  directory: string,
+  fileSizes: FileSizesModel
 ): Promise<boolean> => {
   try {
     if (checkPathExists(directory)) {
       const response = await axios.head(OFFICIAL_SNAPSHOT_URL);
-      const remoteSize = +response.headers['content-length'];
-      const localSize = fs.statSync(directory).size;
-      log.info(`Remote Size: ${remoteSize}`);
-      log.info(`Local Size: ${localSize}`);
-      return remoteSize === localSize;
+      fileSizes.remoteSize =
+        +response.headers['content-length'] || fileSizes.remoteSize;
+      fileSizes.localSize = fs.statSync(directory).size || fileSizes.localSize;
+      return fileSizes.remoteSize === fileSizes.localSize;
     } else {
       return false;
     }
@@ -54,46 +88,55 @@ export const checkIfSnapshotExist = async (
   }
 };
 
-export const onDownloadProgress = (progressEvent: any) => {
+export const deleteSnapshotIfExisting = (directory: string): void => {
   try {
-    log.info(progressEvent);
-  } catch (error) {}
+    if (checkPathExists(directory)) {
+      deleteFile(directory);
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const onDownloadComplete = (
+  bw: Electron.BrowserWindow,
+  fileSizes: FileSizesModel
+) => {
+  bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_COMPLETE, fileSizes);
 };
 
 export const startDownloadSnapshot = async (
-  directory: string
+  directory: string,
+  bw: Electron.BrowserWindow,
+  fileSizes: FileSizesModel
 ): Promise<any> => {
   try {
+    let bytes = 0;
     const writer = createWriteStream(directory);
-    return axios
-      .get(OFFICIAL_SNAPSHOT_URL, {
-        responseType: 'stream',
-        onDownloadProgress: onDownloadProgress,
-      })
-      .then((response) => {
-        return new Promise((resolve, reject) => {
-          response.data.pipe(writer);
-          let error: Error = null;
-          writer.on('error', (err: Error) => {
-            error = err;
-            writer.close();
-            reject(err);
-          });
-          writer.on('close', () => {
-            if (!error) {
-              resolve(true);
-            }
-          });
+    return https.get(OFFICIAL_SNAPSHOT_URL, (response: IncomingMessage) => {
+      response.pipe(writer);
+      let error: Error = null;
+      writer.on('error', (err: Error) => {
+        error = err;
+        writer.close();
+      });
+      writer.on('close', () => {
+        if (!error) {
+          onDownloadComplete(bw, fileSizes);
+        } else {
+          bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
+        }
+      });
+      response.on('data', (chunk) => {
+        bytes += chunk.length;
+        bw.webContents.send(ON_SNAPSHOT_UPDATE_PROGRESS, {
+          bytes,
+          fileSizes,
         });
-      })
-      .catch(
-        (err) =>
-          new Promise((resolve, reject) => {
-            log.error(err);
-            reject(err);
-          })
-      );
+      });
+    });
   } catch (error) {
+    bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
     log.error(error);
     return false;
   }

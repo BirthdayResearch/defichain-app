@@ -40,7 +40,6 @@ import {
   overwriteConfigFile,
 } from '../controllers/wallets';
 import { CONFIG_ENABLED, RPCConfigItem } from '../../../typings/rpcConfig';
-import { downloadSnapshot } from '../controllers/snapshot';
 
 const checkIfNodeVersionChanged = (
   ainVersion: string,
@@ -90,7 +89,6 @@ export default class DefiProcessManager {
     const METHOD_NAME = 'start';
     this.logger('Starting node connection...', METHOD_NAME, false);
     try {
-      downloadSnapshot();
       //* App wallet configurations
       const walletMap: WalletMap = createOrGetWalletMap();
 

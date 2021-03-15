@@ -33,6 +33,7 @@ import {
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 import { checkWalletConfig, initializeWalletMap } from './controllers/wallets';
 import Uiconfig from './services/uiconfig';
+import { initializeSnapshotEvents } from './controllers/snapshot';
 
 declare var process: {
   argv: any;
@@ -94,6 +95,7 @@ export default class App {
     );
     createMnemonicAction();
     initializeWalletMap();
+    initializeSnapshotEvents(this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {

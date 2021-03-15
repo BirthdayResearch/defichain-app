@@ -11,6 +11,7 @@ import {
 } from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
 import { BigNumber } from 'bignumber.js';
+import { onStartSnapshotRequest } from '../../app/service';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -100,11 +101,14 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
               {I18n.t(`components.syncStatus.synchronized`)} <MdDone />
             </div>
             {latestSyncedBlock > 0 && (
-              <div className={styles.blockStatus}>
-                {I18n.t(`components.syncStatus.atBlock`, {
-                  block: latestSyncedBlock,
-                })}
-              </div>
+              <>
+                <div className={styles.blockStatus}>
+                  {I18n.t(`components.syncStatus.atBlock`, {
+                    block: latestSyncedBlock,
+                  })}
+                </div>
+                <div onClick={() => onStartSnapshotRequest()}>Click me</div>
+              </>
             )}
           </>
         ) : (

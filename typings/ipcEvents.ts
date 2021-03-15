@@ -37,3 +37,7 @@ export const ON_FILE_SELECT_REQUEST = 'on-file-select-request';
 export const ON_DEFAULT_WALLET_PATH_REQUEST = 'on-default-wallet-path-request';
 export const ON_SET_NODE_VERSION = 'on-set-node-version';
 export const ON_OVERWRITE_CONFIG_REQUEST = 'on-overwrite-config-request';
+export const ON_SNAPSHOT_START_REQUEST = 'on_snapshot_start_request';
+export const ON_SNAPSHOT_UPDATE_PROGRESS = 'on_snapshot_update_progress';
+export const ON_SNAPSHOT_DOWNLOAD_COMPLETE = 'on_snapshot_download_complete';
+export const ON_SNAPSHOT_DOWNLOAD_FAILURE = 'on_snapshot_download_failure';
