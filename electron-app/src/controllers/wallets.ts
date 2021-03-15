@@ -315,6 +315,12 @@ export const setWalletEvents = () => {
 export const createWalletMap = (): Partial<WalletMap> => {
   try {
     const src = getWalletMapPath();
+
+    if (!checkPathExists(getBaseFolder())) {
+      log.info(`Wallets folder missing... Creating directory...`);
+      fs.mkdirSync(getBaseFolder(), { recursive: true });
+    }
+
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
       const { ainVersion } = packageInfo;
