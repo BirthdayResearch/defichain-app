@@ -580,7 +580,21 @@
       "minute": "%{time} minute",
       "minutes": "%{time} minutes",
       "years": "%{time} years",
-      "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active."
+      "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active.",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passpharase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -879,7 +893,7 @@
     "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Lock wallet",
     "encryptWalletNotice": "Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.",
-    "encryptWalletWarning": "Keep your passphrase safe, if lost, there will be no recovery. You will not be able to proceed with any transactions once your wallet is locked.",
+    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallets again.",
     "enableLocking": "Enable locking",
     "later": "Later",
     "passphraseLabel": "Passphrase",

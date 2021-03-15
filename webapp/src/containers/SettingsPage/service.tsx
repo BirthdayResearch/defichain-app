@@ -41,6 +41,7 @@ import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
+  getCountdownValue,
   getErrorMessage,
   getNetworkType,
 } from '../../utils/utility';
@@ -116,6 +117,7 @@ export const initialData = () => {
     maximumAmount: getAppConfigMaximumAmount(),
     maximumCount: getAppConfigMaximumCount(),
     feeRate: getAppConfigFeeRate(),
+    sendCountdown: getCountdownValue(),
   };
   return settings;
 };

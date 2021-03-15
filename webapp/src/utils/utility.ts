@@ -95,6 +95,7 @@ import {
   HighestAmountItem,
   ResponseMessages,
 } from '../constants/common';
+import PersistentStore from './persistentStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -1519,4 +1520,12 @@ export const checkRPCErrorMessagePending = (message: string): string => {
     }
   }
   return message;
+};
+
+export const getCountdownValue = () => {
+  const sendCountdownValue = PersistentStore.get('sendCountdown');
+  if (!sendCountdownValue || sendCountdownValue === 'true') {
+    return true;
+  }
+  return false;
 };
