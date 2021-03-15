@@ -22,7 +22,7 @@ jobs:
       - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: linux-build
-          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+          path: 'dist/DeFi-${{ env.PACKAGE_VERSION}}.AppImage'
 
   build_mac_version:
     runs-on: macos-latest
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: mac-build
-          path: 'dist/defi-app-${{ env.PACKAGE_VERSION}}.dmg'
+          path: 'dist/DeFi-${{ env.PACKAGE_VERSION}}.dmg'
 
   build_windows_version:
     runs-on: windows-latest
@@ -67,4 +67,4 @@ jobs:
       - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
         with:
           name: win-build
-          path: 'dist/defi-app Setup ${{ env.PACKAGE_VERSION}}.exe'
+          path: 'dist/DeFi Setup ${{ env.PACKAGE_VERSION}}.exe'

@@ -175,13 +175,13 @@ exports[`SendPage component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Send - DeFi app"
+                title="Send - DeFi "
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Send - DeFi app"
+                  title="Send - DeFi "
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -302,7 +302,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                   </Button>
                   <h1>
                     Send
-                     
+
                     DFI
                   </h1>
                 </header>
@@ -659,7 +659,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                               </span>
                             </NumberFormat>
                           </NumberMask>
-                           
+
                           DFI
                         </div>
                       </div>
@@ -717,7 +717,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                               </span>
                             </NumberFormat>
                           </NumberMask>
-                           
+
                           DFI
                         </div>
                       </div>
@@ -851,7 +851,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                       <span
                         className="h2 mb-0"
                       >
-                         
+
                         DFI
                       </span>
                     </dd>
@@ -945,7 +945,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                             type="button"
                           >
                             Complete send
-                             
+
                             <span
                               className="timer"
                             >
@@ -1007,7 +1007,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                       <b>
                         Transaction hash
                       </b>
-                       :  
+                       :
                       <span />
                     </div>
                   </div>

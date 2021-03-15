@@ -1,5 +1,5 @@
 {
-  "name": "defi-app",
+  "name": "defi",
   "version": "2.3.2",
   "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
@@ -114,8 +114,8 @@
     "typescript": "^4.2.3"
   },
   "build": {
-    "productName": "defi-app",
-    "appId": "defi-electron-v1",
+    "productName": "DeFi",
+    "appId": "com.defichain.DeFi",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "files": [
@@ -123,25 +123,19 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       },
       {
         "from": "./DO_NOT_SAVE_WALLETS_HERE",
         "to": "../DO_NOT_SAVE_WALLETS_HERE",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -161,9 +155,7 @@
       ]
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ]
+      "target": ["AppImage"]
     },
     "win": {
       "target": "NSIS"

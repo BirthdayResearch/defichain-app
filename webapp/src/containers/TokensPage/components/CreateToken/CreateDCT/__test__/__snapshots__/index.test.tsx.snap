@@ -80,13 +80,13 @@ exports[`CreateDCT component should check for snapshot 1`] = `
           <SideEffect(NullComponent)
             defer={true}
             encodeSpecialCharacters={true}
-            title="Tokens - DeFi app"
+            title="Tokens - DeFi "
             titleAttributes={Object {}}
           >
             <NullComponent
               defer={true}
               encodeSpecialCharacters={true}
-              title="Tokens - DeFi app"
+              title="Tokens - DeFi "
               titleAttributes={Object {}}
             />
           </SideEffect(NullComponent)>
@@ -616,7 +616,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                       </div>
                       <div>
                         101
-                         
+
                         DFI
                       </div>
                     </div>
@@ -808,7 +808,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                           type="button"
                         >
                           Continue
-                           
+
                           <span
                             className="timer"
                           >
@@ -892,7 +892,7 @@ exports[`CreateDCT component should check for snapshot 1`] = `
                     </IconBase>
                   </MdCheckCircle>
                   <p>
-                    Token Hash: 
+                    Token Hash:
                   </p>
                 </div>
               </div>

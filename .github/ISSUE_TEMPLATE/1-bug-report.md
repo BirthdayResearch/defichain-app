@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug encountered with using the DeFi App
+about: Report a bug encountered with using the DeFi
 labels: kind/bug
 ---
 
@@ -20,7 +20,7 @@ Please provide steps on how to reproduce the issue: 1. 2. 3. -->
 
 #### What are your environment parameters?
 
-- DeFi App Version:
+- DeFi Version:
 - Operating System (OS):
 
 #### Anything else we need to know?:

@@ -12,6 +12,6 @@
 
 **************************************************************************************************************************************************************
 
-Do not save your wallets on this directory. This is the installation folder of the DeFi app. It will get deleted on installation or on auto-update of the app.
+Do not save your wallets on this directory. This is the installation folder of the DeFi. It will get deleted on installation or on auto-update of the app.
 
 **************************************************************************************************************************************************************

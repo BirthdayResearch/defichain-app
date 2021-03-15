@@ -153,13 +153,13 @@ exports[`WalletPage component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Wallet - DeFi app"
+                title="Wallet - DeFi "
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Wallet - DeFi app"
+                  title="Wallet - DeFi "
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>

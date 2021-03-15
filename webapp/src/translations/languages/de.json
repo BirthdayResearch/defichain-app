@@ -63,7 +63,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi app",
+        "title": "– DeFi ",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -88,7 +88,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiApp": "DeFi app",
+        "defiApp": "DeFi ",
         "blockchain": "Blockchain"
       }
     },
@@ -152,7 +152,7 @@
         "preresigned": "Vorab kündigen",
         "enable": "Aktivieren",
         "disable": "Deaktivieren",
-        "restartNeeded": "Die DeFi App muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
+        "restartNeeded": "Die DeFi muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
         "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
@@ -799,7 +799,7 @@
       "encryptWalletPage": {
         "title": "Wallet verschlüsseln",
         "encryptingWallet": "Verschlüssele Wallet",
-        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
         "walletIsLocked": "Wallet gesperrt. Um mit der Transaktion fortzufahren, entsperre die Wallet mit dem Passwort.",
         "passphraseStrength": "Passwortstärke: %{strength}",
         "strong": "Stark",
@@ -923,7 +923,7 @@
     "masternodesAlert": "Du betreibst derzeit einen Masternode. Das Minten wird auf einer gesperrten Wallet nicht funktionieren. Möchtest du trotzdem fortfahren?"
   },
   "general": {
-    "defiApp": "DeFi app",
+    "defiApp": "DeFi ",
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."

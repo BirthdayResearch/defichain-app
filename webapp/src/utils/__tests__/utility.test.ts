@@ -292,12 +292,12 @@ describe('utility', () => {
 
   it('should return pageTitle with appTitle when pageTitle is present', () => {
     const result = utility.getPageTitle('abcdefgh');
-    expect(result).toBe('abcdefgh - DeFi app');
+    expect(result).toBe('abcdefgh - DeFi ');
   });
 
   it('should return appTitle when pageTitle is not present', () => {
     const result = utility.getPageTitle('');
-    expect(result).toBe('DeFi app');
+    expect(result).toBe('DeFi ');
   });
 
   it('should return token balance', async () => {
