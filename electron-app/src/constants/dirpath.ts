@@ -65,3 +65,4 @@ export const MAINNET_BASE_FOLDER_REINDEX = BASE_FILE_PATH;
 export const BLK_FILE = 'blk';
 export const REV_FILE = 'rev';
 export const WALLET_MAP_FILE = 'wallet_map.json';
+export const SNAPSHOT_FOLDER = 'snapshot';
