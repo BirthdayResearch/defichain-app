@@ -302,7 +302,6 @@ export const handleFetchAccounts = async () => {
 };
 
 export const initialIsShowingInformation = (): boolean => {
-  log.info(`localStorage: ${JSON.stringify(localStorage)}`);
   return PersistentStore.get(IS_SHOWING_INFORMATION_LEDGER) !== 'false';
 };
 
