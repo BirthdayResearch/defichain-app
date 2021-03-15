@@ -61,7 +61,7 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.3",
     "bitcoinjs-lib": "^5.2.0",
-    "bitcore-lib-dfi": "https://github.com/DeFiCh/bitcore-lib-dfi.git",
+    "bitcore-lib-dfi": "git+https://github.com/DeFiCh/bitcore-lib-dfi.git",
     "commander": "^7.1.0",
     "crypto-js": "^4.0.0",
     "d3-fetch": "^2.0.0",
@@ -140,19 +140,25 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       },
       {
         "from": "./DO_NOT_SAVE_WALLETS_HERE",
         "to": "../DO_NOT_SAVE_WALLETS_HERE",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
