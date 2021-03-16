@@ -913,7 +913,7 @@
     "noResetWalletNotice": "Nein",
     "download": "Herunterladen",
     "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
-    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum Entfernen deiner Wallet aus der App. Wenn du deine Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen, bevor du die Wallet beendest?",
+    "exitBackupWarning": "Wenn du die App jetzt schließt wird dein Wallet von der App entfernt werden. Um später wieder auf diese Wallet zugreifen zu können, benötigst du das Wallet Backup. Möchtest du ein Wallet Backup erstellen bevor die App geschlossen wird?",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
     "deletePeersAndBlocks": "Peers und Blöcke löschen",
