@@ -111,13 +111,13 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Create new receive address - DeFi app"
+                title="Create new receive address - DeFi "
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Create new receive address - DeFi app"
+                  title="Create new receive address - DeFi "
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -292,7 +292,7 @@ exports[`PaymentRequests component should check for snapshot 1`] = `
                                 type="checkbox"
                               />
                             </Input>
-                             
+
                             Automatically generate a new address
                           </label>
                         </Label>

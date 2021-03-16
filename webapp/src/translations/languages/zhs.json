@@ -205,6 +205,7 @@
         "searchTokens": "探索代币",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "删除",
         "paginationRange": "%{total} 代币之 %{from} – %{to}",
         "datLabels": {
           "type": "类型",

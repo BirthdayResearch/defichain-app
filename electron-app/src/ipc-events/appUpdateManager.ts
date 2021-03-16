@@ -1,4 +1,4 @@
-import { CancellationToken } from 'electron-updater';
+import { CancellationToken } from 'builder-util-runtime';
 import { app, ipcMain } from 'electron';
 import {
   POST_UPDATE_ACTION,

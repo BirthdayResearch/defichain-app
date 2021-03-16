@@ -4,6 +4,8 @@ import {
   START_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
 import isElectronFunction from 'is-electron';
+import store from '../app/rootStore';
+import { getRpcConfigsSuccess } from '../containers/RpcConfiguration/reducer';
 
 export const isElectron = () => isElectronFunction();
 
@@ -20,8 +22,15 @@ export const getElectronProperty = (name) => {
   return electron[name];
 };
 
+export const updateConfigOnRestart = (args?: any) => {
+  if (args?.updatedConf != null) {
+    store.dispatch(getRpcConfigsSuccess({ remotes: [args?.updatedConf] }));
+  }
+};
+
 export const restartNode = (args?: any) => {
   if (isElectron()) {
+    updateConfigOnRestart(args);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(RESTART_APP, args);
   } else {
@@ -31,6 +40,7 @@ export const restartNode = (args?: any) => {
 
 export const restartNodeSync = (args?: any) => {
   if (isElectron()) {
+    updateConfigOnRestart(args);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.sendSync(RESTART_APP, args);
   } else {

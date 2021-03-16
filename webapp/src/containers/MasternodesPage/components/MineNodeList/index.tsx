@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, TabPane } from 'reactstrap';
-import { MINE } from 'src/constants';
+import { MINE } from '../../../../constants';
 import { MasterNodeObject } from '../../masterNodeInterface';
 import MineNodeCard from './components/MineNodeCard';
 
@@ -22,6 +22,7 @@ const MineNodeList: React.FunctionComponent<MineNodeProps> = (
               hash={data.hash}
               owner={data.ownerAuthAddress}
               operator={data.operatorAuthAddress}
+              isEnabled={data.isEnabled}
             />
           </Col>
         ))}

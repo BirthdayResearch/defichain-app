@@ -49,6 +49,8 @@ import { fetchWalletMapRequest, lockWalletStart } from '../WalletPage/reducer';
 import { history } from '../../utils/history';
 import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
+import { updateActiveNetwork } from '../RpcConfiguration/reducer';
+import { RootState } from '../../app/rootTypes';
 
 export function* getSettingsOptions() {
   try {
@@ -104,7 +106,7 @@ export function* updateSettings(action) {
   try {
     let updateLanguage = false;
     const {
-      appConfig: { network: prevNetwork },
+      appConfig: { network: prevNetwork, launchAtLogin: prevLaunchAtLogin },
     } = yield select((state) => state.settings);
     if (PersistentStore.get(LANG_VARIABLE) !== action.payload.language) {
       updateLanguage = true;
@@ -114,10 +116,12 @@ export function* updateSettings(action) {
       if (updateLanguage) {
         setupI18n(store);
       }
-      if (data.launchAtLogin) {
-        enablePreLaunchStatus(data.minimizedAtLaunch);
-      } else {
-        disablePreLaunchStatus();
+      if (data.launchAtLogin !== prevLaunchAtLogin) {
+        if (data.launchAtLogin) {
+          enablePreLaunchStatus(data.minimizedAtLaunch);
+        } else {
+          disablePreLaunchStatus();
+        }
       }
       yield put({ type: updateSettingsSuccess.type, payload: { ...data } });
       if (action.payload.network !== prevNetwork) {
@@ -154,7 +158,7 @@ export function* updateSettings(action) {
 }
 
 export function* changeNetworkNode(networkName) {
-  const { configurationData } = yield select((state) => state.app);
+  const { rpcConfig } = yield select((state: RootState) => state.app);
   const network = {
     regtest: CONFIG_DISABLED,
     testnet: CONFIG_DISABLED,
@@ -170,10 +174,11 @@ export function* changeNetworkNode(networkName) {
     config.rpcbind = DEFAULT_TESTNET_CONNECT;
     config.rpcport = DEFAULT_TESTNET_PORT;
   }
-  const currentNetworkConfiguration = configurationData[name] || {};
-  const updatedConf = Object.assign({}, configurationData, network, {
+  const currentNetworkConfiguration = rpcConfig[name] || {};
+  const updatedConf = Object.assign({}, rpcConfig, network, {
     [name]: { ...currentNetworkConfiguration, ...config },
   });
+  yield put(updateActiveNetwork(name));
   yield put(restartModal());
   yield call(shutDownBinary);
   yield call(restartNode, { updatedConf });

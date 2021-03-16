@@ -10,6 +10,7 @@ export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
 export const DATE_FORMAT = 'MMM D, hh:mm a';
+export const DATE_FORMAT_CSV = 'DD/MMM/YYYY, hh:mm a';
 export const PAYMENT_REQUEST_DETAIL_DATE_FORMAT = 'MMM D YYYY, hh:mm a';
 export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
@@ -93,11 +94,13 @@ export const ETH_SYMBOL = '2';
 export const USDT_SYMBOL = '5';
 export const LTC_SYMBOL = '9';
 export const DOGE_SYMBOL = '7';
+export const BCH_SYMBOL = '11';
 export const MAINNET_ETH_SYMBOL = '1';
 export const MAINNET_BTC_SYMBOL = '2';
 export const MAINNET_USDT_SYMBOL = '3';
 export const MAINNET_LTC_SYMBOL = '9';
 export const MAINNET_DOGE_SYMBOL = '7';
+export const MAINNET_BCH_SYMBOL = '11';
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
@@ -105,6 +108,7 @@ export const COINGECKO_ETH_ID = 'ethereum';
 export const COINGECKO_USDT_ID = 'tether';
 export const COINGECKO_LTC_ID = 'litecoin';
 export const COINGECKO_DOGE_ID = 'dogecoin';
+export const COINGECKO_BCH_ID = 'bitcoin-cash';
 
 export const API_REQUEST_TIMEOUT = 5000;
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/';
@@ -175,16 +179,15 @@ export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
 export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
 
 export const TXN_CSV_HEADERS = [
-  {
-    label: I18n.t('containers.wallet.walletPage.blockHeight'),
-    key: 'blockHeight',
-  },
-  { label: I18n.t('containers.wallet.walletPage.blockHash'), key: 'blockHash' },
-  { label: I18n.t('containers.wallet.walletPage.type'), key: 'type' },
-  { label: I18n.t('containers.wallet.walletPage.poolID'), key: 'poolID' },
-  { label: I18n.t('containers.wallet.walletPage.amounts'), key: 'amounts' },
+  { label: 'Block Height', key: 'blockHeight' },
+  { label: 'Block Hash', key: 'blockHash' },
+  { label: 'Date/Time', key: 'blockTime' },
+  { label: 'Type', key: 'type' },
+  { label: 'Pool ID', key: 'poolID' },
+  { label: 'Amount', key: 'amounts' },
 ];
 
+export const DEFAULT_TOKEN_VALUE = 0;
 export const MINE = 'mine';
 export const ALL = 'all';
 export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';

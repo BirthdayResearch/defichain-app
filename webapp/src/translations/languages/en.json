@@ -30,6 +30,7 @@
   "containers": {
     "sideBar": {
       "balance": "Balance",
+      "balances": "Balances",
       "dfi": "DFI",
       "wallets": "Wallets",
       "dex": "DEX",
@@ -62,7 +63,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi app",
+        "title": "– DeFi ",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -87,7 +88,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiApp": "DeFi app",
+        "defiApp": "DeFi ",
         "blockchain": "Blockchain"
       }
     },
@@ -146,7 +147,17 @@
         "collateral": "Collateral",
         "collateralsActive": "Collaterals active",
         "collateralsInactive": "Collaterals inactive",
-        "dFIMinted": "DFI minted"
+        "dFIMinted": "DFI minted",
+        "created": "Created",
+        "resigned": "Resigned",
+        "preresigned": "Pre-resigned",
+        "enable": "Enable",
+        "disable": "Disable",
+        "restartNeeded": "You need to restart DeFi  to apply these changes. Do you want to restart?",
+        "tooltipMasternode": "If you have a masternode, your app needs to be open with an unlocked wallet to be able to mint.",
+        "preenabled": "Pre-enabled",
+        "prebanned": "Pre-banned",
+        "banned": "Banned"
       },
       "masterNodesList": {
         "ownerAddress": "Owner address",
@@ -159,7 +170,7 @@
       "createMasterNode": {
         "title": "Create masternode",
         "masterNodeName": "Masternode name",
-        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20k DFI is required to create masternode",
+        "lackOfBalanceMsg": "Unable to create masternode due to lack of funds. Minimum 20,000 DFI is required to create masternode",
         "confirmationText": "Are you sure you want to create a masternode?",
         "restartNodeConfirmationText": "Are you sure you want to restart a node?",
         "createNodeButton": "Create masternode",
@@ -212,6 +223,7 @@
         "dat": "DAT",
         "dct": "DCT",
         "paginationRange": "%{from} – %{to} of %{total} tokens",
+        "remove": "Remove",
         "datLabels": {
           "type": "Type",
           "price": "Price",
@@ -745,6 +757,7 @@
         "walletDeFiApp": "Wallet",
         "walletDefiClient": "Wallet",
         "wallet": "wallet",
+        "balances": "Balances",
         "wallets": "Wallets",
         "delete": "Delete",
         "send": "Send",
@@ -786,7 +799,8 @@
       "walletWalletsPage": {
         "walletWallets": "Wallets",
         "wallets": "Wallets",
-        "addWallet": "Add wallet"
+        "addWallet": "Add wallet",
+        "addBalance": "Add Balance"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "Wallet – Add token",
@@ -812,7 +826,7 @@
       "encryptWalletPage": {
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
-        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi app to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi  to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
         "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase.",
         "passphraseStrength": "Passphrase strength: %{strength}",
         "strong": "Strong",
@@ -869,10 +883,10 @@
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
     "updateAppNoticeTitle": "Update complete",
-    "updateAppNotice": "You need to restart DeFi app to apply new update. Do you want to restart?",
+    "updateAppNotice": "You need to restart DeFi  to apply new update. Do you want to restart?",
     "restartNowNotice": "Restart now",
     "restartLaterNotice": "Later",
-    "showUpdateAvailableHeader": "An update is available for DeFi app",
+    "showUpdateAvailableHeader": "An update is available for DeFi ",
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
@@ -909,14 +923,14 @@
     "enterYourPassphrase": "Enter your passphrase",
     "walletUnlockTitle": "Welcome back",
     "walletUnlockMessage": "Enter your passphrase and select a duration to unlock your wallet.",
-    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue mining.",
+    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue minting.",
     "lostPassphraseMessage": "I lost my passphrase",
     "backupWalletWarningModelHeader": "Wallet backup warning",
     "backupNow": "Backup now",
     "skipBackup": "Skip backup",
     "backupWalletWarning": "Creating a new wallet or restoring one will override any existing wallets in the app. Do you want to backup your existing wallet?",
     "restartWalletModalHeader": "Restart required",
-    "restartWalletWarningNotice": "You need to restart DeFi app. Do you want to restart?",
+    "restartWalletWarningNotice": "You need to restart DeFi . Do you want to restart?",
     "yesRestartWalletNotice": "Restart now",
     "noRestartWalletNotice": "Later",
     "resetWalletNoticeTitle": "Reset wallet",
@@ -926,17 +940,17 @@
     "noResetWalletNotice": "No",
     "download": "Download",
     "restoreYourWallet": "Restore your wallet from the following backup?",
-    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. You will need your mnemonic seed phrase if you want to add this wallet later. Do you wish to backup your wallet before exiting?",
+    "exitBackupWarning": "Exiting your wallet now will remove your wallet from the app. To access this wallet again later, you will need the wallet backup. Do you want to create a wallet backup first before exiting?",
     "backupAndExit": "Backup and Exit",
     "exit": "Exit",
     "deletePeersAndBlocks": "Delete peers and blocks",
     "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
     "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now?",
     "nodeVersionHeader": "Node update",
-    "masternodesAlert": "You are currently running a masternode. Mining will not work on a locked wallet. Do you want to proceed?"
+    "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?"
   },
   "general": {
-    "defiApp": "DeFi app",
+    "defiApp": "DeFi ",
     "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
     "quitingApp": "Quitting DefiChain app...",
     "doNotCloseWindow": "Do not turn off the computer while this window is still open."
@@ -947,6 +961,6 @@
     "currentVersion": "Current version",
     "requiredVersion": "Required version",
     "availableVersion": "Available version",
-    "updateReason": "An upgrade is required for DeFi app to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
+    "updateReason": "An upgrade is required for DeFi  to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
   }
 }

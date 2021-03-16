@@ -318,6 +318,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                       aria-haspopup={true}
                                       caret={true}
                                       color="outline-secondary"
+                                      disabled={false}
                                     >
                                       <Reference>
                                         <InnerReference
@@ -328,6 +329,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                             aria-haspopup={true}
                                             className="dropdown-toggle"
                                             color="outline-secondary"
+                                            disabled={false}
                                             innerRef={[Function]}
                                             onClick={[Function]}
                                             tag="button"
@@ -337,6 +339,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                               aria-haspopup={true}
                                               aria-label={null}
                                               className="dropdown-toggle btn btn-outline-secondary"
+                                              disabled={false}
                                               onClick={[Function]}
                                               type="button"
                                             />
