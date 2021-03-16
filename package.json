@@ -118,31 +118,24 @@
     "appId": "com.defichain.DeFi",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
-    "afterSign": "electron-app/assets/notarize.js",
     "files": [
       "./electron-app/build",
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       },
       {
         "from": "./DO_NOT_SAVE_WALLETS_HERE",
         "to": "../DO_NOT_SAVE_WALLETS_HERE",
-        "filter": [
-          "**/*"
-        ]
+        "filter": ["**/*"]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -163,9 +156,7 @@
       ]
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ]
+      "target": ["AppImage"]
     },
     "win": {
       "target": "NSIS"
@@ -173,17 +164,6 @@
     "nsis": {
       "allowToChangeInstallationDirectory": true,
       "oneClick": false
-    },
-    "mac": {
-      "category": "public.app-category.finance",
-      "target": [
-        "dmg"
-      ],
-      "type": "distribution",
-      "hardenedRuntime": true,
-      "entitlements": "electron-app/assets/entitlements.mac.plist",
-      "entitlementsInherit": "electron-app/assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
     },
     "publish": {
       "provider": "github",
