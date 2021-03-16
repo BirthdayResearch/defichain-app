@@ -6,22 +6,23 @@ import {
   MASTER_NODES_PATH,
   MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   SAME_AS_OWNER_ADDRESS,
-} from 'src/constants';
+} from '../../../../../../constants';
 import styles from '../../MineNodeList.module.scss';
 import EllipsisText from 'react-ellipsis-text';
-import { history } from 'src/utils/history';
+import { history } from '../../../../../../utils/history';
 import NumberMask from '../../../../../../components/NumberMask';
 
 interface MineNodeCardProps {
   hash: string;
   owner: string;
   operator: string;
+  isEnabled?: boolean;
 }
 
 const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
   props: MineNodeCardProps
 ) => {
-  const { owner, operator, hash } = props;
+  const { owner, operator, hash, isEnabled } = props;
 
   return (
     <Card
@@ -31,7 +32,9 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
       <CardBody>
         <Row>
           <Col xs='1' className={styles.status}>
-            <span className={`txn-status-enabled mt-1`}></span>
+            <span
+              className={`txn-status-${isEnabled ? `enabled` : `disable`} mt-1`}
+            ></span>
           </Col>
           <Col xs='8' className='pl-0'>
             <CardTitle tag='h5'>

@@ -11,6 +11,7 @@ import { setDefaultLockTimeout, setLockoutTimeList } from '../../reducer';
 import { TimeoutLockEnum } from '../../types';
 import { RootState } from '../../../../app/rootTypes';
 import styles from './settingsTabSecurity.module.scss';
+import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
 
 const timeoutLabel = 'containers.settings.minutes';
 
@@ -70,7 +71,7 @@ const SettingsTabSecurity: React.FunctionComponent = () => {
   const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
 
   const hasMasterNodes = (): boolean => {
-    return myMasternodes?.length > 0;
+    return hasAnyMasternodeEnabled(myMasternodes);
   };
 
   useEffect(() => {

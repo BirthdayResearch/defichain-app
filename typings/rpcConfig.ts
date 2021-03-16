@@ -9,7 +9,7 @@ export interface RPCConfigBody {
   rpcpassword?: string;
   wallet?: string;
   walletdir?: string;
-  masternode_operator?: string;
+  masternode_operator?: string[];
   spv?: string;
   gen?: string;
   addnode?: string;

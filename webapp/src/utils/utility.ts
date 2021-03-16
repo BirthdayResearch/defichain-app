@@ -62,13 +62,16 @@ import {
   LTC_SYMBOL,
   MAINNET_DOGE_SYMBOL,
   DOGE_SYMBOL,
+  MAINNET_BCH_SYMBOL,
+  BCH_SYMBOL,
+  COINGECKO_BCH_ID,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
-import queue from '../../src/worker/queue';
+import queue from '../worker/queue';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
@@ -86,11 +89,12 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
+import { symbol } from 'prop-types';
 import {
   AccountKeyItem,
   AccountModel,
   PeerInfoModel,
-} from 'src/constants/rpcModel';
+} from '../constants/rpcModel';
 import {
   ErrorMessages,
   HighestAmountItem,
@@ -149,18 +153,6 @@ export const getTransactionURI = (
 
 export const dateTimeFormat = (date: string | Date) => {
   return moment(date).format(DATE_FORMAT);
-};
-
-export const getFromPersistentStorage = (path) => {
-  return localStorage.getItem(path);
-};
-
-export const setToPersistentStorage = (path, data) => {
-  if (typeof data === 'object') {
-    data = JSON.stringify(data);
-  }
-  localStorage.setItem(path, data);
-  return data;
 };
 
 export const getBlockDetails = (block) => {
@@ -589,6 +581,28 @@ export const queuePush = (
 
 const getPopularSymbolList = () => {
   return [DFI_SYMBOL, BTC_SYMBOL, ETH_SYMBOL];
+};
+
+export const setTokenMap = (tokenMap, tokenData, tokenId, isPopularToken) => {
+  tokenMap.set(tokenData.symbolKey, {
+    ...tokenData,
+    hash: tokenId.toString(),
+    isPopularToken,
+  });
+};
+
+export const getToken = (tokenlist: any[]) => {
+  const tokenMap = new Map<string, any>();
+  const popularSymbolList = getPopularSymbolList();
+
+  tokenlist.forEach((tokenData, tokenId) => {
+    if (popularSymbolList.includes(tokenId.toString())) {
+      setTokenMap(tokenMap, tokenData, tokenId, true);
+    } else {
+      setTokenMap(tokenMap, tokenData, tokenId, false);
+    }
+  });
+  return tokenMap;
 };
 
 export const getTokenListForSwap = (
@@ -1154,6 +1168,7 @@ export const getCoinMap = () => {
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
   const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
@@ -1162,6 +1177,7 @@ export const getCoinMap = () => {
     [COINGECKO_USDT_ID, usdtSymbol],
     [COINGECKO_LTC_ID, ltcSymbol],
     [COINGECKO_DOGE_ID, dogeSymbol],
+    [COINGECKO_BCH_ID, bchSymbol],
   ]);
   return coinMap;
 };
@@ -1174,6 +1190,7 @@ export const getCoinIds = () => {
     COINGECKO_USDT_ID,
     COINGECKO_LTC_ID,
     COINGECKO_DOGE_ID,
+    COINGECKO_BCH_ID,
   ];
 };
 
@@ -1291,13 +1308,14 @@ export const getTotalAmountPoolShare = async (poolID) => {
   return totalAmount;
 };
 
-export const getSymbolKey = (symbol: string, key: string) => {
+export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
   const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
   const tokens = [
     DFI_SYMBOL,
     btcSymbol,
@@ -1305,8 +1323,9 @@ export const getSymbolKey = (symbol: string, key: string) => {
     usdtSymbol,
     ltcSymbol,
     dogeSymbol,
+    bchSymbol,
   ];
-  if (tokens.indexOf(key) !== -1) {
+  if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
   }
   return `${symbol}#${key}`;

@@ -31,7 +31,7 @@ exports[`PostUpdateComponent should check for snapshot 1`] = `
             Update complete
           </h1>
           <p>
-            You need to restart DeFi app to apply new update. Do you want to restart?
+            You need to restart DeFi  to apply new update. Do you want to restart?
           </p>
         </div>
       </ModalBody>

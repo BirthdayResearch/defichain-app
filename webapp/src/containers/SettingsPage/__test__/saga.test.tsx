@@ -125,7 +125,7 @@ describe('Settings page saga unit test', () => {
       };
       const gen = updateSettings(action);
       const mockObj = {
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
 
         ...sagaTestData.updateSettings,
       };
@@ -151,7 +151,7 @@ describe('Settings page saga unit test', () => {
       };
       const gen = updateSettings(action);
       const mockObj = {
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
 
         ...sagaTestData.updateSettings,
       };
@@ -179,7 +179,7 @@ describe('Settings page saga unit test', () => {
       const gen = updateSettings(action);
       const mockObj = {
         ...sagaTestData.updateSettings,
-        appConfig: { network: TESTNET },
+        appConfig: { network: TESTNET, launchAtLogin: true },
       };
 
       expect(JSON.stringify(gen.next().value)).toEqual(
@@ -221,27 +221,33 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
-        rpcbind: '127.0.0.1',
-        rpcport: '8555',
-        masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
-        masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        test: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
+        main: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
       };
       const name = 'test';
-      const result = Object.assign({}, configurationData, {
-        testnet: 1,
-        regtest: 0,
+      const result = Object.assign({}, rpcConfig, {
+        testnet: '1',
+        regtest: '0',
         [name]: {
           rpcbind: DEFAULT_TESTNET_CONNECT,
           rpcport: DEFAULT_TESTNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -254,27 +260,33 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
-        rpcbind: '127.0.0.1',
-        rpcport: '8555',
-        masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
-        masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        test: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
+        main: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
       };
       const name = 'main';
-      const result = Object.assign({}, configurationData, {
-        testnet: 0,
-        regtest: 0,
+      const result = Object.assign({}, rpcConfig, {
+        testnet: '0',
+        regtest: '0',
         [name]: {
           rpcbind: DEFAULT_MAINNET_CONNECT,
           rpcport: DEFAULT_MAINNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -289,27 +301,33 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
-        rpcbind: '127.0.0.1',
-        rpcport: '8555',
-        masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
-        masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        test: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
+        main: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
       };
       const name = 'test';
-      const result = Object.assign({}, configurationData, {
-        testnet: 1,
-        regtest: 0,
+      const result = Object.assign({}, rpcConfig, {
+        testnet: '1',
+        regtest: '0',
         [name]: {
           rpcbind: DEFAULT_TESTNET_CONNECT,
           rpcport: DEFAULT_TESTNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
@@ -322,15 +340,25 @@ describe('Settings page saga unit test', () => {
       expect(JSON.stringify(gen.next().value)).toEqual(
         JSON.stringify(select((state) => state.app))
       );
-      const configurationData = {
+      const rpcConfig = {
         rpcauth: 'a:b',
         rpcuser: 'a',
         rpcpassword: 'b',
-        rpcbind: '127.0.0.1',
-        rpcport: '8555',
+        test: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
+        main: {
+          rpcbind: '127.0.0.1',
+          rpcport: '8555',
+          masternode_operator: '7A9DtwEziu8hNv6rsUYVSa8yXPPczV8Swd',
+          masternode_owner: '7Arnd8ic47DESLgUzgpzUcgirRKNt95rhE',
+        },
       };
       const name = 'main';
-      const result = Object.assign({}, configurationData, {
+      const result = Object.assign({}, rpcConfig, {
         testnet: 0,
         regtest: 0,
         [name]: {
@@ -338,9 +366,7 @@ describe('Settings page saga unit test', () => {
           rpcport: DEFAULT_MAINNET_PORT,
         },
       });
-      expect(gen.next({ configurationData }).value).toEqual(
-        put(restartModal())
-      );
+      expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
       expect(gen.next().value).toEqual(call(shutDownBinary));
 
       expect(gen.next().value).toEqual(
