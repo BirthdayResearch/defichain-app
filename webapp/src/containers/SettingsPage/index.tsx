@@ -299,11 +299,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   };
 
   useEffect(() => {
-    if (
-      refreshUtxosAfterSaving ||
-      reindexAfterSaving ||
-      deletePeersAndBlocks === true
-    ) {
+    if (refreshUtxosAfterSaving || reindexAfterSaving || deletePeersAndBlocks) {
       saveChanges();
     }
   }, [refreshUtxosAfterSaving, reindexAfterSaving, deletePeersAndBlocks]);
