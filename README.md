@@ -1,6 +1,6 @@
-# DeFi App
+# DeFi
 
-Use DeFi app to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more.
+Use DeFi to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more.
 ![Image](https://defichain.com/img/app/liquidity@2x.png)
 
 # Documentation

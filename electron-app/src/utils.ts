@@ -118,12 +118,10 @@ export const generatePassword = () => {
 //  get default RPC auth
 export const getRpcAuth = (rpcuser: string) => {
   const rpcpassword = generatePassword();
-  const salt = cryptoJs.lib.WordArray.random(16);
-  const passwordHmac = cryptoJs.HmacSHA256(rpcpassword, salt);
   return {
     rpcuser,
     rpcpassword,
-    rpcauth: `${rpcuser}:${salt}$${passwordHmac}`,
+    rpcauth: `${rpcuser}:${rpcpassword}`,
   };
 };
 

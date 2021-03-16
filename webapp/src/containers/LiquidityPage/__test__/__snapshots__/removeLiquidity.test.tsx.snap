@@ -160,13 +160,13 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi app"
+                title="DEX - DeFi "
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi app"
+                  title="DEX - DeFi "
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -549,7 +549,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                                     </span>
                                   </NumberFormat>
                                 </NumberMask>
-                                 of 
+                                 of
                                 <NumberMask
                                   value="NaN"
                                 >
@@ -764,7 +764,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                                     </span>
                                   </NumberFormat>
                                 </NumberMask>
-                                 of 
+                                 of
                                 <NumberMask
                                   value="NaN"
                                 >
