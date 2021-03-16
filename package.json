@@ -167,9 +167,6 @@
       "oneClick": false
     },
     "mac": {
-      "category": "public.app-category.finance",
-      "target": ["dmg"],
-      "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "electron-app/assets/entitlements.mac.plist",
       "entitlementsInherit": "electron-app/assets/entitlements.mac.plist",
