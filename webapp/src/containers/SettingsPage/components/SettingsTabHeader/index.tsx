@@ -34,7 +34,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             {I18n.t('containers.settings.general')}
           </NavLink>
         </NavItem>
-        {displaySecurityTab && (
+        {/* {displaySecurityTab && (
           <NavItem>
             <NavLink
               className={classnames({
@@ -47,7 +47,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
               {I18n.t('containers.settings.security')}
             </NavLink>
           </NavItem>
-        )}
+        )} */}
 
         <NavItem>
           <NavLink
