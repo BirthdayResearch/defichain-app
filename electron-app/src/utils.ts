@@ -121,8 +121,12 @@ export const getRpcAuth = (rpcuser: string) => {
   return {
     rpcuser,
     rpcpassword,
-    rpcauth: `${rpcuser}:${rpcpassword}`,
+    rpcauth: formatRPCAuth(rpcuser, rpcpassword),
   };
+};
+
+export const formatRPCAuth = (rpcuser: string, rpcpassword: string) => {
+  return `${rpcuser}:${rpcpassword}`;
 };
 
 export const getProcesses = (args: any): Promise<any> => {
