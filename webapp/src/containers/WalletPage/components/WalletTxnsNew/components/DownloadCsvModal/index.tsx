@@ -136,16 +136,12 @@ const DownloadCsvModal: React.FunctionComponent<DownloadCsvModalProps> = (
         </Row>
       </ModalBody>
       <ModalFooter>
-        <div className='ml-4 '>
-          <span>
-            <small className='text-muted'>
-              {I18n.t('containers.wallet.walletPage.format')}
-            </small>
+        <div className='ml-3'>
+          <span className='text-muted'>
+            <small>{I18n.t('containers.wallet.walletPage.format')}</small>
           </span>
           <div className='clearfix'></div>
-          <span className='ml-2 '>
-            {I18n.t('containers.wallet.walletPage.csv')}
-          </span>
+          <span>{I18n.t('containers.wallet.walletPage.csv')}</span>
         </div>
         <Button
           size='sm'

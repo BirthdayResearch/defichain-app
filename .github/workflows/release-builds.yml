@@ -36,7 +36,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'defi-app-${{ env.PACKAGE_VERSION}}.AppImage'
+          file: 'DeFi-${{ env.PACKAGE_VERSION}}.AppImage'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -48,14 +48,14 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum defi-app-${{ env.PACKAGE_VERSION}}.AppImage > defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          sha256sum DeFi-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
         uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_path: ./DeFi-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          asset_name: DeFi-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           asset_content_type: text/plain
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'defi-app-${{ env.PACKAGE_VERSION}}.dmg'
+          file: 'DeFi-${{ env.PACKAGE_VERSION}}.dmg'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -108,14 +108,14 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum defi-app-${{ env.PACKAGE_VERSION}}.dmg > defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          sha256sum DeFi-${{ env.PACKAGE_VERSION}}.dmg > DeFi-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
         uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
-          asset_name: defi-app-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          asset_path: ./DeFi-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          asset_name: DeFi-${{ env.PACKAGE_VERSION}}.dmg.SHA256
           asset_content_type: text/plain
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -151,7 +151,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe'
+          file: 'DeFi-Setup-${{ env.PACKAGE_VERSION}}.exe'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -163,14 +163,14 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe > defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          sha256sum DeFi-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
         uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
-          asset_name: defi-app-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          asset_path: ./DeFi-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          asset_name: DeFi-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
           asset_content_type: text/plain
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -3,7 +3,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
 import style from './MasterNodeTabHeader.module.scss';
-import { ALL, MINE } from 'src/constants';
+import { ALL, MINE } from '../../../../constants';
 
 interface MasterNodeTabsHeaderProps {
   setTab: (tab: string) => void;
