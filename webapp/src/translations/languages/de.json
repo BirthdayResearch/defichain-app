@@ -138,8 +138,8 @@
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode-Wert",
         "searchBar": "Suche nach Masternodes",
-        "mine": "Mine",
-        "all": "All",
+        "mine": "Eigene",
+        "all": "Alle",
         "owner": "Owner",
         "operator": "Operator",
         "type": "Type",
@@ -153,7 +153,7 @@
         "enable": "Aktivieren",
         "disable": "Deaktivieren",
         "restartNeeded": "Die DeFi Wallet muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
-        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
+        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss deine Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
