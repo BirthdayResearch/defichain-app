@@ -589,7 +589,7 @@
       "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
       "reindex": "REINDEX",
       "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
-      "lockWithPassphrase": "Lock with passpharase",
+      "lockWithPassphrase": "Lock with passphrase",
       "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
       "resetAndReindex": "RESET & REINDEX",
       "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
