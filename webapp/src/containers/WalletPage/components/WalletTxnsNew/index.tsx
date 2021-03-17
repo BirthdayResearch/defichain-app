@@ -288,13 +288,18 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         REWARDS_CATEGORY_LABEL,
         REWARD_CATEGORY_LABEL,
         RECEIVE,
-        REMOVE_LIQUIDITY_LABEL
       ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
     if (type === POOL_SWAP_CATEGORY_LABEL) {
       return <MdCompareArrows className={styles.typeIcon} />;
+    }
+    if ([REMOVE_LIQUIDITY_LABEL].includes(type)) {
+      return <MdArrowUpward className={styles.typeIcon} />;
+    }
+    if ([ADD_POOL_LIQUIDITY_LABEL].includes(type)) {
+      return <MdArrowDownward className={styles.typeIconDownward} />;
     }
     return <MdArrowUpward className={styles.typeIcon} />;
   };
