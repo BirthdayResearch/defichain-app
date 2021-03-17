@@ -2,7 +2,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master]
+    branches: [master, feat/app_name_change]
 
 jobs:
   build_linux_version:
