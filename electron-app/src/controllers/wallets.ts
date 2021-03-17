@@ -20,7 +20,6 @@ import {
 import {
   checkPathExists,
   copyFile,
-  deleteFile,
   getBaseFolder,
   getIniData,
   responseMessage,
