@@ -549,10 +549,10 @@
     "electronRequiredError": "De Electron-app is nodig om opnieuw op te starten",
     "addressIsNotAPartOfWallet": "%{addressName} is geen onderdeel van de wallet.",
     "updateAppNoticeTitle": "Update compleet",
-    "updateAppNotice": "U moet de DeFi-app opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
+    "updateAppNotice": "U moet de DeFi Wallet opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
     "restartNowNotice": "Start nu opnieuw op",
     "restartLaterNotice": "Later",
-    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi-app",
+    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi Wallet",
     "showUpdateAvailableNotice": "Wilt u updaten?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Niet nu",
@@ -594,12 +594,12 @@
     "skipBackup": "Sla backup over",
     "backupWalletWarning": "Door een nieuwe wallet aan te maken of er een te herstellen, worden alle bestaande wallets in de app genegeerd. Wilt u een back-up maken van uw bestaande wallet?",
     "restartWalletModalHeader": "Opnieuw opstarten vereist",
-    "restartWalletWarningNotice": "U moet de DeFi-app opnieuw opstarten. Wilt u opnieuw opstarten?",
+    "restartWalletWarningNotice": "U moet de DeFi Wallet opnieuw opstarten. Wilt u opnieuw opstarten?",
     "yesRestartWalletNotice": "Herstart nu ",
     "noRestartWalletNotice": "Later",
     "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
-    "defiApp": "DeFi "
+    "defiApp": "DeFi Wallet "
   }
 }

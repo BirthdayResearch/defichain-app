@@ -175,13 +175,13 @@ exports[`SendPage component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Send - DeFi "
+                title="Send - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Send - DeFi "
+                  title="Send - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -302,7 +302,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                   </Button>
                   <h1>
                     Send
-
+                     
                     DFI
                   </h1>
                 </header>
@@ -550,6 +550,10 @@ exports[`SendPage component should check for snapshot 1`] = `
                         </InputGroup>
                       </div>
                     </FormGroup>
+                    <div
+                      className="footer-backdrop "
+                      onClick={[Function]}
+                    />
                   </form>
                 </Form>
                 <Modal
@@ -584,6 +588,10 @@ exports[`SendPage component should check for snapshot 1`] = `
                 />
               </section>
             </div>
+            <div
+              className="footer-backdrop "
+              onClick={[Function]}
+            />
             <footer
               className="footer-bar"
             >
@@ -659,7 +667,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                               </span>
                             </NumberFormat>
                           </NumberMask>
-
+                           
                           DFI
                         </div>
                       </div>
@@ -717,7 +725,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                               </span>
                             </NumberFormat>
                           </NumberMask>
-
+                           
                           DFI
                         </div>
                       </div>
@@ -851,7 +859,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                       <span
                         className="h2 mb-0"
                       >
-
+                         
                         DFI
                       </span>
                     </dd>
@@ -945,7 +953,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                             type="button"
                           >
                             Complete send
-
+                             
                             <span
                               className="timer"
                             >
@@ -1007,7 +1015,7 @@ exports[`SendPage component should check for snapshot 1`] = `
                       <b>
                         Transaction hash
                       </b>
-                       :
+                       :  
                       <span />
                     </div>
                   </div>
@@ -1197,10 +1205,6 @@ exports[`SendPage component should check for snapshot 1`] = `
                 </div>
               </div>
             </footer>
-            <div
-              className="footer-backdrop "
-              onClick={[Function]}
-            />
           </div>
         </SendPage>
       </Connect(SendPage)>
