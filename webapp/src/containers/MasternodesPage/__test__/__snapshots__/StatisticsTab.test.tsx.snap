@@ -46,13 +46,13 @@ exports[`StatisticsTab component should check for snapshot 1`] = `
             <SideEffect(NullComponent)
               defer={true}
               encodeSpecialCharacters={true}
-              title="Masternodes - DeFi app"
+              title="Masternodes - DeFi "
               titleAttributes={Object {}}
             >
               <NullComponent
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Masternodes - DeFi app"
+                title="Masternodes - DeFi "
                 titleAttributes={Object {}}
               />
             </SideEffect(NullComponent)>
@@ -529,7 +529,7 @@ exports[`StatisticsTab component should check for snapshot 1`] = `
                           type="button"
                         >
                           Continue
-                           
+
                           <span
                             className="timer"
                           >

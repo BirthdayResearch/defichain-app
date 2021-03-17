@@ -10,7 +10,7 @@ export const DIFF = 2000;
 export const RETRY_ATTEMPT = 100;
 export const SYNC_INFO_RETRY_ATTEMPT = 50;
 export const DATE_FORMAT = 'MMM D, hh:mm a';
-export const DATE_FORMAT_CSV = 'DD/MMM/YYYY, hh:mm a';
+export const DATE_FORMAT_CSV = 'DD/MM/YYYY / hh:mm a';
 export const PAYMENT_REQUEST_DETAIL_DATE_FORMAT = 'MMM D YYYY, hh:mm a';
 export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
@@ -181,7 +181,8 @@ export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
 export const TXN_CSV_HEADERS = [
   { label: 'Block Height', key: 'blockHeight' },
   { label: 'Block Hash', key: 'blockHash' },
-  { label: 'Date/Time', key: 'blockTime' },
+  { label: 'Date(DD/MM/YYYY)/Time', key: 'blockTime' },
+  { label: 'Address', key: 'owner' },
   { label: 'Type', key: 'type' },
   { label: 'Pool ID', key: 'poolID' },
   { label: 'Amount', key: 'amounts' },

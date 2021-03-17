@@ -2,7 +2,7 @@ version: v1
 
 issue:
   captures:
-    - regex: '- DeFi App Version: *(.+) *'
+    - regex: '- DeFi Version: *(.+) *'
       github_release: true
       ignore_case: true
       label: 'version/$CAPTURED'
