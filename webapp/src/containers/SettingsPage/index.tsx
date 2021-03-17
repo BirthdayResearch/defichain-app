@@ -351,10 +351,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             sendCountdown={sendCountdown}
             handeDeletePeersClick={handeDeletePeersClick}
           />
-          {/* security tab settings  */}
-          {/* {props.isWalletCreatedFlag && props.isWalletEncrypted && ( */}
-          {/* <SettingsTabSecurity /> */}
-          {/* )} */}
+          {props.isWalletCreatedFlag && props.isWalletEncrypted && (
+            <SettingsTabSecurity />
+          )}
           <SettingsTabDisplay
             language={language!}
             unit={unit!}
