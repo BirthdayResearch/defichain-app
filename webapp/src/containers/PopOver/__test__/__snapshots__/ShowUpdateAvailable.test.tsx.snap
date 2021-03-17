@@ -28,7 +28,7 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
           <h1
             className="h4"
           >
-            An update is available for DeFi
+            An update is available for DeFi Wallet
           </h1>
           Would you like to update?
         </div>

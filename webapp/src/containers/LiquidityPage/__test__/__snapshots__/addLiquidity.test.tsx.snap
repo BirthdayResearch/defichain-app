@@ -112,13 +112,13 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi "
+                title="DEX - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi "
+                  title="DEX - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -620,7 +620,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                               <span>
                                 Balance
                               </span>
-                              :
+                              : 
                               0.00000000
                             </div>
                             <div>
@@ -933,7 +933,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                               <span>
                                 Balance
                               </span>
-                              :
+                              : 
                               0
                             </div>
                             <div>
@@ -1323,7 +1323,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                     >
                        DFI
                       <br />
-                      0
+                      0 
                     </dd>
                     <dt
                       className="col-sm-4 text-right"
@@ -1334,7 +1334,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                       className="col-sm-8"
                     >
                       <br />
-
+                       
                     </dd>
                     <dt
                       className="col-sm-4 text-right"
@@ -1424,7 +1424,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                             type="button"
                           >
                             Supply
-
+                             
                           </button>
                         </Button>
                       </div>
@@ -1481,7 +1481,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                       <b>
                         Transaction Hash
                       </b>
-                       :
+                       :  
                       <span />
                     </div>
                   </div>
@@ -1600,7 +1600,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                                   onClick={[Function]}
                                 >
                                   Back to pool
-
+                                   
                                 </a>
                               </LinkAnchor>
                             </Link>

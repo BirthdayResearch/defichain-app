@@ -9,7 +9,7 @@ exports[`HelpPage Page should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Help - DeFi
+      Help - DeFi Wallet
     </title>
   </HelmetWrapper>
   <Connect(Header)>

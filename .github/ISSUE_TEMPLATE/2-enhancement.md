@@ -1,6 +1,6 @@
 ---
 name: Enhancement request
-about: Suggest an enhancement for the DeFi
+about: Suggest an enhancement for the DeFi Wallet
 labels: kind/feature
 ---
 
