@@ -149,13 +149,13 @@ exports[`RestoreWallet component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Wallet - Restore wallet - DeFi "
+                title="Wallet - Restore wallet - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Wallet - Restore wallet - DeFi "
+                  title="Wallet - Restore wallet - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>

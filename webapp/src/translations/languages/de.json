@@ -63,7 +63,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi ",
+        "title": "– DeFi Wallet",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -88,7 +88,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiApp": "DeFi ",
+        "defiApp": "DeFi Wallet",
         "blockchain": "Blockchain"
       }
     },
@@ -152,7 +152,7 @@
         "preresigned": "Vorab kündigen",
         "enable": "Aktivieren",
         "disable": "Deaktivieren",
-        "restartNeeded": "Die DeFi muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
+        "restartNeeded": "Die DeFi Wallet muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
         "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
@@ -799,7 +799,7 @@
       "encryptWalletPage": {
         "title": "Wallet verschlüsseln",
         "encryptingWallet": "Verschlüssele Wallet",
-        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi Wallet auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
         "walletIsLocked": "Wallet gesperrt. Um mit der Transaktion fortzufahren, entsperre die Wallet mit dem Passwort.",
         "passphraseStrength": "Passwortstärke: %{strength}",
         "strong": "Stark",
@@ -859,7 +859,7 @@
     "updateAppNotice": "DeFi-Anwendung neu starten, um das neue Update anzuwenden. Möchtest Du neu starten?",
     "restartNowNotice": "Jetzt neu starten",
     "restartLaterNotice": "Später",
-    "showUpdateAvailableHeader": "Ein Update ist für die DeFi-App verfügbar",
+    "showUpdateAvailableHeader": "Ein Update ist für die DeFi Wallet verfügbar",
     "showUpdateAvailableNotice": "Möchtest Du updaten?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Nicht jetzt",
@@ -903,7 +903,7 @@
     "skipBackup": "Backup überspringen",
     "backupWalletWarning": "Wenn Du eine neue Wallet erstellst oder wiederherstellst, werden alle vorhandenen Wallets in der App überschrieben. Möchtest Du Deine bestehende Wallet sichern?",
     "restartWalletModalHeader": "Neustart erforderlich",
-    "restartWalletWarningNotice": "Du musst die DeFi-App neu starten. Möchtest Du jetzt neu starten?",
+    "restartWalletWarningNotice": "Du musst die DeFi Wallet neu starten. Möchtest Du jetzt neu starten?",
     "yesRestartWalletNotice": "Jetzt neu starten",
     "noRestartWalletNotice": "Später",
     "resetWalletNoticeTitle": "Wallet zurücksetzen",
@@ -923,7 +923,7 @@
     "masternodesAlert": "Du betreibst derzeit einen Masternode. Das Minten wird auf einer gesperrten Wallet nicht funktionieren. Möchtest du trotzdem fortfahren?"
   },
   "general": {
-    "defiApp": "DeFi ",
+    "defiApp": "DeFi Wallet",
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."
@@ -934,6 +934,6 @@
     "currentVersion": "Aktuelle Version",
     "requiredVersion": "Erforderliche Version",
     "availableVersion": "Verfügbare Version",
-    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi-App weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
+    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi Wallet weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
   }
 }

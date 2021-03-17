@@ -5,10 +5,10 @@ exports[`LaunchScreen component should check for snapshot 1`] = `
   <div>
     <Launch />
     <label>
-      DeFi
+      DeFi Wallet
     </label>
     <label>
-      v2.3.1
+      v2.3.2
     </label>
     <label>
       message

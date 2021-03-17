@@ -50,13 +50,13 @@ exports[`DCTDistribution component should check for snapshot 1`] = `
           <SideEffect(NullComponent)
             defer={true}
             encodeSpecialCharacters={true}
-            title="Tokens - DeFi "
+            title="Tokens - DeFi Wallet"
             titleAttributes={Object {}}
           >
             <NullComponent
               defer={true}
               encodeSpecialCharacters={true}
-              title="Tokens - DeFi "
+              title="Tokens - DeFi Wallet"
               titleAttributes={Object {}}
             />
           </SideEffect(NullComponent)>
@@ -394,7 +394,7 @@ exports[`DCTDistribution component should check for snapshot 1`] = `
                     </div>
                     <div>
                       1,000
-
+                       
                       DFI
                     </div>
                   </div>

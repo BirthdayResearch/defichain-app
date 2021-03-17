@@ -95,13 +95,13 @@ exports[`ReceivePage component should check for snapshot 1`] = `
             <SideEffect(NullComponent)
               defer={true}
               encodeSpecialCharacters={true}
-              title="Receive - DeFi "
+              title="Receive - DeFi Wallet"
               titleAttributes={Object {}}
             >
               <NullComponent
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Receive - DeFi "
+                title="Receive - DeFi Wallet"
                 titleAttributes={Object {}}
               />
             </SideEffect(NullComponent)>
