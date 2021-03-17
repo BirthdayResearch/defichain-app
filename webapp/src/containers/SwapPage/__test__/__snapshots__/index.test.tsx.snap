@@ -156,13 +156,13 @@ exports[`SwapPage component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi "
+                title="DEX - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi "
+                  title="DEX - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -683,7 +683,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                     <dd
                       className="col-sm-8"
                     >
-
+                       
                     </dd>
                     <dt
                       className="col-sm-4 text-right"
@@ -693,7 +693,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                     <dd
                       className="col-sm-8"
                     >
-                      -
+                      - 
                     </dd>
                     <dt
                       className="col-sm-4 text-right"
@@ -703,7 +703,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                     <dd
                       className="col-sm-8"
                     >
-                      -
+                      - 
                     </dd>
                     <dt
                       className="col-sm-4 text-right"
@@ -713,7 +713,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                     <dd
                       className="col-sm-8"
                     >
-
+                       
                     </dd>
                   </dl>
                 </div>
@@ -795,7 +795,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                             type="button"
                           >
                             Swap
-
+                             
                           </button>
                         </Button>
                       </div>
@@ -855,7 +855,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                       <b>
                         Transaction Hash
                       </b>
-                       :
+                       :  
                       <span />
                     </div>
                   </div>
@@ -1043,7 +1043,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                                   onClick={[Function]}
                                 >
                                   OK
-
+                                   
                                 </a>
                               </LinkAnchor>
                             </Link>

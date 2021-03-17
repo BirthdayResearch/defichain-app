@@ -1,5 +1,5 @@
 {
-  "name": "defi",
+  "name": "defi-wallet",
   "version": "2.3.2",
   "description": "DeFiChain Blockchain App",
   "main": "./electron-app/build/electron-app/index.js",
@@ -114,8 +114,8 @@
     "typescript": "^4.2.3"
   },
   "build": {
-    "productName": "DeFi",
-    "appId": "com.defichain.DeFi",
+    "productName": "DeFi Wallet",
+    "appId": "com.defichain.DeFiWallet",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
     "files": [
