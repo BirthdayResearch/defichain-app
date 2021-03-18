@@ -61,7 +61,12 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
     if (!searchQuery) {
       setAlldata(tokens);
     } else {
-      const tokensList: any[] = filterByValue(tokens, searchQuery);
+      const tokensList: any[] = filterByValue(tokens, searchQuery, [
+        'symbol',
+        'hash',
+        'name',
+        'symbolKey',
+      ]);
       setAlldata(tokensList);
       setCurrentPage(defaultPage);
     }

@@ -372,13 +372,20 @@ export const getParams = (query: string) => {
   return parsedParams;
 };
 
-export const filterByValue = (array, query) => {
-  return array.filter((o) =>
-    Object.keys(o).some((k) => {
+export const filterByValue = (array, query, keys?: string[]) => {
+  return array.filter((o) =>{
+    if(keys) {
+      return keys.some((k) => {
+        if (!o[k]) return false;
+        const stringer = JSON.stringify(o[k]);
+        return stringer.toLowerCase().includes(query.toLowerCase());
+      })
+    }
+    return Object.keys(o).some((k) => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
     })
-  );
+  });
 };
 
 export const filterByValueMap = (map, query) => {
