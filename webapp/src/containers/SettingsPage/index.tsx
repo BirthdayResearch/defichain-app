@@ -7,6 +7,8 @@ import {
   getInitialSettingsRequest,
   updateSettingsRequest,
   getSettingOptionsRequest,
+  setDefaultLockTimeout,
+  setLockoutTimeList,
 } from './reducer';
 import SettingsTabsHeader, {
   SettingsTabs,
@@ -17,7 +19,9 @@ import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
 import { getPageTitle } from '../../utils/utility';
-import SettingsTabSecurity from './components/SettingsTabSecurity';
+import SettingsTabSecurity, {
+  TimeoutLockList,
+} from './components/SettingsTabSecurity';
 import { useLocation } from 'react-router-dom';
 
 interface SettingsPageProps {
@@ -55,6 +59,11 @@ interface SettingsPageProps {
   isRefreshUtxosModalOpen: boolean;
   isWalletEncrypted: boolean;
   isWalletCreatedFlag: boolean;
+  lockTimeoutList: any;
+  defaultLockTimeout: any;
+  myMasternodes: any;
+  setDefaultLockTimeout: (data: any) => void;
+  setLockoutTimeList: (data: any) => void;
 }
 
 interface SettingsPageState {
@@ -89,6 +98,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     ...props.appConfig,
     isUnsavedChanges: false,
   });
+  const {
+    lockTimeoutList,
+    defaultLockTimeout,
+    myMasternodes,
+    setDefaultLockTimeout,
+    setLockoutTimeList,
+  } = props;
+  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
+  const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
 
   const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
   const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
@@ -331,7 +349,16 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handeRefreshUtxosToggle={handeRefreshUtxosToggle}
           />
           {props.isWalletCreatedFlag && props.isWalletEncrypted && (
-            <SettingsTabSecurity />
+            <SettingsTabSecurity
+              setTimeoutValue={setTimeoutValue}
+              setTimeoutLockList={setTimeoutLockList}
+              setLockoutTimeList={setLockoutTimeList}
+              setDefaultLockTimeout={setDefaultLockTimeout}
+              myMasternodes={myMasternodes}
+              lockTimeoutList={lockTimeoutList}
+              timeoutLockList={timeoutLockList}
+              timeoutValue={timeoutValue}
+            />
           )}
           <SettingsTabDisplay
             language={language!}
@@ -361,10 +388,13 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     isRefreshUtxosModalOpen,
+    lockTimeoutList,
+    defaultLockTimeout,
   } = state.settings;
   const { isWalletEncrypted, isWalletCreatedFlag } = state.wallet;
   const { isRestart } = state.popover;
   const { locale } = state.i18n;
+  const { myMasternodes } = state.masterNodes;
   return {
     isFetching,
     settingsError,
@@ -376,6 +406,9 @@ const mapStateToProps = (state) => {
     isRefreshUtxosModalOpen,
     isWalletEncrypted,
     isWalletCreatedFlag,
+    lockTimeoutList,
+    defaultLockTimeout,
+    myMasternodes,
   };
 };
 
@@ -383,5 +416,7 @@ const mapDispatchToProps = {
   getSettingOptionsRequest,
   getInitialSettingsRequest,
   updateSettings: (settings) => updateSettingsRequest(settings),
+  setDefaultLockTimeout: (data) => setDefaultLockTimeout(data),
+  setLockoutTimeList: (lockTimeoutList) => setLockoutTimeList(lockTimeoutList),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

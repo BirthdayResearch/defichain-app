@@ -51,6 +51,7 @@ import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
+import showNotification from '../../utils/notifications';
 
 export function* getSettingsOptions() {
   try {
@@ -207,7 +208,9 @@ export function* setLockTimeout(action) {
     const timeout = action.payload;
     const resp = yield call(updateLockTimeout, timeout);
     if (resp?.success) {
-      log.info(`Timeout updated to ${timeout} seconds`, 'updatePassphrase');
+      const message = `Timeout updated to ${timeout} seconds`;
+      log.info(message, 'updatePassphrase');
+      showNotification(message, 'updatePassphrase');
     } else {
       throw new Error(resp?.message);
     }
