@@ -4,33 +4,20 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { MdSearch, MdAdd } from 'react-icons/md';
-import {
-  Button,
-  ButtonGroup,
-  // Nav,
-  // NavItem,
-  // NavLink,
-  TabContent,
-  TabPane,
-} from 'reactstrap';
-
+import { Button, ButtonGroup, Col, Row } from 'reactstrap';
 import classnames from 'classnames';
-
 import SearchBar from '../../components/SearchBar';
-import DATTokenCard from '../../components/TokenCard/DAT';
 import DCTTokenCard from '../../components/TokenCard/DCT';
-import TokensList from './components/TokenList';
 import { fetchTokensRequest } from './reducer';
 import {
   CREATE_TOKENS_PATH,
-  DAT_TOKEN,
-  DCT_TOKEN,
-  DESTRUCTION_TX,
-  DFI,
   TOKENS_PATH,
+  TOKEN_LIST_PAGE_SIZE,
 } from '../../constants';
 import Header from '../HeaderComponent';
-import { getPageTitle } from '../../utils/utility';
+import { filterByValue, getPageTitle } from '../../utils/utility';
+import cloneDeep from 'lodash/cloneDeep';
+import Pagination from 'src/components/Pagination';
 
 interface TokensProps {
   tokens: any;
@@ -43,14 +30,53 @@ interface TokensProps {
 const TokensPage: React.FunctionComponent<TokensProps> = (
   props: TokensProps
 ) => {
+  const defaultPage = 1;
   const [searching, setSearching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<string>(DCT_TOKEN);
   const { tokens, fetchTokensRequest, isLoadingTokens } = props;
+  const [tableData, settableData] = useState<any[]>([]);
+  const [alldata, setAlldata] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(defaultPage);
+  const [total, setTotal] = useState<number>(0);
+  const [pagesCount, setPagesCount] = useState<number>(0);
+  const pageSize = TOKEN_LIST_PAGE_SIZE;
+  const from = (currentPage - 1) * pageSize;
+  const to = Math.min(total, currentPage * pageSize);
+
+  function paginate(pageNumber) {
+    const dataVal = cloneDeep(alldata);
+    const tableData = dataVal.slice(
+      (pageNumber - 1) * pageSize,
+      pageNumber * pageSize
+    );
+    setCurrentPage(pageNumber);
+    settableData(tableData);
+  }
 
   useEffect(() => {
     fetchTokensRequest();
   }, []);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setAlldata(tokens);
+    } else {
+      const tokensList: any[] = filterByValue(tokens, searchQuery, [
+        'symbol',
+        'hash',
+        'name',
+        'symbolKey',
+      ]);
+      setAlldata(tokensList);
+      setCurrentPage(defaultPage);
+    }
+  }, [tokens, searchQuery]);
+
+  useEffect(() => {
+    setTotal(alldata.length);
+    setPagesCount(Math.ceil(alldata.length / pageSize));
+    paginate(currentPage);
+  }, [alldata]);
 
   const toggleSearch = () => {
     if (searching) {
@@ -74,32 +100,6 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
         <h1 className={classnames({ 'd-none': searching })}>
           {I18n.t('containers.tokens.tokensPage.tokens')}
         </h1>
-        {/* <Nav pills className='justify-content-center'>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: activeTab === DAT_TOKEN,
-              })}
-              onClick={() => {
-                setActiveTab(DAT_TOKEN);
-              }}
-            >
-              {I18n.t('containers.tokens.tokensPage.dat')}
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: activeTab === DCT_TOKEN,
-              })}
-              onClick={() => {
-                setActiveTab(DCT_TOKEN);
-              }}
-            >
-              {I18n.t('containers.tokens.tokensPage.dct')}
-            </NavLink>
-          </NavItem>
-        </Nav> */}
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
             <MdSearch />
@@ -119,32 +119,34 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
         />
       </Header>
       <div className='content'>
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId={DAT_TOKEN}>
-            <TokensList
-              tokens={tokens.filter((data) => data.isDAT)}
-              history={history}
-              searchQuery={searchQuery}
-              handleCardClick={handleCardClick}
-              component={DATTokenCard}
-              isLoadingTokens={isLoadingTokens}
+        {isLoadingTokens ? (
+          <div>{I18n.t('containers.tokens.tokensPage.loading')}</div>
+        ) : (
+          <div>
+            <section>
+              <Row>
+                {tableData.map((tokenData, i) => (
+                  <Col md='6' key={i}>
+                    <DCTTokenCard
+                      handleCardClick={handleCardClick}
+                      data={tokenData}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            </section>
+            <Pagination
+              label={I18n.t('containers.tokens.tokensPage.paginationRange', {
+                to,
+                total,
+                from: from + 1,
+              })}
+              currentPage={currentPage}
+              pagesCount={pagesCount}
+              handlePageClick={paginate}
             />
-          </TabPane>
-          <TabPane tabId={DCT_TOKEN}>
-            <TokensList
-              tokens={tokens.filter(
-                (data) =>
-                  data.destructionTx === DESTRUCTION_TX &&
-                  data.symbolKey !== DFI
-              )}
-              history={history}
-              searchQuery={searchQuery}
-              handleCardClick={handleCardClick}
-              component={DCTTokenCard}
-              isLoadingTokens={isLoadingTokens}
-            />
-          </TabPane>
-        </TabContent>
+          </div>
+        )}
       </div>
     </div>
   );
