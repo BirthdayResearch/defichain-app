@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
@@ -11,6 +11,14 @@ const MasternodeUpdateRestartModal: React.FunctionComponent = () => {
     popover: { isMasternodeUpdateRestartModalOpen, updatedMasternode },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
+  const [disableButton, setDisableButton] = useState(false);
+
+  useEffect(() => {
+    if (disableButton) {
+      setDisableButton(false);
+    }
+  }, [isMasternodeUpdateRestartModalOpen]);
+
   return (
     <Modal isOpen={isMasternodeUpdateRestartModalOpen} centered>
       <ModalBody className='p-5 text-center'>
@@ -22,6 +30,7 @@ const MasternodeUpdateRestartModal: React.FunctionComponent = () => {
         <Button
           size='sm'
           color='link'
+          disabled={disableButton}
           onClick={() =>
             dispatch(
               openMasternodeUpdateRestartModal({
@@ -37,6 +46,7 @@ const MasternodeUpdateRestartModal: React.FunctionComponent = () => {
           size='sm'
           color='primary'
           onClick={() => {
+            setDisableButton(true);
             dispatch(updateMasternodeStart(updatedMasternode));
           }}
         >

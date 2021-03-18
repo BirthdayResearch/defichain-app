@@ -56,7 +56,7 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
           <Col>
             <CardText>
               <small className='text-muted'>
-                <EllipsisText text={owner} length={25} />
+                <EllipsisText text={owner} length={16} />
               </small>
             </CardText>
           </Col>
@@ -72,7 +72,7 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
               <small className='text-muted'>
                 <EllipsisText
                   text={operator === owner ? SAME_AS_OWNER_ADDRESS : operator}
-                  length={25}
+                  length={16}
                 />
               </small>
             </CardText>
