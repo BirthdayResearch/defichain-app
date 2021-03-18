@@ -91,7 +91,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.github')}</h3>
                     <p>
-                      {new URL(TELEGRAM_GERMAN_HELP_LINK).hostname.replace(
+                      {new URL(GITHUB_ISSUE_HELP_LINK).hostname.replace(
                         'www.',
                         ''
                       )}

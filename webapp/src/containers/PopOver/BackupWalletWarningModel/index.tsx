@@ -38,18 +38,18 @@ const BackupWalletWarningModel: React.FunctionComponent<BackupWalletWarningModel
         </Button>
       </ModalBody>
       <ModalFooter>
-        <Button size='sm' color='primary' onClick={backupWalletStart}>
-          {I18n.t('alerts.saveMyBackup')}
-        </Button>
         <Button
           size='sm'
-          color='primary'
+          color='link'
           onClick={() => {
             closeBackupWalletWarningModal();
             openWalletRestartModal();
           }}
         >
           {I18n.t('alerts.skipBackup')}
+        </Button>
+        <Button size='sm' color='primary' onClick={backupWalletStart}>
+          {I18n.t('alerts.saveMyBackup')}
         </Button>
       </ModalFooter>
     </Modal>

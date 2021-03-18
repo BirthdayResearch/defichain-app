@@ -537,7 +537,7 @@
       "display": "Display",
       "launchOptions": "Launch options",
       "launchAtLogin": "Launch at login",
-      "reindexOption": "ReIndex Option",
+      "reindexOption": "Reindex Option",
       "reindexAfterSaving": "Reindex after saving",
       "refreshUtxos": "Refresh UTXOs",
       "refreshUtxosAfterSaving": "Refresh UTXOs after saving",
