@@ -139,6 +139,9 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
+      if (data.timeoutValue) {
+        yield put(setDefaultLockTimeout(data.timeoutValue));
+      }
     } else {
       yield put({
         type: updateSettingsFailure.type,

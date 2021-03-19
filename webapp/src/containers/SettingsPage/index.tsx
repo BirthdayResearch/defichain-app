@@ -7,7 +7,6 @@ import {
   getInitialSettingsRequest,
   updateSettingsRequest,
   getSettingOptionsRequest,
-  setDefaultLockTimeout,
   setLockoutTimeList,
 } from './reducer';
 import SettingsTabsHeader, {
@@ -62,7 +61,6 @@ interface SettingsPageProps {
   lockTimeoutList: any;
   defaultLockTimeout: any;
   myMasternodes: any;
-  setDefaultLockTimeout: (data: any) => void;
   setLockoutTimeList: (data: any) => void;
 }
 
@@ -92,19 +90,18 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const tab = urlParams.get('tab');
+  const {
+    lockTimeoutList,
+    defaultLockTimeout,
+    myMasternodes,
+    setLockoutTimeList,
+  } = props;
 
   const [state, setState] = useState<SettingsPageState>({
     activeTab: tab ?? SettingsTabs.general,
     ...props.appConfig,
     isUnsavedChanges: false,
   });
-  const {
-    lockTimeoutList,
-    defaultLockTimeout,
-    myMasternodes,
-    setDefaultLockTimeout,
-    setLockoutTimeList,
-  } = props;
   const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
   const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
 
@@ -280,6 +277,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       feeRate,
       reindexAfterSaving: reindexAfterSaving,
       refreshUtxosAfterSaving,
+      timeoutValue: timeoutValue !== defaultLockTimeout && timeoutValue,
     };
     props.updateSettings(settings);
   };
@@ -353,7 +351,6 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
               setTimeoutValue={setTimeoutValue}
               setTimeoutLockList={setTimeoutLockList}
               setLockoutTimeList={setLockoutTimeList}
-              setDefaultLockTimeout={setDefaultLockTimeout}
               myMasternodes={myMasternodes}
               lockTimeoutList={lockTimeoutList}
               timeoutLockList={timeoutLockList}
@@ -368,14 +365,23 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           />
         </TabContent>
       </div>
-      {state.activeTab !== SettingsTabs.security && (
+      {/* {state.activeTab !== SettingsTabs.security && (
         <SettingsTabsFooter
           isUnsavedChanges={
             isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
           }
           saveChanges={saveChanges}
         />
-      )}
+      )} */}
+      <SettingsTabsFooter
+        isUnsavedChanges={
+          isUnsavedChanges ||
+          reindexAfterSaving ||
+          refreshUtxosAfterSaving ||
+          timeoutValue !== defaultLockTimeout
+        }
+        saveChanges={saveChanges}
+      />
     </div>
   );
 };
@@ -416,7 +422,6 @@ const mapDispatchToProps = {
   getSettingOptionsRequest,
   getInitialSettingsRequest,
   updateSettings: (settings) => updateSettingsRequest(settings),
-  setDefaultLockTimeout: (data) => setDefaultLockTimeout(data),
   setLockoutTimeList: (lockTimeoutList) => setLockoutTimeList(lockTimeoutList),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
