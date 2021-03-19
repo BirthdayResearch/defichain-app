@@ -38,6 +38,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     result,
     isError,
     cliLog,
+    walletMap
   } = props;
   const [showConsoleResults, setShowConsoleResults] = useState(false);
   let currentRef: Console;
@@ -137,7 +138,6 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
         ref={(ref: Console) => (currentRef = ref)}
         handler={echo}
         promptLabel=''
-        welcomeMessage={CONSOLE_PROMPT_LABEL}
         welcomeMessage={`${CONSOLE_PROMPT_LABEL}${
           walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : ''
         }`}
