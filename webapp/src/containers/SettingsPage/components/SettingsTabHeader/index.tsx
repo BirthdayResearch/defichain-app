@@ -27,7 +27,6 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
           <NavLink
             className={classnames({
               active: activeTab === SettingsTabs.general,
-              [styles.greenBorder]: activeTab === SettingsTabs.general,
             })}
             onClick={() => {
               setActiveTab(SettingsTabs.general);

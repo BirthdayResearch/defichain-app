@@ -64,7 +64,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi ",
+        "title": "– DeFi Wallet",
         "blockchain": "Blockchain",
         "transactions": "Transactions",
         "noOfTransactions": "Number of transactions",
@@ -89,7 +89,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiApp": "DeFi ",
+        "defiApp": "DeFi Wallet",
         "blockchain": "Blockchain"
       }
     },
@@ -154,7 +154,7 @@
         "preresigned": "Pre-resigned",
         "enable": "Enable",
         "disable": "Disable",
-        "restartNeeded": "You need to restart DeFi  to apply these changes. Do you want to restart?",
+        "restartNeeded": "You need to restart DeFi Wallet to apply these changes. Do you want to restart?",
         "tooltipMasternode": "If you have a masternode, your app needs to be open with an unlocked wallet to be able to mint.",
         "preenabled": "Pre-enabled",
         "prebanned": "Pre-banned",
@@ -539,7 +539,7 @@
       "display": "Display",
       "launchOptions": "Launch options",
       "launchAtLogin": "Launch at login",
-      "reindexOption": "ReIndex Option",
+      "reindexOption": "Reindex option",
       "reindexAfterSaving": "Reindex after saving",
       "refreshUtxos": "Refresh UTXOs",
       "refreshUtxosAfterSaving": "Refresh UTXOs after saving",
@@ -814,7 +814,7 @@
       "encryptWalletPage": {
         "title": "Encrypt wallet",
         "encryptingWallet": "Encrypting wallet",
-        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi  to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi Wallet to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
         "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase.",
         "passphraseStrength": "Passphrase strength: %{strength}",
         "strong": "Strong",
@@ -947,10 +947,10 @@
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
     "updateAppNoticeTitle": "Update complete",
-    "updateAppNotice": "You need to restart DeFi  to apply new update. Do you want to restart?",
+    "updateAppNotice": "You need to restart DeFi Wallet to apply new update. Do you want to restart?",
     "restartNowNotice": "Restart now",
     "restartLaterNotice": "Later",
-    "showUpdateAvailableHeader": "An update is available for DeFi ",
+    "showUpdateAvailableHeader": "An update is available for DeFi Wallet",
     "showUpdateAvailableNotice": "Would you like to update?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
@@ -994,7 +994,7 @@
     "skipBackup": "Skip backup",
     "backupWalletWarning": "Creating a new wallet or restoring one will override any existing wallets in the app. Do you want to backup your existing wallet?",
     "restartWalletModalHeader": "Restart required",
-    "restartWalletWarningNotice": "You need to restart DeFi . Do you want to restart?",
+    "restartWalletWarningNotice": "You need to restart DeFi Wallet. Do you want to restart?",
     "yesRestartWalletNotice": "Restart now",
     "noRestartWalletNotice": "Later",
     "resetWalletNoticeTitle": "Reset wallet",
@@ -1014,7 +1014,7 @@
     "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?"
   },
   "general": {
-    "defiApp": "DeFi ",
+    "defiApp": "DeFi Wallet",
     "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
     "quitingApp": "Quitting DefiChain app...",
     "doNotCloseWindow": "Do not turn off the computer while this window is still open."
@@ -1025,6 +1025,6 @@
     "currentVersion": "Current version",
     "requiredVersion": "Required version",
     "availableVersion": "Available version",
-    "updateReason": "An upgrade is required for DeFi  to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
+    "updateReason": "An upgrade is required for DeFi Wallet to continue to connect to the correct DeFiChain network. You will not be able to carry out transactions until you update."
   }
 }

@@ -41,8 +41,8 @@ import {
   updateToken,
   handleMintTokens,
 } from './service';
-import { ErrorMessages, ResponseMessages } from '../../constants/common';
 import { RootState } from '../../app/rootTypes';
+import { DESTRUCTION_TX, DFI } from 'src/constants';
 
 export function* getConfigurationDetails() {
   const { rpcConfig } = yield select((state: RootState) => state.app);
@@ -71,11 +71,11 @@ export function* fetchToken(action) {
 
 export function* fetchTokens() {
   try {
-    const data = yield call(handleFetchTokens);
-    yield put({
-      type: fetchTokensSuccess.type,
-      payload: { tokens: data },
-    });
+    const data: any[] = yield call(handleFetchTokens);
+    const updated = data.filter(
+      (item) => item.destructionTx === DESTRUCTION_TX && item.symbolKey !== DFI
+    );
+    yield put(fetchTokensSuccess(updated));
   } catch (e) {
     yield put({ type: fetchTokensFailure.type, payload: e.message });
     log.error(e);

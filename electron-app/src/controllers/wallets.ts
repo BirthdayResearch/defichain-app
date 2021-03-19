@@ -20,7 +20,6 @@ import {
 import {
   checkPathExists,
   copyFile,
-  deleteFile,
   getBaseFolder,
   getIniData,
   responseMessage,
@@ -371,7 +370,6 @@ export const removeDefaultWalletFile = () => {
       const destFilePath = path.join(baseFolder, destFileName);
       copyFile(srcFilePath, destFilePath);
       log.info(`Backup file created in ${destFilePath}`);
-      deleteFile(srcFilePath);
     }
   } catch (error) {
     log.error(error);

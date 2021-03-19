@@ -46,7 +46,7 @@ const configSlice = createSlice({
       state.isLoadingTokens = true;
     },
     fetchTokensSuccess(state, action) {
-      state.tokens = action.payload.tokens;
+      state.tokens = action.payload;
       state.isLoadingTokens = false;
       state.isTokensLoaded = true;
     },

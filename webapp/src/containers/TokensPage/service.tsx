@@ -82,7 +82,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  return await fetchTokenDataWithPagination(
+  return fetchTokenDataWithPagination(
     0,
     LIST_TOKEN_PAGE_SIZE,
     rpcClient.listTokens

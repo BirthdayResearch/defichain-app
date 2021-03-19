@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug encountered with using the DeFi
+about: Report a bug encountered with using the DeFi Wallet
 labels: kind/bug
 ---
 
@@ -20,7 +20,7 @@ Please provide steps on how to reproduce the issue: 1. 2. 3. -->
 
 #### What are your environment parameters?
 
-- DeFi Version:
+- DeFi Wallet Version:
 - Operating System (OS):
 
 #### Anything else we need to know?:
