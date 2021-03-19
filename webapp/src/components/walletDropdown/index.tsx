@@ -47,77 +47,48 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
     settableData(filteredTokensMap);
   }, [tokenMap, searchQuery]);
 
+  const prepareDropDown = (balanceTokenInfo: any, symbol: string) => (
+    <DropdownItem
+      className={styles.dropDownItem}
+      key={symbol}
+      name={`hash${name}`}
+      value={balanceTokenInfo.hash}
+      onClick={() =>
+        handleDropdown(
+          balanceTokenInfo.hash,
+          `hash${name}`,
+          symbol,
+          `symbol${name}`,
+          balanceTokenInfo.name
+        )
+      }
+    >
+      <div className={styles.dropDownItemLeft}>
+        <TokenAvatar symbol={symbol} />
+        &nbsp;
+        {symbol}
+      </div>
+      <div className={styles.dropDownItemRight}>
+        {/* {balanceTokenInfo.balance} */}
+        {new BigNumber(DEFAULT_TOKEN_VALUE).toFixed(8)}
+      </div>
+    </DropdownItem>
+  );
+
   const getTokenDropdownList = (tokenMap) => {
-    const popularTokenDropdownItems: React.ReactNode[] = [];
     const normalTokenDropdownItems: React.ReactNode[] = [];
 
     tokenMap.forEach((balanceTokenInfo: any, symbol: string) => {
-      if (balanceTokenInfo.isPopularToken) {
-        popularTokenDropdownItems.push(
-          <DropdownItem
-            className={styles.dropDownItem}
-            key={symbol}
-            name={`hash${name}`}
-            value={balanceTokenInfo.hash}
-            onClick={() =>
-              handleDropdown(
-                balanceTokenInfo.hash,
-                `hash${name}`,
-                symbol,
-                `symbol${name}`,
-                balanceTokenInfo.name
-              )
-            }
-          >
-            <div className={styles.dropDownItemLeft}>
-              <TokenAvatar symbol={symbol} />
-              &nbsp;
-              {symbol}
-            </div>
-            <div className={styles.dropDownItemRight}>
-              <NumberMask
-                value={new BigNumber(DEFAULT_TOKEN_VALUE).toFixed(8)}
-              />
-            </div>
-          </DropdownItem>
-        );
-      } else {
+      if (!balanceTokenInfo.isPopularToken) {
         normalTokenDropdownItems.push(
-          <DropdownItem
-            className={styles.dropDownItem}
-            key={symbol}
-            name={`hash${name}`}
-            value={balanceTokenInfo.hash}
-            onClick={() =>
-              handleDropdown(
-                balanceTokenInfo.hash,
-                `hash${name}`,
-                symbol,
-                `symbol${name}`,
-                balanceTokenInfo.name
-              )
-            }
-          >
-            <div className={styles.dropDownItemLeft}>
-              <TokenAvatar symbol={symbol} />
-              &nbsp;
-              {symbol}
-            </div>
-            <div className={styles.dropDownItemRight}>
-              {/* {balanceTokenInfo.balance} */}
-              {new BigNumber(DEFAULT_TOKEN_VALUE).toFixed(8)}
-            </div>
-          </DropdownItem>
+          prepareDropDown(balanceTokenInfo, symbol)
         );
       }
     });
-    return { popularTokenDropdownItems, normalTokenDropdownItems };
+    return normalTokenDropdownItems;
   };
 
-  const {
-    popularTokenDropdownItems,
-    normalTokenDropdownItems,
-  } = getTokenDropdownList(tableData);
+  const normalTokenDropdownItems = getTokenDropdownList(tableData);
 
   return (
     <UncontrolledDropdown className={styles.dropDownTokens}>
@@ -146,11 +117,6 @@ const WalletDropdown: React.FunctionComponent<WalletDropdownProps> = (
           />
         </div>
         <div className={styles.scrollableContainer}>
-          {/* <DropdownItem header>
-            {I18n.t('components.swapCard.popular')}
-          </DropdownItem>
-
-          {popularTokenDropdownItems} */}
           <DropdownItem header>
             {I18n.t('components.swapCard.tokens')}
           </DropdownItem>
