@@ -19,7 +19,7 @@ const networkName = MAINNET.toLowerCase();
 describe('Wallet page service unit test', () => {
   it('should check for handleGetPaymentRequest', () => {
     const PersistentStore = mockPersistentStore(null, null);
-    service.handleGetPaymentRequest(networkName);
+    service.handleGetPaymentRequest();
     expect(PersistentStore.get).toBeCalledTimes(1);
   });
 

@@ -9,6 +9,7 @@ import { eventChannel } from 'redux-saga';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchPaymentRequestsSuccess,
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   setLockedUntil,
@@ -53,6 +54,10 @@ import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
 import { IPCResponseModel } from '../../../typings/common';
 import { RPCConfigItem } from '../../../typings/rpcConfig';
+import {
+  getPaymentRequestsRPC,
+  processWalletMapAddresses,
+} from '../containers/WalletPage/service';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -340,5 +345,27 @@ export const overwriteConfigRequest = async (
   } catch (error) {
     log.error(error, 'overwriteConfigRequest');
     return false;
+  }
+};
+
+export const setPaymentAddresses = async (): Promise<
+  IPCResponseModel<string>
+> => {
+  try {
+    const { wallet } = store.getState();
+    const paymentRequests = await getPaymentRequestsRPC();
+    store.dispatch(fetchPaymentRequestsSuccess(paymentRequests));
+    replaceWalletMapSync({
+      ...wallet.walletMap,
+      paymentRequests: processWalletMapAddresses(paymentRequests),
+    });
+    return {
+      success: true,
+    };
+  } catch (error) {
+    log.error(error, 'setPaymentAddresses');
+    return {
+      success: false,
+    };
   }
 };

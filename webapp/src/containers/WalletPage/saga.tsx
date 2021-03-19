@@ -74,7 +74,6 @@ import {
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
   handleBlockData,
-  getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
   setHdSeed,
@@ -102,7 +101,6 @@ import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
 import {
   AMOUNT_SEPARATOR,
   MAX_WALLET_TXN_PAGE_SIZE,
@@ -114,11 +112,14 @@ import {
 } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
-import { uid } from 'uid';
 import { restartNodeSync } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
 import { history } from '../../utils/history';
-import { checkWalletEncryption, getWalletMap } from '../../app/service';
+import {
+  checkWalletEncryption,
+  getWalletMap,
+  setPaymentAddresses,
+} from '../../app/service';
 import {
   encryptWalletSuccess,
   openEncryptWalletModal,
@@ -130,6 +131,7 @@ import { openPostEncryptBackupModal } from '../PopOver/reducer';
 import { setDefaultLockTimeout } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
 import { TimeoutLockEnum } from '../SettingsPage/types';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 
 export function* getNetwork() {
   const {
@@ -169,7 +171,7 @@ function* getPaymentRequestState() {
   return cloneDeep(paymentRequests);
 }
 
-export async function addHdSeedCheck(list) {
+export async function addHdSeedCheck(list): Promise<PaymentRequestModel[]> {
   const result = list.map(async (data) => {
     return {
       ...data,
@@ -177,7 +179,7 @@ export async function addHdSeedCheck(list) {
     };
   });
   const resolvedData = await Promise.all(result);
-  return resolvedData;
+  return resolvedData as PaymentRequestModel[];
 }
 
 export function* addReceiveTxns(action: any) {
@@ -220,22 +222,10 @@ export function* removeReceiveTxns(action: any) {
 
 export function* fetchPayments() {
   try {
-    const networkName = yield call(getNetwork);
-    const data = yield call(handleGetPaymentRequest, networkName);
-    const list = yield all(
-      data.map((item) => {
-        item.id = item.id ?? uid();
-        return call(getAddressInfo, item.address);
-      })
-    );
-    const result = data.filter((item) => {
-      const found = list.find(
-        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
-      );
-      return !isEmpty(found);
-    });
-    const finalResult = yield call(addHdSeedCheck, result);
-    yield put(fetchPaymentRequestsSuccess(finalResult));
+    const { wallet } = store.getState();
+    if (wallet.paymentRequests == null || wallet.paymentRequests.length === 0) {
+      const finalResult = yield call(setPaymentAddresses);
+    }
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -702,6 +692,7 @@ export function* fetchWalletMap() {
           walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES
         )
       );
+      yield call(setPaymentAddresses);
     }
   } catch (err) {
     log.error(err, 'fetchWalletMap');
