@@ -31,7 +31,9 @@ import {
   ACCOUNT_TO_UTXOS_LABEL,
   ADD_POOL_LIQUIDITY_LABEL,
   ANY_ACCOUNT_TO_ACCOUNT_LABEL,
+  BLOCK_HEIGHT,
   COMMISSION_CATEGORY_LABEL,
+  CSV_TXN_LIMIT,
   DATE_FORMAT_CSV,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
@@ -162,11 +164,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     event: { target: { name: string; value: any } },
     field: string
   ) => {
-    setData({
-      ...reqData,
-      [field]: Number(event.target.value),
-    });
-    setError('');
+    const limit = field === BLOCK_HEIGHT ? blockCount : CSV_TXN_LIMIT;
+    if (event.target.value <= limit) {
+      setData({
+        ...reqData,
+        [field]: Number(event.target.value),
+      });
+      setError('');
+    }
   };
 
   const toggle = async () => {
