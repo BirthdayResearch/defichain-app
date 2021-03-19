@@ -365,14 +365,6 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           />
         </TabContent>
       </div>
-      {/* {state.activeTab !== SettingsTabs.security && (
-        <SettingsTabsFooter
-          isUnsavedChanges={
-            isUnsavedChanges || reindexAfterSaving || refreshUtxosAfterSaving
-          }
-          saveChanges={saveChanges}
-        />
-      )} */}
       <SettingsTabsFooter
         isUnsavedChanges={
           isUnsavedChanges ||
