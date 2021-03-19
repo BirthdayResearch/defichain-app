@@ -1,7 +1,7 @@
 {
   "name": "defi-wallet",
   "version": "2.3.2",
-  "description": "DeFiChain Blockchain App",
+  "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
     "name": "DeFiChain Foundation",
