@@ -15,7 +15,7 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { AddressModel } from '../../../../model/address.model';
 
 interface RouteParams {

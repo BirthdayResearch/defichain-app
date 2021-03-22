@@ -168,26 +168,26 @@ describe('Token page saga unit test', () => {
   });
 
   describe('addReceiveTxns', () => {
-    let handelAddReceiveTxns;
+    let handleAddReceiveTxns;
     beforeEach(() => {
-      handelAddReceiveTxns = jest.spyOn(service, 'handelAddReceiveTxns');
+      handleAddReceiveTxns = jest.spyOn(service, 'handleAddReceiveTxns');
     });
     afterEach(() => {
-      handelAddReceiveTxns.mockRestore();
+      handleAddReceiveTxns.mockRestore();
     });
     afterAll(jest.clearAllMocks);
     it('should call api and dispatch success action', async () => {
-      handelAddReceiveTxns.mockImplementation(() =>
+      handleAddReceiveTxns.mockImplementation(() =>
         Promise.resolve(testData.saga.networkName)
       );
       await dispatchedFunc(addReceiveTxns);
-      expect(handelAddReceiveTxns).toBeCalledTimes(0);
+      expect(handleAddReceiveTxns).toBeCalledTimes(0);
     });
 
     it('should call api and dispatch failure action', async () => {
-      handelAddReceiveTxns.mockImplementation(() => Promise.reject(errorObj));
+      handleAddReceiveTxns.mockImplementation(() => Promise.reject(errorObj));
       const dispatched = await dispatchedFunc(addReceiveTxns);
-      expect(handelAddReceiveTxns).toBeCalledTimes(0);
+      expect(handleAddReceiveTxns).toBeCalledTimes(0);
       expect(dispatched).toEqual([
         addReceiveTxnsFailure('env.getState is not a function'),
       ]);

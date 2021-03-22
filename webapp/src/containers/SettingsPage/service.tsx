@@ -42,7 +42,6 @@ import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
   getErrorMessage,
-  getNetworkType,
 } from '../../utils/utility';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
@@ -153,7 +152,7 @@ export const refreshUtxosAfterSavingData = async () => {
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));
-  const result = handleGetPaymentRequest(getNetworkType());
+  const result = await handleGetPaymentRequest();
   const receivedAddresses: any = result.map((addressObj) => addressObj.address);
 
   const finalData = [...resolvedData, ...receivedAddresses];

@@ -22,20 +22,8 @@ import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
-import EllipsisText from 'react-ellipsis-text';
 import { addHdSeedCheck } from '../../../saga';
-
-export interface PaymentRequestModel {
-  label: string;
-  id: string;
-  time: string;
-  address: string;
-  message?: string;
-  amount?: number;
-  unit?: string;
-  hdSeed?: boolean;
-}
-
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 interface PaymentRequestsProps {
   paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;

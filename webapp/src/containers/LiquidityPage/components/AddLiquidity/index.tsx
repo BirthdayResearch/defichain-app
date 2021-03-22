@@ -47,7 +47,7 @@ import {
 import Spinner from '../../../../components/Svg/Spinner';
 import BigNumber from 'bignumber.js';
 import Header from '../../../HeaderComponent';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { AddressModel } from '../../../../model/address.model';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from '../../../../components/ViewOnChain';

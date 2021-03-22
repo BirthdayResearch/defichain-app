@@ -88,7 +88,7 @@ export const handleCreateTokens = async (tokenData) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
   const list = await getAddressAndAmountListForAccount();
-  const { address, amount: maxAmount } = getHighestAmountAddressForSymbol(
+  const { address, amount: maxAmount } = await getHighestAmountAddressForSymbol(
     DFI_SYMBOL,
     list
   );

@@ -12,7 +12,6 @@ import {
   DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { I18n } from 'react-redux-i18n';
 import { IToken } from 'src/utils/interfaces';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -29,7 +28,7 @@ import {
   handleFetchTokenBalanceList,
   hdWalletCheck,
   getNetworkType,
-  getNetworkInfo,
+  convertEpochToJSDate,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -37,18 +36,20 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
-import { getNetwork } from './saga';
-import { element } from 'prop-types';
-import { includes } from 'lodash';
 import {
   ON_FILE_SELECT_REQUEST,
   ON_WALLET_RESTORE_VIA_BACKUP,
   ON_WRITE_CONFIG_REQUEST,
   ON_FILE_EXIST_CHECK,
-} from '../../../../typings/ipcEvents';
+} from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { backupWallet, updateWalletMap } from '../../app/service';
+import { backupWallet, updatePaymentAddresses, updateWalletMap } from '../../app/service';
 import { IPCResponseModel } from '@defi_types/common';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import store from '../../app/rootStore';
+import { uid } from 'uid';
+import { uniqBy } from 'lodash';
+import { addHdSeedCheck } from './saga';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -57,32 +58,118 @@ const handleLocalStorageName = (networkName) => {
   return PAYMENT_REQUEST;
 };
 
-export const handleGetPaymentRequest = (networkName) => {
-  return JSON.parse(
-    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
-  );
+export const processWalletMapAddresses = (
+  addresses: PaymentRequestModel[]
+): PaymentRequestModel[] => {
+  return addresses?.map((s) => {
+    const address = { ...s };
+    delete address.txids;
+    delete address.confirmations;
+    delete address.amount;
+    return address;
+  });
 };
 
-export const handelAddReceiveTxns = async (data, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+export const getPaymentRequestsRPC = async (): Promise<
+  PaymentRequestModel[]
+> => {
+  try {
+    const rpcClient = new RpcClient();
+    const receivedAddress = await rpcClient.getListreceivedAddress(0, false);
+    const paymentRequests = await handleGetPaymentRequest(
+      receivedAddress,
+      true
+    );
+    const final = await addHdSeedCheck(paymentRequests);
+    return final;
+  } catch (error) {
+    log.error(error);
+    return [];
+  }
+};
+
+export const filterMyAddresses = (
+  list: any[],
+  item: PaymentRequestModel,
+  myAddress: boolean
+): boolean => {
+  const found = list.find(
+    (ele) =>
+      ele.address === item.address &&
+      (myAddress ? ele.ismine : !myAddress) &&
+      !ele.iswatchonly
+  );
+  const isNotEmpty = !isEmpty(found);
+  if (isNotEmpty) {
+    item.ismine = found.ismine;
+    item.time = item.time ?? convertEpochToJSDate(found.timestamp);
+  }
+  return isNotEmpty;
+};
+
+export const getWalletMapPaymentRequests = (): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  return [...(wallet?.walletMap?.paymentRequests ?? [])];
+}
+
+export const handleGetPaymentRequest = async (
+  receivedAddress?: PaymentRequestModel[],
+  allAddress = false
+): Promise<PaymentRequestModel[]> => {
+  let paymentRequests = getWalletMapPaymentRequests();
+  if (receivedAddress) {
+    paymentRequests = [...paymentRequests, ...receivedAddress];
+  }
+  paymentRequests = uniqBy(paymentRequests, 'address');
+  const finalAddresses = paymentRequests.map((pr) => {
+    return { ...pr };
+  });
+  return Promise.all(
+    finalAddresses.map((item) => {
+      item.id = item.id ?? uid();
+      item.ismine = false;
+      return getAddressInfo(item.address);
+    })
+  )
+    .then((list) => {
+      if (!allAddress) {
+        const result = finalAddresses.filter((item) => {
+          return filterMyAddresses(list, item, allAddress);
+        });
+        return result;
+      } else {
+        return finalAddresses.map((item) => {
+          filterMyAddresses(list, item, allAddress);
+          return item;
+        });
+      }
+    })
+    .catch((error) => {
+      log.error(error);
+      return [];
+    });
+};
+
+export const handleAddReceiveTxns = async (data: PaymentRequestModel): Promise<PaymentRequestModel[]> => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
   data.hdSeed = await hdWalletCheck(data.address);
-  const paymentData = [data, ...initialData];
+  const paymentData = [data, ...paymentRequests];
   if (!data.automaticallyGenerateNewAddress) {
     const rpcClient = new RpcClient();
     await rpcClient.setLabel(data.address, data.label);
   }
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
 };
 
-export const handelRemoveReceiveTxns = (id, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  const paymentData = initialData.filter(
+export const handleRemoveReceiveTxns = (id: string): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
+  const paymentData = paymentRequests.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
   );
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
 };
 
@@ -271,7 +358,7 @@ export const sendToAddress = async (
       const {
         address: fromAddress,
         amount: maxAmount,
-      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
+      } = await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
