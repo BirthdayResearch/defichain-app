@@ -11,7 +11,6 @@ import {
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
   addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
   addReceiveTxnsFailure,
   fetchSendDataFailure,
   fetchSendDataRequest,
@@ -20,7 +19,6 @@ import {
   fetchWalletBalanceSuccess,
   fetchWalletBalanceFailure,
   removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
   removeReceiveTxnsFailure,
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
@@ -66,12 +64,11 @@ import {
 } from './reducer';
 import {
   handleFetchTokens,
-  handleGetPaymentRequest,
-  handelAddReceiveTxns,
+  handleAddReceiveTxns,
   handelFetchWalletTxns,
   handleSendData,
   handleFetchWalletBalance,
-  handelRemoveReceiveTxns,
+  handleRemoveReceiveTxns,
   handleFetchPendingBalance,
   handleBlockData,
   getBlockChainInfo,
@@ -186,13 +183,11 @@ export function* addReceiveTxns(action: any) {
   try {
     const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
 
-    const networkName = yield call(getNetwork);
-
-    yield call(handelAddReceiveTxns, action.payload, networkName);
+    yield call(handleAddReceiveTxns, action.payload);
 
     cloneDeepPaymentRequests.push(action.payload);
 
-    yield put(addReceiveTxnsSuccess(cloneDeepPaymentRequests));
+    yield put(fetchPaymentRequestsSuccess(cloneDeepPaymentRequests));
   } catch (e) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
@@ -206,13 +201,13 @@ export function* removeReceiveTxns(action: any) {
 
     const networkName = yield call(getNetwork);
 
-    yield call(handelRemoveReceiveTxns, action.payload, networkName);
+    yield call(handleRemoveReceiveTxns, action.payload);
 
     const result = cloneDeepPaymentRequests.filter(
       (ele) => ele.id && ele.id.toString() !== action.payload.toString()
     );
 
-    yield put(removeReceiveTxnsSuccess(result));
+    yield put(fetchPaymentRequestsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
     yield put(removeReceiveTxnsFailure(e.message));
@@ -224,7 +219,7 @@ export function* fetchPayments() {
   try {
     const { wallet } = store.getState();
     if (wallet.paymentRequests == null || wallet.paymentRequests.length === 0) {
-      const finalResult = yield call(setPaymentAddresses);
+      yield call(setPaymentAddresses);
     }
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
@@ -692,7 +687,6 @@ export function* fetchWalletMap() {
           walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES
         )
       );
-      yield call(setPaymentAddresses);
     }
   } catch (err) {
     log.error(err, 'fetchWalletMap');

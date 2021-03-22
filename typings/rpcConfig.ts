@@ -46,4 +46,6 @@ export interface PaymentRequestModel {
   hdSeed?: boolean;
   txids?: string[];
   confirmations?: number;
+  automaticallyGenerateNewAddress?: boolean;
+  ismine?: boolean;
 }

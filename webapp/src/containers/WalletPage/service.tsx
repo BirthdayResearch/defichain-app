@@ -43,7 +43,7 @@ import {
   ON_FILE_EXIST_CHECK,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { backupWallet, updateWalletMap } from '../../app/service';
+import { backupWallet, updatePaymentAddresses, updateWalletMap } from '../../app/service';
 import { IPCResponseModel } from '@defi_types/common';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import store from '../../app/rootStore';
@@ -76,7 +76,10 @@ export const getPaymentRequestsRPC = async (): Promise<
   try {
     const rpcClient = new RpcClient();
     const receivedAddress = await rpcClient.getListreceivedAddress(0, false);
-    const paymentRequests = await handleGetPaymentRequest(receivedAddress);
+    const paymentRequests = await handleGetPaymentRequest(
+      receivedAddress,
+      true
+    );
     const final = await addHdSeedCheck(paymentRequests);
     return final;
   } catch (error) {
@@ -85,11 +88,35 @@ export const getPaymentRequestsRPC = async (): Promise<
   }
 };
 
-export const handleGetPaymentRequest = async (
-  receivedAddress?: PaymentRequestModel[]
-): Promise<PaymentRequestModel[]> => {
+export const filterMyAddresses = (
+  list: any[],
+  item: PaymentRequestModel,
+  myAddress: boolean
+): boolean => {
+  const found = list.find(
+    (ele) =>
+      ele.address === item.address &&
+      (myAddress ? ele.ismine : !myAddress) &&
+      !ele.iswatchonly
+  );
+  const isNotEmpty = !isEmpty(found);
+  if (isNotEmpty) {
+    item.ismine = found.ismine;
+    item.time = item.time ?? convertEpochToJSDate(found.timestamp);
+  }
+  return isNotEmpty;
+};
+
+export const getWalletMapPaymentRequests = (): PaymentRequestModel[] => {
   const { wallet } = store.getState();
-  let paymentRequests = [...(wallet?.walletMap?.paymentRequests ?? [])];
+  return [...(wallet?.walletMap?.paymentRequests ?? [])];
+}
+
+export const handleGetPaymentRequest = async (
+  receivedAddress?: PaymentRequestModel[],
+  allAddress = false
+): Promise<PaymentRequestModel[]> => {
+  let paymentRequests = getWalletMapPaymentRequests();
   if (receivedAddress) {
     paymentRequests = [...paymentRequests, ...receivedAddress];
   }
@@ -100,22 +127,22 @@ export const handleGetPaymentRequest = async (
   return Promise.all(
     finalAddresses.map((item) => {
       item.id = item.id ?? uid();
+      item.ismine = false;
       return getAddressInfo(item.address);
     })
   )
     .then((list) => {
-      const result = finalAddresses.filter((item) => {
-        const found = list.find(
-          (ele) =>
-            ele.address === item.address && ele.ismine && !ele.iswatchonly
-        );
-        const isNotEmpty = !isEmpty(found);
-        if (isNotEmpty) {
-          item.time = item.time ?? convertEpochToJSDate(found.timestamp);
-        }
-        return isNotEmpty;
-      });
-      return result;
+      if (!allAddress) {
+        const result = finalAddresses.filter((item) => {
+          return filterMyAddresses(list, item, allAddress);
+        });
+        return result;
+      } else {
+        return finalAddresses.map((item) => {
+          filterMyAddresses(list, item, allAddress);
+          return item;
+        });
+      }
     })
     .catch((error) => {
       log.error(error);
@@ -123,26 +150,26 @@ export const handleGetPaymentRequest = async (
     });
 };
 
-export const handelAddReceiveTxns = async (data, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+export const handleAddReceiveTxns = async (data: PaymentRequestModel): Promise<PaymentRequestModel[]> => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
   data.hdSeed = await hdWalletCheck(data.address);
-  const paymentData = [data, ...initialData];
+  const paymentData = [data, ...paymentRequests];
   if (!data.automaticallyGenerateNewAddress) {
     const rpcClient = new RpcClient();
     await rpcClient.setLabel(data.address, data.label);
   }
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
 };
 
-export const handelRemoveReceiveTxns = (id, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  const paymentData = initialData.filter(
+export const handleRemoveReceiveTxns = (id: string): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
+  const paymentData = paymentRequests.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
   );
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
 };
 
