@@ -138,6 +138,13 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
+      if (
+        PersistentStore.get('sendCountdown') !== action.payload.sendCountdown
+      ) {
+        PersistentStore.set('sendCountdown', data.sendCountdown);
+      } else {
+        PersistentStore.set('sendCountdown', true);
+      }
     } else {
       yield put({
         type: updateSettingsFailure.type,

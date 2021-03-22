@@ -41,6 +41,7 @@ import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
+  getCountdownValue,
   getErrorMessage,
 } from '../../utils/utility';
 import compact from 'lodash/compact';
@@ -115,6 +116,7 @@ export const initialData = () => {
     maximumAmount: getAppConfigMaximumAmount(),
     maximumCount: getAppConfigMaximumCount(),
     feeRate: getAppConfigFeeRate(),
+    sendCountdown: getCountdownValue(),
   };
   return settings;
 };

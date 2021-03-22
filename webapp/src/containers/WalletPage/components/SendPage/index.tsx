@@ -44,6 +44,7 @@ import {
   getSymbolKey,
   isLessThanDustAmount,
   isValidAddress,
+  getCountdownValue,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -52,7 +53,7 @@ import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
-import { ErrorMessages, ResponseMessages } from '../../../../constants/common';
+
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -133,6 +134,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   componentDidMount() {
     this.props.fetchSendDataRequest();
+    if (!getCountdownValue()) {
+      this.state.waitToSend = 0;
+    }
+  }
+
+  componentDidUpdate() {
+    if (!getCountdownValue()) {
+      this.state.waitToSend = 0;
+    }
   }
 
   updateAmountToSend = (e) => {

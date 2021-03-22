@@ -49,7 +49,6 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             </NavLink>
           </NavItem>
         )}
-
         <NavItem>
           <NavLink
             className={classnames({
