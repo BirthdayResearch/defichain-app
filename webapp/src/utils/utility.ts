@@ -1246,7 +1246,7 @@ export const getAddressForSymbolLedger = async (
       keyIndex = obj.keyIndex;
     } else {
       const addressAndAmount = await getAddressAndAmountListForLedger();
-      const res = getHighestAmountAddressForSymbol(
+      const res = await getHighestAmountAddressForSymbol(
         key,
         // @ts-ignore
         addressAndAmount,

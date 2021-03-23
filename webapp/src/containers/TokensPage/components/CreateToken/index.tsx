@@ -21,7 +21,7 @@ import {
 import { ITokenResponse } from '@/utils/interfaces';
 import { PaymentRequestLedger } from '@/typings/models';
 import { TypeWallet } from '@/typings/entities';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';;
 import { AddressModel } from '../../../../model/address.model';
 import { getCountdownValue } from 'src/utils/utility';
 
