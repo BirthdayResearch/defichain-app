@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { TabPane, Row, Col, Form, FormGroup, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
@@ -9,6 +10,7 @@ import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
 import { TimeoutLockEnum } from '../../types';
 import styles from './settingsTabSecurity.module.scss';
 import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
+import { setLockoutTimeList } from '../../reducer';
 
 const timeoutLabel = 'containers.settings.minutes';
 
@@ -52,12 +54,10 @@ export const MaxTimeout = {
 
 interface SettingsTabSecurityProps {
   setTimeoutValue: (data: any) => void;
-  setTimeoutLockList: (data: any) => void;
   setLockoutTimeList: (data: any) => void;
-  myMasternodes: any;
-  lockTimeoutList: any;
-  timeoutLockList: any;
-  timeoutValue: any;
+  myMasternodes: any[];
+  lockTimeoutList: any[];
+  timeoutValue: number;
 }
 
 const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
@@ -66,12 +66,11 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   const {
     setTimeoutValue,
     myMasternodes,
-    setTimeoutLockList,
     lockTimeoutList,
     setLockoutTimeList,
-    timeoutLockList,
     timeoutValue,
   } = props;
+  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
   const [timeOutCloneValue, setTimeOutCloneValue] = useState(timeoutValue);
   const handleDropDowns = (data: number) => {
     setTimeoutValue(data);
@@ -143,4 +142,23 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   );
 };
 
-export default SettingsTabSecurity;
+const mapStateToProps = (state) => {
+  const {
+    settings: { lockTimeoutList },
+    masterNodes: { myMasternodes },
+  } = state;
+
+  return {
+    myMasternodes,
+    lockTimeoutList,
+  };
+};
+
+const mapDispatchToProps = {
+  setLockoutTimeList: (lockTimeoutList) => setLockoutTimeList(lockTimeoutList),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsTabSecurity);

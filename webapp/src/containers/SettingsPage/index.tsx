@@ -7,7 +7,6 @@ import {
   getInitialSettingsRequest,
   updateSettingsRequest,
   getSettingOptionsRequest,
-  setLockoutTimeList,
 } from './reducer';
 import SettingsTabsHeader, {
   SettingsTabs,
@@ -18,9 +17,7 @@ import SettingsTabGeneral from './components/SettingsTabGeneral';
 import SettingsTabDisplay from './components/SettingsTabDisplay';
 import usePrevious from '../../components/UsePrevious';
 import { getPageTitle } from '../../utils/utility';
-import SettingsTabSecurity, {
-  TimeoutLockList,
-} from './components/SettingsTabSecurity';
+import SettingsTabSecurity from './components/SettingsTabSecurity';
 import { useLocation } from 'react-router-dom';
 
 interface SettingsPageProps {
@@ -58,10 +55,7 @@ interface SettingsPageProps {
   isRefreshUtxosModalOpen: boolean;
   isWalletEncrypted: boolean;
   isWalletCreatedFlag: boolean;
-  lockTimeoutList: any;
-  defaultLockTimeout: any;
-  myMasternodes: any;
-  setLockoutTimeList: (data: any) => void;
+  defaultLockTimeout: number;
 }
 
 interface SettingsPageState {
@@ -90,20 +84,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const tab = urlParams.get('tab');
-  const {
-    lockTimeoutList,
-    defaultLockTimeout,
-    myMasternodes,
-    setLockoutTimeList,
-  } = props;
 
   const [state, setState] = useState<SettingsPageState>({
     activeTab: tab ?? SettingsTabs.general,
     ...props.appConfig,
     isUnsavedChanges: false,
   });
-  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
-  const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
+  const [timeoutValue, setTimeoutValue] = useState<number>(
+    props.defaultLockTimeout
+  );
 
   const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
   const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
@@ -277,7 +266,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       feeRate,
       reindexAfterSaving: reindexAfterSaving,
       refreshUtxosAfterSaving,
-      timeoutValue: timeoutValue !== defaultLockTimeout && timeoutValue,
+      timeoutValue: timeoutValue !== props.defaultLockTimeout && timeoutValue,
     };
     props.updateSettings(settings);
   };
@@ -349,11 +338,6 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           {props.isWalletCreatedFlag && props.isWalletEncrypted && (
             <SettingsTabSecurity
               setTimeoutValue={setTimeoutValue}
-              setTimeoutLockList={setTimeoutLockList}
-              setLockoutTimeList={setLockoutTimeList}
-              myMasternodes={myMasternodes}
-              lockTimeoutList={lockTimeoutList}
-              timeoutLockList={timeoutLockList}
               timeoutValue={timeoutValue}
             />
           )}
@@ -370,7 +354,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           isUnsavedChanges ||
           reindexAfterSaving ||
           refreshUtxosAfterSaving ||
-          timeoutValue !== defaultLockTimeout
+          timeoutValue !== props.defaultLockTimeout
         }
         saveChanges={saveChanges}
       />
@@ -386,13 +370,11 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     isRefreshUtxosModalOpen,
-    lockTimeoutList,
     defaultLockTimeout,
   } = state.settings;
   const { isWalletEncrypted, isWalletCreatedFlag } = state.wallet;
   const { isRestart } = state.popover;
   const { locale } = state.i18n;
-  const { myMasternodes } = state.masterNodes;
   return {
     isFetching,
     settingsError,
@@ -404,9 +386,7 @@ const mapStateToProps = (state) => {
     isRefreshUtxosModalOpen,
     isWalletEncrypted,
     isWalletCreatedFlag,
-    lockTimeoutList,
     defaultLockTimeout,
-    myMasternodes,
   };
 };
 
@@ -414,6 +394,5 @@ const mapDispatchToProps = {
   getSettingOptionsRequest,
   getInitialSettingsRequest,
   updateSettings: (settings) => updateSettingsRequest(settings),
-  setLockoutTimeList: (lockTimeoutList) => setLockoutTimeList(lockTimeoutList),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

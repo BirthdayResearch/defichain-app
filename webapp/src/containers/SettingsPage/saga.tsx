@@ -52,6 +52,7 @@ import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
 import showNotification from '../../utils/notifications';
+import { I18n } from 'react-redux-i18n';
 
 export function* getSettingsOptions() {
   try {
@@ -211,12 +212,14 @@ export function* setLockTimeout(action) {
     const timeout = action.payload;
     const resp = yield call(updateLockTimeout, timeout);
     if (resp?.success) {
-      const message = `Timeout updated to ${timeout} seconds`;
-      log.info(message, 'updatePassphrase');
-      showNotification(message, 'updatePassphrase');
-    } else {
-      throw new Error(resp?.message);
+      const message = I18n.t('alerts.timeoutMessage', {
+        timeout,
+      });
+      const title = I18n.t('alerts.timeoutTitle');
+      log.info(message, title);
+      return showNotification(message, title);
     }
+    throw new Error(resp?.message);
   } catch (error) {
     yield put({
       type: changePassphraseFailure.type,
