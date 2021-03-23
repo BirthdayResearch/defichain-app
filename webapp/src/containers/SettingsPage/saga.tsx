@@ -140,8 +140,17 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
+      
       if (data.timeoutValue) {
         yield put(setDefaultLockTimeout(data.timeoutValue));
+      }
+      
+      if (
+        PersistentStore.get('sendCountdown') !== action.payload.sendCountdown
+      ) {
+        PersistentStore.set('sendCountdown', data.sendCountdown);
+      } else {
+        PersistentStore.set('sendCountdown', true);
       }
     } else {
       yield put({

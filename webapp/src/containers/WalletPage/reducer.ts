@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TimeoutLockEnum } from '../SettingsPage/types';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { defaultWalletMap, WalletState } from './types';
 
 export const initialState: WalletState = {
@@ -124,7 +124,8 @@ const configSlice = createSlice({
       state.paymentRequests = [];
     },
     fetchPaymentRequestsSuccess(state, action) {
-      state.paymentRequests = action.payload;
+      const paymentRequests: PaymentRequestModel[] = action.payload ?? [];
+      state.paymentRequests = paymentRequests.filter((p) => p.ismine);
     },
     fetchPaymentRequestsFailure(state, action) {
       state.paymentRequests = [];
@@ -145,14 +146,8 @@ const configSlice = createSlice({
       state.isWalletTxnsLoading = false;
     },
     removeReceiveTxnsRequest(state, action) {},
-    removeReceiveTxnsSuccess(state, action) {
-      state.paymentRequests = action.payload;
-    },
     removeReceiveTxnsFailure(state, action) {},
     addReceiveTxnsRequest(state, action) {},
-    addReceiveTxnsSuccess(state, action) {
-      state.paymentRequests = action.payload;
-    },
     addReceiveTxnsFailure(state, action) {},
     fetchSendDataRequest(state) {},
     fetchSendDataSuccess(state, action) {
@@ -370,10 +365,8 @@ export const {
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
   removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
   removeReceiveTxnsFailure,
   addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
   addReceiveTxnsFailure,
   fetchSendDataRequest,
   fetchSendDataSuccess,

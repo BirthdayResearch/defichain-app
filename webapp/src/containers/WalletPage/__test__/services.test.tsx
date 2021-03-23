@@ -6,7 +6,7 @@ import {
   listtransaction,
   walletInfo,
   expected,
-  handelRemoveReceiveTxns,
+  handleRemoveReceiveTxns,
 } from './testData.json';
 import * as log from '../../../utils/electronLogger';
 import {
@@ -15,27 +15,23 @@ import {
 } from '../../../utils/testUtils/mockUtils';
 import { MAINNET } from '../../../constants';
 import BigNumber from 'bignumber.js';
-const networkName = MAINNET.toLowerCase();
 describe('Wallet page service unit test', () => {
   it('should check for handleGetPaymentRequest', () => {
     const PersistentStore = mockPersistentStore(null, null);
-    service.handleGetPaymentRequest(networkName);
+    service.handleGetPaymentRequest();
     expect(PersistentStore.get).toBeCalledTimes(1);
   });
 
-  it('should check for handelRemoveReceiveTxns', () => {
+  it('should check for handleRemoveReceiveTxns', () => {
     const PersistentStore = mockPersistentStore(
-      JSON.stringify(handelRemoveReceiveTxns.localStorageData),
+      JSON.stringify(handleRemoveReceiveTxns.localStorageData),
       null
     );
-    const data = service.handelRemoveReceiveTxns(
-      handelRemoveReceiveTxns.uuid,
-      networkName
-    );
+    const data = service.handleRemoveReceiveTxns(handleRemoveReceiveTxns.uuid);
     expect(PersistentStore.set).toBeCalledTimes(1);
     expect(PersistentStore.get).toBeCalledTimes(1);
     expect(data).toBeInstanceOf(Array);
-    expect(data).toEqual(expected.handelRemoveReceiveTxns);
+    expect(data).toEqual(expected.handleRemoveReceiveTxns);
   });
 
   it('should check for handelFetchWalletTxns', async () => {

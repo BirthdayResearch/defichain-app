@@ -30,7 +30,7 @@ import { fetchMasternodesRequest } from './reducer';
 import { MasterNodeObject } from './masterNodeInterface';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
-import { getPageTitle } from '../../utils/utility';
+import { getCountdownValue, getPageTitle } from '../../utils/utility';
 import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
 import MineNodeList from './components/MineNodeList';
 import MineNodeFooter from './components/MineNodeFooter';
@@ -195,6 +195,12 @@ const MasternodesPage: React.FunctionComponent = () => {
       setIsConfirmationModalOpen(MasterNodesPageStates.failure);
     }
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <div className='main-wrapper'>

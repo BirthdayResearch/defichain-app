@@ -41,6 +41,7 @@ interface SettingsPageProps {
     maximumCount: number;
     feeRate: number;
     reindexAfterSaving: boolean;
+    sendCountdown: boolean;
   };
   isUpdating: boolean;
   isUpdated: boolean;
@@ -56,6 +57,7 @@ interface SettingsPageProps {
   isWalletEncrypted: boolean;
   isWalletCreatedFlag: boolean;
   defaultLockTimeout: number;
+  sendCountdown: boolean;
 }
 
 interface SettingsPageState {
@@ -76,6 +78,7 @@ interface SettingsPageState {
   maximumCount?: number;
   feeRate?: number | string;
   isUnsavedChanges: boolean;
+  sendCountdown: boolean;
 }
 
 const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
@@ -204,7 +207,6 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'displayMode',
       'network',
       'launchAtLogin',
-      'deletePeersAndBlocks',
       'minimizedAtLaunch',
       'pruneBlockStorage',
       'scriptVerificationThreads',
@@ -213,6 +215,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       'maximumAmount',
       'maximumCount',
       'feeRate',
+      'sendCountdown',
     ];
 
     let isUnsavedChanges = false;
@@ -247,6 +250,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       maximumAmount,
       maximumCount,
       feeRate,
+      sendCountdown,
     } = state;
 
     const settings = {
@@ -267,6 +271,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       reindexAfterSaving: reindexAfterSaving,
       refreshUtxosAfterSaving,
       timeoutValue: timeoutValue !== props.defaultLockTimeout && timeoutValue,
+      sendCountdown,
     };
     props.updateSettings(settings);
   };
@@ -288,7 +293,21 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     unit,
     displayMode,
     network,
+    sendCountdown,
   } = state;
+
+  const handeDeletePeersClick = () => {
+    setSettingsPageState({
+      deletePeersAndBlocks: true,
+    });
+    setIsReindexAfterSaving(!reindexAfterSaving);
+  };
+
+  useEffect(() => {
+    if (refreshUtxosAfterSaving || reindexAfterSaving || deletePeersAndBlocks) {
+      saveChanges();
+    }
+  }, [refreshUtxosAfterSaving, reindexAfterSaving, deletePeersAndBlocks]);
 
   return (
     <div className='main-wrapper'>
@@ -334,6 +353,8 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handleDropDowns={handleDropDowns}
             handeReindexToggle={handeReindexToggle}
             handeRefreshUtxosToggle={handeRefreshUtxosToggle}
+            sendCountdown={sendCountdown}
+            handeDeletePeersClick={handeDeletePeersClick}
           />
           {props.isWalletCreatedFlag && props.isWalletEncrypted && (
             <SettingsTabSecurity
