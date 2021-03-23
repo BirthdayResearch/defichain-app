@@ -140,11 +140,11 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
-      
+
       if (data.timeoutValue) {
         yield put(setDefaultLockTimeout(data.timeoutValue));
       }
-      
+
       if (
         PersistentStore.get('sendCountdown') !== action.payload.sendCountdown
       ) {
@@ -226,7 +226,7 @@ export function* setLockTimeout(action) {
       });
       const title = I18n.t('alerts.timeoutTitle');
       log.info(message, title);
-      return showNotification(message, title);
+      return showNotification(title, message);
     }
     throw new Error(resp?.message);
   } catch (error) {
