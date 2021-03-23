@@ -195,7 +195,7 @@ export const handleAddPoolLiquidity = async (
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(
+  } = await getHighestAmountAddressForSymbol(
     hash1,
     addressesList,
     undefined,
@@ -205,7 +205,7 @@ export const handleAddPoolLiquidity = async (
   const {
     address: address2,
     amount: maxAmount2,
-  } = getHighestAmountAddressForSymbol(
+  } = await getHighestAmountAddressForSymbol(
     hash2,
     addressesList,
     undefined,

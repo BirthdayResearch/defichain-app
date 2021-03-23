@@ -14,6 +14,7 @@ import {
   DEFI_CLI_TEXT,
 } from '../../../constants';
 import './console.scss';
+import { WalletMap } from '@defi_types/walletMap';
 
 interface EchoConsoleProps {
   fetchDataForQueryRequest: (query: string) => void;
@@ -23,6 +24,7 @@ interface EchoConsoleProps {
   isLoading: boolean;
   result: object | string | number | any[];
   isError: string;
+  walletMap: WalletMap;
 }
 
 const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
@@ -36,6 +38,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     result,
     isError,
     cliLog,
+    walletMap
   } = props;
   const [showConsoleResults, setShowConsoleResults] = useState(false);
   let currentRef: Console;
@@ -135,7 +138,9 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
         ref={(ref: Console) => (currentRef = ref)}
         handler={echo}
         promptLabel=''
-        welcomeMessage={CONSOLE_PROMPT_LABEL}
+        welcomeMessage={`${CONSOLE_PROMPT_LABEL}${
+          walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : ''
+        }`}
         autofocus={true}
       />
     </div>
@@ -145,12 +150,14 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
 const mapStateToProps = (state) => {
   const {
     cli: { isLoading, result, isError, cliLog },
+    wallet: { walletMap },
   } = state;
   return {
     isLoading,
     result,
     isError,
     cliLog,
+    walletMap,
   };
 };
 const mapDispatchToProps = {

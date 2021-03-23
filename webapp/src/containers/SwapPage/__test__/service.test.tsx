@@ -73,31 +73,31 @@ describe('liquidity page service unit test', () => {
     }
   });
 
-  // it('should check for handelAddReceiveTxns', async () => {
+  // it('should check for ', async () => {
   //   const PersistentStore = mockPersistentStore(null, null);
-  //   const data = await service.handelAddReceiveTxns(
-  //     handelAddReceiveTxns,
+  //   const data = await service.(
+  //     ,
   //     networkName
   //   );
   //   console.log("data=================>", data)
   //   expect(PersistentStore.get).toBeCalledTimes(1);
   //   expect(data).toBeInstanceOf(Array);
-  //   expect(data).toEqual(expected.handelAddReceiveTxns);
+  //   expect(data).toEqual(expected.);
   // });
 
-  //   it('should check for handelRemoveReceiveTxns', () => {
+  //   it('should check for handleRemoveReceiveTxns', () => {
   //     const PersistentStore = mockPersistentStore(
-  //       JSON.stringify(handelRemoveReceiveTxns.localStorageData),
+  //       JSON.stringify(handleRemoveReceiveTxns.localStorageData),
   //       null
   //     );
-  //     const data = service.handelRemoveReceiveTxns(
-  //       handelRemoveReceiveTxns.uuid,
+  //     const data = service.handleRemoveReceiveTxns(
+  //       handleRemoveReceiveTxns.uuid,
   //       networkName
   //     );
   //     expect(PersistentStore.set).toBeCalledTimes(1);
   //     expect(PersistentStore.get).toBeCalledTimes(1);
   //     expect(data).toBeInstanceOf(Array);
-  //     expect(data).toEqual(expected.handelRemoveReceiveTxns);
+  //     expect(data).toEqual(expected.handleRemoveReceiveTxns);
   //   });
 
   //   it('should check for handelFetchWalletTxns', async () => {

@@ -30,7 +30,11 @@ import { connect } from 'react-redux';
 import { mintToken } from '../../reducer';
 import { isEmpty } from 'lodash';
 import Header from '../../../HeaderComponent';
-import { getPageTitle, getSymbolKey } from '../../../../utils/utility';
+import {
+  getCountdownValue,
+  getPageTitle,
+  getSymbolKey,
+} from '../../../../utils/utility';
 import ViewOnChain from '../../../../components/ViewOnChain';
 
 interface RouteParams {
@@ -110,6 +114,12 @@ const MintToken: React.FunctionComponent<MintTokenProps> = (
       },
     });
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <div className='main-wrapper'>

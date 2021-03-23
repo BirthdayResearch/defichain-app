@@ -347,7 +347,21 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passphrase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {

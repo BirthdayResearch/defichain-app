@@ -23,6 +23,7 @@ import { PaymentRequestLedger } from '@/typings/models';
 import { TypeWallet } from '@/typings/entities';
 import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
 import { AddressModel } from '../../../../model/address.model';
+import { getCountdownValue } from 'src/utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -226,6 +227,12 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     const tokenData = createTokenData();
     createToken(tokenData, typeWallet as TypeWallet);
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <TabContent activeTab={activeTab}>

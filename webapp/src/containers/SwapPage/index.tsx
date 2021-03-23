@@ -59,7 +59,7 @@ import Header from '../HeaderComponent';
 import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
-import { PaymentRequestModel } from '../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { FormPoolSwap } from '@/typings/models';
 import { RootState } from '@/app/rootTypes';
 import { ITokenBalanceInfo } from '@/utils/interfaces';

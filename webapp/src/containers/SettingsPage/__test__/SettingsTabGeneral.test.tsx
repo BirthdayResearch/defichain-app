@@ -28,6 +28,8 @@ describe('SettingsTabGeneral', () => {
       openGeneralReIndexModal: () => {},
       handeReindexToggle: () => {},
       handeRefreshUtxosToggle: () => {},
+      sendCountdown: false,
+      handeDeletePeersClick: () => {},
     };
     const wrapper = shallow(
       <Provider store={store}>

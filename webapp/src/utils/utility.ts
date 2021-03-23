@@ -93,7 +93,6 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
-import { symbol } from 'prop-types';
 import {
   AccountKeyItem,
   AccountModel,
@@ -289,6 +288,10 @@ export const parseTxn = (fullRawTx): IParseTxn => {
     tos: toList,
     unit: DEFAULT_UNIT,
   };
+};
+
+export const convertEpochToJSDate = (epoch): Date => {
+  return moment.unix(epoch).toDate();
 };
 
 export const convertEpochToDate = (epoch): string => {
@@ -1182,12 +1185,12 @@ export const getAddressAndAmountListForAccount = async () => {
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
-export const getHighestAmountAddressForSymbol = (
+export const getHighestAmountAddressForSymbol = async (
   key: string,
   list: HighestAmountItem[],
   sendAmount?: BigNumber,
   typeWallet: TypeWallet = 'wallet'
-): HighestAmountItem => {
+): Promise<HighestAmountItem> => {
   let maxAmount = new BigNumber(0);
   let address = '';
   const hasSendAmountValidation = (
@@ -1215,7 +1218,7 @@ export const getHighestAmountAddressForSymbol = (
     const networkName = getNetworkType();
     let paymentRequests;
     if (typeWallet === 'wallet') {
-      paymentRequests = handleGetPaymentRequest(networkName);
+      paymentRequests = await handleGetPaymentRequest();
     } else {
       paymentRequests = handelGetPaymentRequestLedger(networkName);
     }
@@ -1886,4 +1889,12 @@ export const createTxWithUseLedger = async (
   } else {
     throw new Error(res.message);
   }
+};
+
+export const getCountdownValue = () => {
+  const sendCountdownValue = PersistentStore.get('sendCountdown');
+  if (!sendCountdownValue || sendCountdownValue === 'true') {
+    return true;
+  }
+  return false;
 };
