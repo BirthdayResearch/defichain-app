@@ -1,4 +1,5 @@
 import { WalletMap } from '@defi_types/walletMap';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { IToken } from '../../utils/interfaces';
 import { TimeoutLockEnum } from '../SettingsPage/types';
 
@@ -23,7 +24,7 @@ export interface WalletState {
   pendingBalance: number;
   isPendingBalanceFetching: boolean;
   isPendingBalanceError: string;
-  paymentRequests: [];
+  paymentRequests: PaymentRequestModel[];
   walletTxns: [];
   walletTxnCount: number;
   isWalletTxnsLoading: boolean;

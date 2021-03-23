@@ -18,11 +18,11 @@ export const initialState: AppState = {
 
 const updateConfiguration = (state, config) => {
   state.rpcConfig = {
-    ...config
+    ...config,
   };
   const { testnet } = state.rpcConfig;
   state.activeNetwork = testnet === CONFIG_ENABLED ? TEST : MAIN;
-}
+};
 
 const configSlice = createSlice({
   name: 'app',
@@ -99,7 +99,7 @@ const configSlice = createSlice({
     },
     updateActiveNetwork(state, action) {
       state.activeNetwork = action.payload;
-    }
+    },
   },
 });
 
@@ -118,7 +118,7 @@ export const {
   isAppClosing,
   startSetNodeVersion,
   setMasternodesMiningInConf,
-  updateActiveNetwork
+  updateActiveNetwork,
 } = actions;
 
 export default reducer;

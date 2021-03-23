@@ -63,7 +63,7 @@
       },
       "blockPage": {
         "block": "Block",
-        "title": "– DeFi app",
+        "title": "– DeFi Wallet",
         "blockchain": "Blockchain",
         "transactions": "Transaktionen",
         "noOfTransactions": "Anzahl der Transaktionen",
@@ -88,7 +88,7 @@
       },
       "minerPage": {
         "miner": "Miner",
-        "defiApp": "DeFi app",
+        "defiApp": "DeFi Wallet",
         "blockchain": "Blockchain"
       }
     },
@@ -138,8 +138,8 @@
         "costPerMasterNode": "Kosten pro Masternode",
         "masternodeWorth": "Masternode-Wert",
         "searchBar": "Suche nach Masternodes",
-        "mine": "Mine",
-        "all": "All",
+        "mine": "Eigene",
+        "all": "Alle",
         "owner": "Owner",
         "operator": "Operator",
         "type": "Type",
@@ -152,8 +152,8 @@
         "preresigned": "Vorab kündigen",
         "enable": "Aktivieren",
         "disable": "Deaktivieren",
-        "restartNeeded": "Die DeFi App muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
-        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss dein Wallet offen und entsperrt bleiben."
+        "restartNeeded": "Die DeFi Wallet muss neu gestartet werden, um diese Änderungen zu übernehmen. Möchtest du neu starten?",
+        "tooltipMasternode": "Wenn du einen Masternode hast und minten möchtest, muss deine Wallet offen und entsperrt bleiben."
       },
       "masterNodesList": {
         "ownerAddress": "Besitzer-Adresse",
@@ -588,6 +588,20 @@
       "minute": "%{time} Minute",
       "minutes": "%{time} Minuten",
       "years": "%{time} Jahre",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Wallet Reparatur-Optionen anzeigen",
+      "hidewalletHelper": "Optionen für Wallet-Hilfe ausblenden",
+      "preFundTxns": "TXNS vorfinanzieren",
+      "preFundTxnsDescription": "Se ndet 0,1 DFI zu jeder Adresse, die du besitzt, um diese für zukünftige Transaktionen, welche DFI benötigen, vorzufinanzieren.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Baut die Blockchain-Datenbank aus vorhandenen Blockdaten neu auf, wenn Blockdaten beschädigt sind oder nicht gelesen werden können.",
+      "lockWithPassphrase": "Mit Passwort sperren",
+      "passpharaseInfo": "Sichere deine Wallet Daten auf deinem Computer mit einem Passwort.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Löscht bestehende Peers und Blockdaten, lädt die Daten neu herunter und indiziert diese dann neu (baut die Blockchain-Datenbank neu auf).",
       "autoLockMNWarning": "Die automatische Sperre ist deaktiviert, wenn ein oder mehrere Masternode(s) auf deinem Wallet aktiv sind."
     },
     "wallet": {
@@ -799,7 +813,7 @@
       "encryptWalletPage": {
         "title": "Wallet verschlüsseln",
         "encryptingWallet": "Verschlüssele Wallet",
-        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi App auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
+        "unableToUnlockYourWallet": "Wallet kann nicht entsperrt werden? Setze die DeFi Wallet auf Werkseinstellungen zurück und stelle die Wallet mit deinem Seed oder einem Backup (wallet.dat) wieder her.",
         "walletIsLocked": "Wallet gesperrt. Um mit der Transaktion fortzufahren, entsperre die Wallet mit dem Passwort.",
         "passphraseStrength": "Passwortstärke: %{strength}",
         "strong": "Stark",
@@ -859,7 +873,7 @@
     "updateAppNotice": "DeFi-Anwendung neu starten, um das neue Update anzuwenden. Möchtest Du neu starten?",
     "restartNowNotice": "Jetzt neu starten",
     "restartLaterNotice": "Später",
-    "showUpdateAvailableHeader": "Ein Update ist für die DeFi-App verfügbar",
+    "showUpdateAvailableHeader": "Ein Update ist für die DeFi Wallet verfügbar",
     "showUpdateAvailableNotice": "Möchtest Du updaten?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Nicht jetzt",
@@ -903,7 +917,7 @@
     "skipBackup": "Backup überspringen",
     "backupWalletWarning": "Wenn Du eine neue Wallet erstellst oder wiederherstellst, werden alle vorhandenen Wallets in der App überschrieben. Möchtest Du Deine bestehende Wallet sichern?",
     "restartWalletModalHeader": "Neustart erforderlich",
-    "restartWalletWarningNotice": "Du musst die DeFi-App neu starten. Möchtest Du jetzt neu starten?",
+    "restartWalletWarningNotice": "Du musst die DeFi Wallet neu starten. Möchtest Du jetzt neu starten?",
     "yesRestartWalletNotice": "Jetzt neu starten",
     "noRestartWalletNotice": "Später",
     "resetWalletNoticeTitle": "Wallet zurücksetzen",
@@ -913,7 +927,7 @@
     "noResetWalletNotice": "Nein",
     "download": "Herunterladen",
     "restoreYourWallet": "Deine Wallet aus folgendem Backup wiederherstellen?",
-    "exitBackupWarning": "Das jetzige Beenden deiner Wallet führt zum Entfernen deiner Wallet aus der App. Wenn du deine Wallet später wieder hinzufügen möchtest, brauchst du deinen Mnemonic Seed. Möchtest du ein Backup deiner Wallet machen, bevor du die Wallet beendest?",
+    "exitBackupWarning": "Wenn du die App jetzt schließt wird dein Wallet von der App entfernt werden. Um später wieder auf diese Wallet zugreifen zu können, benötigst du das Wallet Backup. Möchtest du ein Wallet Backup erstellen bevor die App geschlossen wird?",
     "backupAndExit": "Backup und Beenden",
     "exit": "Beenden",
     "deletePeersAndBlocks": "Peers und Blöcke löschen",
@@ -923,7 +937,7 @@
     "masternodesAlert": "Du betreibst derzeit einen Masternode. Das Minten wird auf einer gesperrten Wallet nicht funktionieren. Möchtest du trotzdem fortfahren?"
   },
   "general": {
-    "defiApp": "DeFi app",
+    "defiApp": "DeFi Wallet",
     "updateFailed": "Bei der Überprüfung auf ein Software-Update ist ein Fehler aufgetreten. Bitte lade manuell die neueste Version von defichain.com herunter. (Lade die App nur von offiziellen Quellen herunter)",
     "quitingApp": "Beenden der DefiChain-App...",
     "doNotCloseWindow": "Schalte den Computer nicht aus, während dieses Fenster noch geöffnet ist."
@@ -934,6 +948,6 @@
     "currentVersion": "Aktuelle Version",
     "requiredVersion": "Erforderliche Version",
     "availableVersion": "Verfügbare Version",
-    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi-App weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
+    "updateReason": "Ein Upgrade ist erforderlich, damit sich die DeFi Wallet weiterhin mit dem richtigen DeFiChain-Netzwerk verbinden kann. Du wirst keine Transaktionen durchführen können, bis du aktualisierst."
   }
 }

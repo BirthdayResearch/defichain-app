@@ -10,3 +10,5 @@ export const MAJOR_VERSION = 'major';
 export const MINOR_VERSION = 'minor';
 export const REINDEX_NODE_UPDATE =
   'Node version updated to minor/major version';
+export const RELEASE_NOTES_URL = 'https://github.com/DeFiCh/app/releases/tag/v';
+export const LICENSE_URL = 'https://github.com/DeFiCh/app/blob/v';

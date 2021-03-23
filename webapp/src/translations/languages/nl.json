@@ -347,7 +347,21 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passphrase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -549,10 +563,10 @@
     "electronRequiredError": "De Electron-app is nodig om opnieuw op te starten",
     "addressIsNotAPartOfWallet": "%{addressName} is geen onderdeel van de wallet.",
     "updateAppNoticeTitle": "Update compleet",
-    "updateAppNotice": "U moet de DeFi-app opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
+    "updateAppNotice": "U moet de DeFi Wallet opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
     "restartNowNotice": "Start nu opnieuw op",
     "restartLaterNotice": "Later",
-    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi-app",
+    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi Wallet",
     "showUpdateAvailableNotice": "Wilt u updaten?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Niet nu",
@@ -594,12 +608,12 @@
     "skipBackup": "Sla backup over",
     "backupWalletWarning": "Door een nieuwe wallet aan te maken of er een te herstellen, worden alle bestaande wallets in de app genegeerd. Wilt u een back-up maken van uw bestaande wallet?",
     "restartWalletModalHeader": "Opnieuw opstarten vereist",
-    "restartWalletWarningNotice": "U moet de DeFi-app opnieuw opstarten. Wilt u opnieuw opstarten?",
+    "restartWalletWarningNotice": "U moet de DeFi Wallet opnieuw opstarten. Wilt u opnieuw opstarten?",
     "yesRestartWalletNotice": "Herstart nu ",
     "noRestartWalletNotice": "Later",
     "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi Wallet "
   }
 }

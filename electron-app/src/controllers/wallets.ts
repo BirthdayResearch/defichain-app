@@ -20,12 +20,12 @@ import {
 import {
   checkPathExists,
   copyFile,
-  deleteFile,
   getBaseFolder,
   getIniData,
   responseMessage,
   writeFile,
   formatConfigFileWrite,
+  deleteFile,
 } from '../utils';
 import fs from 'fs';
 import { ipcMain } from 'electron';
@@ -371,6 +371,7 @@ export const removeDefaultWalletFile = () => {
       const destFilePath = path.join(baseFolder, destFileName);
       copyFile(srcFilePath, destFilePath);
       log.info(`Backup file created in ${destFilePath}`);
+      //* TODO temporary reverted issue - https://github.com/DeFiCh/app/pull/665/files
       deleteFile(srcFilePath);
     }
   } catch (error) {

@@ -163,12 +163,12 @@ export const handleAddPoolLiquidity = async (
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(hash1, addressesList);
+  } = await getHighestAmountAddressForSymbol(hash1, addressesList);
 
   const {
     address: address2,
     amount: maxAmount2,
-  } = getHighestAmountAddressForSymbol(hash2, addressesList);
+  } = await getHighestAmountAddressForSymbol(hash2, addressesList);
 
   log.info(
     `1. Address ${address1} Amount ${maxAmount1}`,
