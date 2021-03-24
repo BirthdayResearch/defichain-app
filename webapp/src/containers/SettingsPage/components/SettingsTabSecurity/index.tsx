@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TabPane, Row, Col, Form, FormGroup, Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
@@ -11,6 +11,7 @@ import { TimeoutLockEnum } from '../../types';
 import styles from './settingsTabSecurity.module.scss';
 import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
 import { setLockoutTimeList } from '../../reducer';
+import { RootState } from 'src/app/rootTypes';
 
 const timeoutLabel = 'containers.settings.minutes';
 
@@ -54,22 +55,18 @@ export const MaxTimeout = {
 
 interface SettingsTabSecurityProps {
   setTimeoutValue: (data: any) => void;
-  setLockoutTimeList: (data: any) => void;
-  myMasternodes: any[];
-  lockTimeoutList: any[];
   timeoutValue: number;
 }
 
 const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   props: SettingsTabSecurityProps
 ) => {
-  const {
-    setTimeoutValue,
-    myMasternodes,
-    lockTimeoutList,
-    setLockoutTimeList,
-    timeoutValue,
-  } = props;
+  const { setTimeoutValue, timeoutValue } = props;
+  const dispatch = useDispatch();
+  const { lockTimeoutList } = useSelector((state: RootState) => state.settings);
+  const { myMasternodes } = useSelector(
+    (state: RootState) => state.masterNodes
+  );
   const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
   const [timeOutCloneValue, setTimeOutCloneValue] = useState(timeoutValue);
   const handleDropDowns = (data: number) => {
@@ -89,7 +86,7 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   }, [myMasternodes]);
 
   useEffect(() => {
-    setLockoutTimeList(lockTimeoutList);
+    dispatch(setLockoutTimeList(lockTimeoutList));
   }, [lockTimeoutList.length]);
 
   return (
@@ -142,23 +139,4 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    settings: { lockTimeoutList },
-    masterNodes: { myMasternodes },
-  } = state;
-
-  return {
-    myMasternodes,
-    lockTimeoutList,
-  };
-};
-
-const mapDispatchToProps = {
-  setLockoutTimeList: (lockTimeoutList) => setLockoutTimeList(lockTimeoutList),
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsTabSecurity);
+export default SettingsTabSecurity;
