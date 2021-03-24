@@ -14,7 +14,8 @@ jobs:
         uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
 
       - name: Install libusb
-        run: sudo apt-get install libusb-dev libusb-1.0.0-dev libudev-dev
+        run:  sudo apt update |
+              sudo apt-get install libusb-dev libusb-1.0.0-dev libudev-dev
 
       - name: Install dependencies
         run: npm cache clean --force && npm run init
