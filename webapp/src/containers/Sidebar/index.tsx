@@ -20,6 +20,7 @@ import {
   MdExitToApp,
   MdLockOutline,
   MdLockOpen,
+  MdSwapVert,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
 import {
@@ -40,6 +41,7 @@ import {
   HELP_PATH,
   SETTING_PATH,
   PACKAGE_VERSION,
+  TRASACTIONS_PATH,
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import { updateBalanceScheduler } from '../../worker/schedular';
@@ -206,6 +208,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               >
                 <MdAccountBalanceWallet />
                 {I18n.t('containers.sideBar.balances')}
+              </NavLink>
+            </NavItem>
+            <NavItem className={styles.navItem}>
+              <NavLink
+                to={TRASACTIONS_PATH}
+                tag={RRNavLink}
+                className={styles.navLink}
+                activeClassName={styles.active}
+              >
+                <MdSwapVert />
+                {I18n.t('containers.sideBar.transactions')}
               </NavLink>
             </NavItem>
             <NavItem className={styles.navItem}>
