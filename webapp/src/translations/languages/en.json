@@ -43,7 +43,8 @@
       "settings": "Settings",
       "console": "Console",
       "liquidity": "Liquidity",
-      "selectCreateRestore": "Select, create or restore a wallet to access wallet functions"
+      "selectCreateRestore": "Select, create or restore a wallet to access wallet functions",
+      "transactions": "Transactions"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -821,6 +822,15 @@
       },
       "unlockWalletPage": {
         "title": "Unlock wallet"
+      }
+    },
+    "transaction": {
+      "transactionPage": {
+        "transactions": "Transactions",
+        "filterByAsset": "Filter by asset",
+        "all": "All",
+        "includeRewards": "Include rewards",
+        "allAssets": "All assets"
       }
     },
     "console": {

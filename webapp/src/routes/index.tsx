@@ -56,6 +56,7 @@ import {
   WALLET_ENCRYPT_PATH,
   WALLET_UNLOCK_PATH,
   SETTINGS_CHANGE_PASSPHRASE,
+  TRASACTIONS_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
 import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
@@ -66,6 +67,7 @@ import AddLiquidityPage from '../containers/LiquidityPage/components/AddLiquidit
 import RemoveLiquidityPage from '../containers/LiquidityPage/components/RemoveLiquidity';
 import MintToken from '../containers/TokensPage/components/MintToken';
 import LiquidityPage from '../containers/LiquidityPage';
+import TransactionsPage from '../containers/TransactionsPage';
 import LiquidityInfo from '../containers/LiquidityPage/components/LiquidityInfo';
 import EncryptWalletPage from '../containers/WalletPage/components/EncryptWalletPage';
 import WalletPassphrasePage from '../containers/WalletPage/components/WalletPassphrasePage';
@@ -106,6 +108,7 @@ const routes = (location) => (
     <Route exact path={TOKENS_PATH} component={TokensPage} />
     <Route exact path={SWAP_PATH} component={SwapPage} />
     <Route exact path={LIQUIDITY_PATH} component={LiquidityPage} />
+    <Route exact path={TRASACTIONS_PATH} component={TransactionsPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
     <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
