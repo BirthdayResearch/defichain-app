@@ -47,7 +47,6 @@ exports[`SettingsTabGeneral should check for snapshot 1`] = `
     minimizedAtLaunch={true}
     network="Testnet"
     networkOptions={Array []}
-    openGeneralReIndexModal={[Function]}
     pruneBlockStorage={true}
     refreshUtxosAfterSaving={true}
     reindexAfterSaving={true}
