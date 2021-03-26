@@ -961,10 +961,10 @@
     "continueWithSnapshot": "CONTINUE WITH SNAPSHOT",
     "downloading": "Downloading",
     "applyingSnapshot": "Applying snapshot",
-    "unpackingSnaphot": "Unpacking snapshot...",
+    "unpackingSnaphot": "Unpacking snapshot from %{address}",
     "verifyingSnapshot": "Verifying snapshot...",
     "installingSnapshot": "Installing snapshot...",
-    "Snapshot applied": "Snapshot applied",
+    "snapshotApplied": "Snapshot applied",
     "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from} of %{to}.",
     "pleaseWait": "Please wait..."
   },

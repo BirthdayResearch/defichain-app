@@ -6,7 +6,11 @@ import {
 import { ipcRendererFunc } from '../utils/isElectron';
 import * as log from '../utils/electronLogger';
 import store from './rootStore';
-import { updateDownloadSnapshotData } from '../containers/PopOver/reducer';
+import {
+  updateDownloadSnapshotData,
+  updateDownloadSnapshotStep,
+} from '../containers/PopOver/reducer';
+import { DownloadSnapshotSteps } from '../containers/PopOver/types';
 
 const initSnapshotRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -26,6 +30,9 @@ const initSnapshotRenderers = () => {
     ON_SNAPSHOT_DOWNLOAD_COMPLETE,
     async (event: any, args: any) => {
       store.dispatch(updateDownloadSnapshotData(args));
+      store.dispatch(
+        updateDownloadSnapshotStep(DownloadSnapshotSteps.ApplyingSnapshot)
+      );
       log.info(`Download Complete!`);
       log.info(args);
     }

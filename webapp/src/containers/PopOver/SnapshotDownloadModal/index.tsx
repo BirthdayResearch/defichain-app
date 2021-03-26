@@ -5,11 +5,11 @@ import { I18n } from 'react-redux-i18n';
 import { Modal, ModalBody, Progress } from 'reactstrap';
 import { RootState } from '../../../app/rootTypes';
 import styles from '../popOver.module.scss';
-import syncStatusStyles from '../../SyncStatus/SyncStatus.module.scss';
 import { getPageTitle } from '../../../utils/utility';
 import { Helmet } from 'react-helmet';
 import { MdCamera } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
+import { OFFICIAL_SNAPSHOT_URL } from '@defi_types/snapshot';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -32,15 +32,42 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         break;
       case DownloadSnapshotSteps.DownloadSnapshot:
         title = 'alerts.downloadingSnapshot';
+        break;
       case DownloadSnapshotSteps.SnapshotApplied:
         title = 'alerts.applied';
+        break;
       case DownloadSnapshotSteps.ApplyingSnapshot:
         title = 'alerts.applyingSnapshot';
+        break;
       default:
         break;
     }
     return I18n.t(title);
   };
+
+  const getStepDescription = (step: DownloadSnapshotSteps): string => {
+    let title = '';
+    switch (step) {
+      case DownloadSnapshotSteps.SnapshotRequest:
+        title = 'alerts.snapshotDescription';
+        break;
+      case DownloadSnapshotSteps.DownloadSnapshot:
+        title = `
+        Downloading ${percentage}% of snapshot from ${OFFICIAL_SNAPSHOT_URL}`;
+        return title;
+      case DownloadSnapshotSteps.SnapshotApplied:
+        title = 'alerts.snapshotApplied';
+        break;
+      case DownloadSnapshotSteps.ApplyingSnapshot:
+        title = 'alerts.unpackingSnaphot';
+        return I18n.t(title, { address: snapshotDownloadData.downloadPath });
+      default:
+        break;
+    }
+    return I18n.t(title);
+  };
+
+  const barStyle = { borderRadius: '1rem' };
 
   return (
     <Modal
@@ -50,7 +77,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
       style={{ width: '100%', maxWidth: '100vw', height: '100vh', margin: '0' }}
       centered
     >
-      <ModalBody>
+      <ModalBody style={{ padding: '4rem 6rem' }}>
         <div className='main-wrapper'>
           <>
             <Helmet>
@@ -58,16 +85,21 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
             </Helmet>
           </>
           <div className='content'>
-            <section>
-              <MdCamera size={20} className={styles.iconBadge} />
-              <h4>{getStepTitle(snapshotDownloadSteps)}</h4>
-              <div className={syncStatusStyles.syncHeading}>
-                {I18n.t('components.syncStatus.downloading')} {percentage}%
+            <section className='d-flex flex-column'>
+              <div className='d-flex justify-content-center mb-3'>
+                <MdCamera size={20} className={styles.iconBadge} />
+              </div>
+              <h2>{getStepTitle(snapshotDownloadSteps)}</h2>
+              <div className={`${styles.syncHeading} mb-4`}>
+                {getStepDescription(snapshotDownloadSteps)}
               </div>
               <Progress
                 animated
-                className={syncStatusStyles.syncProgress}
+                striped={false}
+                className={styles.syncProgress}
                 value={percentage}
+                style={barStyle}
+                barStyle={barStyle}
               />
             </section>
           </div>

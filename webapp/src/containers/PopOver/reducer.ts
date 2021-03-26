@@ -11,7 +11,7 @@ export const initialState: PopoverState = {
   updateAppInfo: {},
   postUpdateFlag: false,
   showUpdateAvailable: false,
-  isReIndexModelOpen: false,
+  isReIndexModelOpen: true,
   isReIndexRestart: false,
   isMinimized: false,
   updateAvailableBadge: false,
@@ -35,9 +35,9 @@ export const initialState: PopoverState = {
   isMasternodeWarningModalOpen: false,
   isMasternodeUpdateRestartModalOpen: false,
   updatedMasternode: undefined,
-  isSnapshotDownloadOpen: true,
+  isSnapshotDownloadOpen: false,
   snapshotDownloadSteps: 0,
-  snapshotDownloadData: { completionRate: 0, localSize: 0, remoteSize: 0 },
+  snapshotDownloadData: { completionRate: 0, localSize: 0, remoteSize: 0, downloadPath: '' },
 };
 
 const configSlice = createSlice({

@@ -36,10 +36,11 @@ export const downloadSnapshot = async (
   try {
     return new Promise(async (resolve) => {
       const snapshotDirectory = createSnapshotDirectory(bw);
-      const fileSizes = {
+      const fileSizes: FileSizesModel = {
         remoteSize: 0,
         localSize: 0,
         completionRate: 0,
+        downloadPath: snapshotDirectory,
       };
       const isSnapshotExisting = await checkIfSnapshotExist(
         snapshotDirectory,
@@ -145,7 +146,7 @@ export const startDownloadSnapshot = async (
       let sendUpdate = false;
       const downloadInterval = setInterval(() => {
         sendUpdate = true;
-      }, 60000);
+      }, 30000);
 
       //* Downloading
       response.on('data', (chunk) => {
