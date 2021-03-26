@@ -119,15 +119,6 @@ const configSlice = createSlice({
       state.isLoadingTokens = false;
       state.isTokensLoaded = true;
     },
-    fetchPaymentRequest(state) {
-      state.paymentRequests = [];
-    },
-    fetchPaymentRequestsSuccess(state, action) {
-      state.paymentRequests = action.payload;
-    },
-    fetchPaymentRequestsFailure(state, action) {
-      state.paymentRequests = [];
-    },
     fetchWalletTxnsRequest(state, action) {
       state.isWalletTxnsLoading = true;
     },
@@ -143,30 +134,11 @@ const configSlice = createSlice({
       state.walletTxns = [];
       state.isWalletTxnsLoading = false;
     },
-    removeReceiveTxnsRequest(state, action) {},
-    removeReceiveTxnsSuccess(state, action) {
-      state.paymentRequests = action.payload;
-    },
-    removeReceiveTxnsFailure(state, action) {},
-    addReceiveTxnsRequest(state, action) {},
-    addReceiveTxnsSuccess(state, action) {
-      state.paymentRequests = action.payload;
-    },
-    addReceiveTxnsFailure(state, action) {},
     fetchSendDataRequest(state) {},
 
     fetchWalletBalanceRequest(state) {
       state.isBalanceFetching = true;
       state.isBalanceError = '';
-    },
-    fetchWalletBalanceSuccess(state, action) {
-      state.walletBalance = action.payload;
-      state.isBalanceFetching = false;
-    },
-    fetchWalletBalanceFailure(state, action) {
-      state.walletBalance = 0;
-      state.isBalanceFetching = false;
-      state.isBalanceError = action.payload;
     },
     fetchPendingBalanceSuccess(state, action) {
       state.pendingBalance = action.payload;
@@ -180,9 +152,6 @@ const configSlice = createSlice({
     stopWalletTxnPagination(state) {
       state.stopPagination = true;
     },
-    setBlockChainInfo(state, action) {
-      state.blockChainInfo = action.payload;
-    },
     resetCreateWalletError(state, action) {
       state.isWalletCreating = false;
       state.isErrorCreatingWallet = '';
@@ -190,10 +159,6 @@ const configSlice = createSlice({
     resetRestoreWalletError(state, action) {
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = '';
-    },
-    fetchInstantBalanceRequest(state) {},
-    setIsWalletCreatedRequest(state, action) {
-      state.isWalletCreatedFlag = action.payload;
     },
     fetchWalletTokenTransactionsListRequestLoading(state, action) {
       state.listAccountHistoryData.isLoading = true;
@@ -215,21 +180,6 @@ const configSlice = createSlice({
     fetchWalletTokenTransactionsListRequestStop(state) {
       state.listAccountHistoryData.isLoading = false;
       state.listAccountHistoryData.stop = true;
-    },
-    checkRestartCriteriaRequestLoading(state) {
-      state.restartCriteria.isLoading = true;
-      state.restartCriteria.data = true;
-      state.restartCriteria.isError = '';
-    },
-    checkRestartCriteriaRequestSuccess(state, action) {
-      state.restartCriteria.isLoading = false;
-      state.restartCriteria.data = action.payload;
-      state.restartCriteria.isError = '';
-    },
-    checkRestartCriteriaRequestFailure(state, action) {
-      state.restartCriteria.isLoading = false;
-      state.restartCriteria.data = true;
-      state.restartCriteria.isError = action.payload;
     },
     fetchBlockDataForTrxRequestLoading(state, action) {
       state.combineAccountHistoryData.isLoading = true;
@@ -260,18 +210,6 @@ const configSlice = createSlice({
       state.isTokensLoaded = false;
       state.isLoadingTokens = false;
     },
-    fetchWalletMapRequest(state) {
-      state.walletMap = { ...defaultWalletMap };
-      state.walletMapError = '';
-    },
-    fetchWalletMapSuccess(state, action) {
-      state.walletMap = action.payload;
-      state.walletMapError = '';
-    },
-    fetchWalletMapFailure(state, action) {
-      state.walletMapError = action.payload;
-      state.walletMap = { ...defaultWalletMap };
-    },
     restoreWalletViaBackupFailure(state, action) {
       state.isWalletRestoring = false;
       state.isErrorRestoringWallet = action.payload;
@@ -298,10 +236,6 @@ const configSlice = createSlice({
       state.isWalletUnlocked = false;
       state.lockedUntil = 0;
     },
-    setLockedUntil(state, action) {
-      state.isWalletUnlocked = true;
-      state.lockedUntil = action.payload;
-    },
   },
 });
 
@@ -317,54 +251,32 @@ export const {
   fetchTokensRequest,
   fetchTokensSuccess,
   fetchTokensFailure,
-  fetchPaymentRequest,
-  fetchPaymentRequestsSuccess,
-  fetchPaymentRequestsFailure,
   fetchWalletTxnsRequest,
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
-  removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
-  removeReceiveTxnsFailure,
-  addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
-  addReceiveTxnsFailure,
   fetchSendDataRequest,
   fetchWalletBalanceRequest,
-  fetchWalletBalanceSuccess,
-  fetchWalletBalanceFailure,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
-  setBlockChainInfo,
   resetCreateWalletError,
   resetRestoreWalletError,
-  fetchInstantBalanceRequest,
-  setIsWalletCreatedRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,
-  checkRestartCriteriaRequestLoading,
-  checkRestartCriteriaRequestSuccess,
-  checkRestartCriteriaRequestFailure,
   fetchWalletTokenTransactionsListRequestStop,
   fetchWalletTokenTransactionsListResetRequest,
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
   fetchWalletReset,
-  fetchWalletMapRequest,
-  fetchWalletMapSuccess,
-  fetchWalletMapFailure,
   restoreWalletViaBackupFailure,
   startRestoreWalletViaRecent,
-
   lockWalletStart,
   enableAutoLockStart,
   unlockWalletStart,
   unlockWalletSuccess,
   unlockWalletFailure,
-  setLockedUntil,
 } = actions;
 
 export default reducer;

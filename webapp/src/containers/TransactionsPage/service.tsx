@@ -1,8 +1,6 @@
 import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
 import {
-  PAYMENT_REQUEST,
-  BLOCKCHAIN_INFO_CHAIN_TEST,
   LIST_TOKEN_PAGE_SIZE,
   LIST_ACCOUNTS_PAGE_SIZE,
   RECIEVE_CATEGORY_LABEL,
@@ -25,8 +23,6 @@ import {
   getHighestAmountAddressForSymbol,
   getBalanceForSymbol,
   getErrorMessage,
-  handleFetchTokenBalanceList,
-  hdWalletCheck,
   getNetworkType,
 } from '../../utils/utility';
 import {
@@ -42,44 +38,8 @@ import {
   ON_FILE_EXIST_CHECK,
 } from '../../../../typings/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { backupWallet, updateWalletMap } from '../../app/service';
+import { updateWalletMap } from '../../app/service';
 import { IPCResponseModel } from '@defi_types/common';
-
-const handleLocalStorageName = (networkName) => {
-  if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
-    return `${PAYMENT_REQUEST}-${BLOCKCHAIN_INFO_CHAIN_TEST}`.toLowerCase();
-  }
-  return PAYMENT_REQUEST;
-};
-
-export const handleGetPaymentRequest = (networkName) => {
-  return JSON.parse(
-    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
-  );
-};
-
-export const handelAddReceiveTxns = async (data, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  data.hdSeed = await hdWalletCheck(data.address);
-  const paymentData = [data, ...initialData];
-  if (!data.automaticallyGenerateNewAddress) {
-    const rpcClient = new RpcClient();
-    await rpcClient.setLabel(data.address, data.label);
-  }
-  PersistentStore.set(localStorageName, paymentData);
-  return paymentData;
-};
-
-export const handelRemoveReceiveTxns = (id, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  const paymentData = initialData.filter(
-    (ele) => ele.id && ele.id.toString() !== id.toString()
-  );
-  PersistentStore.set(localStorageName, paymentData);
-  return paymentData;
-};
 
 export const getInitialTokenInfo = () => {
   return JSON.parse(PersistentStore.get('tokenInfo') || '{}');
@@ -179,22 +139,6 @@ export const handelFetchWalletTxns = async (
   return data;
 };
 
-export const handleSendData = async () => {
-  const walletBalance = await handleFetchWalletBalance();
-  const data = {
-    walletBalance,
-    amountToSend: '',
-    amountToSendDisplayed: 0,
-    toAddress: '',
-    scannerOpen: false,
-    flashed: '',
-    showBackdrop: '',
-    sendStep: 'default',
-    waitToSend: 5,
-  };
-  return data;
-};
-
 export const handleFetchRegularDFI = async () => {
   const rpcClient = new RpcClient();
   const regularDFI = await rpcClient.getBalance();
@@ -207,12 +151,6 @@ export const handleFetchAccountDFI = async () => {
   const tempDFI = DFIToken && DFIToken.amount;
   const accountDFI = tempDFI || 0;
   return new BigNumber(accountDFI);
-};
-
-export const handleFetchWalletBalance = async () => {
-  const regularDFI = await handleFetchRegularDFI();
-  const accountDFI = await handleFetchAccountDFI();
-  return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
 
 export const handleFetchPendingBalance = async (): Promise<number> => {
@@ -508,16 +446,6 @@ export const handleFetchAccounts = async () => {
   return result;
 };
 
-export const getAddressInfo = (address) => {
-  const rpcClient = new RpcClient();
-  return rpcClient.getaddressInfo(address);
-};
-
-export const getBlockChainInfo = () => {
-  const rpcClient = new RpcClient();
-  return rpcClient.getBlockChainInfo();
-};
-
 export const setHdSeed = (hdSeed: string) => {
   const rpcClient = new RpcClient();
   return rpcClient.setHdSeed(hdSeed);
@@ -605,18 +533,6 @@ const validTrx = (item) => {
   };
 };
 
-export const handleRestartCriteria = async () => {
-  const rpcClient = new RpcClient();
-  const balance = await rpcClient.getBalance();
-  const txCount = await rpcClient.getWalletTxnCount();
-  const tokenBalance = await handleFetchTokenBalanceList();
-  return (
-    new BigNumber(balance).gt(0) ||
-    new BigNumber(txCount).gt(0) ||
-    tokenBalance.length > 0
-  );
-};
-
 export const startRestoreViaBackup = async (network: string) => {
   try {
     const ipcRenderer = ipcRendererFunc();
@@ -657,23 +573,6 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
     const resp = ipcRenderer.sendSync(ON_WRITE_CONFIG_REQUEST, path, network);
     if (resp?.success) {
       updateWalletMap(path);
-    }
-    return resp;
-  } catch (error) {
-    log.error(error, 'startRestoreViaRecent');
-    return {
-      success: false,
-      message: error?.message,
-    };
-  }
-};
-
-export const startBackupViaExitModal = async () => {
-  try {
-    const ipcRenderer = ipcRendererFunc();
-    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST);
-    if (resp?.success) {
-      await backupWallet(resp?.data?.paths);
     }
     return resp;
   } catch (error) {

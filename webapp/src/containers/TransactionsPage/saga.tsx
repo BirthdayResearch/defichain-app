@@ -1,176 +1,52 @@
-import { call, put, takeLatest, select, all, delay } from 'redux-saga/effects';
+import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
   fetchTokensSuccess,
   fetchTokensRequest,
   fetchTokensFailure,
-  fetchPaymentRequest,
-  fetchPaymentRequestsSuccess,
-  fetchPaymentRequestsFailure,
   fetchWalletTxnsRequest,
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
-  addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
-  addReceiveTxnsFailure,
-  fetchWalletBalanceSuccess,
-  fetchWalletBalanceFailure,
-  removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
-  removeReceiveTxnsFailure,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
   fetchAccountTokensRequest,
   fetchAccountTokensSuccess,
   fetchAccountTokensFailure,
   stopWalletTxnPagination,
-  setBlockChainInfo,
-  fetchInstantBalanceRequest,
-  setIsWalletCreatedRequest,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
   fetchWalletTokenTransactionsListRequestFailure,
-  checkRestartCriteriaRequestLoading,
-  checkRestartCriteriaRequestSuccess,
-  checkRestartCriteriaRequestFailure,
   fetchBlockDataForTrxRequestLoading,
   fetchBlockDataForTrxRequestSuccess,
   fetchBlockDataForTrxRequestFailure,
   accountHistoryCountRequest,
   accountHistoryCountSuccess,
   accountHistoryCountFailure,
-  fetchWalletMapRequest,
-  fetchWalletMapSuccess,
-  fetchWalletMapFailure,
 } from './reducer';
 import {
   handleFetchTokens,
-  handleGetPaymentRequest,
-  handelAddReceiveTxns,
   handelFetchWalletTxns,
-  handleFetchWalletBalance,
-  handelRemoveReceiveTxns,
   handleFetchPendingBalance,
   handleBlockData,
-  getAddressInfo,
-  getBlockChainInfo,
   handleFetchAccounts,
   getListAccountHistory,
-  handleRestartCriteria,
   handleFetchAccountHistoryCount,
-  startBackupViaExitModal,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
-import {
-  convertEpochToDate,
-  getErrorMessage,
-  getNetworkType,
-  hdWalletCheck,
-} from '../../utils/utility';
+import { convertEpochToDate, getErrorMessage } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
-import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
 import { AMOUNT_SEPARATOR, MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
-import { uid } from 'uid';
-import { checkWalletEncryption, getWalletMap } from '../../app/service';
-import {
-  openEncryptWalletModal,
-  openExitWalletModal,
-  startResetWalletDatRequest,
-} from '../PopOver/reducer';
-import { setDefaultLockTimeout } from '../SettingsPage/reducer';
-import { WalletMap } from '@defi_types/walletMap';
-import { TimeoutLockEnum } from '../SettingsPage/types';
 
 export function* getNetwork() {
   const {
     blockChainInfo: { chain },
   } = yield select((state) => state.transaction);
   return chain;
-}
-
-function* getPaymentRequestState() {
-  const { paymentRequests = [] } = yield select((state) => state.wallet);
-  return cloneDeep(paymentRequests);
-}
-
-export async function addHdSeedCheck(list) {
-  const result = list.map(async (data) => {
-    return {
-      ...data,
-      hdSeed: await hdWalletCheck(data.address),
-    };
-  });
-  const resolvedData = await Promise.all(result);
-  return resolvedData;
-}
-
-export function* addReceiveTxns(action: any) {
-  try {
-    const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
-
-    const networkName = yield call(getNetwork);
-
-    yield call(handelAddReceiveTxns, action.payload, networkName);
-
-    cloneDeepPaymentRequests.push(action.payload);
-
-    yield put(addReceiveTxnsSuccess(cloneDeepPaymentRequests));
-  } catch (e) {
-    showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
-    yield put(addReceiveTxnsFailure(e.message));
-    log.error(e);
-  }
-}
-
-export function* removeReceiveTxns(action: any) {
-  try {
-    const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
-
-    const networkName = yield call(getNetwork);
-
-    yield call(handelRemoveReceiveTxns, action.payload, networkName);
-
-    const result = cloneDeepPaymentRequests.filter(
-      (ele) => ele.id && ele.id.toString() !== action.payload.toString()
-    );
-
-    yield put(removeReceiveTxnsSuccess(result));
-  } catch (e) {
-    showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
-    yield put(removeReceiveTxnsFailure(e.message));
-    log.error(e);
-  }
-}
-
-export function* fetchPayments() {
-  try {
-    const networkName = yield call(getNetwork);
-    const data = yield call(handleGetPaymentRequest, networkName);
-    const list = yield all(
-      data.map((item) => {
-        item.id = item.id ?? uid();
-        return call(getAddressInfo, item.address);
-      })
-    );
-    const result = data.filter((item) => {
-      const found = list.find(
-        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
-      );
-      return !isEmpty(found);
-    });
-    const finalResult = yield call(addHdSeedCheck, result);
-    yield put(fetchPaymentRequestsSuccess(finalResult));
-  } catch (e) {
-    showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
-    yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
-    log.error(e);
-  }
 }
 
 export function* fetchWalletTxns(action) {
@@ -222,17 +98,6 @@ export function* fetchWalletTxns(action) {
   }
 }
 
-//* If wallet is existing on conf, set wallet loaded
-export function* setWalletExistingIfInConf(conf: any) {
-  const network = getNetworkType();
-  const isWalletCreatedConf =
-    conf != null &&
-    conf[network] != null &&
-    conf[network]?.wallet != null &&
-    conf[network]?.walletdir != null;
-  store.dispatch(setIsWalletCreatedRequest(isWalletCreatedConf));
-}
-
 export function* fetchTokens() {
   try {
     const data = yield call(handleFetchTokens);
@@ -279,16 +144,6 @@ export function* fetchAccountTokens() {
       payload: getErrorMessage(e),
     });
     log.error(e);
-  }
-}
-
-export function* fetchInstantBalance() {
-  try {
-    const result = yield call(handleFetchWalletBalance);
-    yield put(fetchWalletBalanceSuccess(result));
-  } catch (err) {
-    yield put(fetchWalletBalanceFailure(err.message));
-    log.error(err);
   }
 }
 
@@ -398,56 +253,19 @@ export function* fetchBlockDataForTrx(action) {
   }
 }
 
-export function* checkRestartCriteria() {
-  try {
-    const restartCriteria = yield call(handleRestartCriteria);
-    yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
-  } catch (err) {
-    log.error(err, 'checkRestartCriteria');
-    yield put(checkRestartCriteriaRequestFailure(err.message));
-  }
-}
-
-export function* fetchWalletMap() {
-  try {
-    const walletMap: WalletMap = yield call(getWalletMap);
-    if (walletMap) {
-      yield put(fetchWalletMapSuccess(walletMap));
-      yield put(
-        setDefaultLockTimeout(
-          walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES
-        )
-      );
-    }
-  } catch (err) {
-    log.error(err, 'fetchWalletMap');
-    yield put(fetchWalletMapFailure(err?.message));
-  }
-}
-
 function* mySaga() {
-  yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
-  yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
-  yield takeLatest(fetchPaymentRequest.type, fetchPayments);
   yield takeLatest(fetchWalletTxnsRequest.type, fetchWalletTxns);
   yield takeLatest(fetchTokensRequest.type, fetchTokens);
   yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
   yield takeLatest(accountHistoryCountRequest.type, accountHistoryCount);
-  yield takeLatest(fetchInstantBalanceRequest.type, fetchInstantBalance);
-
   yield takeLatest(
     fetchWalletTokenTransactionsListRequestLoading.type,
     fetchWalletTokenTransactionsList
   );
   yield takeLatest(
-    checkRestartCriteriaRequestLoading.type,
-    checkRestartCriteria
-  );
-  yield takeLatest(
     fetchBlockDataForTrxRequestLoading.type,
     fetchBlockDataForTrx
   );
-  yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
 }
 
 export default mySaga;
