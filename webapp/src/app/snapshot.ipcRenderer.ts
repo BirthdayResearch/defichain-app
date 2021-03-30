@@ -2,6 +2,8 @@ import {
   ON_SNAPSHOT_DOWNLOAD_COMPLETE,
   ON_SNAPSHOT_DOWNLOAD_FAILURE,
   ON_SNAPSHOT_UPDATE_PROGRESS,
+  ON_SNAPSHOT_UNPACK_PROGRESS,
+  ON_SNAPSHOT_UNPACK_COMPLETE,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../utils/isElectron';
 import * as log from '../utils/electronLogger';
@@ -33,10 +35,21 @@ const initSnapshotRenderers = () => {
       store.dispatch(
         updateDownloadSnapshotStep(DownloadSnapshotSteps.ApplyingSnapshot)
       );
-      log.info(`Download Complete!`);
-      log.info(args);
+      log.info(`Snapshot download complete!`);
     }
   );
+
+  ipcRenderer.on(ON_SNAPSHOT_UNPACK_PROGRESS, async (event: any, args: any) => {
+    store.dispatch(updateDownloadSnapshotData(args));
+  });
+
+  ipcRenderer.on(ON_SNAPSHOT_UNPACK_COMPLETE, async (event: any, args: any) => {
+    store.dispatch(updateDownloadSnapshotData(args));
+    store.dispatch(
+      updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotApplied)
+    );
+    log.info(`Snapshot unpack complete!`);
+  });
 };
 
 export default initSnapshotRenderers;

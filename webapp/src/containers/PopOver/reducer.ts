@@ -37,7 +37,12 @@ export const initialState: PopoverState = {
   updatedMasternode: undefined,
   isSnapshotDownloadOpen: false,
   snapshotDownloadSteps: 0,
-  snapshotDownloadData: { completionRate: 0, localSize: 0, remoteSize: 0, downloadPath: '' },
+  snapshotDownloadData: {
+    completionRate: 0,
+    localSize: 0,
+    remoteSize: 0,
+    downloadPath: '',
+  },
 };
 
 const configSlice = createSlice({

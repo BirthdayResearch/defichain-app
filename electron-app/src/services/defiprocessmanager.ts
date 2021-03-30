@@ -100,6 +100,7 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
+        `-acindex`
       ];
 
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
@@ -119,6 +120,7 @@ export default class DefiProcessManager {
       if (checkIfSPVSyncNeeded(this.getConfiguration(), walletMap)) {
         this.logger('Adding -spv_resync in configArray', METHOD_NAME, false);
         configArray.push('-spv_resync');
+        configArray.push('-zapwallettxes');
         walletMap.hasSyncSPV = true;
       }
 

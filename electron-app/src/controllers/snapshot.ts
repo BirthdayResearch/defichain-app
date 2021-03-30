@@ -2,7 +2,7 @@ import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
 import { checkPathExists, deleteFile, getBaseFolder } from '../utils';
 import path from 'path';
-import { SNAPSHOT_FOLDER } from '../constants';
+import { BINARY_FILE_PATH, SNAPSHOT_FOLDER } from '../constants';
 import axios from 'axios';
 import {
   OFFICIAL_SNAPSHOT_URL,
@@ -16,8 +16,11 @@ import {
   ON_SNAPSHOT_DOWNLOAD_COMPLETE,
   ON_SNAPSHOT_DOWNLOAD_FAILURE,
   ON_SNAPSHOT_START_REQUEST,
+  ON_SNAPSHOT_UNPACK_COMPLETE,
   ON_SNAPSHOT_UPDATE_PROGRESS,
 } from '@defi_types/ipcEvents';
+import { path7za } from '7zip-bin';
+import { spawn } from 'child_process';
 
 export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   try {
@@ -41,6 +44,7 @@ export const downloadSnapshot = async (
         localSize: 0,
         completionRate: 0,
         downloadPath: snapshotDirectory,
+        unpackModel: { completionRate: 0 },
       };
       const isSnapshotExisting = await checkIfSnapshotExist(
         snapshotDirectory,
@@ -118,6 +122,7 @@ export const onDownloadComplete = (
   updateFileSizes(bytes, fileSizes);
   if (fileSizes.completionRate >= 1) {
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_COMPLETE, fileSizes);
+    extractSnapshot(bw, fileSizes);
   } else {
     bw.webContents.send(
       ON_SNAPSHOT_DOWNLOAD_FAILURE,
@@ -180,5 +185,46 @@ export const startDownloadSnapshot = async (
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
     log.error(error);
     return false;
+  }
+};
+
+export const extractSnapshot = (
+  bw: Electron.BrowserWindow,
+  fileSizes: FileSizesModel
+) => {
+  try {
+    log.info('Starting extraction...');
+    const blocksPath = path.join(getBaseFolder(), '..');
+    const child = spawn(path7za, [
+      `x`,
+      `${fileSizes.downloadPath}`,
+      `-o${blocksPath}`,
+      `-aoa`,
+    ]);
+
+    child.stdout.on('data', (data) => {
+      const t = data.toString('utf8').trim();
+      log.info(t);
+    });
+    child.stderr.on('data', (data) => {
+      const t = data.toString('utf8').trim();
+      log.info(t);
+      return bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, t);
+    });
+    child.on('close', (code) => {
+      log.info(`${code}`);
+      if (code === 0) {
+        fileSizes.unpackModel = { completionRate: 1 };
+        bw.webContents.send(ON_SNAPSHOT_UNPACK_COMPLETE, fileSizes);
+      } else {
+        bw.webContents.send(
+          ON_SNAPSHOT_DOWNLOAD_FAILURE,
+          'Extract closed unexpectedly.'
+        );
+      }
+    });
+  } catch (error) {
+    log.error(error);
+    bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, 'Extract failure');
   }
 };

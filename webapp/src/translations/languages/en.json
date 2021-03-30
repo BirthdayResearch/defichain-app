@@ -965,7 +965,7 @@
     "verifyingSnapshot": "Verifying snapshot...",
     "installingSnapshot": "Installing snapshot...",
     "snapshotApplied": "Snapshot applied",
-    "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from} of %{to}.",
+    "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from}.",
     "pleaseWait": "Please wait..."
   },
   "general": {

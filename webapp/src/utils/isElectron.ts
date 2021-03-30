@@ -1,5 +1,6 @@
 import {
   CLOSE_APP,
+  ON_REMOVE_REINDEX,
   RESTART_APP,
   START_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
@@ -45,6 +46,15 @@ export const restartNodeSync = (args?: any) => {
     ipcRenderer.sendSync(RESTART_APP, args);
   } else {
     throw new Error('Unable to restart');
+  }
+};
+
+export const disableReindex = (): void => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_REMOVE_REINDEX);
+  } else {
+    throw new Error('Unable to disable re-index');
   }
 };
 

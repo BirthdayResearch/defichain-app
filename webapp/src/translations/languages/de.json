@@ -952,7 +952,7 @@
     "verifyingSnapshot": "Snapshot wird verifiziert...",
     "installingSnapshot": "Snapshot wird installiert...",
     "snapshotApplied": "Snapshot wurde angewendet",
-    "startSyncBlock": "DeFi App wird die Synchronisation nun von Block %{from} von %{to} starten.",
+    "startSyncBlock": "DeFi App wird die Synchronisation nun von Block %{from} starten.",
     "pleaseWait": "Bitte warte..."
   },
   "general": {

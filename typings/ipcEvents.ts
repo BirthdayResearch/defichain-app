@@ -41,3 +41,7 @@ export const ON_SNAPSHOT_START_REQUEST = 'on_snapshot_start_request';
 export const ON_SNAPSHOT_UPDATE_PROGRESS = 'on_snapshot_update_progress';
 export const ON_SNAPSHOT_DOWNLOAD_COMPLETE = 'on_snapshot_download_complete';
 export const ON_SNAPSHOT_DOWNLOAD_FAILURE = 'on_snapshot_download_failure';
+export const ON_SNAPSHOT_UNPACK_PROGRESS = 'on_snapshot_unpack_progress';
+export const ON_SNAPSHOT_UNPACK_COMPLETE = 'on_snapshot_unpack_complete';
+export const ON_SNAPSHOT_UNPACK_REQUEST = 'on_snapshot_unpack_request';
+export const ON_REMOVE_REINDEX = 'on_remove_reindex';

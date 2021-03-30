@@ -2,14 +2,16 @@ import BigNumber from 'bignumber.js';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { Modal, ModalBody, Progress } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, Progress } from 'reactstrap';
 import { RootState } from '../../../app/rootTypes';
 import styles from '../popOver.module.scss';
 import { getPageTitle } from '../../../utils/utility';
 import { Helmet } from 'react-helmet';
 import { MdCamera } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
-import { OFFICIAL_SNAPSHOT_URL } from '@defi_types/snapshot';
+import { OFFICIAL_SNAPSHOT_URL, SNAPSHOT_BLOCK } from '@defi_types/snapshot';
+import { openDownloadSnapshotModal, restartModal } from '../reducer';
+import { disableReindex, restartNodeSync } from '../../../utils/isElectron';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -20,9 +22,13 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     snapshotDownloadSteps,
   } = useSelector((state: RootState) => state.popover);
 
-  const percentage = new BigNumber(snapshotDownloadData.completionRate)
-    .times(100)
-    .toFixed(2);
+  const getPercentage = (): string => {
+    const completion =
+      (snapshotDownloadSteps === DownloadSnapshotSteps.DownloadSnapshot
+        ? snapshotDownloadData.completionRate
+        : snapshotDownloadData.unpackModel?.completionRate) || 0;
+    return new BigNumber(completion).times(100).toFixed(2);
+  };
 
   const getStepTitle = (step: DownloadSnapshotSteps): string => {
     let title = '';
@@ -34,7 +40,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         title = 'alerts.downloadingSnapshot';
         break;
       case DownloadSnapshotSteps.SnapshotApplied:
-        title = 'alerts.applied';
+        title = 'alerts.snapshotApplied';
         break;
       case DownloadSnapshotSteps.ApplyingSnapshot:
         title = 'alerts.applyingSnapshot';
@@ -53,11 +59,10 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         break;
       case DownloadSnapshotSteps.DownloadSnapshot:
         title = `
-        Downloading ${percentage}% of snapshot from ${OFFICIAL_SNAPSHOT_URL}`;
+        Downloading ${getPercentage()}% of snapshot from ${OFFICIAL_SNAPSHOT_URL}`;
         return title;
       case DownloadSnapshotSteps.SnapshotApplied:
-        title = 'alerts.snapshotApplied';
-        break;
+        return I18n.t('alerts.startSyncBlock', { from: SNAPSHOT_BLOCK });
       case DownloadSnapshotSteps.ApplyingSnapshot:
         title = 'alerts.unpackingSnaphot';
         return I18n.t(title, { address: snapshotDownloadData.downloadPath });
@@ -65,6 +70,13 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         break;
     }
     return I18n.t(title);
+  };
+
+  const onApplyFinish = () => {
+    disableReindex();
+    dispatch(openDownloadSnapshotModal(false));
+    dispatch(restartModal());
+    restartNodeSync();
   };
 
   const barStyle = { borderRadius: '1rem' };
@@ -93,18 +105,40 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
               <div className={`${styles.syncHeading} mb-4`}>
                 {getStepDescription(snapshotDownloadSteps)}
               </div>
-              <Progress
-                animated
-                striped={false}
-                className={styles.syncProgress}
-                value={percentage}
-                style={barStyle}
-                barStyle={barStyle}
-              />
+              {[
+                DownloadSnapshotSteps.DownloadSnapshot,
+                DownloadSnapshotSteps.ApplyingSnapshot,
+              ].includes(snapshotDownloadSteps) && (
+                <Progress
+                  animated
+                  striped={false}
+                  className={styles.syncProgress}
+                  value={getPercentage()}
+                  style={barStyle}
+                  barStyle={barStyle}
+                />
+              )}
             </section>
           </div>
         </div>
       </ModalBody>
+      {[
+        DownloadSnapshotSteps.SnapshotRequest,
+        DownloadSnapshotSteps.SnapshotApplied,
+      ].includes(snapshotDownloadSteps) && (
+        <ModalFooter>
+          {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotRequest && (
+            <Button color='primary'>
+              {I18n.t('alerts.continueWithSnapshot')}
+            </Button>
+          )}
+          {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotApplied && (
+            <Button onClick={onApplyFinish} color='primary'>
+              {I18n.t('alerts.closeBtnLabel')}
+            </Button>
+          )}
+        </ModalFooter>
+      )}
     </Modal>
   );
 };
