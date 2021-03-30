@@ -2,7 +2,7 @@ import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
 import { checkPathExists, deleteFile, getBaseFolder } from '../utils';
 import path from 'path';
-import { BINARY_FILE_PATH, SNAPSHOT_FOLDER } from '../constants';
+import { SNAPSHOT_FOLDER } from '../constants';
 import axios from 'axios';
 import {
   OFFICIAL_SNAPSHOT_URL,
