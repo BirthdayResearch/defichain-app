@@ -11,7 +11,7 @@ export const initialState: PopoverState = {
   updateAppInfo: {},
   postUpdateFlag: false,
   showUpdateAvailable: false,
-  isReIndexModelOpen: true,
+  isReIndexModelOpen: false,
   isReIndexRestart: false,
   isMinimized: false,
   updateAvailableBadge: false,
