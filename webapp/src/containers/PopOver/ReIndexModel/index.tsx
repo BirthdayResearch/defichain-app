@@ -14,10 +14,12 @@ import { onStartSnapshotRequest, stopBinary } from '../../../app/service';
 import styles from '../popOver.module.scss';
 import { DownloadSnapshotSteps } from '../types';
 import { shutDownBinary } from '../../../worker/queue';
+import { MAIN } from '../../../constants';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
   reIndexMessage?: string;
+  activeNetwork: string;
   closeReIndexModal: () => void;
   isRestartLoader: () => void;
   startSetNodeVersion: () => void;
@@ -36,6 +38,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     startSetNodeVersion,
     openDownloadSnapshotModal,
     updateDownloadSnapshotStep,
+    activeNetwork,
   } = props;
 
   const restartAppWithReIndexing = () => {
@@ -94,9 +97,11 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
         <Button size='sm' color='link' onClick={restartAppWithReIndexing}>
           {I18n.t('alerts.syncNode')}
         </Button>
-        <Button size='sm' color='primary' onClick={startDownloadSnapshot}>
-          {I18n.t('alerts.downloadSnapshot')}
-        </Button>
+        {activeNetwork === MAIN && (
+          <Button size='sm' color='primary' onClick={startDownloadSnapshot}>
+            {I18n.t('alerts.downloadSnapshot')}
+          </Button>
+        )}
       </ModalFooter>
     </Modal>
   );
@@ -104,10 +109,12 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
 
 const mapStateToProps = (state) => {
   const { isReIndexModelOpen, reIndexMessage } = state.popover;
+  const { activeNetwork } = state.app;
 
   return {
     isReIndexModelOpen,
     reIndexMessage,
+    activeNetwork,
   };
 };
 
