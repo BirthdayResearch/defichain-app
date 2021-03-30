@@ -10,9 +10,9 @@ import { Helmet } from 'react-helmet';
 import { MdCamera } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
 import { OFFICIAL_SNAPSHOT_URL, SNAPSHOT_BLOCK } from '@defi_types/snapshot';
-import { openDownloadSnapshotModal, restartModal } from '../reducer';
+import { openDownloadSnapshotModal } from '../reducer';
 import { disableReindex, restartApp } from '../../../utils/isElectron';
-import { shutDownBinary } from '../../../worker/queue';
+import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
@@ -77,9 +77,8 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
   const onApplyFinish = async () => {
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
-    dispatch(restartModal());
-    await shutDownBinary();
-    stopBinary();
+    await triggerNodeShutdown(false);
+    await stopBinary();
     restartApp();
   };
 
