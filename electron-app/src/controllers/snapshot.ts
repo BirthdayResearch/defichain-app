@@ -2,7 +2,7 @@ import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
 import { checkPathExists, deleteFile, getBaseFolder } from '../utils';
 import path from 'path';
-import { SNAPSHOT_FOLDER } from '../constants';
+import { SNAPSHOT_FOLDER, UNZIP_FILE_PATH } from '../constants';
 import axios from 'axios';
 import {
   OFFICIAL_SNAPSHOT_URL,
@@ -19,7 +19,6 @@ import {
   ON_SNAPSHOT_UNPACK_COMPLETE,
   ON_SNAPSHOT_UPDATE_PROGRESS,
 } from '@defi_types/ipcEvents';
-import { path7za } from '7zip-bin';
 import { spawn } from 'child_process';
 
 export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
@@ -195,7 +194,7 @@ export const extractSnapshot = (
   try {
     log.info('Starting extraction...');
     const blocksPath = path.join(getBaseFolder(), '..');
-    const child = spawn(path7za, [
+    const child = spawn(UNZIP_FILE_PATH, [
       `x`,
       `${fileSizes.downloadPath}`,
       `-o${blocksPath}`,
