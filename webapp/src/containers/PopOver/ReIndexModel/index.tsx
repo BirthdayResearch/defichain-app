@@ -10,10 +10,9 @@ import {
 } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
 import { startSetNodeVersion } from '../../RpcConfiguration/reducer';
-import { onStartSnapshotRequest, stopBinary } from '../../../app/service';
+import { onStartSnapshotRequest } from '../../../app/service';
 import styles from '../popOver.module.scss';
 import { DownloadSnapshotSteps } from '../types';
-import { shutDownBinary } from '../../../worker/queue';
 import { MAIN } from '../../../constants';
 
 interface ReIndexModalProps {
@@ -56,8 +55,6 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   const startDownloadSnapshot = async () => {
     closeReIndexModal();
     startSetNodeVersion();
-    await shutDownBinary();
-    stopBinary();
     openDownloadSnapshotModal(true);
     updateDownloadSnapshotStep(DownloadSnapshotSteps.DownloadSnapshot);
     onStartSnapshotRequest();

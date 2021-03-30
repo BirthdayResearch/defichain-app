@@ -13,6 +13,8 @@ import {
   updateDownloadSnapshotStep,
 } from '../containers/PopOver/reducer';
 import { DownloadSnapshotSteps } from '../containers/PopOver/types';
+import { shutDownBinary } from '../worker/queue';
+import { stopBinary } from './service';
 
 const initSnapshotRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -31,6 +33,13 @@ const initSnapshotRenderers = () => {
   ipcRenderer.on(
     ON_SNAPSHOT_DOWNLOAD_COMPLETE,
     async (event: any, args: any) => {
+      const {
+        app: { isRunning },
+      } = store.getState();
+      if (isRunning) {
+        await shutDownBinary();
+        await stopBinary();
+      }
       store.dispatch(updateDownloadSnapshotData(args));
       store.dispatch(
         updateDownloadSnapshotStep(DownloadSnapshotSteps.ApplyingSnapshot)
@@ -45,10 +54,12 @@ const initSnapshotRenderers = () => {
 
   ipcRenderer.on(ON_SNAPSHOT_UNPACK_COMPLETE, async (event: any, args: any) => {
     store.dispatch(updateDownloadSnapshotData(args));
-    store.dispatch(
-      updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotApplied)
-    );
-    log.info(`Snapshot unpack complete!`);
+    setTimeout(() => {
+      store.dispatch(
+        updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotApplied)
+      );
+      log.info(`Snapshot unpack complete!`);
+    }, 1000);
   });
 };
 
