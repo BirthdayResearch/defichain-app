@@ -1,6 +1,11 @@
 import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
-import { checkPathExists, deleteFile, getBaseFolder } from '../utils';
+import {
+  checkPathExists,
+  deleteFile,
+  deleteSnapshotFolders,
+  getBaseFolder,
+} from '../utils';
 import path from 'path';
 import { SNAPSHOT_FOLDER, UNZIP_FILE_PATH } from '../constants';
 import axios from 'axios';
@@ -127,6 +132,7 @@ export const onDownloadComplete = (
   updateFileSizes(bytes, fileSizes);
   if (fileSizes.completionRate >= 1) {
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_COMPLETE, fileSizes);
+    deleteSnapshotFolders();
     extractSnapshot(bw, fileSizes);
   } else {
     bw.webContents.send(
