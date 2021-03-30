@@ -45,3 +45,4 @@ export const ON_SNAPSHOT_UNPACK_PROGRESS = 'on_snapshot_unpack_progress';
 export const ON_SNAPSHOT_UNPACK_COMPLETE = 'on_snapshot_unpack_complete';
 export const ON_SNAPSHOT_UNPACK_REQUEST = 'on_snapshot_unpack_request';
 export const ON_REMOVE_REINDEX = 'on_remove_reindex';
+export const ON_FULL_RESTART_APP = 'on_full_restart_app';

@@ -11,8 +11,9 @@ import {
 } from '@defi_types/snapshot';
 import https from 'https';
 import { IncomingMessage } from 'http';
-import { ipcMain } from 'electron';
+import { app, ipcMain } from 'electron';
 import {
+  ON_FULL_RESTART_APP,
   ON_SNAPSHOT_DOWNLOAD_COMPLETE,
   ON_SNAPSHOT_DOWNLOAD_FAILURE,
   ON_SNAPSHOT_START_REQUEST,
@@ -25,6 +26,11 @@ export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   try {
     ipcMain.on(ON_SNAPSHOT_START_REQUEST, async () => {
       downloadSnapshot(bw);
+    });
+
+    ipcMain.on(ON_FULL_RESTART_APP, () => {
+      app.relaunch();
+      app.exit();
     });
   } catch (error) {
     log.error(error);

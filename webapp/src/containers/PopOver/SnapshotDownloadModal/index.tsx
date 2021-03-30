@@ -11,7 +11,9 @@ import { MdCamera } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
 import { OFFICIAL_SNAPSHOT_URL, SNAPSHOT_BLOCK } from '@defi_types/snapshot';
 import { openDownloadSnapshotModal, restartModal } from '../reducer';
-import { disableReindex, restartNodeSync } from '../../../utils/isElectron';
+import { disableReindex, restartApp } from '../../../utils/isElectron';
+import { shutDownBinary } from '../../../worker/queue';
+import { stopBinary } from '../../../app/service';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -72,11 +74,13 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     return I18n.t(title);
   };
 
-  const onApplyFinish = () => {
+  const onApplyFinish = async () => {
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
     dispatch(restartModal());
-    restartNodeSync();
+    await shutDownBinary();
+    stopBinary();
+    restartApp();
   };
 
   const barStyle = { borderRadius: '1rem' };
@@ -126,7 +130,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         DownloadSnapshotSteps.SnapshotRequest,
         DownloadSnapshotSteps.SnapshotApplied,
       ].includes(snapshotDownloadSteps) && (
-        <ModalFooter>
+        <ModalFooter className='justify-content-center'>
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotRequest && (
             <Button color='primary'>
               {I18n.t('alerts.continueWithSnapshot')}

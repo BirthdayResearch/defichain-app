@@ -1,5 +1,6 @@
 import {
   CLOSE_APP,
+  ON_FULL_RESTART_APP,
   ON_REMOVE_REINDEX,
   RESTART_APP,
   START_DEFI_CHAIN,
@@ -46,6 +47,15 @@ export const restartNodeSync = (args?: any) => {
     ipcRenderer.sendSync(RESTART_APP, args);
   } else {
     throw new Error('Unable to restart');
+  }
+};
+
+export const restartApp = () => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_FULL_RESTART_APP);
+  } else {
+    throw new Error('Unable to restart app');
   }
 };
 
