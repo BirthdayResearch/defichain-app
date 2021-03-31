@@ -5,27 +5,6 @@
   color: $white;
 }
 
-.errorModal {
-  text-align: center;
-  margin-top: 1rem;
-
-  .errorModalContent {
-    display: inline-block;
-  }
-
-  svg {
-    color: $dfi-red;
-  }
-
-  .errorLoaderContent {
-    display: inline-block;
-    svg {
-      -webkit-animation: rotation 2s infinite linear;
-      animation: rotation 2s infinite linear;
-    }
-  }
-}
-
 @-webkit-keyframes rotation {
   from {
     -webkit-transform: rotate(0deg);
@@ -97,4 +76,25 @@
   right: 4%;
   margin-top: 1rem;
   z-index: 5;
+}
+
+.errorModal {
+  text-align: center;
+  margin-top: 1rem;
+
+  .errorModalContent {
+    display: inline-block;
+  }
+
+  svg {
+    color: $dfi-red;
+  }
+
+  .errorLoaderContent {
+    display: inline-block;
+    svg {
+      -webkit-animation: rotation 2s infinite linear;
+      animation: rotation 2s infinite linear;
+    }
+  }
 }
