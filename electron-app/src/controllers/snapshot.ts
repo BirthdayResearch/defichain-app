@@ -19,6 +19,9 @@ import { IncomingMessage } from 'http';
 import { app, ipcMain } from 'electron';
 import {
   ON_FULL_RESTART_APP,
+  ON_SNAPSHOT_DATA_FAILURE,
+  ON_SNAPSHOT_DATA_REQUEST,
+  ON_SNAPSHOT_DATA_SUCCESS,
   ON_SNAPSHOT_DOWNLOAD_COMPLETE,
   ON_SNAPSHOT_DOWNLOAD_FAILURE,
   ON_SNAPSHOT_START_REQUEST,
@@ -27,10 +30,20 @@ import {
 } from '@defi_types/ipcEvents';
 import { spawn } from 'child_process';
 
+export interface DefaultFileSizes {
+  fileSizes: FileSizesModel;
+  isSnapshotExisting: boolean;
+  snapshotDirectory: string;
+}
+
 export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   try {
     ipcMain.on(ON_SNAPSHOT_START_REQUEST, async () => {
       downloadSnapshot(bw);
+    });
+
+    ipcMain.on(ON_SNAPSHOT_DATA_REQUEST, async () => {
+      onDataRequest(bw);
     });
 
     ipcMain.on(ON_FULL_RESTART_APP, () => {
@@ -43,24 +56,48 @@ export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   }
 };
 
+export const onDataRequest = async (
+  bw: Electron.BrowserWindow
+): Promise<void> => {
+  try {
+    const { fileSizes } = await getDefaultFileSizes(bw);
+    bw.webContents.send(ON_SNAPSHOT_DATA_SUCCESS, fileSizes);
+  } catch (error) {
+    log.error(error);
+    bw.webContents.send(ON_SNAPSHOT_DATA_FAILURE, error);
+  }
+};
+
+export const getDefaultFileSizes = async (
+  bw: Electron.BrowserWindow
+): Promise<DefaultFileSizes> => {
+  const snapshotDirectory = createSnapshotDirectory(bw);
+  const fileSizes: FileSizesModel = {
+    remoteSize: 0,
+    localSize: 0,
+    completionRate: 0,
+    downloadPath: snapshotDirectory,
+    unpackModel: { completionRate: 0 },
+    snapshotDate: new Date(),
+  };
+  const isSnapshotExisting = await checkIfSnapshotExist(
+    snapshotDirectory,
+    fileSizes,
+    bw
+  );
+  return { fileSizes, isSnapshotExisting, snapshotDirectory };
+};
+
 export const downloadSnapshot = async (
   bw: Electron.BrowserWindow
 ): Promise<boolean> => {
   try {
     return new Promise(async (resolve) => {
-      const snapshotDirectory = createSnapshotDirectory(bw);
-      const fileSizes: FileSizesModel = {
-        remoteSize: 0,
-        localSize: 0,
-        completionRate: 0,
-        downloadPath: snapshotDirectory,
-        unpackModel: { completionRate: 0 },
-      };
-      const isSnapshotExisting = await checkIfSnapshotExist(
-        snapshotDirectory,
+      const {
         fileSizes,
-        bw
-      );
+        isSnapshotExisting,
+        snapshotDirectory,
+      } = await getDefaultFileSizes(bw);
       if (isSnapshotExisting) {
         onDownloadComplete(bw, fileSizes, snapshotDirectory);
         resolve(true);
@@ -97,6 +134,9 @@ export const checkIfSnapshotExist = async (
     const response = await axios.head(OFFICIAL_SNAPSHOT_URL);
     fileSizes.remoteSize =
       +response.headers['content-length'] || fileSizes.remoteSize;
+    fileSizes.snapshotDate = response.headers['last-modified']
+      ? new Date(response.headers['last-modified'])
+      : fileSizes.snapshotDate;
     if (checkPathExists(directory)) {
       fileSizes.localSize = fs.statSync(directory).size || fileSizes.localSize;
       return fileSizes.remoteSize === fileSizes.localSize;

@@ -2,18 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
-import {
-  closeReIndexModal,
-  isRestartLoader,
-  openDownloadSnapshotModal,
-  updateDownloadSnapshotStep,
-} from '../../PopOver/reducer';
+import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
 import { startSetNodeVersion } from '../../RpcConfiguration/reducer';
-import { onStartSnapshotRequest } from '../../../app/service';
 import styles from '../popOver.module.scss';
-import { DownloadSnapshotSteps } from '../types';
 import { MAIN } from '../../../constants';
+import { onSnapshotDownloadRequest } from '../service';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
@@ -22,8 +16,6 @@ interface ReIndexModalProps {
   closeReIndexModal: () => void;
   isRestartLoader: () => void;
   startSetNodeVersion: () => void;
-  openDownloadSnapshotModal: (isOpen: boolean) => void;
-  updateDownloadSnapshotStep: (step: DownloadSnapshotSteps) => void;
 }
 
 const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
@@ -35,8 +27,6 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     isReIndexModelOpen,
     reIndexMessage,
     startSetNodeVersion,
-    openDownloadSnapshotModal,
-    updateDownloadSnapshotStep,
     activeNetwork,
   } = props;
 
@@ -55,9 +45,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   const startDownloadSnapshot = async () => {
     closeReIndexModal();
     startSetNodeVersion();
-    openDownloadSnapshotModal(true);
-    updateDownloadSnapshotStep(DownloadSnapshotSteps.DownloadSnapshot);
-    onStartSnapshotRequest();
+    onSnapshotDownloadRequest();
   };
 
   const closePopupAndApp = () => {
@@ -119,8 +107,6 @@ const mapDispatchToProps = {
   closeReIndexModal,
   isRestartLoader,
   startSetNodeVersion,
-  openDownloadSnapshotModal,
-  updateDownloadSnapshotStep,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReIndexModal);

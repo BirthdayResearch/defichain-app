@@ -2,18 +2,33 @@ import BigNumber from 'bignumber.js';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { Button, Modal, ModalBody, ModalFooter, Progress } from 'reactstrap';
+import {
+  Button,
+  Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Progress,
+  Row,
+} from 'reactstrap';
 import { RootState } from '../../../app/rootTypes';
 import styles from '../popOver.module.scss';
 import { getPageTitle } from '../../../utils/utility';
 import { Helmet } from 'react-helmet';
 import { MdCamera } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
-import { OFFICIAL_SNAPSHOT_URL, SNAPSHOT_BLOCK } from '@defi_types/snapshot';
+import {
+  OFFICIAL_SNAPSHOT_URL,
+  SNAPSHOT_BLOCK,
+  SNAPSHOT_PROVIDER,
+} from '@defi_types/snapshot';
 import { openDownloadSnapshotModal } from '../reducer';
 import { disableReindex, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
+import MDSpinner from 'react-md-spinner';
+import moment from 'moment';
+import { onSnapshotDownloadRequest } from '../service';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -25,10 +40,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.popover);
 
   const getPercentage = (): string => {
-    const completion =
-      (snapshotDownloadSteps === DownloadSnapshotSteps.DownloadSnapshot
-        ? snapshotDownloadData.completionRate
-        : snapshotDownloadData.unpackModel?.completionRate) || 0;
+    const completion = snapshotDownloadData.completionRate;
     return new BigNumber(completion).times(100).toFixed(2);
   };
 
@@ -82,6 +94,14 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     restartApp();
   };
 
+  const getSnapshotSize = (bytes: number): string => {
+    return new BigNumber(bytes).dividedBy(1073741824).toFixed(2);
+  };
+
+  const onDownloadStart = () => {
+    onSnapshotDownloadRequest();
+  };
+
   const barStyle = { borderRadius: '1rem' };
 
   return (
@@ -108,10 +128,42 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
               <div className={`${styles.syncHeading} mb-4`}>
                 {getStepDescription(snapshotDownloadSteps)}
               </div>
-              {[
-                DownloadSnapshotSteps.DownloadSnapshot,
-                DownloadSnapshotSteps.ApplyingSnapshot,
-              ].includes(snapshotDownloadSteps) && (
+              {/* Snapshot Request Body */}
+              {DownloadSnapshotSteps.SnapshotRequest ===
+                snapshotDownloadSteps && (
+                <>
+                  <section>
+                    <Row>
+                      <Col md='4'>{I18n.t('alerts.snapshotDate')}</Col>
+                      <Col md='8'>{`${
+                        snapshotDownloadData.snapshotDate
+                      } (${moment(
+                        snapshotDownloadData.snapshotDate
+                      ).fromNow()})`}</Col>
+                    </Row>
+                    <Row>
+                      <Col md='4'>{I18n.t('alerts.snapshotSize')}</Col>
+                      <Col md='8'>{`${getSnapshotSize(
+                        snapshotDownloadData.remoteSize
+                      )} GB`}</Col>
+                    </Row>
+                    <Row>
+                      <Col md='4'>{I18n.t('alerts.snapshotProvider')}</Col>
+                      <Col md='8'>{SNAPSHOT_PROVIDER}</Col>
+                    </Row>
+                    <Row>
+                      <Col md='4'>{I18n.t('alerts.snapshotUrl')}</Col>
+                      <Col md='8'>{OFFICIAL_SNAPSHOT_URL}</Col>
+                    </Row>
+                  </section>
+                  <section>
+                    <h6>{I18n.t('alerts.afterDownload')}</h6>
+                  </section>
+                </>
+              )}
+              {/* Progress Bar */}
+              {DownloadSnapshotSteps.DownloadSnapshot ===
+                snapshotDownloadSteps && (
                 <Progress
                   animated
                   striped={false}
@@ -120,6 +172,11 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                   style={barStyle}
                   barStyle={barStyle}
                 />
+              )}
+              {/* Loader Bar */}
+              {DownloadSnapshotSteps.ApplyingSnapshot ===
+                snapshotDownloadSteps && (
+                <MDSpinner size={28} singleColor={'#ff00af'} borderSize={4} />
               )}
             </section>
           </div>
@@ -131,12 +188,12 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
       ].includes(snapshotDownloadSteps) && (
         <ModalFooter className='justify-content-center'>
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotRequest && (
-            <Button color='primary'>
+            <Button onClick={onDownloadStart} color='primary' block>
               {I18n.t('alerts.continueWithSnapshot')}
             </Button>
           )}
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotApplied && (
-            <Button onClick={onApplyFinish} color='primary'>
+            <Button onClick={onApplyFinish} color='primary' block>
               {I18n.t('alerts.closeBtnLabel')}
             </Button>
           )}
