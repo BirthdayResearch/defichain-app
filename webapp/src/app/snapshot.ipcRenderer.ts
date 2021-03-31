@@ -6,6 +6,7 @@ import {
   ON_SNAPSHOT_UNPACK_COMPLETE,
   ON_SNAPSHOT_DATA_SUCCESS,
   ON_SNAPSHOT_DATA_FAILURE,
+  ON_SNAPSHOT_UNPACK_REQUEST,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../utils/isElectron';
 import * as log from '../utils/electronLogger';
@@ -18,6 +19,9 @@ import {
 import { DownloadSnapshotSteps } from '../containers/PopOver/types';
 import { shutDownBinary } from '../worker/queue';
 import { stopBinary } from './service';
+import showNotification from '../utils/notifications';
+import { I18n } from 'react-redux-i18n';
+import { FileSizesModel } from '@defi_types/snapshot';
 
 const initSnapshotRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -30,12 +34,22 @@ const initSnapshotRenderers = () => {
     ON_SNAPSHOT_DOWNLOAD_FAILURE,
     async (event: any, args: any) => {
       log.error(args);
+      store.dispatch(openDownloadSnapshotModal(false));
+      showNotification(
+        I18n.t('alerts.errorOccurred'),
+        args ? JSON.stringify(args) : ''
+      );
     }
   );
 
   ipcRenderer.on(
     ON_SNAPSHOT_DOWNLOAD_COMPLETE,
     async (event: any, args: any) => {
+      store.dispatch(updateDownloadSnapshotData(args));
+      store.dispatch(
+        updateDownloadSnapshotStep(DownloadSnapshotSteps.ApplyingSnapshot)
+      );
+      log.info(`Snapshot download complete!`);
       const {
         app: { isRunning },
       } = store.getState();
@@ -43,11 +57,7 @@ const initSnapshotRenderers = () => {
         await shutDownBinary();
         await stopBinary();
       }
-      store.dispatch(updateDownloadSnapshotData(args));
-      store.dispatch(
-        updateDownloadSnapshotStep(DownloadSnapshotSteps.ApplyingSnapshot)
-      );
-      log.info(`Snapshot download complete!`);
+      ipcRenderer.send(ON_SNAPSHOT_UNPACK_REQUEST, args);
     }
   );
 
@@ -57,12 +67,10 @@ const initSnapshotRenderers = () => {
 
   ipcRenderer.on(ON_SNAPSHOT_UNPACK_COMPLETE, async (event: any, args: any) => {
     store.dispatch(updateDownloadSnapshotData(args));
-    setTimeout(() => {
-      store.dispatch(
-        updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotApplied)
-      );
-      log.info(`Snapshot unpack complete!`);
-    }, 1000);
+    store.dispatch(
+      updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotApplied)
+    );
+    log.info(`Snapshot unpack complete!`);
   });
 
   ipcRenderer.on(ON_SNAPSHOT_DATA_FAILURE, async (event: any, args: any) => {
@@ -70,12 +78,16 @@ const initSnapshotRenderers = () => {
   });
 
   ipcRenderer.on(ON_SNAPSHOT_DATA_SUCCESS, async (event: any, args: any) => {
-    store.dispatch(updateDownloadSnapshotData(args));
-    store.dispatch(
-      updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotRequest)
-    );
-    store.dispatch(openDownloadSnapshotModal(true));
+    onSnapshotDataSuccess(args);
   });
+};
+
+export const onSnapshotDataSuccess = (args: FileSizesModel): void => {
+  store.dispatch(updateDownloadSnapshotData(args));
+  store.dispatch(
+    updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotRequest)
+  );
+  store.dispatch(openDownloadSnapshotModal(true));
 };
 
 export default initSnapshotRenderers;

@@ -81,3 +81,19 @@
     height: 8px;
   }
 }
+
+.btnWidth {
+  max-width: 45%;
+}
+
+.snapshotSubclaim {
+  color: $secondary;
+}
+
+.floatingCancel {
+  display: flex;
+  position: absolute;
+  right: 4%;
+  margin-top: 1rem;
+  z-index: 5;
+}

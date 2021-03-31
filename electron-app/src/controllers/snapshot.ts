@@ -27,6 +27,7 @@ import {
   ON_SNAPSHOT_START_REQUEST,
   ON_SNAPSHOT_UNPACK_COMPLETE,
   ON_SNAPSHOT_UPDATE_PROGRESS,
+  ON_SNAPSHOT_UNPACK_REQUEST,
 } from '@defi_types/ipcEvents';
 import { spawn } from 'child_process';
 
@@ -50,6 +51,15 @@ export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
       app.relaunch();
       app.exit();
     });
+
+    ipcMain.on(
+      ON_SNAPSHOT_UNPACK_REQUEST,
+      async (event: Electron.IpcMainEvent, fileSizes: FileSizesModel) => {
+        if (event) {
+          onStartExtraction(bw, fileSizes);
+        }
+      }
+    );
   } catch (error) {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
@@ -100,7 +110,6 @@ export const downloadSnapshot = async (
       } = await getDefaultFileSizes(bw);
       if (isSnapshotExisting) {
         onDownloadComplete(bw, fileSizes, snapshotDirectory);
-        resolve(true);
       } else {
         deleteSnapshotIfExisting(snapshotDirectory, bw);
         startDownloadSnapshot(snapshotDirectory, bw, fileSizes);
@@ -172,14 +181,20 @@ export const onDownloadComplete = (
   updateFileSizes(bytes, fileSizes);
   if (fileSizes.completionRate >= 1) {
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_COMPLETE, fileSizes);
-    deleteSnapshotFolders();
-    extractSnapshot(bw, fileSizes);
   } else {
     bw.webContents.send(
       ON_SNAPSHOT_DOWNLOAD_FAILURE,
       'File download incomplete'
     );
   }
+};
+
+export const onStartExtraction = (
+  bw: Electron.BrowserWindow,
+  fileSizes: FileSizesModel
+) => {
+  deleteSnapshotFolders();
+  extractSnapshot(bw, fileSizes);
 };
 
 const updateFileSizes = (bytes: number, fileSizes: FileSizesModel) => {

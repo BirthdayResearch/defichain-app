@@ -967,7 +967,8 @@
     "snapshotApplied": "Snapshot applied",
     "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from}.",
     "pleaseWait": "Please wait...",
-    "snapshotSize": "Snapshot Size:"
+    "snapshotSize": "Snapshot size:",
+    "snapshotDirectory": "Snapshot directory:"
   },
   "general": {
     "defiApp": "DeFi Wallet",

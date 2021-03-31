@@ -1,5 +1,4 @@
 import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
-import { I18n } from 'react-redux-i18n';
 
 export const TEST = 'test';
 export const RPC_V = RPCVersion;

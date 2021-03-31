@@ -32,7 +32,7 @@
       rgba(255, 0, 175, 1) 33.3%,
       rgba(255, 128, 175, 1) 100%
     );
-    background-size: 48px;
+    background-size: 100%;
     animation: progress-bar-pulse $progress-bar-animation-timing;
   }
 }

@@ -26,7 +26,6 @@ import { openDownloadSnapshotModal } from '../reducer';
 import { disableReindex, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
-import MDSpinner from 'react-md-spinner';
 import moment from 'moment';
 import { onSnapshotDownloadRequest } from '../service';
 
@@ -102,6 +101,10 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     onSnapshotDownloadRequest();
   };
 
+  const closeModal = () => {
+    dispatch(openDownloadSnapshotModal(false));
+  };
+
   const barStyle = { borderRadius: '1rem' };
 
   return (
@@ -112,6 +115,15 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
       style={{ width: '100%', maxWidth: '100vw', height: '100vh', margin: '0' }}
       centered
     >
+      {DownloadSnapshotSteps.SnapshotRequest === snapshotDownloadSteps && (
+        <Button
+          color='link'
+          onClick={closeModal}
+          className={styles.floatingCancel}
+        >
+          {I18n.t('alerts.cancel')}
+        </Button>
+      )}
       <ModalBody style={{ padding: '4rem 6rem' }}>
         <div className='main-wrapper'>
           <>
@@ -135,9 +147,9 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                   <section>
                     <Row>
                       <Col md='4'>{I18n.t('alerts.snapshotDate')}</Col>
-                      <Col md='8'>{`${
+                      <Col md='8'>{`${moment(
                         snapshotDownloadData.snapshotDate
-                      } (${moment(
+                      ).format('LLLL')} (${moment(
                         snapshotDownloadData.snapshotDate
                       ).fromNow()})`}</Col>
                     </Row>
@@ -156,14 +168,18 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                       <Col md='8'>{OFFICIAL_SNAPSHOT_URL}</Col>
                     </Row>
                   </section>
-                  <section>
-                    <h6>{I18n.t('alerts.afterDownload')}</h6>
+                  <section className={'mt-4'}>
+                    <small className={styles.snapshotSubclaim}>
+                      {I18n.t('alerts.afterDownload')}
+                    </small>
                   </section>
                 </>
               )}
               {/* Progress Bar */}
-              {DownloadSnapshotSteps.DownloadSnapshot ===
-                snapshotDownloadSteps && (
+              {[
+                DownloadSnapshotSteps.DownloadSnapshot,
+                DownloadSnapshotSteps.ApplyingSnapshot,
+              ].includes(snapshotDownloadSteps) && (
                 <Progress
                   animated
                   striped={false}
@@ -172,11 +188,6 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                   style={barStyle}
                   barStyle={barStyle}
                 />
-              )}
-              {/* Loader Bar */}
-              {DownloadSnapshotSteps.ApplyingSnapshot ===
-                snapshotDownloadSteps && (
-                <MDSpinner size={28} singleColor={'#ff00af'} borderSize={4} />
               )}
             </section>
           </div>
@@ -188,12 +199,22 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
       ].includes(snapshotDownloadSteps) && (
         <ModalFooter className='justify-content-center'>
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotRequest && (
-            <Button onClick={onDownloadStart} color='primary' block>
+            <Button
+              onClick={onDownloadStart}
+              color='primary'
+              block
+              className={styles.btnWidth}
+            >
               {I18n.t('alerts.continueWithSnapshot')}
             </Button>
           )}
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotApplied && (
-            <Button onClick={onApplyFinish} color='primary' block>
+            <Button
+              onClick={onApplyFinish}
+              color='primary'
+              block
+              className={styles.btnWidth}
+            >
               {I18n.t('alerts.closeBtnLabel')}
             </Button>
           )}
