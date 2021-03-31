@@ -495,7 +495,8 @@
         "includeRewards": "Include reward transactions",
         "transaction": "transactions",
         "format": "Format",
-        "csv": "CSV"
+        "csv": "CSV",
+        "blockReward": "Block reward"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",

@@ -502,7 +502,8 @@
         "transaction": "transactions",
         "format": "Format",
         "csv": "CSV",
-        "includeRewards": "Include reward transactions"
+        "includeRewards": "Include reward transactions",
+        "blockReward": "Block reward"
       },
       "walletWalletsPage": {
         "walletWallets": "Кошельки",
