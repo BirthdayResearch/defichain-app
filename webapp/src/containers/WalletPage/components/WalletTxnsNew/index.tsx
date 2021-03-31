@@ -278,6 +278,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
     const SEND = 'send';
+    const BLOCK_REWARD = 'blockReward';
     if ([SENT_CATEGORY_LABEL, ACCOUNT_TO_UTXOS_LABEL, SEND].includes(type)) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
@@ -289,6 +290,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         REWARD_CATEGORY_LABEL,
         RECEIVE,
         REMOVE_LIQUIDITY_LABEL,
+        BLOCK_REWARD,
       ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
@@ -302,6 +304,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getTxnsType = (type: string) => {
     const SEND = 'send';
     const RECEIVE = 'receive';
+    const BLOCK_REWARD = 'blockReward';
     const walletTxnsLabel = 'containers.wallet.walletTxns';
     const swapLabel = 'containers.swap';
     const walletLabel = 'containers.wallet.walletPage';
@@ -341,6 +344,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         break;
       case COMMISSION_CATEGORY_LABEL:
         label = I18n.t(`${walletLabel}.commission`);
+        break;
+      case BLOCK_REWARD:
+        label = I18n.t(`${walletLabel}.blockReward`);
         break;
       default:
         break;
