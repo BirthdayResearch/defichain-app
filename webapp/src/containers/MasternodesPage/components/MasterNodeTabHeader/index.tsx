@@ -8,12 +8,13 @@ import { ALL, MINE } from '../../../../constants';
 interface MasterNodeTabsHeaderProps {
   setTab: (tab: string) => void;
   tab: string;
+  setFooterHide: (boolean) => void;
 }
 
 const MasterNodeTabsHeader: React.FunctionComponent<MasterNodeTabsHeaderProps> = (
   props: MasterNodeTabsHeaderProps
 ) => {
-  const { setTab, tab } = props;
+  const { setTab, tab, setFooterHide } = props;
   return (
     <Nav pills className={style.navPosition}>
       <NavItem>
@@ -23,6 +24,7 @@ const MasterNodeTabsHeader: React.FunctionComponent<MasterNodeTabsHeaderProps> =
           })}
           onClick={() => {
             setTab(MINE);
+            setFooterHide(false);
           }}
         >
           {I18n.t('containers.masterNodes.masterNodesPage.mine')}
@@ -35,6 +37,7 @@ const MasterNodeTabsHeader: React.FunctionComponent<MasterNodeTabsHeaderProps> =
           })}
           onClick={() => {
             setTab(ALL);
+            setFooterHide(true);
           }}
         >
           {I18n.t('containers.masterNodes.masterNodesPage.all')}

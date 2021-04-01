@@ -80,7 +80,7 @@ export const SHARE_POOL_PAGE_SIZE = 100000;
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
-export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
+export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 100000;
 
 export const LP_DAILY_DFI_REWARD = 'LP_DAILY_DFI_REWARD';
 export const LP_SPLITS = 'LP_SPLITS';
