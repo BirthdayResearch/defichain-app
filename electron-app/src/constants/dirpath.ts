@@ -7,6 +7,7 @@ import {
   getCustomDebugLogFilePath,
   getDefaultDebugLogFilePath,
 } from '../utils';
+import { path7za } from '7zip-bin';
 
 export const APP_NAME = app.name;
 export const IS_DEV = process.env.NODE_ENV === 'development';
@@ -21,6 +22,9 @@ export const PID_FILE_NAME = path.join(APP_DIR, '/defi.pid');
 
 export const BINARY_LOG_FILE_NAME = 'debug.log';
 
+export const UNZIP_FILE_PATH = IS_DEV
+  ? path7za
+  : path7za.replace('app.asar', 'app.asar.unpacked');
 export const BINARY_FILE_NAME = getPlatform() === 'win' ? 'defid.exe' : 'defid';
 export const BINARY_FILE_PATH = IS_DEV
   ? path.join(rootPath, './binary', getPlatform())
@@ -65,3 +69,4 @@ export const MAINNET_BASE_FOLDER_REINDEX = BASE_FILE_PATH;
 export const BLK_FILE = 'blk';
 export const REV_FILE = 'rev';
 export const WALLET_MAP_FILE = 'wallet_map.json';
+export const SNAPSHOT_FOLDER = 'snapshot';

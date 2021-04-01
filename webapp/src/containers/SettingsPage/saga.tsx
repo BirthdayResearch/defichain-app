@@ -51,6 +51,8 @@ import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
+import showNotification from '../../utils/notifications';
+import { I18n } from 'react-redux-i18n';
 
 export function* getSettingsOptions() {
   try {
@@ -138,6 +140,11 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
+
+      if (data.timeoutValue) {
+        yield put(setDefaultLockTimeout(data.timeoutValue));
+      }
+
       if (
         PersistentStore.get('sendCountdown') !== action.payload.sendCountdown
       ) {
@@ -214,10 +221,14 @@ export function* setLockTimeout(action) {
     const timeout = action.payload;
     const resp = yield call(updateLockTimeout, timeout);
     if (resp?.success) {
-      log.info(`Timeout updated to ${timeout} seconds`, 'updatePassphrase');
-    } else {
-      throw new Error(resp?.message);
+      const message = I18n.t('alerts.timeoutMessage', {
+        timeout,
+      });
+      const title = I18n.t('alerts.timeoutTitle');
+      log.info(message, title);
+      return showNotification(title, message);
     }
+    throw new Error(resp?.message);
   } catch (error) {
     yield put({
       type: changePassphraseFailure.type,

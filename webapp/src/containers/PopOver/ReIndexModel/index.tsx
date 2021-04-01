@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { restartNodeWithReIndexing, closeApp } from '../../../utils/isElectron';
 import { closeReIndexModal, isRestartLoader } from '../../PopOver/reducer';
 import { I18n } from 'react-redux-i18n';
-import ToggleButton from './component/ToggleButton';
 import { startSetNodeVersion } from '../../RpcConfiguration/reducer';
+import styles from '../popOver.module.scss';
+import { MAIN } from '../../../constants';
+import { onSnapshotDownloadRequest } from '../service';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
   reIndexMessage?: string;
+  activeNetwork: string;
   closeReIndexModal: () => void;
   isRestartLoader: () => void;
   startSetNodeVersion: () => void;
@@ -24,13 +27,8 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     isReIndexModelOpen,
     reIndexMessage,
     startSetNodeVersion,
+    activeNetwork,
   } = props;
-  const [peers, setPeers] = useState(true);
-
-  const handleDeletePeersAndblocks = () => {
-    const deletePeersAndBlocks = !peers;
-    setPeers(deletePeersAndBlocks);
-  };
 
   const restartAppWithReIndexing = () => {
     closeReIndexModal();
@@ -38,10 +36,16 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
     const params = {
       isReindexReq: true,
       skipVersionCheck: true,
-      isDeletePeersAndBlocksreq: peers,
+      isDeletePeersAndBlocksreq: true,
     };
     startSetNodeVersion();
     restartNodeWithReIndexing(params);
+  };
+
+  const startDownloadSnapshot = async () => {
+    closeReIndexModal();
+    startSetNodeVersion();
+    onSnapshotDownloadRequest();
   };
 
   const closePopupAndApp = () => {
@@ -50,7 +54,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   };
 
   return (
-    <Modal isOpen={isReIndexModelOpen} centered>
+    <Modal isOpen={isReIndexModelOpen} centered className={styles.reindexModal}>
       <ModalBody>
         <h1 className='h4'>
           {I18n.t(
@@ -65,27 +69,24 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
             ? reIndexMessage
             : I18n.t('alerts.restartAppWithReindexNotice')}
         </p>
-        {!reIndexMessage && (
-          <ToggleButton
-            handleToggles={handleDeletePeersAndblocks}
-            label={'deletePeersAndBlocks'}
-            field={peers}
-            fieldName={'deletePeersAndBlocks'}
-          />
-        )}
       </ModalBody>
       <ModalFooter>
         <Button
           color='link'
           size='sm'
-          className='ml-4'
+          className='mr-auto'
           onClick={closePopupAndApp}
         >
           {I18n.t('alerts.noCloseApp')}
         </Button>
-        <Button size='sm' color='primary' onClick={restartAppWithReIndexing}>
-          {I18n.t('alerts.yesRestartAppWithReindex')}
+        <Button size='sm' color='link' onClick={restartAppWithReIndexing}>
+          {I18n.t('alerts.syncNode')}
         </Button>
+        {activeNetwork === MAIN && (
+          <Button size='sm' color='primary' onClick={startDownloadSnapshot}>
+            {I18n.t('alerts.downloadSnapshot')}
+          </Button>
+        )}
       </ModalFooter>
     </Modal>
   );
@@ -93,10 +94,12 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
 
 const mapStateToProps = (state) => {
   const { isReIndexModelOpen, reIndexMessage } = state.popover;
+  const { activeNetwork } = state.app;
 
   return {
     isReIndexModelOpen,
     reIndexMessage,
+    activeNetwork,
   };
 };
 

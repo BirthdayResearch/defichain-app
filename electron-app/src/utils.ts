@@ -273,3 +273,21 @@ export const deleteBanlist = () => {
     log.error(error);
   }
 };
+
+export const deleteSnapshotFolders = () => {
+  try {
+    const baseFolder = getBaseFolderReindex();
+    const folders = [
+      path.join(baseFolder, 'blocks'),
+      path.join(baseFolder, 'chainstate'),
+      path.join(baseFolder, 'enhancedcs'),
+    ];
+    folders.forEach((f) => {
+      if (checkPathExists(f)) {
+        fs.rmdirSync(f, { recursive: true });
+      }
+    });
+  } catch (error) {
+    log.error(error);
+  }
+};

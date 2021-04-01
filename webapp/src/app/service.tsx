@@ -43,6 +43,7 @@ import {
   GET_CONFIG_DETAILS,
   ON_OVERWRITE_CONFIG_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_SNAPSHOT_START_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -356,13 +357,16 @@ export const overwriteConfigRequest = async (
   }
 };
 
-export const updatePaymentAddresses = (wallet: WalletState, paymentRequests: PaymentRequestModel[]): void => {
+export const updatePaymentAddresses = (
+  wallet: WalletState,
+  paymentRequests: PaymentRequestModel[]
+): void => {
   store.dispatch(fetchPaymentRequestsSuccess(paymentRequests));
   replaceWalletMapSync({
     ...wallet.walletMap,
     paymentRequests: processWalletMapAddresses(paymentRequests),
   });
-}
+};
 
 export const setPaymentAddresses = async (): Promise<
   IPCResponseModel<string>
@@ -379,5 +383,12 @@ export const setPaymentAddresses = async (): Promise<
     return {
       success: false,
     };
+  }
+};
+
+export const onStartSnapshotRequest = () => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST);
   }
 };

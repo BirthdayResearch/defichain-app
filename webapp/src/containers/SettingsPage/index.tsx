@@ -56,6 +56,7 @@ interface SettingsPageProps {
   isRefreshUtxosModalOpen: boolean;
   isWalletEncrypted: boolean;
   isWalletCreatedFlag: boolean;
+  defaultLockTimeout: number;
   sendCountdown: boolean;
 }
 
@@ -92,6 +93,9 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
     ...props.appConfig,
     isUnsavedChanges: false,
   });
+  const [timeoutValue, setTimeoutValue] = useState<number>(
+    props.defaultLockTimeout
+  );
 
   const [reindexAfterSaving, setIsReindexAfterSaving] = useState(false);
   const [refreshUtxosAfterSaving, setIsRefreshUtxosAfterSaving] = useState(
@@ -266,6 +270,7 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
       feeRate,
       reindexAfterSaving: reindexAfterSaving,
       refreshUtxosAfterSaving,
+      timeoutValue: timeoutValue !== props.defaultLockTimeout && timeoutValue,
       sendCountdown,
     };
     props.updateSettings(settings);
@@ -352,7 +357,10 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
             handeDeletePeersClick={handeDeletePeersClick}
           />
           {props.isWalletCreatedFlag && props.isWalletEncrypted && (
-            <SettingsTabSecurity />
+            <SettingsTabSecurity
+              setTimeoutValue={setTimeoutValue}
+              timeoutValue={timeoutValue}
+            />
           )}
           <SettingsTabDisplay
             language={language!}
@@ -362,12 +370,15 @@ const SettingsPage: React.FunctionComponent<SettingsPageProps> = (
           />
         </TabContent>
       </div>
-      {state.activeTab !== SettingsTabs.security && (
-        <SettingsTabsFooter
-          isUnsavedChanges={isUnsavedChanges}
-          saveChanges={saveChanges}
-        />
-      )}
+      <SettingsTabsFooter
+        isUnsavedChanges={
+          isUnsavedChanges ||
+          reindexAfterSaving ||
+          refreshUtxosAfterSaving ||
+          timeoutValue !== props.defaultLockTimeout
+        }
+        saveChanges={saveChanges}
+      />
     </div>
   );
 };
@@ -380,6 +391,7 @@ const mapStateToProps = (state) => {
     isUpdating,
     isUpdated,
     isRefreshUtxosModalOpen,
+    defaultLockTimeout,
   } = state.settings;
   const { isWalletEncrypted, isWalletCreatedFlag } = state.wallet;
   const { isRestart } = state.popover;
@@ -395,6 +407,7 @@ const mapStateToProps = (state) => {
     isRefreshUtxosModalOpen,
     isWalletEncrypted,
     isWalletCreatedFlag,
+    defaultLockTimeout,
   };
 };
 

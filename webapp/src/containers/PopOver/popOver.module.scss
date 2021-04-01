@@ -5,6 +5,79 @@
   color: $white;
 }
 
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.reindexModal {
+  max-width: 650px;
+}
+
+.modalContent {
+  height: 100%;
+  border-radius: 0;
+}
+
+.syncStatusWrapper {
+  border-top: 1px solid $border-color;
+  background-color: $white;
+  min-height: 81px;
+  padding: 16px 32px;
+  position: sticky;
+  bottom: 0;
+
+  .syncHeading {
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.21px;
+    line-height: 1rem;
+  }
+
+  .blockStatus {
+    color: $secondary;
+    font-size: 0.75rem;
+    letter-spacing: 0.21px;
+    line-height: 1rem;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    margin-left: 2px;
+    color: $green;
+  }
+
+  .syncProgress {
+    margin-top: 8px;
+    height: 8px;
+  }
+}
+
+.btnWidth {
+  max-width: 45%;
+}
+
+.snapshotSubclaim {
+  color: $secondary;
+}
+
+.floatingCancel {
+  display: flex;
+  position: absolute;
+  right: 4%;
+  margin-top: 1rem;
+  z-index: 5;
+}
+
 .errorModal {
   text-align: center;
   margin-top: 1rem;
@@ -16,24 +89,12 @@
   svg {
     color: $dfi-red;
   }
+
   .errorLoaderContent {
     display: inline-block;
     svg {
       -webkit-animation: rotation 2s infinite linear;
       animation: rotation 2s infinite linear;
     }
-  }
-}
-
-@-webkit-keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
   }
 }
