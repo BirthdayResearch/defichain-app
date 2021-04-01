@@ -883,6 +883,8 @@
     "nodeDisconnected": "Node is disconnected",
     "electronRequiredError": "Electron app is needed for restart",
     "addressIsNotAPartOfWallet": "%{addressName} is not a part of wallet.",
+    "timeoutMessage": "Timeout updated to %{timeout} seconds",
+    "timeoutTitle": "Update Auto-lock Time",
     "updateAppNoticeTitle": "Update complete",
     "updateAppNotice": "You need to restart DeFi Wallet to apply new update. Do you want to restart?",
     "restartNowNotice": "Restart now",
