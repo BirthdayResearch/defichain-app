@@ -24,7 +24,7 @@ const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
         <Button size='sm' color='link' onClick={onDownloadClick}>
           {I18n.t('alerts.download')}
         </Button>
-        <Button size='sm' onClick={closeUpdateApp}>
+        <Button size='sm' color='primary' onClick={closeUpdateApp}>
           {I18n.t('alerts.closeBtnLabel')}
         </Button>
       </ModalFooter>

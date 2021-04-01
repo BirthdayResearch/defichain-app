@@ -2,21 +2,27 @@ import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import { Card, CardBody, Row, Col, CardTitle, CardText } from 'reactstrap';
-import { MASTER_NODES_PATH, SAME_AS_OWNER_ADDRESS } from 'src/constants';
+import {
+  MASTER_NODES_PATH,
+  MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
+  SAME_AS_OWNER_ADDRESS,
+} from '../../../../../../constants';
 import styles from '../../MineNodeList.module.scss';
 import EllipsisText from 'react-ellipsis-text';
-import { history } from 'src/utils/history';
+import { history } from '../../../../../../utils/history';
+import NumberMask from '../../../../../../components/NumberMask';
 
 interface MineNodeCardProps {
   hash: string;
   owner: string;
   operator: string;
+  isEnabled?: boolean;
 }
 
 const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
   props: MineNodeCardProps
 ) => {
-  const { owner, operator, hash } = props;
+  const { owner, operator, hash, isEnabled } = props;
 
   return (
     <Card
@@ -26,7 +32,9 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
       <CardBody>
         <Row>
           <Col xs='1' className={styles.status}>
-            <span className={`txn-status-enabled mt-1`}></span>
+            <span
+              className={`txn-status-${isEnabled ? `enabled` : `disable`} mt-1`}
+            ></span>
           </Col>
           <Col xs='8' className='pl-0'>
             <CardTitle tag='h5'>
@@ -48,7 +56,7 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
           <Col>
             <CardText>
               <small className='text-muted'>
-                <EllipsisText text={owner} length={25} />
+                <EllipsisText text={owner} length={16} />
               </small>
             </CardText>
           </Col>
@@ -64,7 +72,7 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
               <small className='text-muted'>
                 <EllipsisText
                   text={operator === owner ? SAME_AS_OWNER_ADDRESS : operator}
-                  length={25}
+                  length={16}
                 />
               </small>
             </CardText>
@@ -90,7 +98,12 @@ const MineNodeCard: React.FunctionComponent<MineNodeCardProps> = (
           </Col>
           <Col>
             <CardText>
-              <small className='text-muted'>20,000 DFI</small>
+              <small className='text-muted'>
+                <NumberMask
+                  value={MINIMUM_DFI_AMOUNT_FOR_MASTERNODE.toString()}
+                />
+                <span> DFI</span>
+              </small>
             </CardText>
           </Col>
         </Row>

@@ -28,7 +28,7 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
           <h1
             className="h4"
           >
-            An update is available for DeFi app
+            An update is available for DeFi Wallet
           </h1>
           Would you like to update?
         </div>
@@ -39,21 +39,6 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
         <div
           className="modal-footer"
         >
-          <Button
-            color="primary"
-            onClick={[Function]}
-            size="sm"
-            tag="button"
-          >
-            <button
-              aria-label={null}
-              className="btn btn-primary btn-sm"
-              onClick={[Function]}
-              type="button"
-            >
-              Update
-            </button>
-          </Button>
           <Button
             color="link"
             onClick={[Function]}
@@ -67,6 +52,21 @@ exports[`ShowUpdateAvailable should check for snapshot 1`] = `
               type="button"
             >
               Not now
+            </button>
+          </Button>
+          <Button
+            color="primary"
+            onClick={[Function]}
+            size="sm"
+            tag="button"
+          >
+            <button
+              aria-label={null}
+              className="btn btn-primary btn-sm"
+              onClick={[Function]}
+              type="button"
+            >
+              Update
             </button>
           </Button>
         </div>

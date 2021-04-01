@@ -37,7 +37,11 @@ import {
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
-import { getIcon, getPageTitle } from '../../../../utils/utility';
+import {
+  getCountdownValue,
+  getIcon,
+  getPageTitle,
+} from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 import ViewOnChain from '../../../../components/ViewOnChain';
 
@@ -134,6 +138,12 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
       );
     }
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <div className='main-wrapper'>

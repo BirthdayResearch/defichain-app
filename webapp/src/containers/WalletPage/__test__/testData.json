@@ -131,7 +131,7 @@
     "error": null,
     "id": "curltest"
   },
-  "handelRemoveReceiveTxns": {
+  "handleRemoveReceiveTxns": {
     "uuid": "v6nxywkudwd",
     "localStorageData": [
       {
@@ -154,7 +154,7 @@
       }
     ]
   },
-  "handelAddReceiveTxns": {
+  "handleAddReceiveTxns": {
     "label": "",
     "message": "",
     "automaticallyGenerateNewAddress": true,
@@ -198,7 +198,7 @@
       "walletTxnCount": 103
     },
     "handleFetchPendingBalance": 0,
-    "handelRemoveReceiveTxns": [
+    "handleRemoveReceiveTxns": [
       {
         "label": "",
         "message": "",
@@ -209,7 +209,7 @@
         "amount": 0
       }
     ],
-    "handelAddReceiveTxns": [
+    "handleAddReceiveTxns": [
       {
         "label": "",
         "message": "",

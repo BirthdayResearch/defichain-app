@@ -134,8 +134,10 @@ exports[`Sidebar component should check for snapshot 1`] = `
                 "url": "/",
               }
             }
+            myMasternodes={Array []}
             openEncryptWalletModal={[Function]}
             openExitWalletModal={[Function]}
+            openMasternodeWarningModal={[Function]}
             openWalletPassphraseModal={[Function]}
             pendingBalance="1"
             unit="DFI"
@@ -157,7 +159,7 @@ exports[`Sidebar component should check for snapshot 1`] = `
                   <div
                     className="ml-auto"
                   >
-                    2.3.1
+                    2.3.3
                   </div>
                 </div>
               </div>

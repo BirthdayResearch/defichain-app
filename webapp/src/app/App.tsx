@@ -13,7 +13,6 @@ import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 import RestartWalletModel from '../containers/PopOver/RestartWalletModal';
-import GeneralReIndexModal from '../containers/PopOver/GeneralReIndexModal';
 import Popover from '../containers/PopOver';
 
 import EncryptWalletModal from '../containers/PopOver/EncryptWalletModal';
@@ -21,10 +20,13 @@ import WalletPassphraseModal from '../containers/PopOver/WalletPassphraseModal';
 import { getPageTitle } from '../utils/utility';
 import RefreshUtxosModal from '../containers/PopOver/RefreshUtxosModal';
 import * as logger from '../utils/electronLogger';
-import { PACKAGE_VERSION } from 'src/constants';
+import { PACKAGE_VERSION } from '../constants';
 import RestoreWalletModal from '../containers/PopOver/RestoreWalletModal';
 import ExitWalletModal from '../containers/PopOver/ExitWalletModal';
 import PostEncryptBackupModal from '../containers/PopOver/PostEncryptBackupModal';
+import MasternodeWarningModal from '../containers/PopOver/MasternodeWarningModal';
+import MasternodeUpdateRestartModal from '../containers/PopOver/MasternodeUpdateRestartModal';
+import SnapshotDownloadModal from '../containers/PopOver/SnapshotDownloadModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -116,11 +118,13 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <EncryptWalletModal />
       <WalletPassphraseModal />
       <RestartWalletModel />
-      <GeneralReIndexModal />
       <RefreshUtxosModal />
       <RestoreWalletModal />
       <ExitWalletModal />
       <PostEncryptBackupModal />
+      <MasternodeWarningModal />
+      <MasternodeUpdateRestartModal />
+      <SnapshotDownloadModal />
     </>
   );
 };

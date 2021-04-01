@@ -142,7 +142,7 @@
       "createMasterNode": {
         "title": "Créer un Masternode – Client Blockchain DeFi",
         "masterNodeName": "Nom du Masternode",
-        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 1 million de DFI est nécéssaire pour la création d'un Masternode",
+        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 20,000 de DFI est nécéssaire pour la création d'un Masternode",
         "confirmationText": "Êtes-vous certain de vouloir créer un Masternode?",
         "createNodeButton": "Créer un Masternode",
         "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
@@ -367,6 +367,7 @@
         "searchTokens": "Recherche de Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} sur %{total} tokens",
         "datLabels": {
           "type": "Type",
@@ -495,7 +496,7 @@
       "general": "Général",
       "display": "Affichage",
       "launchOptions": "Lancement des options",
-      "reindexOption": "ReIndex Option",
+      "reindexOption": "ReIndex option",
       "reindexAfterSaving": "Reindex after saving",
       "launchAtLogin": "Lancement au démarage",
       "minimizedAtLaunch": "Minimisé au démarage",
@@ -533,7 +534,21 @@
       "mainnet": "Mainnet",
       "testnet": "Testnet",
       "regnet": "Regnet",
-      "deletePeersAndBlocks": "Delete peers and blocks"
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passphrase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -674,7 +689,8 @@
         "max": "Max",
         "transaction": "transactions",
         "format": "Format",
-        "csv": "CSV"
+        "csv": "CSV",
+        "blockReward": "Block reward"
       },
       "walletTxns": {
         "height": "Hauteur",

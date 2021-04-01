@@ -22,11 +22,11 @@ const ShowUpdateAvailableComponent = (
         {I18n.t('alerts.showUpdateAvailableNotice')}
       </ModalBody>
       <ModalFooter>
-        <Button size='sm' color='primary' onClick={showAvailableUpdateResponse}>
-          {I18n.t('alerts.yesShowUpdateAvailableButton')}
-        </Button>
         <Button size='sm' color='link' onClick={closing}>
           {I18n.t('alerts.noShowUpdateAvailableButton')}
+        </Button>
+        <Button size='sm' color='primary' onClick={showAvailableUpdateResponse}>
+          {I18n.t('alerts.yesShowUpdateAvailableButton')}
         </Button>
       </ModalFooter>
     </>

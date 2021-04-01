@@ -19,7 +19,7 @@ import {
 } from './testData.json';
 import log from 'loglevel';
 import { mockAxios } from '../testUtils/mockUtils';
-import { AccountModel } from 'src/constants/rpcModel';
+import { AccountModel } from '../../constants/rpcModel';
 import { BigNumber } from 'bignumber.js';
 
 const DUST_VALUE_DFI = '0.00000546';
@@ -292,12 +292,12 @@ describe('utility', () => {
 
   it('should return pageTitle with appTitle when pageTitle is present', () => {
     const result = utility.getPageTitle('abcdefgh');
-    expect(result).toBe('abcdefgh - DeFi app');
+    expect(result).toBe('abcdefgh - DeFi Wallet');
   });
 
   it('should return appTitle when pageTitle is not present', () => {
     const result = utility.getPageTitle('');
-    expect(result).toBe('DeFi app');
+    expect(result).toBe('DeFi Wallet');
   });
 
   it('should return token balance', async () => {
@@ -440,20 +440,10 @@ describe('utility', () => {
     const result = utility.getTokenBalances(accounts);
     expect(result.length).toBe(0);
   });
-  it('should return path if getFromPersistentStorage is present', () => {
-    const result = utility.getFromPersistentStorage('path');
-    expect(result).toBe(null);
-  });
 
   it('should return RpcMethodName', () => {
     const result = utility.getRpcMethodName('getAddressAndAmounts');
     expect(result).toBe('getAddressAndAmounts');
-  });
-
-  it('should return data object in sring format if setToPersistentStorage is present ', () => {
-    const data = {};
-    const result = utility.setToPersistentStorage('path', data);
-    expect(result).toBe('{}');
   });
 
   it('should return filterByValue', () => {

@@ -9,6 +9,7 @@ import { eventChannel } from 'redux-saga';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchPaymentRequestsSuccess,
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   setLockedUntil,
@@ -39,7 +40,9 @@ import {
   APP_INIT,
   BACKUP_WALLET_DAT,
   GET_CONFIG_DETAILS,
+  ON_OVERWRITE_CONFIG_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_SNAPSHOT_START_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -47,14 +50,16 @@ import {
   START_DEFI_CHAIN_REPLY,
   STOP_DEFI_CHAIN,
 } from '@defi_types/ipcEvents';
-import {
-  convertEpochToDate,
-  getNetworkType,
-  getTimeDifferenceMS,
-} from '../utils/utility';
+import { getNetworkType, getTimeDifferenceMS } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
-import { startSetNodeVersion } from '../containers/RpcConfiguration/reducer';
+import { IPCResponseModel } from '../../../typings/common';
+import { PaymentRequestModel, RPCConfigItem } from '@defi_types/rpcConfig';
+import {
+  getPaymentRequestsRPC,
+  processWalletMapAddresses,
+} from '../containers/WalletPage/service';
+import { WalletState } from '../containers/WalletPage/types';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -75,10 +80,10 @@ export function startAppInit() {
   return { success: true, data: {} };
 }
 
-const getStartChainMessage = (response: any): string => {
-  if (response?.message?.includes(REINDEX_NODE_UPDATE)) {
+const getStartChainMessage = (data: any): string => {
+  if (data?.message?.includes(REINDEX_NODE_UPDATE)) {
     return I18n.t('alerts.nodeVersionUpdate', {
-      version: response.nodeVersion,
+      version: data?.nodeVersion,
     });
   }
   return '';
@@ -88,18 +93,21 @@ export function startBinary(config: any) {
   return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(START_DEFI_CHAIN, config);
-    ipcRenderer.on(START_DEFI_CHAIN_REPLY, async (_e: any, res: any) => {
-      if (res.success) {
-        store.dispatch(startSetNodeVersion());
-        isBlockchainStarted(emit, res);
-      } else {
-        if (res.isReindexReq) {
-          store.dispatch(openReIndexModal(getStartChainMessage(res)));
+    ipcRenderer.on(
+      START_DEFI_CHAIN_REPLY,
+      async (_e: any, res: IPCResponseModel<any>) => {
+        replaceWalletMapSync(res?.data?.walletMap);
+        if (res.success) {
+          isBlockchainStarted(emit, res);
+        } else {
+          if (res?.data?.isReindexReq) {
+            store.dispatch(openReIndexModal(getStartChainMessage(res?.data)));
+          }
+          log.error(res?.data?.message ?? res, 'startBinary');
+          emit(res);
         }
-        log.error(res?.message ?? res, 'startBinary');
-        emit(res);
       }
-    });
+    );
     return () => {
       log.info('Unsubscribe startBinary');
     };
@@ -168,6 +176,18 @@ export const updateWalletMap = (
     ipcRenderer.send(ON_WALLET_MAP_REPLACE, tempWalletMap);
   } catch (error) {
     log.error(error, 'updateWalletMap');
+  }
+};
+
+export const replaceWalletMapSync = (walletMap: Partial<WalletMap>): void => {
+  try {
+    if (walletMap) {
+      const ipcRenderer = ipcRendererFunc();
+      store.dispatch(fetchWalletMapSuccess(walletMap));
+      ipcRenderer.sendSync(ON_WALLET_MAP_REPLACE, walletMap);
+    }
+  } catch (error) {
+    log.error(error, 'replaceWalletMapSync');
   }
 };
 
@@ -286,7 +306,7 @@ export const setNodeVersion = async (): Promise<void> => {
       return JSON.parse(resp?.data);
     }
   } catch (error) {
-    log.error(error, 'getWalletMap');
+    log.error(error, 'setNodeVersion');
   }
 };
 
@@ -314,5 +334,54 @@ export const checkWalletEncryption = async (): Promise<boolean> => {
   } catch (error) {
     log.error(error, 'checkWalletEncryption');
     return false;
+  }
+};
+
+export const overwriteConfigRequest = async (
+  config: RPCConfigItem
+): Promise<boolean> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const res = ipcRenderer.sendSync(ON_OVERWRITE_CONFIG_REQUEST, config);
+    return res.success;
+  } catch (error) {
+    log.error(error, 'overwriteConfigRequest');
+    return false;
+  }
+};
+
+export const updatePaymentAddresses = (
+  wallet: WalletState,
+  paymentRequests: PaymentRequestModel[]
+): void => {
+  store.dispatch(fetchPaymentRequestsSuccess(paymentRequests));
+  replaceWalletMapSync({
+    ...wallet.walletMap,
+    paymentRequests: processWalletMapAddresses(paymentRequests),
+  });
+};
+
+export const setPaymentAddresses = async (): Promise<
+  IPCResponseModel<string>
+> => {
+  try {
+    const { wallet } = store.getState();
+    const paymentRequests = await getPaymentRequestsRPC();
+    updatePaymentAddresses(wallet, paymentRequests);
+    return {
+      success: true,
+    };
+  } catch (error) {
+    log.error(error, 'setPaymentAddresses');
+    return {
+      success: false,
+    };
+  }
+};
+
+export const onStartSnapshotRequest = () => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST);
   }
 };

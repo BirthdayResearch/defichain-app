@@ -47,14 +47,17 @@ import {
   ListUnspentModel,
   PeerInfoModel,
   WalletInfo,
-} from 'src/constants/rpcModel';
+} from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 
 export default class RpcClient {
   client: any;
   constructor(cancelToken?) {
     const state = store.getState();
-    const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
+    const { rpcauth, rpcconnect } = state.app.rpcConfig;
+    const activeNetwork = state.app.rpcConfig[state.app.activeNetwork];
+    const rpcport = activeNetwork?.rpcport;
 
     if (!rpcauth || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');
@@ -755,11 +758,14 @@ export default class RpcClient {
     return data.result;
   };
 
-  getListreceivedAddress = async (minConf: number = 0) => {
+  getListreceivedAddress = async (
+    minConf = 0,
+    allAddresses = true
+  ): Promise<PaymentRequestModel[]> => {
     const { data } = await this.call(
       '/',
       methodNames.LIST_RECEIVED_BY_ADDRESS,
-      [minConf, true]
+      [minConf, allAddresses]
     );
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),

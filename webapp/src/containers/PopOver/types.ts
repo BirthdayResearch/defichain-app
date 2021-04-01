@@ -1,3 +1,13 @@
+import { MasterNodeObject } from '../MasternodesPage/masterNodeInterface';
+
+export enum DownloadSnapshotSteps {
+  SnapshotRequest,
+  DownloadSnapshot,
+  ApplyingSnapshot,
+  SnapshotApplied,
+}
+
+import { FileSizesModel } from '@defi_types/snapshot';
 export interface PopoverState {
   isOpen: boolean;
   isRestart: boolean;
@@ -20,7 +30,6 @@ export interface PopoverState {
   isWalletPassphraseModalOpen: boolean;
   isWalletRestart: boolean;
   isWalletReplace: boolean;
-  isGeneralReindexModalOpen: boolean;
   isQueueResetRoute: boolean;
   isRestoreWalletOpen: boolean;
   filePath: string;
@@ -30,4 +39,11 @@ export interface PopoverState {
   isEncryptFromModal: boolean;
   isPostEncryptBackupModalOpen: boolean;
   reIndexMessage: string;
+  isMasternodeWarningModalOpen: boolean;
+  isMasternodeUpdateRestartModalOpen: boolean;
+  updatedMasternode?: Partial<MasterNodeObject>;
+  updateMasternodeCallback?: () => void;
+  isSnapshotDownloadOpen: boolean;
+  snapshotDownloadSteps: DownloadSnapshotSteps;
+  snapshotDownloadData: FileSizesModel;
 }

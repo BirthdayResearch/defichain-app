@@ -25,10 +25,10 @@ import {
   TESTNET_BASE_FOLDER_REINDEX,
   MAINNET_BASE_FOLDER_REINDEX,
 } from './constants';
-import { DEFAULT_RPC_ALLOW_IP } from '@defi_types/settings';
 import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
 import { IPCResponseModel } from '@defi_types/common';
+import { ADDNODE, MASTERNODE_OPERATOR } from '../../typings/rpcConfig';
 
 export const getPlatform = () => {
   switch (platform()) {
@@ -46,23 +46,11 @@ export const getPlatform = () => {
   }
 };
 
-export const getBinaryParameter = (obj: any = {}) => {
-  let remote: any = {
-    rpcallowip: '',
-    rpcauth: '',
-    rpcport: 0,
-    rpcuser: '',
-    rpcpassword: '',
-    rpcbind: '',
-    datadir: '',
-  };
-  remote.rpcallowip = DEFAULT_RPC_ALLOW_IP;
-  if (!!obj && Array.isArray(obj.remotes)) {
-    remote = Object.assign({}, remote, obj.remotes[0]);
-    remote.rpcbind = obj.remotes[0].rpcconnect;
-    delete remote.rpcconnect;
-  }
-  return Object.keys(remote).map((key) => `-${key}=${remote[key]}`);
+export const createResponseMessage = <T>(
+  success: boolean,
+  res: T
+): IPCResponseModel<T> => {
+  return { success, data: res };
 };
 
 export const responseMessage = <T>(
@@ -98,18 +86,16 @@ export const getFileData = (filePath: string, format: string = 'utf-8') => {
 
 // Add squarebrackets masternode_operator in config file
 export const formatConfigFileRead = (fileData: string) => {
-  return fileData.replace(
-    new RegExp('masternode_operator', 'gi'),
-    'masternode_operator[]'
-  );
+  return fileData
+    .replace(new RegExp(MASTERNODE_OPERATOR, 'gi'), `${MASTERNODE_OPERATOR}[]`)
+    .replace(new RegExp(ADDNODE, 'gi'), `${ADDNODE}[]`);
 };
 
 // Remove squarebrackets masternode_operator in config file
 export const formatConfigFileWrite = (fileData: string) => {
-  return fileData.replace(
-    /masternode_operator[\[\]']+/g,
-    'masternode_operator'
-  );
+  return fileData
+    .replace(/masternode_operator[\[\]']+/g, MASTERNODE_OPERATOR)
+    .replace(/addnode[\[\]']+/g, ADDNODE);
 };
 
 // write / append on UI config file
@@ -132,13 +118,15 @@ export const generatePassword = () => {
 //  get default RPC auth
 export const getRpcAuth = (rpcuser: string) => {
   const rpcpassword = generatePassword();
-  const salt = cryptoJs.lib.WordArray.random(16);
-  const passwordHmac = cryptoJs.HmacSHA256(rpcpassword, salt);
   return {
     rpcuser,
     rpcpassword,
-    rpcauth: `${rpcuser}:${salt}$${passwordHmac}`,
+    rpcauth: formatRPCAuth(rpcuser, rpcpassword),
   };
+};
+
+export const formatRPCAuth = (rpcuser: string, rpcpassword: string) => {
+  return `${rpcuser}:${rpcpassword}`;
 };
 
 export const getProcesses = (args: any): Promise<any> => {
@@ -281,6 +269,24 @@ export const deleteBanlist = () => {
       deleteFile(destFilePath);
       log.info(`Deleted banlist file in ${destFilePath}`);
     }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteSnapshotFolders = () => {
+  try {
+    const baseFolder = getBaseFolderReindex();
+    const folders = [
+      path.join(baseFolder, 'blocks'),
+      path.join(baseFolder, 'chainstate'),
+      path.join(baseFolder, 'enhancedcs'),
+    ];
+    folders.forEach((f) => {
+      if (checkPathExists(f)) {
+        fs.rmdirSync(f, { recursive: true });
+      }
+    });
   } catch (error) {
     log.error(error);
   }

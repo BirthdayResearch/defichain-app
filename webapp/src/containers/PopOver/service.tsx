@@ -1,6 +1,12 @@
 import store from '../../app/rootStore';
+import { onStartSnapshotRequest } from '../../app/service';
 import RpcClient from '../../utils/rpc-client';
 import { enableAutoLockStart } from '../WalletPage/reducer';
+import {
+  openDownloadSnapshotModal,
+  updateDownloadSnapshotStep,
+} from './reducer';
+import { DownloadSnapshotSteps } from './types';
 
 export let autoLockTimer;
 
@@ -33,4 +39,12 @@ export const sleep = (ms) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+};
+
+export const onSnapshotDownloadRequest = (): void => {
+  store.dispatch(openDownloadSnapshotModal(true));
+  store.dispatch(
+    updateDownloadSnapshotStep(DownloadSnapshotSteps.DownloadSnapshot)
+  );
+  onStartSnapshotRequest();
 };

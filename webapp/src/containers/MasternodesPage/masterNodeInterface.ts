@@ -10,4 +10,5 @@ export interface MasterNodeObject {
   state: string;
   mintedBlocks: number;
   isMyMasternode: boolean;
+  isEnabled?: boolean;
 }

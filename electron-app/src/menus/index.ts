@@ -9,7 +9,7 @@ import {
 } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
-import { SITE_URL } from '@defi_types/settings';
+import { LICENSE_URL, RELEASE_NOTES_URL, SITE_URL } from '@defi_types/settings';
 
 export default class AppMenu {
   getTemplate(isWalletLoaded?: boolean) {
@@ -173,6 +173,18 @@ export default class AppMenu {
       {
         label: `Version ${version}`,
         enabled: false,
+      },
+      {
+        label: `Release notes`,
+        click: async () => {
+          await shell.openExternal(`${RELEASE_NOTES_URL}${version}`);
+        },
+      },
+      {
+        label: `Licenses`,
+        click: async () => {
+          await shell.openExternal(`${LICENSE_URL}${version}/LICENSE`);
+        },
       },
     ];
     if (items) items.splice.apply(items, [position, 0].concat(updateItems));

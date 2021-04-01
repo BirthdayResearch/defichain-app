@@ -41,8 +41,8 @@ import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
+  getCountdownValue,
   getErrorMessage,
-  getNetworkType,
 } from '../../utils/utility';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
@@ -116,6 +116,7 @@ export const initialData = () => {
     maximumAmount: getAppConfigMaximumAmount(),
     maximumCount: getAppConfigMaximumCount(),
     feeRate: getAppConfigFeeRate(),
+    sendCountdown: getCountdownValue(),
   };
   return settings;
 };
@@ -153,7 +154,7 @@ export const refreshUtxosAfterSavingData = async () => {
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));
-  const result = handleGetPaymentRequest(getNetworkType());
+  const result = await handleGetPaymentRequest();
   const receivedAddresses: any = result.map((addressObj) => addressObj.address);
 
   const finalData = [...resolvedData, ...receivedAddresses];

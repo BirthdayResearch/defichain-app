@@ -23,7 +23,6 @@ export const initialState: PopoverState = {
   isWalletPassphraseModalOpen: false,
   isWalletRestart: false,
   isWalletReplace: false,
-  isGeneralReindexModalOpen: false,
   isQueueResetRoute: false,
   isRestoreWalletOpen: false,
   filePath: '',
@@ -33,6 +32,17 @@ export const initialState: PopoverState = {
   isEncryptFromModal: false,
   isPostEncryptBackupModalOpen: false,
   reIndexMessage: '',
+  isMasternodeWarningModalOpen: false,
+  isMasternodeUpdateRestartModalOpen: false,
+  updatedMasternode: undefined,
+  isSnapshotDownloadOpen: false,
+  snapshotDownloadSteps: 0,
+  snapshotDownloadData: {
+    completionRate: 0,
+    localSize: 0,
+    remoteSize: 0,
+    downloadPath: '',
+  },
 };
 
 const configSlice = createSlice({
@@ -169,13 +179,6 @@ const configSlice = createSlice({
     closeResetWalletDatModal(state) {
       state.openResetWalletDatModal = false;
     },
-    openGeneralReIndexModal(state) {
-      state.isGeneralReindexModalOpen = true;
-    },
-    closeGeneralReIndexModal(state) {
-      state.isGeneralReindexModalOpen = false;
-      state.reIndexMessage = '';
-    },
     setIsQueueResetRoute(state, action) {
       state.isQueueResetRoute = action.payload;
     },
@@ -189,6 +192,22 @@ const configSlice = createSlice({
     },
     openPostEncryptBackupModal(state, action) {
       state.isPostEncryptBackupModalOpen = action.payload;
+    },
+    openMasternodeWarningModal(state, action) {
+      state.isMasternodeWarningModalOpen = action.payload;
+    },
+    openMasternodeUpdateRestartModal(state, action) {
+      state.isMasternodeUpdateRestartModalOpen = action.payload.isOpen;
+      state.updatedMasternode = action.payload.masternode;
+    },
+    openDownloadSnapshotModal(state, action) {
+      state.isSnapshotDownloadOpen = action.payload;
+    },
+    updateDownloadSnapshotStep(state, action) {
+      state.snapshotDownloadSteps = action.payload;
+    },
+    updateDownloadSnapshotData(state, action) {
+      state.snapshotDownloadData = action.payload;
     },
   },
 });
@@ -235,13 +254,16 @@ export const {
   openResetWalletDatModal,
   closeResetWalletDatModal,
   startResetWalletDatRequest,
-  openGeneralReIndexModal,
-  closeGeneralReIndexModal,
   setIsQueueResetRoute,
   openRestoreWalletModal,
   restoreWalletViaRecent,
   openExitWalletModal,
   openPostEncryptBackupModal,
+  openMasternodeWarningModal,
+  openMasternodeUpdateRestartModal,
+  openDownloadSnapshotModal,
+  updateDownloadSnapshotStep,
+  updateDownloadSnapshotData,
 } = actions;
 
 export default reducer;

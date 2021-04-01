@@ -9,7 +9,7 @@ exports[`ExchangePage Page should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Exchange - DeFi app
+      Exchange - DeFi Wallet
     </title>
   </HelmetWrapper>
   <Connect(Header)>

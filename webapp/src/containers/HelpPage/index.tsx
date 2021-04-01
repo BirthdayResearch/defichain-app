@@ -3,11 +3,11 @@ import { Helmet } from 'react-helmet';
 import { FaTelegram } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { FaReddit } from 'react-icons/fa';
-import { MdHelp } from 'react-icons/md';
+import { MdBook, MdHelp } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { Row, Col, Card, CardBody } from 'reactstrap';
 import openNewTab from '../../utils/openNewTab';
 import styles from './HelpPage.module.scss';
 import {
@@ -17,6 +17,7 @@ import {
   DEFICHAIN_FAQ_HELP_LINK,
   DEFICHAIN_OFFICIAL_HELP_LINK,
   REDDIT_HELP_LINK,
+  COMMUNITY_WIKI_LINK,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
 import { getPageTitle } from '../../utils/utility';
@@ -90,7 +91,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.github')}</h3>
                     <p>
-                      {new URL(TELEGRAM_GERMAN_HELP_LINK).hostname.replace(
+                      {new URL(GITHUB_ISSUE_HELP_LINK).hostname.replace(
                         'www.',
                         ''
                       )}
@@ -154,6 +155,27 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                     <h3>{I18n.t('containers.helpPage.reddit')}</h3>
                     <p>
                       {new URL(REDDIT_HELP_LINK).hostname.replace('www.', '')}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md='6'>
+              <Card
+                onClick={() => openNewTab(COMMUNITY_WIKI_LINK)}
+                className={styles.helpOption}
+              >
+                <CardBody className={styles.helpOptionRow}>
+                  <div className={styles.helpOptionIcon}>
+                    <MdBook />
+                  </div>
+                  <div className={styles.helpOptionDescription}>
+                    <h3>{I18n.t('containers.helpPage.wiki')}</h3>
+                    <p>
+                      {new URL(COMMUNITY_WIKI_LINK).hostname.replace(
+                        'www.',
+                        ''
+                      )}
                     </p>
                   </div>
                 </CardBody>
