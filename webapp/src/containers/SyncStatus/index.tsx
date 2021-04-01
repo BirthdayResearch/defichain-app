@@ -11,6 +11,7 @@ import {
 } from '../WalletPage/reducer';
 import UsePrevious from '../../components/UsePrevious';
 import { BigNumber } from 'bignumber.js';
+import SnapshotIcon from './SnapshotIcon';
 
 interface SyncStatusProps {
   syncedPercentage: number;
@@ -78,7 +79,8 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
       return (
         <>
           <div className={styles.syncHeading}>
-            {I18n.t(`components.syncStatus.preparingSync`)}
+            <div> {I18n.t(`components.syncStatus.preparingSync`)}</div>
+            <SnapshotIcon />
           </div>
           <div className={styles.blockStatus}>
             {peers == null || peers == 0
@@ -110,7 +112,10 @@ const SyncStatus: React.FunctionComponent<SyncStatusProps> = (
         ) : (
           <>
             <div className={styles.syncHeading}>
-              {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
+              <div>
+                {I18n.t('components.syncStatus.syncing')} {syncedPercentage}%
+              </div>
+              <SnapshotIcon />
             </div>
             <div className={styles.blockStatus}>
               {I18n.t('components.syncStatus.blockInfo', {

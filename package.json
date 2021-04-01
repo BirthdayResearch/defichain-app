@@ -46,6 +46,7 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "7zip-bin": "5.1.1",
     "async": "3.2.0",
     "auto-launch": "^5.0.5",
     "axios": "^0.21.1",
@@ -54,10 +55,10 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.3",
     "bitcoinjs-lib": "^5.2.0",
-    "commander": "^7.1.0",
+    "commander": "^7.2.0",
     "crypto-js": "^4.0.0",
     "d3-fetch": "^2.0.0",
-    "d3-scale": "^3.2.3",
+    "d3-scale": "^3.2.4",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.3.2",
     "electron-progressbar": "^2.0.0",
@@ -75,7 +76,7 @@
     "ps-node": "^0.1.6",
     "random-binary": "^1.0.3",
     "random-string": "^0.2.0",
-    "semver": "7.3.4",
+    "semver": "7.3.5",
     "uifx": "^2.0.7",
     "utf8": "^3.0.0"
   },
@@ -91,8 +92,8 @@
     "@types/random-string": "0.0.28",
     "@types/semver": "7.3.4",
     "@types/utf8": "^2.1.6",
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.17.0",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
     "@uqt/ts-path-replace": "1.1.1",
     "babel-preset-env": "^1.7.0",
     "concurrently": "6.0.0",
@@ -101,13 +102,13 @@
     "electron-builder": "22.10.5",
     "electron-devtools-installer": "^3.1.1",
     "electron-notarize": "1.0.0",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "file-loader": "^6.2.0",
     "husky": "^4.3.8",
     "install": "^0.13.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
-    "npm": "^6.14.11",
+    "npm": "^6.14.12",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "tslint": "^6.1.3",
@@ -123,19 +124,25 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       },
       {
         "from": "./DO_NOT_SAVE_WALLETS_HERE",
         "to": "../DO_NOT_SAVE_WALLETS_HERE",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -156,7 +163,9 @@
       ]
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     },
     "win": {
       "target": "NSIS"

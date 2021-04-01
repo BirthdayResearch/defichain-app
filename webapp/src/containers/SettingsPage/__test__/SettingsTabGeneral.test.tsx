@@ -25,7 +25,6 @@ describe('SettingsTabGeneral', () => {
       network: 'Testnet',
       networkOptions: [],
       handleDropDowns: () => {},
-      openGeneralReIndexModal: () => {},
       handeReindexToggle: () => {},
       handeRefreshUtxosToggle: () => {},
       sendCountdown: false,
