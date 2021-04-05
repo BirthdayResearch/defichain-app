@@ -50,3 +50,4 @@ export const ON_SNAPSHOT_DATA_SUCCESS = 'on_snapshot_data_success';
 export const ON_NOT_ENOUGH_DISK_SPACE = 'on_not_enough_disk_space';
 export const ON_REMOVE_REINDEX = 'on_remove_reindex';
 export const ON_FULL_RESTART_APP = 'on_full_restart_app';
+export const ON_REINDEX_REQUEST = 'on_reindex_request';

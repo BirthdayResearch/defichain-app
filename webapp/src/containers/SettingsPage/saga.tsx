@@ -14,6 +14,7 @@ import {
   changePassphraseFailure,
   changePassphraseSuccess,
   setDefaultLockTimeout,
+  reindexRequest,
 } from './reducer';
 import {
   updateSettingsData,
@@ -238,7 +239,17 @@ export function* setLockTimeout(action) {
   }
 }
 
+export function* handleReindexRequest() {
+  yield put(restartModal());
+  yield call(shutDownBinary);
+  yield call(restartNode, {
+    isReindexReq: true,
+    isDeletePeersAndBlocksreq: true,
+  });
+}
+
 function* mySaga() {
+  yield takeLatest(reindexRequest.type, handleReindexRequest);
   yield takeLatest(getSettingOptionsRequest.type, getSettingsOptions);
   yield takeLatest(getInitialSettingsRequest.type, getSettings);
   yield takeLatest(updateSettingsRequest.type, updateSettings);

@@ -1,9 +1,12 @@
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
+  ON_REINDEX_REQUEST,
   RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
 } from '@defi_types/ipcEvents';
+import { reindexRequest } from '../containers/SettingsPage/reducer';
+import store from './rootStore';
 import {
   importWallet,
   backupWallet,
@@ -35,6 +38,10 @@ const initMenuIpcRenderers = () => {
 
   ipcRenderer.on(RESET_BACKUP_WALLET, async (event: any) => {
     await resetBackupModal();
+  });
+
+  ipcRenderer.on(ON_REINDEX_REQUEST, async (event: any) => {
+    store.dispatch(reindexRequest());
   });
 };
 

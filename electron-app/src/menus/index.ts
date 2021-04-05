@@ -10,6 +10,7 @@ import {
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
 import { LICENSE_URL, RELEASE_NOTES_URL, SITE_URL } from '@defi_types/settings';
+import { ON_REINDEX_REQUEST } from '@defi_types/ipcEvents';
 
 export default class AppMenu {
   getTemplate(isWalletLoaded?: boolean) {
@@ -23,6 +24,13 @@ export default class AppMenu {
             click(item, bw) {
               const wallet = new Wallet();
               wallet.startBackupWallet(bw);
+            },
+          },
+          {
+            label: 'Re-index Wallet',
+            enabled: !!isWalletLoaded,
+            click(item, bw) {
+              bw.webContents.send(ON_REINDEX_REQUEST);
             },
           },
         ],
