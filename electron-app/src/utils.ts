@@ -24,6 +24,9 @@ import {
   REV_FILE,
   TESTNET_BASE_FOLDER_REINDEX,
   MAINNET_BASE_FOLDER_REINDEX,
+  BLOCKS_FOLDER,
+  CHAINSTATE_FOLDER,
+  ENHANCEDCS_FOLDER,
 } from './constants';
 import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
@@ -241,7 +244,7 @@ export const deleteBlocksAndRevFiles = () => {
   try {
     log.info('Starting Delete Block and Rev Files...');
     const baseFolder = getBaseFolderReindex();
-    const destFolder = path.join(baseFolder, 'blocks');
+    const destFolder = path.join(baseFolder, BLOCKS_FOLDER);
     fs.readdirSync(destFolder).forEach((file) => {
       const blkFile = path.join(destFolder, file);
       if (
@@ -274,14 +277,19 @@ export const deleteBanlist = () => {
   }
 };
 
+export const getBlockchainFolders = () => {
+  const baseFolder = getBaseFolderReindex();
+  const folders = [
+    path.join(baseFolder, BLOCKS_FOLDER),
+    path.join(baseFolder, CHAINSTATE_FOLDER),
+    path.join(baseFolder, ENHANCEDCS_FOLDER),
+  ];
+  return folders;
+};
+
 export const deleteSnapshotFolders = () => {
   try {
-    const baseFolder = getBaseFolderReindex();
-    const folders = [
-      path.join(baseFolder, 'blocks'),
-      path.join(baseFolder, 'chainstate'),
-      path.join(baseFolder, 'enhancedcs'),
-    ];
+    const folders = getBlockchainFolders();
     folders.forEach((f) => {
       if (checkPathExists(f)) {
         fs.rmdirSync(f, { recursive: true });
