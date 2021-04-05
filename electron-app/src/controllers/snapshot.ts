@@ -92,7 +92,7 @@ export const hasEnoughDiskSpace = async (
   log.info(
     `Available Space: ${available} - Remote Size: ${fileSizes.remoteSize}`
   );
-  return available > fileSizes.remoteSize;
+  return true;
 };
 
 export const getDefaultFileSizes = async (
