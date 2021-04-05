@@ -89,8 +89,10 @@ export const hasEnoughDiskSpace = async (
 ): Promise<boolean> => {
   const disks = await getDiskInfo();
   const available = (disks[0] != null && disks[0].available) || 0;
-  const multiplier = fileSizes.completionRate >= 1 ? 1.2 : 2.2;
-  return available > fileSizes.remoteSize * multiplier;
+  log.info(
+    `Available Space: ${available} - Remote Size: ${fileSizes.remoteSize}`
+  );
+  return available > fileSizes.remoteSize;
 };
 
 export const getDefaultFileSizes = async (
