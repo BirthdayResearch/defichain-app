@@ -168,20 +168,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   maxAmountToSend = () => {
-    let amountClone;
+    let amount;
     if (!this.tokenSymbol) {
-      amountClone = this.props.sendData.walletBalance;
+      amount = this.props.sendData.walletBalance;
     } else {
-      amountClone = this.tokenAmount;
-    }
-    let amount = new BigNumber(amountClone).minus(1);
-    if (amount.lte(0)) {
-      amount = new BigNumber(0);
+      amount = this.tokenAmount;
     }
     this.setState(
       {
-        amountToSend: amount.toNumber(),
-        amountToSendDisplayed: amount.toNumber(),
+        amountToSend: amount,
+        amountToSendDisplayed: amount,
       },
       () => {
         this.isAmountValid();

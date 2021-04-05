@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.3.3-rc.1",
+  "version": "2.3.3",
   "description": "DeFi Wallet",
   "author": {
     "name": "DeFiChain Foundation",
@@ -166,7 +166,7 @@
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "^4.2.3",
     "url-loader": "^4.1.1",
-    "webpack": "5.28.0",
+    "webpack": "5.30.0",
     "webpack-bundle-analyzer": "~4.4.0",
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "^3.11.2",

@@ -28,8 +28,10 @@ import {
   ON_SNAPSHOT_UNPACK_COMPLETE,
   ON_SNAPSHOT_UPDATE_PROGRESS,
   ON_SNAPSHOT_UNPACK_REQUEST,
+  ON_NOT_ENOUGH_DISK_SPACE,
 } from '@defi_types/ipcEvents';
 import { spawn } from 'child_process';
+import { getDiskInfo } from 'node-disk-info';
 
 export interface DefaultFileSizes {
   fileSizes: FileSizesModel;
@@ -71,11 +73,24 @@ export const onDataRequest = async (
 ): Promise<void> => {
   try {
     const { fileSizes } = await getDefaultFileSizes(bw);
+    const hasSpace = await hasEnoughDiskSpace(fileSizes);
+    if (!hasSpace) {
+      return bw.webContents.send(ON_NOT_ENOUGH_DISK_SPACE);
+    }
     bw.webContents.send(ON_SNAPSHOT_DATA_SUCCESS, fileSizes);
   } catch (error) {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DATA_FAILURE, error);
   }
+};
+
+export const hasEnoughDiskSpace = async (
+  fileSizes: FileSizesModel
+): Promise<boolean> => {
+  const disks = await getDiskInfo();
+  const available = (disks[0] != null && disks[0].available) || 0;
+  const multiplier = fileSizes.completionRate >= 1 ? 1.2 : 2.2;
+  return available > fileSizes.remoteSize * multiplier;
 };
 
 export const getDefaultFileSizes = async (
@@ -108,6 +123,12 @@ export const downloadSnapshot = async (
         isSnapshotExisting,
         snapshotDirectory,
       } = await getDefaultFileSizes(bw);
+
+      const hasSpace = await hasEnoughDiskSpace(fileSizes);
+      if (!hasSpace) {
+        return bw.webContents.send(ON_NOT_ENOUGH_DISK_SPACE);
+      }
+
       if (isSnapshotExisting) {
         onDownloadComplete(bw, fileSizes, snapshotDirectory);
       } else {
@@ -132,6 +153,14 @@ export const createSnapshotDirectory = (bw: Electron.BrowserWindow): string => {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
   }
+};
+
+export const getDirectorySize = (path: string) => {
+  let size = 0;
+  if (checkPathExists(path)) {
+    size = fs.statSync(path).size;
+  }
+  return size;
 };
 
 export const checkIfSnapshotExist = async (
