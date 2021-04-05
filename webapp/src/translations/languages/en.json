@@ -971,7 +971,8 @@
     "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from}.",
     "pleaseWait": "Please wait...",
     "snapshotSize": "Snapshot size:",
-    "snapshotDirectory": "Snapshot directory:"
+    "snapshotDirectory": "Snapshot directory:",
+    "notEnoughDiskSpace": "You do not have enough disk space to download and apply the snapshot."
   },
   "general": {
     "defiApp": "DeFi Wallet",

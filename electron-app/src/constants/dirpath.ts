@@ -70,3 +70,6 @@ export const BLK_FILE = 'blk';
 export const REV_FILE = 'rev';
 export const WALLET_MAP_FILE = 'wallet_map.json';
 export const SNAPSHOT_FOLDER = 'snapshot';
+export const BLOCKS_FOLDER = 'blocks';
+export const CHAINSTATE_FOLDER = 'chainstate';
+export const ENHANCEDCS_FOLDER = 'enhancedcs';

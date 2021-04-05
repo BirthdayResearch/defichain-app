@@ -594,7 +594,7 @@
       "preventAccidental": "Prevent accidental sending with a countdown",
       "ShowWalletRepair": "Wallet Reparatur-Optionen anzeigen",
       "hidewalletHelper": "Optionen für Wallet-Hilfe ausblenden",
-      "preFundTxns": "TXNS vorfinanzieren",
+      "preFundTxns": "TXNS vorbereiten",
       "preFundTxnsDescription": "Se ndet 0,1 DFI zu jeder Adresse, die du besitzt, um diese für zukünftige Transaktionen, welche DFI benötigen, vorzufinanzieren.",
       "reindex": "REINDEX",
       "reindexDescription": "Baut die Blockchain-Datenbank aus vorhandenen Blockdaten neu auf, wenn Blockdaten beschädigt sind oder nicht gelesen werden können.",

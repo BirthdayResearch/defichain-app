@@ -7,6 +7,7 @@ import {
   ON_SNAPSHOT_DATA_SUCCESS,
   ON_SNAPSHOT_DATA_FAILURE,
   ON_SNAPSHOT_UNPACK_REQUEST,
+  ON_NOT_ENOUGH_DISK_SPACE,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../utils/isElectron';
 import * as log from '../utils/electronLogger';
@@ -79,6 +80,13 @@ const initSnapshotRenderers = () => {
 
   ipcRenderer.on(ON_SNAPSHOT_DATA_SUCCESS, async (event: any, args: any) => {
     onSnapshotDataSuccess(args);
+  });
+
+  ipcRenderer.on(ON_NOT_ENOUGH_DISK_SPACE, async (event: any) => {
+    const errMessage = I18n.t('alerts.notEnoughDiskSpace');
+    log.error(errMessage);
+    showNotification(I18n.t('alerts.errorOccurred'), errMessage);
+    store.dispatch(openDownloadSnapshotModal(false));
   });
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.3.3-rc.1",
+  "version": "2.3.3",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -70,6 +70,7 @@
     "ini": "^2.0.0",
     "lodash": "^4.17.21",
     "loglevel": "^1.7.1",
+    "node-disk-info": "1.1.0",
     "os": "^0.1.1",
     "os-name": "4.0.0",
     "prop-types": "^15.7.2",
@@ -124,19 +125,25 @@
       {
         "from": "./webapp/build/release/",
         "to": "./webapp",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "extraResources": [
       {
         "from": "./binary/",
         "to": "./binary",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       },
       {
         "from": "./DO_NOT_SAVE_WALLETS_HERE",
         "to": "../DO_NOT_SAVE_WALLETS_HERE",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "icon": "electron-app/assets/icon/icon-512.png",
@@ -157,7 +164,9 @@
       ]
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     },
     "win": {
       "target": "NSIS"
