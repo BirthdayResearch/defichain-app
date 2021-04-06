@@ -588,7 +588,7 @@
       "minute": "%{time} Minute",
       "minutes": "%{time} Minuten",
       "years": "%{time} Jahre",
-      "showAdvanceOptions": "Show advance options",
+      "showAdvanceOptions": "Zeige erweiterte Einstellungen",
       "hideAdvanceOptions": "Hide advance options",
       "sendCountdown": "Send countdown",
       "preventAccidental": "Prevent accidental sending with a countdown",

@@ -27,7 +27,7 @@ export default class AppMenu {
             },
           },
           {
-            label: 'Re-index Wallet',
+            label: 'Reindex Wallet',
             enabled: !!isWalletLoaded,
             click(item, bw) {
               bw.webContents.send(ON_REINDEX_REQUEST);
