@@ -2,7 +2,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master, feat/electron_update]
+    branches: [master]
 
 jobs:
   build_linux_version:
