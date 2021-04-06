@@ -8,7 +8,7 @@ import {
 
 const logger = () => {
   if (isElectron()) {
-    const log = window.require('electron').remote.require('electron-log');
+    const log = window.require('@electron/remote').require('electron-log');
     log.transports.file.format = DEFAULT_ELECTRON_LOG_FORMAT;
     log.transports.file.maxSize =
       DEFAULT_ELECTRON_LOG_BASE_UNIT * DEFAULT_ELECTRON_LOG_SIZE;

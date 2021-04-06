@@ -1,3 +1,4 @@
+require('@electron/remote/main').initialize();
 import log from 'loglevel';
 import * as path from 'path';
 import * as os from 'os';
@@ -150,6 +151,7 @@ export default class App {
         nodeIntegration: true,
         webSecurity: false,
         enableRemoteModule: true,
+        contextIsolation: false,
       },
     });
     const loadUrl =
