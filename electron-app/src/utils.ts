@@ -82,8 +82,8 @@ export const createDir = (dirPath: string) => {
 };
 
 // Get file data
-export const getFileData = (filePath: string, format: string = 'utf-8') => {
-  const fileData = fs.readFileSync(filePath, format);
+export const getFileData = (filePath: string) => {
+  const fileData = fs.readFileSync(filePath, { encoding: 'utf-8' });
   return formatConfigFileRead(fileData);
 };
 
@@ -196,7 +196,7 @@ export const copyFile = (src: fs.PathLike, dest: fs.PathLike) => {
 
 export const getIniData = (fileName: string) => {
   if (checkPathExists(fileName)) {
-    const data = getFileData(fileName, 'utf-8');
+    const data = getFileData(fileName);
     return ini.parse(data);
   }
   return {};

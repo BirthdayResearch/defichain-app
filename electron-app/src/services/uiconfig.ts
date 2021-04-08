@@ -61,7 +61,7 @@ export default class UiConfig {
   }
 
   getExistingConfig(path: string): RPCConfigItem {
-    const fileData = getFileData(path, 'utf-8');
+    const fileData = getFileData(path);
     // TODO add config specific error message to inform user about corrupt config file -HARSH
     const configData = ini.parse(fileData) as RPCConfigItem;
     // check for required data in default config
