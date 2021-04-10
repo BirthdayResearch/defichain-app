@@ -43,7 +43,11 @@ import {
   ON_FILE_EXIST_CHECK,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { backupWallet, updatePaymentAddresses, updateWalletMap } from '../../app/service';
+import {
+  backupWallet,
+  updatePaymentAddresses,
+  updateWalletMap,
+} from '../../app/service';
 import { IPCResponseModel } from '@defi_types/common';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import store from '../../app/rootStore';
@@ -110,7 +114,7 @@ export const filterMyAddresses = (
 export const getWalletMapPaymentRequests = (): PaymentRequestModel[] => {
   const { wallet } = store.getState();
   return [...(wallet?.walletMap?.paymentRequests ?? [])];
-}
+};
 
 export const handleGetPaymentRequest = async (
   receivedAddress?: PaymentRequestModel[],
@@ -150,7 +154,9 @@ export const handleGetPaymentRequest = async (
     });
 };
 
-export const handleAddReceiveTxns = async (data: PaymentRequestModel): Promise<PaymentRequestModel[]> => {
+export const handleAddReceiveTxns = async (
+  data: PaymentRequestModel
+): Promise<PaymentRequestModel[]> => {
   const { wallet } = store.getState();
   const paymentRequests = getWalletMapPaymentRequests();
   data.hdSeed = await hdWalletCheck(data.address);
@@ -491,7 +497,7 @@ export const getNewAddress = async (
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  return await fetchTokenDataWithPagination(
+  return fetchTokenDataWithPagination(
     0,
     LIST_TOKEN_PAGE_SIZE,
     rpcClient.listTokens

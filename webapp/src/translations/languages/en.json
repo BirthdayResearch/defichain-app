@@ -794,7 +794,19 @@
         "max": "Max",
         "transaction": "transactions",
         "format": "Format",
-        "csv": "CSV"
+        "csv": "CSV",
+        "myHappyWallet": "My Happy Wallet",
+        "asset": "Asset",
+        "balance": "Balance",
+        "price": "Price",
+        "usd": "USD",
+        "value": "Value",
+        "allocation": "Allocation",
+        "backup": "Backup",
+        "rename": "Rename",
+        "renameWallet": "Rename wallet",
+        "walletName": "Wallet name",
+        "totalValue": "Total value"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

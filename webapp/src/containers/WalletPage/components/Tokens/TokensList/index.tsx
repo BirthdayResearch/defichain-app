@@ -5,7 +5,17 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import cloneDeep from 'lodash/cloneDeep';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import { MdAdd } from 'react-icons/md';
+import {
+  MdAdd,
+  MdArrowDownward,
+  MdArrowUpward,
+  MdMoreHoriz,
+} from 'react-icons/md';
+import {
+  WALLET_SEND_PATH,
+  WALLET_RECEIVE_PATH,
+} from '../../../../../constants';
+
 import {
   fetchTokensRequest,
   fetchAccountTokensRequest,
@@ -38,6 +48,8 @@ import { IToken } from '../../../../../utils/interfaces';
 import { getWalletPathAddress } from '../../SendPage';
 import WalletDropdown from '../../../../../components/walletDropdown';
 import BigNumber from 'bignumber.js';
+import TokenTable from 'src/components/TokenTable';
+import WalletActionDropdown from './WalletActionDropdown';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
   unit: string;
@@ -85,6 +97,10 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+  const handleRenameButtonClick = () => {
+    setRenameModalOpen(!renameModalOpen);
+  };
 
   useEffect(() => {
     fetchTokensRequest();
@@ -195,31 +211,41 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
             </title>
           </Helmet>
           <Header>
-            <h1>{I18n.t('containers.wallet.walletPage.balances')}</h1>
-            <ButtonGroup
-              disabled={!isWalletDropdown(totalTokenData, tokenData)}
-            >
-              <WalletDropdown
-                tokenMap={getTokenForWalletDropDown(totalTokenData, tokenData)}
-                name={1}
-                formState={formState}
-                handleDropdown={handleDropDown}
-                dropdownLabel={'dropdownLabel'}
+            <h1>{I18n.t('containers.wallet.walletPage.myHappyWallet')}</h1>
+            <ButtonGroup>
+              <Button
+                to={WALLET_SEND_PATH}
+                tag={RRNavLink}
+                color='link'
+                size='sm'
               >
-                <Button
-                  color='link'
-                  disabled={!isWalletDropdown(totalTokenData, tokenData)}
-                >
-                  <MdAdd />
-                  <span className='d-lg-inline'>
-                    {I18n.t('containers.wallet.walletWalletsPage.addBalance')}
-                  </span>
-                </Button>
-              </WalletDropdown>
+                <MdArrowUpward />
+                <span className='d-md-inline'>
+                  {I18n.t('containers.wallet.walletPage.send')}
+                </span>
+              </Button>
+              <Button
+                to={WALLET_RECEIVE_PATH}
+                tag={RRNavLink}
+                color='link'
+                size='sm'
+              >
+                <MdArrowDownward />
+                <span className='d-md-inline'>
+                  {I18n.t('containers.wallet.walletPage.receive')}
+                </span>
+              </Button>
+
+              <Button color='link' size='sm'>
+                <WalletActionDropdown
+                  renameModalOpen={renameModalOpen}
+                  handleRenameButtonClick={handleRenameButtonClick}
+                />
+              </Button>
             </ButtonGroup>
           </Header>
           <div className='content'>
-            <WalletTokenCard
+            {/* <WalletTokenCard
               handleCardClick={handleCardClick}
               token={{
                 symbol: unit,
@@ -236,7 +262,8 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
                 key={index}
                 token={token}
               />
-            ))}
+            ))} */}
+            <TokenTable token={tableData} />
             <Pagination
               label={I18n.t(
                 'containers.wallet.walletPage.walletPaginationRange',

@@ -8,6 +8,7 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import {
   WALLET_PAGE_PATH,
   WALLET_CREATE_RECEIVE_REQUEST,
+  WALLET_TOKENS_PATH,
 } from '../../../../constants';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
@@ -32,18 +33,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
       </Helmet>
       <Header>
         <Button
-          to={
-            tokenSymbol
-              ? getWalletPathAddress(
-                  WALLET_PAGE_PATH,
-                  tokenSymbol,
-                  tokenHash || '',
-                  tokenAmount || '',
-                  tokenAddress || '',
-                  isLPS
-                )
-              : WALLET_PAGE_PATH
-          }
+          to={WALLET_TOKENS_PATH}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'

@@ -35,7 +35,11 @@ import {
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
+import {
+  WALLET_PAGE_PATH,
+  DFI_SYMBOL,
+  WALLET_TOKENS_PATH,
+} from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
@@ -422,18 +426,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         </Helmet>
         <Header>
           <Button
-            to={
-              tokenSymbol
-                ? getWalletPathAddress(
-                    WALLET_PAGE_PATH,
-                    tokenSymbol,
-                    tokenHash || DFI_SYMBOL,
-                    tokenAmount || '',
-                    tokenAddress || '',
-                    isLPS
-                  )
-                : WALLET_PAGE_PATH
-            }
+            to={WALLET_TOKENS_PATH}
             tag={NavLink}
             color='link'
             className='header-bar-back'
