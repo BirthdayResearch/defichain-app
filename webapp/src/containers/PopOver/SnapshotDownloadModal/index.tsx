@@ -1,28 +1,35 @@
 import BigNumber from 'bignumber.js';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import {
   Button,
   Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   Modal,
   ModalBody,
   ModalFooter,
   Progress,
   Row,
+  UncontrolledDropdown,
 } from 'reactstrap';
 import { RootState } from '../../../app/rootTypes';
 import styles from '../popOver.module.scss';
 import { getPageTitle } from '../../../utils/utility';
 import { Helmet } from 'react-helmet';
-import { MdCamera } from 'react-icons/md';
+import { MdCamera, MdCheck } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
 import {
-  OFFICIAL_SNAPSHOT_URL,
   SNAPSHOT_BLOCK,
   SNAPSHOT_PROVIDER,
+  SNAPSHOT_LINKS,
 } from '@defi_types/snapshot';
-import { openDownloadSnapshotModal } from '../reducer';
+import {
+  openDownloadSnapshotModal,
+  updateDownloadSnapshotData,
+} from '../reducer';
 import { disableReindex, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
@@ -37,6 +44,8 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     snapshotDownloadData,
     snapshotDownloadSteps,
   } = useSelector((state: RootState) => state.popover);
+
+  const [snapshotURI, setSnapshotURI] = useState(SNAPSHOT_LINKS[0]);
 
   const getPercentage = (): string => {
     const completion = snapshotDownloadData.completionRate;
@@ -72,7 +81,9 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         break;
       case DownloadSnapshotSteps.DownloadSnapshot:
         title = `
-        Downloading ${getPercentage()}% of snapshot from ${OFFICIAL_SNAPSHOT_URL}`;
+        Downloading ${getPercentage()}% of snapshot from ${
+          snapshotDownloadData.downloadUrl
+        }`;
         return title;
       case DownloadSnapshotSteps.SnapshotApplied:
         return I18n.t('alerts.startSyncBlock', { from: SNAPSHOT_BLOCK });
@@ -98,7 +109,13 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
   };
 
   const onDownloadStart = () => {
-    onSnapshotDownloadRequest();
+    dispatch(
+      updateDownloadSnapshotData({
+        ...snapshotDownloadData,
+        downloadUrl: snapshotURI.value,
+      })
+    );
+    onSnapshotDownloadRequest(snapshotURI.value);
   };
 
   const closeModal = () => {
@@ -124,7 +141,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
           {I18n.t('alerts.cancel')}
         </Button>
       )}
-      <ModalBody style={{ padding: '4rem 6rem' }}>
+      <ModalBody style={{ padding: '3.5rem 6rem' }}>
         <div className='main-wrapper'>
           <>
             <Helmet>
@@ -163,9 +180,37 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                       <Col md='4'>{I18n.t('alerts.snapshotProvider')}</Col>
                       <Col md='8'>{SNAPSHOT_PROVIDER}</Col>
                     </Row>
-                    <Row>
-                      <Col md='4'>{I18n.t('alerts.snapshotUrl')}</Col>
-                      <Col md='8'>{OFFICIAL_SNAPSHOT_URL}</Col>
+                    <Row className='mt-2'>
+                      <Col className='d-flex align-items-center' md='4'>
+                        {I18n.t('alerts.snapshotRegion')}
+                      </Col>
+                      <Col md='8'>
+                        <UncontrolledDropdown>
+                          <DropdownToggle caret color='outline-secondary'>
+                            {snapshotURI.label}
+                          </DropdownToggle>
+                          <DropdownMenu>
+                            {SNAPSHOT_LINKS.map((object) => {
+                              return (
+                                <DropdownItem
+                                  className='d-flex justify-content-between'
+                                  key={object.value}
+                                  onClick={() => {
+                                    setSnapshotURI(object);
+                                  }}
+                                  value={object.value}
+                                >
+                                  <span>{object.label}</span>
+                                  &nbsp;
+                                  {snapshotURI.value === object.value && (
+                                    <MdCheck />
+                                  )}
+                                </DropdownItem>
+                              );
+                            })}
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </Col>
                     </Row>
                   </section>
                   <section className={'mt-4'}>

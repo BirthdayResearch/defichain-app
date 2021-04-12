@@ -2,12 +2,13 @@ import fs, { createWriteStream } from 'fs';
 import * as log from '../services/electronLogger';
 import {
   checkPathExists,
-  deleteFile,
+  deleteSnapshotFiles,
   deleteSnapshotFolders,
   getBaseFolder,
+  getSnapshotFolder,
 } from '../utils';
 import path from 'path';
-import { SNAPSHOT_FOLDER, UNZIP_FILE_PATH } from '../constants';
+import { UNZIP_FILE_PATH } from '../constants';
 import axios from 'axios';
 import {
   OFFICIAL_SNAPSHOT_URL,
@@ -41,9 +42,12 @@ export interface DefaultFileSizes {
 
 export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
   try {
-    ipcMain.on(ON_SNAPSHOT_START_REQUEST, async () => {
-      downloadSnapshot(bw);
-    });
+    ipcMain.on(
+      ON_SNAPSHOT_START_REQUEST,
+      async (event: Electron.IpcMainEvent, snapshotUrl?: string) => {
+        downloadSnapshot(bw, snapshotUrl);
+      }
+    );
 
     ipcMain.on(ON_SNAPSHOT_DATA_REQUEST, async () => {
       onDataRequest(bw);
@@ -106,6 +110,7 @@ export const getDefaultFileSizes = async (
     downloadPath: snapshotDirectory,
     unpackModel: { completionRate: 0 },
     snapshotDate: new Date(),
+    downloadUrl: OFFICIAL_SNAPSHOT_URL,
   };
   const isSnapshotExisting = await checkIfSnapshotExist(
     snapshotDirectory,
@@ -116,16 +121,17 @@ export const getDefaultFileSizes = async (
 };
 
 export const downloadSnapshot = async (
-  bw: Electron.BrowserWindow
+  bw: Electron.BrowserWindow,
+  snapshotUrl?: string
 ): Promise<boolean> => {
   try {
-    return new Promise(async (resolve) => {
+    return new Promise(async () => {
       const {
         fileSizes,
         isSnapshotExisting,
         snapshotDirectory,
       } = await getDefaultFileSizes(bw);
-
+      fileSizes.downloadUrl = snapshotUrl ?? fileSizes.downloadUrl;
       const hasSpace = await hasEnoughDiskSpace(fileSizes);
       if (!hasSpace) {
         return bw.webContents.send(ON_NOT_ENOUGH_DISK_SPACE);
@@ -134,8 +140,8 @@ export const downloadSnapshot = async (
       if (isSnapshotExisting) {
         onDownloadComplete(bw, fileSizes, snapshotDirectory);
       } else {
-        deleteSnapshotIfExisting(snapshotDirectory, bw);
-        startDownloadSnapshot(snapshotDirectory, bw, fileSizes);
+        deleteSnapshotIfExisting(bw);
+        startDownloadSnapshot(snapshotDirectory, bw, fileSizes, snapshotUrl);
       }
     });
   } catch (error) {
@@ -146,7 +152,7 @@ export const downloadSnapshot = async (
 
 export const createSnapshotDirectory = (bw: Electron.BrowserWindow): string => {
   try {
-    const snapshotPath = path.join(getBaseFolder(), '../', SNAPSHOT_FOLDER);
+    const snapshotPath = getSnapshotFolder();
     if (!checkPathExists(snapshotPath)) {
       fs.mkdirSync(snapshotPath, { recursive: true });
     }
@@ -189,14 +195,9 @@ export const checkIfSnapshotExist = async (
   }
 };
 
-export const deleteSnapshotIfExisting = (
-  directory: string,
-  bw: Electron.BrowserWindow
-): void => {
+export const deleteSnapshotIfExisting = (bw: Electron.BrowserWindow): void => {
   try {
-    if (checkPathExists(directory)) {
-      deleteFile(directory);
-    }
+    deleteSnapshotFiles();
   } catch (error) {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
@@ -237,12 +238,15 @@ const updateFileSizes = (bytes: number, fileSizes: FileSizesModel) => {
 export const startDownloadSnapshot = async (
   directory: string,
   bw: Electron.BrowserWindow,
-  fileSizes: FileSizesModel
+  fileSizes: FileSizesModel,
+  snapshotUrl?: string
 ): Promise<any> => {
   try {
     let bytes = 0;
     const writer = createWriteStream(directory);
-    return https.get(OFFICIAL_SNAPSHOT_URL, (response: IncomingMessage) => {
+    const url = snapshotUrl ?? OFFICIAL_SNAPSHOT_URL;
+    log.info(`Downloading snapshot from ${url}`);
+    return https.get(url, (response: IncomingMessage) => {
       response.pipe(writer);
       let error: Error = null;
       let sendUpdate = false;

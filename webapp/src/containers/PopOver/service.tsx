@@ -41,10 +41,10 @@ export const sleep = (ms) => {
   });
 };
 
-export const onSnapshotDownloadRequest = (): void => {
+export const onSnapshotDownloadRequest = (snapshotUrl: string): void => {
   store.dispatch(openDownloadSnapshotModal(true));
   store.dispatch(
     updateDownloadSnapshotStep(DownloadSnapshotSteps.DownloadSnapshot)
   );
-  onStartSnapshotRequest();
+  onStartSnapshotRequest(snapshotUrl);
 };
