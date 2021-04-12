@@ -720,7 +720,8 @@
         "max": "Max",
         "transaction": "transactions",
         "format": "Format",
-        "csv": "CSV"
+        "csv": "CSV",
+        "blockReward": "Block reward"
       },
       "walletWalletsPage": {
         "walletWallets": "钱包",

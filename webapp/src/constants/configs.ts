@@ -1,5 +1,4 @@
 import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
-import { I18n } from 'react-redux-i18n';
 
 export const TEST = 'test';
 export const RPC_V = RPCVersion;
@@ -81,7 +80,7 @@ export const SHARE_POOL_PAGE_SIZE = 100000;
 export const IS_WALLET_LOCKED_MAIN = 'isWalletLockedMain';
 export const IS_WALLET_LOCKED_TEST = 'isWalletLockedTest';
 export const MASTERNODE_PARAMS_INCLUDE_FROM_START = true;
-export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 1000;
+export const MASTERNODE_PARAMS_MASTERNODE_LIMIT = 100000;
 
 export const LP_DAILY_DFI_REWARD = 'LP_DAILY_DFI_REWARD';
 export const LP_SPLITS = 'LP_SPLITS';
@@ -192,3 +191,5 @@ export const DEFAULT_TOKEN_VALUE = 0;
 export const MINE = 'mine';
 export const ALL = 'all';
 export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';
+export const BLOCK_HEIGHT = 'blockHeight';
+export const CSV_TXN_LIMIT = 999999;

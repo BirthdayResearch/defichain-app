@@ -130,7 +130,10 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
                       control={control}
                       defaultValue=''
                       rules={currentPasswordValidation}
-                      render={({ onChange }, { invalid, isDirty }) => (
+                      render={({
+                        field: { onChange },
+                        fieldState: { invalid, isDirty },
+                      }) => (
                         <InputPassword
                           label='alerts.enterYourPassphrase'
                           id='passphraseLabel'

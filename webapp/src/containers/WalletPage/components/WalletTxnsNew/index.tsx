@@ -31,7 +31,9 @@ import {
   ACCOUNT_TO_UTXOS_LABEL,
   ADD_POOL_LIQUIDITY_LABEL,
   ANY_ACCOUNT_TO_ACCOUNT_LABEL,
+  BLOCK_HEIGHT,
   COMMISSION_CATEGORY_LABEL,
+  CSV_TXN_LIMIT,
   DATE_FORMAT_CSV,
   POOL_SWAP_CATEGORY_LABEL,
   RECIEVEE_CATEGORY_LABEL,
@@ -162,11 +164,14 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
     event: { target: { name: string; value: any } },
     field: string
   ) => {
-    setData({
-      ...reqData,
-      [field]: Number(event.target.value),
-    });
-    setError('');
+    const limit = field === BLOCK_HEIGHT ? blockCount : CSV_TXN_LIMIT;
+    if (event.target.value <= limit) {
+      setData({
+        ...reqData,
+        [field]: Number(event.target.value),
+      });
+      setError('');
+    }
   };
 
   const toggle = async () => {
@@ -278,6 +283,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getTxnsTypeIcon = (type: string) => {
     const RECEIVE = 'receive';
     const SEND = 'send';
+    const BLOCK_REWARD = 'blockReward';
     if ([SENT_CATEGORY_LABEL, ACCOUNT_TO_UTXOS_LABEL, SEND].includes(type)) {
       return <MdArrowUpward className={styles.typeIcon} />;
     }
@@ -289,6 +295,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         REWARD_CATEGORY_LABEL,
         RECEIVE,
         REMOVE_LIQUIDITY_LABEL,
+        BLOCK_REWARD,
       ].includes(type)
     ) {
       return <MdArrowDownward className={styles.typeIconDownward} />;
@@ -302,6 +309,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   const getTxnsType = (type: string) => {
     const SEND = 'send';
     const RECEIVE = 'receive';
+    const BLOCK_REWARD = 'blockReward';
     const walletTxnsLabel = 'containers.wallet.walletTxns';
     const swapLabel = 'containers.swap';
     const walletLabel = 'containers.wallet.walletPage';
@@ -341,6 +349,9 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
         break;
       case COMMISSION_CATEGORY_LABEL:
         label = I18n.t(`${walletLabel}.commission`);
+        break;
+      case BLOCK_REWARD:
+        label = I18n.t(`${walletLabel}.blockReward`);
         break;
       default:
         break;

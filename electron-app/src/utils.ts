@@ -24,8 +24,12 @@ import {
   REV_FILE,
   TESTNET_BASE_FOLDER_REINDEX,
   MAINNET_BASE_FOLDER_REINDEX,
+  BLOCKS_FOLDER,
+  CHAINSTATE_FOLDER,
+  ENHANCEDCS_FOLDER,
+  SNAPSHOT_FOLDER,
 } from './constants';
-import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
+import { DAT_FILE_TYPE, ZIP_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
 import { IPCResponseModel } from '@defi_types/common';
 import { ADDNODE, MASTERNODE_OPERATOR } from '../../typings/rpcConfig';
@@ -79,8 +83,8 @@ export const createDir = (dirPath: string) => {
 };
 
 // Get file data
-export const getFileData = (filePath: string, format: string = 'utf-8') => {
-  const fileData = fs.readFileSync(filePath, format);
+export const getFileData = (filePath: string) => {
+  const fileData = fs.readFileSync(filePath, { encoding: 'utf-8' });
   return formatConfigFileRead(fileData);
 };
 
@@ -193,7 +197,7 @@ export const copyFile = (src: fs.PathLike, dest: fs.PathLike) => {
 
 export const getIniData = (fileName: string) => {
   if (checkPathExists(fileName)) {
-    const data = getFileData(fileName, 'utf-8');
+    const data = getFileData(fileName);
     return ini.parse(data);
   }
   return {};
@@ -241,7 +245,7 @@ export const deleteBlocksAndRevFiles = () => {
   try {
     log.info('Starting Delete Block and Rev Files...');
     const baseFolder = getBaseFolderReindex();
-    const destFolder = path.join(baseFolder, 'blocks');
+    const destFolder = path.join(baseFolder, BLOCKS_FOLDER);
     fs.readdirSync(destFolder).forEach((file) => {
       const blkFile = path.join(destFolder, file);
       if (
@@ -272,4 +276,52 @@ export const deleteBanlist = () => {
   } catch (error) {
     log.error(error);
   }
+};
+
+export const getBlockchainFolders = () => {
+  const baseFolder = getBaseFolderReindex();
+  const folders = [
+    path.join(baseFolder, BLOCKS_FOLDER),
+    path.join(baseFolder, CHAINSTATE_FOLDER),
+    path.join(baseFolder, ENHANCEDCS_FOLDER),
+  ];
+  return folders;
+};
+
+export const deleteSnapshotFolders = () => {
+  try {
+    const folders = getBlockchainFolders();
+    folders.forEach((f) => {
+      if (checkPathExists(f)) {
+        fs.rmdirSync(f, { recursive: true });
+      }
+    });
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const deleteSnapshotFiles = () => {
+  try {
+    log.info('Deleting snapshot files...');
+    const destFolder = getSnapshotFolder();
+    if (checkPathExists(destFolder)) {
+      fs.readdirSync(destFolder).forEach((file) => {
+        const snapshotFile = path.join(destFolder, file);
+        if (file?.endsWith(ZIP_FILE_TYPE) && file?.includes(SNAPSHOT_FOLDER)) {
+          log.info(`Deleting ${snapshotFile}...`);
+          if (checkPathExists(snapshotFile)) {
+            deleteFile(snapshotFile);
+          }
+        }
+      });
+      log.info('Deleted snapshot files!');
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const getSnapshotFolder = (): string => {
+  return path.join(getBaseFolder(), '../', SNAPSHOT_FOLDER);
 };

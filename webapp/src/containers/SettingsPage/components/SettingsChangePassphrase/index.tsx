@@ -101,7 +101,10 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
                   control={control}
                   defaultValue=''
                   rules={currentPasswordValidation}
-                  render={({ onChange }, { invalid, isDirty }) => (
+                  render={({
+                    field: { onChange },
+                    fieldState: { invalid, isDirty },
+                  }) => (
                     <InputPassword
                       label='containers.settings.currentPassphrase'
                       id={PasswordFormEnum.currentPassphrase}
@@ -123,7 +126,10 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
                   control={control}
                   defaultValue=''
                   rules={getPasswordValidationRules(isSameWithConfirm, true)}
-                  render={({ onChange, value }, { invalid, isDirty }) => (
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { invalid, isDirty },
+                  }) => (
                     <InputPassword
                       label='containers.settings.newPassphrase'
                       id={PasswordFormEnum.passphrase}
@@ -148,7 +154,10 @@ const SettingsChangePassphrase: React.FunctionComponent = () => {
                   control={control}
                   defaultValue=''
                   rules={getPasswordValidationRules(isSameWithConfirm, false)}
-                  render={({ onChange }, { invalid, isDirty }) => (
+                  render={({
+                    field: { onChange },
+                    fieldState: { invalid, isDirty },
+                  }) => (
                     <InputPassword
                       label='containers.settings.confirmNewPassphrase'
                       id={PasswordFormEnum.confirmPassphrase}
