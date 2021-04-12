@@ -25,9 +25,10 @@ describe('SettingsTabGeneral', () => {
       network: 'Testnet',
       networkOptions: [],
       handleDropDowns: () => {},
-      openGeneralReIndexModal: () => {},
       handeReindexToggle: () => {},
       handeRefreshUtxosToggle: () => {},
+      sendCountdown: false,
+      handeDeletePeersClick: () => {},
     };
     const wrapper = shallow(
       <Provider store={store}>

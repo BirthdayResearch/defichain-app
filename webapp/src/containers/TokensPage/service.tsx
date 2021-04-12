@@ -1,10 +1,8 @@
 import RpcClient from '../../utils/rpc-client';
 import isEmpty from 'lodash/isEmpty';
 import {
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
   DFI_SYMBOL,
   LIST_TOKEN_PAGE_SIZE,
-  MINIMUM_DFI_AMOUNT_FOR_MASTERNODE,
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
   UNDEFINED_STRING,
 } from '../../constants';
@@ -61,7 +59,7 @@ export const getTransactionInfo = async (txId): Promise<any> => {
 
 export const handleFetchTokens = async () => {
   const rpcClient = new RpcClient();
-  return await fetchTokenDataWithPagination(
+  return fetchTokenDataWithPagination(
     0,
     LIST_TOKEN_PAGE_SIZE,
     rpcClient.listTokens
@@ -90,7 +88,7 @@ export const handleCreateTokens = async (tokenData) => {
   const rpcClient = new RpcClient();
   const regularDFI = await handleFetchRegularDFI();
   const list = await getAddressAndAmountListForAccount();
-  const { address, amount: maxAmount } = getHighestAmountAddressForSymbol(
+  const { address, amount: maxAmount } = await getHighestAmountAddressForSymbol(
     DFI_SYMBOL,
     list
   );

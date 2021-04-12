@@ -3,6 +3,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import classnames from 'classnames';
 import Header from '../../../HeaderComponent';
+import styles from './SettingsTabHeader.module.scss';
 
 interface SettingsTabsHeaderProps {
   setActiveTab: (tab: string) => void;
@@ -21,7 +22,7 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
   return (
     <Header>
       <h1>{I18n.t('containers.settings.settings')}</h1>
-      <Nav pills>
+      <Nav pills className={styles.absoluteCenter}>
         <NavItem>
           <NavLink
             className={classnames({
@@ -48,7 +49,6 @@ const SettingsTabsHeader = (props: SettingsTabsHeaderProps) => {
             </NavLink>
           </NavItem>
         )}
-
         <NavItem>
           <NavLink
             className={classnames({

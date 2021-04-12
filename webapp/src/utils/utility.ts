@@ -89,7 +89,6 @@ import { handleFetchToken } from '../containers/TokensPage/service';
 import { handleFetchPoolshares } from '../containers/LiquidityPage/service';
 import { I18n } from 'react-redux-i18n';
 import openNewTab from './openNewTab';
-import { symbol } from 'prop-types';
 import {
   AccountKeyItem,
   AccountModel,
@@ -100,6 +99,7 @@ import {
   HighestAmountItem,
   ResponseMessages,
 } from '../constants/common';
+import PersistentStore from './persistentStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -254,6 +254,10 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
+export const convertEpochToJSDate = (epoch): Date => {
+  return moment.unix(epoch).toDate();
+};
+
 export const convertEpochToDate = (epoch): string => {
   return moment.unix(epoch).format(DATE_FORMAT);
 };
@@ -372,13 +376,20 @@ export const getParams = (query: string) => {
   return parsedParams;
 };
 
-export const filterByValue = (array, query) => {
-  return array.filter((o) =>
-    Object.keys(o).some((k) => {
+export const filterByValue = (array, query, keys?: string[]) => {
+  return array.filter((o) =>{
+    if(keys) {
+      return keys.some((k) => {
+        if (!o[k]) return false;
+        const stringer = JSON.stringify(o[k]);
+        return stringer.toLowerCase().includes(query.toLowerCase());
+      })
+    }
+    return Object.keys(o).some((k) => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
     })
-  );
+  });
 };
 
 export const filterByValueMap = (map, query) => {
@@ -1102,11 +1113,11 @@ export const getAddressAndAmountListForAccount = async () => {
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
-export const getHighestAmountAddressForSymbol = (
+export const getHighestAmountAddressForSymbol = async (
   key: string,
   list: HighestAmountItem[],
   sendAmount?: BigNumber
-): HighestAmountItem => {
+): Promise<HighestAmountItem> => {
   let maxAmount = new BigNumber(0);
   let address = '';
   const hasSendAmountValidation = (
@@ -1131,8 +1142,7 @@ export const getHighestAmountAddressForSymbol = (
     }
   }
   if (!address) {
-    const networkName = getNetworkType();
-    const paymentRequests = handleGetPaymentRequest(networkName);
+    const paymentRequests = await handleGetPaymentRequest();
     address = (paymentRequests ?? [])[0]?.address;
   }
   return { address, amount: maxAmount };
@@ -1540,4 +1550,12 @@ export const checkRPCErrorMessagePending = (message: string): string => {
     }
   }
   return message;
+};
+
+export const getCountdownValue = () => {
+  const sendCountdownValue = PersistentStore.get('sendCountdown');
+  if (!sendCountdownValue || sendCountdownValue === 'true') {
+    return true;
+  }
+  return false;
 };

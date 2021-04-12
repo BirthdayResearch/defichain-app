@@ -15,8 +15,9 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { AddressModel } from '../../../../model/address.model';
+import { getCountdownValue } from 'src/utils/utility';
 
 interface RouteParams {
   id?: string;
@@ -206,6 +207,12 @@ const CreateToken: React.FunctionComponent<CreateTokenProps> = (
     const tokenData = createTokenData();
     createToken(tokenData);
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <TabContent activeTab={activeTab}>

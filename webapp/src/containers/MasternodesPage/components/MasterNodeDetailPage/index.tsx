@@ -26,7 +26,7 @@ import { MasterNodeObject } from '../../masterNodeInterface';
 import { resignMasterNode } from '../../reducer';
 import styles from '../../masternode.module.scss';
 import Header from '../../../HeaderComponent';
-import { getPageTitle } from '../../../../utils/utility';
+import { getPageTitle, getCountdownValue } from '../../../../utils/utility';
 import { MasterNodesPageStates } from '../..';
 import ViewOnChain from '../../../../components/ViewOnChain';
 import { openMasternodeUpdateRestartModal } from '../../../PopOver/reducer';
@@ -126,6 +126,12 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
       clearInterval(waitToSendInterval);
     };
   }, [isConfirmationModalOpen]);
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   const remapMasternodeState = (state: string) => {
     const masternodesLabel = 'containers.masterNodes.masterNodesPage';

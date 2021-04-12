@@ -34,3 +34,18 @@ export const ADDNODE = 'addnode';
 
 export const CONFIG_ENABLED = '1';
 export const CONFIG_DISABLED = '0';
+
+export interface PaymentRequestModel {
+  label: string;
+  id: string;
+  time: string;
+  address: string;
+  message?: string;
+  amount?: number;
+  unit?: string;
+  hdSeed?: boolean;
+  txids?: string[];
+  confirmations?: number;
+  automaticallyGenerateNewAddress?: boolean;
+  ismine?: boolean;
+}

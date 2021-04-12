@@ -136,7 +136,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                         isSameWithConfirm,
                         true
                       )}
-                      render={({ onChange, value }, { invalid, isDirty }) => (
+                      render={({field: { onChange, value }, fieldState: { invalid, isDirty }}) => (
                         <InputPassword
                           label='alerts.passphraseLabel'
                           id='passphraseLabel'
@@ -162,7 +162,7 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                         isSameWithConfirm,
                         false
                       )}
-                      render={({ onChange }, { invalid, isDirty }) => (
+                      render={({field: { onChange }, fieldState: { invalid, isDirty }}) => (
                         <InputPassword
                           label='alerts.passphraseLabelConfirm'
                           id='passphraseLabelConfirm'

@@ -30,7 +30,7 @@ import { fetchMasternodesRequest } from './reducer';
 import { MasterNodeObject } from './masterNodeInterface';
 import usePrevious from '../../components/UsePrevious';
 import Header from '../HeaderComponent';
-import { getPageTitle } from '../../utils/utility';
+import { getCountdownValue, getPageTitle } from '../../utils/utility';
 import MasterNodeTabsHeader from './components/MasterNodeTabHeader';
 import MineNodeList from './components/MineNodeList';
 import MineNodeFooter from './components/MineNodeFooter';
@@ -72,6 +72,7 @@ const MasternodesPage: React.FunctionComponent = () => {
   const [isRestartButtonDisable, setIsRestartButtonDisable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>(MINE);
+  const [footerHide, setFooterHide] = useState(false);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
     MasterNodeObject[]
   >([]);
@@ -82,6 +83,7 @@ const MasternodesPage: React.FunctionComponent = () => {
   const resetConfirmationModal = (event: any) => {
     dispatch(fetchInstantBalanceRequest());
     setIsConfirmationModalOpen(MasterNodesPageStates.default);
+    setFooterHide(false);
   };
 
   const toggleSearch = () => {
@@ -170,12 +172,14 @@ const MasternodesPage: React.FunctionComponent = () => {
     } else {
       setIsConfirmationModalOpen(MasterNodesPageStates.default);
     }
+    setFooterHide(false);
   };
 
   const confirmation = () => {
     if (restartNodeConfirm) {
       dispatch(startRestartNodeWithMasterNode());
       setIsRestartButtonDisable(true);
+      setFooterHide(false);
     } else {
       setAllowCalls(true);
       dispatch(createMasterNode());
@@ -194,7 +198,14 @@ const MasternodesPage: React.FunctionComponent = () => {
       );
       setIsConfirmationModalOpen(MasterNodesPageStates.failure);
     }
+    setFooterHide(true);
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <div className='main-wrapper'>
@@ -217,7 +228,7 @@ const MasternodesPage: React.FunctionComponent = () => {
             {I18n.t('containers.masterNodes.masterNodesPage.tooltipMasternode')}
           </Tooltip>
         </h1>
-        <MasterNodeTabsHeader tab={activeTab} setTab={setActiveTab} />
+        <MasterNodeTabsHeader tab={activeTab} setTab={setActiveTab} setFooterHide={setFooterHide} />
         <div></div>
         <ButtonGroup className={classnames({ 'd-none': searching })}>
           <Button color='link' size='sm' onClick={toggleSearch}>
@@ -373,9 +384,7 @@ const MasternodesPage: React.FunctionComponent = () => {
         </div>
         <div
           className={classnames({
-            'd-none':
-              activeTab === ALL ||
-              isConfirmationModalOpen !== MasterNodesPageStates.default,
+            'd-none': footerHide,
           })}
         >
           <MineNodeFooter enabledMasternodes={enabledMasternodes} />

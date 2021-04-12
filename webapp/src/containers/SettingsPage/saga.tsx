@@ -14,6 +14,7 @@ import {
   changePassphraseFailure,
   changePassphraseSuccess,
   setDefaultLockTimeout,
+  reindexRequest,
 } from './reducer';
 import {
   updateSettingsData,
@@ -51,6 +52,8 @@ import { remapNodeError } from '../../utils/utility';
 import { CONFIG_DISABLED, CONFIG_ENABLED } from '@defi_types/rpcConfig';
 import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
+import showNotification from '../../utils/notifications';
+import { I18n } from 'react-redux-i18n';
 
 export function* getSettingsOptions() {
   try {
@@ -138,6 +141,18 @@ export function* updateSettings(action) {
       if (data.refreshUtxosAfterSaving) {
         yield call(refreshUtxosAfterSavingData);
       }
+
+      if (data.timeoutValue) {
+        yield put(setDefaultLockTimeout(data.timeoutValue));
+      }
+
+      if (
+        PersistentStore.get('sendCountdown') !== action.payload.sendCountdown
+      ) {
+        PersistentStore.set('sendCountdown', data.sendCountdown);
+      } else {
+        PersistentStore.set('sendCountdown', true);
+      }
     } else {
       yield put({
         type: updateSettingsFailure.type,
@@ -207,10 +222,14 @@ export function* setLockTimeout(action) {
     const timeout = action.payload;
     const resp = yield call(updateLockTimeout, timeout);
     if (resp?.success) {
-      log.info(`Timeout updated to ${timeout} seconds`, 'updatePassphrase');
-    } else {
-      throw new Error(resp?.message);
+      const message = I18n.t('alerts.timeoutMessage', {
+        timeout,
+      });
+      const title = I18n.t('alerts.timeoutTitle');
+      log.info(message, title);
+      return showNotification(title, message);
     }
+    throw new Error(resp?.message);
   } catch (error) {
     yield put({
       type: changePassphraseFailure.type,
@@ -220,7 +239,17 @@ export function* setLockTimeout(action) {
   }
 }
 
+export function* handleReindexRequest() {
+  yield put(restartModal());
+  yield call(shutDownBinary);
+  yield call(restartNode, {
+    isReindexReq: true,
+    isDeletePeersAndBlocksreq: true,
+  });
+}
+
 function* mySaga() {
+  yield takeLatest(reindexRequest.type, handleReindexRequest);
   yield takeLatest(getSettingOptionsRequest.type, getSettingsOptions);
   yield takeLatest(getInitialSettingsRequest.type, getSettings);
   yield takeLatest(updateSettingsRequest.type, updateSettings);

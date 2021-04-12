@@ -22,10 +22,8 @@ import reducer, {
   fetchSendDataSuccess,
   fetchSendDataFailure,
   addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
   addReceiveTxnsFailure,
   removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
   removeReceiveTxnsFailure,
   fetchTokensSuccess,
   fetchTokensFailure,
@@ -279,14 +277,7 @@ describe('wallet slice', () => {
       const rootState = { wallet: nextState };
       expect(rootState.wallet.paymentRequests).toEqual([]);
     });
-    it('should propely set paymentRequest information when addReceiveTxnsSuccess is made', () => {
-      const nextState = reducer(
-        initialState,
-        addReceiveTxnsSuccess(payload.paymentRequests)
-      );
-      const rootState = { wallet: nextState };
-      expect(rootState.wallet.paymentRequests).toEqual(payload.paymentRequests);
-    });
+
     it('should have empty paymentRequest information when addReceiveTxnsFailure is made', () => {
       const nextState = reducer(initialState, addReceiveTxnsFailure({}));
       const rootState = { wallet: nextState };
@@ -299,14 +290,6 @@ describe('wallet slice', () => {
       const nextState = reducer(initialState, removeReceiveTxnsRequest({}));
       const rootState = { wallet: nextState };
       expect(rootState.wallet.paymentRequests).toEqual([]);
-    });
-    it('should propely set paymentRequest information when removeReceiveTxnsSuccess is made', () => {
-      const nextState = reducer(
-        initialState,
-        removeReceiveTxnsSuccess(payload.paymentRequests)
-      );
-      const rootState = { wallet: nextState };
-      expect(rootState.wallet.paymentRequests).toEqual(payload.paymentRequests);
     });
     it('should have empty paymentRequest information when removeReceiveTxnsFailure is made', () => {
       const nextState = reducer(initialState, removeReceiveTxnsFailure({}));

@@ -32,7 +32,7 @@ import TokenAvatar from '../../../../components/TokenAvatar';
 import Header from '../../../HeaderComponent';
 import AddressDropdown from '../../../../components/AddressDropdown';
 import { AddressModel } from '../../../../model/address.model';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import NumberMask from '../../../../components/NumberMask';
 import ViewOnChain from '../../../../components/ViewOnChain';
 import { BigNumber } from 'bignumber.js';

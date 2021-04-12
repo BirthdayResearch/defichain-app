@@ -1,6 +1,10 @@
 import RpcClient from '../../utils/rpc-client';
 import { getTotalBlocks } from '../../utils/utility';
 import * as log from '../../utils/electronLogger';
+import { ipcRendererFunc } from '../../utils/isElectron';
+import { ON_SNAPSHOT_DATA_REQUEST } from '../../../../typings/ipcEvents';
+import store from '../../app/rootStore';
+import { onSnapshotDataSuccess } from '../../app/snapshot.ipcRenderer';
 
 export const getBlockSyncInfo = async () => {
   const rpcClient = new RpcClient();
@@ -30,4 +34,14 @@ export const getBlockSyncInfo = async () => {
       ? Math.min(100, percentage).toFixed(2)
       : Math.max(0, percentage).toFixed(2);
   return { latestSyncedBlock, latestBlock, syncedPercentage };
+};
+
+export const snapshotDownloadRequest = (): void => {
+  const { popover } = store.getState();
+  if (popover?.snapshotDownloadData?.remoteSize === 0) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_SNAPSHOT_DATA_REQUEST);
+  } else {
+    onSnapshotDataSuccess(popover?.snapshotDownloadData);
+  }
 };

@@ -8,6 +8,7 @@ import {
   getRpcAuth,
   createDir,
   formatConfigFileWrite,
+  formatRPCAuth,
 } from '../utils';
 import { APP_DIR, CONFIG_FILE_NAME } from '../constants';
 import {
@@ -60,7 +61,7 @@ export default class UiConfig {
   }
 
   getExistingConfig(path: string): RPCConfigItem {
-    const fileData = getFileData(path, 'utf-8');
+    const fileData = getFileData(path);
     // TODO add config specific error message to inform user about corrupt config file -HARSH
     const configData = ini.parse(fileData) as RPCConfigItem;
     // check for required data in default config
@@ -79,7 +80,10 @@ export default class UiConfig {
     const remotes = [];
     const uiConfigData: any = {
       ...existingConfigData,
-      rpcauth: existingConfigData.rpcauth,
+      rpcauth: formatRPCAuth(
+        existingConfigData.rpcuser,
+        existingConfigData.rpcpassword
+      ),
       rpcuser: existingConfigData.rpcuser,
       rpcpassword: existingConfigData.rpcpassword,
       rpcconnect: existingConfigData.rpcbind ?? DEFAULT_RPC_BIND,

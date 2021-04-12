@@ -9,6 +9,7 @@ import { eventChannel } from 'redux-saga';
 import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
+  fetchPaymentRequestsSuccess,
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   setLockedUntil,
@@ -41,6 +42,7 @@ import {
   GET_CONFIG_DETAILS,
   ON_OVERWRITE_CONFIG_REQUEST,
   ON_SET_NODE_VERSION,
+  ON_SNAPSHOT_START_REQUEST,
   ON_WALLET_MAP_REPLACE,
   ON_WALLET_MAP_REQUEST,
   REPLACE_WALLET_DAT,
@@ -52,7 +54,12 @@ import { getNetworkType, getTimeDifferenceMS } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
 import { IPCResponseModel } from '../../../typings/common';
-import { RPCConfigItem } from '../../../typings/rpcConfig';
+import { PaymentRequestModel, RPCConfigItem } from '@defi_types/rpcConfig';
+import {
+  getPaymentRequestsRPC,
+  processWalletMapAddresses,
+} from '../containers/WalletPage/service';
+import { WalletState } from '../containers/WalletPage/types';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -340,5 +347,41 @@ export const overwriteConfigRequest = async (
   } catch (error) {
     log.error(error, 'overwriteConfigRequest');
     return false;
+  }
+};
+
+export const updatePaymentAddresses = (
+  wallet: WalletState,
+  paymentRequests: PaymentRequestModel[]
+): void => {
+  store.dispatch(fetchPaymentRequestsSuccess(paymentRequests));
+  replaceWalletMapSync({
+    ...wallet.walletMap,
+    paymentRequests: processWalletMapAddresses(paymentRequests),
+  });
+};
+
+export const setPaymentAddresses = async (): Promise<
+  IPCResponseModel<string>
+> => {
+  try {
+    const { wallet } = store.getState();
+    const paymentRequests = await getPaymentRequestsRPC();
+    updatePaymentAddresses(wallet, paymentRequests);
+    return {
+      success: true,
+    };
+  } catch (error) {
+    log.error(error, 'setPaymentAddresses');
+    return {
+      success: false,
+    };
+  }
+};
+
+export const onStartSnapshotRequest = (snapshotUrl: string): void => {
+  if (isElectron()) {
+    const ipcRenderer = ipcRendererFunc();
+    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST, snapshotUrl);
   }
 };

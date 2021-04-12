@@ -94,6 +94,7 @@ const configSlice = createSlice({
     setLockoutTimeList(state, action) {
       state.lockTimeoutList = action.payload;
     },
+    reindexRequest() {},
   },
 });
 
@@ -116,6 +117,7 @@ export const {
   changePassphraseFailure,
   setDefaultLockTimeout,
   setLockoutTimeList,
+  reindexRequest,
 } = actions;
 
 export default reducer;

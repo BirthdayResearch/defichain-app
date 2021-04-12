@@ -87,6 +87,8 @@ export default class DefiProcessManager {
 
   static async start(params: any, event: Electron.IpcMainEvent) {
     const METHOD_NAME = 'start';
+    //* Enable/disable node checking for specific releases
+    const enableNodeChecking = false;
     this.logger('Starting node connection...', METHOD_NAME, false);
     try {
       //* App wallet configurations
@@ -98,6 +100,7 @@ export default class DefiProcessManager {
         `-rpcallowip=${DEFAULT_RPC_ALLOW_IP}`,
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
+        `-acindex`,
       ];
 
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
@@ -105,6 +108,7 @@ export default class DefiProcessManager {
       if (params?.isReindexReq || this.isReindexReq) {
         this.logger('Adding -reindex in configArray', METHOD_NAME, false);
         configArray.push('-reindex');
+        configArray.push('-zapwallettxes');
         if (params?.isDeletePeersAndBlocksreq) {
           deletePeersFile();
           deleteBanlist();
@@ -117,6 +121,7 @@ export default class DefiProcessManager {
       if (checkIfSPVSyncNeeded(this.getConfiguration(), walletMap)) {
         this.logger('Adding -spv_resync in configArray', METHOD_NAME, false);
         configArray.push('-spv_resync');
+        configArray.push('-zapwallettxes');
         walletMap.hasSyncSPV = true;
       }
 
@@ -124,7 +129,8 @@ export default class DefiProcessManager {
       const { ainVersion } = packageInfo;
       if (
         checkIfNodeVersionChanged(ainVersion, walletMap) &&
-        !params?.skipVersionCheck
+        !params?.skipVersionCheck &&
+        enableNodeChecking
       ) {
         this.logger(REINDEX_NODE_UPDATE, METHOD_NAME, false);
         return event.sender.send(
