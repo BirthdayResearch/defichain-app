@@ -379,9 +379,9 @@ export const setPaymentAddresses = async (): Promise<
   }
 };
 
-export const onStartSnapshotRequest = () => {
+export const onStartSnapshotRequest = (snapshotUrl: string): void => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST);
+    ipcRenderer.send(ON_SNAPSHOT_START_REQUEST, snapshotUrl);
   }
 };

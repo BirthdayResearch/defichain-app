@@ -7,7 +7,7 @@ import { I18n } from 'react-redux-i18n';
 import { startSetNodeVersion } from '../../RpcConfiguration/reducer';
 import styles from '../popOver.module.scss';
 import { MAIN } from '../../../constants';
-import { onSnapshotDownloadRequest } from '../service';
+import { snapshotDownloadRequest } from '../../SyncStatus/service';
 
 interface ReIndexModalProps {
   isReIndexModelOpen: boolean;
@@ -45,7 +45,7 @@ const ReIndexModal: React.FunctionComponent<ReIndexModalProps> = (
   const startDownloadSnapshot = async () => {
     closeReIndexModal();
     startSetNodeVersion();
-    onSnapshotDownloadRequest();
+    snapshotDownloadRequest();
   };
 
   const closePopupAndApp = () => {

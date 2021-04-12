@@ -27,8 +27,9 @@ import {
   BLOCKS_FOLDER,
   CHAINSTATE_FOLDER,
   ENHANCEDCS_FOLDER,
+  SNAPSHOT_FOLDER,
 } from './constants';
-import { DAT_FILE_TYPE } from '@defi_types/fileExtensions';
+import { DAT_FILE_TYPE, ZIP_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
 import { IPCResponseModel } from '@defi_types/common';
 import { ADDNODE, MASTERNODE_OPERATOR } from '../../typings/rpcConfig';
@@ -298,4 +299,29 @@ export const deleteSnapshotFolders = () => {
   } catch (error) {
     log.error(error);
   }
+};
+
+export const deleteSnapshotFiles = () => {
+  try {
+    log.info('Deleting snapshot files...');
+    const destFolder = getSnapshotFolder();
+    if (checkPathExists(destFolder)) {
+      fs.readdirSync(destFolder).forEach((file) => {
+        const snapshotFile = path.join(destFolder, file);
+        if (file?.endsWith(ZIP_FILE_TYPE) && file?.includes(SNAPSHOT_FOLDER)) {
+          log.info(`Deleting ${snapshotFile}...`);
+          if (checkPathExists(snapshotFile)) {
+            deleteFile(snapshotFile);
+          }
+        }
+      });
+      log.info('Deleted snapshot files!');
+    }
+  } catch (error) {
+    log.error(error);
+  }
+};
+
+export const getSnapshotFolder = (): string => {
+  return path.join(getBaseFolder(), '../', SNAPSHOT_FOLDER);
 };

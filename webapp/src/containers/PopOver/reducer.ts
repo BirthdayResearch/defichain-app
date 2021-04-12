@@ -42,6 +42,7 @@ export const initialState: PopoverState = {
     localSize: 0,
     remoteSize: 0,
     downloadPath: '',
+    downloadUrl: '',
   },
 };
 

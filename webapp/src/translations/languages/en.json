@@ -960,6 +960,7 @@
     "snapshotDate": "Snapshot date:",
     "snapshotProvider": "Snapshot provider:",
     "snapshotUrl": "Snapshot URL:",
+    "snapshotRegion": "Snapshot region:",
     "afterDownload": "After downloading, the snapshot will be verified by the node before it is applied, for security purposes. The node will restart once the snapshot has been applied. In the event of an invalid snapshot, snapshot synchronization will fail, and the app will fall back to a full sync.",
     "continueWithSnapshot": "CONTINUE WITH SNAPSHOT",
     "downloading": "Downloading",
