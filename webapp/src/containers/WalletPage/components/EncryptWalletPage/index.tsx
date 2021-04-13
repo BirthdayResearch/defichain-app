@@ -126,7 +126,6 @@ const EncryptWalletPage: React.FunctionComponent<EncryptWalletPageProps> = (
                       {I18n.t('alerts.encryptWalletNotice')}
                     </label>
                   </div>
-
                   <div className='px-5'>
                     <Controller
                       name={PasswordFormEnum.passphrase}

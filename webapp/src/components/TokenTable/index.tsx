@@ -55,9 +55,6 @@ const TokenTable: React.FunctionComponent<TokenTableProps> = (
                         <MdArrowDownward size={25} />
                       </span>
                     </th>
-                    {/* <th>
-                      {I18n.t('containers.wallet.walletPage.allocation')}
-                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -86,17 +83,6 @@ const TokenTable: React.FunctionComponent<TokenTableProps> = (
                       <td>
                         <div>{handleValueCalculate(price, token.amount)}</div>
                       </td>
-                      {/* <td>
-                        <div>
-                          <p>76%</p>
-                          <span>
-                            <Progress
-                              animated
-                              value={76}
-                            />
-                          </span>
-                        </div>
-                      </td> */}
                     </tr>
                   ))}
                   <tr>
@@ -114,10 +100,6 @@ const TokenTable: React.FunctionComponent<TokenTableProps> = (
                     <td>
                       <div>{total}</div>
                     </td>
-                    {/* <td>
-                      <div>
-                      </div>
-                    </td> */}
                   </tr>
                 </tbody>
               </Table>
