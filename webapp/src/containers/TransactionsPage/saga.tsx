@@ -1,17 +1,9 @@
 import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
-  fetchTokensSuccess,
-  fetchTokensRequest,
-  fetchTokensFailure,
   fetchWalletTxnsRequest,
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
-  fetchPendingBalanceSuccess,
-  fetchPendingBalanceFailure,
-  fetchAccountTokensRequest,
-  fetchAccountTokensSuccess,
-  fetchAccountTokensFailure,
   stopWalletTxnPagination,
   fetchWalletTokenTransactionsListRequestLoading,
   fetchWalletTokenTransactionsListRequestSuccess,
@@ -98,19 +90,6 @@ export function* fetchWalletTxns(action) {
   }
 }
 
-export function* fetchTokens() {
-  try {
-    const data = yield call(handleFetchTokens);
-    yield put({
-      type: fetchTokensSuccess.type,
-      payload: { tokens: data },
-    });
-  } catch (e) {
-    yield put({ type: fetchTokensFailure.type, payload: e.message });
-    log.error(e);
-  }
-}
-
 export function* accountHistoryCount(action) {
   const {
     payload: { no_rewards, token },
@@ -128,32 +107,6 @@ export function* accountHistoryCount(action) {
       payload: getErrorMessage(e),
     });
     log.error(e);
-  }
-}
-
-export function* fetchAccountTokens() {
-  try {
-    const data = yield call(handleFetchAccounts);
-    yield put({
-      type: fetchAccountTokensSuccess.type,
-      payload: { accountTokens: data },
-    });
-  } catch (e) {
-    yield put({
-      type: fetchAccountTokensFailure.type,
-      payload: getErrorMessage(e),
-    });
-    log.error(e);
-  }
-}
-
-export function* fetchInstantPendingBalance() {
-  try {
-    const result = yield call(handleFetchPendingBalance);
-    yield put(fetchPendingBalanceSuccess(result));
-  } catch (err) {
-    yield put(fetchPendingBalanceFailure(err.message));
-    log.error(err);
   }
 }
 
@@ -255,8 +208,6 @@ export function* fetchBlockDataForTrx(action) {
 
 function* mySaga() {
   yield takeLatest(fetchWalletTxnsRequest.type, fetchWalletTxns);
-  yield takeLatest(fetchTokensRequest.type, fetchTokens);
-  yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
   yield takeLatest(accountHistoryCountRequest.type, accountHistoryCount);
   yield takeLatest(
     fetchWalletTokenTransactionsListRequestLoading.type,

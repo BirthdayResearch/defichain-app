@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import CsvRowInput from '../../CsvRowInput';
 import { CSVLink } from 'react-csv';
-import CsvRowToggle from '../csvRowToggle';
+import CsvRowToggle from '../CsvRowToggle';
 import styles from '../WalletTxns.module.scss';
 import { TXN_CSV_HEADERS } from 'src/constants/configs';
 
