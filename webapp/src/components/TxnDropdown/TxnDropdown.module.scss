@@ -1,0 +1,74 @@
+@import '../../scss/bootstrap/common';
+
+.dropDownTokens {
+  position: initial;
+  padding: 0;
+}
+
+.dropdownMenublock {
+  width: calc(100% + 3px);
+  transform: inherit !important;
+  padding: 0;
+  margin: 96px 0 0 -1px;
+}
+
+.dropDownItemRight {
+  text-align: right;
+}
+
+:not(:active) {
+  > .dropDownItemRight {
+    color: $secondary;
+  }
+}
+
+.buttonDropdown {
+  border: 0;
+  font-weight: $font-weight-normal;
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    border: 0;
+    box-shadow: none !important;
+  }
+
+  &:not(:disabled):hover {
+    color: $dropdown-link-hover-color !important;
+  }
+
+  // Coin icon
+  > :first-child {
+    margin-right: 8px;
+  }
+}
+
+.scrollableContainer {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  height: 240px;
+  overflow-y: auto;
+}
+
+.dropDownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dropDownItemLeft {
+  display: flex;
+  align-items: center;
+}
+
+.dropDownIcon {
+  display: block;
+  margin-right: 8px;
+}
+
+.dropDownDivider {
+  background-color: rgb(241, 241, 241);
+  display: inline-flex;
+}
