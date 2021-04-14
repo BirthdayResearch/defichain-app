@@ -3,6 +3,7 @@ import {
   fetchWalletBalanceRequest,
   fetchPendingBalanceRequest,
   fetchAccountTokensRequest,
+  getSPVBalance,
 } from '../../containers/WalletPage/reducer';
 import { BALANCE_CRON_DELAY_TIME } from '../../constants';
 import { setIntervalSynchronous } from '../../utils/utility';
@@ -19,10 +20,16 @@ const walletTokenBalanceSchedular = () => {
   store.dispatch(fetchAccountTokensRequest());
 };
 
+//* TODO update to flags instead of polling
+const bitcoinBalancePoll = () => {
+  store.dispatch(getSPVBalance());
+};
+
 const pendingAndWalletBalance = () => {
   walletBalanceSchedular();
   walletTokenBalanceSchedular();
   pendingBalanceSchedular();
+  bitcoinBalancePoll();
 };
 
 export const updateBalanceScheduler = () =>
