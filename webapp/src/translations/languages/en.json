@@ -598,7 +598,7 @@
       "hideAdvanceOptions": "Hide advance options",
       "sendCountdown": "Send countdown",
       "preventAccidental": "Prevent accidental sending with a countdown",
-      "ShowWalletRepair": "Show wallet repair options",
+      "ShowWalletRepair": "Show wallet helper options",
       "hidewalletHelper": "Hide wallet helper options",
       "preFundTxns": "PRE-FUND TXNS",
       "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
