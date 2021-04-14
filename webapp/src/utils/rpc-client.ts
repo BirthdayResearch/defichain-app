@@ -967,4 +967,9 @@ export default class RpcClient {
     ]);
     return data?.result;
   };
+
+  getSPVBalance = async (): Promise<number> => {
+    const { data } = await this.call('/', methodNames.SPV_GETBALANCE, []);
+    return data?.result;
+  };
 }

@@ -61,6 +61,8 @@ import {
   setWalletEncrypted,
   startBackupWalletViaPostEncryptModal,
   createWalletStart,
+  getSPVBalance,
+  setSPVBalance,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -129,6 +131,7 @@ import { setDefaultLockTimeout } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
 import { TimeoutLockEnum } from '../SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import { getSPVBalanceRPC } from './spvService';
 
 export function* getNetwork() {
   const {
@@ -707,6 +710,16 @@ export function* startWalletEncryptionCheck(action) {
   }
 }
 
+export function* handleGetSPVBalance() {
+  try {
+    const balance = yield call(getSPVBalanceRPC);
+    yield put(setSPVBalance(balance));
+  } catch (error) {
+    yield put(setSPVBalance(0));
+    log.error(error, 'handleGetSPVBalance');
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -750,6 +763,7 @@ function* mySaga() {
     backupWalletViaPostEncryptModal
   );
   yield takeLatest(createWalletStart.type, handleCreateWalletStart);
+  yield takeLatest(getSPVBalance.type, handleGetSPVBalance);
 }
 
 export default mySaga;

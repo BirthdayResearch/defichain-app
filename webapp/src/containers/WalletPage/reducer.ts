@@ -76,6 +76,7 @@ export const initialState: WalletState = {
   isErrorUnlockWallet: '',
   isWalletUnlocked: false,
   lockedUntil: 0,
+  spv: { balance: 0 },
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -343,6 +344,10 @@ const configSlice = createSlice({
       state.isWalletCreating = true;
       state.isErrorCreatingWallet = '';
     },
+    getSPVBalance(state) {},
+    setSPVBalance(state, action) {
+      state.spv.balance = action.payload;
+    },
   },
 });
 
@@ -419,6 +424,8 @@ export const {
   setLockedUntil,
   startBackupWalletViaPostEncryptModal,
   createWalletStart,
+  getSPVBalance,
+  setSPVBalance,
 } = actions;
 
 export default reducer;

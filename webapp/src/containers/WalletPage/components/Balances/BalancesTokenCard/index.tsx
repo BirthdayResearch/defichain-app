@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Card,
   CardBody,
   Col,
@@ -16,52 +17,67 @@ import styles from '../Balances.module.scss';
 import TokenAvatar from '../../../../../components/TokenAvatar';
 import NumberMask from '../../../../../components/NumberMask';
 import BigNumber from 'bignumber.js';
-import { MdMoreHoriz, MdRemove } from 'react-icons/md';
+import {
+  MdArrowDownward,
+  MdArrowUpward,
+  MdMoreHoriz,
+  MdRemove,
+  MdSwapHoriz,
+} from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
 
 interface BalancesTokenCardProps {
   token: IToken;
-  onCardClick: (token: IToken) => void;
+  size?: string;
+  onCardClick?: (token: IToken) => void;
 }
 
 const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   props: BalancesTokenCardProps
 ) => {
-  const { onCardClick, token } = props;
+  const { onCardClick, token, size } = props;
 
   return (
     <Row className='align-items-center'>
       <Col md='12'>
         <Card>
-          <CardBody>
+          <CardBody className={styles.cardBody}>
             <Row className='align-items-center'>
-              <Col md='4' onClick={() => onCardClick(token)}>
+              <Col md='3'>
                 <div className='d-flex align-items-center justify-content-start'>
                   <div>
-                    <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} />
+                    <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} size={size ?? '24px'} />
                   </div>
-                  <div className='ml-4'>
+                  <div className='ml-3'>
                     <div>
                       <b>{token.symbolKey}</b>
-                    </div>
-                    <div className={styles.cardValue}>
-                      {token.isLPS
-                        ? `${I18n.t(
-                            'containers.tokens.tokensPage.dctLabels.liquidityTokenFor'
-                          )} ${token.symbolKey}`
-                        : token.name}
                     </div>
                   </div>
                 </div>
               </Col>
-              <Col md='7'>
-                <div className={`${styles.cardValue} justify-content-end`}>
+              <Col md='5'>
+                <div>
                   <b className='text-dark'>
                     <NumberMask
                       value={new BigNumber(token.amount || 0).toFixed(8)}
                     />
                   </b>
-                  <span className='ml-2'>{token.symbolKey}</span>
+                </div>
+              </Col>
+              <Col md='4' className='p-0'>
+                <div className={`d-flex justify-content-end`}>
+                  <Button className={styles.icons} color='link'>
+                    <MdSwapHoriz></MdSwapHoriz>
+                  </Button>
+                  <Button className={styles.icons} color='link'>
+                    <MdArrowUpward></MdArrowUpward>
+                  </Button>
+                  <Button className={styles.icons} color='link'>
+                    <MdArrowDownward></MdArrowDownward>
+                  </Button>
+                  <Button className={styles.icons} color='link'>
+                    <MdMoreHoriz></MdMoreHoriz>
+                  </Button>
                 </div>
               </Col>
             </Row>

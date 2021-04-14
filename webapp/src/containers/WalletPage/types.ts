@@ -77,6 +77,11 @@ export interface WalletState {
   isErrorUnlockWallet: string;
   isWalletUnlocked: boolean;
   lockedUntil: number;
+  spv: SPVWallet;
+}
+
+export interface SPVWallet {
+  balance: number;
 }
 
 export const defaultWalletMap: WalletMap = {
