@@ -12,6 +12,10 @@
   margin: 96px 0 0 -1px;
 }
 
+.dropDownItemRight {
+  text-align: right;
+}
+
 :not(:active) {
   > .dropDownItemRight {
     color: $secondary;
@@ -62,10 +66,6 @@
 .dropDownIcon {
   display: block;
   margin-right: 8px;
-}
-
-.dropDownItemRight {
-  text-align: right;
 }
 
 .dropDownDivider {
