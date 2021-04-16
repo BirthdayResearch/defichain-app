@@ -54,7 +54,11 @@ import { getNetworkType, getTimeDifferenceMS } from '../utils/utility';
 import { WalletMap } from '@defi_types/walletMap';
 import { REINDEX_NODE_UPDATE } from '@defi_types/settings';
 import { IPCResponseModel } from '../../../typings/common';
-import { PaymentRequestModel, RPCConfigItem } from '@defi_types/rpcConfig';
+import {
+  PaymentRequestModel,
+  RPCConfigItem,
+  RPCRemotes,
+} from '@defi_types/rpcConfig';
 import {
   getPaymentRequestsRPC,
   processWalletMapAddresses,
@@ -63,12 +67,43 @@ import { WalletState } from '../containers/WalletPage/types';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
+    console.log('rpcconfig: electron');
     const ipcRenderer = ipcRendererFunc();
     return ipcRenderer.sendSync(GET_CONFIG_DETAILS, {});
+  } else if (typeof localStorage === 'object') {
+    // Environment with local storage
+    console.log('rpcconfig: localstorage');
+    return {
+      success: true,
+      data: JSON.parse(
+        localStorage.getItem('rpcconfig') ||
+          JSON.stringify(generateDefaultRpcRemotes())
+      ),
+    };
   }
-  // For webapp
+  // Fallback
+  console.log('rpcconfig: empty');
   return { success: true, data: {} };
 };
+
+function generateDefaultRpcRemotes(): RPCRemotes {
+  return {
+    remotes: [
+      {
+        rpcuser: 'user',
+        rpcpassword: 'pass',
+        rpcconnect: '127.0.0.1',
+        testnet: '1',
+        test: {
+          rpcport: '18555',
+        },
+        main: {
+          rpcport: '8555',
+        },
+      },
+    ],
+  };
+}
 
 export function startAppInit() {
   if (isElectron()) {
