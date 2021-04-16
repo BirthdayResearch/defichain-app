@@ -12,6 +12,7 @@ import {
 } from '../utils';
 import { APP_DIR, CONFIG_FILE_NAME } from '../constants';
 import {
+  DEFAULT_RPC_ALLOW_IP,
   DEFAULT_RPC_BIND,
   DEFAULT_RPC_PORT,
   RANDOM_USERNAME_LENGTH,
@@ -51,6 +52,7 @@ export default class UiConfig {
         rpcpassword,
         rpcbind: DEFAULT_RPC_BIND,
         rpcport: DEFAULT_RPC_PORT.toString(),
+        rpcallowip: DEFAULT_RPC_ALLOW_IP,
       };
       const configData = this.saveUiConfig(defaultConfig);
       return configData;

@@ -3,6 +3,7 @@ export interface RPCConfigBody {
   rpcbind?: string;
   rpcport?: string;
   rpcconnect?: string;
+  rpcallowip?: string;
   testnet?: string;
   regtest?: string | RPCConfigBody;
   rpcuser?: string;
