@@ -7,7 +7,6 @@ export enum TimeoutLockEnum {
   FIVE_MINUTES = 5 * MINUTE,
   TEN_MINUTES = 10 * MINUTE,
   ONE_HOUR = HOUR,
-  SIX_HOURS = 6 * HOUR,
   MAX_TIME = 100000000,
 }
 
