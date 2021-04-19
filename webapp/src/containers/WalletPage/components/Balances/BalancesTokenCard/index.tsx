@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Badge,
   Button,
   Card,
   CardBody,
@@ -25,22 +26,57 @@ import {
   MdSwapHoriz,
 } from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
+import { SWAP_PATH, WALLET_PAGE_PATH } from '../../../../../constants';
+import { NavLink } from 'react-router-dom';
+import { SwapParameters } from '../../../../SwapPage';
+import { history } from '../../../../../utils/history';
+import { getWalletPathAddress } from '../../SendPage';
 
 interface BalancesTokenCardProps {
   token: IToken;
   size?: string;
-  onCardClick?: (token: IToken) => void;
+  bgImage?: string;
+  hideSwap?: boolean;
+  hideMore?: boolean;
+  hideBadge?: boolean;
 }
 
 const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   props: BalancesTokenCardProps
 ) => {
-  const { onCardClick, token, size } = props;
+  const { token, size, bgImage, hideSwap, hideMore, hideBadge } = props;
+
+  const onCardClick = (event: React.MouseEvent, token: IToken) => {
+    if ((event?.target as any)?.classList?.contains('clickable')) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    history.push(
+      getWalletPathAddress(
+        WALLET_PAGE_PATH,
+        token.symbol,
+        token.hash,
+        (token.amount ?? 0)?.toString(),
+        '',
+        token.isLPS
+      )
+    );
+  };
 
   return (
     <Row className='align-items-center balanceTokenCard'>
       <Col md='12'>
-        <Card>
+        <Card
+          onClick={(event) => onCardClick(event, token)}
+          style={{ cursor: 'pointer' }}
+        >
+          {bgImage && (
+            <div
+              className={styles.bgImage}
+              style={{ backgroundImage: `url(${bgImage})` }}
+            ></div>
+          )}
           <CardBody className={styles.cardBody}>
             <Row className='align-items-center'>
               <Col md='3'>
@@ -53,8 +89,13 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                     />
                   </div>
                   <div className='ml-3'>
-                    <div>
+                    <div className='d-flex align-items-center'>
                       <b>{token.symbolKey}</b>
+                      {!hideBadge && (
+                        <Badge className='ml-2' color='disabled'>
+                          {token.isLPS ? 'LP' : 'DST'}
+                        </Badge>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -70,17 +111,29 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
               </Col>
               <Col md='4' className='p-0'>
                 <div className={`d-flex justify-content-end`}>
-                  <Button className={styles.icons} color='link'>
-                    <MdSwapHoriz></MdSwapHoriz>
+                  <Button
+                    className={`${styles.icons} ${
+                      hideSwap ? styles.visibilityHidden : ''
+                    }`}
+                    color='link'
+                    tag={NavLink}
+                    to={`${SWAP_PATH}?${SwapParameters.symbol1}=${token.symbolKey}&${SwapParameters.hash1}=${token.hash}&${SwapParameters.balance1}=${token.amount}`}
+                  >
+                    <MdSwapHoriz className='clickable'></MdSwapHoriz>
                   </Button>
                   <Button className={styles.icons} color='link'>
-                    <MdArrowUpward></MdArrowUpward>
+                    <MdArrowUpward className='clickable'></MdArrowUpward>
                   </Button>
                   <Button className={styles.icons} color='link'>
-                    <MdArrowDownward></MdArrowDownward>
+                    <MdArrowDownward className='clickable'></MdArrowDownward>
                   </Button>
-                  <Button className={styles.icons} color='link'>
-                    <MdMoreHoriz></MdMoreHoriz>
+                  <Button
+                    className={`${styles.icons} ${
+                      hideMore ? styles.visibilityHidden : ''
+                    }`}
+                    color='link'
+                  >
+                    <MdMoreHoriz className='clickable'></MdMoreHoriz>
                   </Button>
                 </div>
               </Col>

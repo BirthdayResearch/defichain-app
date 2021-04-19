@@ -26,6 +26,8 @@ import BalancesTokenCard from './BalancesTokenCard';
 import styles from './Balances.module.scss';
 import classnames from 'classnames';
 import { MdInfo } from 'react-icons/md';
+import dfiBG from '../../../../assets/svg/balance_dfi.svg';
+import btcBG from '../../../../assets/svg/balance_btc.svg';
 
 export type BalanceToken = Partial<IToken>;
 
@@ -78,6 +80,7 @@ const BalancesPage: React.FunctionComponent = () => {
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
     clone = [...clone, ...appTokens]
       .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
+      .sort((a: IToken, b: IToken) => +a.isLPS - +b.isLPS)
       .filter((t: IToken) => t.hash != DFI_SYMBOL);
 
     updateWalletToken(clone);
@@ -146,18 +149,31 @@ const BalancesPage: React.FunctionComponent = () => {
           </Header>
           <div className='content'>
             <div className='dfiCard mb-3'>
-              <BalancesTokenCard token={dfiToken as IToken} size={largeIcon} />
+              <BalancesTokenCard
+                token={dfiToken as IToken}
+                size={largeIcon}
+                bgImage={dfiBG}
+                hideMore={true}
+                hideBadge={true}
+              />
             </div>
             <div className='btcCard mb-5'>
-              <BalancesTokenCard token={btcNative as IToken} size={largeIcon} />
+              <BalancesTokenCard
+                token={btcNative as IToken}
+                size={largeIcon}
+                bgImage={btcBG}
+                hideSwap={true}
+                hideMore={true}
+                hideBadge={true}
+              />
             </div>
             <h2 className='d-flex align-items-center'>
               <span>{I18n.t('containers.wallet.walletPage.tokens')}</span>
-              <MdInfo
+              {/* <MdInfo
                 className={`ml-1 ${styles.icons} cursorPointer`}
                 id='token_item'
                 size={23}
-              />
+              /> */}
             </h2>
             <div className={classnames({ cardTable: true })}>
               {tokens.map((token, index) => (
