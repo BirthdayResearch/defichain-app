@@ -1,11 +1,18 @@
+import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { RootState } from '../../../../app/rootTypes';
-import { BTC, BTC_SYMBOL, DFI_SYMBOL } from '../../../../constants';
+import Pagination from '../../../../components/Pagination';
+import {
+  BTC,
+  BTC_SYMBOL,
+  DFI_SYMBOL,
+  TOKEN_LIST_PAGE_SIZE,
+} from '../../../../constants';
 import { IToken } from '../../../../utils/interfaces';
-import { getPageTitle } from '../../../../utils/utility';
+import { filterByValue, getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
 import {
   fetchAccountTokensRequest,
@@ -13,11 +20,86 @@ import {
   fetchTokensRequest,
   getSPVBalance,
 } from '../../reducer';
+import { getVerifiedTokens, updateWalletToken } from '../../service';
 import CreateOrRestoreWalletPage from '../CreateOrRestoreWalletPage';
 import BalancesTokenCard from './BalancesTokenCard';
+import styles from './Balances.module.scss';
+import classnames from 'classnames';
+
+export type BalanceToken = Partial<IToken>;
 
 const BalancesPage: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const defaultPage = 1;
+
+  const {
+    wallet: {
+      isWalletCreatedFlag,
+      walletBalance,
+      spv,
+      accountTokens,
+      isLoadingTokens,
+    },
+    settings: {
+      appConfig: { unit },
+    },
+  } = useSelector((state: RootState) => state);
+
+  const [dfiToken] = useState<BalanceToken>({
+    symbol: unit,
+    symbolKey: unit,
+    amount: walletBalance ?? 0,
+    hash: DFI_SYMBOL,
+  });
+
+  const [btcNative] = useState<BalanceToken>({
+    symbol: BTC,
+    symbolKey: BTC,
+    amount: spv?.balance ?? 0,
+    hash: BTC_SYMBOL,
+  });
+
+  const [tokens, setTokens] = useState<BalanceToken[]>([]);
+  const [walletTableData, setwalletTableData] = useState<any>([]);
+  const [verifiedTokens, setVerifiedTokens] = useState<BalanceToken[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(defaultPage);
+
+  const paginate = (
+    pageNumber,
+    tokensList?: IToken[],
+    appTokens: IToken[] = []
+  ) => {
+    let clone = cloneDeep(tokensList || totalTokenData);
+    const keys = {};
+    clone.forEach((t) => {
+      keys[t.hash] = t.symbol;
+    });
+    appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
+    clone = [...clone, ...appTokens]
+      .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
+      .filter((t: IToken) => t.hash != DFI_SYMBOL);
+
+    updateWalletToken(clone);
+
+    const tableData = clone.slice(
+      (pageNumber - 1) * pageSize,
+      pageNumber * pageSize
+    );
+    setCurrentPage(pageNumber);
+    setTokens(tableData);
+  };
+
+  const largeIcon = '32px';
+  const pageSize = TOKEN_LIST_PAGE_SIZE;
+  const totalTokenData = [
+    ...accountTokens,
+    ...walletTableData,
+    ...verifiedTokens,
+  ];
+  const total = [...new Set(totalTokenData)].length;
+  const pagesCount = Math.ceil(total / pageSize);
+  const from = (currentPage - 1) * pageSize;
+  const to = Math.min(total, currentPage * pageSize);
 
   useEffect(() => {
     dispatch(fetchTokensRequest());
@@ -26,28 +108,24 @@ const BalancesPage: React.FunctionComponent = () => {
     dispatch(getSPVBalance());
   }, []);
 
-  const {
-    wallet: { isWalletCreatedFlag, walletBalance, spv },
-    settings: {
-      appConfig: { unit },
-    },
-  } = useSelector((state: RootState) => state);
-
-  const [dfiToken, setDFIToken] = useState<Partial<IToken>>({
-    symbol: unit,
-    symbolKey: unit,
-    amount: walletBalance ?? 0,
-    hash: DFI_SYMBOL,
-  });
-
-  const [btcNative, setbtcNative] = useState<Partial<IToken>>({
-    symbol: BTC,
-    symbolKey: BTC,
-    amount: spv?.balance ?? 0,
-    hash: BTC_SYMBOL,
-  });
-
-  const largeIcon = '32px';
+  useEffect(() => {
+    const verifiedTokens = getVerifiedTokens(tokens, accountTokens);
+    setVerifiedTokens(verifiedTokens);
+    const tokensList: IToken[] = filterByValue(accountTokens, '');
+    if (currentPage === defaultPage) {
+      paginate(
+        defaultPage,
+        [...tokensList, ...walletTableData],
+        verifiedTokens
+      );
+    }
+  }, [
+    accountTokens?.length,
+    isLoadingTokens,
+    walletBalance,
+    tokens?.length,
+    walletTableData,
+  ]);
 
   return (
     <div className='main-wrapper'>
@@ -69,9 +147,30 @@ const BalancesPage: React.FunctionComponent = () => {
             <div className='dfiCard mb-3'>
               <BalancesTokenCard token={dfiToken as IToken} size={largeIcon} />
             </div>
-            <div className='btcCard mb-3'>
+            <div className='btcCard mb-5'>
               <BalancesTokenCard token={btcNative as IToken} size={largeIcon} />
             </div>
+            <h2>
+              <span>{I18n.t('containers.wallet.walletPage.tokens')}</span>
+            </h2>
+            <div className={classnames({ cardTable: true })}>
+              {tokens.map((token, index) => (
+                <BalancesTokenCard key={index} token={token as IToken} />
+              ))}
+            </div>
+            <Pagination
+              label={I18n.t(
+                'containers.wallet.walletPage.walletPaginationRange',
+                {
+                  to,
+                  total,
+                  from: from + 1,
+                }
+              )}
+              currentPage={currentPage}
+              pagesCount={pagesCount}
+              handlePageClick={paginate}
+            />
           </div>
         </>
       )}

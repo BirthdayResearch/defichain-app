@@ -38,7 +38,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   const { onCardClick, token, size } = props;
 
   return (
-    <Row className='align-items-center'>
+    <Row className='align-items-center balanceTokenCard'>
       <Col md='12'>
         <Card>
           <CardBody className={styles.cardBody}>
@@ -46,7 +46,11 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
               <Col md='3'>
                 <div className='d-flex align-items-center justify-content-start'>
                   <div>
-                    <TokenAvatar symbol={token.symbolKey} textSizeRatio={2} size={size ?? '24px'} />
+                    <TokenAvatar
+                      symbol={token.symbolKey}
+                      textSizeRatio={2}
+                      size={size ?? '24px'}
+                    />
                   </div>
                   <div className='ml-3'>
                     <div>
