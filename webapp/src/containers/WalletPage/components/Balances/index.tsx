@@ -7,6 +7,7 @@ import { RootState } from '../../../../app/rootTypes';
 import Pagination from '../../../../components/Pagination';
 import {
   BTC,
+  BTC_SPV_SYMBOL,
   BTC_SYMBOL,
   DFI_SYMBOL,
   TOKEN_LIST_PAGE_SIZE,
@@ -59,7 +60,8 @@ const BalancesPage: React.FunctionComponent = () => {
     symbol: BTC,
     symbolKey: BTC,
     amount: spv?.balance ?? 0,
-    hash: BTC_SYMBOL,
+    hash: BTC_SPV_SYMBOL,
+    isSPV: true,
   });
 
   const [tokens, setTokens] = useState<BalanceToken[]>([]);

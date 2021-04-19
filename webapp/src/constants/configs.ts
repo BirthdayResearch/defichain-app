@@ -100,6 +100,7 @@ export const MAINNET_USDT_SYMBOL = '3';
 export const MAINNET_LTC_SYMBOL = '9';
 export const MAINNET_DOGE_SYMBOL = '7';
 export const MAINNET_BCH_SYMBOL = '11';
+export const BTC_SPV_SYMBOL = '99999';
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';

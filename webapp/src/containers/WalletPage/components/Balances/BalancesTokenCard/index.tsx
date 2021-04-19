@@ -59,7 +59,8 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
         token.hash,
         (token.amount ?? 0)?.toString(),
         '',
-        token.isLPS
+        token.isLPS,
+        token.isSPV
       )
     );
   };

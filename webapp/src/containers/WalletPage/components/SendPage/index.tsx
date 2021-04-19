@@ -98,9 +98,10 @@ export const getWalletPathAddress = (
   tokenHash: string,
   tokenAmount: string,
   tokenAddress: string,
-  isLPS: boolean
+  isLPS: boolean,
+  isSPV?: boolean
 ): string => {
-  return `${basePath}?hash=${tokenHash}&amount=${tokenAmount.toString()}&address=${tokenAddress}&isLPS=${isLPS}&symbol=${tokenSymbol}`;
+  return `${basePath}?hash=${tokenHash}&amount=${tokenAmount.toString()}&address=${tokenAddress}&isLPS=${isLPS}&symbol=${tokenSymbol}&isSPV=${isSPV}`;
 };
 
 //* TODO Convert to React Hooks

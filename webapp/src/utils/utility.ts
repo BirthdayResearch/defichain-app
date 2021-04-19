@@ -65,6 +65,7 @@ import {
   MAINNET_BCH_SYMBOL,
   BCH_SYMBOL,
   COINGECKO_BCH_ID,
+  BTC_SPV_SYMBOL,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -1321,6 +1322,7 @@ export const getTotalAmountPoolShare = async (poolID) => {
 export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const btcSPVSymbol = BTC_SPV_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
@@ -1334,6 +1336,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     ltcSymbol,
     dogeSymbol,
     bchSymbol,
+    btcSPVSymbol
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
 import {
   MdArrowUpward,
   MdArrowDownward,
@@ -17,7 +17,11 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
 } from './reducer';
-import { DFI_SYMBOL, WALLET_TOKENS_PATH } from '../../constants';
+import {
+  BTC_SPV_SYMBOL,
+  DFI_SYMBOL,
+  WALLET_TOKENS_PATH,
+} from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import {
@@ -99,11 +103,16 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                 : unit
             }
           />
-          <h1>
+          <h1 className='d-flex align-items-center'>
             {tokenSymbol
               ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL, isLPS)
               : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
+            {![DFI_SYMBOL, BTC_SPV_SYMBOL].includes(tokenHash ?? '') && (
+              <Badge className='ml-2' color='disabled'>
+                {isLPS ? 'LP' : 'DST'}
+              </Badge>
+            )}
           </h1>
         </div>
         <ButtonGroup>
