@@ -18,7 +18,7 @@ const getMins = (time: number) => {
 };
 
 export const TimeoutLockList = Object.keys(TimeoutLockEnum)
-  .filter((x) => TimeoutLockEnum[x] <= TimeoutLockEnum.SIX_HOURS)
+  .filter((x) => TimeoutLockEnum[x] <= TimeoutLockEnum.ONE_HOUR)
   .map((x) => {
     let value = TimeoutLockEnum[x];
     let i18nKey = 'containers.settings.minute' + (value === 60 ? '' : 's');
