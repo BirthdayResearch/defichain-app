@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import {
   MdArrowUpward,
   MdArrowDownward,
-  MdCompareArrows,
+  MdSwapHoriz,
   MdFileDownload,
 } from 'react-icons/md';
 import styles from './WalletTxns.module.scss';
@@ -301,7 +301,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
     if (type === POOL_SWAP_CATEGORY_LABEL) {
-      return <MdCompareArrows className={styles.typeIcon} />;
+      return <MdSwapHoriz className={styles.typeIcon} />;
     }
     return <MdArrowUpward className={styles.typeIcon} />;
   };
