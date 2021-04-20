@@ -26,7 +26,12 @@ import {
   MdSwapHoriz,
 } from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
-import { SWAP_PATH, WALLET_PAGE_PATH } from '../../../../../constants';
+import {
+  SWAP_PATH,
+  WALLET_PAGE_PATH,
+  WALLET_RECEIVE_PATH,
+  WALLET_SEND_PATH,
+} from '../../../../../constants';
 import { NavLink } from 'react-router-dom';
 import { SwapParameters } from '../../../../SwapPage';
 import { history } from '../../../../../utils/history';
@@ -102,7 +107,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                 </div>
               </Col>
               <Col md='5'>
-                <div>
+                <div className='d-flex justify-content-end'>
                   <b className='text-dark'>
                     <NumberMask
                       value={new BigNumber(token.amount || 0).toFixed(8)}
@@ -122,10 +127,44 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   >
                     <MdSwapHoriz className='clickable'></MdSwapHoriz>
                   </Button>
-                  <Button className={styles.icons} color='link'>
+                  <Button
+                    tag={NavLink}
+                    to={
+                      token.symbolKey
+                        ? getWalletPathAddress(
+                            WALLET_SEND_PATH,
+                            token.symbolKey,
+                            token.hash || '',
+                            (token.amount ?? 0).toString(),
+                            '',
+                            token.isLPS,
+                            token.isSPV
+                          )
+                        : WALLET_SEND_PATH
+                    }
+                    className={styles.icons}
+                    color='link'
+                  >
                     <MdArrowUpward className='clickable'></MdArrowUpward>
                   </Button>
-                  <Button className={styles.icons} color='link'>
+                  <Button
+                    tag={NavLink}
+                    to={
+                      token.symbolKey
+                        ? getWalletPathAddress(
+                          WALLET_RECEIVE_PATH,
+                            token.symbolKey,
+                            token.hash || '',
+                            (token.amount ?? 0).toString(),
+                            '',
+                            token.isLPS,
+                            token.isSPV
+                          )
+                        : WALLET_RECEIVE_PATH
+                    }
+                    className={styles.icons}
+                    color='link'
+                  >
                     <MdArrowDownward className='clickable'></MdArrowDownward>
                   </Button>
                   <Button

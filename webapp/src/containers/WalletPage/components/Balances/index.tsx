@@ -179,7 +179,11 @@ const BalancesPage: React.FunctionComponent = () => {
             </h2>
             <div className={classnames({ cardTable: true })}>
               {tokens.map((token, index) => (
-                <BalancesTokenCard key={index} token={token as IToken} />
+                <BalancesTokenCard
+                  key={index}
+                  token={token as IToken}
+                  hideSwap={token.isLPS}
+                />
               ))}
             </div>
             <Pagination

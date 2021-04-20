@@ -456,9 +456,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     <Input
                       type='text'
                       inputMode='numeric'
-                      placeholder={I18n.t(
-                        'containers.wallet.sendPage.amountToSend'
-                      )}
+                      placeholder={'tite'}
                       name='amountToSend'
                       id='amountToSend'
                       value={this.state.amountToSend}
