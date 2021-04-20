@@ -8,7 +8,6 @@ import Pagination from '../../../../components/Pagination';
 import {
   BTC,
   BTC_SPV_SYMBOL,
-  BTC_SYMBOL,
   DFI_SYMBOL,
   TOKEN_LIST_PAGE_SIZE,
 } from '../../../../constants';
@@ -29,6 +28,7 @@ import classnames from 'classnames';
 import { MdInfo } from 'react-icons/md';
 import dfiBG from '../../../../assets/svg/balance_dfi.svg';
 import btcBG from '../../../../assets/svg/balance_btc.svg';
+import { openBalanceTooltipModal } from '../../../PopOver/reducer';
 
 export type BalanceToken = Partial<IToken>;
 
@@ -133,6 +133,10 @@ const BalancesPage: React.FunctionComponent = () => {
     walletTableData,
   ]);
 
+  const openInfoPopup = () => {
+    dispatch(openBalanceTooltipModal(true));
+  };
+
   return (
     <div className='main-wrapper'>
       {!isWalletCreatedFlag ? (
@@ -171,11 +175,12 @@ const BalancesPage: React.FunctionComponent = () => {
             </div>
             <h2 className='d-flex align-items-center'>
               <span>{I18n.t('containers.wallet.walletPage.tokens')}</span>
-              {/* <MdInfo
+              <MdInfo
                 className={`ml-1 ${styles.icons} cursorPointer`}
                 id='token_item'
                 size={23}
-              /> */}
+                onClick={() => openInfoPopup()}
+              />
             </h2>
             <div className={classnames({ cardTable: true })}>
               {tokens.map((token, index) => (

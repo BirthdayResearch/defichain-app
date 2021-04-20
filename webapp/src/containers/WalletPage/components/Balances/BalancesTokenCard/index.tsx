@@ -106,7 +106,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   </div>
                 </div>
               </Col>
-              <Col md='5'>
+              <Col md='4'>
                 <div className='d-flex justify-content-end'>
                   <b className='text-dark'>
                     <NumberMask
@@ -115,7 +115,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   </b>
                 </div>
               </Col>
-              <Col md='4' className='p-0'>
+              <Col md='5' className='p-0'>
                 <div className={`d-flex justify-content-end`}>
                   <Button
                     className={`${styles.icons} ${

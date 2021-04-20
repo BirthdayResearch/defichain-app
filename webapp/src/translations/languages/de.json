@@ -782,7 +782,11 @@
         "transaction": "transaktionen",
         "format": "Format",
         "csv": "CSV",
-        "blockReward": "Block Belohnung"
+        "blockReward": "Block Belohnung",
+        "whatAreTokens": "Was sind Token?",
+        "tokenDescription": "DeFiChain verwendet Token-Standards, um externe Token auf dezentrale Weise einzubringen, vertrauenlose Finanzkontrakte zu schaffen und den Handel mit allen wichtigen Kryptoasset-Token zu ermöglichen. Die Token-Standards sind ähnlich zu ERC20 auf Ethereum oder Omni auf der Bitcoin Blockchain. Mit diesem Standard erlaubt DeFiChain die Tokenisierung von jedem beliebigen Asset.",
+        "tokenSub": "Auf der DeFiChain werden die standardisierten Token als DeFi Standard Token (DST) bezeichnet. Es gibt zwei verschiedene Arten von DST Token: DCT, die von Nutzern des Systems erstellt werden und DAT, bei denen es sich um Token handelt, die durch Vermögenswerte gedeckt sind, die mit Hilfe von Krypto-Assets erstellt werden.",
+        "moreInformation": "Mehr Informationen unter:"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

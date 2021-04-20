@@ -27,6 +27,7 @@ import PostEncryptBackupModal from '../containers/PopOver/PostEncryptBackupModal
 import MasternodeWarningModal from '../containers/PopOver/MasternodeWarningModal';
 import MasternodeUpdateRestartModal from '../containers/PopOver/MasternodeUpdateRestartModal';
 import SnapshotDownloadModal from '../containers/PopOver/SnapshotDownloadModal';
+import BalanceInfoModal from '../containers/PopOver/BalanceInfoModal';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -125,6 +126,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <MasternodeWarningModal />
       <MasternodeUpdateRestartModal />
       <SnapshotDownloadModal />
+      <BalanceInfoModal />
     </>
   );
 };
