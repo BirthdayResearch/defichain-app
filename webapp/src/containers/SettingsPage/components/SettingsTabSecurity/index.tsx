@@ -13,38 +13,20 @@ import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
 import { setLockoutTimeList } from '../../reducer';
 import { RootState } from 'src/app/rootTypes';
 
-const timeoutLabel = 'containers.settings.minutes';
-
 const getMins = (time: number) => {
   return time / TimeoutLockEnum.ONE_MINUTE;
 };
 
-export const TimeoutLockList = [
-  {
-    label: I18n.t('containers.settings.minute', {
-      time: getMins(TimeoutLockEnum.ONE_MINUTE),
-    }),
-    value: TimeoutLockEnum.ONE_MINUTE,
-  },
-  {
-    label: I18n.t(timeoutLabel, {
-      time: getMins(TimeoutLockEnum.THREE_MINUTES),
-    }),
-    value: TimeoutLockEnum.THREE_MINUTES,
-  },
-  {
-    label: I18n.t(timeoutLabel, {
-      time: getMins(TimeoutLockEnum.FIVE_MINUTES),
-    }),
-    value: TimeoutLockEnum.FIVE_MINUTES,
-  },
-  {
-    label: I18n.t(timeoutLabel, {
-      time: getMins(TimeoutLockEnum.TEN_MINUTES),
-    }),
-    value: TimeoutLockEnum.TEN_MINUTES,
-  },
-];
+export const TimeoutLockList = Object.keys(TimeoutLockEnum)
+  .filter((x) => TimeoutLockEnum[x] <= TimeoutLockEnum.ONE_HOUR)
+  .map((x) => {
+    let value = TimeoutLockEnum[x];
+    let i18nKey = 'containers.settings.minute' + (value === 60 ? '' : 's');
+    return {
+      label: I18n.t(i18nKey, { time: getMins(value) }),
+      value,
+    };
+  });
 
 export const MaxTimeout = {
   label: I18n.t('containers.settings.years', {
