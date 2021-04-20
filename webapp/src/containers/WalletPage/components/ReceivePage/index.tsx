@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdArrowBack, MdAdd } from 'react-icons/md';
@@ -11,17 +11,19 @@ import {
 } from '../../../../constants';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
-import { getWalletPathAddress } from '../SendPage';
+import { WalletPathEnum } from '../../types';
+import { getWalletPathAddress } from '../../service';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
-  const tokenSymbol = urlParams.get('symbol');
-  const tokenHash = urlParams.get('hash');
+  const tokenSymbol = urlParams.get(WalletPathEnum.symbol);
+  const tokenHash = urlParams.get(WalletPathEnum.hash);
   const tokenAmount = urlParams.get('amount');
-  const tokenAddress = urlParams.get('address');
-  const isLPS = urlParams.get('isLPS') == 'true';
+  const tokenAddress = urlParams.get(WalletPathEnum.address);
+  const isLPS = urlParams.get(WalletPathEnum.isLPS) == 'true';
+  const isSPV = urlParams.get(WalletPathEnum.isSPV) == 'true';
 
   return (
     <div className='main-wrapper'>
@@ -40,7 +42,8 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
                   tokenHash || '',
                   tokenAmount || '',
                   tokenAddress || '',
-                  isLPS
+                  isLPS,
+                  isSPV
                 )
               : WALLET_PAGE_PATH
           }
@@ -69,7 +72,7 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
       </Header>
       <div className='content'>
         <section>
-          <PaymentRequestList />
+          <PaymentRequestList isSPV={isSPV} />
         </section>
       </div>
     </div>

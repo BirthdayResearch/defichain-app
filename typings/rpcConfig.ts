@@ -48,4 +48,5 @@ export interface PaymentRequestModel {
   confirmations?: number;
   automaticallyGenerateNewAddress?: boolean;
   ismine?: boolean;
+  isSPV?: boolean;
 }

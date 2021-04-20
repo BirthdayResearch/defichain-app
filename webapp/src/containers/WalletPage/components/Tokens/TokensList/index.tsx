@@ -23,6 +23,7 @@ import {
   updateWalletToken,
   getTokenForWalletDropDown,
   isWalletDropdown,
+  getWalletPathAddress,
 } from '../../../service';
 import {
   WALLET_PAGE_PATH,
@@ -35,7 +36,6 @@ import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
 import { IToken } from '../../../../../utils/interfaces';
-import { getWalletPathAddress } from '../../SendPage';
 import WalletDropdown from '../../../../../components/walletDropdown';
 import BigNumber from 'bignumber.js';
 interface WalletTokensListProps extends RouteComponentProps {
@@ -172,7 +172,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
         hash,
         amount,
         address,
-        isLPS
+        isLPS,
       )
     );
   };

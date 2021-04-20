@@ -972,4 +972,23 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.SPV_GETBALANCE, []);
     return data?.result;
   };
+
+  getSPVAddresses = async (): Promise<PaymentRequestModel[]> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.SPV_LISTRECEIVEDBYADDRESS
+    );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_LISTRECEIVEDBYADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
 }

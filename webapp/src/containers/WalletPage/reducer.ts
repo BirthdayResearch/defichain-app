@@ -24,6 +24,7 @@ export const initialState: WalletState = {
   isPendingBalanceFetching: false,
   isPendingBalanceError: '',
   paymentRequests: [],
+  spvPaymentRequests: [],
   walletTxns: [],
   walletTxnCount: 0,
   isWalletTxnsLoading: false,
@@ -130,6 +131,10 @@ const configSlice = createSlice({
     },
     fetchPaymentRequestsFailure(state, action) {
       state.paymentRequests = [];
+    },
+    setSPVPaymentRequests(state, action) {
+      const spvPaymentRequests: PaymentRequestModel[] = action.payload ?? [];
+      state.spvPaymentRequests = spvPaymentRequests.filter((p) => p.ismine);
     },
     fetchWalletTxnsRequest(state, action) {
       state.isWalletTxnsLoading = true;
@@ -426,6 +431,7 @@ export const {
   createWalletStart,
   getSPVBalance,
   setSPVBalance,
+  setSPVPaymentRequests,
 } = actions;
 
 export default reducer;

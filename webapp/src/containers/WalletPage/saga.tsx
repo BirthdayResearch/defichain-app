@@ -118,6 +118,7 @@ import {
   checkWalletEncryption,
   getWalletMap,
   setPaymentAddresses,
+  setSPVPaymentAddresses,
 } from '../../app/service';
 import {
   encryptWalletSuccess,
@@ -224,6 +225,7 @@ export function* fetchPayments() {
     if (wallet.paymentRequests == null || wallet.paymentRequests.length === 0) {
       yield call(setPaymentAddresses);
     }
+    yield call(setSPVPaymentAddresses);
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });

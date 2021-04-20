@@ -52,6 +52,8 @@ import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
+import { WalletPathEnum } from '../../../WalletPage/types';
+import { getWalletPathAddress } from '../../../WalletPage/service';
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -90,26 +92,16 @@ interface SendPageState {
   isSendLPConfirmed: boolean;
 }
 
-export const getWalletPathAddress = (
-  basePath: string,
-  tokenSymbol: string,
-  tokenHash: string,
-  tokenAmount: string,
-  tokenAddress: string,
-  isLPS: boolean
-): string => {
-  return `${basePath}?hash=${tokenHash}&amount=${tokenAmount.toString()}&address=${tokenAddress}&isLPS=${isLPS}&symbol=${tokenSymbol}`;
-};
-
 //* TODO Convert to React Hooks
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
   urlParams = new URLSearchParams(this.props.location.search);
-  tokenSymbol = this.urlParams.get('symbol');
-  tokenHash = this.urlParams.get('hash');
-  tokenAmount = this.urlParams.get('amount');
-  tokenAddress = this.urlParams.get('address');
-  isLPS = this.urlParams.get('isLPS') == 'true';
+  tokenSymbol = this.urlParams.get(WalletPathEnum.symbol);
+  tokenHash = this.urlParams.get(WalletPathEnum.hash);
+  tokenAmount = this.urlParams.get(WalletPathEnum.amount);
+  tokenAddress = this.urlParams.get(WalletPathEnum.address);
+  isLPS = this.urlParams.get(WalletPathEnum.isLPS) == 'true';
+  isSPV = this.urlParams.get(WalletPathEnum.isSPV) == 'true';
 
   state = {
     walletBalance: 0,
@@ -397,7 +389,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS } = this;
+    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS, isSPV } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -415,7 +407,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     tokenHash || DFI_SYMBOL,
                     tokenAmount || '',
                     tokenAddress || '',
-                    isLPS
+                    isLPS,
+                    isSPV
                   )
                 : WALLET_PAGE_PATH
             }
@@ -670,7 +663,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                         tokenHash || DFI_SYMBOL,
                         tokenAmount || '',
                         tokenAddress || '',
-                        isLPS
+                        isLPS,
+                        isSPV
                       )
                     : WALLET_PAGE_PATH
                 }
