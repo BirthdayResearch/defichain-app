@@ -13,7 +13,6 @@ import {
   fetchWalletMapRequest,
   fetchWalletMapSuccess,
   setLockedUntil,
-  setSPVPaymentRequests,
   unlockWalletSuccess,
 } from '../containers/WalletPage/reducer';
 import store from '../app/rootStore';
@@ -58,11 +57,9 @@ import { IPCResponseModel } from '../../../typings/common';
 import { PaymentRequestModel, RPCConfigItem } from '@defi_types/rpcConfig';
 import {
   getPaymentRequestsRPC,
-  getPaymentRequestsSPVRPC,
   processWalletMapAddresses,
 } from '../containers/WalletPage/service';
 import { WalletState } from '../containers/WalletPage/types';
-import { getSPVBalanceRPC } from '../containers/WalletPage/spvService';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -364,17 +361,6 @@ export const updatePaymentAddresses = (
   });
 };
 
-export const updateSPVPaymentAddress = (
-  wallet: WalletState,
-  spvPaymentRequests: PaymentRequestModel[]
-): void => {
-  store.dispatch(setSPVPaymentRequests(spvPaymentRequests));
-  replaceWalletMapSync({
-    ...wallet.walletMap,
-    spvPaymentRequests: processWalletMapAddresses(spvPaymentRequests),
-  });
-};
-
 export const setPaymentAddresses = async (): Promise<
   IPCResponseModel<string>
 > => {
@@ -387,24 +373,6 @@ export const setPaymentAddresses = async (): Promise<
     };
   } catch (error) {
     log.error(error, 'setPaymentAddresses');
-    return {
-      success: false,
-    };
-  }
-};
-
-export const setSPVPaymentAddresses = async (): Promise<
-  IPCResponseModel<string>
-> => {
-  try {
-    const { wallet } = store.getState();
-    const paymentRequests = await getPaymentRequestsSPVRPC();
-    updateSPVPaymentAddress(wallet, paymentRequests);
-    return {
-      success: true,
-    };
-  } catch (error) {
-    log.error(error, 'setSPVPaymentAddresses');
     return {
       success: false,
     };

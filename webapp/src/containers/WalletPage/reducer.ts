@@ -353,6 +353,7 @@ const configSlice = createSlice({
     setSPVBalance(state, action) {
       state.spv.balance = action.payload;
     },
+    getNewSPVAddress(state) {},
   },
 });
 
@@ -432,6 +433,7 @@ export const {
   getSPVBalance,
   setSPVBalance,
   setSPVPaymentRequests,
+  getNewSPVAddress,
 } = actions;
 
 export default reducer;

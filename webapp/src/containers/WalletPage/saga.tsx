@@ -63,6 +63,7 @@ import {
   createWalletStart,
   getSPVBalance,
   setSPVBalance,
+  getNewSPVAddress,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -118,7 +119,6 @@ import {
   checkWalletEncryption,
   getWalletMap,
   setPaymentAddresses,
-  setSPVPaymentAddresses,
 } from '../../app/service';
 import {
   encryptWalletSuccess,
@@ -132,7 +132,14 @@ import { setDefaultLockTimeout } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
 import { TimeoutLockEnum } from '../SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
-import { getSPVBalanceRPC } from './spvService';
+import {
+  getSPVAddress,
+  getSPVBalanceRPC,
+  handleNewSPVAddress,
+  setSPVPaymentAddresses,
+} from './spvService';
+import { RootState } from '../../app/rootTypes';
+import { uid } from 'uid';
 
 export function* getNetwork() {
   const {
@@ -722,6 +729,28 @@ export function* handleGetSPVBalance() {
   }
 }
 
+export function* handleGetSPVAddress() {
+  try {
+    const { spvPaymentRequests } = yield select(
+      (state: RootState) => state.wallet
+    );
+    const newAddress = yield call(getSPVAddress);
+    const addresses = cloneDeep(spvPaymentRequests);
+    const data: PaymentRequestModel = {
+      id: uid(),
+      time: new Date().toString(),
+      address: newAddress,
+      ismine: true,
+      label: '',
+    };
+    yield call(handleNewSPVAddress, data, addresses);
+  } catch (e) {
+    showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
+    yield put(addReceiveTxnsFailure(e.message));
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -766,6 +795,7 @@ function* mySaga() {
   );
   yield takeLatest(createWalletStart.type, handleCreateWalletStart);
   yield takeLatest(getSPVBalance.type, handleGetSPVBalance);
+  yield takeLatest(getNewSPVAddress.type, handleGetSPVAddress);
 }
 
 export default mySaga;

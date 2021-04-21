@@ -85,21 +85,8 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                       <td></td>
                       <td>{request.label}</td>
                       <td className={styles.addressContainer}>
-                        <div
-                          className={styles.ellipsisValue}
-                          style={{ position: 'relative' }}
-                        >
-                          <div
-                            className={classnames(
-                              { 'd-block': copied },
-                              styles.copiedIndicator
-                            )}
-                          >
-                            {I18n.t(
-                              'containers.blockChainPage.blockTxn.copied'
-                            )}
-                          </div>
-                          <div>{request.address}</div>
+                        <div className={styles.ellipsisValue}>
+                          {request.address}
                         </div>
                       </td>
                       <td>{moment(request.time).fromNow()}</td>
