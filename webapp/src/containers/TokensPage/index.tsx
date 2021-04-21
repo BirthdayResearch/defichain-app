@@ -18,11 +18,11 @@ import Header from '../HeaderComponent';
 import { filterByValue, getPageTitle } from '../../utils/utility';
 import cloneDeep from 'lodash/cloneDeep';
 import Pagination from 'src/components/Pagination';
+import { history } from '../../utils/history';
 
 interface TokensProps {
   tokens: any;
   searchQuery: string;
-  history: any;
   fetchTokensRequest: () => void;
   isLoadingTokens: boolean;
 }
@@ -86,7 +86,7 @@ const TokensPage: React.FunctionComponent<TokensProps> = (
   };
 
   const handleCardClick = (symbol: string, hash: string) => {
-    return props.history.push(`${TOKENS_PATH}/${symbol}/${hash}`);
+    return history.push(`${TOKENS_PATH}/${symbol}/${hash}`);
   };
 
   return (

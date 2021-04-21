@@ -22,7 +22,7 @@ interface EchoConsoleProps {
   storeCliLog: (logState: any) => void;
   cliLog: any;
   isLoading: boolean;
-  result: object | string | number | any[];
+  result: string | number | any[];
   isError: string;
   walletMap: WalletMap;
 }
@@ -38,7 +38,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     result,
     isError,
     cliLog,
-    walletMap
+    walletMap,
   } = props;
   const [showConsoleResults, setShowConsoleResults] = useState(false);
   let currentRef: Console;

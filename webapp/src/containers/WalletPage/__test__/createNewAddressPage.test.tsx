@@ -11,7 +11,7 @@ describe('PaymentRequests component', () => {
     const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>
-          <CreateNewAddressPage history={history} />
+          <CreateNewAddressPage />
         </Provider>
       </Router>
     );
