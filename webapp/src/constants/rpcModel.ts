@@ -109,3 +109,8 @@ export interface CreateNewWalletModel {
   name: string;
   warning: string;
 }
+
+export interface SPVSendModel {
+  txid: string;
+  sendmessage: string;
+}

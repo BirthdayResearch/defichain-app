@@ -36,7 +36,7 @@ import {
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DFI_SYMBOL } from '../../../../constants';
+import { WALLET_PAGE_PATH, DFI_SYMBOL, DFI } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
@@ -55,6 +55,7 @@ import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
 import { WalletPathEnum } from '../../types';
+import { isValidSPVAddress, sendSPVToAddress } from '../../spvService';
 
 const shutterSnap = new UIfx(shutterSound);
 
@@ -284,52 +285,64 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       regularDFI,
     });
     if (isAmountValid && isAddressValid) {
-      let amount: BigNumber;
       let txHash;
-      if (
-        (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
-        !regularDFI.isZero()
-      ) {
-        // Convert to base unit
-        amount = new BigNumber(this.state.amountToSendDisplayed);
-        // amount.is
-        const feeCheck = amount.gte(this.props.sendData.walletBalance);
-        // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+      // Convert to base unit
+      const amount = new BigNumber(this.state.amountToSendDisplayed);
+      //* if SPV Send
+      if (this.isSPV) {
         try {
-          txHash = await sendToAddress(this.state.toAddress, amount, feeCheck);
-          this.handleSuccess(txHash);
+          const result = await sendSPVToAddress(this.state.toAddress, amount);
+          this.handleSuccess(result.txid);
         } catch (error) {
           this.handleFailure(error);
         }
       } else {
-        try {
-          const hash = this.tokenHash || DFI_SYMBOL;
-          log.info('*******token send **********');
-          amount = new BigNumber(this.state.amountToSendDisplayed);
-          log.info({
-            amount: this.state.amountToSendDisplayed,
-            hash,
-            address: this.state.toAddress,
-          });
+        if (
+          (!this.tokenSymbol || this.tokenSymbol === DFI) &&
+          !regularDFI.isZero()
+        ) {
+          // amount.is
+          const feeCheck = amount.gte(this.props.sendData.walletBalance);
+          // if amount to send is equal to wallet balance then cut tx fee from amountToSend
           try {
-            txHash = await sendTokensToAddress(
+            txHash = await sendToAddress(
               this.state.toAddress,
-              `${amount.toFixed(8)}@${hash}`
+              amount,
+              feeCheck
             );
-            log.info('*******token send **********');
-            log.info(`accountToAccount tx hash ${txHash}`);
-            log.info('*******token send **********');
             this.handleSuccess(txHash);
           } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            log.error(errorMessage, 'sendTokensToAddress');
-            log.info(`sendTransaction: Will try fallback option`);
-            this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+            this.handleFailure(error);
           }
-        } catch (error) {
-          const errorMessage = getErrorMessage(error);
-          log.error(`Got error in token send: ${errorMessage}`);
-          this.handleFailure(error);
+        } else {
+          try {
+            const hash = this.tokenHash || DFI_SYMBOL;
+            log.info('*******token send **********');
+            log.info({
+              amount: this.state.amountToSendDisplayed,
+              hash,
+              address: this.state.toAddress,
+            });
+            try {
+              txHash = await sendTokensToAddress(
+                this.state.toAddress,
+                `${amount.toFixed(8)}@${hash}`
+              );
+              log.info('*******token send **********');
+              log.info(`accountToAccount tx hash ${txHash}`);
+              log.info('*******token send **********');
+              this.handleSuccess(txHash);
+            } catch (error) {
+              const errorMessage = getErrorMessage(error);
+              log.error(errorMessage, 'sendTokensToAddress');
+              log.info(`sendTransaction: Will try fallback option`);
+              this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+            }
+          } catch (error) {
+            const errorMessage = getErrorMessage(error);
+            log.error(`Got error in token send: ${errorMessage}`);
+            this.handleFailure(error);
+          }
         }
       }
     }
@@ -390,12 +403,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   isAddressValid = async () => {
     let isAddressValid = false;
-    if (
-      this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-      this.state.toAddress.length <= 35
-    ) {
-      isAddressValid = await isValidAddress(this.state.toAddress);
+    if (this.isSPV) {
+      isAddressValid = await isValidSPVAddress(this.state.toAddress);
+    } else {
+      if (
+        this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
+        this.state.toAddress.length <= 35
+      ) {
+        isAddressValid = await isValidAddress(this.state.toAddress);
+      }
     }
+
     this.setState({ isAddressValid });
   };
 
@@ -668,7 +686,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <ViewOnChain txid={this.state.txHash} />
+              <ViewOnChain txid={this.state.txHash} isSPV={this.isSPV} />
               <Button
                 color='primary'
                 to={

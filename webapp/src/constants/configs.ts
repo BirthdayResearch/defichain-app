@@ -194,3 +194,5 @@ export const ALL = 'all';
 export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';
 export const BLOCK_HEIGHT = 'blockHeight';
 export const CSV_TXN_LIMIT = 999999;
+
+export const BLOCKCHAIN_COM = 'https://www.blockchain.com/';

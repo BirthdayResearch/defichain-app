@@ -8,6 +8,8 @@ import { setSPVPaymentRequests } from './reducer';
 import { getPaymentRequestsSPVRPC, processWalletMapAddresses } from './service';
 import { WalletState } from './types';
 import * as log from '../../utils/electronLogger';
+import { SPVSendModel } from '../../constants/rpcModel';
+import { getErrorMessage } from '../../utils/utility';
 
 export const getSPVBalanceRPC = async (): Promise<string> => {
   const rpcClient = new RpcClient();
@@ -57,5 +59,32 @@ export const setSPVPaymentAddresses = async (): Promise<
     return {
       success: false,
     };
+  }
+};
+
+export const isValidSPVAddress = async (
+  toAddress: string
+): Promise<boolean> => {
+  const rpcClient = new RpcClient();
+  try {
+    return rpcClient.isValidSPVAddress(toAddress);
+  } catch (err) {
+    log.error(`Got error in isValidAddress: ${err}`);
+    return false;
+  }
+};
+
+export const sendSPVToAddress = async (
+  toAddress: string,
+  amount: BigNumber
+): Promise<SPVSendModel> => {
+  try {
+    const rpcClient = new RpcClient();
+    const data = rpcClient.sendSPVToAddress(toAddress, amount);
+    return data;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    log.error(errorMessage);
+    throw new Error(errorMessage);
   }
 };

@@ -46,6 +46,7 @@ import {
   CreateNewWalletModel,
   ListUnspentModel,
   PeerInfoModel,
+  SPVSendModel,
   WalletInfo,
 } from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
@@ -1025,6 +1026,17 @@ export default class RpcClient {
         }: ${JSON.stringify(data)}`
       );
     }
+    return data.result;
+  };
+
+  sendSPVToAddress = async (
+    toAddress: string,
+    amount: BigNumber
+  ): Promise<SPVSendModel> => {
+    const { data } = await this.call('/', methodNames.SPV_SENDTOADDRESS, [
+      toAddress,
+      amount.toFixed(8),
+    ]);
     return data.result;
   };
 }
