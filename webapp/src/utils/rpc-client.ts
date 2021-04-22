@@ -974,7 +974,7 @@ export default class RpcClient {
     return data?.result;
   };
 
-  getSPVAddresses = async (minConf = 0): Promise<PaymentRequestModel[]> => {
+  listReceivedBySPVAddresses = async (minConf = 0): Promise<PaymentRequestModel[]> => {
     const { data } = await this.call(
       '/',
       methodNames.SPV_LISTRECEIVEDBYADDRESS,
@@ -1037,6 +1037,11 @@ export default class RpcClient {
       toAddress,
       amount.toFixed(8),
     ]);
+    return data.result;
+  };
+
+  getAllSPVAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SPV_GETALLADDRESSES);
     return data.result;
   };
 }

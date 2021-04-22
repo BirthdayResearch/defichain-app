@@ -3,13 +3,15 @@ import { IPCResponseModel } from '../../../../typings/common';
 import store from '../../app/rootStore';
 import { replaceWalletMapSync } from '../../app/service';
 import RpcClient from '../../utils/rpc-client';
-import { PaymentRequestModel } from './components/ReceivePage/CreateNewAddressPage';
 import { setSPVPaymentRequests } from './reducer';
-import { getPaymentRequestsSPVRPC, processWalletMapAddresses } from './service';
+import { processWalletMapAddresses } from './service';
 import { WalletState } from './types';
 import * as log from '../../utils/electronLogger';
 import { SPVSendModel } from '../../constants/rpcModel';
 import { getErrorMessage } from '../../utils/utility';
+import { uid } from 'uid';
+import { uniqBy } from 'lodash';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 
 export const getSPVBalanceRPC = async (): Promise<string> => {
   const rpcClient = new RpcClient();
@@ -87,4 +89,37 @@ export const sendSPVToAddress = async (
     log.error(errorMessage);
     throw new Error(errorMessage);
   }
+};
+
+export const getPaymentRequestsSPVRPC = async (): Promise<
+  PaymentRequestModel[]
+> => {
+  try {
+    const rpcClient = new RpcClient();
+    const receivedAddress = await rpcClient.listReceivedBySPVAddresses();
+    const ownAddresses = await rpcClient.getAllSPVAddress();
+    const walletMapAddress = getWalletMapSPVAddresses();
+    const combinedAddress = uniqBy(
+      [...receivedAddress, ...walletMapAddress],
+      'address'
+    );
+    const finalAddresses = combinedAddress.map((pr) => {
+      return { ...pr };
+    });
+    finalAddresses.forEach((a) => {
+      a.id = a.id ?? uid();
+      a.ismine = ownAddresses.includes(a.address);
+      a.time = a.time ?? new Date();
+      a.isSPV = true;
+    });
+    return finalAddresses;
+  } catch (error) {
+    log.error(error);
+    return [];
+  }
+};
+
+export const getWalletMapSPVAddresses = (): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  return [...(wallet?.walletMap?.spvPaymentRequests ?? [])];
 };

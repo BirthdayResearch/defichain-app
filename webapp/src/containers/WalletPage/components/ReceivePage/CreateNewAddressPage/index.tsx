@@ -28,17 +28,7 @@ import {
   isValidAddress,
 } from '../../../../../utils/utility';
 import { history } from '../../../../../utils/history';
-
-export interface PaymentRequestModel {
-  label: string;
-  id: string;
-  time: string;
-  address: string;
-  message?: string;
-  amount?: number;
-  unit?: string;
-}
-
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 interface CreateNewAddressPageProps {
   paymentRequests: PaymentRequestModel[];
   addReceiveTxns: (data: any) => void;

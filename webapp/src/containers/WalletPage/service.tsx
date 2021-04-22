@@ -75,25 +75,6 @@ export const processWalletMapAddresses = (
   });
 };
 
-export const getPaymentRequestsSPVRPC = async (): Promise<
-  PaymentRequestModel[]
-> => {
-  try {
-    const rpcClient = new RpcClient();
-    const receivedAddress = await rpcClient.getSPVAddresses();
-    receivedAddress.forEach((address) => {
-      address.id = address.id ?? uid();
-      address.ismine = true;
-      address.time = address.time ?? new Date();
-      address.isSPV = true;
-    });
-    return receivedAddress;
-  } catch (error) {
-    log.error(error);
-    return [];
-  }
-};
-
 export const getPaymentRequestsRPC = async (): Promise<
   PaymentRequestModel[]
 > => {
