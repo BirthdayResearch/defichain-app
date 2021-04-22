@@ -172,14 +172,14 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   >
                     <MdArrowDownward className='clickable'></MdArrowDownward>
                   </Button>
-                  <Button
+                  {/* <Button
                     className={`${styles.icons} ${
                       hideMore ? styles.visibilityHidden : ''
                     }`}
                     color='link'
                   >
                     <MdMoreHoriz className='clickable'></MdMoreHoriz>
-                  </Button>
+                  </Button> */}
                 </div>
               </Col>
             </Row>

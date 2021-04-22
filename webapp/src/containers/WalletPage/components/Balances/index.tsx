@@ -49,14 +49,14 @@ const BalancesPage: React.FunctionComponent = () => {
     },
   } = useSelector((state: RootState) => state);
 
-  const [dfiToken] = useState<BalanceToken>({
+  const [dfiToken, setDfiToken] = useState<BalanceToken>({
     symbol: unit,
     symbolKey: unit,
     amount: walletBalance ?? 0,
     hash: DFI_SYMBOL,
   });
 
-  const [btcNative] = useState<BalanceToken>({
+  const [btcNative, setBtcNative] = useState<BalanceToken>({
     symbol: BTC,
     symbolKey: BTC,
     amount: spv?.balance ?? 0,
@@ -132,6 +132,21 @@ const BalancesPage: React.FunctionComponent = () => {
     tokens?.length,
     walletTableData,
   ]);
+
+  useEffect(() => {
+    if (dfiToken) {
+      setDfiToken({
+        ...dfiToken,
+        amount: walletBalance,
+      });
+    }
+    if (btcNative) {
+      setBtcNative({
+        ...btcNative,
+        amount: spv?.balance,
+      });
+    }
+  }, [walletBalance, spv?.balance]);
 
   const openInfoPopup = () => {
     dispatch(openBalanceTooltipModal(true));
