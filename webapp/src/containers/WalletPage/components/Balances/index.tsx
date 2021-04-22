@@ -156,9 +156,7 @@ const BalancesPage: React.FunctionComponent = () => {
   return (
     <div className='main-wrapper'>
       {!isWalletCreatedFlag ? (
-        <div className='main-wrapper'>
-          <CreateOrRestoreWalletPage />
-        </div>
+        <CreateOrRestoreWalletPage />
       ) : (
         <>
           <Helmet>
