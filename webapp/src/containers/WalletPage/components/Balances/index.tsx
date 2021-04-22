@@ -43,6 +43,7 @@ const BalancesPage: React.FunctionComponent = () => {
       spv,
       accountTokens,
       isLoadingTokens,
+      tokens: allAppTokens,
     },
     settings: {
       appConfig: { unit },
@@ -65,7 +66,7 @@ const BalancesPage: React.FunctionComponent = () => {
   });
 
   const [tokens, setTokens] = useState<BalanceToken[]>([]);
-  const [walletTableData, setwalletTableData] = useState<any>([]);
+  const [walletTableData] = useState<any>([]);
   const [verifiedTokens, setVerifiedTokens] = useState<BalanceToken[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
 
@@ -115,7 +116,7 @@ const BalancesPage: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    const verifiedTokens = getVerifiedTokens(tokens, accountTokens);
+    const verifiedTokens = getVerifiedTokens(allAppTokens, accountTokens);
     setVerifiedTokens(verifiedTokens);
     const tokensList: IToken[] = filterByValue(accountTokens, '');
     if (currentPage === defaultPage) {
