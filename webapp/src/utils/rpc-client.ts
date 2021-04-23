@@ -55,17 +55,18 @@ export default class RpcClient {
   client: any;
   constructor(cancelToken?) {
     const state = store.getState();
-    const { rpcauth, rpcconnect } = state.app.rpcConfig;
+    const { rpcuser, rpcpassword, rpcconnect } = state.app.rpcConfig;
     const activeNetwork = state.app.rpcConfig[state.app.activeNetwork];
     const rpcport = activeNetwork?.rpcport;
 
-    if (!rpcauth || !rpcconnect || !rpcport) {
+    if (!rpcuser || !rpcpassword || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');
     }
     this.client = axios.create({
-      baseURL: `http://${rpcauth}@${rpcconnect}:${rpcport}`,
-      headers: {
-        'cache-control': 'no-cache',
+      baseURL: `http://${rpcconnect}:${rpcport}`,
+      auth: {
+        username: rpcuser,
+        password: rpcpassword,
       },
       cancelToken: cancelToken,
     });
