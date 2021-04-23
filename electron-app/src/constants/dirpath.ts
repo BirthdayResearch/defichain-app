@@ -11,8 +11,7 @@ import { path7za } from '7zip-bin';
 
 export const APP_NAME = app.name;
 export const IS_DEV = process.env.NODE_ENV === 'development';
-export const IS_PACKAGED =
-  process.mainModule.filename.indexOf('app.asar') !== -1;
+export const IS_PACKAGED = app.isPackaged;
 
 export const HOME_PATH = app.getPath('home');
 export const APP_DIR = path.join(HOME_PATH, './.defi');
