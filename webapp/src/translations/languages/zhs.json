@@ -1,8 +1,6 @@
 {
   "components": {
-    "keyValueLi": {
-      "copied": "复制成功！"
-    },
+    "keyValueLi": { "copied": "复制成功！" },
     "syncStatus": {
       "synchronized": "已同步",
       "syncing": "同步中",
@@ -12,7 +10,11 @@
       "justNow": "刚同步",
       "aMinuteAgo": "一分钟前同步",
       "blockInfo": "%{latestBlock} 区块之 %{latestSyncedBlock}",
-      "network": "网络"
+      "network": "网络",
+      "preparingSync": "Preparing sync",
+      "connectedToPeers": "Connected to %{peers} peers",
+      "atBlock": "At block %{block}",
+      "lookingForPeers": "Looking for peers"
     },
     "swapCard": {
       "selectAToken": "选择代币",
@@ -26,6 +28,7 @@
   "containers": {
     "sideBar": {
       "balance": "金额",
+      "balances": "Balances",
       "dfi": "DFI",
       "wallets": "钱包",
       "dex": "去中心化兑换",
@@ -38,7 +41,8 @@
       "settings": "设定",
       "console": "命令行界面",
       "liquidity": "流动资金",
-      "selectCreateRestore": "选择，创建或还原钱包来访问钱包功能"
+      "selectCreateRestore": "选择，创建或还原钱包来访问钱包功能",
+      "transactions": "Transactions"
     },
     "blockChainPage": {
       "blockChainPage": {
@@ -91,7 +95,8 @@
       "title": "DFI 区块处理中心",
       "header": "DFI 区块处理中心",
       "detail": "您意外间达到了这里。这是我们工作人员把区块牢牢地串在区块链上的岗位。由于这是个禁区，请您转回头。",
-      "goBack": "回返"
+      "goBack": "回返",
+      "insufficientFunds": "Insufficient UTXO DFI for transaction fees. Please send some DFI from an exchange or another wallet and try again."
     },
     "exchangePage": {
       "title": "兑换",
@@ -111,7 +116,8 @@
       "reddit": "Reddit 社区",
       "helpTextFooterLine1": "DeFiChain 是个由社区驱动和开放式的项目。",
       "helpTextFooterLine2": "DeFiChain 基金会并不提供直接支援。",
-      "section": "Section"
+      "section": "Section",
+      "wiki": "Community Wiki"
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -140,7 +146,17 @@
         "collateral": "Collateral",
         "collateralsActive": "Collaterals active",
         "collateralsInactive": "Collaterals inactive",
-        "dFIMinted": "DFI minted"
+        "dFIMinted": "DFI minted",
+        "created": "Created",
+        "resigned": "Resigned",
+        "preresigned": "Pre-resigned",
+        "enable": "Enable",
+        "disable": "Disable",
+        "restartNeeded": "You need to restart DeFi Wallet to apply these changes. Do you want to restart?",
+        "tooltipMasternode": "If you have a masternode, your app needs to be open with an unlocked wallet to be able to mint.",
+        "preenabled": "Pre-enabled",
+        "prebanned": "Pre-banned",
+        "banned": "Banned"
       },
       "masterNodesList": {
         "ownerAddress": "物主地址",
@@ -191,10 +207,7 @@
         "successText": "成功",
         "backToMasternodePage": "回返主节点"
       },
-      "masternodeTab": {
-        "myMasternodes": "我的",
-        "network": "网络"
-      }
+      "masternodeTab": { "myMasternodes": "我的", "network": "网络" }
     },
     "tokens": {
       "tokensPage": {
@@ -205,8 +218,8 @@
         "searchTokens": "探索代币",
         "dat": "DAT",
         "dct": "DCT",
-        "remove": "删除",
         "paginationRange": "%{total} 代币之 %{from} – %{to}",
+        "remove": "删除",
         "datLabels": {
           "type": "类型",
           "price": "加载",
@@ -216,7 +229,8 @@
           "decimal": "十进制",
           "limit": "限量",
           "mintingSupport": "铸造支持",
-          "tradeable": "可交易"
+          "tradeable": "可交易",
+          "liquidityTokenFor": "Liquidity token for"
         },
         "dctLabels": {
           "id": "ID",
@@ -226,7 +240,8 @@
           "tradeable": "可交易",
           "type": "类型",
           "decimal": "十进制",
-          "limit": "限量"
+          "limit": "限量",
+          "liquidityTokenFor": "Liquidity token for"
         }
       },
       "createToken": {
@@ -348,7 +363,8 @@
         "apy": "APY",
         "back": "回返",
         "addLiquidity": "提供流动资金",
-        "txHash": "交易哈希"
+        "txHash": "交易哈希",
+        "blockTransactionFailed": "Please wait for your transaction to be reflected in the next block before proceeding with a new transaction."
       },
       "liquidityInfo": {
         "title": "流动资金 – DeFiChain 应用程式",
@@ -418,11 +434,16 @@
         "preparingUTXO": "正在准备 UTXO",
         "UTXOPrepared": "UTXO 已准备好",
         "transferringTokens": "转移代币",
-        "tokensTransferred": "代币已转移"
+        "tokensTransferred": "代币已转移",
+        "dexExplorer": "Dex Explorer",
+        "insufficientUtxos": "Insufficient UTXOs to swap",
+        "backToDEX": "Back to DEX"
       },
       "swapTab": {
         "from": "从",
-        "to": "到"
+        "to": "到",
+        "receiveTokensAt": "Receive tokens at",
+        "receiveAddress": "Receive Address"
       },
       "poolTab": {
         "yourLiquidity": "您的流动资金",
@@ -435,7 +456,8 @@
         "apyTooltipMessage": "显示的 APY 只包括 DFI 激励, 不包括佣金。 包括佣金的 APY 其实会更高。",
         "totalLiquidity": "总流动资金额（USD）",
         "addRemoveLiquidity": "添加或删除流动资金",
-        "addLiquidity": "添加流动资金"
+        "addLiquidity": "添加流动资金",
+        "totalValueLocked": "Total Value Locked (USD)"
       },
       "addLiquidity": {
         "ok": "Ok",
@@ -471,7 +493,8 @@
         "address": "地址",
         "label": "标签",
         "selected": "已选",
-        "receiveSharesAt": "池股接收地址"
+        "receiveSharesAt": "池股接收地址",
+        "insufficientUtxos": "Insufficient UTXOS to perform add liquidity"
       },
       "removeLiquidity": {
         "address": "地址",
@@ -512,6 +535,8 @@
       "launchAtLogin": "登陆时开启",
       "reindexOption": "重新编制索引选项",
       "reindexAfterSaving": "保存后重新编制索引",
+      "refreshUtxos": "Refresh UTXOs",
+      "refreshUtxosAfterSaving": "Refresh UTXOs after saving",
       "minimizedAtLaunch": "开启后缩小窗口",
       "storage": "存储",
       "pruneBlockStorage": "修剪区块存储",
@@ -532,6 +557,7 @@
       "chinese": "中文",
       "chinese_traditional": "Chinese (Traditional)",
       "dutch": "Dutch",
+      "russian": "Russian",
       "displayAmount": "数目显示单位",
       "dFI": "DFI",
       "fi": "fi",
@@ -548,6 +574,21 @@
       "testnet": "测试网",
       "regnet": "沙河测试网",
       "deletePeersAndBlocks": "Delete peers and blocks",
+      "security": "Security",
+      "passphraseLock": "Passphrase lock",
+      "changePassphrase": "Change passphrase",
+      "autoLock": "Auto-lock",
+      "changeLockPassphrase": "Change lock passphrase",
+      "currentPassphrase": "Current passphrase",
+      "newPassphrase": "New passphrase",
+      "confirmNewPassphrase": "Confirm new passphrase",
+      "save": "Save",
+      "updatingPassphrase": "Updating passphrase",
+      "incorrectPassphrase": "The current passphrase entered is incorrect.",
+      "minute": "%{time} minute",
+      "minutes": "%{time} minutes",
+      "years": "%{time} years",
+      "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active.",
       "showAdvanceOptions": "Show advance options",
       "hideAdvanceOptions": "Hide advance options",
       "sendCountdown": "Send countdown",
@@ -571,11 +612,16 @@
         "restoreWalletFromMnemonicSeed": "从恢复种子还原钱包",
         "walletSyncNotice": "同步完成后您就能创建或恢复钱包",
         "loading": "加载中…",
+        "restoreFromBackup": "Restore wallet from backup",
         "connectToALedger": "连接硬件钱包",
         "hdWallet": "分层确定性钱包",
         "mnemonicSeed": "助记词",
+        "walletDat": "wallet.dat",
         "chooseRecentBackup": "或者选择最近的备份",
-        "comingSoon": "即将来临"
+        "comingSoon": "即将来临",
+        "enterPassphrase": "Enter the passphrase which you will use to unlock your wallet.",
+        "create": "Create",
+        "walletName": "Wallet name"
       },
       "createNewWalletPage": {
         "back": "回返",
@@ -612,6 +658,7 @@
         "title": "钱包 - 恢复钱包",
         "restoreWallet": "恢复钱包",
         "restoreWalletGuideLine": "请输入您助记种子的 24个字以恢复钱包。",
+        "enterWord": "Enter word",
         "restoringWallet": "钱包恢复中",
         "restore": "恢复",
         "backToWalletPage": "关闭",
@@ -640,7 +687,9 @@
         "dfiAddress": "DFI 地址",
         "pleaseTransferFunds": "您钱包里需要一些 DFI",
         "txHash": "交易哈希",
-        "insufficientUtxos": "UTXO 不足"
+        "insufficientUtxos": "UTXO 不足",
+        "sendLPWarning": "It appears you are sending liquidity pools share (LP) tokens. Please be aware that sending your LP tokens to another DeFiChain address will transfer your liquidity pool share to that address. Sending LP tokens anywhere other than another DeFiChain wallet, such as an exchange, may result in irreversible loss of funds.",
+        "sendLPConfirm": "I confirm that I intend to send LP tokens and I acknowledge that sending LP tokens to addresses that are not DeFiChain wallets may result in irreversible loss of funds."
       },
       "receivePage": {
         "receiveDFITitle": "接收 DFI",
@@ -663,7 +712,17 @@
         "backButton": "回返",
         "createButton": "创建",
         "legacyAddress": "传统地址",
-        "addressType": "地址种类"
+        "addressType": "地址种类",
+        "automaticallyGenerateNewAddress": "Automatically generate a new address",
+        "showAdvanceOptions": "Show advance options",
+        "default": "Default",
+        "legacy": "Legacy",
+        "addReceiveAddress": "Add a receive address",
+        "address": "Address",
+        "enterAnAddress": "Enter an address in your account",
+        "existingAddressOthers": "Invalid address. Please check this belongs to you.",
+        "existingAddress": "Address already exists.",
+        "invalidAddress": "Invalid address."
       },
       "paymentRequests": {
         "time": "时间",
@@ -674,7 +733,8 @@
       "paymentRequestList": {
         "label": "标签",
         "address": "地址",
-        "created": "创建日期"
+        "created": "创建日期",
+        "warningSeedPhrase": "(Warning: Not saved by seed phrase)"
       },
       "paymentRequestPage": {
         "paymentRequestTitle": "接收地址 %{id}",
@@ -693,6 +753,8 @@
         "walletDeFiApp": "钱包",
         "walletDefiClient": "钱包",
         "wallet": "钱包",
+        "balances": "Balances",
+        "wallets": "Wallets",
         "delete": "删除",
         "send": "发送",
         "receive": "接收",
@@ -706,12 +768,20 @@
         "includeRewards": "包括回报",
         "loading": "加载中…",
         "category": "类别",
-        "blockHeight": "区块高度",
         "amount": "数目",
+        "txidNotApplicable": "Transaction ID not applicable",
+        "walletPaginationRange": "%{from} – %{to} of %{total} wallets",
+        "txPaginationRange": "%{from} - %{to} of %{total} transactions",
+        "commission": "Commission",
+        "csvExport": "CSV export",
+        "downloadTransaction": "Download transaction",
+        "download": "Download",
+        "maxBlock": "Max block height",
         "exportData": "EXPORT DATA",
         "exportWalletData": "Export wallet data",
         "export": " EXPORT",
         "maxBlockHeight": "Up to block height",
+        "blockHeight": "区块高度",
         "blockHash": "Block hash",
         "type": "Type",
         "poolID": "Pool ID",
@@ -721,12 +791,17 @@
         "transaction": "transactions",
         "format": "Format",
         "csv": "CSV",
-        "blockReward": "Block reward"
+        "blockReward": "Block reward",
+        "whatAreTokens": "What are tokens?",
+        "tokenDescription": "DeFiChain uses token standards to bring in external tokens to DeFiChain in a trustless manner and allow trustless financial contracts and trading of all major cryptoasset tokens. The token standards are similar to ERC20 on Ethereum and Omni on Bitcoin blockchain. Through this standard, DeFiChain allows tokenization of any assets.",
+        "tokenSub": "On DeFiChain the standardized tokens are called DeFi Standard Token (DST). DST tokens are of two different types: DCT, created by users of the system, and DAT, which are asset-backed tokens created with the backing of cryptoassets.",
+        "moreInformation": "More information at:"
       },
       "walletWalletsPage": {
         "walletWallets": "钱包",
         "wallets": "钱包",
-        "addWallet": "添加钱包"
+        "addWallet": "添加钱包",
+        "addBalance": "Add Balance"
       },
       "walletAddTokensPage": {
         "walletAddTokens": "钱包 – 添加钱包",
@@ -741,7 +816,33 @@
         "amount": "数目",
         "hash": "哈希",
         "paginationRange": "%{total} 交易之 %{from} – %{to}",
-        "noTransactions": "没有交易"
+        "noTransactions": "没有交易",
+        "accountToAccount": "Account to account",
+        "utxosToAccount": "UTXOs to account",
+        "addPoolLiquidity": "Add liquidity",
+        "sent": "Sent",
+        "removePoolLiquidity": "Remove liquidity",
+        "accountToUtxos": "Account to UTXOs"
+      },
+      "encryptWalletPage": {
+        "title": "Encrypt wallet",
+        "encryptingWallet": "Encrypting wallet",
+        "unableToUnlockYourWallet": "Unable to unlock your wallet? Reset DeFi Wallet to default data and settings, then restore your wallet from your wallet recovery seed or backup (wallet.dat).",
+        "walletIsLocked": "Wallet locked. To proceed with your transaction, please unlock with passphrase.",
+        "passphraseStrength": "Passphrase strength: %{strength}",
+        "strong": "Strong",
+        "weak": "Weak",
+        "none": "None"
+      },
+      "unlockWalletPage": { "title": "Unlock wallet" }
+    },
+    "transaction": {
+      "transactionPage": {
+        "transactions": "Transactions",
+        "filterByAsset": "Filter by asset",
+        "all": "All",
+        "includeRewards": "Include rewards",
+        "allAssets": "All assets"
       }
     },
     "console": {
@@ -764,10 +865,7 @@
           }
         ]
       },
-      "consoleResultPage": {
-        "resultPage": "CLI 输出",
-        "back": "回返"
-      }
+      "consoleResultPage": { "resultPage": "CLI 输出", "back": "回返" }
     }
   },
   "alerts": {
@@ -785,9 +883,12 @@
     "importSuccess": "钱包导入成功",
     "masterNodeOperatorAddressFailure": "缺少主节点操作者地址",
     "restartNode": "节点重新开启中。请等待大约几分钟。",
+    "refreshUtxos": "Refreshing UTXOs it may take some time.",
     "nodeDisconnected": "节点离线了",
     "electronRequiredError": "重新开启需要 Electron app",
     "addressIsNotAPartOfWallet": "%{addressName} 并不属于钱包",
+    "timeoutMessage": "Timeout updated to %{timeout} seconds",
+    "timeoutTitle": "Update Auto-lock Time",
     "updateAppNoticeTitle": "更新完毕",
     "updateAppNotice": "请重新开启 DeFi 应用程式让更新生效。重新开启吗？",
     "restartNowNotice": "重新开机",
@@ -813,6 +914,7 @@
     "okIHaveDoneIt": "OK，做好了",
     "encryptWalletNoticeTitle": "锁定钱包",
     "encryptWalletNotice": "钱包锁定功能可以保证您钱包的安全。请创建锁定钱包的新密码。",
+    "encryptWalletWarning": "Keep your passphrase safe. Losing it means you need to reset DeFi app to default settings and restore your wallets again.",
     "enableLocking": "打开锁定功能",
     "later": "不是现在",
     "passphraseLabel": "输入密码",
@@ -828,6 +930,7 @@
     "enterYourPassphrase": "请输入密码",
     "walletUnlockTitle": "欢迎回来",
     "walletUnlockMessage": "请输入密码，打开钱包",
+    "walletUnlockMasternodeMessage": "You are currently running a masternode on a locked wallet. Please unlock your wallet with your passphrase to continue minting.",
     "lostPassphraseMessage": "密码丢失",
     "backupWalletWarningModelHeader": "钱包后备注意",
     "backupNow": "立即后备",
@@ -842,13 +945,44 @@
     "confirmResetWalletText": "请把 ‘%{text}’ 输入在文本域里，以确定刷新。",
     "yeResetpWalletNotice": "是的",
     "noResetWalletNotice": "否定",
+    "download": "Download",
     "restoreYourWallet": "从以下备份中还原您的钱包?",
     "exitBackupWarning": "现在退出将会从应用程序中删除您的钱包。如果以后要添加此钱包，将需要助记词。您要在退出之前备份您的钱包吗?",
     "backupAndExit": "备份并退出",
     "exit": "退出",
-    "deletePeersAndBlocks": "删除对等节点与区块数据"
+    "deletePeersAndBlocks": "删除对等节点与区块数据",
+    "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
+    "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now?",
+    "nodeVersionHeader": "Node update",
+    "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?",
+    "downloadSnapshot": "Download snapshot",
+    "syncNode": "Sync Node",
+    "snapshot": "Snapshot",
+    "snapshotSyncRecommended": "Snapshot sync recommended",
+    "downloadingSnapshot": "Downloading snapshot",
+    "snapshotDescription": "As you are synchronizing with the blockchain from scratch, it may take up to 5 hours to download all blockchain data from peer nodes. It is recommended that you use an official blockchain snapshot to speed up the synchronization process.",
+    "snapshotDate": "Snapshot date:",
+    "snapshotProvider": "Snapshot provider:",
+    "snapshotUrl": "Snapshot URL:",
+    "snapshotRegion": "Snapshot region:",
+    "afterDownload": "After downloading, the snapshot will be verified by the node before it is applied, for security purposes. The node will restart once the snapshot has been applied. In the event of an invalid snapshot, snapshot synchronization will fail, and the app will fall back to a full sync.",
+    "continueWithSnapshot": "CONTINUE WITH SNAPSHOT",
+    "downloading": "Downloading",
+    "applyingSnapshot": "Applying snapshot",
+    "unpackingSnaphot": "Unpacking snapshot from %{address}",
+    "verifyingSnapshot": "Verifying snapshot...",
+    "installingSnapshot": "Installing snapshot...",
+    "snapshotApplied": "Snapshot applied",
+    "startSyncBlock": "DeFi Wallet will now start synchronizing at block %{from}.",
+    "pleaseWait": "Please wait...",
+    "snapshotSize": "Snapshot size:",
+    "snapshotDirectory": "Snapshot directory:",
+    "notEnoughDiskSpace": "You do not have enough disk space to download and apply the snapshot."
   },
   "general": {
-    "defiApp": "DeFi 应用程式"
+    "defiApp": "DeFi 应用程式",
+    "updateFailed": "An error occurred while checking for a software update. Please manually download the latest release from defichain.com. (Only download the app from official sources)",
+    "quitingApp": "Quitting DefiChain app...",
+    "doNotCloseWindow": "Do not turn off the computer while this window is still open."
   }
 }
