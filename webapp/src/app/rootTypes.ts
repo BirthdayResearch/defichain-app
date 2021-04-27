@@ -11,6 +11,7 @@ import { SwapPageState } from '../containers/SwapPage/types';
 import { SyncStatusState } from '../containers/SyncStatus/types';
 import { TokensState } from '../containers/TokensPage/types';
 import { WalletState } from '../containers/WalletPage/types';
+import { TransactionState } from '../containers/TransactionsPage/types';
 
 export interface RootState {
   app: AppState;
@@ -25,4 +26,5 @@ export interface RootState {
   popover: PopoverState;
   swap: SwapPageState;
   liquidity: LiquidityPageState;
+  transaction: TransactionState;
 }
