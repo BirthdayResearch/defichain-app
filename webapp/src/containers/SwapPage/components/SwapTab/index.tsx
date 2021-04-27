@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { MdCompareArrows } from 'react-icons/md';
+import { Button, ButtonGroup, Col, Row } from 'reactstrap';
+import { MdCompareArrows, MdLaunch } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import SwapCard from '../../../../components/SwapCard';
@@ -8,6 +8,8 @@ import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
 import AddressDropdown from '../../../../components/AddressDropdown';
 import { getTransactionAddressLabel } from '../../../../utils/utility';
+import openNewTab from '../../../../utils/openNewTab';
+import { DEFICHAIN_ANALYTICS } from '../../../../constants';
 
 interface SwapTabProps {
   handleAddressDropdown?: any;
@@ -114,6 +116,21 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
                 getTransactionLabel={getTransactionLabel}
                 onSelectAddress={handleAddressDropdown}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col md='4'></Col>
+            <Col md='8' className='d-flex justify-content-end mt-3'>
+              <ButtonGroup>
+                <Button
+                  className='pr-0'
+                  color='link'
+                  onClick={() => openNewTab(`${DEFICHAIN_ANALYTICS}`)}
+                >
+                  <MdLaunch />
+                  <span className='d-lg-inline'>{'DeFiChain Analytics'}</span>
+                </Button>
+              </ButtonGroup>
             </Col>
           </Row>
         </section>
