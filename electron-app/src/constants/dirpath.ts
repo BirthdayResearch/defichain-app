@@ -8,6 +8,7 @@ import {
   getDefaultDebugLogFilePath,
 } from '../utils';
 import { path7za } from '7zip-bin';
+import { MAC } from './app';
 
 export const DEFI_CONF_DIR = '.defi';
 export const DEFI_CONF = 'defi.conf';
@@ -17,11 +18,10 @@ export const IS_PACKAGED = app.isPackaged;
 
 export const BASE_HOME_PATH = app.getPath('home');
 export const HOME_PATH =
-  getPlatform() === 'mac'
+  getPlatform() === MAC
     ? getDefaultDebugLogFilePath(BASE_HOME_PATH)
     : BASE_HOME_PATH;
 export const APP_DIR = path.join(HOME_PATH, `./${DEFI_CONF_DIR}`);
-export const APP_DIR_BLOCKCHAIN = path.join(HOME_PATH, `./${DEFI_CONF_DIR}`);
 export const CONFIG_FILE_NAME = path.join(APP_DIR, `/${DEFI_CONF}`);
 export const PID_FILE_NAME = path.join(APP_DIR, '/defi.pid');
 

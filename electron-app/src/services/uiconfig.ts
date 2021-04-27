@@ -15,6 +15,7 @@ import {
   APP_DIR,
   CONFIG_FILE_NAME,
   CONFIG_FILE_PATH_LEGACY,
+  MAC,
 } from '../constants';
 import {
   DEFAULT_RPC_BIND,
@@ -43,7 +44,7 @@ export default class UiConfig {
       }
 
       //* Check for mac if it's on old config location
-      if (getPlatform() === 'mac' && checkPathExists(CONFIG_FILE_PATH_LEGACY)) {
+      if (getPlatform() === MAC && checkPathExists(CONFIG_FILE_PATH_LEGACY)) {
         const existingConfigData = this.getExistingConfig(
           CONFIG_FILE_PATH_LEGACY
         );
