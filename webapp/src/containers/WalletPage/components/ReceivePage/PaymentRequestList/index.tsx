@@ -108,7 +108,11 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         </div>
                       </td>
                       <td className={`${styles.actionCell} ${styles.qrCc}`}>
-                        <UncontrolledDropdown>
+                        <UncontrolledDropdown
+                          className={` ${
+                            props.isSPV ? styles.visibilityNone : ''
+                          }`}
+                        >
                           <DropdownToggle className='padless' color='link'>
                             <MdMoreHoriz />
                           </DropdownToggle>
