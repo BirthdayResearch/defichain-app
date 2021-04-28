@@ -13,6 +13,7 @@ export enum ErrorMessages {
   PASSPHRASE_INCORRECT = 'The wallet passphrase entered was incorrect',
   MEMPOOL = 'mempool',
   UNABLE_TO_SIGN_INPUT = 'Unable to sign input, invalid stack size (possibly missing key)',
+  SPV_DISCONNECTED = 'spv not connected'
 }
 
 export enum ResponseMessages {

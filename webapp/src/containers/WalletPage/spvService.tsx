@@ -78,16 +78,21 @@ export const isValidSPVAddress = async (
 
 export const sendSPVToAddress = async (
   toAddress: string,
-  amount: BigNumber
+  amount: BigNumber,
+  retryCount = 0
 ): Promise<SPVSendModel> => {
   try {
     const rpcClient = new RpcClient();
-    const data = rpcClient.sendSPVToAddress(toAddress, amount);
+    const data = await rpcClient.sendSPVToAddress(toAddress, amount);
     return data;
   } catch (error) {
-    const errorMessage = getErrorMessage(error);
-    log.error(errorMessage);
-    throw new Error(errorMessage);
+    if (retryCount > 0) {
+      const errorMessage = getErrorMessage(error);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      return await sendSPVToAddress(toAddress, amount, retryCount + 1);
+    }
   }
 };
 
