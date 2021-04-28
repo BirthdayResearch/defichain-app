@@ -9,8 +9,14 @@ import {
   createDir,
   formatConfigFileWrite,
   formatRPCAuth,
+  getPlatform,
 } from '../utils';
-import { APP_DIR, CONFIG_FILE_NAME } from '../constants';
+import {
+  APP_DIR,
+  CONFIG_FILE_NAME,
+  CONFIG_FILE_PATH_LEGACY,
+  MAC,
+} from '../constants';
 import {
   DEFAULT_RPC_BIND,
   DEFAULT_RPC_PORT,
@@ -33,6 +39,15 @@ export default class UiConfig {
       // check for default defi config paths
       if (checkPathExists(CONFIG_FILE_NAME)) {
         const existingConfigData = this.getExistingConfig(CONFIG_FILE_NAME);
+        const configData = this.saveUiConfig(existingConfigData);
+        return configData;
+      }
+
+      //* Check for mac if it's on old config location
+      if (getPlatform() === MAC && checkPathExists(CONFIG_FILE_PATH_LEGACY)) {
+        const existingConfigData = this.getExistingConfig(
+          CONFIG_FILE_PATH_LEGACY
+        );
         const configData = this.saveUiConfig(existingConfigData);
         return configData;
       }
