@@ -51,7 +51,7 @@ export const CONFIG_FILE_PATH = path.join(
 
 export const BASE_FILE_PATH = isDataDirDefined(CONFIG_FILE_PATH)
   ? path.join(getCustomDebugLogFilePath(CONFIG_FILE_PATH))
-  : getDefaultDebugLogFilePath(HOME_PATH);
+  : getDefaultDebugLogFilePath(BASE_HOME_PATH);
 
 export const DEBUG_LOG_FILE_PATH = path.join(
   BASE_FILE_PATH,
