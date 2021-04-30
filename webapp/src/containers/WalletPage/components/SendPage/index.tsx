@@ -294,9 +294,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           const result = await sendSPVToAddress(this.state.toAddress, amount);
           this.handleSuccess(result.txid);
         } catch (error) {
-          const errorMessage = getErrorMessage(error);
-          log.error(errorMessage);
-          this.handleFailure(new Error(errorMessage));
+          this.handleFailure(error);
         }
       } else {
         if (
