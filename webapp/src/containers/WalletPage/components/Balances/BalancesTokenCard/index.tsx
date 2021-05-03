@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Row,
-  UncontrolledDropdown,
-} from 'reactstrap';
+import { Badge, Button, Card, CardBody, Col, Row } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
 import styles from '../Balances.module.scss';
@@ -18,15 +7,11 @@ import styles from '../Balances.module.scss';
 import TokenAvatar from '../../../../../components/TokenAvatar';
 import NumberMask from '../../../../../components/NumberMask';
 import BigNumber from 'bignumber.js';
-import {
-  MdArrowDownward,
-  MdArrowUpward,
-  MdMoreHoriz,
-  MdRemove,
-  MdSwapHoriz,
-} from 'react-icons/md';
+import { MdArrowDownward, MdArrowUpward, MdSwapHoriz } from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
 import {
+  DST,
+  LP,
   SWAP_PATH,
   WALLET_PAGE_PATH,
   WALLET_RECEIVE_PATH,
@@ -70,7 +55,9 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
         (token.amount ?? 0)?.toString(),
         '',
         token.isLPS,
-        token.isSPV
+        token.isSPV,
+        token.displayName,
+        token.isDAT
       )
     );
   };
@@ -101,10 +88,10 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   </div>
                   <div className='ml-3'>
                     <div className='d-flex align-items-center'>
-                      <b>{token.symbolKey}</b>
+                      <b>{token.displayName}</b>
                       {!hideBadge && (
                         <Badge className='ml-2' color='disabled'>
-                          {token.isLPS ? 'LP' : 'DST'}
+                          {token.isLPS ? LP : DST}
                         </Badge>
                       )}
                     </div>
@@ -143,7 +130,9 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                             (token.amount ?? 0).toString(),
                             '',
                             token.isLPS,
-                            token.isSPV
+                            token.isSPV,
+                            token.displayName,
+                            token.isDAT
                           )
                         : WALLET_SEND_PATH
                     }
@@ -163,7 +152,9 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                             (token.amount ?? 0).toString(),
                             '',
                             token.isLPS,
-                            token.isSPV
+                            token.isSPV,
+                            token.displayName,
+                            token.isDAT
                           )
                         : WALLET_RECEIVE_PATH
                     }

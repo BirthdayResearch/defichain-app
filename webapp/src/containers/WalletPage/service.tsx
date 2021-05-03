@@ -822,7 +822,9 @@ export const getWalletPathAddress = (
   tokenAmount: string,
   tokenAddress: string,
   isLPS: boolean,
-  isSPV?: boolean
+  isSPV?: boolean,
+  displayName?: string,
+  isDAT?: boolean
 ): string => {
   return `${basePath}?${WalletPathEnum.hash}=${tokenHash}&${
     WalletPathEnum.amount
@@ -830,5 +832,7 @@ export const getWalletPathAddress = (
     WalletPathEnum.isLPS
   }=${isLPS}&${WalletPathEnum.symbol}=${tokenSymbol}&${
     WalletPathEnum.isSPV
-  }=${isSPV}`;
+  }=${isSPV}&${WalletPathEnum.displayName}=${displayName}&${
+    WalletPathEnum.isDAT
+  }=${isDAT}`;
 };

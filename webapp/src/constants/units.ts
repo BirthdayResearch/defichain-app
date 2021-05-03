@@ -11,3 +11,5 @@ export const DFI_UNIT_MAP = {
   [FI]: '0.00000001',
 };
 export const AMOUNT_SEPARATOR = '@';
+export const DST = 'DST';
+export const LP = 'LP';

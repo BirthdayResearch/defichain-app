@@ -55,6 +55,8 @@ const BalancesPage: React.FunctionComponent = () => {
     symbolKey: unit,
     amount: walletBalance ?? 0,
     hash: DFI_SYMBOL,
+    displayName: unit,
+    isDAT: true
   });
 
   const [btcNative, setBtcNative] = useState<BalanceToken>({
@@ -63,6 +65,7 @@ const BalancesPage: React.FunctionComponent = () => {
     amount: spv?.balance ?? 0,
     hash: BTC_SPV_SYMBOL,
     isSPV: true,
+    displayName: BTC,
   });
 
   const [tokens, setTokens] = useState<BalanceToken[]>([]);

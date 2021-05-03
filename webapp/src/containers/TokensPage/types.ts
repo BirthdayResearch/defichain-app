@@ -1,6 +1,8 @@
+import { IToken } from "../../utils/interfaces";
+
 export interface TokensState {
   tokenInfo: any;
-  tokens: [];
+  tokens: IToken[];
   transfers: [];
   isLoadingTokenInfo: boolean;
   isTokenInfoLoaded: boolean;

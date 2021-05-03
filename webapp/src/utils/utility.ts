@@ -15,6 +15,7 @@ import {
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
+  IToken,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -1318,6 +1319,16 @@ export const getTotalAmountPoolShare = async (poolID) => {
   }, 0);
 
   return totalAmount;
+};
+
+export const getTokenDisplayName = (
+  isDAT: boolean,
+  displayName: string,
+  symbolKey: string,
+  hash: string,
+  isSPV?: boolean
+): string => {
+  return (isDAT || isSPV ? displayName : `${symbolKey}#${hash}`) || '';
 };
 
 export const getSymbolKey = (symbol: string, key: string, isLPS?) => {

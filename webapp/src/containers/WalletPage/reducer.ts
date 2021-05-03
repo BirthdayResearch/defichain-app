@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { defaultWalletMap, WalletState } from './types';
+import { IToken } from '../../utils/interfaces';
+import { setTokenDisplayName } from '../TokensPage/reducer';
 
 export const initialState: WalletState = {
   accountTokens: [],
@@ -87,7 +89,8 @@ const configSlice = createSlice({
       state.isAccountLoadingTokens = true;
     },
     fetchAccountTokensSuccess(state, action) {
-      state.accountTokens = action.payload.accountTokens;
+      const tokens = action.payload.accountTokens as IToken[];
+      state.accountTokens = tokens.map(setTokenDisplayName);
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
     },
@@ -113,7 +116,8 @@ const configSlice = createSlice({
       state.isLoadingTokens = true;
     },
     fetchTokensSuccess(state, action) {
-      state.tokens = action.payload.tokens;
+      const tokens = action.payload.tokens as IToken[];
+      state.tokens = tokens.map(setTokenDisplayName);
       state.isLoadingTokens = false;
       state.isTokensLoaded = true;
     },

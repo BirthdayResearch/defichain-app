@@ -42,10 +42,10 @@ import {
   getErrorMessage,
   remapNodeError,
   getPageTitle,
-  getSymbolKey,
   isLessThanDustAmount,
   isValidAddress,
   getCountdownValue,
+  getTokenDisplayName,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -105,6 +105,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenAddress = this.urlParams.get(WalletPathEnum.address);
   isLPS = this.urlParams.get(WalletPathEnum.isLPS) == 'true';
   isSPV = this.urlParams.get(WalletPathEnum.isSPV) == 'true';
+  displayName = this.urlParams.get(WalletPathEnum.displayName);
+  isDAT = this.urlParams.get(WalletPathEnum.isDAT) == 'true';
 
   state = {
     walletBalance: 0,
@@ -425,6 +427,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       tokenAddress,
       isLPS,
       isSPV,
+      displayName,
+      isDAT,
     } = this;
     return (
       <div className='main-wrapper'>
@@ -444,7 +448,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     tokenAmount || '',
                     tokenAddress || '',
                     isLPS,
-                    isSPV
+                    isSPV,
+                    displayName || '',
+                    isDAT
                   )
                 : WALLET_PAGE_PATH
             }
@@ -459,8 +465,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-              this.props.unit}
+            {getTokenDisplayName(
+              isDAT,
+              displayName || '',
+              tokenSymbol || '',
+              tokenHash || '',
+              isSPV
+            )}
           </h1>
         </Header>
         <div className='content'>
@@ -485,10 +496,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {getSymbolKey(
+                        {getTokenDisplayName(
+                          isDAT,
+                          displayName || '',
                           tokenSymbol || '',
-                          tokenHash || DFI_SYMBOL
-                        ) || this.props.unit}
+                          tokenHash || '',
+                          isSPV
+                        )}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -580,7 +594,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   />
                   &nbsp;
                   {tokenSymbol
-                    ? getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL)
+                    ? getTokenDisplayName(
+                        isDAT,
+                        displayName || '',
+                        tokenSymbol,
+                        tokenHash || '',
+                        isSPV
+                      )
                     : this.props.unit}
                 </div>
               </Col>
@@ -593,8 +613,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     value={this.state.amountToSendDisplayed.toString()}
                   />
                   &nbsp;
-                  {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-                    this.props.unit}
+                  {getTokenDisplayName(
+                    isDAT,
+                    displayName || '',
+                    tokenSymbol || '',
+                    tokenHash || '',
+                    isSPV
+                  ) || this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -633,8 +658,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-                      this.props.unit}
+                    {getTokenDisplayName(
+                      isDAT,
+                      displayName || '',
+                      tokenSymbol || '',
+                      tokenHash || '',
+                      isSPV
+                    )}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -698,7 +728,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                         tokenAmount || '',
                         tokenAddress || '',
                         isLPS,
-                        isSPV
+                        isSPV,
+                        displayName || '',
+                        isDAT
                       )
                     : WALLET_PAGE_PATH
                 }

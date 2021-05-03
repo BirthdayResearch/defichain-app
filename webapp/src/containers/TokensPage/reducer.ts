@@ -1,5 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { DFI_SYMBOL, BTC_SPV_SYMBOL } from '../../constants';
+import { IToken } from '../../utils/interfaces';
 import { TokensState } from './types';
+
+export const appendTokenName = (token: IToken): string => {
+  let name = '';
+  if (token) {
+    const isDST =
+      !token.isLPS &&
+      token.isDAT &&
+      ![DFI_SYMBOL, BTC_SPV_SYMBOL].includes(token.hash);
+    name = isDST ? `d${token.symbolKey}` : token.symbolKey;
+  }
+  return name;
+};
+
+export const setTokenDisplayName = (t: IToken): IToken => {
+  t.displayName = appendTokenName(t);
+  return t;
+};
 
 export const initialState: TokensState = {
   tokenInfo: {},
@@ -46,7 +65,8 @@ const configSlice = createSlice({
       state.isLoadingTokens = true;
     },
     fetchTokensSuccess(state, action) {
-      state.tokens = action.payload;
+      const tokens = action.payload as IToken[];
+      state.tokens = tokens.map(setTokenDisplayName);
       state.isLoadingTokens = false;
       state.isTokensLoaded = true;
     },

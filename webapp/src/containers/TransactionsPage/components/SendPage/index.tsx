@@ -102,6 +102,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   tokenAddress = this.urlParams.get(WalletPathEnum.address);
   isLPS = this.urlParams.get(WalletPathEnum.isLPS) == 'true';
   isSPV = this.urlParams.get(WalletPathEnum.isSPV) == 'true';
+  displayName = this.urlParams.get(WalletPathEnum.displayName);
+  isDAT = this.urlParams.get(WalletPathEnum.isDAT) == 'true';
 
   state = {
     walletBalance: 0,
@@ -389,7 +391,16 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS, isSPV } = this;
+    const {
+      tokenSymbol,
+      tokenHash,
+      tokenAmount,
+      tokenAddress,
+      isLPS,
+      isSPV,
+      displayName,
+      isDAT
+    } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -408,7 +419,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     tokenAmount || '',
                     tokenAddress || '',
                     isLPS,
-                    isSPV
+                    isSPV,
+                    displayName || '',
+                    isDAT
                   )
                 : WALLET_PAGE_PATH
             }
@@ -664,7 +677,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                         tokenAmount || '',
                         tokenAddress || '',
                         isLPS,
-                        isSPV
+                        isSPV,
+                        displayName || '',
+                        isDAT
                       )
                     : WALLET_PAGE_PATH
                 }

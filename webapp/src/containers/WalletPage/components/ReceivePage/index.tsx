@@ -26,6 +26,8 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   const tokenAddress = urlParams.get(WalletPathEnum.address);
   const isLPS = urlParams.get(WalletPathEnum.isLPS) == 'true';
   const isSPV = urlParams.get(WalletPathEnum.isSPV) == 'true';
+  const displayName = urlParams.get(WalletPathEnum.displayName);
+  const isDAT = urlParams.get(WalletPathEnum.isDAT) == 'true';
 
   const dispatch = useDispatch();
 
@@ -47,7 +49,9 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
                   tokenAmount || '',
                   tokenAddress || '',
                   isLPS,
-                  isSPV
+                  isSPV,
+                  displayName || '',
+                  isDAT
                 )
               : WALLET_PAGE_PATH
           }

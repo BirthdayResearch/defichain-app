@@ -98,4 +98,6 @@ export enum WalletPathEnum {
   address = 'address',
   isLPS = 'isLPS',
   isSPV = 'isSPV',
+  displayName = 'displayName',
+  isDAT = 'isDAT',
 }
