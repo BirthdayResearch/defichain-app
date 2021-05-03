@@ -49,6 +49,7 @@ import {
   DEX_EXPLORER_BASE_LINK,
   REFRESH_TESTPOOLSWAP_COUNTER,
   PRICE_IMPACT_WARNING_FACTOR,
+  DEFICHAIN_ANALYTICS,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -656,231 +657,251 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         </div>
       )}
       {activeTab === SWAP && (
-        <footer className='footer-bar'>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'first',
-            })}
-          >
-            <Row>
-              <Col className='text-center w-100'>
-                <Button
-                  color='primary'
-                  className={styles.width40}
-                  onClick={handleChangeSwap}
-                >
-                  {I18n.t('containers.swap.swapPage.continue')}
-                </Button>
-              </Col>
-            </Row>
+        <>
+          <div className={styles.analyticsContainer}>
+            <span className={styles.analyticsText}>
+              {I18n.t('containers.swap.swapPage.defichainAnalytics')}
+            </span>
+            <span
+              className={`${styles.analyticsText} ${styles.analyticsUrl}`}
+              color='link'
+              onClick={() => openNewTab(`${DEFICHAIN_ANALYTICS}`)}
+            >
+              <span className='d-lg-inline'>
+                {I18n.t('containers.swap.swapPage.url')}
+              </span>
+            </span>
           </div>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'default',
-            })}
-          >
-            <Row className='justify-content-between align-items-center'>
-              <>
-                {!isAmountInsufficient() &&
-                !isErrorTestPoolSwapTo &&
-                !isErrorTestPoolSwapFrom &&
-                !percentageChange ? (
-                  <Col className='col-auto'>
-                    {isValid()
-                      ? I18n.t('containers.swap.swapPage.readySwap')
-                      : I18n.t('containers.swap.swapPage.enterAnAmount')}
-                  </Col>
-                ) : (
-                  <Col className='col-auto'>
-                    <span className='text-danger'>
-                      {showErrorMessage(
-                        isErrorTestPoolSwapTo,
-                        isErrorTestPoolSwapFrom
-                      )}
-                    </span>
-                  </Col>
-                )}
-              </>
-              <Col className='d-flex justify-content-end'>
-                <Button
-                  color='primary'
-                  disabled={
-                    !Number(formState.amount1) ||
-                    !isValid() ||
-                    !!isErrorTestPoolSwapTo ||
-                    !!isErrorTestPoolSwapFrom ||
-                    formState.receiveAddress == null ||
-                    formState.receiveAddress == ''
-                  }
-                  onClick={swapStepConfirm}
-                >
-                  {I18n.t('containers.swap.swapPage.continue')}
-                </Button>
-              </Col>
-            </Row>
-          </div>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'confirm',
-            })}
-          >
-            <div className='footer-sheet'>
-              <dl className='row'>
-                <dt className='col-sm-4 text-right'>
-                  {I18n.t('containers.swap.swapPage.from')}
-                </dt>
-                <dd className='col-sm-8'>
-                  {`${formState.amount1} ${formState.symbol1}`}
-                </dd>
-                <dt className='col-sm-4 text-right'>
-                  {I18n.t('containers.swap.swapPage.to')}
-                </dt>
-                <dd className='col-sm-8'>
-                  {`${formState.amount2} ${formState.symbol2}`}
-                </dd>
-                <dt className='col-sm-4 text-right'>
-                  {I18n.t('containers.swap.swapPage.minimumReceived')}
-                </dt>
-                <dd className='col-sm-8'>
-                  {`${formState.amount2} ${formState.symbol2}`}
-                </dd>
-                <dt className='col-sm-4 text-right'>
-                  {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
-                </dt>
-                <dd className='col-sm-8'>
-                  {isValid() && calculateLPFee(formState, poolPairList)}
-                  {` ${formState.symbol1}`}
-                </dd>
-              </dl>
+          <footer className='footer-bar'>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'first',
+              })}
+            >
+              <Row>
+                <Col className='text-center w-100'>
+                  <Button
+                    color='primary'
+                    className={styles.width40}
+                    onClick={handleChangeSwap}
+                  >
+                    {I18n.t('containers.swap.swapPage.continue')}
+                  </Button>
+                </Col>
+              </Row>
             </div>
-            <Row className='justify-content-between align-items-center'>
-              <Col className='col'>
-                {I18n.t('containers.swap.swapPage.verifyTransactionSwap')}
-              </Col>
-              <Col className='d-flex justify-content-end'>
-                <Button color='link' className='mr-3' onClick={swapStepDefault}>
-                  {I18n.t('containers.swap.swapPage.cancel')}
-                </Button>
-                <Button color='primary' onClick={() => handleSwap()}>
-                  {I18n.t('containers.swap.swapPage.swap')}&nbsp;
-                </Button>
-              </Col>
-            </Row>
-          </div>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'success',
-            })}
-          >
-            <div className='footer-sheet'>
-              <div className='text-center'>
-                <MdCheckCircle className='footer-sheet-icon' />
-                <h2>
-                  {I18n.t('containers.swap.swapPage.transactionComplete')}
-                </h2>
-                <p>
-                  {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
-                </p>
-                <div>
-                  <b>{I18n.t('containers.swap.swapPage.txHash')}</b> : &nbsp;
-                  <span>{poolSwapHash}</span>
-                </div>
-              </div>
-            </div>
-            <Row className='justify-content-between align-items-center'>
-              <Col className='d-flex justify-content-end'>
-                <ViewOnChain txid={poolSwapHash} />
-                <Button
-                  to={WALLET_TOKENS_PATH}
-                  color='link'
-                  tag={RRNavLink}
-                  className='mr-3'
-                >
-                  {I18n.t('containers.swap.swapPage.goToWallet')}
-                </Button>
-                <Button to={SWAP_PATH} tag={RRNavLink} color='primary'>
-                  {I18n.t('containers.swap.swapPage.ok')}&nbsp;
-                </Button>
-              </Col>
-            </Row>
-          </div>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'loading',
-            })}
-          >
-            <div className='footer-sheet'>
-              <div>
-                <div className='text-center position-relative'>
-                  {isLoadingRefreshUTXOS ? (
-                    <>
-                      <div className='d-flex'>
-                        <div className={styles.loaderInline}>
-                          <Spinner />
-                        </div>
-                        <span>
-                          {I18n.t('containers.swap.swapPage.preparingUTXO')}
-                        </span>
-                      </div>
-                    </>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'default',
+              })}
+            >
+              <Row className='justify-content-between align-items-center'>
+                <>
+                  {!isAmountInsufficient() &&
+                  !isErrorTestPoolSwapTo &&
+                  !isErrorTestPoolSwapFrom &&
+                  !percentageChange ? (
+                    <Col className='col-auto'>
+                      {isValid()
+                        ? I18n.t('containers.swap.swapPage.readySwap')
+                        : I18n.t('containers.swap.swapPage.enterAnAmount')}
+                    </Col>
                   ) : (
-                    <>
-                      <MdCheckCircle className={styles.txProgressSuccess} />
-                      <span>
-                        {I18n.t('containers.swap.swapPage.UTXOPrepared')}
+                    <Col className='col-auto'>
+                      <span className='text-danger'>
+                        {showErrorMessage(
+                          isErrorTestPoolSwapTo,
+                          isErrorTestPoolSwapFrom
+                        )}
                       </span>
-                    </>
+                    </Col>
                   )}
+                </>
+                <Col className='d-flex justify-content-end'>
+                  <Button
+                    color='primary'
+                    disabled={
+                      !Number(formState.amount1) ||
+                      !isValid() ||
+                      !!isErrorTestPoolSwapTo ||
+                      !!isErrorTestPoolSwapFrom ||
+                      formState.receiveAddress == null ||
+                      formState.receiveAddress == ''
+                    }
+                    onClick={swapStepConfirm}
+                  >
+                    {I18n.t('containers.swap.swapPage.continue')}
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'confirm',
+              })}
+            >
+              <div className='footer-sheet'>
+                <dl className='row'>
+                  <dt className='col-sm-4 text-right'>
+                    {I18n.t('containers.swap.swapPage.from')}
+                  </dt>
+                  <dd className='col-sm-8'>
+                    {`${formState.amount1} ${formState.symbol1}`}
+                  </dd>
+                  <dt className='col-sm-4 text-right'>
+                    {I18n.t('containers.swap.swapPage.to')}
+                  </dt>
+                  <dd className='col-sm-8'>
+                    {`${formState.amount2} ${formState.symbol2}`}
+                  </dd>
+                  <dt className='col-sm-4 text-right'>
+                    {I18n.t('containers.swap.swapPage.minimumReceived')}
+                  </dt>
+                  <dd className='col-sm-8'>
+                    {`${formState.amount2} ${formState.symbol2}`}
+                  </dd>
+                  <dt className='col-sm-4 text-right'>
+                    {I18n.t('containers.swap.swapPage.liquidityProviderFee')}
+                  </dt>
+                  <dd className='col-sm-8'>
+                    {isValid() && calculateLPFee(formState, poolPairList)}
+                    {` ${formState.symbol1}`}
+                  </dd>
+                </dl>
+              </div>
+              <Row className='justify-content-between align-items-center'>
+                <Col className='col'>
+                  {I18n.t('containers.swap.swapPage.verifyTransactionSwap')}
+                </Col>
+                <Col className='d-flex justify-content-end'>
+                  <Button
+                    color='link'
+                    className='mr-3'
+                    onClick={swapStepDefault}
+                  >
+                    {I18n.t('containers.swap.swapPage.cancel')}
+                  </Button>
+                  <Button color='primary' onClick={() => handleSwap()}>
+                    {I18n.t('containers.swap.swapPage.swap')}&nbsp;
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'success',
+              })}
+            >
+              <div className='footer-sheet'>
+                <div className='text-center'>
+                  <MdCheckCircle className='footer-sheet-icon' />
+                  <h2>
+                    {I18n.t('containers.swap.swapPage.transactionComplete')}
+                  </h2>
+                  <p>
+                    {I18n.t('containers.swap.swapPage.transactionSuccessMsg')}
+                  </p>
+                  <div>
+                    <b>{I18n.t('containers.swap.swapPage.txHash')}</b> : &nbsp;
+                    <span>{poolSwapHash}</span>
+                  </div>
                 </div>
-                <br />
-                <div className='text-center position-relative'>
-                  {!isLoadingRefreshUTXOS && (
-                    <>
-                      {isLoadingTransferringTokens ? (
-                        <div className={styles.loaderInline}>
-                          <Spinner />
+              </div>
+              <Row className='justify-content-between align-items-center'>
+                <Col className='d-flex justify-content-end'>
+                  <ViewOnChain txid={poolSwapHash} />
+                  <Button
+                    to={WALLET_TOKENS_PATH}
+                    color='link'
+                    tag={RRNavLink}
+                    className='mr-3'
+                  >
+                    {I18n.t('containers.swap.swapPage.goToWallet')}
+                  </Button>
+                  <Button to={SWAP_PATH} tag={RRNavLink} color='primary'>
+                    {I18n.t('containers.swap.swapPage.ok')}&nbsp;
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'loading',
+              })}
+            >
+              <div className='footer-sheet'>
+                <div>
+                  <div className='text-center position-relative'>
+                    {isLoadingRefreshUTXOS ? (
+                      <>
+                        <div className='d-flex'>
+                          <div className={styles.loaderInline}>
+                            <Spinner />
+                          </div>
+                          <span>
+                            {I18n.t('containers.swap.swapPage.preparingUTXO')}
+                          </span>
                         </div>
-                      ) : (
+                      </>
+                    ) : (
+                      <>
                         <MdCheckCircle className={styles.txProgressSuccess} />
-                      )}
-                    </>
-                  )}
-                  {isLoadingRefreshUTXOS ? (
-                    <span>
-                      {I18n.t('containers.swap.swapPage.transferringTokens')}
-                    </span>
-                  ) : (
-                    <b>
-                      {I18n.t('containers.swap.swapPage.transferringTokens')}
-                    </b>
-                  )}
+                        <span>
+                          {I18n.t('containers.swap.swapPage.UTXOPrepared')}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <br />
+                  <div className='text-center position-relative'>
+                    {!isLoadingRefreshUTXOS && (
+                      <>
+                        {isLoadingTransferringTokens ? (
+                          <div className={styles.loaderInline}>
+                            <Spinner />
+                          </div>
+                        ) : (
+                          <MdCheckCircle className={styles.txProgressSuccess} />
+                        )}
+                      </>
+                    )}
+                    {isLoadingRefreshUTXOS ? (
+                      <span>
+                        {I18n.t('containers.swap.swapPage.transferringTokens')}
+                      </span>
+                    ) : (
+                      <b>
+                        {I18n.t('containers.swap.swapPage.transferringTokens')}
+                      </b>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className={classnames({
-              'd-none': swapStep !== 'failure',
-            })}
-          >
-            <div className='footer-sheet'>
-              <div className='text-center'>
-                <MdErrorOutline
-                  className={classnames({
-                    'footer-sheet-icon': true,
-                    [styles[`error-dialog`]]: true,
-                  })}
-                />
-                <p>{isErrorPoolSwap}</p>
+            <div
+              className={classnames({
+                'd-none': swapStep !== 'failure',
+              })}
+            >
+              <div className='footer-sheet'>
+                <div className='text-center'>
+                  <MdErrorOutline
+                    className={classnames({
+                      'footer-sheet-icon': true,
+                      [styles[`error-dialog`]]: true,
+                    })}
+                  />
+                  <p>{isErrorPoolSwap}</p>
+                </div>
+              </div>
+              <div className='d-flex align-items-center justify-content-center'>
+                <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
+                  {I18n.t('containers.swap.swapPage.backToDEX')}
+                </Button>
               </div>
             </div>
-            <div className='d-flex align-items-center justify-content-center'>
-              <Button color='primary' to={SWAP_PATH} tag={RRNavLink}>
-                {I18n.t('containers.swap.swapPage.backToDEX')}
-              </Button>
-            </div>
-          </div>
-        </footer>
+          </footer>
+        </>
       )}
     </div>
   );
