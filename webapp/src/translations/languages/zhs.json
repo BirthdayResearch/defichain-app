@@ -156,7 +156,7 @@
         "tooltipMasternode": "如果您有自己的主节点，请注意程序要开启并有解锁才能持续铸造DFI",
         "preenabled": "已创建等待激活",
         "prebanned": "快被封杀",
-        "banned": "已封杀"
+        "banned": "已封杀",
         "lockedInCollat​​eral": "已锁定抵押"
       },
       "masterNodesList": {
@@ -185,7 +185,7 @@
         "masternodeOperatorNotOptional": "操作者地址",
         "masternodeOperatorOptional": "操作者地址（可选的）",
         "noticeMasternodeOperator": "如果主节点操作者和物主不同",
-        "noticeMasternodeOwner": "提供抵押主人的地址"
+        "noticeMasternodeOwner": "提供抵押主人的地址",
         "collat​​erAddress": "抵押地址"
       },
       "masternodeDetailPage": {
@@ -277,7 +277,7 @@
         "updateTokenSuccess": "代币更新成功",
         "tokenHash": "代币哈希",
         "backToTokenPage": "回返代币",
-        "updateTokenButton": "更新代币"
+        "updateTokenButton": "更新代币",
         "collat​​eralAddress": "抵押地址",
         "collat​​eralAddressError": "最少要抵押101个DFI"
       },
