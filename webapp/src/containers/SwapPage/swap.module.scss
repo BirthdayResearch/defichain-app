@@ -72,3 +72,20 @@
 .width40 {
   width: 40%;
 }
+
+.analyticsContainer {
+  padding-left: 32px;
+  padding-bottom: 1rem;
+}
+
+.analyticsText {
+  font-size: 0.9rem;
+  color: $secondary;
+}
+
+.analyticsUrl {
+  cursor: pointer;
+  color: $primary;
+  margin-left: 0.25rem;
+  font-weight: 500;
+}

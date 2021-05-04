@@ -437,7 +437,9 @@
         "tokensTransferred": "Token übertragen",
         "dexExplorer": "Dex Explorer",
         "insufficientUtxos": "Unzureichendes UTXOS für den Swap",
-        "backToDEX": "Zurück zu DEX"
+        "backToDEX": "Zurück zu DEX",
+        "defichainAnalytics": "Weitere Einblicke gibt es bei der von der Community gepflegten:",
+        "url": "DeFiChain Analytics"
       },
       "swapTab": {
         "from": "Von",

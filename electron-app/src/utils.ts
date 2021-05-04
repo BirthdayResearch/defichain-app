@@ -28,6 +28,7 @@ import {
   CHAINSTATE_FOLDER,
   ENHANCEDCS_FOLDER,
   SNAPSHOT_FOLDER,
+  MAC,
 } from './constants';
 import { DAT_FILE_TYPE, ZIP_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
@@ -41,12 +42,12 @@ export const getPlatform = () => {
     case LINUX:
     case OPENBSD:
     case ANDROID:
-      return 'linux';
+      return LINUX;
     case DARWIN:
     case SUNOS:
-      return 'mac';
+      return MAC;
     case WIN_32:
-      return 'win';
+      return WIN;
   }
 };
 
