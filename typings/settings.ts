@@ -1,5 +1,7 @@
 export const SITE_URL = 'https://defichain.com/';
-export const SITE_DOWNLOADS = `${SITE_URL}downloads/`;
+export const SITE_URL_ZHS = 'https://defichain.com/zh-hans/';
+export const SITE_URL_ZHT = 'https://defichain.com/zh-hant/';
+export const SITE_DOWNLOADS = `downloads/`;
 export const RANDOM_USERNAME_LENGTH = 8;
 export const DEFAULT_RPC_BIND = '127.0.0.1';
 export const DEFAULT_RPC_PORT = 8555;

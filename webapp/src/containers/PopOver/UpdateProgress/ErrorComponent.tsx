@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { closeUpdateApp } from '../reducer';
 import openNewTab from '../../../utils/openNewTab';
 import { SITE_DOWNLOADS } from '@defi_types/settings';
+import { getSiteURL } from '../../../constants';
 
 interface DownloadProgressComponentProps {
   isUpdateError: string;
@@ -14,7 +15,7 @@ interface DownloadProgressComponentProps {
 const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
   const { isUpdateError, closeUpdateApp } = props;
   const onDownloadClick = () => {
-    openNewTab(SITE_DOWNLOADS);
+    openNewTab(`${getSiteURL()}${SITE_DOWNLOADS}`);
     closeUpdateApp();
   };
   return (
