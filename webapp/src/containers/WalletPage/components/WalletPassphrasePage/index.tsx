@@ -29,7 +29,6 @@ import {
 } from '../../../../utils/passwordUtility';
 import { RootState } from '../../../../app/rootTypes';
 import { MasterNodeObject } from '../../../MasternodesPage/masterNodeInterface';
-import { TimeoutLockEnum } from '../../../SettingsPage/types';
 import { getDropdownLabel } from '../../../SettingsPage/components/SettingsRowDropDown';
 import {
   MaxTimeout,

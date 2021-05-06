@@ -14,6 +14,7 @@ import {
 import { removeReceiveTxnsRequest } from '../../reducer';
 import { getPageTitle, getTransactionURI } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
+import { history } from '../../../../utils/history';
 
 interface RouteProps {
   id: string;
@@ -37,7 +38,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   const removeReceiveTrans = (transId: string | number) => {
     if (id) {
       props.removeReceiveTxns(transId);
-      props.history.push(WALLET_PAGE_PATH);
+      history.push(WALLET_PAGE_PATH);
     }
   };
 

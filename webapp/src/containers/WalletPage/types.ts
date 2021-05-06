@@ -25,6 +25,7 @@ export interface WalletState {
   isPendingBalanceFetching: boolean;
   isPendingBalanceError: string;
   paymentRequests: PaymentRequestModel[];
+  spvPaymentRequests: PaymentRequestModel[];
   walletTxns: [];
   walletTxnCount: number;
   isWalletTxnsLoading: boolean;
@@ -77,6 +78,11 @@ export interface WalletState {
   isErrorUnlockWallet: string;
   isWalletUnlocked: boolean;
   lockedUntil: number;
+  spv: SPVWallet;
+}
+
+export interface SPVWallet {
+  balance: number;
 }
 
 export const defaultWalletMap: WalletMap = {
@@ -84,3 +90,14 @@ export const defaultWalletMap: WalletMap = {
   lockTimeout: TimeoutLockEnum.FIVE_MINUTES,
   nodeVersion: '',
 };
+
+export enum WalletPathEnum {
+  symbol = 'symbol',
+  hash = 'hash',
+  amount = 'amount',
+  address = 'address',
+  isLPS = 'isLPS',
+  isSPV = 'isSPV',
+  displayName = 'displayName',
+  isDAT = 'isDAT',
+}

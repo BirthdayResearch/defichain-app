@@ -211,3 +211,33 @@ body {
     margin-right: 1.5rem;
   }
 }
+
+$cardRadius: 0.5rem;
+
+.cardTable {
+  .balanceTokenCard {
+    .card {
+      border-bottom: none;
+      border-radius: 0;
+    }
+
+    &:first-child {
+      .card {
+        border-top-left-radius: $cardRadius;
+        border-top-right-radius: $cardRadius;
+      }
+    }
+
+    &:last-child {
+      .card {
+        border-bottom: 1px solid $border-color;
+        border-bottom-left-radius: $cardRadius;
+        border-bottom-right-radius: $cardRadius;
+      }
+    }
+  }
+}
+
+.cursorPointer {
+  cursor: pointer;
+}

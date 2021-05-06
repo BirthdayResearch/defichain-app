@@ -6,4 +6,5 @@ export interface WalletMap {
   nodeVersion: string;
   hasSyncSPV?: boolean;
   paymentRequests?: PaymentRequestModel[];
+  spvPaymentRequests?: PaymentRequestModel[];
 }

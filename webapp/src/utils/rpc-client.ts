@@ -46,6 +46,7 @@ import {
   CreateNewWalletModel,
   ListUnspentModel,
   PeerInfoModel,
+  SPVSendModel,
   WalletInfo,
 } from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
@@ -967,5 +968,81 @@ export default class RpcClient {
       passphrase,
     ]);
     return data?.result;
+  };
+
+  getSPVBalance = async (): Promise<number> => {
+    const { data } = await this.call('/', methodNames.SPV_GETBALANCE, []);
+    return data?.result;
+  };
+
+  listReceivedBySPVAddresses = async (minConf = 0): Promise<PaymentRequestModel[]> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.SPV_LISTRECEIVEDBYADDRESS,
+      [minConf]
+    );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_LISTRECEIVEDBYADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  isValidSPVAddress = async (address: string): Promise<boolean> => {
+    const { data } = await this.call('/', methodNames.SPV_VALIDATEADDRESS, [
+      address,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.VALIDATE_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_VALIDATEADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result.isvalid;
+  };
+
+  getNewSPVAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SPV_GETNEWADDRESS);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_NEW_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_GETNEWADDRESS
+        }: ${JSON.stringify(data)}`
+      );
+    }
+    return data.result;
+  };
+
+  sendSPVToAddress = async (
+    toAddress: string,
+    amount: BigNumber
+  ): Promise<SPVSendModel> => {
+    const { data } = await this.call('/', methodNames.SPV_SENDTOADDRESS, [
+      toAddress,
+      amount.toFixed(8),
+    ]);
+    return data.result;
+  };
+
+  getAllSPVAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SPV_GETALLADDRESSES);
+    return data.result;
   };
 }

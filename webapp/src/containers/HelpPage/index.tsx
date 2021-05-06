@@ -15,16 +15,21 @@ import {
   TELEGRAM_ENGLISH_HELP_LINK,
   GITHUB_ISSUE_HELP_LINK,
   DEFICHAIN_FAQ_HELP_LINK,
-  DEFICHAIN_OFFICIAL_HELP_LINK,
+  getSiteURL,
   REDDIT_HELP_LINK,
   COMMUNITY_WIKI_LINK,
+  CHINESE_TRADITIONAL,
+  CHINESE_SIMPLIFIED,
+  TELEGRAM_ZH_HELP_LINK,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
 import { getPageTitle } from '../../utils/utility';
+import { useSelector } from 'react-redux';
 
-const HelpPage: React.FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
-) => {
+const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
+  const { locale } = useSelector((state: any) => state.i18n);
+  const isChinese = [CHINESE_SIMPLIFIED, CHINESE_TRADITIONAL].includes(locale);
+
   return (
     <div className='main-wrapper'>
       <Helmet>
@@ -60,7 +65,13 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(TELEGRAM_GERMAN_HELP_LINK)}
+                onClick={() =>
+                  openNewTab(
+                    isChinese
+                      ? TELEGRAM_ZH_HELP_LINK
+                      : TELEGRAM_GERMAN_HELP_LINK
+                  )
+                }
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -68,12 +79,19 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                     <FaTelegram />
                   </div>
                   <div className={styles.helpOptionDescription}>
-                    <h3>{I18n.t('containers.helpPage.telegramDe')}</h3>
-                    <p>
-                      {new URL(TELEGRAM_GERMAN_HELP_LINK).hostname.replace(
-                        'www.',
-                        ''
+                    <h3>
+                      {I18n.t(
+                        isChinese
+                          ? 'containers.helpPage.telegramZh'
+                          : 'containers.helpPage.telegramDe'
                       )}
+                    </h3>
+                    <p>
+                      {new URL(
+                        isChinese
+                          ? TELEGRAM_ZH_HELP_LINK
+                          : TELEGRAM_GERMAN_HELP_LINK
+                      ).hostname.replace('www.', '')}
                     </p>
                   </div>
                 </CardBody>
@@ -102,7 +120,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(DEFICHAIN_FAQ_HELP_LINK)}
+                onClick={() => openNewTab(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`)}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -112,7 +130,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.faq')}</h3>
                     <p>
-                      {new URL(DEFICHAIN_FAQ_HELP_LINK).hostname.replace(
+                      {new URL(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`).hostname.replace(
                         'www.',
                         ''
                       )}
@@ -123,7 +141,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(DEFICHAIN_OFFICIAL_HELP_LINK)}
+                onClick={() => openNewTab(getSiteURL())}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -133,7 +151,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = (
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.defichainsite')}</h3>
                     <p>
-                      {new URL(DEFICHAIN_OFFICIAL_HELP_LINK).hostname.replace(
+                      {new URL(getSiteURL()).hostname.replace(
                         'www.',
                         ''
                       )}

@@ -15,6 +15,7 @@ import {
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
+  IToken,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -65,6 +66,8 @@ import {
   MAINNET_BCH_SYMBOL,
   BCH_SYMBOL,
   COINGECKO_BCH_ID,
+  BTC_SPV_SYMBOL,
+  BLOCKCHAIN_COM,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -377,18 +380,18 @@ export const getParams = (query: string) => {
 };
 
 export const filterByValue = (array, query, keys?: string[]) => {
-  return array.filter((o) =>{
-    if(keys) {
+  return array.filter((o) => {
+    if (keys) {
       return keys.some((k) => {
         if (!o[k]) return false;
         const stringer = JSON.stringify(o[k]);
         return stringer.toLowerCase().includes(query.toLowerCase());
-      })
+      });
     }
     return Object.keys(o).some((k) => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
-    })
+    });
   });
 };
 
@@ -1318,9 +1321,20 @@ export const getTotalAmountPoolShare = async (poolID) => {
   return totalAmount;
 };
 
+export const getTokenDisplayName = (
+  isDAT: boolean,
+  displayName: string,
+  symbolKey: string,
+  hash: string,
+  isSPV?: boolean
+): string => {
+  return (isDAT || isSPV ? displayName : `${symbolKey}#${hash}`) || '';
+};
+
 export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const btcSPVSymbol = BTC_SPV_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
@@ -1334,6 +1348,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     ltcSymbol,
     dogeSymbol,
     bchSymbol,
+    btcSPVSymbol,
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
@@ -1487,8 +1502,13 @@ export const createChainURL = (tx: string): string => {
   return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
 };
 
-export const onViewOnChain = (tx: string): void => {
-  openNewTab(createChainURL(tx));
+export const createBlockchainComURL = (tx: string): string => {
+  const net = getNetworkType() === MAIN ? 'btc' : 'btc-testnet';
+  return `${BLOCKCHAIN_COM}${net.toLowerCase()}/tx/${tx ?? ''}`;
+};
+
+export const onViewOnChain = (tx: string, isSPV?: boolean): void => {
+  openNewTab(isSPV ? createBlockchainComURL(tx) : createChainURL(tx));
 };
 
 export const handlePeersSyncRequest = async (

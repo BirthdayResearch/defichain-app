@@ -44,6 +44,7 @@ export const initialState: PopoverState = {
     downloadPath: '',
     downloadUrl: '',
   },
+  isBalanceTooltipOpen: false,
 };
 
 const configSlice = createSlice({
@@ -210,6 +211,9 @@ const configSlice = createSlice({
     updateDownloadSnapshotData(state, action) {
       state.snapshotDownloadData = action.payload;
     },
+    openBalanceTooltipModal(state, action) {
+      state.isBalanceTooltipOpen = action.payload;
+    },
   },
 });
 
@@ -265,6 +269,7 @@ export const {
   openDownloadSnapshotModal,
   updateDownloadSnapshotStep,
   updateDownloadSnapshotData,
+  openBalanceTooltipModal,
 } = actions;
 
 export default reducer;

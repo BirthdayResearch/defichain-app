@@ -6,6 +6,7 @@ import styles from './ErrorPage.module.scss';
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
+import { history } from '../../utils/history';
 
 const Error404Page: React.FunctionComponent = (props: any) => {
   const chaplinStyle = {
@@ -28,7 +29,7 @@ const Error404Page: React.FunctionComponent = (props: any) => {
             <p>{I18n.t('containers.errors.detail')}</p>
           </Col>
           <Col className='col-auto'>
-            <Button color='primary' onClick={props.history.goBack}>
+            <Button color='primary' onClick={history.goBack}>
               {I18n.t('containers.errors.goBack')}
             </Button>
           </Col>

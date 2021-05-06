@@ -27,23 +27,11 @@ import {
   isAddressMine,
   isValidAddress,
 } from '../../../../../utils/utility';
-
-export interface PaymentRequestModel {
-  label: string;
-  id: string;
-  time: string;
-  address: string;
-  message?: string;
-  amount?: number;
-  unit?: string;
-}
-
+import { history } from '../../../../../utils/history';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 interface CreateNewAddressPageProps {
   paymentRequests: PaymentRequestModel[];
   addReceiveTxns: (data: any) => void;
-  history: {
-    push(url: string): void;
-  };
 }
 
 enum AddressValidity {
@@ -142,10 +130,10 @@ const CreateNewAddressPage: React.FunctionComponent<CreateNewAddressPageProps> =
         time: new Date().toString(),
         address: newAddress,
         automaticallyGenerateNewAddress,
-        ismine: true
+        ismine: true,
       };
       props.addReceiveTxns(data);
-      props.history.push(WALLET_RECEIVE_PATH);
+      history.push(WALLET_RECEIVE_PATH);
     } catch (err) {
       log.error(err);
     }

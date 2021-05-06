@@ -1,4 +1,26 @@
-import { SITE_URL, RPC_V as RPCVersion } from '@defi_types/settings';
+import {
+  SITE_URL,
+  RPC_V as RPCVersion,
+  SITE_URL_ZHS,
+  SITE_URL_ZHT,
+} from '@defi_types/settings';
+import PersistentStore from '../utils/persistentStore';
+import {
+  CHINESE_SIMPLIFIED,
+  CHINESE_TRADITIONAL,
+  LANG_VARIABLE,
+} from './settings';
+
+export const getSiteURL = (): string => {
+  let officialSite = SITE_URL;
+  const locale = PersistentStore.get(LANG_VARIABLE);
+  if (locale === CHINESE_SIMPLIFIED) {
+    officialSite = SITE_URL_ZHS;
+  } else if (locale === CHINESE_TRADITIONAL) {
+    officialSite = SITE_URL_ZHT;
+  }
+  return officialSite;
+};
 
 export const TEST = 'test';
 export const RPC_V = RPCVersion;
@@ -15,7 +37,7 @@ export const UNPARSED_ADDRESS = 'Unparsed Address';
 export const BLOCK_PAGE_SIZE = 10;
 export const BLOCK_TXN_PAGE_SIZE = 10;
 export const MASTERNODE_LIST_PAGE_SIZE = 10;
-export const TOKEN_LIST_PAGE_SIZE = 10;
+export const TOKEN_LIST_PAGE_SIZE = 5;
 export const TOKEN_TRANSFERS_LIST_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 8;
 export const WALLET_TXN_PAGE_FETCH_SIZE = 100000;
@@ -100,6 +122,7 @@ export const MAINNET_USDT_SYMBOL = '3';
 export const MAINNET_LTC_SYMBOL = '9';
 export const MAINNET_DOGE_SYMBOL = '7';
 export const MAINNET_BCH_SYMBOL = '11';
+export const BTC_SPV_SYMBOL = '99999';
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
@@ -115,10 +138,11 @@ export const STATS_API_BLOCK_URL = `${STATS_API_BASE_URL}getblockcount`;
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
 export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
 export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';
+export const TELEGRAM_ZH_HELP_LINK = 'https://t.me/defichain_ZH ';
+
 export const GITHUB_ISSUE_HELP_LINK =
   'https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App';
-export const DEFICHAIN_OFFICIAL_HELP_LINK = SITE_URL;
-export const DEFICHAIN_FAQ_HELP_LINK = `${DEFICHAIN_OFFICIAL_HELP_LINK}learn/#faq`;
+export const DEFICHAIN_FAQ_HELP_LINK = `learn/#faq`;
 export const REDDIT_HELP_LINK = 'https://www.reddit.com/r/defiblockchain/';
 export const COMMUNITY_WIKI_LINK = 'https://defichain-wiki.com/';
 export const LEARN_MORE_ABOUT_BITCOIN_LINK =
@@ -194,3 +218,5 @@ export const ALL = 'all';
 export const SAME_AS_OWNER_ADDRESS = 'Same as owner address';
 export const BLOCK_HEIGHT = 'blockHeight';
 export const CSV_TXN_LIMIT = 999999;
+
+export const BLOCKCHAIN_COM = 'https://www.blockchain.com/';

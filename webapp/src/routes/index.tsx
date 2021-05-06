@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import WalletPage from '../containers/WalletPage';
-import WalletTokensPage from '../containers/WalletPage/components/Tokens/TokensList';
+import BalancesPage from '../containers/WalletPage/components/Balances';
 import WalletAddToken from '../containers/WalletPage/components/Tokens/AddToken';
 import SendPage from '../containers/WalletPage/components/SendPage';
 import ReceivePage from '../containers/WalletPage/components/ReceivePage';
@@ -111,7 +111,7 @@ const routes = (location) => (
     <Route exact path={TRASACTIONS_PATH} component={TransactionsPage} />
     <Route exact path={CREATE_TOKENS_PATH} component={CreateToken} />
     <Route exact path={MINT_TOKENS_PATH} component={MintToken} />
-    <Route exact path={WALLET_TOKENS_PATH} component={WalletTokensPage} />
+    <Route exact path={WALLET_TOKENS_PATH} component={BalancesPage} />
     <Route exact path={WALLET_SYNC_PAGE_PATH} component={WalletSyncPage} />
     <Route exact path={WALLET_ENCRYPT_PATH} component={EncryptWalletPage} />
     <Route exact path={WALLET_UNLOCK_PATH} component={WalletPassphrasePage} />

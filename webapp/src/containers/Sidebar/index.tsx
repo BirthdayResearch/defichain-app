@@ -13,7 +13,6 @@ import {
   MdDns,
   MdViewWeek,
   MdToll,
-  MdCompareArrows,
   MdPieChart,
   MdSettings,
   MdHelp,
@@ -21,6 +20,7 @@ import {
   MdLockOutline,
   MdLockOpen,
   MdSwapVert,
+  MdSwapHoriz,
 } from 'react-icons/md';
 import { HiTerminal } from 'react-icons/hi';
 import {
@@ -240,7 +240,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
                 className={styles.navLink}
                 activeClassName={styles.active}
               >
-                <MdCompareArrows />
+                <MdSwapHoriz />
                 {I18n.t('containers.sideBar.dex')}
               </NavLink>
             </NavItem>

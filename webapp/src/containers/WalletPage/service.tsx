@@ -43,13 +43,18 @@ import {
   ON_FILE_EXIST_CHECK,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../../utils/isElectron';
-import { backupWallet, updatePaymentAddresses, updateWalletMap } from '../../app/service';
+import {
+  backupWallet,
+  updatePaymentAddresses,
+  updateWalletMap,
+} from '../../app/service';
 import { IPCResponseModel } from '@defi_types/common';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import store from '../../app/rootStore';
 import { uid } from 'uid';
 import { uniqBy } from 'lodash';
 import { addHdSeedCheck } from './saga';
+import { WalletPathEnum } from './types';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -110,7 +115,7 @@ export const filterMyAddresses = (
 export const getWalletMapPaymentRequests = (): PaymentRequestModel[] => {
   const { wallet } = store.getState();
   return [...(wallet?.walletMap?.paymentRequests ?? [])];
-}
+};
 
 export const handleGetPaymentRequest = async (
   receivedAddress?: PaymentRequestModel[],
@@ -150,7 +155,9 @@ export const handleGetPaymentRequest = async (
     });
 };
 
-export const handleAddReceiveTxns = async (data: PaymentRequestModel): Promise<PaymentRequestModel[]> => {
+export const handleAddReceiveTxns = async (
+  data: PaymentRequestModel
+): Promise<PaymentRequestModel[]> => {
   const { wallet } = store.getState();
   const paymentRequests = getWalletMapPaymentRequests();
   data.hdSeed = await hdWalletCheck(data.address);
@@ -806,4 +813,26 @@ export const createNewWallet = async (
       message: error?.message,
     };
   }
+};
+
+export const getWalletPathAddress = (
+  basePath: string,
+  tokenSymbol: string,
+  tokenHash: string,
+  tokenAmount: string,
+  tokenAddress: string,
+  isLPS: boolean,
+  isSPV?: boolean,
+  displayName?: string,
+  isDAT?: boolean
+): string => {
+  return `${basePath}?${WalletPathEnum.hash}=${tokenHash}&${
+    WalletPathEnum.amount
+  }=${tokenAmount.toString()}&${WalletPathEnum.address}=${tokenAddress}&${
+    WalletPathEnum.isLPS
+  }=${isLPS}&${WalletPathEnum.symbol}=${tokenSymbol}&${
+    WalletPathEnum.isSPV
+  }=${isSPV}&${WalletPathEnum.displayName}=${displayName}&${
+    WalletPathEnum.isDAT
+  }=${isDAT}`;
 };

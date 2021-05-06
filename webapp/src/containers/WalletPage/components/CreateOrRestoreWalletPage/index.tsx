@@ -35,9 +35,9 @@ import WalletLoadingFooter from '../../../../components/WalletLoadingFooter';
 import classnames from 'classnames';
 import styles from '../RestoreWallet/RestoreWallet.module.scss';
 import { restoreWalletViaRecent } from '../../../PopOver/reducer';
+import { history } from '../../../../utils/history';
 
 interface CreateOrRestoreWalletPageProps {
-  history: any;
   isWalletReplace: boolean;
   latestSyncedBlock: number;
   latestBlock: number;
@@ -58,7 +58,6 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   props: CreateOrRestoreWalletPageProps
 ) => {
   const {
-    history,
     isWalletReplace,
     latestSyncedBlock,
     latestBlock,

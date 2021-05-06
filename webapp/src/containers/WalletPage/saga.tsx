@@ -61,6 +61,9 @@ import {
   setWalletEncrypted,
   startBackupWalletViaPostEncryptModal,
   createWalletStart,
+  getSPVBalance,
+  setSPVBalance,
+  getNewSPVAddress,
 } from './reducer';
 import {
   handleFetchTokens,
@@ -129,6 +132,14 @@ import { setDefaultLockTimeout } from '../SettingsPage/reducer';
 import { WalletMap } from '@defi_types/walletMap';
 import { TimeoutLockEnum } from '../SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import {
+  getSPVAddress,
+  getSPVBalanceRPC,
+  handleNewSPVAddress,
+  setSPVPaymentAddresses,
+} from './spvService';
+import { RootState } from '../../app/rootTypes';
+import { uid } from 'uid';
 
 export function* getNetwork() {
   const {
@@ -221,6 +232,7 @@ export function* fetchPayments() {
     if (wallet.paymentRequests == null || wallet.paymentRequests.length === 0) {
       yield call(setPaymentAddresses);
     }
+    yield call(setSPVPaymentAddresses);
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -707,6 +719,42 @@ export function* startWalletEncryptionCheck(action) {
   }
 }
 
+export function* handleGetSPVBalance() {
+  try {
+    const balance = yield call(getSPVBalanceRPC);
+    yield put(setSPVBalance(balance));
+  } catch (error) {
+    yield put(setSPVBalance(0));
+    log.error(error, 'handleGetSPVBalance');
+  }
+}
+
+export function* handleGetSPVAddress() {
+  try {
+    const { spvPaymentRequests } = yield select(
+      (state: RootState) => state.wallet
+    );
+    const newAddress = yield call(getSPVAddress);
+    const addresses = cloneDeep(spvPaymentRequests);
+    const data: PaymentRequestModel = {
+      id: uid(),
+      time: new Date().toString(),
+      address: newAddress,
+      ismine: true,
+      label: '',
+    };
+    yield call(handleNewSPVAddress, data, addresses);
+  } catch (e) {
+    showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
+    yield put(addReceiveTxnsFailure(e.message));
+    log.error(e);
+  }
+}
+
+export function* delayCall() {
+  yield delay(1000);
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -750,6 +798,8 @@ function* mySaga() {
     backupWalletViaPostEncryptModal
   );
   yield takeLatest(createWalletStart.type, handleCreateWalletStart);
+  yield takeLatest(getSPVBalance.type, handleGetSPVBalance);
+  yield takeLatest(getNewSPVAddress.type, handleGetSPVAddress);
 }
 
 export default mySaga;

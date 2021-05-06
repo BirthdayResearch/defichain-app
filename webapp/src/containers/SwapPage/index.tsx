@@ -61,6 +61,7 @@ import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import { string } from 'prop-types';
 
 interface SwapPageProps {
   history?: any;
@@ -97,11 +98,20 @@ interface SwapPageProps {
   paymentRequests: PaymentRequestModel[];
 }
 
+export enum SwapParameters {
+  symbol1 = 'symbol1',
+  hash1 = 'hash1',
+  balance1 = 'balance1'
+}
+
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
   props: SwapPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
   const tab = urlParams.get('tab');
+  const symbol1 = urlParams.get(SwapParameters.symbol1);
+  const hash1 = urlParams.get(SwapParameters.hash1);
+  const balance1 = urlParams.get(SwapParameters.balance1);
   const [activeTab] = useState<string>(tab ? tab : SWAP);
   const [swapStep, setSwapStep] = useState<string>(
     !PersistentStore.get(IS_DEX_INTRO_SEEN) ? 'first' : 'default'
@@ -111,12 +121,12 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
   const [formState, setFormState] = useState<any>({
     amount1: '',
-    hash1: '',
-    symbol1: '',
+    hash1: hash1 ?? '',
+    symbol1: symbol1 ?? '',
+    balance1: balance1 ?? '',
     amount2: '0',
     hash2: '',
     symbol2: '',
-    balance1: '',
     balance2: '',
     receiveAddress: '',
     receiveLabel: '',

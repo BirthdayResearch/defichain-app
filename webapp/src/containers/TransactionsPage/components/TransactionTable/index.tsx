@@ -13,7 +13,7 @@ import { I18n } from 'react-redux-i18n';
 import {
   MdArrowDownward,
   MdArrowUpward,
-  MdCompareArrows,
+  MdSwapHoriz,
 } from 'react-icons/md';
 import ValueLi from 'src/components/KeyValueLi/ValueLi';
 import axios from 'axios';
@@ -302,7 +302,7 @@ const TransactionTable: React.FunctionComponent<TransactionProps> = (
       return <MdArrowDownward className={styles.typeIconDownward} />;
     }
     if (type === POOL_SWAP_CATEGORY_LABEL) {
-      return <MdCompareArrows className={styles.typeIcon} />;
+      return <MdSwapHoriz className={styles.typeIcon} />;
     }
     return <MdArrowUpward className={styles.typeIcon} />;
   };

@@ -23,6 +23,7 @@ import {
   updateWalletToken,
   getTokenForWalletDropDown,
   isWalletDropdown,
+  getWalletPathAddress,
 } from '../../../service';
 import {
   WALLET_PAGE_PATH,
@@ -35,9 +36,9 @@ import Pagination from '../../../../../components/Pagination';
 import CreateOrRestoreWalletPage from '../../CreateOrRestoreWalletPage';
 import Header from '../../../../HeaderComponent';
 import { IToken } from '../../../../../utils/interfaces';
-import { getWalletPathAddress } from '../../SendPage';
 import WalletDropdown from '../../../../../components/walletDropdown';
 import BigNumber from 'bignumber.js';
+import { history } from '../../../../../utils/history';
 interface WalletTokensListProps extends RouteComponentProps {
   tokens: IToken[];
   unit: string;
@@ -55,7 +56,6 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
 ) => {
   const {
     unit,
-    history,
     isWalletCreatedFlag,
     tokens,
     isLoadingTokens,
@@ -165,7 +165,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
   };
 
   const handleCardClick = (symbol, hash, amount, address, isLPS) => {
-    props.history.push(
+    history.push(
       getWalletPathAddress(
         WALLET_PAGE_PATH,
         symbol,
@@ -183,7 +183,7 @@ const WalletTokensList: React.FunctionComponent<WalletTokensListProps> = (
     <>
       {!isWalletCreatedFlag ? (
         <div className='main-wrapper'>
-          <CreateOrRestoreWalletPage history={history} />
+          <CreateOrRestoreWalletPage />
         </div>
       ) : (
         <div className='main-wrapper'>

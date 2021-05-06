@@ -46,4 +46,5 @@ export interface PopoverState {
   isSnapshotDownloadOpen: boolean;
   snapshotDownloadSteps: DownloadSnapshotSteps;
   snapshotDownloadData: FileSizesModel;
+  isBalanceTooltipOpen: boolean;
 }

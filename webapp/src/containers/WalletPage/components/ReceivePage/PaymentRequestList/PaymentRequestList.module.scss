@@ -1,10 +1,4 @@
-// App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../../../../scss/variables';
-@import '../../../../../scss/bootstrap/variables';
-@import '../../../../../scss/utility';
+@import '../../../../../scss/bootstrap/common';
 
 .table {
   margin-bottom: 0;
@@ -30,4 +24,21 @@
 
 .addressContainer {
   max-width: 175px;
+  position: relative;
+}
+
+.copiedIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $dfi-scent;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.visibilityNone {
+  visibility: hidden;
 }

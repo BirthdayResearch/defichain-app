@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
 import Header from '../../../../HeaderComponent';
 import shuffle from 'lodash/shuffle';
-
+import { history } from '../../../../../utils/history';
 interface VerifyMnemonicProps {
   mnemonicObj: any;
   finalMixObj: any;
@@ -30,7 +30,6 @@ interface VerifyMnemonicProps {
   isWalletTabActive: boolean;
   isWalletCreating: boolean;
   isErrorCreatingWallet: string;
-  history: any;
   setIsWalletTabActive: (isWalletTabActive: boolean) => void;
   createWallet: (mnemonicCode: string, history: any) => void;
   resetCreateWalletError: () => void;
@@ -48,7 +47,6 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
     isWalletTabActive,
     setIsWalletTabActive,
     mnemonicObj,
-    history,
     isWalletCreating,
     isErrorCreatingWallet,
     mnemonicCode,

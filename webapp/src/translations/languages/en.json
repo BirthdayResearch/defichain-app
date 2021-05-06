@@ -112,6 +112,7 @@
       "helpPageHeader": "Connect with the community with these options:",
       "telegramEn": "Telegram community (EN)",
       "telegramDe": "Telegram community (DE)",
+      "telegramZh": "Telegram community (ZH)",
       "github": "Report an issue",
       "faq": "Frequently-Asked Questions",
       "defichainsite": "Official website",
@@ -596,8 +597,8 @@
       "minutes": "%{time} minutes",
       "years": "%{time} years",
       "autoLockMNWarning": "Auto-lock timeout is disabled when masternode(s) are active.",
-      "showAdvanceOptions": "Show advance options",
-      "hideAdvanceOptions": "Hide advance options",
+      "showAdvanceOptions": "Show advanced options",
+      "hideAdvanceOptions": "Hide advanced options",
       "sendCountdown": "Send countdown",
       "preventAccidental": "Prevent accidental sending with a countdown",
       "ShowWalletRepair": "Show wallet helper options",
@@ -798,7 +799,11 @@
         "transaction": "transactions",
         "format": "Format",
         "csv": "CSV",
-        "blockReward": "Block reward"
+        "blockReward": "Block reward",
+        "whatAreTokens": "What are tokens?",
+        "tokenDescription": "DeFiChain uses token standards to bring in external tokens in a trustless manner, allowing trustless financial contracts and trading of all major crypto-asset tokens. The token standards are similar to ERC20 on Ethereum and Omni on Bitcoin blockchain. Through this standard, DeFiChain allows tokenization of any assets.",
+        "tokenSub": "On DeFiChain, the standardized tokens are called DeFi Standard Token (DST). DST tokens are of two different types: DCT, created by users of the system, and DAT, which are asset-backed tokens created with the backing of crypto-assets.",
+        "moreInformation": "More information at:"
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

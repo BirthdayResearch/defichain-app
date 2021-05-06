@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { defaultWalletMap, WalletState } from './types';
+import { IToken } from '../../utils/interfaces';
+import { setTokenDisplayName } from '../TokensPage/reducer';
 
 export const initialState: WalletState = {
   accountTokens: [],
@@ -24,6 +26,7 @@ export const initialState: WalletState = {
   isPendingBalanceFetching: false,
   isPendingBalanceError: '',
   paymentRequests: [],
+  spvPaymentRequests: [],
   walletTxns: [],
   walletTxnCount: 0,
   isWalletTxnsLoading: false,
@@ -76,6 +79,7 @@ export const initialState: WalletState = {
   isErrorUnlockWallet: '',
   isWalletUnlocked: false,
   lockedUntil: 0,
+  spv: { balance: 0 },
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -85,7 +89,8 @@ const configSlice = createSlice({
       state.isAccountLoadingTokens = true;
     },
     fetchAccountTokensSuccess(state, action) {
-      state.accountTokens = action.payload.accountTokens;
+      const tokens = action.payload.accountTokens as IToken[];
+      state.accountTokens = tokens.map(setTokenDisplayName);
       state.isAccountLoadingTokens = false;
       state.isAccountTokensLoaded = true;
     },
@@ -111,7 +116,8 @@ const configSlice = createSlice({
       state.isLoadingTokens = true;
     },
     fetchTokensSuccess(state, action) {
-      state.tokens = action.payload.tokens;
+      const tokens = action.payload.tokens as IToken[];
+      state.tokens = tokens.map(setTokenDisplayName);
       state.isLoadingTokens = false;
       state.isTokensLoaded = true;
     },
@@ -129,6 +135,10 @@ const configSlice = createSlice({
     },
     fetchPaymentRequestsFailure(state, action) {
       state.paymentRequests = [];
+    },
+    setSPVPaymentRequests(state, action) {
+      const spvPaymentRequests: PaymentRequestModel[] = action.payload ?? [];
+      state.spvPaymentRequests = spvPaymentRequests.filter((p) => p.ismine);
     },
     fetchWalletTxnsRequest(state, action) {
       state.isWalletTxnsLoading = true;
@@ -343,6 +353,11 @@ const configSlice = createSlice({
       state.isWalletCreating = true;
       state.isErrorCreatingWallet = '';
     },
+    getSPVBalance(state) {},
+    setSPVBalance(state, action) {
+      state.spv.balance = action.payload;
+    },
+    getNewSPVAddress(state) {},
   },
 });
 
@@ -419,6 +434,10 @@ export const {
   setLockedUntil,
   startBackupWalletViaPostEncryptModal,
   createWalletStart,
+  getSPVBalance,
+  setSPVBalance,
+  setSPVPaymentRequests,
+  getNewSPVAddress,
 } = actions;
 
 export default reducer;
