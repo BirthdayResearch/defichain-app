@@ -751,6 +751,10 @@ export function* handleGetSPVAddress() {
   }
 }
 
+export function* delayCall() {
+  yield delay(1000);
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);

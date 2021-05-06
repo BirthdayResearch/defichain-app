@@ -12,6 +12,8 @@ import { getErrorMessage } from '../../utils/utility';
 import { uid } from 'uid';
 import { uniqBy } from 'lodash';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import { delayCall } from './saga';
+import { ErrorMessages } from '../../constants/common';
 
 export const getSPVBalanceRPC = async (): Promise<string> => {
   const rpcClient = new RpcClient();
@@ -86,11 +88,12 @@ export const sendSPVToAddress = async (
     const data = await rpcClient.sendSPVToAddress(toAddress, amount);
     return data;
   } catch (error) {
-    if (retryCount > 0) {
-      const errorMessage = getErrorMessage(error);
+    const errorMessage = getErrorMessage(error);
+    if (ErrorMessages.SPV_DISCONNECTED !== errorMessage || retryCount > 49) {
       log.error(errorMessage);
       throw new Error(errorMessage);
     } else {
+      delayCall();
       return await sendSPVToAddress(toAddress, amount, retryCount + 1);
     }
   }
