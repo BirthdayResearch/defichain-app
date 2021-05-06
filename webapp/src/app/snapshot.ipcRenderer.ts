@@ -8,6 +8,7 @@ import {
   ON_SNAPSHOT_DATA_FAILURE,
   ON_SNAPSHOT_UNPACK_REQUEST,
   ON_NOT_ENOUGH_DISK_SPACE,
+  ON_SNAPSHOT_DELETE_REQUEST,
 } from '@defi_types/ipcEvents';
 import { ipcRendererFunc } from '../utils/isElectron';
 import * as log from '../utils/electronLogger';
@@ -96,6 +97,11 @@ export const onSnapshotDataSuccess = (args: FileSizesModel): void => {
     updateDownloadSnapshotStep(DownloadSnapshotSteps.SnapshotRequest)
   );
   store.dispatch(openDownloadSnapshotModal(true));
+};
+
+export const onSnapshotDeleteRequest = (): void => {
+  const ipcRenderer = ipcRendererFunc();
+  ipcRenderer.sendSync(ON_SNAPSHOT_DELETE_REQUEST, {});
 };
 
 export default initSnapshotRenderers;

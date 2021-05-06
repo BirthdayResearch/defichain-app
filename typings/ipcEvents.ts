@@ -47,6 +47,7 @@ export const ON_SNAPSHOT_UNPACK_REQUEST = 'on_snapshot_unpack_request';
 export const ON_SNAPSHOT_DATA_REQUEST = 'on_snapshot_data_request';
 export const ON_SNAPSHOT_DATA_FAILURE = 'on_snapshot_data_failure';
 export const ON_SNAPSHOT_DATA_SUCCESS = 'on_snapshot_data_success';
+export const ON_SNAPSHOT_DELETE_REQUEST = 'on_snapshot_delete_request';
 export const ON_NOT_ENOUGH_DISK_SPACE = 'on_not_enough_disk_space';
 export const ON_REMOVE_REINDEX = 'on_remove_reindex';
 export const ON_FULL_RESTART_APP = 'on_full_restart_app';

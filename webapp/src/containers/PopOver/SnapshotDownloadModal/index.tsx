@@ -35,6 +35,7 @@ import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
 import moment from 'moment';
 import { onSnapshotDownloadRequest } from '../service';
+import { onSnapshotDeleteRequest } from '../../../app/snapshot.ipcRenderer';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -96,7 +97,10 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     return I18n.t(title);
   };
 
-  const onApplyFinish = async () => {
+  const onApplyFinish = async (deleteSnapshot: boolean) => {
+    if (deleteSnapshot) {
+      onSnapshotDeleteRequest();
+    }
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
     await triggerNodeShutdown(false);
@@ -254,14 +258,24 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
             </Button>
           )}
           {snapshotDownloadSteps === DownloadSnapshotSteps.SnapshotApplied && (
-            <Button
-              onClick={onApplyFinish}
-              color='primary'
-              block
-              className={styles.btnWidth}
-            >
-              {I18n.t('alerts.closeBtnLabel')}
-            </Button>
+            <>
+              <Button
+                onClick={() => onApplyFinish(false)}
+                color='link'
+                block
+                className={styles.btnWidth}
+              >
+                {I18n.t('alerts.yesRestartAppWithReindex')}
+              </Button>
+              <Button
+                onClick={() => onApplyFinish(true)}
+                color='primary'
+                block
+                className={styles.btnWidth}
+              >
+                {I18n.t('alerts.deleteSnapshotOnRestart')}
+              </Button>
+            </>
           )}
         </ModalFooter>
       )}

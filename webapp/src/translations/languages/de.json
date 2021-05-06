@@ -960,7 +960,8 @@
     "installingSnapshot": "Snapshot wird installiert...",
     "snapshotApplied": "Snapshot wurde angewendet",
     "startSyncBlock": "DeFi App wird die Synchronisation nun von Block %{from} starten.",
-    "pleaseWait": "Bitte warte..."
+    "pleaseWait": "Bitte warte...",
+    "deleteSnapshotOnRestart": "Snapshot löschen und neu starten"
   },
   "general": {
     "defiApp": "DeFi Wallet",

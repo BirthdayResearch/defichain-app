@@ -984,7 +984,8 @@
     "pleaseWait": "請稍等...",
     "snapshotSize": "快照大小:",
     "snapshotDirectory": "快照目錄:",
-    "notEnoughDiskSpace": "您沒有足够的磁碟空間來下載和應用快照."
+    "notEnoughDiskSpace": "您沒有足够的磁碟空間來下載和應用快照.",
+    "deleteSnapshotOnRestart": "刪除快照並重啟"
   },
   "general": {
     "defiApp": "遞飛鏈程序",

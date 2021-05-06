@@ -30,6 +30,7 @@ import {
   ON_SNAPSHOT_UPDATE_PROGRESS,
   ON_SNAPSHOT_UNPACK_REQUEST,
   ON_NOT_ENOUGH_DISK_SPACE,
+  ON_SNAPSHOT_DELETE_REQUEST,
 } from '@defi_types/ipcEvents';
 import { spawn } from 'child_process';
 import { getDiskInfo } from 'node-disk-info';
@@ -63,6 +64,16 @@ export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
       async (event: Electron.IpcMainEvent, fileSizes: FileSizesModel) => {
         if (event) {
           onStartExtraction(bw, fileSizes);
+        }
+      }
+    );
+
+    ipcMain.on(
+      ON_SNAPSHOT_DELETE_REQUEST,
+      async (event: Electron.IpcMainEvent) => {
+        if (event) {
+          deleteSnapshotFiles();
+          event.returnValue = true;
         }
       }
     );
