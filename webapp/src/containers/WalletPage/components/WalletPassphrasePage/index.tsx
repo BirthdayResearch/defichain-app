@@ -31,8 +31,8 @@ import { RootState } from '../../../../app/rootTypes';
 import { MasterNodeObject } from '../../../MasternodesPage/masterNodeInterface';
 import { getDropdownLabel } from '../../../SettingsPage/components/SettingsRowDropDown';
 import {
+  getTimeoutLockList,
   MaxTimeout,
-  TimeoutLockList,
 } from '../../../SettingsPage/components/SettingsTabSecurity';
 import { useEffect } from 'react';
 import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
@@ -79,7 +79,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
     myMasternodes,
   } = props;
 
-  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
+  const [timeoutLockList, setTimeoutLockList] = useState(getTimeoutLockList());
   const [timeoutValue, setTimeoutValue] = useState(defaultLockTimeout);
 
   const hasMasterNodes = (): boolean => {
@@ -88,7 +88,7 @@ const WalletPassphrasePage: React.FunctionComponent<WalletPassphrasePageProps> =
 
   useEffect(() => {
     if (hasMasterNodes()) {
-      setTimeoutLockList([...TimeoutLockList, { ...MaxTimeout }]);
+      setTimeoutLockList([...getTimeoutLockList(), { ...MaxTimeout }]);
       setTimeoutValue(MaxTimeout.value);
     }
   }, [myMasternodes?.length]);

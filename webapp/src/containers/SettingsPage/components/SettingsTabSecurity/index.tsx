@@ -7,7 +7,7 @@ import SettingsRowDropDown from '../SettingsRowDropDown';
 import { SettingsTabs } from '../SettingsTabHeader';
 import { NavLink } from 'react-router-dom';
 import { SETTINGS_CHANGE_PASSPHRASE } from '../../../../constants';
-import { TimeoutLockEnum } from '../../types';
+import { TimeoutLabel, TimeoutLockEnum } from '../../types';
 import styles from './settingsTabSecurity.module.scss';
 import { hasAnyMasternodeEnabled } from '../../../MasternodesPage/service';
 import { setLockoutTimeList } from '../../reducer';
@@ -17,16 +17,19 @@ const getMins = (time: number) => {
   return time / TimeoutLockEnum.ONE_MINUTE;
 };
 
-export const TimeoutLockList = Object.keys(TimeoutLockEnum)
-  .filter((x) => TimeoutLockEnum[x] <= TimeoutLockEnum.ONE_HOUR)
-  .map((x) => {
-    let value = TimeoutLockEnum[x];
-    let i18nKey = 'containers.settings.minute' + (value === 60 ? '' : 's');
-    return {
-      label: I18n.t(i18nKey, { time: getMins(value) }),
-      value,
-    };
-  });
+export const getTimeoutLockList = (): TimeoutLabel[] => {
+  return Object.keys(TimeoutLockEnum)
+    .filter((x) => TimeoutLockEnum[x] <= TimeoutLockEnum.ONE_HOUR)
+    .map((x) => {
+      const value = TimeoutLockEnum[x];
+      const i18nKey = 'containers.settings.minute' + (value === 60 ? '' : 's');
+      const label = I18n.t(i18nKey, { time: getMins(value) });
+      return {
+        label,
+        value,
+      };
+    });
+};
 
 export const MaxTimeout = {
   label: I18n.t('containers.settings.years', {
@@ -49,7 +52,11 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   const { myMasternodes } = useSelector(
     (state: RootState) => state.masterNodes
   );
-  const [timeoutLockList, setTimeoutLockList] = useState(TimeoutLockList);
+  const { locale } = useSelector(
+    (state: any) => state.i18n
+  );
+  const [timeoutLockList, setTimeoutLockList] = useState<TimeoutLabel[]>([]);
+
   const [timeOutCloneValue, setTimeOutCloneValue] = useState(timeoutValue);
   const handleDropDowns = (data: number) => {
     setTimeoutValue(data);
@@ -61,8 +68,12 @@ const SettingsTabSecurity: React.FunctionComponent<SettingsTabSecurityProps> = (
   };
 
   useEffect(() => {
+    setTimeoutLockList([...getTimeoutLockList()]);
+  }, [locale]);
+
+  useEffect(() => {
     if (hasMasterNodes()) {
-      setTimeoutLockList([...TimeoutLockList, { ...MaxTimeout }]);
+      setTimeoutLockList([...getTimeoutLockList(), { ...MaxTimeout }]);
       setTimeOutCloneValue(MaxTimeout.value);
     }
   }, [myMasternodes]);

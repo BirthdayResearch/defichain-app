@@ -1,6 +1,11 @@
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
 
+export interface TimeoutLabel {
+  label: string;
+  value: any;
+}
+
 export enum TimeoutLockEnum {
   ONE_MINUTE = MINUTE,
   THREE_MINUTES = 3 * MINUTE,
