@@ -13,6 +13,7 @@ import {
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
+  DEFAULT_BTC_FEE,
 } from './../constants';
 import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -975,7 +976,9 @@ export default class RpcClient {
     return data?.result;
   };
 
-  listReceivedBySPVAddresses = async (minConf = 0): Promise<PaymentRequestModel[]> => {
+  listReceivedBySPVAddresses = async (
+    minConf = 0
+  ): Promise<PaymentRequestModel[]> => {
     const { data } = await this.call(
       '/',
       methodNames.SPV_LISTRECEIVEDBYADDRESS,
@@ -1032,11 +1035,13 @@ export default class RpcClient {
 
   sendSPVToAddress = async (
     toAddress: string,
-    amount: BigNumber
+    amount: BigNumber,
+    fee = new BigNumber(DEFAULT_BTC_FEE)
   ): Promise<SPVSendModel> => {
     const { data } = await this.call('/', methodNames.SPV_SENDTOADDRESS, [
       toAddress,
       amount.toFixed(8),
+      fee.toFixed(8),
     ]);
     return data.result;
   };

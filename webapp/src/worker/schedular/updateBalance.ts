@@ -29,7 +29,7 @@ const pendingAndWalletBalance = () => {
   walletBalanceSchedular();
   walletTokenBalanceSchedular();
   pendingBalanceSchedular();
-  bitcoinBalancePoll();
+  // bitcoinBalancePoll();
 };
 
 export const updateBalanceScheduler = () =>

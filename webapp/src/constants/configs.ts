@@ -220,3 +220,6 @@ export const BLOCK_HEIGHT = 'blockHeight';
 export const CSV_TXN_LIMIT = 999999;
 
 export const BLOCKCHAIN_COM = 'https://www.blockchain.com/';
+export const BITCOIN_FEES_COM =
+  'https://bitcoinfees.earn.com/api/v1/fees/recommended';
+export const DEFAULT_BTC_FEE = 80000;
