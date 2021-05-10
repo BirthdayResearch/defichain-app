@@ -55,7 +55,11 @@ import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
 import ViewOnChain from '../../../../components/ViewOnChain';
 import { WalletPathEnum } from '../../types';
-import { isValidSPVAddress, sendSPVToAddress } from '../../spvService';
+import {
+  getBTCFees,
+  isValidSPVAddress,
+  sendSPVToAddress,
+} from '../../spvService';
 
 const shutterSnap = new UIfx(shutterSound);
 
@@ -293,7 +297,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       //* if SPV Send
       if (this.isSPV) {
         try {
-          const result = await sendSPVToAddress(this.state.toAddress, amount);
+          const fee = await getBTCFees();
+          const result = await sendSPVToAddress(this.state.toAddress, amount, fee);
           this.handleSuccess(result.txid);
         } catch (error) {
           this.handleFailure(error);

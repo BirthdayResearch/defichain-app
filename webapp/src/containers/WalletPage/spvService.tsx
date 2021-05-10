@@ -14,6 +14,12 @@ import { uniqBy } from 'lodash';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import { delayCall } from './saga';
 import { ErrorMessages } from '../../constants/common';
+import axios from 'axios';
+import {
+  API_REQUEST_TIMEOUT,
+  BITCOIN_FEES_COM,
+  DEFAULT_BTC_FEE,
+} from '../../constants';
 
 export const getSPVBalanceRPC = async (): Promise<string> => {
   const rpcClient = new RpcClient();
@@ -81,11 +87,12 @@ export const isValidSPVAddress = async (
 export const sendSPVToAddress = async (
   toAddress: string,
   amount: BigNumber,
+  fee: BigNumber,
   retryCount = 0
 ): Promise<SPVSendModel> => {
   try {
     const rpcClient = new RpcClient();
-    const data = await rpcClient.sendSPVToAddress(toAddress, amount);
+    const data = await rpcClient.sendSPVToAddress(toAddress, amount, fee);
     return data;
   } catch (error) {
     const errorMessage = getErrorMessage(error);
@@ -94,7 +101,7 @@ export const sendSPVToAddress = async (
       throw new Error(errorMessage);
     } else {
       delayCall();
-      return await sendSPVToAddress(toAddress, amount, retryCount + 1);
+      return await sendSPVToAddress(toAddress, amount, fee, retryCount + 1);
     }
   }
 };
@@ -130,4 +137,18 @@ export const getPaymentRequestsSPVRPC = async (): Promise<
 export const getWalletMapSPVAddresses = (): PaymentRequestModel[] => {
   const { wallet } = store.getState();
   return [...(wallet?.walletMap?.spvPaymentRequests ?? [])];
+};
+
+export const getBTCFees = async (): Promise<BigNumber> => {
+  try {
+    const result = await axios({
+      url: BITCOIN_FEES_COM,
+      method: 'GET',
+      timeout: API_REQUEST_TIMEOUT,
+    });
+    return new BigNumber(result?.data?.fastestFee ?? 0).multipliedBy(1000);
+  } catch (error) {
+    log.error(error);
+    return new BigNumber(DEFAULT_BTC_FEE);
+  }
 };
