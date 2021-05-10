@@ -22,11 +22,11 @@ const DownloadProgressComponent = (props: DownloadProgressComponentProps) => {
     <>
       <ModalBody>{isUpdateError}</ModalBody>
       <ModalFooter>
-        <Button size='sm' color='link' onClick={onDownloadClick}>
-          {I18n.t('alerts.download')}
-        </Button>
-        <Button size='sm' color='primary' onClick={closeUpdateApp}>
+        <Button size='sm' color='link' onClick={closeUpdateApp}>
           {I18n.t('alerts.closeBtnLabel')}
+        </Button>
+        <Button size='sm' color='primary' onClick={onDownloadClick}>
+          {I18n.t('alerts.download')}
         </Button>
       </ModalFooter>
     </>

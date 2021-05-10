@@ -645,7 +645,7 @@
         "verifyMnemonicGuideline": "Um sicherzugehen, dass Du Deinen 24-Wörter-Seed niedergeschrieben hast, wähle bitte 6 der Wörter Deiner Mnemonic Seed-Phrase aus der untenstehenden Liste aus.",
         "verifyMnemonicWhichOne": "Welches ist ...",
         "wordQuestion": "Wort %{wordNum}?",
-        "creatingYourWallet": "Deine Wallet erstellen",
+        "creatingYourWallet": "Deine Wallet wird erstellt",
         "backToWalletPage": "Schließen",
         "skipVerificationTextHeader": "Überspringen auf eigene Gefahr",
         "skipVerificationText": "Bitte vergewissere Dich, dass Du Deinen 24-Wort-Wiederherstellungssatz für die Wiederherstellung der Wallet in der richtigen Reihenfolge aufgeschrieben hast. Ohne Deinen Wallet-Wiederherstellungssatz kannst Du Deine Wallet nicht wiederherstellen.",
