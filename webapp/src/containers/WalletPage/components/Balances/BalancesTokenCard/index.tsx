@@ -10,6 +10,7 @@ import BigNumber from 'bignumber.js';
 import { MdArrowDownward, MdArrowUpward, MdSwapHoriz } from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
 import {
+  DFI_SYMBOL,
   DST,
   LP,
   SWAP_PATH,
@@ -174,6 +175,30 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                 </div>
               </Col>
             </Row>
+            {token.hash === DFI_SYMBOL && (
+              <>
+                <Row className={`align-items-center ${styles.utxos}`}>
+                  <Col md='3'>
+                    <div className='ml-6'>UTXO</div>
+                  </Col>
+                  <Col md='4'>
+                    <div className='d-flex justify-content-end'>
+                      <NumberMask value={new BigNumber(1234 || 0).toFixed(8)} />
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={`align-items-center ${styles.utxos}`}>
+                  <Col md='3'>
+                    <div className='ml-6'>Token</div>
+                  </Col>
+                  <Col md='4'>
+                    <div className='d-flex justify-content-end'>
+                      <NumberMask value={new BigNumber(4321 || 0).toFixed(8)} />
+                    </div>
+                  </Col>
+                </Row>
+              </>
+            )}
           </CardBody>
         </Card>
       </Col>
