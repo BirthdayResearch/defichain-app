@@ -2,7 +2,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master]
+    branches: [master, fix/mac_issue]
 
 jobs:
   build_linux_version:
