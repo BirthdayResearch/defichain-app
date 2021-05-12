@@ -9,9 +9,9 @@ Please use this template while reporting a bug and provide as much info as possi
 If the matter is security related, please disclose it privately via security@defichain.com
 -->
 
-#### What happened:
+#### Actual behavior:
 
-#### What you expected to happen:
+#### Expected behavior:
 
 #### How to reproduce it (as minimally and precisely as possible):
 
@@ -20,9 +20,10 @@ Please provide steps on how to reproduce the issue: 1. 2. 3. -->
 
 #### What are your environment parameters?
 
-- DeFi Wallet Version:
+- DeFi Wallet Version: 
 - Operating System (OS):
+– Current free storage capacity:
 
-#### Anything else we need to know?:
+#### Anything else we need to know?
 
-<!-- If possible attach all logs here for us to further debug your issues. -->
+<!-- If possible, .zip your app log, binary log & app config, and attach here for further debugging. -->
