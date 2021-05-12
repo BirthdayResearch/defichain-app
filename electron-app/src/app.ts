@@ -236,11 +236,20 @@ export default class App {
       return (this.mainWindow = null);
     }
     ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
-    setTimeout(() => {
+    setTimeout(async () => {
+      setTimeout(async () => {
+        ElectronLogger.info(
+          `[${LOGGING_SHUT_DOWN}] ${
+            APP_SHUTDOWN_TIMEOUT * 2
+          }ms elapsed, force closing app`
+        );
+        this.closeWindowAndQuitApp();
+      }, APP_SHUTDOWN_TIMEOUT);
+
       ElectronLogger.info(
-        `[${LOGGING_SHUT_DOWN}] 5 minutes elapsed, force closing app`
+        `[${LOGGING_SHUT_DOWN}] ${APP_SHUTDOWN_TIMEOUT}ms elapsed, force closing processes`
       );
-      this.closeWindowAndQuitApp();
+      await DefiProcessManager.forceClose();
     }, APP_SHUTDOWN_TIMEOUT);
     // Stop all process before quit
     this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
