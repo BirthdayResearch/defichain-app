@@ -358,6 +358,9 @@ const configSlice = createSlice({
       state.spv.balance = action.payload;
     },
     getNewSPVAddress(state) {},
+    fetchUtxoDfiSuccess(state, action) {
+      state.utxoDfi = action.payload;
+    },
   },
 });
 
@@ -438,6 +441,7 @@ export const {
   setSPVBalance,
   setSPVPaymentRequests,
   getNewSPVAddress,
+  fetchUtxoDfiSuccess,
 } = actions;
 
 export default reducer;

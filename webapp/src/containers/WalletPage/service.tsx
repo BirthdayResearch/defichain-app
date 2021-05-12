@@ -55,6 +55,7 @@ import { uid } from 'uid';
 import { uniqBy } from 'lodash';
 import { addHdSeedCheck } from './saga';
 import { WalletPathEnum } from './types';
+import { fetchUtxoDfiSuccess } from './reducer';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -310,6 +311,7 @@ export const handleFetchAccountDFI = async () => {
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
+  store.dispatch(fetchUtxoDfiSuccess(new BigNumber(regularDFI || 0)));
   const accountDFI = await handleFetchAccountDFI();
   return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
@@ -362,10 +364,8 @@ export const sendToAddress = async (
     try {
       const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
-      const {
-        address: fromAddress,
-        amount: maxAmount,
-      } = await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
+      const { address: fromAddress, amount: maxAmount } =
+        await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
@@ -417,10 +417,8 @@ export const handleFallbackSendToken = async (
 ): Promise<string> => {
   try {
     const addressesList = await getAddressAndAmountListForAccount();
-    const {
-      address: fromAddress,
-      amount: maxAmount,
-    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    const { address: fromAddress, amount: maxAmount } =
+      await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
     if (new BigNumber(maxAmount).gte(sendAmount)) {
       try {
         const txHash = await accountToAccount(

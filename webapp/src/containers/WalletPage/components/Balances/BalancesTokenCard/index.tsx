@@ -10,6 +10,7 @@ import BigNumber from 'bignumber.js';
 import { MdArrowDownward, MdArrowUpward, MdSwapHoriz } from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
 import {
+  DFI_SYMBOL,
   DST,
   LP,
   SWAP_PATH,
@@ -29,12 +30,14 @@ interface BalancesTokenCardProps {
   hideSwap?: boolean;
   hideMore?: boolean;
   hideBadge?: boolean;
+  utxoDfi?: number;
 }
 
 const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   props: BalancesTokenCardProps
 ) => {
-  const { token, size, bgImage, hideSwap, hideMore, hideBadge } = props;
+  const { token, size, bgImage, hideSwap, hideMore, hideBadge, utxoDfi } =
+    props;
 
   const onCardClick = (event: React.MouseEvent, token: IToken) => {
     const eventTarget = event?.target as any;
@@ -61,6 +64,8 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
       )
     );
   };
+
+  const utxos = new BigNumber(utxoDfi || 0);
 
   return (
     <Row className='align-items-center balanceTokenCard'>
@@ -174,6 +179,33 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                 </div>
               </Col>
             </Row>
+            {token.hash === DFI_SYMBOL && (
+              <>
+                <Row className={`align-items-center ${styles.utxos} mb-2`}>
+                  <Col md='3'>
+                    <div className='ml-6'>
+                      {I18n.t('containers.wallet.walletPage.utxo')}
+                    </div>
+                    <div className='ml-6'>
+                      {I18n.t('containers.wallet.walletPage.token')}
+                    </div>
+                  </Col>
+                  <Col md='4'>
+                    <div className='d-flex justify-content-end'>
+                      <NumberMask value={utxos.toFixed(8)} />
+                    </div>
+                    <div className='d-flex justify-content-end'>
+                      <NumberMask
+                        value={BigNumber.max(
+                          0,
+                          new BigNumber(token.amount || 0).minus(utxos)
+                        ).toFixed(8)}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </>
+            )}
           </CardBody>
         </Card>
       </Col>

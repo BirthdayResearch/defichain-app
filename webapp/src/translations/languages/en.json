@@ -803,7 +803,17 @@
         "whatAreTokens": "What are tokens?",
         "tokenDescription": "DeFiChain uses token standards to bring in external tokens in a trustless manner, allowing trustless financial contracts and trading of all major crypto-asset tokens. The token standards are similar to ERC20 on Ethereum and Omni on Bitcoin blockchain. Through this standard, DeFiChain allows tokenization of any assets.",
         "tokenSub": "On DeFiChain, the standardized tokens are called DeFi Standard Token (DST). DST tokens are of two different types: DCT, created by users of the system, and DAT, which are asset-backed tokens created with the backing of crypto-assets.",
-        "moreInformation": "More information at:"
+        "moreInformation": "More information at:",
+        "token": "Token",
+        "utxo": "UTXO",
+        "convertFrom": "Convert from",
+        "to": "To",
+        "utxoVsDFI": "UTXO DFI vs Token DFI, what's the difference?",
+        "convert": "Convert",
+        "utxoVsToken": "UTXO vs Token",
+        "twoForms": "DFI exists in two forms – UTXO and Token, which are interchangeable depending on the usage. You can easily convert between the two forms within the app.",
+        "mainForm": "UTXO DFI is the main form DFI and is used for core cryptocurrency purposes like send, receive and fees. Token DFI are used for DeFi functions such as swaps and liquidity mining.",
+        "dfiBalance": "Your DFI balance includes both UTXO and Token form."
       },
       "walletWalletsPage": {
         "walletWallets": "Wallets",

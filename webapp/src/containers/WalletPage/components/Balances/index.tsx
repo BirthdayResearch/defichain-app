@@ -44,6 +44,7 @@ const BalancesPage: React.FunctionComponent = () => {
       accountTokens,
       isLoadingTokens,
       tokens: allAppTokens,
+      utxoDfi,
     },
     settings: {
       appConfig: { unit },
@@ -56,7 +57,7 @@ const BalancesPage: React.FunctionComponent = () => {
     amount: walletBalance ?? 0,
     hash: DFI_SYMBOL,
     displayName: unit,
-    isDAT: true
+    isDAT: true,
   });
 
   const [btcNative, setBtcNative] = useState<BalanceToken>({
@@ -178,6 +179,7 @@ const BalancesPage: React.FunctionComponent = () => {
                 bgImage={dfiBG}
                 hideMore={true}
                 hideBadge={true}
+                utxoDfi={utxoDfi}
               />
             </div>
             {/* <div className='btcCard mb-5'>
