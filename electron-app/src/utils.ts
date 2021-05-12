@@ -80,7 +80,7 @@ export const deleteFile = (filePath: string) => {
 
 // Check file exists or not
 export const createDir = (dirPath: string) => {
-  return fs.mkdirSync(dirPath);
+  return fs.mkdirSync(dirPath, { recursive: true });
 };
 
 // Get file data

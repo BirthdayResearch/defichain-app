@@ -116,7 +116,7 @@ const BalancesPage: React.FunctionComponent = () => {
     dispatch(fetchTokensRequest());
     dispatch(fetchInstantBalanceRequest());
     dispatch(fetchAccountTokensRequest());
-    dispatch(getSPVBalance());
+    // dispatch(getSPVBalance());
   }, []);
 
   useEffect(() => {
@@ -182,7 +182,7 @@ const BalancesPage: React.FunctionComponent = () => {
                 utxoDfi={utxoDfi}
               />
             </div>
-            <div className='btcCard mb-5'>
+            {/* <div className='btcCard mb-5'>
               <BalancesTokenCard
                 token={btcNative as IToken}
                 size={largeIcon}
@@ -191,7 +191,7 @@ const BalancesPage: React.FunctionComponent = () => {
                 hideMore={true}
                 hideBadge={true}
               />
-            </div>
+            </div> */}
             <h2 className='d-flex align-items-center'>
               <span>{I18n.t('containers.wallet.walletPage.tokens')}</span>
               <MdInfo
