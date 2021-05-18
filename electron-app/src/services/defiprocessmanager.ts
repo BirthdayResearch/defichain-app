@@ -88,7 +88,7 @@ export default class DefiProcessManager {
   static async start(params: any, event: Electron.IpcMainEvent) {
     const METHOD_NAME = 'start';
     //* Enable/disable node checking for specific releases
-    const enableNodeChecking = false;
+    const enableNodeChecking = true;
     this.logger('Starting node connection...', METHOD_NAME, false);
     try {
       //* App wallet configurations
