@@ -96,7 +96,7 @@ export default class App {
     );
     createMnemonicAction();
     initializeWalletMap();
-    initializeSnapshotEvents(this.mainWindow);
+    await initializeSnapshotEvents(this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {

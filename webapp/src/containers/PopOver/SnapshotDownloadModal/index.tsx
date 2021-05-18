@@ -22,9 +22,9 @@ import { Helmet } from 'react-helmet';
 import { MdCamera, MdCheck } from 'react-icons/md';
 import { DownloadSnapshotSteps } from '../types';
 import {
-  SNAPSHOT_BLOCK,
   SNAPSHOT_PROVIDER,
-  SNAPSHOT_LINKS,
+  SNAPSHOT_EU,
+  SNAPSHOT_ASIA,
 } from '@defi_types/snapshot';
 import {
   openDownloadSnapshotModal,
@@ -46,7 +46,18 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     snapshotDownloadSteps,
   } = useSelector((state: RootState) => state.popover);
 
-  const [snapshotURI, setSnapshotURI] = useState(SNAPSHOT_LINKS[0]);
+  const snapshotLinks = [
+    {
+      label: 'Europe',
+      value: SNAPSHOT_EU,
+    },
+    {
+      label: 'Asia',
+      value: SNAPSHOT_ASIA,
+    },
+  ];
+
+  const [snapshotURI, setSnapshotURI] = useState(snapshotLinks[0]);
 
   const getPercentage = (): string => {
     const completion = snapshotDownloadData.completionRate;
@@ -87,7 +98,9 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
         }`;
         return title;
       case DownloadSnapshotSteps.SnapshotApplied:
-        return I18n.t('alerts.startSyncBlock', { from: SNAPSHOT_BLOCK });
+        return I18n.t('alerts.startSyncBlock', {
+          from: snapshotDownloadData.block,
+        });
       case DownloadSnapshotSteps.ApplyingSnapshot:
         title = 'alerts.unpackingSnaphot';
         return I18n.t(title, { address: snapshotDownloadData.downloadPath });
@@ -113,13 +126,14 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
   };
 
   const onDownloadStart = () => {
+    const downloadUrl = `${snapshotURI.value}${snapshotDownloadData.filename}`;
     dispatch(
       updateDownloadSnapshotData({
         ...snapshotDownloadData,
-        downloadUrl: snapshotURI.value,
+        downloadUrl,
       })
     );
-    onSnapshotDownloadRequest(snapshotURI.value);
+    onSnapshotDownloadRequest(downloadUrl);
   };
 
   const closeModal = () => {
@@ -194,7 +208,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
                             {snapshotURI.label}
                           </DropdownToggle>
                           <DropdownMenu>
-                            {SNAPSHOT_LINKS.map((object) => {
+                            {snapshotLinks.map((object) => {
                               return (
                                 <DropdownItem
                                   className='d-flex justify-content-between'

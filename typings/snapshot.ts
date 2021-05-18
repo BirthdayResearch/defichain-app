@@ -2,20 +2,24 @@ export const SNAPSHOT_EU =
   'https://defi-snapshots-europe.s3.eu-central-1.amazonaws.com/';
 export const SNAPSHOT_ASIA =
   'https://defi-snapshots.s3-ap-southeast-1.amazonaws.com/';
-export const SNAPSHOT_BLOCK = '842677';
-export const SNAPSHOT_FILENAME = `snapshot-mainnet-${SNAPSHOT_BLOCK}.zip`;
-export const OFFICIAL_SNAPSHOT_URL = `${SNAPSHOT_EU}${SNAPSHOT_FILENAME}`;
+export interface SnapshotInterface {
+  SNAPSHOT_BLOCK: string;
+  SNAPSHOT_FILENAME: string;
+  SNAPSHOT_EXTENSION: string;
+}
+
+export let SNAPSHOT_INFO = {
+  SNAPSHOT_BLOCK: '856482',
+  SNAPSHOT_FILENAME: 'snapshot-mainnet-',
+  SNAPSHOT_EXTENSION: '.zip',
+};
+
 export const SNAPSHOT_PROVIDER = 'DeFiChain Foundation';
-export const SNAPSHOT_LINKS = [
-  {
-    label: 'Europe',
-    value: `${SNAPSHOT_EU}${SNAPSHOT_FILENAME}`,
-  },
-  {
-    label: 'Asia',
-    value: `${SNAPSHOT_ASIA}${SNAPSHOT_FILENAME}`,
-  },
-];
+
+export const getSnapshotFilename = (): string => {
+  const info = SNAPSHOT_INFO;
+  return `${info.SNAPSHOT_FILENAME}${info.SNAPSHOT_BLOCK}${info.SNAPSHOT_EXTENSION}`;
+};
 
 export interface UnpackSizesModel {
   completionRate: number;
@@ -26,6 +30,8 @@ export interface FileSizesModel {
   completionRate: number;
   downloadPath: string;
   downloadUrl: string;
+  filename: string;
+  block: string;
   snapshotDate?: Date;
   unpackModel?: UnpackSizesModel;
 }
