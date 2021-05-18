@@ -43,6 +43,8 @@ export const initialState: PopoverState = {
     remoteSize: 0,
     downloadPath: '',
     downloadUrl: '',
+    block: '856482',
+    filename: '',
   },
   isBalanceTooltipOpen: false,
 };
@@ -214,6 +216,11 @@ const configSlice = createSlice({
     openBalanceTooltipModal(state, action) {
       state.isBalanceTooltipOpen = action.payload;
     },
+    closeAllPopovers(state) {
+      state.isSnapshotDownloadOpen = false;
+      state.isWalletPassphraseModalOpen = false;
+      state.isEncryptWalletModalOpen = false;
+    },
   },
 });
 
@@ -270,6 +277,7 @@ export const {
   updateDownloadSnapshotStep,
   updateDownloadSnapshotData,
   openBalanceTooltipModal,
+  closeAllPopovers,
 } = actions;
 
 export default reducer;

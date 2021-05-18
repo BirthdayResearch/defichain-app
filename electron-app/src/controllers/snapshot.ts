@@ -11,9 +11,10 @@ import path from 'path';
 import { UNZIP_FILE_PATH } from '../constants';
 import axios from 'axios';
 import {
-  OFFICIAL_SNAPSHOT_URL,
-  SNAPSHOT_FILENAME,
   FileSizesModel,
+  getSnapshotFilename,
+  SNAPSHOT_EU,
+  SNAPSHOT_INFO,
 } from '@defi_types/snapshot';
 import https from 'https';
 import { IncomingMessage } from 'http';
@@ -41,16 +42,17 @@ export interface DefaultFileSizes {
   snapshotDirectory: string;
 }
 
-export const initializeSnapshotEvents = (bw: Electron.BrowserWindow) => {
+export const initializeSnapshotEvents = async (bw: Electron.BrowserWindow) => {
   try {
     ipcMain.on(
       ON_SNAPSHOT_START_REQUEST,
-      async (event: Electron.IpcMainEvent, snapshotUrl?: string) => {
+      async (event: Electron.IpcMainEvent, snapshotUrl: string) => {
         downloadSnapshot(bw, snapshotUrl);
       }
     );
 
     ipcMain.on(ON_SNAPSHOT_DATA_REQUEST, async () => {
+      await getLatestSnapshotBlock(bw);
       onDataRequest(bw);
     });
 
@@ -121,7 +123,9 @@ export const getDefaultFileSizes = async (
     downloadPath: snapshotDirectory,
     unpackModel: { completionRate: 0 },
     snapshotDate: new Date(),
-    downloadUrl: OFFICIAL_SNAPSHOT_URL,
+    downloadUrl: `${SNAPSHOT_EU}${getSnapshotFilename()}`,
+    filename: getSnapshotFilename(),
+    block: SNAPSHOT_INFO.SNAPSHOT_BLOCK
   };
   const isSnapshotExisting = await checkIfSnapshotExist(
     snapshotDirectory,
@@ -133,15 +137,12 @@ export const getDefaultFileSizes = async (
 
 export const downloadSnapshot = async (
   bw: Electron.BrowserWindow,
-  snapshotUrl?: string
+  snapshotUrl: string
 ): Promise<boolean> => {
   try {
     return new Promise(async () => {
-      const {
-        fileSizes,
-        isSnapshotExisting,
-        snapshotDirectory,
-      } = await getDefaultFileSizes(bw);
+      const { fileSizes, isSnapshotExisting, snapshotDirectory } =
+        await getDefaultFileSizes(bw);
       fileSizes.downloadUrl = snapshotUrl ?? fileSizes.downloadUrl;
       const hasSpace = await hasEnoughDiskSpace(fileSizes);
       if (!hasSpace) {
@@ -152,7 +153,12 @@ export const downloadSnapshot = async (
         onDownloadComplete(bw, fileSizes, snapshotDirectory);
       } else {
         deleteSnapshotIfExisting(bw);
-        startDownloadSnapshot(snapshotDirectory, bw, fileSizes, snapshotUrl);
+        startDownloadSnapshot(
+          snapshotDirectory,
+          bw,
+          fileSizes,
+          fileSizes.downloadUrl
+        );
       }
     });
   } catch (error) {
@@ -167,7 +173,7 @@ export const createSnapshotDirectory = (bw: Electron.BrowserWindow): string => {
     if (!checkPathExists(snapshotPath)) {
       fs.mkdirSync(snapshotPath, { recursive: true });
     }
-    return path.join(snapshotPath, SNAPSHOT_FILENAME);
+    return path.join(snapshotPath, getSnapshotFilename());
   } catch (error) {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, error);
@@ -188,7 +194,7 @@ export const checkIfSnapshotExist = async (
   bw: Electron.BrowserWindow
 ): Promise<boolean> => {
   try {
-    const response = await axios.head(OFFICIAL_SNAPSHOT_URL);
+    const response = await axios.head(fileSizes.downloadUrl);
     fileSizes.remoteSize =
       +response.headers['content-length'] || fileSizes.remoteSize;
     fileSizes.snapshotDate = response.headers['last-modified']
@@ -250,12 +256,12 @@ export const startDownloadSnapshot = async (
   directory: string,
   bw: Electron.BrowserWindow,
   fileSizes: FileSizesModel,
-  snapshotUrl?: string
+  snapshotUrl: string
 ): Promise<any> => {
   try {
     let bytes = 0;
     const writer = createWriteStream(directory);
-    const url = snapshotUrl ?? OFFICIAL_SNAPSHOT_URL;
+    const url = snapshotUrl;
     log.info(`Downloading snapshot from ${url}`);
     return https.get(url, (response: IncomingMessage) => {
       response.pipe(writer);
@@ -338,5 +344,22 @@ export const extractSnapshot = (
   } catch (error) {
     log.error(error);
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, 'Extract failure');
+  }
+};
+
+export const getLatestSnapshotBlock = async (bw: Electron.BrowserWindow) => {
+  try {
+    const blocks = await axios.get(`${SNAPSHOT_EU}index.txt`);
+    const data: string[] = blocks?.data?.split('\n') || [];
+    const snapshots = data
+      .filter((s) => s.includes('snapshot'))
+      .map((s) => s.replace(/^\D+/g, '').replace('.zip', ''))
+      .filter((s) => s != null && s != '')
+      .sort((a, b) => +a - +b);
+    SNAPSHOT_INFO.SNAPSHOT_BLOCK =
+      snapshots[snapshots.length - 1] ?? SNAPSHOT_INFO.SNAPSHOT_BLOCK;
+  } catch (error) {
+    log.error(error);
+    bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, 'Snapshot block error');
   }
 };

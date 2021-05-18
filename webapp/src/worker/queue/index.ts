@@ -16,6 +16,7 @@ import {
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 import { unlockWalletSuccess } from '../../containers/WalletPage/reducer';
+import { closeAllPopovers } from '../../containers/PopOver/reducer';
 
 const worker = (task, callback) => {
   task
@@ -51,6 +52,7 @@ export const triggerNodeShutdown = async (
   const ipcRenderer = ipcRendererFunc();
   log.info('Removing all Binary and Queue listeners..', LOGGING_SHUT_DOWN);
   store.dispatch(isAppClosing({ isAppClosing: true }));
+  store.dispatch(closeAllPopovers());
   ipcRenderer.removeAllListeners(STOP_BINARY_AND_QUEUE);
   if (isRunning()) {
     await shutDownBinary();
