@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
-  "ainVersion": "1.7.0-rc.2",
+  "ainVersion": "1.6.4",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
