@@ -139,6 +139,7 @@ export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
 export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
 export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';
 export const TELEGRAM_ZH_HELP_LINK = 'https://t.me/defichain_ZH ';
+export const WECHAT_ZH_LINK = 'http://weixin.qq.com/r/0xz07DzEdmEJrXiP90nB';
 
 export const GITHUB_ISSUE_HELP_LINK =
   'https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-Defi-App';
