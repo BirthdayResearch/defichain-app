@@ -118,7 +118,8 @@
       "helpTextFooterLine1": "递飞链是个由社区主导型发展和开放式的项目。",
       "helpTextFooterLine2": "支援来自社区成员，并非来自递飞链基金会。",
       "section": "区",
-      "wiki": "社区维基百科"
+      "wiki": "社区维基百科",
+      "wechat": "微信公众号 DeFiChainDFI"
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -802,7 +803,17 @@
         "whatAreTokens": "什么是代币？",
         "tokenDescription": "递飞链使用代币标准以无信任的管道引入外部代币，允许无信任的金融契约和所有主要加密资产代币的交易。代币标准类似于乙太坊上的ERC20和比特币区块链上的Omni。透过这个标准，递飞链允许任何资产的标记化。",
         "tokenSub": "在递飞链上, 标准化代币称为递飞链标准代币（DST）。 DST代币有两种不同的类型：DCT（由系统用户创建）和DAT（由加密资产支持创建的资产支持代币）。",
-        "moreInformation": "更多资讯请前往："
+        "moreInformation": "更多资讯请前往：",
+        "token": "代币",
+        "utxo": "未花费交易输出",
+        "convertFrom": "转换自",
+        "to": "到",
+        "utxoVsDFI": "UTXO DFI和DFI代币有什么区别?",
+        "convert": "转换",
+        "utxoVsToken": "UTXO与代币",
+        "twoForms": "DFI有两种形式：UTXO和代币，这两种形式根据使用情况可以互换。您可以在应用程序中轻易的在两者之间转换.",
+        "mainForm": "UTXO DFI是DFI的主要形式，用于发送、接收和收费等核心加密货币功能。代币DFI用于交换和流动性池等DeFi功能.",
+        "dfiBalance": "您的DFI余额包括UTXO和代币形式."
       },
       "walletWalletsPage": {
         "walletWallets": "钱包",

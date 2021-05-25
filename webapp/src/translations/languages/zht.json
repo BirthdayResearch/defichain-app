@@ -118,7 +118,8 @@
       "helpTextFooterLine1": "遞飛鏈是個由社區主導型發展和開放式的項目。",
       "helpTextFooterLine2": "支援來自社區成員，並非來自遞飛鏈基金會。",
       "section": "區",
-      "wiki": "社區維基百科"
+      "wiki": "社區維基百科",
+      "wechat": "微信公眾號 DeFiChainDFI"
     },
     "masterNodes": {
       "masterNodesPage": {
@@ -802,7 +803,17 @@
         "whatAreTokens": "什麼是代幣？",
         "tokenDescription": "遞飛鏈使用代幣標準以無信任的管道引入外部代幣，允許無信任的金融契约和所有主要加密資產代幣的交易。代幣標準類似於乙太坊上的ERC20和比特幣區塊鏈上的Omni。透過這個標準，遞飛鏈允許任何資產的標記化。",
         "tokenSub": "在遞飛鏈上, 標準化代幣稱為遞飛鏈標準代幣（DST）。 DST代幣有兩種不同的類型：DCT（由系統用戶創建）和DAT（由加密資產支持創建的資產支持代幣）。",
-        "moreInformation": "更多資訊請前往："
+        "moreInformation": "更多資訊請前往：",
+        "token": "代幣",
+        "utxo": "未花费交易输出",
+        "convertFrom": "轉換自",
+        "to": "到",
+        "utxoVsDFI": "UTXO DFI和DFI代幣有什麼區別?",
+        "convert": "轉換",
+        "utxoVsToken": "UTXO與代幣",
+        "twoForms": "DFI有兩種形式：UTXO和代幣，這兩種形式根據使用情況可以互換。您可以在應用程序中輕易的在兩者之間轉換",
+        "mainForm": "UTXO DFI是DFI的主要形式，用於發送、接收和收費等核心加密貨幣功能。代幣DFI用於交換和流動性池等DeFi功能",
+        "dfiBalance": "您的DFI餘額包括UTXO和代幣形式"
       },
       "walletWalletsPage": {
         "walletWallets": "錢包",

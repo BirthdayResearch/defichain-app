@@ -21,10 +21,12 @@ import {
   CHINESE_TRADITIONAL,
   CHINESE_SIMPLIFIED,
   TELEGRAM_ZH_HELP_LINK,
+  WECHAT_ZH_LINK,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
 import { getPageTitle } from '../../utils/utility';
 import { useSelector } from 'react-redux';
+import { RiWechatFill } from 'react-icons/ri';
 
 const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
   const { locale } = useSelector((state: any) => state.i18n);
@@ -97,6 +99,26 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
                 </CardBody>
               </Card>
             </Col>
+            {isChinese && (
+              <Col md='6'>
+                <Card
+                  onClick={() => openNewTab(WECHAT_ZH_LINK)}
+                  className={styles.helpOption}
+                >
+                  <CardBody className={styles.helpOptionRow}>
+                    <div className={styles.helpOptionIcon}>
+                      <RiWechatFill />
+                    </div>
+                    <div className={styles.helpOptionDescription}>
+                      <h3>{I18n.t('containers.helpPage.wechat')}</h3>
+                      <p>
+                        {new URL(WECHAT_ZH_LINK).hostname.replace('www.', '')}
+                      </p>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            )}
             <Col md='6'>
               <Card
                 onClick={() => openNewTab(GITHUB_ISSUE_HELP_LINK)}
@@ -120,7 +142,9 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`)}
+                onClick={() =>
+                  openNewTab(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`)
+                }
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -130,10 +154,9 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.faq')}</h3>
                     <p>
-                      {new URL(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`).hostname.replace(
-                        'www.',
-                        ''
-                      )}
+                      {new URL(
+                        `${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`
+                      ).hostname.replace('www.', '')}
                     </p>
                   </div>
                 </CardBody>
@@ -150,12 +173,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
                   </div>
                   <div className={styles.helpOptionDescription}>
                     <h3>{I18n.t('containers.helpPage.defichainsite')}</h3>
-                    <p>
-                      {new URL(getSiteURL()).hostname.replace(
-                        'www.',
-                        ''
-                      )}
-                    </p>
+                    <p>{new URL(getSiteURL()).hostname.replace('www.', '')}</p>
                   </div>
                 </CardBody>
               </Card>

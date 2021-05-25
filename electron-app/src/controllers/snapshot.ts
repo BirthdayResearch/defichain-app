@@ -4,11 +4,10 @@ import {
   checkPathExists,
   deleteSnapshotFiles,
   deleteSnapshotFolders,
-  getBaseFolder,
   getSnapshotFolder,
 } from '../utils';
 import path from 'path';
-import { UNZIP_FILE_PATH } from '../constants';
+import { BASE_FILE_PATH, UNZIP_FILE_PATH } from '../constants';
 import axios from 'axios';
 import {
   FileSizesModel,
@@ -125,7 +124,7 @@ export const getDefaultFileSizes = async (
     snapshotDate: new Date(),
     downloadUrl: `${SNAPSHOT_EU}${getSnapshotFilename()}`,
     filename: getSnapshotFilename(),
-    block: SNAPSHOT_INFO.SNAPSHOT_BLOCK
+    block: SNAPSHOT_INFO.SNAPSHOT_BLOCK,
   };
   const isSnapshotExisting = await checkIfSnapshotExist(
     snapshotDirectory,
@@ -312,7 +311,7 @@ export const extractSnapshot = (
 ) => {
   try {
     log.info('Starting extraction...');
-    const blocksPath = path.join(getBaseFolder(), '..');
+    const blocksPath = BASE_FILE_PATH;
     const child = spawn(UNZIP_FILE_PATH, [
       `x`,
       `${fileSizes.downloadPath}`,
