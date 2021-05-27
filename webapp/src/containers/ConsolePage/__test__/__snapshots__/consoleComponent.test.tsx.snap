@@ -33,7 +33,7 @@ exports[`Console component snapshot test of console component 1`] = `
           continue={[Function]}
           handler={[Function]}
           promptLabel=""
-          welcomeMessage="defi-wallet_v2.4.0-rc.2"
+          welcomeMessage="defi-wallet_v2.4.0-rc.3"
         >
           <div
             className="react-console-container react-console-focus"
@@ -42,7 +42,7 @@ exports[`Console component snapshot test of console component 1`] = `
             <div
               className="react-console-message react-console-welcome"
             >
-              defi-wallet_v2.4.0-rc.2
+              defi-wallet_v2.4.0-rc.3
             </div>
             <ConsolePrompt
               argument={null}
