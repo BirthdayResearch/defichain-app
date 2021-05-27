@@ -630,6 +630,7 @@ export function* fetchWalletTokenTransactionsList(action) {
     const minBlockHeightData = minHeightData.blockHeight - 1;
 
     const parsedData = data.map((d) => {
+      const amounts = Array.isArray(d.amounts) ? d.amounts : [d.amounts];
       return {
         owner: d.owner,
         blockHeight: d.blockHeight,
@@ -638,7 +639,7 @@ export function* fetchWalletTokenTransactionsList(action) {
         type: d.type,
         txn: d.txn,
         txid: d.txid,
-        amountData: d.amounts.map((amount) => {
+        amountData: amounts.map((amount) => {
           return {
             unit: amount.split(AMOUNT_SEPARATOR)[1],
             amount: amount.split(AMOUNT_SEPARATOR)[0],

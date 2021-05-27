@@ -9,7 +9,7 @@ export interface SnapshotInterface {
 }
 
 export let SNAPSHOT_INFO = {
-  SNAPSHOT_BLOCK: '856482',
+  SNAPSHOT_BLOCK: '876092',
   SNAPSHOT_FILENAME: 'snapshot-mainnet-',
   SNAPSHOT_EXTENSION: '.zip',
 };

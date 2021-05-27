@@ -201,10 +201,8 @@ export const sendToAddress = async (
     try {
       const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
-      const {
-        address: fromAddress,
-        amount: maxAmount,
-      } = await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
+      const { address: fromAddress, amount: maxAmount } =
+        await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
@@ -256,10 +254,8 @@ export const handleFallbackSendToken = async (
 ): Promise<string> => {
   try {
     const addressesList = await getAddressAndAmountListForAccount();
-    const {
-      address: fromAddress,
-      amount: maxAmount,
-    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    const { address: fromAddress, amount: maxAmount } =
+      await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
     if (new BigNumber(maxAmount).gte(sendAmount)) {
       try {
         const txHash = await accountToAccount(
@@ -487,7 +483,8 @@ export const getListAccountHistory = (query: {
 
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
-    const amounts = item.amounts.map((ele) => ({
+    const items = Array.isArray(item.amounts) ? item.amounts : [item.amounts];
+    const amounts = items.map((ele) => ({
       value: new BigNumber(
         ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
       ).toFixed(),
@@ -522,7 +519,10 @@ const validTrx = (item) => {
   if (!isValid) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amounts[0].value).gte(0)
+      const value = Array.isArray(item.amounts)
+        ? item.amounts[0].value
+        : item.amounts?.value;
+      category = new BigNumber(value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }

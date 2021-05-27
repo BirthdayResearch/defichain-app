@@ -656,7 +656,8 @@ export const getListAccountHistory = (query: {
 
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
-    const amounts = item.amounts.map((ele) => ({
+    const items = Array.isArray(item.amounts) ? item.amounts : [item.amounts];
+    const amounts = items.map((ele) => ({
       value: new BigNumber(
         ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
       ).toFixed(),
@@ -691,7 +692,10 @@ const validTrx = (item) => {
   if (!isValid) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amounts[0].value).gte(0)
+      const value = Array.isArray(item.amounts)
+        ? item.amounts[0].value
+        : item.amounts?.value;
+      category = new BigNumber(value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }
