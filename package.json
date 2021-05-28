@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.4.0-rc.3",
+  "version": "2.4.0-rc.4",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
-  "ainVersion": "1.7.1",
+  "ainVersion": "1.7.2",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
