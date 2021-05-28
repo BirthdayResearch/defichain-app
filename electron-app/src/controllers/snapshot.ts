@@ -13,6 +13,7 @@ import {
   FileSizesModel,
   getSnapshotFilename,
   SNAPSHOT_EU,
+  SNAPSHOT_INDEX,
   SNAPSHOT_INFO,
 } from '@defi_types/snapshot';
 import https from 'https';
@@ -348,7 +349,7 @@ export const extractSnapshot = (
 
 export const getLatestSnapshotBlock = async (bw: Electron.BrowserWindow) => {
   try {
-    const blocks = await axios.get(`${SNAPSHOT_EU}index-1.7.0.txt`);
+    const blocks = await axios.get(`${SNAPSHOT_EU}${SNAPSHOT_INDEX}`);
     const data: string[] = blocks?.data?.split('\n') || [];
     const snapshots = data
       .filter((s) => s.includes('snapshot'))

@@ -2,6 +2,7 @@ export const SNAPSHOT_EU =
   'https://defi-snapshots-europe.s3.eu-central-1.amazonaws.com/';
 export const SNAPSHOT_ASIA =
   'https://defi-snapshots.s3-ap-southeast-1.amazonaws.com/';
+export const SNAPSHOT_INDEX = 'index-1.7.0.txt';
 export interface SnapshotInterface {
   SNAPSHOT_BLOCK: string;
   SNAPSHOT_FILENAME: string;
@@ -9,7 +10,7 @@ export interface SnapshotInterface {
 }
 
 export let SNAPSHOT_INFO = {
-  SNAPSHOT_BLOCK: '876092',
+  SNAPSHOT_BLOCK: '877253',
   SNAPSHOT_FILENAME: 'snapshot-mainnet-',
   SNAPSHOT_EXTENSION: '.zip',
 };
