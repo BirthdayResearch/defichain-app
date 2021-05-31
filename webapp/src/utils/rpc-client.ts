@@ -675,7 +675,7 @@ export default class RpcClient {
 
   tokenInfo = async (key: string): Promise<any> => {
     const blockhash = await this.getBestBlockHash();
-    const CACHE_KEY = `rpc.tokenInfo.${blockhash}`;
+    const CACHE_KEY = `rpc.tokenInfo.${blockhash}-${key}`;
     let result = LruCache.get(CACHE_KEY);
 
     if (result === null) {
