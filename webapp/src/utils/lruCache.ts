@@ -3,6 +3,7 @@ export default class LruCache {
   private static maxEntries: number = 100000;
 
   public static get(key: string): any {
+    console.log('cacheget ', key);
     const hasKey = LruCache.values.has(key);
     let entry: any = null;
     if (hasKey) {

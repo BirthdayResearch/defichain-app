@@ -56,6 +56,8 @@ import LruCache from './lruCache';
 
 export default class RpcClient {
   client: any;
+  blockchainInfo: any;
+
   constructor(cancelToken?) {
     const state = store.getState();
     const { rpcuser, rpcpassword, rpcconnect } = state.app.rpcConfig;
@@ -73,6 +75,7 @@ export default class RpcClient {
       },
       cancelToken: cancelToken,
     });
+    this.blockchainInfo = false;
   }
 
   call = async (path: string, method: string, params: any[] = []) => {
@@ -116,8 +119,16 @@ export default class RpcClient {
   };
 
   getWalletInfo = async (): Promise<WalletInfo> => {
-    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getWalletInfo.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getRawTransactionOfBlock = async (
@@ -711,6 +722,10 @@ export default class RpcClient {
   };
 
   getBlockChainInfo = async () => {
+    if (this.blockchainInfo) {
+      return this.blockchainInfo;
+    }
+
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
@@ -723,7 +738,12 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
-    return data.result;
+    this.blockchainInfo = data.result;
+    setTimeout(() => {
+      this.blockchainInfo = false;
+    }, 200);
+
+    return this.blockchainInfo;
   };
 
   async getBestBlockHash(): Promise<string> {
