@@ -52,6 +52,7 @@ import {
 } from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import LruCache from './lruCache';
 
 export default class RpcClient {
   client: any;
@@ -755,10 +756,18 @@ export default class RpcClient {
   };
 
   getaddressInfo = async (address: string) => {
-    const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
-      address,
-    ]);
-    return data.result;
+    const CACHE_KEY = `rpc.getaddressInfo.${address}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
+        address,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+
+    return result;
   };
 
   getListreceivedAddress = async (
@@ -842,7 +851,7 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
       true, // verbose
-      true, // is mine only
+      false, // is mine only
     ]);
     return data.result;
   };

@@ -1,6 +1,6 @@
 export default class LruCache {
   private static values: Map<string, any> = new Map<string, any>();
-  private static maxEntries: number = 2000;
+  private static maxEntries: number = 100000;
 
   public static get(key: string): any {
     const hasKey = LruCache.values.has(key);
