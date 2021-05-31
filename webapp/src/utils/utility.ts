@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
+import { setup } from 'axios-cache-adapter';
 
 import * as log from './electronLogger';
 import moment from 'moment';
@@ -743,6 +744,8 @@ export const fetchPoolPairDataWithPagination = async (
   const poolStats = await getPoolStatsFromAPI();
   const coinPriceObj = await parsedCoinPriceData(poolStats);
 
+  const poolShares = await handleFetchPoolshares();
+
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
   const transformedData = Object.keys(result).map(async (item: any) => {
@@ -754,8 +757,6 @@ export const fetchPoolPairDataWithPagination = async (
       .times(rewardPct)
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
-
-    const poolShares = await handleFetchPoolshares();
 
     const poolShare = poolShares.find((poolshare) => {
       return poolshare.poolID === item;
@@ -808,8 +809,6 @@ export const fetchPoolPairDataWithPagination = async (
         .times(rewardPct)
         .times(365)
         .times(coinPriceObj[DFI_SYMBOL]);
-
-      const poolShares = await handleFetchPoolshares();
 
       const poolShare = poolShares.find((poolshare) => {
         return poolshare.poolID === item;
@@ -936,23 +935,28 @@ export const fetchPoolShareDataWithPagination = async (
 };
 
 export const getTotalBlocks = async () => {
-  const network = getNetworkType();
-  const { data } = await axios({
-    url: `${STATS_API_BLOCK_URL}?network=${network}net`,
-    method: 'GET',
-    timeout: API_REQUEST_TIMEOUT,
-  });
-  return data;
+  const rpcClient = new RpcClient();
+  return await rpcClient.getBlockCount();
 };
 
+const api = setup({
+  // `axios` options
+  baseURL: `${STATS_API_BASE_URL}`,
+  cache: {
+    maxAge: 30 * 1000,
+    exclude: {
+      query: false
+    }
+  }
+});
 export const getStatsYieldFarming = async () => {
+  const state = store.getState();
+  const block = state.syncstatus.latestSyncedBlock;
   const network = getNetworkType();
-  const { data } = await axios({
-    url: `${STATS_API_BASE_URL}listyieldfarming?network=${network}net`,
-    method: 'GET',
+  const result = await api.get(`listyieldfarming?network=${network}net&block=${block}`, {
     timeout: API_REQUEST_TIMEOUT,
   });
-  return data;
+  return result.data;
 };
 
 export const getPoolStatsFromAPI = async () => {
