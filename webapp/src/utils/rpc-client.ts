@@ -674,13 +674,29 @@ export default class RpcClient {
   };
 
   tokenInfo = async (key: string): Promise<any> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.tokenInfo.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getTokenBalances.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listTokens = async (
