@@ -851,7 +851,7 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
       { start, including_start, limit },
       true, // verbose
-      false, // is mine only
+      true, // is mine only
     ]);
     return data.result;
   };
