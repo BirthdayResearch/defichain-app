@@ -935,8 +935,13 @@ export const fetchPoolShareDataWithPagination = async (
 };
 
 export const getTotalBlocks = async () => {
-  const rpcClient = new RpcClient();
-  return await rpcClient.getBlockCount();
+  const network = getNetworkType();
+  const { data } = await axios({
+    url: `${STATS_API_BLOCK_URL}?network=${network}net`,
+    method: 'GET',
+    timeout: API_REQUEST_TIMEOUT,
+  });
+  return data;
 };
 
 const api = setup({
