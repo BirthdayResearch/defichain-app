@@ -11,8 +11,7 @@ export const getBlockSyncInfo = async () => {
   const latestSyncedBlock = await rpcClient.getLatestSyncedBlock();
   let latestBlock = 0;
   try {
-    const latestBlockInfoArr = await getTotalBlocks();
-    latestBlock = latestBlockInfoArr.data;
+    latestBlock = await getTotalBlocks();
   } catch (e) {
     // Use getpeerinfo rpc call, if not able to get data from stats api
     const latestBlockInfoArr: any = await rpcClient.getPeerInfo();

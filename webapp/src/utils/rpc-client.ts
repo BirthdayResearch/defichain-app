@@ -52,9 +52,12 @@ import {
 } from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import LruCache from './lruCache';
 
 export default class RpcClient {
   client: any;
+  blockchainInfo: any;
+
   constructor(cancelToken?) {
     const state = store.getState();
     const { rpcuser, rpcpassword, rpcconnect } = state.app.rpcConfig;
@@ -72,6 +75,7 @@ export default class RpcClient {
       },
       cancelToken: cancelToken,
     });
+    this.blockchainInfo = false;
   }
 
   call = async (path: string, method: string, params: any[] = []) => {
@@ -115,8 +119,16 @@ export default class RpcClient {
   };
 
   getWalletInfo = async (): Promise<WalletInfo> => {
-    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getWalletInfo.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getRawTransactionOfBlock = async (
@@ -673,13 +685,29 @@ export default class RpcClient {
   };
 
   tokenInfo = async (key: string): Promise<any> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.tokenInfo.${blockhash}-${key}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getTokenBalances.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listTokens = async (
@@ -694,6 +722,10 @@ export default class RpcClient {
   };
 
   getBlockChainInfo = async () => {
+    if (this.blockchainInfo) {
+      return this.blockchainInfo;
+    }
+
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
@@ -706,8 +738,18 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
-    return data.result;
+    this.blockchainInfo = data.result;
+    setTimeout(() => {
+      this.blockchainInfo = false;
+    }, 200);
+
+    return this.blockchainInfo;
   };
+
+  async getBestBlockHash(): Promise<string> {
+    const { bestblockhash } = await this.getBlockChainInfo();
+    return bestblockhash;
+  }
 
   getAccount = async (ownerAddress: string) => {
     const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
@@ -755,10 +797,18 @@ export default class RpcClient {
   };
 
   getaddressInfo = async (address: string) => {
-    const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
-      address,
-    ]);
-    return data.result;
+    const CACHE_KEY = `rpc.getaddressInfo.${address}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
+        address,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+
+    return result;
   };
 
   getListreceivedAddress = async (
@@ -828,10 +878,18 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
-      { start, including_start, limit },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolPairs.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+        { start, including_start, limit },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listPoolShares = async (
@@ -839,17 +897,35 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
-      { start, including_start, limit },
-      true, // verbose
-      true, // is mine only
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolShares.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+        { start, including_start, limit },
+        true, // verbose
+        true, // is mine only
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getPoolPair = async (poolID: string) => {
-    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getPoolPair.${blockhash}-${poolID}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [
+        poolID,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   /**
@@ -919,10 +995,18 @@ export default class RpcClient {
   };
 
   getGov = async () => {
-    const { data } = await this.call('/', methodNames.GET_GOV, [
-      LP_DAILY_DFI_REWARD,
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getGov.${blockhash}.LP_DAILY_DFI_REWARD`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_GOV, [
+        LP_DAILY_DFI_REWARD,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getListAccountHistory = async (_: {
@@ -932,16 +1016,24 @@ export default class RpcClient {
     token: string;
   }) => {
     const { blockHeight, limit, no_rewards, token } = _;
-    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      'mine',
-      {
-        maxBlockHeight: blockHeight,
-        limit,
-        no_rewards,
-        token,
-      },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getListAccountHistory.${blockhash}.${blockHeight}.${limit}.${no_rewards}.${token}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+        'mine',
+        {
+          maxBlockHeight: blockHeight,
+          limit,
+          no_rewards,
+          token,
+        },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   accountHistoryCount = async (

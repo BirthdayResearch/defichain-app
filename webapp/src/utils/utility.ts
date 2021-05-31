@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
+import { setup } from 'axios-cache-adapter';
 
 import * as log from './electronLogger';
 import moment from 'moment';
@@ -103,6 +104,10 @@ import {
   ResponseMessages,
 } from '../constants/common';
 import PersistentStore from './persistentStore';
+
+export interface CoinPriceData {
+  [key: number]: number;
+}
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -737,7 +742,9 @@ export const fetchPoolPairDataWithPagination = async (
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
   const poolStats = await getPoolStatsFromAPI();
-  const coinPriceObj = await parsedCoinPriceData();
+  const coinPriceObj = await parsedCoinPriceData(poolStats);
+
+  const poolShares = await handleFetchPoolshares();
 
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -750,8 +757,6 @@ export const fetchPoolPairDataWithPagination = async (
       .times(rewardPct)
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
-
-    const poolShares = await handleFetchPoolshares();
 
     const poolShare = poolShares.find((poolshare) => {
       return poolshare.poolID === item;
@@ -795,9 +800,8 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
-        item
-      ];
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } =
+        result[item];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
 
@@ -805,8 +809,6 @@ export const fetchPoolPairDataWithPagination = async (
         .times(rewardPct)
         .times(365)
         .times(coinPriceObj[DFI_SYMBOL]);
-
-      const poolShares = await handleFetchPoolshares();
 
       const poolShare = poolShares.find((poolshare) => {
         return poolshare.poolID === item;
@@ -933,23 +935,28 @@ export const fetchPoolShareDataWithPagination = async (
 };
 
 export const getTotalBlocks = async () => {
-  const network = getNetworkType();
-  const { data } = await axios({
-    url: `${STATS_API_BLOCK_URL}?network=${network}net`,
-    method: 'GET',
-    timeout: API_REQUEST_TIMEOUT,
-  });
-  return data;
+  const rpcClient = new RpcClient();
+  return await rpcClient.getBlockCount();
 };
 
+const api = setup({
+  // `axios` options
+  baseURL: `${STATS_API_BASE_URL}`,
+  cache: {
+    maxAge: 30 * 1000,
+    exclude: {
+      query: false
+    }
+  }
+});
 export const getStatsYieldFarming = async () => {
+  const state = store.getState();
+  const block = state.syncstatus.latestSyncedBlock;
   const network = getNetworkType();
-  const { data } = await axios({
-    url: `${STATS_API_BASE_URL}listyieldfarming?network=${network}net`,
-    method: 'GET',
+  const result = await api.get(`listyieldfarming?network=${network}net&block=${block}`, {
     timeout: API_REQUEST_TIMEOUT,
   });
-  return data;
+  return result.data;
 };
 
 export const getPoolStatsFromAPI = async () => {
@@ -1164,14 +1171,16 @@ export const getCoinPriceInUSD = async (conversionCurrency: string) => {
   return data;
 };
 
-export const parsedCoinPriceData = async () => {
-  const result = await getCoinPriceInUSD(VS_CURRENCY);
-  const coinMap = getCoinMap();
-  return Object.keys(result).reduce((coinPriceObj: any, item) => {
-    const symbol = coinMap.get(item) || '0';
-    coinPriceObj[symbol] = result[item][VS_CURRENCY];
-    return coinPriceObj;
-  }, {});
+export const parsedCoinPriceData = (poolStats): CoinPriceData => {
+  const coinPriceObj: CoinPriceData = {};
+  Object.keys(poolStats).forEach((temp1: string, index: number) => {
+    const symbol = +temp1.replace('_0', '');
+    if (index === 0) {
+      coinPriceObj[0] = poolStats[temp1].priceB;
+    }
+    coinPriceObj[symbol] = poolStats[temp1].priceA;
+  });
+  return coinPriceObj;
 };
 
 export const getCoinMap = () => {

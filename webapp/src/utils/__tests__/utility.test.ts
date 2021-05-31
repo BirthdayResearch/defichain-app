@@ -579,7 +579,7 @@ describe('utility', () => {
   it('should be return parsedCoinPriceData', async () => {
     const post = jest.fn().mockResolvedValue({ data: { result: 1 } });
     mockAxios(post);
-    const result = await utility.parsedCoinPriceData();
+    const result = await utility.parsedCoinPriceData({});
     expect(result[0]).toBeTruthy();
   });
 
