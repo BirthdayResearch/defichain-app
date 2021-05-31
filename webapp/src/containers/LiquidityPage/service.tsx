@@ -41,7 +41,7 @@ export const handleFetchPoolshares = async () => {
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
   const poolStats = await getPoolStatsFromAPI();
-  const coinPriceObj = await parsedCoinPriceData();
+  const coinPriceObj = await parsedCoinPriceData(poolStats);
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
     SHARE_POOL_PAGE_SIZE,

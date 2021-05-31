@@ -104,6 +104,10 @@ import {
 } from '../constants/common';
 import PersistentStore from './persistentStore';
 
+export interface CoinPriceData {
+  [key: number]: number;
+}
+
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
   const validate = ajv.compile(schema);
@@ -737,7 +741,7 @@ export const fetchPoolPairDataWithPagination = async (
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
   const poolStats = await getPoolStatsFromAPI();
-  const coinPriceObj = await parsedCoinPriceData();
+  const coinPriceObj = await parsedCoinPriceData(poolStats);
 
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -795,9 +799,8 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
-        item
-      ];
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } =
+        result[item];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
 
@@ -1164,14 +1167,16 @@ export const getCoinPriceInUSD = async (conversionCurrency: string) => {
   return data;
 };
 
-export const parsedCoinPriceData = async () => {
-  const result = await getCoinPriceInUSD(VS_CURRENCY);
-  const coinMap = getCoinMap();
-  return Object.keys(result).reduce((coinPriceObj: any, item) => {
-    const symbol = coinMap.get(item) || '0';
-    coinPriceObj[symbol] = result[item][VS_CURRENCY];
-    return coinPriceObj;
-  }, {});
+export const parsedCoinPriceData = (poolStats): CoinPriceData => {
+  const coinPriceObj: CoinPriceData = {};
+  Object.keys(poolStats).forEach((temp1: string, index: number) => {
+    const symbol = +temp1.replace('_0', '');
+    if (index === 0) {
+      coinPriceObj[0] = poolStats[temp1].priceB;
+    }
+    coinPriceObj[symbol] = poolStats[temp1].priceA;
+  });
+  return coinPriceObj;
 };
 
 export const getCoinMap = () => {
