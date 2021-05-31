@@ -710,6 +710,11 @@ export default class RpcClient {
     return data.result;
   };
 
+  async getBestBlockHash(): Promise<string> {
+    const { bestblockhash } = await this.getBlockChainInfo();
+    return bestblockhash;
+  }
+
   getAccount = async (ownerAddress: string) => {
     const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
       ownerAddress,
@@ -837,10 +842,18 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
-      { start, including_start, limit },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolPairs.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+        { start, including_start, limit },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listPoolShares = async (
@@ -848,12 +861,20 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
-      { start, including_start, limit },
-      true, // verbose
-      true, // is mine only
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolShares.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+        { start, including_start, limit },
+        true, // verbose
+        true, // is mine only
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getPoolPair = async (poolID: string) => {
