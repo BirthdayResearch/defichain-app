@@ -894,8 +894,18 @@ export default class RpcClient {
   };
 
   getPoolPair = async (poolID: string) => {
-    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getPoolPair.${blockhash}-${poolID}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [
+        poolID,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   /**
@@ -965,10 +975,18 @@ export default class RpcClient {
   };
 
   getGov = async () => {
-    const { data } = await this.call('/', methodNames.GET_GOV, [
-      LP_DAILY_DFI_REWARD,
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getGov.${blockhash}.LP_DAILY_DFI_REWARD`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_GOV, [
+        LP_DAILY_DFI_REWARD,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getListAccountHistory = async (_: {
@@ -978,16 +996,24 @@ export default class RpcClient {
     token: string;
   }) => {
     const { blockHeight, limit, no_rewards, token } = _;
-    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      'mine',
-      {
-        maxBlockHeight: blockHeight,
-        limit,
-        no_rewards,
-        token,
-      },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getListAccountHistory.${blockhash}.${blockHeight}.${limit}.${no_rewards}.${token}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+        'mine',
+        {
+          maxBlockHeight: blockHeight,
+          limit,
+          no_rewards,
+          token,
+        },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   accountHistoryCount = async (
