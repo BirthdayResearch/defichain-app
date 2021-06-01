@@ -30,7 +30,7 @@ import {
   openDownloadSnapshotModal,
   updateDownloadSnapshotData,
 } from '../reducer';
-import { disableReindex, restartApp } from '../../../utils/isElectron';
+import { disableReindex, enableRescan, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
 import { stopBinary } from '../../../app/service';
 import moment from 'moment';
@@ -114,6 +114,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     if (deleteSnapshot) {
       onSnapshotDeleteRequest();
     }
+    enableRescan();
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
     await triggerNodeShutdown(false);

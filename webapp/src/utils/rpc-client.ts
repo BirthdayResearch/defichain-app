@@ -119,16 +119,8 @@ export default class RpcClient {
   };
 
   getWalletInfo = async (): Promise<WalletInfo> => {
-    const blockhash = await this.getBestBlockHash();
-    const CACHE_KEY = `rpc.getWalletInfo.${blockhash}`;
-    let result = LruCache.get(CACHE_KEY);
-
-    if (result === null) {
-      const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
-      result = data.result;
-      LruCache.put(CACHE_KEY, result);
-    }
-    return result;
+    const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
+    return data.result;
   };
 
   getRawTransactionOfBlock = async (
