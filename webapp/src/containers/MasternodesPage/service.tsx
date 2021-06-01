@@ -90,3 +90,8 @@ export const isMasternodeEnabled = (mn: MasterNodeObject): boolean => {
 export const hasAnyMasternodeEnabled = (mn: MasterNodeObject[]): boolean => {
   return mn?.length > 0 && mn.some((v: MasterNodeObject) => v.isEnabled);
 };
+
+export const listAllReceivingAddress = () => {
+  const rpcClient = new RpcClient();
+  return rpcClient.getListreceivedAddress(0, true);
+};
