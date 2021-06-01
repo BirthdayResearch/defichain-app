@@ -6,7 +6,6 @@ import {
   FORCE_KILL_QUEUE_AND_SHUTDOWN,
   RESTART_APP,
   ON_REMOVE_REINDEX,
-  ON_ENABLE_RESCAN,
 } from '@defi_types/ipcEvents';
 
 export default function initiateDefiProcessManager() {
@@ -28,9 +27,5 @@ export default function initiateDefiProcessManager() {
 
   ipcMain.on(ON_REMOVE_REINDEX, async () => {
     DefiProcessManager.isReindexReq = false;
-  });
-
-  ipcMain.on(ON_ENABLE_RESCAN, async () => {
-    DefiProcessManager.isRescan = true;
   });
 }

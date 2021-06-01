@@ -1,6 +1,5 @@
 import {
   CLOSE_APP,
-  ON_ENABLE_RESCAN,
   ON_FULL_RESTART_APP,
   ON_REMOVE_REINDEX,
   RESTART_APP,
@@ -66,15 +65,6 @@ export const disableReindex = (): void => {
     ipcRenderer.send(ON_REMOVE_REINDEX);
   } else {
     throw new Error('Unable to disable re-index');
-  }
-};
-
-export const enableRescan = (): void => {
-  if (isElectron()) {
-    const ipcRenderer = ipcRendererFunc();
-    ipcRenderer.send(ON_ENABLE_RESCAN);
-  } else {
-    throw new Error('Unable to enable re-scan');
   }
 };
 

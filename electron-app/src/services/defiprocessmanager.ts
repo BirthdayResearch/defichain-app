@@ -83,7 +83,6 @@ const checkIfSPVSyncNeeded = (config: RPCConfigItem, walletMap: WalletMap) => {
 };
 export default class DefiProcessManager {
   static isReindexReq: boolean;
-  static isRescan: boolean;
   static isStartedNode: boolean = false;
 
   static async start(params: any, event: Electron.IpcMainEvent) {
@@ -107,10 +106,10 @@ export default class DefiProcessManager {
       const needsReIndex = params?.isReindexReq || this.isReindexReq;
 
       //* Check if a rescan is needed
-      if (needsReIndex || this.isRescan) {
+      if (needsReIndex || walletMap.hasRescan) {
         this.logger('Adding -rescan in configArray', METHOD_NAME, false);
         configArray.push('-rescan');
-        this.isRescan = false;
+        walletMap.hasRescan = false;
       }
 
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present

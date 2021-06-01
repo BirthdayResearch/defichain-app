@@ -30,15 +30,16 @@ import {
   openDownloadSnapshotModal,
   updateDownloadSnapshotData,
 } from '../reducer';
-import { disableReindex, enableRescan, restartApp } from '../../../utils/isElectron';
+import { disableReindex, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
-import { stopBinary } from '../../../app/service';
+import { replaceWalletMapSync, stopBinary } from '../../../app/service';
 import moment from 'moment';
 import { onSnapshotDownloadRequest } from '../service';
 import { onSnapshotDeleteRequest } from '../../../app/snapshot.ipcRenderer';
 
 const SnapshotDownloadModal: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { walletMap } = useSelector((state: RootState) => state.wallet);
 
   const {
     isSnapshotDownloadOpen,
@@ -114,7 +115,10 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     if (deleteSnapshot) {
       onSnapshotDeleteRequest();
     }
-    enableRescan();
+    replaceWalletMapSync({
+      ...walletMap,
+      hasRescan: true,
+    });
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
     await triggerNodeShutdown(false);

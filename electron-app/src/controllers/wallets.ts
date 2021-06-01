@@ -328,6 +328,7 @@ export const createWalletMap = (): Partial<WalletMap> => {
         paths: [walletDat],
         nodeVersion: ainVersion,
         hasSyncSPV: false,
+        hasRescan: false
       };
       fs.writeFileSync(src, JSON.stringify(data, null, 4));
       return data;
