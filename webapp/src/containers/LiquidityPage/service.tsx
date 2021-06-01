@@ -82,8 +82,8 @@ export const handleFetchPoolshares = async () => {
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
-      const apy = new BigNumber(
-        poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+      const apr = new BigNumber(
+        poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
       ).toFixed(2);
       return {
         tokenA: tokenAData.symbol,
@@ -91,7 +91,7 @@ export const handleFetchPoolshares = async () => {
         poolSharePercentage: poolSharePercentage.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
         totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apy,
+        apr,
         ...poolPairData[0],
         ...poolShare,
       };

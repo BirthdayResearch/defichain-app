@@ -10,6 +10,7 @@ import SettingsRowDropDown from '../SettingsRowDropDown';
 import { SettingsTabs } from '../SettingsTabHeader';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import styles from './SettingTabGeneral.module.scss';
+import { onRescanClick } from '../../service';
 
 interface SettingsTabGeneralProps {
   launchAtLogin: boolean;
@@ -223,6 +224,20 @@ const SettingsTabGeneral = (props: SettingsTabGeneralProps) => {
               </Col>
               <Col md='8' lg='6' className='mt-4'>
                 {I18n.t('containers.settings.resetAndReindexInfo')}
+              </Col>
+              <Col md='4' className='mt-4'>
+                <Button
+                  outline
+                  color='primary'
+                  size='sm'
+                  className='mr-3'
+                  onClick={onRescanClick}
+                >
+                  {I18n.t('containers.settings.rescan')}
+                </Button>
+              </Col>
+              <Col md='8' lg='6' className='mt-4'>
+                {I18n.t('containers.settings.rescanInfo')}
               </Col>
             </Row>
           )}

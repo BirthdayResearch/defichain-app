@@ -772,8 +772,8 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
-    const apy = new BigNumber(
-      poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+    const apr = new BigNumber(
+      poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
     ).toFixed(2);
     return {
       key: item,
@@ -786,7 +786,7 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy,
+      apr,
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -823,6 +823,9 @@ export const fetchPoolPairDataWithPagination = async (
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
+      const apr = new BigNumber(
+        poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
+      ).toFixed(2);
       return {
         key: item,
         poolID: item,
@@ -834,7 +837,7 @@ export const fetchPoolPairDataWithPagination = async (
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toFixed(8),
-        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+        apr,
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -950,17 +953,20 @@ const api = setup({
   cache: {
     maxAge: 30 * 1000,
     exclude: {
-      query: false
-    }
-  }
+      query: false,
+    },
+  },
 });
 export const getStatsYieldFarming = async () => {
   const state = store.getState();
   const block = state.syncstatus.latestSyncedBlock;
   const network = getNetworkType();
-  const result = await api.get(`listyieldfarming?network=${network}net&block=${block}`, {
-    timeout: API_REQUEST_TIMEOUT,
-  });
+  const result = await api.get(
+    `listyieldfarming?network=${network}net&block=${block}`,
+    {
+      timeout: API_REQUEST_TIMEOUT,
+    }
+  );
   return result.data;
 };
 

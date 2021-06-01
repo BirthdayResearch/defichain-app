@@ -64,9 +64,9 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
           <br />
           <Row>
             <Col className={styles.bigLabel}>
-              {I18n.t('containers.swap.swapPage.apy')}
+              {I18n.t('containers.swap.swapPage.apr')}
             </Col>
-            <Col className={styles.bigValue}>{`${poolpair.apy}%`}</Col>
+            <Col className={styles.bigValue}>{`${poolpair.apr}%`}</Col>
           </Row>
           <Row>
             <Col className={styles.label}>

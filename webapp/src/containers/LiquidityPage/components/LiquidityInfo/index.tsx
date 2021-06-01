@@ -107,9 +107,9 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
           <Row className='mb-4'>
             <Col md='6'>
               <KeyValueLi
-                label={I18n.t('containers.liquidity.liquidityInfo.apy')}
+                label={I18n.t('containers.liquidity.liquidityInfo.apr')}
                 value={(
-                  `${poolshare.apy ? poolshare.apy : 0} %` || ''
+                  `${poolshare.apr ? poolshare.apr : 0} %` || ''
                 ).toString()}
               />
             </Col>

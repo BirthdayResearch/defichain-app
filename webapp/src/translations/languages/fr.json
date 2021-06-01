@@ -287,7 +287,7 @@
         "liquidity": "Liquidity",
         "volume": "Volume",
         "apy": "APY",
-        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
+        "apyTooltipMessage": "APR indicated here only includes DFI incentives, without commission. Actual APR with commission is thus, more",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
         "totalValueLocked": "Total Value Locked (USD)"

@@ -7,4 +7,5 @@ export interface WalletMap {
   hasSyncSPV?: boolean;
   paymentRequests?: PaymentRequestModel[];
   spvPaymentRequests?: PaymentRequestModel[];
+  hasRescan?: boolean;
 }

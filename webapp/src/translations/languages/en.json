@@ -368,6 +368,7 @@
         "liquidityPools": "Liquidity pools",
         "volume": "Volume",
         "apy": "APY",
+        "apr": "APR",
         "back": "Back",
         "addLiquidity": "Add liquidity",
         "txHash": "Transaction Hash",
@@ -378,6 +379,7 @@
         "addMore": "Add more",
         "remove": "Remove",
         "apy": "APY",
+        "apr": "APR",
         "pooled": "Pooled",
         "pooledBTC": "Pooled BTC",
         "btcPoolShare": "BTC pool share",
@@ -422,6 +424,7 @@
         "add": "Add",
         "remove": "Remove",
         "apy": "APY",
+        "apr": "APR",
         "pooled": "Pooled",
         "poolReward": "Pool reward",
         "poolShare": "Pool share",
@@ -462,7 +465,8 @@
         "liquidity": "Liquidity",
         "volume": "Volume",
         "apy": "APY",
-        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more.",
+        "apr": "APR",
+        "apyTooltipMessage": "APR indicated here only includes DFI incentives, without commission. Actual APR with commission is thus, more.",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
         "addLiquidity": "ADD LIQUIDITY",
@@ -611,7 +615,9 @@
       "lockWithPassphrase": "Lock with passphrase",
       "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
       "resetAndReindex": "RESET & REINDEX",
-      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database).",
+      "rescan": "RESCAN",
+      "rescanInfo": "Restart node and scan for any missing addresses"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -918,7 +924,7 @@
     "restartNowNotice": "Restart now",
     "restartLaterNotice": "Later",
     "showUpdateAvailableHeader": "An update is available for DeFi Wallet",
-    "showUpdateAvailableNotice": "Would you like to update? Kindly leave DeFi Wallet running for next 30 minutes, pruning work will take place and result in reduce storage required on your computer (~5GB).",
+    "showUpdateAvailableNotice": "Would you like to update? Kindly leave DeFi Wallet running for next 30 minutes, pruning work will take place and result in reduce storage required on your computer.",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Not now",
     "startUpdateLabel": "Initiating update",
@@ -976,7 +982,7 @@
     "exit": "Exit",
     "deletePeersAndBlocks": "Delete peers and blocks",
     "walletBackupWarning": "Wallet has been encrypted successfully. Please backup your wallet immediately. Do you want to proceed?",
-    "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now? Kindly leave DeFi Wallet running for next 30 minutes, pruning work will take place and result in reduce storage required on your computer (~5GB).",
+    "nodeVersionUpdate": "The node has been updated to version %{version}. A restart is required for re-indexing and changes to take effect. Do you want to restart now? Kindly leave DeFi Wallet running for next 30 minutes, pruning work will take place and result in reduce storage required on your computer.",
     "nodeVersionHeader": "Node update",
     "masternodesAlert": "You are currently running a masternode. Minting will not work on a locked wallet. Do you want to proceed?",
     "downloadSnapshot": "Download snapshot",
@@ -1002,7 +1008,8 @@
     "snapshotSize": "Snapshot size:",
     "snapshotDirectory": "Snapshot directory:",
     "notEnoughDiskSpace": "You do not have enough disk space to download and apply the snapshot.",
-    "deleteSnapshotOnRestart": "Delete snapshot and restart"
+    "deleteSnapshotOnRestart": "Delete snapshot and restart",
+    "exitWallet": "Exit Wallet"
   },
   "general": {
     "defiApp": "DeFi Wallet",

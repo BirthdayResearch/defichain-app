@@ -103,9 +103,18 @@ export default class DefiProcessManager {
         `-acindex`,
       ];
 
+      const needsReIndex = params?.isReindexReq || this.isReindexReq;
+
+      //* Check if a rescan is needed
+      if (needsReIndex || walletMap.hasRescan) {
+        this.logger('Adding -rescan in configArray', METHOD_NAME, false);
+        configArray.push('-rescan');
+        walletMap.hasRescan = false;
+      }
+
       //* Delete peers file to cleanup nonfunctional peers only when re-index is present
       //* Delete block and rev files for high memory usage
-      if (params?.isReindexReq || this.isReindexReq) {
+      if (needsReIndex) {
         this.logger('Adding -reindex in configArray', METHOD_NAME, false);
         configArray.push('-reindex');
         configArray.push('-zapwallettxes');
