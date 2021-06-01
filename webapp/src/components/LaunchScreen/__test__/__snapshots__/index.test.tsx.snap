@@ -8,7 +8,7 @@ exports[`LaunchScreen component should check for snapshot 1`] = `
       DeFi Wallet
     </label>
     <label>
-      v2.4.2-rc.1
+      v2.4.2
     </label>
     <label>
       message
