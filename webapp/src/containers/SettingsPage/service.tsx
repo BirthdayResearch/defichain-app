@@ -1,4 +1,8 @@
-import { isElectron, ipcRendererFunc } from '../../utils/isElectron';
+import {
+  isElectron,
+  ipcRendererFunc,
+  restartNode,
+} from '../../utils/isElectron';
 import { I18n } from 'react-redux-i18n';
 import * as log from '../../utils/electronLogger';
 import {
@@ -54,7 +58,9 @@ import {
 } from '@defi_types/ipcEvents';
 import { handleGetPaymentRequest } from '../WalletPage/service';
 import { IPCResponseModel } from '../../../../typings/common';
-import { updateWalletMap } from '../../app/service';
+import { replaceWalletMapSync, updateWalletMap } from '../../app/service';
+import { shutDownBinary } from '../../worker/queue';
+import { restartModal } from '../PopOver/reducer';
 
 export const getLanguage = () => {
   return [
@@ -285,4 +291,15 @@ export const updateLockTimeout = async (
       message: getErrorMessage(error),
     };
   }
+};
+
+export const onRescanClick = async (): Promise<void> => {
+  const { walletMap } = store.getState().wallet;
+  replaceWalletMapSync({
+    ...walletMap,
+    hasRescan: true,
+  });
+  store.dispatch(restartModal());
+  await shutDownBinary();
+  restartNode();
 };

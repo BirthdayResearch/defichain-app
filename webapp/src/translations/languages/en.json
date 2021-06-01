@@ -615,7 +615,9 @@
       "lockWithPassphrase": "Lock with passphrase",
       "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
       "resetAndReindex": "RESET & REINDEX",
-      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database).",
+      "rescan": "RESCAN",
+      "rescanInfo": "Restart node and scan for any missing addresses"
     },
     "wallet": {
       "createOrRestoreWalletPage": {

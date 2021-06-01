@@ -461,7 +461,7 @@
         "liquidity": "流动资金",
         "volume": "交易量",
         "apy": "年收益率",
-        "apyTooltipMessage": "显示的年回报率仅包括DFI奖励，而不包括佣金。包括佣金在内的年回报率实际上会更高",
+        "apyTooltipMessage": "此处所示仅包括DFI奖励，不含佣金。实际年利率含 佣金會是更多",
         "totalLiquidity": "总流动资金额（美元）",
         "addRemoveLiquidity": "添加或退出流动资金",
         "addLiquidity": "添加流动资金",
@@ -610,7 +610,9 @@
       "lockWithPassphrase": "用密码短语锁定",
       "passpharaseInfo": "用密码短语保护您电脑上的钱包数据。",
       "resetAndReindex": "重置和重新索引",
-      "resetAndReindexInfo": "删除现有的邻居节点和区块数据，重新下载数据，然后重新索引（重建区块链资料库）。"
+      "resetAndReindexInfo": "删除现有的邻居节点和区块数据，重新下载数据，然后重新索引（重建区块链资料库）。",
+      "rescan": "重新扫描",
+      "rescanInfo": "重新启动节点并扫描任还没列出的地址"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -996,7 +998,8 @@
     "snapshotSize": "快照大小:",
     "snapshotDirectory": "快照目录:",
     "notEnoughDiskSpace": "您没有足够的磁碟空间来下载和应用快照。",
-    "deleteSnapshotOnRestart": "删除快照并重启"
+    "deleteSnapshotOnRestart": "删除快照并重启",
+    "exitWallet": "退出钱包"
   },
   "general": {
     "defiApp": "递飞链程序",
