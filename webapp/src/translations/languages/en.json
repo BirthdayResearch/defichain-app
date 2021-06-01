@@ -1006,7 +1006,8 @@
     "snapshotSize": "Snapshot size:",
     "snapshotDirectory": "Snapshot directory:",
     "notEnoughDiskSpace": "You do not have enough disk space to download and apply the snapshot.",
-    "deleteSnapshotOnRestart": "Delete snapshot and restart"
+    "deleteSnapshotOnRestart": "Delete snapshot and restart",
+    "exitWallet": "Exit Wallet"
   },
   "general": {
     "defiApp": "DeFi Wallet",

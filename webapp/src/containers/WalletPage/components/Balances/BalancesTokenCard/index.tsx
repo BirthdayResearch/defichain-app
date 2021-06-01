@@ -115,6 +115,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
               <Col md='5' className='p-0'>
                 <div className={`d-flex justify-content-end`}>
                   <Button
+                    title={I18n.t('containers.swap.swapPage.swap')}
                     className={`${styles.icons} ${
                       hideSwap ? styles.visibilityHidden : ''
                     } clickable`}
@@ -125,6 +126,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                     <MdSwapHoriz className='clickable'></MdSwapHoriz>
                   </Button>
                   <Button
+                    title={I18n.t('containers.wallet.sendPage.send')}
                     tag={NavLink}
                     to={
                       token.symbolKey
@@ -147,6 +149,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                     <MdArrowUpward className='clickable'></MdArrowUpward>
                   </Button>
                   <Button
+                    title={I18n.t('containers.wallet.receivePage.receive')}
                     tag={NavLink}
                     to={
                       token.symbolKey

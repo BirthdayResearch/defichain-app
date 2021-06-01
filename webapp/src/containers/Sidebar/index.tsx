@@ -140,24 +140,28 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
                 className={`${styles.iconNavTop}`}
                 size={ICON_SIZE}
                 onClick={openEncryptWalletModal}
+                title={I18n.t('containers.wallet.encryptWalletPage.title')}
               />
             ) : isWalletUnlocked ? (
               <MdLockOpen
                 className={`${styles.iconNavTop}`}
                 size={ICON_SIZE}
                 onClick={onLockWallet}
+                title={I18n.t('alerts.encryptWalletNoticeTitle')}
               />
             ) : (
               <MdLockOutline
                 className={`${styles.iconNavTop} ${styles.navBadgeLocked}`}
                 size={ICON_SIZE}
                 onClick={openWalletPassphraseModal}
+                title={I18n.t('containers.wallet.unlockWalletPage.title')}
               />
             )}
             <MdExitToApp
               onClick={() => openExitWalletModal(true)}
               className={`ml-2 ${styles.flipX} ${styles.iconNavTop}`}
               size={ICON_SIZE}
+              title={I18n.t('alerts.exitWallet')}
             />
           </>
         )}
@@ -291,6 +295,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
+              title={I18n.t('containers.sideBar.console')}
             >
               <HiTerminal />
             </NavLink>
@@ -302,6 +307,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
+              title={I18n.t('containers.sideBar.help')}
             >
               <MdHelp />
             </NavLink>
@@ -313,6 +319,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
               tag={RRNavLink}
               className={styles.navLink}
               activeClassName={styles.active}
+              title={I18n.t('containers.sideBar.settings')}
             >
               <MdSettings />
             </NavLink>

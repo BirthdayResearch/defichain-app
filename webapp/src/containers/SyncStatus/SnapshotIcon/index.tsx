@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdInfo } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import { RootState } from '../../../app/rootTypes';
 import { MAIN } from '../../../constants';
 import { snapshotDownloadRequest } from '../service';
@@ -12,6 +13,7 @@ export const SnapshotIcon: React.FunctionComponent = () => {
     <MdInfo
       className={styles.snapshotIcon}
       onClick={snapshotDownloadRequest}
+      title={I18n.t('alerts.snapshot')}
     ></MdInfo>
   ) : (
     <div></div>
