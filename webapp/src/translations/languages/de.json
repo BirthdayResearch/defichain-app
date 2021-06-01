@@ -590,6 +590,7 @@
       "minute": "%{time} Minute",
       "minutes": "%{time} Minuten",
       "years": "%{time} Jahre",
+      "autoLockMNWarning": "Die automatische Sperre ist deaktiviert, wenn ein oder mehrere Masternode(s) auf deinem Wallet aktiv sind.",
       "showAdvanceOptions": "Erweiterte Einstellungen anzeigen",
       "hideAdvanceOptions": "Erweiterte Einstellungen verstecken",
       "sendCountdown": "Senden Countdown",
@@ -604,7 +605,8 @@
       "passpharaseInfo": "Sichere deine Wallet Daten auf deinem Computer mit einem Passwort.",
       "resetAndReindex": "RESET & REINDEX",
       "resetAndReindexInfo": "Löscht bestehende Peers und Blockdaten, lädt die Daten neu herunter und indiziert diese dann neu (baut die Blockchain-Datenbank neu auf).",
-      "autoLockMNWarning": "Die automatische Sperre ist deaktiviert, wenn ein oder mehrere Masternode(s) auf deinem Wallet aktiv sind."
+      "rescan": "NEU SCANNEN",
+      "rescanInfo": "Node neu starten und nach fehlenden Adressen scannen"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -971,7 +973,8 @@
     "snapshotApplied": "Snapshot wurde angewendet",
     "startSyncBlock": "DeFi App wird die Synchronisation nun von Block %{from} starten.",
     "pleaseWait": "Bitte warte...",
-    "deleteSnapshotOnRestart": "Snapshot löschen und neu starten"
+    "deleteSnapshotOnRestart": "Snapshot löschen und neu starten",
+    "exitWallet": "Wallet beenden"
   },
   "general": {
     "defiApp": "DeFi Wallet",
