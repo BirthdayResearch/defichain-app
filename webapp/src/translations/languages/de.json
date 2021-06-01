@@ -455,7 +455,7 @@
         "liquidity": "Liquidität",
         "volume": "Volumen",
         "apy": "APY",
-        "apyTooltipMessage": "Der hier angegebene APY beinhaltet nur DFI-Anreize, ohne Provision. Tatsächliches APY mit Provision ist also mehr.",
+        "apyTooltipMessage": "Der hier angegebene APR beinhaltet nur DFI-Anreize, ohne Provision. Tatsächliches APR mit Provision ist also mehr.",
         "totalLiquidity": "Gesamtliquidität (USD)",
         "addRemoveLiquidity": "Liquidität hinzufügen oder entfernen",
         "addLiquidity": "LIQUIDITÄT HINZUFÜGEN",
