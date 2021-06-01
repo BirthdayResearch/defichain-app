@@ -161,13 +161,10 @@ export function* handleRestartNode() {
 }
 
 function* MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
-  const { wallet } = store.getState();
-  const isMine = wallet?.paymentRequests.some(
-    (pr) => pr.address === masterNode.ownerAuthAddress
-  );
+  const data = yield call(getAddressInfo, masterNode.ownerAuthAddress);
   return {
     ...masterNode,
-    isMyMasternode: isMine,
+    isMyMasternode: data.ismine && !data.iswatchonly,
   };
 }
 
