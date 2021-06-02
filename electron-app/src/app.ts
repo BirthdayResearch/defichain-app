@@ -63,6 +63,7 @@ export default class App {
     this.isAppInitialized = false;
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
+    autoUpdater.allowPrerelease = false;
     /* For future purpose */
   }
 
