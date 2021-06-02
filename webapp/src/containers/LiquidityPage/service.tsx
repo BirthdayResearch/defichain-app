@@ -12,7 +12,6 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
-import { getAddressInfo } from '../WalletPage/service';
 import {
   fetchPoolPairDataWithPagination,
   fetchPoolShareDataWithPagination,
@@ -53,49 +52,45 @@ export const handleFetchPoolshares = async () => {
   }
 
   const minePoolShares = poolShares.map(async (poolShare) => {
-    const addressInfo = await getAddressInfo(poolShare.owner);
+    const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
+    const poolPairData = Object.keys(poolPair).map((item) => ({
+      hash: item,
+      ...poolPair[item],
+    }));
+    const idTokenA = poolPairData[0].idTokenA;
+    const idTokenB = poolPairData[0].idTokenB;
+    const tokenAData = await handleFetchToken(idTokenA);
+    const tokenBData = await handleFetchToken(idTokenB);
+    const poolSharePercentage =
+      (poolShare.amount / poolShare.totalLiquidity) * 100;
 
-    if (addressInfo.ismine && !addressInfo.iswatchonly) {
-      const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
-      const poolPairData = Object.keys(poolPair).map((item) => ({
-        hash: item,
-        ...poolPair[item],
-      }));
-      const idTokenA = poolPairData[0].idTokenA;
-      const idTokenB = poolPairData[0].idTokenB;
-      const tokenAData = await handleFetchToken(idTokenA);
-      const tokenBData = await handleFetchToken(idTokenB);
-      const poolSharePercentage =
-        (poolShare.amount / poolShare.totalLiquidity) * 100;
+    const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
+      .times(poolPairData[0].rewardPct)
+      .times(365)
+      .times(coinPriceObj[DFI_SYMBOL]);
 
-      const yearlyPoolReward = new BigNumber(lpDailyDfiReward)
-        .times(poolPairData[0].rewardPct)
-        .times(365)
-        .times(coinPriceObj[DFI_SYMBOL]);
-
-      const liquidityReserveidTokenA = new BigNumber(
-        poolPairData[0].reserveA || 0
-      ).times(coinPriceObj[idTokenA]);
-      const liquidityReserveidTokenB = new BigNumber(
-        poolPairData[0].reserveB || 0
-      ).times(coinPriceObj[idTokenB]);
-      const totalLiquidity = liquidityReserveidTokenA.plus(
-        liquidityReserveidTokenB
-      );
-      const apr = new BigNumber(
-        poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
-      ).toFixed(2);
-      return {
-        tokenA: tokenAData.symbol,
-        tokenB: tokenBData.symbol,
-        poolSharePercentage: poolSharePercentage.toFixed(8),
-        yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-        totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
-        apr,
-        ...poolPairData[0],
-        ...poolShare,
-      };
-    }
+    const liquidityReserveidTokenA = new BigNumber(
+      poolPairData[0].reserveA || 0
+    ).times(coinPriceObj[idTokenA]);
+    const liquidityReserveidTokenB = new BigNumber(
+      poolPairData[0].reserveB || 0
+    ).times(coinPriceObj[idTokenB]);
+    const totalLiquidity = liquidityReserveidTokenA.plus(
+      liquidityReserveidTokenB
+    );
+    const apr = new BigNumber(
+      poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
+    ).toFixed(2);
+    return {
+      tokenA: tokenAData.symbol,
+      tokenB: tokenBData.symbol,
+      poolSharePercentage: poolSharePercentage.toFixed(8),
+      yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
+      totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
+      apr,
+      ...poolPairData[0],
+      ...poolShare,
+    };
   });
 
   const resolvedMinePoolShares = _.compact(await Promise.all(minePoolShares));
@@ -160,15 +155,11 @@ export const handleAddPoolLiquidity = async (
     return address == null || address == '' ? shareAddress : address;
   };
 
-  const {
-    address: address1,
-    amount: maxAmount1,
-  } = await getHighestAmountAddressForSymbol(hash1, addressesList);
+  const { address: address1, amount: maxAmount1 } =
+    await getHighestAmountAddressForSymbol(hash1, addressesList);
 
-  const {
-    address: address2,
-    amount: maxAmount2,
-  } = await getHighestAmountAddressForSymbol(hash2, addressesList);
+  const { address: address2, amount: maxAmount2 } =
+    await getHighestAmountAddressForSymbol(hash2, addressesList);
 
   log.info(
     `1. Address ${address1} Amount ${maxAmount1}`,
