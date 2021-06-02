@@ -1,6 +1,7 @@
+import * as log from './electronLogger';
 export default class LruCache {
   private static values: Map<string, any> = new Map<string, any>();
-  private static maxEntries: number = 100000;
+  private static maxEntries = 100000;
 
   public static get(key: string): any {
     const hasKey = LruCache.values.has(key);
@@ -15,7 +16,7 @@ export default class LruCache {
     return entry;
   }
 
-  public static put(key: string, value: any) {
+  public static put(key: string, value: any): void {
     if (LruCache.values.size >= LruCache.maxEntries) {
       // delete least recently used key from cache
       const keyToDelete = LruCache.values.keys().next().value;
@@ -24,5 +25,10 @@ export default class LruCache {
     }
 
     LruCache.values.set(key, value);
+  }
+
+  public static clear(): void {
+    log.info(`Clearing local cache!`);
+    LruCache.values.clear();
   }
 }

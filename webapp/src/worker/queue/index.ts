@@ -17,6 +17,7 @@ import {
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 import { unlockWalletSuccess } from '../../containers/WalletPage/reducer';
 import { closeAllPopovers } from '../../containers/PopOver/reducer';
+import LruCache from '../../utils/lruCache';
 
 const worker = (task, callback) => {
   task
@@ -87,6 +88,7 @@ const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
 
 export const shutDownBinary = async () => {
   try {
+    LruCache.clear();
     log.info('Starting node shutdown...', LOGGING_SHUT_DOWN);
     store.dispatch(killQueue());
     await q.kill();

@@ -789,7 +789,8 @@ export default class RpcClient {
   };
 
   getaddressInfo = async (address: string) => {
-    const CACHE_KEY = `rpc.getaddressInfo.${address}`;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getaddressInfo.${blockhash}.${address}`;
     let result = LruCache.get(CACHE_KEY);
 
     if (result === null) {
