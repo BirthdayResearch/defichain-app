@@ -22,6 +22,7 @@ import DefichainImpermanent from '../../assets/svg/defichain-impermanent.svg';
 import openNewTab from '../../utils/openNewTab';
 import Header from '../HeaderComponent';
 import { getPageTitle } from '../../utils/utility';
+import * as log from '../../utils/electronLogger';
 
 interface LiquidityPageProps {
   history: any;
@@ -47,6 +48,9 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
     fetchPoolsharesRequest();
     fetchPoolPairListRequest();
   }, []);
+
+  log.info('LiquidityPage');
+  log.info(poolshares);
 
   return (
     <div className='main-wrapper'>
@@ -132,12 +136,8 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
 };
 
 const mapStateToProps = (state) => {
-  const {
-    poolshares,
-    isPoolsharesLoaded,
-    isLoadingPoolshares,
-    poolPairList,
-  } = state.liquidity;
+  const { poolshares, isPoolsharesLoaded, isLoadingPoolshares, poolPairList } =
+    state.liquidity;
   return {
     poolPairList,
     poolshares,

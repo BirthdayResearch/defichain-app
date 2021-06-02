@@ -37,6 +37,7 @@ import {
 } from './reducer';
 
 export const handleFetchPoolshares = async () => {
+  log.info('1. *** Starting handleFetchPoolshares');
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
@@ -51,11 +52,14 @@ export const handleFetchPoolshares = async () => {
   if (isEmpty(poolShares)) {
     return [];
   }
-
+  log.info(`2. Current Pool Shares: `);
+  log.info(poolShares);
   const minePoolShares = poolShares.map(async (poolShare) => {
     const addressInfo = await getAddressInfo(poolShare.owner);
 
+    log.info(`3. addressInfo: `);
     if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      log.info(`4. My address: `);
       const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
       const poolPairData = Object.keys(poolPair).map((item) => ({
         hash: item,
@@ -85,6 +89,7 @@ export const handleFetchPoolshares = async () => {
       const apr = new BigNumber(
         poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
       ).toFixed(2);
+      log.info(`5. Complete process: `);
       return {
         tokenA: tokenAData.symbol,
         tokenB: tokenBData.symbol,
@@ -99,10 +104,13 @@ export const handleFetchPoolshares = async () => {
   });
 
   const resolvedMinePoolShares = _.compact(await Promise.all(minePoolShares));
+  log.info(`6. resolvedMinePoolShares`);
+  log.info(resolvedMinePoolShares);
 
   const ind = {};
 
   const groupedMinePoolShares = resolvedMinePoolShares.reduce((arr, obj) => {
+    log.info(`7. resolvedMinePoolShares processing...`);
     if (ind.hasOwnProperty(obj.poolID)) {
       arr[ind[obj.poolID]].poolSharePercentage = new BigNumber(
         arr[ind[obj.poolID]].poolSharePercentage || 0
@@ -116,6 +124,8 @@ export const handleFetchPoolshares = async () => {
     return arr;
   }, []);
 
+  log.info(`8. Grouped Mine Pool Shares: `);
+  log.info(groupedMinePoolShares);
   return groupedMinePoolShares;
 };
 

@@ -42,6 +42,8 @@ import {
 export function* fetchPoolshares() {
   try {
     const data = yield call(handleFetchPoolshares);
+    log.info('generator fetchPoolshares');
+    log.info(data);
     yield put({
       type: fetchPoolsharesSuccess.type,
       payload: { poolshares: data },
