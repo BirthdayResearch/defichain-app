@@ -139,7 +139,7 @@ export function* handleRestartNode() {
           masternode_operator: networkConf?.masternode_operator
             ? [...networkConf.masternode_operator, masternodeOperator]
             : [masternodeOperator],
-          spv: ENABLE_CONFIG,
+          spv: 0,
           gen: ENABLE_CONFIG,
         };
         yield put(restartModal());
