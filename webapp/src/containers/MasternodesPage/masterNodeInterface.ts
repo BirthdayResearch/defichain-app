@@ -11,4 +11,6 @@ export interface MasterNodeObject {
   mintedBlocks: number;
   isMyMasternode: boolean;
   isEnabled?: boolean;
+  ownerIsMine: boolean;
+  operatorIsMine: boolean;
 }
