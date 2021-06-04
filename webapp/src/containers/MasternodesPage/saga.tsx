@@ -29,7 +29,6 @@ import {
   getAddressInfo,
   isMasternodeEnabled,
   disableMasternodesMining,
-  listAllReceivingAddress,
 } from './service';
 
 import {
@@ -43,6 +42,7 @@ import { MASTER_NODES_PATH, RESIGNED_STATE } from '../../constants';
 import { MasterNodeObject } from './masterNodeInterface';
 import store from '../../app/rootStore';
 import { history } from '../../utils/history';
+import MasternodesPage from '.';
 import { RootState } from '../../app/rootTypes';
 
 export function* getConfigurationDetails() {
@@ -57,26 +57,24 @@ export function* getConfigurationDetails() {
 export function* fetchMasterNodes() {
   try {
     const data: MasterNodeObject[] = yield call(handleFetchMasterNodes);
-    const addresses = yield call(listAllReceivingAddress);
-    const combinedAddress = addresses?.map((a) => a.address);
     const enabledMasternode = data.filter(
       (masterNode) => masterNode.state !== RESIGNED_STATE
     );
     const masternodes: MasterNodeObject[] = [];
-    enabledMasternode.forEach((iterator) => {
+    for (const iterator of enabledMasternode) {
       try {
-        const result: MasterNodeObject = MasterNodeOwnerInfo(
-          iterator,
-          combinedAddress
+        const result: MasterNodeObject = yield call(
+          MasterNodeOwnerInfo,
+          iterator
         );
         result.isEnabled = result.isMyMasternode
-          ? isMasternodeEnabled(result)
+          ? yield call(isMasternodeEnabled, result)
           : true;
         masternodes.push(result);
       } catch (err) {
         log.error(err.message);
       }
-    });
+    }
     yield put({
       type: fetchMasternodesSuccess.type,
       payload: { masternodes },
@@ -162,13 +160,14 @@ export function* handleRestartNode() {
   }
 }
 
-function MasterNodeOwnerInfo(
-  masterNode: MasterNodeObject,
-  addresses: string[]
-) {
+function* MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
+  const { wallet } = store.getState();
+  const isMine = wallet?.paymentRequests.some(
+    (pr) => pr.address === masterNode.ownerAuthAddress
+  );
   return {
     ...masterNode,
-    isMyMasternode: addresses.includes(masterNode.ownerAuthAddress),
+    isMyMasternode: isMine,
   };
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
-  "ainVersion": "1.7.4",
+  "ainVersion": "1.7.5",
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
@@ -158,6 +158,7 @@
       ]
     },
     "linux": {
+      "icon": "electron-app/assets/icon/linux/512x512.png",
       "target": ["AppImage"]
     },
     "win": {
