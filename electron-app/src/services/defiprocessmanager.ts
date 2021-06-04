@@ -135,7 +135,7 @@ export default class DefiProcessManager {
       }
 
       //* Check if Node changes
-      const { ainVersion } = packageInfo;
+      const ainVersion = packageInfo.config.ainVersion;
       if (
         checkIfNodeVersionChanged(ainVersion, walletMap) &&
         !params?.skipVersionCheck &&

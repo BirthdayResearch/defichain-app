@@ -162,8 +162,7 @@ export const setWalletEvents = () => {
   ipcMain.on(ON_SET_NODE_VERSION, async (event: Electron.IpcMainEvent) => {
     try {
       const walletMap = createOrGetWalletMap();
-      const { ainVersion } = packageInfo;
-      walletMap.nodeVersion = ainVersion;
+      walletMap.nodeVersion = packageInfo.config.ainVersion;
       overwriteWalletMap(walletMap);
       event.returnValue = responseMessage(true, JSON.stringify(walletMap));
     } catch (error) {
@@ -323,7 +322,7 @@ export const createWalletMap = (): Partial<WalletMap> => {
 
     if (!checkPathExists(src)) {
       const walletDat = path.join(getBaseFolder(), WALLET_DAT);
-      const { ainVersion } = packageInfo;
+      const ainVersion = packageInfo.config.ainVersion;
       const data: Partial<WalletMap> = {
         paths: [walletDat],
         nodeVersion: ainVersion,
