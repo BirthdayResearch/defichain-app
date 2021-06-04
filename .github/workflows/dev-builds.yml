@@ -2,7 +2,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master, feat/update_deps]
+    branches: [master]
 
 jobs:
   build_linux_version:
