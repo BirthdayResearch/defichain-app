@@ -42,7 +42,6 @@ import { MASTER_NODES_PATH, RESIGNED_STATE } from '../../constants';
 import { MasterNodeObject } from './masterNodeInterface';
 import store from '../../app/rootStore';
 import { history } from '../../utils/history';
-import MasternodesPage from '.';
 import { RootState } from '../../app/rootTypes';
 
 export function* getConfigurationDetails() {
@@ -61,20 +60,17 @@ export function* fetchMasterNodes() {
       (masterNode) => masterNode.state !== RESIGNED_STATE
     );
     const masternodes: MasterNodeObject[] = [];
-    for (const iterator of enabledMasternode) {
+    enabledMasternode.forEach((iterator) => {
       try {
-        const result: MasterNodeObject = yield call(
-          MasterNodeOwnerInfo,
-          iterator
-        );
+        const result: MasterNodeObject = MasterNodeOwnerInfo(iterator);
         result.isEnabled = result.isMyMasternode
-          ? yield call(isMasternodeEnabled, result)
+          ? isMasternodeEnabled(result)
           : true;
         masternodes.push(result);
       } catch (err) {
         log.error(err.message);
       }
-    }
+    });
     yield put({
       type: fetchMasternodesSuccess.type,
       payload: { masternodes },
@@ -160,14 +156,10 @@ export function* handleRestartNode() {
   }
 }
 
-function* MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
-  const { wallet } = store.getState();
-  const isMine = wallet?.paymentRequests.some(
-    (pr) => pr.address === masterNode.ownerAuthAddress
-  );
+function MasterNodeOwnerInfo(masterNode: MasterNodeObject) {
   return {
     ...masterNode,
-    isMyMasternode: isMine,
+    isMyMasternode: masterNode.ownerIsMine,
   };
 }
 
