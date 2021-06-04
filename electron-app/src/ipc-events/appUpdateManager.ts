@@ -1,4 +1,3 @@
-import { CancellationToken } from 'builder-util-runtime';
 import { app, ipcMain } from 'electron';
 import {
   POST_UPDATE_ACTION,
@@ -12,7 +11,6 @@ export default function initiateAppUpdateManager(autoUpdater: any) {
   });
 
   ipcMain.on(START_DOWNLOAD_UPDATE, () => {
-    const cancellationToken = new CancellationToken();
-    autoUpdater.downloadUpdate(cancellationToken);
+    autoUpdater.downloadUpdate();
   });
 }

@@ -5,7 +5,6 @@
 /.github/workflows/oss-governance-bot.yml         @fuxingloh
 /.github/governance.yml                           @fuxingloh
 
-tslint.json                                       @thedoublejay @fuxingloh @monstrobishi
 tsconfig.json                                     @thedoublejay @fuxingloh @monstrobishi
 tsconfig.production.json                          @thedoublejay @fuxingloh @monstrobishi
 
