@@ -11,7 +11,7 @@
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
   "config": {
-    "ainVersion": "1.7.6"
+    "ainVersion": "1.7.7"
   },
   "scripts": {
     "init": "npm ci && cd webapp && npm run init",
