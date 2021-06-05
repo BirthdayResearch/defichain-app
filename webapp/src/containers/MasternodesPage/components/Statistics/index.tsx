@@ -105,12 +105,6 @@ const StatisticsTab: React.FunctionComponent<StatisticsTabProps> = (
           </Col>
         </Row>
       </section>
-      {/* <section>
-                <h2>Masternodes map</h2>
-                <Card>
-                  <MapChart />
-                </Card>
-              </section> */}
     </TabPane>
   );
 };
