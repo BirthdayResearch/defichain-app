@@ -104,6 +104,7 @@ import {
   ResponseMessages,
 } from '../constants/common';
 import PersistentStore from './persistentStore';
+import { getYieldFarming } from './stats';
 
 export interface CoinPriceData {
   [key: number]: number;
@@ -958,16 +959,20 @@ const api = setup({
   },
 });
 export const getStatsYieldFarming = async () => {
-  const state = store.getState();
-  const block = state.syncstatus.latestSyncedBlock;
-  const network = getNetworkType();
-  const result = await api.get(
-    `listyieldfarming?network=${network}net&block=${block}`,
-    {
-      timeout: API_REQUEST_TIMEOUT,
-    }
-  );
-  return result.data;
+  try {
+    const state = store.getState();
+    const block = state.syncstatus.latestSyncedBlock;
+    const network = getNetworkType();
+    const result = await api.get(
+      `listyieldfarming?network=${network}net&block=${block}`,
+      {
+        timeout: API_REQUEST_TIMEOUT,
+      }
+    );
+    return result.data;
+  } catch (error) {
+    return getYieldFarming();
+  }
 };
 
 export const getPoolStatsFromAPI = async () => {
