@@ -1,7 +1,12 @@
 import BigNumber from 'bignumber.js';
-import { APY_MULTIPLICATION_FACTOR } from '../constants';
+import {
+  APY_MULTIPLICATION_FACTOR,
+  DFI_SYMBOL,
+  MAINNET_USDT_SYMBOL,
+  USDT_SYMBOL,
+} from '../constants';
 import RpcClient from './rpc-client';
-import { coinGeckoCoinPrices } from './utility';
+import { coinGeckoCoinPrices, getTokenSymbolNetwork } from './utility';
 
 export const getYieldFarming = async (lpDailyDfiReward: number) => {
   const rpcClient = new RpcClient();
@@ -12,6 +17,22 @@ export const getYieldFarming = async (lpDailyDfiReward: number) => {
     poolPairs.push(d);
   });
   return await fetchTokenDetails(poolPairs, lpDailyDfiReward);
+};
+
+export const calculateLocalPrices = (poolPairs: any[]) => {
+  const usdtSymbol = getTokenSymbolNetwork(MAINNET_USDT_SYMBOL, USDT_SYMBOL);
+  const usdtDfiPoolPair = poolPairs.find((p) => p.idTokenA === usdtSymbol);
+  const dfiAmount = new BigNumber(usdtDfiPoolPair.reserveA).div(
+    usdtDfiPoolPair.reserveB
+  );
+  const prices = {
+    [DFI_SYMBOL]: dfiAmount.toNumber(),
+  };
+  poolPairs.forEach((pp) => {
+    const value = dfiAmount.div(new BigNumber(pp.reserveA).div(pp.reserveB));
+    prices[pp.idTokenA] = value.toNumber();
+  });
+  return prices;
 };
 
 const fetchTokenDetails = async (

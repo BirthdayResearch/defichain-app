@@ -1220,14 +1220,18 @@ export const parsedCoinPriceData = (poolStats): CoinPriceData => {
   return coinPriceObj;
 };
 
-export const getCoinMap = () => {
+export const getTokenSymbolNetwork = (mainToken: string, testToken: string) => {
   const networkType = getNetworkType();
-  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
-  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
-  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
-  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
-  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
+  return networkType === MAIN ? mainToken : testToken;
+};
+
+export const getCoinMap = () => {
+  const btcSymbol = getTokenSymbolNetwork(MAINNET_BTC_SYMBOL, BTC_SYMBOL);
+  const ethSymbol = getTokenSymbolNetwork(MAINNET_ETH_SYMBOL, ETH_SYMBOL);
+  const usdtSymbol = getTokenSymbolNetwork(MAINNET_USDT_SYMBOL, USDT_SYMBOL);
+  const ltcSymbol = getTokenSymbolNetwork(MAINNET_LTC_SYMBOL, LTC_SYMBOL);
+  const dogeSymbol = getTokenSymbolNetwork(MAINNET_DOGE_SYMBOL, DOGE_SYMBOL);
+  const bchSymbol = getTokenSymbolNetwork(MAINNET_BCH_SYMBOL, BCH_SYMBOL);
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
