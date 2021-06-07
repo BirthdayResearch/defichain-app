@@ -104,6 +104,7 @@ import {
   ResponseMessages,
 } from '../constants/common';
 import PersistentStore from './persistentStore';
+import { getYieldFarming } from './stats';
 
 export interface CoinPriceData {
   [key: number]: number;
@@ -741,7 +742,7 @@ export const fetchPoolPairDataWithPagination = async (
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
-  const poolStats = await getPoolStatsFromAPI();
+  const poolStats = await getPoolStatsFromAPI(lpDailyDfiReward);
   const coinPriceObj = await parsedCoinPriceData(poolStats);
 
   const poolShares = await handleFetchPoolshares();
@@ -957,21 +958,25 @@ const api = setup({
     },
   },
 });
-export const getStatsYieldFarming = async () => {
-  const state = store.getState();
-  const block = state.syncstatus.latestSyncedBlock;
-  const network = getNetworkType();
-  const result = await api.get(
-    `listyieldfarming?network=${network}net&block=${block}`,
-    {
-      timeout: API_REQUEST_TIMEOUT,
-    }
-  );
-  return result.data;
+export const getStatsYieldFarming = async (lpDailyDfiReward: number) => {
+  try {
+    return await getYieldFarming(lpDailyDfiReward);
+  } catch (error) {
+    const state = store.getState();
+    const block = state.syncstatus.latestSyncedBlock;
+    const network = getNetworkType();
+    const result = await api.get(
+      `listyieldfarming?network=${network}net&block=${block}`,
+      {
+        timeout: API_REQUEST_TIMEOUT,
+      }
+    );
+    return result.data;
+  }
 };
 
-export const getPoolStatsFromAPI = async () => {
-  const stats = await getStatsYieldFarming();
+export const getPoolStatsFromAPI = async (lpDailyDfiReward: number) => {
+  const stats = await getStatsYieldFarming(lpDailyDfiReward);
   const poolStats = {};
   stats?.pools?.forEach((a) => {
     if (a != null) {
@@ -1169,17 +1174,38 @@ export const getHighestAmountAddressForSymbol = async (
   return { address, amount: maxAmount };
 };
 
+const coingeckoApi = setup({
+  // `axios` options
+  baseURL: `${COINGECKO_API_BASE_URL}`,
+  cache: {
+    maxAge: 300,
+    exclude: {
+      query: false,
+    },
+  },
+});
 export const getCoinPriceInUSD = async (conversionCurrency: string) => {
   const ids = getIDs();
-  const { data } = await axios({
-    url: `${COINGECKO_API_BASE_URL}/simple/price`,
-    method: 'GET',
-    params: {
-      ids,
-      vs_currencies: conversionCurrency,
-    },
-  });
+  const { data } = await coingeckoApi.get(
+    `${COINGECKO_API_BASE_URL}/simple/price`,
+    {
+      params: {
+        ids,
+        vs_currencies: conversionCurrency,
+      },
+    }
+  );
   return data;
+};
+
+export const coinGeckoCoinPrices = async () => {
+  const result = await getCoinPriceInUSD(VS_CURRENCY);
+  const coinMap = getCoinMap();
+  return Object.keys(result).reduce((coinPriceObj: any, item) => {
+    const symbol = coinMap.get(item) || '0';
+    coinPriceObj[symbol] = result[item][VS_CURRENCY];
+    return coinPriceObj;
+  }, {});
 };
 
 export const parsedCoinPriceData = (poolStats): CoinPriceData => {
@@ -1194,14 +1220,18 @@ export const parsedCoinPriceData = (poolStats): CoinPriceData => {
   return coinPriceObj;
 };
 
-export const getCoinMap = () => {
+export const getTokenSymbolNetwork = (mainToken: string, testToken: string) => {
   const networkType = getNetworkType();
-  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
-  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
-  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
-  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
-  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
+  return networkType === MAIN ? mainToken : testToken;
+};
+
+export const getCoinMap = () => {
+  const btcSymbol = getTokenSymbolNetwork(MAINNET_BTC_SYMBOL, BTC_SYMBOL);
+  const ethSymbol = getTokenSymbolNetwork(MAINNET_ETH_SYMBOL, ETH_SYMBOL);
+  const usdtSymbol = getTokenSymbolNetwork(MAINNET_USDT_SYMBOL, USDT_SYMBOL);
+  const ltcSymbol = getTokenSymbolNetwork(MAINNET_LTC_SYMBOL, LTC_SYMBOL);
+  const dogeSymbol = getTokenSymbolNetwork(MAINNET_DOGE_SYMBOL, DOGE_SYMBOL);
+  const bchSymbol = getTokenSymbolNetwork(MAINNET_BCH_SYMBOL, BCH_SYMBOL);
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
