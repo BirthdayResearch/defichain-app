@@ -29,6 +29,11 @@ import {
   ENHANCEDCS_FOLDER,
   SNAPSHOT_FOLDER,
   MAC,
+  ANCHORS_FOLDER,
+  BURN_FOLDER,
+  HISTORY_FOLDER,
+  INDEXES_FOLDER,
+  SPV_FOLDER,
 } from './constants';
 import { DAT_FILE_TYPE, ZIP_FILE_TYPE } from '@defi_types/fileExtensions';
 import * as log from '././services/electronLogger';
@@ -282,9 +287,14 @@ export const deleteBanlist = () => {
 export const getBlockchainFolders = () => {
   const baseFolder = getBaseFolderReindex();
   const folders = [
+    path.join(baseFolder, ANCHORS_FOLDER),
     path.join(baseFolder, BLOCKS_FOLDER),
+    path.join(baseFolder, BURN_FOLDER),
     path.join(baseFolder, CHAINSTATE_FOLDER),
     path.join(baseFolder, ENHANCEDCS_FOLDER),
+    path.join(baseFolder, HISTORY_FOLDER),
+    path.join(baseFolder, INDEXES_FOLDER),
+    path.join(baseFolder, SPV_FOLDER),
   ];
   return folders;
 };

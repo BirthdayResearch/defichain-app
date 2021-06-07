@@ -42,6 +42,11 @@ export interface DefaultFileSizes {
   snapshotDirectory: string;
 }
 
+export const onSnapshotDataRequest = async (bw: Electron.BrowserWindow) => {
+  await getLatestSnapshotBlock(bw);
+  onDataRequest(bw);
+};
+
 export const initializeSnapshotEvents = async (bw: Electron.BrowserWindow) => {
   try {
     ipcMain.on(
@@ -52,8 +57,7 @@ export const initializeSnapshotEvents = async (bw: Electron.BrowserWindow) => {
     );
 
     ipcMain.on(ON_SNAPSHOT_DATA_REQUEST, async () => {
-      await getLatestSnapshotBlock(bw);
-      onDataRequest(bw);
+      await onSnapshotDataRequest(bw);
     });
 
     ipcMain.on(ON_FULL_RESTART_APP, () => {

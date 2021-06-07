@@ -61,7 +61,6 @@ import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
-import { string } from 'prop-types';
 
 interface SwapPageProps {
   history?: any;
