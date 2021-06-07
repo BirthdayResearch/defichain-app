@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "ajv": "^8.5.0",
+    "ajv": "^8.6.0",
     "async": "^3.2.0",
     "axios": "^0.21.1",
     "axios-cache-adapter": "2.7.3",
@@ -57,7 +57,7 @@
     "react-dom": "^17.0.2",
     "react-ellipsis-text": "1.2.1",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "7.8.0",
+    "react-hook-form": "7.8.1",
     "react-icons": "^4.2.0",
     "react-md-spinner": "^1.0.0",
     "react-number-format": "4.6.0",
@@ -112,14 +112,14 @@
     "buffer": "6.0.3",
     "clean-webpack-plugin": "~3.0.0",
     "copy-webpack-plugin": "~9.0.0",
-    "core-js": "^3.13.1",
+    "core-js": "^3.14.0",
     "cross-env": "^7.0.3",
     "crypto-browserify": "3.12.0",
     "css-loader": "~5.2.6",
     "cssnano": "~5.0.5",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
-    "eslint": "^7.27.0",
+    "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "~14.2.1",
     "eslint-config-airbnb-typescript": "~12.3.1",
     "eslint-config-prettier": "~8.3.0",
@@ -145,7 +145,7 @@
     "path": "~0.12.7",
     "postcss": "8.3.0",
     "postcss-loader": "^5.3.0",
-    "prettier": "^2.3.0",
+    "prettier": "^2.3.1",
     "process": "0.11.10",
     "react-refresh": "^0.10.0",
     "react-test-renderer": "^17.0.2",
@@ -156,8 +156,8 @@
     "stream-browserify": "3.0.0",
     "style-loader": "~2.0.0",
     "terser-webpack-plugin": "^5.1.3",
-    "ts-jest": "^27.0.2",
-    "ts-loader": "^9.2.2",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "^4.2.4",
     "url-loader": "^4.1.1",
@@ -165,6 +165,6 @@
     "webpack-bundle-analyzer": "~4.4.2",
     "webpack-cli": "4.7.0",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.7.3"
+    "webpack-merge": "^5.8.0"
   }
 }
