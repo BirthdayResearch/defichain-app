@@ -960,6 +960,8 @@ const api = setup({
 });
 export const getStatsYieldFarming = async (lpDailyDfiReward: number) => {
   try {
+    return await getYieldFarming(lpDailyDfiReward);
+  } catch (error) {
     const state = store.getState();
     const block = state.syncstatus.latestSyncedBlock;
     const network = getNetworkType();
@@ -970,8 +972,6 @@ export const getStatsYieldFarming = async (lpDailyDfiReward: number) => {
       }
     );
     return result.data;
-  } catch (error) {
-    return await getYieldFarming(lpDailyDfiReward);
   }
 };
 
