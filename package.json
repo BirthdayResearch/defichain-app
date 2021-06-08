@@ -116,6 +116,7 @@
     "appId": "com.defichain.DeFiWallet",
     "copyright": "Copyright © 2020-2021 ${author}",
     "asar": true,
+    "afterSign": "electron-app/assets/notarize.js",
     "files": [
       "./electron-app/build",
       {
@@ -159,6 +160,15 @@
     },
     "win": {
       "target": "NSIS"
+    },
+    "mac": {
+      "category": "public.app-category.finance",
+      "target": ["dmg"],
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "electron-app/assets/entitlements.mac.plist",
+      "entitlementsInherit": "electron-app/assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
     },
     "nsis": {
       "allowToChangeInstallationDirectory": true,

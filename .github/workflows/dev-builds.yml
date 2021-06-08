@@ -8,14 +8,14 @@ jobs:
   build_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -23,7 +23,7 @@ jobs:
       - name: Build app
         run: npm run build:linux
 
-      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
+      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
         with:
           name: linux-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
@@ -31,14 +31,14 @@ jobs:
   build_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -52,7 +52,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
 
-      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
+      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
         with:
           name: mac-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
@@ -60,14 +60,14 @@ jobs:
   build_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -76,7 +76,7 @@ jobs:
         run: npm run build:win
         shell: powershell
 
-      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
+      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
         with:
           name: win-build
           path: 'dist/DeFi Wallet Setup ${{ env.PACKAGE_VERSION}}.exe'

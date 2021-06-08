@@ -8,9 +8,9 @@ jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
@@ -30,14 +30,14 @@ jobs:
       - publish_linux_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
@@ -48,7 +48,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
+        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -59,7 +59,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
+        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
@@ -71,9 +71,9 @@ jobs:
   publish_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
@@ -98,14 +98,14 @@ jobs:
       - publish_mac_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
@@ -116,7 +116,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
+        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -127,7 +127,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
+        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
@@ -139,9 +139,9 @@ jobs:
   publish_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
@@ -161,14 +161,14 @@ jobs:
       - publish_windows_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
+      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
         with:
           node-version: 15
 
       - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
@@ -179,7 +179,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: leahlundqvist/get-release@89e1ed4ad1c1951f278c6415dd6002bf0a992faf
+        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -190,7 +190,7 @@ jobs:
           sha256sum DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5
+        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
