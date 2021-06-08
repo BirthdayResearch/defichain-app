@@ -1,8 +1,4 @@
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../../scss/variables';
-@import '../../../scss/bootstrap/variables';
+@import '../../../scss/bootstrap/common';
 
 div.react-console-container {
   font-size: 0.875em;
@@ -52,34 +48,8 @@ div.react-console-nofocus span.react-console-cursor {
   background: none;
 }
 
-div.react-console-focus span.react-console-cursor-idle {
-  animation: blink 1s infinite;
-}
-
 div.react-console-welcome {
   font-weight: $font-weight-medium;
-}
-
-@keyframes blink {
-  0% {
-    background-color: $dfi-pink;
-  }
-
-  25% {
-    background-color: $dfi-pink;
-  }
-
-  26% {
-    background-color: transparent;
-  }
-
-  75% {
-    background-color: transparent;
-  }
-
-  76% {
-    background-color: $dfi-pink;
-  }
 }
 
 div.react-console-message {
@@ -93,6 +63,36 @@ div.react-console-prompt-box {
     word-break: break-all;
     white-space: pre-line;
     color: $body-color;
+  }
+}
+
+.console__container {
+  .react-terminal-wrapper.react-terminal-light {
+    background: #f4f3f6;
+    color: #1a1e24;
+  }
+  .react-terminal-wrapper {
+    width: 100%;
+    background: #252a33;
+    font-weight: $font-weight-semibold;
+    color: $secondary;
+    font-size: 0.875em;
+    font-family: $font-family-monospace;
+    border-radius: 4px;
+    padding: 25px 25px;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .react-terminal {
+    height: initial;
+  }
+  .react-terminal-wrapper:before {
+    display: none;
+  }
+  .react-terminal-wrapper:focus-within .react-terminal-active-input:after {
+    color: $dfi-pink;
   }
 }
 

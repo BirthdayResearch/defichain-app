@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Console from 'react-console-component';
+import Console, { ColorMode, LineType } from 'react-terminal-ui';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -40,108 +40,115 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     cliLog,
     walletMap,
   } = props;
-  const [showConsoleResults, setShowConsoleResults] = useState(false);
-  let currentRef: Console;
-  const echo = (text: string) => {
-    if (!!currentRef) {
-      if (text === 'clear') {
-        currentRef.setState({
-          acceptInput: true,
-          log: [],
-        });
-        return storeCliLog(
-          cloneDeep({
-            history: currentRef.state.history,
-          })
-        );
-      }
-      if (!showConsoleResults) setShowConsoleResults(true);
-      return fetchDataForQueryRequest(text);
-    }
-  };
-  useEffect(() => {
-    resetDataForQuery();
-    if (currentRef.state && !isEmpty(cliLog)) {
-      const updatedState = {
-        log: [],
-        history: [],
-      };
+  // const [showConsoleResults, setShowConsoleResults] = useState(false);
+  // let currentRef: Console;
+  // const echo = (text: string) => {
+  //   if (!!currentRef) {
+  //     if (text === 'clear') {
+  //       currentRef.setState({
+  //         acceptInput: true,
+  //         log: [],
+  //       });
+  //       return storeCliLog(
+  //         cloneDeep({
+  //           history: currentRef.state.history,
+  //         })
+  //       );
+  //     }
+  //     if (!showConsoleResults) setShowConsoleResults(true);
+  //     return fetchDataForQueryRequest(text);
+  //   }
+  // };
+  // useEffect(() => {
+  //   resetDataForQuery();
+  //   if (currentRef.state && !isEmpty(cliLog)) {
+  //     const updatedState = {
+  //       log: [],
+  //       history: [],
+  //     };
 
-      if (Array.isArray(cliLog.log) && cliLog.log.length > 0) {
-        updatedState.log = cloneDeep(cliLog.log);
-      }
+  //     if (Array.isArray(cliLog.log) && cliLog.log.length > 0) {
+  //       updatedState.log = cloneDeep(cliLog.log);
+  //     }
 
-      if (Array.isArray(cliLog.history) && cliLog.history.length > 0) {
-        updatedState.history = cloneDeep(cliLog.history);
-      }
+  //     if (Array.isArray(cliLog.history) && cliLog.history.length > 0) {
+  //       updatedState.history = cloneDeep(cliLog.history);
+  //     }
 
-      currentRef.setState(updatedState);
-      if (cliLog.scrollSemaphore) {
-        currentRef.scrollSemaphore = cliLog.scrollSemaphore;
-      }
-    }
-  }, []);
+  //     currentRef.setState(updatedState);
+  //     if (cliLog.scrollSemaphore) {
+  //       currentRef.scrollSemaphore = cliLog.scrollSemaphore;
+  //     }
+  //   }
+  // }, []);
 
-  const printToConsole = (text: string) => {
-    if (!!currentRef && !!text && showConsoleResults) {
-      const updatedText = text.replace(BITCOIN_CLI_REGEX, DEFI_CLI_TEXT);
-      currentRef.log(updatedText);
-      currentRef.return();
-      const { log, history } = currentRef.state;
-      const updatedState = cloneDeep({
-        log,
-        history,
-        scrollSemaphore: currentRef.scrollSemaphore,
-      });
-      storeCliLog(updatedState);
-    }
-  };
+  // const printToConsole = (text: string) => {
+  //   if (!!currentRef && !!text && showConsoleResults) {
+  //     const updatedText = text.replace(BITCOIN_CLI_REGEX, DEFI_CLI_TEXT);
+  //     currentRef.log(updatedText);
+  //     currentRef.return();
+  //     const { log, history } = currentRef.state;
+  //     const updatedState = cloneDeep({
+  //       log,
+  //       history,
+  //       scrollSemaphore: currentRef.scrollSemaphore,
+  //     });
+  //     storeCliLog(updatedState);
+  //   }
+  // };
 
-  const onPasteHandler = (e) => {
-    if (!!currentRef) {
-      currentRef.paste(e);
-    }
-  };
+  // const onPasteHandler = (e) => {
+  //   if (!!currentRef) {
+  //     currentRef.paste(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    let toPrintData;
-    if (!isLoading) {
-      if (!isError) {
-        if (result !== undefined) {
-          toPrintData = JSON.stringify(result, null, 2);
-          if (typeof result === 'string') {
-            toPrintData = result;
-          }
-        }
-      } else {
-        toPrintData = isError;
-      }
-      printToConsole(toPrintData);
-    }
-  }, [isLoading, result, isError]);
+  // useEffect(() => {
+  //   let toPrintData;
+  //   if (!isLoading) {
+  //     if (!isError) {
+  //       if (result !== undefined) {
+  //         toPrintData = JSON.stringify(result, null, 2);
+  //         if (typeof result === 'string') {
+  //           toPrintData = result;
+  //         }
+  //       }
+  //     } else {
+  //       toPrintData = isError;
+  //     }
+  //     printToConsole(toPrintData);
+  //   }
+  // }, [isLoading, result, isError]);
 
-  const onFocusHandler = () => {
-    return !!currentRef && currentRef.focus();
-  };
+  // const onFocusHandler = () => {
+  //   return !!currentRef && currentRef.focus();
+  // };
 
-  const onScrollHandler = () => {
-    return !!currentRef && currentRef.scrollIfBottom();
-  };
+  // const onScrollHandler = () => {
+  //   return !!currentRef && currentRef.scrollIfBottom();
+  // };
 
+  const [terminalLineData, setTerminalLineData] = useState([
+    {
+      type: LineType.Output,
+      value: `${CONSOLE_PROMPT_LABEL}`,
+    },
+    {
+      type: LineType.Output,
+      value: `Node v${
+        walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : ''
+      }`,
+    },
+  ]);
   return (
-    <div
-      onPaste={onPasteHandler}
-      onFocus={onFocusHandler}
-      onScroll={onScrollHandler}
-    >
+    <div className='console__container'>
       <Console
-        ref={(ref: Console) => (currentRef = ref)}
-        handler={echo}
-        promptLabel=''
-        welcomeMessage={`${CONSOLE_PROMPT_LABEL}${
-          walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : ''
-        }`}
-        autofocus={true}
+        prompt='>'
+        colorMode={ColorMode.Light}
+        onInput={(terminalInput) =>
+          console.log(`New terminal input received: '${terminalInput}'`)
+        }
+        lineData={terminalLineData}
       />
     </div>
   );
