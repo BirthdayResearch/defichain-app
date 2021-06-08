@@ -2,32 +2,9 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master]
+    branches: [master, feat/notarize_app]
 
 jobs:
-  build_linux_version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
-
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
-        with:
-          node-version: 15
-
-      - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
-
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-
-      - name: Build app
-        run: npm run build:linux
-
-      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
-        with:
-          name: linux-build
-          path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
-
   build_mac_version:
     runs-on: macos-latest
     steps:
@@ -56,27 +33,3 @@ jobs:
         with:
           name: mac-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
-
-  build_windows_version:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
-
-      - uses: actions/setup-node@46071b5c7a2e0c34e49c3cb8a0e792e86e18d5ea
-        with:
-          node-version: 15
-
-      - name: Get App Version
-        uses: nyaayaya/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
-
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
-
-      - name: Build app
-        run: npm run build:win
-        shell: powershell
-
-      - uses: actions/upload-artifact@e448a9b857ee2131e752b06002bf0e093c65e571
-        with:
-          name: win-build
-          path: 'dist/DeFi Wallet Setup ${{ env.PACKAGE_VERSION}}.exe'
