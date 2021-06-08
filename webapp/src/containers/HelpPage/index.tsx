@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FaTelegram } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
@@ -7,7 +7,7 @@ import { MdBook, MdHelp } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Row, Col, Card, CardBody, Popover, PopoverBody } from 'reactstrap';
 import openNewTab from '../../utils/openNewTab';
 import styles from './HelpPage.module.scss';
 import {
@@ -27,10 +27,19 @@ import Logo from '../../components/Svg/DefiLogo';
 import { getPageTitle } from '../../utils/utility';
 import { useSelector } from 'react-redux';
 import { RiWechatFill } from 'react-icons/ri';
+import QrCodeWeChat from '../../assets/svg/qrcode_wechat.svg';
 
 const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const toggle = () => {
+    setPopoverOpen(!popoverOpen);
+  };
   const { locale } = useSelector((state: any) => state.i18n);
   const isChinese = [CHINESE_SIMPLIFIED, CHINESE_TRADITIONAL].includes(locale);
+  const onLinkClick = (link: string) => {
+    setPopoverOpen(false);
+    openNewTab(link);
+  };
 
   return (
     <div className='main-wrapper'>
@@ -46,7 +55,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
           <Row className={styles.helpOptions}>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(TELEGRAM_ENGLISH_HELP_LINK)}
+                onClick={() => onLinkClick(TELEGRAM_ENGLISH_HELP_LINK)}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -68,7 +77,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             <Col md='6'>
               <Card
                 onClick={() =>
-                  openNewTab(
+                  onLinkClick(
                     isChinese
                       ? TELEGRAM_ZH_HELP_LINK
                       : TELEGRAM_GERMAN_HELP_LINK
@@ -101,10 +110,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             </Col>
             {isChinese && (
               <Col md='6'>
-                <Card
-                  onClick={() => openNewTab(WECHAT_ZH_LINK)}
-                  className={styles.helpOption}
-                >
+                <Card id='wechat_popover' className={styles.helpOption}>
                   <CardBody className={styles.helpOptionRow}>
                     <div className={styles.helpOptionIcon}>
                       <RiWechatFill />
@@ -117,11 +123,21 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
                     </div>
                   </CardBody>
                 </Card>
+                <Popover
+                  placement='top'
+                  isOpen={popoverOpen}
+                  target='wechat_popover'
+                  toggle={toggle}
+                >
+                  <PopoverBody>
+                    <img className={styles.wechatIcon} src={QrCodeWeChat} />
+                  </PopoverBody>
+                </Popover>
               </Col>
             )}
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(GITHUB_ISSUE_HELP_LINK)}
+                onClick={() => onLinkClick(GITHUB_ISSUE_HELP_LINK)}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -143,7 +159,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             <Col md='6'>
               <Card
                 onClick={() =>
-                  openNewTab(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`)
+                  onLinkClick(`${getSiteURL()}${DEFICHAIN_FAQ_HELP_LINK}`)
                 }
                 className={styles.helpOption}
               >
@@ -164,7 +180,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(getSiteURL())}
+                onClick={() => onLinkClick(getSiteURL())}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -180,7 +196,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(REDDIT_HELP_LINK)}
+                onClick={() => onLinkClick(REDDIT_HELP_LINK)}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
@@ -198,7 +214,7 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
             </Col>
             <Col md='6'>
               <Card
-                onClick={() => openNewTab(COMMUNITY_WIKI_LINK)}
+                onClick={() => onLinkClick(COMMUNITY_WIKI_LINK)}
                 className={styles.helpOption}
               >
                 <CardBody className={styles.helpOptionRow}>
