@@ -39,7 +39,14 @@ const fetchTokenDetails = async (
   poolPairs: any[],
   lpDailyDfiReward: number
 ) => {
-  const price = await coinGeckoCoinPrices();
+  let price = {};
+
+  try {
+    price = await coinGeckoCoinPrices();
+  } catch (error) {
+    price = calculateLocalPrices(poolPairs);
+  }
+
   let tvl = new BigNumber(0);
   const lpPairPromiseList = poolPairs.map(async (item) => {
     const { reserveA, reserveB, idTokenA, idTokenB, rewardPct, customRewards } =
