@@ -259,7 +259,7 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.ownerAddress'
             )}
             value={ownerAuthAddress}
-            copyable={false}
+            copyable={true}
             uid='address'
           />
           <KeyValueLi
@@ -267,25 +267,25 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
               'containers.masterNodes.masternodeDetailPage.operatorAddress'
             )}
             value={operatorAuthAddress}
-            copyable={false}
+            copyable={true}
             uid='address'
           />
           <KeyValueLi
             label={I18n.t(
               'containers.masterNodes.masternodeDetailPage.resignTx'
             )}
-            copyable={false}
+            copyable={true}
             value={resignTx}
           />
 
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.banTx')}
-            copyable={false}
+            copyable={true}
             value={banTx}
           />
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.hash')}
-            copyable={false}
+            copyable={true}
             value={hash}
           />
         </section>
