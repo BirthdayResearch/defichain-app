@@ -8,6 +8,7 @@ describe('SettingsTabGeneral', () => {
   it('should check for snapshot', () => {
     const props = {
       launchAtLogin: true,
+      deletePeersAndBlocks: true,
       reindexAfterSaving: true,
       refreshUtxosAfterSaving: true,
       minimizedAtLaunch: true,
@@ -24,9 +25,10 @@ describe('SettingsTabGeneral', () => {
       network: 'Testnet',
       networkOptions: [],
       handleDropDowns: () => {},
-      openGeneralReIndexModal: () => {},
       handeReindexToggle: () => {},
       handeRefreshUtxosToggle: () => {},
+      sendCountdown: false,
+      handeDeletePeersClick: () => {},
     };
     const wrapper = shallow(
       <Provider store={store}>

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapSearchBar component should check for snapshot 1`] = `
+<InputGroup
+  tag="div"
+>
+  <Input
+    id="searchInput"
+    name="searchInput"
+    onChange={[Function]}
+    placeholder="placeholder"
+    type="text"
+  />
+  <InputGroupAddon
+    addonType="append"
+    tag="div"
+  >
+    <InputGroupText
+      tag="span"
+    >
+      <MdSearch />
+    </InputGroupText>
+  </InputGroupAddon>
+</InputGroup>
+`;

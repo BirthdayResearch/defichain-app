@@ -1,55 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { getMnemonic } from '../../service';
-import CreateNewWallet from './CreateNewWallet';
-import VerifyMnemonic from './VerifyMnemonic';
-import { getMixWords, getRandomWords } from '../../service';
+import { connect } from 'react-redux';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { createWalletStart, createWalletFailure } from '../../reducer';
+import EncryptWalletPage, { EncryptWalletPayload } from '../EncryptWalletPage';
 
-interface CreateWalletProps extends RouteComponentProps {}
+interface CreateWalletProps extends RouteComponentProps {
+  createWalletStart: (item: EncryptWalletPayload) => void;
+  createWalletFailure: (err: string) => void;
+  isWalletCreating: boolean;
+  isErrorCreatingWallet: string;
+}
 
 const CreateWallet: React.FunctionComponent<CreateWalletProps> = (
   props: CreateWalletProps
 ) => {
-  const { history } = props;
-
-  const [mnemonicObj, setMnemonicObj] = useState({});
-  const [mnemonicCode, setMnemonicCode] = useState('');
-  const [isWalletTabActive, setIsWalletTabActive] = useState(false);
-
-  const randomWordObj = getRandomWords();
-  const finalMixObj = getMixWords(mnemonicObj, randomWordObj);
-
-  useEffect(() => {
-    generateNewMnemonic();
-  }, []);
-
-  const generateNewMnemonic = () => {
-    const { mnemonicCode, mnemonicObj } = getMnemonic();
-    setMnemonicObj(mnemonicObj);
-    setMnemonicCode(mnemonicCode);
-  };
-
+  const {
+    createWalletStart,
+    createWalletFailure,
+    isWalletCreating,
+    isErrorCreatingWallet,
+  } = props;
   return (
-    <div className='main-wrapper'>
-      {!isWalletTabActive ? (
-        <CreateNewWallet
-          mnemonicObj={mnemonicObj}
-          generateNewMnemonic={generateNewMnemonic}
-          isWalletTabActive={isWalletTabActive}
-          setIsWalletTabActive={setIsWalletTabActive}
-        />
-      ) : (
-        <VerifyMnemonic
-          mnemonicObj={mnemonicObj}
-          finalMixObj={finalMixObj}
-          mnemonicCode={mnemonicCode}
-          history={history}
-          isWalletTabActive={isWalletTabActive}
-          setIsWalletTabActive={setIsWalletTabActive}
-        />
-      )}
-    </div>
+    <EncryptWalletPage
+      submitButtonLabel={
+        'containers.wallet.createNewWalletPage.createANewWallet'
+      }
+      onSave={createWalletStart}
+      pageLoadingMessage={
+        'containers.wallet.verifyMnemonicPage.creatingYourWallet'
+      }
+      isPageLoading={isWalletCreating}
+      pageErrorMessage={isErrorCreatingWallet}
+      onCloseFailure={createWalletFailure}
+      pageSize={11}
+    />
   );
 };
 
-export default CreateWallet;
+const mapStateToProps = (state) => {
+  const { isWalletCreating, isErrorCreatingWallet } = state.wallet;
+  return {
+    isWalletCreating,
+    isErrorCreatingWallet,
+  };
+};
+
+const mapDispatchToProps = {
+  createWalletStart,
+  createWalletFailure,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateWallet);

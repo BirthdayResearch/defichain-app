@@ -13,8 +13,8 @@ import {
 } from '../../../../constants';
 import { removeReceiveTxnsRequest } from '../../reducer';
 import { getPageTitle, getTransactionURI } from '../../../../utils/utility';
-import { getAmountInSelectedUnit } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
+import { history } from '../../../../utils/history';
 
 interface RouteProps {
   id: string;
@@ -38,7 +38,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
   const removeReceiveTrans = (transId: string | number) => {
     if (id) {
       props.removeReceiveTxns(transId);
-      props.history.push(WALLET_PAGE_PATH);
+      history.push(WALLET_PAGE_PATH);
     }
   };
 
@@ -90,13 +90,7 @@ const PaymentRequestPage: React.FunctionComponent<PaymentRequestPageProps> = (
           />
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.amount')}
-            value={
-              amount
-                ? `${getAmountInSelectedUnit(amount, props.unit, unit)} ${
-                    props.unit
-                  }`
-                : ''
-            }
+            value={amount ? `${amount} ${props.unit}` : ''}
           />
           <KeyValueLi
             label={I18n.t('containers.wallet.paymentRequestPage.time')}

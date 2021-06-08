@@ -17,6 +17,8 @@ exports[`Error Modal should check for snapshot 1`] = `
       closeReIndexModal={[Function]}
       isReIndexModelOpen={false}
       isRestartLoader={[Function]}
+      reIndexMessage=""
+      startSetNodeVersion={[Function]}
     >
       <Modal
         autoFocus={true}
@@ -42,6 +44,7 @@ exports[`Error Modal should check for snapshot 1`] = `
         returnFocusAfterClose={true}
         role="dialog"
         scrollable={false}
+        trapFocus={false}
         unmountOnClose={true}
         zIndex={1050}
       />

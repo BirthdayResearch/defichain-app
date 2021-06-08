@@ -1,0 +1,159 @@
+version: v1
+
+issue:
+  captures:
+    - regex: '- DeFi Wallet Version: *(.+) *'
+      github_release: true
+      ignore_case: true
+      label: 'version/$CAPTURED'
+
+    - regex: '- Operating System \(OS\): *(windows?|ms|wins?|microsoft).*'
+      label: 'os/win'
+      ignore_case: true
+
+    - regex: '- Operating System \(OS\): *(linux|linus|lin|unix|ubuntu|fedora|debian).*'
+      label: 'os/linux'
+      ignore_case: true
+
+    - regex: '- Operating System \(OS\): *(macos|mac|apple|macintosh|macbook).*'
+      label: 'os/mac'
+      ignore_case: true
+
+  labels:
+    - prefix: triage
+      list: ['accepted']
+      multiple: false
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+      needs:
+        comment: |
+          @$AUTHOR: Thanks for opening an issue, it is currently awaiting triage.
+
+          The triage/accepted label can be added by foundation members by writing `/triage accepted` in a comment.
+
+          In the meantime, you can:
+
+          1. Checkout [DeFiChain’s Github issue page](https://github.com/DeFiCh/app/issues?q=is%3Aissue) to see if your issue has already been reported
+          2. [Submit any logs if you have them](https://github.com/DeFiCh/app/wiki/How-to-submit-issues-for-DeFi-app), this will greatly expedite the process for us.
+          3. You can also join our [Telegram](https://t.me/defiblockchain) or [Reddit](https://reddit.com/r/defiblockchain) community channels.
+
+    - prefix: kind
+      list: ['feature', 'bug']
+      multiple: false
+      needs: true
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
+
+    - prefix: os
+      list: ['mac', 'win', 'linux']
+      multiple: true
+
+    - prefix: logs
+      list: ['accepted', 'from-email']
+      multiple: true
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+    - prefix: priority
+      multiple: false
+      list: ['urgent-now', 'important-soon']
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+  chat_ops:
+    - cmd: /close
+      type: close
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /duplicate
+      type: close
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /duplicate
+      type: comment
+      comment: |
+        @$ISSUE_AUTHOR: This issue has been marked duplicate by @$AUTHOR, if you think this is a mistake, please reopen it!
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /duplicate
+      type: label
+      label:
+        add: duplicate
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /cc
+      type: none
+
+    - cmd: /assign
+      type: assign
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+pull_request:
+  labels:
+    - prefix: kind
+      multiple: false
+      list: ['feature', 'fix', 'chore', 'docs', 'refactor', 'dependencies']
+      needs:
+        comment: |
+          @$AUTHOR: There are no 'kind' label on this PR. You need a 'kind' label to generate the release automatically.
+
+          * `/kind feature`
+          * `/kind fix`
+          * `/kind chore`
+          * `/kind docs`
+          * `/kind refactor`
+          * `/kind dependencies`
+        status:
+          context: 'Governance / Kind Label'
+          description:
+            success: Ready for review & merge.
+            failure: Missing kind label for release generation.
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
+
+  chat_ops:
+    - cmd: /close
+      type: close
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /cc
+      type: none
+
+    - cmd: /request
+      type: review
+      author_association:
+        collaborator: true
+        member: true
+        owner: true

@@ -1,0 +1,110 @@
+@import '../../../../scss/bootstrap/common';
+
+.card {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.table {
+  margin-bottom: 0;
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: $card-bg;
+    box-shadow: 0 $table-border-width $table-border-color;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr:first-child td,
+  tr:first-child th {
+    border-top: none;
+  }
+}
+
+.typeIcon {
+  width: 24px;
+  height: 24px;
+  color: $secondary;
+}
+
+.typeIconDownward {
+  color: #02b31b;
+  width: 24px;
+  height: 24px;
+}
+
+.copyIcon {
+  text-align: left;
+}
+
+.colorGreen {
+  color: #02b31b;
+}
+
+.type,
+.time {
+  white-space: nowrap;
+}
+
+.hash {
+  font-size: 0.875rem;
+  letter-spacing: 0.25px;
+}
+
+.amount {
+  text-align: right;
+  letter-spacing: 0.44px;
+}
+
+.unit {
+  color: $secondary;
+}
+
+.unitReceive {
+  color: $secondary;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.txidvalue {
+  position: relative;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: $secondary;
+}
+
+.txid__na {
+  color: $disabled;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.includeReward {
+  margin-top: -24px;
+}
+
+.setWidth {
+  width: 23em;
+}
+
+.dropDown {
+  align-items: baseline;
+  display: flex !important;
+}

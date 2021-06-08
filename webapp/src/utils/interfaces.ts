@@ -104,6 +104,8 @@ export interface IToken {
   tradeable: boolean;
   isLPS: boolean;
   amount?: number;
+  isSPV?: boolean;
+  displayName?: string;
 }
 
 export interface ITokenCard {

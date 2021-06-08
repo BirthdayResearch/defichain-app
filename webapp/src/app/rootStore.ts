@@ -7,7 +7,12 @@ import { setupI18n } from '../translations/i18n';
 import { DEFAULT_LOG_LEVEL, DEBUG_LOG_LEVEL } from '../constants';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const middleware = [...getDefaultMiddleware(), sagaMiddleware];
+const middleware = [
+  ...getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+  sagaMiddleware,
+];
 
 if (!isProduction) {
   middleware.push(logger);

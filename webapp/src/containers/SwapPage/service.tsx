@@ -73,7 +73,7 @@ export const handlePoolSwap = async (formState): Promise<string> => {
   const {
     address: address1,
     amount: maxAmount1,
-  } = getHighestAmountAddressForSymbol(formState.hash1, list);
+  } = await getHighestAmountAddressForSymbol(formState.hash1, list);
   const swapAddress =
     address1 == '' || address1 == null ? formState.receiveAddress : address1;
   let accountToAccountAmount = new BigNumber(0);

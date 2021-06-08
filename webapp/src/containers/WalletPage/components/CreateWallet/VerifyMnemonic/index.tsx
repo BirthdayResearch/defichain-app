@@ -11,7 +11,7 @@ import {
 import {
   VERIFY_MNEMONIC_QUIZ_OPTIONS_PER_QUESTIONS_LIMIT,
   VERIFY_MNEMONIC_QUIZ_QUESTIONS_LIMIT,
-  WALLET_BASE_PATH,
+  WALLET_CREATE_PATH,
   WALLET_TOKENS_PATH,
 } from '../../../../../constants';
 import { Row, Col, Button } from 'reactstrap';
@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
 import Header from '../../../../HeaderComponent';
 import shuffle from 'lodash/shuffle';
-
+import { history } from '../../../../../utils/history';
 interface VerifyMnemonicProps {
   mnemonicObj: any;
   finalMixObj: any;
@@ -30,7 +30,6 @@ interface VerifyMnemonicProps {
   isWalletTabActive: boolean;
   isWalletCreating: boolean;
   isErrorCreatingWallet: string;
-  history: any;
   setIsWalletTabActive: (isWalletTabActive: boolean) => void;
   createWallet: (mnemonicCode: string, history: any) => void;
   resetCreateWalletError: () => void;
@@ -48,7 +47,6 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
     isWalletTabActive,
     setIsWalletTabActive,
     mnemonicObj,
-    history,
     isWalletCreating,
     isErrorCreatingWallet,
     mnemonicCode,
@@ -124,7 +122,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
       </Helmet>
       <Header>
         <Button
-          to={WALLET_BASE_PATH}
+          to={WALLET_CREATE_PATH}
           tag={NavLink}
           color='link'
           className='header-bar-back'
@@ -251,6 +249,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonicProps> = (
                   <Button
                     color='link'
                     size='sm'
+                    className='footer-bar-back'
                     onClick={() => {
                       setIsWalletTabActive(!isWalletTabActive);
                     }}

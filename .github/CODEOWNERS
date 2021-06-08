@@ -1,0 +1,18 @@
+# Define individuals or teams that are responsible for code in a repository.
+# More details are here: https://help.github.com/articles/about-codeowners/
+
+/.github/                                         @thedoublejay @fuxingloh @monstrobishi
+/.github/workflows/oss-governance-bot.yml         @fuxingloh
+/.github/governance.yml                           @fuxingloh
+
+tsconfig.json                                     @thedoublejay @fuxingloh @monstrobishi
+tsconfig.production.json                          @thedoublejay @fuxingloh @monstrobishi
+
+package.json                                      @thedoublejay @fuxingloh @monstrobishi
+package-lock.json                                 @thedoublejay @fuxingloh @monstrobishi
+
+*.sh                                              @thedoublejay @fuxingloh @monstrobishi
+*.cmd                                             @thedoublejay @fuxingloh @monstrobishi
+*.ps1                                             @thedoublejay @fuxingloh @monstrobishi
+
+LICENSE                                           @thedoublejay @fuxingloh @monstrobishi

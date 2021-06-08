@@ -12,10 +12,12 @@ import {
   DFI_SYMBOL,
 } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
-import { I18n } from 'react-redux-i18n';
+import { IToken } from 'src/utils/interfaces';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import compact from 'lodash/compact';
+import { difference } from 'lodash';
 import {
   fetchAccountsDataWithPagination,
   fetchTokenDataWithPagination,
@@ -25,6 +27,8 @@ import {
   getErrorMessage,
   handleFetchTokenBalanceList,
   hdWalletCheck,
+  getNetworkType,
+  convertEpochToJSDate,
 } from '../../utils/utility';
 import {
   getMixWordsObject,
@@ -32,6 +36,26 @@ import {
   getRandomWordObject,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
+import {
+  ON_FILE_SELECT_REQUEST,
+  ON_WALLET_RESTORE_VIA_BACKUP,
+  ON_WRITE_CONFIG_REQUEST,
+  ON_FILE_EXIST_CHECK,
+} from '@defi_types/ipcEvents';
+import { ipcRendererFunc } from '../../utils/isElectron';
+import {
+  backupWallet,
+  updatePaymentAddresses,
+  updateWalletMap,
+} from '../../app/service';
+import { IPCResponseModel } from '@defi_types/common';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import store from '../../app/rootStore';
+import { uid } from 'uid';
+import { uniqBy } from 'lodash';
+import { addHdSeedCheck } from './saga';
+import { WalletPathEnum } from './types';
+import { fetchUtxoDfiSuccess } from './reducer';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -40,33 +64,208 @@ const handleLocalStorageName = (networkName) => {
   return PAYMENT_REQUEST;
 };
 
-export const handleGetPaymentRequest = (networkName) => {
-  return JSON.parse(
-    PersistentStore.get(handleLocalStorageName(networkName)) || '[]'
-  );
+export const processWalletMapAddresses = (
+  addresses: PaymentRequestModel[]
+): PaymentRequestModel[] => {
+  return addresses?.map((s) => {
+    const address = { ...s };
+    delete address.txids;
+    delete address.confirmations;
+    delete address.amount;
+    return address;
+  });
 };
 
-export const handelAddReceiveTxns = async (data, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
+export const getPaymentRequestsRPC = async (): Promise<
+  PaymentRequestModel[]
+> => {
+  try {
+    const rpcClient = new RpcClient();
+    const receivedAddress = await rpcClient.getListreceivedAddress(0, false);
+    const paymentRequests = await handleGetPaymentRequest(
+      receivedAddress,
+      true
+    );
+    const final = await addHdSeedCheck(paymentRequests);
+    return final;
+  } catch (error) {
+    log.error(error);
+    return [];
+  }
+};
+
+export const filterMyAddresses = (
+  list: any[],
+  item: PaymentRequestModel,
+  myAddress: boolean
+): boolean => {
+  const found = list.find(
+    (ele) =>
+      ele.address === item.address &&
+      (myAddress ? ele.ismine : !myAddress) &&
+      !ele.iswatchonly
+  );
+  const isNotEmpty = !isEmpty(found);
+  if (isNotEmpty) {
+    item.ismine = found.ismine;
+    item.time = item.time ?? convertEpochToJSDate(found.timestamp);
+  }
+  return isNotEmpty;
+};
+
+export const getWalletMapPaymentRequests = (): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  return [...(wallet?.walletMap?.paymentRequests ?? [])];
+};
+
+export const handleGetPaymentRequest = async (
+  receivedAddress?: PaymentRequestModel[],
+  allAddress = false
+): Promise<PaymentRequestModel[]> => {
+  let paymentRequests = getWalletMapPaymentRequests();
+  if (receivedAddress) {
+    paymentRequests = [...paymentRequests, ...receivedAddress];
+  }
+  paymentRequests = uniqBy(paymentRequests, 'address');
+  const finalAddresses = paymentRequests.map((pr) => {
+    return { ...pr };
+  });
+  return Promise.all(
+    finalAddresses.map((item) => {
+      item.id = item.id ?? uid();
+      item.ismine = false;
+      return getAddressInfo(item.address);
+    })
+  )
+    .then((list) => {
+      if (!allAddress) {
+        const result = finalAddresses.filter((item) => {
+          return filterMyAddresses(list, item, allAddress);
+        });
+        return result;
+      } else {
+        return finalAddresses.map((item) => {
+          filterMyAddresses(list, item, allAddress);
+          return item;
+        });
+      }
+    })
+    .catch((error) => {
+      log.error(error);
+      return [];
+    });
+};
+
+export const handleAddReceiveTxns = async (
+  data: PaymentRequestModel
+): Promise<PaymentRequestModel[]> => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
   data.hdSeed = await hdWalletCheck(data.address);
-  const paymentData = [data, ...initialData];
+  const paymentData = [data, ...paymentRequests];
   if (!data.automaticallyGenerateNewAddress) {
     const rpcClient = new RpcClient();
     await rpcClient.setLabel(data.address, data.label);
   }
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
 };
 
-export const handelRemoveReceiveTxns = (id, networkName) => {
-  const localStorageName = handleLocalStorageName(networkName);
-  const initialData = JSON.parse(PersistentStore.get(localStorageName) || '[]');
-  const paymentData = initialData.filter(
+export const handleRemoveReceiveTxns = (id: string): PaymentRequestModel[] => {
+  const { wallet } = store.getState();
+  const paymentRequests = getWalletMapPaymentRequests();
+  const paymentData = paymentRequests.filter(
     (ele) => ele.id && ele.id.toString() !== id.toString()
   );
-  PersistentStore.set(localStorageName, paymentData);
+  updatePaymentAddresses(wallet, paymentData);
   return paymentData;
+};
+
+export const getInitialTokenInfo = () => {
+  return JSON.parse(PersistentStore.get('tokenInfo') || '{}');
+};
+
+export const handleAddToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  const keyData = [...(initialData[networkType] || []), tokenData];
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const handleRemoveToken = (tokenData) => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  const keyData = (initialData[networkType] || []).filter(
+    (data) => data.symbol !== tokenData.symbol
+  );
+  initialData[networkType] = keyData;
+  PersistentStore.set('tokenInfo', initialData);
+  return initialData[networkType];
+};
+
+export const handleCheckToken = (tokenData) => {
+  const initialTokenData = getWalletToken();
+  const data = initialTokenData.find(
+    (data) => data.symbol === tokenData.symbol
+  );
+  if (data) {
+    return !!Number(tokenData.amount);
+  }
+  return true;
+};
+
+export const getWalletToken = () => {
+  const networkType = getNetworkType();
+  const initialData = getInitialTokenInfo();
+  return initialData[networkType] || [];
+};
+
+export const updateWalletToken = (clone) => {
+  const allTokenArray = clone.map((token) => token.symbolKey);
+  if (allTokenArray.length !== [...new Set(allTokenArray)].length) {
+    const duplicateArray = allTokenArray.filter(
+      (value, index) => allTokenArray.indexOf(value) === index
+    );
+    const networkType = getNetworkType();
+    const initialData = getInitialTokenInfo();
+    const filteredData = initialData[networkType].filter(
+      (element) => !duplicateArray.includes(element.symbolKey)
+    );
+    initialData[networkType] = filteredData;
+    PersistentStore.set('tokenInfo', initialData);
+  }
+};
+
+export const getTokenForWalletDropDown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  const filteredTokenMap = new Map<string, any>();
+  tokenData.forEach((value, key) => {
+    if (!existingTokenArray.includes(key)) {
+      filteredTokenMap.set(key, value);
+    }
+  });
+  return filteredTokenMap;
+};
+
+export const isWalletDropdown = (totalTokenData, tokenData) => {
+  const existingTokenArray = totalTokenData.map((value) => value.symbolKey);
+  let tokenDataArray: any[] = [];
+  tokenData.forEach((value) => {
+    tokenDataArray = [...tokenDataArray, value.symbolKey];
+  });
+  const differenceArray = difference(existingTokenArray, tokenData);
+  return differenceArray.length > 1;
+};
+
+export const getVerifiedTokens = (tokens, accountTokens) => {
+  const accountTokenSymbol = accountTokens.map((t) => t.symbolKey);
+  const verifiedTokens = cloneDeep<IToken[]>(tokens || []).filter((t) => {
+    t.amount = 0;
+    return t.isDAT && !t.isLPS && !accountTokenSymbol.includes(t.symbolKey);
+  });
+  return verifiedTokens;
 };
 
 export const handelFetchWalletTxns = async (
@@ -112,6 +311,7 @@ export const handleFetchAccountDFI = async () => {
 
 export const handleFetchWalletBalance = async () => {
   const regularDFI = await handleFetchRegularDFI();
+  store.dispatch(fetchUtxoDfiSuccess(new BigNumber(regularDFI || 0)));
   const accountDFI = await handleFetchAccountDFI();
   return new BigNumber(regularDFI).plus(accountDFI).toFixed(8);
 };
@@ -157,17 +357,15 @@ export const sendToAddress = async (
       return data;
     } catch (err) {
       const errorMessage = getErrorMessage(err);
-      log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
   } else {
     try {
       const accountBalance = await handleFetchAccountDFI();
       const addressesList = await getAddressAndAmountListForAccount();
-      const {
-        address: fromAddress,
-        amount: maxAmount,
-      } = getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
+      const { address: fromAddress, amount: maxAmount } =
+        await getHighestAmountAddressForSymbol(DFI_SYMBOL, addressesList);
       log.info({ address: fromAddress, maxAmount, accountBalance });
 
       //* Consolidate tokens to a single address
@@ -206,8 +404,8 @@ export const sendToAddress = async (
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);
-      log.error(`Got error in sendToAddress: ${errorMessage}`);
-      throw new Error(`Got error in sendToAddress: ${errorMessage}`);
+      log.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 };
@@ -219,10 +417,8 @@ export const handleFallbackSendToken = async (
 ): Promise<string> => {
   try {
     const addressesList = await getAddressAndAmountListForAccount();
-    const {
-      address: fromAddress,
-      amount: maxAmount,
-    } = await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
+    const { address: fromAddress, amount: maxAmount } =
+      await getHighestAmountAddressForSymbol(hash, addressesList, sendAmount);
     if (new BigNumber(maxAmount).gte(sendAmount)) {
       try {
         const txHash = await accountToAccount(
@@ -460,7 +656,8 @@ export const getListAccountHistory = (query: {
 
 export const prepareTxDataRows = (data: any[]) => {
   return data.map((item) => {
-    const amounts = item.amounts.map((ele) => ({
+    const items = Array.isArray(item.amounts) ? item.amounts : [item.amounts];
+    const amounts = items.map((ele) => ({
       value: new BigNumber(
         ele.slice(0, ele.indexOf(AMOUNT_SEPARATOR))
       ).toFixed(),
@@ -495,7 +692,10 @@ const validTrx = (item) => {
   if (!isValid) {
     isValid = SendReceiveValidTxTypeArray.indexOf(item.type) !== 1;
     if (isValid) {
-      category = new BigNumber(item.amounts[0].value).gte(0)
+      const value = Array.isArray(item.amounts)
+        ? item.amounts[0].value
+        : item.amounts?.value;
+      category = new BigNumber(value).gte(0)
         ? RECIEVE_CATEGORY_LABEL
         : SENT_CATEGORY_LABEL;
     }
@@ -516,4 +716,125 @@ export const handleRestartCriteria = async () => {
     new BigNumber(txCount).gt(0) ||
     tokenBalance.length > 0
   );
+};
+
+export const startRestoreViaBackup = async (network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WALLET_RESTORE_VIA_BACKUP, network);
+    if (resp?.success && resp?.data) {
+      updateWalletMap(resp.data);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'handleRestoreWalletViaBackup');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const checkRestoreRecentIfExisting = async (path: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_EXIST_CHECK, path);
+    if (!resp?.success) {
+      updateWalletMap(path, true);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'checkRestoreIfExisting');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startRestoreViaRecent = async (path: string, network: string) => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_WRITE_CONFIG_REQUEST, path, network);
+    if (resp?.success) {
+      updateWalletMap(path);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const startBackupViaExitModal = async () => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST);
+    if (resp?.success) {
+      await backupWallet(resp?.data?.paths);
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'startRestoreViaRecent');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const createNewWallet = async (
+  passphrase: string,
+  network: string
+): Promise<IPCResponseModel<string>> => {
+  try {
+    const ipcRenderer = ipcRendererFunc();
+    const resp = ipcRenderer.sendSync(ON_FILE_SELECT_REQUEST, false, true);
+    const walletDir = resp?.data?.paths;
+    const walletPath = resp?.data?.walletPath;
+    if (resp?.success && walletPath) {
+      const rpcClient = new RpcClient();
+      const createWalletResp = await rpcClient.createWallet(
+        walletDir,
+        passphrase
+      );
+      if (createWalletResp.warning == null || createWalletResp.warning == '') {
+        return startRestoreViaRecent(walletPath, network);
+      } else {
+        throw new Error(createWalletResp.warning);
+      }
+    }
+    return resp;
+  } catch (error) {
+    log.error(error, 'createNewWallet');
+    return {
+      success: false,
+      message: error?.message,
+    };
+  }
+};
+
+export const getWalletPathAddress = (
+  basePath: string,
+  tokenSymbol: string,
+  tokenHash: string,
+  tokenAmount: string,
+  tokenAddress: string,
+  isLPS: boolean,
+  isSPV?: boolean,
+  displayName?: string,
+  isDAT?: boolean
+): string => {
+  return `${basePath}?${WalletPathEnum.hash}=${tokenHash}&${
+    WalletPathEnum.amount
+  }=${tokenAmount.toString()}&${WalletPathEnum.address}=${tokenAddress}&${
+    WalletPathEnum.isLPS
+  }=${isLPS}&${WalletPathEnum.symbol}=${tokenSymbol}&${
+    WalletPathEnum.isSPV
+  }=${isSPV}&${WalletPathEnum.displayName}=${displayName}&${
+    WalletPathEnum.isDAT
+  }=${isDAT}`;
 };

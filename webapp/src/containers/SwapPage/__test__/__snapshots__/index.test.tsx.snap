@@ -132,6 +132,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
             }
           }
           maxAccountDfi={0}
+          paymentRequests={Array []}
           poolPairList={Array []}
           poolSwapHash=""
           poolSwapRequest={[Function]}
@@ -155,13 +156,13 @@ exports[`SwapPage component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi app"
+                title="DEX - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi app"
+                  title="DEX - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -610,7 +611,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                     className="justify-content-between align-items-center row"
                   >
                     <Col
-                      className="undefined col-auto"
+                      className="col-auto"
                       tag="div"
                       widths={
                         Array [
@@ -623,9 +624,9 @@ exports[`SwapPage component should check for snapshot 1`] = `
                       }
                     >
                       <div
-                        className="undefined col-auto col"
+                        className="col-auto col"
                       >
-                        Insufficient UTXOs to swap
+                        Enter an amount to swap
                       </div>
                     </Col>
                     <Col
@@ -891,6 +892,25 @@ exports[`SwapPage component should check for snapshot 1`] = `
                       <div
                         className="d-flex justify-content-end col"
                       >
+                        <ViewOnChain
+                          txid=""
+                        >
+                          <Button
+                            className="mr-3"
+                            color="link"
+                            onClick={[Function]}
+                            tag="button"
+                          >
+                            <button
+                              aria-label={null}
+                              className="mr-3 btn btn-link"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              View on chain
+                            </button>
+                          </Button>
+                        </ViewOnChain>
                         <Button
                           className="mr-3"
                           color="link"
@@ -1190,13 +1210,13 @@ exports[`SwapPage component should check for snapshot 1`] = `
                         "render": [Function],
                       }
                     }
-                    to="/liquidity"
+                    to="/swap"
                   >
                     <NavLink
                       aria-label={null}
                       className="btn btn-primary"
                       onClick={[Function]}
-                      to="/liquidity"
+                      to="/swap"
                     >
                       <Link
                         aria-current={null}
@@ -1206,7 +1226,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                         to={
                           Object {
                             "hash": "",
-                            "pathname": "/liquidity",
+                            "pathname": "/swap",
                             "search": "",
                             "state": null,
                           }
@@ -1216,7 +1236,7 @@ exports[`SwapPage component should check for snapshot 1`] = `
                           aria-current={null}
                           aria-label={null}
                           className="btn btn-primary"
-                          href="/liquidity"
+                          href="/swap"
                           navigate={[Function]}
                           onClick={[Function]}
                         >
@@ -1224,10 +1244,10 @@ exports[`SwapPage component should check for snapshot 1`] = `
                             aria-current={null}
                             aria-label={null}
                             className="btn btn-primary"
-                            href="/liquidity"
+                            href="/swap"
                             onClick={[Function]}
                           >
-                            Back to pool
+                            Back to DEX
                           </a>
                         </LinkAnchor>
                       </Link>

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyToClipboard component should check for snapshot 1`] = `
+<CopyToClipboard
+  text="value"
+>
+  <Button
+    className="class"
+    color="link"
+    onClick={[Function]}
+    size="size"
+    tag="button"
+  >
+    <MdContentCopy />
+  </Button>
+</CopyToClipboard>
+`;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { MdAdd, MdCompareArrows } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 import { Button, ButtonGroup } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import Helmet from 'react-helmet';

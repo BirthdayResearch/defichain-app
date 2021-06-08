@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 import * as log from '../../utils/electronLogger';
-import { getErrorMessage } from '../../utils/utility';
+import { getErrorMessage, remapNodeError } from '../../utils/utility';
 import {
   fetchTokenInfo,
   fetchTokensRequest,
@@ -36,10 +36,12 @@ import {
   handleUpdateTokens,
   handleMintTokens,
 } from './service';
+import { RootState } from '../../app/rootTypes';
+import { DESTRUCTION_TX, DFI } from 'src/constants';
 
 export function* getConfigurationDetails() {
-  const { configurationData } = yield select((state) => state.app);
-  const data = cloneDeep(configurationData);
+  const { rpcConfig } = yield select((state: RootState) => state.app);
+  const data = cloneDeep(rpcConfig);
   if (isEmpty(data)) {
     throw new Error('Unable to fetch configuration file');
   }
@@ -64,11 +66,11 @@ export function* fetchToken(action) {
 
 export function* fetchTokens() {
   try {
-    const data = yield call(handleFetchTokens);
-    yield put({
-      type: fetchTokensSuccess.type,
-      payload: { tokens: data },
-    });
+    const data: any[] = yield call(handleFetchTokens);
+    const updated = data.filter(
+      (item) => item.destructionTx === DESTRUCTION_TX && item.symbolKey !== DFI
+    );
+    yield put(fetchTokensSuccess(updated));
   } catch (e) {
     yield put({ type: fetchTokensFailure.type, payload: e.message });
     log.error(e);
@@ -99,7 +101,10 @@ export function* createTokens(action) {
     const data = yield call(handleCreateTokens, tokenData);
     yield put({ type: createTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: createTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: createTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -112,7 +117,10 @@ export function* mintTokens(action) {
     const data = yield call(handleMintTokens, tokenData);
     yield put({ type: mintTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: mintTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: mintTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -125,7 +133,10 @@ export function* updateTokens(action) {
     const data = yield call(handleUpdateTokens, tokenData);
     yield put({ type: updateTokenSuccess.type, payload: { ...data } });
   } catch (e) {
-    yield put({ type: updateTokenFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: updateTokenFailure.type,
+      payload: remapNodeError(getErrorMessage(e)),
+    });
     log.error(e);
   }
 }
@@ -140,7 +151,7 @@ export function* tokenDestroy(action) {
   } catch (e) {
     yield put({
       type: destroyTokenFailure.type,
-      payload: getErrorMessage(e),
+      payload: remapNodeError(getErrorMessage(e)),
     });
     log.error(e);
   }

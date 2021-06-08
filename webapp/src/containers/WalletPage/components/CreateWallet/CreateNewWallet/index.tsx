@@ -149,7 +149,6 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
             <Col className='d-flex justify-content-end'>
               <Button
                 color='primary'
-                className='mr-3'
                 disabled={!isChecked}
                 onClick={() => {
                   setIsWalletTabActive(!isWalletTabActive);

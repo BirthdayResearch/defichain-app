@@ -160,13 +160,13 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi app"
+                title="DEX - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi app"
+                  title="DEX - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -276,7 +276,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                             inputMode="decimal"
                             onChange={[Function]}
                             type="text"
-                            value="0"
+                            value="100"
                           >
                             <input
                               className="form-control"
@@ -284,7 +284,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                               inputMode="decimal"
                               onChange={[Function]}
                               type="text"
-                              value="0"
+                              value="100"
                             />
                           </Input>
                           <InputGroupAddon
@@ -320,7 +320,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                           onChange={[Function]}
                           step="0.1"
                           type="range"
-                          value="0"
+                          value="100"
                         >
                           <input
                             className="custom-range"
@@ -329,7 +329,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                             onChange={[Function]}
                             step="0.1"
                             type="range"
-                            value="0"
+                            value="100"
                           />
                         </CustomInput>
                         <span
@@ -969,7 +969,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                         <Connect(AddressDropdown)
                           formState={
                             Object {
-                              "amountPercentage": "0",
+                              "amountPercentage": "100",
                               "receiveAddress": undefined,
                               "receiveLabel": undefined,
                             }
@@ -981,7 +981,7 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                             dispatch={[Function]}
                             formState={
                               Object {
-                                "amountPercentage": "0",
+                                "amountPercentage": "100",
                                 "receiveAddress": undefined,
                                 "receiveLabel": undefined,
                               }
@@ -1445,6 +1445,25 @@ exports[`RemoveLiquidity component should check for snapshot 1`] = `
                       <div
                         className="d-flex justify-content-end col"
                       >
+                        <ViewOnChain
+                          txid=""
+                        >
+                          <Button
+                            className="mr-3"
+                            color="link"
+                            onClick={[Function]}
+                            tag="button"
+                          >
+                            <button
+                              aria-label={null}
+                              className="mr-3 btn btn-link"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              View on chain
+                            </button>
+                          </Button>
+                        </ViewOnChain>
                         <Button
                           color="primary"
                           tag={

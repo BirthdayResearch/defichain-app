@@ -4,6 +4,7 @@ import reducer, {
   fetchDataForQuerySuccess,
   fetchDataForQueryFailure,
   resetDataForQuery,
+  storeCliLog,
 } from '../reducer';
 import { handleDataForQuery } from './testData.json';
 
@@ -50,6 +51,13 @@ describe('cli slice', () => {
       expect(rootState.cli.result).toEqual({});
       expect(rootState.cli.isLoading).toBeFalsy();
       expect(rootState.cli.isError).toBe('');
+    });
+
+    it('should be store cliLog', () => {
+      const payload = {};
+      const nextState = reducer(initialState, storeCliLog(payload));
+      const rootState = { cli: nextState };
+      expect(rootState.cli.cliLog).toEqual(payload);
     });
   });
 });

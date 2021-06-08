@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
+import { call, put, takeLatest, select, all, delay } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
   fetchTokensSuccess,
@@ -11,7 +11,6 @@ import {
   fetchWalletTxnsSuccess,
   fetchWalletTxnsFailure,
   addReceiveTxnsRequest,
-  addReceiveTxnsSuccess,
   addReceiveTxnsFailure,
   fetchSendDataFailure,
   fetchSendDataRequest,
@@ -20,7 +19,6 @@ import {
   fetchWalletBalanceSuccess,
   fetchWalletBalanceFailure,
   removeReceiveTxnsRequest,
-  removeReceiveTxnsSuccess,
   removeReceiveTxnsFailure,
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
@@ -51,18 +49,31 @@ import {
   accountHistoryCountRequest,
   accountHistoryCountSuccess,
   accountHistoryCountFailure,
+  fetchWalletReset,
+  fetchWalletMapRequest,
+  fetchWalletMapSuccess,
+  fetchWalletMapFailure,
+  startRestoreWalletViaBackup,
+  restoreWalletViaBackupFailure,
+  startRestoreWalletViaRecent,
+  startBackupWalletViaExitModal,
+  setWalletEncryptedRequest,
+  setWalletEncrypted,
+  startBackupWalletViaPostEncryptModal,
+  createWalletStart,
+  getSPVBalance,
+  setSPVBalance,
+  getNewSPVAddress,
 } from './reducer';
 import {
   handleFetchTokens,
-  handleGetPaymentRequest,
-  handelAddReceiveTxns,
+  handleAddReceiveTxns,
   handelFetchWalletTxns,
   handleSendData,
   handleFetchWalletBalance,
-  handelRemoveReceiveTxns,
+  handleRemoveReceiveTxns,
   handleFetchPendingBalance,
   handleBlockData,
-  getAddressInfo,
   getBlockChainInfo,
   handleFetchAccounts,
   setHdSeed,
@@ -70,6 +81,10 @@ import {
   getListAccountHistory,
   handleRestartCriteria,
   handleFetchAccountHistoryCount,
+  startRestoreViaBackup,
+  startRestoreViaRecent,
+  startBackupViaExitModal,
+  createNewWallet,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
@@ -81,28 +96,49 @@ import {
   getNetworkType,
   hdWalletCheck,
   isValidMnemonic,
-  isWalletCreated,
 } from '../../utils/utility';
 import { paginate, queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
 import {
   AMOUNT_SEPARATOR,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
-  MAIN,
   MAX_WALLET_TXN_PAGE_SIZE,
   WALLET_TOKENS_PATH,
 } from '../../constants';
-import PersistentStore from '../../utils/persistentStore';
 import {
   createMnemonicIpcRenderer,
   enableMenuResetWalletBtn,
 } from '../../app/update.ipcRenderer';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
+import { restartNodeSync } from '../../utils/isElectron';
+import { shutDownBinary } from '../../worker/queue';
+import { history } from '../../utils/history';
+import {
+  checkWalletEncryption,
+  getWalletMap,
+  setPaymentAddresses,
+} from '../../app/service';
+import {
+  encryptWalletSuccess,
+  openEncryptWalletModal,
+  openExitWalletModal,
+  openRestoreWalletModal,
+  startResetWalletDatRequest,
+} from '../PopOver/reducer';
+import { openPostEncryptBackupModal } from '../PopOver/reducer';
+import { setDefaultLockTimeout } from '../SettingsPage/reducer';
+import { WalletMap } from '@defi_types/walletMap';
+import { TimeoutLockEnum } from '../SettingsPage/types';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import {
+  getSPVAddress,
+  getSPVBalanceRPC,
+  handleNewSPVAddress,
+  setSPVPaymentAddresses,
+} from './spvService';
+import { RootState } from '../../app/rootTypes';
 import { uid } from 'uid';
 
 export function* getNetwork() {
@@ -112,7 +148,7 @@ export function* getNetwork() {
   return chain;
 }
 
-function fetchWalletBalance() {
+export function fetchWalletBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.walletBalanceFailure'), err.message);
@@ -125,7 +161,7 @@ function fetchWalletBalance() {
   queuePush(handleFetchWalletBalance, [], callBack);
 }
 
-function fetchPendingBalance() {
+export function fetchPendingBalance() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.pendingBalanceFailure'), err.message);
@@ -143,7 +179,7 @@ function* getPaymentRequestState() {
   return cloneDeep(paymentRequests);
 }
 
-export async function addHdSeedCheck(list) {
+export async function addHdSeedCheck(list): Promise<PaymentRequestModel[]> {
   const result = list.map(async (data) => {
     return {
       ...data,
@@ -151,20 +187,18 @@ export async function addHdSeedCheck(list) {
     };
   });
   const resolvedData = await Promise.all(result);
-  return resolvedData;
+  return resolvedData as PaymentRequestModel[];
 }
 
 export function* addReceiveTxns(action: any) {
   try {
     const cloneDeepPaymentRequests = yield call(getPaymentRequestState);
 
-    const networkName = yield call(getNetwork);
-
-    yield call(handelAddReceiveTxns, action.payload, networkName);
+    yield call(handleAddReceiveTxns, action.payload);
 
     cloneDeepPaymentRequests.push(action.payload);
 
-    yield put(addReceiveTxnsSuccess(cloneDeepPaymentRequests));
+    yield put(fetchPaymentRequestsSuccess(cloneDeepPaymentRequests));
   } catch (e) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
@@ -178,13 +212,13 @@ export function* removeReceiveTxns(action: any) {
 
     const networkName = yield call(getNetwork);
 
-    yield call(handelRemoveReceiveTxns, action.payload, networkName);
+    yield call(handleRemoveReceiveTxns, action.payload);
 
     const result = cloneDeepPaymentRequests.filter(
       (ele) => ele.id && ele.id.toString() !== action.payload.toString()
     );
 
-    yield put(removeReceiveTxnsSuccess(result));
+    yield put(fetchPaymentRequestsSuccess(result));
   } catch (e) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
     yield put(removeReceiveTxnsFailure(e.message));
@@ -194,22 +228,11 @@ export function* removeReceiveTxns(action: any) {
 
 export function* fetchPayments() {
   try {
-    const networkName = yield call(getNetwork);
-    const data = yield call(handleGetPaymentRequest, networkName);
-    const list = yield all(
-      data.map((item) => {
-        item.id = item.id ?? uid();
-        return call(getAddressInfo, item.address);
-      })
-    );
-    const result = data.filter((item) => {
-      const found = list.find(
-        (ele) => ele.address === item.address && ele.ismine && !ele.iswatchonly
-      );
-      return !isEmpty(found);
-    });
-    const finalResult = yield call(addHdSeedCheck, result);
-    yield put(fetchPaymentRequestsSuccess(finalResult));
+    const { wallet } = store.getState();
+    if (wallet.paymentRequests == null || wallet.paymentRequests.length === 0) {
+      yield call(setPaymentAddresses);
+    }
+    yield call(setSPVPaymentAddresses);
   } catch (e) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
@@ -217,7 +240,7 @@ export function* fetchPayments() {
   }
 }
 
-function* fetchWalletTxns(action) {
+export function* fetchWalletTxns(action) {
   const { currentPage: pageNo, pageSize, intialLoad } = action.payload;
   const { totalFetchedTxns, walletTxnCount, walletPageCounter } = yield select(
     (state) => state.wallet
@@ -266,7 +289,7 @@ function* fetchWalletTxns(action) {
   }
 }
 
-function fetchSendData() {
+export function fetchSendData() {
   const callBack = (err, result) => {
     if (err) {
       showNotification(I18n.t('alerts.sendDataFailure'), err.message);
@@ -285,6 +308,17 @@ function fetchSendData() {
   queuePush(handleSendData, [], callBack);
 }
 
+//* If wallet is existing on conf, set wallet loaded
+export function* setWalletExistingIfInConf(conf: any) {
+  const network = getNetworkType();
+  const isWalletCreatedConf =
+    conf != null &&
+    conf[network] != null &&
+    conf[network]?.wallet != null &&
+    conf[network]?.walletdir != null;
+  store.dispatch(setIsWalletCreatedRequest(isWalletCreatedConf));
+}
+
 export function* fetchChainInfo() {
   let result;
   try {
@@ -295,8 +329,10 @@ export function* fetchChainInfo() {
     result = {};
   }
   yield put(setBlockChainInfo(result));
-  const isWalletCreatedVal = isWalletCreated(result.chain);
-  yield put(setIsWalletCreatedRequest(isWalletCreatedVal));
+  const { app } = store.getState();
+  yield call(setWalletExistingIfInConf, app.rpcConfig);
+  const { wallet } = store.getState();
+  yield put(setWalletEncryptedRequest(wallet.isWalletCreatedFlag));
 }
 
 export function* fetchTokens() {
@@ -351,20 +387,20 @@ export function* fetchAccountTokens() {
 export function* createWallet(action) {
   try {
     const {
-      payload: { mnemonicCode, history },
+      payload: { mnemonicCode },
     } = action;
-
     const networkType = getNetworkType();
     const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
-
+    const hdSeed = yield call(
+      createMnemonicIpcRenderer,
+      mnemonicCode,
+      network,
+      networkType
+    );
     yield call(setHdSeed, hdSeed);
     yield put({ type: createWalletSuccess.type });
-    PersistentStore.set(isWalletCreated, true);
     yield put(setIsWalletCreatedRequest(true));
+    yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
   } catch (e) {
     log.error(e.message);
@@ -375,7 +411,7 @@ export function* createWallet(action) {
 export function* restoreWallet(action) {
   try {
     const {
-      payload: { mnemonicObj, history },
+      payload: { mnemonicObj },
     } = action;
 
     const mnemonicCode = getMnemonicFromObj(mnemonicObj);
@@ -386,21 +422,144 @@ export function* restoreWallet(action) {
 
     const networkType = getNetworkType();
     const network = getNetworkInfo(networkType);
-    const isWalletCreated =
-      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
 
-    const hdSeed = yield call(createMnemonicIpcRenderer, mnemonicCode, network);
+    const hdSeed = yield call(
+      createMnemonicIpcRenderer,
+      mnemonicCode,
+      network,
+      networkType
+    );
 
     yield call(setHdSeed, hdSeed);
     yield call(importPrivKey, hdSeed);
-    yield put({ type: restoreWalletSuccess.type });
-    PersistentStore.set(isWalletCreated, true);
-    yield put(setIsWalletCreatedRequest(true));
-    yield call(enableMenuResetWalletBtn, true);
-    history.push(WALLET_TOKENS_PATH);
+    yield call(restoreWalletStep);
+    yield call(() => {
+      history.push(WALLET_TOKENS_PATH);
+    });
   } catch (e) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
+  }
+}
+
+export function* restoreWalletStep() {
+  yield call(enableMenuResetWalletBtn, true);
+  yield call(shutDownBinary);
+  yield call(fetchWalletReset);
+  yield call(restartNodeSync);
+  yield call(fetchAccountTokensRequest);
+  yield call(fetchInstantBalanceRequest);
+  yield call(fetchInstantPendingBalanceRequest);
+  yield call(fetchPaymentRequest);
+  yield put({ type: restoreWalletSuccess.type });
+  yield put(setIsWalletCreatedRequest(true));
+}
+
+export function* restoreWalletViaBackup() {
+  try {
+    log.info(`Starting restore via backup...`, 'restoreWalletViaBackup');
+    const networkType = getNetworkType();
+    const resp = yield call(startRestoreViaBackup, networkType);
+    if (resp?.success) {
+      yield call(restoreWalletStep);
+      log.info(`Restore via backup successful`, 'restoreWalletViaBackup');
+    } else {
+      yield put({
+        type: restoreWalletViaBackupFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    log.error(e.message, 'restoreWalletViaBackup');
+    yield put({
+      type: restoreWalletViaBackupFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
+export function* restoreWalletViaRecent(action: any) {
+  try {
+    log.info(`Starting restore via recent...`, 'restoreWalletViaRecent');
+    const networkType = getNetworkType();
+    yield put(openRestoreWalletModal({ isOpen: false, filePath: null }));
+    yield delay(2000);
+    const resp = yield call(startRestoreViaRecent, action.payload, networkType);
+    if (resp?.success) {
+      yield call(restoreWalletStep);
+      log.info(`Restore via recent successful`, 'restoreWalletViaRecent');
+    } else {
+      yield put({
+        type: restoreWalletViaBackupFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    log.error(e.message, 'restoreWalletViaRecent');
+    yield put({
+      type: restoreWalletViaBackupFailure.type,
+      payload: getErrorMessage(e),
+    });
+  }
+}
+
+export function* handleCreateWalletStart(action: any) {
+  try {
+    log.info(`Starting create wallet...`, 'handleCreateWalletStart');
+    const { passphrase } = action.payload;
+    const networkType = getNetworkType();
+    const resp = yield call(createNewWallet, passphrase, networkType);
+    if (resp?.success) {
+      yield call(shutDownBinary);
+      yield call(restartNodeSync);
+      yield put(setIsWalletCreatedRequest(true));
+      yield call(enableMenuResetWalletBtn, true);
+      yield put(encryptWalletSuccess());
+      yield put(setWalletEncrypted(true));
+      yield put(createWalletSuccess());
+      history.push(WALLET_TOKENS_PATH);
+      log.info(`Create wallet successful`, 'handleCreateWalletStart');
+    } else {
+      yield put({
+        type: createWalletFailure.type,
+        payload: resp?.message,
+      });
+    }
+  } catch (e) {
+    yield put(createWalletFailure(e.message));
+    log.error(e.message, 'handleCreateWalletStart');
+  }
+}
+
+export function* backupWalletViaExitModal() {
+  try {
+    log.info(`Starting backup via exit modal...`, 'backupWalletViaExitModal');
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openExitWalletModal(false));
+      yield put(startResetWalletDatRequest());
+      log.info(`Exit wallet successful`, 'backupWalletViaExitModal');
+    } else {
+      yield put(openExitWalletModal(false));
+    }
+  } catch (e) {
+    yield put(openExitWalletModal(false));
+    log.error(e.message, 'backupWalletViaExitModal');
+  }
+}
+
+export function* backupWalletViaPostEncryptModal() {
+  try {
+    log.info(
+      `Starting backup via post encrypt modal...`,
+      'backupWalletViaPostEncryptModal'
+    );
+    const resp = yield call(startBackupViaExitModal);
+    if (resp?.success) {
+      yield put(openPostEncryptBackupModal(false));
+    }
+  } catch (e) {
+    log.error(e.message, 'backupWalletViaPostEncryptModal');
   }
 }
 
@@ -424,28 +583,54 @@ export function* fetchInstantPendingBalance() {
   }
 }
 
-function* fetchWalletTokenTransactionsList(action) {
+export function* fetchWalletTokenTransactionsList(action) {
   try {
     const {
       symbol,
       limit,
       includeRewards,
+      pageNum,
       minBlockHeight,
       cancelToken,
     } = action.payload;
+
+    let blockHeight = minBlockHeight;
+    const tempData = {};
+    const { maxBlockData } = yield select((state) => state.wallet);
+    const currentData = maxBlockData[symbol];
+
+    if (pageNum === 1) {
+      tempData[symbol] = [];
+    } else if (
+      currentData.length > 0 &&
+      pageNum < currentData[currentData.length - 1].page
+    ) {
+      blockHeight = currentData[currentData.length - 2]?.maxBlockHeight;
+      tempData[symbol] = currentData.filter(
+        (val, index) => index < currentData.length - 1
+      );
+    } else {
+      const currentBlockData = {
+        page: pageNum,
+        token: symbol,
+        maxBlockHeight: minBlockHeight,
+      };
+      tempData[symbol] = [...currentData, currentBlockData];
+    }
 
     const data: any[] = yield call(getListAccountHistory, {
       limit,
       token: symbol,
       no_rewards: !includeRewards,
       cancelToken: cancelToken,
-      blockHeight: minBlockHeight,
+      blockHeight,
     });
 
     const minHeightData = data.length ? minBy(data, 'blockHeight') : -1;
     const minBlockHeightData = minHeightData.blockHeight - 1;
 
     const parsedData = data.map((d) => {
+      const amounts = Array.isArray(d.amounts) ? d.amounts : [d.amounts];
       return {
         owner: d.owner,
         blockHeight: d.blockHeight,
@@ -454,7 +639,7 @@ function* fetchWalletTokenTransactionsList(action) {
         type: d.type,
         txn: d.txn,
         txid: d.txid,
-        amountData: d.amounts.map((amount) => {
+        amountData: amounts.map((amount) => {
           return {
             unit: amount.split(AMOUNT_SEPARATOR)[1],
             amount: amount.split(AMOUNT_SEPARATOR)[0],
@@ -467,6 +652,7 @@ function* fetchWalletTokenTransactionsList(action) {
       fetchWalletTokenTransactionsListRequestSuccess({
         data: orderBy(parsedData, 'blockHeight', 'desc'),
         minBlockHeight: minBlockHeightData,
+        maxBlockData: tempData,
       })
     );
   } catch (err) {
@@ -475,7 +661,7 @@ function* fetchWalletTokenTransactionsList(action) {
   }
 }
 
-function* getBlockData(item) {
+export function* getBlockData(item) {
   const blockData = yield call(handleBlockData, item.blockHeight);
   return {
     ...item,
@@ -483,7 +669,7 @@ function* getBlockData(item) {
   };
 }
 
-function* fetchBlockDataForTrx(action) {
+export function* fetchBlockDataForTrx(action) {
   try {
     const trxArray: any[] = action.payload;
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
@@ -494,7 +680,7 @@ function* fetchBlockDataForTrx(action) {
   }
 }
 
-function* checkRestartCriteria() {
+export function* checkRestartCriteria() {
   try {
     const restartCriteria = yield call(handleRestartCriteria);
     yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
@@ -502,6 +688,72 @@ function* checkRestartCriteria() {
     log.error(err, 'checkRestartCriteria');
     yield put(checkRestartCriteriaRequestFailure(err.message));
   }
+}
+
+export function* fetchWalletMap() {
+  try {
+    const walletMap: WalletMap = yield call(getWalletMap);
+    if (walletMap) {
+      yield put(fetchWalletMapSuccess(walletMap));
+      yield put(
+        setDefaultLockTimeout(
+          walletMap.lockTimeout || TimeoutLockEnum.FIVE_MINUTES
+        )
+      );
+    }
+  } catch (err) {
+    log.error(err, 'fetchWalletMap');
+    yield put(fetchWalletMapFailure(err?.message));
+  }
+}
+
+export function* startWalletEncryptionCheck(action) {
+  try {
+    const isWalletCreatedFlag = action.payload;
+    const isEncrypted = yield call(checkWalletEncryption);
+    yield put(setWalletEncrypted(isEncrypted));
+    if (!isEncrypted && isWalletCreatedFlag) {
+      yield put(openEncryptWalletModal());
+    }
+  } catch (error) {
+    log.error(error, 'startWalletEncryptionCheck');
+  }
+}
+
+export function* handleGetSPVBalance() {
+  try {
+    const balance = yield call(getSPVBalanceRPC);
+    yield put(setSPVBalance(balance));
+  } catch (error) {
+    yield put(setSPVBalance(0));
+    log.error(error, 'handleGetSPVBalance');
+  }
+}
+
+export function* handleGetSPVAddress() {
+  try {
+    const { spvPaymentRequests } = yield select(
+      (state: RootState) => state.wallet
+    );
+    const newAddress = yield call(getSPVAddress);
+    const addresses = cloneDeep(spvPaymentRequests);
+    const data: PaymentRequestModel = {
+      id: uid(),
+      time: new Date().toString(),
+      address: newAddress,
+      ismine: true,
+      label: '',
+    };
+    yield call(handleNewSPVAddress, data, addresses);
+  } catch (e) {
+    showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
+    yield put(addReceiveTxnsFailure(e.message));
+    log.error(e);
+  }
+}
+
+export function* delayCall() {
+  yield delay(1000);
 }
 
 function* mySaga() {
@@ -534,6 +786,21 @@ function* mySaga() {
     fetchBlockDataForTrxRequestLoading.type,
     fetchBlockDataForTrx
   );
+  yield takeLatest(fetchWalletMapRequest.type, fetchWalletMap);
+  yield takeLatest(startRestoreWalletViaBackup.type, restoreWalletViaBackup);
+  yield takeLatest(startRestoreWalletViaRecent.type, restoreWalletViaRecent);
+  yield takeLatest(
+    startBackupWalletViaExitModal.type,
+    backupWalletViaExitModal
+  );
+  yield takeLatest(setWalletEncryptedRequest.type, startWalletEncryptionCheck);
+  yield takeLatest(
+    startBackupWalletViaPostEncryptModal.type,
+    backupWalletViaPostEncryptModal
+  );
+  yield takeLatest(createWalletStart.type, handleCreateWalletStart);
+  yield takeLatest(getSPVBalance.type, handleGetSPVBalance);
+  yield takeLatest(getNewSPVAddress.type, handleGetSPVAddress);
 }
 
 export default mySaga;

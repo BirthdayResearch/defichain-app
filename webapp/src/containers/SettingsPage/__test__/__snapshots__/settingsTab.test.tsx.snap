@@ -318,6 +318,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                       aria-haspopup={true}
                                       caret={true}
                                       color="outline-secondary"
+                                      disabled={false}
                                     >
                                       <Reference>
                                         <InnerReference
@@ -328,6 +329,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                             aria-haspopup={true}
                                             className="dropdown-toggle"
                                             color="outline-secondary"
+                                            disabled={false}
                                             innerRef={[Function]}
                                             onClick={[Function]}
                                             tag="button"
@@ -337,6 +339,7 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                               aria-haspopup={true}
                                               aria-label={null}
                                               className="dropdown-toggle btn btn-outline-secondary"
+                                              disabled={false}
                                               onClick={[Function]}
                                               type="button"
                                             />
@@ -359,143 +362,6 @@ exports[`SettingsTabComponent should check for snapshot 1`] = `
                                 </Manager>
                               </Dropdown>
                             </UncontrolledDropdown>
-                          </div>
-                        </Col>
-                      </div>
-                    </FormGroup>
-                  </SettingsRowDropDown>
-                </Connect(SettingsRowDropDown)>
-                <Connect(SettingsRowDropDown)
-                  data={Array []}
-                  field="DFI"
-                  fieldName="unit"
-                  handleDropDowns={[Function]}
-                  label="containers.settings.displayAmount"
-                >
-                  <SettingsRowDropDown
-                    data={Array []}
-                    dispatch={[Function]}
-                    field="DFI"
-                    fieldName="unit"
-                    handleDropDowns={[Function]}
-                    label="containers.settings.displayAmount"
-                    locale="en"
-                  >
-                    <FormGroup
-                      className="form-row align-items-center"
-                      tag="div"
-                    >
-                      <div
-                        className="form-row align-items-center form-group"
-                      >
-                        <Col
-                          md="4"
-                          tag="div"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
-                        >
-                          <div
-                            className="col-md-4"
-                          >
-                            Display amounts in unit
-                          </div>
-                        </Col>
-                        <Col
-                          md="8"
-                          tag="div"
-                          widths={
-                            Array [
-                              "xs",
-                              "sm",
-                              "md",
-                              "lg",
-                              "xl",
-                            ]
-                          }
-                        >
-                          <div
-                            className="col-md-8"
-                          >
-                            <UncontrolledDropdown>
-                              <Dropdown
-                                a11y={true}
-                                active={false}
-                                addonType={false}
-                                direction="down"
-                                inNavbar={false}
-                                isOpen={false}
-                                nav={false}
-                                setActiveFromChild={false}
-                                toggle={[Function]}
-                              >
-                                <Manager>
-                                  <div
-                                    className="dropdown"
-                                    onKeyDown={[Function]}
-                                  >
-                                    <DropdownToggle
-                                      aria-haspopup={true}
-                                      caret={true}
-                                      color="outline-secondary"
-                                    >
-                                      <Reference>
-                                        <InnerReference
-                                          setReferenceNode={[Function]}
-                                        >
-                                          <Button
-                                            aria-expanded={false}
-                                            aria-haspopup={true}
-                                            className="dropdown-toggle"
-                                            color="outline-secondary"
-                                            innerRef={[Function]}
-                                            onClick={[Function]}
-                                            tag="button"
-                                          >
-                                            <button
-                                              aria-expanded={false}
-                                              aria-haspopup={true}
-                                              aria-label={null}
-                                              className="dropdown-toggle btn btn-outline-secondary"
-                                              onClick={[Function]}
-                                              type="button"
-                                            />
-                                          </Button>
-                                        </InnerReference>
-                                      </Reference>
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      flip={true}
-                                      tag="div"
-                                    >
-                                      <div
-                                        aria-hidden={true}
-                                        className="dropdown-menu"
-                                        role="menu"
-                                        tabIndex="-1"
-                                      />
-                                    </DropdownMenu>
-                                  </div>
-                                </Manager>
-                              </Dropdown>
-                            </UncontrolledDropdown>
-                            <FormText
-                              color="muted"
-                              key="fi"
-                              tag="small"
-                            >
-                              <small
-                                className="form-text text-muted"
-                              >
-                                1 DFI = 100,000,000 fi
-                              </small>
-                            </FormText>
                           </div>
                         </Col>
                       </div>

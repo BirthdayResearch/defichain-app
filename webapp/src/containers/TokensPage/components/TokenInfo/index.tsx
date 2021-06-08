@@ -9,7 +9,6 @@ import {
   MdMoreHoriz,
   MdCheckCircle,
   MdErrorOutline,
-  MdAdd,
 } from 'react-icons/md';
 import {
   Button,
@@ -19,7 +18,6 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  ButtonGroup,
 } from 'reactstrap';
 
 import styles from '../../token.module.scss';
@@ -30,16 +28,15 @@ import {
   CONFIRM_BUTTON_TIMEOUT,
   DELETE,
   DFI_SYMBOL,
-  MINT_TOKENS_PATH,
   TOKENS_PATH,
-  TOKEN_EDIT_PATH,
   TOKEN_MINT_PATH,
 } from '../../../../constants';
 import { ITokenResponse } from '../../../../utils/interfaces';
 import TokenAvatar from '../../../../components/TokenAvatar';
-import { getIcon, getPageTitle } from '../../../../utils/utility';
+import { getCountdownValue, getPageTitle } from '../../../../utils/utility';
 import Header from '../../../HeaderComponent';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
+import { history } from '../../../../utils/history';
 
 interface RouteParams {
   id?: string;
@@ -89,7 +86,6 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     destroyTokenData,
     isErrorDestroyingToken,
     isTokenDestroying,
-    history,
   } = props;
 
   useEffect(() => {
@@ -128,12 +124,17 @@ const TokenInfo: React.FunctionComponent<TokenInfoProps> = (
     if (data === DELETE) {
       setIsConfirmationModalOpen('confirm');
     } else {
-      // history.push(`${TOKEN_EDIT_PATH}/${id}`);
       history.push(
         `${TOKEN_MINT_PATH}/${id}/${hash}/${tokenInfo.collateralAddress}`
       );
     }
   };
+
+  useEffect(() => {
+    if (!getCountdownValue()) {
+      setWait(0);
+    }
+  });
 
   return (
     <div className='main-wrapper'>

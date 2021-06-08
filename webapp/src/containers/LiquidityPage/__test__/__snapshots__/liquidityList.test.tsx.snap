@@ -36,7 +36,168 @@ exports[`LiquidityList component should check for snapshot 1`] = `
       }
     >
       <LiquidityList
-        poolshares={Array []}
+        action="POP"
+        block={[Function]}
+        canGo={[Function]}
+        createHref={[Function]}
+        entries={
+          Array [
+            Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+          ]
+        }
+        go={[Function]}
+        goBack={[Function]}
+        goForward={[Function]}
+        index={0}
+        length={1}
+        listen={[Function]}
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        poolshares={
+          Array [
+            Object {
+              "%": 0,
+              "amount": 0.58796283,
+              "apy": "28.53",
+              "blockCommissionA": 3.1e-7,
+              "blockCommissionB": 5e-8,
+              "commission": 0.002,
+              "creationHeight": 18145,
+              "creationTx": "b2bb09ffe9f9b292f13d23bafa1225ef26d0b9906da7af194c5738b63839b235",
+              "hash": "3",
+              "idTokenA": "0",
+              "idTokenB": "1",
+              "key": "3",
+              "name": "Default Defi token-",
+              "owner": "739nUiaW9SemqbaTvPr3dCRd4XyKD6GccD",
+              "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+              "poolID": "3",
+              "poolSharePercentage": 6.977844749999999,
+              "reserveA": 23502.68054771,
+              "reserveA/reserveB": 2.80035108,
+              "reserveB": 8392.76212895,
+              "reserveB/reserveA": 0.35709808,
+              "rewardPct": 0.85,
+              "status": true,
+              "symbol": "DFI-BTC",
+              "tokenA": "DFI",
+              "tokenB": "BTC",
+              "totalLiquidity": 1719.79162218,
+              "totalLiquidityInUSDT": "311997952.36457992",
+              "tradeEnabled": true,
+              "yearlyPoolReward": "109768932.00000000",
+            },
+            Object {
+              "%": 0,
+              "amount": 0.10033982,
+              "apy": "253.32",
+              "blockCommissionA": 2.2e-7,
+              "blockCommissionB": 4e-8,
+              "commission": 0.002,
+              "creationHeight": 18145,
+              "creationTx": "045c74ee64e2afce750d2dae5958a01023a0dd30105cff211b6fb715a6aa915d",
+              "hash": "4",
+              "idTokenA": "0",
+              "idTokenB": "2",
+              "key": "4",
+              "name": "Default Defi token-",
+              "owner": "74zqGjPVB5djKz9ZrP2SqA9wpsGBoj3YBL",
+              "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+              "poolID": "4",
+              "poolSharePercentage": 11.32817626,
+              "reserveA": 246182.6376474,
+              "reserveA/reserveB": 100.63736612,
+              "reserveB": 2446.23490384,
+              "reserveB/reserveA": 0.00993666,
+              "rewardPct": 0.1,
+              "status": true,
+              "symbol": "DFI-ETH",
+              "tokenA": "DFI",
+              "tokenB": "ETH",
+              "totalLiquidity": 23422.61127153,
+              "totalLiquidityInUSDT": "4133452.06501293",
+              "tradeEnabled": true,
+              "yearlyPoolReward": "12913992.00000000",
+            },
+            Object {
+              "%": 0,
+              "amount": 0.4131457,
+              "apy": "918.46",
+              "blockCommissionA": 1.1e-7,
+              "blockCommissionB": 1e-8,
+              "commission": 0.002,
+              "creationHeight": 29584,
+              "creationTx": "72fa270eddf0221113f5e29d0e9568f89e87c433c91aad50b1215f0aad60e7c3",
+              "hash": "6",
+              "idTokenA": "0",
+              "idTokenB": "5",
+              "key": "6",
+              "name": "Default Defi token-",
+              "owner": "76d85h2evzXwuePsHPhSGJSPTK1kA5n41m",
+              "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+              "poolID": "6",
+              "poolSharePercentage": 0.20037192999999998,
+              "reserveA": 193995.87607228,
+              "reserveA/reserveB": 4.80089935,
+              "reserveB": 40408.23643223,
+              "reserveB/reserveA": 0.2082943,
+              "rewardPct": 0.05,
+              "status": true,
+              "symbol": "DFI-USDT",
+              "tokenA": "DFI",
+              "tokenB": "USDT",
+              "totalLiquidity": 79409.57427086,
+              "totalLiquidityInUSDT": "570016.97810955",
+              "tradeEnabled": true,
+              "yearlyPoolReward": "6456996.00000000",
+            },
+            Object {
+              "%": 78,
+              "amount": 24.59449959,
+              "apy": 0,
+              "blockCommissionA": 0,
+              "blockCommissionB": 2e-7,
+              "commission": 0.002,
+              "creationHeight": 87550,
+              "creationTx": "c38593974982ce332819696d0f8845d7ab73b72ceac54a8a41f2d11498d448aa",
+              "hash": "9",
+              "idTokenA": "8",
+              "idTokenB": "0",
+              "key": "9",
+              "name": "Mock Test Token-Default Defi token",
+              "owner": "73dhtpEHb7y6HR75b6GRCghwNeTDpXacAT",
+              "ownerAddress": "a914562bd6af924ee2c19e39a8dc962744e29e3d5fed87",
+              "poolID": "9",
+              "poolSharePercentage": "78.54283862",
+              "reserveA": 12.73190551,
+              "reserveA/reserveB": 0.16533442,
+              "reserveB": 77.00698454,
+              "reserveB/reserveA": 6.04834716,
+              "rewardPct": 0,
+              "status": true,
+              "symbol": "MOCK-DFI",
+              "tokenA": "MOCK",
+              "tokenB": "DFI",
+              "totalLiquidity": 31.31348449,
+              "totalLiquidityInUSDT": "NaN",
+              "tradeEnabled": true,
+              "yearlyPoolReward": "0.00000000",
+            },
+          ]
+        }
+        push={[Function]}
+        replace={[Function]}
       >
         <section>
           <h2>
@@ -56,7 +217,2688 @@ exports[`LiquidityList component should check for snapshot 1`] = `
           >
             <div
               className="row"
-            />
+            >
+              <Col
+                key="0"
+                md="6"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="col-md-6"
+                >
+                  <LiquidityAccordion
+                    poolpair={
+                      Object {
+                        "%": 0,
+                        "amount": 0.58796283,
+                        "apy": "28.53",
+                        "blockCommissionA": 3.1e-7,
+                        "blockCommissionB": 5e-8,
+                        "commission": 0.002,
+                        "creationHeight": 18145,
+                        "creationTx": "b2bb09ffe9f9b292f13d23bafa1225ef26d0b9906da7af194c5738b63839b235",
+                        "hash": "3",
+                        "idTokenA": "0",
+                        "idTokenB": "1",
+                        "key": "3",
+                        "name": "Default Defi token-",
+                        "owner": "739nUiaW9SemqbaTvPr3dCRd4XyKD6GccD",
+                        "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                        "poolID": "3",
+                        "poolSharePercentage": 6.977844749999999,
+                        "reserveA": 23502.68054771,
+                        "reserveA/reserveB": 2.80035108,
+                        "reserveB": 8392.76212895,
+                        "reserveB/reserveA": 0.35709808,
+                        "rewardPct": 0.85,
+                        "status": true,
+                        "symbol": "DFI-BTC",
+                        "tokenA": "DFI",
+                        "tokenB": "BTC",
+                        "totalLiquidity": 1719.79162218,
+                        "totalLiquidityInUSDT": "311997952.36457992",
+                        "tradeEnabled": true,
+                        "yearlyPoolReward": "109768932.00000000",
+                      }
+                    }
+                  >
+                    <div>
+                      <Card
+                        className="undefined mb-4"
+                        onClick={[Function]}
+                        tag="div"
+                      >
+                        <div
+                          className="undefined mb-4 card"
+                          onClick={[Function]}
+                        >
+                          <CardBody
+                            tag="div"
+                          >
+                            <div
+                              className="card-body"
+                            >
+                              <Row
+                                className="align-items-center"
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="align-items-center row"
+                                >
+                                  <Col
+                                    md={2}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-2"
+                                    >
+                                      <PairIcon
+                                        poolpair={
+                                          Object {
+                                            "%": 0,
+                                            "amount": 0.58796283,
+                                            "apy": "28.53",
+                                            "blockCommissionA": 3.1e-7,
+                                            "blockCommissionB": 5e-8,
+                                            "commission": 0.002,
+                                            "creationHeight": 18145,
+                                            "creationTx": "b2bb09ffe9f9b292f13d23bafa1225ef26d0b9906da7af194c5738b63839b235",
+                                            "hash": "3",
+                                            "idTokenA": "0",
+                                            "idTokenB": "1",
+                                            "key": "3",
+                                            "name": "Default Defi token-",
+                                            "owner": "739nUiaW9SemqbaTvPr3dCRd4XyKD6GccD",
+                                            "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                                            "poolID": "3",
+                                            "poolSharePercentage": 6.977844749999999,
+                                            "reserveA": 23502.68054771,
+                                            "reserveA/reserveB": 2.80035108,
+                                            "reserveB": 8392.76212895,
+                                            "reserveB/reserveA": 0.35709808,
+                                            "rewardPct": 0.85,
+                                            "status": true,
+                                            "symbol": "DFI-BTC",
+                                            "tokenA": "DFI",
+                                            "tokenB": "BTC",
+                                            "totalLiquidity": 1719.79162218,
+                                            "totalLiquidityInUSDT": "311997952.36457992",
+                                            "tradeEnabled": true,
+                                            "yearlyPoolReward": "109768932.00000000",
+                                          }
+                                        }
+                                      >
+                                        <div>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="BTC"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="BTC"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="BTC"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="BTC"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="DFI"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="DFI"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="DFI"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="DFI"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                        </div>
+                                      </PairIcon>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-5"
+                                    >
+                                      <span>
+                                        DFI-BTC
+                                      </span>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    className="text-right"
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="text-right col-md-5"
+                                    />
+                                  </Col>
+                                </div>
+                              </Row>
+                              <br />
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      APY
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      28.53%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      DFI
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="1639.98056071"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="1639.98056071"
+                                        >
+                                          <span>
+                                            1,639.98056071
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      BTC
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="585.63391159"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="585.63391159"
+                                        >
+                                          <span>
+                                            585.63391159
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pool share
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      6.97784475%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                            </div>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    </div>
+                  </LiquidityAccordion>
+                </div>
+              </Col>
+              <Col
+                key="1"
+                md="6"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="col-md-6"
+                >
+                  <LiquidityAccordion
+                    poolpair={
+                      Object {
+                        "%": 0,
+                        "amount": 0.10033982,
+                        "apy": "253.32",
+                        "blockCommissionA": 2.2e-7,
+                        "blockCommissionB": 4e-8,
+                        "commission": 0.002,
+                        "creationHeight": 18145,
+                        "creationTx": "045c74ee64e2afce750d2dae5958a01023a0dd30105cff211b6fb715a6aa915d",
+                        "hash": "4",
+                        "idTokenA": "0",
+                        "idTokenB": "2",
+                        "key": "4",
+                        "name": "Default Defi token-",
+                        "owner": "74zqGjPVB5djKz9ZrP2SqA9wpsGBoj3YBL",
+                        "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                        "poolID": "4",
+                        "poolSharePercentage": 11.32817626,
+                        "reserveA": 246182.6376474,
+                        "reserveA/reserveB": 100.63736612,
+                        "reserveB": 2446.23490384,
+                        "reserveB/reserveA": 0.00993666,
+                        "rewardPct": 0.1,
+                        "status": true,
+                        "symbol": "DFI-ETH",
+                        "tokenA": "DFI",
+                        "tokenB": "ETH",
+                        "totalLiquidity": 23422.61127153,
+                        "totalLiquidityInUSDT": "4133452.06501293",
+                        "tradeEnabled": true,
+                        "yearlyPoolReward": "12913992.00000000",
+                      }
+                    }
+                  >
+                    <div>
+                      <Card
+                        className="undefined mb-4"
+                        onClick={[Function]}
+                        tag="div"
+                      >
+                        <div
+                          className="undefined mb-4 card"
+                          onClick={[Function]}
+                        >
+                          <CardBody
+                            tag="div"
+                          >
+                            <div
+                              className="card-body"
+                            >
+                              <Row
+                                className="align-items-center"
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="align-items-center row"
+                                >
+                                  <Col
+                                    md={2}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-2"
+                                    >
+                                      <PairIcon
+                                        poolpair={
+                                          Object {
+                                            "%": 0,
+                                            "amount": 0.10033982,
+                                            "apy": "253.32",
+                                            "blockCommissionA": 2.2e-7,
+                                            "blockCommissionB": 4e-8,
+                                            "commission": 0.002,
+                                            "creationHeight": 18145,
+                                            "creationTx": "045c74ee64e2afce750d2dae5958a01023a0dd30105cff211b6fb715a6aa915d",
+                                            "hash": "4",
+                                            "idTokenA": "0",
+                                            "idTokenB": "2",
+                                            "key": "4",
+                                            "name": "Default Defi token-",
+                                            "owner": "74zqGjPVB5djKz9ZrP2SqA9wpsGBoj3YBL",
+                                            "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                                            "poolID": "4",
+                                            "poolSharePercentage": 11.32817626,
+                                            "reserveA": 246182.6376474,
+                                            "reserveA/reserveB": 100.63736612,
+                                            "reserveB": 2446.23490384,
+                                            "reserveB/reserveA": 0.00993666,
+                                            "rewardPct": 0.1,
+                                            "status": true,
+                                            "symbol": "DFI-ETH",
+                                            "tokenA": "DFI",
+                                            "tokenB": "ETH",
+                                            "totalLiquidity": 23422.61127153,
+                                            "totalLiquidityInUSDT": "4133452.06501293",
+                                            "tradeEnabled": true,
+                                            "yearlyPoolReward": "12913992.00000000",
+                                          }
+                                        }
+                                      >
+                                        <div>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="ETH"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="ETH"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="ETH"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="ETH"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="DFI"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="DFI"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="DFI"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="DFI"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                        </div>
+                                      </PairIcon>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-5"
+                                    >
+                                      <span>
+                                        DFI-ETH
+                                      </span>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    className="text-right"
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="text-right col-md-5"
+                                    />
+                                  </Col>
+                                </div>
+                              </Row>
+                              <br />
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      APY
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      253.32%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      DFI
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="27888.00311421"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="27888.00311421"
+                                        >
+                                          <span>
+                                            27,888.00311421
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      ETH
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="277.11380164"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="277.11380164"
+                                        >
+                                          <span>
+                                            277.11380164
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pool share
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      11.32817626%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                            </div>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    </div>
+                  </LiquidityAccordion>
+                </div>
+              </Col>
+              <Col
+                key="2"
+                md="6"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="col-md-6"
+                >
+                  <LiquidityAccordion
+                    poolpair={
+                      Object {
+                        "%": 0,
+                        "amount": 0.4131457,
+                        "apy": "918.46",
+                        "blockCommissionA": 1.1e-7,
+                        "blockCommissionB": 1e-8,
+                        "commission": 0.002,
+                        "creationHeight": 29584,
+                        "creationTx": "72fa270eddf0221113f5e29d0e9568f89e87c433c91aad50b1215f0aad60e7c3",
+                        "hash": "6",
+                        "idTokenA": "0",
+                        "idTokenB": "5",
+                        "key": "6",
+                        "name": "Default Defi token-",
+                        "owner": "76d85h2evzXwuePsHPhSGJSPTK1kA5n41m",
+                        "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                        "poolID": "6",
+                        "poolSharePercentage": 0.20037192999999998,
+                        "reserveA": 193995.87607228,
+                        "reserveA/reserveB": 4.80089935,
+                        "reserveB": 40408.23643223,
+                        "reserveB/reserveA": 0.2082943,
+                        "rewardPct": 0.05,
+                        "status": true,
+                        "symbol": "DFI-USDT",
+                        "tokenA": "DFI",
+                        "tokenB": "USDT",
+                        "totalLiquidity": 79409.57427086,
+                        "totalLiquidityInUSDT": "570016.97810955",
+                        "tradeEnabled": true,
+                        "yearlyPoolReward": "6456996.00000000",
+                      }
+                    }
+                  >
+                    <div>
+                      <Card
+                        className="undefined mb-4"
+                        onClick={[Function]}
+                        tag="div"
+                      >
+                        <div
+                          className="undefined mb-4 card"
+                          onClick={[Function]}
+                        >
+                          <CardBody
+                            tag="div"
+                          >
+                            <div
+                              className="card-body"
+                            >
+                              <Row
+                                className="align-items-center"
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="align-items-center row"
+                                >
+                                  <Col
+                                    md={2}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-2"
+                                    >
+                                      <PairIcon
+                                        poolpair={
+                                          Object {
+                                            "%": 0,
+                                            "amount": 0.4131457,
+                                            "apy": "918.46",
+                                            "blockCommissionA": 1.1e-7,
+                                            "blockCommissionB": 1e-8,
+                                            "commission": 0.002,
+                                            "creationHeight": 29584,
+                                            "creationTx": "72fa270eddf0221113f5e29d0e9568f89e87c433c91aad50b1215f0aad60e7c3",
+                                            "hash": "6",
+                                            "idTokenA": "0",
+                                            "idTokenB": "5",
+                                            "key": "6",
+                                            "name": "Default Defi token-",
+                                            "owner": "76d85h2evzXwuePsHPhSGJSPTK1kA5n41m",
+                                            "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+                                            "poolID": "6",
+                                            "poolSharePercentage": 0.20037192999999998,
+                                            "reserveA": 193995.87607228,
+                                            "reserveA/reserveB": 4.80089935,
+                                            "reserveB": 40408.23643223,
+                                            "reserveB/reserveA": 0.2082943,
+                                            "rewardPct": 0.05,
+                                            "status": true,
+                                            "symbol": "DFI-USDT",
+                                            "tokenA": "DFI",
+                                            "tokenB": "USDT",
+                                            "totalLiquidity": 79409.57427086,
+                                            "totalLiquidityInUSDT": "570016.97810955",
+                                            "tradeEnabled": true,
+                                            "yearlyPoolReward": "6456996.00000000",
+                                          }
+                                        }
+                                      >
+                                        <div>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="USDT"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="USDT"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="USDT"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="USDT"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="DFI"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="DFI"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="DFI"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="DFI"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                        </div>
+                                      </PairIcon>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-5"
+                                    >
+                                      <span>
+                                        DFI-USDT
+                                      </span>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    className="text-right"
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="text-right col-md-5"
+                                    />
+                                  </Col>
+                                </div>
+                              </Row>
+                              <br />
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      APY
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      918.46%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      DFI
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="388.71328101"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="388.71328101"
+                                        >
+                                          <span>
+                                            388.71328101
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      USDT
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="80.96676322"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="80.96676322"
+                                        >
+                                          <span>
+                                            80.96676322
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pool share
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      0.20037193%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                            </div>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    </div>
+                  </LiquidityAccordion>
+                </div>
+              </Col>
+              <Col
+                key="3"
+                md="6"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="col-md-6"
+                >
+                  <LiquidityAccordion
+                    poolpair={
+                      Object {
+                        "%": 78,
+                        "amount": 24.59449959,
+                        "apy": 0,
+                        "blockCommissionA": 0,
+                        "blockCommissionB": 2e-7,
+                        "commission": 0.002,
+                        "creationHeight": 87550,
+                        "creationTx": "c38593974982ce332819696d0f8845d7ab73b72ceac54a8a41f2d11498d448aa",
+                        "hash": "9",
+                        "idTokenA": "8",
+                        "idTokenB": "0",
+                        "key": "9",
+                        "name": "Mock Test Token-Default Defi token",
+                        "owner": "73dhtpEHb7y6HR75b6GRCghwNeTDpXacAT",
+                        "ownerAddress": "a914562bd6af924ee2c19e39a8dc962744e29e3d5fed87",
+                        "poolID": "9",
+                        "poolSharePercentage": "78.54283862",
+                        "reserveA": 12.73190551,
+                        "reserveA/reserveB": 0.16533442,
+                        "reserveB": 77.00698454,
+                        "reserveB/reserveA": 6.04834716,
+                        "rewardPct": 0,
+                        "status": true,
+                        "symbol": "MOCK-DFI",
+                        "tokenA": "MOCK",
+                        "tokenB": "DFI",
+                        "totalLiquidity": 31.31348449,
+                        "totalLiquidityInUSDT": "NaN",
+                        "tradeEnabled": true,
+                        "yearlyPoolReward": "0.00000000",
+                      }
+                    }
+                  >
+                    <div>
+                      <Card
+                        className="undefined mb-4"
+                        onClick={[Function]}
+                        tag="div"
+                      >
+                        <div
+                          className="undefined mb-4 card"
+                          onClick={[Function]}
+                        >
+                          <CardBody
+                            tag="div"
+                          >
+                            <div
+                              className="card-body"
+                            >
+                              <Row
+                                className="align-items-center"
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="align-items-center row"
+                                >
+                                  <Col
+                                    md={2}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-2"
+                                    >
+                                      <PairIcon
+                                        poolpair={
+                                          Object {
+                                            "%": 78,
+                                            "amount": 24.59449959,
+                                            "apy": 0,
+                                            "blockCommissionA": 0,
+                                            "blockCommissionB": 2e-7,
+                                            "commission": 0.002,
+                                            "creationHeight": 87550,
+                                            "creationTx": "c38593974982ce332819696d0f8845d7ab73b72ceac54a8a41f2d11498d448aa",
+                                            "hash": "9",
+                                            "idTokenA": "8",
+                                            "idTokenB": "0",
+                                            "key": "9",
+                                            "name": "Mock Test Token-Default Defi token",
+                                            "owner": "73dhtpEHb7y6HR75b6GRCghwNeTDpXacAT",
+                                            "ownerAddress": "a914562bd6af924ee2c19e39a8dc962744e29e3d5fed87",
+                                            "poolID": "9",
+                                            "poolSharePercentage": "78.54283862",
+                                            "reserveA": 12.73190551,
+                                            "reserveA/reserveB": 0.16533442,
+                                            "reserveB": 77.00698454,
+                                            "reserveB/reserveA": 6.04834716,
+                                            "rewardPct": 0,
+                                            "status": true,
+                                            "symbol": "MOCK-DFI",
+                                            "tokenA": "MOCK",
+                                            "tokenB": "DFI",
+                                            "totalLiquidity": 31.31348449,
+                                            "totalLiquidityInUSDT": "NaN",
+                                            "tradeEnabled": true,
+                                            "yearlyPoolReward": "0.00000000",
+                                          }
+                                        }
+                                      >
+                                        <div>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="DFI"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="DFI"
+                                              round={true}
+                                              size="24px"
+                                              src="test-file-stub"
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="DFI"
+                                                round={true}
+                                                size="24px"
+                                                src="test-file-stub"
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="DFI"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                          <TokenAvatar
+                                            size="24px"
+                                            symbol="MOCK"
+                                          >
+                                            <ForwardRef(withAvatarConfig)
+                                              maxInitials={2}
+                                              name="MOCK"
+                                              round={true}
+                                              size="24px"
+                                              src=""
+                                              textSizeRatio={3}
+                                            >
+                                              <Avatar
+                                                avatarRedirectUrl={null}
+                                                cache={
+                                                  Cache {
+                                                    "cachePrefix": "react-avatar/",
+                                                    "sourceSize": 20,
+                                                    "sourceTTL": 604800000,
+                                                  }
+                                                }
+                                                className=""
+                                                colors={
+                                                  Array [
+                                                    "#d73d32",
+                                                    "#7e3794",
+                                                    "#4285f4",
+                                                    "#67ae3f",
+                                                    "#d61a7f",
+                                                    "#ff4080",
+                                                  ]
+                                                }
+                                                fgColor="#FFF"
+                                                initials={[Function]}
+                                                maxInitials={2}
+                                                name="MOCK"
+                                                round={true}
+                                                size="24px"
+                                                src=""
+                                                textMarginRatio={0.15}
+                                                textSizeRatio={3}
+                                                unstyled={false}
+                                              >
+                                                <div
+                                                  className=" sb-avatar"
+                                                  style={
+                                                    Object {
+                                                      "borderRadius": "100%",
+                                                      "display": "inline-block",
+                                                      "fontFamily": "Helvetica, Arial, sans-serif",
+                                                      "height": "24px",
+                                                      "verticalAlign": "middle",
+                                                      "width": "24px",
+                                                    }
+                                                  }
+                                                >
+                                                  <div
+                                                    className=" sb-avatar__text"
+                                                    style={
+                                                      Object {
+                                                        "background": undefined,
+                                                        "borderRadius": "100%",
+                                                        "color": "#FFF",
+                                                        "height": "24px",
+                                                        "lineHeight": "initial",
+                                                        "textAlign": "center",
+                                                        "width": "24px",
+                                                      }
+                                                    }
+                                                    title="MOCK"
+                                                  >
+                                                    <div
+                                                      style={
+                                                        Object {
+                                                          "display": "table",
+                                                          "height": "100%",
+                                                          "tableLayout": "fixed",
+                                                          "width": "100%",
+                                                        }
+                                                      }
+                                                    >
+                                                      <span
+                                                        style={
+                                                          Object {
+                                                            "display": "table-cell",
+                                                            "fontSize": "100%",
+                                                            "verticalAlign": "middle",
+                                                            "whiteSpace": "nowrap",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          key="24px"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Avatar>
+                                            </ForwardRef(withAvatarConfig)>
+                                          </TokenAvatar>
+                                        </div>
+                                      </PairIcon>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col-md-5"
+                                    >
+                                      <span>
+                                        MOCK-DFI
+                                      </span>
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    className="text-right"
+                                    md={5}
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="text-right col-md-5"
+                                    />
+                                  </Col>
+                                </div>
+                              </Row>
+                              <br />
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      APY
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      0%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      MOCK
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="10.00000000"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="10.00000000"
+                                        >
+                                          <span>
+                                            10.00000000
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pooled
+                                       
+                                      DFI
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      <NumberMask
+                                        value="60.48347159"
+                                      >
+                                        <NumberFormat
+                                          allowEmptyFormatting={false}
+                                          allowLeadingZeros={false}
+                                          allowNegative={true}
+                                          decimalSeparator="."
+                                          defaultValue={0}
+                                          displayType="text"
+                                          fixedDecimalScale={false}
+                                          isAllowed={[Function]}
+                                          isNumericString={true}
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onValueChange={[Function]}
+                                          prefix=""
+                                          suffix=""
+                                          thousandSeparator={true}
+                                          thousandsGroupStyle="thousand"
+                                          type="text"
+                                          value="60.48347159"
+                                        >
+                                          <span>
+                                            60.48347159
+                                          </span>
+                                        </NumberFormat>
+                                      </NumberMask>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                              <Row
+                                tag="div"
+                                widths={
+                                  Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                                }
+                              >
+                                <div
+                                  className="row"
+                                >
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      Pool share
+                                    </div>
+                                  </Col>
+                                  <Col
+                                    tag="div"
+                                    widths={
+                                      Array [
+                                        "xs",
+                                        "sm",
+                                        "md",
+                                        "lg",
+                                        "xl",
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="col"
+                                    >
+                                      78.54283862%
+                                    </div>
+                                  </Col>
+                                </div>
+                              </Row>
+                            </div>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    </div>
+                  </LiquidityAccordion>
+                </div>
+              </Col>
+            </div>
           </Row>
         </section>
       </LiquidityList>

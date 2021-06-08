@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapDropdown component should check for snapshot 1`] = `
+<UncontrolledDropdown>
+  <DropdownToggle
+    aria-haspopup={true}
+    caret={true}
+    color="outline-secondary"
+  >
+    <TokenAvatar
+      size="24px"
+      symbol="dropdownLabel"
+    />
+    <span>
+      dropdownLabel
+    </span>
+  </DropdownToggle>
+  <DropdownMenu
+    flip={true}
+    tag="div"
+  >
+    <div>
+      <SwapSearchBar
+        onChange={[Function]}
+        placeholder="Search token name or address"
+        searching=""
+      />
+    </div>
+    <div>
+      <DropdownItem
+        header={true}
+        tag="button"
+        toggle={true}
+      >
+        Popular
+      </DropdownItem>
+      <DropdownItem
+        header={true}
+        tag="button"
+        toggle={true}
+      >
+        Tokens
+      </DropdownItem>
+    </div>
+  </DropdownMenu>
+</UncontrolledDropdown>
+`;

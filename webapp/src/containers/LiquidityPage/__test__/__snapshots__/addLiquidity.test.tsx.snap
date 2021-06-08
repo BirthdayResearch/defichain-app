@@ -101,6 +101,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
               returnFocusAfterClose={true}
               role="dialog"
               scrollable={false}
+              trapFocus={false}
               unmountOnClose={true}
               zIndex={1050}
             />
@@ -111,13 +112,13 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="DEX - DeFi app"
+                title="DEX - DeFi Wallet"
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="DEX - DeFi app"
+                  title="DEX - DeFi Wallet"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>
@@ -1248,7 +1249,7 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                     className="justify-content-between align-items-center row"
                   >
                     <Col
-                      className="undefined col-auto"
+                      className="col-auto"
                       tag="div"
                       widths={
                         Array [
@@ -1261,9 +1262,9 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                       }
                     >
                       <div
-                        className="undefined col-auto col"
+                        className="col-auto col"
                       >
-                        Insufficient UTXOS to perform add liquidity
+                        Select tokens and enter amounts to swap
                       </div>
                     </Col>
                     <Col
@@ -1517,21 +1518,25 @@ exports[`AddLiquidity component should check for snapshot 1`] = `
                       <div
                         className="d-flex justify-content-end col"
                       >
-                        <Button
-                          className="mr-3"
-                          color="link"
-                          onClick={[Function]}
-                          tag="button"
+                        <ViewOnChain
+                          txid=""
                         >
-                          <button
-                            aria-label={null}
-                            className="mr-3 btn btn-link"
+                          <Button
+                            className="mr-3"
+                            color="link"
                             onClick={[Function]}
-                            type="button"
+                            tag="button"
                           >
-                            View on chain
-                          </button>
-                        </Button>
+                            <button
+                              aria-label={null}
+                              className="mr-3 btn btn-link"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              View on chain
+                            </button>
+                          </Button>
+                        </ViewOnChain>
                         <Button
                           color="primary"
                           tag={

@@ -9,7 +9,9 @@ import {
 } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
-import { SITE_URL } from '@defi_types/settings';
+import { LICENSE_URL, RELEASE_NOTES_URL, SITE_URL } from '@defi_types/settings';
+import { ON_REINDEX_REQUEST } from '@defi_types/ipcEvents';
+import { onSnapshotDataRequest } from '../controllers/snapshot';
 
 export default class AppMenu {
   getTemplate(isWalletLoaded?: boolean) {
@@ -17,14 +19,6 @@ export default class AppMenu {
       {
         label: 'Wallet',
         submenu: [
-          {
-            label: 'Import Wallet',
-            enabled: !!isWalletLoaded,
-            click(item, bw) {
-              const wallet = new Wallet();
-              wallet.load(bw);
-            },
-          },
           {
             label: 'Backup Wallet',
             enabled: !!isWalletLoaded,
@@ -34,11 +28,16 @@ export default class AppMenu {
             },
           },
           {
-            label: 'Reset Wallet',
+            label: 'Reindex Wallet',
             enabled: !!isWalletLoaded,
             click(item, bw) {
-              const wallet = new Wallet();
-              wallet.resetWallet(bw);
+              bw.webContents.send(ON_REINDEX_REQUEST);
+            },
+          },
+          {
+            label: 'Download Snapshot',
+            click(item, bw) {
+              onSnapshotDataRequest(bw);
             },
           },
         ],
@@ -189,6 +188,18 @@ export default class AppMenu {
       {
         label: `Version ${version}`,
         enabled: false,
+      },
+      {
+        label: `Release notes`,
+        click: async () => {
+          await shell.openExternal(`${RELEASE_NOTES_URL}${version}`);
+        },
+      },
+      {
+        label: `Licenses`,
+        click: async () => {
+          await shell.openExternal(`${LICENSE_URL}${version}/LICENSE`);
+        },
       },
     ];
     if (items) items.splice.apply(items, [position, 0].concat(updateItems));

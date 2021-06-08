@@ -25,7 +25,7 @@ body {
       position: relative;
       height: 112px;
       border-bottom: $border-width solid $border-color;
-      padding: 24px 32px;
+      padding: 26px 32px 24px;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -127,10 +127,19 @@ body {
       position: relative;
       z-index: $zindex-modal;
       padding: 16px 32px;
-      background-color: $body-bg;
+      background-color: $dfi-scent;
       border-top: $border-width solid $border-color;
       border-bottom-left-radius: $border-radius * 1.5;
       width: 100%;
+
+      &-back {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      &.dark-bg {
+        background-color: $dfi-scent;
+      }
     }
 
     .footer-sheet {
@@ -180,4 +189,55 @@ body {
   .txn-status-enabled {
     background-color: $green;
   }
+
+  .txn-status-disable {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.fullWidthDropdown {
+  width: 100%;
+
+  button {
+    width: 100%;
+    text-align: start;
+    display: block;
+  }
+
+  .dropdown-toggle::after {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-right: 1.5rem;
+  }
+}
+
+$cardRadius: 0.5rem;
+
+.cardTable {
+  .balanceTokenCard {
+    .card {
+      border-bottom: none;
+      border-radius: 0;
+    }
+
+    &:first-child {
+      .card {
+        border-top-left-radius: $cardRadius;
+        border-top-right-radius: $cardRadius;
+      }
+    }
+
+    &:last-child {
+      .card {
+        border-bottom: 1px solid $border-color;
+        border-bottom-left-radius: $cardRadius;
+        border-bottom-right-radius: $cardRadius;
+      }
+    }
+  }
+}
+
+.cursorPointer {
+  cursor: pointer;
 }

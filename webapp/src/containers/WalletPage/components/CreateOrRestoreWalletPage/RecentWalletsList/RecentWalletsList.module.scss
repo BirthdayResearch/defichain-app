@@ -1,0 +1,12 @@
+@import '../../../../../scss/bootstrap/common';
+
+.listGroupItem {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  grid-column-gap: 0.25rem;
+  align-items: center;
+}
+
+.path {
+  max-width: 98%;
+}

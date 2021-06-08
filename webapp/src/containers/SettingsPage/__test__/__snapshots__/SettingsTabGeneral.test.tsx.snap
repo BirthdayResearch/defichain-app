@@ -33,6 +33,7 @@ exports[`SettingsTabGeneral should check for snapshot 1`] = `
   <Connect(SettingsTabGeneral)
     blockStorage={12}
     databaseCache={12}
+    deletePeersAndBlocks={true}
     feeRate={0.1}
     handeRefreshUtxosToggle={[Function]}
     handeReindexToggle={[Function]}
@@ -46,7 +47,6 @@ exports[`SettingsTabGeneral should check for snapshot 1`] = `
     minimizedAtLaunch={true}
     network="Testnet"
     networkOptions={Array []}
-    openGeneralReIndexModal={[Function]}
     pruneBlockStorage={true}
     refreshUtxosAfterSaving={true}
     reindexAfterSaving={true}

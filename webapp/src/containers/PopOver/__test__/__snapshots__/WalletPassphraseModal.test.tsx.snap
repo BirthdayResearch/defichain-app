@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletPassphraseModal should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <PopOver>
+    <Connect(UpdateProgressModal)>
+      <UpdateProgressModal
+        dispatch={[Function]}
+        isUpdateModalOpen={false}
+      >
+        <Modal
+          autoFocus={true}
+          backdrop={true}
+          backdropTransition={
+            Object {
+              "mountOnEnter": true,
+              "timeout": 150,
+            }
+          }
+          centered={true}
+          container="body"
+          fade={true}
+          isOpen={false}
+          keyboard={true}
+          modalTransition={
+            Object {
+              "timeout": 300,
+            }
+          }
+          onClosed={[Function]}
+          onOpened={[Function]}
+          returnFocusAfterClose={true}
+          role="dialog"
+          scrollable={false}
+          trapFocus={false}
+          unmountOnClose={true}
+          zIndex={1050}
+        />
+      </UpdateProgressModal>
+    </Connect(UpdateProgressModal)>
+    <Connect(ReIndexModal)>
+      <ReIndexModal
+        closeReIndexModal={[Function]}
+        isReIndexModelOpen={false}
+        isRestartLoader={[Function]}
+        reIndexMessage=""
+        startSetNodeVersion={[Function]}
+      >
+        <Modal
+          autoFocus={true}
+          backdrop={true}
+          backdropTransition={
+            Object {
+              "mountOnEnter": true,
+              "timeout": 150,
+            }
+          }
+          centered={true}
+          container="body"
+          fade={true}
+          isOpen={false}
+          keyboard={true}
+          modalTransition={
+            Object {
+              "timeout": 300,
+            }
+          }
+          onClosed={[Function]}
+          onOpened={[Function]}
+          returnFocusAfterClose={true}
+          role="dialog"
+          scrollable={false}
+          trapFocus={false}
+          unmountOnClose={true}
+          zIndex={1050}
+        />
+      </ReIndexModal>
+    </Connect(ReIndexModal)>
+    <Connect(BackupWalletNotice)>
+      <BackupWalletNotice
+        closeWalletDatBackupModal={[Function]}
+        openBackupWalletDatModal={false}
+      >
+        <Modal
+          autoFocus={true}
+          backdrop={true}
+          backdropTransition={
+            Object {
+              "mountOnEnter": true,
+              "timeout": 150,
+            }
+          }
+          centered={true}
+          container="body"
+          fade={true}
+          isOpen={false}
+          keyboard={true}
+          modalTransition={
+            Object {
+              "timeout": 300,
+            }
+          }
+          onClosed={[Function]}
+          onOpened={[Function]}
+          returnFocusAfterClose={true}
+          role="dialog"
+          scrollable={false}
+          trapFocus={false}
+          unmountOnClose={true}
+          zIndex={1050}
+        />
+      </BackupWalletNotice>
+    </Connect(BackupWalletNotice)>
+    <Connect(ResetWalletDatModal)>
+      <ResetWalletDatModal
+        closeResetWalletDatModal={[Function]}
+        openResetWalletDatModal={false}
+        startResetWalletDatRequest={[Function]}
+      >
+        <Modal
+          autoFocus={true}
+          backdrop={true}
+          backdropTransition={
+            Object {
+              "mountOnEnter": true,
+              "timeout": 150,
+            }
+          }
+          centered={true}
+          container="body"
+          fade={true}
+          isOpen={false}
+          keyboard={true}
+          modalTransition={
+            Object {
+              "timeout": 300,
+            }
+          }
+          onClosed={[Function]}
+          onOpened={[Function]}
+          returnFocusAfterClose={true}
+          role="dialog"
+          scrollable={false}
+          trapFocus={false}
+          unmountOnClose={true}
+          zIndex={1050}
+        />
+      </ResetWalletDatModal>
+    </Connect(ResetWalletDatModal)>
+  </PopOver>
+</Provider>
+`;

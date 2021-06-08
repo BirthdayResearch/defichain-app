@@ -30,25 +30,22 @@ import { I18n } from 'react-redux-i18n';
 import BigNumber from 'bignumber.js';
 import { fetchSendDataRequest } from '../../reducer';
 import {
+  getWalletPathAddress,
   handleFallbackSendToken,
   handleFetchRegularDFI,
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import {
-  WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
-  DFI_SYMBOL,
-} from '../../../../constants';
+import { WALLET_PAGE_PATH, DFI_SYMBOL, DFI } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
-  getAmountInSelectedUnit,
-  convertAmountFromUnit,
   getErrorMessage,
+  remapNodeError,
   getPageTitle,
-  getSymbolKey,
   isLessThanDustAmount,
   isValidAddress,
+  getCountdownValue,
+  getTokenDisplayName,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -56,7 +53,14 @@ import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
 import NumberMask from '../../../../components/NumberMask';
 import SendLPWarning from './SendLPWarning';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
+import { WalletPathEnum } from '../../types';
+import {
+  getBTCFees,
+  isValidSPVAddress,
+  sendSPVToAddress,
+} from '../../spvService';
+
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -95,26 +99,18 @@ interface SendPageState {
   isSendLPConfirmed: boolean;
 }
 
-export const getWalletPathAddress = (
-  basePath: string,
-  tokenSymbol: string,
-  tokenHash: string,
-  tokenAmount: string,
-  tokenAddress: string,
-  isLPS: boolean
-): string => {
-  return `${basePath}?symbol=${tokenSymbol}&hash=${tokenHash}&amount=${tokenAmount}&address=${tokenAddress}&isLPS=${isLPS}`;
-};
-
 //* TODO Convert to React Hooks
 class SendPage extends Component<SendPageProps, SendPageState> {
   waitToSendInterval;
   urlParams = new URLSearchParams(this.props.location.search);
-  tokenSymbol = this.urlParams.get('symbol');
-  tokenHash = this.urlParams.get('hash');
-  tokenAmount = this.urlParams.get('amount');
-  tokenAddress = this.urlParams.get('address');
-  isLPS = this.urlParams.get('isLPS') == 'true';
+  tokenSymbol = this.urlParams.get(WalletPathEnum.symbol);
+  tokenHash = this.urlParams.get(WalletPathEnum.hash);
+  tokenAmount = this.urlParams.get(WalletPathEnum.amount);
+  tokenAddress = this.urlParams.get(WalletPathEnum.address);
+  isLPS = this.urlParams.get(WalletPathEnum.isLPS) == 'true';
+  isSPV = this.urlParams.get(WalletPathEnum.isSPV) == 'true';
+  displayName = this.urlParams.get(WalletPathEnum.displayName);
+  isDAT = this.urlParams.get(WalletPathEnum.isDAT) == 'true';
 
   state = {
     walletBalance: 0,
@@ -137,6 +133,15 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   componentDidMount() {
     this.props.fetchSendDataRequest();
+    if (!getCountdownValue()) {
+      this.state.waitToSend = 0;
+    }
+  }
+
+  componentDidUpdate() {
+    if (!getCountdownValue()) {
+      this.state.waitToSend = 0;
+    }
   }
 
   updateAmountToSend = (e) => {
@@ -164,10 +169,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   maxAmountToSend = () => {
     let amount;
     if (!this.tokenSymbol) {
-      amount = getAmountInSelectedUnit(
-        this.props.sendData.walletBalance,
-        this.props.unit
-      );
+      amount = this.props.sendData.walletBalance;
     } else {
       amount = this.tokenAmount;
     }
@@ -245,7 +247,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       sendStep: 'failure',
       showBackdrop: 'show-backdrop',
-      errMessage: error.message,
+      errMessage: remapNodeError(error.message),
     });
   };
 
@@ -289,56 +291,65 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       regularDFI,
     });
     if (isAmountValid && isAddressValid) {
-      let amount: BigNumber;
       let txHash;
-      if (
-        (!this.tokenSymbol || this.tokenSymbol === 'DFI') &&
-        !regularDFI.isZero()
-      ) {
-        // Convert to base unit
-        amount = convertAmountFromUnit(
-          this.state.amountToSendDisplayed,
-          DEFAULT_UNIT,
-          this.props.unit
-        );
-        // amount.is
-        const feeCheck = amount.gte(this.props.sendData.walletBalance);
-        // if amount to send is equal to wallet balance then cut tx fee from amountToSend
+      // Convert to base unit
+      const amount = new BigNumber(this.state.amountToSendDisplayed);
+      //* if SPV Send
+      if (this.isSPV) {
         try {
-          txHash = await sendToAddress(this.state.toAddress, amount, feeCheck);
-          this.handleSuccess(txHash);
+          const fee = await getBTCFees();
+          const result = await sendSPVToAddress(this.state.toAddress, amount, fee);
+          this.handleSuccess(result.txid);
         } catch (error) {
           this.handleFailure(error);
         }
       } else {
-        try {
-          const hash = this.tokenHash || DFI_SYMBOL;
-          log.info('*******token send **********');
-          amount = new BigNumber(this.state.amountToSendDisplayed);
-          log.info({
-            amount: this.state.amountToSendDisplayed,
-            hash,
-            address: this.state.toAddress,
-          });
+        if (
+          (!this.tokenSymbol || this.tokenSymbol === DFI) &&
+          !regularDFI.isZero()
+        ) {
+          // amount.is
+          const feeCheck = amount.gte(this.props.sendData.walletBalance);
+          // if amount to send is equal to wallet balance then cut tx fee from amountToSend
           try {
-            txHash = await sendTokensToAddress(
+            txHash = await sendToAddress(
               this.state.toAddress,
-              `${amount.toFixed(8)}@${hash}`
+              amount,
+              feeCheck
             );
-            log.info('*******token send **********');
-            log.info(`accountToAccount tx hash ${txHash}`);
-            log.info('*******token send **********');
             this.handleSuccess(txHash);
           } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            log.error(errorMessage, 'sendTokensToAddress');
-            log.info(`sendTransaction: Will try fallback option`);
-            this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+            this.handleFailure(error);
           }
-        } catch (error) {
-          const errorMessage = getErrorMessage(error);
-          log.error(`Got error in token send: ${errorMessage}`);
-          this.handleFailure(error);
+        } else {
+          try {
+            const hash = this.tokenHash || DFI_SYMBOL;
+            log.info('*******token send **********');
+            log.info({
+              amount: this.state.amountToSendDisplayed,
+              hash,
+              address: this.state.toAddress,
+            });
+            try {
+              txHash = await sendTokensToAddress(
+                this.state.toAddress,
+                `${amount.toFixed(8)}@${hash}`
+              );
+              log.info('*******token send **********');
+              log.info(`accountToAccount tx hash ${txHash}`);
+              log.info('*******token send **********');
+              this.handleSuccess(txHash);
+            } catch (error) {
+              const errorMessage = getErrorMessage(error);
+              log.error(errorMessage, 'sendTokensToAddress');
+              log.info(`sendTransaction: Will try fallback option`);
+              this.handleFallbackSendToken(this.state.toAddress, amount, hash);
+            }
+          } catch (error) {
+            const errorMessage = getErrorMessage(error);
+            log.error(`Got error in token send: ${errorMessage}`);
+            this.handleFailure(error);
+          }
         }
       }
     }
@@ -362,10 +373,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   isAmountValid = async () => {
     let amount;
     if (!this.tokenSymbol) {
-      amount = getAmountInSelectedUnit(
-        this.props.sendData.walletBalance,
-        this.props.unit
-      );
+      amount = this.props.sendData.walletBalance;
     } else {
       amount = this.tokenAmount;
     }
@@ -390,10 +398,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       const toAddress = uriData.substring(start + 1, end);
       const queryData = uriData.substring(end + 1);
       const params = qs.parse(queryData);
-      const amountData = getAmountInSelectedUnit(
-        params.amount as string,
-        this.props.unit
-      );
+      const amountData = params.amount;
       this.updateAmountToSend({ target: { value: amountData } });
       this.setState({
         toAddress,
@@ -405,17 +410,31 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   isAddressValid = async () => {
     let isAddressValid = false;
-    if (
-      this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-      this.state.toAddress.length <= 35
-    ) {
-      isAddressValid = await isValidAddress(this.state.toAddress);
+    if (this.isSPV) {
+      isAddressValid = await isValidSPVAddress(this.state.toAddress);
+    } else {
+      if (
+        this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
+        this.state.toAddress.length <= 35
+      ) {
+        isAddressValid = await isValidAddress(this.state.toAddress);
+      }
     }
+
     this.setState({ isAddressValid });
   };
 
   render() {
-    const { tokenSymbol, tokenHash, tokenAmount, tokenAddress, isLPS } = this;
+    const {
+      tokenSymbol,
+      tokenHash,
+      tokenAmount,
+      tokenAddress,
+      isLPS,
+      isSPV,
+      displayName,
+      isDAT,
+    } = this;
     return (
       <div className='main-wrapper'>
         <Helmet>
@@ -433,7 +452,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     tokenHash || DFI_SYMBOL,
                     tokenAmount || '',
                     tokenAddress || '',
-                    isLPS
+                    isLPS,
+                    isSPV,
+                    displayName || '',
+                    isDAT
                   )
                 : WALLET_PAGE_PATH
             }
@@ -448,8 +470,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           </Button>
           <h1>
             {I18n.t('containers.wallet.sendPage.send')}{' '}
-            {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-              this.props.unit}
+            {getTokenDisplayName(
+              isDAT,
+              displayName || '',
+              tokenSymbol || '',
+              tokenHash || '',
+              isSPV
+            )}
           </h1>
         </Header>
         <div className='content'>
@@ -462,9 +489,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     <Input
                       type='text'
                       inputMode='numeric'
-                      placeholder={I18n.t(
-                        'containers.wallet.sendPage.amountToSend'
-                      )}
+                      placeholder={'tite'}
                       name='amountToSend'
                       id='amountToSend'
                       value={this.state.amountToSend}
@@ -476,10 +501,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     </Label>
                     <InputGroupAddon addonType='append'>
                       <InputGroupText>
-                        {getSymbolKey(
+                        {getTokenDisplayName(
+                          isDAT,
+                          displayName || '',
                           tokenSymbol || '',
-                          tokenHash || DFI_SYMBOL
-                        ) || this.props.unit}
+                          tokenHash || '',
+                          isSPV
+                        )}
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -515,6 +543,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
+              <div
+                className={`footer-backdrop ${this.state.showBackdrop}`}
+                onClick={this.sendStepDefault}
+              />
             </Form>
             <Modal
               isOpen={this.state.scannerOpen}
@@ -542,6 +574,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             </section>
           )}
         </div>
+        <div
+          className={`footer-backdrop ${this.state.showBackdrop}`}
+          onClick={this.sendStepDefault}
+        />
         <footer className='footer-bar'>
           <div
             className={classnames({
@@ -557,16 +593,19 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   <NumberMask
                     value={
                       (!tokenSymbol
-                        ? getAmountInSelectedUnit(
-                            this.props.sendData.walletBalance,
-                            this.props.unit
-                          )
+                        ? this.props.sendData.walletBalance.toString()
                         : tokenAmount) ?? DFI_SYMBOL
                     }
                   />
                   &nbsp;
                   {tokenSymbol
-                    ? getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL)
+                    ? getTokenDisplayName(
+                        isDAT,
+                        displayName || '',
+                        tokenSymbol,
+                        tokenHash || '',
+                        isSPV
+                      )
                     : this.props.unit}
                 </div>
               </Col>
@@ -579,8 +618,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                     value={this.state.amountToSendDisplayed.toString()}
                   />
                   &nbsp;
-                  {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-                    this.props.unit}
+                  {getTokenDisplayName(
+                    isDAT,
+                    displayName || '',
+                    tokenSymbol || '',
+                    tokenHash || '',
+                    isSPV
+                  ) || this.props.unit}
                 </div>
               </Col>
               <Col className='d-flex justify-content-end'>
@@ -619,8 +663,13 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                 <dd className='col-sm-9'>
                   <span className='h2 mb-0'>
                     {this.state.amountToSend}&nbsp;
-                    {getSymbolKey(tokenSymbol || '', tokenHash || DFI_SYMBOL) ||
-                      this.props.unit}
+                    {getTokenDisplayName(
+                      isDAT,
+                      displayName || '',
+                      tokenSymbol || '',
+                      tokenHash || '',
+                      isSPV
+                    )}
                   </span>
                 </dd>
                 <dt className='col-sm-3 text-right'>
@@ -672,7 +721,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <ViewOnChain txid={this.state.txHash} />
+              <ViewOnChain txid={this.state.txHash} isSPV={this.isSPV} />
               <Button
                 color='primary'
                 to={
@@ -683,7 +732,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                         tokenHash || DFI_SYMBOL,
                         tokenAmount || '',
                         tokenAddress || '',
-                        isLPS
+                        isLPS,
+                        isSPV,
+                        displayName || '',
+                        isDAT
                       )
                     : WALLET_PAGE_PATH
                 }
@@ -726,31 +778,12 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-              <Button
-                color='primary'
-                to={
-                  tokenSymbol
-                    ? getWalletPathAddress(
-                        WALLET_PAGE_PATH,
-                        tokenSymbol,
-                        tokenHash || DFI_SYMBOL,
-                        tokenAmount || '',
-                        tokenAddress || '',
-                        isLPS
-                      )
-                    : WALLET_PAGE_PATH
-                }
-                tag={NavLink}
-              >
+              <Button color='primary' onClick={this.sendStepDefault}>
                 {I18n.t('containers.wallet.sendPage.backToWallet')}
               </Button>
             </div>
           </div>
         </footer>
-        <div
-          className={`footer-backdrop ${this.state.showBackdrop}`}
-          onClick={this.sendStepDefault}
-        />
       </div>
     );
   }

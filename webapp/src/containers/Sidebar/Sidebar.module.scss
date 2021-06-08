@@ -1,9 +1,5 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import '../../scss/bootstrap/common';
 
 .sidebar {
   width: 224px;
@@ -15,7 +11,7 @@
 }
 
 .blur {
-  background: rgba(0, 0, 0, 0.2);
+  background: $gray-200;
 }
 
 div[disabled] {
@@ -23,16 +19,27 @@ div[disabled] {
   opacity: 0.7;
 }
 
-.iconPointer {
+.iconSideBar {
+  min-height: 26px;
+}
+
+.iconNavTop {
+  color: $secondary;
   cursor: pointer;
-  color: #cccdcd;
+  &:hover:not(.navBadgeLocked) {
+    color: $black;
+    transition: all 0.2ms linear;
+  }
 }
 
 .currentNetwork {
   position: relative;
-  height: 112px;
+  height: 70px;
   border-bottom: $border-width solid $border-color;
-  padding: 48px 24px 20px;
+  padding: 0px 20px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   &:before {
     content: '';
@@ -90,25 +97,25 @@ div[disabled] {
   flex-wrap: nowrap;
 
   .navItem {
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin: 0.25rem 0;
   }
 
   .navLink {
     color: $secondary;
     display: flex;
     align-items: center;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+
     text-transform: none;
     font-weight: $font-weight-normal;
 
+    border: none;
+    border-radius: 0.25rem;
+
+    transition: color, background-color 250ms;
+
     &:hover:not(.active) {
       color: inherit;
-
-      svg {
-        color: $secondary;
-      }
     }
 
     svg {
@@ -129,7 +136,49 @@ div[disabled] {
 }
 
 .navSubIcon {
-  svg {
-    margin-right: 0px !important;
+  margin: 0;
+  justify-content: center;
+
+  .navLink {
+    padding: 0.75rem;
   }
+
+  svg {
+    margin-right: 0 !important;
+  }
+}
+
+.navBadgeIcon {
+  background-color: $light;
+  font-size: 1.5rem;
+  color: $secondary;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  &:hover:not(.active) {
+    background-color: $dfi-scent;
+    color: $primary;
+  }
+}
+
+.navBadgeText {
+  text-align: center;
+  color: $secondary;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.passphraseIcon {
+  padding: 0.75rem 16px 0.25rem;
+}
+
+.iconPosition {
+  left: 12px;
+  position: relative;
+}
+
+.navBadgeLocked {
+  color: $primary;
 }

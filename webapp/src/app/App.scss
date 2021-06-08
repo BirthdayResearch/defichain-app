@@ -46,11 +46,11 @@
 @import '~bootstrap/scss/alert';
 @import '~bootstrap/scss/progress';
 @import '~bootstrap/scss/media';
-// @import "~bootstrap/scss/list-group";
+@import '~bootstrap/scss/list-group';
 @import '~bootstrap/scss/close';
 // @import "~bootstrap/scss/toasts";
 @import '~bootstrap/scss/modal';
-// @import "~bootstrap/scss/tooltip";
+@import '~bootstrap/scss/tooltip';
 @import '~bootstrap/scss/popover';
 // @import "~bootstrap/scss/carousel";
 // @import "~bootstrap/scss/spinners";
@@ -81,7 +81,7 @@
 // @import '../scss/bootstrap/badge';
 // @import '../scss/bootstrap/alert';
 @import '../scss/bootstrap/progress';
-// @import '../scss/bootstrap/list-group';
+@import '../scss/bootstrap/list-group';
 // @import '../scss/bootstrap/close';
 // @import '../scss/bootstrap/toasts';
 // @import '../scss/bootstrap/modal';

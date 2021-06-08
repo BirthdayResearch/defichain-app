@@ -9,7 +9,7 @@ exports[`Console Page should check for snapshot 1`] = `
     encodeSpecialCharacters={true}
   >
     <title>
-      Console - DeFi app
+      Console - DeFi Wallet
     </title>
   </HelmetWrapper>
   <Connect(Header)>

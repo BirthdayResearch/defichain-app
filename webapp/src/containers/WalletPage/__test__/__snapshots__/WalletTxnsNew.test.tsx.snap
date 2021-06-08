@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletTxnsNew component should check for snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(WalletTxns)
+    tokenSymbol="DFI"
+  >
+    <WalletTxns
+      accountHistoryCount=""
+      accountHistoryCountRequest={[Function]}
+      blockCount={0}
+      combineAccountHistoryData={
+        Object {
+          "data": Array [],
+          "isError": "",
+          "isLoading": false,
+        }
+      }
+      data={Array []}
+      fetchBlockCount={[Function]}
+      fetchBlockDataForTrxRequestLoading={[Function]}
+      fetchWalletTokenTransactionsListRequestLoading={[Function]}
+      fetchWalletTokenTransactionsListResetRequest={[Function]}
+      fetchWalletTxns={[Function]}
+      isError="Invalid configuration"
+      isLoading={false}
+      minBlockHeight={0}
+      tokenSymbol="DFI"
+      unit="DFI"
+      walletTxnCount={0}
+      walletTxns={Array []}
+    >
+      <section
+        className="mb-5"
+      >
+        <div>
+          <h2>
+            Transactions
+          </h2>
+          <div
+            className="btn-group"
+          >
+            <FormGroup
+              tag="div"
+            >
+              <div
+                className="form-group"
+              >
+                <CustomInput
+                  checked={false}
+                  id="includeRewards"
+                  label="Include reward transactions"
+                  onChange={[Function]}
+                  type="checkbox"
+                >
+                  <div
+                    className="custom-checkbox custom-control"
+                    hidden={false}
+                  >
+                    <input
+                      checked={false}
+                      className="custom-control-input"
+                      id="includeRewards"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor="includeRewards"
+                    >
+                      Include reward transactions
+                    </label>
+                  </div>
+                </CustomInput>
+              </div>
+            </FormGroup>
+            <Button
+              color="link"
+              onClick={[Function]}
+              size="sm"
+              tag="button"
+            >
+              <button
+                aria-label={null}
+                className="btn btn-link btn-sm"
+                onClick={[Function]}
+                type="button"
+              >
+                <MdFileDownload>
+                  <IconBase
+                    attr={
+                      Object {
+                        "viewBox": "0 0 24 24",
+                      }
+                    }
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      strokeWidth="0"
+                      style={
+                        Object {
+                          "color": undefined,
+                        }
+                      }
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+                        key="0"
+                      />
+                    </svg>
+                  </IconBase>
+                </MdFileDownload>
+                <span
+                  className="d-lg-inline"
+                >
+                  EXPORT DATA
+                </span>
+              </button>
+            </Button>
+            <DownloadCsvModal
+              CsvModalOpen={false}
+              downloadDisable={true}
+              error=""
+              filename="Transactions_2021-3-17_11-21-6.csv"
+              handleCheckBox={[Function]}
+              handleCsvButtonClick={[Function]}
+              handleDownloadWindow={[Function]}
+              handleRegularNumInputs={[Function]}
+              maxBlock={[Function]}
+              reqData={
+                Object {
+                  "blockHeight": 0,
+                  "limit": 100,
+                  "no_rewards": true,
+                  "token": "DFI",
+                }
+              }
+              toggle={[Function]}
+              tokenSymbol="DFI"
+              transactionData={Array []}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropTransition={
+                  Object {
+                    "mountOnEnter": true,
+                    "timeout": 150,
+                  }
+                }
+                centered={true}
+                container="body"
+                fade={false}
+                isOpen={false}
+                keyboard={true}
+                modalTransition={
+                  Object {
+                    "timeout": 300,
+                  }
+                }
+                onClosed={[Function]}
+                onOpened={[Function]}
+                returnFocusAfterClose={true}
+                role="dialog"
+                scrollable={false}
+                toggle={[Function]}
+                trapFocus={false}
+                unmountOnClose={true}
+                zIndex={1050}
+              />
+            </DownloadCsvModal>
+          </div>
+        </div>
+        <Row
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <div
+            className="row"
+          >
+            <Col
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+              xs="12"
+            >
+              <div
+                className="col-12"
+              >
+                <div>
+                  Invalid configuration
+                </div>
+              </div>
+            </Col>
+          </div>
+        </Row>
+      </section>
+    </WalletTxns>
+  </Connect(WalletTxns)>
+</Provider>
+`;

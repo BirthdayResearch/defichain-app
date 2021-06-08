@@ -108,7 +108,16 @@
         "lockedInCollateral": "Opgesloten in onderpand",
         "costPerMasterNode": "Kosten per masternode",
         "masternodeWorth": "Waarde Masternode",
-        "searchBar": "Zoek masternodes"
+        "searchBar": "Zoek masternodes",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Adres Eigenaar",
@@ -121,7 +130,7 @@
       "createMasterNode": {
         "title": "Creëer MasterNode",
         "masterNodeName": "MasterNode Naam",
-        "lackOfBalanceMsg": "Kan MasterNode niet maken vanwege gebrek aan fondsen. Er is minimaal 1 miljoen DFI nodig om een MasterNode te maken",
+        "lackOfBalanceMsg": "Kan MasterNode niet maken vanwege gebrek aan fondsen. Er is minimaal 20,000 DFI nodig om een MasterNode te maken",
         "confirmationText": "Weet u zeker dat u een MasterNode wilt maken?",
         "restartNodeConfirmationText": "Weet u zeker dat u de Node opnieuw wilt starten?",
         "createNodeButton": "Creëer MasterNode",
@@ -173,6 +182,7 @@
         "searchTokens": "Zoek Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} van %{total} tokens",
         "datLabels": {
           "type": "Type",
@@ -242,7 +252,6 @@
         "volume": "Volume (24 H)",
         "officialSite": "Officiele pagina",
         "transfers": "Overschrijvingen",
-        "holders": "Houders",
         "info": "Info",
         "exchange": "Uitwisselen",
         "dex": "DEX",
@@ -257,7 +266,6 @@
         "confirmation": "Weet u zeker dat u de Token wilt vernietigen?",
         "deleteToken": "Delete Token",
         "editToken": "Wijzig Token",
-        "mint": "Munten",
         "notMintedAlert": "U heeft de token niet gemunt",
         "mint": "Munten"
       },
@@ -294,8 +302,7 @@
         "addAddressesText": "Voeg adressen toe aan uw distributielijst.",
         "enterDfiAddress": "Invoeren DFI adres",
         "dragAndUploadCSV": "Sleep of kies een CSV-bestand om te uploaden.",
-        "verifyingCollateral": "Onderpand verifiëren",
-        "chooseFile": "Kies bestand"
+        "verifyingCollateral": "Onderpand verifiëren"
       }
     },
     "settings": {
@@ -339,7 +346,22 @@
       "network": "Netwerk",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passphrase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -458,7 +480,23 @@
         "transactions": "Transacties",
         "availableBalance": "Beschikbaar saldo",
         "pending": "In afwachting",
-        "updateAvailableLabel": "Update aanwezig"
+        "updateAvailableLabel": "Update aanwezig",
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit to last",
+        "max": "Max",
+        "includeRewards": "Include reward transactions",
+        "transaction": "transactions",
+        "format": "Format",
+        "csv": "CSV",
+        "blockReward": "Block reward"
       },
       "walletTokensPage": {
         "walletTokens": "Wallet – Tokens",
@@ -526,10 +564,10 @@
     "electronRequiredError": "De Electron-app is nodig om opnieuw op te starten",
     "addressIsNotAPartOfWallet": "%{addressName} is geen onderdeel van de wallet.",
     "updateAppNoticeTitle": "Update compleet",
-    "updateAppNotice": "U moet de DeFi-app opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
+    "updateAppNotice": "U moet de DeFi Wallet opnieuw opstarten om de nieuwe update toe te passen. Wilt u opnieuw opstarten?",
     "restartNowNotice": "Start nu opnieuw op",
     "restartLaterNotice": "Later",
-    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi-app",
+    "showUpdateAvailableHeader": "Er is een update beschikbaar voor de DeFi Wallet",
     "showUpdateAvailableNotice": "Wilt u updaten?",
     "yesShowUpdateAvailableButton": "Update",
     "noShowUpdateAvailableButton": "Niet nu",
@@ -571,11 +609,12 @@
     "skipBackup": "Sla backup over",
     "backupWalletWarning": "Door een nieuwe wallet aan te maken of er een te herstellen, worden alle bestaande wallets in de app genegeerd. Wilt u een back-up maken van uw bestaande wallet?",
     "restartWalletModalHeader": "Opnieuw opstarten vereist",
-    "restartWalletWarningNotice": "U moet de DeFi-app opnieuw opstarten. Wilt u opnieuw opstarten?",
+    "restartWalletWarningNotice": "U moet de DeFi Wallet opnieuw opstarten. Wilt u opnieuw opstarten?",
     "yesRestartWalletNotice": "Herstart nu ",
-    "noRestartWalletNotice": "Later"
+    "noRestartWalletNotice": "Later",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
-    "defiApp": "DeFi app"
+    "defiApp": "DeFi Wallet "
   }
 }

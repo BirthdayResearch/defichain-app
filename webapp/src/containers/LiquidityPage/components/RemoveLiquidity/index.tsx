@@ -32,17 +32,17 @@ import TokenAvatar from '../../../../components/TokenAvatar';
 import Header from '../../../HeaderComponent';
 import AddressDropdown from '../../../../components/AddressDropdown';
 import { AddressModel } from '../../../../model/address.model';
-import { PaymentRequestModel } from '../../../WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import NumberMask from '../../../../components/NumberMask';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../components/ViewOnChain';
 import { BigNumber } from 'bignumber.js';
+import { history } from '../../../../utils/history';
 
 interface RouteParams {
   id?: string;
 }
 
 interface RemoveLiquidityProps extends RouteComponentProps<RouteParams> {
-  history: any;
   fetchPoolpair: (id) => void;
   poolpair: any;
   isErrorRemovingPoolLiquidity: string;
@@ -97,7 +97,6 @@ const RemoveLiquidity: React.FunctionComponent<RemoveLiquidityProps> = (
     refreshUTXOS1Loaded,
     liquidityRemovedLoaded,
     refreshUTXOS2Loaded,
-    history,
     paymentRequests,
   } = props;
 

@@ -1,0 +1,28 @@
+@import '../../../../scss/bootstrap/common';
+
+.cardBody {
+  padding: 0.75rem 1.25rem;
+}
+
+.icons {
+  color: $secondary;
+}
+
+.utxos {
+  color: $secondary;
+  font-weight: 600;
+}
+
+.bgImage {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 250px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  background-position: left;
+}
+
+.visibilityHidden {
+  visibility: hidden;
+}

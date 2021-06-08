@@ -5,6 +5,7 @@ import {
   handleFetchTokenDFI,
   handleFetchUtxoDFI,
   handleFetchTokenBalanceList,
+  checkRPCErrorMessagePending,
 } from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
@@ -96,7 +97,10 @@ export function* poolSwap(action) {
     yield put({ type: poolSwapSuccess.type, payload: data });
   } catch (e) {
     log.error(e.message);
-    yield put({ type: poolSwapFailure.type, payload: getErrorMessage(e) });
+    yield put({
+      type: poolSwapFailure.type,
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
+    });
   }
 }
 

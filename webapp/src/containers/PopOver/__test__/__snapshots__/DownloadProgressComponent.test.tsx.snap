@@ -52,6 +52,7 @@ exports[`DownloadProgressComponent should check for snapshot 1`] = `
           </p>
           <Progress
             animated={true}
+            barStyle={Object {}}
             color="info"
             max={100}
             min={0}
@@ -61,6 +62,7 @@ exports[`DownloadProgressComponent should check for snapshot 1`] = `
           >
             <div
               className="progress"
+              style={Object {}}
             >
               <div
                 aria-valuemax={100}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { MdCompareArrows } from 'react-icons/md';
+import { MdSwapHoriz } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 
 import SwapCard from '../../../../components/SwapCard';
 import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
-import AddressDropdown from 'src/components/AddressDropdown';
-import { getTransactionAddressLabel } from 'src/utils/utility';
+import AddressDropdown from '../../../../components/AddressDropdown';
+import { getTransactionAddressLabel } from '../../../../utils/utility';
 
 interface SwapTabProps {
   handleAddressDropdown?: any;
@@ -84,7 +84,7 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
               color='link'
               size='sm'
             >
-              <MdCompareArrows />
+              <MdSwapHoriz />
             </Button>
             <SwapCard
               label={I18n.t('containers.swap.swapTab.to')}

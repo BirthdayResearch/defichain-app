@@ -7,6 +7,7 @@ import {
   handleClosePostUpdate,
   handleCloseUpdateApp,
   showErrorNotification,
+  stopBinary,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
@@ -23,7 +24,7 @@ import {
 } from '@defi_types/ipcEvents';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
-import { triggerNodeShutdown } from 'src/worker/queue';
+import { triggerNodeShutdown } from '../worker/queue';
 
 const initUpdateAppIpcRenderers = () => {
   const ipcRenderer = ipcRendererFunc();
@@ -48,9 +49,10 @@ const initUpdateAppIpcRenderers = () => {
 
 export const sendUpdateResponse = async () => {
   if (isElectron()) {
-    log.error(`Update trigger node shutdown...`);
+    log.info(`Update trigger node shutdown...`);
     await triggerNodeShutdown(false);
-    log.error(`Update node shutdown success...`);
+    await stopBinary();
+    log.info(`Update node shutdown success...`);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(POST_UPDATE_ACTION);
   }
@@ -82,10 +84,18 @@ export const backupWallet = async () => {
   return false;
 };
 
-export const createMnemonicIpcRenderer = async (mnemonic, network) => {
+export const createMnemonicIpcRenderer = async (
+  mnemonic,
+  network,
+  networkType
+) => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
-    return await ipcRenderer.sendSync(CREATE_MNEMONIC, { mnemonic, network });
+    return await ipcRenderer.sendSync(CREATE_MNEMONIC, {
+      mnemonic,
+      network,
+      networkType,
+    });
   }
 };
 

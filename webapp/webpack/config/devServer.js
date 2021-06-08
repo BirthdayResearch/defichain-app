@@ -19,5 +19,5 @@ export const devServerConfig = {
   historyApiFallback: {
     disableDotRule: true,
   },
-  open: true,
+  open: false,
 };

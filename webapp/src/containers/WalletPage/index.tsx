@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col, Badge } from 'reactstrap';
 import {
   MdArrowUpward,
   MdArrowDownward,
@@ -17,18 +17,25 @@ import {
   fetchInstantBalanceRequest,
   fetchInstantPendingBalanceRequest,
 } from './reducer';
-import { DFI_SYMBOL, WALLET_TOKENS_PATH } from '../../constants';
+import {
+  BTC_SPV_SYMBOL,
+  DFI_SYMBOL,
+  DST,
+  LP,
+  WALLET_TOKENS_PATH,
+} from '../../constants';
 import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import { WALLET_SEND_PATH, WALLET_RECEIVE_PATH } from '../../constants';
 import {
-  getAmountInSelectedUnit,
   getPageTitle,
   getSymbolKey,
+  getTokenDisplayName,
 } from '../../utils/utility';
 import styles from './WalletPage.module.scss';
 import TokenAvatar from '../../components/TokenAvatar';
 import Header from '../HeaderComponent';
-import { getWalletPathAddress } from './components/SendPage';
+import { WalletPathEnum } from './types';
+import { getWalletPathAddress } from './service';
 
 interface WalletPageProps extends RouteComponentProps {
   unit: string;
@@ -43,11 +50,14 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   props: WalletPageProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
-  const tokenSymbol = urlParams.get('symbol');
-  const tokenHash = urlParams.get('hash');
-  const tokenAmount = urlParams.get('amount');
-  const tokenAddress = urlParams.get('address');
-  const isLPS = urlParams.get('isLPS') == 'true';
+  const tokenSymbol = urlParams.get(WalletPathEnum.symbol);
+  const tokenHash = urlParams.get(WalletPathEnum.hash) || '';
+  const tokenAmount = urlParams.get(WalletPathEnum.amount);
+  const tokenAddress = urlParams.get(WalletPathEnum.address);
+  const isLPS = urlParams.get(WalletPathEnum.isLPS) == 'true';
+  const isSPV = urlParams.get(WalletPathEnum.isSPV) == 'true';
+  const displayName = urlParams.get(WalletPathEnum.displayName) || '';
+  const isDAT = urlParams.get(WalletPathEnum.isDAT) == 'true';
 
   const {
     fetchInstantBalanceRequest,
@@ -81,32 +91,46 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
       </Helmet>
       <Header>
         <Button
-          to={`${WALLET_TOKENS_PATH}?value=${getAmountInSelectedUnit(
-            walletBalance,
-            unit
-          )}&unit=${unit}`}
+          to={`${WALLET_TOKENS_PATH}?value=${walletBalance}&unit=${unit}`}
           tag={RRNavLink}
           color='link'
           className='header-bar-back'
         >
           <MdArrowBack />
           <span className='d-lg-inline'>
-            {I18n.t('containers.wallet.walletPage.wallets')}
+            {I18n.t('containers.wallet.walletPage.balances')}
           </span>
         </Button>
         <div className={styles.titleWithIcon}>
           <TokenAvatar
             symbol={
               tokenSymbol
-                ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+                ? getTokenDisplayName(
+                    isDAT,
+                    tokenSymbol,
+                    tokenSymbol,
+                    tokenHash,
+                    isSPV
+                  )
                 : unit
             }
           />
-          <h1>
+          <h1 className='d-flex align-items-center'>
             {tokenSymbol
-              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+              ? getTokenDisplayName(
+                  isDAT,
+                  displayName,
+                  tokenSymbol,
+                  tokenHash,
+                  isSPV
+                )
               : unit}{' '}
             {I18n.t('containers.wallet.walletPage.wallet')}
+            {![DFI_SYMBOL, BTC_SPV_SYMBOL].includes(tokenHash ?? '') && (
+              <Badge className='ml-2' color='disabled'>
+                {isLPS ? LP : DST}
+              </Badge>
+            )}
           </h1>
         </div>
         <ButtonGroup>
@@ -119,7 +143,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     tokenHash || '',
                     tokenAmount || '',
                     tokenAddress || '',
-                    isLPS
+                    isLPS,
+                    isSPV,
+                    displayName || '',
+                    isDAT
                   )
                 : WALLET_SEND_PATH
             }
@@ -141,7 +168,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                     tokenHash || '',
                     tokenAmount || '',
                     tokenAddress || '',
-                    isLPS
+                    isLPS,
+                    isSPV,
+                    displayName || '',
+                    isDAT
                   )
                 : WALLET_RECEIVE_PATH
             }
@@ -162,14 +192,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             <Col>
               <StatCard
                 label={I18n.t('containers.wallet.walletPage.availableBalance')}
-                value={
-                  tokenAmount
-                    ? tokenAmount
-                    : getAmountInSelectedUnit(walletBalance, unit)
-                }
+                value={tokenAmount ? tokenAmount : walletBalance}
                 unit={
                   tokenSymbol
-                    ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL)
+                    ? getTokenDisplayName(isDAT, displayName, tokenSymbol, tokenHash, isSPV)
                     : unit
                 }
                 refreshFlag={refreshBalance}
@@ -215,7 +241,13 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </Col> */}
           </Row>
         </section>
-        <WalletTxns tokenSymbol={tokenSymbol || ''} />
+        <WalletTxns
+          tokenSymbol={
+            tokenSymbol
+              ? getSymbolKey(tokenSymbol, tokenHash || DFI_SYMBOL, isLPS)
+              : unit
+          }
+        />
       </div>
     </div>
   );

@@ -1,0 +1,912 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateWallet component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(CreateWallet)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <CreateWallet
+          createWalletFailure={[Function]}
+          createWalletStart={[Function]}
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          isErrorCreatingWallet=""
+          isWalletCreating={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+        >
+          <EncryptWalletPage
+            isPageLoading={false}
+            onCloseFailure={[Function]}
+            onSave={[Function]}
+            pageErrorMessage=""
+            pageLoadingMessage="containers.wallet.verifyMnemonicPage.creatingYourWallet"
+            pageSize={11}
+            submitButtonLabel="containers.wallet.createNewWalletPage.createANewWallet"
+          >
+            <div
+              className="main-wrapper"
+            >
+              <HelmetWrapper
+                defer={true}
+                encodeSpecialCharacters={true}
+              >
+                <SideEffect(NullComponent)
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Create a new wallet - DeFi Wallet"
+                  titleAttributes={Object {}}
+                >
+                  <NullComponent
+                    defer={true}
+                    encodeSpecialCharacters={true}
+                    title="Create a new wallet - DeFi Wallet"
+                    titleAttributes={Object {}}
+                  />
+                </SideEffect(NullComponent)>
+              </HelmetWrapper>
+              <Connect(Header)>
+                <Header
+                  openBackupWallet={[Function]}
+                  startUpdateApp={[Function]}
+                  updateAvailableBadge={false}
+                >
+                  <header
+                    className="header-bar"
+                  >
+                    <Button
+                      className="header-bar-back"
+                      color="link"
+                      tag={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "propTypes": Object {
+                            "activeClassName": [Function],
+                            "activeStyle": [Function],
+                            "aria-current": [Function],
+                            "className": [Function],
+                            "exact": [Function],
+                            "innerRef": [Function],
+                            "isActive": [Function],
+                            "location": [Function],
+                            "onClick": [Function],
+                            "replace": [Function],
+                            "sensitive": [Function],
+                            "strict": [Function],
+                            "style": [Function],
+                            "target": [Function],
+                            "to": [Function],
+                          },
+                          "render": [Function],
+                        }
+                      }
+                      to="/wallet/tokens"
+                    >
+                      <NavLink
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        onClick={[Function]}
+                        to="/wallet/tokens"
+                      >
+                        <Link
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-link"
+                          onClick={[Function]}
+                          to={
+                            Object {
+                              "hash": "",
+                              "pathname": "/wallet/tokens",
+                              "search": "",
+                              "state": null,
+                            }
+                          }
+                        >
+                          <LinkAnchor
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-link"
+                            href="/wallet/tokens"
+                            navigate={[Function]}
+                            onClick={[Function]}
+                          >
+                            <a
+                              aria-current={null}
+                              aria-label={null}
+                              className="header-bar-back btn btn-link"
+                              href="/wallet/tokens"
+                              onClick={[Function]}
+                            >
+                              <MdArrowBack>
+                                <IconBase
+                                  attr={
+                                    Object {
+                                      "viewBox": "0 0 24 24",
+                                    }
+                                  }
+                                >
+                                  <svg
+                                    fill="currentColor"
+                                    height="1em"
+                                    stroke="currentColor"
+                                    strokeWidth="0"
+                                    style={
+                                      Object {
+                                        "color": undefined,
+                                      }
+                                    }
+                                    viewBox="0 0 24 24"
+                                    width="1em"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                      key="0"
+                                    />
+                                  </svg>
+                                </IconBase>
+                              </MdArrowBack>
+                              <span
+                                className="d-lg-inline"
+                              >
+                                Back
+                              </span>
+                            </a>
+                          </LinkAnchor>
+                        </Link>
+                      </NavLink>
+                    </Button>
+                    <h1
+                      className=""
+                    >
+                      Create a new wallet
+                    </h1>
+                  </header>
+                </Header>
+              </Connect(Header)>
+              <div
+                className="content"
+              >
+                <section>
+                  <Row
+                    className="justify-content-center container undefined"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="justify-content-center container undefined row"
+                    >
+                      <Col
+                        md={11}
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="col-md-11"
+                        >
+                          <form
+                            onSubmit={[Function]}
+                          >
+                            <section>
+                              <div
+                                className="d-flex flex-column align-items-center mb-4"
+                              >
+                                <MdLock
+                                  size={20}
+                                >
+                                  <IconBase
+                                    attr={
+                                      Object {
+                                        "viewBox": "0 0 24 24",
+                                      }
+                                    }
+                                    size={20}
+                                  >
+                                    <svg
+                                      fill="currentColor"
+                                      height={20}
+                                      stroke="currentColor"
+                                      strokeWidth="0"
+                                      style={
+                                        Object {
+                                          "color": undefined,
+                                        }
+                                      }
+                                      viewBox="0 0 24 24"
+                                      width={20}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"
+                                        key="0"
+                                      />
+                                    </svg>
+                                  </IconBase>
+                                </MdLock>
+                                <label
+                                  className="text-center"
+                                >
+                                  Enabling wallet locking with a passphrase is recommended for security. Enter the passphrase which you will use to unlock your wallet.
+                                </label>
+                              </div>
+                              <div
+                                className="px-5"
+                              >
+                                <Controller
+                                  control={
+                                    Object {
+                                      "defaultValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldArrayDefaultValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldArrayNamesRef": Object {
+                                        "current": Set {},
+                                      },
+                                      "fieldArrayValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldsRef": Object {
+                                        "current": Object {
+                                          "confirmPassphrase": Object {
+                                            "ref": Object {
+                                              "focus": [Function],
+                                              "name": "confirmPassphrase",
+                                            },
+                                            "required": true,
+                                            "validate": Object {
+                                              "isSameWithConfirm": [Function],
+                                            },
+                                          },
+                                          "passphrase": Object {
+                                            "ref": Object {
+                                              "focus": [Function],
+                                              "name": "passphrase",
+                                            },
+                                            "required": true,
+                                            "validate": Object {
+                                              "isPasswordStrong": [Function],
+                                              "isSameWithConfirm": [Function],
+                                            },
+                                          },
+                                        },
+                                      },
+                                      "fieldsWithValidationRef": Object {
+                                        "current": Object {
+                                          "confirmPassphrase": true,
+                                          "passphrase": true,
+                                        },
+                                      },
+                                      "formState": Object {
+                                        "dirtyFields": Object {},
+                                        "errors": Object {},
+                                        "isDirty": false,
+                                        "isSubmitSuccessful": false,
+                                        "isSubmitted": false,
+                                        "isSubmitting": false,
+                                        "isValid": true,
+                                        "isValidating": false,
+                                        "submitCount": 0,
+                                        "touched": Object {},
+                                      },
+                                      "formStateRef": Object {
+                                        "current": Object {
+                                          "dirtyFields": Object {},
+                                          "errors": Object {},
+                                          "isDirty": false,
+                                          "isSubmitSuccessful": false,
+                                          "isSubmitted": false,
+                                          "isSubmitting": false,
+                                          "isValid": true,
+                                          "isValidating": false,
+                                          "submitCount": 0,
+                                          "touched": Object {},
+                                        },
+                                      },
+                                      "getValues": [Function],
+                                      "isFormDirty": [Function],
+                                      "mode": Object {
+                                        "isOnAll": false,
+                                        "isOnBlur": false,
+                                        "isOnChange": true,
+                                        "isOnSubmit": false,
+                                        "isOnTouch": false,
+                                      },
+                                      "reValidateMode": Object {
+                                        "isReValidateOnBlur": false,
+                                        "isReValidateOnChange": true,
+                                      },
+                                      "readFormStateRef": Object {
+                                        "current": Object {
+                                          "constructor": true,
+                                          "dirtyFields": true,
+                                          "errors": true,
+                                          "isDirty": true,
+                                          "isSubmitSuccessful": true,
+                                          "isSubmitted": true,
+                                          "isSubmitting": true,
+                                          "isValid": true,
+                                          "isValidating": true,
+                                          "submitCount": true,
+                                          "touched": true,
+                                        },
+                                      },
+                                      "register": [Function],
+                                      "removeFieldEventListener": [Function],
+                                      "resetFieldArrayFunctionRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "setValue": [Function],
+                                      "shallowFieldsStateRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "shouldUnregister": true,
+                                      "trigger": [Function],
+                                      "unregister": [Function],
+                                      "updateFormState": [Function],
+                                      "updateWatchedValue": [Function],
+                                      "useWatchFieldsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "useWatchRenderFunctionsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "validFieldsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "validateResolver": undefined,
+                                      "watchInternal": [Function],
+                                    }
+                                  }
+                                  defaultValue=""
+                                  name="passphrase"
+                                  render={[Function]}
+                                  rules={
+                                    Object {
+                                      "required": true,
+                                      "validate": Object {
+                                        "isPasswordStrong": [Function],
+                                        "isSameWithConfirm": [Function],
+                                      },
+                                    }
+                                  }
+                                >
+                                  <InputPassword
+                                    hasStrengthChecker={true}
+                                    id="passphraseLabel"
+                                    invalid={false}
+                                    isDirty={false}
+                                    label="alerts.passphraseLabel"
+                                    name="passphrase"
+                                    onChange={[Function]}
+                                    strengthScore={0}
+                                  >
+                                    <FormGroup
+                                      className="form-label-group"
+                                      tag="div"
+                                    >
+                                      <div
+                                        className="form-label-group form-group"
+                                      >
+                                        <div
+                                          className="d-flex position-relative"
+                                        >
+                                          <Input
+                                            id="passphraseLabel"
+                                            invalid={false}
+                                            name="passphrase"
+                                            onChange={[Function]}
+                                            placeholder="Passphrase"
+                                            type="password"
+                                          >
+                                            <input
+                                              aria-invalid={false}
+                                              className="form-control"
+                                              id="passphraseLabel"
+                                              name="passphrase"
+                                              onChange={[Function]}
+                                              placeholder="Passphrase"
+                                              type="password"
+                                            />
+                                          </Input>
+                                          <Label
+                                            for="passphraseLabel"
+                                            tag="label"
+                                            widths={
+                                              Array [
+                                                "xs",
+                                                "sm",
+                                                "md",
+                                                "lg",
+                                                "xl",
+                                              ]
+                                            }
+                                          >
+                                            <label
+                                              className=""
+                                              htmlFor="passphraseLabel"
+                                            >
+                                              Passphrase
+                                            </label>
+                                          </Label>
+                                          <div
+                                            onClick={[Function]}
+                                          >
+                                            <IoMdEye>
+                                              <IconBase
+                                                attr={
+                                                  Object {
+                                                    "viewBox": "0 0 512 512",
+                                                  }
+                                                }
+                                              >
+                                                <svg
+                                                  fill="currentColor"
+                                                  height="1em"
+                                                  stroke="currentColor"
+                                                  strokeWidth="0"
+                                                  style={
+                                                    Object {
+                                                      "color": undefined,
+                                                    }
+                                                  }
+                                                  viewBox="0 0 512 512"
+                                                  width="1em"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M256 105c-101.8 0-188.4 62.4-224 151 35.6 88.6 122.2 151 224 151s188.4-62.4 224-151c-35.6-88.6-122.2-151-224-151zm0 251.7c-56 0-101.8-45.3-101.8-100.7S200 155.3 256 155.3 357.8 200.6 357.8 256 312 356.7 256 356.7zm0-161.1c-33.6 0-61.1 27.2-61.1 60.4s27.5 60.4 61.1 60.4 61.1-27.2 61.1-60.4-27.5-60.4-61.1-60.4z"
+                                                    key="0"
+                                                  />
+                                                </svg>
+                                              </IconBase>
+                                            </IoMdEye>
+                                          </div>
+                                        </div>
+                                        <div
+                                          className="undefined"
+                                        >
+                                          <div
+                                            className="undefined"
+                                          >
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                            <div
+                                              className="undefined undefined "
+                                            />
+                                          </div>
+                                          <p>
+                                            Passphrase strength: None
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </FormGroup>
+                                  </InputPassword>
+                                </Controller>
+                                <Controller
+                                  control={
+                                    Object {
+                                      "defaultValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldArrayDefaultValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldArrayNamesRef": Object {
+                                        "current": Set {},
+                                      },
+                                      "fieldArrayValuesRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "fieldsRef": Object {
+                                        "current": Object {
+                                          "confirmPassphrase": Object {
+                                            "ref": Object {
+                                              "focus": [Function],
+                                              "name": "confirmPassphrase",
+                                            },
+                                            "required": true,
+                                            "validate": Object {
+                                              "isSameWithConfirm": [Function],
+                                            },
+                                          },
+                                          "passphrase": Object {
+                                            "ref": Object {
+                                              "focus": [Function],
+                                              "name": "passphrase",
+                                            },
+                                            "required": true,
+                                            "validate": Object {
+                                              "isPasswordStrong": [Function],
+                                              "isSameWithConfirm": [Function],
+                                            },
+                                          },
+                                        },
+                                      },
+                                      "fieldsWithValidationRef": Object {
+                                        "current": Object {
+                                          "confirmPassphrase": true,
+                                          "passphrase": true,
+                                        },
+                                      },
+                                      "formState": Object {
+                                        "dirtyFields": Object {},
+                                        "errors": Object {},
+                                        "isDirty": false,
+                                        "isSubmitSuccessful": false,
+                                        "isSubmitted": false,
+                                        "isSubmitting": false,
+                                        "isValid": true,
+                                        "isValidating": false,
+                                        "submitCount": 0,
+                                        "touched": Object {},
+                                      },
+                                      "formStateRef": Object {
+                                        "current": Object {
+                                          "dirtyFields": Object {},
+                                          "errors": Object {},
+                                          "isDirty": false,
+                                          "isSubmitSuccessful": false,
+                                          "isSubmitted": false,
+                                          "isSubmitting": false,
+                                          "isValid": true,
+                                          "isValidating": false,
+                                          "submitCount": 0,
+                                          "touched": Object {},
+                                        },
+                                      },
+                                      "getValues": [Function],
+                                      "isFormDirty": [Function],
+                                      "mode": Object {
+                                        "isOnAll": false,
+                                        "isOnBlur": false,
+                                        "isOnChange": true,
+                                        "isOnSubmit": false,
+                                        "isOnTouch": false,
+                                      },
+                                      "reValidateMode": Object {
+                                        "isReValidateOnBlur": false,
+                                        "isReValidateOnChange": true,
+                                      },
+                                      "readFormStateRef": Object {
+                                        "current": Object {
+                                          "constructor": true,
+                                          "dirtyFields": true,
+                                          "errors": true,
+                                          "isDirty": true,
+                                          "isSubmitSuccessful": true,
+                                          "isSubmitted": true,
+                                          "isSubmitting": true,
+                                          "isValid": true,
+                                          "isValidating": true,
+                                          "submitCount": true,
+                                          "touched": true,
+                                        },
+                                      },
+                                      "register": [Function],
+                                      "removeFieldEventListener": [Function],
+                                      "resetFieldArrayFunctionRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "setValue": [Function],
+                                      "shallowFieldsStateRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "shouldUnregister": true,
+                                      "trigger": [Function],
+                                      "unregister": [Function],
+                                      "updateFormState": [Function],
+                                      "updateWatchedValue": [Function],
+                                      "useWatchFieldsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "useWatchRenderFunctionsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "validFieldsRef": Object {
+                                        "current": Object {},
+                                      },
+                                      "validateResolver": undefined,
+                                      "watchInternal": [Function],
+                                    }
+                                  }
+                                  defaultValue=""
+                                  name="confirmPassphrase"
+                                  render={[Function]}
+                                  rules={
+                                    Object {
+                                      "required": true,
+                                      "validate": Object {
+                                        "isSameWithConfirm": [Function],
+                                      },
+                                    }
+                                  }
+                                >
+                                  <InputPassword
+                                    id="passphraseLabelConfirm"
+                                    invalid={false}
+                                    isDirty={false}
+                                    label="alerts.passphraseLabelConfirm"
+                                    name="confirmPassphrase"
+                                    onChange={[Function]}
+                                  >
+                                    <FormGroup
+                                      className="form-label-group"
+                                      tag="div"
+                                    >
+                                      <div
+                                        className="form-label-group form-group"
+                                      >
+                                        <div
+                                          className="d-flex position-relative"
+                                        >
+                                          <Input
+                                            id="passphraseLabelConfirm"
+                                            invalid={false}
+                                            name="confirmPassphrase"
+                                            onChange={[Function]}
+                                            placeholder="Confirm passphrase"
+                                            type="password"
+                                          >
+                                            <input
+                                              aria-invalid={false}
+                                              className="form-control"
+                                              id="passphraseLabelConfirm"
+                                              name="confirmPassphrase"
+                                              onChange={[Function]}
+                                              placeholder="Confirm passphrase"
+                                              type="password"
+                                            />
+                                          </Input>
+                                          <Label
+                                            for="passphraseLabelConfirm"
+                                            tag="label"
+                                            widths={
+                                              Array [
+                                                "xs",
+                                                "sm",
+                                                "md",
+                                                "lg",
+                                                "xl",
+                                              ]
+                                            }
+                                          >
+                                            <label
+                                              className=""
+                                              htmlFor="passphraseLabelConfirm"
+                                            >
+                                              Confirm passphrase
+                                            </label>
+                                          </Label>
+                                          <div
+                                            onClick={[Function]}
+                                          >
+                                            <IoMdEye>
+                                              <IconBase
+                                                attr={
+                                                  Object {
+                                                    "viewBox": "0 0 512 512",
+                                                  }
+                                                }
+                                              >
+                                                <svg
+                                                  fill="currentColor"
+                                                  height="1em"
+                                                  stroke="currentColor"
+                                                  strokeWidth="0"
+                                                  style={
+                                                    Object {
+                                                      "color": undefined,
+                                                    }
+                                                  }
+                                                  viewBox="0 0 512 512"
+                                                  width="1em"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M256 105c-101.8 0-188.4 62.4-224 151 35.6 88.6 122.2 151 224 151s188.4-62.4 224-151c-35.6-88.6-122.2-151-224-151zm0 251.7c-56 0-101.8-45.3-101.8-100.7S200 155.3 256 155.3 357.8 200.6 357.8 256 312 356.7 256 356.7zm0-161.1c-33.6 0-61.1 27.2-61.1 60.4s27.5 60.4 61.1 60.4 61.1-27.2 61.1-60.4-27.5-60.4-61.1-60.4z"
+                                                    key="0"
+                                                  />
+                                                </svg>
+                                              </IconBase>
+                                            </IoMdEye>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </FormGroup>
+                                  </InputPassword>
+                                </Controller>
+                              </div>
+                              <label
+                                className="text-center"
+                              >
+                                Keep your passphrase safe, if lost, there will be no recovery. You will not be able to proceed with any transactions once your wallet is locked.
+                              </label>
+                              <div
+                                className="mt-4 text-center"
+                              >
+                                <Button
+                                  color="primary"
+                                  disabled={false}
+                                  size="sm"
+                                  tag="button"
+                                  type="submit"
+                                >
+                                  <button
+                                    aria-label={null}
+                                    className="btn btn-primary btn-sm"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="submit"
+                                  >
+                                    Create a new wallet
+                                  </button>
+                                </Button>
+                              </div>
+                            </section>
+                          </form>
+                        </div>
+                      </Col>
+                    </div>
+                  </Row>
+                </section>
+              </div>
+            </div>
+          </EncryptWalletPage>
+        </CreateWallet>
+      </Connect(CreateWallet)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

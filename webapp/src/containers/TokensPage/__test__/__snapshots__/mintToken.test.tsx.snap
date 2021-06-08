@@ -73,9 +73,9 @@ exports[`Mint token page should check for snapshot 1`] = `
       Object {
         "isExact": false,
         "params": Object {
-          "id": "1",
+          "hash": "1",
         },
-        "path": "/route/:id",
+        "path": "/route/:hash",
         "url": "/route/1",
       }
     }

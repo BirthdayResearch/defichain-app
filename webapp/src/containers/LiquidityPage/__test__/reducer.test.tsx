@@ -247,9 +247,6 @@ describe('liquidity slice', () => {
         removePoolLiquiditySuccess(payload.removePoolLiquidityHash)
       );
       const rootState = { liquidity: nextState };
-      expect(rootState.liquidity.removePoolLiquidityHash).toEqual(
-        payload.removePoolLiquidityHash
-      );
       expect(rootState.liquidity.isLoadingRemovePoolLiquidity).toBeFalsy();
       expect(rootState.liquidity.isRemovePoolLiquidityLoaded).toBeTruthy();
     });

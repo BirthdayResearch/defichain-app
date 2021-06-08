@@ -1,0 +1,30 @@
+export interface SwapPageState {
+  poolPairList: [];
+  isLoadingPoolPairList: boolean;
+  tokenBalanceList: [];
+  isLoadingTokenBalanceList: boolean;
+  isLoadingRefreshUTXOS1: boolean;
+  refreshUTXOS1Loaded: boolean;
+  isLoadingRefreshUTXOS2: boolean;
+  refreshUTXOS2Loaded: boolean;
+  testPoolSwapTo: string;
+  testPoolSwapFrom: string;
+  isLoadingTestPoolSwapTo: boolean;
+  isLoadingTestPoolSwapFrom: boolean;
+  isTestPoolSwapLoadedTo: boolean;
+  isTestPoolSwapLoadedFrom: boolean;
+  isErrorTestPoolSwapTo: string;
+  isErrorTestPoolSwapFrom: string;
+  poolSwapHash: string;
+  isLoadingPoolSwap: boolean;
+  isLoadingRefreshUTXOS: boolean;
+  isLoadingTransferringTokens: boolean;
+  isPoolSwapLoaded: boolean;
+  isErrorPoolSwap: string;
+  utxoDfi: number;
+  isUtxoDfiFetching: boolean;
+  isUtxoDfiError: string;
+  maxAccountDfi: number;
+  isMaxAccountDfiFetching: boolean;
+  isMaxAccountDfiError: string;
+}

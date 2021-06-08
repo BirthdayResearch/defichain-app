@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup } from 'reactstrap';
 import { MdArrowBack, MdAdd } from 'react-icons/md';
@@ -11,17 +11,25 @@ import {
 } from '../../../../constants';
 import Header from '../../../HeaderComponent';
 import { getPageTitle } from '../../../../utils/utility';
-import { getWalletPathAddress } from '../SendPage';
+import { WalletPathEnum } from '../../types';
+import { getWalletPathAddress } from '../../service';
+import { useDispatch } from 'react-redux';
+import { getNewSPVAddress } from '../../reducer';
 
 const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
   const urlParams = new URLSearchParams(props.location.search);
-  const tokenSymbol = urlParams.get('symbol');
-  const tokenHash = urlParams.get('hash');
+  const tokenSymbol = urlParams.get(WalletPathEnum.symbol);
+  const tokenHash = urlParams.get(WalletPathEnum.hash);
   const tokenAmount = urlParams.get('amount');
-  const tokenAddress = urlParams.get('address');
-  const isLPS = urlParams.get('isLPS') == 'true';
+  const tokenAddress = urlParams.get(WalletPathEnum.address);
+  const isLPS = urlParams.get(WalletPathEnum.isLPS) == 'true';
+  const isSPV = urlParams.get(WalletPathEnum.isSPV) == 'true';
+  const displayName = urlParams.get(WalletPathEnum.displayName);
+  const isDAT = urlParams.get(WalletPathEnum.isDAT) == 'true';
+
+  const dispatch = useDispatch();
 
   return (
     <div className='main-wrapper'>
@@ -40,7 +48,10 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
                   tokenHash || '',
                   tokenAmount || '',
                   tokenAddress || '',
-                  isLPS
+                  isLPS,
+                  isSPV,
+                  displayName || '',
+                  isDAT
                 )
               : WALLET_PAGE_PATH
           }
@@ -55,21 +66,30 @@ const ReceivePage: React.FunctionComponent<RouteComponentProps> = (
         </Button>
         <h1>{I18n.t('containers.wallet.receivePage.receive')}</h1>
         <ButtonGroup>
-          <Button
-            to={WALLET_CREATE_RECEIVE_REQUEST}
-            tag={RRNavLink}
-            color='link'
-          >
-            <MdAdd />
-            <span className='d-lg-inline'>
-              {I18n.t('containers.wallet.receivePage.newAddressButton')}
-            </span>
-          </Button>
+          {isSPV ? (
+            <Button onClick={() => dispatch(getNewSPVAddress())} color='link'>
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.wallet.receivePage.newAddressButton')}
+              </span>
+            </Button>
+          ) : (
+            <Button
+              to={WALLET_CREATE_RECEIVE_REQUEST}
+              tag={RRNavLink}
+              color='link'
+            >
+              <MdAdd />
+              <span className='d-lg-inline'>
+                {I18n.t('containers.wallet.receivePage.newAddressButton')}
+              </span>
+            </Button>
+          )}
         </ButtonGroup>
       </Header>
       <div className='content'>
         <section>
-          <PaymentRequestList />
+          <PaymentRequestList isSPV={isSPV} />
         </section>
       </div>
     </div>

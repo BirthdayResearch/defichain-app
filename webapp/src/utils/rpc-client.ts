@@ -10,10 +10,10 @@ import {
   DEFAULT_MAXIMUM_AMOUNT,
   DEFAULT_MAXIMUM_COUNT,
   DEFAULT_FEE_RATE,
-  WALLET_UNLOCK_TIMEOUT,
   MASTERNODE_PARAMS_INCLUDE_FROM_START,
   MASTERNODE_PARAMS_MASTERNODE_LIMIT,
   LP_DAILY_DFI_REWARD,
+  DEFAULT_BTC_FEE,
 } from './../constants';
 import * as methodNames from '@defi_types/rpcMethods';
 import { rpcResponseSchemaMap } from './schemas/rpcMethodSchemaMapping';
@@ -43,24 +43,39 @@ import { construct } from './cutxo';
 import PersistentStore from './persistentStore';
 import { handleFetchWalletBalance } from '../containers/WalletPage/service';
 import { BigNumber } from 'bignumber.js';
-import { ListUnspentModel, PeerInfoModel } from 'src/constants/rpcModel';
+import {
+  CreateNewWalletModel,
+  ListUnspentModel,
+  PeerInfoModel,
+  SPVSendModel,
+  WalletInfo,
+} from '../constants/rpcModel';
+import { TimeoutLockEnum } from '../containers/SettingsPage/types';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import LruCache from './lruCache';
 
 export default class RpcClient {
   client: any;
+  blockchainInfo: any;
+
   constructor(cancelToken?) {
     const state = store.getState();
-    const { rpcauth, rpcconnect, rpcport } = state.app.rpcConfig;
+    const { rpcuser, rpcpassword, rpcconnect } = state.app.rpcConfig;
+    const activeNetwork = state.app.rpcConfig[state.app.activeNetwork];
+    const rpcport = activeNetwork?.rpcport;
 
-    if (!rpcauth || !rpcconnect || !rpcport) {
+    if (!rpcuser || !rpcpassword || !rpcconnect || !rpcport) {
       throw new Error('Invalid configuration');
     }
     this.client = axios.create({
-      baseURL: `http://${rpcauth}@${rpcconnect}:${rpcport}`,
-      headers: {
-        'cache-control': 'no-cache',
+      baseURL: `http://${rpcconnect}:${rpcport}`,
+      auth: {
+        username: rpcuser,
+        password: rpcpassword,
       },
       cancelToken: cancelToken,
     });
+    this.blockchainInfo = false;
   }
 
   call = async (path: string, method: string, params: any[] = []) => {
@@ -103,7 +118,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  getWalletInfo = async (): Promise<any> => {
+  getWalletInfo = async (): Promise<WalletInfo> => {
     const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
     return data.result;
   };
@@ -662,13 +677,29 @@ export default class RpcClient {
   };
 
   tokenInfo = async (key: string): Promise<any> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.tokenInfo.${blockhash}-${key}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getTokenBalances = async (): Promise<string[]> => {
-    const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getTokenBalances.${blockhash}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listTokens = async (
@@ -683,6 +714,10 @@ export default class RpcClient {
   };
 
   getBlockChainInfo = async () => {
+    if (this.blockchainInfo) {
+      return this.blockchainInfo;
+    }
+
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
@@ -695,8 +730,18 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
-    return data.result;
+    this.blockchainInfo = data.result;
+    setTimeout(() => {
+      this.blockchainInfo = false;
+    }, 200);
+
+    return this.blockchainInfo;
   };
+
+  async getBestBlockHash(): Promise<string> {
+    const { bestblockhash } = await this.getBlockChainInfo();
+    return bestblockhash;
+  }
 
   getAccount = async (ownerAddress: string) => {
     const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
@@ -744,17 +789,29 @@ export default class RpcClient {
   };
 
   getaddressInfo = async (address: string) => {
-    const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
-      address,
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getaddressInfo.${blockhash}.${address}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
+        address,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+
+    return result;
   };
 
-  getListreceivedAddress = async (minConf: number = 0) => {
+  getListreceivedAddress = async (
+    minConf = 0,
+    allAddresses = true
+  ): Promise<PaymentRequestModel[]> => {
     const { data } = await this.call(
       '/',
       methodNames.LIST_RECEIVED_BY_ADDRESS,
-      [minConf, true]
+      [minConf, allAddresses]
     );
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
@@ -782,11 +839,23 @@ export default class RpcClient {
     return data.result;
   };
 
-  walletPassphrase = async (passphrase: string) => {
+  walletPassphrase = async (passphrase: string, timeout?: number) => {
     const { data } = await this.call('/', methodNames.WALLET_PASSPHRASE, [
       passphrase,
-      WALLET_UNLOCK_TIMEOUT,
+      timeout || TimeoutLockEnum.FIVE_MINUTES,
     ]);
+    return data.result;
+  };
+
+  changeWalletPassphrase = async (
+    currentPassphrase: string,
+    newPassphrase: string
+  ): Promise<string> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.WALLET_PASSPHRASE_CHANGE,
+      [currentPassphrase, newPassphrase]
+    );
     return data.result;
   };
 
@@ -802,10 +871,18 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
-      { start, including_start, limit },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolPairs.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
+        { start, including_start, limit },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   listPoolShares = async (
@@ -813,17 +890,35 @@ export default class RpcClient {
     including_start: boolean,
     limit: number
   ) => {
-    const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
-      { start, including_start, limit },
-      true, // verbose
-      true, // is mine only
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.listPoolShares.${blockhash}-${start}-${including_start}-${limit}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
+        { start, including_start, limit },
+        true, // verbose
+        true, // is mine only
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getPoolPair = async (poolID: string) => {
-    const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [poolID]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getPoolPair.${blockhash}-${poolID}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [
+        poolID,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   /**
@@ -893,10 +988,18 @@ export default class RpcClient {
   };
 
   getGov = async () => {
-    const { data } = await this.call('/', methodNames.GET_GOV, [
-      LP_DAILY_DFI_REWARD,
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getGov.${blockhash}.LP_DAILY_DFI_REWARD`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.GET_GOV, [
+        LP_DAILY_DFI_REWARD,
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   getListAccountHistory = async (_: {
@@ -906,16 +1009,24 @@ export default class RpcClient {
     token: string;
   }) => {
     const { blockHeight, limit, no_rewards, token } = _;
-    const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
-      'mine',
-      {
-        maxBlockHeight: blockHeight,
-        limit,
-        no_rewards,
-        token,
-      },
-    ]);
-    return data.result;
+    const blockhash = await this.getBestBlockHash();
+    const CACHE_KEY = `rpc.getListAccountHistory.${blockhash}.${blockHeight}.${limit}.${no_rewards}.${token}`;
+    let result = LruCache.get(CACHE_KEY);
+
+    if (result === null) {
+      const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
+        'mine',
+        {
+          maxBlockHeight: blockHeight,
+          limit,
+          no_rewards,
+          token,
+        },
+      ]);
+      result = data.result;
+      LruCache.put(CACHE_KEY, result);
+    }
+    return result;
   };
 
   accountHistoryCount = async (
@@ -929,6 +1040,99 @@ export default class RpcClient {
         token,
       },
     ]);
+    return data.result;
+  };
+
+  createWallet = async (
+    walletPath: string,
+    passphrase: string
+  ): Promise<CreateNewWalletModel> => {
+    const { data } = await this.call('/', methodNames.CREATE_WALLET, [
+      walletPath,
+      false,
+      false,
+      passphrase,
+    ]);
+    return data?.result;
+  };
+
+  getSPVBalance = async (): Promise<number> => {
+    const { data } = await this.call('/', methodNames.SPV_GETBALANCE, []);
+    return data?.result;
+  };
+
+  listReceivedBySPVAddresses = async (
+    minConf = 0
+  ): Promise<PaymentRequestModel[]> => {
+    const { data } = await this.call(
+      '/',
+      methodNames.SPV_LISTRECEIVEDBYADDRESS,
+      [minConf]
+    );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_LISTRECEIVEDBYADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  isValidSPVAddress = async (address: string): Promise<boolean> => {
+    const { data } = await this.call('/', methodNames.SPV_VALIDATEADDRESS, [
+      address,
+    ]);
+
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.VALIDATE_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_VALIDATEADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result.isvalid;
+  };
+
+  getNewSPVAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SPV_GETNEWADDRESS);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_NEW_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.SPV_GETNEWADDRESS
+        }: ${JSON.stringify(data)}`
+      );
+    }
+    return data.result;
+  };
+
+  sendSPVToAddress = async (
+    toAddress: string,
+    amount: BigNumber,
+    fee = new BigNumber(DEFAULT_BTC_FEE)
+  ): Promise<SPVSendModel> => {
+    const { data } = await this.call('/', methodNames.SPV_SENDTOADDRESS, [
+      toAddress,
+      amount.toFixed(8),
+      fee.toFixed(8),
+    ]);
+    return data.result;
+  };
+
+  getAllSPVAddress = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.SPV_GETALLADDRESSES);
     return data.result;
   };
 }

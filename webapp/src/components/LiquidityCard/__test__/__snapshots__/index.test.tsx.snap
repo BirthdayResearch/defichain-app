@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiquidityCard component should check for snapshot 1`] = `
+<Card
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <div>
+      label
+    </div>
+    <div>
+      <div>
+        <Input
+          disabled={true}
+          id="input"
+          inputMode="decimal"
+          name="amount1"
+          onChange={[Function]}
+          pattern="[0-9.,]"
+          placeholder="0"
+          type="text"
+        />
+      </div>
+      <div>
+        <SwapDropdown
+          dropdownLabel="dropdownLabel"
+          formState={Object {}}
+          handleDropdown={[Function]}
+          name={1}
+          tokenMap={Map {}}
+        />
+      </div>
+    </div>
+  </CardBody>
+  <CardFooter
+    tag="div"
+  >
+    <div>
+      <span>
+        Balance
+      </span>
+      : 
+      0
+    </div>
+    <div>
+      <Button
+        color="link"
+        disabled={true}
+        onClick={[Function]}
+        size="sm"
+        tag="button"
+      >
+        Max
+      </Button>
+    </div>
+  </CardFooter>
+</Card>
+`;

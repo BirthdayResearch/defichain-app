@@ -13,7 +13,7 @@ import {
 import { ITokenResponse } from '../../../../../../utils/interfaces';
 import Spinner from '../../../../../../components/Svg/Spinner';
 import { CreateTokenFormState } from '../..';
-import ViewOnChain from 'src/components/ViewOnChain';
+import ViewOnChain from '../../../../../../components/ViewOnChain';
 
 interface CreateDCTProps {
   isUpdate: boolean;

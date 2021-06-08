@@ -286,5 +286,217 @@
       }
     },
     "getTxnSize": 440
+  },
+  "mnemonicObject": {
+    "mnemonicCode": "cup ivory glow execute parrot viable genius ripple upper humor meat nut purse scatter cabbage again favorite doctor citizen pig write muffin daring dumb",
+    "mnemonicObj": {
+      "1": "cup",
+      "10": "humor",
+      "11": "meat",
+      "12": "nut",
+      "13": "purse",
+      "14": "scatter",
+      "15": "cabbage",
+      "16": "again",
+      "17": "favorite",
+      "18": "doctor",
+      "19": "citizen",
+      "2": "ivory",
+      "20": "pig",
+      "21": "write",
+      "22": "muffin",
+      "23": "daring",
+      "24": "dumb",
+      "3": "glow",
+      "4": "execute",
+      "5": "parrot",
+      "6": "viable",
+      "7": "genius",
+      "8": "ripple",
+      "9": "upper"
+    }
+  },
+  "networkInfo": {
+    "bech32": "bc",
+    "bip32": {
+      "private": 76066276,
+      "public": 76067358
+    },
+    "messagePrefix": "Bitcoin Signed Message:",
+    "pubKeyHash": 0,
+    "scriptHash": 5,
+    "wif": 128
+  },
+  "mnemonicCode": "cup ivory glow execute parrot viable genius ripple upper humor meat nut purse scatter cabbage again favorite doctor citizen pig write muffin daring dumb [object Object]",
+  "validatedMnemonicCode": "c u p   i v o r y   g l o w   e x e c u t e   p a r r o t   v i a b l e   g e n i u s   r i p p l e   u p p e r   h u m o r   m e a t   n u t   p u r s e   s c a t t e r   c a b b a g e   a g a i n   f a v o r i t e   d o c t o r   c i t i z e n   p i g   w r i t e   m u f f i n   d a r i n g   d u m b   [ o b j e c t   O b j e c t ]",
+  "poolPairList": [
+    {
+      "apy": "20.00",
+      "blockCommissionA": 4.8e-7,
+      "blockCommissionB": 3e-8,
+      "commission": 0.002,
+      "creationHeight": 18145,
+      "creationTx": "b2bb09ffe9f9b292f13d23bafa1225ef26d0b9906da7af194c5738b63839b235",
+      "idTokenA": "0",
+      "idTokenB": "1",
+      "key": "3",
+      "name": "Default Defi token-",
+      "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+      "poolID": "3",
+      "poolSharePercentage": "0",
+      "reserveA": 23496.26010905,
+      "reserveA/reserveB": 2.77599046,
+      "reserveB": 8464.0997198,
+      "reserveB/reserveA": 0.36023178,
+      "rewardPct": 0.85,
+      "status": true,
+      "symbol": "DFI-BTC",
+      "tokenA": "DFI",
+      "tokenB": "BTC",
+      "totalLiquidity": 1726.8492621,
+      "totalLiquidityInUSDT": "229875757.61792275",
+      "tradeEnabled": true,
+      "yearlyPoolReward": "56693844.00000000"
+    },
+    {
+      "apy": "252.31",
+      "blockCommissionA": 3e-8,
+      "blockCommissionB": 1.4e-7,
+      "commission": 0.002,
+      "creationHeight": 18145,
+      "creationTx": "045c74ee64e2afce750d2dae5958a01023a0dd30105cff211b6fb715a6aa915d",
+      "idTokenA": "0",
+      "idTokenB": "2",
+      "key": "4",
+      "name": "Default Defi token-",
+      "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+      "poolID": "4",
+      "poolSharePercentage": "0",
+      "reserveA": 246193.63969597,
+      "reserveA/reserveB": 100.63655021,
+      "reserveB": 2446.36406115,
+      "reserveB/reserveA": 0.00993674,
+      "rewardPct": 0.1,
+      "status": true,
+      "symbol": "DFI-ETH",
+      "tokenA": "DFI",
+      "tokenB": "ETH",
+      "totalLiquidity": 23423.75299491,
+      "totalLiquidityInUSDT": "2143400.30751132",
+      "tradeEnabled": true,
+      "yearlyPoolReward": "6669864.00000000"
+    },
+    {
+      "apy": "861.38",
+      "blockCommissionA": 1.2e-7,
+      "blockCommissionB": 1e-8,
+      "commission": 0.002,
+      "creationHeight": 29584,
+      "creationTx": "72fa270eddf0221113f5e29d0e9568f89e87c433c91aad50b1215f0aad60e7c3",
+      "idTokenA": "0",
+      "idTokenB": "5",
+      "key": "6",
+      "name": "Default Defi token-",
+      "ownerAddress": "76a914e5ed1bfa532e2358e964381a70e0df6d4dd0041988ac",
+      "poolID": "6",
+      "poolSharePercentage": "0",
+      "reserveA": 193976.12476028,
+      "reserveA/reserveB": 4.79992181,
+      "reserveB": 40412.35093661,
+      "reserveB/reserveA": 0.20833672,
+      "rewardPct": 0.05,
+      "status": true,
+      "symbol": "DFI-USDT",
+      "tokenA": "DFI",
+      "tokenB": "USDT",
+      "totalLiquidity": 79409.57427086,
+      "totalLiquidityInUSDT": "313913.47365533",
+      "tradeEnabled": true,
+      "yearlyPoolReward": "3334932.00000000"
+    },
+    {
+      "apy": "0.00",
+      "blockCommissionA": 0,
+      "blockCommissionB": 2e-7,
+      "commission": 0.002,
+      "creationHeight": 87550,
+      "creationTx": "c38593974982ce332819696d0f8845d7ab73b72ceac54a8a41f2d11498d448aa",
+      "idTokenA": "8",
+      "idTokenB": "0",
+      "key": "9",
+      "name": "Mock Test Token-Defa,ult Defi token",
+      "ownerAddress": "a914562bd6af924ee2c19e39a8dc962744e29e3d5fed87",
+      "poolID": "9",
+      "poolSharePercentage": "0",
+      "reserveA": 12.73190551,
+      "reserveA/reserveB": 0.16533442,
+      "reserveB": 77.00698454,
+      "reserveB/reserveA": 6.04834716,
+      "rewardPct": 0,
+      "status": true,
+      "symbol": "MOCK-DFI",
+      "tokenA": "MOCK",
+      "tokenB": "DFI",
+      "totalLiquidity": 31.31348449,
+      "totalLiquidityInUSDT": "108.57984820",
+      "tradeEnabled": true,
+      "yearlyPoolReward": "0.00000000",
+      "handleAddPoolLiquidity": "13a9ecc88c034e3a4482b0d13c0630466056d38152fafd3b694714ea11459efd"
+    }
+  ],
+  "uniqueTokenList": {
+    "0": "DFI",
+    "1": "BTC",
+    "2": "ETH",
+    "5": "USDT",
+    "8": "MOCK"
+  },
+  "tokenMap": {
+    "DFI": {
+      "balance": "0.00000000",
+      "hash": "0",
+      "isPopularToken": true
+    }
+  },
+  "main_net": {
+    "bech32": "bc",
+    "bip32": {
+      "private": 76066276,
+      "public": 76067358
+    },
+    "messagePrefix": "Bitcoin Signed Message: ",
+    "pubKeyHash": 0,
+    "scriptHash": 5,
+    "wif": 128
+  },
+  "test_net": {
+    "bech32": "tb",
+    "bip32": {
+      "private": 70615956,
+      "public": 70617039
+    },
+    "messagePrefix": "Bitcoin Signed Message:",
+    "pubKeyHash": 111,
+    "scriptHash": 196,
+    "wif": 239
+  },
+  "other_net": {
+    "bech32": "bcrt",
+    "bip32": {
+      "private": 70615956,
+      "public": 70617039
+    },
+    "messagePrefix": "Bitcoin Signed Message:",
+    "pubKeyHash": 111,
+    "scriptHash": 196,
+    "wif": 239
+  },
+  "address": "tnQ3MpCXteF4q8m2ZA8DBW3jQC3HtYcM6J",
+  "addressInfo": "",
+  "parsedCoinPriceData": {
+    "0": 2.53,
+    "1": 1177.69,
+    "2": 34532,
+    "3": 0.994816
   }
 }

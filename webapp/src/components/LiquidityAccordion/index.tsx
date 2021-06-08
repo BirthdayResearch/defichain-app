@@ -7,6 +7,7 @@ import { LIQUIDITY_INFO_BASE_PATH } from '../../constants';
 import PairIcon from '../PairIcon';
 import NumberMask from '../NumberMask';
 import BigNumber from 'bignumber.js';
+import { history } from '../../utils/history';
 
 interface LiquidityAccordionProps {
   history: any;
@@ -26,7 +27,7 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
     <div>
       <Card
         onClick={() => {
-          props.history.push(`${LIQUIDITY_INFO_BASE_PATH}/${poolpair.poolID}`);
+          history.push(`${LIQUIDITY_INFO_BASE_PATH}/${poolpair.poolID}`);
         }}
         className={`${styles.liquidityCard} mb-4`}
       >
@@ -63,9 +64,9 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
           <br />
           <Row>
             <Col className={styles.bigLabel}>
-              {I18n.t('containers.swap.swapPage.apy')}
+              {I18n.t('containers.swap.swapPage.apr')}
             </Col>
-            <Col className={styles.bigValue}>{`${poolpair.apy}%`}</Col>
+            <Col className={styles.bigValue}>{`${poolpair.apr}%`}</Col>
           </Row>
           <Row>
             <Col className={styles.label}>

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import Ajv from 'ajv';
 import axios from 'axios';
+import { setup } from 'axios-cache-adapter';
 
 import * as log from './electronLogger';
 import moment from 'moment';
@@ -15,6 +16,7 @@ import {
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
+  IToken,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -28,11 +30,7 @@ import {
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
   MAIN,
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   TEST,
-  IS_WALLET_LOCKED_MAIN,
-  IS_WALLET_LOCKED_TEST,
   RANDOM_WORD_ENTROPY_BITS,
   STATS_API_BLOCK_URL,
   LIST_ACCOUNTS_PAGE_SIZE,
@@ -60,18 +58,31 @@ import {
   TESTNET,
   AMOUNT_SEPARATOR,
   STATS_API_BASE_URL,
+  COINGECKO_LTC_ID,
+  COINGECKO_DOGE_ID,
+  MAINNET_LTC_SYMBOL,
+  LTC_SYMBOL,
+  MAINNET_DOGE_SYMBOL,
+  DOGE_SYMBOL,
+  MAINNET_BCH_SYMBOL,
+  BCH_SYMBOL,
+  COINGECKO_BCH_ID,
+  BTC_SPV_SYMBOL,
+  BLOCKCHAIN_COM,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
-import queue from '../../src/worker/queue';
-import PersistentStore from './persistentStore';
+import queue from '../worker/queue';
 import DefiIcon from '../assets/svg/defi-icon.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
+import DogeIcon from '../assets/svg/doge-icon.svg';
+import LtcIcon from '../assets/svg/ltc-icon.svg';
+import BchIcon from '../assets/svg/bch-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -86,8 +97,18 @@ import {
   AccountKeyItem,
   AccountModel,
   PeerInfoModel,
-} from 'src/constants/rpcModel';
-import { HighestAmountItem } from '../constants/common';
+} from '../constants/rpcModel';
+import {
+  ErrorMessages,
+  HighestAmountItem,
+  ResponseMessages,
+} from '../constants/common';
+import PersistentStore from './persistentStore';
+import { getYieldFarming } from './stats';
+
+export interface CoinPriceData {
+  [key: number]: number;
+}
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -141,18 +162,6 @@ export const getTransactionURI = (
 
 export const dateTimeFormat = (date: string | Date) => {
   return moment(date).format(DATE_FORMAT);
-};
-
-export const getFromPersistentStorage = (path) => {
-  return localStorage.getItem(path);
-};
-
-export const setToPersistentStorage = (path, data) => {
-  if (typeof data === 'object') {
-    data = JSON.stringify(data);
-  }
-  localStorage.setItem(path, data);
-  return data;
 };
 
 export const getBlockDetails = (block) => {
@@ -254,8 +263,16 @@ export const parseTxn = (fullRawTx): IParseTxn => {
   };
 };
 
-export const convertEpochToDate = (epoch) => {
+export const convertEpochToJSDate = (epoch): Date => {
+  return moment.unix(epoch).toDate();
+};
+
+export const convertEpochToDate = (epoch): string => {
   return moment.unix(epoch).format(DATE_FORMAT);
+};
+
+export const getTimeDifferenceMS = (time: number): number => {
+  return moment.unix(time).toDate().getTime() - new Date().getTime();
 };
 
 export const range = (from: number, to: number, step = 1) => {
@@ -368,13 +385,20 @@ export const getParams = (query: string) => {
   return parsedParams;
 };
 
-export const filterByValue = (array, query) => {
-  return array.filter((o) =>
-    Object.keys(o).some((k) => {
+export const filterByValue = (array, query, keys?: string[]) => {
+  return array.filter((o) => {
+    if (keys) {
+      return keys.some((k) => {
+        if (!o[k]) return false;
+        const stringer = JSON.stringify(o[k]);
+        return stringer.toLowerCase().includes(query.toLowerCase());
+      });
+    }
+    return Object.keys(o).some((k) => {
       const stringer = JSON.stringify(o[k]);
       return stringer.toLowerCase().includes(query.toLowerCase());
-    })
-  );
+    });
+  });
 };
 
 export const filterByValueMap = (map, query) => {
@@ -403,6 +427,47 @@ export const getErrorMessage = (errorResponse) => {
     }
   }
   return typeof message === 'string' ? message : JSON.stringify(message);
+};
+
+export const shouldRemapError = (
+  message: string,
+  keywords: string[]
+): boolean => {
+  let shouldReMap = false;
+  if (message != null && keywords.length > 0) {
+    keywords.forEach((k: string) => {
+      shouldReMap = message.toLowerCase().includes(k.toLowerCase());
+    });
+  }
+  return shouldReMap;
+};
+
+export const getErrorRemapping = (
+  message: string,
+  keywords: string[],
+  response: string
+): string => {
+  if (message != null && keywords.length > 0) {
+    return shouldRemapError(message, keywords) ? I18n.t(response) : message;
+  } else {
+    return message;
+  }
+};
+
+export const remapNodeError = (message: string): string => {
+  if (message != null) {
+    let remappedMessage = message;
+    Object.keys(ErrorMessages).forEach(
+      (v: string) =>
+        (remappedMessage = getErrorRemapping(
+          remappedMessage,
+          [ErrorMessages[v] ?? ''],
+          ResponseMessages[v] ?? ''
+        ))
+    );
+    return remappedMessage;
+  }
+  return message;
 };
 
 export const setIntervalSynchronous = (func, delay) => {
@@ -494,7 +559,7 @@ export const checkElementsInArray = (
 
 export const getNetworkType = () => {
   const state = store.getState();
-  const blockChainInfo: any = state.wallet.blockChainInfo;
+  const blockChainInfo: any = state?.wallet?.blockChainInfo;
   return blockChainInfo.chain || MAIN;
 };
 
@@ -534,14 +599,30 @@ export const queuePush = (
   }
 };
 
-export const isWalletCreated = (network) => {
-  const key =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  return PersistentStore.get(key) === 'true';
-};
-
 const getPopularSymbolList = () => {
   return [DFI_SYMBOL, BTC_SYMBOL, ETH_SYMBOL];
+};
+
+export const setTokenMap = (tokenMap, tokenData, tokenId, isPopularToken) => {
+  tokenMap.set(tokenData.symbolKey, {
+    ...tokenData,
+    hash: tokenId.toString(),
+    isPopularToken,
+  });
+};
+
+export const getToken = (tokenlist: any[]) => {
+  const tokenMap = new Map<string, any>();
+  const popularSymbolList = getPopularSymbolList();
+
+  tokenlist.forEach((tokenData, tokenId) => {
+    if (popularSymbolList.includes(tokenId.toString())) {
+      setTokenMap(tokenMap, tokenData, tokenId, true);
+    } else {
+      setTokenMap(tokenMap, tokenData, tokenId, false);
+    }
+  });
+  return tokenMap;
 };
 
 export const getTokenListForSwap = (
@@ -628,7 +709,7 @@ export const getTokenAndBalanceMap = (
   return tokenMap;
 };
 
-const getUniqueTokenMap = (poolPairList) => {
+export const getUniqueTokenMap = (poolPairList) => {
   return poolPairList.reduce((uniqueTokenList, poolPair) => {
     const { symbol } = poolPair;
     const symbolList: string[] = symbol.split('-');
@@ -661,8 +742,10 @@ export const fetchPoolPairDataWithPagination = async (
   const rpcClient = new RpcClient();
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
-  const poolStats = await getPoolStatsFromAPI();
-  const coinPriceObj = await parsedCoinPriceData();
+  const poolStats = await getPoolStatsFromAPI(lpDailyDfiReward);
+  const coinPriceObj = await parsedCoinPriceData(poolStats);
+
+  const poolShares = await handleFetchPoolshares();
 
   const list: any[] = [];
   const result = await fetchList(start, true, limit);
@@ -675,8 +758,6 @@ export const fetchPoolPairDataWithPagination = async (
       .times(rewardPct)
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
-
-    const poolShares = await handleFetchPoolshares();
 
     const poolShare = poolShares.find((poolshare) => {
       return poolshare.poolID === item;
@@ -692,8 +773,8 @@ export const fetchPoolPairDataWithPagination = async (
     const totalLiquidity = liquidityReserveidTokenA.plus(
       liquidityReserveidTokenB
     );
-    const apy = new BigNumber(
-      poolStats[`${idTokenA}_${idTokenB}`]?.apy || 0
+    const apr = new BigNumber(
+      poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
     ).toFixed(2);
     return {
       key: item,
@@ -706,7 +787,7 @@ export const fetchPoolPairDataWithPagination = async (
         : '0',
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
-      apy,
+      apr,
     };
   });
   const resolvedTransformedData = await Promise.all(transformedData);
@@ -720,9 +801,8 @@ export const fetchPoolPairDataWithPagination = async (
   while (true) {
     const result = await fetchList(start, false, limit);
     const transformedData = Object.keys(result).map(async (item: any) => {
-      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } = result[
-        item
-      ];
+      const { reserveA, reserveB, idTokenA, idTokenB, rewardPct } =
+        result[item];
       const tokenAData = await handleFetchToken(idTokenA);
       const tokenBData = await handleFetchToken(idTokenB);
 
@@ -730,8 +810,6 @@ export const fetchPoolPairDataWithPagination = async (
         .times(rewardPct)
         .times(365)
         .times(coinPriceObj[DFI_SYMBOL]);
-
-      const poolShares = await handleFetchPoolshares();
 
       const poolShare = poolShares.find((poolshare) => {
         return poolshare.poolID === item;
@@ -746,6 +824,9 @@ export const fetchPoolPairDataWithPagination = async (
       const totalLiquidity = liquidityReserveidTokenA.plus(
         liquidityReserveidTokenB
       );
+      const apr = new BigNumber(
+        poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
+      ).toFixed(2);
       return {
         key: item,
         poolID: item,
@@ -757,7 +838,7 @@ export const fetchPoolPairDataWithPagination = async (
           : '0',
         totalLiquidityInUSDT: totalLiquidity.toFixed(8),
         yearlyPoolReward: yearlyPoolReward.toFixed(8),
-        apy: calculateAPY(totalLiquidity, yearlyPoolReward),
+        apr,
       };
     });
     const resolvedTransformedData = await Promise.all(transformedData);
@@ -857,13 +938,6 @@ export const fetchPoolShareDataWithPagination = async (
   return list;
 };
 
-export const isWalletEncrypted = () => {
-  const networkType = getNetworkType();
-  const isWalletLocked =
-    networkType === MAIN ? IS_WALLET_LOCKED_MAIN : IS_WALLET_LOCKED_TEST;
-  return PersistentStore.get(isWalletLocked) || false;
-};
-
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({
@@ -874,18 +948,35 @@ export const getTotalBlocks = async () => {
   return data;
 };
 
-export const getStatsYieldFarming = async () => {
-  const network = getNetworkType();
-  const { data } = await axios({
-    url: `${STATS_API_BASE_URL}listyieldfarming?network=${network}net`,
-    method: 'GET',
-    timeout: API_REQUEST_TIMEOUT,
-  });
-  return data;
+const api = setup({
+  // `axios` options
+  baseURL: `${STATS_API_BASE_URL}`,
+  cache: {
+    maxAge: 30 * 1000,
+    exclude: {
+      query: false,
+    },
+  },
+});
+export const getStatsYieldFarming = async (lpDailyDfiReward: number) => {
+  try {
+    return await getYieldFarming(lpDailyDfiReward);
+  } catch (error) {
+    const state = store.getState();
+    const block = state.syncstatus.latestSyncedBlock;
+    const network = getNetworkType();
+    const result = await api.get(
+      `listyieldfarming?network=${network}net&block=${block}`,
+      {
+        timeout: API_REQUEST_TIMEOUT,
+      }
+    );
+    return result.data;
+  }
 };
 
-export const getPoolStatsFromAPI = async () => {
-  const stats = await getStatsYieldFarming();
+export const getPoolStatsFromAPI = async (lpDailyDfiReward: number) => {
+  const stats = await getStatsYieldFarming(lpDailyDfiReward);
   const poolStats = {};
   stats?.pools?.forEach((a) => {
     if (a != null) {
@@ -952,7 +1043,11 @@ export const conversionRatio = (formState, poolPairList) => {
     ? new BigNumber(poolPair.reserveA).div(new BigNumber(poolPair.reserveB))
     : new BigNumber(0);
 
-  return ratio.toFixed(8);
+  return ratio.toFixed(8, 1);
+};
+
+export const conversionRatioDex = (formState) => {
+  return new BigNumber(formState.amount2).div(formState.amount1).toFixed(8);
 };
 
 export const getRatio = (poolpair) => {
@@ -1002,6 +1097,9 @@ export const getIcon = (symbol: string) => {
     ETH: EthIcon,
     USDT: USDTIcon,
     DFI: DefiIcon,
+    DOGE: DogeIcon,
+    LTC: LtcIcon,
+    BCH: BchIcon,
   };
   return symbolIconObj[symbol];
 };
@@ -1041,11 +1139,11 @@ export const getAddressAndAmountListForAccount = async () => {
   return _.compact(await Promise.all(addressAndAmountList));
 };
 
-export const getHighestAmountAddressForSymbol = (
+export const getHighestAmountAddressForSymbol = async (
   key: string,
   list: HighestAmountItem[],
   sendAmount?: BigNumber
-): HighestAmountItem => {
+): Promise<HighestAmountItem> => {
   let maxAmount = new BigNumber(0);
   let address = '';
   const hasSendAmountValidation = (
@@ -1070,27 +1168,37 @@ export const getHighestAmountAddressForSymbol = (
     }
   }
   if (!address) {
-    const networkName = getNetworkType();
-    const paymentRequests = handleGetPaymentRequest(networkName);
+    const paymentRequests = await handleGetPaymentRequest();
     address = (paymentRequests ?? [])[0]?.address;
   }
   return { address, amount: maxAmount };
 };
 
+const coingeckoApi = setup({
+  // `axios` options
+  baseURL: `${COINGECKO_API_BASE_URL}`,
+  cache: {
+    maxAge: 300,
+    exclude: {
+      query: false,
+    },
+  },
+});
 export const getCoinPriceInUSD = async (conversionCurrency: string) => {
   const ids = getIDs();
-  const { data } = await axios({
-    url: `${COINGECKO_API_BASE_URL}/simple/price`,
-    method: 'GET',
-    params: {
-      ids,
-      vs_currencies: conversionCurrency,
-    },
-  });
+  const { data } = await coingeckoApi.get(
+    `${COINGECKO_API_BASE_URL}/simple/price`,
+    {
+      params: {
+        ids,
+        vs_currencies: conversionCurrency,
+      },
+    }
+  );
   return data;
 };
 
-export const parsedCoinPriceData = async () => {
+export const coinGeckoCoinPrices = async () => {
   const result = await getCoinPriceInUSD(VS_CURRENCY);
   const coinMap = getCoinMap();
   return Object.keys(result).reduce((coinPriceObj: any, item) => {
@@ -1100,17 +1208,39 @@ export const parsedCoinPriceData = async () => {
   }, {});
 };
 
-export const getCoinMap = () => {
+export const parsedCoinPriceData = (poolStats): CoinPriceData => {
+  const coinPriceObj: CoinPriceData = {};
+  Object.keys(poolStats).forEach((temp1: string, index: number) => {
+    const symbol = +temp1.replace('_0', '');
+    if (index === 0) {
+      coinPriceObj[0] = poolStats[temp1].priceB;
+    }
+    coinPriceObj[symbol] = poolStats[temp1].priceA;
+  });
+  return coinPriceObj;
+};
+
+export const getTokenSymbolNetwork = (mainToken: string, testToken: string) => {
   const networkType = getNetworkType();
-  const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
-  const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
-  const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
+  return networkType === MAIN ? mainToken : testToken;
+};
+
+export const getCoinMap = () => {
+  const btcSymbol = getTokenSymbolNetwork(MAINNET_BTC_SYMBOL, BTC_SYMBOL);
+  const ethSymbol = getTokenSymbolNetwork(MAINNET_ETH_SYMBOL, ETH_SYMBOL);
+  const usdtSymbol = getTokenSymbolNetwork(MAINNET_USDT_SYMBOL, USDT_SYMBOL);
+  const ltcSymbol = getTokenSymbolNetwork(MAINNET_LTC_SYMBOL, LTC_SYMBOL);
+  const dogeSymbol = getTokenSymbolNetwork(MAINNET_DOGE_SYMBOL, DOGE_SYMBOL);
+  const bchSymbol = getTokenSymbolNetwork(MAINNET_BCH_SYMBOL, BCH_SYMBOL);
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
     [COINGECKO_BTC_ID, btcSymbol],
     [COINGECKO_ETH_ID, ethSymbol],
     [COINGECKO_USDT_ID, usdtSymbol],
+    [COINGECKO_LTC_ID, ltcSymbol],
+    [COINGECKO_DOGE_ID, dogeSymbol],
+    [COINGECKO_BCH_ID, bchSymbol],
   ]);
   return coinMap;
 };
@@ -1121,6 +1251,9 @@ export const getCoinIds = () => {
     COINGECKO_BTC_ID,
     COINGECKO_ETH_ID,
     COINGECKO_USDT_ID,
+    COINGECKO_LTC_ID,
+    COINGECKO_DOGE_ID,
+    COINGECKO_BCH_ID,
   ];
 };
 
@@ -1238,22 +1371,40 @@ export const getTotalAmountPoolShare = async (poolID) => {
   return totalAmount;
 };
 
-export const getSymbolKey = (symbol: string, key: string) => {
+export const getTokenDisplayName = (
+  isDAT: boolean,
+  displayName: string,
+  symbolKey: string,
+  hash: string,
+  isSPV?: boolean
+): string => {
+  return (isDAT || isSPV ? displayName : `${symbolKey}#${hash}`) || '';
+};
+
+export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const networkType = getNetworkType();
   const btcSymbol = networkType === MAIN ? MAINNET_BTC_SYMBOL : BTC_SYMBOL;
+  const btcSPVSymbol = BTC_SPV_SYMBOL;
   const ethSymbol = networkType === MAIN ? MAINNET_ETH_SYMBOL : ETH_SYMBOL;
   const usdtSymbol = networkType === MAIN ? MAINNET_USDT_SYMBOL : USDT_SYMBOL;
-  if (
-    key === DFI_SYMBOL ||
-    key === btcSymbol ||
-    key === ethSymbol ||
-    key === usdtSymbol
-  ) {
+  const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
+  const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
+  const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
+  const tokens = [
+    DFI_SYMBOL,
+    btcSymbol,
+    ethSymbol,
+    usdtSymbol,
+    ltcSymbol,
+    dogeSymbol,
+    bchSymbol,
+    btcSPVSymbol,
+  ];
+  if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
   }
   return `${symbol}#${key}`;
 };
-
 export const selectNfromRange = (lowerBound, upperBound, limit = 6) => {
   const distinctRandomNumbers: number[] = [];
   while (distinctRandomNumbers.length < limit) {
@@ -1401,8 +1552,13 @@ export const createChainURL = (tx: string): string => {
   return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
 };
 
-export const onViewOnChain = (tx: string): void => {
-  openNewTab(createChainURL(tx));
+export const createBlockchainComURL = (tx: string): string => {
+  const net = getNetworkType() === MAIN ? 'btc' : 'btc-testnet';
+  return `${BLOCKCHAIN_COM}${net.toLowerCase()}/tx/${tx ?? ''}`;
+};
+
+export const onViewOnChain = (tx: string, isSPV?: boolean): void => {
+  openNewTab(isSPV ? createBlockchainComURL(tx) : createChainURL(tx));
 };
 
 export const handlePeersSyncRequest = async (
@@ -1419,6 +1575,57 @@ export const handlePeersSyncRequest = async (
 
 export const getMaxNumberOfAmount = (value: string, hash: string): string => {
   return hash === DFI_SYMBOL
-    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8)
-    : new BigNumber(value).toFixed(8);
+    ? BigNumber.maximum(new BigNumber(value).minus(1), 0).toFixed(8, 1)
+    : new BigNumber(value).toFixed(8, 1);
+};
+
+export const shortenedPathAddress = (p: string): string => {
+  try {
+    const fileLength = 50;
+    if (p && p.length > fileLength) {
+      const middle = Math.floor(p.length / 3);
+      const firstHalf = Math.floor(middle / 2);
+      return p.replace(p.substr(firstHalf, firstHalf * 2), '...');
+    } else {
+      return p;
+    }
+  } catch (error) {
+    log.error(error, 'shortenedPathAddress');
+    return p;
+  }
+};
+
+export const getFormattedTime = () => {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = today.getMonth() + 1;
+  const d = today.getDate();
+  const h = today.getHours();
+  const mi = today.getMinutes();
+  const s = today.getSeconds();
+  return `${y}-${m}-${d}_${h}-${mi}-${s}`;
+};
+
+export const checkRPCErrorMessagePending = (message: string): string => {
+  if (message) {
+    const lpKeywords = ['amount', 'is less than'];
+    if (shouldRemapError(message, lpKeywords)) {
+      return getErrorRemapping(
+        message,
+        lpKeywords,
+        ResponseMessages.BLOCKS_PENDING
+      );
+    } else {
+      return remapNodeError(message);
+    }
+  }
+  return message;
+};
+
+export const getCountdownValue = () => {
+  const sendCountdownValue = PersistentStore.get('sendCountdown');
+  if (!sendCountdownValue || sendCountdownValue === 'true') {
+    return true;
+  }
+  return false;
 };

@@ -1,4 +1,8 @@
-import { isElectron, ipcRendererFunc } from '../../utils/isElectron';
+import {
+  isElectron,
+  ipcRendererFunc,
+  restartNode,
+} from '../../utils/isElectron';
 import { I18n } from 'react-redux-i18n';
 import * as log from '../../utils/electronLogger';
 import {
@@ -33,6 +37,7 @@ import {
   TESTNET,
   LIST_ACCOUNTS_PAGE_SIZE,
   DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
+  FI,
   // REGTEST,
 } from '../../constants';
 import showNotification from '../../utils/notifications';
@@ -40,7 +45,8 @@ import PersistentStore from '../../utils/persistentStore';
 import RpcClient from '../../utils/rpc-client';
 import {
   fetchAccountsDataWithPagination,
-  getNetworkType,
+  getCountdownValue,
+  getErrorMessage,
 } from '../../utils/utility';
 import compact from 'lodash/compact';
 import { refreshUtxosRequest, refreshUtxosSuccess } from './reducer';
@@ -51,6 +57,10 @@ import {
   PRELAUNCH_PREFERENCE_STATUS,
 } from '@defi_types/ipcEvents';
 import { handleGetPaymentRequest } from '../WalletPage/service';
+import { IPCResponseModel } from '../../../../typings/common';
+import { replaceWalletMapSync, updateWalletMap } from '../../app/service';
+import { shutDownBinary } from '../../worker/queue';
+import { restartModal } from '../PopOver/reducer';
 
 export const getLanguage = () => {
   return [
@@ -112,6 +122,7 @@ export const initialData = () => {
     maximumAmount: getAppConfigMaximumAmount(),
     maximumCount: getAppConfigMaximumCount(),
     feeRate: getAppConfigFeeRate(),
+    sendCountdown: getCountdownValue(),
   };
   return settings;
 };
@@ -149,7 +160,7 @@ export const refreshUtxosAfterSavingData = async () => {
   });
 
   const resolvedData: any = compact(await Promise.all(addressesList));
-  const result = handleGetPaymentRequest(getNetworkType());
+  const result = await handleGetPaymentRequest();
   const receivedAddresses: any = result.map((addressObj) => addressObj.address);
 
   const finalData = [...resolvedData, ...receivedAddresses];
@@ -208,7 +219,10 @@ export const disablePreLaunchStatus = () => {
 export const getAppConfigUnit = () => {
   const unit = PersistentStore.get(UNIT);
   if (unit && Object.keys(DFI_UNIT_MAP).indexOf(unit) > -1) {
-    return unit;
+    if (unit === FI) {
+      PersistentStore.set(UNIT, DEFAULT_UNIT);
+    }
+    return DEFAULT_UNIT;
   }
   log.error(new Error('Error in selected unit, setting it to default one'));
   PersistentStore.set(UNIT, DEFAULT_UNIT);
@@ -237,4 +251,55 @@ export const getAppConfigFeeRate = () => {
 
   PersistentStore.set(FEE_RATE, DEFAULT_FEE_RATE);
   return DEFAULT_FEE_RATE;
+};
+
+export const changePassphrase = async (
+  currentPassphrase: string,
+  newPassphrase: string
+): Promise<IPCResponseModel<string>> => {
+  try {
+    const rpcClient = new RpcClient();
+    const resp = await rpcClient.changeWalletPassphrase(
+      currentPassphrase,
+      newPassphrase
+    );
+    return {
+      success: true,
+      message: resp,
+    };
+  } catch (error) {
+    log.error(getErrorMessage(error), 'changePassphrase');
+    return {
+      success: false,
+      message: getErrorMessage(error),
+    };
+  }
+};
+
+export const updateLockTimeout = async (
+  lockTimeout: number
+): Promise<IPCResponseModel<string>> => {
+  try {
+    updateWalletMap('', true, { lockTimeout });
+    return {
+      success: true,
+    };
+  } catch (error) {
+    log.error(getErrorMessage(error), 'updateLockTimeout');
+    return {
+      success: false,
+      message: getErrorMessage(error),
+    };
+  }
+};
+
+export const onRescanClick = async (): Promise<void> => {
+  const { walletMap } = store.getState().wallet;
+  replaceWalletMapSync({
+    ...walletMap,
+    hasRescan: true,
+  });
+  store.dispatch(restartModal());
+  await shutDownBinary();
+  restartNode();
 };

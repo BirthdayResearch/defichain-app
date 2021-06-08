@@ -105,7 +105,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                   <th>{I18n.t('containers.swap.poolTab.pair')}</th>
                   <th>{I18n.t('containers.swap.poolTab.totalLiquidity')}</th>
                   <th>
-                    {I18n.t('containers.swap.poolTab.apy')}
+                    {I18n.t('containers.swap.poolTab.apr')}
                     <span id='info-text' className={styles['info-text']}>
                       <MdInfoOutline />
                     </span>
@@ -145,7 +145,7 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                       </div>
                     </td>
                     <td>
-                      <div>{`${poolpair.apy} %`}</div>
+                      <div>{`${poolpair.apr} %`}</div>
                     </td>
                     <td className={styles.actionsCol}>
                       <Button

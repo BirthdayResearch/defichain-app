@@ -1,9 +1,5 @@
 // App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../scss/variables';
-@import '../../scss/bootstrap/variables';
+@import '../../scss/bootstrap/common';
 
 .syncStatusWrapper {
   border-top: 1px solid $border-color;
@@ -18,6 +14,9 @@
     font-weight: $font-weight-medium;
     letter-spacing: 0.21px;
     line-height: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .blockStatus {
@@ -37,5 +36,14 @@
   .syncProgress {
     margin-top: 8px;
     height: 8px;
+  }
+
+  .snapshotIcon {
+    cursor: pointer;
+    color: $secondary;
+
+    svg {
+      color: $secondary;
+    }
   }
 }

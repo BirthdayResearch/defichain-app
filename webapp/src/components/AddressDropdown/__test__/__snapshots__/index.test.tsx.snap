@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddressDropdown  should check for snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <Connect(AddressDropdown)
+    additionalClass={[Function]}
+    formState={
+      Object {
+        "receiveAddress": "receiveAddress",
+        "receiveLabel": "receiveLabel",
+      }
+    }
+    getTransactionLabel={[Function]}
+    isDisabled={true}
+    onSelectAddress={[Function]}
+    paymentRequests={
+      Object {
+        "address": "address",
+        "amount": 1,
+        "hdSeed": true,
+        "id": "id",
+        "label": "label",
+        "message": "message",
+        "time": "time",
+        "unit": "unit",
+      }
+    }
+  />
+</ContextProvider>
+`;

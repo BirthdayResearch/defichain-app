@@ -120,7 +120,16 @@
         "lockedInCollateral": "Collatéral bloquée",
         "costPerMasterNode": "Coût d'un Masternode",
         "masternodeWorth": "Valeur d'un Masternode",
-        "searchBar": "Rechercher un Masternode"
+        "searchBar": "Rechercher un Masternode",
+        "mine": "Mine",
+        "all": "All",
+        "owner": "Owner",
+        "operator": "Operator",
+        "type": "Type",
+        "collateral": "Collateral",
+        "collateralsActive": "Collaterals active",
+        "collateralsInactive": "Collaterals inactive",
+        "dFIMinted": "DFI minted"
       },
       "masterNodesList": {
         "ownerAddress": "Adresse du propriétaire",
@@ -133,7 +142,7 @@
       "createMasterNode": {
         "title": "Créer un Masternode – Client Blockchain DeFi",
         "masterNodeName": "Nom du Masternode",
-        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 1 million de DFI est nécéssaire pour la création d'un Masternode",
+        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un Masternode. Un minimum de 20,000 de DFI est nécéssaire pour la création d'un Masternode",
         "confirmationText": "Êtes-vous certain de vouloir créer un Masternode?",
         "createNodeButton": "Créer un Masternode",
         "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
@@ -184,7 +193,6 @@
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
         "loading": "Loading…",
         "watchVideo": "Watch video",
-
         "availablePoolPairs": "Available pool pairs",
         "noPoolPairs": "No pool pairs",
         "pair": "Pair",
@@ -260,6 +268,7 @@
         "amountInsufficient": "Insufficient Amount in your account",
         "txHash": "Transaction Hash",
         "somethingWentWrong": "Something went wrong",
+        "priceImpactWarning": "Trade volume exceed %{percentage}% of pool size. There will be considerable price impact if you proceed with the swap.",
         "preparimgUTXO": "Preparing UTXO",
         "UTXOPrepared": "UTXO prepared",
         "transferringTokens": "Transferring tokens",
@@ -273,13 +282,12 @@
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
-
         "availablePoolPairs": "Available pool pairs",
         "pair": "Pair",
         "liquidity": "Liquidity",
         "volume": "Volume",
         "apy": "APY",
-        "apyTooltipMessage": "APY indicated here only includes DFI incentives, without commission. Actual APY with commission is thus, more",
+        "apyTooltipMessage": "APR indicated here only includes DFI incentives, without commission. Actual APR with commission is thus, more",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
         "totalValueLocked": "Total Value Locked (USD)"
@@ -359,6 +367,7 @@
         "searchTokens": "Recherche de Tokens",
         "dat": "DAT",
         "dct": "DCT",
+        "remove": "Remove",
         "paginationRange": "%{from} – %{to} sur %{total} tokens",
         "datLabels": {
           "type": "Type",
@@ -487,7 +496,7 @@
       "general": "Général",
       "display": "Affichage",
       "launchOptions": "Lancement des options",
-      "reindexOption": "ReIndex Option",
+      "reindexOption": "ReIndex option",
       "reindexAfterSaving": "Reindex after saving",
       "launchAtLogin": "Lancement au démarage",
       "minimizedAtLaunch": "Minimisé au démarage",
@@ -524,7 +533,22 @@
       "network": "Réseau",
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "regnet": "Regnet"
+      "regnet": "Regnet",
+      "deletePeersAndBlocks": "Delete peers and blocks",
+      "showAdvanceOptions": "Show advance options",
+      "hideAdvanceOptions": "Hide advance options",
+      "sendCountdown": "Send countdown",
+      "preventAccidental": "Prevent accidental sending with a countdown",
+      "ShowWalletRepair": "Show wallet repair options",
+      "hidewalletHelper": "Hide wallet helper options",
+      "preFundTxns": "PRE-FUND TXNS",
+      "preFundTxnsDescription": "Sends 0.1 DFI to every address you own to pre-fund future transactions which require DFI.",
+      "reindex": "REINDEX",
+      "reindexDescription": "Rebuilds blockchain database from existing block data, when block data is corrupt or cannot be read.",
+      "lockWithPassphrase": "Lock with passphrase",
+      "passpharaseInfo": "Secure the wallet data on your computer with a passpharse.",
+      "resetAndReindex": "RESET & REINDEX",
+      "resetAndReindexInfo": "Deletes existing peers and block data, redownloads data then reindex (rebuild blockchain database)."
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -637,7 +661,7 @@
         "uRI": "URI"
       },
       "walletPage": {
-        "includeRewards": "Include rewards",
+        "includeRewards": "Include reward transactions",
         "walletDeFiApp": "Portefeuille",
         "wallet": "wallet",
         "wallets": "Wallets",
@@ -651,7 +675,22 @@
         "availableBalance": "Solde disponible",
         "pending": "En attente",
         "updateAvailableLabel": "Update available",
-        "txidNotApplicable": "Transaction ID not applicable"
+        "txidNotApplicable": "Transaction ID not applicable",
+        "exportData": "EXPORT DATA",
+        "exportWalletData": "Export wallet data",
+        "export": "EXPORT",
+        "maxBlockHeight": "Up to block height",
+        "blockHeight": "Block height",
+        "blockHash": "Block hash",
+        "type": "Type",
+        "poolID": "Pool ID",
+        "amounts": "Amounts",
+        "limit": "Limit to last",
+        "max": "Max",
+        "transaction": "transactions",
+        "format": "Format",
+        "csv": "CSV",
+        "blockReward": "Block reward"
       },
       "walletTxns": {
         "height": "Hauteur",
@@ -759,7 +798,8 @@
     "restartWalletModalHeader": "Redémarrage nécéssaire",
     "restartWalletWarningNotice": " Vous devez redémarrer l'app DeFi. Voulez-vous redémarrer maintenant?",
     "yesRestartWalletNotice": "Redémarrer maintenant",
-    "noRestartWalletNotice": "Plus tard"
+    "noRestartWalletNotice": "Plus tard",
+    "deletePeersAndBlocks": "Delete peers and blocks"
   },
   "general": {
     "defiApp": "App DeFi"

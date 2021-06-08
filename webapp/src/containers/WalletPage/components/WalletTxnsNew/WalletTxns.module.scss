@@ -1,9 +1,4 @@
-// App and Bootstrap variables required
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '../../../../scss/variables';
-@import '../../../../scss/bootstrap/variables';
+@import '../../../../scss/bootstrap/common';
 
 .card {
   overflow: auto;
@@ -95,4 +90,16 @@
 
 .txid__na {
   color: $disabled;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.includeReward {
+  margin-top: -24px;
+}
+
+.setWidth {
+  width: 23em;
 }

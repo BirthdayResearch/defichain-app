@@ -23,7 +23,7 @@ import {
 import store from '../../app/rootStore';
 import { queuePush } from '../../utils/utility';
 
-function fetchBlocks(action) {
+export function fetchBlocks(action) {
   const { currentPage: pageNo, pageSize } = action.payload;
   const callBack = (err, result) => {
     if (err) {
@@ -40,7 +40,7 @@ function fetchBlocks(action) {
   queuePush(handelFetchBlocks, [pageNo, pageSize], callBack);
 }
 
-function fetchBlockData(action) {
+export function fetchBlockData(action) {
   const { blockNumber } = action.payload;
   const callBack = (err, result) => {
     if (err) {
@@ -57,7 +57,7 @@ function fetchBlockData(action) {
   queuePush(handleFetchBlockData, [blockNumber], callBack);
 }
 
-function fetchBlockCount() {
+export function fetchBlockCount() {
   const callBack = (err, result) => {
     if (err) {
       store.dispatch(fetchBlockCountFailure(err.message));
@@ -73,7 +73,7 @@ function fetchBlockCount() {
   queuePush(handleFetchBlockCount, [], callBack);
 }
 
-function fetchTxns(action) {
+export function fetchTxns(action) {
   const { blockNumber, pageNo, pageSize } = action.payload;
   const callBack = (err, result) => {
     if (err) {

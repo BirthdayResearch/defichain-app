@@ -88,3 +88,29 @@ export interface ListUnspentModel {
   desc?: string;
   safe?: boolean;
 }
+
+export interface WalletInfo {
+  walletname: string;
+  walletversion: number;
+  balance: number;
+  unconfirmed_balance: number;
+  immature_balance: number;
+  txcount: number;
+  keypoololdest: number;
+  keypoolsize: number;
+  keypoolsize_hd_internal: number;
+  unlocked_until: number;
+  paytxfee: number;
+  hdseedid: string;
+  private_keys_enabled: boolean;
+}
+
+export interface CreateNewWalletModel {
+  name: string;
+  warning: string;
+}
+
+export interface SPVSendModel {
+  txid: string;
+  sendmessage: string;
+}

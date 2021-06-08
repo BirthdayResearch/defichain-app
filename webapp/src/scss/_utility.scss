@@ -8,3 +8,19 @@
   width: 95%;
   display: inline-flex;
 }
+
+.flipX {
+  transform: scaleX(-1);
+}
+
+.iconBadge {
+  width: 80px;
+  height: 80px;
+  background-color: $light;
+  text-align: center;
+  line-height: 80px;
+  border-radius: 100%;
+  margin-bottom: 15px;
+  padding: 18px;
+  color: $secondary;
+}

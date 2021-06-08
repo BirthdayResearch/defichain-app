@@ -14,48 +14,39 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { MdMoreHoriz, MdDelete } from 'react-icons/md';
 import styles from './PaymentRequestList.module.scss';
-import {
-  fetchPaymentRequest,
-  removeReceiveTxnsRequest,
-} from '../../../reducer';
+import { removeReceiveTxnsRequest } from '../../../reducer';
 import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
-import EllipsisText from 'react-ellipsis-text';
 import { addHdSeedCheck } from '../../../saga';
-
-export interface PaymentRequestModel {
-  label: string;
-  id: string;
-  time: string;
-  address: string;
-  message?: string;
-  amount?: number;
-  unit?: string;
-  hdSeed?: boolean;
-}
-
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import classnames from 'classnames';
 interface PaymentRequestsProps {
   paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
-  fetchPaymentRequest: () => void;
+  spvPaymentRequests?: PaymentRequestModel[];
+  isSPV?: boolean;
 }
 
 const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
   props: PaymentRequestsProps
 ) => {
+  const addresses =
+    (props.isSPV ? props.spvPaymentRequests : props.paymentRequests) || [];
   const [currentPage, handlePageClick] = useState(1);
   const pageSize = PAYMENT_REQ_LIST_SIZE;
-  const total = props.paymentRequests.length;
+  const total = addresses.length;
   const pagesCount = Math.ceil(total / pageSize);
   const from = (currentPage - 1) * pageSize;
   const to = Math.min(total, currentPage * pageSize);
-  const data = props.paymentRequests.slice(from, to);
+  const data = addresses.slice(from, to);
   const [copied, changeCopied] = useState(false);
 
   useEffect(() => {
-    addHdSeedCheck(data);
+    if (!props.isSPV) {
+      addHdSeedCheck(data);
+    }
   }, [data]);
 
   const handleCopy = () => {
@@ -97,18 +88,6 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         <div className={styles.ellipsisValue}>
                           {request.address}
                         </div>
-                        <div className={styles.ellipsisValue}>
-                          {!request.hdSeed && (
-                            <span className='text-danger'>
-                              <EllipsisText
-                                text={I18n.t(
-                                  'containers.wallet.paymentRequestList.warningSeedPhrase'
-                                )}
-                                length={34}
-                              />
-                            </span>
-                          )}
-                        </div>
                       </td>
                       <td>{moment(request.time).fromNow()}</td>
                       <td>
@@ -129,7 +108,11 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                         </div>
                       </td>
                       <td className={`${styles.actionCell} ${styles.qrCc}`}>
-                        <UncontrolledDropdown>
+                        <UncontrolledDropdown
+                          className={` ${
+                            props.isSPV ? styles.visibilityNone : ''
+                          }`}
+                        >
                           <DropdownToggle className='padless' color='link'>
                             <MdMoreHoriz />
                           </DropdownToggle>
@@ -181,12 +164,12 @@ const mapStateToProps = (state) => {
   const { wallet } = state;
   return {
     paymentRequests: wallet.paymentRequests,
+    spvPaymentRequests: wallet.spvPaymentRequests,
   };
 };
 
 const mapDispatchToProps = {
   removeReceiveTxns: (id: string | number) => removeReceiveTxnsRequest(id),
-  fetchPaymentRequest: () => fetchPaymentRequest(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentRequestList);

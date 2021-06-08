@@ -121,6 +121,7 @@ exports[`SyncStatus component should check for snapshot 1`] = `
           }
           isLoading={true}
           isMinimized={false}
+          isPeersLoading={true}
           isRestart={false}
           isUpdateModalOpen={false}
           isUpdateStarted={false}
@@ -145,9 +146,10 @@ exports[`SyncStatus component should check for snapshot 1`] = `
               "url": "/route/1",
             }
           }
+          peers={0}
+          syncStatusPeersRequest={[Function]}
           syncStatusRequest={[Function]}
           syncedPercentage={0}
-          peers={77}
           updateAppInfo={Object {}}
         >
           <div>
@@ -155,7 +157,7 @@ exports[`SyncStatus component should check for snapshot 1`] = `
               Preparing sync
             </div>
             <div>
-              Connected to 77 peers
+              Looking for peers
             </div>
             <div />
           </div>

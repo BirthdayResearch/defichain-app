@@ -1,3 +1,4 @@
+require('@electron/remote/main').initialize();
 import log from 'loglevel';
 import * as path from 'path';
 import * as os from 'os';
@@ -31,6 +32,9 @@ import {
   APP_INIT,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
+import { checkWalletConfig, initializeWalletMap } from './controllers/wallets';
+import Uiconfig from './services/uiconfig';
+import { initializeSnapshotEvents } from './controllers/snapshot';
 
 declare var process: {
   argv: any;
@@ -59,15 +63,20 @@ export default class App {
     this.isAppInitialized = false;
     autoUpdater.autoDownload = false;
     autoUpdater.logger = ElectronLogger;
+    autoUpdater.allowPrerelease = false;
     /* For future purpose */
   }
 
-  run() {
+  async run() {
+    /* Create config file if not existing */
+    const uiConfig = new Uiconfig();
+    await uiConfig.get();
     app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
     this.setNodeEvents();
+    checkWalletConfig();
   }
 
   onAppReady = async () => {
@@ -87,6 +96,8 @@ export default class App {
       this.createMenu.bind(this)
     );
     createMnemonicAction();
+    initializeWalletMap();
+    await initializeSnapshotEvents(this.mainWindow);
   };
 
   initiateInterceptFileProtocol() {
@@ -112,12 +123,15 @@ export default class App {
       'REACT_PERF',
     ];
 
-    return installer
-      .default(
-        extensions.map((name) => installer[name]),
-        forceDownload
-      )
-      .catch(console.log);
+    return (
+      installer
+        .default(
+          extensions.map((name) => installer[name]),
+          forceDownload
+        )
+        // tslint:disable-next-line:no-console
+        .catch(console.log)
+    );
   };
 
   createWindow = async () => {
@@ -138,6 +152,7 @@ export default class App {
         nodeIntegration: true,
         webSecurity: false,
         enableRemoteModule: true,
+        contextIsolation: false,
       },
     });
     const loadUrl =
@@ -222,11 +237,20 @@ export default class App {
       return (this.mainWindow = null);
     }
     ElectronLogger.info(`[${LOGGING_SHUT_DOWN}] Starting shut down process`);
-    setTimeout(() => {
+    setTimeout(async () => {
+      setTimeout(async () => {
+        ElectronLogger.info(
+          `[${LOGGING_SHUT_DOWN}] ${
+            APP_SHUTDOWN_TIMEOUT * 2
+          }ms elapsed, force closing app`
+        );
+        this.closeWindowAndQuitApp();
+      }, APP_SHUTDOWN_TIMEOUT);
+
       ElectronLogger.info(
-        `[${LOGGING_SHUT_DOWN}] 30 minutes elapsed, force closing app`
+        `[${LOGGING_SHUT_DOWN}] ${APP_SHUTDOWN_TIMEOUT}ms elapsed, force closing processes`
       );
-      this.closeWindowAndQuitApp();
+      await DefiProcessManager.forceClose();
     }, APP_SHUTDOWN_TIMEOUT);
     // Stop all process before quit
     this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);

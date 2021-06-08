@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ValueLi component should check for snapshot 1`] = `
+<Fragment>
+  <a
+    href="#"
+    onClick={[Function]}
+  >
+    <div>
+      <div>
+        <div>
+          <div
+            className=""
+          >
+            Copied!
+          </div>
+          <EllipsisText
+            length={50}
+            tail="..."
+            tailClassName="more"
+            text="value"
+          />
+        </div>
+      </div>
+    </div>
+  </a>
+  <div />
+</Fragment>
+`;

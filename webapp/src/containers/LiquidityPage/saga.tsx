@@ -5,6 +5,7 @@ import {
   handleFetchTokenDFI,
   handleFetchUtxoDFI,
   handleFetchTokenBalanceList,
+  checkRPCErrorMessagePending,
 } from '../../utils/utility';
 import { fetchMaxAccountDfiRequest } from '../LiquidityPage/reducer';
 import {
@@ -108,7 +109,7 @@ export function* addPoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: addPoolLiquidityFailure.type,
-      payload: getErrorMessage(e),
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
     });
   }
 }
@@ -130,7 +131,7 @@ export function* removePoolLiquidity(action) {
     log.error(e.message);
     yield put({
       type: removePoolLiquidityFailure.type,
-      payload: getErrorMessage(e),
+      payload: checkRPCErrorMessagePending(getErrorMessage(e)),
     });
   }
 }

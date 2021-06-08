@@ -10,7 +10,7 @@ import {
   Col,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { PaymentRequestModel } from '../../containers/WalletPage/components/ReceivePage/PaymentRequestList';
+import { PaymentRequestModel } from '@defi_types/rpcConfig';
 import styles from './AddressDropdown.module.scss';
 import { AddressModel } from '../../model/address.model';
 

@@ -1,0 +1,2245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RestoreWallet component should check for snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Connect(RestoreWallet)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        location={
+          Object {
+            "hash": "",
+            "pathname": "/route/1",
+            "search": "",
+            "state": undefined,
+          }
+        }
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {
+              "id": "1",
+            },
+            "path": "/route/:id",
+            "url": "/route/1",
+          }
+        }
+      >
+        <RestoreWallet
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          isErrorRestoringWallet=""
+          isWalletRestoring={false}
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/route/1",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": false,
+              "params": Object {
+                "id": "1",
+              },
+              "path": "/route/:id",
+              "url": "/route/1",
+            }
+          }
+          resetRestoreWalletError={[Function]}
+          restoreWallet={[Function]}
+        >
+          <div
+            className="main-wrapper"
+          >
+            <HelmetWrapper
+              defer={true}
+              encodeSpecialCharacters={true}
+            >
+              <SideEffect(NullComponent)
+                defer={true}
+                encodeSpecialCharacters={true}
+                title="Wallet - Restore wallet - DeFi Wallet"
+                titleAttributes={Object {}}
+              >
+                <NullComponent
+                  defer={true}
+                  encodeSpecialCharacters={true}
+                  title="Wallet - Restore wallet - DeFi Wallet"
+                  titleAttributes={Object {}}
+                />
+              </SideEffect(NullComponent)>
+            </HelmetWrapper>
+            <Connect(Header)>
+              <Header
+                openBackupWallet={[Function]}
+                startUpdateApp={[Function]}
+                updateAvailableBadge={false}
+              >
+                <header
+                  className="header-bar"
+                >
+                  <Button
+                    className="header-bar-back"
+                    color="link"
+                    tag={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "propTypes": Object {
+                          "activeClassName": [Function],
+                          "activeStyle": [Function],
+                          "aria-current": [Function],
+                          "className": [Function],
+                          "exact": [Function],
+                          "innerRef": [Function],
+                          "isActive": [Function],
+                          "location": [Function],
+                          "onClick": [Function],
+                          "replace": [Function],
+                          "sensitive": [Function],
+                          "strict": [Function],
+                          "style": [Function],
+                          "target": [Function],
+                          "to": [Function],
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    to="/wallet/tokens"
+                  >
+                    <NavLink
+                      aria-label={null}
+                      className="header-bar-back btn btn-link"
+                      onClick={[Function]}
+                      to="/wallet/tokens"
+                    >
+                      <Link
+                        aria-current={null}
+                        aria-label={null}
+                        className="header-bar-back btn btn-link"
+                        onClick={[Function]}
+                        to={
+                          Object {
+                            "hash": "",
+                            "pathname": "/wallet/tokens",
+                            "search": "",
+                            "state": null,
+                          }
+                        }
+                      >
+                        <LinkAnchor
+                          aria-current={null}
+                          aria-label={null}
+                          className="header-bar-back btn btn-link"
+                          href="/wallet/tokens"
+                          navigate={[Function]}
+                          onClick={[Function]}
+                        >
+                          <a
+                            aria-current={null}
+                            aria-label={null}
+                            className="header-bar-back btn btn-link"
+                            href="/wallet/tokens"
+                            onClick={[Function]}
+                          >
+                            <MdArrowBack>
+                              <IconBase
+                                attr={
+                                  Object {
+                                    "viewBox": "0 0 24 24",
+                                  }
+                                }
+                              >
+                                <svg
+                                  fill="currentColor"
+                                  height="1em"
+                                  stroke="currentColor"
+                                  strokeWidth="0"
+                                  style={
+                                    Object {
+                                      "color": undefined,
+                                    }
+                                  }
+                                  viewBox="0 0 24 24"
+                                  width="1em"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+                                    key="0"
+                                  />
+                                </svg>
+                              </IconBase>
+                            </MdArrowBack>
+                            <span
+                              className="d-lg-inline"
+                            >
+                              Back
+                            </span>
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </NavLink>
+                  </Button>
+                  <h1
+                    className=""
+                  >
+                    Restore wallet
+                  </h1>
+                </header>
+              </Header>
+            </Connect(Header)>
+            <div
+              className="content"
+            >
+              <section>
+                <p>
+                  Enter the 24 words in your mnemonic seed to restore wallet.
+                </p>
+              </section>
+              <Row
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="row"
+                >
+                  <Col
+                    key="1"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      1
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="2"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      2
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="3"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      3
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="4"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      4
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="5"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      5
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="6"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      6
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="7"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      7
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="8"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      8
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="9"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      9
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="10"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      10
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="11"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      11
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="12"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      12
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="13"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      13
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="14"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      14
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="15"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      15
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="16"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      16
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="17"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      17
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="18"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      18
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="19"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      19
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="20"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      20
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="21"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      21
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="22"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      22
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="23"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      23
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                  <Col
+                    key="24"
+                    md="4"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="col-md-4"
+                    >
+                      <Row
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="row"
+                        >
+                          <InputGroup
+                            className="m-2"
+                            tag="div"
+                          >
+                            <div
+                              className="m-2 input-group"
+                            >
+                              <InputGroupAddon
+                                addonType="prepend"
+                                tag="div"
+                              >
+                                <div
+                                  className="input-group-prepend"
+                                >
+                                  <InputGroupText
+                                    tag="span"
+                                  >
+                                    <span
+                                      className="input-group-text"
+                                    >
+                                      24
+                                    </span>
+                                  </InputGroupText>
+                                </div>
+                              </InputGroupAddon>
+                              <Input
+                                className="border-left-0"
+                                onChange={[Function]}
+                                placeholder="Enter word"
+                                type="text"
+                                value=""
+                              >
+                                <input
+                                  className="border-left-0 form-control"
+                                  onChange={[Function]}
+                                  placeholder="Enter word"
+                                  type="text"
+                                  value=""
+                                />
+                              </Input>
+                            </div>
+                          </InputGroup>
+                        </div>
+                      </Row>
+                    </div>
+                  </Col>
+                </div>
+              </Row>
+            </div>
+            <footer
+              className="footer-bar"
+            >
+              <div>
+                <Row
+                  className="justify-content-between align-items-center"
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="justify-content-between align-items-center row"
+                  >
+                    <Col
+                      className="d-flex justify-content-end"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="d-flex justify-content-end col"
+                      >
+                        <Button
+                          className="mr-3"
+                          color="primary"
+                          disabled={true}
+                          onClick={[Function]}
+                          tag="button"
+                        >
+                          <button
+                            aria-label={null}
+                            className="mr-3 btn btn-primary disabled"
+                            disabled={true}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Restore
+                          </button>
+                        </Button>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+            </footer>
+          </div>
+        </RestoreWallet>
+      </Connect(RestoreWallet)>
+    </Provider>
+  </Router>
+</BrowserRouter>
+`;

@@ -41,6 +41,7 @@ exports[`UpdateProgress Index should check for snapshot 1`] = `
         returnFocusAfterClose={true}
         role="dialog"
         scrollable={false}
+        trapFocus={false}
         unmountOnClose={true}
         zIndex={1050}
       />

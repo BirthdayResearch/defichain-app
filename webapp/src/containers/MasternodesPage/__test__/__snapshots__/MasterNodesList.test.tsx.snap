@@ -35,205 +35,598 @@ exports[`MasternodesList component should check for snapshot 1`] = `
         }
       }
     >
-      <Connect(MasternodesPage)
-        history={
-          Object {
-            "action": "POP",
-            "block": [Function],
-            "canGo": [Function],
-            "createHref": [Function],
-            "entries": Array [
-              Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-            ],
-            "go": [Function],
-            "goBack": [Function],
-            "goForward": [Function],
-            "index": 0,
-            "length": 1,
-            "listen": [Function],
-            "location": Object {
-              "hash": "",
-              "pathname": "/",
-              "search": "",
-              "state": undefined,
-            },
-            "push": [Function],
-            "replace": [Function],
-          }
-        }
-        location={
-          Object {
-            "hash": "",
-            "pathname": "/route/1",
-            "search": "",
-            "state": undefined,
-          }
-        }
-        match={
-          Object {
-            "isExact": false,
-            "params": Object {
-              "id": "1",
-            },
-            "path": "/route/:id",
-            "url": "/route/1",
-          }
-        }
-      >
-        <MasternodesPage
-          createMasterNode={[Function]}
-          createdMasterNodeData={Object {}}
-          fetchInstantBalanceRequest={[Function]}
-          fetchMasternodesRequest={[Function]}
-          history={
-            Object {
-              "action": "POP",
-              "block": [Function],
-              "canGo": [Function],
-              "createHref": [Function],
-              "entries": Array [
-                Object {
-                  "hash": "",
-                  "pathname": "/",
-                  "search": "",
-                  "state": undefined,
-                },
-              ],
-              "go": [Function],
-              "goBack": [Function],
-              "goForward": [Function],
-              "index": 0,
-              "length": 1,
-              "listen": [Function],
-              "location": Object {
-                "hash": "",
-                "pathname": "/",
-                "search": "",
-                "state": undefined,
-              },
-              "push": [Function],
-              "replace": [Function],
-            }
-          }
-          isErrorCreatingMasterNode=""
-          isLoadingMasternodes={true}
-          isMasterNodeCreating={false}
-          isOpen={false}
-          isRestart={false}
-          location={
-            Object {
-              "hash": "",
-              "pathname": "/route/1",
-              "search": "",
-              "state": undefined,
-            }
-          }
-          masternodes={Array []}
-          match={
-            Object {
-              "isExact": false,
-              "params": Object {
-                "id": "1",
-              },
-              "path": "/route/:id",
-              "url": "/route/1",
-            }
-          }
-          startRestartNodeWithMasterNode={[Function]}
-          walletBalance={0}
+      <MasternodesPage>
+        <div
+          className="main-wrapper"
         >
-          <div
-            className="main-wrapper"
+          <HelmetWrapper
+            defer={true}
+            encodeSpecialCharacters={true}
           >
-            <HelmetWrapper
+            <SideEffect(NullComponent)
               defer={true}
               encodeSpecialCharacters={true}
+              title="Masternodes - DeFi Wallet"
+              titleAttributes={Object {}}
             >
-              <SideEffect(NullComponent)
+              <NullComponent
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Masternodes - DeFi app"
+                title="Masternodes - DeFi Wallet"
                 titleAttributes={Object {}}
+              />
+            </SideEffect(NullComponent)>
+          </HelmetWrapper>
+          <Connect(Header)>
+            <Header
+              openBackupWallet={[Function]}
+              startUpdateApp={[Function]}
+              updateAvailableBadge={false}
+            >
+              <header
+                className="header-bar"
               >
-                <NullComponent
-                  defer={true}
-                  encodeSpecialCharacters={true}
-                  title="Masternodes - DeFi app"
-                  titleAttributes={Object {}}
-                />
-              </SideEffect(NullComponent)>
-            </HelmetWrapper>
-            <Connect(Header)>
-              <Header
-                openBackupWallet={[Function]}
-                startUpdateApp={[Function]}
-                updateAvailableBadge={false}
-              >
-                <header
-                  className="header-bar"
+                <h1
+                  className=""
                 >
-                  <h1
+                  Masternodes
+                </h1>
+                <MasterNodeTabsHeader
+                  setTab={[Function]}
+                  tab="mine"
+                >
+                  <Nav
+                    pills={true}
+                    tag="ul"
+                    vertical={false}
+                  >
+                    <ul
+                      className="nav nav-pills"
+                    >
+                      <NavItem
+                        tag="li"
+                      >
+                        <li
+                          className="nav-item"
+                        >
+                          <NavLink
+                            className="active"
+                            onClick={[Function]}
+                            tag="a"
+                          >
+                            <a
+                              className="active nav-link"
+                              onClick={[Function]}
+                            >
+                              Mine
+                            </a>
+                          </NavLink>
+                        </li>
+                      </NavItem>
+                      <NavItem
+                        tag="li"
+                      >
+                        <li
+                          className="nav-item"
+                        >
+                          <NavLink
+                            className=""
+                            onClick={[Function]}
+                            tag="a"
+                          >
+                            <a
+                              className="nav-link"
+                              onClick={[Function]}
+                            >
+                              All
+                            </a>
+                          </NavLink>
+                        </li>
+                      </NavItem>
+                    </ul>
+                  </Nav>
+                </MasterNodeTabsHeader>
+                <div />
+                <ButtonGroup
+                  className=""
+                  role="group"
+                  tag="div"
+                >
+                  <div
+                    className="btn-group"
+                    role="group"
+                  >
+                    <Button
+                      color="link"
+                      onClick={[Function]}
+                      size="sm"
+                      tag="button"
+                    >
+                      <button
+                        aria-label={null}
+                        className="btn btn-link btn-sm"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <MdSearch>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdSearch>
+                      </button>
+                    </Button>
+                    <Button
+                      color="link"
+                      onClick={[Function]}
+                      tag="button"
+                    >
+                      <button
+                        aria-label={null}
+                        className="btn btn-link"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <MdAdd>
+                          <IconBase
+                            attr={
+                              Object {
+                                "viewBox": "0 0 24 24",
+                              }
+                            }
+                          >
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              strokeWidth="0"
+                              style={
+                                Object {
+                                  "color": undefined,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                                key="0"
+                              />
+                            </svg>
+                          </IconBase>
+                        </MdAdd>
+                        <span
+                          className="d-lg-inline"
+                        >
+                          Create
+                        </span>
+                      </button>
+                    </Button>
+                  </div>
+                </ButtonGroup>
+                <SearchBar
+                  onChange={[Function]}
+                  placeholder="Search masternodes"
+                  searching={false}
+                  toggleSearch={[Function]}
+                >
+                  <div
                     className=""
                   >
-                    Masternodes
-                  </h1>
-                  <ButtonGroup
-                    className=""
-                    role="group"
+                    <FormGroup
+                      className="row undefined"
+                      tag="div"
+                    >
+                      <div
+                        className="row undefined form-group"
+                      >
+                        <Col
+                          tag="div"
+                          widths={
+                            Array [
+                              "xs",
+                              "sm",
+                              "md",
+                              "lg",
+                              "xl",
+                            ]
+                          }
+                        >
+                          <div
+                            className="col"
+                          >
+                            <InputGroup
+                              tag="div"
+                            >
+                              <div
+                                className="input-group"
+                              >
+                                <Input
+                                  id="searchInput"
+                                  name="searchInput"
+                                  onChange={[Function]}
+                                  placeholder="Search masternodes"
+                                  type="text"
+                                >
+                                  <input
+                                    className="form-control"
+                                    id="searchInput"
+                                    name="searchInput"
+                                    onChange={[Function]}
+                                    placeholder="Search masternodes"
+                                    type="text"
+                                  />
+                                </Input>
+                                <MdSearch>
+                                  <IconBase
+                                    attr={
+                                      Object {
+                                        "viewBox": "0 0 24 24",
+                                      }
+                                    }
+                                  >
+                                    <svg
+                                      fill="currentColor"
+                                      height="1em"
+                                      stroke="currentColor"
+                                      strokeWidth="0"
+                                      style={
+                                        Object {
+                                          "color": undefined,
+                                        }
+                                      }
+                                      viewBox="0 0 24 24"
+                                      width="1em"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                        key="0"
+                                      />
+                                    </svg>
+                                  </IconBase>
+                                </MdSearch>
+                                <InputGroupAddon
+                                  addonType="append"
+                                  tag="div"
+                                >
+                                  <div
+                                    className="input-group-append"
+                                  >
+                                    <Button
+                                      color="outline-primary"
+                                      onClick={[Function]}
+                                      tag="button"
+                                    >
+                                      <button
+                                        aria-label={null}
+                                        className="btn btn-outline-primary"
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <MdClose>
+                                          <IconBase
+                                            attr={
+                                              Object {
+                                                "viewBox": "0 0 24 24",
+                                              }
+                                            }
+                                          >
+                                            <svg
+                                              fill="currentColor"
+                                              height="1em"
+                                              stroke="currentColor"
+                                              strokeWidth="0"
+                                              style={
+                                                Object {
+                                                  "color": undefined,
+                                                }
+                                              }
+                                              viewBox="0 0 24 24"
+                                              width="1em"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                                key="0"
+                                              />
+                                            </svg>
+                                          </IconBase>
+                                        </MdClose>
+                                      </button>
+                                    </Button>
+                                  </div>
+                                </InputGroupAddon>
+                              </div>
+                            </InputGroup>
+                          </div>
+                        </Col>
+                      </div>
+                    </FormGroup>
+                  </div>
+                </SearchBar>
+              </header>
+            </Header>
+          </Connect(Header)>
+          <div
+            className="content"
+          >
+            <TabContent
+              activeTab="mine"
+              tag="div"
+            >
+              <div
+                className="tab-content"
+              >
+                <MineNodeList
+                  enabledMasternodes={Array []}
+                >
+                  <TabPane
+                    tabId="mine"
                     tag="div"
                   >
                     <div
-                      className="btn-group"
-                      role="group"
+                      className="tab-pane active"
+                    >
+                      <Row
+                        className="align-items-center"
+                        tag="div"
+                        widths={
+                          Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                        }
+                      >
+                        <div
+                          className="align-items-center row"
+                        />
+                      </Row>
+                    </div>
+                  </TabPane>
+                </MineNodeList>
+                <Connect(MasternodesList)
+                  enabledMasternodes={Array []}
+                  searchQuery=""
+                >
+                  <MasternodesList
+                    dispatch={[Function]}
+                    enabledMasternodes={Array []}
+                    isLoadingMasternodes={true}
+                    searchQuery=""
+                  >
+                    <Card
+                      className="table-responsive-md"
+                      tag="div"
+                    >
+                      <div
+                        className="table-responsive-md card"
+                      >
+                        <CardBody
+                          tag="div"
+                        >
+                          <div
+                            className="card-body"
+                          >
+                            No masternodes available
+                          </div>
+                        </CardBody>
+                      </div>
+                    </Card>
+                  </MasternodesList>
+                </Connect(MasternodesList)>
+              </div>
+            </TabContent>
+          </div>
+          <footer
+            className="footer-bar"
+          >
+            <div
+              className="d-none"
+            >
+              <div
+                className="footer-sheet"
+              >
+                <dl
+                  className="row"
+                >
+                  <dd
+                    className="col-12"
+                  >
+                    <span
+                      className="h2 mb-0"
+                    >
+                      Are you sure you want to create a masternode?
+                    </span>
+                  </dd>
+                </dl>
+              </div>
+              <Row
+                className="justify-content-between align-items-center"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="justify-content-between align-items-center row"
+                >
+                  <Col
+                    className="d-flex justify-content-end"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="d-flex justify-content-end col"
                     >
                       <Button
+                        className="mr-3"
                         color="link"
                         onClick={[Function]}
-                        size="sm"
                         tag="button"
                       >
                         <button
                           aria-label={null}
-                          className="btn btn-link btn-sm"
+                          className="mr-3 btn btn-link"
                           onClick={[Function]}
                           type="button"
                         >
-                          <MdSearch>
-                            <IconBase
-                              attr={
-                                Object {
-                                  "viewBox": "0 0 24 24",
-                                }
-                              }
-                            >
-                              <svg
-                                fill="currentColor"
-                                height="1em"
-                                stroke="currentColor"
-                                strokeWidth="0"
-                                style={
-                                  Object {
-                                    "color": undefined,
-                                  }
-                                }
-                                viewBox="0 0 24 24"
-                                width="1em"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                                  key="0"
-                                />
-                              </svg>
-                            </IconBase>
-                          </MdSearch>
+                          Cancel
                         </button>
                       </Button>
+                      <Button
+                        color="primary"
+                        disabled={true}
+                        onClick={[Function]}
+                        tag="button"
+                      >
+                        <button
+                          aria-label={null}
+                          className="btn btn-primary disabled"
+                          disabled={true}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          Continue
+
+                          <span
+                            className="timer"
+                          >
+                            5
+                          </span>
+                        </button>
+                      </Button>
+                    </div>
+                  </Col>
+                </div>
+              </Row>
+            </div>
+            <div
+              className="d-none"
+            >
+              <div
+                className="footer-sheet"
+              >
+                <div
+                  className="text-center"
+                >
+                  <p>
+                    You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.
+                  </p>
+                  <MdCheckCircle
+                    className="footer-sheet-icon"
+                  >
+                    <IconBase
+                      attr={
+                        Object {
+                          "viewBox": "0 0 24 24",
+                        }
+                      }
+                      className="footer-sheet-icon"
+                    >
+                      <svg
+                        className="footer-sheet-icon"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        strokeWidth="0"
+                        style={
+                          Object {
+                            "color": undefined,
+                          }
+                        }
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                          key="0"
+                        />
+                      </svg>
+                    </IconBase>
+                  </MdCheckCircle>
+                  <p>
+                    Masternode operator: undefined
+                  </p>
+                  <p>
+                    Masternode owner: undefined
+                  </p>
+                </div>
+              </div>
+              <Row
+                className="justify-content-between align-items-center"
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <div
+                  className="justify-content-between align-items-center row"
+                >
+                  <Col
+                    className="d-flex justify-content-end"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <div
+                      className="d-flex justify-content-end col"
+                    >
                       <Button
                         color="link"
                         onClick={[Function]}
@@ -245,491 +638,158 @@ exports[`MasternodesList component should check for snapshot 1`] = `
                           onClick={[Function]}
                           type="button"
                         >
-                          <MdAdd>
-                            <IconBase
-                              attr={
-                                Object {
-                                  "viewBox": "0 0 24 24",
-                                }
-                              }
-                            >
-                              <svg
-                                fill="currentColor"
-                                height="1em"
-                                stroke="currentColor"
-                                strokeWidth="0"
-                                style={
-                                  Object {
-                                    "color": undefined,
-                                  }
-                                }
-                                viewBox="0 0 24 24"
-                                width="1em"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-                                  key="0"
-                                />
-                              </svg>
-                            </IconBase>
-                          </MdAdd>
-                          <span
-                            className="d-lg-inline"
-                          >
-                            Create
-                          </span>
+                          Close
+                        </button>
+                      </Button>
+                      <Button
+                        className="ml-4"
+                        color="primary"
+                        onClick={[Function]}
+                        tag="button"
+                      >
+                        <button
+                          aria-label={null}
+                          className="ml-4 btn btn-primary"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          Restart node
                         </button>
                       </Button>
                     </div>
-                  </ButtonGroup>
-                  <SearchBar
-                    onChange={[Function]}
-                    placeholder="Search masternodes"
-                    searching={false}
-                    toggleSearch={[Function]}
-                  >
-                    <div
-                      className=""
-                    >
-                      <FormGroup
-                        className="row undefined"
-                        tag="div"
-                      >
-                        <div
-                          className="row undefined form-group"
-                        >
-                          <Col
-                            tag="div"
-                            widths={
-                              Array [
-                                "xs",
-                                "sm",
-                                "md",
-                                "lg",
-                                "xl",
-                              ]
-                            }
-                          >
-                            <div
-                              className="col"
-                            >
-                              <InputGroup
-                                tag="div"
-                              >
-                                <div
-                                  className="input-group"
-                                >
-                                  <Input
-                                    id="searchInput"
-                                    name="searchInput"
-                                    onChange={[Function]}
-                                    placeholder="Search masternodes"
-                                    type="text"
-                                  >
-                                    <input
-                                      className="form-control"
-                                      id="searchInput"
-                                      name="searchInput"
-                                      onChange={[Function]}
-                                      placeholder="Search masternodes"
-                                      type="text"
-                                    />
-                                  </Input>
-                                  <MdSearch>
-                                    <IconBase
-                                      attr={
-                                        Object {
-                                          "viewBox": "0 0 24 24",
-                                        }
-                                      }
-                                    >
-                                      <svg
-                                        fill="currentColor"
-                                        height="1em"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        style={
-                                          Object {
-                                            "color": undefined,
-                                          }
-                                        }
-                                        viewBox="0 0 24 24"
-                                        width="1em"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                                          key="0"
-                                        />
-                                      </svg>
-                                    </IconBase>
-                                  </MdSearch>
-                                  <InputGroupAddon
-                                    addonType="append"
-                                    tag="div"
-                                  >
-                                    <div
-                                      className="input-group-append"
-                                    >
-                                      <Button
-                                        color="outline-primary"
-                                        onClick={[Function]}
-                                        tag="button"
-                                      >
-                                        <button
-                                          aria-label={null}
-                                          className="btn btn-outline-primary"
-                                          onClick={[Function]}
-                                          type="button"
-                                        >
-                                          <MdClose>
-                                            <IconBase
-                                              attr={
-                                                Object {
-                                                  "viewBox": "0 0 24 24",
-                                                }
-                                              }
-                                            >
-                                              <svg
-                                                fill="currentColor"
-                                                height="1em"
-                                                stroke="currentColor"
-                                                strokeWidth="0"
-                                                style={
-                                                  Object {
-                                                    "color": undefined,
-                                                  }
-                                                }
-                                                viewBox="0 0 24 24"
-                                                width="1em"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                                                  key="0"
-                                                />
-                                              </svg>
-                                            </IconBase>
-                                          </MdClose>
-                                        </button>
-                                      </Button>
-                                    </div>
-                                  </InputGroupAddon>
-                                </div>
-                              </InputGroup>
-                            </div>
-                          </Col>
-                        </div>
-                      </FormGroup>
-                    </div>
-                  </SearchBar>
-                </header>
-              </Header>
-            </Connect(Header)>
-            <div
-              className="content"
-            >
-              <section>
-                <Connect(MasternodesList)
-                  enabledMasternodes={Array []}
-                  searchQuery=""
-                >
-                  <MasternodesList
-                    dispatch={[Function]}
-                    enabledMasternodes={Array []}
-                    isLoadingMasternodes={true}
-                    searchQuery=""
-                  >
-                    Loading...
-                  </MasternodesList>
-                </Connect(MasternodesList)>
-              </section>
+                  </Col>
+                </div>
+              </Row>
             </div>
-            <footer
-              className="footer-bar"
+            <div
+              className="d-none"
             >
               <div
-                className="d-none"
+                className="footer-sheet"
               >
                 <div
-                  className="footer-sheet"
+                  className="text-center"
                 >
-                  <dl
-                    className="row"
+                  <MdErrorOutline
+                    className="footer-sheet-icon undefined"
                   >
-                    <dd
-                      className="col-12"
-                    >
-                      <span
-                        className="h2 mb-0"
-                      >
-                        Are you sure you want to create a masternode?
-                      </span>
-                    </dd>
-                  </dl>
-                </div>
-                <Row
-                  className="justify-content-between align-items-center"
-                  tag="div"
-                  widths={
-                    Array [
-                      "xs",
-                      "sm",
-                      "md",
-                      "lg",
-                      "xl",
-                    ]
-                  }
-                >
-                  <div
-                    className="justify-content-between align-items-center row"
-                  >
-                    <Col
-                      className="d-flex justify-content-end"
-                      tag="div"
-                      widths={
-                        Array [
-                          "xs",
-                          "sm",
-                          "md",
-                          "lg",
-                          "xl",
-                        ]
-                      }
-                    >
-                      <div
-                        className="d-flex justify-content-end col"
-                      >
-                        <Button
-                          className="mr-3"
-                          color="link"
-                          onClick={[Function]}
-                          tag="button"
-                        >
-                          <button
-                            aria-label={null}
-                            className="mr-3 btn btn-link"
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Cancel
-                          </button>
-                        </Button>
-                        <Button
-                          color="primary"
-                          disabled={true}
-                          onClick={[Function]}
-                          tag="button"
-                        >
-                          <button
-                            aria-label={null}
-                            className="btn btn-primary disabled"
-                            disabled={true}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Continue
-                             
-                            <span
-                              className="timer"
-                            >
-                              5
-                            </span>
-                          </button>
-                        </Button>
-                      </div>
-                    </Col>
-                  </div>
-                </Row>
-              </div>
-              <div
-                className="d-none"
-              >
-                <div
-                  className="footer-sheet"
-                >
-                  <div
-                    className="text-center"
-                  >
-                    <p>
-                      You can manually set masternode config in defi.conf or you can automatic set this masternode config by restarting the node.
-                    </p>
-                    <MdCheckCircle
-                      className="footer-sheet-icon"
-                    >
-                      <IconBase
-                        attr={
-                          Object {
-                            "viewBox": "0 0 24 24",
-                          }
+                    <IconBase
+                      attr={
+                        Object {
+                          "viewBox": "0 0 24 24",
                         }
-                        className="footer-sheet-icon"
-                      >
-                        <svg
-                          className="footer-sheet-icon"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          strokeWidth="0"
-                          style={
-                            Object {
-                              "color": undefined,
-                            }
-                          }
-                          viewBox="0 0 24 24"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                            key="0"
-                          />
-                        </svg>
-                      </IconBase>
-                    </MdCheckCircle>
-                    <p>
-                      Masternode operator: undefined
-                    </p>
-                    <p>
-                      Masternode owner: undefined
-                    </p>
-                  </div>
-                </div>
-                <Row
-                  className="justify-content-between align-items-center"
-                  tag="div"
-                  widths={
-                    Array [
-                      "xs",
-                      "sm",
-                      "md",
-                      "lg",
-                      "xl",
-                    ]
-                  }
-                >
-                  <div
-                    className="justify-content-between align-items-center row"
-                  >
-                    <Col
-                      className="d-flex justify-content-end"
-                      tag="div"
-                      widths={
-                        Array [
-                          "xs",
-                          "sm",
-                          "md",
-                          "lg",
-                          "xl",
-                        ]
                       }
-                    >
-                      <div
-                        className="d-flex justify-content-end col"
-                      >
-                        <Button
-                          color="primary"
-                          onClick={[Function]}
-                          tag="button"
-                        >
-                          <button
-                            aria-label={null}
-                            className="btn btn-primary"
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Close
-                          </button>
-                        </Button>
-                        <Button
-                          className="ml-4"
-                          color="primary"
-                          onClick={[Function]}
-                          tag="button"
-                        >
-                          <button
-                            aria-label={null}
-                            className="ml-4 btn btn-primary"
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Restart node
-                          </button>
-                        </Button>
-                      </div>
-                    </Col>
-                  </div>
-                </Row>
-              </div>
-              <div
-                className="d-none"
-              >
-                <div
-                  className="footer-sheet"
-                >
-                  <div
-                    className="text-center"
-                  >
-                    <MdErrorOutline
                       className="footer-sheet-icon undefined"
                     >
-                      <IconBase
-                        attr={
+                      <svg
+                        className="footer-sheet-icon undefined"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        strokeWidth="0"
+                        style={
                           Object {
-                            "viewBox": "0 0 24 24",
+                            "color": undefined,
                           }
                         }
-                        className="footer-sheet-icon undefined"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          className="footer-sheet-icon undefined"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          strokeWidth="0"
-                          style={
-                            Object {
-                              "color": undefined,
-                            }
-                          }
-                          viewBox="0 0 24 24"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                            key="0"
-                          />
-                        </svg>
-                      </IconBase>
-                    </MdErrorOutline>
-                    <p />
-                  </div>
-                </div>
-                <div
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <Button
-                    color="primary"
-                    onClick={[Function]}
-                    tag="button"
-                  >
-                    <button
-                      aria-label={null}
-                      className="btn btn-primary"
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      Close
-                    </button>
-                  </Button>
+                        <path
+                          d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          key="0"
+                        />
+                      </svg>
+                    </IconBase>
+                  </MdErrorOutline>
+                  <p />
                 </div>
               </div>
-            </footer>
-          </div>
-        </MasternodesPage>
-      </Connect(MasternodesPage)>
+              <div
+                className="d-flex align-items-center justify-content-center"
+              >
+                <Button
+                  color="primary"
+                  onClick={[Function]}
+                  tag="button"
+                >
+                  <button
+                    aria-label={null}
+                    className="btn btn-primary"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    Close
+                  </button>
+                </Button>
+              </div>
+            </div>
+            <div
+              className=""
+            >
+              <MineNodeFooter
+                enabledMasternodes={Array []}
+              >
+                <Row
+                  tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
+                >
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      md="4"
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                    >
+                      <div
+                        className="col-md-4"
+                      >
+                        <span>
+                          <small
+                            className="text-muted"
+                          >
+                            Collaterals active
+                          </small>
+                        </span>
+                        <div
+                          className="d-flex align-items-center"
+                        >
+                          <span
+                            className="txn-status-enabled"
+                          />
+                          <span
+                            className="ml-2"
+                          >
+                            0
+                          </span>
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </MineNodeFooter>
+            </div>
+          </footer>
+        </div>
+      </MasternodesPage>
     </Provider>
   </Router>
 </BrowserRouter>

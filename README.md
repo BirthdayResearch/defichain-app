@@ -1,14 +1,16 @@
-# DeFi App
+# DeFi Wallet
 
-Use DeFi app to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more. 
+Use DeFi Wallet to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more.
 ![Image](https://defichain.com/img/app/liquidity@2x.png)
 
 # Documentation
+
 - [Getting started](#getting-started)
 - [Development](#development)
 - [About Us](https://defichain.com/)
 
 # Getting Started
+
 [Download the desktop app](https://defichain.com/downloads/) or [check releases](https://github.com/DeFiCh/app/releases) for latest downloadable installers for Windows, Mac and Linux.
 
 # Development
@@ -47,6 +49,8 @@ npm run start:react
 
 ##### To run Electron only
 
+Note: This is used to test a compiled build (Dev or Prod) of React app. You need to have a compiled React app for this command to work.
+
 ```bash
 npm run start:electron
 ```
@@ -67,7 +71,7 @@ npm run build:all
 
 ## Licenses
 
-The DeFi Blockchain App is released under the terms of the MIT license. For more information see https://opensource.org/licenses/MIT.
+The DeFi Wallet is released under the terms of the MIT license. For more information see https://opensource.org/licenses/MIT.
 
 QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com).
 Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).

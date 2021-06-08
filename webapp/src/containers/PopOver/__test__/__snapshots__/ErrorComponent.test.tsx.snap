@@ -38,7 +38,7 @@ exports[`ErrorComponent should check for snapshot 1`] = `
           >
             <button
               aria-label={null}
-              className="btn btn-secondary btn-sm"
+              className="btn btn-link btn-sm"
               onClick={[Function]}
               type="button"
             >
@@ -46,14 +46,14 @@ exports[`ErrorComponent should check for snapshot 1`] = `
             </button>
           </Button>
           <Button
-            color="secondary"
+            color="primary"
             onClick={[Function]}
             size="sm"
             tag="button"
           >
             <button
               aria-label={null}
-              className="btn btn-secondary btn-sm"
+              className="btn btn-primary btn-sm"
               onClick={[Function]}
               type="button"
             >

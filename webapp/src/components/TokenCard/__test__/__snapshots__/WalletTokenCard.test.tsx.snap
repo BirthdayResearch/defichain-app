@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletAddTokenCard component should check for snapshot 1`] = `
+<Row
+  className="align-items-center"
+  tag="div"
+  widths={
+    Array [
+      "xs",
+      "sm",
+      "md",
+      "lg",
+      "xl",
+    ]
+  }
+>
+  <Col
+    md="12"
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Card
+      tag="div"
+    >
+      <CardBody
+        tag="div"
+      >
+        <Row
+          className="align-items-center"
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            md="4"
+            onClick={[Function]}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="d-flex align-items-center justify-content-start"
+            >
+              <div>
+                <TokenAvatar
+                  symbol="symbolKey"
+                  textSizeRatio={2}
+                />
+              </div>
+              <div
+                className="ml-4"
+              >
+                <div>
+                  <b>
+                    symbolKey
+                  </b>
+                </div>
+                <div>
+                  Liquidity token for symbolKey
+                </div>
+              </div>
+            </div>
+          </Col>
+          <Col
+            md="7"
+            onClick={[Function]}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="undefined justify-content-end"
+            >
+              <b
+                className="text-dark"
+              >
+                <NumberMask
+                  value="1.00000000"
+                />
+              </b>
+              <span
+                className="ml-2"
+              >
+                symbolKey
+              </span>
+            </div>
+          </Col>
+          <Col
+            md="1"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <UncontrolledDropdown
+              className="undefined justify-content-end"
+            >
+              <DropdownToggle
+                aria-haspopup={true}
+                className="padless"
+                color="link"
+                disabled={true}
+              >
+                <MdMoreHoriz />
+              </DropdownToggle>
+              <DropdownMenu
+                flip={true}
+                right={true}
+                tag="div"
+              >
+                <DropdownItem
+                  onClick={[Function]}
+                  tag="button"
+                  toggle={true}
+                >
+                  <MdRemove />
+                  <span>
+                    Remove
+                  </span>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Col>
+        </Row>
+      </CardBody>
+    </Card>
+  </Col>
+</Row>
+`;
