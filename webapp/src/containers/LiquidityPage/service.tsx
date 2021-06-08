@@ -241,6 +241,7 @@ export const handleRemovePoolLiquidity = async (
   receiveAddress: string,
   poolPair: any
 ) => {
+  let txid = '';
   log.info('Starting Remove Pool Liquidity', 'handleRemovePoolLiquidity');
   const rpcClient = new RpcClient();
   const list = await getAddressAndAmountListPoolShare(poolID);
@@ -273,7 +274,7 @@ export const handleRemovePoolLiquidity = async (
   store.dispatch(refreshUTXOS1Success());
 
   const addressAndAmountArray = addressList.map(async (obj) => {
-    await rpcClient.removePoolLiquidity(
+    txid = await rpcClient.removePoolLiquidity(
       obj.address,
       `${new BigNumber(obj.amount).toFixed(8)}@${poolID}`
     );
@@ -349,5 +350,5 @@ export const handleRemovePoolLiquidity = async (
 
   store.dispatch(transferTokensSuccess());
   log.info(`RemoveLiquidity done successfully`, 'handleRemovePoolLiquidity');
-  return resolvedHashArray[resolvedHashArray.length - 1];
+  return txid;
 };
