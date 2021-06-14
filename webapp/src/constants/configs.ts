@@ -199,7 +199,7 @@ export const REMOVE_LIQUIDITY_LABEL = TX_TYPES.RemovePoolLiquidity;
 export const UTXOS_TO_ACCOUNT_LABEL = TX_TYPES.UtxosToAccount;
 
 // NOTE: APY calculation to use 37 second block time
-export const APY_MULTIPLICATION_FACTOR = 100 * (30 / 37);
+export const APY_MULTIPLICATION_FACTOR = 100;
 export const REFRESH_TESTPOOLSWAP_COUNTER = 1000;
 export const PRICE_IMPACT_WARNING_FACTOR = 0.2;
 
