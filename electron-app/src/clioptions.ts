@@ -1,4 +1,4 @@
-import program from 'commander';
+import { program } from 'commander';
 import { LogLevelDesc } from 'loglevel';
 
 interface Options {
