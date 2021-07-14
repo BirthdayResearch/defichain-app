@@ -69,9 +69,9 @@ npm run build
 npm run build:all
 ```
 
-## Licenses
+## Licenses & Disclaimer
 
-The DeFi Wallet is released under the terms of the MIT license. For more information see https://opensource.org/licenses/MIT.
+By using `DeFi App` (this repo), you (the user) agree to be bound by [the terms of this license](LICENSE).
 
 QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com).
 Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).
