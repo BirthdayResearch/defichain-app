@@ -51,8 +51,6 @@ jobs:
         uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: 'v${{ env.PACKAGE_VERSION}}'
 
       - name: Generate SHA256 checksum
         run: |
@@ -119,8 +117,6 @@ jobs:
         uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: 'v${{ env.PACKAGE_VERSION}}'
 
       - name: Generate SHA256 checksum
         run: |
@@ -182,8 +178,6 @@ jobs:
         uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: 'v${{ env.PACKAGE_VERSION}}'
 
       - name: Generate SHA256 checksum
         run: |
