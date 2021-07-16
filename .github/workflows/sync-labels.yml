@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: micnncim/action-label-syncer@0e9c5104859d0e78219af63791636eba42382b5d
+      - uses: micnncim/action-label-syncer@3abd5ab72fda571e69fffd97bd4e0033dd5f495c
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

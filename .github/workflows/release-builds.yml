@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -73,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -141,7 +141,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -163,7 +163,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 

@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -23,7 +23,7 @@ jobs:
       - name: Build app
         run: npm run build:linux
 
-      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
+      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
         with:
           name: linux-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -52,7 +52,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
 
-      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
+      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
         with:
           name: mac-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
 
-      - uses: actions/setup-node@5c355be17065acf11598c7a9bb47112fbcf2bbdc
+      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
         with:
           node-version: 15
 
@@ -76,7 +76,7 @@ jobs:
         run: npm run build:win
         shell: powershell
 
-      - uses: actions/upload-artifact@9243a41f9771b17cd9810058d578db51f5962d1e
+      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
         with:
           name: win-build
           path: 'dist/DeFi Wallet Setup ${{ env.PACKAGE_VERSION}}.exe'
