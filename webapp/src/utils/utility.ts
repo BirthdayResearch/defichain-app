@@ -86,6 +86,7 @@ import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
 import BchIcon from '../assets/svg/bch-icon.svg';
+import USDCIcon from '../assets/svg/usdc-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1103,6 +1104,7 @@ export const getIcon = (symbol: string) => {
     DOGE: DogeIcon,
     LTC: LtcIcon,
     BCH: BchIcon,
+		USDC: USDCIcon,
   };
   return symbolIconObj[symbol];
 };
