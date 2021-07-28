@@ -116,14 +116,14 @@ export const USDT_SYMBOL = '5';
 export const LTC_SYMBOL = '9';
 export const DOGE_SYMBOL = '7';
 export const BCH_SYMBOL = '11';
-export const USDC_SYMBOL = '12';
+export const USDC_SYMBOL = '13';
 export const MAINNET_ETH_SYMBOL = '1';
 export const MAINNET_BTC_SYMBOL = '2';
 export const MAINNET_USDT_SYMBOL = '3';
 export const MAINNET_LTC_SYMBOL = '9';
 export const MAINNET_DOGE_SYMBOL = '7';
 export const MAINNET_BCH_SYMBOL = '11';
-export const MAINNET_USDC_SYMBOL = '12';
+export const MAINNET_USDC_SYMBOL = '13';
 export const BTC_SPV_SYMBOL = '99999';
 
 export const COINGECKO_DFI_ID = 'defichain';
