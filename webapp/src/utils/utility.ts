@@ -69,6 +69,9 @@ import {
   COINGECKO_BCH_ID,
   BTC_SPV_SYMBOL,
   BLOCKCHAIN_COM,
+	MAINNET_USDC_SYMBOL,
+	USDC_SYMBOL,
+	COINGECKO_USDC_ID
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -83,6 +86,7 @@ import USDTIcon from '../assets/svg/usdt-icon.svg';
 import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
 import BchIcon from '../assets/svg/bch-icon.svg';
+import USDCIcon from '../assets/svg/usdc-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1100,6 +1104,7 @@ export const getIcon = (symbol: string) => {
     DOGE: DogeIcon,
     LTC: LtcIcon,
     BCH: BchIcon,
+		USDC: USDCIcon,
   };
   return symbolIconObj[symbol];
 };
@@ -1232,6 +1237,7 @@ export const getCoinMap = () => {
   const ltcSymbol = getTokenSymbolNetwork(MAINNET_LTC_SYMBOL, LTC_SYMBOL);
   const dogeSymbol = getTokenSymbolNetwork(MAINNET_DOGE_SYMBOL, DOGE_SYMBOL);
   const bchSymbol = getTokenSymbolNetwork(MAINNET_BCH_SYMBOL, BCH_SYMBOL);
+  const usdcSymbol = getTokenSymbolNetwork(MAINNET_USDC_SYMBOL, USDC_SYMBOL);
 
   const coinMap: Map<string, string> = new Map<string, string>([
     [COINGECKO_DFI_ID, DFI_SYMBOL],
@@ -1241,6 +1247,7 @@ export const getCoinMap = () => {
     [COINGECKO_LTC_ID, ltcSymbol],
     [COINGECKO_DOGE_ID, dogeSymbol],
     [COINGECKO_BCH_ID, bchSymbol],
+    [COINGECKO_USDC_ID, usdcSymbol],
   ]);
   return coinMap;
 };
@@ -1254,6 +1261,7 @@ export const getCoinIds = () => {
     COINGECKO_LTC_ID,
     COINGECKO_DOGE_ID,
     COINGECKO_BCH_ID,
+    COINGECKO_USDC_ID,
   ];
 };
 
@@ -1390,6 +1398,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
   const ltcSymbol = networkType === MAIN ? MAINNET_LTC_SYMBOL : LTC_SYMBOL;
   const dogeSymbol = networkType === MAIN ? MAINNET_DOGE_SYMBOL : DOGE_SYMBOL;
   const bchSymbol = networkType === MAIN ? MAINNET_BCH_SYMBOL : BCH_SYMBOL;
+  const usdcSymbol = networkType === MAIN ? MAINNET_USDC_SYMBOL : USDC_SYMBOL;
   const tokens = [
     DFI_SYMBOL,
     btcSymbol,
@@ -1399,6 +1408,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     dogeSymbol,
     bchSymbol,
     btcSPVSymbol,
+		usdcSymbol,
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
