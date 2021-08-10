@@ -46,6 +46,7 @@ import {
   isValidAddress,
   getCountdownValue,
   getTokenDisplayName,
+  isValidDFCAddress,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -413,10 +414,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     if (this.isSPV) {
       isAddressValid = await isValidSPVAddress(this.state.toAddress);
     } else {
-      if (
-        this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-        this.state.toAddress.length <= 35
-      ) {
+      if (isValidDFCAddress(this.state.toAddress)) {
         isAddressValid = await isValidAddress(this.state.toAddress);
       }
     }

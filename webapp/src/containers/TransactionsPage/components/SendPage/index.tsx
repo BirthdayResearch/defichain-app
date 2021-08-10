@@ -44,6 +44,7 @@ import {
   getSymbolKey,
   isLessThanDustAmount,
   isValidAddress,
+  isValidDFCAddress,
 } from '../../../../utils/utility';
 import qs from 'querystring';
 import styles from '../../WalletPage.module.scss';
@@ -381,10 +382,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
   isAddressValid = async () => {
     let isAddressValid = false;
-    if (
-      this.state.toAddress.length >= 26 && // address, is an identifier of 26-35 alphanumeric characters
-      this.state.toAddress.length <= 35
-    ) {
+    if (isValidDFCAddress(this.state.toAddress)) {
       isAddressValid = await isValidAddress(this.state.toAddress);
     }
     this.setState({ isAddressValid });
