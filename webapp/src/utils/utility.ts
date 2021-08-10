@@ -1639,3 +1639,7 @@ export const getCountdownValue = () => {
   }
   return false;
 };
+
+export const isValidDFCAddress = (address) => {
+  return address.length >= 26
+}
