@@ -101,6 +101,7 @@ export default class DefiProcessManager {
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
         `-acindex`,
+        `-spv`
       ];
 
       const needsReIndex = params?.isReindexReq || this.isReindexReq;
