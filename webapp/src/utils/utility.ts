@@ -52,10 +52,6 @@ import {
   MAINNET_USDT_SYMBOL,
   API_REQUEST_TIMEOUT,
   APY_MULTIPLICATION_FACTOR,
-  DEFICHAIN_MAINNET_LINK,
-  DEFICHAIN_TESTNET_LINK,
-  MAINNET,
-  TESTNET,
   AMOUNT_SEPARATOR,
   STATS_API_BASE_URL,
   COINGECKO_LTC_ID,
@@ -1555,11 +1551,7 @@ export const isValidAddress = async (toAddress: string) => {
 };
 
 export const createChainURL = (tx: string): string => {
-  const [url, net] =
-    getNetworkType() === MAIN
-      ? [DEFICHAIN_MAINNET_LINK, MAINNET]
-      : [DEFICHAIN_TESTNET_LINK, TESTNET];
-  return `${url}#/DFI/${net.toLowerCase()}/tx/${tx ?? ''}`;
+  return `https://defiscan.live/transactions/${tx ?? ''}${getNetworkType() === TEST ? '?network=TestNet' : ''}`
 };
 
 export const createBlockchainComURL = (tx: string): string => {

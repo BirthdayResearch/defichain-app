@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { FaTelegram } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { FaReddit } from 'react-icons/fa';
-import { MdBook, MdHelp } from 'react-icons/md';
+import { MdBook, MdHelp, MdSearch } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
 import Header from '../HeaderComponent';
 import { RouteComponentProps } from 'react-router-dom';
@@ -22,6 +22,7 @@ import {
   CHINESE_SIMPLIFIED,
   TELEGRAM_ZH_HELP_LINK,
   WECHAT_ZH_LINK,
+  DEFICHAIN_SCAN,
 } from '../../constants';
 import Logo from '../../components/Svg/DefiLogo';
 import { getPageTitle } from '../../utils/utility';
@@ -228,6 +229,24 @@ const HelpPage: React.FunctionComponent<RouteComponentProps> = () => {
                         'www.',
                         ''
                       )}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md='6'>
+              <Card
+                onClick={() => onLinkClick(DEFICHAIN_SCAN)}
+                className={styles.helpOption}
+              >
+                <CardBody className={styles.helpOptionRow}>
+                  <div className={styles.helpOptionIcon}>
+                    <MdSearch />
+                  </div>
+                  <div className={styles.helpOptionDescription}>
+                    <h3>{I18n.t('containers.helpPage.defiscan')}</h3>
+                    <p>
+                      {new URL(DEFICHAIN_SCAN).hostname.replace('www.', '')}
                     </p>
                   </div>
                 </CardBody>

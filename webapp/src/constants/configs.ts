@@ -160,8 +160,10 @@ export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
 export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
 export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
 
-export const DEX_EXPLORER_BASE_LINK = 'https://dex.defichain.com/';
+export const DEX_EXPLORER_BASE_LINK = 'https://defiscan.live/dex';
 export const DEFICHAIN_ANALYTICS = 'https://www.defichain-analytics.com/';
+
+export const DEFICHAIN_SCAN = 'https://defiscan.live/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
 

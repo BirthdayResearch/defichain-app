@@ -506,7 +506,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           <Button
             color='link'
             onClick={() =>
-              openNewTab(`${DEX_EXPLORER_BASE_LINK}${network}net/pool`)
+              openNewTab(`${DEX_EXPLORER_BASE_LINK}`)
             }
           >
             <MdLaunch />
