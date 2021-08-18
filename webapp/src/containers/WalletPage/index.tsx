@@ -114,6 +114,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
                   )
                 : unit
             }
+            isSPV={isSPV}
           />
           <h1 className='d-flex align-items-center'>
             {tokenSymbol

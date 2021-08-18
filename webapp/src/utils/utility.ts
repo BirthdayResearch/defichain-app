@@ -83,6 +83,7 @@ import DogeIcon from '../assets/svg/doge-icon.svg';
 import LtcIcon from '../assets/svg/ltc-icon.svg';
 import BchIcon from '../assets/svg/bch-icon.svg';
 import USDCIcon from '../assets/svg/usdc-icon.svg';
+import SPV_BTCIcon from '../assets/svg/btc.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1091,8 +1092,9 @@ export const calculateLPFee = (formState, poolPairList) => {
     .toFixed(8);
 };
 
-export const getIcon = (symbol: string) => {
+export const getIcon = (symbol: string, isSPV?: boolean) => {
   const symbolIconObj = {
+    SPV_BTC: SPV_BTCIcon,
     BTC: BTCIcon,
     ETH: EthIcon,
     USDT: USDTIcon,
@@ -1102,7 +1104,11 @@ export const getIcon = (symbol: string) => {
     BCH: BchIcon,
 		USDC: USDCIcon,
   };
-  return symbolIconObj[symbol];
+  if (isSPV) {
+    return SPV_BTCIcon
+  } else {
+    return symbolIconObj[symbol];
+  }
 };
 
 export const isAddressMine = async (address) => {

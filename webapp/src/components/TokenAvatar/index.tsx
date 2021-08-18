@@ -5,11 +5,12 @@ interface TokenAvatar {
   symbol?: any;
   size?: string;
   textSizeRatio?: number;
+  isSPV?: boolean;
 }
 
 const TokenAvatar = (props: TokenAvatar) => {
-  const { symbol, size, textSizeRatio } = props;
-  const data = getIcon(symbol);
+  const { symbol, size, textSizeRatio, isSPV} = props;
+  const data = getIcon(symbol, isSPV);
   return (
     <Avatar
       name={symbol}

@@ -86,6 +86,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                 <div className='d-flex align-items-center justify-content-start'>
                   <div>
                     <TokenAvatar
+                      isSPV={token.isSPV}
                       symbol={token.symbolKey}
                       textSizeRatio={2}
                       size={size ?? '24px'}
