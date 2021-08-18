@@ -16,7 +16,6 @@ import {
   IBlock,
   IParseTxn,
   ITokenBalanceInfo,
-  IToken,
 } from './interfaces';
 import {
   DATE_FORMAT,
@@ -75,7 +74,7 @@ import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
 import queue from '../worker/queue';
-import DefiIcon from '../assets/svg/defi-icon.svg';
+import DefiIcon from '../assets/svg/dDFI.svg';
 import BTCIcon from '../assets/svg/icon-coin-bitcoin-lapis.svg';
 import EthIcon from '../assets/svg/eth-icon.svg';
 import USDTIcon from '../assets/svg/usdt-icon.svg';
@@ -84,6 +83,7 @@ import LtcIcon from '../assets/svg/ltc-icon.svg';
 import BchIcon from '../assets/svg/bch-icon.svg';
 import USDCIcon from '../assets/svg/usdc-icon.svg';
 import SPV_BTCIcon from '../assets/svg/btc.svg';
+import NATIVE_DFI from '../assets/svg/defi-icon.svg';
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1092,9 +1092,10 @@ export const calculateLPFee = (formState, poolPairList) => {
     .toFixed(8);
 };
 
-export const getIcon = (symbol: string, isSPV?: boolean) => {
+export const getIcon = (symbol: string) => {
   const symbolIconObj = {
-    SPV_BTC: SPV_BTCIcon,
+    n_DFI: NATIVE_DFI,
+    n_BTC: SPV_BTCIcon,
     BTC: BTCIcon,
     ETH: EthIcon,
     USDT: USDTIcon,
@@ -1104,11 +1105,7 @@ export const getIcon = (symbol: string, isSPV?: boolean) => {
     BCH: BchIcon,
 		USDC: USDCIcon,
   };
-  if (isSPV) {
-    return SPV_BTCIcon
-  } else {
-    return symbolIconObj[symbol];
-  }
+  return symbolIconObj[symbol];
 };
 
 export const isAddressMine = async (address) => {

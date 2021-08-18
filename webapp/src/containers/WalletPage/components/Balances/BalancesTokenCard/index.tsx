@@ -66,7 +66,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   };
 
   const utxos = new BigNumber(utxoDfi || 0);
-
+  const symbolKey = token.symbolKey === 'DFI' || token.isSPV ? `n_${token.symbolKey}` : token.symbolKey
   return (
     <Row className='align-items-center balanceTokenCard'>
       <Col md='12'>
@@ -86,8 +86,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                 <div className='d-flex align-items-center justify-content-start'>
                   <div>
                     <TokenAvatar
-                      isSPV={token.isSPV}
-                      symbol={token.symbolKey}
+                      symbol={symbolKey}
                       textSizeRatio={2}
                       size={size ?? '24px'}
                     />

@@ -9,7 +9,7 @@ import {
   Row,
 } from 'reactstrap';
 import { ITokenBalanceInfo } from '../../utils/interfaces';
-import { filterByValueMap, getIcon } from '../../utils/utility';
+import { filterByValueMap } from '../../utils/utility';
 import NumberMask from '../NumberMask';
 
 import SwapSearchBar from '../SwapSearchBar';
