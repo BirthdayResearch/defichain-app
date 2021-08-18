@@ -8,9 +8,9 @@ jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -30,9 +30,9 @@ jobs:
       - publish_linux_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -57,21 +57,18 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
-        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
+        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
         with:
-          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-          asset_name: DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
-          asset_content_type: text/plain
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
+          files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   publish_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -96,9 +93,9 @@ jobs:
       - publish_mac_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -123,21 +120,18 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
-        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
+        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
         with:
-          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
-          asset_name: DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
-          asset_content_type: text/plain
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
+          files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   publish_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -157,9 +151,9 @@ jobs:
       - publish_windows_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@25a956c84d5dd820d28caab9f86b8d183aeeff3d
+      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f
+      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
         with:
           node-version: 15
 
@@ -184,11 +178,8 @@ jobs:
           sha256sum DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
-        uses: actions/upload-release-asset@ef2adfe8cb8ebfa540930c452c576b3819990faa
+        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
         with:
-          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
-          asset_name: DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
-          asset_content_type: text/plain
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
+          files: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          token: ${{ secrets.GITHUB_TOKEN }}
