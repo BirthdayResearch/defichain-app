@@ -1,6 +1,10 @@
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/DeFiCh/app)](https://github.com/DeFiCh/app/releases)
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/DeFiCh/app/latest/total">
+<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/DeFiCh/app">
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/defichain?style=social">
+<img alt="Subreddit subscribers" src="https://img.shields.io/reddit/subreddit-subscribers/defiblockchain?style=social">
 
 # DeFi Desktop Wallet
 
