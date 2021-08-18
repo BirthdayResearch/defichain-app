@@ -23,7 +23,7 @@
 }
 
 .form-label-group .col > label {
-  left: $form-grid-gutter-width / 2;
+  left: $form-grid-gutter-width * 0.5;
 }
 
 .form-label-group input::placeholder,

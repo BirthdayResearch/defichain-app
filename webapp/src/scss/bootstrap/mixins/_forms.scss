@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @mixin form-validation-state($state, $color, $icon) {
   .#{$state}-feedback {
     display: none;
@@ -72,8 +74,7 @@
           escape-svg($icon)
             $custom-select-bg
             no-repeat
-            $custom-select-feedback-icon-position /
-            $custom-select-feedback-icon-size;
+            math.div($custom-select-feedback-icon-position, $custom-select-feedback-icon-size);
       }
 
       &:focus {
