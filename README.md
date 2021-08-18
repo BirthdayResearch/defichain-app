@@ -87,7 +87,7 @@ npm run build:all
 
 ## Licenses & Disclaimer
 
-By using `DeFi App` (this repo), you (the user) agree to be bound by [the terms of this license](LICENSE).
+By using `DeFi Desktop App` (this repo), you (the user) agree to be bound by [the terms of this license](LICENSE).
 
 QR scanner shutter audio `webapp/src/assets/audio/shutter.mp3` is licensed by [Soundsnap](https://www.soundsnap.com).
 Commercial redistribution of the audio is prohibited. For full Soundsnap license, visit [https://www.soundsnap.com/licence](https://www.soundsnap.com/licence).
