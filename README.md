@@ -1,6 +1,11 @@
-# DeFi Wallet
 
-Use DeFi Wallet to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more.
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/releases/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/releases)
+[![GitHub tag](https://img.shields.io/github/tag/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/tags/)
+
+# DeFi Desktop Wallet
+
+Use DeFi Desktop Wallet to interact with DeFiChain. It is a wallet for \$DFI, wrapped BTC, ETH, USDT. Liquidity mine, use the DEX, create masternodes, and more.
 ![Image](https://defichain.com/img/app/liquidity@2x.png)
 
 # Documentation
