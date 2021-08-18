@@ -6,13 +6,13 @@
 <a href="https://github.com/DeFiCh/app/graphs/contributors">
   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/DeFiCh/app">
 </a>
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/blob/master/LICENSE)
 <a href="https://twitter.com/defichain">
   <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/defichain?style=social">
 </a>
 <a href="https://www.reddit.com/r/defiblockchain/">
   <img alt="Subreddit subscribers" src="https://img.shields.io/reddit/subreddit-subscribers/defiblockchain?style=social">
 </a>
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/blob/master/LICENSE)
 
 # DeFi Desktop Wallet
 
