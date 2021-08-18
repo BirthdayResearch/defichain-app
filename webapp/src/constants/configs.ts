@@ -137,7 +137,7 @@ export const COINGECKO_USDC_ID = 'usd-coin';
 
 export const API_REQUEST_TIMEOUT = 5000;
 export const STATS_API_BASE_URL = 'https://api.defichain.io/v1/';
-export const STATS_API_BLOCK_URL = `${STATS_API_BASE_URL}getblockcount`;
+export const STATS_API_BLOCK_URL = `https://ocean.defichain.com/v0/`;
 export const COINGECKO_API_BASE_URL = 'https://api.coingecko.com/api/v3';
 export const TELEGRAM_GERMAN_HELP_LINK = 'https://t.me/defiblockchain_DE';
 export const TELEGRAM_ENGLISH_HELP_LINK = 'https://t.me/defiblockchain';

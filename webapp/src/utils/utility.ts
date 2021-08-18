@@ -941,7 +941,7 @@ export const fetchPoolShareDataWithPagination = async (
 export const getTotalBlocks = async () => {
   const network = getNetworkType();
   const { data } = await axios({
-    url: `${STATS_API_BLOCK_URL}?network=${network}net`,
+    url: `${STATS_API_BLOCK_URL}${network}net/stats`,
     method: 'GET',
     timeout: API_REQUEST_TIMEOUT,
   });
