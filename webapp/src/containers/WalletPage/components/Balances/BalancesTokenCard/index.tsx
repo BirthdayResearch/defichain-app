@@ -1,5 +1,5 @@
-import React from 'react';
-import { Badge, Button, Card, CardBody, Col, Row } from 'reactstrap';
+import React, { useState } from 'react';
+import { Badge, Button, Card, CardBody, Col, Row, Tooltip } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 
 import styles from '../Balances.module.scss';
@@ -7,7 +7,12 @@ import styles from '../Balances.module.scss';
 import TokenAvatar from '../../../../../components/TokenAvatar';
 import NumberMask from '../../../../../components/NumberMask';
 import BigNumber from 'bignumber.js';
-import { MdArrowDownward, MdArrowUpward, MdSwapHoriz } from 'react-icons/md';
+import {
+  MdArrowDownward,
+  MdArrowUpward,
+  MdInfoOutline,
+  MdSwapHoriz,
+} from 'react-icons/md';
 import { IToken } from '../../../../../utils/interfaces';
 import {
   DFI_SYMBOL,
@@ -39,6 +44,9 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   const { token, size, bgImage, hideSwap, hideMore, hideBadge, utxoDfi } =
     props;
 
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+
   const onCardClick = (event: React.MouseEvent, token: IToken) => {
     const eventTarget = event?.target as any;
     const parentTarget = eventTarget.parentElement;
@@ -66,7 +74,10 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
   };
 
   const utxos = new BigNumber(utxoDfi || 0);
-  const symbolKey = token.symbolKey === 'DFI' || token.isSPV ? `n_${token.symbolKey}` : token.symbolKey
+  const symbolKey =
+    token.symbolKey === 'DFI' || token.isSPV
+      ? `n_${token.symbolKey}`
+      : token.symbolKey;
   return (
     <Row className='align-items-center balanceTokenCard'>
       <Col md='12'>
@@ -93,7 +104,30 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                   </div>
                   <div className='ml-3'>
                     <div className='d-flex align-items-center'>
-                      <b>{token.displayName}</b>
+                      <b className='d-flex flex-row align-items-center'>
+                        <span>{token.displayName} </span>
+                        <span>
+                          {token.isSPV && (
+                            <span className='d-flex flex-row align-items-center ml-1'>
+                              (Beta)
+                              <MdInfoOutline
+                                className='ml-1'
+                                id='masternode__item'
+                                size={20}
+                              />
+                              <Tooltip
+                                placement='auto'
+                                target='masternode__item'
+                                isOpen={tooltipOpen}
+                                toggle={toggle}
+                              >
+                                This feature is still on Beta. Please use at your own
+                                risk.
+                              </Tooltip>
+                            </span>
+                          )}
+                        </span>
+                      </b>
                       {!hideBadge && (
                         <Badge className='ml-2' color='disabled'>
                           {token.isLPS ? LP : DST}
