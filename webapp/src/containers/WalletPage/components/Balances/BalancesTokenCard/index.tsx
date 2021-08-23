@@ -121,7 +121,7 @@ const BalancesTokenCard: React.FunctionComponent<BalancesTokenCardProps> = (
                                 isOpen={tooltipOpen}
                                 toggle={toggle}
                               >
-                                This feature is still on Beta. Please use at your own
+                                This feature is still in Beta. Please use at your own
                                 risk.
                               </Tooltip>
                             </span>
