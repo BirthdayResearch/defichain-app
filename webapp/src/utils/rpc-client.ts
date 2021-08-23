@@ -1126,7 +1126,7 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.SPV_SENDTOADDRESS, [
       toAddress,
       amount.toFixed(8),
-      fee.toFixed(8),
+      fee.toNumber(),
     ]);
     return data.result;
   };
