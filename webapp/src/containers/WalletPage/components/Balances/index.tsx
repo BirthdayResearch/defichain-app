@@ -86,8 +86,12 @@ const BalancesPage: React.FunctionComponent = () => {
     });
     appTokens = (appTokens || []).filter((t) => !keys[t.hash]);
     clone = [...clone, ...appTokens]
-      .sort((a: IToken, b: IToken) => +a.hash - +b.hash)
-      .sort((a: IToken, b: IToken) => +a.isLPS - +b.isLPS)
+      .sort(
+        (a: IToken, b: IToken) =>
+          (a.amount ? -1 : 0) - (b.amount ? -1 : 0) ||
+          +a.isLPS - +b.isLPS ||
+          +a.hash - +b.hash
+      )
       .filter((t: IToken) => t.hash != DFI_SYMBOL);
 
     updateWalletToken(clone);
