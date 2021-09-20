@@ -48,7 +48,7 @@ import {
   getTokenDisplayName,
   isValidDFCAddress,
 } from '../../../../utils/utility';
-import qs from 'querystring';
+import qs from 'query-string';
 import styles from '../../WalletPage.module.scss';
 import Spinner from '../../../../components/Svg/Spinner';
 import Header from '../../../HeaderComponent';
