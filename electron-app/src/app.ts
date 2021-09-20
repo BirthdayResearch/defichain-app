@@ -1,4 +1,3 @@
-require('@electron/remote/main').initialize();
 import log from 'loglevel';
 import * as path from 'path';
 import * as os from 'os';
@@ -71,7 +70,6 @@ export default class App {
     /* Create config file if not existing */
     const uiConfig = new Uiconfig();
     await uiConfig.get();
-    app.allowRendererProcessReuse = false;
     app.on(READY, this.onAppReady);
     app.on(ACTIVATE, this.onAppActivate);
     this.makeSingleInstance();
@@ -138,6 +136,8 @@ export default class App {
     if (this.isDevMode) {
       await this.installDevelopmentTools();
     }
+    const remoteMain = require("@electron/remote/main")
+    remoteMain.initialize()
     this.mainWindow = new BrowserWindow({
       width: 1024,
       height: 768,
@@ -151,10 +151,10 @@ export default class App {
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
-        enableRemoteModule: true,
         contextIsolation: false,
       },
     });
+    remoteMain.enable(this.mainWindow.webContents)
     const loadUrl =
       process.env.ELECTRON_START_URL ||
       url.format({

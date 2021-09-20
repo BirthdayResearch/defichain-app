@@ -251,7 +251,7 @@ const WalletTxns: React.FunctionComponent<WalletTxnsProps> = (
   useEffect(() => {
     return () => {
       sourceArray.current.map((source) => {
-        source.cancel('reqest cancel');
+        source.cancel('request cancel');
       });
     };
   }, []);
