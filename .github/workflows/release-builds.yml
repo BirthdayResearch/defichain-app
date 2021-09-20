@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -50,7 +50,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
+        uses: bruceadams/get-release@3a8733307b85cd96d52772b037617bd63d99522e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,7 +59,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
-        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
+        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
@@ -70,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -113,7 +113,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
+        uses: bruceadams/get-release@3a8733307b85cd96d52772b037617bd63d99522e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -122,7 +122,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
-        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
+        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
@@ -133,7 +133,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -155,7 +155,7 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954
+      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
         with:
           node-version: 15
 
@@ -171,7 +171,7 @@ jobs:
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
-        uses: bruceadams/get-release@cec887d580c35215f22d83bb5a37b41bbb890908
+        uses: bruceadams/get-release@3a8733307b85cd96d52772b037617bd63d99522e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -180,7 +180,7 @@ jobs:
           sha256sum DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
-        uses: softprops/action-gh-release@2d72d869af3bf23602f9593a1e3fd739b80ac1eb
+        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
