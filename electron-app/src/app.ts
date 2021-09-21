@@ -163,9 +163,9 @@ export default class App {
 
     this.mainWindow.loadURL(loadUrl);
 
-    // if (this.parseOptions.debug) {
+    if (this.parseOptions.debug) {
       this.mainWindow.webContents.openDevTools();
-    // }
+    }
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
     ElectronLogger.info(
