@@ -52,3 +52,4 @@ export const ON_NOT_ENOUGH_DISK_SPACE = 'on_not_enough_disk_space';
 export const ON_REMOVE_REINDEX = 'on_remove_reindex';
 export const ON_FULL_RESTART_APP = 'on_full_restart_app';
 export const ON_REINDEX_REQUEST = 'on_reindex_request';
+export const APP_LOG = 'app-log';

@@ -1,4 +1,4 @@
-import logger, { info, error, logFilePath } from '../electronLogger';
+import logger, { info, error } from '../electronLogger';
 
 describe('electronLogger', () => {
   it('shoulb be return electron logger', () => {
@@ -13,11 +13,6 @@ describe('electronLogger', () => {
 
   it('shoulb be return electron error', () => {
     const data = error('error');
-    expect(data).toBeFalsy;
-  });
-
-  it('shoulb be return electron logFilePath', () => {
-    const data = logFilePath();
     expect(data).toBeFalsy;
   });
 });

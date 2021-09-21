@@ -21,7 +21,7 @@ import {
   APP_SHUTDOWN_TIMEOUT,
 } from './constants';
 import initiateElectronUpdateManager from './ipc-events/electronupdatemanager';
-import ElectronLogger from './services/electronLogger';
+import ElectronLogger, { info, error } from './services/electronLogger';
 import initiateBackupImportWalletManager from './ipc-events/backupAndImportWallet';
 import { createMnemonicAction } from './ipc-events/createMnemonic';
 import {
@@ -29,6 +29,7 @@ import {
   ON_CLOSE_RPC_CLIENT,
   STOP_BINARY_AND_QUEUE,
   APP_INIT,
+  APP_LOG,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 import { checkWalletConfig, initializeWalletMap } from './controllers/wallets';
@@ -136,8 +137,6 @@ export default class App {
     if (this.isDevMode) {
       await this.installDevelopmentTools();
     }
-    const remoteMain = require("@electron/remote/main")
-    remoteMain.initialize()
     this.mainWindow = new BrowserWindow({
       width: 1024,
       height: 768,
@@ -154,7 +153,6 @@ export default class App {
         contextIsolation: false,
       },
     });
-    remoteMain.enable(this.mainWindow.webContents)
     const loadUrl =
       process.env.ELECTRON_START_URL ||
       url.format({
@@ -165,9 +163,9 @@ export default class App {
 
     this.mainWindow.loadURL(loadUrl);
 
-    if (this.parseOptions.debug) {
+    // if (this.parseOptions.debug) {
       this.mainWindow.webContents.openDevTools();
-    }
+    // }
 
     this.mainWindow.on(CLOSE, this.onMainWindowClose);
     ElectronLogger.info(
@@ -228,6 +226,14 @@ export default class App {
 
     ipcMain.on(APP_INIT, () => {
       this.isAppInitialized = true;
+    });
+
+    ipcMain.handle(APP_LOG, (event, message, isInfo) => {
+      if (isInfo) {
+        info(message, false)
+      } else {
+        error(message, false)
+      }
     });
   };
 

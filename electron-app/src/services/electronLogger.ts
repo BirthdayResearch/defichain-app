@@ -4,20 +4,31 @@ import {
   DEFAULT_ELECTRON_LOG_BASE_UNIT,
   DEFAULT_ELECTRON_LOG_SIZE,
   DEFAULT_ELECTRON_FORMAT,
+  DEFAULT_ELECTRON_RENDERER_FORMAT,
 } from '../constants';
 
 ElectronLogger.transports.file.format = DEFAULT_ELECTRON_FORMAT;
 ElectronLogger.transports.file.maxSize =
   DEFAULT_ELECTRON_LOG_BASE_UNIT * DEFAULT_ELECTRON_LOG_SIZE;
 
-const info = (text: string) => {
+const info = (text: string, shouldLogConsole: boolean = true) => {
+  if (shouldLogConsole) {
+    log.info(text);
+    ElectronLogger.transports.file.format = DEFAULT_ELECTRON_FORMAT;
+  } else {
+    ElectronLogger.transports.file.format = DEFAULT_ELECTRON_RENDERER_FORMAT;
+  }
   ElectronLogger.log(text);
-  log.info(text);
 };
 
-const error = (text: string) => {
+const error = (text: string, shouldLogConsole: boolean = true) => {
+  if (shouldLogConsole) {
+    log.error(text);
+    ElectronLogger.transports.file.format = DEFAULT_ELECTRON_FORMAT;
+  } else {
+    ElectronLogger.transports.file.format = DEFAULT_ELECTRON_RENDERER_FORMAT;
+  }
   ElectronLogger.error(text);
-  log.error(text);
 };
 
 const logFilePath = () => {

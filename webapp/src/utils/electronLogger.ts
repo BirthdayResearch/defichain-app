@@ -1,18 +1,18 @@
-import { isElectron } from './isElectron';
+import { ipcRendererFunc, isElectron } from './isElectron';
 import log from 'loglevel';
-import {
-  DEFAULT_ELECTRON_LOG_FORMAT,
-  DEFAULT_ELECTRON_LOG_BASE_UNIT,
-  DEFAULT_ELECTRON_LOG_SIZE,
-} from '../constants';
+import { APP_LOG } from '@defi_types/ipcEvents';
 
 const logger = () => {
   if (isElectron()) {
-    const log = window.require('@electron/remote').require('electron-log');
-    log.transports.file.format = DEFAULT_ELECTRON_LOG_FORMAT;
-    log.transports.file.maxSize =
-      DEFAULT_ELECTRON_LOG_BASE_UNIT * DEFAULT_ELECTRON_LOG_SIZE;
-    return log;
+    const ipcRenderer = ipcRendererFunc();
+    return {
+      log: (message) => {
+        ipcRenderer.invoke(APP_LOG, message, true);
+      },
+      error: (message) => {
+        ipcRenderer.invoke(APP_LOG, message, false);
+      }
+    };
   }
   return false;
 };
@@ -50,13 +50,5 @@ const error = (text: any, methodSource?: string): void => {
   }
 };
 
-const logFilePath = () => {
-  const electronLogger = logger();
-  if (electronLogger) {
-    return electronLogger.transports.file.findLogPath();
-  }
-  return false;
-};
-
 export default logger;
-export { info, error, logFilePath };
+export { info, error };
