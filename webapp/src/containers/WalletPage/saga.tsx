@@ -199,7 +199,7 @@ export function* addReceiveTxns(action: any) {
     cloneDeepPaymentRequests.push(action.payload);
 
     yield put(fetchPaymentRequestsSuccess(cloneDeepPaymentRequests));
-  } catch (e) {
+  } catch (e: any) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
     log.error(e);
@@ -219,7 +219,7 @@ export function* removeReceiveTxns(action: any) {
     );
 
     yield put(fetchPaymentRequestsSuccess(result));
-  } catch (e) {
+  } catch (e: any) {
     showNotification(I18n.t('alerts.removeReceiveTxnsFailure'), e.message);
     yield put(removeReceiveTxnsFailure(e.message));
     log.error(e);
@@ -233,7 +233,7 @@ export function* fetchPayments() {
       yield call(setPaymentAddresses);
     }
     yield call(setSPVPaymentAddresses);
-  } catch (e) {
+  } catch (e: any) {
     showNotification(I18n.t('alerts.paymentRequestsFailure'), e.message);
     yield put({ type: fetchPaymentRequestsFailure.type, payload: e.message });
     log.error(e);
@@ -324,7 +324,7 @@ export function* fetchChainInfo() {
   try {
     const data = yield call(getBlockChainInfo);
     result = data;
-  } catch (err) {
+  } catch (err: any) {
     log.error(err.message);
     result = {};
   }
@@ -342,7 +342,7 @@ export function* fetchTokens() {
       type: fetchTokensSuccess.type,
       payload: { tokens: data },
     });
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchTokensFailure.type, payload: e.message });
     log.error(e);
   }
@@ -402,7 +402,7 @@ export function* createWallet(action) {
     yield put(setIsWalletCreatedRequest(true));
     yield call(enableMenuResetWalletBtn, true);
     history.push(WALLET_TOKENS_PATH);
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({ type: createWalletFailure.type, payload: getErrorMessage(e) });
   }
@@ -436,7 +436,7 @@ export function* restoreWallet(action) {
     yield call(() => {
       history.push(WALLET_TOKENS_PATH);
     });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({ type: restoreWalletFailure.type, payload: getErrorMessage(e) });
   }
@@ -469,7 +469,7 @@ export function* restoreWalletViaBackup() {
         payload: resp?.message,
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message, 'restoreWalletViaBackup');
     yield put({
       type: restoreWalletViaBackupFailure.type,
@@ -494,7 +494,7 @@ export function* restoreWalletViaRecent(action: any) {
         payload: resp?.message,
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message, 'restoreWalletViaRecent');
     yield put({
       type: restoreWalletViaBackupFailure.type,
@@ -525,7 +525,7 @@ export function* handleCreateWalletStart(action: any) {
         payload: resp?.message,
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     yield put(createWalletFailure(e.message));
     log.error(e.message, 'handleCreateWalletStart');
   }
@@ -542,7 +542,7 @@ export function* backupWalletViaExitModal() {
     } else {
       yield put(openExitWalletModal(false));
     }
-  } catch (e) {
+  } catch (e: any) {
     yield put(openExitWalletModal(false));
     log.error(e.message, 'backupWalletViaExitModal');
   }
@@ -558,7 +558,7 @@ export function* backupWalletViaPostEncryptModal() {
     if (resp?.success) {
       yield put(openPostEncryptBackupModal(false));
     }
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message, 'backupWalletViaPostEncryptModal');
   }
 }
@@ -567,7 +567,7 @@ export function* fetchInstantBalance() {
   try {
     const result = yield call(handleFetchWalletBalance);
     yield put(fetchWalletBalanceSuccess(result));
-  } catch (err) {
+  } catch (err: any) {
     yield put(fetchWalletBalanceFailure(err.message));
     log.error(err);
   }
@@ -577,7 +577,7 @@ export function* fetchInstantPendingBalance() {
   try {
     const result = yield call(handleFetchPendingBalance);
     yield put(fetchPendingBalanceSuccess(result));
-  } catch (err) {
+  } catch (err: any) {
     yield put(fetchPendingBalanceFailure(err.message));
     log.error(err);
   }
@@ -655,7 +655,7 @@ export function* fetchWalletTokenTransactionsList(action) {
         maxBlockData: tempData,
       })
     );
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'fetchWalletTokenTransactionsList');
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -674,7 +674,7 @@ export function* fetchBlockDataForTrx(action) {
     const trxArray: any[] = action.payload;
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
     yield put(fetchBlockDataForTrxRequestSuccess(updated));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'fetchBlockDataForTrx');
     yield put(fetchBlockDataForTrxRequestFailure(err.message));
   }
@@ -684,7 +684,7 @@ export function* checkRestartCriteria() {
   try {
     const restartCriteria = yield call(handleRestartCriteria);
     yield put(checkRestartCriteriaRequestSuccess(restartCriteria));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'checkRestartCriteria');
     yield put(checkRestartCriteriaRequestFailure(err.message));
   }
@@ -701,7 +701,7 @@ export function* fetchWalletMap() {
         )
       );
     }
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'fetchWalletMap');
     yield put(fetchWalletMapFailure(err?.message));
   }
@@ -745,7 +745,7 @@ export function* handleGetSPVAddress() {
       label: '',
     };
     yield call(handleNewSPVAddress, data, addresses);
-  } catch (e) {
+  } catch (e: any) {
     showNotification(I18n.t('alerts.addReceiveTxnsFailure'), e.message);
     yield put(addReceiveTxnsFailure(e.message));
     log.error(e);

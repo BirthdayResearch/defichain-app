@@ -69,7 +69,7 @@ export function* getSettingsOptions() {
         networkOptions,
       })
     );
-  } catch (e) {
+  } catch (e: any) {
     yield put(getSettingOptionsFailure(e.message));
     log.error(e);
   }
@@ -99,7 +99,7 @@ export function* getSettings() {
         payload: 'No data found',
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: getInitialSettingsFailure.type, payload: e.message });
     log.error(e);
   }
@@ -159,7 +159,7 @@ export function* updateSettings(action) {
         payload: 'No data found',
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: updateSettingsFailure.type, payload: e.message });
     log.error(e);
   }
@@ -207,7 +207,7 @@ export function* updatePassphrase(action) {
     } else {
       throw new Error(resp?.message);
     }
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: changePassphraseFailure.type,
       payload: remapNodeError(error.message),
@@ -230,7 +230,7 @@ export function* setLockTimeout(action) {
       return showNotification(title, message);
     }
     throw new Error(resp?.message);
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: changePassphraseFailure.type,
       payload: remapNodeError(error.message),

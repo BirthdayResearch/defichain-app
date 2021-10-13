@@ -46,7 +46,7 @@ export function* fetchPoolshares() {
       type: fetchPoolsharesSuccess.type,
       payload: { poolshares: data },
     });
-  } catch (e) {
+  } catch (e: any) {
     yield put({
       type: fetchPoolsharesFailure.type,
       payload: e.message,
@@ -75,7 +75,7 @@ export function* fetchPoolPair(action) {
       type: fetchPoolpairSuccess.type,
       payload: { poolpair: data },
     });
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchPoolpairFailure.type, payload: e.message });
     log.error(e);
   }
@@ -105,7 +105,7 @@ export function* addPoolLiquidity(action) {
       shareAddress
     );
     yield put({ type: addPoolLiquiditySuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({
       type: addPoolLiquidityFailure.type,
@@ -127,7 +127,7 @@ export function* removePoolLiquidity(action) {
       poolpair
     );
     yield put({ type: removePoolLiquiditySuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({
       type: removePoolLiquidityFailure.type,
@@ -140,7 +140,7 @@ export function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
     yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({ type: fetchUtxoDfiFailure.type, payload: getErrorMessage(e) });
   }
@@ -150,7 +150,7 @@ export function* fetchMaxAccountDfi() {
   try {
     const data = yield call(handleFetchTokenDFI);
     yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({
       type: fetchMaxAccountDfiFailure.type,

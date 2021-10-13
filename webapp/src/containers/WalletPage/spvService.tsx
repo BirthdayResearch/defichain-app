@@ -145,7 +145,7 @@ export const getBTCFees = async (): Promise<BigNumber> => {
       url: BITCOIN_FEES_COM,
       method: 'GET',
       timeout: API_REQUEST_TIMEOUT,
-    });
+    }) as any;
     return new BigNumber(result?.data?.fastestFee ?? 0).multipliedBy(1000);
   } catch (error) {
     log.error(error);

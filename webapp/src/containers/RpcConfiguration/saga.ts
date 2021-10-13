@@ -97,7 +97,7 @@ export function* getConfig() {
       });
       log.error(resMessage, 'getConfig');
     }
-  } catch (e) {
+  } catch (e: any) {
     showNotification(I18n.t('alerts.configurationFailure'), e.message);
     yield put({ type: getRpcConfigsFailure.type, payload: e.message });
     log.error(e, 'getConfig');

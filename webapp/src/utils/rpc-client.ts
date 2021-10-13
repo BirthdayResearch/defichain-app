@@ -594,7 +594,7 @@ export default class RpcClient {
     try {
       const { data } = await this.call('/', methodName, params);
       return data.result;
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         (e.response &&
           e.response.data &&

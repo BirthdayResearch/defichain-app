@@ -22,7 +22,7 @@ export const isBlockchainStarted = async (emitter, response) => {
         });
         clearInterval(intervalRef);
       }
-    } catch (err) {
+    } catch (err: any) {
       // Do not decrease retryAttempt in case of loading index
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {
         retryAttempt -= 1;

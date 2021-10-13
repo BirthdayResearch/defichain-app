@@ -541,7 +541,7 @@ export const startRestoreViaBackup = async (network: string) => {
       updateWalletMap(resp.data);
     }
     return resp;
-  } catch (error) {
+  } catch (error: any) {
     log.error(error, 'handleRestoreWalletViaBackup');
     return {
       success: false,
@@ -558,7 +558,7 @@ export const checkRestoreRecentIfExisting = async (path: string) => {
       updateWalletMap(path, true);
     }
     return resp;
-  } catch (error) {
+  } catch (error: any) {
     log.error(error, 'checkRestoreIfExisting');
     return {
       success: false,
@@ -575,7 +575,7 @@ export const startRestoreViaRecent = async (path: string, network: string) => {
       updateWalletMap(path);
     }
     return resp;
-  } catch (error) {
+  } catch (error: any) {
     log.error(error, 'startRestoreViaRecent');
     return {
       success: false,
@@ -606,7 +606,7 @@ export const createNewWallet = async (
       }
     }
     return resp;
-  } catch (error) {
+  } catch (error: any) {
     log.error(error, 'createNewWallet');
     return {
       success: false,

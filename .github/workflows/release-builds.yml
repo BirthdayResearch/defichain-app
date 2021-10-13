@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -34,9 +34,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
@@ -59,7 +59,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
-        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
+        uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
@@ -70,9 +70,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -97,9 +97,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
@@ -122,7 +122,7 @@ jobs:
           sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
-        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
+        uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
@@ -133,9 +133,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -155,9 +155,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
@@ -180,7 +180,7 @@ jobs:
           sha256sum DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
-        uses: softprops/action-gh-release@6034af24fba4e5a8e975aaa6056554efe4c794d0
+        uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
           files: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256

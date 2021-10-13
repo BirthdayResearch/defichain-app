@@ -353,7 +353,7 @@ export const extractSnapshot = (
 
 export const getLatestSnapshotBlock = async (bw: Electron.BrowserWindow) => {
   try {
-    const blocks = await axios.get(`${SNAPSHOT_EU}${SNAPSHOT_INDEX}`);
+    const blocks = await axios.get<any>(`${SNAPSHOT_EU}${SNAPSHOT_INDEX}`);
     const data: string[] = blocks?.data?.split('\n') || [];
     const snapshots = data
       .filter((s) => s.includes('snapshot'))

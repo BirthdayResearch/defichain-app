@@ -58,7 +58,7 @@ export function* fetchToken(action) {
       type: fetchTokenInfoSuccess.type,
       payload: { tokenInfo: data },
     });
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchTokenInfoFailure.type, payload: e.message });
     log.error(e);
   }
@@ -71,7 +71,7 @@ export function* fetchTokens() {
       (item) => item.destructionTx === DESTRUCTION_TX && item.symbolKey !== DFI
     );
     yield put(fetchTokensSuccess(updated));
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchTokensFailure.type, payload: e.message });
     log.error(e);
   }
@@ -87,7 +87,7 @@ export function* fetchTransfers(action) {
       type: fetchTransfersSuccess.type,
       payload: { transfers: data },
     });
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchTransfersFailure.type, payload: e.message });
     log.error(e);
   }

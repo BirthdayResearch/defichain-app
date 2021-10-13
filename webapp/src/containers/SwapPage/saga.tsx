@@ -95,7 +95,7 @@ export function* poolSwap(action) {
 
     const data = yield call(handlePoolSwap, formState);
     yield put({ type: poolSwapSuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({
       type: poolSwapFailure.type,
@@ -108,7 +108,7 @@ export function* fetchUtxoDfi() {
   try {
     const data = yield call(handleFetchUtxoDFI);
     yield put({ type: fetchUtxoDfiSuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({ type: fetchUtxoDfiFailure.type, payload: getErrorMessage(e) });
   }
@@ -118,7 +118,7 @@ export function* fetchMaxAccountDfi() {
   try {
     const data = yield call(handleFetchTokenDFI);
     yield put({ type: fetchMaxAccountDfiSuccess.type, payload: data });
-  } catch (e) {
+  } catch (e: any) {
     log.error(e.message);
     yield put({
       type: fetchMaxAccountDfiFailure.type,

@@ -100,7 +100,7 @@ export const shutDownBinary = async () => {
       LOGGING_SHUT_DOWN
     );
     return result;
-  } catch (err) {
+  } catch (err: any) {
     log.error(JSON.stringify(err), LOGGING_SHUT_DOWN);
     if (isElectron()) {
       if (err?.response?.data?.error?.code !== LOADING_BLOCK_INDEX_CODE) {

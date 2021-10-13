@@ -12,7 +12,7 @@ export function* fetchDataForQuery(action) {
   try {
     const data = yield call(handleDataForQuery, query);
     yield put(fetchDataForQuerySuccess(data));
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: fetchDataForQueryFailure.type, payload: e.message });
     log.error(e);
   }

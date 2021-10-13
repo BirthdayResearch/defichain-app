@@ -18,7 +18,7 @@ describe('Console Page Service', () => {
     mockAxios(post);
     try {
       const data = await service.handleDataForQuery(query);
-    } catch (err) {
+    } catch (err: any) {
       expect(err.message).toBe('Invalid configuration');
       expect(post).toBeCalledTimes(1);
     }

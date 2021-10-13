@@ -60,7 +60,7 @@ function* fetchPeersSyncInfo(action) {
     yield put(syncStatusPeersSuccess({ peers: peers?.length ?? 0 }));
     yield delay(3000);
     yield put(syncStatusPeersLoading({ isLoading: false }));
-  } catch (error) {
+  } catch (error: any) {
     yield put(syncStatusPeersFailure({ error: error?.message }));
     log.error(error);
   }

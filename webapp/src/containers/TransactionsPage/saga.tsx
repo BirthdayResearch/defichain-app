@@ -182,7 +182,7 @@ export function* fetchWalletTokenTransactionsList(action) {
         maxBlockData: tempData,
       })
     );
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'fetchWalletTokenTransactionsList');
     yield put(fetchWalletTokenTransactionsListRequestFailure(err.message));
   }
@@ -201,7 +201,7 @@ export function* fetchBlockDataForTrx(action) {
     const trxArray: any[] = action.payload;
     const updated = yield all(trxArray.map((item) => call(getBlockData, item)));
     yield put(fetchBlockDataForTrxRequestSuccess(updated));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err, 'fetchBlockDataForTrx');
     yield put(fetchBlockDataForTrxRequestFailure(err.message));
   }

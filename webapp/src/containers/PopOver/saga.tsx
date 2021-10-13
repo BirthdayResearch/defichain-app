@@ -178,7 +178,7 @@ function* startRestoreWalletChecks(action) {
         payload: resp.message,
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     log.error(error, 'startRestoreWalletChecks');
     yield put({
       type: restoreWalletViaBackupFailure.type,

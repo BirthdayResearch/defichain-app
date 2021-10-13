@@ -67,7 +67,7 @@ export function* fetchMasterNodes() {
           ? isMasternodeEnabled(result)
           : true;
         masternodes.push(result);
-      } catch (err) {
+      } catch (err: any) {
         log.error(err.message);
       }
     });

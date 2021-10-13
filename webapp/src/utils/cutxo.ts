@@ -49,7 +49,7 @@ export const construct = async ({
     try {
       const fR = new BN(feeRate).times(1024).div(1e8).toNumber();
       res = await rpcClient.walletCreateFundedPsbt(inputs, outputs, fR);
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.message === 'Transaction too large' ||
         e.response.data.error.message === 'Transaction too large'

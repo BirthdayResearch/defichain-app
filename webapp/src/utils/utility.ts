@@ -946,7 +946,7 @@ export const getTotalBlocks = async () => {
     method: 'GET',
     timeout: API_REQUEST_TIMEOUT,
   });
-  return data;
+  return data as any;
 };
 
 const api = setup({
@@ -966,7 +966,7 @@ export const getStatsYieldFarming = async (lpDailyDfiReward: number) => {
     const state = store.getState();
     const block = state.syncstatus.latestSyncedBlock;
     const network = getNetworkType();
-    const result = await api.get(
+    const result: any = await api.get(
       `listyieldfarming?network=${network}net&block=${block}`,
       {
         timeout: API_REQUEST_TIMEOUT,
@@ -1199,7 +1199,7 @@ export const getCoinPriceInUSD = async (conversionCurrency: string) => {
       },
     }
   );
-  return data;
+  return data as any;
 };
 
 export const coinGeckoCoinPrices = async () => {

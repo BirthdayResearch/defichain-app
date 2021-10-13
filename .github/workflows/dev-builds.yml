@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
@@ -35,9 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
@@ -64,9 +64,9 @@ jobs:
     steps:
       - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
-      - uses: actions/setup-node@041bafb67276a76a9cc88cd8a4e99165e9eb287d
+      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
         with:
-          node-version: 15
+          node-version: 16
 
       - name: Get App Version
         uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
