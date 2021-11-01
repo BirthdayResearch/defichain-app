@@ -20,8 +20,10 @@ Please provide steps on how to reproduce the issue: 1. 2. 3. -->
 
 #### What are your environment parameters?
 
-- DeFi Wallet Version: 
+- DeFiCh/app Version:
 - Operating System (OS): 
+– RAM (GB): 
+– CPU (Intel Core i5/i7/etc.): 
 - Current free storage capacity:
 
 #### Anything else we need to know?
