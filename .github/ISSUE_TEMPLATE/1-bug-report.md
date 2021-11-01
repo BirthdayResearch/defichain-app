@@ -1,7 +1,7 @@
 ---
-Name: Bug report
-About: Report a bug encountered with using the DeFi Wallet
-Labels: kind/bug
+name: Bug report
+about: Report a bug encountered with using the DeFi Wallet
+labels: kind/bug
 ---
 
 <!--
