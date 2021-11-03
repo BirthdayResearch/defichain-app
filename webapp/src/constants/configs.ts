@@ -155,9 +155,8 @@ export const LIQUIDITY_MINING_YOUTUBE_LINK = 'https://youtu.be/G3PT0fU__mM';
 export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
   'https://youtu.be/s-3kUdErY5M';
 
-export const DEFICHAIN_MAINNET_LINK = 'https://mainnet.defichain.io/';
-export const DEFICHAIN_TESTNET_LINK = 'https://testnet.defichain.io/';
-
+export const DEFICHAIN_BLOCKS = 'https://defiscan.live/blocks';
+export const DEFICHAIN_ADDRESS = 'https://defiscan.live/address';
 export const DEX_EXPLORER_BASE_LINK = 'https://defiscan.live/dex';
 export const DEFICHAIN_ANALYTICS = 'https://www.defichain-analytics.com/';
 

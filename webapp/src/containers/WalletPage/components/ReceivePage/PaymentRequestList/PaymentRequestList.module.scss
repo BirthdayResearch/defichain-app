@@ -25,6 +25,8 @@
 .addressContainer {
   max-width: 175px;
   position: relative;
+  cursor: pointer;
+  color: $primary;
 }
 
 .copiedIndicator {

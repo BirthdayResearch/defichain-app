@@ -7,15 +7,14 @@ import { MdLaunch } from 'react-icons/md';
 import { ButtonGroup, Button } from 'reactstrap';
 import openNewTab from '../../utils/openNewTab';
 import {
-  DEFICHAIN_MAINNET_LINK,
-  DEFICHAIN_TESTNET_LINK,
+  DEFICHAIN_BLOCKS,
   MAIN,
 } from '../../constants';
 import { getNetworkType, getPageTitle } from '../../utils/utility';
 
 const BlockchainPage = () => {
   const explorerLink =
-    getNetworkType() === MAIN ? DEFICHAIN_MAINNET_LINK : DEFICHAIN_TESTNET_LINK;
+    getNetworkType() === MAIN ? `${DEFICHAIN_BLOCKS}` : `${DEFICHAIN_BLOCKS}?network=TestNet`;
   return (
     <div className='main-wrapper'>
       <Helmet>

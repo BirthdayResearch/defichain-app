@@ -9,19 +9,25 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { MdMoreHoriz, MdDelete } from 'react-icons/md';
 import styles from './PaymentRequestList.module.scss';
 import { removeReceiveTxnsRequest } from '../../../reducer';
-import { PAYMENT_REQ_LIST_SIZE } from '../../../../../constants';
+import {
+  DEFICHAIN_ADDRESS,
+  MAIN,
+  PAYMENT_REQ_LIST_SIZE,
+} from '../../../../../constants';
 import QrCode from '../../../../../components/QrCode';
 import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import Pagination from '../../../../../components/Pagination';
 import { addHdSeedCheck } from '../../../saga';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
-import classnames from 'classnames';
+import openNewTab from '../../../../../utils/openNewTab';
+import { getNetworkType } from '../../../../../utils/utility';
 interface PaymentRequestsProps {
   paymentRequests: PaymentRequestModel[];
   removeReceiveTxns: (id: string | number) => void;
@@ -84,7 +90,18 @@ const PaymentRequestList: React.FunctionComponent<PaymentRequestsProps> = (
                     <tr key={request.id}>
                       <td></td>
                       <td>{request.label}</td>
-                      <td className={styles.addressContainer}>
+                      <td
+                        onClick={() =>
+                          openNewTab(
+                            `${`${DEFICHAIN_ADDRESS}`}/${request.address}${
+                              getNetworkType() !== MAIN
+                                ? `?network=TestNet`
+                                : ''
+                            }`
+                          )
+                        }
+                        className={styles.addressContainer}
+                      >
                         <div className={styles.ellipsisValue}>
                           {request.address}
                         </div>

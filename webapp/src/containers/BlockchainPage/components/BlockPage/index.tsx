@@ -21,8 +21,7 @@ import {
   BLOCKCHAIN_BASE_PATH,
   BLOCKCHAIN_BLOCK_BASE_PATH,
   BLOCK_TXN_PAGE_SIZE,
-  DEFICHAIN_MAINNET_LINK,
-  DEFICHAIN_TESTNET_LINK,
+  DEFICHAIN_BLOCKS,
   MAIN,
 } from '../../../../constants';
 import Pagination from '../../../../components/Pagination';
@@ -94,8 +93,6 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
   const txns: ITxn[] = LruCache.get(key) || props.txns;
 
   const network = getNetworkType();
-  const explorerLink =
-    network === MAIN ? DEFICHAIN_MAINNET_LINK : DEFICHAIN_TESTNET_LINK;
 
   return (
     <div className='main-wrapper'>
@@ -128,7 +125,7 @@ const BlockPage: React.FunctionComponent<BlockPageProps> = (
           <Button
             color='link'
             onClick={() =>
-              openNewTab(`${explorerLink}#/DFI/${network}net/block/${hash}`)
+              openNewTab(`${DEFICHAIN_BLOCKS}/${hash}${ getNetworkType() !== MAIN ? `?network=TestNet` : '' }`)
             }
           >
             <MdLaunch />
