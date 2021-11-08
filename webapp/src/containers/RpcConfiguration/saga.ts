@@ -9,9 +9,12 @@ import {
   storeConfigurationData,
   setQueueReady,
   startSetNodeVersion,
+  setAppNodeVersion,
+  setAppNodeVersionRequest
 } from './reducer';
 import {
   getRpcConfig,
+  onSetAppNodeVersionRequest,
   setNodeVersion,
   startAppInit,
   startBinary,
@@ -62,6 +65,17 @@ function* resetAppRoute() {
   }
 }
 
+
+export function* handleSetAppNodeVersion() {
+  try {
+    const nodeVersion: string = yield call(onSetAppNodeVersionRequest);
+    yield put(setAppNodeVersion(nodeVersion));
+  } catch (error) {
+    log.error(error, 'handleSetAppNodeVersion');
+  }
+}
+
+
 export function* getConfig() {
   try {
     startAppInit();
@@ -75,6 +89,7 @@ export function* getConfig() {
           const blockchainStatus = yield take(chan);
           log.info(blockchainStatus, 'Blockchain Status');
           if (blockchainStatus.status) {
+            yield call(handleSetAppNodeVersion);
             yield put(startNodeSuccess());
             yield put(closeRestartLoader());
             yield put(storeConfigurationData(blockchainStatus.conf));

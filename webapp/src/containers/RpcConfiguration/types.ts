@@ -9,4 +9,5 @@ export interface AppState {
   readonly isQueueReady: boolean;
   readonly isAppClosing: boolean;
   readonly activeNetwork: string;
+  readonly nodeVersion: string;
 }

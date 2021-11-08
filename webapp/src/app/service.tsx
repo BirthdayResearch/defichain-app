@@ -385,3 +385,13 @@ export const onStartSnapshotRequest = (snapshotUrl: string): void => {
     ipcRenderer.send(ON_SNAPSHOT_START_REQUEST, snapshotUrl);
   }
 };
+
+
+export const onSetAppNodeVersionRequest = async (): Promise<string> => {
+  if (isElectron()) {
+    const rpcClient = new RpcClient();
+    const nodeVersion = await rpcClient.getNodeVersion();
+    return nodeVersion != undefined ? nodeVersion.replaceAll('/', '').replace('DeFiChain:', '') : ''
+  }
+  return ''
+};

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Console from 'react-console-component';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import {
   fetchDataForQueryRequest,
   resetDataForQuery,
@@ -15,6 +15,7 @@ import {
 } from '../../../constants';
 import './console.scss';
 import { WalletMap } from '@defi_types/walletMap';
+import { RootState } from '../../../app/rootTypes';
 
 interface EchoConsoleProps {
   fetchDataForQueryRequest: (query: string) => void;
@@ -40,6 +41,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     cliLog,
     walletMap,
   } = props;
+  const { nodeVersion } = useSelector((state: RootState) => state.app);
   const [showConsoleResults, setShowConsoleResults] = useState(false);
   let currentRef: Console;
   const echo = (text: string) => {
@@ -128,6 +130,8 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
     return !!currentRef && currentRef.scrollIfBottom();
   };
 
+  const nv = nodeVersion ?? (walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : '')
+
   return (
     <div
       onPaste={onPasteHandler}
@@ -139,7 +143,7 @@ const EchoConsole: React.FunctionComponent<EchoConsoleProps> = (
         handler={echo}
         promptLabel=''
         welcomeMessage={`${CONSOLE_PROMPT_LABEL}${
-          walletMap?.nodeVersion ? `${walletMap.nodeVersion}` : ''
+          nv
         }`}
         autofocus={true}
       />

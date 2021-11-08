@@ -1135,4 +1135,9 @@ export default class RpcClient {
     const { data } = await this.call('/', methodNames.SPV_GETALLADDRESSES);
     return data.result;
   };
+
+  getNodeVersion = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_NETWORK_INFO);
+    return data?.result?.subversion;
+  };
 }

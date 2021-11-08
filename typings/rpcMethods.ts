@@ -94,3 +94,4 @@ export const SPV_SYNCSTATUS = 'spv_syncstatus';
 export const SPV_LISTRECEIVEDBYADDRESS = 'spv_listreceivedbyaddress';
 export const SPV_VALIDATEADDRESS = 'spv_validateaddress';
 export const SPV_GETALLADDRESSES = 'spv_getalladdresses';
+export const GET_NETWORK_INFO = 'getnetworkinfo';
