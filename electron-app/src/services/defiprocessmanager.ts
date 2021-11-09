@@ -175,7 +175,7 @@ export default class DefiProcessManager {
         }
       }
 
-      const execPath = this.getConfiguration()?.nodedir ?? path.resolve(
+      const execPath = this.getConfiguration()?.nodepath ?? path.resolve(
         path.join(BINARY_FILE_PATH, BINARY_FILE_NAME)
       );
 
