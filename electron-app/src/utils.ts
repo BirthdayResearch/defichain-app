@@ -304,7 +304,7 @@ export const deleteSnapshotFolders = () => {
     const folders = getBlockchainFolders();
     folders.forEach((f) => {
       if (checkPathExists(f)) {
-        fs.rmdirSync(f, { recursive: true });
+        fs.rmSync(f, { recursive: true });
       }
     });
   } catch (error) {
