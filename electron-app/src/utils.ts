@@ -334,5 +334,8 @@ export const deleteSnapshotFiles = () => {
 };
 
 export const getSnapshotFolder = (): string => {
-  return path.join(getBaseFolder(), SNAPSHOT_FOLDER);
+  if (platform === LINUX) {
+    return path.join(getBaseFolder(), SNAPSHOT_FOLDER);
+  }
+  return path.join(getBaseFolder(), '../', SNAPSHOT_FOLDER);
 };
