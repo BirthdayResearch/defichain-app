@@ -987,6 +987,31 @@ export const getPoolStatsFromAPI = async (lpDailyDfiReward: number) => {
   return poolStats;
 };
 
+const oceanAPI = setup({
+  // `axios` options
+  baseURL: `${STATS_API_BLOCK_URL}`,
+  cache: {
+    maxAge: 30 * 1000,
+    exclude: {
+      query: false,
+    },
+  },
+});
+export const getStatsFromOcean = async () => {
+  const network = getNetworkType();
+  const result: any = await oceanAPI.get(
+    `${network}net/poolpairs`,
+    {
+      timeout: API_REQUEST_TIMEOUT,
+    }
+  );
+  return result.data.data;
+};
+
+export const getPoolPairStatsFromOcean = async () => {
+  return await getStatsFromOcean();
+};
+
 export const calculateInputAddLiquidityLeftCard = (
   input1: string,
   formState,

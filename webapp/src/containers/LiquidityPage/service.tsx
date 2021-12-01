@@ -24,6 +24,7 @@ import {
   handleAccountToAccountConversion,
   handleUtxoToAccountConversion,
   parsedCoinPriceData,
+  getPoolPairStatsFromOcean,
 } from '../../utils/utility';
 import BigNumber from 'bignumber.js';
 import store from '../../app/rootStore';
@@ -40,6 +41,7 @@ export const handleFetchPoolshares = async () => {
   const govResult = await rpcClient.getGov();
   const lpDailyDfiReward = govResult[LP_DAILY_DFI_REWARD];
   const poolStats = await getPoolStatsFromAPI(lpDailyDfiReward);
+  const oceanStats = await getPoolPairsOcean();
   const coinPriceObj = await parsedCoinPriceData(poolStats);
   const poolShares = await fetchPoolShareDataWithPagination(
     0,
@@ -52,15 +54,12 @@ export const handleFetchPoolshares = async () => {
   }
 
   const minePoolShares = poolShares.map(async (poolShare) => {
+    const pairStats = oceanStats.find((p) => p.id === poolShare.poolID)
     const poolPair = await rpcClient.getPoolPair(poolShare.poolID);
     const poolPairData = Object.keys(poolPair).map((item) => ({
       hash: item,
       ...poolPair[item],
     }));
-    const idTokenA = poolPairData[0].idTokenA;
-    const idTokenB = poolPairData[0].idTokenB;
-    const tokenAData = await handleFetchToken(idTokenA);
-    const tokenBData = await handleFetchToken(idTokenB);
     const poolSharePercentage =
       (poolShare.amount / poolShare.totalLiquidity) * 100;
 
@@ -68,22 +67,11 @@ export const handleFetchPoolshares = async () => {
       .times(poolPairData[0].rewardPct)
       .times(365)
       .times(coinPriceObj[DFI_SYMBOL]);
-
-    const liquidityReserveidTokenA = new BigNumber(
-      poolPairData[0].reserveA || 0
-    ).times(coinPriceObj[idTokenA]);
-    const liquidityReserveidTokenB = new BigNumber(
-      poolPairData[0].reserveB || 0
-    ).times(coinPriceObj[idTokenB]);
-    const totalLiquidity = liquidityReserveidTokenA.plus(
-      liquidityReserveidTokenB
-    );
-    const apr = new BigNumber(
-      poolStats[`${idTokenA}_${idTokenB}`]?.apr || 0
-    ).toFixed(2);
+    const totalLiquidity = new BigNumber(pairStats?.totalLiquidity?.usd ?? 0)
+    const apr = new BigNumber(pairStats?.apr?.total).times(100).toFixed(2);
     return {
-      tokenA: tokenAData.symbol,
-      tokenB: tokenBData.symbol,
+      tokenA: pairStats?.tokenA?.symbol,
+      tokenB: pairStats?.tokenB?.symbol,
       poolSharePercentage: poolSharePercentage.toFixed(8),
       yearlyPoolReward: yearlyPoolReward.toNumber().toFixed(8),
       totalLiquidityInUSDT: totalLiquidity.toNumber().toFixed(8),
@@ -113,6 +101,10 @@ export const handleFetchPoolshares = async () => {
 
   return groupedMinePoolShares;
 };
+
+export const getPoolPairsOcean = async () => {
+  return await getPoolPairStatsFromOcean()
+}
 
 export const handleFetchPoolpair = async (id: string) => {
   const rpcClient = new RpcClient();

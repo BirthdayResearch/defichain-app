@@ -14,7 +14,8 @@ export const initialState: AppState = {
   isQueueReady: false,
   isAppClosing: false,
   activeNetwork: 'main',
-  nodeVersion: ''
+  nodeVersion: '',
+  stats: {}
 };
 
 const updateConfiguration = (state, config) => {
@@ -105,6 +106,9 @@ const configSlice = createSlice({
     },
     setAppNodeVersion(state, action?) {
       state.nodeVersion = action?.payload;
+    },
+    setStats(state, action?) {
+      state.stats = action?.payload;
     }
   },
 });
@@ -126,7 +130,8 @@ export const {
   setMasternodesMiningInConf,
   updateActiveNetwork,
   setAppNodeVersionRequest,
-  setAppNodeVersion
+  setAppNodeVersion,
+  setStats
 } = actions;
 
 export default reducer;
