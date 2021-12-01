@@ -28,12 +28,13 @@ interface AvailablePoolPairsListProps {
   searchQuery: string;
   poolPairList: any[];
   isLoadingPoolPairList: boolean;
+  poolshares: any;
 }
 
 const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProps> =
   (props: AvailablePoolPairsListProps) => {
     const defaultPage = 1;
-    const { searchQuery, poolPairList, isLoadingPoolPairList } = props;
+    const { searchQuery, poolPairList, isLoadingPoolPairList, poolshares } = props;
     const [tableData, settableData] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(defaultPage);
     const stats = useSelector((state: RootState) => state.app.stats)
@@ -53,6 +54,11 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
 
       setCurrentPage(pageNumber);
       settableData(tableData);
+    }
+
+    const getPoolShare = (id: string): BigNumber => {
+      const ps = poolshares.find((p) => p.poolID === id)
+      return ps !== undefined ? new BigNumber(ps.poolSharePercentage) : new BigNumber(0)
     }
 
     useEffect(() => {
@@ -159,12 +165,8 @@ const AvailablePoolPairsList: React.FunctionComponent<AvailablePoolPairsListProp
                         <Button
                           to={`${REMOVE_LIQUIDITY_BASE_PATH}/${
                             poolpair.id
-                          }?sharePercentage=${new BigNumber(
-                            poolpair.poolSharePercentage
-                          ).toFixed(8)}`}
-                          disabled={new BigNumber(
-                            poolpair.poolSharePercentage
-                          ).eq(0)}
+                          }?sharePercentage=${getPoolShare(poolpair.id).toFixed(8)}`}
+                          disabled={getPoolShare(poolpair.id).lte(0)}
                           tag={RRNavLink}
                           color='link'
                           size='sm'

@@ -34,7 +34,7 @@ import {
 import {
   calculateInputAddLiquidity,
   calculateInputAddLiquidityLeftCard,
-  conversionRatio,
+  conversionRatioUpdated,
   countDecimals,
   getBalanceAndSymbolMap,
   getMaxNumberOfAmount,
@@ -349,11 +349,6 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
         I18n.t('containers.swap.addLiquidity.ratioMoreThan1')
       );
       setLiquidityChanged(true);
-    } else if (new BigNumber(newAmount).gt(formState.balance2)) {
-      setLiquidityChangedMsg(
-        I18n.t('containers.swap.addLiquidity.ratioChanged')
-      );
-      setLiquidityChanged(true);
     } else {
       setAddLiquidityStep('confirm');
     }
@@ -566,13 +561,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
                 </Col>
                 <Col className={styles.keyValueLiValue}>
                   <NumberMask
-                    value={conversionRatio(formState, poolPairList)}
+                    value={conversionRatioUpdated(formState, poolPairList)}
                   />
                   {` ${formState.symbol2} per ${formState.symbol1}`}
                   <br />
                   <NumberMask
                     value={new BigNumber(1)
-                      .div(conversionRatio(formState, poolPairList))
+                      .div(conversionRatioUpdated(formState, poolPairList))
                       .toFixed(8)}
                   />
                   {` ${formState.symbol1} per ${formState.symbol2}`}
@@ -692,13 +687,13 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               </dt>
               <dd className='col-sm-8'>
                 {isValid() &&
-                  `${conversionRatio(formState, poolPairList)} ${
+                  `${conversionRatioUpdated(formState, poolPairList)} ${
                     formState.symbol2
                   } per ${formState.symbol1}`}
                 <br />
                 {isValid() &&
                   `${new BigNumber(1)
-                    .div(conversionRatio(formState, poolPairList))
+                    .div(conversionRatioUpdated(formState, poolPairList))
                     .toFixed(8)} ${formState.symbol1} per ${
                     formState.symbol2
                   }`}{' '}

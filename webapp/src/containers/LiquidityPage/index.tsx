@@ -123,6 +123,7 @@ const LiquidityPage: React.FunctionComponent<LiquidityPageProps> = (
             <AvailablePoolPairsList
               searchQuery={''}
               poolPairList={poolPairList}
+              poolshares={poolshares}
             />
           </section>
         </div>

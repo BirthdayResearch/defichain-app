@@ -675,6 +675,21 @@ export const getTokenListForSwap = (
   return tokenMap;
 };
 
+export const getUniqueTokenMapUpdated = (poolPairList) => {
+  return poolPairList.reduce((uniqueTokenList, poolPair) => {
+    const { symbol } = poolPair;
+    const symbolList: string[] = symbol.split('-');
+    if (!uniqueTokenList.has(poolPair.idTokenA)) {
+      uniqueTokenList.set(poolPair.tokenA.id, symbolList[0]);
+    }
+    if (!uniqueTokenList.has(poolPair.idTokenB)) {
+      uniqueTokenList.set(poolPair.tokenB.id, symbolList[1]);
+    }
+    return uniqueTokenList;
+  }, new Map<string, string>());
+};
+
+
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[],
@@ -683,7 +698,7 @@ export const getTokenAndBalanceMap = (
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
 
-  const uniqueTokenMap = getUniqueTokenMap(poolPairList);
+  const uniqueTokenMap = getUniqueTokenMapUpdated(poolPairList);
   const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
 
   // Add DFI to list if DFI tokens are not present already
@@ -1018,7 +1033,7 @@ export const calculateInputAddLiquidityLeftCard = (
   poolPairList
 ) => {
   const ratio = new BigNumber(1).div(
-    new BigNumber(conversionRatio(formState, poolPairList))
+    new BigNumber(conversionRatioUpdated(formState, poolPairList))
   );
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     return ratio.times(input1).toFixed(8);
@@ -1031,7 +1046,7 @@ export const calculateInputAddLiquidity = (
   formState,
   poolPairList
 ) => {
-  const ratio = new BigNumber(conversionRatio(formState, poolPairList));
+  const ratio = new BigNumber(conversionRatioUpdated(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     return ratio.times(input1).toFixed(8);
   }
@@ -1058,6 +1073,31 @@ export const selectedPoolPair = (formState, poolPairList) => {
   return [poolPair, condition1];
 };
 
+export const selectedPoolPairUpdated = (formState, poolPairList) => {
+  let condition1;
+  let condition2;
+  const poolPair = poolPairList.find((poolpair) => {
+    condition1 =
+      poolpair.tokenA.id === formState.hash1 &&
+      poolpair.tokenB.id === formState.hash2;
+    condition2 =
+      poolpair.tokenA.id === formState.hash2 &&
+      poolpair.tokenB.id === formState.hash1;
+    return condition1 || condition2;
+  });
+  return [poolPair, condition1];
+};
+
+export const conversionRatioUpdated = (formState, poolPairList) => {
+  const [poolPair, condition1] = selectedPoolPairUpdated(formState, poolPairList);
+
+  const ratio = condition1
+    ? new BigNumber(poolPair.tokenB.reserve).div(new BigNumber(poolPair.tokenA.reserve))
+    : new BigNumber(poolPair.tokenA.reserve).div(new BigNumber(poolPair.tokenB.reserve));
+
+  return ratio.toFixed(8, 1);
+};
+
 export const conversionRatio = (formState, poolPairList) => {
   const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
 
@@ -1082,17 +1122,17 @@ export const getRatio = (poolpair) => {
 };
 
 export const shareOfPool = (formState, poolPairList) => {
-  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
 
   const shareA =
-    formState.hash1 === poolPair.idTokenA
-      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
-      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
+    formState.hash1 === poolPair.tokenA.id
+      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenA.reserve))
+      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenB.reserve));
 
   const shareB =
-    formState.hash2 === poolPair.idTokenB
-      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
-      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
+    formState.hash2 === poolPair.tokenB.id
+      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenB.reserve))
+      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenA.reserve));
 
   const shareOfPool = shareA
     .plus(shareB)
@@ -1105,12 +1145,12 @@ export const shareOfPool = (formState, poolPairList) => {
 };
 
 export const getTotalPoolValue = (formState, poolPairList, hash) => {
-  const [poolPair] = selectedPoolPair(formState, poolPairList);
-  return hash === poolPair.idTokenA ? poolPair.reserveA : poolPair.reserveB;
+  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
+  return hash === poolPair.tokenA.id ? poolPair.tokenA.reserve : poolPair.tokenB.reserve;
 };
 
 export const calculateLPFee = (formState, poolPairList) => {
-  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
   return new BigNumber(formState.amount1)
     .times(poolPair.commission)
     .toNumber()

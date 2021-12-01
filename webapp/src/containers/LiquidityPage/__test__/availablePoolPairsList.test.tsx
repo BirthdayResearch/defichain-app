@@ -10,7 +10,7 @@ describe('AvailablePoolPairsList component', () => {
     const wrapper = Enzyme.mount(
       <Router>
         <Provider store={store}>
-          <AvailablePoolPairsList searchQuery={''} poolPairList={[]} />
+          <AvailablePoolPairsList searchQuery={''} poolPairList={[]} poolshares={[]} />
         </Provider>
       </Router>
     );
