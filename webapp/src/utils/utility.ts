@@ -66,7 +66,23 @@ import {
   BLOCKCHAIN_COM,
 	MAINNET_USDC_SYMBOL,
 	USDC_SYMBOL,
-	COINGECKO_USDC_ID
+	COINGECKO_USDC_ID,
+  AAPL_SYMBOL,
+  ARKK_SYMBOL,
+  BABA_SYMBOL,
+  DUSD_SYMBOL,
+  GLD_SYMBOL,
+  GME_SYMBOL,
+  GOOGL_SYMBOL,
+  PDBC_SYMBOL,
+  PLTR_SYMBOL,
+  QQQ_SYMBOL,
+  SLV_SYMBOL,
+  SPY_SYMBOL,
+  TLT_SYMBOL,
+  TSLA_SYMBOL,
+  URTH_SYMBOL,
+  VNQ_SYMBOL
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -84,6 +100,23 @@ import BchIcon from '../assets/svg/bch-icon.svg';
 import USDCIcon from '../assets/svg/usdc-icon.svg';
 import SPV_BTCIcon from '../assets/svg/btc.svg';
 import NATIVE_DFI from '../assets/svg/defi-icon.svg';
+import DUSDIcon from '../assets/svg/dUSD.svg';
+import DAAPLIcon from '../assets/svg/dAAPL.svg';
+import DARKKIcon from '../assets/svg/dARKK.svg';
+import DBABAIcon from '../assets/svg/dBABA.svg';
+import DGLDIcon from '../assets/svg/dGLD.svg';
+import DGMEIcon from '../assets/svg/dGME.svg';
+import DGOOGLIcon from '../assets/svg/dGOOGL.svg';
+import DPDBCIcon from '../assets/svg/dPDBC.svg';
+import DPLTRIcon from '../assets/svg/dPLTR.svg';
+import DQQQIcon from '../assets/svg/dQQQ.svg';
+import DSLVIcon from '../assets/svg/dSLV.svg';
+import DSPYICON from '../assets/svg/dSPY.svg';
+import DTLTICON from '../assets/svg/dTLT.svg';
+import DTSLAICON from '../assets/svg/dTSLA.svg';
+import DURTHICON from '../assets/svg/dURTH.svg';
+import DVNQICON from '../assets/svg/dVNQ.svg';
+
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -1150,7 +1183,7 @@ export const getTotalPoolValue = (formState, poolPairList, hash) => {
 };
 
 export const calculateLPFee = (formState, poolPairList) => {
-  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
+  const [poolPair] = selectedPoolPair(formState, poolPairList);
   return new BigNumber(formState.amount1)
     .times(poolPair.commission)
     .toNumber()
@@ -1169,6 +1202,22 @@ export const getIcon = (symbol: string) => {
     LTC: LtcIcon,
     BCH: BchIcon,
 		USDC: USDCIcon,
+    DUSD: DUSDIcon,
+    AAPL: DAAPLIcon,
+    ARKK: DARKKIcon,
+    BABA: DBABAIcon,
+    GLD: DGLDIcon,
+    GME: DGMEIcon,
+    GOOGL: DGOOGLIcon,
+    PDBC: DPDBCIcon,
+    PLTR: DPLTRIcon,
+    QQQ: DQQQIcon,
+    SLV: DSLVIcon,
+    SPY: DSPYICON,
+    TLT: DTLTICON,
+    TSLA: DTSLAICON,
+    URTH: DURTHICON,
+    VNQ: DVNQICON
   };
   return symbolIconObj[symbol];
 };
@@ -1473,6 +1522,22 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     bchSymbol,
     btcSPVSymbol,
 		usdcSymbol,
+    DUSD_SYMBOL,
+    TSLA_SYMBOL,
+    BABA_SYMBOL,
+    GME_SYMBOL,
+    PLTR_SYMBOL,
+    AAPL_SYMBOL,
+    GOOGL_SYMBOL,
+    ARKK_SYMBOL,
+    SPY_SYMBOL,
+    QQQ_SYMBOL,
+    GLD_SYMBOL,
+    SLV_SYMBOL,
+    PDBC_SYMBOL,
+    VNQ_SYMBOL,
+    URTH_SYMBOL,
+    TLT_SYMBOL
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
