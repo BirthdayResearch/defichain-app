@@ -10,4 +10,5 @@ export interface AppState {
   readonly isAppClosing: boolean;
   readonly activeNetwork: string;
   readonly nodeVersion: string;
+  readonly stats?: any;
 }

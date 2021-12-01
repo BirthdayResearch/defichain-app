@@ -34,7 +34,11 @@ const LiquidityAccordion: React.FunctionComponent<LiquidityAccordionProps> = (
         <CardBody>
           <Row className='align-items-center'>
             <Col md={2}>
-              <PairIcon poolpair={poolpair} />
+              <PairIcon poolpair={{ tokenB: {
+                symbol: poolpair.tokenB
+              }, tokenA: {
+                symbol: poolpair.tokenA
+              } }} />
             </Col>
             <Col md={5}>
               <span>{`${poolpair.tokenA}-${poolpair.tokenB}`}</span>

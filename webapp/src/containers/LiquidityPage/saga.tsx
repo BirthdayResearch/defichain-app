@@ -33,10 +33,10 @@ import {
 } from './reducer';
 import {
   handleAddPoolLiquidity,
-  handleFetchPoolPairList,
   handleFetchPoolshares,
   handleRemovePoolLiquidity,
   handleFetchPoolpair,
+  getPoolPairsOcean,
 } from './service';
 
 export function* fetchPoolshares() {
@@ -83,7 +83,7 @@ export function* fetchPoolPair(action) {
 
 export function* fetchPoolPairList() {
   try {
-    const data = yield call(handleFetchPoolPairList);
+    const data = yield call(getPoolPairsOcean);
     yield put({ type: fetchPoolPairListSuccess.type, payload: data });
   } catch (e) {
     log.error(e);

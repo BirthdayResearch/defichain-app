@@ -69,7 +69,14 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
           </span>
         </Button>
         <div className={styles.titleWithIcon}>
-          <PairIcon poolpair={poolshare} />
+          <PairIcon poolpair={{
+            tokenA: {
+              symbol: poolshare.tokenA
+            },
+            tokenB: {
+              symbol: poolshare.tokenB
+            }
+          }} />
           <h1>{`${poolshare.symbol} ${I18n.t(
             'containers.liquidity.liquidityPage.liquidity'
           )}`}</h1>
@@ -143,7 +150,7 @@ const LiquidityInfo: React.FunctionComponent<LiquidityInfoProps> = (
                 value={(
                   `${
                     poolshare.poolSharePercentage
-                      ? new BigNumber(poolshare.poolSharePercentage).toFixed(4)
+                      ? new BigNumber(poolshare.poolSharePercentage).toFixed(8)
                       : ''
                   } %` || ''
                 ).toString()}

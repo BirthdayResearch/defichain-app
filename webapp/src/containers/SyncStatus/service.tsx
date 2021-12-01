@@ -5,6 +5,7 @@ import { ipcRendererFunc } from '../../utils/isElectron';
 import { ON_SNAPSHOT_DATA_REQUEST } from '../../../../typings/ipcEvents';
 import store from '../../app/rootStore';
 import { onSnapshotDataSuccess } from '../../app/snapshot.ipcRenderer';
+import { setStats } from '../RpcConfiguration/reducer';
 
 export const getBlockSyncInfo = async () => {
   const rpcClient = new RpcClient();
@@ -13,6 +14,7 @@ export const getBlockSyncInfo = async () => {
   try {
     const latestBlockInfoArr = await getTotalBlocks();
     latestBlock = latestBlockInfoArr.data.count.blocks;
+    store.dispatch(setStats(latestBlockInfoArr.data));
   } catch (e) {
     // Use getpeerinfo rpc call, if not able to get data from stats api
     const latestBlockInfoArr: any = await rpcClient.getPeerInfo();

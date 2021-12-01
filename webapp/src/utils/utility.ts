@@ -66,7 +66,23 @@ import {
   BLOCKCHAIN_COM,
 	MAINNET_USDC_SYMBOL,
 	USDC_SYMBOL,
-	COINGECKO_USDC_ID
+	COINGECKO_USDC_ID,
+  AAPL_SYMBOL,
+  ARKK_SYMBOL,
+  BABA_SYMBOL,
+  DUSD_SYMBOL,
+  GLD_SYMBOL,
+  GME_SYMBOL,
+  GOOGL_SYMBOL,
+  PDBC_SYMBOL,
+  PLTR_SYMBOL,
+  QQQ_SYMBOL,
+  SLV_SYMBOL,
+  SPY_SYMBOL,
+  TLT_SYMBOL,
+  TSLA_SYMBOL,
+  URTH_SYMBOL,
+  VNQ_SYMBOL
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -84,6 +100,23 @@ import BchIcon from '../assets/svg/bch-icon.svg';
 import USDCIcon from '../assets/svg/usdc-icon.svg';
 import SPV_BTCIcon from '../assets/svg/btc.svg';
 import NATIVE_DFI from '../assets/svg/defi-icon.svg';
+import DUSDIcon from '../assets/svg/dUSD.svg';
+import DAAPLIcon from '../assets/svg/dAAPL.svg';
+import DARKKIcon from '../assets/svg/dARKK.svg';
+import DBABAIcon from '../assets/svg/dBABA.svg';
+import DGLDIcon from '../assets/svg/dGLD.svg';
+import DGMEIcon from '../assets/svg/dGME.svg';
+import DGOOGLIcon from '../assets/svg/dGOOGL.svg';
+import DPDBCIcon from '../assets/svg/dPDBC.svg';
+import DPLTRIcon from '../assets/svg/dPLTR.svg';
+import DQQQIcon from '../assets/svg/dQQQ.svg';
+import DSLVIcon from '../assets/svg/dSLV.svg';
+import DSPYICON from '../assets/svg/dSPY.svg';
+import DTLTICON from '../assets/svg/dTLT.svg';
+import DTSLAICON from '../assets/svg/dTSLA.svg';
+import DURTHICON from '../assets/svg/dURTH.svg';
+import DVNQICON from '../assets/svg/dVNQ.svg';
+
 import {
   getAddressInfo,
   getTransactionInfo,
@@ -675,6 +708,21 @@ export const getTokenListForSwap = (
   return tokenMap;
 };
 
+export const getUniqueTokenMapUpdated = (poolPairList) => {
+  return poolPairList.reduce((uniqueTokenList, poolPair) => {
+    const { symbol } = poolPair;
+    const symbolList: string[] = symbol.split('-');
+    if (!uniqueTokenList.has(poolPair.idTokenA)) {
+      uniqueTokenList.set(poolPair.tokenA.id, symbolList[0]);
+    }
+    if (!uniqueTokenList.has(poolPair.idTokenB)) {
+      uniqueTokenList.set(poolPair.tokenB.id, symbolList[1]);
+    }
+    return uniqueTokenList;
+  }, new Map<string, string>());
+};
+
+
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[],
@@ -683,7 +731,7 @@ export const getTokenAndBalanceMap = (
   const tokenMap = new Map<string, ITokenBalanceInfo>();
   const popularSymbolList = getPopularSymbolList();
 
-  const uniqueTokenMap = getUniqueTokenMap(poolPairList);
+  const uniqueTokenMap = getUniqueTokenMapUpdated(poolPairList);
   const balanceAndSymbolMap = getBalanceAndSymbolMap(tokenBalanceList);
 
   // Add DFI to list if DFI tokens are not present already
@@ -987,13 +1035,38 @@ export const getPoolStatsFromAPI = async (lpDailyDfiReward: number) => {
   return poolStats;
 };
 
+const oceanAPI = setup({
+  // `axios` options
+  baseURL: `${STATS_API_BLOCK_URL}`,
+  cache: {
+    maxAge: 30 * 1000,
+    exclude: {
+      query: false,
+    },
+  },
+});
+export const getStatsFromOcean = async () => {
+  const network = getNetworkType();
+  const result: any = await oceanAPI.get(
+    `${network}net/poolpairs`,
+    {
+      timeout: API_REQUEST_TIMEOUT,
+    }
+  );
+  return result.data.data;
+};
+
+export const getPoolPairStatsFromOcean = async () => {
+  return await getStatsFromOcean();
+};
+
 export const calculateInputAddLiquidityLeftCard = (
   input1: string,
   formState,
   poolPairList
 ) => {
   const ratio = new BigNumber(1).div(
-    new BigNumber(conversionRatio(formState, poolPairList))
+    new BigNumber(conversionRatioUpdated(formState, poolPairList))
   );
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     return ratio.times(input1).toFixed(8);
@@ -1006,7 +1079,7 @@ export const calculateInputAddLiquidity = (
   formState,
   poolPairList
 ) => {
-  const ratio = new BigNumber(conversionRatio(formState, poolPairList));
+  const ratio = new BigNumber(conversionRatioUpdated(formState, poolPairList));
   if (input1 && formState.symbol1 && formState.symbol2 && ratio) {
     return ratio.times(input1).toFixed(8);
   }
@@ -1033,6 +1106,31 @@ export const selectedPoolPair = (formState, poolPairList) => {
   return [poolPair, condition1];
 };
 
+export const selectedPoolPairUpdated = (formState, poolPairList) => {
+  let condition1;
+  let condition2;
+  const poolPair = poolPairList.find((poolpair) => {
+    condition1 =
+      poolpair.tokenA.id === formState.hash1 &&
+      poolpair.tokenB.id === formState.hash2;
+    condition2 =
+      poolpair.tokenA.id === formState.hash2 &&
+      poolpair.tokenB.id === formState.hash1;
+    return condition1 || condition2;
+  });
+  return [poolPair, condition1];
+};
+
+export const conversionRatioUpdated = (formState, poolPairList) => {
+  const [poolPair, condition1] = selectedPoolPairUpdated(formState, poolPairList);
+
+  const ratio = condition1
+    ? new BigNumber(poolPair.tokenB.reserve).div(new BigNumber(poolPair.tokenA.reserve))
+    : new BigNumber(poolPair.tokenA.reserve).div(new BigNumber(poolPair.tokenB.reserve));
+
+  return ratio.toFixed(8, 1);
+};
+
 export const conversionRatio = (formState, poolPairList) => {
   const [poolPair, condition1] = selectedPoolPair(formState, poolPairList);
 
@@ -1057,17 +1155,17 @@ export const getRatio = (poolpair) => {
 };
 
 export const shareOfPool = (formState, poolPairList) => {
-  const [poolPair] = selectedPoolPair(formState, poolPairList);
+  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
 
   const shareA =
-    formState.hash1 === poolPair.idTokenA
-      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveA))
-      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.reserveB));
+    formState.hash1 === poolPair.tokenA.id
+      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenA.reserve))
+      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenB.reserve));
 
   const shareB =
-    formState.hash2 === poolPair.idTokenB
-      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveB))
-      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.reserveA));
+    formState.hash2 === poolPair.tokenB.id
+      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenB.reserve))
+      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenA.reserve));
 
   const shareOfPool = shareA
     .plus(shareB)
@@ -1080,8 +1178,8 @@ export const shareOfPool = (formState, poolPairList) => {
 };
 
 export const getTotalPoolValue = (formState, poolPairList, hash) => {
-  const [poolPair] = selectedPoolPair(formState, poolPairList);
-  return hash === poolPair.idTokenA ? poolPair.reserveA : poolPair.reserveB;
+  const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
+  return hash === poolPair.tokenA.id ? poolPair.tokenA.reserve : poolPair.tokenB.reserve;
 };
 
 export const calculateLPFee = (formState, poolPairList) => {
@@ -1104,6 +1202,22 @@ export const getIcon = (symbol: string) => {
     LTC: LtcIcon,
     BCH: BchIcon,
 		USDC: USDCIcon,
+    DUSD: DUSDIcon,
+    AAPL: DAAPLIcon,
+    ARKK: DARKKIcon,
+    BABA: DBABAIcon,
+    GLD: DGLDIcon,
+    GME: DGMEIcon,
+    GOOGL: DGOOGLIcon,
+    PDBC: DPDBCIcon,
+    PLTR: DPLTRIcon,
+    QQQ: DQQQIcon,
+    SLV: DSLVIcon,
+    SPY: DSPYICON,
+    TLT: DTLTICON,
+    TSLA: DTSLAICON,
+    URTH: DURTHICON,
+    VNQ: DVNQICON
   };
   return symbolIconObj[symbol];
 };
@@ -1408,6 +1522,22 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     bchSymbol,
     btcSPVSymbol,
 		usdcSymbol,
+    DUSD_SYMBOL,
+    TSLA_SYMBOL,
+    BABA_SYMBOL,
+    GME_SYMBOL,
+    PLTR_SYMBOL,
+    AAPL_SYMBOL,
+    GOOGL_SYMBOL,
+    ARKK_SYMBOL,
+    SPY_SYMBOL,
+    QQQ_SYMBOL,
+    GLD_SYMBOL,
+    SLV_SYMBOL,
+    PDBC_SYMBOL,
+    VNQ_SYMBOL,
+    URTH_SYMBOL,
+    TLT_SYMBOL
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;

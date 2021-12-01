@@ -364,7 +364,8 @@
         "back": "ZURÜCK",
         "addLiquidity": "Liquidität hinzufügen",
         "txHash": "Transaktionshash",
-        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit einer neuen Transaktion fortfährst."
+        "blockTransactionFailed": "Bitte warte bis deine Transaktion dem nächsten Block hinzugefügt wurde, bevor du mit einer neuen Transaktion fortfährst.",
+        "paginationRange": "%{from} – %{to} of %{total} pairs"
       },
       "liquidityInfo": {
         "title": "Liquidität",
