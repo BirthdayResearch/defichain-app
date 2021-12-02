@@ -1146,7 +1146,8 @@ export const conversionRatio = (formState, poolPairList) => {
 };
 
 export const conversionRatioDex = (formState) => {
-  return new BigNumber(formState.amount2).div(formState.amount1).toFixed(8);
+  const conversionRatio = new BigNumber(formState.amount2).div(formState.amount1)
+  return isNaN(conversionRatio.toNumber()) ? '0' : conversionRatio.toFixed(8);
 };
 
 export const getRatio = (poolpair) => {
@@ -1184,10 +1185,10 @@ export const getTotalPoolValue = (formState, poolPairList, hash) => {
 
 export const calculateLPFee = (formState, poolPairList) => {
   const [poolPair] = selectedPoolPair(formState, poolPairList);
-  return new BigNumber(formState.amount1)
+  return poolPair !== undefined ? new BigNumber(formState.amount1)
     .times(poolPair.commission)
     .toNumber()
-    .toFixed(8);
+    .toFixed(8) : '0';
 };
 
 export const getIcon = (symbol: string) => {

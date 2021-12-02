@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import {
   MdAdd,
@@ -61,6 +61,7 @@ import openNewTab from '../../utils/openNewTab';
 import NumberMask from '../../components/NumberMask';
 import ViewOnChain from '../../components/ViewOnChain';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
+import { RootState } from '../../app/rootTypes';
 
 interface SwapPageProps {
   history?: any;
@@ -131,6 +132,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     receiveLabel: '',
   });
   const [percentageChange, setPercentageChange] = useState<boolean>(false);
+  const latestBlock = useSelector((state: RootState) => state.syncstatus.latestBlock)
 
   const {
     poolPairList,
@@ -196,7 +198,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       fetchTestPoolSwapRequestFrom({
         formState,
       });
-  }, [formState.amount2, formState.hash1, formState.hash2, counter]);
+  }, [formState.amount2, formState.hash1, formState.hash2, counter, latestBlock]);
 
   const isValidAmount = () => {
     if (formState[`balance1`] && formState[`balance2`]) {
@@ -217,18 +219,20 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     ) {
       let reserve;
       const [poolPair, condition] = selectedPoolPair(formState, poolPairList);
-      if (condition) {
-        reserve = poolPair.reserveA;
-      } else {
-        reserve = poolPair.reserveB;
-      }
-      // Used factor for price change impact
-      const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
-      const comparision = amount.isLessThanOrEqualTo(formState.amount1);
-      if (comparision) {
-        setPercentageChange(true);
-      } else {
-        setPercentageChange(false);
+      if (poolPair) {
+        if (condition) {
+          reserve = poolPair.reserveA;
+        } else {
+          reserve = poolPair.reserveB;
+        }
+        // Used factor for price change impact
+        const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
+        const comparision = amount.isLessThanOrEqualTo(formState.amount1);
+        if (comparision) {
+          setPercentageChange(true);
+        } else {
+          setPercentageChange(false);
+        }
       }
     }
   };
@@ -406,7 +410,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (isSelected && formState.hash1 ^ formState.hash2) {
+    if (isSelected) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
@@ -560,9 +564,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
-                        value={new BigNumber(1)
+                        value={new BigNumber(conversionRatioDex(formState)).gt(0) ? new BigNumber(1)
                           .div(conversionRatioDex(formState).toString())
-                          .toFixed(8)}
+                          .toFixed(8) : '0'}
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
                     </Col>
