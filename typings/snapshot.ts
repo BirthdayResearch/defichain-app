@@ -5,7 +5,7 @@ export const SNAPSHOT_ASIA =
 export const SNAPSHOT_AU =
   'https://defi-snapshots-sydney.s3-ap-southeast-2.amazonaws.com/';
 export const SNAPSHOT_US = 'https://defi-snapshots-us.s3.amazonaws.com/';
-export const SNAPSHOT_INDEX = 'index-2.0.0.txt';
+export const SNAPSHOT_INDEX = 'index-2.3.0.txt';
 export interface SnapshotInterface {
   SNAPSHOT_BLOCK: string;
   SNAPSHOT_FILENAME: string;
