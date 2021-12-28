@@ -28,9 +28,9 @@ export const DEFAULT_ELECTRON_LOG_BASE_UNIT = 1048576;
 export const DEFAULT_ELECTRON_FORMAT =
   '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-MAIN-{level}] {text}';
 export const DEFAULT_ELECTRON_RENDERER_FORMAT =
-'[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-RENDERER-{level}] {text}';
+  '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [IPC-RENDERER-{level}] {text}';
 export const DISCLAIMER_DIALOG_TIMER = 10000;
-export const STOP_BINARY_INTERVAL = 2000;
+export const STOP_NODE_INTERVAL = 2000;
 export const REINDEX_ERROR_STRING = 'restart with -reindex';
 export const ACCOUNT_HISTORY_REINDEX_ERROR_STRING =
   'Account history needs rebuild';

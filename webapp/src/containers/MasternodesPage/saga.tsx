@@ -2,7 +2,7 @@ import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { shutDownBinary } from '../../worker/queue';
+import { shutDownNode } from '../../worker/queue';
 import { I18n } from 'react-redux-i18n';
 import {
   fetchMasternodesRequest,
@@ -137,7 +137,7 @@ export function* handleRestartNode() {
           gen: ENABLE_CONFIG,
         };
         yield put(restartModal());
-        yield call(shutDownBinary);
+        yield call(shutDownNode);
         yield call(restartNodeSync, { updatedConf });
         yield put(finishRestartNodeWithMasterNode());
       } else
@@ -171,7 +171,7 @@ function* handleUpdateMasternodeStart() {
       popover.updatedMasternode as MasterNodeObject
     );
     yield put(restartModal());
-    yield call(shutDownBinary);
+    yield call(shutDownNode);
     yield call(restartNodeSync, { updatedConf });
     yield put(
       openMasternodeUpdateRestartModal({ isOpen: false, masternode: null })

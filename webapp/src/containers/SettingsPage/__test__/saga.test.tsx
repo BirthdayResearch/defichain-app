@@ -30,7 +30,7 @@ import {
   BLOCKCHAIN_INFO_CHAIN_TEST,
 } from '../../../constants';
 import { restartModal } from '../../PopOver/reducer';
-import { shutDownBinary } from '../../../worker/queue';
+import { shutDownNode } from '../../../worker/queue';
 import { restartNode } from '../../../utils/isElectron';
 
 const errorObj = {
@@ -248,7 +248,7 @@ describe('Settings page saga unit test', () => {
         },
       });
       expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
-      expect(gen.next().value).toEqual(call(shutDownBinary));
+      expect(gen.next().value).toEqual(call(shutDownNode));
 
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
@@ -287,7 +287,7 @@ describe('Settings page saga unit test', () => {
         },
       });
       expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
-      expect(gen.next().value).toEqual(call(shutDownBinary));
+      expect(gen.next().value).toEqual(call(shutDownNode));
 
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
@@ -328,7 +328,7 @@ describe('Settings page saga unit test', () => {
         },
       });
       expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
-      expect(gen.next().value).toEqual(call(shutDownBinary));
+      expect(gen.next().value).toEqual(call(shutDownNode));
 
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })
@@ -367,7 +367,7 @@ describe('Settings page saga unit test', () => {
         },
       });
       expect(gen.next({ rpcConfig }).value).toEqual(put(restartModal()));
-      expect(gen.next().value).toEqual(call(shutDownBinary));
+      expect(gen.next().value).toEqual(call(shutDownNode));
 
       expect(gen.next().value).toEqual(
         call(restartNode, { updatedConf: result })

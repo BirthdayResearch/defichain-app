@@ -25,17 +25,17 @@ export const APP_DIR = path.join(HOME_PATH, `./${DEFI_CONF_DIR}`);
 export const CONFIG_FILE_NAME = path.join(APP_DIR, `/${DEFI_CONF}`);
 export const PID_FILE_NAME = path.join(APP_DIR, '/defi.pid');
 
-export const BINARY_LOG_FILE_NAME = 'debug.log';
+export const NODE_LOG_FILE_NAME = 'debug.log';
 
 export const UNZIP_FILE_PATH = IS_DEV
   ? path7za
   : path7za.replace('app.asar', 'app.asar.unpacked');
-export const BINARY_FILE_NAME = getPlatform() === 'win' ? 'defid.exe' : 'defid';
-export const BINARY_FILE_PATH = IS_DEV
-  ? path.join(rootPath, './binary', getPlatform())
+export const NODE_FILE_NAME = getPlatform() === 'win' ? 'defid.exe' : 'defid';
+export const NODE_FILE_PATH = IS_DEV
+  ? path.join(rootPath, './bin', getPlatform())
   : IS_PACKAGED
-  ? path.join(__dirname, '../../../../../..', 'binary', getPlatform())
-  : path.join(rootPath, '../', 'binary', getPlatform());
+  ? path.join(__dirname, '../../../../../..', 'bin', getPlatform())
+  : path.join(rootPath, '../', 'bin', getPlatform());
 
 export const CONFIG_FILE_PATH_LEGACY = path.join(
   BASE_HOME_PATH,
@@ -55,7 +55,7 @@ export const BASE_FILE_PATH = isDataDirDefined(CONFIG_FILE_PATH)
 
 export const DEBUG_LOG_FILE_PATH = path.join(
   BASE_FILE_PATH,
-  BINARY_LOG_FILE_NAME
+  NODE_LOG_FILE_NAME
 );
 
 export const TESTNET_BASE_FOLDER = path.join(

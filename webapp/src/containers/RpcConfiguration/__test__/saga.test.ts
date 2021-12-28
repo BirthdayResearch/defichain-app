@@ -21,16 +21,16 @@ describe('RPC configuration saga unit test', () => {
 
   describe('getConfig method', () => {
     let getRpcConfig;
-    let startBinary;
+    let startNode;
 
     beforeEach(() => {
       getRpcConfig = jest.spyOn(appService, 'getRpcConfig');
-      startBinary = jest.spyOn(appService, 'startBinary');
+      startNode = jest.spyOn(appService, 'startNode');
     });
 
     afterEach(() => {
       getRpcConfig.mockRestore();
-      startBinary.mockRestore();
+      startNode.mockRestore();
     });
 
     afterAll(jest.clearAllMocks);
@@ -41,7 +41,7 @@ describe('RPC configuration saga unit test', () => {
           data: {},
         })
       );
-      startBinary.mockImplementation(() => Promise.resolve({}));
+      startNode.mockImplementation(() => Promise.resolve({}));
       const dispatched = await dispatchedFunc(getConfig);
       expect(getRpcConfig).toBeCalledTimes(1);
       expect(dispatched).toEqual([
@@ -55,7 +55,7 @@ describe('RPC configuration saga unit test', () => {
       getRpcConfig.mockImplementation(() =>
         Promise.reject({ message: 'error occurred' })
       );
-      startBinary.mockImplementation(() => Promise.resolve({}));
+      startNode.mockImplementation(() => Promise.resolve({}));
       const dispatched = await dispatchedFunc(getConfig);
       expect(getRpcConfig).toBeCalledTimes(1);
       expect(dispatched).toEqual([getRpcConfigsFailure('error occurred')]);
@@ -65,7 +65,7 @@ describe('RPC configuration saga unit test', () => {
       getRpcConfig.mockImplementation(() =>
         Promise.resolve({ message: 'error occurred', success: false })
       );
-      startBinary.mockImplementation(() => Promise.resolve({}));
+      startNode.mockImplementation(() => Promise.resolve({}));
       const dispatched = await dispatchedFunc(getConfig);
       expect(getRpcConfig).toBeCalledTimes(1);
       expect(dispatched).toEqual([getRpcConfigsFailure('error occurred')]);
