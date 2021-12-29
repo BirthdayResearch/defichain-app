@@ -2,7 +2,7 @@ name: OSS
 
 on:
   pull_request_target:
-    branches: [master, main]
+    branches: [main]
     types: [synchronize, opened, labeled, unlabeled]
   issues:
     types: [opened, labeled, unlabeled]

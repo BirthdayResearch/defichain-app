@@ -2,7 +2,7 @@ name: Sync labels
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       # TODO(fuxingloh): delete/re-enable/migrate as it does not work well with version/* tags automation
       - .github/labels-disabled.yml
