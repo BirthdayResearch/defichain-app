@@ -712,10 +712,10 @@ export const getUniqueTokenMapUpdated = (poolPairList) => {
   return poolPairList.reduce((uniqueTokenList, poolPair) => {
     const { symbol } = poolPair;
     const symbolList: string[] = symbol.split('-');
-    if (!uniqueTokenList.has(poolPair.idTokenA)) {
+    if (!uniqueTokenList.has(poolPair.tokenA.id)) {
       uniqueTokenList.set(poolPair.tokenA.id, symbolList[0]);
     }
-    if (!uniqueTokenList.has(poolPair.idTokenB)) {
+    if (!uniqueTokenList.has(poolPair.tokenB.id)) {
       uniqueTokenList.set(poolPair.tokenB.id, symbolList[1]);
     }
     return uniqueTokenList;

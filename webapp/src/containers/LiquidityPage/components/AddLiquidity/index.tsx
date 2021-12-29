@@ -433,7 +433,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (isSelected && formState.hash1 ^ formState.hash2) {
+    if (isSelected) {
       const filterArray = filterByPoolPairs(symbolKey);
       const tokenArray = Array.from(tokenMap.keys());
       const finalArray = filterArray.filter((value) =>
@@ -457,10 +457,10 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
 
   const filterByPoolPairs = (symbolKey: string) => {
     const filterArray = poolPairList.reduce((tokenArray, poolPair) => {
-      if (poolPair.tokenA === formState[symbolKey]) {
-        tokenArray.push(poolPair.tokenB);
-      } else if (poolPair.tokenB === formState[symbolKey]) {
-        tokenArray.push(poolPair.tokenA);
+      if (poolPair.tokenA.symbol === formState[symbolKey]) {
+        tokenArray.push(poolPair.tokenB.symbol);
+      } else if (poolPair.tokenB.symbol === formState[symbolKey]) {
+        tokenArray.push(poolPair.tokenA.symbol);
       }
       return tokenArray;
     }, []);
@@ -508,7 +508,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
           <div className={styles.addLiquidityRow}>
             <LiquidityCard
               label={I18n.t('containers.swap.addLiquidity.input')}
-              tokenMap={filterBySymbol(`symbol${2}`, !!formState.symbol2)}
+              tokenMap={filterBySymbol(`symbol${2}`, formState.symbol2 !== '' && formState.symbol2 !== undefined)}
               name={1}
               formState={formState}
               handleChange={handleChange}
@@ -525,7 +525,7 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
             </div>
             <LiquidityCard
               label={I18n.t('containers.swap.addLiquidity.input')}
-              tokenMap={filterBySymbol(`symbol${1}`, !!formState.symbol1)}
+              tokenMap={filterBySymbol(`symbol${1}`, formState.symbol1 !== '' && formState.symbol1 !== undefined)}
               name={2}
               formState={formState}
               handleChange={handleChange}
