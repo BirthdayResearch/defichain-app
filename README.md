@@ -5,7 +5,7 @@
 <a href="https://github.com/DeFiCh/app/graphs/contributors">
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/DeFiCh/app">
 </a>
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeFiCh/app/blob/main/LICENSE)
 <a href="https://twitter.com/defichain">
 <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/defichain?style=social">
 </a>

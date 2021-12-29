@@ -2,17 +2,17 @@ name: Dev Build
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -25,7 +25,7 @@ jobs:
       - name: Build app
         run: npm run build:linux
 
-      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
+      - uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
           name: linux-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
@@ -33,9 +33,9 @@ jobs:
   build_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -54,7 +54,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
 
-      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
+      - uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
           name: mac-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
@@ -62,9 +62,9 @@ jobs:
   build_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -78,7 +78,7 @@ jobs:
         run: npm run build:win
         shell: powershell
 
-      - uses: actions/upload-artifact@11e311c8b504ea40cbed20583a64d75b4735cff3
+      - uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
           name: win-build
           path: 'dist/DeFi Wallet Setup ${{ env.PACKAGE_VERSION}}.exe'
