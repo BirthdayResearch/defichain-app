@@ -10,9 +10,9 @@ jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -32,9 +32,9 @@ jobs:
       - publish_linux_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -68,9 +68,9 @@ jobs:
   publish_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -95,9 +95,9 @@ jobs:
       - publish_mac_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -131,9 +131,9 @@ jobs:
   publish_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 
@@ -153,9 +153,9 @@ jobs:
       - publish_windows_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
-      - uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
         with:
           node-version: 16
 

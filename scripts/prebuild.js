@@ -13,7 +13,7 @@ async function main() {
 
   const binDirs = new Map();
   platforms.forEach((platform) =>
-    binDirs.set(platform, path.join(distDir, 'bin', platform))
+    binDirs.set(platform, path.join('bin', platform))
   );
 
   const platform = processPlatformArg(process.argv[2]);

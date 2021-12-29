@@ -11,7 +11,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
       - uses: micnncim/action-label-syncer@3abd5ab72fda571e69fffd97bd4e0033dd5f495c
         env:
