@@ -19,8 +19,8 @@ import {
   updateDownloadSnapshotStep,
 } from '../containers/PopOver/reducer';
 import { DownloadSnapshotSteps } from '../containers/PopOver/types';
-import { shutDownBinary } from '../worker/queue';
-import { stopBinary } from './service';
+import { shutDownNode } from '../worker/queue';
+import { stopNode } from './service';
 import showNotification from '../utils/notifications';
 import { I18n } from 'react-redux-i18n';
 import { FileSizesModel } from '@defi_types/snapshot';
@@ -56,8 +56,8 @@ const initSnapshotRenderers = () => {
         app: { isRunning },
       } = store.getState();
       if (isRunning) {
-        await shutDownBinary();
-        await stopBinary();
+        await shutDownNode();
+        await stopNode();
       }
       ipcRenderer.send(ON_SNAPSHOT_UNPACK_REQUEST, args);
     }

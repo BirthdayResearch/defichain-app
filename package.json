@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -21,13 +21,14 @@
     "start": "npm run init && npm run start:dev",
     "start:dev": "concurrently -p \"[{time} - {name}]\" -n \"ReactApp,Electron\" -c \"bgMagenta.black.bold,bgCyan.black.bold\" -t \"hh:mm:ss a\" \"npm run start:react\" \"npm run start:electron\"",
     "start:react": "cd webapp && npm run start:dev",
-    "start:electron": "node initiate-electron",
+    "start:electron": "node ./scripts/electron",
     "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron --inspect .",
     "electron": "npm run transpile && cross-env NODE_ENV=development electron --inspect . -d true",
     "build:react": "cd webapp && npm run build:react",
-    "pre:build:linux": "sh pre-build-linux.sh $npm_package_config_ainVersion",
-    "pre:build:mac": "sh pre-build-mac.sh $npm_package_config_ainVersion",
-    "pre:build:win": "pre-build-win.cmd %npm_package_config_ainVersion%",
+    "prebuild": "node ./scripts/prebuild",
+    "pre:build:linux": "node ./scripts/prebuild linux",
+    "pre:build:mac": "node ./scripts/prebuild mac",
+    "pre:build:win": "node ./scripts/prebuild win",
     "build:electron": "npm run build:react && npm run transpile:prod && npm run set_env:prod",
     "build": "npm run build:electron && electron-builder",
     "build:all": "npm run build:electron && electron-builder -mwl",
@@ -95,6 +96,7 @@
     "babel-preset-env": "^1.7.0",
     "concurrently": "6.4.0",
     "cross-env": "7.0.3",
+    "decompress": "^4.2.1",
     "electron": "16.0.3",
     "electron-builder": "22.14.5",
     "electron-devtools-installer": "^3.2.0",
@@ -105,6 +107,7 @@
     "install": "^0.13.0",
     "jest": "^27.3.1",
     "lint-staged": "^11.2.3",
+    "nodejs-file-downloader": "^4.8.1",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "typescript": "^4.4.4"
@@ -125,8 +128,8 @@
     ],
     "extraResources": [
       {
-        "from": "./binary/",
-        "to": "./binary",
+        "from": "./dist/bin",
+        "to": "./bin",
         "filter": ["**/*"]
       },
       {

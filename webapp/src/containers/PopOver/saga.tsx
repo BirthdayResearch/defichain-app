@@ -36,7 +36,7 @@ import { showErrorNotification } from '../../app/service';
 import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
-import { shutDownBinary } from '../../worker/queue';
+import { shutDownNode } from '../../worker/queue';
 import {
   fetchWalletTokenTransactionsListResetRequest,
   lockWalletStart,
@@ -161,7 +161,7 @@ function* startResetWalletDat() {
 function* restartAndReplaceWallet() {
   yield put(restartModal());
   yield call(replaceWalletDat);
-  yield call(shutDownBinary);
+  yield call(shutDownNode);
   yield call(restartNode);
   yield put(setIsQueueResetRoute(true));
 }

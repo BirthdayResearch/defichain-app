@@ -983,6 +983,7 @@ export default class RpcClient {
     // amountfrom will need to be in the bigNumber
     const { data } = await this.call('/', methodNames.TEST_POOL_SWAP, [
       { from, tokenFrom, amountFrom, to, tokenTo },
+      'auto',
     ]);
     return data.result;
   };

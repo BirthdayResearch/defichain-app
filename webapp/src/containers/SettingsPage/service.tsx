@@ -59,7 +59,7 @@ import {
 import { handleGetPaymentRequest } from '../WalletPage/service';
 import { IPCResponseModel } from '../../../../typings/common';
 import { replaceWalletMapSync, updateWalletMap } from '../../app/service';
-import { shutDownBinary } from '../../worker/queue';
+import { shutDownNode } from '../../worker/queue';
 import { restartModal } from '../PopOver/reducer';
 
 export const getLanguage = () => {
@@ -300,6 +300,6 @@ export const onRescanClick = async (): Promise<void> => {
     hasRescan: true,
   });
   store.dispatch(restartModal());
-  await shutDownBinary();
+  await shutDownNode();
   restartNode();
 };

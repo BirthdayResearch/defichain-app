@@ -101,7 +101,7 @@ interface SwapPageProps {
 export enum SwapParameters {
   symbol1 = 'symbol1',
   hash1 = 'hash1',
-  balance1 = 'balance1'
+  balance1 = 'balance1',
 }
 
 const SwapPage: React.FunctionComponent<SwapPageProps> = (
@@ -132,7 +132,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     receiveLabel: '',
   });
   const [percentageChange, setPercentageChange] = useState<boolean>(false);
-  const latestBlock = useSelector((state: RootState) => state.syncstatus.latestBlock)
+  const latestBlock = useSelector(
+    (state: RootState) => state.syncstatus.latestBlock
+  );
 
   const {
     poolPairList,
@@ -198,7 +200,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
       fetchTestPoolSwapRequestFrom({
         formState,
       });
-  }, [formState.amount2, formState.hash1, formState.hash2, counter, latestBlock]);
+  }, [
+    formState.amount2,
+    formState.hash1,
+    formState.hash2,
+    counter,
+    latestBlock,
+  ]);
 
   const isValidAmount = () => {
     if (formState[`balance1`] && formState[`balance2`]) {
@@ -226,7 +234,9 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           reserve = poolPair.reserveB;
         }
         // Used factor for price change impact
-        const amount = new BigNumber(reserve).times(PRICE_IMPACT_WARNING_FACTOR);
+        const amount = new BigNumber(reserve).times(
+          PRICE_IMPACT_WARNING_FACTOR
+        );
         const comparision = amount.isLessThanOrEqualTo(formState.amount1);
         if (comparision) {
           setPercentageChange(true);
@@ -410,38 +420,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
 
   const filterBySymbol = (symbolKey: string, isSelected: boolean) => {
     const filterMap: Map<string, any> = new Map();
-    if (isSelected) {
-      const filterArray = filterByPoolPairs(symbolKey);
-      const tokenArray = Array.from(tokenMap.keys());
-      const finalArray = filterArray.filter((value) =>
-        tokenArray.includes(value)
-      );
-      finalArray.map((symbol: string) => {
-        if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
-          filterMap.set(symbol, tokenMap.get(symbol));
-        }
-      });
-    } else {
-      const tokenArray = Array.from(tokenMap.keys());
-      tokenArray.map((symbol: string) => {
-        if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
-          filterMap.set(symbol, tokenMap.get(symbol));
-        }
-      });
-    }
-    return filterMap;
-  };
-
-  const filterByPoolPairs = (symbolKey: string) => {
-    const filterArray = poolPairList.reduce((tokenArray, poolPair) => {
-      if (poolPair.tokenA === formState[symbolKey]) {
-        tokenArray.push(poolPair.tokenB);
-      } else if (poolPair.tokenB === formState[symbolKey]) {
-        tokenArray.push(poolPair.tokenA);
+    const tokenArray = Array.from(tokenMap.keys());
+    tokenArray.map((symbol: string) => {
+      if (symbol !== formState[symbolKey] && tokenMap.has(symbol)) {
+        filterMap.set(symbol, tokenMap.get(symbol));
       }
-      return tokenArray;
-    }, []);
-    return filterArray;
+    });
+    return filterMap;
   };
 
   const swapStepConfirm = () => {
@@ -509,9 +494,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
         <ButtonGroup>
           <Button
             color='link'
-            onClick={() =>
-              openNewTab(`${DEX_EXPLORER_BASE_LINK}`)
-            }
+            onClick={() => openNewTab(`${DEX_EXPLORER_BASE_LINK}`)}
           >
             <MdLaunch />
             <span className='d-lg-inline'>
@@ -564,9 +547,13 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       {` ${formState.symbol2} per ${formState.symbol1}`}
                       <br />
                       <NumberMask
-                        value={new BigNumber(conversionRatioDex(formState)).gt(0) ? new BigNumber(1)
-                          .div(conversionRatioDex(formState).toString())
-                          .toFixed(8) : '0'}
+                        value={
+                          new BigNumber(conversionRatioDex(formState)).gt(0)
+                            ? new BigNumber(1)
+                                .div(conversionRatioDex(formState).toString())
+                                .toFixed(8)
+                            : '0'
+                        }
                       />
                       {` ${formState.symbol1} per ${formState.symbol2}`}
                     </Col>

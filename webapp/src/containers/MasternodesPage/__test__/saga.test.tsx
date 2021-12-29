@@ -23,7 +23,7 @@ import * as service from '../service';
 import { dispatchedFunc, mockAxios } from '../../../utils/testUtils/mockUtils';
 import * as electronFunc from '../../../utils/isElectron';
 import { restartModal } from '../../PopOver/reducer';
-import { shutDownBinary } from '../../../worker/queue';
+import { shutDownNode } from '../../../worker/queue';
 
 const errorObj = {
   message: 'error occurred',
@@ -193,7 +193,7 @@ describe('Masternode page saga unit test', () => {
         call(getConfigurationDetails)
       );
       expect(genObject.next(setterObj).value).toEqual(put(restartModal()));
-      expect(genObject.next().value).toEqual(call(shutDownBinary));
+      expect(genObject.next().value).toEqual(call(shutDownNode));
       expect(genObject.next().value).toEqual(
         call(restartNode, { updatedConf: setterObj })
       );

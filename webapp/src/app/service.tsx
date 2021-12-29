@@ -89,7 +89,7 @@ const getStartChainMessage = (data: any): string => {
   return '';
 };
 
-export function startBinary(config: any) {
+export function startNode(config: any) {
   return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(START_DEFI_CHAIN, config);
@@ -103,18 +103,18 @@ export function startBinary(config: any) {
           if (res?.data?.isReindexReq) {
             store.dispatch(openReIndexModal(getStartChainMessage(res?.data)));
           }
-          log.error(res?.data?.message ?? res, 'startBinary');
+          log.error(res?.data?.message ?? res, 'startNode');
           emit(res);
         }
       }
     );
     return () => {
-      log.info('Unsubscribe startBinary');
+      log.info('Unsubscribe startNode');
     };
   });
 }
 
-export const stopBinary = () => {
+export const stopNode = () => {
   if (isElectron()) {
     const ipcRenderer = ipcRendererFunc();
     return ipcRenderer.sendSync(STOP_DEFI_CHAIN, {});
@@ -386,12 +386,13 @@ export const onStartSnapshotRequest = (snapshotUrl: string): void => {
   }
 };
 
-
 export const onSetAppNodeVersionRequest = async (): Promise<string> => {
   if (isElectron()) {
     const rpcClient = new RpcClient();
     const nodeVersion = await rpcClient.getNodeVersion();
-    return nodeVersion != undefined ? nodeVersion.replaceAll('/', '').replace('DeFiChain:', '') : ''
+    return nodeVersion != undefined
+      ? nodeVersion.replaceAll('/', '').replace('DeFiChain:', '')
+      : '';
   }
-  return ''
+  return '';
 };

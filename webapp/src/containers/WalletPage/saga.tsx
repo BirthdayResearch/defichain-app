@@ -113,7 +113,7 @@ import {
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
 import { restartNodeSync } from '../../utils/isElectron';
-import { shutDownBinary } from '../../worker/queue';
+import { shutDownNode } from '../../worker/queue';
 import { history } from '../../utils/history';
 import {
   checkWalletEncryption,
@@ -444,7 +444,7 @@ export function* restoreWallet(action) {
 
 export function* restoreWalletStep() {
   yield call(enableMenuResetWalletBtn, true);
-  yield call(shutDownBinary);
+  yield call(shutDownNode);
   yield call(fetchWalletReset);
   yield call(restartNodeSync);
   yield call(fetchAccountTokensRequest);
@@ -510,7 +510,7 @@ export function* handleCreateWalletStart(action: any) {
     const networkType = getNetworkType();
     const resp = yield call(createNewWallet, passphrase, networkType);
     if (resp?.success) {
-      yield call(shutDownBinary);
+      yield call(shutDownNode);
       yield call(restartNodeSync);
       yield put(setIsWalletCreatedRequest(true));
       yield call(enableMenuResetWalletBtn, true);
