@@ -10,14 +10,14 @@ import {
   setQueueReady,
   startSetNodeVersion,
   setAppNodeVersion,
-  setAppNodeVersionRequest
+  setAppNodeVersionRequest,
 } from './reducer';
 import {
   getRpcConfig,
   onSetAppNodeVersionRequest,
   setNodeVersion,
   startAppInit,
-  startBinary,
+  startNode,
 } from '../../app/service';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
@@ -65,7 +65,6 @@ function* resetAppRoute() {
   }
 }
 
-
 export function* handleSetAppNodeVersion() {
   try {
     const nodeVersion: string = yield call(onSetAppNodeVersionRequest);
@@ -75,7 +74,6 @@ export function* handleSetAppNodeVersion() {
   }
 }
 
-
 export function* getConfig() {
   try {
     startAppInit();
@@ -84,7 +82,7 @@ export function* getConfig() {
       yield put({ type: getRpcConfigsSuccess.type, payload: res.data });
       yield put({ type: startNodeRequest.type });
       if (isElectron()) {
-        const chan = yield call(startBinary, res.data);
+        const chan = yield call(startNode, res.data);
         while (true) {
           const blockchainStatus = yield take(chan);
           log.info(blockchainStatus, 'Blockchain Status');

@@ -28,6 +28,7 @@ span.react-console-prompt-label {
 
 .react-console-prompt-label::before {
   content: '\232A';
+  padding-right: 10px;
 }
 
 span.react-console-prompt {

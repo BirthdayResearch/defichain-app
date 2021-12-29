@@ -2,11 +2,11 @@ import * as log from './electronLogger';
 import * as path from 'path';
 import { spawn } from 'child_process';
 import {
-  BINARY_FILE_NAME,
-  BINARY_FILE_PATH,
+  NODE_FILE_NAME,
+  NODE_FILE_PATH,
   CONFIG_FILE_NAME,
   PID_FILE_NAME,
-  STOP_BINARY_INTERVAL,
+  STOP_NODE_INTERVAL,
   REINDEX_ERROR_STRING,
   ACCOUNT_HISTORY_REINDEX_ERROR_STRING,
   NODE_SYNTAX_ERROR,
@@ -101,7 +101,7 @@ export default class DefiProcessManager {
         `-fallbackfee=${DEFAULT_FALLBACK_FEE}`,
         `-pid=${PID_FILE_NAME}`,
         `-acindex`,
-        `-spv`
+        `-spv`,
       ];
 
       const needsReIndex = params?.isReindexReq || this.isReindexReq;
@@ -175,9 +175,9 @@ export default class DefiProcessManager {
         }
       }
 
-      const execPath = this.getConfiguration()?.nodepath ?? path.resolve(
-        path.join(BINARY_FILE_PATH, BINARY_FILE_NAME)
-      );
+      const execPath =
+        this.getConfiguration()?.nodepath ??
+        path.resolve(path.join(NODE_FILE_PATH, NODE_FILE_NAME));
 
       if (!checkPathExists(execPath)) {
         throw new Error(`${execPath} file not available`);
@@ -294,7 +294,7 @@ export default class DefiProcessManager {
             message: 'Node is successfully terminated',
           });
         } else {
-          await sleep(STOP_BINARY_INTERVAL);
+          await sleep(STOP_NODE_INTERVAL);
         }
       }
     } catch (err) {

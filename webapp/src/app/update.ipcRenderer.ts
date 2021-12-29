@@ -7,7 +7,7 @@ import {
   handleClosePostUpdate,
   handleCloseUpdateApp,
   showErrorNotification,
-  stopBinary,
+  stopNode,
 } from './service';
 import { ipcRendererFunc, isElectron } from '../utils/isElectron';
 import { UPDATE_MODAL_CLOSE_TIMEOUT } from '../constants';
@@ -51,7 +51,7 @@ export const sendUpdateResponse = async () => {
   if (isElectron()) {
     log.info(`Update trigger node shutdown...`);
     await triggerNodeShutdown(false);
-    await stopBinary();
+    await stopNode();
     log.info(`Update node shutdown success...`);
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send(POST_UPDATE_ACTION);

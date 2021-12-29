@@ -27,7 +27,7 @@ import { createMnemonicAction } from './ipc-events/createMnemonic';
 import {
   CLOSE_APP,
   ON_CLOSE_RPC_CLIENT,
-  STOP_BINARY_AND_QUEUE,
+  STOP_NODE_AND_QUEUE,
   APP_INIT,
   APP_LOG,
 } from '@defi_types/ipcEvents';
@@ -230,9 +230,9 @@ export default class App {
 
     ipcMain.handle(APP_LOG, (event, message, isInfo) => {
       if (isInfo) {
-        info(message, false)
+        info(message, false);
       } else {
-        error(message, false)
+        error(message, false);
       }
     });
   };
@@ -259,7 +259,7 @@ export default class App {
       await DefiProcessManager.forceClose();
     }, APP_SHUTDOWN_TIMEOUT);
     // Stop all process before quit
-    this.mainWindow.webContents.send(STOP_BINARY_AND_QUEUE);
+    this.mainWindow.webContents.send(STOP_NODE_AND_QUEUE);
     event.preventDefault();
   };
 }

@@ -12,7 +12,7 @@ import {
 import {
   FORCE_KILL_QUEUE_AND_SHUTDOWN,
   ON_CLOSE_RPC_CLIENT,
-  STOP_BINARY_AND_QUEUE,
+  STOP_NODE_AND_QUEUE,
 } from '@defi_types/ipcEvents';
 import { LOGGING_SHUT_DOWN } from '@defi_types/loggingMethodSource';
 import { unlockWalletSuccess } from '../../containers/WalletPage/reducer';
@@ -51,12 +51,12 @@ export const triggerNodeShutdown = async (
   shouldCallMainProcess = true
 ): Promise<any> => {
   const ipcRenderer = ipcRendererFunc();
-  log.info('Removing all Binary and Queue listeners..', LOGGING_SHUT_DOWN);
+  log.info('Removing all node and Queue listeners..', LOGGING_SHUT_DOWN);
   store.dispatch(isAppClosing({ isAppClosing: true }));
   store.dispatch(closeAllPopovers());
-  ipcRenderer.removeAllListeners(STOP_BINARY_AND_QUEUE);
+  ipcRenderer.removeAllListeners(STOP_NODE_AND_QUEUE);
   if (isRunning()) {
-    await shutDownBinary();
+    await shutDownNode();
   }
   if (shouldCallMainProcess) {
     return ipcRenderer.send(ON_CLOSE_RPC_CLIENT);
@@ -65,7 +65,7 @@ export const triggerNodeShutdown = async (
 
 if (isElectron()) {
   const ipcRenderer = ipcRendererFunc();
-  ipcRenderer.on(STOP_BINARY_AND_QUEUE, async () => {
+  ipcRenderer.on(STOP_NODE_AND_QUEUE, async () => {
     try {
       return triggerNodeShutdown();
     } catch (error) {
@@ -75,7 +75,7 @@ if (isElectron()) {
   });
 }
 
-const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
+const lockWalletOnShutdownNode = async (rpcClient: RpcClient) => {
   const {
     wallet: { isWalletEncrypted, isWalletUnlocked },
   } = store.getState();
@@ -86,14 +86,14 @@ const lockWalletOnShutdownBinary = async (rpcClient: RpcClient) => {
   store.dispatch(unlockWalletSuccess(false));
 };
 
-export const shutDownBinary = async () => {
+export const shutDownNode = async () => {
   try {
     LruCache.clear();
     log.info('Starting node shutdown...', LOGGING_SHUT_DOWN);
     store.dispatch(killQueue());
     await q.kill();
     const rpcClient = new RpcClient();
-    await lockWalletOnShutdownBinary(rpcClient);
+    await lockWalletOnShutdownNode(rpcClient);
     const result = await rpcClient.stop();
     log.info(
       `Node shutdown successfully ${JSON.stringify(result)}`,

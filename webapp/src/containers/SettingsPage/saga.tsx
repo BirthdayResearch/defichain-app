@@ -35,7 +35,7 @@ import { LANG_VARIABLE, MAIN, TEST, WALLET_TOKENS_PATH } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { restartNode } from '../../utils/isElectron';
 import { openWalletPassphraseModal, restartModal } from '../PopOver/reducer';
-import { shutDownBinary } from '../../worker/queue';
+import { shutDownNode } from '../../worker/queue';
 import {
   MAINNET,
   TESTNET,
@@ -132,7 +132,7 @@ export function* updateSettings(action) {
       }
       if (data.reindexAfterSaving) {
         yield put(restartModal());
-        yield call(shutDownBinary);
+        yield call(shutDownNode);
         yield call(restartNode, {
           isReindexReq: true,
           isDeletePeersAndBlocksreq: data.deletePeersAndBlocks,
@@ -188,7 +188,7 @@ export function* changeNetworkNode(networkName) {
   });
   yield put(updateActiveNetwork(name));
   yield put(restartModal());
-  yield call(shutDownBinary);
+  yield call(shutDownNode);
   yield call(restartNode, { updatedConf });
   yield put(fetchWalletMapRequest());
 }
@@ -241,7 +241,7 @@ export function* setLockTimeout(action) {
 
 export function* handleReindexRequest() {
   yield put(restartModal());
-  yield call(shutDownBinary);
+  yield call(shutDownNode);
   yield call(restartNode, {
     isReindexReq: true,
     isDeletePeersAndBlocksreq: true,

@@ -94,7 +94,7 @@ export default class AppMenu {
             },
           },
           {
-            label: 'Binary Logs',
+            label: 'Node Logs',
             click: async () => {
               const logs = new Logs();
               const data = await logs.read(DEBUG_LOG_FILE_PATH);

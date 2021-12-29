@@ -15,11 +15,11 @@ const tryConnection = () => {
       const exec = childProcess.exec;
       exec('npm run electron');
     }
-  })
-}
+  });
+};
 
 tryConnection();
 
 client.on('error', (err) => {
   setTimeout(tryConnection, 1000);
-})
+});

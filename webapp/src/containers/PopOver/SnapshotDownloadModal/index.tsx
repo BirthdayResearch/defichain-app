@@ -34,7 +34,7 @@ import {
 } from '../reducer';
 import { disableReindex, restartApp } from '../../../utils/isElectron';
 import { triggerNodeShutdown } from '../../../worker/queue';
-import { replaceWalletMapSync, stopBinary } from '../../../app/service';
+import { replaceWalletMapSync, stopNode } from '../../../app/service';
 import moment from 'moment';
 import { onSnapshotDownloadRequest } from '../service';
 import { onSnapshotDeleteRequest } from '../../../app/snapshot.ipcRenderer';
@@ -132,7 +132,7 @@ const SnapshotDownloadModal: React.FunctionComponent = () => {
     disableReindex();
     dispatch(openDownloadSnapshotModal(false));
     await triggerNodeShutdown(false);
-    await stopBinary();
+    await stopNode();
     restartApp();
   };
 

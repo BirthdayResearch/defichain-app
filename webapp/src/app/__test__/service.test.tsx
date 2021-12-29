@@ -39,19 +39,19 @@ describe('App Service', () => {
     });
   });
 
-  it('should check for stopBinary', () => {
+  it('should check for stopNode', () => {
     const sendSync = jest.fn().mockReturnValue(testData.getRpcConfig);
     isElectron.mockReturnValue(true);
     ipc.mockReturnValue({
       sendSync,
     });
-    const data = service.stopBinary();
+    const data = service.stopNode();
     expect(data).toEqual(testData.getRpcConfig);
     expect(sendSync).toBeCalledTimes(1);
     expect(ipc).toBeCalledTimes(1);
   });
-  it('should check for stopBinary if iselectron is false', async () => {
-    const data = await service.stopBinary();
+  it('should check for stopNode if iselectron is false', async () => {
+    const data = await service.stopNode();
     expect(data).toEqual({
       success: true,
       data: {},
@@ -78,7 +78,7 @@ describe('App Service', () => {
     }
   });
 
-  it('start binary', () => {
+  it('start node', () => {
     const res = {
       success: true,
     };
@@ -91,13 +91,13 @@ describe('App Service', () => {
       send,
       on,
     });
-    service.startBinary({});
+    service.startNode({});
     expect(send).toBeCalledTimes(1);
     expect(on).toBeCalledTimes(1);
     expect(spyon).toBeCalledTimes(1);
   });
 
-  it('start binary is false', () => {
+  it('start node is false', () => {
     const res = {
       success: false,
     };
@@ -110,7 +110,7 @@ describe('App Service', () => {
       send,
       on,
     });
-    service.startBinary({});
+    service.startNode({});
     expect(send).toBeCalledTimes(1);
     expect(on).toBeCalledTimes(1);
     expect(spyon).toBeCalledTimes(1);
