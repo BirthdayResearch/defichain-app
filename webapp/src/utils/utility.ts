@@ -64,9 +64,9 @@ import {
   COINGECKO_BCH_ID,
   BTC_SPV_SYMBOL,
   BLOCKCHAIN_COM,
-  MAINNET_USDC_SYMBOL,
-  USDC_SYMBOL,
-  COINGECKO_USDC_ID,
+	MAINNET_USDC_SYMBOL,
+	USDC_SYMBOL,
+	COINGECKO_USDC_ID,
   AAPL_SYMBOL,
   ARKK_SYMBOL,
   BABA_SYMBOL,
@@ -82,7 +82,7 @@ import {
   TLT_SYMBOL,
   TSLA_SYMBOL,
   URTH_SYMBOL,
-  VNQ_SYMBOL,
+  VNQ_SYMBOL
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -722,6 +722,7 @@ export const getUniqueTokenMapUpdated = (poolPairList) => {
   }, new Map<string, string>());
 };
 
+
 export const getTokenAndBalanceMap = (
   poolPairList: any[],
   tokenBalanceList: string[],
@@ -1046,9 +1047,12 @@ const oceanAPI = setup({
 });
 export const getStatsFromOcean = async () => {
   const network = getNetworkType();
-  const result: any = await oceanAPI.get(`${network}net/poolpairs`, {
-    timeout: API_REQUEST_TIMEOUT,
-  });
+  const result: any = await oceanAPI.get(
+    `${network}net/poolpairs`,
+    {
+      timeout: API_REQUEST_TIMEOUT,
+    }
+  );
   const pairs = result.data.data;
   return pairs.filter((pair) => pair.symbol !== 'BURN-DFI');
 };
@@ -1119,18 +1123,11 @@ export const selectedPoolPairUpdated = (formState, poolPairList) => {
 };
 
 export const conversionRatioUpdated = (formState, poolPairList) => {
-  const [poolPair, condition1] = selectedPoolPairUpdated(
-    formState,
-    poolPairList
-  );
+  const [poolPair, condition1] = selectedPoolPairUpdated(formState, poolPairList);
 
   const ratio = condition1
-    ? new BigNumber(poolPair.tokenB.reserve).div(
-        new BigNumber(poolPair.tokenA.reserve)
-      )
-    : new BigNumber(poolPair.tokenA.reserve).div(
-        new BigNumber(poolPair.tokenB.reserve)
-      );
+    ? new BigNumber(poolPair.tokenB.reserve).div(new BigNumber(poolPair.tokenA.reserve))
+    : new BigNumber(poolPair.tokenA.reserve).div(new BigNumber(poolPair.tokenB.reserve));
 
   return ratio.toFixed(8, 1);
 };
@@ -1150,9 +1147,7 @@ export const conversionRatio = (formState, poolPairList) => {
 };
 
 export const conversionRatioDex = (formState) => {
-  const conversionRatio = new BigNumber(formState.amount2).div(
-    formState.amount1
-  );
+  const conversionRatio = new BigNumber(formState.amount2).div(formState.amount1)
   return isNaN(conversionRatio.toNumber()) ? '0' : conversionRatio.toFixed(8);
 };
 
@@ -1166,21 +1161,13 @@ export const shareOfPool = (formState, poolPairList) => {
 
   const shareA =
     formState.hash1 === poolPair.tokenA.id
-      ? new BigNumber(formState.amount1).div(
-          new BigNumber(poolPair.tokenA.reserve)
-        )
-      : new BigNumber(formState.amount1).div(
-          new BigNumber(poolPair.tokenB.reserve)
-        );
+      ? new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenA.reserve))
+      : new BigNumber(formState.amount1).div(new BigNumber(poolPair.tokenB.reserve));
 
   const shareB =
     formState.hash2 === poolPair.tokenB.id
-      ? new BigNumber(formState.amount2).div(
-          new BigNumber(poolPair.tokenB.reserve)
-        )
-      : new BigNumber(formState.amount2).div(
-          new BigNumber(poolPair.tokenA.reserve)
-        );
+      ? new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenB.reserve))
+      : new BigNumber(formState.amount2).div(new BigNumber(poolPair.tokenA.reserve));
 
   const shareOfPool = shareA
     .plus(shareB)
@@ -1194,19 +1181,15 @@ export const shareOfPool = (formState, poolPairList) => {
 
 export const getTotalPoolValue = (formState, poolPairList, hash) => {
   const [poolPair] = selectedPoolPairUpdated(formState, poolPairList);
-  return hash === poolPair.tokenA.id
-    ? poolPair.tokenA.reserve
-    : poolPair.tokenB.reserve;
+  return hash === poolPair.tokenA.id ? poolPair.tokenA.reserve : poolPair.tokenB.reserve;
 };
 
 export const calculateLPFee = (formState, poolPairList) => {
   const [poolPair] = selectedPoolPair(formState, poolPairList);
-  return poolPair !== undefined
-    ? new BigNumber(formState.amount1)
-        .times(poolPair.commission)
-        .toNumber()
-        .toFixed(8)
-    : '0';
+  return poolPair !== undefined ? new BigNumber(formState.amount1)
+    .times(poolPair.commission)
+    .toNumber()
+    .toFixed(8) : '0';
 };
 
 export const getIcon = (symbol: string) => {
@@ -1220,7 +1203,7 @@ export const getIcon = (symbol: string) => {
     DOGE: DogeIcon,
     LTC: LtcIcon,
     BCH: BchIcon,
-    USDC: USDCIcon,
+		USDC: USDCIcon,
     DUSD: DUSDIcon,
     AAPL: DAAPLIcon,
     ARKK: DARKKIcon,
@@ -1236,7 +1219,7 @@ export const getIcon = (symbol: string) => {
     TLT: DTLTICON,
     TSLA: DTSLAICON,
     URTH: DURTHICON,
-    VNQ: DVNQICON,
+    VNQ: DVNQICON
   };
   return symbolIconObj[symbol];
 };
@@ -1540,7 +1523,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     dogeSymbol,
     bchSymbol,
     btcSPVSymbol,
-    usdcSymbol,
+		usdcSymbol,
     DUSD_SYMBOL,
     TSLA_SYMBOL,
     BABA_SYMBOL,
@@ -1556,7 +1539,7 @@ export const getSymbolKey = (symbol: string, key: string, isLPS?) => {
     PDBC_SYMBOL,
     VNQ_SYMBOL,
     URTH_SYMBOL,
-    TLT_SYMBOL,
+    TLT_SYMBOL
   ];
   if (tokens.indexOf(key) !== -1 || isLPS) {
     return symbol;
@@ -1703,9 +1686,7 @@ export const isValidAddress = async (toAddress: string) => {
 };
 
 export const createChainURL = (tx: string): string => {
-  return `https://defiscan.live/transactions/${tx ?? ''}${
-    getNetworkType() === TEST ? '?network=TestNet' : ''
-  }`;
+  return `https://defiscan.live/transactions/${tx ?? ''}${getNetworkType() === TEST ? '?network=TestNet' : ''}`
 };
 
 export const createBlockchainComURL = (tx: string): string => {
@@ -1787,5 +1768,5 @@ export const getCountdownValue = () => {
 };
 
 export const isValidDFCAddress = (address) => {
-  return address.length >= 26;
-};
+  return address.length >= 26
+}
