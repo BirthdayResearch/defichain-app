@@ -1053,7 +1053,8 @@ export const getStatsFromOcean = async () => {
       timeout: API_REQUEST_TIMEOUT,
     }
   );
-  return result.data.data;
+  const pairs = result.data.data;
+  return pairs.filter((pair) => pair.symbol !== 'BURN-DFI');
 };
 
 export const getPoolPairStatsFromOcean = async () => {
