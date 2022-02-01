@@ -1,4 +1,4 @@
- {
+{
   "components": {
     "keyValueLi": {
       "copied": "Copié!"
@@ -42,7 +42,7 @@
       "help": "Aide",
       "settings": "Paramètres",
       "console": "Console",
-      "liquidity": "Liquidité"
+      "liquidity": "Liquidité",
       "selectCreateRestore": "Sélectionner, créer ou restaurer un portefeuille pour avoir accès aux fonctions du portefeuille",
       "transactions": "Transactions"
     },
@@ -619,7 +619,7 @@
       "resetAndReindex": "RÉINITIALISER & RÉINDEXER",
       "resetAndReindexInfo": "Supprime les peers et les données de bloc existants, retélécharge les données puis réindexe (reconstruit la base de données de la blockchain).",
       "rescan": "RESCANNER",
-      "rescanInfo": "Redémarrer le nœud et rechercher les adresses manquantes"      
+      "rescanInfo": "Redémarrer le nœud et rechercher les adresses manquantes"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -686,7 +686,7 @@
         "wallet": "Portefeuille",
         "sendDFITitle": "Envoi de DFI",
         "sendDFI": "Envoyer DFI",
-        "send": "Envoyer"
+        "send": "Envoyer",
         "amount": "Montant",
         "dFI": "DFI",
         "max": "Max",
@@ -943,7 +943,6 @@
     "yesBackupWalletNotice": "Oui",
     "noBackupWalletNotice": "Non",
     "saveMyBackup": "Sauvegarder mon backup",
-    "okIHaveDoneIt": "Ok, I have done it",
     "encryptWalletNoticeTitle": "Verrouiller le portefeuille",
     "encryptWalletNotice": "Permettre le verrouillage du portefeuille avec un mot de passe est recommandé pour des raisons de sécurité. Entrez le mot de passe pour déverrouiller votre portefeuille.",
     "encryptWalletWarning": "Gardez votre mot de passe en sécurité. Si vous la perdez, vous devrez réinitialiser l'application DeFi Wallet aux paramètres par défaut et restaurer à nouveau vos portefeuilles.",
