@@ -22,7 +22,7 @@
     "start:dev": "concurrently -p \"[{time} - {name}]\" -n \"ReactApp,Electron\" -c \"bgMagenta.black.bold,bgCyan.black.bold\" -t \"hh:mm:ss a\" \"npm run start:react\" \"npm run start:electron\"",
     "start:react": "cd webapp && npm run start:dev",
     "start:electron": "node ./scripts/electron",
-    "start:electron-url": "export ELECTRON_START_URL=http://localhost:5000 && electron --inspect .",
+    "start:electron-url": "export ELECTRON_START_URL=http://localhost:5001 && electron --inspect .",
     "electron": "npm run transpile && cross-env NODE_ENV=development electron --inspect . -d true",
     "build:react": "cd webapp && npm run build:react",
     "prebuild": "node ./scripts/prebuild",

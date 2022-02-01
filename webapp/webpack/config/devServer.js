@@ -1,4 +1,4 @@
-export const defaultPort = 5000;
+export const defaultPort = 5001;
 
 export const devServerConfig = {
   port: defaultPort,
