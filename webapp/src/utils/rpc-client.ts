@@ -57,6 +57,7 @@ import LruCache from './lruCache';
 export default class RpcClient {
   client: any;
   blockchainInfo: any;
+  bestBlockHash: string = '';
 
   constructor(cancelToken?) {
     const state = store.getState();
@@ -739,8 +740,18 @@ export default class RpcClient {
   };
 
   async getBestBlockHash(): Promise<string> {
-    const { bestblockhash } = await this.getBlockChainInfo();
-    return bestblockhash;
+    if (this.bestBlockHash) {
+      return this.bestBlockHash;
+    }
+
+    const { data } = await this.call('/', methodNames.GET_BEST_BLOCK_HASH);
+
+    this.bestBlockHash = data.result;
+    setTimeout(() => {
+      this.bestBlockHash = '';
+    }, 200);
+
+    return data.result;
   }
 
   getAccount = async (ownerAddress: string) => {
