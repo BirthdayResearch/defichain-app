@@ -327,7 +327,7 @@
         "continue": "Continuer",
         "pleaseVerifyAmount": "Veuillez vérifier le montant",
         "completeMint": "Completer 'Mint'",
-        "transactionSuccessMsg": "Transaction réussie. Votre solde sera actualisé une fois que la transaction sera confirmée par la blockchaine DeFi.",
+        "transactionSuccessMsg": "Transaction réussie. Votre solde sera actualisé dès que la transaction sera confirmée par la blockchaine DeFi.",
         "backToToken": "Retour aux Tokens"
       },
       "transfersList": {
@@ -699,7 +699,7 @@
         "pleaseVerifyAmount": "Merci de vérifier le montant et le bénéficiaire",
         "completeSend": "Finaliser l'envoi",
         "sendFailed": "Une erreur s'est produite lors de l'envoi",
-        "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé une fois la transaction confirmée par la blockchain DeFiChain.",
+        "transactionSuccessMsg": "Paiement effectué avec succès. Le solde de votre portefeuille sera actualisé dès que la transaction aura été confirmée par la blockchain DeFiChain.",
         "backToWallet": "Retour au portefeuille",
         "dfiAddress": "Adresse DFI",
         "pleaseTransferFunds": "Veuillez transférer quelques DFI sur votre compte",
