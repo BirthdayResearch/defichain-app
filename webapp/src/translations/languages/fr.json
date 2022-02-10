@@ -690,7 +690,7 @@
         "amount": "Montant",
         "dFI": "DFI",
         "max": "Max",
-        "toAddress": "À l'adresse",
+        "toAddress": "Adresse de destination",
         "walletBalance": "Solde du portefeuille",
         "amountToSend": "Montant à envoyer",
         "cancel": "Annuler",
