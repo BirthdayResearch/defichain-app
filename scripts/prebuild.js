@@ -118,7 +118,7 @@ function getPlatformUrlSuffix(platform) {
     case 'linux':
       return 'x86_64-pc-linux-gnu.tar.gz';
     case 'mac':
-      return 'x86_64-apple-darwin11.tar.gz';
+      return 'x86_64-apple-darwin18.tar.gz';
     case 'win':
       return 'x86_64-w64-mingw32.zip';
     default:
