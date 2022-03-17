@@ -4,10 +4,10 @@ class LruCache {
   private readonly cache;
 
   constructor() {
-    // setting maxAge to 30 sec
+    // setting ttl to 2 min
     this.cache = new Cache({
       max: 50000,
-      ttl: 1000 * 60 * 5,
+      ttl: 1000 * 60 * 2,
     });
   }
 
