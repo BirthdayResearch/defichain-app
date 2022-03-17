@@ -13,8 +13,8 @@ export const isBlockchainStarted = async (emitter, response) => {
   const rpcClient = new RpcClient();
   const intervalRef = setInterval(async () => {
     try {
-      const res = await rpcClient.isInitialBlockDownload();
-      if (res) {
+      const res = await rpcClient.getBlockChainInfo();
+      if (!!res) {
         emitter({
           status: res,
           message: BLOCKCHAIN_START_SUCCESS,
