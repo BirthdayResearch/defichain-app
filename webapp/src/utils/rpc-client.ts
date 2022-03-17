@@ -47,7 +47,7 @@ import {
 } from '../constants/rpcModel';
 import { TimeoutLockEnum } from '../containers/SettingsPage/types';
 import { PaymentRequestModel } from '@defi_types/rpcConfig';
-import LruCache from './lruCache';
+import lruCache from './lruCache';
 
 export default class RpcClient {
   client: any;
@@ -82,12 +82,12 @@ export default class RpcClient {
 
   getBlockHash = async (blockNumber: number): Promise<string> => {
     const cacheKey = `rpc.getBlockHash.${blockNumber}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BLOCK_HASH, [
         blockNumber,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -96,7 +96,7 @@ export default class RpcClient {
   getBlock = async (blockHash: string, verbose: number): Promise<IBlock> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getBlock.${bestBlockHash}.${blockHash}.${verbose}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BLOCK, [
         blockHash,
@@ -114,7 +114,7 @@ export default class RpcClient {
         );
       }
       const blockDetails = getBlockDetails(data.result);
-      LruCache.put(cacheKey, blockDetails);
+      lruCache.put(cacheKey, blockDetails);
       return blockDetails;
     }
     return result;
@@ -123,10 +123,10 @@ export default class RpcClient {
   getWalletInfo = async (): Promise<WalletInfo> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getWalletInfo.${bestBlockHash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -139,7 +139,7 @@ export default class RpcClient {
   ): Promise<IParseTxn> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getRawTransactionOfBlock.${bestBlockHash}.${txid}.${verbose}.${blockHash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_RAW_TRANSACTION, [
         txid,
@@ -162,7 +162,7 @@ export default class RpcClient {
 
       const fullRawTx = getFullRawTxInfo(data.result);
       const parsedTxn = parseTxn(fullRawTx);
-      LruCache.put(cacheKey, parsedTxn);
+      lruCache.put(cacheKey, parsedTxn);
       return parsedTxn;
     }
     return result;
@@ -230,7 +230,7 @@ export default class RpcClient {
 
   getBalance = async (): Promise<number> => {
     const cacheKey = `rpc.getBalance.wallet}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BALANCE, ['*']);
       const isValid = validateSchema(
@@ -244,7 +244,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data)}`
         );
       }
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -252,7 +252,7 @@ export default class RpcClient {
 
   getPendingBalance = async (): Promise<number> => {
     const cacheKey = 'rpc.getPendingBalance';
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BALANCES, []);
       const isValid = validateSchema(
@@ -266,7 +266,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data)}`
         );
       }
-      LruCache.put(cacheKey, data.result.mine.untrusted_pending);
+      lruCache.put(cacheKey, data.result.mine.untrusted_pending);
       return data.result.mine.untrusted_pending;
     }
     return result;
@@ -319,12 +319,12 @@ export default class RpcClient {
   getTransaction = async (txId: string): Promise<any> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getTransaction.${bestBlockHash}.${txId}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_TRANSACTION, [
         txId,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -403,7 +403,7 @@ export default class RpcClient {
 
   isValidAddress = async (address: string): Promise<boolean> => {
     const cacheKey = `rpc.isValidAddress.${address}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.VALIDATE_ADDRESS, [
         address,
@@ -421,7 +421,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result.isvalid);
+      lruCache.put(cacheKey, data.result.isvalid);
       return data.result.isvalid;
     }
     return result;
@@ -430,7 +430,7 @@ export default class RpcClient {
   getWalletTxnCount = async () => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getWalletTxnCount.${bestBlockHash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_WALLET_INFO, []);
 
@@ -445,7 +445,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result.txcount);
+      lruCache.put(cacheKey, data.result.txcount);
       return data.result.txcount;
     }
     return result;
@@ -459,7 +459,7 @@ export default class RpcClient {
     const skip = pageNo * pageSize;
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getWalletTxns.${bestBlockHash}.${pageNo}.${pageSize}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_TRANSACTIONS, [
         '*',
@@ -481,7 +481,7 @@ export default class RpcClient {
       }
 
       const txnList: ITxn[] = await getTxnDetails(data.result);
-      LruCache.put(cacheKey, txnList);
+      lruCache.put(cacheKey, txnList);
       return txnList;
     }
     return result;
@@ -497,7 +497,7 @@ export default class RpcClient {
 
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.listUnspent.${bestBlockHash}.${maximumAmount}.${maximumCount}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_UNSPENT, [
         1,
@@ -517,7 +517,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -592,7 +592,7 @@ export default class RpcClient {
   decodeRawTransaction = async (hex: string) => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.decodeRawTransaction.${bestBlockHash}.${hex}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call(
         '/',
@@ -610,7 +610,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -708,10 +708,10 @@ export default class RpcClient {
   tokenInfo = async (key: string): Promise<any> => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.tokenInfo.${blockhash}-${key}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -720,11 +720,11 @@ export default class RpcClient {
   getTokenBalances = async (): Promise<string[]> => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getTokenBalances.${blockhash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
 
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_TOKEN_BALANCES);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -737,12 +737,12 @@ export default class RpcClient {
   ): Promise<string> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.listTokens.${bestBlockHash}.${start}.${includingStart}.${limit}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_TOKEN, [
         { start, including_start: includingStart, limit },
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -750,7 +750,7 @@ export default class RpcClient {
 
   getBlockChainInfo = async () => {
     const cacheKey = 'rpc.getBlockChainInfo';
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call(
         '/',
@@ -768,7 +768,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result, 15000);
+      lruCache.put(cacheKey, data.result, 15000);
       return data.result;
     }
     return result;
@@ -776,11 +776,11 @@ export default class RpcClient {
 
   getBestBlockHash = async (): Promise<string> => {
     const cacheKey = 'rpc.getBestBlockHash';
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BEST_BLOCK_HASH);
       // 30 sec cash time
-      LruCache.put(cacheKey, data.result, 15000);
+      lruCache.put(cacheKey, data.result, 15000);
       return data.result;
     }
     return result;
@@ -789,12 +789,12 @@ export default class RpcClient {
   getAccount = async (ownerAddress: string) => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getAccount.${bestBlockHash}.${ownerAddress}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
         ownerAddress,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -807,7 +807,7 @@ export default class RpcClient {
   ) => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.listAccounts.${bestBlockHash}.${start}.${includingStart}.${limit}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
         {
@@ -819,7 +819,7 @@ export default class RpcClient {
         true,
         true,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -848,12 +848,12 @@ export default class RpcClient {
   getaddressInfo = async (address: string) => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getaddressInfo.${blockhash}.${address}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
         address,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -928,13 +928,13 @@ export default class RpcClient {
   ) => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.listPoolPairs.${blockhash}.${start}.${including_start}.${limit}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
 
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_POOL_PAIRS, [
         { start, including_start, limit },
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -947,7 +947,7 @@ export default class RpcClient {
   ) => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.listPoolShares.${blockhash}.${start}.${including_start}.${limit}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
 
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_POOL_SHARES, [
@@ -955,7 +955,7 @@ export default class RpcClient {
         true, // verbose
         true, // is mine only
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -964,12 +964,12 @@ export default class RpcClient {
   getPoolPair = async (poolID: string) => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getPoolPair.${blockhash}.${poolID}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_POOL_PAIR, [
         poolID,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -1045,12 +1045,12 @@ export default class RpcClient {
   getGov = async () => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getGov.${blockhash}.LP_DAILY_DFI_REWARD`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_GOV, [
         LP_DAILY_DFI_REWARD,
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -1065,7 +1065,7 @@ export default class RpcClient {
     const { blockHeight, limit, no_rewards, token } = params;
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getListAccountHistory.${blockhash}.${blockHeight}.${limit}.${no_rewards}.${token}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.LIST_ACCOUNT_HISTORY, [
         'mine',
@@ -1076,7 +1076,7 @@ export default class RpcClient {
           token,
         },
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -1088,7 +1088,7 @@ export default class RpcClient {
   ): Promise<string> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.accountHistoryCount.${bestBlockHash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.ACCOUNT_HISTORY_COUNT, [
         'mine',
@@ -1097,7 +1097,7 @@ export default class RpcClient {
           token,
         },
       ]);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -1119,10 +1119,10 @@ export default class RpcClient {
   getSPVBalance = async (): Promise<number> => {
     const blockhash = await this.getBestBlockHash();
     const cacheKey = `rpc.getSPVBalance.${blockhash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.SPV_GETBALANCE, []);
-      LruCache.put(cacheKey, data?.result);
+      lruCache.put(cacheKey, data?.result);
       return data?.result;
     }
     return result;
@@ -1152,7 +1152,7 @@ export default class RpcClient {
 
   isValidSPVAddress = async (address: string): Promise<boolean> => {
     const cacheKey = `rpc.isValidSPVAddress.${address}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.SPV_VALIDATEADDRESS, [
         address,
@@ -1169,7 +1169,7 @@ export default class RpcClient {
           }: ${JSON.stringify(data.result)}`
         );
       }
-      LruCache.put(cacheKey, data.result.isvalid);
+      lruCache.put(cacheKey, data.result.isvalid);
       return data.result.isvalid;
     }
     return result;
@@ -1207,10 +1207,10 @@ export default class RpcClient {
   getAllSPVAddress = async (): Promise<string> => {
     const bestBlockHash = await this.getBestBlockHash();
     const cacheKey = `rpc.getAllSPVAddress.${bestBlockHash}`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.SPV_GETALLADDRESSES);
-      LruCache.put(cacheKey, data.result);
+      lruCache.put(cacheKey, data.result);
       return data.result;
     }
     return result;
@@ -1218,10 +1218,10 @@ export default class RpcClient {
 
   getNodeVersion = async (): Promise<string> => {
     const cacheKey = `rpc.getNodeVersion`;
-    const result = LruCache.get(cacheKey);
+    const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_NETWORK_INFO);
-      LruCache.put(cacheKey, data?.result?.subversion);
+      lruCache.put(cacheKey, data?.result?.subversion);
       return data?.result?.subversion;
     }
     return result;
