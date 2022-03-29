@@ -22,7 +22,6 @@ export const getAddressInfo = (address) => {
   return rpcClient.getaddressInfo(address);
 };
 
-// TODO: Need to remove the dummy data
 export const handleFetchToken = async (id: string) => {
   const rpcClient = new RpcClient();
   const tokens = await rpcClient.tokenInfo(id);
@@ -154,12 +153,4 @@ export const handleUpdateTokens = async (tokenData) => {
 export const handleDestroyToken = (tokenId) => {
   const rpcClient = new RpcClient();
   return rpcClient.destroyToken(tokenId);
-};
-
-export const getReceivingAddressAndAmountList = async () => {
-  const rpcClient = new RpcClient();
-  const addressAndAmountList = await rpcClient.getReceivingAddressAndTotalAmountList();
-  return {
-    addressAndAmountList,
-  };
 };
