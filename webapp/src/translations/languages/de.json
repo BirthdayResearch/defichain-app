@@ -227,7 +227,7 @@
         "dat": "DAT",
         "dct": "DCT",
         "remove": "Entfernen",
-        "paginationRange": "%{from} – %{to} von %{total} Tokens",
+        "paginationRange": "%{from} – %{to} von %{total} Token",
         "datLabels": {
           "type": "Typ",
           "price": "Preis",
@@ -803,7 +803,7 @@
         "type": "Typ",
         "poolID": "Pool-ID",
         "amounts": "Beträge",
-        "limit": "Limit to last",
+        "limit": "Begrenzt auf die letzten",
         "max": "Max.",
         "transaction": "Transaktionen",
         "format": "Format",
