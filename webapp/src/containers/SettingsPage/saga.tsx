@@ -54,7 +54,6 @@ import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
-import lruCache from 'src/utils/lruCache';
 
 export function* getSettingsOptions() {
   try {
@@ -187,8 +186,6 @@ export function* changeNetworkNode(networkName) {
   const updatedConf = Object.assign({}, rpcConfig, network, {
     [name]: { ...currentNetworkConfiguration, ...config },
   });
-  // clear old cache
-  lruCache.clear();
   yield put(updateActiveNetwork(name));
   yield put(restartModal());
   yield call(shutDownNode);

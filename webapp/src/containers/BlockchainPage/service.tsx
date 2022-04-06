@@ -26,7 +26,7 @@ export const handleFetchBlockData = async (blockNumber: number) => {
 
 export const handleFetchBlockCount = async () => {
   const rpcClient = new RpcClient();
-  const blockCount = await rpcClient.getLatestSyncedBlock();
+  const blockCount = await rpcClient.getBlockCount();
   const data = { blockCount };
   return data;
 };
@@ -35,7 +35,7 @@ export const handelFetchBlocks = async (pageNo: number, pageSize: number) => {
   const rpcClient = new RpcClient();
 
   const blocks: IBlock[] = [];
-  const blockCount = await rpcClient.getLatestSyncedBlock();
+  const blockCount = await rpcClient.getBlockCount();
 
   const endIndex = blockCount - (pageNo - 1) * pageSize;
   const startIndex = Math.max(endIndex - pageSize, 0);
