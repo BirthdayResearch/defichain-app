@@ -318,7 +318,7 @@ export default class RpcClient {
   sendToAddress = async (
     toAddress: string | null,
     amount: BigNumber,
-    subtractfeefromamount: boolean = false
+    subtractfeefromamount = false
   ): Promise<string> => {
     const txnSize = await getTxnSize();
     if (txnSize >= MAX_TXN_SIZE) {
@@ -428,10 +428,7 @@ export default class RpcClient {
     return result;
   };
 
-  getWalletTxns = async (
-    pageNo: number = 0,
-    pageSize: number = 1
-  ): Promise<ITxn[]> => {
+  getWalletTxns = async (pageNo = 0, pageSize = 1): Promise<ITxn[]> => {
     const count = pageSize;
     const skip = pageNo * pageSize;
     const bestBlockHash = await this.getBestBlockHash();
@@ -726,30 +723,26 @@ export default class RpcClient {
   };
 
   getBlockChainInfo = async () => {
-    const cacheKey = 'rpc.getBlockChainInfo';
-    const result = lruCache.get(cacheKey);
-    if (result === undefined) {
-      const { data } = await this.call(
-        '/',
-        methodNames.GET_BLOCKCHAIN_INFO,
-        []
+    // const cacheKey = 'rpc.getBlockChainInfo';
+    // const result = lruCache.get(cacheKey);
+    // if (result === undefined) {
+    const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.GET_BLOCKCHAIN_INFO
+        }: ${JSON.stringify(data.result)}`
       );
-      const isValid = validateSchema(
-        rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
-        data
-      );
-      if (!isValid) {
-        throw new Error(
-          `Invalid response from node, ${
-            methodNames.GET_BLOCKCHAIN_INFO
-          }: ${JSON.stringify(data.result)}`
-        );
-      }
-      // 15 sec cash time
-      lruCache.put(cacheKey, data.result, 15000);
-      return data.result;
     }
-    return result;
+    // 15 sec cash time
+    // lruCache.put(cacheKey, data.result, 15000);
+    return data.result;
+    // }
+    // return result;
   };
 
   getBestBlockHash = async (): Promise<string> => {
@@ -815,7 +808,7 @@ export default class RpcClient {
     return data.result;
   };
 
-  setHdSeed = async (hdSeed: string, newkeypool: boolean = true) => {
+  setHdSeed = async (hdSeed: string, newkeypool = true) => {
     const { data } = await this.call('/', methodNames.SET_HD_SEED, [
       newkeypool,
       hdSeed,
