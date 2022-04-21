@@ -371,19 +371,22 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     });
   };
 
-  const showErrorMessage = (swapToErr, swapFromErr) => {
+  const showErrorMessage = (swapToErr, swapFromErr, slippageError) => {
     if (percentageChange) {
       return I18n.t('containers.swap.swapPage.priceImpactWarning', {
         percentage: PRICE_IMPACT_WARNING_FACTOR * 100,
       });
     }
+    if (slippageError) {
+      return slippageError;
+    }
     if (swapToErr) {
       return swapToErr;
-    } else if (swapFromErr) {
-      return swapFromErr;
-    } else {
-      return I18n.t('containers.swap.swapPage.somethingWentWrong');
     }
+    if (swapFromErr) {
+      return swapFromErr;
+    }
+    return I18n.t('containers.swap.swapPage.somethingWentWrong');
   };
 
   const handleAddressDropdown = (data: any) => {
@@ -724,6 +727,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   {!isAmountInsufficient() &&
                   !isErrorTestPoolSwapTo &&
                   !isErrorTestPoolSwapFrom &&
+                  slippageError === undefined &&
                   !percentageChange ? (
                     <Col className='col-auto'>
                       {isValid()
@@ -735,7 +739,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       <span className='text-danger'>
                         {showErrorMessage(
                           isErrorTestPoolSwapTo,
-                          isErrorTestPoolSwapFrom
+                          isErrorTestPoolSwapFrom,
+                          slippageError
                         )}
                       </span>
                     </Col>

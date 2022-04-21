@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { debounce } from 'lodash';
 import { MdClose } from 'react-icons/md';
+import NumberFormat from 'react-number-format';
 
 interface SlippageToleranceProps {
   slippage: BigNumber;
@@ -52,7 +53,6 @@ interface SlippageSelectorProps {
 function SlippageSelector({
   onSubmitSlippage,
   slippage,
-  slippageError,
   setSlippageError,
 }: SlippageSelectorProps): JSX.Element {
   const [selectedSlippage, setSelectedSlippage] = useState(slippage.toString());
@@ -87,19 +87,22 @@ function SlippageSelector({
   }, [selectedSlippage]);
 
   return (
-    <div className='mb-4'>
-      <Row>
-        <Col md='4'>
+    <div className='mb-4 mt-2'>
+      <Row className='text-center text-md-right'>
+        <Col lg='8' md='6' />
+        <Col lg='4' md='6'>
           <InputGroup>
-            <Input
-              type='number'
+            <NumberFormat
+              value={selectedSlippage.toString()}
+              customInput={Input}
+              type='text'
               max={100}
               min={0}
-              placeholder={'0.00%'}
-              name='toAddress'
-              id='toAddress'
-              value={selectedSlippage.toString()}
-              onChange={(e) => onSlippageChange(e.target.value)}
+              name='slippage'
+              id='slippage'
+              suffix='%'
+              placeholder='0.00%'
+              onValueChange={(e) => onSlippageChange(e.value)}
             />
             <InputGroupAddon addonType='append'>
               <Button
@@ -112,13 +115,6 @@ function SlippageSelector({
           </InputGroup>
         </Col>
       </Row>
-
-      {isRiskWarningDisplayed && (
-        <div className='text-danger mt-2'>
-          {I18n.t('containers.swap.slippage.warning')}
-        </div>
-      )}
-      {slippageError && <div className='text-danger mt-2'>{slippageError}</div>}
     </div>
   );
 }
