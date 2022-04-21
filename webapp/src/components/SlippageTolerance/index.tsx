@@ -117,36 +117,39 @@ function SlippageSelector({
             label={`${value}%`}
           />
         ))}
-        <SlippageButton
-          onPress={() => {
-            setIsCustomSlippage(true);
-          }}
-          icon={<MdEdit size={10} />}
-          isActive={isCustomSlippage}
-          label={I18n.t('containers.swap.slippage.custom')}
-        />
-      </Row>
 
-      {isCustomSlippage && (
-        <InputGroup className='mt-2'>
-          <Input
-            type='text'
-            placeholder={'0.00%'}
-            name='toAddress'
-            id='toAddress'
-            value={selectedSlippage.toString()}
-            onChange={(e) => onSlippageChange(e.target.value)}
+        {isCustomSlippage ? (
+          <div className={`mt-1 {styles.inline}`}>
+            <InputGroup>
+              <Input
+                type='text'
+                placeholder={'0.00%'}
+                name='toAddress'
+                id='toAddress'
+                value={selectedSlippage.toString()}
+                onChange={(e) => onSlippageChange(e.target.value)}
+              />
+              <InputGroupAddon addonType='append'>
+                <Button
+                  color='outline-primary'
+                  onClick={() => onSlippageChange('')}
+                >
+                  <MdClose />
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
+        ) : (
+          <SlippageButton
+            onPress={() => {
+              setIsCustomSlippage(true);
+            }}
+            icon={<MdEdit size={10} />}
+            isActive={isCustomSlippage}
+            label={I18n.t('containers.swap.slippage.custom')}
           />
-          <InputGroupAddon addonType='append'>
-            <Button
-              color='outline-primary'
-              onClick={() => onSlippageChange('')}
-            >
-              <MdClose />
-            </Button>
-          </InputGroupAddon>
-        </InputGroup>
-      )}
+        )}
+      </Row>
 
       {isRiskWarningDisplayed && (
         <div className='text-danger mt-2'>
@@ -170,12 +173,11 @@ function SlippageButton({
   icon?: ReactElement;
 }): JSX.Element {
   return (
-    <div>
+    <div className={styles.inline}>
       <Button
         color='primary'
         className='mr-1 mt-1'
         outline={!isActive}
-        size='sm'
         onClick={onPress}
       >
         {icon}
