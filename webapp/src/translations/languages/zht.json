@@ -453,6 +453,12 @@
         "receiveTokensAt": "在這個地址接收",
         "receiveAddress": "接收地址"
       },
+      "slippage": {
+        "slippageTolerance": "交易滑價",
+        "requiredFieldMissing": "缺少必要填入的字欄",
+        "slippageRateRange": "滑點率選擇百分比必須在 0 - 100%",
+        "warning": "繼續進行並自我承擔風險"
+      },
       "poolTab": {
         "yourLiquidity": "您的流動資金",
         "noLiquidity": "沒有流動資金。您是否要為流動資金池提流動資金嗎？",

@@ -459,6 +459,12 @@
         "receiveTokensAt": "Receive tokens at",
         "receiveAddress": "Receive Address"
       },
+      "slippage": {
+        "slippageTolerance": "Slippage tolerance",
+        "requiredFieldMissing": "Required field is missing",
+        "slippageRateRange": "Slippage rate must range from 0-100%",
+        "warning": "Proceed at your own risk"
+      },
       "poolTab": {
         "yourLiquidity": "Your liquidity",
         "noLiquidity": "No liquidity found. Would you like to add liquidity to the pool?",
