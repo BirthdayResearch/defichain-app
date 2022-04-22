@@ -27,7 +27,7 @@ export default function SlippageTolerance({
   setSlippageError,
 }: SlippageToleranceProps): JSX.Element {
   return (
-    <Row>
+    <Row className='mb-4'>
       <Col md='4'>
         <span>{I18n.t('containers.swap.slippage.slippageTolerance')}</span>
       </Col>
@@ -87,34 +87,32 @@ function SlippageSelector({
   }, [selectedSlippage]);
 
   return (
-    <div className='mb-4 mt-2'>
-      <Row className='text-center text-md-right'>
-        <Col lg='8' md='6' />
-        <Col lg='4' md='6'>
-          <InputGroup>
-            <NumberFormat
-              value={selectedSlippage.toString()}
-              customInput={Input}
-              type='text'
-              max={100}
-              min={0}
-              name='slippage'
-              id='slippage'
-              suffix='%'
-              placeholder='0.00%'
-              onValueChange={(e) => onSlippageChange(e.value)}
-            />
-            <InputGroupAddon addonType='append'>
-              <Button
-                color='outline-primary'
-                onClick={() => onSlippageChange('')}
-              >
-                <MdClose />
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </Col>
-      </Row>
-    </div>
+    <Row className='text-center text-md-right'>
+      <Col lg='8' md='6' />
+      <Col lg='4' md='6'>
+        <InputGroup>
+          <NumberFormat
+            value={selectedSlippage.toString()}
+            customInput={Input}
+            type='text'
+            max={100}
+            min={0}
+            name='slippage'
+            id='slippage'
+            suffix='%'
+            placeholder='0.00%'
+            onValueChange={(e) => onSlippageChange(e.value)}
+          />
+          <InputGroupAddon addonType='append'>
+            <Button
+              color='outline-primary'
+              onClick={() => onSlippageChange('')}
+            >
+              <MdClose />
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </Col>
+    </Row>
   );
 }
