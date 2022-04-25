@@ -964,11 +964,19 @@ export default class RpcClient {
     tokenFrom: string,
     amountFrom: BigNumber,
     to: string,
-    tokenTo: string
+    tokenTo: string,
+    maxPrice: BigNumber
   ): Promise<string> => {
     // amount from needs to be a bignumber here
     const { data } = await this.call('/', methodNames.POOL_SWAP, [
-      { from, tokenFrom, amountFrom: amountFrom.toFixed(8), to, tokenTo },
+      {
+        from,
+        tokenFrom,
+        amountFrom: amountFrom.toFixed(8),
+        to,
+        tokenTo,
+        maxPrice: maxPrice.toFixed(8),
+      },
       [],
     ]);
     return data.result;

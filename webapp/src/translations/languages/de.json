@@ -459,6 +459,12 @@
         "receiveTokensAt": "Token erhalten auf",
         "receiveAddress": "Empfänger-Adresse"
       },
+      "slippage": {
+        "slippageTolerance": "Slippage-Toleranz",
+        "requiredFieldMissing": "Erforderliches Feld fehlt",
+        "slippageRateRange": "Die Slippage-Toleranz muss zwischen 0 und 100 % liegen.",
+        "warning": "Handeln auf eigenes Risiko"
+      },
       "poolTab": {
         "yourLiquidity": "Deine Liquidität",
         "noLiquidity": "Keine Liquidität gefunden. Möchtest du dem Pool Liquidität hinzufügen?",
@@ -863,7 +869,7 @@
       },
       "unlockWalletPage": {
         "title": "Entsperre Wallet"
-        }
+      }
     },
     "transaction": {
       "transactionPage": {

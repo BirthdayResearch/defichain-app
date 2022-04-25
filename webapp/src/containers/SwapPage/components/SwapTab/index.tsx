@@ -2,12 +2,13 @@ import React from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import { MdSwapHoriz } from 'react-icons/md';
 import { I18n } from 'react-redux-i18n';
-
 import SwapCard from '../../../../components/SwapCard';
 import styles from './swapTab.module.scss';
 import { ITokenBalanceInfo } from '../../../../utils/interfaces';
 import AddressDropdown from '../../../../components/AddressDropdown';
 import { getTransactionAddressLabel } from '../../../../utils/utility';
+import SlippageTolerance from 'src/components/SlippageTolerance';
+import BigNumber from 'bignumber.js';
 
 interface SwapTabProps {
   handleAddressDropdown?: any;
@@ -16,6 +17,10 @@ interface SwapTabProps {
   tokenMap: Map<string, ITokenBalanceInfo>;
   name: number;
   formState: any;
+  setSlippageError: (error?: string) => void;
+  slippageError?: string;
+  slippage: BigNumber;
+  setSlippage: (val: BigNumber) => void;
   handleChangeFrom: (e) => void;
   handleChangeTo: (e) => void;
   handleInterchange: () => void;
@@ -64,7 +69,10 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
           <div className={styles.swapRow}>
             <SwapCard
               label={I18n.t('containers.swap.swapTab.from')}
-              tokenMap={filterBySymbol(`symbol${2}`, formState.symbol2 !== '' && formState.symbol2 !== undefined)}
+              tokenMap={filterBySymbol(
+                `symbol${2}`,
+                formState.symbol2 !== '' && formState.symbol2 !== undefined
+              )}
               name={1}
               formState={formState}
               handleChange={handleChangeFrom}
@@ -88,7 +96,10 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             </Button>
             <SwapCard
               label={I18n.t('containers.swap.swapTab.to')}
-              tokenMap={filterBySymbol(`symbol${1}`, formState.symbol1 !== '' && formState.symbol1 !== undefined)}
+              tokenMap={filterBySymbol(
+                `symbol${1}`,
+                formState.symbol1 !== '' && formState.symbol1 !== undefined
+              )}
               name={2}
               formState={formState}
               handleChange={handleChangeTo}
@@ -104,6 +115,12 @@ const SwapTab: React.FunctionComponent<SwapTabProps> = (
             />
           </div>
           <br />
+          <SlippageTolerance
+            slippage={props.slippage}
+            slippageError={props.slippageError}
+            setSlippageError={props.setSlippageError}
+            setSlippage={props.setSlippage}
+          />
           <Row>
             <Col md='4' className={styles.keyValueLiKey}>
               <span>{I18n.t('containers.swap.swapTab.receiveTokensAt')}</span>

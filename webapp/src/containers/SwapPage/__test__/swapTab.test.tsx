@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from '../../../app/rootStore';
 import Enzyme from '../../../utils/testUtils/enzyme';
 import { I18n } from 'react-redux-i18n';
+import BigNumber from 'bignumber.js';
 
 describe('SwapTab component', () => {
   it.skip('should check for snapshot', () => {
@@ -12,6 +13,9 @@ describe('SwapTab component', () => {
       <Router>
         <Provider store={store}>
           <SwapTab
+            slippage={new BigNumber(3)}
+            setSlippage={jest.fn()}
+            setSlippageError={jest.fn()}
             label={I18n.t('containers.swap.swapTab.from')}
             tokenMap={new Map()}
             filterBySymbol={() => ''}

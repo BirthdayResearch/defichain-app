@@ -50,6 +50,8 @@ import {
   REFRESH_TESTPOOLSWAP_COUNTER,
   PRICE_IMPACT_WARNING_FACTOR,
   DEFICHAIN_ANALYTICS,
+  SLIPPAGE_TOLERANCE,
+  DEFAULT_SLIPPAGE_TOLERANCE,
 } from '../../constants';
 import SwapTab from './components/SwapTab';
 import { BigNumber } from 'bignumber.js';
@@ -119,6 +121,18 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const [fromTestValue, setFromTestValue] = useState<boolean>(false);
   const [toTestValue, setToTestValue] = useState<boolean>(false);
   const [allowCalls, setAllowCalls] = useState<boolean>(false);
+  const [slippageError, setSlippageError] = useState<string | undefined>();
+
+  const getPersistanceSlippage = () => {
+    if (new BigNumber(PersistentStore.get(SLIPPAGE_TOLERANCE) ?? '').isNaN()) {
+      return new BigNumber(DEFAULT_SLIPPAGE_TOLERANCE);
+    }
+    return new BigNumber(
+      PersistentStore.get(SLIPPAGE_TOLERANCE) ?? DEFAULT_SLIPPAGE_TOLERANCE
+    );
+  };
+  const [slippage, setSlippage] = useState<BigNumber>(getPersistanceSlippage());
+
   const [formState, setFormState] = useState<any>({
     amount1: '',
     hash1: hash1 ?? '',
@@ -357,19 +371,22 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     });
   };
 
-  const showErrorMessage = (swapToErr, swapFromErr) => {
+  const showErrorMessage = (swapToErr, swapFromErr, slippageError) => {
     if (percentageChange) {
       return I18n.t('containers.swap.swapPage.priceImpactWarning', {
         percentage: PRICE_IMPACT_WARNING_FACTOR * 100,
       });
     }
+    if (slippageError) {
+      return slippageError;
+    }
     if (swapToErr) {
       return swapToErr;
-    } else if (swapFromErr) {
-      return swapFromErr;
-    } else {
-      return I18n.t('containers.swap.swapPage.somethingWentWrong');
     }
+    if (swapFromErr) {
+      return swapFromErr;
+    }
+    return I18n.t('containers.swap.swapPage.somethingWentWrong');
   };
 
   const handleAddressDropdown = (data: any) => {
@@ -442,6 +459,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
     setSwapStep('loading');
     const swapState = {
       ...formState,
+      slippage,
       receiveAddress:
         formState.receiveAddress == '' || formState.receiveAddress == null
           ? (paymentRequests ?? [])[0]?.address
@@ -468,6 +486,11 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
   const handleChangeSwap = () => {
     PersistentStore.set(IS_DEX_INTRO_SEEN, true);
     setSwapStep('default');
+  };
+
+  const setSlippageValue = (value) => {
+    setSlippage(value);
+    PersistentStore.set(SLIPPAGE_TOLERANCE, value.toFixed(8));
   };
 
   const network = getNetworkType();
@@ -508,6 +531,10 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
           <TabContent activeTab={activeTab}>
             <TabPane tabId={SWAP}>
               <SwapTab
+                slippageError={slippageError}
+                setSlippageError={setSlippageError}
+                slippage={slippage}
+                setSlippage={setSlippageValue}
                 handleAddressDropdown={handleAddressDropdown}
                 label={I18n.t('containers.swap.swapTab.from')}
                 tokenMap={tokenMap}
@@ -700,6 +727,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                   {!isAmountInsufficient() &&
                   !isErrorTestPoolSwapTo &&
                   !isErrorTestPoolSwapFrom &&
+                  slippageError === undefined &&
                   !percentageChange ? (
                     <Col className='col-auto'>
                       {isValid()
@@ -711,7 +739,8 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       <span className='text-danger'>
                         {showErrorMessage(
                           isErrorTestPoolSwapTo,
-                          isErrorTestPoolSwapFrom
+                          isErrorTestPoolSwapFrom,
+                          slippageError
                         )}
                       </span>
                     </Col>
@@ -725,6 +754,7 @@ const SwapPage: React.FunctionComponent<SwapPageProps> = (
                       !isValid() ||
                       !!isErrorTestPoolSwapTo ||
                       !!isErrorTestPoolSwapFrom ||
+                      slippageError !== undefined ||
                       formState.receiveAddress == null ||
                       formState.receiveAddress == ''
                     }
