@@ -70,10 +70,8 @@ export const handlePoolSwap = async (formState): Promise<string> => {
   const rpcClient = new RpcClient();
   log.info('Starting', 'handlePoolSwap');
   const list = await getAddressAndAmountListForAccount();
-  const {
-    address: address1,
-    amount: maxAmount1,
-  } = await getHighestAmountAddressForSymbol(formState.hash1, list);
+  const { address: address1, amount: maxAmount1 } =
+    await getHighestAmountAddressForSymbol(formState.hash1, list);
   const swapAddress =
     address1 == '' || address1 == null ? formState.receiveAddress : address1;
   let accountToAccountAmount = new BigNumber(0);
@@ -108,12 +106,18 @@ export const handlePoolSwap = async (formState): Promise<string> => {
   store.dispatch(poolSwapRefreshUTXOSuccess());
 
   log.info(`Starting Pool Swap RPC`, 'handlePoolSwap');
+  const maxPrice = poolSwapAmount
+    .div(formState.amount2)
+    .times(formState.slippage.div(100).plus(1))
+    .decimalPlaces(8);
+
   const hash = await rpcClient.poolSwap(
     swapAddress,
     formState.hash1,
     poolSwapAmount,
     formState.receiveAddress,
-    formState.hash2
+    formState.hash2,
+    maxPrice
   );
   log.info(`${hash}`, 'handlePoolSwap');
   return hash;

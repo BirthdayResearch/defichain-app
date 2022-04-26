@@ -459,6 +459,12 @@
         "receiveTokensAt": "Recevez des tokens à",
         "receiveAddress": "Adresse de réception"
       },
+      "slippage": {
+        "slippageTolerance": "Tolérance de glissement",
+        "requiredFieldMissing": "Le champ requis est manquant",
+        "slippageRateRange": "Le taux de glissement doit être compris entre 0 et 100 %.",
+        "warning": "Procédez à vos propres risques"
+      },
       "poolTab": {
         "yourLiquidity": "Ma liquidité",
         "noLiquidity": "Aucune liquidité trouvée. Voulez-vous ajouter de la liquidité au pool ?",

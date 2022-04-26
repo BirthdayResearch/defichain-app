@@ -179,6 +179,8 @@ export const DEFICHAIN_ANALYTICS = 'https://www.defichain-analytics.com/';
 export const DEFICHAIN_SCAN = 'https://defiscan.live/';
 
 export const IS_DEX_INTRO_SEEN = 'isDexIntroSeen';
+export const SLIPPAGE_TOLERANCE = 'slippageTolerance';
+export const DEFAULT_SLIPPAGE_TOLERANCE = 3;
 
 export const RESET_WALLET_CONFIRMATION_TEXT = 'RESET';
 
