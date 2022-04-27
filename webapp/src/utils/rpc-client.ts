@@ -750,7 +750,7 @@ export default class RpcClient {
     const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BEST_BLOCK_HASH);
-      // 15 sec cash time
+      // 5 sec cash time
       lruCache.put(cacheKey, data.result, 5000);
       return data.result;
     }
