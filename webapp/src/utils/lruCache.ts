@@ -16,6 +16,7 @@ class LruCache {
    * @return {string | null}
    */
   public get(key: string): any {
+    return undefined;
     return this.cache.get(key);
   }
 

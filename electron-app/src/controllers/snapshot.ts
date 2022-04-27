@@ -326,15 +326,21 @@ export const extractSnapshot = (
 
     child.stdout.on('data', (data) => {
       const t = data.toString('utf8').trim();
+      log.info('==========stdout-data============');
       log.info(t);
+      log.info('==========stdout-data============');
     });
     child.stderr.on('data', (data) => {
       const t = data.toString('utf8').trim();
+      log.info('==========stdout-stderr============');
       log.info(t);
+      log.info('==========stdout-stderr============');
       return bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, t);
     });
     child.on('close', (code) => {
+      log.info('==========stdout-code============');
       log.info(`${code}`);
+      log.info('==========stdout-code============');
       if (code === 0) {
         fileSizes.unpackModel = { completionRate: 1 };
         bw.webContents.send(ON_SNAPSHOT_UNPACK_COMPLETE, fileSizes);
@@ -346,7 +352,9 @@ export const extractSnapshot = (
       }
     });
   } catch (error) {
+    log.info('==========stdout-error============');
     log.error(error);
+    log.info('==========stdout-error============');
     bw.webContents.send(ON_SNAPSHOT_DOWNLOAD_FAILURE, 'Extract failure');
   }
 };
