@@ -26,6 +26,7 @@ class LruCache {
    * @param ttl {number} TTL
    */
   put(key: string, value: any, ttl?: number): void {
+    return;
     this.cache.set(key, value, { ttl });
   }
 
