@@ -723,9 +723,6 @@ export default class RpcClient {
   };
 
   getBlockChainInfo = async () => {
-    // const cacheKey = 'rpc.getBlockChainInfo';
-    // const result = lruCache.get(cacheKey);
-    // if (result === undefined) {
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
       rpcResponseSchemaMap.get(methodNames.GET_BLOCKCHAIN_INFO),
@@ -738,11 +735,7 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
-    // 15 sec cash time
-    // lruCache.put(cacheKey, data.result, 15000);
     return data.result;
-    // }
-    // return result;
   };
 
   getBestBlockHash = async (): Promise<string> => {
@@ -750,8 +743,8 @@ export default class RpcClient {
     const result = lruCache.get(cacheKey);
     if (result === undefined) {
       const { data } = await this.call('/', methodNames.GET_BEST_BLOCK_HASH);
-      // 15 sec cash time
-      lruCache.put(cacheKey, data.result, 15000);
+      // 5 sec cash time
+      lruCache.put(cacheKey, data.result, 5000);
       return data.result;
     }
     return result;
