@@ -155,11 +155,3 @@ export const handleDestroyToken = (tokenId) => {
   const rpcClient = new RpcClient();
   return rpcClient.destroyToken(tokenId);
 };
-
-export const getReceivingAddressAndAmountList = async () => {
-  const rpcClient = new RpcClient();
-  const addressAndAmountList = await rpcClient.getReceivingAddressAndTotalAmountList();
-  return {
-    addressAndAmountList,
-  };
-};
