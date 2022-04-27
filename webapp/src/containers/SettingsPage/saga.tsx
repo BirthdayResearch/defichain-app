@@ -54,6 +54,7 @@ import { updateActiveNetwork } from '../RpcConfiguration/reducer';
 import { RootState } from '../../app/rootTypes';
 import showNotification from '../../utils/notifications';
 import { I18n } from 'react-redux-i18n';
+import LruCache from 'src/utils/lruCache';
 
 export function* getSettingsOptions() {
   try {
@@ -189,6 +190,8 @@ export function* changeNetworkNode(networkName) {
   yield put(updateActiveNetwork(name));
   yield put(restartModal());
   yield call(shutDownNode);
+  // clear old cache
+  LruCache.clear();
   yield call(restartNode, { updatedConf });
   yield put(fetchWalletMapRequest());
 }

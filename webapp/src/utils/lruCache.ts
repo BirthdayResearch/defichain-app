@@ -1,34 +1,39 @@
 import * as log from './electronLogger';
-export default class LruCache {
-  private static values: Map<string, any> = new Map<string, any>();
-  private static maxEntries = 100000;
+import Cache from 'lru-cache';
+class LruCache {
+  private readonly cache;
 
-  public static get(key: string): any {
-    const hasKey = LruCache.values.has(key);
-    let entry: any = null;
-    if (hasKey) {
-      // peek the entry, re-insert for LRU strategy
-      entry = LruCache.values.get(key);
-      LruCache.values.delete(key);
-      LruCache.values.set(key, entry);
-    }
-
-    return entry;
+  constructor() {
+    // setting ttl to 2 min
+    this.cache = new Cache({
+      max: 50000,
+      ttl: 1000 * 60 * 2,
+    });
   }
 
-  public static put(key: string, value: any): void {
-    if (LruCache.values.size >= LruCache.maxEntries) {
-      // delete least recently used key from cache
-      const keyToDelete = LruCache.values.keys().next().value;
-
-      LruCache.values.delete(keyToDelete);
-    }
-
-    LruCache.values.set(key, value);
+  /**
+   * @param key {string} of item with 'network' prefixed
+   * @return {string | null}
+   */
+  public get(key: string): any {
+    return undefined;
+    return this.cache.get(key);
   }
 
-  public static clear(): void {
+  /**
+   * @param key {string} of item with 'network' prefixed
+   * @param value {any} to set
+   * @param ttl {number} TTL
+   */
+  put(key: string, value: any, ttl?: number): void {
+    return;
+    this.cache.set(key, value, { ttl });
+  }
+
+  public clear(): void {
     log.info(`Clearing local cache!`);
-    LruCache.values.clear();
+    this.cache.reset();
   }
 }
+
+export default new LruCache();
