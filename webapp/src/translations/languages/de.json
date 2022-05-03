@@ -412,7 +412,7 @@
         "tokens": "Token",
         "readySwap": "Bereit zum Tausch",
         "price": "Preis",
-        "minimumReceived": "Erhaltener Betrag (mögliche Abweichungen)",
+        "minimumReceived": "Zu erhaltender Betrag (Abweichungen möglich)",
         "priceImpact": "Preisauswirkungen",
         "liquidityProviderFee": "Liquiditätsanbietergebühr",
         "verifyTransactionSwap": "Bitte bestätige deine Transaktion und klicke Tausch",
@@ -448,9 +448,9 @@
         "transferringTokens": "Übertragen von Token",
         "tokensTransferred": "Token übertragen",
         "dexExplorer": "Dex Explorer",
-        "insufficientUtxos": "Unzureichende UTXOS für den Tausch",
+        "insufficientUtxos": "Unzureichende UTXO für den Tausch",
         "backToDEX": "Zurück zur DEX",
-        "defichainAnalytics": "Weitere Einblicke gibt es bei der von der Community gepflegten:",
+        "defichainAnalytics": "Weitere Einblicke gibt es bei der von der Community gepflegten Webseite",
         "url": "DeFiChain Analytics"
       },
       "swapTab": {
