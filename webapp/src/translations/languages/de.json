@@ -450,8 +450,8 @@
         "dexExplorer": "Dex Explorer",
         "insufficientUtxos": "Unzureichende UTXO für den Tausch",
         "backToDEX": "Zurück zur DEX",
-        "defichainAnalytics": "Weitere Einblicke gibt es bei der von der Community gepflegten Webseite",
-        "url": "DeFiChain Analytics"
+        "defichainAnalytics": "Weitere Einblicke gibt es auf der von der Community gepflegten Webseite",
+        "url": "DeFiChain Analytics."
       },
       "swapTab": {
         "from": "Von",
