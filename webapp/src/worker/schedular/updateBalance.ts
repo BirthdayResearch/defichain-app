@@ -7,6 +7,7 @@ import {
 } from '../../containers/WalletPage/reducer';
 import { BALANCE_CRON_DELAY_TIME } from '../../constants';
 import { setIntervalSynchronous } from '../../utils/utility';
+import RpcClient from 'src/utils/rpc-client';
 
 const walletBalanceSchedular = () => {
   store.dispatch(fetchWalletBalanceRequest());
@@ -26,10 +27,13 @@ const bitcoinBalancePoll = () => {
 };
 
 const pendingAndWalletBalance = () => {
-  walletBalanceSchedular();
-  walletTokenBalanceSchedular();
-  pendingBalanceSchedular();
-  bitcoinBalancePoll();
+  const rpcClient = new RpcClient();
+  rpcClient.getBestBlockHash().finally(() => {
+    walletBalanceSchedular();
+    walletTokenBalanceSchedular();
+    pendingBalanceSchedular();
+    bitcoinBalancePoll();
+  });
 };
 
 export const updateBalanceScheduler = () =>
