@@ -39,7 +39,7 @@
     "bitcoinjs-lib": "^5.2.0",
     "bootstrap": "^4.6.0",
     "comma-number": "^2.1.0",
-    "convict": "^6.2.1",
+    "convict": "^6.2.3",
     "crypto-js": "^4.1.1",
     "http-status-codes": "^2.2.0",
     "is-electron": "^2.2.1",
