@@ -14,7 +14,7 @@
     "ainVersion": "2.8.1"
   },
   "scripts": {
-    "init": "npm ci && cd webapp && npm run init",
+    "init": "npm ci --force && cd webapp && npm run init",
     "transpile": "tsc --p tsconfig.json && tspr --tsConfig tsconfig.json",
     "transpile:prod": "tsc --p tsconfig.production.json && tspr --tsConfig tsconfig.json",
     "watch": "tsc -w",
