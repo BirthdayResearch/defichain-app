@@ -40,7 +40,7 @@ const configSlice = createSlice({
       state.isLoadingPoolPairList = true;
     },
     fetchPoolPairListSuccess(state, action) {
-      state.poolPairList = action.payload;
+      state.poolPairList = action.payload.filter(((t) => !t.symbol.includes('v1')));
       state.isLoadingPoolPairList = false;
     },
     fetchPoolPairListFailure(state) {
