@@ -1,6 +1,5 @@
 import path from 'path';
 import { app } from 'electron';
-import { rootPath } from 'electron-root-path';
 import {
   getPlatform,
   isDataDirDefined,
@@ -17,6 +16,7 @@ export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PACKAGED = app.isPackaged;
 
 export const BASE_HOME_PATH = app.getPath('home');
+export const rootPath = app.getAppPath();
 export const HOME_PATH =
   getPlatform() === MAC
     ? getDefaultDebugLogFilePath(BASE_HOME_PATH)

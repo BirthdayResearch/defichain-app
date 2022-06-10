@@ -61,7 +61,6 @@
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",
     "electron-progressbar": "^2.0.1",
-    "electron-root-path": "^1.0.16",
     "electron-updater": "5.0.1",
     "foreman": "^3.0.1",
     "glob": "^7.2.0",
