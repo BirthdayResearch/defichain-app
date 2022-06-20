@@ -10,6 +10,7 @@ import zhsTranslationMessages from './languages/zhs.json';
 import zhtTranslationMessages from './languages/zht.json';
 import nlTranslationMessages from './languages/nl.json';
 import rsTranslationMessages from './languages/ru.json';
+import uaTranslationMessages from './languages/ua.json';
 import {
   LANG_VARIABLE,
   ENGLISH,
@@ -20,6 +21,7 @@ import {
   CHINESE_TRADITIONAL,
   DUTCH,
   RUSSIAN,
+  UKRAINIAN,
 } from '../constants';
 import PersistentStore from '../utils/persistentStore';
 import _ from 'lodash';
@@ -48,6 +50,7 @@ const translationsObject = {
   ),
   [DUTCH]: formatTranslationMessages(DUTCH, nlTranslationMessages),
   [RUSSIAN]: formatTranslationMessages(RUSSIAN, rsTranslationMessages),
+  [UKRAINIAN]: formatTranslationMessages(UKRAINIAN, uaTranslationMessages),
 };
 
 export const setupI18n = (store) => {
@@ -85,6 +88,8 @@ export const getLocales = (lang: string) => {
       return DUTCH;
     case RUSSIAN:
       return RUSSIAN;
+    case UKRAINIAN:
+      return UKRAINIAN;
     default:
       return ENGLISH;
   }

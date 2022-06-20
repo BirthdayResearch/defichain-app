@@ -102,6 +102,10 @@
         {
           "label": "containers.settings.russian",
           "value": "ru"
+        },
+        {
+          "label": "containers.settings.ukrainian",
+          "value": "ua"
         }
       ],
       "amountUnits": [
