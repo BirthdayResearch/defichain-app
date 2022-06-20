@@ -16,7 +16,7 @@
       "preparingSync": "Підготовка синхронізації",
       "connectedToPeers": "Підключено до %{peers} однорангових пристроїв",
       "atBlock": "У блоці %{block}",
-      "lookingForPeers": "Шукаю однорангових пристроїв"
+      "lookingForPeers": "У пошуку однорангових пристроїв"
     },
     "swapCard": {
       "selectAToken": "Виберіть токен",
@@ -82,7 +82,7 @@
         "noInputs": "Немає вхідних даних (нещодавно створені монети)",
         "copied": "Скопійовано!",
         "dFI": "DFI",
-        "unparsedAddress": "Неаналізована адреса",
+        "unparsedAddress": "Неперевірена адреса",
         "paginationRange": "%{from} – %{to} з %{total} транзакцій",
         "noTransactions": "Немає доступних транзакцій",
         "loading": "Завантаження..."
@@ -135,7 +135,7 @@
         "volume": "Об `єм",
         "marketCap": "Ринкова капіталізація",
         "returnPerAnnum": "Прибутковість на рік",
-        "paidRewards": "Платні нагороди",
+        "paidRewards": "Платні винагороди",
         "rewardFrequency": "Частота винагороди",
         "activeMasterNodes": "Активні майстерноди",
         "supply": "Постачання",
@@ -275,7 +275,7 @@
         "tradeable": "Торгуємий",
         "dfiRequired": "Потрібни DFI",
         "collateralAddress": "Додаткова адреса",
-        "collateralAddressError": "Потрібен мінімум 100 DFI",
+        "collateralAddressError": "Потрібно мінімум 100 DFI",
         "createTokenButton": "Створити токін",
         "createConfirmationText": "Ви впевнені, що хочете створити токен?",
         "updateConfirmationText": "Ви впевнені, що хочете оновити токен?",
@@ -625,8 +625,8 @@
       "passpharaseInfo": "Захистіть дані гаманця на вашому комп'ютері за допомогою пароля.",
       "resetAndReindex": "СКИДАННЯ ТА ПЕРЕІНДЕКСАЦІЯ",
       "resetAndReindexInfo": "Видаляє існуючі однорангові вузли і блокує дані, завантажує дані, потім переіндексує (перебудовує базу даних блокчейна).",
-      "rescan": "RESCAN",
-      "rescanInfo": "Restart node and scan for any missing addresses"
+      "rescan": "Повторне сканування",
+      "rescanInfo": "Перезавантажте ноду та запустіть сканування відсутніх адрес"
     },
     "wallet": {
       "createOrRestoreWalletPage": {
@@ -822,7 +822,7 @@
         "moreInformation": "Більше інформації на:",
         "token": "Токени",
         "utxo": "UTXO",
-        "convertFrom": "Перетворити з",
+        "convertFrom": "Конвертувати з",
         "to": "До",
         "utxoVsDFI": "UTXO DFI проти Token DFI, яка різниця?",
         "convert": "Перетворити",
@@ -1032,6 +1032,6 @@
     "currentVersion": "Поточна версія",
     "requiredVersion": "Необхідна версія",
     "availableVersion": "Доступна версія",
-    "updateReason": "Щоб DeFi Wallet продовжував підключатися до правильної мережі DeFiChain, потрібне оновлення. Ви не зможете здійснювати транзакції, поки не оновите."
+    "updateReason": "Щоб DeFi Wallet продовжував підключатися до правильної мережі DeFiChain, потрібне оновлення. Ви не зможете здійснювати транзакції, поки не оновитесь."
   }
 }
