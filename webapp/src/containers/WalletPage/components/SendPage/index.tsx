@@ -36,7 +36,7 @@ import {
   sendToAddress,
   sendTokensToAddress,
 } from '../../service';
-import { WALLET_PAGE_PATH, DFI_SYMBOL, DFI } from '../../../../constants';
+import { WALLET_PAGE_PATH, DFI_SYMBOL, DFI, WALLET_TOKENS_PATH } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getErrorMessage,
@@ -61,7 +61,6 @@ import {
   isValidSPVAddress,
   sendSPVToAddress,
 } from '../../spvService';
-
 const shutterSnap = new UIfx(shutterSound);
 
 interface SendPageProps {
@@ -723,19 +722,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               <Button
                 color='primary'
                 to={
-                  tokenSymbol
-                    ? getWalletPathAddress(
-                        WALLET_PAGE_PATH,
-                        tokenSymbol,
-                        tokenHash || DFI_SYMBOL,
-                        tokenAmount || '',
-                        tokenAddress || '',
-                        isLPS,
-                        isSPV,
-                        displayName || '',
-                        isDAT
-                      )
-                    : WALLET_PAGE_PATH
+                  WALLET_TOKENS_PATH
                 }
                 tag={NavLink}
               >
