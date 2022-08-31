@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "2.18.0",
+  "version": "2.19.0-alpha.1",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -11,7 +11,7 @@
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
   "config": {
-    "ainVersion": "2.9.4"
+    "ainVersion": "2.10.0"
   },
   "scripts": {
     "init": "npm ci --force && cd webapp && npm run init",
