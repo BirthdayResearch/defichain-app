@@ -40,7 +40,9 @@ const configSlice = createSlice({
       state.isLoadingPoolPairList = true;
     },
     fetchPoolPairListSuccess(state, action) {
-      state.poolPairList = action.payload.filter(((t) => !t.symbol.includes('v1')));
+      state.poolPairList = action.payload.filter(
+        (t) => !t.symbol.includes('v1') && t.symbol !== 'BURN-DFI'
+      );
       state.isLoadingPoolPairList = false;
     },
     fetchPoolPairListFailure(state) {
