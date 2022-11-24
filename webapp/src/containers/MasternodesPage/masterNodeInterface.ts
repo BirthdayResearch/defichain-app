@@ -6,7 +6,6 @@ export interface MasterNodeObject {
   resignHeight: number;
   resignTx: string;
   banHeight: number;
-  banTx: string;
   state: string;
   mintedBlocks: number;
   isMyMasternode: boolean;
