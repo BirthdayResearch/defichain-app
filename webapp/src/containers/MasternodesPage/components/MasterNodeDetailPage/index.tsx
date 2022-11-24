@@ -46,9 +46,9 @@ interface MasterNodeDetailPageProps extends RouteComponentProps<RouteProps> {
   }) => void;
 }
 
-const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> = (
-  props: MasterNodeDetailPageProps
-) => {
+const MasterNodeDetailPage: React.FunctionComponent<
+  MasterNodeDetailPageProps
+> = (props: MasterNodeDetailPageProps) => {
   const {
     match,
     masternodes = [],
@@ -70,7 +70,6 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
     resignHeight,
     resignTx,
     banHeight,
-    banTx,
     hash,
     mintedBlocks,
     isMyMasternode,
@@ -79,10 +78,8 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
   if (isEmpty(masternode)) {
     return <Redirect to={MASTER_NODES_PATH} />;
   }
-  const [
-    isConfirmationModalOpen,
-    setIsConfirmationModalOpen,
-  ] = useState<string>(MasterNodesPageStates.default);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    useState<string>(MasterNodesPageStates.default);
   const [wait, setWait] = useState<number>(5);
   const [allowCalls, setAllowCalls] = useState(false);
 
@@ -278,11 +275,6 @@ const MasterNodeDetailPage: React.FunctionComponent<MasterNodeDetailPageProps> =
             value={resignTx}
           />
 
-          <KeyValueLi
-            label={I18n.t('containers.masterNodes.masternodeDetailPage.banTx')}
-            copyable={true}
-            value={banTx}
-          />
           <KeyValueLi
             label={I18n.t('containers.masterNodes.masternodeDetailPage.hash')}
             copyable={true}
