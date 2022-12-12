@@ -474,7 +474,7 @@
         "volume": "Volume",
         "apy": "APY",
         "apr": "APR",
-        "apyTooltipMessage": "APR indicated here only includes DFI incentives, without commission. Actual APR with commission is thus higher.",
+        "apyTooltipMessage": "APR includes commission.",
         "totalLiquidity": "Total liquidity (USD)",
         "addRemoveLiquidity": "Add or remove liquidity",
         "addLiquidity": "ADD LIQUIDITY",
