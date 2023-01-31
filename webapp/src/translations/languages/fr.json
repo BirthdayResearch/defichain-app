@@ -174,7 +174,7 @@
       "createMasterNode": {
         "title": "Créer un masternode – Client blockchain DeFi",
         "masterNodeName": "Nom du Masternode",
-        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un masternode. Un minimum de 20 000 de DFI est nécéssaire pour la création d'un masternode",
+        "lackOfBalanceMsg": "Fonds insuffisants, impossible de créer un masternode. Un minimum de 20 000 de DFI est nécessaire pour la création d'un masternode",
         "confirmationText": "Êtes-vous certain de vouloir créer un masternode?",
         "createNodeButton": "Créer un masternode",
         "restartNodeConfirmationText": "Voulez-vous vraiment redémarrer un nœud?",
@@ -651,7 +651,7 @@
         "back": "RETOUR",
         "title": "Portefeuille - Créer un nouveau portefeuille",
         "createANewWallet": "Créer un nouveau portefeuille",
-        "mnemonicGuideline": "Veuillez prendre note les 24 mots suivants. Il est important de garder l'ordre exact des mots. Cette phrase mnémonique de 24 mots sera utile pour restaurer ou transférer votre portefeuille. Sans cela, vous ne pourrez restaurer votre portefeuille. Ne les perdez pas.",
+        "mnemonicGuideline": "Veuillez prendre note des 24 mots suivants. Il est important de garder l'ordre exact des mots. Cette phrase mnémonique de 24 mots sera utile pour restaurer ou transférer votre portefeuille. Sans cela, vous ne pourrez restaurer votre portefeuille. Ne les perdez pas.",
         "mnemonicGuidelineWarning": "Ne stockez pas la phrase de récupération de votre portefeuille sur un ordinateur ou un smartphone, et gardez-la en sécurité.",
         "walletRecoveryInfoLine1": "Une phrase de récupération de portefeuille (”phrase mnémonique”, “seed phrase”, “seed words”) est un moyen de représenter votre clé privée sous la forme d'une séquence de mots plus facile à mémoriser pour un humain. Elle est également utilisée pour générer des clés étendues pour tous les portefeuilles que vous créez dans l'application.",
         "walletRecoveryInfoLine2": "Les mots sont générés de manière aléatoire à partir d'une liste de 2048 mots définis dans la norme BIP39, et offrent une sécurité de 24 bits.",
@@ -745,7 +745,7 @@
         "address": "Adresse",
         "enterAnAddress": "Entrez une adresse dont vous êtes titulaire",
         "existingAddressOthers": "Adresse invalide. Veuillez vérifier qu'elle vous appartient.",
-        "existingAddress": "Adresse déja existante.",
+        "existingAddress": "Adresse déjà existante.",
         "invalidAddress": "Adresse invalide."
       },
       "paymentRequests": {
@@ -924,7 +924,7 @@
     "restartNode": "Redémarrage du nœud",
     "refreshUtxos": "Actualisation des UTXO. Cela peut prendre un moment.",
     "nodeDisconnected": "Le nœud est déconnecté",
-    "electronRequiredError": "L'application Electron est nécéssaire pour le redémarrage",
+    "electronRequiredError": "L'application Electron est nécessaire pour le redémarrage",
     "addressIsNotAPartOfWallet": "%{addressName} ne correspond pas au portefeuille.",
     "timeoutMessage": "Délai d'attente passé à %{timeout} secondes",
     "timeoutTitle": "Modifier délai de verrouillage automatique",
@@ -975,7 +975,7 @@
     "backupNow": "Faire une sauvegarde",
     "skipBackup": "Passer la sauvegarde",
     "backupWalletWarning": "Créer ou restaurer un nouveau portefeuille va écraser tout portefeuille déjà existant dans l'app. Voulez-vous sauvegarder votre portefeuille actuel ?",
-    "restartWalletModalHeader": "Redémarrage nécéssaire",
+    "restartWalletModalHeader": "Redémarrage nécessaire",
     "restartWalletWarningNotice": " Vous devez redémarrer l'app DeFi. Voulez-vous redémarrer maintenant ?",
     "yesRestartWalletNotice": "Redémarrer maintenant",
     "noRestartWalletNotice": "Plus tard",
@@ -1023,7 +1023,7 @@
   "general": {
     "defiApp": "App DeFi",
     "updateFailed": "Une erreur s'est produite lors de la vérification d'une mise à jour du logiciel. Veuillez télécharger manuellement la dernière version depuis defichain.com. (Ne téléchargez l'application qu'à partir de sources officielles)",
-    "quitingApp": "Quitter Defi Wallet app...",
+    "quitingApp": "Quitter DeFi Wallet app...",
     "doNotCloseWindow": "N'éteignez pas l'ordinateur tant que cette fenêtre est ouverte."
   },
   "update": {
@@ -1032,6 +1032,6 @@
     "currentVersion": "Version actuelle",
     "requiredVersion": "Version requise",
     "availableVersion": "Version disponible",
-    "updateReason": "Une mise à jour est nécessaire pour que le Defi Wallet continue à se connecter au réseau DeFiChain correct. Vous ne pourrez pas effectuer de transactions tant que vous n'aurez pas effectué la mise à jour."
+    "updateReason": "Une mise à jour est nécessaire pour que le DeFi Wallet continue à se connecter au réseau DeFiChain correct. Vous ne pourrez pas effectuer de transactions tant que vous n'aurez pas effectué la mise à jour."
   }
 }
