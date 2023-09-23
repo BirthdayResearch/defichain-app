@@ -96,7 +96,7 @@
     "concurrently": "7.6.0",
     "cross-env": "7.0.3",
     "decompress": "^4.2.1",
-    "electron": "21.3.1",
+    "electron": "22.0.0",
     "electron-builder": "23.6.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "1.2.2",
