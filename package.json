@@ -116,7 +116,6 @@
     "appId": "com.defichain.DeFiWallet",
     "copyright": "Copyright © 2020-2023 ${author}",
     "asar": true,
-    "afterSign": "electron-app/assets/notarize.js",
     "files": [
       "./electron-app/build",
       {
