@@ -79,16 +79,6 @@ jobs:
 
       - name: Build app
         run: npm run pre:build:mac
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.CSC_LINK}}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-          CI: true
-          APPLE_ID: ${{ secrets.APPLE_ID}}
-          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
-          # Disable code signing
-          # CSC_IDENTITY_AUTO_DISCOVERY: false
-          CSC_FOR_PULL_REQUEST: true
 
       - name: Publish app
         run: npm run publish
@@ -100,8 +90,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
           # Disable code signing
-          # CSC_IDENTITY_AUTO_DISCOVERY: false
-          CSC_FOR_PULL_REQUEST: true
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
   create-mac-checksum:
     needs:
