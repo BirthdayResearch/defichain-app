@@ -1,6 +1,6 @@
 {
   "name": "defi-wallet",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "DeFi Wallet",
   "main": "./electron-app/build/electron-app/index.js",
   "author": {
@@ -163,6 +163,7 @@
     "mac": {
       "category": "public.app-category.finance",
       "target": ["dmg"],
+      "notarize": false,
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "electron-app/assets/entitlements.mac.plist",
