@@ -79,6 +79,9 @@ jobs:
 
       - name: Build app
         run: npm run pre:build:mac
+        env:
+          # Disable code signing
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Publish app
         run: npm run publish
