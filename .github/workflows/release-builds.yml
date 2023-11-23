@@ -87,7 +87,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
           # Disable code signing
-          CSC_IDENTITY_AUTO_DISCOVERY: false
+          # CSC_IDENTITY_AUTO_DISCOVERY: false
           CSC_FOR_PULL_REQUEST: true
 
       - name: Publish app
@@ -100,7 +100,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
           # Disable code signing
-          CSC_IDENTITY_AUTO_DISCOVERY: false
+          # CSC_IDENTITY_AUTO_DISCOVERY: false
+          CSC_FOR_PULL_REQUEST: true
 
   create-mac-checksum:
     needs:
