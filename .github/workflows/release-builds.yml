@@ -90,8 +90,6 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASS}}
-          # Disable code signing
-          CSC_IDENTITY_AUTO_DISCOVERY: false
 
   create-mac-checksum:
     needs:
