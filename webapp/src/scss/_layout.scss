@@ -49,6 +49,13 @@ body {
         flex-grow: 1;
       }
 
+      a,
+      button,
+      .input-group,
+      svg {
+        -webkit-app-region: no-drag;
+      }
+
       h1 {
         margin-bottom: 0;
       }
