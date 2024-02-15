@@ -202,6 +202,13 @@ body {
   }
 }
 
+a,
+button,
+.input-group,
+svg {
+  -webkit-app-region: no-drag;
+}
+
 .fullWidthDropdown {
   width: 100%;
 
