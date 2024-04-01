@@ -10,11 +10,11 @@ jobs:
   publish_linux_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -32,14 +32,14 @@ jobs:
       - publish_linux_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Get App Version
-        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
+        uses: nyaa8/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
@@ -68,11 +68,11 @@ jobs:
   publish_mac_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -97,14 +97,14 @@ jobs:
       - publish_mac_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Get App Version
-        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
+        uses: nyaa8/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
@@ -133,11 +133,11 @@ jobs:
   publish_windows_version:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: install dependencies
         run: npm cache clean --force && npm run init
@@ -155,14 +155,14 @@ jobs:
       - publish_windows_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Get App Version
-        uses: nyaa8/package-version@5c5cc7daa32fab488b44d448f080aa9ef7255a44
+        uses: nyaa8/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
 
       - name: Fetch Release Asset
         uses: Legion2/download-release-action@68df3d242858e28a7e6d8b9838a3e6730cdfc422
