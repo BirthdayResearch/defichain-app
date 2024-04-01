@@ -1,4 +1,4 @@
-const { notarize } = require('electron-notarize');
+const { notarize } = require('@electron/notarize');
 const { build } = require('../../package.json');
 
 exports.default = async function notarizeMacOS(context) {
@@ -22,6 +22,7 @@ exports.default = async function notarizeMacOS(context) {
   const appName = context.packager.appInfo.productFilename;
 
   await notarize({
+    tool: 'notarytool',
     appBundleId: build.appId,
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLE_ID,
