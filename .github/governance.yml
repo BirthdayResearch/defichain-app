@@ -29,8 +29,7 @@ issue:
         owner: true
       needs:
         comment: |
-          @$AUTHOR: Thanks for opening an issue, it is currently awaiting triage.
-
+          @$AUTHOR: Thank you for opening an issue, however we regret to inform you that the DeFiChain Desktop Wallet is currently in maintenance mode and should you require anything, please raise it up in the DeFiChain International Telegram group.
           The triage/accepted label can be added by foundation members by writing `/triage accepted` in a comment.
 
           In the meantime, you can:
