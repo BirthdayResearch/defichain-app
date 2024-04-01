@@ -52,6 +52,7 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
           CI: true
           APPLE_ID: ${{ secrets.APPLE_ID}}
+          TEAM_ID: ${{ secrets.TEAM_ID}}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASS}}
           CSC_FOR_PULL_REQUEST: true
