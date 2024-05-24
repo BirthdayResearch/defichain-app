@@ -33,7 +33,7 @@
     "build": "npm run build:electron && electron-builder",
     "build:all": "npm run build:electron && electron-builder -mwl",
     "build:linux": "npm run pre:build:linux && npm run build:electron && electron-builder --linux -p never",
-    "build:mac": "npm run pre:build:mac && npm run build:electron && electron-builder --mac -p never",
+    "build:mac": "npm run pre:build:mac && npm run build:electron && electron-builder --mac --x64 --arm64 -p never",
     "build:win": "npm run pre:build:win && npm run build:electron && electron-builder --win -p never",
     "pack": "npm run build:electron && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
