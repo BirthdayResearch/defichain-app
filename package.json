@@ -163,7 +163,12 @@
     },
     "mac": {
       "category": "public.app-category.finance",
-      "target": ["dmg"],
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "electron-app/assets/entitlements.mac.plist",
