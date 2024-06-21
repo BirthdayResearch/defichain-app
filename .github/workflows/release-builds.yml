@@ -46,7 +46,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
+          file: 'DeFi-Wallet-Linux-${{ env.PACKAGE_VERSION}}.AppImage'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -56,13 +56,13 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          sha256sum DeFi-Wallet-Linux-${{ env.PACKAGE_VERSION}}.AppImage > DeFi-Wallet-Linux-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
 
       - name: Upload checksum - Linux
         uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
-          files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
+          files: ./DeFi-Wallet-Linux-${{ env.PACKAGE_VERSION}}.AppImage.SHA256
           token: ${{ secrets.GITHUB_TOKEN }}
 
   publish_mac_version:
@@ -111,7 +111,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg'
+          file: 'DeFi-Wallet-Mac-${{ env.PACKAGE_VERSION}}.dmg'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -121,13 +121,13 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          sha256sum DeFi-Wallet-Mac-${{ env.PACKAGE_VERSION}}.dmg > DeFi-Wallet-Mac-${{ env.PACKAGE_VERSION}}.dmg.SHA256
 
       - name: Upload checksum - Mac
         uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
-          files: ./DeFi-Wallet-${{ env.PACKAGE_VERSION}}.dmg.SHA256
+          files: ./DeFi-Wallet-Mac-${{ env.PACKAGE_VERSION}}.dmg.SHA256
           token: ${{ secrets.GITHUB_TOKEN }}
 
   publish_windows_version:
@@ -169,7 +169,7 @@ jobs:
         with:
           repository: 'DeFiCh/app'
           tag: 'v${{ env.PACKAGE_VERSION}}'
-          file: 'DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe'
+          file: 'DeFi-Wallet-Windows-Setup-${{ env.PACKAGE_VERSION}}.exe'
 
       - name: Get Release Info with Tag Name
         id: latest_release_info
@@ -179,11 +179,11 @@ jobs:
 
       - name: Generate SHA256 checksum
         run: |
-          sha256sum DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          sha256sum DeFi-Wallet-Windows-Setup-${{ env.PACKAGE_VERSION}}.exe > DeFi-Wallet-Windows-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
 
       - name: Upload checksum - Windows
         uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
         with:
           fail_on_unmatched_files: true
-          files: ./DeFi-Wallet-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
+          files: ./DeFi-Wallet-Windows-Setup-${{ env.PACKAGE_VERSION}}.exe.SHA256
           token: ${{ secrets.GITHUB_TOKEN }}
