@@ -9,7 +9,7 @@ async function main() {
   const rootDir = path.dirname(__dirname);
   const distDir = path.join(rootDir, 'dist');
   const tempDir = path.join(distDir, 'temp');
-  const platforms = ['linux', 'mac', 'win'];
+  const platforms = ['linux', 'mac', 'win', 'arm-linux', 'arm-mac'];
 
   const binDirs = new Map();
   platforms.forEach((platform) =>
@@ -121,6 +121,10 @@ function getPlatformUrlSuffix(platform) {
       return 'x86_64-apple-darwin.tar.gz';
     case 'win':
       return 'x86_64-w64-mingw32.zip';
+    case 'arm-linux':
+      return 'aarch64-linux-gnu.tar.gz';
+    case 'arm-mac':
+      return 'aarch64-apple-darwin.tar.gz';
     default:
       throw new Error('invalid platform');
   }
@@ -137,6 +141,17 @@ function processPlatformArg(arg) {
     case 'mac':
     case 'darwin':
       return 'mac';
+    case 'arm-linux':
+    case 'arm64-linux':
+    case 'aarch64-linux':
+    case 'arm':
+    case 'arm64':
+    case 'aarch64':
+      return 'arm-linux';
+    case 'arm-mac':
+    case 'arm64-mac':
+    case 'aarch64-mac':
+      return 'arm-mac';
     default:
       throw new Error('invalid platform arg');
   }
