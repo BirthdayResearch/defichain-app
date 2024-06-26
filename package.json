@@ -11,7 +11,7 @@
   "homepage": "https://github.com/DeFiCh/app",
   "publicPath": "./",
   "config": {
-    "ainVersion": "4.1.0"
+    "ainVersion": "4.1.1"
   },
   "scripts": {
     "init": "npm ci --force && cd webapp && npm run init",
@@ -29,12 +29,16 @@
     "pre:build:linux": "node ./scripts/prebuild linux",
     "pre:build:mac": "node ./scripts/prebuild mac",
     "pre:build:win": "node ./scripts/prebuild win",
+    "pre:build:arm-linux": "node ./scripts/prebuild arm-linux",
+    "pre:build:arm-mac": "node ./scripts/prebuild arm-mac", 
     "build:electron": "npm run build:react && npm run transpile:prod && npm run set_env:prod",
     "build": "npm run build:electron && electron-builder",
     "build:all": "npm run build:electron && electron-builder -mwl",
-    "build:linux": "npm run pre:build:linux && npm run build:electron && electron-builder --linux -p never",
-    "build:mac": "npm run pre:build:mac && npm run build:electron && electron-builder --mac --x64 --arm64 -p never",
+    "build:linux": "npm run pre:build:linux && npm run build:electron && electron-builder --linux appimage:x64-p never",
+    "build:mac": "npm run pre:build:mac && npm run build:electron && electron-builder --mac dwg:x64 -p never",
     "build:win": "npm run pre:build:win && npm run build:electron && electron-builder --win -p never",
+    "build:arm-linux": "npm run pre:build:arm-linux && npm run build:electron && electron-builder --linux appimage:arm64 -p never",
+    "build:arm-mac": "npm run pre:build:arm-mac && npm run build:electron && electron-builder --mac dmg:arm64 -p never",   
     "pack": "npm run build:electron && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "publish": "npm run build:react && npm run transpile:prod && npm run set_env:prod && electron-builder build -p always",
@@ -112,7 +116,7 @@
     "typescript": "^4.6.3"
   },
   "build": {
-    "productName": "DeFi Wallet",
+    "productName": "DeFi-Wallet",
     "appId": "com.defichain.DeFiWallet",
     "copyright": "Copyright © 2020-2023 ${author}",
     "asar": true,
@@ -163,12 +167,7 @@
     },
     "mac": {
       "category": "public.app-category.finance",
-      "target": [
-        {
-          "target": "dmg",
-          "arch": ["x64", "arm64", "universal"]
-        }
-      ],
+      "target": ["dmg"],
       "mergeASARs": true,
       "x64ArchFiles": "*",
       "type": "distribution",
