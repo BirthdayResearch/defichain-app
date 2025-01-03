@@ -1,5 +1,5 @@
 export const SNAPSHOT_EU =
-  'https://defi-snapshots-europe.s3.eu-central-1.amazonaws.com/';
+  'https://snapshot-de.mydefichain.com/';
 export const SNAPSHOT_ASIA =
   'https://defi-snapshots.s3-ap-southeast-1.amazonaws.com/';
 export const SNAPSHOT_AU =
