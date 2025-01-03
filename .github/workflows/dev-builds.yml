@@ -30,37 +30,38 @@ jobs:
           name: linux-build
           path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.AppImage'
 
-  build_mac_version:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+  # Temporarily disable Mac version in release until new keys are added as this blocks all platforms.
+  # build_mac_version:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
-        with:
-          node-version: 20
+  #     - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+  #       with:
+  #         node-version: 20
 
-      - name: Get App Version
-        uses: nyaa8/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
+  #     - name: Get App Version
+  #       uses: nyaa8/package-version@05847b5b2b4e8cefeca8d50ee5940a6445a5773a
 
-      - name: install dependencies
-        run: npm cache clean --force && npm run init
+  #     - name: install dependencies
+  #       run: npm cache clean --force && npm run init
 
-      - name: Build app
-        run: npm run build:mac
-        env:
-          CSC_LINK: ${{ secrets.CSC_LINK}}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
-          CI: true
-          APPLE_ID: ${{ secrets.APPLE_ID}}
-          TEAM_ID: ${{ secrets.TEAM_ID}}
-          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASS}}
-          CSC_FOR_PULL_REQUEST: true
+  #     - name: Build app
+  #       run: npm run build:mac
+  #       env:
+  #         CSC_LINK: ${{ secrets.CSC_LINK}}
+  #         CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD}}
+  #         CI: true
+  #         APPLE_ID: ${{ secrets.APPLE_ID}}
+  #         TEAM_ID: ${{ secrets.TEAM_ID}}
+  #         APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS}}
+  #         APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASS}}
+  #         CSC_FOR_PULL_REQUEST: true
 
-      - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
-        with:
-          name: mac-build
-          path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
+  #     - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+  #       with:
+  #         name: mac-build
+  #         path: 'dist/DeFi Wallet-${{ env.PACKAGE_VERSION}}.dmg'
 
   build_windows_version:
     runs-on: windows-latest
